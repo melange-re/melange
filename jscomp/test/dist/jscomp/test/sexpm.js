@@ -37,7 +37,7 @@ function _with_in(filename, f) {
 
 function _must_escape(s) {
   try {
-    for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
+    for (let i = 0, i_finish = s.length; i < i_finish; ++i) {
       const c = s.charCodeAt(i);
       let exit = 0;
       if (c >= 42) {

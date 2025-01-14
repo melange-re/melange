@@ -316,13 +316,13 @@ function uchar_map_of_spec(spec) {
       }
       
     };
-    for (let b0 = 0 < len ? Caml_array.get(bytes, 0)[0] : Stdlib.max_int ,b0_finish = 0 < len ? Caml_array.get(bytes, 0)[1] : Stdlib.min_int; b0 <= b0_finish; ++b0) {
+    for (let b0 = 0 < len ? Caml_array.get(bytes, 0)[0] : Stdlib.max_int, b0_finish = 0 < len ? Caml_array.get(bytes, 0)[1] : Stdlib.min_int; b0 <= b0_finish; ++b0) {
       Caml_bytes.set(buf, 0, b0);
-      for (let b1 = 1 < len ? Caml_array.get(bytes, 1)[0] : Stdlib.max_int ,b1_finish = 1 < len ? Caml_array.get(bytes, 1)[1] : Stdlib.min_int; b1 <= b1_finish; ++b1) {
+      for (let b1 = 1 < len ? Caml_array.get(bytes, 1)[0] : Stdlib.max_int, b1_finish = 1 < len ? Caml_array.get(bytes, 1)[1] : Stdlib.min_int; b1 <= b1_finish; ++b1) {
         Caml_bytes.set(buf, 1, b1);
-        for (let b2 = 2 < len ? Caml_array.get(bytes, 2)[0] : Stdlib.max_int ,b2_finish = 2 < len ? Caml_array.get(bytes, 2)[1] : Stdlib.min_int; b2 <= b2_finish; ++b2) {
+        for (let b2 = 2 < len ? Caml_array.get(bytes, 2)[0] : Stdlib.max_int, b2_finish = 2 < len ? Caml_array.get(bytes, 2)[1] : Stdlib.min_int; b2 <= b2_finish; ++b2) {
           Caml_bytes.set(buf, 2, b2);
-          for (let b3 = 3 < len ? Caml_array.get(bytes, 3)[0] : Stdlib.max_int ,b3_finish = 3 < len ? Caml_array.get(bytes, 3)[1] : Stdlib.min_int; b3 <= b3_finish; ++b3) {
+          for (let b3 = 3 < len ? Caml_array.get(bytes, 3)[0] : Stdlib.max_int, b3_finish = 3 < len ? Caml_array.get(bytes, 3)[1] : Stdlib.min_int; b3 <= b3_finish; ++b3) {
             Caml_bytes.set(buf, 3, b3);
             add(4);
           }
@@ -361,7 +361,7 @@ function swap(_u, b) {
   if (len === 0) {
     return;
   }
-  for (let i = 0 ,i_finish = (b.length >> 1); i < i_finish; ++i) {
+  for (let i = 0, i_finish = (b.length >> 1); i < i_finish; ++i) {
     const j = (i << 1);
     Stdlib__Bytes.set_uint16_le(b, j, Stdlib__Bytes.get_uint16_be(b, j));
   }
@@ -569,7 +569,7 @@ function ok(i) {
   return i === (b$2.length - 1 | 0);
 }
 
-for (let i = 0 ,i_finish = b$2.length; i < i_finish; ++i) {
+for (let i = 0, i_finish = b$2.length; i < i_finish; ++i) {
   const dec = Stdlib__Bytes.get_utf_8_uchar(b$2, i);
   if (ok(i)) {
     if ((dec >>> 27) === 1 !== true) {
@@ -644,7 +644,7 @@ function ok$1(i) {
   return i === (b$3.length - 1 | 0);
 }
 
-for (let i$1 = 0 ,i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1) {
+for (let i$1 = 0, i_finish$1 = b$3.length; i$1 < i_finish$1; ++i$1) {
   const dec$1 = Stdlib__Bytes.get_utf_8_uchar(b$3, i$1);
   if (ok$1(i$1)) {
     if ((dec$1 >>> 27) === 1 !== true) {
@@ -723,7 +723,7 @@ function ok$2(i) {
   }
 }
 
-for (let i$2 = 0 ,i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2) {
+for (let i$2 = 0, i_finish$2 = b$4.length; i$2 < i_finish$2; ++i$2) {
   const dec$2 = Stdlib__Bytes.get_utf_8_uchar(b$4, i$2);
   if (ok$2(i$2)) {
     if ((dec$2 >>> 27) === 1 !== true) {

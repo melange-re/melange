@@ -32,7 +32,7 @@ const step = Stdlib__Sys.word_size / 16 | 0;
 
 function public_method_label(s) {
   let accu = 0;
-  for (let i = 0 ,i_finish = s.length; i < i_finish; ++i) {
+  for (let i = 0, i_finish = s.length; i < i_finish; ++i) {
     accu = Math.imul(223, accu) + Caml_string.get(s, i) | 0;
   }
   accu = accu & 2147483647;
