@@ -27,7 +27,7 @@
   
   
   function f(_x) {
-    while(true) {
+    while (true) {
       const x = _x;
       if (!x) {
         return "empty";
@@ -58,7 +58,7 @@
   
   
   function f(_x) {
-    while(true) {
+    while (true) {
       const x = _x;
       if (!x) {
         return "empty";
@@ -93,7 +93,7 @@
   
   
   function f(_x) {
-    while(true) {
+    while (true) {
       const x = _x;
       if (!x) {
         return "empty";
