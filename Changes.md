@@ -84,15 +84,17 @@ Unreleased
 - BREAKING: ppx: print the `deprecated` alert for `@@deriving abstract` at the
   declaration site rather than at (all) usages
   ([#1269](https://github.com/melange-re/melange/pull/1269))
-- core: prettify melange code generation for `for` loops
+- JS generation: prettify `for` loops
   ([#1275](https://github.com/melange-re/melange/pull/1275))
-- core: improve generated code formatting for `throw` and `return` statements,
-  JS objects ([#1286](https://github.com/melange-re/melange/pull/1286),
+- JS generation: improve formatting for `throw` and `return` statements, JS
+  objects ([#1286](https://github.com/melange-re/melange/pull/1286),
   [#1289](https://github.com/melange-re/melange/pull/1289))
-- core: improve generated code formatting for empty return and continue
-  statements ([#1288](https://github.com/melange-re/melange/pull/1288))
-- core: in generated code, remove trailing spaces before commas in `export`
+- JS generation: improve formatting for empty return and continue statements
+  ([#1288](https://github.com/melange-re/melange/pull/1288))
+- JS generation: remove trailing spaces before commas in `export`
   ([#1287](https://github.com/melange-re/melange/pull/1287))
+- JS generation: remove redundant switch cases branches
+  ([#1295](https://github.com/melange-re/melange/pull/1295))
 
 4.0.1 2024-06-07
 ---------------
