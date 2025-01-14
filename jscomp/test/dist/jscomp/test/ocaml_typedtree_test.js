@@ -6022,8 +6022,7 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
                       case /* Tsubst */ 7 :
                       case /* Tunivar */ 9 :
                           return ty;
-                      default:
-                        
+                      
                     }
                   }
                   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -18981,8 +18980,7 @@ const yyact = [
       case "-." :
           exit = 2;
           break;
-      default:
-        
+      
     }
     if (exit === 2 && match.TAG === /* Pexp_constant */ 1) {
       const f = match._0;
@@ -19033,8 +19031,7 @@ const yyact = [
       case "+." :
           exit = 2;
           break;
-      default:
-        
+      
     }
     if (exit === 2 && desc.TAG === /* Pexp_constant */ 1 && desc._0.TAG === /* Const_float */ 3) {
       return mkexp(desc);
@@ -25358,8 +25355,7 @@ function token$1(lexbuf) {
                                                   _1: /* Unexpected_directive */ 6,
                                                   _2: curr(lexbuf)
                                                 });
-                                        default:
-                                          
+                                        
                                       }
                                     }
                                     if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
@@ -25434,8 +25430,7 @@ function token$1(lexbuf) {
                                         _1: /* Unexpected_directive */ 6,
                                         _2: curr(lexbuf)
                                       });
-                              default:
-                                
+                              
                             }
                           }
                           if (else_seen && is_elif(token$3)) {
@@ -25470,8 +25465,7 @@ function token$1(lexbuf) {
               }
               _lines = lines$p;
               continue;
-          default:
-            
+          
         }
       } else {
         switch (doc.TAG) {
@@ -25583,8 +25577,7 @@ function token$1(lexbuf) {
               _docs = docs$p;
               _lines = /* NoLine */ 0;
               continue;
-          default:
-            
+          
         }
       }
       attach(lines, docs, lexbuf.lex_start_p);
@@ -25927,8 +25920,7 @@ function alpha_pat(env, p) {
             }
             throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
-      default:
-        
+      
     }
   }
   return {
@@ -29398,8 +29390,7 @@ function update_level(env, level, _ty) {
               continue;
             }
             break;
-        default:
-          
+        
       }
     }
     set_level(ty$1, level);
@@ -31104,8 +31095,7 @@ function occur_rec(env, visited, ty0, ty) {
       case /* Tobject */ 4 :
       case /* Tvariant */ 8 :
           return;
-      default:
-        
+      
     }
   }
   if (!occur_ok) {
@@ -38806,8 +38796,7 @@ function normalize_type_rec(env, visited, ty) {
             }
           };
           break;
-      default:
-        
+      
     }
   }
   iter_type_expr((function (param) {
@@ -49959,8 +49948,7 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
             
           }
           break;
-      default:
-        
+      
     }
   }
   const check_super = function (ty1) {
@@ -56149,8 +56137,7 @@ function simple_match(p1, p2) {
             }
           }
           break;
-      default:
-        
+      
     }
   }
   if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG === /* Tpat_var */ 0) {
@@ -56620,8 +56607,7 @@ function filter_one(q, pss) {
                 }
               };
               continue;
-          default:
-            
+          
         }
       }
       const pss = param.tl;
@@ -56940,8 +56926,7 @@ function mark_partial(_param) {
               }
             };
             continue;
-        default:
-          
+        
       }
     }
     return {
@@ -57916,8 +57901,7 @@ function satisfiable(_pss, _qs) {
               tl: qs$1
             };
             continue;
-        default:
-          
+        
       }
     }
     if (exit === 2) {
@@ -58488,8 +58472,7 @@ function filter_one$1(q, rs) {
                   }
                 };
                 continue;
-            default:
-              
+            
           }
         }
         if (simple_match(q, p)) {
@@ -58808,8 +58791,7 @@ function le_pat(_p, _q) {
                   break;
               case /* Tpat_constant */ 2 :
                   return const_compare(match._0, match$1._0) === 0;
-              default:
-                
+              
             }
           }
           break;
@@ -58821,8 +58803,7 @@ function le_pat(_p, _q) {
                   break;
               case /* Tpat_tuple */ 3 :
                   return le_pats(match._0, match$1._0);
-              default:
-                
+              
             }
           }
           break;
@@ -58838,8 +58819,7 @@ function le_pat(_p, _q) {
                   } else {
                     return false;
                   }
-              default:
-                
+              
             }
           }
           break;
@@ -58863,8 +58843,7 @@ function le_pat(_p, _q) {
                     _q = p2;
                     _p = p1;
                     continue;
-                default:
-                  
+                
               }
             }
             
@@ -58879,8 +58858,7 @@ function le_pat(_p, _q) {
                   } else {
                     return l1 === match$1._0;
                   }
-              default:
-                
+              
             }
           }
           break;
@@ -58893,8 +58871,7 @@ function le_pat(_p, _q) {
               case /* Tpat_record */ 6 :
                   const match$2 = records_args(match._0, match$1._0);
                   return le_pats(match$2[0], match$2[1]);
-              default:
-                
+              
             }
           }
           break;
@@ -58912,8 +58889,7 @@ function le_pat(_p, _q) {
                   } else {
                     return false;
                   }
-              default:
-                
+              
             }
           }
           break;
@@ -58930,8 +58906,7 @@ function le_pat(_p, _q) {
                   _q = match$1._0;
                   _p = match._0;
                   continue;
-              default:
-                
+              
             }
           }
           break;
@@ -59129,8 +59104,7 @@ function do_filter_one(q, pss) {
                 }
               };
               continue;
-          default:
-            
+          
         }
       }
       const pss = param.tl;
@@ -59831,8 +59805,7 @@ newrecord$1.attribute = (function (param, a) {
     case "ppwarning" :
         exit = 1;
         break;
-    default:
-      
+    
   }
   if (exit === 1) {
     const match = a[1];
@@ -61000,8 +60973,7 @@ function transl_type(env, policy, styp) {
                       };
                     }
                     break;
-                default:
-                  
+                
               }
             }
             cty = {
@@ -66416,8 +66388,7 @@ function check_application_result(env, statement, exp) {
             return;
           }
           break;
-      default:
-        
+      
     }
   }
   if (statement) {
@@ -69435,8 +69406,7 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
                     ];
                   }
                   break;
-              default:
-                
+              
             }
           }
           return [
@@ -70067,8 +70037,7 @@ function type_application(env, funct, sargs) {
             case /* Tarrow */ 1 :
                 prerr_warning(exp.exp_loc, /* Partial_application */ 2);
                 break;
-            default:
-              
+            
           }
         }
         return [
@@ -82688,8 +82657,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                 
               }
               break;
-          default:
-            
+          
         }
         const match$4 = merge(add_item(item, env), sg.tl, namelist, row_id);
         return [
@@ -83386,8 +83354,7 @@ function remove_duplicates(val_ids, ext_ids, _param) {
             continue;
           }
           break;
-      default:
-        
+      
     }
     return {
       hd: f,

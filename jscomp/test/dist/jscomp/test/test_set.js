@@ -654,8 +654,7 @@ function Make(Ord) {
               
             }
             break;
-        default:
-          
+        
       }
       const nl = n / 2 | 0;
       const match$3 = sub(nl, l);

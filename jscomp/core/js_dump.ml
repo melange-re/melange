@@ -471,9 +471,8 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           param_body ());
       outer_cxt
 
-(* Assume the cond would not change the context,
-    since it can be either [int] or [string]
-*)
+(* Assume the cond would not change the context, since it can be either [int]
+   or [string] *)
 and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
  fun cxt pp_cond
      (switch_case, ({ switch_body; should_break; comment } : J.case_clause)) ->

@@ -6090,8 +6090,7 @@ function get_unexpected_error(param) {
           return /* UnexpectedIdentifier */ 2;
       case /* T_EOF */ 105 :
           return /* UnexpectedEOS */ 4;
-      default:
-        
+      
     }
   } else {
     switch (tmp.TAG) {
@@ -6100,8 +6099,7 @@ function get_unexpected_error(param) {
       case /* T_STRING */ 1 :
       case /* T_JSX_TEXT */ 4 :
           return /* UnexpectedString */ 1;
-      default:
-        
+      
     }
   }
   const word = param[1];
@@ -7559,8 +7557,7 @@ function params(env, _acc) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const acc_0 = union(env);
@@ -7670,8 +7667,7 @@ function params$1(env, allow_default, _require_default, _acc) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc$1);
-        default:
-          
+        
       }
     }
     token$4(env, /* T_COMMA */ 8);
@@ -7713,8 +7709,7 @@ function types(env, _acc) {
         case /* T_RBRACKET */ 6 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const acc_0 = union(env);
@@ -9614,8 +9609,7 @@ function try_assignment_but_not_arrow_function(env) {
           throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
                 MEL_EXN_ID: Parser_env_Try.Rollback
               });
-      default:
-        
+      
     }
   }
   if (!Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
@@ -10137,8 +10131,7 @@ function arguments$p(env, _acc) {
         case /* T_RPAREN */ 4 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const acc_0 = argument(env);
@@ -10336,8 +10329,7 @@ function elements(env, _acc) {
         case /* T_RBRACKET */ 6 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const elem$1 = {
@@ -10587,8 +10579,7 @@ function key(env) {
               ]
             }
           ];
-      default:
-        
+      
     }
   }
   const match$1 = identifier_or_reserved_keyword(env);
@@ -11048,8 +11039,7 @@ function check_property(env, prop_map, prop) {
       case "Set" :
           exit$1 = 2;
           break;
-      default:
-        
+      
     }
     if (exit$1 === 2) {
       if (Curry._2(mem$1, "Init", prev_kinds)) {
@@ -11081,8 +11071,7 @@ function properties$1(env, _param) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const prop = property$1(env);
@@ -11195,8 +11184,7 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
       case /* T_COLON */ 77 :
           exit = 2;
           break;
-      default:
-        
+      
     }
   }
   if (exit === 2 && !async && !generator) {
@@ -11342,8 +11330,7 @@ function class_element(env) {
                   return init$1(env, start_loc, decorators, key$1, async, generator$1, $$static);
                 }
                 break;
-            default:
-              
+            
           }
           break;
       case /* Literal */ 0 :
@@ -11732,8 +11719,7 @@ function declare(in_moduleOpt, env) {
           error$1(env, /* DeclareAsync */ 49);
           token$4(env, /* T_ASYNC */ 61);
           return declare_function_statement(env, start_loc);
-      default:
-        
+      
     }
   }
   if (in_module) {
@@ -11761,8 +11747,7 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
               Stdlib__List.rev(specifiers),
               Stdlib__List.rev(errs)
             ];
-        default:
-          
+        
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -12004,8 +11989,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             case /* T_TYPE */ 59 :
                 error$1(env$1, /* DeclareExportType */ 52);
                 break;
-            default:
-              
+            
           }
         }
         token$4(env$1, /* T_LCURLY */ 1);
@@ -12096,8 +12080,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               case /* T_LET */ 26 :
                   error$1(env$1, /* DeclareExportLet */ 50);
                   break;
-              default:
-                
+              
             }
           }
           const $$var = declare_var(env$1, start_loc);
@@ -12329,8 +12312,7 @@ function module_items(env, _module_kind, _acc) {
               module_kind,
               Stdlib__List.rev(acc)
             ];
-        default:
-          
+        
       }
     }
     const stmt = declare(true, env);
@@ -12526,8 +12508,7 @@ function case_list(env, _param) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -12657,8 +12638,7 @@ function specifier_list(env, _acc) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -12862,8 +12842,7 @@ function from_expr(env, param) {
               _0: expr._0
             }
           ];
-      default:
-        
+      
     }
   }
   return [
@@ -13001,8 +12980,7 @@ function _object$2(restricted_error) {
           case /* T_RCURLY */ 2 :
           case /* T_EOF */ 105 :
               return Stdlib__List.rev(acc);
-          default:
-            
+          
         }
       }
       const prop = property(env);
@@ -13087,8 +13065,7 @@ function _array(restricted_error) {
           case /* T_RBRACKET */ 6 :
           case /* T_EOF */ 105 :
               return Stdlib__List.rev(acc);
-          default:
-            
+          
         }
       }
       const pattern$2 = pattern$1(env, restricted_error);
@@ -13165,8 +13142,7 @@ function pattern$1(env, restricted_error) {
           return _object$2(restricted_error)(env);
       case /* T_LBRACKET */ 5 :
           return _array(restricted_error)(env);
-      default:
-        
+      
     }
   }
   const id = Curry._2(Parse.identifier_with_type, env, restricted_error);
@@ -13449,8 +13425,7 @@ function attributes(env, _acc) {
         case /* T_DIV */ 96 :
         case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-        default:
-          
+        
       }
     }
     const attribute$2 = {
@@ -14264,8 +14239,7 @@ function statement_list_item(decoratorsOpt, env) {
             btwn(start_loc, end_loc$3),
             declaration
           ];
-      default:
-        
+      
     }
   }
   if (Curry._2(Parser_env_Peek.is_function, undefined, env)) {
@@ -14719,8 +14693,7 @@ function statement(env) {
                         }
                       }
                     ];
-                default:
-                  
+                
               }
             }
             Stdlib__List.iter((function (param) {
