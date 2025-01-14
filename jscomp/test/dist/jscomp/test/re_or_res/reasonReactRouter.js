@@ -22,7 +22,7 @@ function path(param) {
   switch (raw) {
     case "" :
     case "/" :
-        return /* [] */ 0;
+      return /* [] */ 0;
     default:
       const raw$1 = raw.slice(1, undefined);
       const match = raw$1[raw$1.length - 1 | 0];
@@ -55,7 +55,7 @@ function hash(param) {
   switch (raw) {
     case "" :
     case "#" :
-        return "";
+      return "";
     default:
       return raw.slice(1, undefined);
   }
@@ -70,7 +70,7 @@ function search(param) {
   switch (raw) {
     case "" :
     case "?" :
-        return "";
+      return "";
     default:
       return raw.slice(1, undefined);
   }

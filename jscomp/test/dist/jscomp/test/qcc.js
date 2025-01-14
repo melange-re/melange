@@ -931,139 +931,139 @@ function unary(stk) {
   const i = Curry._1(next$1, undefined);
   switch (i.TAG) {
     case /* Op */ 0 :
-        const o = i._0;
-        switch (o) {
-          case "&" :
-              unary(stk);
-              return patchlval(undefined);
-          case "(" :
-              expr(stk);
-              Curry._1(next$1, undefined);
-              return postfix(stk);
-          case "*" :
-              Curry._1(next$1, undefined);
-              const t = Curry._1(next$1, undefined);
-              let match;
-              if (Caml_obj.caml_equal(t, tokint)) {
-                match = Caml_obj.caml_equal(Curry._1(next$1, undefined), {
-                      TAG: /* Op */ 0,
-                      _0: "*"
-                    }) ? [
-                    /* Int */ 0,
-                    1
-                  ] : [
-                    /* Int */ 0,
-                    5
-                  ];
-              } else if (Caml_obj.caml_equal(t, tokchar)) {
-                match = [
-                  /* Chr */ 1,
-                  2
-                ];
-              } else {
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "[cast] expected"
-                    });
-              }
-              for (let _k = 1, _k_finish = match[1]; _k <= _k_finish; ++_k) {
-                Curry._1(next$1, undefined);
-              }
-              unary(stk);
-              return read(match[0]);
-          default:
-            const unops = {
+      const o = i._0;
+      switch (o) {
+        case "&" :
+          unary(stk);
+          return patchlval(undefined);
+        case "(" :
+          expr(stk);
+          Curry._1(next$1, undefined);
+          return postfix(stk);
+        case "*" :
+          Curry._1(next$1, undefined);
+          const t = Curry._1(next$1, undefined);
+          let match;
+          if (Caml_obj.caml_equal(t, tokint)) {
+            match = Caml_obj.caml_equal(Curry._1(next$1, undefined), {
+                  TAG: /* Op */ 0,
+                  _0: "*"
+                }) ? [
+                /* Int */ 0,
+                1
+              ] : [
+                /* Int */ 0,
+                5
+              ];
+          } else if (Caml_obj.caml_equal(t, tokchar)) {
+            match = [
+              /* Chr */ 1,
+              2
+            ];
+          } else {
+            throw new Caml_js_exceptions.MelangeError("Failure", {
+                  MEL_EXN_ID: "Failure",
+                  _1: "[cast] expected"
+                });
+          }
+          for (let _k = 1, _k_finish = match[1]; _k <= _k_finish; ++_k) {
+            Curry._1(next$1, undefined);
+          }
+          unary(stk);
+          return read(match[0]);
+        default:
+          const unops = {
+            hd: [
+              "+",
+              0
+            ],
+            tl: {
               hd: [
-                "+",
-                0
+                "-",
+                4782040
               ],
               tl: {
                 hd: [
-                  "-",
-                  4782040
+                  "~",
+                  4782032
                 ],
                 tl: {
                   hd: [
-                    "~",
-                    4782032
+                    "!",
+                    4752832
                   ],
-                  tl: {
-                    hd: [
-                      "!",
-                      4752832
-                    ],
-                    tl: /* [] */ 0
-                  }
+                  tl: /* [] */ 0
                 }
               }
-            };
-            unary(stk);
-            if (!Stdlib__List.mem_assoc(o, unops)) {
-              const s = Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "unknown operator ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
-                        },
-                        _1: "unknown operator %s"
-                      }), o);
-              throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: s
-                  });
             }
-            out(Stdlib__List.assoc(o, unops));
-            if (o === "!") {
-              return cmp(2);
-            } else {
-              return;
-            }
-        }
-    case /* ILit */ 1 :
-        return load(0, i._0);
-    case /* SLit */ 2 :
-        out(18616);
-        return le(64, i._0);
-    case /* Sym */ 3 :
-        const i$1 = i._0;
-        if (Stdlib__List.mem_assoc(i$1, stk)) {
-          const l = Stdlib__List.assoc(i$1, stk);
-          if (l <= -256) {
-            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/qcc.ml",
-                    295,
-                    6
-                  ]
+          };
+          unary(stk);
+          if (!Stdlib__List.mem_assoc(o, unops)) {
+            const s = Curry._1(Stdlib__Printf.sprintf({
+                      TAG: /* Format */ 0,
+                      _0: {
+                        TAG: /* String_literal */ 11,
+                        _0: "unknown operator ",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: /* End_of_format */ 0
+                        }
+                      },
+                      _1: "unknown operator %s"
+                    }), o);
+            throw new Caml_js_exceptions.MelangeError("Failure", {
+                  MEL_EXN_ID: "Failure",
+                  _1: s
                 });
           }
-          out(4754245);
-          out(l & 255);
-          lval.contents = [
-            {
-              TAG: /* Mov */ 0,
-              _0: 3
-            },
-            /* Int */ 0
-          ];
-        } else {
-          out(18616);
-          const g = Caml_array.get(globs, i$1);
-          const loc = opos.contents;
-          le(64, g.loc);
-          Caml_array.set(globs, i$1, {
-                loc: loc,
-                va: g.va
+          out(Stdlib__List.assoc(o, unops));
+          if (o === "!") {
+            return cmp(2);
+          } else {
+            return;
+          }
+      }
+    case /* ILit */ 1 :
+      return load(0, i._0);
+    case /* SLit */ 2 :
+      out(18616);
+      return le(64, i._0);
+    case /* Sym */ 3 :
+      const i$1 = i._0;
+      if (Stdlib__List.mem_assoc(i$1, stk)) {
+        const l = Stdlib__List.assoc(i$1, stk);
+        if (l <= -256) {
+          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/qcc.ml",
+                  295,
+                  6
+                ]
               });
-          read(/* Int */ 0);
         }
-        return postfix(stk);
+        out(4754245);
+        out(l & 255);
+        lval.contents = [
+          {
+            TAG: /* Mov */ 0,
+            _0: 3
+          },
+          /* Int */ 0
+        ];
+      } else {
+        out(18616);
+        const g = Caml_array.get(globs, i$1);
+        const loc = opos.contents;
+        le(64, g.loc);
+        Caml_array.set(globs, i$1, {
+              loc: loc,
+              va: g.va
+            });
+        read(/* Int */ 0);
+      }
+      return postfix(stk);
     
   }
 }
@@ -1076,67 +1076,67 @@ function postfix(stk) {
   const op$1 = op._0;
   switch (op$1) {
     case "(" :
-        const emitargs = function (_l, _rl) {
-          while (true) {
-            const rl = _rl;
-            const l = _l;
-            if (nextis({
-                    TAG: /* Op */ 0,
-                    _0: ")"
-                  })) {
-              Curry._1(next$1, undefined);
-              return Stdlib__List.iter(pop, l);
-            }
-            expr(stk);
-            push(0);
-            if (nextis({
-                    TAG: /* Op */ 0,
-                    _0: ","
-                  })) {
-              Curry._1(next$1, undefined);
-            }
-            _rl = Stdlib__List.tl(rl);
-            _l = {
-              hd: Stdlib__List.hd(rl),
-              tl: l
-            };
-            continue;
+      const emitargs = function (_l, _rl) {
+        while (true) {
+          const rl = _rl;
+          const l = _l;
+          if (nextis({
+                  TAG: /* Op */ 0,
+                  _0: ")"
+                })) {
+            Curry._1(next$1, undefined);
+            return Stdlib__List.iter(pop, l);
+          }
+          expr(stk);
+          push(0);
+          if (nextis({
+                  TAG: /* Op */ 0,
+                  _0: ","
+                })) {
+            Curry._1(next$1, undefined);
+          }
+          _rl = Stdlib__List.tl(rl);
+          _l = {
+            hd: Stdlib__List.hd(rl),
+            tl: l
           };
+          continue;
         };
-        patchlval(undefined);
-        push(0);
-        emitargs(/* [] */ 0, {
-              hd: 7,
+      };
+      patchlval(undefined);
+      push(0);
+      emitargs(/* [] */ 0, {
+            hd: 7,
+            tl: {
+              hd: 6,
               tl: {
-                hd: 6,
+                hd: 2,
                 tl: {
-                  hd: 2,
+                  hd: 1,
                   tl: {
-                    hd: 1,
+                    hd: 8,
                     tl: {
-                      hd: 8,
-                      tl: {
-                        hd: 9,
-                        tl: /* [] */ 0
-                      }
+                      hd: 9,
+                      tl: /* [] */ 0
                     }
                   }
                 }
               }
-            });
-        pop(0);
-        if (align.contents % 2 !== 0) {
-          out(1216605192);
-        }
-        out(65488);
-        if (align.contents % 2 !== 0) {
-          return out(1216594952);
-        } else {
-          return;
-        }
+            }
+          });
+      pop(0);
+      if (align.contents % 2 !== 0) {
+        out(1216605192);
+      }
+      out(65488);
+      if (align.contents % 2 !== 0) {
+        return out(1216594952);
+      } else {
+        return;
+      }
     case "++" :
     case "--" :
-        break;
+      break;
     default:
       return Curry._1(unnext, op);
   }
@@ -1465,9 +1465,9 @@ function stmt(brk, stk) {
   if (t.TAG === /* Op */ 0) {
     switch (t._0) {
       case ";" :
-          return;
+        return;
       case "{" :
-          return block(brk, stk);
+        return block(brk, stk);
       
     }
   }
@@ -1531,40 +1531,40 @@ function top(_param) {
           const i = Curry._1(next$1, undefined);
           switch (i.TAG) {
             case /* Op */ 0 :
-                if (i._0 === ")") {
-                  return stk;
-                }
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "[var] or ) expected"
-                    });
+              if (i._0 === ")") {
+                return stk;
+              }
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "[var] or ) expected"
+                  });
             case /* ILit */ 1 :
             case /* SLit */ 2 :
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "[var] or ) expected"
-                    });
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "[var] or ) expected"
+                  });
             case /* Sym */ 3 :
-                const r = Stdlib__List.hd(regs);
-                push(r);
-                if (nextis({
-                        TAG: /* Op */ 0,
-                        _0: ","
-                      })) {
-                  Curry._1(next$1, undefined);
-                }
-                const stk$p_0 = [
-                  i._0,
-                  ((-n | 0) << 3)
-                ];
-                const stk$p = {
-                  hd: stk$p_0,
-                  tl: stk
-                };
-                _stk = stk$p;
-                _n = n + 1 | 0;
-                _regs = Stdlib__List.tl(regs);
-                continue;
+              const r = Stdlib__List.hd(regs);
+              push(r);
+              if (nextis({
+                      TAG: /* Op */ 0,
+                      _0: ","
+                    })) {
+                Curry._1(next$1, undefined);
+              }
+              const stk$p_0 = [
+                i._0,
+                ((-n | 0) << 3)
+              ];
+              const stk$p = {
+                hd: stk$p_0,
+                tl: stk
+              };
+              _stk = stk$p;
+              _n = n + 1 | 0;
+              _regs = Stdlib__List.tl(regs);
+              continue;
             
           }
         };
@@ -1872,134 +1872,134 @@ function main(param) {
   const ppsym = function (s) {
     switch (s.TAG) {
       case /* Op */ 0 :
-          return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Operator '",
+        return Curry._1(Stdlib__Printf.printf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Operator '",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "'\n",
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String_literal */ 11,
+                        _0: "'\n",
+                        _1: /* End_of_format */ 0
                       }
-                    },
-                    _1: "Operator '%s'\n"
-                  }), s._0);
+                    }
+                  },
+                  _1: "Operator '%s'\n"
+                }), s._0);
       case /* ILit */ 1 :
-          return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Int literal ",
-                      _1: {
-                        TAG: /* Int */ 4,
-                        _0: /* Int_d */ 0,
-                        _1: /* No_padding */ 0,
-                        _2: /* No_precision */ 0,
-                        _3: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '\n' */10,
-                          _1: /* End_of_format */ 0
-                        }
+        return Curry._1(Stdlib__Printf.printf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Int literal ",
+                    _1: {
+                      TAG: /* Int */ 4,
+                      _0: /* Int_d */ 0,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* '\n' */10,
+                        _1: /* End_of_format */ 0
                       }
-                    },
-                    _1: "Int literal %d\n"
-                  }), s._0);
+                    }
+                  },
+                  _1: "Int literal %d\n"
+                }), s._0);
       case /* SLit */ 2 :
-          return Curry._1(Stdlib__Printf.printf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Str literal ",
+        return Curry._1(Stdlib__Printf.printf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Str literal ",
+                    _1: {
+                      TAG: /* Caml_string */ 3,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Caml_string */ 3,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '\n' */10,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* Char_literal */ 12,
+                        _0: /* '\n' */10,
+                        _1: /* End_of_format */ 0
                       }
-                    },
-                    _1: "Str literal %S\n"
-                  }), s._1);
+                    }
+                  },
+                  _1: "Str literal %S\n"
+                }), s._1);
       case /* Sym */ 3 :
-          const i = s._0;
-          return Curry._2(Stdlib__Printf.printf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Symbol '",
+        const i = s._0;
+        return Curry._2(Stdlib__Printf.printf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Symbol '",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: "' (",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "' (",
-                          _1: {
-                            TAG: /* Int */ 4,
-                            _0: /* Int_d */ 0,
-                            _1: /* No_padding */ 0,
-                            _2: /* No_precision */ 0,
-                            _3: {
-                              TAG: /* String_literal */ 11,
-                              _0: ")\n",
-                              _1: /* End_of_format */ 0
-                            }
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
+                          _3: {
+                            TAG: /* String_literal */ 11,
+                            _0: ")\n",
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
-                    },
-                    _1: "Symbol '%s' (%d)\n"
-                  }), symstr(i), i);
+                    }
+                  },
+                  _1: "Symbol '%s' (%d)\n"
+                }), symstr(i), i);
       
     }
   };
   const f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);
   switch (f) {
     case "-blk" :
-        const partial_arg_0 = {
-          contents: 0
-        };
-        const partial_arg = [
-          partial_arg_0,
-          0
-        ];
-        const c = function (param) {
-          return block(partial_arg, param);
-        };
-        let stk = /* [] */ 0;
-        opos.contents = 0;
-        Curry._1(c, stk);
-        return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
+      const partial_arg_0 = {
+        contents: 0
+      };
+      const partial_arg = [
+        partial_arg_0,
+        0
+      ];
+      const c = function (param) {
+        return block(partial_arg, param);
+      };
+      let stk = /* [] */ 0;
+      opos.contents = 0;
+      Curry._1(c, stk);
+      return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
-        let _param;
-        while (true) {
-          const tok = Curry._1(next$1, undefined);
-          if (tok.TAG === /* Op */ 0) {
-            if (tok._0 === "EOF!") {
-              return Stdlib__Printf.printf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "End of input stream\n",
-                      _1: /* End_of_format */ 0
-                    },
-                    _1: "End of input stream\n"
-                  });
-            }
-            ppsym(tok);
-            _param = undefined;
-            continue;
+      let _param;
+      while (true) {
+        const tok = Curry._1(next$1, undefined);
+        if (tok.TAG === /* Op */ 0) {
+          if (tok._0 === "EOF!") {
+            return Stdlib__Printf.printf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "End of input stream\n",
+                    _1: /* End_of_format */ 0
+                  },
+                  _1: "End of input stream\n"
+                });
           }
           ppsym(tok);
           _param = undefined;
           continue;
-        };
+        }
+        ppsym(tok);
+        _param = undefined;
+        continue;
+      };
     default:
       const oc = Stdlib.open_out("a.out");
       inch.contents = Stdlib.open_in_bin(f);

@@ -478,7 +478,7 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
      (switch_case, ({ switch_body; should_break; comment } : J.case_clause)) ->
   let cxt =
     group cxt 1 (fun () ->
-        group cxt 1 (fun () ->
+        group cxt 0 (fun () ->
             string cxt L.case;
             space cxt;
             pp_comment_option cxt comment;
@@ -486,7 +486,7 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
             (* could be integer or string *)
             space cxt;
             string cxt L.colon);
-        group cxt 1 (fun () ->
+        group cxt 0 (fun () ->
             let cxt =
               match switch_body with
               | [] -> cxt

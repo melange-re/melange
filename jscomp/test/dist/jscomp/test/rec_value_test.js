@@ -95,14 +95,14 @@ const v = {
 function fib(n) {
   switch (n) {
     case 0 :
-        return four.contents;
+      return four.contents;
     case 1 :
-        return 1;
+      return 1;
     case 2 :
-        return three.contents;
+      return three.contents;
     case 3 :
-        v.contents = CamlinternalLazy.force(h);
-        return 1;
+      v.contents = CamlinternalLazy.force(h);
+      return 1;
     default:
       return fib(n - 1 | 0) + fib(n - 2 | 0) | 0;
   }

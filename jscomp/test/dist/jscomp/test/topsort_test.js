@@ -1392,28 +1392,54 @@ function of_list(l) {
       const sub = function (n, l) {
         switch (n) {
           case 0 :
-              return [
-                /* Empty */ 0,
-                l
-              ];
+            return [
+              /* Empty */ 0,
+              l
+            ];
           case 1 :
-              if (l) {
+            if (l) {
+              return [
+                {
+                  TAG: /* Node */ 0,
+                  l: /* Empty */ 0,
+                  v: l.hd,
+                  r: /* Empty */ 0,
+                  h: 1
+                },
+                l.tl
+              ];
+            }
+            break;
+          case 2 :
+            if (l) {
+              const match = l.tl;
+              if (match) {
                 return [
                   {
                     TAG: /* Node */ 0,
-                    l: /* Empty */ 0,
-                    v: l.hd,
+                    l: {
+                      TAG: /* Node */ 0,
+                      l: /* Empty */ 0,
+                      v: l.hd,
+                      r: /* Empty */ 0,
+                      h: 1
+                    },
+                    v: match.hd,
                     r: /* Empty */ 0,
-                    h: 1
+                    h: 2
                   },
-                  l.tl
+                  match.tl
                 ];
               }
-              break;
-          case 2 :
-              if (l) {
-                const match = l.tl;
-                if (match) {
+              
+            }
+            break;
+          case 3 :
+            if (l) {
+              const match$1 = l.tl;
+              if (match$1) {
+                const match$2 = match$1.tl;
+                if (match$2) {
                   return [
                     {
                       TAG: /* Node */ 0,
@@ -1424,50 +1450,24 @@ function of_list(l) {
                         r: /* Empty */ 0,
                         h: 1
                       },
-                      v: match.hd,
-                      r: /* Empty */ 0,
+                      v: match$1.hd,
+                      r: {
+                        TAG: /* Node */ 0,
+                        l: /* Empty */ 0,
+                        v: match$2.hd,
+                        r: /* Empty */ 0,
+                        h: 1
+                      },
                       h: 2
                     },
-                    match.tl
+                    match$2.tl
                   ];
                 }
                 
               }
-              break;
-          case 3 :
-              if (l) {
-                const match$1 = l.tl;
-                if (match$1) {
-                  const match$2 = match$1.tl;
-                  if (match$2) {
-                    return [
-                      {
-                        TAG: /* Node */ 0,
-                        l: {
-                          TAG: /* Node */ 0,
-                          l: /* Empty */ 0,
-                          v: l.hd,
-                          r: /* Empty */ 0,
-                          h: 1
-                        },
-                        v: match$1.hd,
-                        r: {
-                          TAG: /* Node */ 0,
-                          l: /* Empty */ 0,
-                          v: match$2.hd,
-                          r: /* Empty */ 0,
-                          h: 1
-                        },
-                        h: 2
-                      },
-                      match$2.tl
-                    ];
-                  }
-                  
-                }
-                
-              }
-              break;
+              
+            }
+            break;
           
         }
         const nl = n / 2 | 0;

@@ -70,9 +70,9 @@ function scan_rest(ib, accu) {
                         }), (function (param) {
                       switch (param) {
                         case ";" :
-                            return scan_rest(ib, accu$1);
+                          return scan_rest(ib, accu$1);
                         case "]" :
-                            return accu$1;
+                          return accu$1;
                         default:
                           const s = Stdlib__Printf.sprintf({
                                 TAG: /* Format */ 0,

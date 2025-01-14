@@ -17,11 +17,11 @@ function fff(x) {
   };
   switch (x$1.TAG) {
     case /* A */ 0 :
-        return x;
+      return x;
     case /* B */ 1 :
-        return 1;
+      return 1;
     case /* C */ 2 :
-        return 2;
+      return 2;
     
   }
 }

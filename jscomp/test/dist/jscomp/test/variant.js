@@ -17,12 +17,12 @@ function foo(n) {
   }
   switch (n.TAG) {
     case /* B */ 0 :
-        return n._0;
+      return n._0;
     case /* C */ 1 :
-        return n._0 + n._1 | 0;
+      return n._0 + n._1 | 0;
     case /* D */ 2 :
-        const match = n._0;
-        return match[0] + match[1] | 0;
+      const match = n._0;
+      return match[0] + match[1] | 0;
     
   }
 }
@@ -46,11 +46,11 @@ function fooC(param) {
 function switchNum(param) {
   switch (param) {
     case 0 :
-        return "0";
+      return "0";
     case 1 :
-        return "1";
+      return "1";
     case 2 :
-        return "2";
+      return "2";
     default:
       return "_";
   }
@@ -91,10 +91,10 @@ function rollback_path(subst, p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       switch (p.TAG) {
         case /* Pdot */ 1 :
-            return "Pdot";
+          return "Pdot";
         case /* Pident */ 0 :
         case /* Papply */ 2 :
-            return "Pident | Papply";
+          return "Pident | Papply";
         
       }
     } else {

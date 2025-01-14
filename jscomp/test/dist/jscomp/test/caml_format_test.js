@@ -1759,17 +1759,17 @@ function kwd(ppf, s) {
 function pr_exp0(ppf, s) {
   switch (s.TAG) {
     case /* Var */ 1 :
-        return Curry._2(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Alpha */ 15,
-                    _0: /* End_of_format */ 0
-                  },
-                  _1: "%a"
-                }), ident, s._0);
+      return Curry._2(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Alpha */ 15,
+                  _0: /* End_of_format */ 0
+                },
+                _1: "%a"
+              }), ident, s._0);
     case /* Lambda */ 0 :
     case /* Apply */ 2 :
-        break;
+      break;
     
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
@@ -1843,28 +1843,28 @@ function pr_other_applications(ppf, f) {
   switch (f.TAG) {
     case /* Lambda */ 0 :
     case /* Var */ 1 :
-        return pr_exp0(ppf, f);
+      return pr_exp0(ppf, f);
     case /* Apply */ 2 :
-        return Curry._4(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
+      return Curry._4(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Alpha */ 15,
                   _0: {
-                    TAG: /* Alpha */ 15,
+                    TAG: /* Formatting_lit */ 17,
                     _0: {
-                      TAG: /* Formatting_lit */ 17,
-                      _0: {
-                        TAG: /* Break */ 0,
-                        _0: "@ ",
-                        _1: 1,
-                        _2: 0
-                      },
-                      _1: {
-                        TAG: /* Alpha */ 15,
-                        _0: /* End_of_format */ 0
-                      }
+                      TAG: /* Break */ 0,
+                      _0: "@ ",
+                      _1: 1,
+                      _2: 0
+                    },
+                    _1: {
+                      TAG: /* Alpha */ 15,
+                      _0: /* End_of_format */ 0
                     }
-                  },
-                  _1: "%a@ %a"
-                }), pr_app, f._0, pr_exp0, f._1);
+                  }
+                },
+                _1: "%a@ %a"
+              }), pr_app, f._0, pr_exp0, f._1);
     
   }
 }
@@ -1872,54 +1872,54 @@ function pr_other_applications(ppf, f) {
 function pr_lambda(ppf, e) {
   switch (e.TAG) {
     case /* Lambda */ 0 :
-        return Curry._8(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
+      return Curry._8(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Formatting_gen */ 18,
                   _0: {
-                    TAG: /* Formatting_gen */ 18,
+                    TAG: /* Open_box */ 1,
                     _0: {
-                      TAG: /* Open_box */ 1,
+                      TAG: /* Format */ 0,
                       _0: {
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "<1>",
-                          _1: /* End_of_format */ 0
-                        },
-                        _1: "<1>"
-                      }
-                    },
-                    _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: "<1>",
+                        _1: /* End_of_format */ 0
+                      },
+                      _1: "<1>"
+                    }
+                  },
+                  _1: {
+                    TAG: /* Alpha */ 15,
+                    _0: {
                       TAG: /* Alpha */ 15,
                       _0: {
                         TAG: /* Alpha */ 15,
                         _0: {
-                          TAG: /* Alpha */ 15,
+                          TAG: /* Formatting_lit */ 17,
                           _0: {
-                            TAG: /* Formatting_lit */ 17,
+                            TAG: /* Break */ 0,
+                            _0: "@ ",
+                            _1: 1,
+                            _2: 0
+                          },
+                          _1: {
+                            TAG: /* Alpha */ 15,
                             _0: {
-                              TAG: /* Break */ 0,
-                              _0: "@ ",
-                              _1: 1,
-                              _2: 0
-                            },
-                            _1: {
-                              TAG: /* Alpha */ 15,
-                              _0: {
-                                TAG: /* Formatting_lit */ 17,
-                                _0: /* Close_box */ 0,
-                                _1: /* End_of_format */ 0
-                              }
+                              TAG: /* Formatting_lit */ 17,
+                              _0: /* Close_box */ 0,
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
                       }
                     }
-                  },
-                  _1: "@[<1>%a%a%a@ %a@]"
-                }), kwd, "\\", ident, e._0, kwd, ".", pr_lambda, e._1);
+                  }
+                },
+                _1: "@[<1>%a%a%a@ %a@]"
+              }), kwd, "\\", ident, e._0, kwd, ".", pr_lambda, e._1);
     case /* Var */ 1 :
     case /* Apply */ 2 :
-        return pr_app(ppf, e);
+      return pr_app(ppf, e);
     
   }
 }

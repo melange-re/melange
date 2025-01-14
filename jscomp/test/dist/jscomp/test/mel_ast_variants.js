@@ -5,15 +5,15 @@
 function toEnum(x) {
   switch (x) {
     case /* A */ 0 :
-        return 0;
+      return 0;
     case /* B */ 1 :
-        return 1;
+      return 1;
     case /* C */ 2 :
-        return 2;
+      return 2;
     case /* D */ 3 :
-        return 3;
+      return 3;
     case /* E */ 4 :
-        return 4;
+      return 4;
     
   }
 }
@@ -21,15 +21,15 @@ function toEnum(x) {
 function toString(x) {
   switch (x) {
     case /* A */ 0 :
-        return "A";
+      return "A";
     case /* B */ 1 :
-        return "B";
+      return "B";
     case /* C */ 2 :
-        return "C";
+      return "C";
     case /* D */ 3 :
-        return "D";
+      return "D";
     case /* E */ 4 :
-        return "E";
+      return "E";
     
   }
 }
@@ -38,7 +38,7 @@ function bar(x) {
   switch (x) {
     case /* A */ 0 :
     case /* E */ 4 :
-        return 10;
+      return 10;
     default:
       return 0;
   }
@@ -129,21 +129,21 @@ function foo(x) {
   if (/* tag */ typeof x === "number" || typeof x === "string") {
     switch (x) {
       case /* A */ "dd" :
-          return 1;
+        return 1;
       case /* B */ 12 :
-          return 2;
+        return 2;
       case /* C */ 2 :
-          return 3;
+        return 3;
       
     }
   } else {
     switch (x.TAG) {
       case /* D */ "qq" :
-          return 4;
+        return 4;
       case /* E */ 42 :
-          return 5;
+        return 5;
       case /* F */ 2 :
-          return 6;
+        return 6;
       
     }
   }

@@ -89,21 +89,21 @@ function create_hashtable(size, init) {
 function ansi_of_color(param) {
   switch (param) {
     case /* Black */ 0 :
-        return "0";
+      return "0";
     case /* Red */ 1 :
-        return "1";
+      return "1";
     case /* Green */ 2 :
-        return "2";
+      return "2";
     case /* Yellow */ 3 :
-        return "3";
+      return "3";
     case /* Blue */ 4 :
-        return "4";
+      return "4";
     case /* Magenta */ 5 :
-        return "5";
+      return "5";
     case /* Cyan */ 6 :
-        return "6";
+      return "6";
     case /* White */ 7 :
-        return "7";
+      return "7";
     
   }
 }
@@ -118,11 +118,11 @@ function code_of_style(c) {
   }
   switch (c) {
     case /* Bold */ 0 :
-        return "1";
+      return "1";
     case /* Reset */ 1 :
-        return "0";
+      return "0";
     case /* Dim */ 2 :
-        return "2";
+      return "2";
     
   }
 }
@@ -177,35 +177,35 @@ function style_of_tag(s) {
   if (s.MEL_EXN_ID === Stdlib__Format.String_tag) {
     switch (s._1) {
       case "dim" :
-          return {
-            hd: /* Dim */ 2,
-            tl: /* [] */ 0
-          };
+        return {
+          hd: /* Dim */ 2,
+          tl: /* [] */ 0
+        };
       case "error" :
-          return cur_styles.contents.error;
+        return cur_styles.contents.error;
       case "filename" :
-          return {
+        return {
+          hd: {
+            TAG: /* FG */ 0,
+            _0: /* Cyan */ 6
+          },
+          tl: /* [] */ 0
+        };
+      case "info" :
+        return {
+          hd: /* Bold */ 0,
+          tl: {
             hd: {
               TAG: /* FG */ 0,
-              _0: /* Cyan */ 6
+              _0: /* Yellow */ 3
             },
             tl: /* [] */ 0
-          };
-      case "info" :
-          return {
-            hd: /* Bold */ 0,
-            tl: {
-              hd: {
-                TAG: /* FG */ 0,
-                _0: /* Yellow */ 3
-              },
-              tl: /* [] */ 0
-            }
-          };
+          }
+        };
       case "loc" :
-          return cur_styles.contents.loc;
+        return cur_styles.contents.loc;
       case "warning" :
-          return cur_styles.contents.warning;
+        return cur_styles.contents.warning;
       default:
         throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
               MEL_EXN_ID: Stdlib.Not_found
@@ -306,12 +306,12 @@ function setup(o) {
     if (o !== undefined) {
       switch (o) {
         case /* Always */ 1 :
-            tmp = true;
-            break;
+          tmp = true;
+          break;
         case /* Auto */ 0 :
         case /* Never */ 2 :
-            tmp = false;
-            break;
+          tmp = false;
+          break;
         
       }
     } else {
@@ -335,117 +335,117 @@ function number(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     switch (param) {
       case /* Comment_start */ 0 :
-          return 1;
+        return 1;
       case /* Comment_not_end */ 1 :
-          return 2;
+        return 2;
       case /* Partial_application */ 2 :
-          return 5;
+        return 5;
       case /* Labels_omitted */ 3 :
-          return 6;
+        return 6;
       case /* Statement_type */ 4 :
-          return 10;
+        return 10;
       case /* Unused_match */ 5 :
-          return 11;
+        return 11;
       case /* Unused_pat */ 6 :
-          return 12;
+        return 12;
       case /* Illegal_backslash */ 7 :
-          return 14;
+        return 14;
       case /* Unerasable_optional_argument */ 8 :
-          return 16;
+        return 16;
       case /* Unused_argument */ 9 :
-          return 20;
+        return 20;
       case /* Nonreturning_statement */ 10 :
-          return 21;
+        return 21;
       case /* Useless_record_with */ 11 :
-          return 23;
+        return 23;
       case /* All_clauses_guarded */ 12 :
-          return 25;
+        return 25;
       case /* Wildcard_arg_to_constant_constr */ 13 :
-          return 28;
+        return 28;
       case /* Eol_in_string */ 14 :
-          return 29;
+        return 29;
       case /* Unused_rec_flag */ 15 :
-          return 39;
+        return 39;
       case /* Bs_polymorphic_comparison */ 16 :
-          return 102;
+        return 102;
       
     }
   } else {
     switch (param.TAG) {
       case /* Deprecated */ 0 :
-          return 3;
+        return 3;
       case /* Fragile_match */ 1 :
-          return 4;
+        return 4;
       case /* Method_override */ 2 :
-          return 7;
+        return 7;
       case /* Partial_match */ 3 :
-          return 8;
+        return 8;
       case /* Non_closed_record_pattern */ 4 :
-          return 9;
+        return 9;
       case /* Instance_variable_override */ 5 :
-          return 13;
+        return 13;
       case /* Implicit_public_methods */ 6 :
-          return 15;
+        return 15;
       case /* Undeclared_virtual_method */ 7 :
-          return 17;
+        return 17;
       case /* Not_principal */ 8 :
-          return 18;
+        return 18;
       case /* Without_principality */ 9 :
-          return 19;
+        return 19;
       case /* Preprocessor */ 10 :
-          return 22;
+        return 22;
       case /* Bad_module_name */ 11 :
-          return 24;
+        return 24;
       case /* Unused_var */ 12 :
-          return 26;
+        return 26;
       case /* Unused_var_strict */ 13 :
-          return 27;
+        return 27;
       case /* Duplicate_definitions */ 14 :
-          return 30;
+        return 30;
       case /* Multiple_definition */ 15 :
-          return 31;
+        return 31;
       case /* Unused_value_declaration */ 16 :
-          return 32;
+        return 32;
       case /* Unused_open */ 17 :
-          return 33;
+        return 33;
       case /* Unused_type_declaration */ 18 :
-          return 34;
+        return 34;
       case /* Unused_for_index */ 19 :
-          return 35;
+        return 35;
       case /* Unused_ancestor */ 20 :
-          return 36;
+        return 36;
       case /* Unused_constructor */ 21 :
-          return 37;
+        return 37;
       case /* Unused_extension */ 22 :
-          return 38;
+        return 38;
       case /* Name_out_of_scope */ 23 :
-          return 40;
+        return 40;
       case /* Ambiguous_name */ 24 :
-          return 41;
+        return 41;
       case /* Disambiguated_name */ 25 :
-          return 42;
+        return 42;
       case /* Nonoptional_label */ 26 :
-          return 43;
+        return 43;
       case /* Open_shadow_identifier */ 27 :
-          return 44;
+        return 44;
       case /* Open_shadow_label_constructor */ 28 :
-          return 45;
+        return 45;
       case /* Bad_env_variable */ 29 :
-          return 46;
+        return 46;
       case /* Attribute_payload */ 30 :
-          return 47;
+        return 47;
       case /* Eliminated_optional_arguments */ 31 :
-          return 48;
+        return 48;
       case /* No_cmi_file */ 32 :
-          return 49;
+        return 49;
       case /* Bad_docstring */ 33 :
-          return 50;
+        return 50;
       case /* Bs_unused_attribute */ 34 :
-          return 101;
+        return 101;
       case /* Bs_ffi_warning */ 35 :
-          return 103;
+        return 103;
       case /* Bs_derive_warning */ 36 :
-          return 104;
+        return 104;
       
     }
   }
@@ -467,94 +467,94 @@ const letter_all = loop(104);
 function letter(param) {
   switch (param) {
     case 97 :
-        return letter_all;
+      return letter_all;
     case 99 :
-        return {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: /* [] */ 0
-          }
-        };
+      return {
+        hd: 1,
+        tl: {
+          hd: 2,
+          tl: /* [] */ 0
+        }
+      };
     case 100 :
-        return {
-          hd: 3,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 3,
+        tl: /* [] */ 0
+      };
     case 101 :
-        return {
-          hd: 4,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 4,
+        tl: /* [] */ 0
+      };
     case 102 :
-        return {
-          hd: 5,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 5,
+        tl: /* [] */ 0
+      };
     case 107 :
-        return {
-          hd: 32,
+      return {
+        hd: 32,
+        tl: {
+          hd: 33,
           tl: {
-            hd: 33,
+            hd: 34,
             tl: {
-              hd: 34,
+              hd: 35,
               tl: {
-                hd: 35,
+                hd: 36,
                 tl: {
-                  hd: 36,
+                  hd: 37,
                   tl: {
-                    hd: 37,
+                    hd: 38,
                     tl: {
-                      hd: 38,
-                      tl: {
-                        hd: 39,
-                        tl: /* [] */ 0
-                      }
+                      hd: 39,
+                      tl: /* [] */ 0
                     }
                   }
                 }
               }
             }
           }
-        };
+        }
+      };
     case 108 :
-        return {
-          hd: 6,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 6,
+        tl: /* [] */ 0
+      };
     case 109 :
-        return {
-          hd: 7,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 7,
+        tl: /* [] */ 0
+      };
     case 112 :
-        return {
-          hd: 8,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 8,
+        tl: /* [] */ 0
+      };
     case 114 :
-        return {
-          hd: 9,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 9,
+        tl: /* [] */ 0
+      };
     case 115 :
-        return {
-          hd: 10,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 10,
+        tl: /* [] */ 0
+      };
     case 117 :
-        return {
-          hd: 11,
-          tl: {
-            hd: 12,
-            tl: /* [] */ 0
-          }
-        };
-    case 118 :
-        return {
-          hd: 13,
+      return {
+        hd: 11,
+        tl: {
+          hd: 12,
           tl: /* [] */ 0
-        };
+        }
+      };
+    case 118 :
+      return {
+        hd: 13,
+        tl: /* [] */ 0
+      };
     case 98 :
     case 103 :
     case 104 :
@@ -565,36 +565,35 @@ function letter(param) {
     case 113 :
     case 116 :
     case 119 :
-        return /* [] */ 0;
+      return /* [] */ 0;
     case 120 :
-        return {
-          hd: 14,
+      return {
+        hd: 14,
+        tl: {
+          hd: 15,
           tl: {
-            hd: 15,
+            hd: 16,
             tl: {
-              hd: 16,
+              hd: 17,
               tl: {
-                hd: 17,
+                hd: 18,
                 tl: {
-                  hd: 18,
+                  hd: 19,
                   tl: {
-                    hd: 19,
+                    hd: 20,
                     tl: {
-                      hd: 20,
+                      hd: 21,
                       tl: {
-                        hd: 21,
+                        hd: 22,
                         tl: {
-                          hd: 22,
+                          hd: 23,
                           tl: {
-                            hd: 23,
+                            hd: 24,
                             tl: {
-                              hd: 24,
+                              hd: 25,
                               tl: {
-                                hd: 25,
-                                tl: {
-                                  hd: 30,
-                                  tl: /* [] */ 0
-                                }
+                                hd: 30,
+                                tl: /* [] */ 0
                               }
                             }
                           }
@@ -606,17 +605,18 @@ function letter(param) {
               }
             }
           }
-        };
+        }
+      };
     case 121 :
-        return {
-          hd: 26,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 26,
+        tl: /* [] */ 0
+      };
     case 122 :
-        return {
-          hd: 27,
-          tl: /* [] */ 0
-        };
+      return {
+        hd: 27,
+        tl: /* [] */ 0
+      };
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
@@ -739,14 +739,14 @@ function parse_opt(error, active, flags, s) {
       if (c >= 43) {
         switch (c) {
           case 43 :
-              return loop_letter_num(set, i + 1 | 0);
+            return loop_letter_num(set, i + 1 | 0);
           case 44 :
-              throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-                    MEL_EXN_ID: Stdlib__Arg.Bad,
-                    _1: "Ill-formed list of warnings"
-                  });
+            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
+                  MEL_EXN_ID: Stdlib__Arg.Bad,
+                  _1: "Ill-formed list of warnings"
+                });
           case 45 :
-              return loop_letter_num(clear, i + 1 | 0);
+            return loop_letter_num(clear, i + 1 | 0);
           
         }
       } else {
@@ -818,162 +818,161 @@ function message(s) {
   if (/* tag */ typeof s === "number" || typeof s === "string") {
     switch (s) {
       case /* Comment_start */ 0 :
-          return "this is the start of a comment.";
+        return "this is the start of a comment.";
       case /* Comment_not_end */ 1 :
-          return "this is not the end of a comment.";
+        return "this is not the end of a comment.";
       case /* Partial_application */ 2 :
-          return "this function application is partial,\nmaybe some arguments are missing.";
+        return "this function application is partial,\nmaybe some arguments are missing.";
       case /* Labels_omitted */ 3 :
-          return "labels were omitted in the application of this function.";
+        return "labels were omitted in the application of this function.";
       case /* Statement_type */ 4 :
-          return "this expression should have type unit.";
+        return "this expression should have type unit.";
       case /* Unused_match */ 5 :
-          return "this match case is unused.";
+        return "this match case is unused.";
       case /* Unused_pat */ 6 :
-          return "this sub-pattern is unused.";
+        return "this sub-pattern is unused.";
       case /* Illegal_backslash */ 7 :
-          return "illegal backslash escape in string.";
+        return "illegal backslash escape in string.";
       case /* Unerasable_optional_argument */ 8 :
-          return "this optional argument cannot be erased.";
+        return "this optional argument cannot be erased.";
       case /* Unused_argument */ 9 :
-          return "this argument will not be used by the function.";
+        return "this argument will not be used by the function.";
       case /* Nonreturning_statement */ 10 :
-          return "this statement never returns (or has an unsound type.)";
+        return "this statement never returns (or has an unsound type.)";
       case /* Useless_record_with */ 11 :
-          return "all the fields are explicitly listed in this record:\nthe 'with' clause is useless.";
+        return "all the fields are explicitly listed in this record:\nthe 'with' clause is useless.";
       case /* All_clauses_guarded */ 12 :
-          return "bad style, all clauses in this pattern-matching are guarded.";
+        return "bad style, all clauses in this pattern-matching are guarded.";
       case /* Wildcard_arg_to_constant_constr */ 13 :
-          return "wildcard pattern given as argument to a constant constructor";
+        return "wildcard pattern given as argument to a constant constructor";
       case /* Eol_in_string */ 14 :
-          return "unescaped end-of-line in a string constant (non-portable code)";
+        return "unescaped end-of-line in a string constant (non-portable code)";
       case /* Unused_rec_flag */ 15 :
-          return "unused rec flag.";
+        return "unused rec flag.";
       case /* Bs_polymorphic_comparison */ 16 :
-          return "polymorphic comparison introduced (maybe unsafe)";
+        return "polymorphic comparison introduced (maybe unsafe)";
       
     }
   } else {
     switch (s.TAG) {
       case /* Deprecated */ 0 :
-          return "deprecated: " + s._0;
+        return "deprecated: " + s._0;
       case /* Fragile_match */ 1 :
-          const s$1 = s._0;
-          if (s$1 === "") {
-            return "this pattern-matching is fragile.";
-          } else {
-            return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s$1 + ".");
-          }
+        const s$1 = s._0;
+        if (s$1 === "") {
+          return "this pattern-matching is fragile.";
+        } else {
+          return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s$1 + ".");
+        }
       case /* Method_override */ 2 :
-          const match = s._0;
-          if (match) {
-            const lab = match.hd;
-            if (match.tl) {
-              return Stdlib__String.concat(" ", {
-                    hd: "the following methods are overridden by the class",
+        const match = s._0;
+        if (match) {
+          const lab = match.hd;
+          if (match.tl) {
+            return Stdlib__String.concat(" ", {
+                  hd: "the following methods are overridden by the class",
+                  tl: {
+                    hd: lab,
                     tl: {
-                      hd: lab,
-                      tl: {
-                        hd: ":\n ",
-                        tl: match.tl
-                      }
+                      hd: ":\n ",
+                      tl: match.tl
                     }
-                  });
-            } else {
-              return "the method " + (lab + " is overridden.");
-            }
-          }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "warnings.ml",
-                  283,
-                  26
-                ]
-              });
-      case /* Partial_match */ 3 :
-          const s$2 = s._0;
-          if (s$2 === "") {
-            return "this pattern-matching is not exhaustive.";
+                  }
+                });
           } else {
-            return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$2;
+            return "the method " + (lab + " is overridden.");
           }
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "warnings.ml",
+                283,
+                26
+              ]
+            });
+      case /* Partial_match */ 3 :
+        const s$2 = s._0;
+        if (s$2 === "") {
+          return "this pattern-matching is not exhaustive.";
+        } else {
+          return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$2;
+        }
       case /* Non_closed_record_pattern */ 4 :
-          return "the following labels are not bound in this record pattern:\n" + (s._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
+        return "the following labels are not bound in this record pattern:\n" + (s._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
       case /* Instance_variable_override */ 5 :
-          const match$1 = s._0;
-          if (match$1) {
-            const lab$1 = match$1.hd;
-            if (match$1.tl) {
-              return Stdlib__String.concat(" ", {
-                    hd: "the following instance variables are overridden by the class",
+        const match$1 = s._0;
+        if (match$1) {
+          const lab$1 = match$1.hd;
+          if (match$1.tl) {
+            return Stdlib__String.concat(" ", {
+                  hd: "the following instance variables are overridden by the class",
+                  tl: {
+                    hd: lab$1,
                     tl: {
-                      hd: lab$1,
-                      tl: {
-                        hd: ":\n ",
-                        tl: match$1.tl
-                      }
+                      hd: ":\n ",
+                      tl: match$1.tl
                     }
-                  }) + "\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)";
-            } else {
-              return "the instance variable " + (lab$1 + " is overridden.\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)");
-            }
+                  }
+                }) + "\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)";
+          } else {
+            return "the instance variable " + (lab$1 + " is overridden.\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)");
           }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "warnings.ml",
-                  303,
-                  37
-                ]
-              });
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "warnings.ml",
+                303,
+                37
+              ]
+            });
       case /* Implicit_public_methods */ 6 :
-          return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", s._0) + ".");
+        return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", s._0) + ".");
       case /* Undeclared_virtual_method */ 7 :
-          return "the virtual method " + (s._0 + " is not declared.");
+        return "the virtual method " + (s._0 + " is not declared.");
       case /* Not_principal */ 8 :
-          return s._0 + " is not principal.";
+        return s._0 + " is not principal.";
       case /* Without_principality */ 9 :
-          return s._0 + " without principality.";
+        return s._0 + " without principality.";
       case /* Preprocessor */ 10 :
-          return s._0;
+        return s._0;
       case /* Bad_module_name */ 11 :
-          return "bad source file name: \"" + (s._0 + "\" is not a valid module name.");
+        return "bad source file name: \"" + (s._0 + "\" is not a valid module name.");
       case /* Unused_var */ 12 :
       case /* Unused_var_strict */ 13 :
-          return "unused variable " + (s._0 + ".");
+        return "unused variable " + (s._0 + ".");
       case /* Duplicate_definitions */ 14 :
-          return Curry._4(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "the ",
+        return Curry._4(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "the ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ' ' */32,
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
                           _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
+                            TAG: /* String_literal */ 11,
+                            _0: " is defined in both types ",
                             _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: " is defined in both types ",
+                              TAG: /* String */ 2,
+                              _0: /* No_padding */ 0,
                               _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
+                                TAG: /* String_literal */ 11,
+                                _0: " and ",
                                 _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: " and ",
+                                  TAG: /* String */ 2,
+                                  _0: /* No_padding */ 0,
                                   _1: {
-                                    TAG: /* String */ 2,
-                                    _0: /* No_padding */ 0,
-                                    _1: {
-                                      TAG: /* Char_literal */ 12,
-                                      _0: /* '.' */46,
-                                      _1: /* End_of_format */ 0
-                                    }
+                                    TAG: /* Char_literal */ 12,
+                                    _0: /* '.' */46,
+                                    _1: /* End_of_format */ 0
                                   }
                                 }
                               }
@@ -981,239 +980,240 @@ function message(s) {
                           }
                         }
                       }
-                    },
-                    _1: "the %s %s is defined in both types %s and %s."
-                  }), s._0, s._1, s._2, s._3);
+                    }
+                  },
+                  _1: "the %s %s is defined in both types %s and %s."
+                }), s._0, s._1, s._2, s._3);
       case /* Multiple_definition */ 15 :
-          return Curry._3(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "files ",
+        return Curry._3(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "files ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: " and ",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " and ",
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
                           _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
+                            TAG: /* String_literal */ 11,
+                            _0: " both define a module named ",
                             _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: " both define a module named ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: /* End_of_format */ 0
-                              }
+                              TAG: /* String */ 2,
+                              _0: /* No_padding */ 0,
+                              _1: /* End_of_format */ 0
                             }
                           }
                         }
                       }
-                    },
-                    _1: "files %s and %s both define a module named %s"
-                  }), s._1, s._2, s._0);
+                    }
+                  },
+                  _1: "files %s and %s both define a module named %s"
+                }), s._1, s._2, s._0);
       case /* Unused_value_declaration */ 16 :
-          return "unused value " + (s._0 + ".");
+        return "unused value " + (s._0 + ".");
       case /* Unused_open */ 17 :
-          return "unused open " + (s._0 + ".");
+        return "unused open " + (s._0 + ".");
       case /* Unused_type_declaration */ 18 :
-          return "unused type " + (s._0 + ".");
+        return "unused type " + (s._0 + ".");
       case /* Unused_for_index */ 19 :
-          return "unused for-loop index " + (s._0 + ".");
+        return "unused for-loop index " + (s._0 + ".");
       case /* Unused_ancestor */ 20 :
-          return "unused ancestor variable " + (s._0 + ".");
+        return "unused ancestor variable " + (s._0 + ".");
       case /* Unused_constructor */ 21 :
-          const s$3 = s._0;
-          if (s._1) {
-            return "constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "constructor " + (s$3 + " is never used to build values.\nIts type is exported as a private type.");
-          } else {
-            return "unused constructor " + (s$3 + ".");
-          }
+        const s$3 = s._0;
+        if (s._1) {
+          return "constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+        } else if (s._2) {
+          return "constructor " + (s$3 + " is never used to build values.\nIts type is exported as a private type.");
+        } else {
+          return "unused constructor " + (s$3 + ".");
+        }
       case /* Unused_extension */ 22 :
-          const s$4 = s._0;
-          if (s._1) {
-            return "extension constructor " + (s$4 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "extension constructor " + (s$4 + " is never used to build values.\nIt is exported or rebound as a private extension.");
-          } else {
-            return "unused extension constructor " + (s$4 + ".");
-          }
+        const s$4 = s._0;
+        if (s._1) {
+          return "extension constructor " + (s$4 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+        } else if (s._2) {
+          return "extension constructor " + (s$4 + " is never used to build values.\nIt is exported or rebound as a private extension.");
+        } else {
+          return "unused extension constructor " + (s$4 + ".");
+        }
       case /* Name_out_of_scope */ 23 :
-          const slist = s._1;
-          const ty = s._0;
-          if (slist && !slist.tl && !s._2) {
-            return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
-          }
-          if (s._2) {
-            return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
-          }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "warnings.ml",
-                  365,
-                  39
-                ]
-              });
-          break;
+        const slist = s._1;
+        const ty = s._0;
+        if (slist && !slist.tl && !s._2) {
+          return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
+        }
+        if (s._2) {
+          return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "warnings.ml",
+                365,
+                39
+              ]
+            });
+        break;
       case /* Ambiguous_name */ 24 :
-          const slist$1 = s._0;
-          if (slist$1 && !slist$1.tl && !s._2) {
-            return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
-          }
-          if (s._2) {
-            return "these field labels belong to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
-          }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "warnings.ml",
-                  374,
-                  36
-                ]
-              });
-          break;
+        const slist$1 = s._0;
+        if (slist$1 && !slist$1.tl && !s._2) {
+          return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
+        }
+        if (s._2) {
+          return "these field labels belong to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "warnings.ml",
+                374,
+                36
+              ]
+            });
+        break;
       case /* Disambiguated_name */ 25 :
-          return "this use of " + (s._0 + " required disambiguation.");
+        return "this use of " + (s._0 + " required disambiguation.");
       case /* Nonoptional_label */ 26 :
-          return "the label " + (s._0 + " is not optional.");
+        return "the label " + (s._0 + " is not optional.");
       case /* Open_shadow_identifier */ 27 :
-          return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "this open statement shadows the ",
+        return Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "this open statement shadows the ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: " identifier ",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " identifier ",
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
                           _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: " (which is later used)",
-                              _1: /* End_of_format */ 0
-                            }
+                            TAG: /* String_literal */ 11,
+                            _0: " (which is later used)",
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
-                    },
-                    _1: "this open statement shadows the %s identifier %s (which is later used)"
-                  }), s._0, s._1);
+                    }
+                  },
+                  _1: "this open statement shadows the %s identifier %s (which is later used)"
+                }), s._0, s._1);
       case /* Open_shadow_label_constructor */ 28 :
-          return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "this open statement shadows the ",
+        return Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "this open statement shadows the ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ' ' */32,
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
                           _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: " (which is later used)",
-                              _1: /* End_of_format */ 0
-                            }
+                            TAG: /* String_literal */ 11,
+                            _0: " (which is later used)",
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
-                    },
-                    _1: "this open statement shadows the %s %s (which is later used)"
-                  }), s._0, s._1);
+                    }
+                  },
+                  _1: "this open statement shadows the %s %s (which is later used)"
+                }), s._0, s._1);
       case /* Bad_env_variable */ 29 :
-          return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "illegal environment variable ",
+        return Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "illegal environment variable ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: " : ",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " : ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: /* End_of_format */ 0
                         }
                       }
-                    },
-                    _1: "illegal environment variable %s : %s"
-                  }), s._0, s._1);
+                    }
+                  },
+                  _1: "illegal environment variable %s : %s"
+                }), s._0, s._1);
       case /* Attribute_payload */ 30 :
-          return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "illegal payload for attribute '",
+        return Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "illegal payload for attribute '",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: "'.\n",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "'.\n",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: /* End_of_format */ 0
                         }
                       }
-                    },
-                    _1: "illegal payload for attribute '%s'.\n%s"
-                  }), s._0, s._1);
+                    }
+                  },
+                  _1: "illegal payload for attribute '%s'.\n%s"
+                }), s._0, s._1);
       case /* Eliminated_optional_arguments */ 31 :
-          const sl = s._0;
-          return Curry._2(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "implicit elimination of optional argument",
+        const sl = s._0;
+        return Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "implicit elimination of optional argument",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ' ' */32,
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: /* End_of_format */ 0
                         }
                       }
-                    },
-                    _1: "implicit elimination of optional argument%s %s"
-                  }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
+                    }
+                  },
+                  _1: "implicit elimination of optional argument%s %s"
+                }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
       case /* No_cmi_file */ 32 :
-          return "no cmi file was found in path for module " + s._0;
+        return "no cmi file was found in path for module " + s._0;
       case /* Bad_docstring */ 33 :
-          if (s._0) {
-            return "unattached documentation comment (ignored)";
-          } else {
-            return "ambiguous documentation comment";
-          }
+        if (s._0) {
+          return "unattached documentation comment (ignored)";
+        } else {
+          return "ambiguous documentation comment";
+        }
       case /* Bs_unused_attribute */ 34 :
-          return "Unused BuckleScript attribute: " + s._0;
+        return "Unused BuckleScript attribute: " + s._0;
       case /* Bs_ffi_warning */ 35 :
-          return "BuckleScript FFI warning: " + s._0;
+        return "BuckleScript FFI warning: " + s._0;
       case /* Bs_derive_warning */ 36 :
-          return "BuckleScript bs.deriving warning: " + s._0;
+        return "BuckleScript bs.deriving warning: " + s._0;
       
     }
   }
@@ -2003,11 +2003,11 @@ register_error_of_exn(function (e) {
 function last(s) {
   switch (s.TAG) {
     case /* Lident */ 0 :
-        return s._0;
+      return s._0;
     case /* Ldot */ 1 :
-        return s._1;
+      return s._1;
     case /* Lapply */ 2 :
-        return fatal_error("Longident.last");
+      return fatal_error("Longident.last");
     
   }
 }
@@ -2049,45 +2049,45 @@ function from_pair_suites(name, suites) {
                         let spec = Curry._1(code, undefined);
                         switch (spec.TAG) {
                           case /* Eq */ 0 :
-                              Assert.deepEqual(spec._0, spec._1);
-                              return;
+                            Assert.deepEqual(spec._0, spec._1);
+                            return;
                           case /* Neq */ 1 :
-                              Assert.notDeepEqual(spec._0, spec._1);
-                              return;
+                            Assert.notDeepEqual(spec._0, spec._1);
+                            return;
                           case /* StrictEq */ 2 :
-                              Assert.strictEqual(spec._0, spec._1);
-                              return;
+                            Assert.strictEqual(spec._0, spec._1);
+                            return;
                           case /* StrictNeq */ 3 :
-                              Assert.notStrictEqual(spec._0, spec._1);
-                              return;
+                            Assert.notStrictEqual(spec._0, spec._1);
+                            return;
                           case /* Ok */ 4 :
-                              Assert.ok(spec._0);
-                              return;
+                            Assert.ok(spec._0);
+                            return;
                           case /* Approx */ 5 :
-                              const b = spec._1;
-                              const a = spec._0;
-                              if (!close_enough(undefined, a, b)) {
-                                Assert.deepEqual(a, b);
-                                return;
-                              } else {
-                                return;
-                              }
-                          case /* ApproxThreshold */ 6 :
-                              const b$1 = spec._2;
-                              const a$1 = spec._1;
-                              if (!close_enough(spec._0, a$1, b$1)) {
-                                Assert.deepEqual(a$1, b$1);
-                                return;
-                              } else {
-                                return;
-                              }
-                          case /* ThrowAny */ 7 :
-                              Assert.throws(spec._0);
+                            const b = spec._1;
+                            const a = spec._0;
+                            if (!close_enough(undefined, a, b)) {
+                              Assert.deepEqual(a, b);
                               return;
+                            } else {
+                              return;
+                            }
+                          case /* ApproxThreshold */ 6 :
+                            const b$1 = spec._2;
+                            const a$1 = spec._1;
+                            if (!close_enough(spec._0, a$1, b$1)) {
+                              Assert.deepEqual(a$1, b$1);
+                              return;
+                            } else {
+                              return;
+                            }
+                          case /* ThrowAny */ 7 :
+                            Assert.throws(spec._0);
+                            return;
                           case /* Fail */ 8 :
-                              return assert_fail("failed");
+                            return assert_fail("failed");
                           case /* FailWith */ 9 :
-                              return assert_fail(spec._0);
+                            return assert_fail(spec._0);
                           
                         }
                       }));
@@ -2104,71 +2104,71 @@ function from_pair_suites(name, suites) {
             const fn = Curry._1(param[1], undefined);
             switch (fn.TAG) {
               case /* Eq */ 0 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "eq?",
-                        fn._1
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "eq?",
+                      fn._1
+                    ]);
+                return;
               case /* Neq */ 1 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "neq?",
-                        fn._1
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "neq?",
+                      fn._1
+                    ]);
+                return;
               case /* StrictEq */ 2 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "strict_eq?",
-                        fn._1
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "strict_eq?",
+                      fn._1
+                    ]);
+                return;
               case /* StrictNeq */ 3 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "strict_neq?",
-                        fn._1
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "strict_neq?",
+                      fn._1
+                    ]);
+                return;
               case /* Ok */ 4 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "ok?"
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "ok?"
+                    ]);
+                return;
               case /* Approx */ 5 :
-                  console.log([
-                        name,
-                        fn._0,
-                        "~",
-                        fn._1
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._0,
+                      "~",
+                      fn._1
+                    ]);
+                return;
               case /* ApproxThreshold */ 6 :
-                  console.log([
-                        name,
-                        fn._1,
-                        "~",
-                        fn._2,
-                        " (",
-                        fn._0,
-                        ")"
-                      ]);
-                  return;
+                console.log([
+                      name,
+                      fn._1,
+                      "~",
+                      fn._2,
+                      " (",
+                      fn._0,
+                      ")"
+                    ]);
+                return;
               case /* ThrowAny */ 7 :
-                  return;
+                return;
               case /* Fail */ 8 :
-                  console.log("failed");
-                  return;
+                console.log("failed");
+                return;
               case /* FailWith */ 9 :
-                  console.log("failed: " + fn._0);
-                  return;
+                console.log("failed: " + fn._0);
+                return;
               
             }
           }), suites);
@@ -2192,25 +2192,25 @@ function warn_bad_docstrings(param) {
           const match = ds.ds_attached;
           switch (match) {
             case /* Unattached */ 0 :
-                return prerr_warning(ds.ds_loc, {
-                      TAG: /* Bad_docstring */ 33,
-                      _0: true
-                    });
+              return prerr_warning(ds.ds_loc, {
+                    TAG: /* Bad_docstring */ 33,
+                    _0: true
+                  });
             case /* Info */ 1 :
-                return;
+              return;
             case /* Docs */ 2 :
-                const match$1 = ds.ds_associated;
-                switch (match$1) {
-                  case /* Zero */ 0 :
-                  case /* One */ 1 :
-                      return;
-                  case /* Many */ 2 :
-                      return prerr_warning(ds.ds_loc, {
-                            TAG: /* Bad_docstring */ 33,
-                            _0: false
-                          });
-                  
-                }
+              const match$1 = ds.ds_associated;
+              switch (match$1) {
+                case /* Zero */ 0 :
+                case /* One */ 1 :
+                  return;
+                case /* Many */ 2 :
+                  return prerr_warning(ds.ds_loc, {
+                        TAG: /* Bad_docstring */ 33,
+                        _0: false
+                      });
+                
+              }
             
           }
         }), Stdlib__List.rev(docstrings.contents));
@@ -2364,11 +2364,11 @@ function get_docstring(info, dsl) {
     const match = ds.ds_attached;
     switch (match) {
       case /* Info */ 1 :
-          _param = param.tl;
-          continue;
+        _param = param.tl;
+        continue;
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
-          break;
+        break;
       
     }
     ds.ds_attached = info ? /* Info */ 1 : /* Docs */ 2;
@@ -2389,11 +2389,11 @@ function get_docstrings(dsl) {
     const match = ds.ds_attached;
     switch (match) {
       case /* Info */ 1 :
-          _param = param.tl;
-          continue;
+        _param = param.tl;
+        continue;
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
-          break;
+        break;
       
     }
     ds.ds_attached = /* Docs */ 2;
@@ -2411,12 +2411,12 @@ function associate_docstrings(dsl) {
         const match = ds.ds_associated;
         switch (match) {
           case /* Zero */ 0 :
-              ds.ds_associated = /* One */ 1;
-              return;
+            ds.ds_associated = /* One */ 1;
+            return;
           case /* One */ 1 :
           case /* Many */ 2 :
-              ds.ds_associated = /* Many */ 2;
-              return;
+            ds.ds_associated = /* Many */ 2;
+            return;
           
         }
       }), dsl);
@@ -3567,14 +3567,38 @@ const Escape_error = /* @__PURE__ */ Caml_exceptions.create("Ocaml_parsetree_tes
 function prepare_error(loc) {
   switch (loc.TAG) {
     case /* Unclosed */ 0 :
-        const closing = loc._3;
-        const opening = loc._1;
-        return Curry._1(errorf(loc._2, {
-                  hd: Curry._1(errorf(loc._0, undefined, undefined, {
-                            TAG: /* Format */ 0,
-                            _0: {
+      const closing = loc._3;
+      const opening = loc._1;
+      return Curry._1(errorf(loc._2, {
+                hd: Curry._1(errorf(loc._0, undefined, undefined, {
+                          TAG: /* Format */ 0,
+                          _0: {
+                            TAG: /* String_literal */ 11,
+                            _0: "This '",
+                            _1: {
+                              TAG: /* String */ 2,
+                              _0: /* No_padding */ 0,
+                              _1: {
+                                TAG: /* String_literal */ 11,
+                                _0: "' might be unmatched",
+                                _1: /* End_of_format */ 0
+                              }
+                            }
+                          },
+                          _1: "This '%s' might be unmatched"
+                        }), opening),
+                tl: /* [] */ 0
+              }, Curry._2(Stdlib__Printf.sprintf({
+                        TAG: /* Format */ 0,
+                        _0: {
+                          TAG: /* String_literal */ 11,
+                          _0: "Syntax error: '",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
                               TAG: /* String_literal */ 11,
-                              _0: "This '",
+                              _0: "' expected, the highlighted '",
                               _1: {
                                 TAG: /* String */ 2,
                                 _0: /* No_padding */ 0,
@@ -3584,148 +3608,124 @@ function prepare_error(loc) {
                                   _1: /* End_of_format */ 0
                                 }
                               }
-                            },
-                            _1: "This '%s' might be unmatched"
-                          }), opening),
-                  tl: /* [] */ 0
-                }, Curry._2(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "Syntax error: '",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: "' expected, the highlighted '",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: "' might be unmatched",
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
                             }
-                          },
-                          _1: "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
-                        }), closing, opening), {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Syntax error: '",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "' expected",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: "Syntax error: '%s' expected"
-                }), closing);
-    case /* Expecting */ 1 :
-        return Curry._1(errorf(loc._0, undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Syntax error: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " expected.",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: "Syntax error: %s expected."
-                }), loc._1);
-    case /* Not_expecting */ 2 :
-        return Curry._1(errorf(loc._0, undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Syntax error: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " not expected.",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: "Syntax error: %s not expected."
-                }), loc._1);
-    case /* Applicative_path */ 3 :
-        return errorf(loc._0, undefined, undefined, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set.",
-                _1: /* End_of_format */ 0
-              },
-              _1: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set."
-            });
-    case /* Variable_in_scope */ 4 :
-        const $$var = loc._1;
-        return Curry._2(errorf(loc._0, undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "In this scoped type, variable '",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " is reserved for the local type ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* '.' */46,
-                            _1: /* End_of_format */ 0
                           }
+                        },
+                        _1: "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
+                      }), closing, opening), {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Syntax error: '",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: "' expected",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "Syntax error: '%s' expected"
+              }), closing);
+    case /* Expecting */ 1 :
+      return Curry._1(errorf(loc._0, undefined, undefined, {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Syntax error: ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " expected.",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "Syntax error: %s expected."
+              }), loc._1);
+    case /* Not_expecting */ 2 :
+      return Curry._1(errorf(loc._0, undefined, undefined, {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Syntax error: ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " not expected.",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "Syntax error: %s not expected."
+              }), loc._1);
+    case /* Applicative_path */ 3 :
+      return errorf(loc._0, undefined, undefined, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set.",
+              _1: /* End_of_format */ 0
+            },
+            _1: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set."
+          });
+    case /* Variable_in_scope */ 4 :
+      const $$var = loc._1;
+      return Curry._2(errorf(loc._0, undefined, undefined, {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "In this scoped type, variable '",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " is reserved for the local type ",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* Char_literal */ 12,
+                          _0: /* '.' */46,
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "In this scoped type, variable '%s is reserved for the local type %s."
-                }), $$var, $$var);
+                  }
+                },
+                _1: "In this scoped type, variable '%s is reserved for the local type %s."
+              }), $$var, $$var);
     case /* Other */ 5 :
-        return errorf(loc._0, undefined, undefined, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Syntax error",
-                _1: /* End_of_format */ 0
-              },
-              _1: "Syntax error"
-            });
+      return errorf(loc._0, undefined, undefined, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "Syntax error",
+              _1: /* End_of_format */ 0
+            },
+            _1: "Syntax error"
+          });
     case /* Ill_formed_ast */ 6 :
-        return Curry._1(errorf(loc._0, undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "broken invariant in parsetree: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  },
-                  _1: "broken invariant in parsetree: %s"
-                }), loc._1);
+      return Curry._1(errorf(loc._0, undefined, undefined, {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "broken invariant in parsetree: ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "broken invariant in parsetree: %s"
+              }), loc._1);
     
   }
 }
@@ -4191,135 +4191,135 @@ function varify_constructors(var_names, t) {
     } else {
       switch (x.TAG) {
         case /* Ptyp_var */ 0 :
-            const x$1 = x._0;
-            check_variable(var_names, t.ptyp_loc, x$1);
-            desc = {
-              TAG: /* Ptyp_var */ 0,
-              _0: x$1
-            };
-            break;
+          const x$1 = x._0;
+          check_variable(var_names, t.ptyp_loc, x$1);
+          desc = {
+            TAG: /* Ptyp_var */ 0,
+            _0: x$1
+          };
+          break;
         case /* Ptyp_arrow */ 1 :
-            desc = {
-              TAG: /* Ptyp_arrow */ 1,
-              _0: x._0,
-              _1: loop(x._1),
-              _2: loop(x._2)
-            };
-            break;
+          desc = {
+            TAG: /* Ptyp_arrow */ 1,
+            _0: x._0,
+            _1: loop(x._1),
+            _2: loop(x._2)
+          };
+          break;
         case /* Ptyp_tuple */ 2 :
-            desc = {
-              TAG: /* Ptyp_tuple */ 2,
-              _0: Stdlib__List.map(loop, x._0)
-            };
-            break;
+          desc = {
+            TAG: /* Ptyp_tuple */ 2,
+            _0: Stdlib__List.map(loop, x._0)
+          };
+          break;
         case /* Ptyp_constr */ 3 :
-            const longident = x._0;
-            let exit = 0;
-            const s = longident.txt;
-            switch (s.TAG) {
-              case /* Lident */ 0 :
-                  if (x._1) {
-                    exit = 1;
-                  } else {
-                    const s$1 = s._0;
-                    if (Stdlib__List.mem(s$1, var_names)) {
-                      desc = {
-                        TAG: /* Ptyp_var */ 0,
-                        _0: s$1
-                      };
-                    } else {
-                      exit = 1;
-                    }
-                  }
-                  break;
-              case /* Ldot */ 1 :
-              case /* Lapply */ 2 :
+          const longident = x._0;
+          let exit = 0;
+          const s = longident.txt;
+          switch (s.TAG) {
+            case /* Lident */ 0 :
+              if (x._1) {
+                exit = 1;
+              } else {
+                const s$1 = s._0;
+                if (Stdlib__List.mem(s$1, var_names)) {
+                  desc = {
+                    TAG: /* Ptyp_var */ 0,
+                    _0: s$1
+                  };
+                } else {
                   exit = 1;
-                  break;
-              
-            }
-            if (exit === 1) {
-              desc = {
-                TAG: /* Ptyp_constr */ 3,
-                _0: longident,
-                _1: Stdlib__List.map(loop, x._1)
-              };
-            }
-            break;
-        case /* Ptyp_object */ 4 :
+                }
+              }
+              break;
+            case /* Ldot */ 1 :
+            case /* Lapply */ 2 :
+              exit = 1;
+              break;
+            
+          }
+          if (exit === 1) {
             desc = {
-              TAG: /* Ptyp_object */ 4,
-              _0: Stdlib__List.map((function (param) {
-                    return [
-                      param[0],
-                      param[1],
-                      loop(param[2])
-                    ];
-                  }), x._0),
-              _1: x._1
-            };
-            break;
-        case /* Ptyp_class */ 5 :
-            desc = {
-              TAG: /* Ptyp_class */ 5,
-              _0: x._0,
+              TAG: /* Ptyp_constr */ 3,
+              _0: longident,
               _1: Stdlib__List.map(loop, x._1)
             };
-            break;
+          }
+          break;
+        case /* Ptyp_object */ 4 :
+          desc = {
+            TAG: /* Ptyp_object */ 4,
+            _0: Stdlib__List.map((function (param) {
+                  return [
+                    param[0],
+                    param[1],
+                    loop(param[2])
+                  ];
+                }), x._0),
+            _1: x._1
+          };
+          break;
+        case /* Ptyp_class */ 5 :
+          desc = {
+            TAG: /* Ptyp_class */ 5,
+            _0: x._0,
+            _1: Stdlib__List.map(loop, x._1)
+          };
+          break;
         case /* Ptyp_alias */ 6 :
-            const string = x._1;
-            check_variable(var_names, t.ptyp_loc, string);
-            desc = {
-              TAG: /* Ptyp_alias */ 6,
-              _0: loop(x._0),
-              _1: string
-            };
-            break;
+          const string = x._1;
+          check_variable(var_names, t.ptyp_loc, string);
+          desc = {
+            TAG: /* Ptyp_alias */ 6,
+            _0: loop(x._0),
+            _1: string
+          };
+          break;
         case /* Ptyp_variant */ 7 :
-            desc = {
-              TAG: /* Ptyp_variant */ 7,
-              _0: Stdlib__List.map(loop_row_field, x._0),
-              _1: x._1,
-              _2: x._2
-            };
-            break;
+          desc = {
+            TAG: /* Ptyp_variant */ 7,
+            _0: Stdlib__List.map(loop_row_field, x._0),
+            _1: x._1,
+            _2: x._2
+          };
+          break;
         case /* Ptyp_poly */ 8 :
-            const string_lst = x._0;
-            const partial_arg = t.ptyp_loc;
-            Stdlib__List.iter((function (param) {
-                  return check_variable(var_names, partial_arg, param);
-                }), string_lst);
-            desc = {
-              TAG: /* Ptyp_poly */ 8,
-              _0: string_lst,
-              _1: loop(x._1)
-            };
-            break;
+          const string_lst = x._0;
+          const partial_arg = t.ptyp_loc;
+          Stdlib__List.iter((function (param) {
+                return check_variable(var_names, partial_arg, param);
+              }), string_lst);
+          desc = {
+            TAG: /* Ptyp_poly */ 8,
+            _0: string_lst,
+            _1: loop(x._1)
+          };
+          break;
         case /* Ptyp_package */ 9 :
-            const match = x._0;
-            desc = {
-              TAG: /* Ptyp_package */ 9,
-              _0: [
-                match[0],
-                Stdlib__List.map((function (param) {
-                      return [
-                        param[0],
-                        loop(param[1])
-                      ];
-                    }), match[1])
-              ]
-            };
-            break;
+          const match = x._0;
+          desc = {
+            TAG: /* Ptyp_package */ 9,
+            _0: [
+              match[0],
+              Stdlib__List.map((function (param) {
+                    return [
+                      param[0],
+                      loop(param[1])
+                    ];
+                  }), match[1])
+            ]
+          };
+          break;
         case /* Ptyp_extension */ 10 :
-            const match$1 = x._0;
-            desc = {
-              TAG: /* Ptyp_extension */ 10,
-              _0: [
-                match$1[0],
-                match$1[1]
-              ]
-            };
-            break;
+          const match$1 = x._0;
+          desc = {
+            TAG: /* Ptyp_extension */ 10,
+            _0: [
+              match$1[0],
+              match$1[1]
+            ]
+          };
+          break;
         
       }
     }
@@ -6802,51 +6802,51 @@ const yyact = [
     let exit = 0;
     switch (_1) {
       case "-" :
-          if (match.TAG === /* Pexp_constant */ 1) {
-            const n = match._0;
-            switch (n.TAG) {
-              case /* Const_int */ 0 :
-                  return mkexp({
-                        TAG: /* Pexp_constant */ 1,
-                        _0: {
-                          TAG: /* Const_int */ 0,
-                          _0: -n._0 | 0
-                        }
-                      });
-              case /* Const_int32 */ 4 :
-                  return mkexp({
-                        TAG: /* Pexp_constant */ 1,
-                        _0: {
-                          TAG: /* Const_int32 */ 4,
-                          _0: -n._0 | 0
-                        }
-                      });
-              case /* Const_int64 */ 5 :
-                  return mkexp({
-                        TAG: /* Pexp_constant */ 1,
-                        _0: {
-                          TAG: /* Const_int64 */ 5,
-                          _0: Caml_int64.neg(n._0)
-                        }
-                      });
-              case /* Const_nativeint */ 6 :
-                  return mkexp({
-                        TAG: /* Pexp_constant */ 1,
-                        _0: {
-                          TAG: /* Const_nativeint */ 6,
-                          _0: Caml_external_polyfill.resolve("nativeint_neg")(n._0)
-                        }
-                      });
-              default:
-                exit = 2;
-            }
-          } else {
-            exit = 2;
+        if (match.TAG === /* Pexp_constant */ 1) {
+          const n = match._0;
+          switch (n.TAG) {
+            case /* Const_int */ 0 :
+              return mkexp({
+                    TAG: /* Pexp_constant */ 1,
+                    _0: {
+                      TAG: /* Const_int */ 0,
+                      _0: -n._0 | 0
+                    }
+                  });
+            case /* Const_int32 */ 4 :
+              return mkexp({
+                    TAG: /* Pexp_constant */ 1,
+                    _0: {
+                      TAG: /* Const_int32 */ 4,
+                      _0: -n._0 | 0
+                    }
+                  });
+            case /* Const_int64 */ 5 :
+              return mkexp({
+                    TAG: /* Pexp_constant */ 1,
+                    _0: {
+                      TAG: /* Const_int64 */ 5,
+                      _0: Caml_int64.neg(n._0)
+                    }
+                  });
+            case /* Const_nativeint */ 6 :
+              return mkexp({
+                    TAG: /* Pexp_constant */ 1,
+                    _0: {
+                      TAG: /* Const_nativeint */ 6,
+                      _0: Caml_external_polyfill.resolve("nativeint_neg")(n._0)
+                    }
+                  });
+            default:
+              exit = 2;
           }
-          break;
-      case "-." :
+        } else {
           exit = 2;
-          break;
+        }
+        break;
+      case "-." :
+        exit = 2;
+        break;
       
     }
     if (exit === 2 && match.TAG === /* Pexp_constant */ 1) {
@@ -6881,23 +6881,23 @@ const yyact = [
     let exit = 0;
     switch (_1) {
       case "+" :
-          if (desc.TAG === /* Pexp_constant */ 1) {
-            switch (desc._0.TAG) {
-              case /* Const_char */ 1 :
-              case /* Const_string */ 2 :
-              case /* Const_float */ 3 :
-                  exit = 2;
-                  break;
-              default:
-                return mkexp(desc);
-            }
-          } else {
-            exit = 2;
+        if (desc.TAG === /* Pexp_constant */ 1) {
+          switch (desc._0.TAG) {
+            case /* Const_char */ 1 :
+            case /* Const_string */ 2 :
+            case /* Const_float */ 3 :
+              exit = 2;
+              break;
+            default:
+              return mkexp(desc);
           }
-          break;
-      case "+." :
+        } else {
           exit = 2;
-          break;
+        }
+        break;
+      case "+." :
+        exit = 2;
+        break;
       
     }
     if (exit === 2 && desc.TAG === /* Pexp_constant */ 1 && desc._0.TAG === /* Const_float */ 3) {
@@ -10683,13 +10683,13 @@ function type_of_directive(x) {
   }
   switch (x.TAG) {
     case /* Dir_bool */ 0 :
-        return /* Dir_type_bool */ 0;
+      return /* Dir_type_bool */ 0;
     case /* Dir_float */ 1 :
-        return /* Dir_type_float */ 1;
+      return /* Dir_type_float */ 1;
     case /* Dir_int */ 2 :
-        return /* Dir_type_int */ 2;
+      return /* Dir_type_int */ 2;
     case /* Dir_string */ 3 :
-        return /* Dir_type_string */ 3;
+      return /* Dir_type_string */ 3;
     
   }
 }
@@ -10697,15 +10697,15 @@ function type_of_directive(x) {
 function string_of_type_directive(x) {
   switch (x) {
     case /* Dir_type_bool */ 0 :
-        return "bool";
+      return "bool";
     case /* Dir_type_float */ 1 :
-        return "float";
+      return "float";
     case /* Dir_type_int */ 2 :
-        return "int";
+      return "int";
     case /* Dir_type_string */ 3 :
-        return "string";
+      return "string";
     case /* Dir_type_null */ 4 :
-        return "null";
+      return "null";
     
   }
 }
@@ -10918,15 +10918,15 @@ function value_of_token(loc, t) {
   if (/* tag */ typeof t === "number" || typeof t === "string") {
     switch (t) {
       case /* FALSE */ 29 :
-          return {
-            TAG: /* Dir_bool */ 0,
-            _0: false
-          };
+        return {
+          TAG: /* Dir_bool */ 0,
+          _0: false
+        };
       case /* TRUE */ 91 :
-          return {
-            TAG: /* Dir_bool */ 0,
-            _0: true
-          };
+        return {
+          TAG: /* Dir_bool */ 0,
+          _0: true
+        };
       default:
         throw new Caml_js_exceptions.MelangeError($$Error$2, {
               MEL_EXN_ID: $$Error$2,
@@ -10937,22 +10937,22 @@ function value_of_token(loc, t) {
   } else {
     switch (t.TAG) {
       case /* FLOAT */ 1 :
-          return {
-            TAG: /* Dir_float */ 1,
-            _0: Caml_format.caml_float_of_string(t._0)
-          };
+        return {
+          TAG: /* Dir_float */ 1,
+          _0: Caml_format.caml_float_of_string(t._0)
+        };
       case /* INT */ 7 :
-          return {
-            TAG: /* Dir_int */ 2,
-            _0: t._0
-          };
+        return {
+          TAG: /* Dir_int */ 2,
+          _0: t._0
+        };
       case /* STRING */ 16 :
-          return {
-            TAG: /* Dir_string */ 3,
-            _0: t._0[0]
-          };
+        return {
+          TAG: /* Dir_string */ 3,
+          _0: t._0[0]
+        };
       case /* UIDENT */ 17 :
-          return query(loc, t._0);
+        return query(loc, t._0);
       default:
         throw new Caml_js_exceptions.MelangeError($$Error$2, {
               MEL_EXN_ID: $$Error$2,
@@ -10979,14 +10979,14 @@ function directive_parse(token_with_comments, lexbuf) {
       if (/* tag */ typeof t === "number" || typeof t === "string") {
         switch (t) {
           case /* EOF */ 25 :
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: /* Unterminated_if */ 2,
-                    _2: curr(lexbuf)
-                  });
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: /* Unterminated_if */ 2,
+                  _2: curr(lexbuf)
+                });
           case /* EOL */ 100 :
-              _param = undefined;
-              continue;
+            _param = undefined;
+            continue;
           default:
             return t;
         }
@@ -10994,8 +10994,8 @@ function directive_parse(token_with_comments, lexbuf) {
         switch (t.TAG) {
           case /* COMMENT */ 18 :
           case /* DOCSTRING */ 19 :
-              _param = undefined;
-              continue;
+            _param = undefined;
+            continue;
           default:
             return t;
         }
@@ -11023,8 +11023,8 @@ function directive_parse(token_with_comments, lexbuf) {
         case /* EQUAL */ 26 :
         case /* GREATER */ 34 :
         case /* LESS */ 51 :
-            exit = 1;
-            break;
+          exit = 1;
+          break;
         default:
           return Curry._1(no, op);
       }
@@ -11034,151 +11034,138 @@ function directive_parse(token_with_comments, lexbuf) {
       }
       switch (op._0) {
         case "=~" :
-            if (!calc) {
-              return true;
-            }
-            let exit$1 = 0;
-            if (/* tag */ typeof lhs === "number" || typeof lhs === "string" || lhs.TAG !== /* Dir_string */ 3) {
-              exit$1 = 2;
+          if (!calc) {
+            return true;
+          }
+          let exit$1 = 0;
+          if (/* tag */ typeof lhs === "number" || typeof lhs === "string" || lhs.TAG !== /* Dir_string */ 3) {
+            exit$1 = 2;
+          } else {
+            const curr_loc = curr(lexbuf);
+            const rhs = value_of_token(curr_loc, token(undefined));
+            let exit$2 = 0;
+            if (/* tag */ typeof rhs === "number" || typeof rhs === "string") {
+              exit$2 = 3;
             } else {
-              const curr_loc = curr(lexbuf);
-              const rhs = value_of_token(curr_loc, token(undefined));
-              let exit$2 = 0;
-              if (/* tag */ typeof rhs === "number" || typeof rhs === "string") {
-                exit$2 = 3;
-              } else {
-                if (rhs.TAG === /* Dir_string */ 3) {
-                  let lhs$1 = lhs._0;
-                  let str = rhs._0;
-                  const last_index = str.length - 1 | 0;
-                  if (last_index < 0) {
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Illegal_semver */ 6,
-                            _0: str
-                          },
-                          _2: curr_loc
-                        });
-                  }
-                  const v = str.charCodeAt(0);
-                  let match;
-                  let exit$3 = 0;
-                  if (v !== 94) {
-                    if (v >= 63) {
-                      if (v !== 126) {
-                        exit$3 = 1;
-                      } else {
-                        match = [
-                          "Approximate",
-                          semantic_version_parse(str, 1, last_index)
-                        ];
-                      }
-                    } else if (v >= 60) {
-                      switch (v) {
-                        case 60 :
-                            if (last_index === 0) {
-                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: {
-                                      TAG: /* Illegal_semver */ 6,
-                                      _0: str
-                                    },
-                                    _2: curr_loc
-                                  });
-                            }
-                            match = str[1] === "=" ? [
-                                "Le",
-                                semantic_version_parse(str, 2, last_index)
-                              ] : [
-                                "Lt",
-                                semantic_version_parse(str, 1, last_index)
-                              ];
-                            break;
-                        case 61 :
-                            exit$3 = 1;
-                            break;
-                        case 62 :
-                            if (last_index === 0) {
-                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: {
-                                      TAG: /* Illegal_semver */ 6,
-                                      _0: str
-                                    },
-                                    _2: curr_loc
-                                  });
-                            }
-                            match = str[1] === "=" ? [
-                                "Ge",
-                                semantic_version_parse(str, 2, last_index)
-                              ] : [
-                                "Gt",
-                                semantic_version_parse(str, 1, last_index)
-                              ];
-                            break;
-                        
-                      }
-                    } else {
+              if (rhs.TAG === /* Dir_string */ 3) {
+                let lhs$1 = lhs._0;
+                let str = rhs._0;
+                const last_index = str.length - 1 | 0;
+                if (last_index < 0) {
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Illegal_semver */ 6,
+                          _0: str
+                        },
+                        _2: curr_loc
+                      });
+                }
+                const v = str.charCodeAt(0);
+                let match;
+                let exit$3 = 0;
+                if (v !== 94) {
+                  if (v >= 63) {
+                    if (v !== 126) {
                       exit$3 = 1;
+                    } else {
+                      match = [
+                        "Approximate",
+                        semantic_version_parse(str, 1, last_index)
+                      ];
+                    }
+                  } else if (v >= 60) {
+                    switch (v) {
+                      case 60 :
+                        if (last_index === 0) {
+                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                MEL_EXN_ID: $$Error$2,
+                                _1: {
+                                  TAG: /* Illegal_semver */ 6,
+                                  _0: str
+                                },
+                                _2: curr_loc
+                              });
+                        }
+                        match = str[1] === "=" ? [
+                            "Le",
+                            semantic_version_parse(str, 2, last_index)
+                          ] : [
+                            "Lt",
+                            semantic_version_parse(str, 1, last_index)
+                          ];
+                        break;
+                      case 61 :
+                        exit$3 = 1;
+                        break;
+                      case 62 :
+                        if (last_index === 0) {
+                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                MEL_EXN_ID: $$Error$2,
+                                _1: {
+                                  TAG: /* Illegal_semver */ 6,
+                                  _0: str
+                                },
+                                _2: curr_loc
+                              });
+                        }
+                        match = str[1] === "=" ? [
+                            "Ge",
+                            semantic_version_parse(str, 2, last_index)
+                          ] : [
+                            "Gt",
+                            semantic_version_parse(str, 1, last_index)
+                          ];
+                        break;
+                      
                     }
                   } else {
-                    match = [
-                      "Compatible",
-                      semantic_version_parse(str, 1, last_index)
-                    ];
+                    exit$3 = 1;
                   }
-                  if (exit$3 === 1) {
-                    match = [
-                      "Exact",
-                      semantic_version_parse(str, 0, last_index)
-                    ];
-                  }
-                  const version = match[1][0];
-                  const major = version[0];
-                  const pred = match[0];
-                  const match$1 = semantic_version_parse(lhs$1, 0, lhs$1.length - 1 | 0);
-                  const lversion = match$1[0];
-                  if (pred === "Ge") {
-                    return Caml_obj.caml_greaterequal(lversion, version);
-                  }
-                  if (pred === "Gt") {
-                    return Caml_obj.caml_greaterthan(lversion, version);
-                  }
-                  if (pred === "Le") {
-                    return Caml_obj.caml_lessequal(lversion, version);
-                  }
-                  if (pred === "Lt") {
-                    return Caml_obj.caml_lessthan(lversion, version);
-                  }
-                  if (pred === "Exact") {
-                    return Caml_obj.caml_equal(lversion, version);
-                  }
-                  const l_major = lversion[0];
-                  if (pred === "Compatible") {
-                    return major === l_major;
-                  } else if (major === l_major) {
-                    return version[1] === lversion[1];
-                  } else {
-                    return false;
-                  }
+                } else {
+                  match = [
+                    "Compatible",
+                    semantic_version_parse(str, 1, last_index)
+                  ];
                 }
-                exit$2 = 3;
+                if (exit$3 === 1) {
+                  match = [
+                    "Exact",
+                    semantic_version_parse(str, 0, last_index)
+                  ];
+                }
+                const version = match[1][0];
+                const major = version[0];
+                const pred = match[0];
+                const match$1 = semantic_version_parse(lhs$1, 0, lhs$1.length - 1 | 0);
+                const lversion = match$1[0];
+                if (pred === "Ge") {
+                  return Caml_obj.caml_greaterequal(lversion, version);
+                }
+                if (pred === "Gt") {
+                  return Caml_obj.caml_greaterthan(lversion, version);
+                }
+                if (pred === "Le") {
+                  return Caml_obj.caml_lessequal(lversion, version);
+                }
+                if (pred === "Lt") {
+                  return Caml_obj.caml_lessthan(lversion, version);
+                }
+                if (pred === "Exact") {
+                  return Caml_obj.caml_equal(lversion, version);
+                }
+                const l_major = lversion[0];
+                if (pred === "Compatible") {
+                  return major === l_major;
+                } else if (major === l_major) {
+                  return version[1] === lversion[1];
+                } else {
+                  return false;
+                }
               }
-              if (exit$2 === 3) {
-                throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                      MEL_EXN_ID: $$Error$2,
-                      _1: {
-                        TAG: /* Conditional_expr_expected_type */ 7,
-                        _0: /* Dir_type_string */ 3,
-                        _1: type_of_directive(lhs)
-                      },
-                      _2: curr(lexbuf)
-                    });
-              }
-              
+              exit$2 = 3;
             }
-            if (exit$1 === 2) {
+            if (exit$2 === 3) {
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                     MEL_EXN_ID: $$Error$2,
                     _1: {
@@ -11189,12 +11176,25 @@ function directive_parse(token_with_comments, lexbuf) {
                     _2: curr(lexbuf)
                   });
             }
-            break;
+            
+          }
+          if (exit$1 === 2) {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Conditional_expr_expected_type */ 7,
+                    _0: /* Dir_type_string */ 3,
+                    _1: type_of_directive(lhs)
+                  },
+                  _2: curr(lexbuf)
+                });
+          }
+          break;
         case "<=" :
         case "<>" :
         case ">=" :
-            exit = 1;
-            break;
+          exit = 1;
+          break;
         default:
           return Curry._1(no, op);
       }
@@ -11205,25 +11205,25 @@ function directive_parse(token_with_comments, lexbuf) {
       if (/* tag */ typeof op === "number" || typeof op === "string") {
         switch (op) {
           case /* EQUAL */ 26 :
-              f = Caml_obj.caml_equal;
-              break;
+            f = Caml_obj.caml_equal;
+            break;
           case /* GREATER */ 34 :
-              f = Caml_obj.caml_greaterthan;
-              break;
+            f = Caml_obj.caml_greaterthan;
+            break;
           case /* LESS */ 51 :
-              f = Caml_obj.caml_lessthan;
-              break;
+            f = Caml_obj.caml_lessthan;
+            break;
           default:
             exit$4 = 2;
         }
       } else if (op.TAG === /* INFIXOP0 */ 2) {
         switch (op._0) {
           case "<=" :
-              f = Caml_obj.caml_lessequal;
-              break;
+            f = Caml_obj.caml_lessequal;
+            break;
           case "<>" :
-              f = Caml_obj.caml_notequal;
-              break;
+            f = Caml_obj.caml_notequal;
+            break;
           default:
             exit$4 = 2;
         }
@@ -11294,28 +11294,28 @@ function directive_parse(token_with_comments, lexbuf) {
     if (/* tag */ typeof curr_token === "number" || typeof curr_token === "string") {
       switch (curr_token) {
         case /* FALSE */ 29 :
-            return false;
+          return false;
         case /* LPAREN */ 54 :
-            const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
-            const match = token(undefined);
-            if (/* tag */ typeof match === "number" || typeof match === "string") {
-              if (match === /* RPAREN */ 81) {
-                return v;
-              }
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: /* Unterminated_paren_in_conditional */ 1,
-                    _2: curr(lexbuf)
-                  });
-            } else {
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: /* Unterminated_paren_in_conditional */ 1,
-                    _2: curr(lexbuf)
-                  });
+          const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
+          const match = token(undefined);
+          if (/* tag */ typeof match === "number" || typeof match === "string") {
+            if (match === /* RPAREN */ 81) {
+              return v;
             }
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: /* Unterminated_paren_in_conditional */ 1,
+                  _2: curr(lexbuf)
+                });
+          } else {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: /* Unterminated_paren_in_conditional */ 1,
+                  _2: curr(lexbuf)
+                });
+          }
         case /* TRUE */ 91 :
-            return true;
+          return true;
         default:
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
@@ -11326,102 +11326,102 @@ function directive_parse(token_with_comments, lexbuf) {
     } else {
       switch (curr_token.TAG) {
         case /* FLOAT */ 1 :
-            return token_op(calc, (function (e) {
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                        MEL_EXN_ID: $$Error$2,
-                        _1: {
-                          TAG: /* Conditional_expr_expected_type */ 7,
-                          _0: /* Dir_type_bool */ 0,
-                          _1: /* Dir_type_float */ 1
-                        },
-                        _2: curr_loc
-                      });
-                }), {
-                  TAG: /* Dir_float */ 1,
-                  _0: Caml_format.caml_float_of_string(curr_token._0)
-                });
-        case /* INT */ 7 :
-            const v$1 = curr_token._0;
-            return token_op(calc, (function (e) {
-                  push(e);
-                  return v$1 !== 0;
-                }), {
-                  TAG: /* Dir_int */ 2,
-                  _0: v$1
-                });
-        case /* LIDENT */ 11 :
-            const r = curr_token._0;
-            switch (r) {
-              case "defined" :
-              case "undefined" :
-                  break;
-              default:
+          return token_op(calc, (function (e) {
                 throw new Caml_js_exceptions.MelangeError($$Error$2, {
                       MEL_EXN_ID: $$Error$2,
-                      _1: /* Unexpected_token_in_conditional */ 4,
+                      _1: {
+                        TAG: /* Conditional_expr_expected_type */ 7,
+                        _0: /* Dir_type_bool */ 0,
+                        _1: /* Dir_type_float */ 1
+                      },
                       _2: curr_loc
                     });
-            }
-            const t = token(undefined);
-            const loc = curr(lexbuf);
-            if (/* tag */ typeof t === "number" || typeof t === "string") {
+              }), {
+                TAG: /* Dir_float */ 1,
+                _0: Caml_format.caml_float_of_string(curr_token._0)
+              });
+        case /* INT */ 7 :
+          const v$1 = curr_token._0;
+          return token_op(calc, (function (e) {
+                push(e);
+                return v$1 !== 0;
+              }), {
+                TAG: /* Dir_int */ 2,
+                _0: v$1
+              });
+        case /* LIDENT */ 11 :
+          const r = curr_token._0;
+          switch (r) {
+            case "defined" :
+            case "undefined" :
+              break;
+            default:
               throw new Caml_js_exceptions.MelangeError($$Error$2, {
                     MEL_EXN_ID: $$Error$2,
                     _1: /* Unexpected_token_in_conditional */ 4,
-                    _2: loc
+                    _2: curr_loc
                   });
-            }
-            if (t.TAG === /* UIDENT */ 17) {
-              const s = t._0;
-              if (calc) {
-                if (Caml_string.get(r, 0) === /* 'u' */117) {
-                  return !defined(s);
-                } else {
-                  return defined(s);
-                }
-              } else {
-                return true;
-              }
-            }
+          }
+          const t = token(undefined);
+          const loc = curr(lexbuf);
+          if (/* tag */ typeof t === "number" || typeof t === "string") {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                   MEL_EXN_ID: $$Error$2,
                   _1: /* Unexpected_token_in_conditional */ 4,
                   _2: loc
                 });
-            break;
+          }
+          if (t.TAG === /* UIDENT */ 17) {
+            const s = t._0;
+            if (calc) {
+              if (Caml_string.get(r, 0) === /* 'u' */117) {
+                return !defined(s);
+              } else {
+                return defined(s);
+              }
+            } else {
+              return true;
+            }
+          }
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                MEL_EXN_ID: $$Error$2,
+                _1: /* Unexpected_token_in_conditional */ 4,
+                _2: loc
+              });
+          break;
         case /* STRING */ 16 :
-            return token_op(calc, (function (e) {
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                        MEL_EXN_ID: $$Error$2,
-                        _1: {
-                          TAG: /* Conditional_expr_expected_type */ 7,
-                          _0: /* Dir_type_bool */ 0,
-                          _1: /* Dir_type_string */ 3
-                        },
-                        _2: curr_loc
-                      });
-                }), {
-                  TAG: /* Dir_string */ 3,
-                  _0: curr_token._0[0]
-                });
+          return token_op(calc, (function (e) {
+                throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                      MEL_EXN_ID: $$Error$2,
+                      _1: {
+                        TAG: /* Conditional_expr_expected_type */ 7,
+                        _0: /* Dir_type_bool */ 0,
+                        _1: /* Dir_type_string */ 3
+                      },
+                      _2: curr_loc
+                    });
+              }), {
+                TAG: /* Dir_string */ 3,
+                _0: curr_token._0[0]
+              });
         case /* UIDENT */ 17 :
-            const value_v = query(curr_loc, curr_token._0);
-            return token_op(calc, (function (e) {
-                  push(e);
-                  if (!/* tag */ (typeof value_v === "number" || typeof value_v === "string") && value_v.TAG === /* Dir_bool */ 0) {
-                    return value_v._0;
-                  }
-                  const ty = type_of_directive(value_v);
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                        MEL_EXN_ID: $$Error$2,
-                        _1: {
-                          TAG: /* Conditional_expr_expected_type */ 7,
-                          _0: /* Dir_type_bool */ 0,
-                          _1: ty
-                        },
-                        _2: curr_loc
-                      });
-                }), value_v);
+          const value_v = query(curr_loc, curr_token._0);
+          return token_op(calc, (function (e) {
+                push(e);
+                if (!/* tag */ (typeof value_v === "number" || typeof value_v === "string") && value_v.TAG === /* Dir_bool */ 0) {
+                  return value_v._0;
+                }
+                const ty = type_of_directive(value_v);
+                throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                      MEL_EXN_ID: $$Error$2,
+                      _1: {
+                        TAG: /* Conditional_expr_expected_type */ 7,
+                        _0: /* Dir_type_bool */ 0,
+                        _1: ty
+                      },
+                      _2: curr_loc
+                    });
+              }), value_v);
         default:
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
@@ -11916,16 +11916,16 @@ function char_for_backslash(c) {
   }
   switch (c) {
     case 110 :
-        return /* '\n' */10;
+      return /* '\n' */10;
     case 114 :
-        return /* '\r' */13;
+      return /* '\r' */13;
     case 111 :
     case 112 :
     case 113 :
     case 115 :
-        return c;
+      return c;
     case 116 :
-        return /* '\t' */9;
+      return /* '\t' */9;
     
   }
 }
@@ -12067,218 +12067,218 @@ function report_error(ppf, c) {
   if (/* tag */ typeof c === "number" || typeof c === "string") {
     switch (c) {
       case /* Unterminated_string */ 0 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "String literal not terminated",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "String literal not terminated"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "String literal not terminated",
+                _1: /* End_of_format */ 0
+              },
+              _1: "String literal not terminated"
+            });
       case /* Unterminated_paren_in_conditional */ 1 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Unterminated parens in conditional predicate",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "Unterminated parens in conditional predicate"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Unterminated parens in conditional predicate",
+                _1: /* End_of_format */ 0
+              },
+              _1: "Unterminated parens in conditional predicate"
+            });
       case /* Unterminated_if */ 2 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "#if not terminated",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "#if not terminated"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "#if not terminated",
+                _1: /* End_of_format */ 0
+              },
+              _1: "#if not terminated"
+            });
       case /* Unterminated_else */ 3 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "#else not terminated",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "#else not terminated"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "#else not terminated",
+                _1: /* End_of_format */ 0
+              },
+              _1: "#else not terminated"
+            });
       case /* Unexpected_token_in_conditional */ 4 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Unexpected token in conditional predicate",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "Unexpected token in conditional predicate"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Unexpected token in conditional predicate",
+                _1: /* End_of_format */ 0
+              },
+              _1: "Unexpected token in conditional predicate"
+            });
       case /* Expect_hash_then_in_conditional */ 5 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Expect `then` after conditional predicate",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "Expect `then` after conditional predicate"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Expect `then` after conditional predicate",
+                _1: /* End_of_format */ 0
+              },
+              _1: "Expect `then` after conditional predicate"
+            });
       case /* Unexpected_directive */ 6 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Unexpected directive",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "Unexpected directive"
-              });
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Unexpected directive",
+                _1: /* End_of_format */ 0
+              },
+              _1: "Unexpected directive"
+            });
       
     }
   } else {
     switch (c.TAG) {
       case /* Illegal_character */ 0 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Illegal character (",
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Illegal character (",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ')' */41,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ')' */41,
+                        _1: /* End_of_format */ 0
                       }
-                    },
-                    _1: "Illegal character (%s)"
-                  }), Stdlib__Char.escaped(c._0));
+                    }
+                  },
+                  _1: "Illegal character (%s)"
+                }), Stdlib__Char.escaped(c._0));
       case /* Illegal_escape */ 1 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Illegal backslash escape in string or character (",
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Illegal backslash escape in string or character (",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ')' */41,
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ')' */41,
+                        _1: /* End_of_format */ 0
+                      }
+                    }
+                  },
+                  _1: "Illegal backslash escape in string or character (%s)"
+                }), c._0);
+      case /* Unterminated_comment */ 2 :
+        return Stdlib__Format.fprintf(ppf)({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Comment not terminated",
+                _1: /* End_of_format */ 0
+              },
+              _1: "Comment not terminated"
+            });
+      case /* Unterminated_string_in_comment */ 3 :
+        return Curry._2(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "This comment contains an unterminated string literal",
+                    _1: {
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Flush_newline */ 4,
+                      _1: {
+                        TAG: /* Alpha */ 15,
+                        _0: {
+                          TAG: /* String_literal */ 11,
+                          _0: "String literal begins here",
                           _1: /* End_of_format */ 0
                         }
                       }
-                    },
-                    _1: "Illegal backslash escape in string or character (%s)"
-                  }), c._0);
-      case /* Unterminated_comment */ 2 :
-          return Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Comment not terminated",
-                  _1: /* End_of_format */ 0
-                },
-                _1: "Comment not terminated"
-              });
-      case /* Unterminated_string_in_comment */ 3 :
-          return Curry._2(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "This comment contains an unterminated string literal",
+                    }
+                  },
+                  _1: "This comment contains an unterminated string literal@.%aString literal begins here"
+                }), print_error, c._1);
+      case /* Keyword_as_label */ 4 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '`' */96,
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Formatting_lit */ 17,
-                        _0: /* Flush_newline */ 4,
+                        TAG: /* String_literal */ 11,
+                        _0: "' is a keyword, it cannot be used as label name",
+                        _1: /* End_of_format */ 0
+                      }
+                    }
+                  },
+                  _1: "`%s' is a keyword, it cannot be used as label name"
+                }), c._0);
+      case /* Literal_overflow */ 5 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Integer literal exceeds the range of representable integers of type ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
+                    }
+                  },
+                  _1: "Integer literal exceeds the range of representable integers of type %s"
+                }), c._0);
+      case /* Illegal_semver */ 6 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Illegal semantic version string ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
+                    }
+                  },
+                  _1: "Illegal semantic version string %s"
+                }), c._0);
+      case /* Conditional_expr_expected_type */ 7 :
+        return Curry._2(Stdlib__Format.fprintf(ppf)({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Conditional expression type mismatch (",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ',' */44,
                         _1: {
-                          TAG: /* Alpha */ 15,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "String literal begins here",
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ')' */41,
                             _1: /* End_of_format */ 0
                           }
                         }
                       }
-                    },
-                    _1: "This comment contains an unterminated string literal@.%aString literal begins here"
-                  }), print_error, c._1);
-      case /* Keyword_as_label */ 4 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* '`' */96,
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "' is a keyword, it cannot be used as label name",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    },
-                    _1: "`%s' is a keyword, it cannot be used as label name"
-                  }), c._0);
-      case /* Literal_overflow */ 5 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Integer literal exceeds the range of representable integers of type ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "Integer literal exceeds the range of representable integers of type %s"
-                  }), c._0);
-      case /* Illegal_semver */ 6 :
-          return Curry._1(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Illegal semantic version string ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "Illegal semantic version string %s"
-                  }), c._0);
-      case /* Conditional_expr_expected_type */ 7 :
-          return Curry._2(Stdlib__Format.fprintf(ppf)({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Conditional expression type mismatch (",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ',' */44,
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* Char_literal */ 12,
-                              _0: /* ')' */41,
-                              _1: /* End_of_format */ 0
-                            }
-                          }
-                        }
-                      }
-                    },
-                    _1: "Conditional expression type mismatch (%s,%s)"
-                  }), string_of_type_directive(c._0), string_of_type_directive(c._1));
+                    }
+                  },
+                  _1: "Conditional expression type mismatch (%s,%s)"
+                }), string_of_type_directive(c._0), string_of_type_directive(c._1));
       
     }
   }
@@ -12313,471 +12313,7 @@ function token(lexbuf) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          if (!escaped_newlines.contents) {
-            throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                  MEL_EXN_ID: $$Error$2,
-                  _1: {
-                    TAG: /* Illegal_character */ 0,
-                    _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
-                  },
-                  _2: curr(lexbuf)
-                });
-          }
-          update_loc(lexbuf, undefined, 1, false, 0);
-          return token(lexbuf);
-      case 1 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          return /* EOL */ 100;
-      case 2 :
-          return token(lexbuf);
-      case 3 :
-          return /* UNDERSCORE */ 94;
-      case 4 :
-          return /* TILDE */ 89;
-      case 5 :
-          return {
-            TAG: /* LABEL */ 10,
-            _0: get_label_name(lexbuf)
-          };
-      case 6 :
-          prerr_warning(curr(lexbuf), {
-                TAG: /* Deprecated */ 0,
-                _0: "ISO-Latin1 characters in identifiers"
-              });
-          return {
-            TAG: /* LABEL */ 10,
-            _0: get_label_name(lexbuf)
-          };
-      case 7 :
-          return /* QUESTION */ 76;
-      case 8 :
-          return {
-            TAG: /* OPTLABEL */ 13,
-            _0: get_label_name(lexbuf)
-          };
-      case 9 :
-          prerr_warning(curr(lexbuf), {
-                TAG: /* Deprecated */ 0,
-                _0: "ISO-Latin1 characters in identifiers"
-              });
-          return {
-            TAG: /* OPTLABEL */ 13,
-            _0: get_label_name(lexbuf)
-          };
-      case 10 :
-          const s = Stdlib__Lexing.lexeme(lexbuf);
-          try {
-            return Stdlib__Hashtbl.find(keyword_table, s);
-          }
-          catch (raw_exn){
-            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-              return {
-                TAG: /* LIDENT */ 11,
-                _0: s
-              };
-            }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-          }
-      case 11 :
-          prerr_warning(curr(lexbuf), {
-                TAG: /* Deprecated */ 0,
-                _0: "ISO-Latin1 characters in identifiers"
-              });
-          return {
-            TAG: /* LIDENT */ 11,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 12 :
-          return {
-            TAG: /* UIDENT */ 17,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 13 :
-          prerr_warning(curr(lexbuf), {
-                TAG: /* Deprecated */ 0,
-                _0: "ISO-Latin1 characters in identifiers"
-              });
-          return {
-            TAG: /* UIDENT */ 17,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 14 :
-          try {
-            return {
-              TAG: /* INT */ 7,
-              _0: cvt_int_literal(Stdlib__Lexing.lexeme(lexbuf))
-            };
-          }
-          catch (raw_exn$1){
-            const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: {
-                      TAG: /* Literal_overflow */ 5,
-                      _0: "int"
-                    },
-                    _2: curr(lexbuf)
-                  });
-            }
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
-          }
-      case 15 :
-          return {
-            TAG: /* FLOAT */ 1,
-            _0: remove_underscores(Stdlib__Lexing.lexeme(lexbuf))
-          };
-      case 16 :
-          try {
-            return {
-              TAG: /* INT32 */ 8,
-              _0: cvt_int32_literal(Stdlib__Lexing.lexeme(lexbuf))
-            };
-          }
-          catch (raw_exn$2){
-            const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-            if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: {
-                      TAG: /* Literal_overflow */ 5,
-                      _0: "int32"
-                    },
-                    _2: curr(lexbuf)
-                  });
-            }
-            throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
-          }
-      case 17 :
-          try {
-            return {
-              TAG: /* INT64 */ 9,
-              _0: cvt_int64_literal(Stdlib__Lexing.lexeme(lexbuf))
-            };
-          }
-          catch (raw_exn$3){
-            const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-            if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: {
-                      TAG: /* Literal_overflow */ 5,
-                      _0: "int64"
-                    },
-                    _2: curr(lexbuf)
-                  });
-            }
-            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
-          }
-      case 18 :
-          try {
-            return {
-              TAG: /* NATIVEINT */ 12,
-              _0: cvt_nativeint_literal(Stdlib__Lexing.lexeme(lexbuf))
-            };
-          }
-          catch (raw_exn$4){
-            const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-            if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
-              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                    MEL_EXN_ID: $$Error$2,
-                    _1: {
-                      TAG: /* Literal_overflow */ 5,
-                      _0: "nativeint"
-                    },
-                    _2: curr(lexbuf)
-                  });
-            }
-            throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
-          }
-      case 19 :
-          reset_string_buffer(undefined);
-          is_in_string.contents = true;
-          const string_start = lexbuf.lex_start_p;
-          string_start_loc.contents = curr(lexbuf);
-          string(lexbuf);
-          is_in_string.contents = false;
-          lexbuf.lex_start_p = string_start;
-          return {
-            TAG: /* STRING */ 16,
-            _0: [
-              get_stored_string(undefined),
-              undefined
-            ]
-          };
-      case 20 :
-          reset_string_buffer(undefined);
-          const delim = Stdlib__Lexing.lexeme(lexbuf);
-          const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
-          is_in_string.contents = true;
-          const string_start$1 = lexbuf.lex_start_p;
-          string_start_loc.contents = curr(lexbuf);
-          __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
-          is_in_string.contents = false;
-          lexbuf.lex_start_p = string_start$1;
-          return {
-            TAG: /* STRING */ 16,
-            _0: [
-              get_stored_string(undefined),
-              delim$1
-            ]
-          };
-      case 21 :
-          update_loc(lexbuf, undefined, 1, false, 1);
-          return {
-            TAG: /* CHAR */ 0,
-            _0: Stdlib__Lexing.lexeme_char(lexbuf, 1)
-          };
-      case 22 :
-          return {
-            TAG: /* CHAR */ 0,
-            _0: Stdlib__Lexing.lexeme_char(lexbuf, 1)
-          };
-      case 23 :
-          return {
-            TAG: /* CHAR */ 0,
-            _0: char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 2))
-          };
-      case 24 :
-          return {
-            TAG: /* CHAR */ 0,
-            _0: char_for_decimal_code(lexbuf, 2)
-          };
-      case 25 :
-          return {
-            TAG: /* CHAR */ 0,
-            _0: char_for_hexadecimal_code(lexbuf, 3)
-          };
-      case 26 :
-          const l = Stdlib__Lexing.lexeme(lexbuf);
-          const esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                MEL_EXN_ID: $$Error$2,
-                _1: {
-                  TAG: /* Illegal_escape */ 1,
-                  _0: esc
-                },
-                _2: curr(lexbuf)
-              });
-      case 27 :
-          const match = with_comment_buffer(comment, lexbuf);
-          return {
-            TAG: /* COMMENT */ 18,
-            _0: [
-              match[0],
-              match[1]
-            ]
-          };
-      case 28 :
-          const match$1 = with_comment_buffer(comment, lexbuf);
-          return {
-            TAG: /* DOCSTRING */ 19,
-            _0: docstring(match$1[0], match$1[1])
-          };
-      case 29 :
-          const stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
-          const match$2 = with_comment_buffer((function (lexbuf) {
-                store_string("*" + stars);
-                return __ocaml_lex_comment_rec(lexbuf, 132);
-              }), lexbuf);
-          return {
-            TAG: /* COMMENT */ 18,
-            _0: [
-              match$2[0],
-              match$2[1]
-            ]
-          };
-      case 30 :
-          if (print_warnings.contents) {
-            prerr_warning(curr(lexbuf), /* Comment_start */ 0);
-          }
-          const match$3 = with_comment_buffer(comment, lexbuf);
-          return {
-            TAG: /* COMMENT */ 18,
-            _0: [
-              match$3[0],
-              match$3[1]
-            ]
-          };
-      case 31 :
-          const stars$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos - 2 | 0);
-          return {
-            TAG: /* COMMENT */ 18,
-            _0: [
-              stars$1,
-              curr(lexbuf)
-            ]
-          };
-      case 32 :
-          const loc = curr(lexbuf);
-          prerr_warning(loc, /* Comment_not_end */ 1);
-          lexbuf.lex_curr_pos = lexbuf.lex_curr_pos - 1 | 0;
-          const curpos = lexbuf.lex_curr_p;
-          lexbuf.lex_curr_p = {
-            pos_fname: curpos.pos_fname,
-            pos_lnum: curpos.pos_lnum,
-            pos_bol: curpos.pos_bol,
-            pos_cnum: curpos.pos_cnum - 1 | 0
-          };
-          return /* STAR */ 86;
-      case 33 :
-          const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
-          const name = Stdlib__Lexing.sub_lexeme_opt(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
-          update_loc(lexbuf, name, Caml_format.caml_int_of_string(num), true, 0);
-          return token(lexbuf);
-      case 34 :
-          return /* SHARP */ 84;
-      case 35 :
-          return /* AMPERSAND */ 1;
-      case 36 :
-          return /* AMPERAMPER */ 0;
-      case 37 :
-          return /* BACKQUOTE */ 5;
-      case 38 :
-          return /* QUOTE */ 77;
-      case 39 :
-          return /* LPAREN */ 54;
-      case 40 :
-          return /* RPAREN */ 81;
-      case 41 :
-          return /* STAR */ 86;
-      case 42 :
-          return /* COMMA */ 16;
-      case 43 :
-          return /* MINUSGREATER */ 62;
-      case 44 :
-          return /* DOT */ 20;
-      case 45 :
-          return /* DOTDOT */ 21;
-      case 46 :
-          return /* COLON */ 12;
-      case 47 :
-          return /* COLONCOLON */ 13;
-      case 48 :
-          return /* COLONEQUAL */ 14;
-      case 49 :
-          return /* COLONGREATER */ 15;
-      case 50 :
-          return /* SEMI */ 82;
-      case 51 :
-          return /* SEMISEMI */ 83;
-      case 52 :
-          return /* LESS */ 51;
-      case 53 :
-          return /* LESSMINUS */ 52;
-      case 54 :
-          return /* EQUAL */ 26;
-      case 55 :
-          return /* LBRACKET */ 45;
-      case 56 :
-          return /* LBRACKETBAR */ 46;
-      case 57 :
-          return /* LBRACKETLESS */ 47;
-      case 58 :
-          return /* LBRACKETGREATER */ 48;
-      case 59 :
-          return /* RBRACKET */ 79;
-      case 60 :
-          return /* LBRACE */ 43;
-      case 61 :
-          return /* LBRACELESS */ 44;
-      case 62 :
-          return /* BAR */ 7;
-      case 63 :
-          return /* BARBAR */ 8;
-      case 64 :
-          return /* BARRBRACKET */ 9;
-      case 65 :
-          return /* GREATER */ 34;
-      case 66 :
-          return /* GREATERRBRACKET */ 36;
-      case 67 :
-          return /* RBRACE */ 78;
-      case 68 :
-          return /* GREATERRBRACE */ 35;
-      case 69 :
-          return /* LBRACKETAT */ 55;
-      case 70 :
-          return /* LBRACKETPERCENT */ 49;
-      case 71 :
-          return /* LBRACKETPERCENTPERCENT */ 50;
-      case 72 :
-          return /* LBRACKETATAT */ 56;
-      case 73 :
-          return /* LBRACKETATATAT */ 57;
-      case 74 :
-          return /* BANG */ 6;
-      case 75 :
-          return {
-            TAG: /* INFIXOP0 */ 2,
-            _0: "!="
-          };
-      case 76 :
-          return /* PLUS */ 72;
-      case 77 :
-          return /* PLUSDOT */ 73;
-      case 78 :
-          return /* PLUSEQ */ 74;
-      case 79 :
-          return /* MINUS */ 60;
-      case 80 :
-          return /* MINUSDOT */ 61;
-      case 81 :
-      case 82 :
-          return {
-            TAG: /* PREFIXOP */ 14,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 83 :
-          return {
-            TAG: /* INFIXOP0 */ 2,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 84 :
-          return {
-            TAG: /* INFIXOP1 */ 3,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 85 :
-          return {
-            TAG: /* INFIXOP2 */ 4,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 86 :
-          return {
-            TAG: /* INFIXOP4 */ 6,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 87 :
-          return /* PERCENT */ 71;
-      case 88 :
-          return {
-            TAG: /* INFIXOP3 */ 5,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 89 :
-          return {
-            TAG: /* SHARPOP */ 15,
-            _0: Stdlib__Lexing.lexeme(lexbuf)
-          };
-      case 90 :
-          if (if_then_else.contents === /* Dir_out */ 2) {
-            return /* EOF */ 25;
-          }
-          if (if_then_else.contents === /* Dir_if_true */ 0) {
-            throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                  MEL_EXN_ID: $$Error$2,
-                  _1: /* Unterminated_if */ 2,
-                  _2: curr(lexbuf)
-                });
-          }
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                MEL_EXN_ID: $$Error$2,
-                _1: /* Unterminated_else */ 3,
-                _2: curr(lexbuf)
-              });
-      case 91 :
+        if (!escaped_newlines.contents) {
           throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: {
@@ -12786,6 +12322,470 @@ function token(lexbuf) {
                 },
                 _2: curr(lexbuf)
               });
+        }
+        update_loc(lexbuf, undefined, 1, false, 0);
+        return token(lexbuf);
+      case 1 :
+        update_loc(lexbuf, undefined, 1, false, 0);
+        return /* EOL */ 100;
+      case 2 :
+        return token(lexbuf);
+      case 3 :
+        return /* UNDERSCORE */ 94;
+      case 4 :
+        return /* TILDE */ 89;
+      case 5 :
+        return {
+          TAG: /* LABEL */ 10,
+          _0: get_label_name(lexbuf)
+        };
+      case 6 :
+        prerr_warning(curr(lexbuf), {
+              TAG: /* Deprecated */ 0,
+              _0: "ISO-Latin1 characters in identifiers"
+            });
+        return {
+          TAG: /* LABEL */ 10,
+          _0: get_label_name(lexbuf)
+        };
+      case 7 :
+        return /* QUESTION */ 76;
+      case 8 :
+        return {
+          TAG: /* OPTLABEL */ 13,
+          _0: get_label_name(lexbuf)
+        };
+      case 9 :
+        prerr_warning(curr(lexbuf), {
+              TAG: /* Deprecated */ 0,
+              _0: "ISO-Latin1 characters in identifiers"
+            });
+        return {
+          TAG: /* OPTLABEL */ 13,
+          _0: get_label_name(lexbuf)
+        };
+      case 10 :
+        const s = Stdlib__Lexing.lexeme(lexbuf);
+        try {
+          return Stdlib__Hashtbl.find(keyword_table, s);
+        }
+        catch (raw_exn){
+          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+            return {
+              TAG: /* LIDENT */ 11,
+              _0: s
+            };
+          }
+          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        }
+      case 11 :
+        prerr_warning(curr(lexbuf), {
+              TAG: /* Deprecated */ 0,
+              _0: "ISO-Latin1 characters in identifiers"
+            });
+        return {
+          TAG: /* LIDENT */ 11,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 12 :
+        return {
+          TAG: /* UIDENT */ 17,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 13 :
+        prerr_warning(curr(lexbuf), {
+              TAG: /* Deprecated */ 0,
+              _0: "ISO-Latin1 characters in identifiers"
+            });
+        return {
+          TAG: /* UIDENT */ 17,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 14 :
+        try {
+          return {
+            TAG: /* INT */ 7,
+            _0: cvt_int_literal(Stdlib__Lexing.lexeme(lexbuf))
+          };
+        }
+        catch (raw_exn$1){
+          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+          if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Literal_overflow */ 5,
+                    _0: "int"
+                  },
+                  _2: curr(lexbuf)
+                });
+          }
+          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        }
+      case 15 :
+        return {
+          TAG: /* FLOAT */ 1,
+          _0: remove_underscores(Stdlib__Lexing.lexeme(lexbuf))
+        };
+      case 16 :
+        try {
+          return {
+            TAG: /* INT32 */ 8,
+            _0: cvt_int32_literal(Stdlib__Lexing.lexeme(lexbuf))
+          };
+        }
+        catch (raw_exn$2){
+          const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
+          if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Literal_overflow */ 5,
+                    _0: "int32"
+                  },
+                  _2: curr(lexbuf)
+                });
+          }
+          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+        }
+      case 17 :
+        try {
+          return {
+            TAG: /* INT64 */ 9,
+            _0: cvt_int64_literal(Stdlib__Lexing.lexeme(lexbuf))
+          };
+        }
+        catch (raw_exn$3){
+          const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
+          if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Literal_overflow */ 5,
+                    _0: "int64"
+                  },
+                  _2: curr(lexbuf)
+                });
+          }
+          throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+        }
+      case 18 :
+        try {
+          return {
+            TAG: /* NATIVEINT */ 12,
+            _0: cvt_nativeint_literal(Stdlib__Lexing.lexeme(lexbuf))
+          };
+        }
+        catch (raw_exn$4){
+          const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
+          if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
+            throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                  MEL_EXN_ID: $$Error$2,
+                  _1: {
+                    TAG: /* Literal_overflow */ 5,
+                    _0: "nativeint"
+                  },
+                  _2: curr(lexbuf)
+                });
+          }
+          throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+        }
+      case 19 :
+        reset_string_buffer(undefined);
+        is_in_string.contents = true;
+        const string_start = lexbuf.lex_start_p;
+        string_start_loc.contents = curr(lexbuf);
+        string(lexbuf);
+        is_in_string.contents = false;
+        lexbuf.lex_start_p = string_start;
+        return {
+          TAG: /* STRING */ 16,
+          _0: [
+            get_stored_string(undefined),
+            undefined
+          ]
+        };
+      case 20 :
+        reset_string_buffer(undefined);
+        const delim = Stdlib__Lexing.lexeme(lexbuf);
+        const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
+        is_in_string.contents = true;
+        const string_start$1 = lexbuf.lex_start_p;
+        string_start_loc.contents = curr(lexbuf);
+        __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
+        is_in_string.contents = false;
+        lexbuf.lex_start_p = string_start$1;
+        return {
+          TAG: /* STRING */ 16,
+          _0: [
+            get_stored_string(undefined),
+            delim$1
+          ]
+        };
+      case 21 :
+        update_loc(lexbuf, undefined, 1, false, 1);
+        return {
+          TAG: /* CHAR */ 0,
+          _0: Stdlib__Lexing.lexeme_char(lexbuf, 1)
+        };
+      case 22 :
+        return {
+          TAG: /* CHAR */ 0,
+          _0: Stdlib__Lexing.lexeme_char(lexbuf, 1)
+        };
+      case 23 :
+        return {
+          TAG: /* CHAR */ 0,
+          _0: char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 2))
+        };
+      case 24 :
+        return {
+          TAG: /* CHAR */ 0,
+          _0: char_for_decimal_code(lexbuf, 2)
+        };
+      case 25 :
+        return {
+          TAG: /* CHAR */ 0,
+          _0: char_for_hexadecimal_code(lexbuf, 3)
+        };
+      case 26 :
+        const l = Stdlib__Lexing.lexeme(lexbuf);
+        const esc = Stdlib__String.sub(l, 1, l.length - 1 | 0);
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: {
+                TAG: /* Illegal_escape */ 1,
+                _0: esc
+              },
+              _2: curr(lexbuf)
+            });
+      case 27 :
+        const match = with_comment_buffer(comment, lexbuf);
+        return {
+          TAG: /* COMMENT */ 18,
+          _0: [
+            match[0],
+            match[1]
+          ]
+        };
+      case 28 :
+        const match$1 = with_comment_buffer(comment, lexbuf);
+        return {
+          TAG: /* DOCSTRING */ 19,
+          _0: docstring(match$1[0], match$1[1])
+        };
+      case 29 :
+        const stars = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+        const match$2 = with_comment_buffer((function (lexbuf) {
+              store_string("*" + stars);
+              return __ocaml_lex_comment_rec(lexbuf, 132);
+            }), lexbuf);
+        return {
+          TAG: /* COMMENT */ 18,
+          _0: [
+            match$2[0],
+            match$2[1]
+          ]
+        };
+      case 30 :
+        if (print_warnings.contents) {
+          prerr_warning(curr(lexbuf), /* Comment_start */ 0);
+        }
+        const match$3 = with_comment_buffer(comment, lexbuf);
+        return {
+          TAG: /* COMMENT */ 18,
+          _0: [
+            match$3[0],
+            match$3[1]
+          ]
+        };
+      case 31 :
+        const stars$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos - 2 | 0);
+        return {
+          TAG: /* COMMENT */ 18,
+          _0: [
+            stars$1,
+            curr(lexbuf)
+          ]
+        };
+      case 32 :
+        const loc = curr(lexbuf);
+        prerr_warning(loc, /* Comment_not_end */ 1);
+        lexbuf.lex_curr_pos = lexbuf.lex_curr_pos - 1 | 0;
+        const curpos = lexbuf.lex_curr_p;
+        lexbuf.lex_curr_p = {
+          pos_fname: curpos.pos_fname,
+          pos_lnum: curpos.pos_lnum,
+          pos_bol: curpos.pos_bol,
+          pos_cnum: curpos.pos_cnum - 1 | 0
+        };
+        return /* STAR */ 86;
+      case 33 :
+        const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
+        const name = Stdlib__Lexing.sub_lexeme_opt(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
+        update_loc(lexbuf, name, Caml_format.caml_int_of_string(num), true, 0);
+        return token(lexbuf);
+      case 34 :
+        return /* SHARP */ 84;
+      case 35 :
+        return /* AMPERSAND */ 1;
+      case 36 :
+        return /* AMPERAMPER */ 0;
+      case 37 :
+        return /* BACKQUOTE */ 5;
+      case 38 :
+        return /* QUOTE */ 77;
+      case 39 :
+        return /* LPAREN */ 54;
+      case 40 :
+        return /* RPAREN */ 81;
+      case 41 :
+        return /* STAR */ 86;
+      case 42 :
+        return /* COMMA */ 16;
+      case 43 :
+        return /* MINUSGREATER */ 62;
+      case 44 :
+        return /* DOT */ 20;
+      case 45 :
+        return /* DOTDOT */ 21;
+      case 46 :
+        return /* COLON */ 12;
+      case 47 :
+        return /* COLONCOLON */ 13;
+      case 48 :
+        return /* COLONEQUAL */ 14;
+      case 49 :
+        return /* COLONGREATER */ 15;
+      case 50 :
+        return /* SEMI */ 82;
+      case 51 :
+        return /* SEMISEMI */ 83;
+      case 52 :
+        return /* LESS */ 51;
+      case 53 :
+        return /* LESSMINUS */ 52;
+      case 54 :
+        return /* EQUAL */ 26;
+      case 55 :
+        return /* LBRACKET */ 45;
+      case 56 :
+        return /* LBRACKETBAR */ 46;
+      case 57 :
+        return /* LBRACKETLESS */ 47;
+      case 58 :
+        return /* LBRACKETGREATER */ 48;
+      case 59 :
+        return /* RBRACKET */ 79;
+      case 60 :
+        return /* LBRACE */ 43;
+      case 61 :
+        return /* LBRACELESS */ 44;
+      case 62 :
+        return /* BAR */ 7;
+      case 63 :
+        return /* BARBAR */ 8;
+      case 64 :
+        return /* BARRBRACKET */ 9;
+      case 65 :
+        return /* GREATER */ 34;
+      case 66 :
+        return /* GREATERRBRACKET */ 36;
+      case 67 :
+        return /* RBRACE */ 78;
+      case 68 :
+        return /* GREATERRBRACE */ 35;
+      case 69 :
+        return /* LBRACKETAT */ 55;
+      case 70 :
+        return /* LBRACKETPERCENT */ 49;
+      case 71 :
+        return /* LBRACKETPERCENTPERCENT */ 50;
+      case 72 :
+        return /* LBRACKETATAT */ 56;
+      case 73 :
+        return /* LBRACKETATATAT */ 57;
+      case 74 :
+        return /* BANG */ 6;
+      case 75 :
+        return {
+          TAG: /* INFIXOP0 */ 2,
+          _0: "!="
+        };
+      case 76 :
+        return /* PLUS */ 72;
+      case 77 :
+        return /* PLUSDOT */ 73;
+      case 78 :
+        return /* PLUSEQ */ 74;
+      case 79 :
+        return /* MINUS */ 60;
+      case 80 :
+        return /* MINUSDOT */ 61;
+      case 81 :
+      case 82 :
+        return {
+          TAG: /* PREFIXOP */ 14,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 83 :
+        return {
+          TAG: /* INFIXOP0 */ 2,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 84 :
+        return {
+          TAG: /* INFIXOP1 */ 3,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 85 :
+        return {
+          TAG: /* INFIXOP2 */ 4,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 86 :
+        return {
+          TAG: /* INFIXOP4 */ 6,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 87 :
+        return /* PERCENT */ 71;
+      case 88 :
+        return {
+          TAG: /* INFIXOP3 */ 5,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 89 :
+        return {
+          TAG: /* SHARPOP */ 15,
+          _0: Stdlib__Lexing.lexeme(lexbuf)
+        };
+      case 90 :
+        if (if_then_else.contents === /* Dir_out */ 2) {
+          return /* EOF */ 25;
+        }
+        if (if_then_else.contents === /* Dir_if_true */ 0) {
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                MEL_EXN_ID: $$Error$2,
+                _1: /* Unterminated_if */ 2,
+                _2: curr(lexbuf)
+              });
+        }
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: /* Unterminated_else */ 3,
+              _2: curr(lexbuf)
+            });
+      case 91 :
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: {
+                TAG: /* Illegal_character */ 0,
+                _0: Stdlib__Lexing.lexeme_char(lexbuf, 0)
+              },
+              _2: curr(lexbuf)
+            });
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -12800,174 +12800,174 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          comment_start_loc.contents = {
-            hd: curr(lexbuf),
-            tl: comment_start_loc.contents
-          };
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 132;
-          continue;
+        comment_start_loc.contents = {
+          hd: curr(lexbuf),
+          tl: comment_start_loc.contents
+        };
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
       case 1 :
-          const match = comment_start_loc.contents;
-          if (match) {
-            if (match.tl) {
-              comment_start_loc.contents = match.tl;
-              store_string(Stdlib__Lexing.lexeme(lexbuf));
-              ___ocaml_lex_state = 132;
-              continue;
-            }
-            comment_start_loc.contents = /* [] */ 0;
-            return curr(lexbuf);
+        const match = comment_start_loc.contents;
+        if (match) {
+          if (match.tl) {
+            comment_start_loc.contents = match.tl;
+            store_string(Stdlib__Lexing.lexeme(lexbuf));
+            ___ocaml_lex_state = 132;
+            continue;
           }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "parsing/lexer.mll",
-                  992,
-                  16
-                ]
-              });
+          comment_start_loc.contents = /* [] */ 0;
+          return curr(lexbuf);
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "parsing/lexer.mll",
+                992,
+                16
+              ]
+            });
       case 2 :
-          string_start_loc.contents = curr(lexbuf);
-          store_string_char(/* '"' */34);
-          is_in_string.contents = true;
-          try {
-            string(lexbuf);
-          }
-          catch (raw_exn){
-            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.MEL_EXN_ID === $$Error$2) {
-              let tmp = exn._1;
-              if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
-                if (tmp === /* Unterminated_string */ 0) {
-                  const match$1 = comment_start_loc.contents;
-                  if (match$1) {
-                    const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                    comment_start_loc.contents = /* [] */ 0;
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Unterminated_string_in_comment */ 3,
-                            _0: start,
-                            _1: exn._2
-                          },
-                          _2: match$1.hd
-                        });
-                  }
-                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "parsing/lexer.mll",
-                          1006,
-                          18
-                        ]
+        string_start_loc.contents = curr(lexbuf);
+        store_string_char(/* '"' */34);
+        is_in_string.contents = true;
+        try {
+          string(lexbuf);
+        }
+        catch (raw_exn){
+          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+          if (exn.MEL_EXN_ID === $$Error$2) {
+            let tmp = exn._1;
+            if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+              if (tmp === /* Unterminated_string */ 0) {
+                const match$1 = comment_start_loc.contents;
+                if (match$1) {
+                  const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  comment_start_loc.contents = /* [] */ 0;
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Unterminated_string_in_comment */ 3,
+                          _0: start,
+                          _1: exn._2
+                        },
+                        _2: match$1.hd
                       });
                 }
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-              } else {
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "parsing/lexer.mll",
+                        1006,
+                        18
+                      ]
+                    });
               }
+              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             } else {
               throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
             }
+          } else {
+            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
-          is_in_string.contents = false;
-          store_string_char(/* '"' */34);
-          ___ocaml_lex_state = 132;
-          continue;
+        }
+        is_in_string.contents = false;
+        store_string_char(/* '"' */34);
+        ___ocaml_lex_state = 132;
+        continue;
       case 3 :
-          const delim = Stdlib__Lexing.lexeme(lexbuf);
-          const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
-          string_start_loc.contents = curr(lexbuf);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          is_in_string.contents = true;
-          try {
-            __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
-          }
-          catch (raw_exn$1){
-            const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.MEL_EXN_ID === $$Error$2) {
-              let tmp$1 = exn$1._1;
-              if (/* tag */ typeof tmp$1 === "number" || typeof tmp$1 === "string") {
-                if (tmp$1 === /* Unterminated_string */ 0) {
-                  const match$2 = comment_start_loc.contents;
-                  if (match$2) {
-                    const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                    comment_start_loc.contents = /* [] */ 0;
-                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                          MEL_EXN_ID: $$Error$2,
-                          _1: {
-                            TAG: /* Unterminated_string_in_comment */ 3,
-                            _0: start$1,
-                            _1: exn$1._2
-                          },
-                          _2: match$2.hd
-                        });
-                  }
-                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "parsing/lexer.mll",
-                          1026,
-                          18
-                        ]
+        const delim = Stdlib__Lexing.lexeme(lexbuf);
+        const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
+        string_start_loc.contents = curr(lexbuf);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        is_in_string.contents = true;
+        try {
+          __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
+        }
+        catch (raw_exn$1){
+          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+          if (exn$1.MEL_EXN_ID === $$Error$2) {
+            let tmp$1 = exn$1._1;
+            if (/* tag */ typeof tmp$1 === "number" || typeof tmp$1 === "string") {
+              if (tmp$1 === /* Unterminated_string */ 0) {
+                const match$2 = comment_start_loc.contents;
+                if (match$2) {
+                  const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  comment_start_loc.contents = /* [] */ 0;
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                        MEL_EXN_ID: $$Error$2,
+                        _1: {
+                          TAG: /* Unterminated_string_in_comment */ 3,
+                          _0: start$1,
+                          _1: exn$1._2
+                        },
+                        _2: match$2.hd
                       });
                 }
-                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
-              } else {
-                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "parsing/lexer.mll",
+                        1026,
+                        18
+                      ]
+                    });
               }
+              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             } else {
               throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
             }
+          } else {
+            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
           }
-          is_in_string.contents = false;
-          store_string_char(/* '|' */124);
-          store_string(delim$1);
-          store_string_char(/* '}' */125);
-          ___ocaml_lex_state = 132;
-          continue;
+        }
+        is_in_string.contents = false;
+        store_string_char(/* '|' */124);
+        store_string(delim$1);
+        store_string_char(/* '}' */125);
+        ___ocaml_lex_state = 132;
+        continue;
       case 5 :
-          update_loc(lexbuf, undefined, 1, false, 1);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 132;
-          continue;
+        update_loc(lexbuf, undefined, 1, false, 1);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
       case 10 :
-          const match$3 = comment_start_loc.contents;
-          if (match$3) {
-            const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-            comment_start_loc.contents = /* [] */ 0;
-            throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                  MEL_EXN_ID: $$Error$2,
-                  _1: {
-                    TAG: /* Unterminated_comment */ 2,
-                    _0: start$2
-                  },
-                  _2: match$3.hd
-                });
-          }
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "parsing/lexer.mll",
-                  1056,
-                  16
-                ]
+        const match$3 = comment_start_loc.contents;
+        if (match$3) {
+          const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+          comment_start_loc.contents = /* [] */ 0;
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                MEL_EXN_ID: $$Error$2,
+                _1: {
+                  TAG: /* Unterminated_comment */ 2,
+                  _0: start$2
+                },
+                _2: match$3.hd
               });
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "parsing/lexer.mll",
+                1056,
+                16
+              ]
+            });
       case 11 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 132;
-          continue;
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
       case 4 :
       case 6 :
       case 7 :
       case 8 :
       case 9 :
       case 12 :
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 132;
-          continue;
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -12982,30 +12982,30 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue;
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 183;
+        continue;
       case 1 :
-          is_in_string.contents = false;
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                MEL_EXN_ID: $$Error$2,
-                _1: /* Unterminated_string */ 0,
-                _2: string_start_loc.contents
-              });
+        is_in_string.contents = false;
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: /* Unterminated_string */ 0,
+              _2: string_start_loc.contents
+            });
       case 2 :
-          const edelim = Stdlib__Lexing.lexeme(lexbuf);
-          const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
-          if (delim === edelim$1) {
-            return;
-          }
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue;
+        const edelim = Stdlib__Lexing.lexeme(lexbuf);
+        const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
+        if (delim === edelim$1) {
+          return;
+        }
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 183;
+        continue;
       case 3 :
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-          ___ocaml_lex_state = 183;
-          continue;
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        ___ocaml_lex_state = 183;
+        continue;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -13026,46 +13026,46 @@ function string(lexbuf) {
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          return;
+        return;
       case 1 :
-          const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          update_loc(lexbuf, undefined, 1, false, space.length);
-          return string(lexbuf);
+        const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+        update_loc(lexbuf, undefined, 1, false, space.length);
+        return string(lexbuf);
       case 2 :
-          store_string_char(char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 1)));
-          return string(lexbuf);
+        store_string_char(char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 1)));
+        return string(lexbuf);
       case 3 :
-          store_string_char(char_for_decimal_code(lexbuf, 1));
-          return string(lexbuf);
+        store_string_char(char_for_decimal_code(lexbuf, 1));
+        return string(lexbuf);
       case 4 :
-          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
-          return string(lexbuf);
+        store_string_char(char_for_hexadecimal_code(lexbuf, 2));
+        return string(lexbuf);
       case 5 :
-          if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
-            return string(lexbuf);
-          }
-          const loc = curr(lexbuf);
-          prerr_warning(loc, /* Illegal_backslash */ 7);
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 1));
+        if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
           return string(lexbuf);
+        }
+        const loc = curr(lexbuf);
+        prerr_warning(loc, /* Illegal_backslash */ 7);
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 1));
+        return string(lexbuf);
       case 6 :
-          if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
-            prerr_warning(curr(lexbuf), /* Eol_in_string */ 14);
-          }
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Stdlib__Lexing.lexeme(lexbuf));
-          return string(lexbuf);
+        if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
+          prerr_warning(curr(lexbuf), /* Eol_in_string */ 14);
+        }
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        return string(lexbuf);
       case 7 :
-          is_in_string.contents = false;
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                MEL_EXN_ID: $$Error$2,
-                _1: /* Unterminated_string */ 0,
-                _2: string_start_loc.contents
-              });
+        is_in_string.contents = false;
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: /* Unterminated_string */ 0,
+              _2: string_start_loc.contents
+            });
       case 8 :
-          store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-          return string(lexbuf);
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        return string(lexbuf);
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -13099,10 +13099,10 @@ function token$1(lexbuf) {
       switch (lines) {
         case /* NoLine */ 0 :
         case /* NewLine */ 1 :
-            break;
+          break;
         case /* BlankLine */ 2 :
-            set_post_docstrings(post_pos, Stdlib__List.rev(a));
-            return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
+          set_post_docstrings(post_pos, Stdlib__List.rev(a));
+          return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
         
       }
       set_post_docstrings(post_pos, Stdlib__List.rev(a));
@@ -13114,12 +13114,12 @@ function token$1(lexbuf) {
     switch (lines) {
       case /* NoLine */ 0 :
       case /* NewLine */ 1 :
-          break;
+        break;
       case /* BlankLine */ 2 :
-          set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
-          set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
-          set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
-          return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
+        set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
+        set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
+        set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
+        return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
       
     }
     set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
@@ -13136,308 +13136,308 @@ function token$1(lexbuf) {
       if (/* tag */ typeof doc === "number" || typeof doc === "string") {
         switch (doc) {
           case /* SHARP */ 84 :
-              if (at_bol(lexbuf)) {
-                const cont = function (lexbuf) {
-                  return loop(lines, docs, lexbuf);
-                };
-                const look_ahead = function (token) {
-                  sharp_look_ahead.contents = token;
-                  return /* SHARP */ 84;
-                };
-                const if_then_else$1 = if_then_else.contents;
-                const match = token_with_comments(lexbuf);
-                if (/* tag */ typeof match === "number" || typeof match === "string") {
-                  switch (match) {
-                    case /* ELSE */ 23 :
-                        switch (if_then_else$1) {
-                          case /* Dir_if_true */ 0 :
-                              break;
-                          case /* Dir_if_false */ 1 :
-                          case /* Dir_out */ 2 :
-                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */ 6,
-                                    _2: curr(lexbuf)
-                                  });
-                          
-                        }
+            if (at_bol(lexbuf)) {
+              const cont = function (lexbuf) {
+                return loop(lines, docs, lexbuf);
+              };
+              const look_ahead = function (token) {
+                sharp_look_ahead.contents = token;
+                return /* SHARP */ 84;
+              };
+              const if_then_else$1 = if_then_else.contents;
+              const match = token_with_comments(lexbuf);
+              if (/* tag */ typeof match === "number" || typeof match === "string") {
+                switch (match) {
+                  case /* ELSE */ 23 :
+                    switch (if_then_else$1) {
+                      case /* Dir_if_true */ 0 :
                         break;
-                    case /* END */ 24 :
-                        switch (if_then_else$1) {
-                          case /* Dir_if_true */ 0 :
-                          case /* Dir_if_false */ 1 :
-                              if_then_else.contents = /* Dir_out */ 2;
-                              return Curry._1(cont, lexbuf);
-                          case /* Dir_out */ 2 :
-                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */ 6,
-                                    _2: curr(lexbuf)
-                                  });
-                          
-                        }
-                    case /* IF */ 37 :
-                        switch (if_then_else$1) {
-                          case /* Dir_if_true */ 0 :
-                          case /* Dir_if_false */ 1 :
-                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                    MEL_EXN_ID: $$Error$2,
-                                    _1: /* Unexpected_directive */ 6,
-                                    _2: curr(lexbuf)
-                                  });
-                          case /* Dir_out */ 2 :
-                              if (directive_parse(token_with_comments, lexbuf)) {
-                                if_then_else.contents = /* Dir_if_true */ 0;
-                                return Curry._1(cont, lexbuf);
-                              } else {
-                                let _param;
-                                while (true) {
-                                  const token = token_with_comments(lexbuf);
-                                  if (Caml_obj.caml_equal(token, /* EOF */ 25)) {
-                                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                          MEL_EXN_ID: $$Error$2,
-                                          _1: /* Unterminated_if */ 2,
-                                          _2: curr(lexbuf)
-                                        });
-                                  }
-                                  if (Caml_obj.caml_equal(token, /* SHARP */ 84) && at_bol(lexbuf)) {
-                                    const token$1 = token_with_comments(lexbuf);
-                                    if (/* tag */ typeof token$1 === "number" || typeof token$1 === "string") {
-                                      switch (token$1) {
-                                        case /* ELSE */ 23 :
-                                            if_then_else.contents = /* Dir_if_false */ 1;
-                                            return Curry._1(cont, lexbuf);
-                                        case /* END */ 24 :
-                                            if_then_else.contents = /* Dir_out */ 2;
-                                            return Curry._1(cont, lexbuf);
-                                        case /* IF */ 37 :
-                                            throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                                  MEL_EXN_ID: $$Error$2,
-                                                  _1: /* Unexpected_directive */ 6,
-                                                  _2: curr(lexbuf)
-                                                });
-                                        
-                                      }
-                                    }
-                                    if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
-                                      if_then_else.contents = /* Dir_if_true */ 0;
-                                      return Curry._1(cont, lexbuf);
-                                    }
-                                    _param = undefined;
-                                    continue;
-                                  }
-                                  _param = undefined;
-                                  continue;
-                                };
-                              }
-                          
-                        }
-                    default:
-                      return Curry._1(look_ahead, match);
-                  }
-                } else {
-                  if (match.TAG !== /* LIDENT */ 11) {
-                    return Curry._1(look_ahead, match);
-                  }
-                  if (match._0 !== "elif") {
-                    return Curry._1(look_ahead, match);
-                  }
-                  switch (if_then_else$1) {
-                    case /* Dir_if_true */ 0 :
-                        break;
-                    case /* Dir_if_false */ 1 :
-                    case /* Dir_out */ 2 :
+                      case /* Dir_if_false */ 1 :
+                      case /* Dir_out */ 2 :
                         throw new Caml_js_exceptions.MelangeError($$Error$2, {
                               MEL_EXN_ID: $$Error$2,
                               _1: /* Unexpected_directive */ 6,
                               _2: curr(lexbuf)
                             });
-                    
-                  }
-                }
-                switch (if_then_else$1) {
-                  case /* Dir_if_true */ 0 :
-                      let _else_seen = Caml_obj.caml_equal(match, /* ELSE */ 23);
-                      while (true) {
-                        const else_seen = _else_seen;
-                        const token$2 = token_with_comments(lexbuf);
-                        if (Caml_obj.caml_equal(token$2, /* EOF */ 25)) {
-                          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                MEL_EXN_ID: $$Error$2,
-                                _1: /* Unterminated_else */ 3,
-                                _2: curr(lexbuf)
-                              });
-                        }
-                        if (Caml_obj.caml_equal(token$2, /* SHARP */ 84) && at_bol(lexbuf)) {
-                          const token$3 = token_with_comments(lexbuf);
-                          if (/* tag */ typeof token$3 === "number" || typeof token$3 === "string") {
-                            switch (token$3) {
-                              case /* ELSE */ 23 :
-                                  if (else_seen) {
+                      
+                    }
+                    break;
+                  case /* END */ 24 :
+                    switch (if_then_else$1) {
+                      case /* Dir_if_true */ 0 :
+                      case /* Dir_if_false */ 1 :
+                        if_then_else.contents = /* Dir_out */ 2;
+                        return Curry._1(cont, lexbuf);
+                      case /* Dir_out */ 2 :
+                        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                              MEL_EXN_ID: $$Error$2,
+                              _1: /* Unexpected_directive */ 6,
+                              _2: curr(lexbuf)
+                            });
+                      
+                    }
+                  case /* IF */ 37 :
+                    switch (if_then_else$1) {
+                      case /* Dir_if_true */ 0 :
+                      case /* Dir_if_false */ 1 :
+                        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                              MEL_EXN_ID: $$Error$2,
+                              _1: /* Unexpected_directive */ 6,
+                              _2: curr(lexbuf)
+                            });
+                      case /* Dir_out */ 2 :
+                        if (directive_parse(token_with_comments, lexbuf)) {
+                          if_then_else.contents = /* Dir_if_true */ 0;
+                          return Curry._1(cont, lexbuf);
+                        } else {
+                          let _param;
+                          while (true) {
+                            const token = token_with_comments(lexbuf);
+                            if (Caml_obj.caml_equal(token, /* EOF */ 25)) {
+                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                    MEL_EXN_ID: $$Error$2,
+                                    _1: /* Unterminated_if */ 2,
+                                    _2: curr(lexbuf)
+                                  });
+                            }
+                            if (Caml_obj.caml_equal(token, /* SHARP */ 84) && at_bol(lexbuf)) {
+                              const token$1 = token_with_comments(lexbuf);
+                              if (/* tag */ typeof token$1 === "number" || typeof token$1 === "string") {
+                                switch (token$1) {
+                                  case /* ELSE */ 23 :
+                                    if_then_else.contents = /* Dir_if_false */ 1;
+                                    return Curry._1(cont, lexbuf);
+                                  case /* END */ 24 :
+                                    if_then_else.contents = /* Dir_out */ 2;
+                                    return Curry._1(cont, lexbuf);
+                                  case /* IF */ 37 :
                                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                           MEL_EXN_ID: $$Error$2,
                                           _1: /* Unexpected_directive */ 6,
                                           _2: curr(lexbuf)
                                         });
-                                  }
-                                  _else_seen = true;
-                                  continue;
-                              case /* END */ 24 :
-                                  if_then_else.contents = /* Dir_out */ 2;
-                                  return Curry._1(cont, lexbuf);
-                              case /* IF */ 37 :
-                                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                                        MEL_EXN_ID: $$Error$2,
-                                        _1: /* Unexpected_directive */ 6,
-                                        _2: curr(lexbuf)
-                                      });
-                              
+                                  
+                                }
+                              }
+                              if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
+                                if_then_else.contents = /* Dir_if_true */ 0;
+                                return Curry._1(cont, lexbuf);
+                              }
+                              _param = undefined;
+                              continue;
                             }
-                          }
-                          if (else_seen && is_elif(token$3)) {
+                            _param = undefined;
+                            continue;
+                          };
+                        }
+                      
+                    }
+                  default:
+                    return Curry._1(look_ahead, match);
+                }
+              } else {
+                if (match.TAG !== /* LIDENT */ 11) {
+                  return Curry._1(look_ahead, match);
+                }
+                if (match._0 !== "elif") {
+                  return Curry._1(look_ahead, match);
+                }
+                switch (if_then_else$1) {
+                  case /* Dir_if_true */ 0 :
+                    break;
+                  case /* Dir_if_false */ 1 :
+                  case /* Dir_out */ 2 :
+                    throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                          MEL_EXN_ID: $$Error$2,
+                          _1: /* Unexpected_directive */ 6,
+                          _2: curr(lexbuf)
+                        });
+                  
+                }
+              }
+              switch (if_then_else$1) {
+                case /* Dir_if_true */ 0 :
+                  let _else_seen = Caml_obj.caml_equal(match, /* ELSE */ 23);
+                  while (true) {
+                    const else_seen = _else_seen;
+                    const token$2 = token_with_comments(lexbuf);
+                    if (Caml_obj.caml_equal(token$2, /* EOF */ 25)) {
+                      throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                            MEL_EXN_ID: $$Error$2,
+                            _1: /* Unterminated_else */ 3,
+                            _2: curr(lexbuf)
+                          });
+                    }
+                    if (Caml_obj.caml_equal(token$2, /* SHARP */ 84) && at_bol(lexbuf)) {
+                      const token$3 = token_with_comments(lexbuf);
+                      if (/* tag */ typeof token$3 === "number" || typeof token$3 === "string") {
+                        switch (token$3) {
+                          case /* ELSE */ 23 :
+                            if (else_seen) {
+                              throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                                    MEL_EXN_ID: $$Error$2,
+                                    _1: /* Unexpected_directive */ 6,
+                                    _2: curr(lexbuf)
+                                  });
+                            }
+                            _else_seen = true;
+                            continue;
+                          case /* END */ 24 :
+                            if_then_else.contents = /* Dir_out */ 2;
+                            return Curry._1(cont, lexbuf);
+                          case /* IF */ 37 :
                             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                   MEL_EXN_ID: $$Error$2,
                                   _1: /* Unexpected_directive */ 6,
                                   _2: curr(lexbuf)
                                 });
-                          }
-                          continue;
+                          
                         }
-                        continue;
-                      };
-                  case /* Dir_if_false */ 1 :
-                  case /* Dir_out */ 2 :
-                      return Curry._1(look_ahead, match);
-                  
-                }
-              }
-              break;
-          case /* EOL */ 100 :
-              let lines$p;
-              switch (lines) {
-                case /* NoLine */ 0 :
-                    lines$p = /* NewLine */ 1;
-                    break;
-                case /* NewLine */ 1 :
-                case /* BlankLine */ 2 :
-                    lines$p = /* BlankLine */ 2;
-                    break;
+                      }
+                      if (else_seen && is_elif(token$3)) {
+                        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                              MEL_EXN_ID: $$Error$2,
+                              _1: /* Unexpected_directive */ 6,
+                              _2: curr(lexbuf)
+                            });
+                      }
+                      continue;
+                    }
+                    continue;
+                  };
+                case /* Dir_if_false */ 1 :
+                case /* Dir_out */ 2 :
+                  return Curry._1(look_ahead, match);
                 
               }
-              _lines = lines$p;
-              continue;
+            }
+            break;
+          case /* EOL */ 100 :
+            let lines$p;
+            switch (lines) {
+              case /* NoLine */ 0 :
+                lines$p = /* NewLine */ 1;
+                break;
+              case /* NewLine */ 1 :
+              case /* BlankLine */ 2 :
+                lines$p = /* BlankLine */ 2;
+                break;
+              
+            }
+            _lines = lines$p;
+            continue;
           
         }
       } else {
         switch (doc.TAG) {
           case /* COMMENT */ 18 :
-              const match$1 = doc._0;
-              add_comment([
-                    match$1[0],
-                    match$1[1]
-                  ]);
-              let lines$p$1;
+            const match$1 = doc._0;
+            add_comment([
+                  match$1[0],
+                  match$1[1]
+                ]);
+            let lines$p$1;
+            switch (lines) {
+              case /* NoLine */ 0 :
+              case /* NewLine */ 1 :
+                lines$p$1 = /* NoLine */ 0;
+                break;
+              case /* BlankLine */ 2 :
+                lines$p$1 = /* BlankLine */ 2;
+                break;
+              
+            }
+            _lines = lines$p$1;
+            continue;
+          case /* DOCSTRING */ 19 :
+            const doc$1 = doc._0;
+            add_docstring_comment(doc$1);
+            let docs$p;
+            if (/* tag */ typeof docs === "number" || typeof docs === "string") {
               switch (lines) {
                 case /* NoLine */ 0 :
                 case /* NewLine */ 1 :
-                    lines$p$1 = /* NoLine */ 0;
-                    break;
+                  docs$p = {
+                    TAG: /* After */ 0,
+                    _0: {
+                      hd: doc$1,
+                      tl: /* [] */ 0
+                    }
+                  };
+                  break;
                 case /* BlankLine */ 2 :
-                    lines$p$1 = /* BlankLine */ 2;
-                    break;
+                  docs$p = {
+                    TAG: /* Before */ 1,
+                    _0: /* [] */ 0,
+                    _1: /* [] */ 0,
+                    _2: {
+                      hd: doc$1,
+                      tl: /* [] */ 0
+                    }
+                  };
+                  break;
                 
               }
-              _lines = lines$p$1;
-              continue;
-          case /* DOCSTRING */ 19 :
-              const doc$1 = doc._0;
-              add_docstring_comment(doc$1);
-              let docs$p;
-              if (/* tag */ typeof docs === "number" || typeof docs === "string") {
-                switch (lines) {
-                  case /* NoLine */ 0 :
-                  case /* NewLine */ 1 :
-                      docs$p = {
-                        TAG: /* After */ 0,
-                        _0: {
-                          hd: doc$1,
-                          tl: /* [] */ 0
-                        }
-                      };
-                      break;
-                  case /* BlankLine */ 2 :
-                      docs$p = {
-                        TAG: /* Before */ 1,
-                        _0: /* [] */ 0,
-                        _1: /* [] */ 0,
-                        _2: {
-                          hd: doc$1,
-                          tl: /* [] */ 0
-                        }
-                      };
-                      break;
-                  
-                }
-              } else if (docs.TAG === /* After */ 0) {
-                const a = docs._0;
-                switch (lines) {
-                  case /* NoLine */ 0 :
-                  case /* NewLine */ 1 :
-                      docs$p = {
-                        TAG: /* After */ 0,
-                        _0: {
-                          hd: doc$1,
-                          tl: a
-                        }
-                      };
-                      break;
-                  case /* BlankLine */ 2 :
-                      docs$p = {
-                        TAG: /* Before */ 1,
-                        _0: a,
-                        _1: /* [] */ 0,
-                        _2: {
-                          hd: doc$1,
-                          tl: /* [] */ 0
-                        }
-                      };
-                      break;
-                  
-                }
-              } else {
-                const b = docs._2;
-                const f = docs._1;
-                const a$1 = docs._0;
-                switch (lines) {
-                  case /* NoLine */ 0 :
-                  case /* NewLine */ 1 :
-                      docs$p = {
-                        TAG: /* Before */ 1,
-                        _0: a$1,
-                        _1: f,
-                        _2: {
-                          hd: doc$1,
-                          tl: b
-                        }
-                      };
-                      break;
-                  case /* BlankLine */ 2 :
-                      docs$p = {
-                        TAG: /* Before */ 1,
-                        _0: a$1,
-                        _1: Stdlib.$at(b, f),
-                        _2: {
-                          hd: doc$1,
-                          tl: /* [] */ 0
-                        }
-                      };
-                      break;
-                  
-                }
+            } else if (docs.TAG === /* After */ 0) {
+              const a = docs._0;
+              switch (lines) {
+                case /* NoLine */ 0 :
+                case /* NewLine */ 1 :
+                  docs$p = {
+                    TAG: /* After */ 0,
+                    _0: {
+                      hd: doc$1,
+                      tl: a
+                    }
+                  };
+                  break;
+                case /* BlankLine */ 2 :
+                  docs$p = {
+                    TAG: /* Before */ 1,
+                    _0: a,
+                    _1: /* [] */ 0,
+                    _2: {
+                      hd: doc$1,
+                      tl: /* [] */ 0
+                    }
+                  };
+                  break;
+                
               }
-              _docs = docs$p;
-              _lines = /* NoLine */ 0;
-              continue;
+            } else {
+              const b = docs._2;
+              const f = docs._1;
+              const a$1 = docs._0;
+              switch (lines) {
+                case /* NoLine */ 0 :
+                case /* NewLine */ 1 :
+                  docs$p = {
+                    TAG: /* Before */ 1,
+                    _0: a$1,
+                    _1: f,
+                    _2: {
+                      hd: doc$1,
+                      tl: b
+                    }
+                  };
+                  break;
+                case /* BlankLine */ 2 :
+                  docs$p = {
+                    TAG: /* Before */ 1,
+                    _0: a$1,
+                    _1: Stdlib.$at(b, f),
+                    _2: {
+                      hd: doc$1,
+                      tl: /* [] */ 0
+                    }
+                  };
+                  break;
+                
+              }
+            }
+            _docs = docs$p;
+            _lines = /* NoLine */ 0;
+            continue;
           
         }
       }
@@ -13477,7 +13477,7 @@ function skip_phrase(lexbuf) {
       switch (match) {
         case /* EOF */ 25 :
         case /* SEMISEMI */ 83 :
-            return;
+          return;
         default:
           return skip_phrase(lexbuf);
       }
@@ -13496,7 +13496,7 @@ function skip_phrase(lexbuf) {
             case /* Illegal_character */ 0 :
             case /* Unterminated_comment */ 2 :
             case /* Unterminated_string_in_comment */ 3 :
-                continue;
+              continue;
             default:
               throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
@@ -13647,156 +13647,135 @@ if (match) {
                                     const match$29 = match$28.txt;
                                     switch (match$29.TAG) {
                                       case /* Lident */ 0 :
-                                          if (match$29._0 === "|>") {
-                                            const match$30 = match$28.loc;
-                                            const match$31 = match$30.loc_start;
-                                            if (match$31.pos_fname === "" && !(match$31.pos_lnum !== 4 || match$31.pos_bol !== 46 || match$31.pos_cnum !== 48)) {
-                                              const match$32 = match$30.loc_end;
-                                              if (match$32.pos_fname === "" && !(match$32.pos_lnum !== 4 || match$32.pos_bol !== 46 || match$32.pos_cnum !== 50 || match$30.loc_ghost)) {
-                                                const match$33 = match$26.pexp_loc;
-                                                const match$34 = match$33.loc_start;
-                                                if (match$34.pos_fname === "" && !(match$34.pos_lnum !== 4 || match$34.pos_bol !== 46 || match$34.pos_cnum !== 48)) {
-                                                  const match$35 = match$33.loc_end;
-                                                  if (match$35.pos_fname === "" && !(match$35.pos_lnum !== 4 || match$35.pos_bol !== 46 || match$35.pos_cnum !== 50 || match$33.loc_ghost || match$26.pexp_attributes)) {
-                                                    const match$36 = match$25._1;
-                                                    if (match$36) {
-                                                      const match$37 = match$36.hd;
-                                                      if (match$37[0] === "") {
-                                                        const match$38 = match$37[1];
-                                                        const match$39 = match$38.pexp_desc;
-                                                        if (match$39.TAG === /* Pexp_apply */ 5) {
-                                                          const match$40 = match$39._0;
-                                                          const match$41 = match$40.pexp_desc;
-                                                          if (match$41.TAG === /* Pexp_ident */ 0) {
-                                                            const match$42 = match$41._0;
-                                                            const match$43 = match$42.txt;
-                                                            switch (match$43.TAG) {
-                                                              case /* Lident */ 0 :
-                                                                  if (match$43._0 === "|>") {
-                                                                    const match$44 = match$42.loc;
-                                                                    const match$45 = match$44.loc_start;
-                                                                    if (match$45.pos_fname === "" && !(match$45.pos_lnum !== 3 || match$45.pos_bol !== 21 || match$45.pos_cnum !== 23)) {
-                                                                      const match$46 = match$44.loc_end;
-                                                                      if (match$46.pos_fname === "" && !(match$46.pos_lnum !== 3 || match$46.pos_bol !== 21 || match$46.pos_cnum !== 25 || match$44.loc_ghost)) {
-                                                                        const match$47 = match$40.pexp_loc;
-                                                                        const match$48 = match$47.loc_start;
-                                                                        if (match$48.pos_fname === "" && !(match$48.pos_lnum !== 3 || match$48.pos_bol !== 21 || match$48.pos_cnum !== 23)) {
-                                                                          const match$49 = match$47.loc_end;
-                                                                          if (match$49.pos_fname === "" && !(match$49.pos_lnum !== 3 || match$49.pos_bol !== 21 || match$49.pos_cnum !== 25 || match$47.loc_ghost || match$40.pexp_attributes)) {
-                                                                            const match$50 = match$39._1;
-                                                                            if (match$50) {
-                                                                              const match$51 = match$50.hd;
-                                                                              if (match$51[0] === "") {
-                                                                                const match$52 = match$51[1];
-                                                                                const match$53 = match$52.pexp_desc;
-                                                                                if (match$53.TAG === /* Pexp_ident */ 0) {
-                                                                                  const match$54 = match$53._0;
-                                                                                  const match$55 = match$54.txt;
-                                                                                  switch (match$55.TAG) {
-                                                                                    case /* Lident */ 0 :
-                                                                                        if (match$55._0 === "str") {
-                                                                                          const match$56 = match$54.loc;
-                                                                                          const match$57 = match$56.loc_start;
-                                                                                          if (match$57.pos_fname === "" && !(match$57.pos_lnum !== 2 || match$57.pos_bol !== 13 || match$57.pos_cnum !== 15)) {
-                                                                                            const match$58 = match$56.loc_end;
-                                                                                            if (match$58.pos_fname === "" && !(match$58.pos_lnum !== 2 || match$58.pos_bol !== 13 || match$58.pos_cnum !== 18 || match$56.loc_ghost)) {
-                                                                                              const match$59 = match$52.pexp_loc;
-                                                                                              const match$60 = match$59.loc_start;
-                                                                                              if (match$60.pos_fname === "" && !(match$60.pos_lnum !== 2 || match$60.pos_bol !== 13 || match$60.pos_cnum !== 15)) {
-                                                                                                const match$61 = match$59.loc_end;
-                                                                                                if (match$61.pos_fname === "" && !(match$61.pos_lnum !== 2 || match$61.pos_bol !== 13 || match$61.pos_cnum !== 18 || match$59.loc_ghost || match$52.pexp_attributes)) {
-                                                                                                  const match$62 = match$50.tl;
-                                                                                                  if (match$62) {
-                                                                                                    const match$63 = match$62.hd;
-                                                                                                    if (match$63[0] === "") {
-                                                                                                      const match$64 = match$63[1];
-                                                                                                      const match$65 = match$64.pexp_desc;
-                                                                                                      if (match$65.TAG === /* Pexp_ident */ 0) {
-                                                                                                        const match$66 = match$65._0;
-                                                                                                        const match$67 = match$66.txt;
-                                                                                                        switch (match$67.TAG) {
-                                                                                                          case /* Ldot */ 1 :
-                                                                                                              const match$68 = match$67._0;
-                                                                                                              switch (match$68.TAG) {
-                                                                                                                case /* Lident */ 0 :
-                                                                                                                    if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
-                                                                                                                      const match$69 = match$66.loc;
-                                                                                                                      const match$70 = match$69.loc_start;
-                                                                                                                      if (match$70.pos_fname === "" && !(match$70.pos_lnum !== 3 || match$70.pos_bol !== 21 || match$70.pos_cnum !== 26)) {
-                                                                                                                        const match$71 = match$69.loc_end;
-                                                                                                                        if (match$71.pos_fname === "" && !(match$71.pos_lnum !== 3 || match$71.pos_bol !== 21 || match$71.pos_cnum !== 44 || match$69.loc_ghost)) {
-                                                                                                                          const match$72 = match$64.pexp_loc;
-                                                                                                                          const match$73 = match$72.loc_start;
-                                                                                                                          if (match$73.pos_fname === "" && !(match$73.pos_lnum !== 3 || match$73.pos_bol !== 21 || match$73.pos_cnum !== 26)) {
-                                                                                                                            const match$74 = match$72.loc_end;
-                                                                                                                            if (match$74.pos_fname === "" && !(match$74.pos_lnum !== 3 || match$74.pos_bol !== 21 || match$74.pos_cnum !== 44 || match$72.loc_ghost || match$64.pexp_attributes || match$62.tl)) {
-                                                                                                                              const match$75 = match$38.pexp_loc;
-                                                                                                                              const match$76 = match$75.loc_start;
-                                                                                                                              if (match$76.pos_fname === "" && !(match$76.pos_lnum !== 2 || match$76.pos_bol !== 13 || match$76.pos_cnum !== 15)) {
-                                                                                                                                const match$77 = match$75.loc_end;
-                                                                                                                                if (match$77.pos_fname === "" && !(match$77.pos_lnum !== 3 || match$77.pos_bol !== 21 || match$77.pos_cnum !== 44 || match$75.loc_ghost || match$38.pexp_attributes)) {
-                                                                                                                                  const match$78 = match$36.tl;
-                                                                                                                                  if (match$78) {
-                                                                                                                                    const match$79 = match$78.hd;
-                                                                                                                                    if (match$79[0] === "") {
-                                                                                                                                      const match$80 = match$79[1];
-                                                                                                                                      const match$81 = match$80.pexp_desc;
-                                                                                                                                      if (match$81.TAG === /* Pexp_ident */ 0) {
-                                                                                                                                        const match$82 = match$81._0;
-                                                                                                                                        const match$83 = match$82.txt;
-                                                                                                                                        switch (match$83.TAG) {
-                                                                                                                                          case /* Ldot */ 1 :
-                                                                                                                                              const match$84 = match$83._0;
-                                                                                                                                              switch (match$84.TAG) {
-                                                                                                                                                case /* Lident */ 0 :
-                                                                                                                                                    if (match$84._0 === "Parse" && match$83._1 === "implementation") {
-                                                                                                                                                      const match$85 = match$82.loc;
-                                                                                                                                                      const match$86 = match$85.loc_start;
-                                                                                                                                                      if (match$86.pos_fname === "" && !(match$86.pos_lnum !== 4 || match$86.pos_bol !== 46 || match$86.pos_cnum !== 51)) {
-                                                                                                                                                        const match$87 = match$85.loc_end;
-                                                                                                                                                        if (match$87.pos_fname === "" && !(match$87.pos_lnum !== 4 || match$87.pos_bol !== 46 || match$87.pos_cnum !== 71 || match$85.loc_ghost)) {
-                                                                                                                                                          const match$88 = match$80.pexp_loc;
-                                                                                                                                                          const match$89 = match$88.loc_start;
-                                                                                                                                                          if (match$89.pos_fname === "" && !(match$89.pos_lnum !== 4 || match$89.pos_bol !== 46 || match$89.pos_cnum !== 51)) {
-                                                                                                                                                            const match$90 = match$88.loc_end;
-                                                                                                                                                            if (match$90.pos_fname === "" && !(match$90.pos_lnum !== 4 || match$90.pos_bol !== 46 || match$90.pos_cnum !== 71 || match$88.loc_ghost || match$80.pexp_attributes || match$78.tl)) {
-                                                                                                                                                              const match$91 = match$24.pexp_loc;
-                                                                                                                                                              const match$92 = match$91.loc_start;
-                                                                                                                                                              if (match$92.pos_fname === "" && !(match$92.pos_lnum !== 2 || match$92.pos_bol !== 13 || match$92.pos_cnum !== 15)) {
-                                                                                                                                                                const match$93 = match$91.loc_end;
-                                                                                                                                                                if (match$93.pos_fname === "" && !(match$93.pos_lnum !== 4 || match$93.pos_bol !== 46 || match$93.pos_cnum !== 71 || match$91.loc_ghost || match$24.pexp_attributes)) {
-                                                                                                                                                                  const match$94 = match$13.pexp_loc;
-                                                                                                                                                                  const match$95 = match$94.loc_start;
-                                                                                                                                                                  if (match$95.pos_fname === "" && !(match$95.pos_lnum !== 1 || match$95.pos_bol !== 0 || match$95.pos_cnum !== 6)) {
-                                                                                                                                                                    const match$96 = match$94.loc_end;
-                                                                                                                                                                    if (match$96.pos_fname === "" && !(match$96.pos_lnum !== 4 || match$96.pos_bol !== 46 || match$96.pos_cnum !== 71 || !(match$94.loc_ghost && !(match$13.pexp_attributes || match$3.pvb_attributes)))) {
-                                                                                                                                                                      const match$97 = match$3.pvb_loc;
-                                                                                                                                                                      const match$98 = match$97.loc_start;
-                                                                                                                                                                      if (match$98.pos_fname === "" && !(match$98.pos_lnum !== 1 || match$98.pos_bol !== 0 || match$98.pos_cnum !== 0)) {
-                                                                                                                                                                        const match$99 = match$97.loc_end;
-                                                                                                                                                                        if (match$99.pos_fname === "" && !(match$99.pos_lnum !== 4 || match$99.pos_bol !== 46 || match$99.pos_cnum !== 71 || match$97.loc_ghost || match$2.tl)) {
-                                                                                                                                                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 215, characters 10-17", true, true);
-                                                                                                                                                                        } else {
-                                                                                                                                                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                                        }
-                                                                                                                                                                      } else {
-                                                                                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                                      }
-                                                                                                                                                                    } else {
-                                                                                                                                                                      eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                                    }
-                                                                                                                                                                  } else {
-                                                                                                                                                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                                  }
-                                                                                                                                                                } else {
-                                                                                                                                                                  eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                                }
-                                                                                                                                                              } else {
-                                                                                                                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                              }
-                                                                                                                                                            } else {
-                                                                                                                                                              eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                            }
+                                        if (match$29._0 === "|>") {
+                                          const match$30 = match$28.loc;
+                                          const match$31 = match$30.loc_start;
+                                          if (match$31.pos_fname === "" && !(match$31.pos_lnum !== 4 || match$31.pos_bol !== 46 || match$31.pos_cnum !== 48)) {
+                                            const match$32 = match$30.loc_end;
+                                            if (match$32.pos_fname === "" && !(match$32.pos_lnum !== 4 || match$32.pos_bol !== 46 || match$32.pos_cnum !== 50 || match$30.loc_ghost)) {
+                                              const match$33 = match$26.pexp_loc;
+                                              const match$34 = match$33.loc_start;
+                                              if (match$34.pos_fname === "" && !(match$34.pos_lnum !== 4 || match$34.pos_bol !== 46 || match$34.pos_cnum !== 48)) {
+                                                const match$35 = match$33.loc_end;
+                                                if (match$35.pos_fname === "" && !(match$35.pos_lnum !== 4 || match$35.pos_bol !== 46 || match$35.pos_cnum !== 50 || match$33.loc_ghost || match$26.pexp_attributes)) {
+                                                  const match$36 = match$25._1;
+                                                  if (match$36) {
+                                                    const match$37 = match$36.hd;
+                                                    if (match$37[0] === "") {
+                                                      const match$38 = match$37[1];
+                                                      const match$39 = match$38.pexp_desc;
+                                                      if (match$39.TAG === /* Pexp_apply */ 5) {
+                                                        const match$40 = match$39._0;
+                                                        const match$41 = match$40.pexp_desc;
+                                                        if (match$41.TAG === /* Pexp_ident */ 0) {
+                                                          const match$42 = match$41._0;
+                                                          const match$43 = match$42.txt;
+                                                          switch (match$43.TAG) {
+                                                            case /* Lident */ 0 :
+                                                              if (match$43._0 === "|>") {
+                                                                const match$44 = match$42.loc;
+                                                                const match$45 = match$44.loc_start;
+                                                                if (match$45.pos_fname === "" && !(match$45.pos_lnum !== 3 || match$45.pos_bol !== 21 || match$45.pos_cnum !== 23)) {
+                                                                  const match$46 = match$44.loc_end;
+                                                                  if (match$46.pos_fname === "" && !(match$46.pos_lnum !== 3 || match$46.pos_bol !== 21 || match$46.pos_cnum !== 25 || match$44.loc_ghost)) {
+                                                                    const match$47 = match$40.pexp_loc;
+                                                                    const match$48 = match$47.loc_start;
+                                                                    if (match$48.pos_fname === "" && !(match$48.pos_lnum !== 3 || match$48.pos_bol !== 21 || match$48.pos_cnum !== 23)) {
+                                                                      const match$49 = match$47.loc_end;
+                                                                      if (match$49.pos_fname === "" && !(match$49.pos_lnum !== 3 || match$49.pos_bol !== 21 || match$49.pos_cnum !== 25 || match$47.loc_ghost || match$40.pexp_attributes)) {
+                                                                        const match$50 = match$39._1;
+                                                                        if (match$50) {
+                                                                          const match$51 = match$50.hd;
+                                                                          if (match$51[0] === "") {
+                                                                            const match$52 = match$51[1];
+                                                                            const match$53 = match$52.pexp_desc;
+                                                                            if (match$53.TAG === /* Pexp_ident */ 0) {
+                                                                              const match$54 = match$53._0;
+                                                                              const match$55 = match$54.txt;
+                                                                              switch (match$55.TAG) {
+                                                                                case /* Lident */ 0 :
+                                                                                  if (match$55._0 === "str") {
+                                                                                    const match$56 = match$54.loc;
+                                                                                    const match$57 = match$56.loc_start;
+                                                                                    if (match$57.pos_fname === "" && !(match$57.pos_lnum !== 2 || match$57.pos_bol !== 13 || match$57.pos_cnum !== 15)) {
+                                                                                      const match$58 = match$56.loc_end;
+                                                                                      if (match$58.pos_fname === "" && !(match$58.pos_lnum !== 2 || match$58.pos_bol !== 13 || match$58.pos_cnum !== 18 || match$56.loc_ghost)) {
+                                                                                        const match$59 = match$52.pexp_loc;
+                                                                                        const match$60 = match$59.loc_start;
+                                                                                        if (match$60.pos_fname === "" && !(match$60.pos_lnum !== 2 || match$60.pos_bol !== 13 || match$60.pos_cnum !== 15)) {
+                                                                                          const match$61 = match$59.loc_end;
+                                                                                          if (match$61.pos_fname === "" && !(match$61.pos_lnum !== 2 || match$61.pos_bol !== 13 || match$61.pos_cnum !== 18 || match$59.loc_ghost || match$52.pexp_attributes)) {
+                                                                                            const match$62 = match$50.tl;
+                                                                                            if (match$62) {
+                                                                                              const match$63 = match$62.hd;
+                                                                                              if (match$63[0] === "") {
+                                                                                                const match$64 = match$63[1];
+                                                                                                const match$65 = match$64.pexp_desc;
+                                                                                                if (match$65.TAG === /* Pexp_ident */ 0) {
+                                                                                                  const match$66 = match$65._0;
+                                                                                                  const match$67 = match$66.txt;
+                                                                                                  switch (match$67.TAG) {
+                                                                                                    case /* Ldot */ 1 :
+                                                                                                      const match$68 = match$67._0;
+                                                                                                      switch (match$68.TAG) {
+                                                                                                        case /* Lident */ 0 :
+                                                                                                          if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
+                                                                                                            const match$69 = match$66.loc;
+                                                                                                            const match$70 = match$69.loc_start;
+                                                                                                            if (match$70.pos_fname === "" && !(match$70.pos_lnum !== 3 || match$70.pos_bol !== 21 || match$70.pos_cnum !== 26)) {
+                                                                                                              const match$71 = match$69.loc_end;
+                                                                                                              if (match$71.pos_fname === "" && !(match$71.pos_lnum !== 3 || match$71.pos_bol !== 21 || match$71.pos_cnum !== 44 || match$69.loc_ghost)) {
+                                                                                                                const match$72 = match$64.pexp_loc;
+                                                                                                                const match$73 = match$72.loc_start;
+                                                                                                                if (match$73.pos_fname === "" && !(match$73.pos_lnum !== 3 || match$73.pos_bol !== 21 || match$73.pos_cnum !== 26)) {
+                                                                                                                  const match$74 = match$72.loc_end;
+                                                                                                                  if (match$74.pos_fname === "" && !(match$74.pos_lnum !== 3 || match$74.pos_bol !== 21 || match$74.pos_cnum !== 44 || match$72.loc_ghost || match$64.pexp_attributes || match$62.tl)) {
+                                                                                                                    const match$75 = match$38.pexp_loc;
+                                                                                                                    const match$76 = match$75.loc_start;
+                                                                                                                    if (match$76.pos_fname === "" && !(match$76.pos_lnum !== 2 || match$76.pos_bol !== 13 || match$76.pos_cnum !== 15)) {
+                                                                                                                      const match$77 = match$75.loc_end;
+                                                                                                                      if (match$77.pos_fname === "" && !(match$77.pos_lnum !== 3 || match$77.pos_bol !== 21 || match$77.pos_cnum !== 44 || match$75.loc_ghost || match$38.pexp_attributes)) {
+                                                                                                                        const match$78 = match$36.tl;
+                                                                                                                        if (match$78) {
+                                                                                                                          const match$79 = match$78.hd;
+                                                                                                                          if (match$79[0] === "") {
+                                                                                                                            const match$80 = match$79[1];
+                                                                                                                            const match$81 = match$80.pexp_desc;
+                                                                                                                            if (match$81.TAG === /* Pexp_ident */ 0) {
+                                                                                                                              const match$82 = match$81._0;
+                                                                                                                              const match$83 = match$82.txt;
+                                                                                                                              switch (match$83.TAG) {
+                                                                                                                                case /* Ldot */ 1 :
+                                                                                                                                  const match$84 = match$83._0;
+                                                                                                                                  switch (match$84.TAG) {
+                                                                                                                                    case /* Lident */ 0 :
+                                                                                                                                      if (match$84._0 === "Parse" && match$83._1 === "implementation") {
+                                                                                                                                        const match$85 = match$82.loc;
+                                                                                                                                        const match$86 = match$85.loc_start;
+                                                                                                                                        if (match$86.pos_fname === "" && !(match$86.pos_lnum !== 4 || match$86.pos_bol !== 46 || match$86.pos_cnum !== 51)) {
+                                                                                                                                          const match$87 = match$85.loc_end;
+                                                                                                                                          if (match$87.pos_fname === "" && !(match$87.pos_lnum !== 4 || match$87.pos_bol !== 46 || match$87.pos_cnum !== 71 || match$85.loc_ghost)) {
+                                                                                                                                            const match$88 = match$80.pexp_loc;
+                                                                                                                                            const match$89 = match$88.loc_start;
+                                                                                                                                            if (match$89.pos_fname === "" && !(match$89.pos_lnum !== 4 || match$89.pos_bol !== 46 || match$89.pos_cnum !== 51)) {
+                                                                                                                                              const match$90 = match$88.loc_end;
+                                                                                                                                              if (match$90.pos_fname === "" && !(match$90.pos_lnum !== 4 || match$90.pos_bol !== 46 || match$90.pos_cnum !== 71 || match$88.loc_ghost || match$80.pexp_attributes || match$78.tl)) {
+                                                                                                                                                const match$91 = match$24.pexp_loc;
+                                                                                                                                                const match$92 = match$91.loc_start;
+                                                                                                                                                if (match$92.pos_fname === "" && !(match$92.pos_lnum !== 2 || match$92.pos_bol !== 13 || match$92.pos_cnum !== 15)) {
+                                                                                                                                                  const match$93 = match$91.loc_end;
+                                                                                                                                                  if (match$93.pos_fname === "" && !(match$93.pos_lnum !== 4 || match$93.pos_bol !== 46 || match$93.pos_cnum !== 71 || match$91.loc_ghost || match$24.pexp_attributes)) {
+                                                                                                                                                    const match$94 = match$13.pexp_loc;
+                                                                                                                                                    const match$95 = match$94.loc_start;
+                                                                                                                                                    if (match$95.pos_fname === "" && !(match$95.pos_lnum !== 1 || match$95.pos_bol !== 0 || match$95.pos_cnum !== 6)) {
+                                                                                                                                                      const match$96 = match$94.loc_end;
+                                                                                                                                                      if (match$96.pos_fname === "" && !(match$96.pos_lnum !== 4 || match$96.pos_bol !== 46 || match$96.pos_cnum !== 71 || !(match$94.loc_ghost && !(match$13.pexp_attributes || match$3.pvb_attributes)))) {
+                                                                                                                                                        const match$97 = match$3.pvb_loc;
+                                                                                                                                                        const match$98 = match$97.loc_start;
+                                                                                                                                                        if (match$98.pos_fname === "" && !(match$98.pos_lnum !== 1 || match$98.pos_bol !== 0 || match$98.pos_cnum !== 0)) {
+                                                                                                                                                          const match$99 = match$97.loc_end;
+                                                                                                                                                          if (match$99.pos_fname === "" && !(match$99.pos_lnum !== 4 || match$99.pos_bol !== 46 || match$99.pos_cnum !== 71 || match$97.loc_ghost || match$2.tl)) {
+                                                                                                                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 215, characters 10-17", true, true);
                                                                                                                                                           } else {
                                                                                                                                                             eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                                           }
@@ -13809,34 +13788,40 @@ if (match) {
                                                                                                                                                     } else {
                                                                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                                     }
-                                                                                                                                                    break;
-                                                                                                                                                case /* Ldot */ 1 :
-                                                                                                                                                case /* Lapply */ 2 :
+                                                                                                                                                  } else {
                                                                                                                                                     eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                                    break;
-                                                                                                                                                
+                                                                                                                                                  }
+                                                                                                                                                } else {
+                                                                                                                                                  eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                                                                }
+                                                                                                                                              } else {
+                                                                                                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                               }
-                                                                                                                                              break;
-                                                                                                                                          case /* Lident */ 0 :
-                                                                                                                                          case /* Lapply */ 2 :
+                                                                                                                                            } else {
                                                                                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                              break;
-                                                                                                                                          
+                                                                                                                                            }
+                                                                                                                                          } else {
+                                                                                                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                                                          }
+                                                                                                                                        } else {
+                                                                                                                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                         }
                                                                                                                                       } else {
                                                                                                                                         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                       }
-                                                                                                                                    } else {
+                                                                                                                                      break;
+                                                                                                                                    case /* Ldot */ 1 :
+                                                                                                                                    case /* Lapply */ 2 :
                                                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                    }
-                                                                                                                                  } else {
-                                                                                                                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                                                      break;
+                                                                                                                                    
                                                                                                                                   }
-                                                                                                                                } else {
+                                                                                                                                  break;
+                                                                                                                                case /* Lident */ 0 :
+                                                                                                                                case /* Lapply */ 2 :
                                                                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                }
-                                                                                                                              } else {
-                                                                                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                                                  break;
+                                                                                                                                
                                                                                                                               }
                                                                                                                             } else {
                                                                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13853,28 +13838,34 @@ if (match) {
                                                                                                                     } else {
                                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                     }
-                                                                                                                    break;
-                                                                                                                case /* Ldot */ 1 :
-                                                                                                                case /* Lapply */ 2 :
+                                                                                                                  } else {
                                                                                                                     eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                    break;
-                                                                                                                
+                                                                                                                  }
+                                                                                                                } else {
+                                                                                                                  eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                                }
+                                                                                                              } else {
+                                                                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                               }
-                                                                                                              break;
-                                                                                                          case /* Lident */ 0 :
-                                                                                                          case /* Lapply */ 2 :
+                                                                                                            } else {
                                                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                              break;
-                                                                                                          
-                                                                                                        }
-                                                                                                      } else {
-                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                            }
+                                                                                                          } else {
+                                                                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                          }
+                                                                                                          break;
+                                                                                                        case /* Ldot */ 1 :
+                                                                                                        case /* Lapply */ 2 :
+                                                                                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                          break;
+                                                                                                        
                                                                                                       }
-                                                                                                    } else {
+                                                                                                      break;
+                                                                                                    case /* Lident */ 0 :
+                                                                                                    case /* Lapply */ 2 :
                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                    }
-                                                                                                  } else {
-                                                                                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                                      break;
+                                                                                                    
                                                                                                   }
                                                                                                 } else {
                                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13891,18 +13882,21 @@ if (match) {
                                                                                         } else {
                                                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                         }
-                                                                                        break;
-                                                                                    case /* Ldot */ 1 :
-                                                                                    case /* Lapply */ 2 :
+                                                                                      } else {
                                                                                         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                        break;
-                                                                                    
+                                                                                      }
+                                                                                    } else {
+                                                                                      eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                    }
+                                                                                  } else {
+                                                                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                   }
-                                                                                } else {
+                                                                                  break;
+                                                                                case /* Ldot */ 1 :
+                                                                                case /* Lapply */ 2 :
                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                }
-                                                                              } else {
-                                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                                  break;
+                                                                                
                                                                               }
                                                                             } else {
                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13922,15 +13916,18 @@ if (match) {
                                                                   } else {
                                                                     eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                   }
-                                                                  break;
-                                                              case /* Ldot */ 1 :
-                                                              case /* Lapply */ 2 :
+                                                                } else {
                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                  break;
-                                                              
-                                                            }
-                                                          } else {
-                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                                }
+                                                              } else {
+                                                                eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                              }
+                                                              break;
+                                                            case /* Ldot */ 1 :
+                                                            case /* Lapply */ 2 :
+                                                              eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                                              break;
+                                                            
                                                           }
                                                         } else {
                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13956,11 +13953,14 @@ if (match) {
                                           } else {
                                             eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                           }
-                                          break;
+                                        } else {
+                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                        }
+                                        break;
                                       case /* Ldot */ 1 :
                                       case /* Lapply */ 2 :
-                                          eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                          break;
+                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
+                                        break;
                                       
                                     }
                                   } else {

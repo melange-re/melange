@@ -31,9 +31,9 @@ function eq(loc, x, y) {
 function f(x) {
   switch (x) {
     case "xx\"" :
-        return 1;
+      return 1;
     case "xx'''" :
-        return 0;
+      return 0;
     default:
       return 4;
   }

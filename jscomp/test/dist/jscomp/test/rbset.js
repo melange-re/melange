@@ -95,33 +95,33 @@ function balance_left(l, x, r) {
   }
   switch (exit) {
     case 1 :
-        return {
+      return {
+        TAG: /* Node */ 0,
+        _0: /* Black */ 0,
+        _1: l,
+        _2: x,
+        _3: r
+      };
+    case 2 :
+      return {
+        TAG: /* Node */ 0,
+        _0: /* Red */ 1,
+        _1: {
           TAG: /* Node */ 0,
           _0: /* Black */ 0,
-          _1: l,
-          _2: x,
-          _3: r
-        };
-    case 2 :
-        return {
+          _1: a,
+          _2: x$1,
+          _3: b
+        },
+        _2: y,
+        _3: {
           TAG: /* Node */ 0,
-          _0: /* Red */ 1,
-          _1: {
-            TAG: /* Node */ 0,
-            _0: /* Black */ 0,
-            _1: a,
-            _2: x$1,
-            _3: b
-          },
-          _2: y,
-          _3: {
-            TAG: /* Node */ 0,
-            _0: /* Black */ 0,
-            _1: c,
-            _2: z,
-            _3: d
-          }
-        };
+          _0: /* Black */ 0,
+          _1: c,
+          _2: z,
+          _3: d
+        }
+      };
     
   }
 }
@@ -171,33 +171,33 @@ function balance_right(l, x, r) {
   }
   switch (exit) {
     case 1 :
-        return {
+      return {
+        TAG: /* Node */ 0,
+        _0: /* Black */ 0,
+        _1: l,
+        _2: x,
+        _3: r
+      };
+    case 2 :
+      return {
+        TAG: /* Node */ 0,
+        _0: /* Red */ 1,
+        _1: {
           TAG: /* Node */ 0,
           _0: /* Black */ 0,
-          _1: l,
-          _2: x,
-          _3: r
-        };
-    case 2 :
-        return {
+          _1: a,
+          _2: x$1,
+          _3: b
+        },
+        _2: y,
+        _3: {
           TAG: /* Node */ 0,
-          _0: /* Red */ 1,
-          _1: {
-            TAG: /* Node */ 0,
-            _0: /* Black */ 0,
-            _1: a,
-            _2: x$1,
-            _3: b
-          },
-          _2: y,
-          _3: {
-            TAG: /* Node */ 0,
-            _0: /* Black */ 0,
-            _1: c,
-            _2: z,
-            _3: d
-          }
-        };
+          _0: /* Black */ 0,
+          _1: c,
+          _2: z,
+          _3: d
+        }
+      };
     
   }
 }

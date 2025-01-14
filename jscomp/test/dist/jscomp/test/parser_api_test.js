@@ -72,156 +72,135 @@ if (match) {
                                     const match$29 = match$28.txt;
                                     switch (match$29.TAG) {
                                       case /* Lident */ 0 :
-                                          if (match$29._0 === "|>") {
-                                            const match$30 = match$28.loc;
-                                            const match$31 = match$30.loc_start;
-                                            if (match$31.pos_fname === "" && !(match$31.pos_lnum !== 4 || match$31.pos_bol !== 46 || match$31.pos_cnum !== 48)) {
-                                              const match$32 = match$30.loc_end;
-                                              if (match$32.pos_fname === "" && !(match$32.pos_lnum !== 4 || match$32.pos_bol !== 46 || match$32.pos_cnum !== 50 || match$30.loc_ghost)) {
-                                                const match$33 = match$26.pexp_loc;
-                                                const match$34 = match$33.loc_start;
-                                                if (match$34.pos_fname === "" && !(match$34.pos_lnum !== 4 || match$34.pos_bol !== 46 || match$34.pos_cnum !== 48)) {
-                                                  const match$35 = match$33.loc_end;
-                                                  if (match$35.pos_fname === "" && !(match$35.pos_lnum !== 4 || match$35.pos_bol !== 46 || match$35.pos_cnum !== 50 || match$33.loc_ghost || match$26.pexp_attributes)) {
-                                                    const match$36 = match$25._1;
-                                                    if (match$36) {
-                                                      const match$37 = match$36.hd;
-                                                      if (match$37[0] === "") {
-                                                        const match$38 = match$37[1];
-                                                        const match$39 = match$38.pexp_desc;
-                                                        if (match$39.TAG === /* Pexp_apply */ 5) {
-                                                          const match$40 = match$39._0;
-                                                          const match$41 = match$40.pexp_desc;
-                                                          if (match$41.TAG === /* Pexp_ident */ 0) {
-                                                            const match$42 = match$41._0;
-                                                            const match$43 = match$42.txt;
-                                                            switch (match$43.TAG) {
-                                                              case /* Lident */ 0 :
-                                                                  if (match$43._0 === "|>") {
-                                                                    const match$44 = match$42.loc;
-                                                                    const match$45 = match$44.loc_start;
-                                                                    if (match$45.pos_fname === "" && !(match$45.pos_lnum !== 3 || match$45.pos_bol !== 21 || match$45.pos_cnum !== 23)) {
-                                                                      const match$46 = match$44.loc_end;
-                                                                      if (match$46.pos_fname === "" && !(match$46.pos_lnum !== 3 || match$46.pos_bol !== 21 || match$46.pos_cnum !== 25 || match$44.loc_ghost)) {
-                                                                        const match$47 = match$40.pexp_loc;
-                                                                        const match$48 = match$47.loc_start;
-                                                                        if (match$48.pos_fname === "" && !(match$48.pos_lnum !== 3 || match$48.pos_bol !== 21 || match$48.pos_cnum !== 23)) {
-                                                                          const match$49 = match$47.loc_end;
-                                                                          if (match$49.pos_fname === "" && !(match$49.pos_lnum !== 3 || match$49.pos_bol !== 21 || match$49.pos_cnum !== 25 || match$47.loc_ghost || match$40.pexp_attributes)) {
-                                                                            const match$50 = match$39._1;
-                                                                            if (match$50) {
-                                                                              const match$51 = match$50.hd;
-                                                                              if (match$51[0] === "") {
-                                                                                const match$52 = match$51[1];
-                                                                                const match$53 = match$52.pexp_desc;
-                                                                                if (match$53.TAG === /* Pexp_ident */ 0) {
-                                                                                  const match$54 = match$53._0;
-                                                                                  const match$55 = match$54.txt;
-                                                                                  switch (match$55.TAG) {
-                                                                                    case /* Lident */ 0 :
-                                                                                        if (match$55._0 === "str") {
-                                                                                          const match$56 = match$54.loc;
-                                                                                          const match$57 = match$56.loc_start;
-                                                                                          if (match$57.pos_fname === "" && !(match$57.pos_lnum !== 2 || match$57.pos_bol !== 13 || match$57.pos_cnum !== 15)) {
-                                                                                            const match$58 = match$56.loc_end;
-                                                                                            if (match$58.pos_fname === "" && !(match$58.pos_lnum !== 2 || match$58.pos_bol !== 13 || match$58.pos_cnum !== 18 || match$56.loc_ghost)) {
-                                                                                              const match$59 = match$52.pexp_loc;
-                                                                                              const match$60 = match$59.loc_start;
-                                                                                              if (match$60.pos_fname === "" && !(match$60.pos_lnum !== 2 || match$60.pos_bol !== 13 || match$60.pos_cnum !== 15)) {
-                                                                                                const match$61 = match$59.loc_end;
-                                                                                                if (match$61.pos_fname === "" && !(match$61.pos_lnum !== 2 || match$61.pos_bol !== 13 || match$61.pos_cnum !== 18 || match$59.loc_ghost || match$52.pexp_attributes)) {
-                                                                                                  const match$62 = match$50.tl;
-                                                                                                  if (match$62) {
-                                                                                                    const match$63 = match$62.hd;
-                                                                                                    if (match$63[0] === "") {
-                                                                                                      const match$64 = match$63[1];
-                                                                                                      const match$65 = match$64.pexp_desc;
-                                                                                                      if (match$65.TAG === /* Pexp_ident */ 0) {
-                                                                                                        const match$66 = match$65._0;
-                                                                                                        const match$67 = match$66.txt;
-                                                                                                        switch (match$67.TAG) {
-                                                                                                          case /* Ldot */ 1 :
-                                                                                                              const match$68 = match$67._0;
-                                                                                                              switch (match$68.TAG) {
-                                                                                                                case /* Lident */ 0 :
-                                                                                                                    if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
-                                                                                                                      const match$69 = match$66.loc;
-                                                                                                                      const match$70 = match$69.loc_start;
-                                                                                                                      if (match$70.pos_fname === "" && !(match$70.pos_lnum !== 3 || match$70.pos_bol !== 21 || match$70.pos_cnum !== 26)) {
-                                                                                                                        const match$71 = match$69.loc_end;
-                                                                                                                        if (match$71.pos_fname === "" && !(match$71.pos_lnum !== 3 || match$71.pos_bol !== 21 || match$71.pos_cnum !== 44 || match$69.loc_ghost)) {
-                                                                                                                          const match$72 = match$64.pexp_loc;
-                                                                                                                          const match$73 = match$72.loc_start;
-                                                                                                                          if (match$73.pos_fname === "" && !(match$73.pos_lnum !== 3 || match$73.pos_bol !== 21 || match$73.pos_cnum !== 26)) {
-                                                                                                                            const match$74 = match$72.loc_end;
-                                                                                                                            if (match$74.pos_fname === "" && !(match$74.pos_lnum !== 3 || match$74.pos_bol !== 21 || match$74.pos_cnum !== 44 || match$72.loc_ghost || match$64.pexp_attributes || match$62.tl)) {
-                                                                                                                              const match$75 = match$38.pexp_loc;
-                                                                                                                              const match$76 = match$75.loc_start;
-                                                                                                                              if (match$76.pos_fname === "" && !(match$76.pos_lnum !== 2 || match$76.pos_bol !== 13 || match$76.pos_cnum !== 15)) {
-                                                                                                                                const match$77 = match$75.loc_end;
-                                                                                                                                if (match$77.pos_fname === "" && !(match$77.pos_lnum !== 3 || match$77.pos_bol !== 21 || match$77.pos_cnum !== 44 || match$75.loc_ghost || match$38.pexp_attributes)) {
-                                                                                                                                  const match$78 = match$36.tl;
-                                                                                                                                  if (match$78) {
-                                                                                                                                    const match$79 = match$78.hd;
-                                                                                                                                    if (match$79[0] === "") {
-                                                                                                                                      const match$80 = match$79[1];
-                                                                                                                                      const match$81 = match$80.pexp_desc;
-                                                                                                                                      if (match$81.TAG === /* Pexp_ident */ 0) {
-                                                                                                                                        const match$82 = match$81._0;
-                                                                                                                                        const match$83 = match$82.txt;
-                                                                                                                                        switch (match$83.TAG) {
-                                                                                                                                          case /* Ldot */ 1 :
-                                                                                                                                              const match$84 = match$83._0;
-                                                                                                                                              switch (match$84.TAG) {
-                                                                                                                                                case /* Lident */ 0 :
-                                                                                                                                                    if (match$84._0 === "Parse" && match$83._1 === "implementation") {
-                                                                                                                                                      const match$85 = match$82.loc;
-                                                                                                                                                      const match$86 = match$85.loc_start;
-                                                                                                                                                      if (match$86.pos_fname === "" && !(match$86.pos_lnum !== 4 || match$86.pos_bol !== 46 || match$86.pos_cnum !== 51)) {
-                                                                                                                                                        const match$87 = match$85.loc_end;
-                                                                                                                                                        if (match$87.pos_fname === "" && !(match$87.pos_lnum !== 4 || match$87.pos_bol !== 46 || match$87.pos_cnum !== 71 || match$85.loc_ghost)) {
-                                                                                                                                                          const match$88 = match$80.pexp_loc;
-                                                                                                                                                          const match$89 = match$88.loc_start;
-                                                                                                                                                          if (match$89.pos_fname === "" && !(match$89.pos_lnum !== 4 || match$89.pos_bol !== 46 || match$89.pos_cnum !== 51)) {
-                                                                                                                                                            const match$90 = match$88.loc_end;
-                                                                                                                                                            if (match$90.pos_fname === "" && !(match$90.pos_lnum !== 4 || match$90.pos_bol !== 46 || match$90.pos_cnum !== 71 || match$88.loc_ghost || match$80.pexp_attributes || match$78.tl)) {
-                                                                                                                                                              const match$91 = match$24.pexp_loc;
-                                                                                                                                                              const match$92 = match$91.loc_start;
-                                                                                                                                                              if (match$92.pos_fname === "" && !(match$92.pos_lnum !== 2 || match$92.pos_bol !== 13 || match$92.pos_cnum !== 15)) {
-                                                                                                                                                                const match$93 = match$91.loc_end;
-                                                                                                                                                                if (match$93.pos_fname === "" && !(match$93.pos_lnum !== 4 || match$93.pos_bol !== 46 || match$93.pos_cnum !== 71 || match$91.loc_ghost || match$24.pexp_attributes)) {
-                                                                                                                                                                  const match$94 = match$13.pexp_loc;
-                                                                                                                                                                  const match$95 = match$94.loc_start;
-                                                                                                                                                                  if (match$95.pos_fname === "" && !(match$95.pos_lnum !== 1 || match$95.pos_bol !== 0 || match$95.pos_cnum !== 6)) {
-                                                                                                                                                                    const match$96 = match$94.loc_end;
-                                                                                                                                                                    if (match$96.pos_fname === "" && !(match$96.pos_lnum !== 4 || match$96.pos_bol !== 46 || match$96.pos_cnum !== 71 || !(match$94.loc_ghost && !(match$13.pexp_attributes || match$3.pvb_attributes)))) {
-                                                                                                                                                                      const match$97 = match$3.pvb_loc;
-                                                                                                                                                                      const match$98 = match$97.loc_start;
-                                                                                                                                                                      if (match$98.pos_fname === "" && !(match$98.pos_lnum !== 1 || match$98.pos_bol !== 0 || match$98.pos_cnum !== 0)) {
-                                                                                                                                                                        const match$99 = match$97.loc_end;
-                                                                                                                                                                        if (match$99.pos_fname === "" && !(match$99.pos_lnum !== 4 || match$99.pos_bol !== 46 || match$99.pos_cnum !== 71 || match$97.loc_ghost || match$2.tl)) {
-                                                                                                                                                                          eq("File \"jscomp/test/parser_api_test.ml\", line 210, characters 10-17", true, true);
-                                                                                                                                                                        } else {
-                                                                                                                                                                          eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                                        }
-                                                                                                                                                                      } else {
-                                                                                                                                                                        eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                                      }
-                                                                                                                                                                    } else {
-                                                                                                                                                                      eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                                    }
-                                                                                                                                                                  } else {
-                                                                                                                                                                    eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                                  }
-                                                                                                                                                                } else {
-                                                                                                                                                                  eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                                }
-                                                                                                                                                              } else {
-                                                                                                                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                              }
-                                                                                                                                                            } else {
-                                                                                                                                                              eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                            }
+                                        if (match$29._0 === "|>") {
+                                          const match$30 = match$28.loc;
+                                          const match$31 = match$30.loc_start;
+                                          if (match$31.pos_fname === "" && !(match$31.pos_lnum !== 4 || match$31.pos_bol !== 46 || match$31.pos_cnum !== 48)) {
+                                            const match$32 = match$30.loc_end;
+                                            if (match$32.pos_fname === "" && !(match$32.pos_lnum !== 4 || match$32.pos_bol !== 46 || match$32.pos_cnum !== 50 || match$30.loc_ghost)) {
+                                              const match$33 = match$26.pexp_loc;
+                                              const match$34 = match$33.loc_start;
+                                              if (match$34.pos_fname === "" && !(match$34.pos_lnum !== 4 || match$34.pos_bol !== 46 || match$34.pos_cnum !== 48)) {
+                                                const match$35 = match$33.loc_end;
+                                                if (match$35.pos_fname === "" && !(match$35.pos_lnum !== 4 || match$35.pos_bol !== 46 || match$35.pos_cnum !== 50 || match$33.loc_ghost || match$26.pexp_attributes)) {
+                                                  const match$36 = match$25._1;
+                                                  if (match$36) {
+                                                    const match$37 = match$36.hd;
+                                                    if (match$37[0] === "") {
+                                                      const match$38 = match$37[1];
+                                                      const match$39 = match$38.pexp_desc;
+                                                      if (match$39.TAG === /* Pexp_apply */ 5) {
+                                                        const match$40 = match$39._0;
+                                                        const match$41 = match$40.pexp_desc;
+                                                        if (match$41.TAG === /* Pexp_ident */ 0) {
+                                                          const match$42 = match$41._0;
+                                                          const match$43 = match$42.txt;
+                                                          switch (match$43.TAG) {
+                                                            case /* Lident */ 0 :
+                                                              if (match$43._0 === "|>") {
+                                                                const match$44 = match$42.loc;
+                                                                const match$45 = match$44.loc_start;
+                                                                if (match$45.pos_fname === "" && !(match$45.pos_lnum !== 3 || match$45.pos_bol !== 21 || match$45.pos_cnum !== 23)) {
+                                                                  const match$46 = match$44.loc_end;
+                                                                  if (match$46.pos_fname === "" && !(match$46.pos_lnum !== 3 || match$46.pos_bol !== 21 || match$46.pos_cnum !== 25 || match$44.loc_ghost)) {
+                                                                    const match$47 = match$40.pexp_loc;
+                                                                    const match$48 = match$47.loc_start;
+                                                                    if (match$48.pos_fname === "" && !(match$48.pos_lnum !== 3 || match$48.pos_bol !== 21 || match$48.pos_cnum !== 23)) {
+                                                                      const match$49 = match$47.loc_end;
+                                                                      if (match$49.pos_fname === "" && !(match$49.pos_lnum !== 3 || match$49.pos_bol !== 21 || match$49.pos_cnum !== 25 || match$47.loc_ghost || match$40.pexp_attributes)) {
+                                                                        const match$50 = match$39._1;
+                                                                        if (match$50) {
+                                                                          const match$51 = match$50.hd;
+                                                                          if (match$51[0] === "") {
+                                                                            const match$52 = match$51[1];
+                                                                            const match$53 = match$52.pexp_desc;
+                                                                            if (match$53.TAG === /* Pexp_ident */ 0) {
+                                                                              const match$54 = match$53._0;
+                                                                              const match$55 = match$54.txt;
+                                                                              switch (match$55.TAG) {
+                                                                                case /* Lident */ 0 :
+                                                                                  if (match$55._0 === "str") {
+                                                                                    const match$56 = match$54.loc;
+                                                                                    const match$57 = match$56.loc_start;
+                                                                                    if (match$57.pos_fname === "" && !(match$57.pos_lnum !== 2 || match$57.pos_bol !== 13 || match$57.pos_cnum !== 15)) {
+                                                                                      const match$58 = match$56.loc_end;
+                                                                                      if (match$58.pos_fname === "" && !(match$58.pos_lnum !== 2 || match$58.pos_bol !== 13 || match$58.pos_cnum !== 18 || match$56.loc_ghost)) {
+                                                                                        const match$59 = match$52.pexp_loc;
+                                                                                        const match$60 = match$59.loc_start;
+                                                                                        if (match$60.pos_fname === "" && !(match$60.pos_lnum !== 2 || match$60.pos_bol !== 13 || match$60.pos_cnum !== 15)) {
+                                                                                          const match$61 = match$59.loc_end;
+                                                                                          if (match$61.pos_fname === "" && !(match$61.pos_lnum !== 2 || match$61.pos_bol !== 13 || match$61.pos_cnum !== 18 || match$59.loc_ghost || match$52.pexp_attributes)) {
+                                                                                            const match$62 = match$50.tl;
+                                                                                            if (match$62) {
+                                                                                              const match$63 = match$62.hd;
+                                                                                              if (match$63[0] === "") {
+                                                                                                const match$64 = match$63[1];
+                                                                                                const match$65 = match$64.pexp_desc;
+                                                                                                if (match$65.TAG === /* Pexp_ident */ 0) {
+                                                                                                  const match$66 = match$65._0;
+                                                                                                  const match$67 = match$66.txt;
+                                                                                                  switch (match$67.TAG) {
+                                                                                                    case /* Ldot */ 1 :
+                                                                                                      const match$68 = match$67._0;
+                                                                                                      switch (match$68.TAG) {
+                                                                                                        case /* Lident */ 0 :
+                                                                                                          if (match$68._0 === "Lexing" && match$67._1 === "from_string") {
+                                                                                                            const match$69 = match$66.loc;
+                                                                                                            const match$70 = match$69.loc_start;
+                                                                                                            if (match$70.pos_fname === "" && !(match$70.pos_lnum !== 3 || match$70.pos_bol !== 21 || match$70.pos_cnum !== 26)) {
+                                                                                                              const match$71 = match$69.loc_end;
+                                                                                                              if (match$71.pos_fname === "" && !(match$71.pos_lnum !== 3 || match$71.pos_bol !== 21 || match$71.pos_cnum !== 44 || match$69.loc_ghost)) {
+                                                                                                                const match$72 = match$64.pexp_loc;
+                                                                                                                const match$73 = match$72.loc_start;
+                                                                                                                if (match$73.pos_fname === "" && !(match$73.pos_lnum !== 3 || match$73.pos_bol !== 21 || match$73.pos_cnum !== 26)) {
+                                                                                                                  const match$74 = match$72.loc_end;
+                                                                                                                  if (match$74.pos_fname === "" && !(match$74.pos_lnum !== 3 || match$74.pos_bol !== 21 || match$74.pos_cnum !== 44 || match$72.loc_ghost || match$64.pexp_attributes || match$62.tl)) {
+                                                                                                                    const match$75 = match$38.pexp_loc;
+                                                                                                                    const match$76 = match$75.loc_start;
+                                                                                                                    if (match$76.pos_fname === "" && !(match$76.pos_lnum !== 2 || match$76.pos_bol !== 13 || match$76.pos_cnum !== 15)) {
+                                                                                                                      const match$77 = match$75.loc_end;
+                                                                                                                      if (match$77.pos_fname === "" && !(match$77.pos_lnum !== 3 || match$77.pos_bol !== 21 || match$77.pos_cnum !== 44 || match$75.loc_ghost || match$38.pexp_attributes)) {
+                                                                                                                        const match$78 = match$36.tl;
+                                                                                                                        if (match$78) {
+                                                                                                                          const match$79 = match$78.hd;
+                                                                                                                          if (match$79[0] === "") {
+                                                                                                                            const match$80 = match$79[1];
+                                                                                                                            const match$81 = match$80.pexp_desc;
+                                                                                                                            if (match$81.TAG === /* Pexp_ident */ 0) {
+                                                                                                                              const match$82 = match$81._0;
+                                                                                                                              const match$83 = match$82.txt;
+                                                                                                                              switch (match$83.TAG) {
+                                                                                                                                case /* Ldot */ 1 :
+                                                                                                                                  const match$84 = match$83._0;
+                                                                                                                                  switch (match$84.TAG) {
+                                                                                                                                    case /* Lident */ 0 :
+                                                                                                                                      if (match$84._0 === "Parse" && match$83._1 === "implementation") {
+                                                                                                                                        const match$85 = match$82.loc;
+                                                                                                                                        const match$86 = match$85.loc_start;
+                                                                                                                                        if (match$86.pos_fname === "" && !(match$86.pos_lnum !== 4 || match$86.pos_bol !== 46 || match$86.pos_cnum !== 51)) {
+                                                                                                                                          const match$87 = match$85.loc_end;
+                                                                                                                                          if (match$87.pos_fname === "" && !(match$87.pos_lnum !== 4 || match$87.pos_bol !== 46 || match$87.pos_cnum !== 71 || match$85.loc_ghost)) {
+                                                                                                                                            const match$88 = match$80.pexp_loc;
+                                                                                                                                            const match$89 = match$88.loc_start;
+                                                                                                                                            if (match$89.pos_fname === "" && !(match$89.pos_lnum !== 4 || match$89.pos_bol !== 46 || match$89.pos_cnum !== 51)) {
+                                                                                                                                              const match$90 = match$88.loc_end;
+                                                                                                                                              if (match$90.pos_fname === "" && !(match$90.pos_lnum !== 4 || match$90.pos_bol !== 46 || match$90.pos_cnum !== 71 || match$88.loc_ghost || match$80.pexp_attributes || match$78.tl)) {
+                                                                                                                                                const match$91 = match$24.pexp_loc;
+                                                                                                                                                const match$92 = match$91.loc_start;
+                                                                                                                                                if (match$92.pos_fname === "" && !(match$92.pos_lnum !== 2 || match$92.pos_bol !== 13 || match$92.pos_cnum !== 15)) {
+                                                                                                                                                  const match$93 = match$91.loc_end;
+                                                                                                                                                  if (match$93.pos_fname === "" && !(match$93.pos_lnum !== 4 || match$93.pos_bol !== 46 || match$93.pos_cnum !== 71 || match$91.loc_ghost || match$24.pexp_attributes)) {
+                                                                                                                                                    const match$94 = match$13.pexp_loc;
+                                                                                                                                                    const match$95 = match$94.loc_start;
+                                                                                                                                                    if (match$95.pos_fname === "" && !(match$95.pos_lnum !== 1 || match$95.pos_bol !== 0 || match$95.pos_cnum !== 6)) {
+                                                                                                                                                      const match$96 = match$94.loc_end;
+                                                                                                                                                      if (match$96.pos_fname === "" && !(match$96.pos_lnum !== 4 || match$96.pos_bol !== 46 || match$96.pos_cnum !== 71 || !(match$94.loc_ghost && !(match$13.pexp_attributes || match$3.pvb_attributes)))) {
+                                                                                                                                                        const match$97 = match$3.pvb_loc;
+                                                                                                                                                        const match$98 = match$97.loc_start;
+                                                                                                                                                        if (match$98.pos_fname === "" && !(match$98.pos_lnum !== 1 || match$98.pos_bol !== 0 || match$98.pos_cnum !== 0)) {
+                                                                                                                                                          const match$99 = match$97.loc_end;
+                                                                                                                                                          if (match$99.pos_fname === "" && !(match$99.pos_lnum !== 4 || match$99.pos_bol !== 46 || match$99.pos_cnum !== 71 || match$97.loc_ghost || match$2.tl)) {
+                                                                                                                                                            eq("File \"jscomp/test/parser_api_test.ml\", line 210, characters 10-17", true, true);
                                                                                                                                                           } else {
                                                                                                                                                             eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                                           }
@@ -234,34 +213,40 @@ if (match) {
                                                                                                                                                     } else {
                                                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                                     }
-                                                                                                                                                    break;
-                                                                                                                                                case /* Ldot */ 1 :
-                                                                                                                                                case /* Lapply */ 2 :
+                                                                                                                                                  } else {
                                                                                                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                                    break;
-                                                                                                                                                
+                                                                                                                                                  }
+                                                                                                                                                } else {
+                                                                                                                                                  eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                                                                }
+                                                                                                                                              } else {
+                                                                                                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                               }
-                                                                                                                                              break;
-                                                                                                                                          case /* Lident */ 0 :
-                                                                                                                                          case /* Lapply */ 2 :
+                                                                                                                                            } else {
                                                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                              break;
-                                                                                                                                          
+                                                                                                                                            }
+                                                                                                                                          } else {
+                                                                                                                                            eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                                                          }
+                                                                                                                                        } else {
+                                                                                                                                          eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                         }
                                                                                                                                       } else {
                                                                                                                                         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                       }
-                                                                                                                                    } else {
+                                                                                                                                      break;
+                                                                                                                                    case /* Ldot */ 1 :
+                                                                                                                                    case /* Lapply */ 2 :
                                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                    }
-                                                                                                                                  } else {
-                                                                                                                                    eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                                                      break;
+                                                                                                                                    
                                                                                                                                   }
-                                                                                                                                } else {
+                                                                                                                                  break;
+                                                                                                                                case /* Lident */ 0 :
+                                                                                                                                case /* Lapply */ 2 :
                                                                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                                }
-                                                                                                                              } else {
-                                                                                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                                                  break;
+                                                                                                                                
                                                                                                                               }
                                                                                                                             } else {
                                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -278,28 +263,34 @@ if (match) {
                                                                                                                     } else {
                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                     }
-                                                                                                                    break;
-                                                                                                                case /* Ldot */ 1 :
-                                                                                                                case /* Lapply */ 2 :
+                                                                                                                  } else {
                                                                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                                    break;
-                                                                                                                
+                                                                                                                  }
+                                                                                                                } else {
+                                                                                                                  eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                                }
+                                                                                                              } else {
+                                                                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                               }
-                                                                                                              break;
-                                                                                                          case /* Lident */ 0 :
-                                                                                                          case /* Lapply */ 2 :
+                                                                                                            } else {
                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                              break;
-                                                                                                          
-                                                                                                        }
-                                                                                                      } else {
-                                                                                                        eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                            }
+                                                                                                          } else {
+                                                                                                            eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                          }
+                                                                                                          break;
+                                                                                                        case /* Ldot */ 1 :
+                                                                                                        case /* Lapply */ 2 :
+                                                                                                          eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                          break;
+                                                                                                        
                                                                                                       }
-                                                                                                    } else {
+                                                                                                      break;
+                                                                                                    case /* Lident */ 0 :
+                                                                                                    case /* Lapply */ 2 :
                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                                    }
-                                                                                                  } else {
-                                                                                                    eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                                      break;
+                                                                                                    
                                                                                                   }
                                                                                                 } else {
                                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -316,18 +307,21 @@ if (match) {
                                                                                         } else {
                                                                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                         }
-                                                                                        break;
-                                                                                    case /* Ldot */ 1 :
-                                                                                    case /* Lapply */ 2 :
+                                                                                      } else {
                                                                                         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                        break;
-                                                                                    
+                                                                                      }
+                                                                                    } else {
+                                                                                      eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                    }
+                                                                                  } else {
+                                                                                    eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                   }
-                                                                                } else {
+                                                                                  break;
+                                                                                case /* Ldot */ 1 :
+                                                                                case /* Lapply */ 2 :
                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                                }
-                                                                              } else {
-                                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                                  break;
+                                                                                
                                                                               }
                                                                             } else {
                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -347,15 +341,18 @@ if (match) {
                                                                   } else {
                                                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                   }
-                                                                  break;
-                                                              case /* Ldot */ 1 :
-                                                              case /* Lapply */ 2 :
+                                                                } else {
                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                                                  break;
-                                                              
-                                                            }
-                                                          } else {
-                                                            eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                                }
+                                                              } else {
+                                                                eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                              }
+                                                              break;
+                                                            case /* Ldot */ 1 :
+                                                            case /* Lapply */ 2 :
+                                                              eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                                              break;
+                                                            
                                                           }
                                                         } else {
                                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -381,11 +378,14 @@ if (match) {
                                           } else {
                                             eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                           }
-                                          break;
+                                        } else {
+                                          eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                        }
+                                        break;
                                       case /* Ldot */ 1 :
                                       case /* Lapply */ 2 :
-                                          eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
-                                          break;
+                                        eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
+                                        break;
                                       
                                     }
                                   } else {

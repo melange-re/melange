@@ -13,13 +13,13 @@ function f(param) {
   }
   switch (param.TAG) {
     case /* A */ 0 :
-        return 0;
+      return 0;
     case /* B */ 1 :
-        return 1;
+      return 1;
     case /* C */ 2 :
-        return 2;
+      return 2;
     case /* F */ 3 :
-        return 3;
+      return 3;
     
   }
 }

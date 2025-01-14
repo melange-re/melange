@@ -235,9 +235,9 @@ function test(v) {
   }
   switch (ty) {
     case /* JSONFalse */ 0 :
-        return eq("File \"jscomp/test/js_json_test.ml\", line 96, characters 25-32", false, v);
+      return eq("File \"jscomp/test/js_json_test.ml\", line 96, characters 25-32", false, v);
     case /* JSONTrue */ 1 :
-        return eq("File \"jscomp/test/js_json_test.ml\", line 95, characters 24-31", true, v);
+      return eq("File \"jscomp/test/js_json_test.ml\", line 95, characters 24-31", true, v);
     default:
       return add_test("File \"jscomp/test/js_json_test.ml\", line 97, characters 18-25", (function (param) {
             return {
@@ -366,116 +366,108 @@ function eq_at_i(loc, json, i, kind, expected) {
   const ty$1 = Js__Js_json.classify(Caml_array.get(ty._0, i));
   switch (kind) {
     case /* String */ 0 :
-        if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        } else if (ty$1.TAG === /* JSONString */ 0) {
-          return eq(loc, ty$1._0, expected);
-        } else {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        }
+      if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      } else if (ty$1.TAG === /* JSONString */ 0) {
+        return eq(loc, ty$1._0, expected);
+      } else {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
     case /* Number */ 1 :
-        if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        } else if (ty$1.TAG === /* JSONNumber */ 1) {
-          return eq(loc, ty$1._0, expected);
-        } else {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        }
+      if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      } else if (ty$1.TAG === /* JSONNumber */ 1) {
+        return eq(loc, ty$1._0, expected);
+      } else {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
     case /* Object */ 2 :
-        if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        } else if (ty$1.TAG === /* JSONObject */ 2) {
-          return eq(loc, ty$1._0, expected);
-        } else {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        }
+      if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      } else if (ty$1.TAG === /* JSONObject */ 2) {
+        return eq(loc, ty$1._0, expected);
+      } else {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
     case /* Array */ 3 :
-        if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        } else if (ty$1.TAG === /* JSONArray */ 3) {
-          return eq(loc, ty$1._0, expected);
-        } else {
-          return add_test(loc, (function (param) {
-                return {
-                  TAG: /* Ok */ 4,
-                  _0: false
-                };
-              }));
-        }
+      if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      } else if (ty$1.TAG === /* JSONArray */ 3) {
+        return eq(loc, ty$1._0, expected);
+      } else {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
     case /* Boolean */ 4 :
-        if (!/* tag */ (typeof ty$1 === "number" || typeof ty$1 === "string")) {
+      if (!/* tag */ (typeof ty$1 === "number" || typeof ty$1 === "string")) {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
+      switch (ty$1) {
+        case /* JSONFalse */ 0 :
+          return eq(loc, false, expected);
+        case /* JSONTrue */ 1 :
+          return eq(loc, true, expected);
+        default:
           return add_test(loc, (function (param) {
                 return {
                   TAG: /* Ok */ 4,
                   _0: false
                 };
               }));
-        }
-        switch (ty$1) {
-          case /* JSONFalse */ 0 :
-              return eq(loc, false, expected);
-          case /* JSONTrue */ 1 :
-              return eq(loc, true, expected);
-          default:
-            return add_test(loc, (function (param) {
-                  return {
-                    TAG: /* Ok */ 4,
-                    _0: false
-                  };
-                }));
-        }
+      }
     case /* Null */ 5 :
-        if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
-          if (ty$1 === /* JSONNull */ 2) {
-            return add_test(loc, (function (param) {
-                  return {
-                    TAG: /* Ok */ 4,
-                    _0: true
-                  };
-                }));
-          } else {
-            return add_test(loc, (function (param) {
-                  return {
-                    TAG: /* Ok */ 4,
-                    _0: false
-                  };
-                }));
-          }
+      if (/* tag */ typeof ty$1 === "number" || typeof ty$1 === "string") {
+        if (ty$1 === /* JSONNull */ 2) {
+          return add_test(loc, (function (param) {
+                return {
+                  TAG: /* Ok */ 4,
+                  _0: true
+                };
+              }));
         } else {
           return add_test(loc, (function (param) {
                 return {
@@ -484,6 +476,14 @@ function eq_at_i(loc, json, i, kind, expected) {
                 };
               }));
         }
+      } else {
+        return add_test(loc, (function (param) {
+              return {
+                TAG: /* Ok */ 4,
+                _0: false
+              };
+            }));
+      }
     
   }
 }

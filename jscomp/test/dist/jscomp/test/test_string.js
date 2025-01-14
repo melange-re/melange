@@ -8,9 +8,9 @@ const Caml_string = require("melange.js/caml_string.js");
 function f(param) {
   switch (param) {
     case "aaaabb" :
-        return 0;
+      return 0;
     case "bbbb" :
-        return 1;
+      return 1;
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",

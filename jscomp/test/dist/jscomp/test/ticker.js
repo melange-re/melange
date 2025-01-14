@@ -1407,98 +1407,46 @@ function process_input_line(ticker_map, all_tickers, line) {
   if (tokens) {
     switch (tokens.hd) {
       case "Q" :
-          const match = tokens.tl;
-          if (match) {
-            const match$1 = match.tl;
-            if (match$1) {
-              if (match$1.tl) {
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line"
-                    });
-              }
-              const ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
-              const value = Caml_format.caml_float_of_string(match$1.hd);
-              process_quote(ticker_map$1, match.hd, value);
-              return [
-                all_tickers,
-                Caml_option.some(ticker_map$1)
-              ];
+        const match = tokens.tl;
+        if (match) {
+          const match$1 = match.tl;
+          if (match$1) {
+            if (match$1.tl) {
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  });
             }
-            throw new Caml_js_exceptions.MelangeError("Failure", {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Invalid input line"
-                });
+            const ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
+            const value = Caml_format.caml_float_of_string(match$1.hd);
+            process_quote(ticker_map$1, match.hd, value);
+            return [
+              all_tickers,
+              Caml_option.some(ticker_map$1)
+            ];
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
                 _1: "Invalid input line"
               });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+              MEL_EXN_ID: "Failure",
+              _1: "Invalid input line"
+            });
       case "R" :
-          const match$2 = tokens.tl;
-          if (match$2) {
-            const match$3 = match$2.tl;
-            if (match$3) {
-              const ticker_name = match$2.hd;
-              switch (match$3.hd) {
-                case "+" :
-                    const match$4 = match$3.tl;
-                    if (match$4) {
-                      const match$5 = match$4.tl;
-                      if (match$5) {
-                        if (match$5.tl) {
-                          throw new Caml_js_exceptions.MelangeError("Failure", {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              });
-                        }
-                        return [
-                          {
-                            hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */ 0),
-                            tl: all_tickers
-                          },
-                          ticker_map
-                        ];
-                      }
-                      throw new Caml_js_exceptions.MelangeError("Failure", {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line"
-                          });
-                    }
-                    throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line"
-                        });
-                case "-" :
-                    const match$6 = match$3.tl;
-                    if (match$6) {
-                      const match$7 = match$6.tl;
-                      if (match$7) {
-                        if (match$7.tl) {
-                          throw new Caml_js_exceptions.MelangeError("Failure", {
-                                MEL_EXN_ID: "Failure",
-                                _1: "Invalid input line"
-                              });
-                        }
-                        return [
-                          {
-                            hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */ 1),
-                            tl: all_tickers
-                          },
-                          ticker_map
-                        ];
-                      }
-                      throw new Caml_js_exceptions.MelangeError("Failure", {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line"
-                          });
-                    }
-                    throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: "Invalid input line"
-                        });
-                case "S" :
-                    if (match$3.tl) {
+        const match$2 = tokens.tl;
+        if (match$2) {
+          const match$3 = match$2.tl;
+          if (match$3) {
+            const ticker_name = match$2.hd;
+            switch (match$3.hd) {
+              case "+" :
+                const match$4 = match$3.tl;
+                if (match$4) {
+                  const match$5 = match$4.tl;
+                  if (match$5) {
+                    if (match$5.tl) {
                       throw new Caml_js_exceptions.MelangeError("Failure", {
                             MEL_EXN_ID: "Failure",
                             _1: "Invalid input line"
@@ -1506,27 +1454,73 @@ function process_input_line(ticker_map, all_tickers, line) {
                     }
                     return [
                       {
-                        hd: {
-                          value: undefined,
-                          rank: /* Uninitialized */ 0,
-                          ticker_name: ticker_name,
-                          type_: /* Market */ 0
-                        },
+                        hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */ 0),
                         tl: all_tickers
                       },
                       ticker_map
                     ];
-                default:
+                  }
                   throw new Caml_js_exceptions.MelangeError("Failure", {
                         MEL_EXN_ID: "Failure",
                         _1: "Invalid input line"
                       });
-              }
-            } else {
-              throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Invalid input line"
-                  });
+                }
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    });
+              case "-" :
+                const match$6 = match$3.tl;
+                if (match$6) {
+                  const match$7 = match$6.tl;
+                  if (match$7) {
+                    if (match$7.tl) {
+                      throw new Caml_js_exceptions.MelangeError("Failure", {
+                            MEL_EXN_ID: "Failure",
+                            _1: "Invalid input line"
+                          });
+                    }
+                    return [
+                      {
+                        hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */ 1),
+                        tl: all_tickers
+                      },
+                      ticker_map
+                    ];
+                  }
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid input line"
+                      });
+                }
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    });
+              case "S" :
+                if (match$3.tl) {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid input line"
+                      });
+                }
+                return [
+                  {
+                    hd: {
+                      value: undefined,
+                      rank: /* Uninitialized */ 0,
+                      ticker_name: ticker_name,
+                      type_: /* Market */ 0
+                    },
+                    tl: all_tickers
+                  },
+                  ticker_map
+                ];
+              default:
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    });
             }
           } else {
             throw new Caml_js_exceptions.MelangeError("Failure", {
@@ -1534,6 +1528,12 @@ function process_input_line(ticker_map, all_tickers, line) {
                   _1: "Invalid input line"
                 });
           }
+        } else {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "Invalid input line"
+              });
+        }
       default:
         throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
