@@ -95,6 +95,8 @@ Unreleased
   ([#1287](https://github.com/melange-re/melange/pull/1287))
 - JS generation: remove redundant switch cases branches
   ([#1295](https://github.com/melange-re/melange/pull/1295))
+- JS generation: move space before comma inside `for` definition
+  ([#1296](https://github.com/melange-re/melange/pull/1296))
 
 4.0.1 2024-06-07
 ---------------
