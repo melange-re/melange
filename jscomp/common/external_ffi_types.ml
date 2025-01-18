@@ -46,7 +46,7 @@ type arg_type = External_arg_spec.attr
    hand *)
 
 type arg_label = External_arg_spec.Obj_label.t
-type js_send_kind = Send | Invoke | Pipe
+type js_send_kind = Pipe | Send of int
 
 type external_spec =
   | Js_var of {
