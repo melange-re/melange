@@ -1,4 +1,4 @@
-Test `@mel.invoke + labeled / optional arguments
+Test `@mel.send` + `@mel.this`
 
   $ . ./setup.sh
 
