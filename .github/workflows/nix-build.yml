@@ -18,6 +18,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - ubuntu-22.04-arm
           - macos-13
           - macos-14
 
