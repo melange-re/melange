@@ -49,7 +49,7 @@ external asUintN : precision:int -> t -> t = "asUintN"
 type toLocaleStringOptions = { style : string; currency : string }
 
 external toLocaleString :
-  locale:string -> ?options:toLocaleStringOptions -> t -> string
+  locale:string -> ?options:toLocaleStringOptions -> (t[@mel.this]) -> string
   = "toLocaleString"
 [@@mel.send]
 (**
@@ -59,7 +59,7 @@ external toLocaleString :
 external toString : t -> string = "toLocaleString"
 [@@mel.send]
 (**
-    [toString bigint] returns a string representing the specified BigInt value.
+  [toString bigint] returns a string representing the specified BigInt value.
  *)
 
 external neg : t -> t = "%negfloat"

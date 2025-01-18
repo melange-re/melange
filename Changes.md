@@ -58,7 +58,7 @@ Unreleased
   ([#1248](https://github.com/melange-re/melange/pull/1248))
 - BREAKING: remove `--mel-g`
   ([#1234](https://github.com/melange-re/melange/pull/1234))
-- BREAKING: find `[@mel.send]` self arg as the first non-labeled param
+- ffi: add `[@mel.invoke]`, a way to call a self arg as the first non-labeled param
   ([#1252](https://github.com/melange-re/melange/pull/1252))
   - This improvement to the FFI allows expressing more FFI constructs via
     labeled and optionally labeled arguments, e.g.

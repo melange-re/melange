@@ -432,19 +432,19 @@ type response = {
 type param_type = {
   label : Asttypes.arg_label;
   ty : core_type;
-  attr : attributes;
+  attrs : attributes;
   loc : location;
 }
 
 let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
     core_type =
   List.fold_right
-    ~f:(fun { label; ty; attr; loc } acc ->
+    ~f:(fun { label; ty; attrs; loc } acc ->
       {
         ptyp_desc = Ptyp_arrow (label, ty, acc);
         ptyp_loc = loc;
         ptyp_loc_stack = [ loc ];
-        ptyp_attributes = attr;
+        ptyp_attributes = attrs;
       })
     new_arg_types_ty ~init:result
 
@@ -660,6 +660,27 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
       Location.raise_errorf ~loc
         "Found an attribute that conflicts with `[%@mel.obj]'"
 
+let mel_send_this_index arg_types =
+  let find_index ~f:p =
+    let rec aux i = function
+      | [] -> None
+      | a :: l -> if p a then Some i else aux (i + 1) l
+    in
+    aux 0
+  in
+  find_index
+    ~f:(fun { attrs; _ } ->
+      List.exists
+        ~f:(fun ({ attr_name = { txt; _ }; _ } as attr) ->
+          match txt with
+          | "mel.this" ->
+              Mel_ast_invariant.mark_used_mel_attribute attr;
+              true
+          | _ -> false)
+        attrs)
+    arg_types
+  |> Option.value ~default:0
+
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
     arg_types_ty
@@ -858,10 +879,15 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
             "`[%@mel.send]' doesn't expect an attribute payload"
-      | _ :: _, `Nm_na ->
-          Js_send { variadic; name; scopes; pipe = false; new_ = false }
-      | _ :: _, `Nm_external _ ->
-          Js_send { variadic; name; scopes; pipe = false; new_ = true })
+      | _ :: _, (`Nm_na | `Nm_external _) ->
+          Js_send
+            {
+              variadic;
+              name;
+              scopes;
+              kind = Send (mel_send_this_index arg_types_ty);
+              new_ = not (new_name = `Nm_na);
+            })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `[%@mel.send]'"
@@ -893,7 +919,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
               variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
               scopes;
-              pipe = true;
+              kind = Pipe;
               new_ = false;
             }
       | `Nm_external _ ->
@@ -902,7 +928,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
               variadic;
               name = string_of_bundle_source prim_name_or_pval_prim;
               scopes;
-              pipe = true;
+              kind = Pipe;
               new_ = true;
             })
   | { val_send_pipe = Some _; _ } ->
@@ -981,7 +1007,12 @@ let list_of_arrow (ty : core_type) : core_type * param_type list =
     match ty.ptyp_desc with
     | Ptyp_arrow (label, t1, t2) ->
         aux t2
-          (({ label; ty = t1; attr = ty.ptyp_attributes; loc = ty.ptyp_loc }
+          (({
+              label;
+              ty = t1;
+              attrs = ty.ptyp_attributes @ t1.ptyp_attributes;
+              loc = ty.ptyp_loc;
+            }
              : param_type)
           :: acc)
     | Ptyp_poly (_, ty) ->
@@ -1059,7 +1090,7 @@ module From_attributes = struct
           v
     in
     fun ~loc ffi
-        (arg_type_specs :
+        (_arg_type_specs :
           External_arg_spec.Arg_label.t External_arg_spec.param list) : bool ->
       let xrelative = ref false in
       let upgrade bool = if not !xrelative then xrelative := bool in
@@ -1071,18 +1102,7 @@ module From_attributes = struct
               upgrade (is_package_relative_path name.bundle))
             external_module_name;
           valid_global_name ~loc name
-      | Js_send { pipe; _ } -> (
-          if not pipe then
-            match arg_type_specs with
-            | [] -> assert false
-            | { arg_label = Arg_label | Arg_optional; _ } :: _ ->
-                (* we started treating the `@mel.send` "self" arg as the first
-           non-labeled argument so that we can be more expressive in the FFI.
-           But we still need to warn in case the first argument is
-           optional/labelled. *)
-                Mel_ast_invariant.warn ~loc Mel_send_self_param
-            | { arg_label = Arg_empty; _ } :: _ -> ())
-      | Js_set _ | Js_get _ ->
+      | Js_send _ | Js_set _ | Js_get _ ->
           (* see https://github.com/rescript-lang/rescript-compiler/issues/2583 *)
           ()
       | Js_get_index _ (* TODO: check scopes *) | Js_set_index _ -> ()
@@ -1149,12 +1169,11 @@ module From_attributes = struct
             dont_inline_cross_module = false;
           }
         else
-          let arg_type_specs, new_arg_types_ty, arg_type_specs_length =
-            let variadic = external_desc.variadic in
+          let arg_type_specs, new_arg_types_ty, (arg_type_specs_length, _) =
             let (init
                   : External_arg_spec.Arg_label.t External_arg_spec.param list
                     * param_type list
-                    * int) =
+                    * (int * bool)) =
               match external_desc.val_send_pipe with
               | Some obj -> (
                   match refine_arg_type ~nolabel:true obj with
@@ -1169,43 +1188,58 @@ module From_attributes = struct
                           {
                             label = Nolabel;
                             ty = obj;
-                            attr = [];
+                            attrs = [];
                             loc = obj.ptyp_loc;
                           };
                         ],
-                        0 ))
-              | None -> ([], [], 0)
+                        (0, false) ))
+              | None -> ([], [], (0, false))
             in
             List.fold_right
-              ~f:(fun param_type (arg_type_specs, arg_types, i) ->
+              ~f:(fun
+                  param_type
+                  (arg_type_specs, arg_types, (i, last_was_mel_this))
+                ->
                 let arg_label = param_type.label in
                 let ty = param_type.ty in
-                (if i = 0 && variadic then
+                let is_variadic =
+                  (i = 0 || (i = 1 && last_was_mel_this))
+                  && external_desc.variadic
+                in
+                let is_mel_this_and_send =
+                  external_desc.val_send <> `Nm_na
+                  && List.exists
+                       ~f:(fun { attr_name = { txt; _ }; _ } ->
+                         txt = "mel.this")
+                       param_type.attrs
+                in
+                (if is_variadic && not is_mel_this_and_send then
                    match arg_label with
                    | Optional _ ->
                        Location.raise_errorf ~loc
                          "`[%@mel.variadic]' cannot be applied to an \
                           optionally labelled argument"
                    | Labelled _ | Nolabel -> (
-                       if ty.ptyp_desc = Ptyp_any then
-                         Location.raise_errorf
-                           "`[%@mel.variadic]' expects its last argument to be \
-                            an array"
-                       else
-                         match spec_of_ptyp ~nolabel:true ty with
-                         | Nothing -> (
-                             match ty.ptyp_desc with
-                             | Ptyp_constr ({ txt = Lident "array"; _ }, [ _ ])
-                               ->
-                                 ()
-                             | _ ->
-                                 Location.raise_errorf ~loc
-                                   "`[%@mel.variadic]' expects its last \
-                                    argument to be an array")
-                         | _ ->
-                             Location.raise_errorf ~loc
-                               "`[%@mel.variadic]' expects its last argument \
-                                to be an array"));
+                       match ty.ptyp_desc with
+                       | Ptyp_any ->
+                           Location.raise_errorf
+                             "`[%@mel.variadic]' expects its last argument to \
+                              be an array"
+                       | _ -> (
+                           match spec_of_ptyp ~nolabel:true ty with
+                           | Nothing -> (
+                               match ty.ptyp_desc with
+                               | Ptyp_constr ({ txt = Lident "array"; _ }, [ _ ])
+                                 ->
+                                   ()
+                               | _ ->
+                                   Location.raise_errorf ~loc
+                                     "`[%@mel.variadic]' expects its last \
+                                      argument to be an array")
+                           | _ ->
+                               Location.raise_errorf ~loc
+                                 "`[%@mel.variadic]' expects its last argument \
+                                  to be an array")));
                 let ( (arg_label : External_arg_spec.Arg_label.t),
                       arg_type,
                       new_arg_types ) =
@@ -1236,7 +1270,8 @@ module From_attributes = struct
                 in
                 ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
                   new_arg_types,
-                  if arg_type = Ignore then i else i + 1 ))
+                  if arg_type = Ignore then (i, last_was_mel_this)
+                  else (i + 1, is_mel_this_and_send) ))
               arg_types_ty ~init
           in
           let ffi =
