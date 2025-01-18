@@ -20,6 +20,7 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
+          - ubuntu-22.04-arm
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
           - ocaml-base-compiler.5.3.0
