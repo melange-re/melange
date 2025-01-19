@@ -43,7 +43,7 @@ external append :
   value:
     ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
     [@mel.unwrap]) ->
-  t ->
+  (t[@mel.this]) ->
   unit = "append"
 [@@mel.send]
 (** [append t ~name ~value] appends a new value onto an existing key inside a
@@ -53,7 +53,7 @@ external appendBlob :
   name:string ->
   value:([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
-  t ->
+  (t[@mel.this]) ->
   unit = "append"
 [@@mel.send]
 (** [appendBlob t ~name ~value] appends a new value onto an existing key inside
@@ -61,17 +61,17 @@ external appendBlob :
     method differs from [append] in that instances in the Blob hierarchy can
     pass a third filename argument. *)
 
-external delete : name:string -> t -> unit = "delete"
+external delete : name:string -> (t[@mel.this]) -> unit = "delete"
 [@@mel.send]
 (** [delete t ~name] deletes a key and its value(s) from a FormData object. *)
 
-external get : name:string -> t -> entryValue option = "get"
+external get : name:string -> (t[@mel.this]) -> entryValue option = "get"
 [@@mel.send] [@@mel.return null_to_opt]
 (** [get t ~name] returns the first value associated with a given key from
     within a FormData object. If you expect multiple values and want all of
     them, use {!getAll} instead. *)
 
-external getAll : name:string -> t -> entryValue array = "getAll"
+external getAll : name:string -> (t[@mel.this]) -> entryValue array = "getAll"
 [@@mel.send]
 (** [getAll t ~name] returns all the values associated with a given key from
     within a FormData object. *)
@@ -80,7 +80,7 @@ external set :
   name:string ->
   ([ `String of string | `Object of < .. > Js.t | `Dict of _ Js.dict ]
   [@mel.unwrap]) ->
-  t ->
+  (t[@mel.this]) ->
   unit = "set"
 [@@mel.send]
 (** [set t ~name ~value] sets a new value for an existing key inside a FormData
@@ -90,7 +90,7 @@ external setBlob :
   name:string ->
   ([ `Blob of Js.blob | `File of Js.file ][@mel.unwrap]) ->
   ?filename:string ->
-  t ->
+  (t[@mel.this]) ->
   unit = "set"
 [@@mel.send]
 (** [setBlob t ~name ~value ?filename] sets a new value for an existing key
@@ -98,7 +98,7 @@ external setBlob :
     exist. This method differs from [set] in that instances in the Blob
     hierarchy can pass a third filename argument. *)
 
-external has : name:string -> t -> bool = "has"
+external has : name:string -> (t[@mel.this]) -> bool = "has"
 [@@mel.send]
 (** [has ~name t] returns whether a FormData object contains a certain key. *)
 
