@@ -25,7 +25,6 @@
 (** Provides functions for inspecting and manipulating [int]s *)
 
 type t = int
-
 (** If we use number, we need coerce to int32 by adding `|0`,
     otherwise `+0` can be wrong.
     Most JS API is float oriented, it may overflow int32 or
@@ -33,7 +32,7 @@ type t = int
   *)
 (* + conversion*)
 
-external toExponential : ?digits:t -> t -> string = "toExponential"
+external toExponential : ?digits:t -> (t[@mel.this]) -> string = "toExponential"
 [@@mel.send]
 (** Formats an [int] using exponential (scientific) notation
 
@@ -55,7 +54,7 @@ The output will be rounded or padded with zeroes if necessary.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toPrecision : ?digits:t -> t -> string = "toPrecision"
+external toPrecision : ?digits:t -> (t[@mel.this]) -> string = "toPrecision"
 [@@mel.send]
 (** Formats an [int] using some fairly arbitrary rules
 
@@ -83,7 +82,7 @@ point.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : ?radix:t -> t -> string = "toString"
+external toString : ?radix:t -> (t[@mel.this]) -> string = "toString"
 [@@mel.send]
 (** Formats an [int] as a string
 
