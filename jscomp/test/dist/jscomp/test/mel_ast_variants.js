@@ -14,7 +14,6 @@ function toEnum(x) {
       return 3;
     case /* E */ 4 :
       return 4;
-    
   }
 }
 
@@ -30,7 +29,6 @@ function toString(x) {
       return "D";
     case /* E */ 4 :
       return "E";
-    
   }
 }
 
@@ -134,7 +132,6 @@ function foo(x) {
         return 2;
       case /* C */ 2 :
         return 3;
-      
     }
   } else {
     switch (x.TAG) {
@@ -144,7 +141,6 @@ function foo(x) {
         return 5;
       case /* F */ 2 :
         return 6;
-      
     }
   }
 }

@@ -21,7 +21,6 @@ function is_number(_expr) {
       case /* Frac */ 4 :
       case /* Gcd */ 5 :
         return false;
-      
     }
   };
 }
@@ -62,7 +61,6 @@ function compare(context, state, _a, _b) {
           case /* Gcd */ 5 :
             exit = 1;
             break;
-          
         }
         break;
       case /* Neg */ 1 :
@@ -100,7 +98,6 @@ function compare(context, state, _a, _b) {
           case /* Gcd */ 5 :
             exit = 1;
             break;
-          
         }
         break;
       case /* Gcd */ 5 :
@@ -122,7 +119,6 @@ function compare(context, state, _a, _b) {
             exit$1 = 3;
         }
         break;
-      
     }
     if (exit$3 === 5) {
       if (b.TAG === /* Neg */ 1) {
@@ -159,7 +155,6 @@ function compare(context, state, _a, _b) {
         case /* Frac */ 4 :
         case /* Gcd */ 5 :
           return 1;
-        
       }
     }
     switch (exit) {
@@ -178,7 +173,6 @@ function compare(context, state, _a, _b) {
         _b = nb;
         _a = na;
         continue;
-      
     }
   };
 }

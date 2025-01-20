@@ -15,7 +15,6 @@ function f(param) {
     case /* B */ 1 :
     case /* C */ 2 :
       break;
-    
   }
   const a$3 = param._0._0;
   return Math.imul(a$3, a$3);

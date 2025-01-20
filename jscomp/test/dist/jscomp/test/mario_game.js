@@ -148,7 +148,6 @@ function make_enemy(param) {
             0,
             32
           ]);
-    
   }
 }
 
@@ -242,7 +241,6 @@ function make_particle(param) {
             13,
             27
           ]);
-    
   }
 }
 
@@ -314,7 +312,6 @@ function make_type(typ, dir) {
                     32,
                     5
                   ]);
-            
           }
         } else {
           switch (typ$1) {
@@ -374,7 +371,6 @@ function make_type(typ, dir) {
                     32,
                     69
                   ]);
-            
           }
         }
       } else {
@@ -437,7 +433,6 @@ function make_type(typ, dir) {
                     0,
                     64
                   ]);
-            
           }
         } else {
           switch (typ$2) {
@@ -497,7 +492,6 @@ function make_type(typ, dir) {
                     0,
                     64
                   ]);
-            
           }
         }
       }
@@ -553,7 +547,6 @@ function make_type(typ, dir) {
                 0,
                 80
               ]);
-        
       }
     case /* SBlock */ 3 :
       let param$1 = typ._0;
@@ -615,9 +608,7 @@ function make_type(typ, dir) {
                 0,
                 32
               ]);
-        
       }
-    
   }
 }
 
@@ -835,7 +826,6 @@ function make_type$2(t) {
       }
     case /* SBlock */ 3 :
       return setup_obj(false, undefined, undefined);
-    
   }
 }
 
@@ -913,7 +903,6 @@ function spawn(spawnable, context, param) {
         _1: spr,
         _2: obj
       };
-    
   }
 }
 
@@ -997,7 +986,6 @@ function update_player(player, keys, context) {
             } else {
               return;
             }
-          
         }
       }), keys);
   const v = player.vel.x * 0.9;
@@ -1107,7 +1095,6 @@ function collide_block(check_xOpt, dir, obj) {
     case /* East */ 2 :
     case /* West */ 3 :
       break;
-    
   }
   if (check_x) {
     obj.vel.x = 0;
@@ -1171,7 +1158,6 @@ function evolve_enemy(player_dir, typ, spr, obj, context) {
     case /* GKoopaShell */ 3 :
     case /* RKoopaShell */ 4 :
       break;
-    
   }
   obj.dir = player_dir;
   if (obj.vel.x !== 0) {
@@ -1275,13 +1261,11 @@ function col_bypass(c1, c2) {
         case /* Block */ 3 :
           ctypes = false;
           break;
-        
       }
       break;
     case /* Block */ 3 :
       ctypes = false;
       break;
-    
   }
   if (o1.kill || o2.kill) {
     return true;
@@ -1414,7 +1398,6 @@ function kill(collid, ctx) {
           }
         }
       };
-    
   }
 }
 
@@ -1755,7 +1738,6 @@ function process_collision(dir, c1, c2, state) {
             
           }
           break;
-        
       }
       break;
     case /* Enemy */ 1 :
@@ -1825,7 +1807,6 @@ function process_collision(dir, c1, c2, state) {
                     case /* West */ 3 :
                       exit$3 = 4;
                       break;
-                    
                   }
                   if (exit$3 === 4) {
                     rev_dir(o1$4, t1, s1$3);
@@ -1874,7 +1855,6 @@ function process_collision(dir, c1, c2, state) {
                   undefined
                 ];
               }
-            
           }
         case /* Item */ 2 :
           return [
@@ -1897,7 +1877,6 @@ function process_collision(dir, c1, c2, state) {
             case /* West */ 3 :
               exit$4 = 4;
               break;
-            
           }
           if (exit$4 === 4) {
             let exit$5 = 0;
@@ -1953,11 +1932,9 @@ function process_collision(dir, c1, c2, state) {
                   updated_block$1,
                   spawned_item$1
                 ];
-              
             }
           }
           break;
-        
       }
       break;
     case /* Item */ 2 :
@@ -1991,9 +1968,7 @@ function process_collision(dir, c1, c2, state) {
                 undefined,
                 undefined
               ];
-            
           }
-        
       }
       break;
     case /* Block */ 3 :
@@ -2001,7 +1976,6 @@ function process_collision(dir, c1, c2, state) {
         undefined,
         undefined
       ];
-    
   }
   switch (exit) {
     case 1 :
@@ -2087,7 +2061,6 @@ function process_collision(dir, c1, c2, state) {
             undefined,
             undefined
           ];
-        
       }
       if (exit$6 === 4) {
         dec_health(o2$2);
@@ -2098,7 +2071,6 @@ function process_collision(dir, c1, c2, state) {
         ];
       }
       break;
-    
   }
 }
 
@@ -2366,7 +2338,6 @@ function keydown(evt) {
       case 87 :
         pressed_keys.up = true;
         break;
-      
     }
   } else if (match >= 32) {
     switch (match) {
@@ -2388,7 +2359,6 @@ function keydown(evt) {
       case 40 :
         pressed_keys.down = true;
         break;
-      
     }
   }
   return true;
@@ -2436,7 +2406,6 @@ function keyup(evt) {
       case 40 :
         pressed_keys.down = false;
         break;
-      
     }
   }
   return true;

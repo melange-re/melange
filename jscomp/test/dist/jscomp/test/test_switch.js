@@ -20,7 +20,6 @@ function f(param) {
       return 2;
     case /* F */ 3 :
       return 3;
-    
   }
 }
 

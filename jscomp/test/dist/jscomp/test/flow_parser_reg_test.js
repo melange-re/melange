@@ -102,7 +102,6 @@ function order_of_filename(param) {
     case /* SourceFile */ 1 :
     case /* JsonFile */ 2 :
       return 3;
-    
   }
 }
 
@@ -277,7 +276,6 @@ function error(str) {
         return "Duplicate `declare module.exports` statement!";
       case /* AmbiguousDeclareModuleKind */ 61 :
         return "Found both `declare module.exports` and `declare export` in the same module. Modules can only have 1 since they are either an ES module xor they are a CommonJS module.";
-      
     }
   } else {
     switch (str.TAG) {
@@ -337,7 +335,6 @@ function error(str) {
                   },
                   _1: "Duplicate export for `%s`"
                 }), str._0);
-      
     }
   }
 }
@@ -1919,7 +1916,6 @@ function token_to_string(param) {
         return "T_STRING_TYPE";
       case /* T_VOID_TYPE */ 111 :
         return "T_VOID_TYPE";
-      
     }
   } else {
     switch (param.TAG) {
@@ -1935,7 +1931,6 @@ function token_to_string(param) {
         return "T_JSX_TEXT";
       case /* T_NUMBER_SINGLETON_TYPE */ 5 :
         return "T_NUMBER_SINGLETON_TYPE";
-      
     }
   }
 }
@@ -2057,7 +2052,6 @@ function get_result_and_clear_state(param) {
         Stdlib__Lexing.lexeme(env.lex_lb)
       ];
       break;
-    
   }
   return [
     env,
@@ -2494,7 +2488,6 @@ function mk_num_singleton(number_type, num, neg) {
     case /* NORMAL */ 3 :
       value = float_of_string(num);
       break;
-    
   }
   const value$1 = neg === "" ? value : - value;
   return {
@@ -3428,7 +3421,6 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
               ];
             }
             break;
-          
         }
         Stdlib__Buffer.add_char(raw, c);
         Stdlib__Buffer.add_char(buf, c);
@@ -5655,7 +5647,6 @@ function lex(t) {
     case /* PREDICATE */ 6 :
       match$1 = token$1(lex_env);
       break;
-    
   }
   const lex_env$1 = match$1[0];
   const lexbuf = lex_env$1.lex_lb;
@@ -6090,7 +6081,6 @@ function get_unexpected_error(param) {
         return /* UnexpectedIdentifier */ 2;
       case /* T_EOF */ 105 :
         return /* UnexpectedEOS */ 4;
-      
     }
   } else {
     switch (tmp.TAG) {
@@ -6099,7 +6089,6 @@ function get_unexpected_error(param) {
       case /* T_STRING */ 1 :
       case /* T_JSX_TEXT */ 4 :
         return /* UnexpectedString */ 1;
-      
     }
   }
   const word = param[1];
@@ -7311,7 +7300,6 @@ function primary(env) {
           }
         }
       ];
-    
   }
 }
 
@@ -7369,7 +7357,6 @@ function function_param_or_generic_type(env) {
               tl: /* [] */ 0
             })
       };
-    
   }
 }
 
@@ -7487,7 +7474,6 @@ function function_param_list_without_parens(env) {
             rest,
             Stdlib__List.rev(acc)
           ];
-        
       }
     };
   };
@@ -7557,7 +7543,6 @@ function params(env, _acc) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const acc_0 = union(env);
@@ -7667,7 +7652,6 @@ function params$1(env, allow_default, _require_default, _acc) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc$1);
-        
       }
     }
     token$4(env, /* T_COMMA */ 8);
@@ -7709,7 +7693,6 @@ function types(env, _acc) {
         case /* T_RBRACKET */ 6 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const acc_0 = union(env);
@@ -7953,7 +7936,6 @@ function properties(allow_static, env, _param) {
           }
         ];
         continue;
-      
     }
   };
 }
@@ -8080,7 +8062,6 @@ function pattern(check_env, _param) {
               /* ExpectedPatternFoundExpression */ 18
             ]);
         return check_env;
-      
     }
   };
 }
@@ -8101,7 +8082,6 @@ function object_property(check_env) {
       case /* Computed */ 2 :
         check_env$1 = check_env;
         break;
-      
     }
     return pattern(check_env$1, property.pattern);
   };
@@ -8238,7 +8218,6 @@ function param_list(env, _param) {
           has_default ? Stdlib__List.rev(defaults) : /* [] */ 0,
           rest
         ];
-      
     }
   };
 }
@@ -9076,7 +9055,6 @@ function number(env, number_type) {
         }
       }
       break;
-    
   }
   token$4(env, {
         TAG: /* T_NUMBER */ 0,
@@ -9255,7 +9233,6 @@ function primary$1(env) {
                 case 105 :
                 case 109 :
                   return Stdlib__Buffer.add_char(filtered_flags, c);
-                
               }
             }), raw_flags);
         const flags = Stdlib__Buffer.contents(filtered_flags);
@@ -9391,7 +9368,6 @@ function primary$1(env) {
           }
         }
       ];
-    
   }
 }
 
@@ -9550,7 +9526,6 @@ function identifier_or_reserved_keyword(env) {
         Curry._2(Parse.identifier, undefined, env),
         undefined
       ];
-    
   }
 }
 
@@ -9609,7 +9584,6 @@ function try_assignment_but_not_arrow_function(env) {
         throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
               MEL_EXN_ID: Parser_env_Try.Rollback
             });
-      
     }
   }
   if (!Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
@@ -10131,7 +10105,6 @@ function arguments$p(env, _acc) {
         case /* T_RPAREN */ 4 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const acc_0 = argument(env);
@@ -10329,7 +10302,6 @@ function elements(env, _acc) {
         case /* T_RBRACKET */ 6 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const elem$1 = {
@@ -10579,7 +10551,6 @@ function key(env) {
             ]
           }
         ];
-      
     }
   }
   const match$1 = identifier_or_reserved_keyword(env);
@@ -10605,7 +10576,6 @@ function _method(env, kind) {
     case /* Set */ 2 :
       typeParameters = undefined;
       break;
-    
   }
   token$4(env, /* T_LPAREN */ 3);
   let params;
@@ -10635,7 +10605,6 @@ function _method(env, kind) {
         tl: /* [] */ 0
       };
       break;
-    
   }
   token$4(env, /* T_RPAREN */ 4);
   const returnType = wrap(annotation_opt, env);
@@ -10750,7 +10719,6 @@ function property$1(env) {
       case /* Computed */ 2 :
         exit = 1;
         break;
-      
     }
   }
   if (exit === 1) {
@@ -10865,7 +10833,6 @@ function init(env, start_loc, key, async, generator) {
         case /* Computed */ 2 :
           tmp = key._0;
           break;
-        
       }
       match$1 = [
         tmp,
@@ -10919,7 +10886,6 @@ function init(env, start_loc, key, async, generator) {
         true
       ];
       break;
-    
   }
   const value$1 = match$1[0];
   return [
@@ -10949,7 +10915,6 @@ function check_property(env, prop_map, prop) {
       break;
     case /* Computed */ 2 :
       return prop_map;
-    
   }
   if (exit === 1) {
     const match$1 = prop$1.key;
@@ -10976,7 +10941,6 @@ function check_property(env, prop_map, prop) {
                     MEL_EXN_ID: "Failure",
                     _1: "RegExp cannot be property key"
                   });
-            
           }
         }
         break;
@@ -10992,7 +10956,6 @@ function check_property(env, prop_map, prop) {
                 30
               ]
             });
-      
     }
     let prev_kinds;
     try {
@@ -11018,7 +10981,6 @@ function check_property(env, prop_map, prop) {
       case /* Set */ 2 :
         kind_string = "Set";
         break;
-      
     }
     let exit$1 = 0;
     switch (kind_string) {
@@ -11039,7 +11001,6 @@ function check_property(env, prop_map, prop) {
       case "Set" :
         exit$1 = 2;
         break;
-      
     }
     if (exit$1 === 2) {
       if (Curry._2(mem$1, "Init", prev_kinds)) {
@@ -11071,7 +11032,6 @@ function properties$1(env, _param) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const prop = property$1(env);
@@ -11184,7 +11144,6 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
       case /* T_COLON */ 77 :
         exit = 2;
         break;
-      
     }
   }
   if (exit === 2 && !async && !generator) {
@@ -11259,7 +11218,6 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
     case /* Computed */ 2 :
       kind = /* Method */ 1;
       break;
-    
   }
   return {
     TAG: /* Method */ 0,
@@ -11330,13 +11288,11 @@ function class_element(env) {
               return init$1(env, start_loc, decorators, key$1, async, generator$1, $$static);
             }
             break;
-          
         }
         break;
       case /* Literal */ 0 :
       case /* Computed */ 2 :
         break;
-      
     }
   }
   return init$1(env, start_loc, decorators, match[1], async, generator$1, $$static);
@@ -11719,7 +11675,6 @@ function declare(in_moduleOpt, env) {
         error$1(env, /* DeclareAsync */ 49);
         token$4(env, /* T_ASYNC */ 61);
         return declare_function_statement(env, start_loc);
-      
     }
   }
   if (in_module) {
@@ -11747,7 +11702,6 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
             Stdlib__List.rev(specifiers),
             Stdlib__List.rev(errs)
           ];
-        
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -11989,7 +11943,6 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           case /* T_TYPE */ 59 :
             error$1(env$1, /* DeclareExportType */ 52);
             break;
-          
         }
       }
       token$4(env$1, /* T_LCURLY */ 1);
@@ -12080,7 +12033,6 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             case /* T_LET */ 26 :
               error$1(env$1, /* DeclareExportLet */ 50);
               break;
-            
           }
         }
         const $$var = declare_var(env$1, start_loc);
@@ -12104,7 +12056,6 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
         }
       ];
-    
   }
 }
 
@@ -12312,7 +12263,6 @@ function module_items(env, _module_kind, _acc) {
             module_kind,
             Stdlib__List.rev(acc)
           ];
-        
       }
     }
     const stmt = declare(true, env);
@@ -12438,7 +12388,6 @@ function fold(acc) {
               MEL_EXN_ID: "Failure",
               _1: "Parser error: No such thing as an expression pattern!"
             });
-      
     }
   };
 }
@@ -12508,7 +12457,6 @@ function case_list(env, _param) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -12638,7 +12586,6 @@ function specifier_list(env, _acc) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -12782,7 +12729,6 @@ function from_expr(env, param) {
                       _0: key._0
                     };
                     break;
-                  
                 }
                 const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
                 return {
@@ -12842,7 +12788,6 @@ function from_expr(env, param) {
             _0: expr._0
           }
         ];
-      
     }
   }
   return [
@@ -12895,7 +12840,6 @@ function _object$2(restricted_error) {
           _0: lit._0
         };
         break;
-      
     }
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let prop;
@@ -12932,7 +12876,6 @@ function _object$2(restricted_error) {
           error_unexpected(env);
           prop = undefined;
           break;
-        
       }
     }
     if (prop === undefined) {
@@ -12980,7 +12923,6 @@ function _object$2(restricted_error) {
           case /* T_RCURLY */ 2 :
           case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-          
         }
       }
       const prop = property(env);
@@ -13065,7 +13007,6 @@ function _array(restricted_error) {
           case /* T_RBRACKET */ 6 :
           case /* T_EOF */ 105 :
             return Stdlib__List.rev(acc);
-          
         }
       }
       const pattern$2 = pattern$1(env, restricted_error);
@@ -13142,7 +13083,6 @@ function pattern$1(env, restricted_error) {
         return _object$2(restricted_error)(env);
       case /* T_LBRACKET */ 5 :
         return _array(restricted_error)(env);
-      
     }
   }
   const id = Curry._2(Parse.identifier_with_type, env, restricted_error);
@@ -13425,7 +13365,6 @@ function attributes(env, _acc) {
         case /* T_DIV */ 96 :
         case /* T_EOF */ 105 :
           return Stdlib__List.rev(acc);
-        
       }
     }
     const attribute$2 = {
@@ -13613,7 +13552,6 @@ function normalize(name) {
               _0: _object._0
             });
       return _object$1 + ("." + match$1.property[1].name);
-    
   }
 }
 
@@ -13970,7 +13908,6 @@ function module_item(env) {
               }
             }
           ];
-        
       }
     case /* T_IMPORT */ 48 :
       error_on_decorators(env)(decorators);
@@ -14239,7 +14176,6 @@ function statement_list_item(decoratorsOpt, env) {
           btwn(start_loc, end_loc$3),
           declaration
         ];
-      
     }
   }
   if (Curry._2(Parser_env_Peek.is_function, undefined, env)) {
@@ -14693,7 +14629,6 @@ function statement(env) {
                     }
                   }
                 ];
-              
             }
           }
           Stdlib__List.iter((function (param) {
@@ -15492,7 +15427,6 @@ function parse(content, options) {
             return node("BooleanTypeAnnotation", loc, []);
           case /* Exists */ 6 :
             return node("ExistsTypeAnnotation", loc, []);
-          
         }
       } else {
         switch (t.TAG) {
@@ -15621,7 +15555,6 @@ function parse(content, options) {
                     string(s$2.raw)
                   ]
                 ]);
-          
         }
       }
     };
@@ -15764,7 +15697,6 @@ function parse(content, options) {
                     MEL_EXN_ID: "Failure",
                     _1: "matched above"
                   });
-            
           }
           return node("UnaryExpression", loc, [
                 [
@@ -15851,7 +15783,6 @@ function parse(content, options) {
             case /* Instanceof */ 21 :
               operator$1 = "instanceof";
               break;
-            
           }
           return node("BinaryExpression", loc, [
                 [
@@ -15911,7 +15842,6 @@ function parse(content, options) {
             case /* BitAndAssign */ 12 :
               operator$2 = "&=";
               break;
-            
           }
           return node("AssignmentExpression", loc, [
                 [
@@ -16153,7 +16083,6 @@ function parse(content, options) {
                   type_annotation(typecast.typeAnnotation)
                 ]
               ]);
-        
       }
     };
     const literal = function (param) {
@@ -16179,7 +16108,6 @@ function parse(content, options) {
             const match = value._0;
             value_ = regexp$1(loc, match.pattern, match.flags);
             break;
-          
         }
       }
       let props;
@@ -16273,7 +16201,6 @@ function parse(content, options) {
           return identifier(obj._0);
         case /* Expression */ 4 :
           return expression(obj._0);
-        
       }
     };
     const jsx_name = function (id) {
@@ -16284,7 +16211,6 @@ function parse(content, options) {
           return jsx_namespaced_name(id._0);
         case /* MemberExpression */ 2 :
           return jsx_member_expression(id._0);
-        
       }
     };
     const template_element = function (param) {
@@ -16458,7 +16384,6 @@ function parse(content, options) {
                   string(text.raw)
                 ]
               ]);
-        
       }
     };
     const jsx_expression_container = function (param) {
@@ -16646,7 +16571,6 @@ function parse(content, options) {
                 MEL_EXN_ID: "Failure",
                 _1: "There should not be computed object type property keys"
               });
-        
       }
       return node("ObjectTypeProperty", param[0], [
             [
@@ -16742,7 +16666,6 @@ function parse(content, options) {
               true
             ];
             break;
-          
         }
         let kind;
         switch (method_.kind) {
@@ -16758,7 +16681,6 @@ function parse(content, options) {
           case /* Set */ 3 :
             kind = "set";
             break;
-          
         }
         return node("MethodDefinition", param[0], [
               [
@@ -16810,7 +16732,6 @@ function parse(content, options) {
               true
             ];
             break;
-          
         }
         return node("ClassProperty", param$1[0], [
               [
@@ -17255,7 +17176,6 @@ function parse(content, options) {
               case /* Interface */ 5 :
                 declaration = interface_declaration(match$3._0);
                 break;
-              
             }
           } else {
             declaration = $$null;
@@ -17337,7 +17257,6 @@ function parse(content, options) {
                             "id",
                             identifier(param[1])
                           ]]);
-                  
                 }
               }), $$import.specifiers);
           const match$5 = $$import.importKind;
@@ -17352,7 +17271,6 @@ function parse(content, options) {
             case /* ImportValue */ 2 :
               import_kind = "value";
               break;
-            
           }
           return node("ImportDeclaration", loc, [
                 [
@@ -17368,7 +17286,6 @@ function parse(content, options) {
                   string(import_kind)
                 ]
               ]);
-        
       }
     };
     const type_param = function (param) {
@@ -17436,7 +17353,6 @@ function parse(content, options) {
         case /* Const */ 2 :
           kind = "const";
           break;
-        
       }
       return node("VariableDeclaration", param[0], [
             [
@@ -17598,7 +17514,6 @@ function parse(content, options) {
               true
             ];
             break;
-          
         }
         return node("PropertyPattern", match[0], [
               [
@@ -17679,7 +17594,6 @@ function parse(content, options) {
               true
             ];
             break;
-          
         }
         const match$2 = prop.kind;
         let kind;
@@ -17693,7 +17607,6 @@ function parse(content, options) {
           case /* Set */ 2 :
             kind = "set";
             break;
-          
         }
         return node("Property", match[0], [
               [
