@@ -60,11 +60,13 @@ external all6 :
 
 external race : 'a t array -> 'a t = "race" [@@mel.scope "Promise"]
 
-external then_ : (('a -> 'b t)[@mel.uncurry]) -> 'b t = "then"
-[@@mel.send.pipe: 'a t]
+external then_ : (('a -> 'b t)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'b t
+  = "then"
+[@@mel.send]
 
-external catch : ((error -> 'a t)[@mel.uncurry]) -> 'a t = "catch"
-[@@mel.send.pipe: 'a t]
+external catch : ((error -> 'a t)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t
+  = "catch"
+[@@mel.send]
 (* [ p |> catch handler]
     Note in JS the returned promise type is actually runtime dependent,
     if promise is rejected, it will pick the [handler] otherwise the original promise,
