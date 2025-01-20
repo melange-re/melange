@@ -4213,7 +4213,6 @@ function method_impl(table, i, arr) {
       const m$6 = next(undefined);
       const n$18 = next(undefined);
       return send_meth(m$6, n$18, new_cache(table));
-    
   }
 }
 

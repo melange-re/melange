@@ -102,7 +102,6 @@ function escaped(s) {
           n = n + 1 | 0;
           s$p[n] = /* 'r' */114;
           break;
-        
       }
     }
     switch (exit) {
@@ -120,7 +119,6 @@ function escaped(s) {
         n = n + 1 | 0;
         s$p[n] = c;
         break;
-      
     }
     n = n + 1 | 0;
   }

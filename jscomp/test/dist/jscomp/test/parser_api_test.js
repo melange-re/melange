@@ -239,14 +239,12 @@ if (match) {
                                                                                                                                     case /* Lapply */ 2 :
                                                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                       break;
-                                                                                                                                    
                                                                                                                                   }
                                                                                                                                   break;
                                                                                                                                 case /* Lident */ 0 :
                                                                                                                                 case /* Lapply */ 2 :
                                                                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                                                   break;
-                                                                                                                                
                                                                                                                               }
                                                                                                                             } else {
                                                                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -283,14 +281,12 @@ if (match) {
                                                                                                         case /* Lapply */ 2 :
                                                                                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                           break;
-                                                                                                        
                                                                                                       }
                                                                                                       break;
                                                                                                     case /* Lident */ 0 :
                                                                                                     case /* Lapply */ 2 :
                                                                                                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                                       break;
-                                                                                                    
                                                                                                   }
                                                                                                 } else {
                                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -321,7 +317,6 @@ if (match) {
                                                                                 case /* Lapply */ 2 :
                                                                                   eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                                                   break;
-                                                                                
                                                                               }
                                                                             } else {
                                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -352,7 +347,6 @@ if (match) {
                                                             case /* Lapply */ 2 :
                                                               eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                                               break;
-                                                            
                                                           }
                                                         } else {
                                                           eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
@@ -386,7 +380,6 @@ if (match) {
                                       case /* Lapply */ 2 :
                                         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                                         break;
-                                      
                                     }
                                   } else {
                                     eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);

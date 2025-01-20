@@ -1770,7 +1770,6 @@ function pr_exp0(ppf, s) {
     case /* Lambda */ 0 :
     case /* Apply */ 2 :
       break;
-    
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
             TAG: /* Format */ 0,
@@ -1865,7 +1864,6 @@ function pr_other_applications(ppf, f) {
                 },
                 _1: "%a@ %a"
               }), pr_app, f._0, pr_exp0, f._1);
-    
   }
 }
 
@@ -1920,7 +1918,6 @@ function pr_lambda(ppf, e) {
     case /* Var */ 1 :
     case /* Apply */ 2 :
       return pr_app(ppf, e);
-    
   }
 }
 

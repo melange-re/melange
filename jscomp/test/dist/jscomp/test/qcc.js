@@ -1064,7 +1064,6 @@ function unary(stk) {
         read(/* Int */ 0);
       }
       return postfix(stk);
-    
   }
 }
 
@@ -1468,7 +1467,6 @@ function stmt(brk, stk) {
         return;
       case "{" :
         return block(brk, stk);
-      
     }
   }
   Curry._1(unnext, t);
@@ -1565,7 +1563,6 @@ function top(_param) {
               _n = n + 1 | 0;
               _regs = Stdlib__List.tl(regs);
               continue;
-            
           }
         };
       };
@@ -1956,7 +1953,6 @@ function main(param) {
                   },
                   _1: "Symbol '%s' (%d)\n"
                 }), symstr(i), i);
-      
     }
   };
   const f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);

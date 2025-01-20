@@ -33,7 +33,6 @@ function f3(x) {
     case /* B */ 1 :
     case /* D */ 3 :
       return x._0 + 2 | 0;
-    
   }
 }
 

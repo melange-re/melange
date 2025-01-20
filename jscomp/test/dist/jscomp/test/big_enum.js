@@ -604,7 +604,6 @@ function to_enum(param) {
       return 298;
     case /* A299 */ 299 :
       return 299;
-    
   }
 }
 
@@ -1210,7 +1209,6 @@ function to_string(param) {
       return "A298";
     case /* A299 */ 299 :
       return "A299";
-    
   }
 }
 

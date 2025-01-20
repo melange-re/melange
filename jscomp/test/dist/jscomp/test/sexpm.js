@@ -72,7 +72,6 @@ function _must_escape(s) {
               throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
                     MEL_EXN_ID: Stdlib.Exit
                   });
-            
           }
         } else {
           exit = 1;
@@ -579,7 +578,6 @@ function expr_starting_with(c, k, t) {
                 },
                 _1: "unexpected ')'"
               });
-        
       }
     }
     
@@ -707,7 +705,6 @@ function atom(k, t) {
                   },
                   _1: "unexpected '\"' in the middle of an atom"
                 });
-          
         }
       } else {
         exit = 1;
@@ -721,7 +718,6 @@ function atom(k, t) {
         continue;
       case 2 :
         return _return_atom(c, k, t);
-      
     }
   };
 }
@@ -789,7 +785,6 @@ function escaped(k, t) {
           break;
         case 116 :
           return Curry._1(k, /* '\t' */9);
-        
       }
     }
     
@@ -1193,7 +1188,6 @@ function MakeDecode(funarg) {
                   },
                   _1: "unexpected ')'"
                 });
-          
         }
       }
       
@@ -1318,7 +1312,6 @@ function MakeDecode(funarg) {
                     },
                     _1: "unexpected '\"' in the middle of an atom"
                   });
-            
           }
         } else {
           exit = 1;
@@ -1332,7 +1325,6 @@ function MakeDecode(funarg) {
           continue;
         case 2 :
           return _return_atom(c, k, t);
-        
       }
     };
   };
@@ -1398,7 +1390,6 @@ function MakeDecode(funarg) {
             break;
           case 116 :
             return Curry._1(k, /* '\t' */9);
-          
         }
       }
       

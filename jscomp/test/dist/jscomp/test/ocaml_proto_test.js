@@ -368,7 +368,6 @@ function string_of_programmatic_error(e) {
     case /* One_of_should_be_inlined_in_message */ 3 :
       tmp = "one of variant encoding must be inlined in message";
       break;
-    
   }
   return "Programatic_error" + tmp;
 }
@@ -718,7 +717,6 @@ function prepare_error(e) {
                 },
                 _1: "File %s, line %i:\n%s"
               }), e._0, e._1, e._2);
-    
   }
 }
 
@@ -734,7 +732,6 @@ function add_loc(loc, exn) {
         case /* Invalid_field_label */ 13 :
         case /* Missing_field_label */ 14 :
           return exn;
-        
       }
     }
     
@@ -1866,7 +1863,6 @@ function string_of_basic_type(param) {
       return "bytes";
     case /* Bt_bool */ 6 :
       return "bool";
-    
   }
 }
 
@@ -1968,7 +1964,6 @@ function string_of_record_field_type(param) {
       }
     case /* Rft_variant_field */ 4 :
       return param._0.v_name;
-    
   }
 }
 
@@ -2034,7 +2029,6 @@ function string_of_payload_kind(capitalize, payload_kind, packed) {
       case /* Pk_bytes */ 2 :
         s = "bytes";
         break;
-      
     }
   } else {
     s = packed ? "bytes" : "varint";
@@ -2168,7 +2162,6 @@ function runtime_function(param) {
                     _1: "Invalid encoding/OCaml type combination"
                   });
           }
-        
       }
     } else if (match$1._0) {
       switch (param[2]) {
@@ -2245,7 +2238,6 @@ function runtime_function(param) {
                     _1: "Invalid encoding/OCaml type combination"
                   });
           }
-        
       }
     } else if (match$2._0) {
       switch (param[2]) {
@@ -2890,7 +2882,6 @@ function gen_decode_record(and_, param, sc) {
                                                 }), rf_label, vc_constructor));
                                   }));
                             }), param$5.v_constructors);
-                      
                     }
                   }), r_fields);
               line$1(sc, "| Some (n, payload_kind) -> Pbrt.Decoder.skip d payload_kind; loop ()");
@@ -3160,7 +3151,6 @@ function gen_struct(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -3235,7 +3225,6 @@ function gen_sig(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -3598,7 +3587,6 @@ function gen_pp_record(and_, param, sc) {
                                       },
                                       _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
                                     }), rf_label, "pp_" + rf_field_type._0.v_name, var_name));
-                      
                     }
                   }), r_fields);
               line$1(sc, "Format.pp_close_box fmt ()");
@@ -3814,7 +3802,6 @@ function gen_struct$1(and_, t, sc) {
     case /* Const_variant */ 2 :
       gen_pp_const_variant(and_, r._0, sc);
       break;
-    
   }
   return true;
 }
@@ -3875,7 +3862,6 @@ function gen_sig$1(and_, t, sc) {
     case /* Const_variant */ 2 :
       f(v._0.cv_name);
       break;
-    
   }
   return true;
 }
@@ -4628,7 +4614,6 @@ function compile_default_p2(all_types, field) {
       } else {
         return invalid_default_value(field_name$1, "invalid default type (int expected)", undefined);
       }
-    
   }
 }
 
@@ -4810,7 +4795,6 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
               Stdlib.$at(extensions, f._0),
               all_types
             ];
-          
         }
       }), [
         /* [] */ 0,
@@ -4856,7 +4840,6 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             return Stdlib__List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
           case /* Message_map_field */ 2 :
             return number_index;
-          
         }
       }), /* [] */ 0, message_body);
   return Stdlib.$at(match[2], {
@@ -5000,7 +4983,6 @@ function compile_message_p2(types, param, message) {
             return /* Field_type_string */ 13;
           case /* Field_type_bytes */ 14 :
             return /* Field_type_bytes */ 14;
-          
         }
       } else {
         throw new Caml_js_exceptions.MelangeError(Compilation_error, {
@@ -5180,7 +5162,6 @@ function compile_message_p2(types, param, message) {
               hd: resolved_map,
               tl: message_body
             };
-          
         }
       }), /* [] */ 0, message.message_body);
   const message_body$1 = Stdlib__List.rev(message_body);
@@ -5234,7 +5215,6 @@ function node_of_proto_type(param) {
                     tl: /* [] */ 0
                   };
                 }
-              
             }
           }), match._0.message_body));
   return {
@@ -5481,7 +5461,6 @@ function gen_struct$2(and_, t, scope) {
     case /* Const_variant */ 2 :
       gen_type_const_variant(and_, r._0, scope);
       break;
-    
   }
   return true;
 }
@@ -5498,7 +5477,6 @@ function gen_sig$2(and_, t, scope) {
     case /* Const_variant */ 2 :
       gen_type_const_variant(and_, r._0, scope);
       break;
-    
   }
   return true;
 }
@@ -6012,7 +5990,6 @@ function gen_encode_record(and_, param, sc) {
                             }), v_constructors);
                       }));
                   return line$1(sc, ");");
-                
               }
             }), r_fields);
         line$1(sc, "()");
@@ -6224,7 +6201,6 @@ function gen_struct$3(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -6295,7 +6271,6 @@ function gen_sig$3(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -6445,7 +6420,6 @@ function default_value_of_field_type(field_name, field_type, field_default) {
         } else {
           return "false";
         }
-      
     }
   } else {
     return function_name_of_user_defined("default", field_type._0) + " ()";
@@ -6547,7 +6521,6 @@ function record_field_default_info(record_field) {
             });
       }
       break;
-    
   }
   return [
     rf_label,
@@ -6891,7 +6864,6 @@ function gen_struct$4(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -7044,7 +7016,6 @@ function gen_sig$4(and_, t, sc) {
         true
       ];
       break;
-    
   }
   return tmp[1];
 }
@@ -7409,7 +7380,6 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
         TAG: /* Ft_basic_type */ 0,
         _0: /* Bt_bytes */ 5
       };
-    
   }
 }
 
@@ -7585,7 +7555,6 @@ function compile(proto_definition) {
                   case /* Message_field */ 0 :
                   case /* Message_map_field */ 2 :
                     break;
-                  
                 }
                 const match = Stdlib__List.fold_left((function (param, field) {
                       const fields = param[1];
@@ -7790,7 +7759,6 @@ function compile(proto_definition) {
                               tl: fields
                             }
                           ];
-                        
                       }
                     }), [
                       /* [] */ 0,

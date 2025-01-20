@@ -104,7 +104,6 @@ function ansi_of_color(param) {
       return "6";
     case /* White */ 7 :
       return "7";
-    
   }
 }
 
@@ -123,7 +122,6 @@ function code_of_style(c) {
       return "0";
     case /* Dim */ 2 :
       return "2";
-    
   }
 }
 
@@ -312,7 +310,6 @@ function setup(o) {
         case /* Never */ 2 :
           tmp = false;
           break;
-        
       }
     } else {
       tmp = false;
@@ -368,7 +365,6 @@ function number(param) {
         return 39;
       case /* Bs_polymorphic_comparison */ 16 :
         return 102;
-      
     }
   } else {
     switch (param.TAG) {
@@ -446,7 +442,6 @@ function number(param) {
         return 103;
       case /* Bs_derive_warning */ 36 :
         return 104;
-      
     }
   }
 }
@@ -747,7 +742,6 @@ function parse_opt(error, active, flags, s) {
                 });
           case 45 :
             return loop_letter_num(clear, i + 1 | 0);
-          
         }
       } else {
         throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
@@ -851,7 +845,6 @@ function message(s) {
         return "unused rec flag.";
       case /* Bs_polymorphic_comparison */ 16 :
         return "polymorphic comparison introduced (maybe unsafe)";
-      
     }
   } else {
     switch (s.TAG) {
@@ -1214,7 +1207,6 @@ function message(s) {
         return "BuckleScript FFI warning: " + s._0;
       case /* Bs_derive_warning */ 36 :
         return "BuckleScript bs.deriving warning: " + s._0;
-      
     }
   }
 }
@@ -2008,7 +2000,6 @@ function last(s) {
       return s._1;
     case /* Lapply */ 2 :
       return fatal_error("Longident.last");
-    
   }
 }
 
@@ -2088,7 +2079,6 @@ function from_pair_suites(name, suites) {
                             return assert_fail("failed");
                           case /* FailWith */ 9 :
                             return assert_fail(spec._0);
-                          
                         }
                       }));
                 }), suites);
@@ -2169,7 +2159,6 @@ function from_pair_suites(name, suites) {
               case /* FailWith */ 9 :
                 console.log("failed: " + fn._0);
                 return;
-              
             }
           }), suites);
     }
@@ -2209,9 +2198,7 @@ function warn_bad_docstrings(param) {
                         TAG: /* Bad_docstring */ 33,
                         _0: false
                       });
-                
               }
-            
           }
         }), Stdlib__List.rev(docstrings.contents));
   }
@@ -2369,7 +2356,6 @@ function get_docstring(info, dsl) {
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
         break;
-      
     }
     ds.ds_attached = info ? /* Info */ 1 : /* Docs */ 2;
     return ds;
@@ -2394,7 +2380,6 @@ function get_docstrings(dsl) {
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
         break;
-      
     }
     ds.ds_attached = /* Docs */ 2;
     _param = param.tl;
@@ -2417,7 +2402,6 @@ function associate_docstrings(dsl) {
           case /* Many */ 2 :
             ds.ds_associated = /* Many */ 2;
             return;
-          
         }
       }), dsl);
 }
@@ -3726,7 +3710,6 @@ function prepare_error(loc) {
                 },
                 _1: "broken invariant in parsetree: %s"
               }), loc._1);
-    
   }
 }
 
@@ -4236,7 +4219,6 @@ function varify_constructors(var_names, t) {
             case /* Lapply */ 2 :
               exit = 1;
               break;
-            
           }
           if (exit === 1) {
             desc = {
@@ -4320,7 +4302,6 @@ function varify_constructors(var_names, t) {
             ]
           };
           break;
-        
       }
     }
     return {
@@ -6847,7 +6828,6 @@ const yyact = [
       case "-." :
         exit = 2;
         break;
-      
     }
     if (exit === 2 && match.TAG === /* Pexp_constant */ 1) {
       const f = match._0;
@@ -6898,7 +6878,6 @@ const yyact = [
       case "+." :
         exit = 2;
         break;
-      
     }
     if (exit === 2 && desc.TAG === /* Pexp_constant */ 1 && desc._0.TAG === /* Const_float */ 3) {
       return mkexp(desc);
@@ -10690,7 +10669,6 @@ function type_of_directive(x) {
       return /* Dir_type_int */ 2;
     case /* Dir_string */ 3 :
       return /* Dir_type_string */ 3;
-    
   }
 }
 
@@ -10706,7 +10684,6 @@ function string_of_type_directive(x) {
       return "string";
     case /* Dir_type_null */ 4 :
       return "null";
-    
   }
 }
 
@@ -11117,7 +11094,6 @@ function directive_parse(token_with_comments, lexbuf) {
                             semantic_version_parse(str, 1, last_index)
                           ];
                         break;
-                      
                     }
                   } else {
                     exit$3 = 1;
@@ -11926,7 +11902,6 @@ function char_for_backslash(c) {
       return c;
     case 116 :
       return /* '\t' */9;
-    
   }
 }
 
@@ -12136,7 +12111,6 @@ function report_error(ppf, c) {
               },
               _1: "Unexpected directive"
             });
-      
     }
   } else {
     switch (c.TAG) {
@@ -12279,7 +12253,6 @@ function report_error(ppf, c) {
                   },
                   _1: "Conditional expression type mismatch (%s,%s)"
                 }), string_of_type_directive(c._0), string_of_type_directive(c._1));
-      
     }
   }
 }
@@ -13103,7 +13076,6 @@ function token$1(lexbuf) {
         case /* BlankLine */ 2 :
           set_post_docstrings(post_pos, Stdlib__List.rev(a));
           return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
-        
       }
       set_post_docstrings(post_pos, Stdlib__List.rev(a));
       return set_pre_docstrings(pre_pos, a);
@@ -13120,7 +13092,6 @@ function token$1(lexbuf) {
         set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
         set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
         return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
-      
     }
     set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
     set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
@@ -13159,7 +13130,6 @@ function token$1(lexbuf) {
                               _1: /* Unexpected_directive */ 6,
                               _2: curr(lexbuf)
                             });
-                      
                     }
                     break;
                   case /* END */ 24 :
@@ -13174,7 +13144,6 @@ function token$1(lexbuf) {
                               _1: /* Unexpected_directive */ 6,
                               _2: curr(lexbuf)
                             });
-                      
                     }
                   case /* IF */ 37 :
                     switch (if_then_else$1) {
@@ -13216,7 +13185,6 @@ function token$1(lexbuf) {
                                           _1: /* Unexpected_directive */ 6,
                                           _2: curr(lexbuf)
                                         });
-                                  
                                 }
                               }
                               if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
@@ -13230,7 +13198,6 @@ function token$1(lexbuf) {
                             continue;
                           };
                         }
-                      
                     }
                   default:
                     return Curry._1(look_ahead, match);
@@ -13252,7 +13219,6 @@ function token$1(lexbuf) {
                           _1: /* Unexpected_directive */ 6,
                           _2: curr(lexbuf)
                         });
-                  
                 }
               }
               switch (if_then_else$1) {
@@ -13291,7 +13257,6 @@ function token$1(lexbuf) {
                                   _1: /* Unexpected_directive */ 6,
                                   _2: curr(lexbuf)
                                 });
-                          
                         }
                       }
                       if (else_seen && is_elif(token$3)) {
@@ -13308,7 +13273,6 @@ function token$1(lexbuf) {
                 case /* Dir_if_false */ 1 :
                 case /* Dir_out */ 2 :
                   return Curry._1(look_ahead, match);
-                
               }
             }
             break;
@@ -13322,11 +13286,9 @@ function token$1(lexbuf) {
               case /* BlankLine */ 2 :
                 lines$p = /* BlankLine */ 2;
                 break;
-              
             }
             _lines = lines$p;
             continue;
-          
         }
       } else {
         switch (doc.TAG) {
@@ -13345,7 +13307,6 @@ function token$1(lexbuf) {
               case /* BlankLine */ 2 :
                 lines$p$1 = /* BlankLine */ 2;
                 break;
-              
             }
             _lines = lines$p$1;
             continue;
@@ -13376,7 +13337,6 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             } else if (docs.TAG === /* After */ 0) {
               const a = docs._0;
@@ -13402,7 +13362,6 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             } else {
               const b = docs._2;
@@ -13432,13 +13391,11 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             }
             _docs = docs$p;
             _lines = /* NoLine */ 0;
             continue;
-          
         }
       }
       attach(lines, docs, lexbuf.lex_start_p);
@@ -13814,14 +13771,12 @@ if (match) {
                                                                                                                                     case /* Lapply */ 2 :
                                                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                       break;
-                                                                                                                                    
                                                                                                                                   }
                                                                                                                                   break;
                                                                                                                                 case /* Lident */ 0 :
                                                                                                                                 case /* Lapply */ 2 :
                                                                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                   break;
-                                                                                                                                
                                                                                                                               }
                                                                                                                             } else {
                                                                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13858,14 +13813,12 @@ if (match) {
                                                                                                         case /* Lapply */ 2 :
                                                                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                           break;
-                                                                                                        
                                                                                                       }
                                                                                                       break;
                                                                                                     case /* Lident */ 0 :
                                                                                                     case /* Lapply */ 2 :
                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                       break;
-                                                                                                    
                                                                                                   }
                                                                                                 } else {
                                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13896,7 +13849,6 @@ if (match) {
                                                                                 case /* Lapply */ 2 :
                                                                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                   break;
-                                                                                
                                                                               }
                                                                             } else {
                                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13927,7 +13879,6 @@ if (match) {
                                                             case /* Lapply */ 2 :
                                                               eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                               break;
-                                                            
                                                           }
                                                         } else {
                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13961,7 +13912,6 @@ if (match) {
                                       case /* Lapply */ 2 :
                                         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                         break;
-                                      
                                     }
                                   } else {
                                     eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);

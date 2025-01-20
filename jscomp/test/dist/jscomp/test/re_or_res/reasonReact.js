@@ -284,7 +284,6 @@ function createClass(debugName) {
                         reasonState: reasonStateUpdate._0
                       };
                       break;
-                    
                   }
                 }
                 if (nextTotalState !== curTotalState) {

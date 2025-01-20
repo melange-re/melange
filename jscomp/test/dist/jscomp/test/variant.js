@@ -23,7 +23,6 @@ function foo(n) {
     case /* D */ 2 :
       const match = n._0;
       return match[0] + match[1] | 0;
-    
   }
 }
 
@@ -95,7 +94,6 @@ function rollback_path(subst, p) {
         case /* Pident */ 0 :
         case /* Papply */ 2 :
           return "Pident | Papply";
-        
       }
     } else {
       throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);

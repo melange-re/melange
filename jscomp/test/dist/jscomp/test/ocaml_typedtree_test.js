@@ -383,7 +383,6 @@ function ansi_of_color(param) {
       return "6";
     case /* White */ 7 :
       return "7";
-    
   }
 }
 
@@ -402,7 +401,6 @@ function code_of_style(c) {
       return "0";
     case /* Dim */ 2 :
       return "2";
-    
   }
 }
 
@@ -591,7 +589,6 @@ function setup(o) {
         case /* Never */ 2 :
           tmp = false;
           break;
-        
       }
     } else {
       tmp = false;
@@ -647,7 +644,6 @@ function number(param) {
         return 39;
       case /* Bs_polymorphic_comparison */ 16 :
         return 102;
-      
     }
   } else {
     switch (param.TAG) {
@@ -725,7 +721,6 @@ function number(param) {
         return 103;
       case /* Bs_derive_warning */ 36 :
         return 104;
-      
     }
   }
 }
@@ -1026,7 +1021,6 @@ function parse_opt(error, active, flags, s) {
                 });
           case 45 :
             return loop_letter_num(clear, i + 1 | 0);
-          
         }
       } else {
         throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
@@ -1130,7 +1124,6 @@ function message(s) {
         return "unused rec flag.";
       case /* Bs_polymorphic_comparison */ 16 :
         return "polymorphic comparison introduced (maybe unsafe)";
-      
     }
   } else {
     switch (s.TAG) {
@@ -1493,7 +1486,6 @@ function message(s) {
         return "BuckleScript FFI warning: " + s._0;
       case /* Bs_derive_warning */ 36 :
         return "BuckleScript bs.deriving warning: " + s._0;
-      
     }
   }
 }
@@ -2648,7 +2640,6 @@ function same(_p1, _p2) {
           case /* Pdot */ 1 :
           case /* Papply */ 2 :
             return false;
-          
         }
       case /* Pdot */ 1 :
         switch (p2.TAG) {
@@ -2662,7 +2653,6 @@ function same(_p1, _p2) {
           case /* Pident */ 0 :
           case /* Papply */ 2 :
             return false;
-          
         }
       case /* Papply */ 2 :
         switch (p2.TAG) {
@@ -2676,9 +2666,7 @@ function same(_p1, _p2) {
             _p2 = p2._1;
             _p1 = p1._1;
             continue;
-          
         }
-      
     }
   };
 }
@@ -2698,7 +2686,6 @@ function isfree(id, _id$p) {
         }
         _id$p = id$p._1;
         continue;
-      
     }
   };
 }
@@ -2714,7 +2701,6 @@ function binding_time(_id) {
         continue;
       case /* Papply */ 2 :
         return Caml.caml_int_max(binding_time(id._0), binding_time(id._1));
-      
     }
   };
 }
@@ -2735,7 +2721,6 @@ function name(parenOpt, id) {
       );
     case /* Papply */ 2 :
       return name(paren, id._0) + ("(" + (name(paren, id._1) + ")"));
-    
   }
 }
 
@@ -2757,7 +2742,6 @@ function head(_id) {
                 22
               ]
             });
-      
     }
   };
 }
@@ -2773,7 +2757,6 @@ function last(_id) {
       case /* Papply */ 2 :
         _id = id._1;
         continue;
-      
     }
   };
 }
@@ -2797,7 +2780,6 @@ function flat(_accu, _s) {
         continue;
       case /* Lapply */ 2 :
         return fatal_error("Longident.flat");
-      
     }
   };
 }
@@ -2814,7 +2796,6 @@ function last$1(s) {
       return s._1;
     case /* Lapply */ 2 :
       return fatal_error("Longident.last");
-    
   }
 }
 
@@ -4082,7 +4063,6 @@ function single(param) {
       return 32;
     case /* Inv */ 6 :
       return 64;
-    
   }
 }
 
@@ -4546,7 +4526,6 @@ function equal_tag(t1, t2) {
         case /* Cstr_block */ 1 :
         case /* Cstr_extension */ 2 :
           return false;
-        
       }
     case /* Cstr_block */ 1 :
       switch (t2.TAG) {
@@ -4555,7 +4534,6 @@ function equal_tag(t1, t2) {
         case /* Cstr_constant */ 0 :
         case /* Cstr_extension */ 2 :
           return false;
-        
       }
     case /* Cstr_extension */ 2 :
       switch (t2.TAG) {
@@ -4568,9 +4546,7 @@ function equal_tag(t1, t2) {
           } else {
             return false;
           }
-        
       }
-    
   }
 }
 
@@ -5560,7 +5536,6 @@ function is_constr_row(t) {
       return is_row_name(id._1);
     case /* Papply */ 2 :
       return false;
-    
   }
 }
 
@@ -5691,7 +5666,6 @@ function it_signature_item(it, param) {
       return Curry._2(it.it_class_declaration, it, param._1);
     case /* Sig_class_type */ 6 :
       return Curry._2(it.it_class_type_declaration, it, param._1);
-    
   }
 }
 
@@ -5743,7 +5717,6 @@ function it_module_type(it, sg) {
     case /* Mty_ident */ 0 :
     case /* Mty_alias */ 3 :
       return Curry._1(it.it_path, sg._0);
-    
   }
 }
 
@@ -5766,7 +5739,6 @@ function it_class_type(it, cs) {
     case /* Cty_arrow */ 2 :
       Curry._2(it.it_type_expr, it, cs._1);
       return Curry._2(it.it_class_type, it, cs._2);
-    
   }
 }
 
@@ -6022,7 +5994,6 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
                     case /* Tsubst */ 7 :
                     case /* Tunivar */ 9 :
                       return ty;
-                    
                   }
                 }
                 throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -6047,7 +6018,6 @@ function copy_type_desc(_keep_namesOpt, f, _ty) {
           _1: ty._1,
           _2: Stdlib__List.map(f, ty._2)
         };
-      
     }
   };
 }
@@ -6733,7 +6703,6 @@ function report_error(ppf, filename) {
                 },
                 _1: "Corrupted compiled interface@ %a"
               }), print_filename, filename._0);
-    
   }
 }
 
@@ -7580,9 +7549,7 @@ function warn_bad_docstrings(param) {
                         TAG: /* Bad_docstring */ 33,
                         _0: false
                       });
-                
               }
-            
           }
         }), Stdlib__List.rev(docstrings.contents));
   }
@@ -7740,7 +7707,6 @@ function get_docstring(info, dsl) {
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
         break;
-      
     }
     ds.ds_attached = info ? /* Info */ 1 : /* Docs */ 2;
     return ds;
@@ -7765,7 +7731,6 @@ function get_docstrings(dsl) {
       case /* Unattached */ 0 :
       case /* Docs */ 2 :
         break;
-      
     }
     ds.ds_attached = /* Docs */ 2;
     _param = param.tl;
@@ -7788,7 +7753,6 @@ function associate_docstrings(dsl) {
           case /* Many */ 2 :
             ds.ds_associated = /* Many */ 2;
             return;
-          
         }
       }), dsl);
 }
@@ -9474,7 +9438,6 @@ function map$1(sub, param) {
               }), match[1]));
     case /* Ptyp_extension */ 10 :
       return extension(loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9553,7 +9516,6 @@ function map$2(sub, param) {
       return arrow$1(loc, attrs, desc._0, Curry._2(sub.typ, sub, desc._1), Curry._2(sub.class_type, sub, desc._2));
     case /* Pcty_extension */ 3 :
       return extension$8(loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9577,7 +9539,6 @@ function map_field(sub, param) {
       return Curry._2(Ast_helper_Ctf.attribute, loc, Curry._2(sub.attribute, sub, desc._0));
     case /* Pctf_extension */ 5 :
       return Curry._3(Ast_helper_Ctf.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9607,7 +9568,6 @@ function map$3(sub, param) {
       return extension$3(loc, attrs, Curry._2(sub.extension, sub, desc._0));
     case /* Pmty_alias */ 6 :
       return alias$2(loc, attrs, map_loc(sub, desc._0));
-    
   }
 }
 
@@ -9636,7 +9596,6 @@ function map_with_constraint(sub, d) {
         _0: map_loc(sub, d._0),
         _1: map_loc(sub, d._1)
       };
-    
   }
 }
 
@@ -9718,7 +9677,6 @@ function map_signature_item(sub, param) {
           });
     case /* Psig_extension */ 12 :
       return extension$5(loc, Curry._2(sub.attributes, sub, desc._1), Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9741,7 +9699,6 @@ function map$4(sub, param) {
       return unpack$1(loc, attrs, Curry._2(sub.expr, sub, desc._0));
     case /* Pmod_extension */ 6 :
       return extension$4(loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9827,7 +9784,6 @@ function map_structure_item(sub, param) {
           });
     case /* Pstr_extension */ 14 :
       return extension$6(loc, Curry._2(sub.attributes, sub, desc._1), Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9917,7 +9873,6 @@ function map$5(sub, param) {
       return Curry._5(Ast_helper_Exp.open_, loc, attrs, desc._0, map_loc(sub, desc._1), Curry._2(sub.expr, sub, desc._2));
     case /* Pexp_extension */ 33 :
       return Curry._3(Ast_helper_Exp.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9966,7 +9921,6 @@ function map$6(sub, param) {
       return exception_(loc, attrs, Curry._2(sub.pat, sub, desc._0));
     case /* Ppat_extension */ 15 :
       return extension$1(loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -9992,7 +9946,6 @@ function map$7(sub, param) {
       return constraint_$3(loc, attrs, Curry._2(sub.class_expr, sub, desc._0), Curry._2(sub.class_type, sub, desc._1));
     case /* Pcl_extension */ 6 :
       return extension$7(loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -10033,7 +9986,6 @@ function map_field$1(sub, param) {
       return Curry._2(Ast_helper_Cf.attribute, loc, Curry._2(sub.attribute, sub, desc._0));
     case /* Pcf_extension */ 6 :
       return Curry._3(Ast_helper_Cf.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
-    
   }
 }
 
@@ -10156,7 +10108,6 @@ function default_mapper_payload($$this, x) {
         _0: Curry._2($$this.pat, $$this, x._0),
         _1: map_opt(Curry._1($$this.expr, $$this), x._1)
       };
-    
   }
 }
 
@@ -10498,7 +10449,6 @@ function module_path(s, p) {
         _0: module_path(s, p._0),
         _1: module_path(s, p._1)
       };
-    
   }
 }
 
@@ -10529,7 +10479,6 @@ function modtype_path(s, p) {
       };
     case /* Papply */ 2 :
       return fatal_error("Subst.modtype_path");
-    
   }
 }
 
@@ -10555,7 +10504,6 @@ function type_path(s, p) {
       };
     case /* Papply */ 2 :
       return fatal_error("Subst.type_path");
-    
   }
 }
 
@@ -10836,7 +10784,6 @@ function typexp(s, ty) {
         _0: ty$p$1
       };
       return ty$p$1;
-    
   }
 }
 
@@ -10951,7 +10898,6 @@ function class_type(s, sign) {
         _1: typexp(s, sign._1),
         _2: class_type(s, sign._2)
       };
-    
   }
 }
 
@@ -11132,7 +11078,6 @@ function modtype(s, mty) {
           };
         case /* Papply */ 2 :
           return fatal_error("Subst.modtype");
-        
       }
     case /* Mty_signature */ 1 :
       return {
@@ -11158,7 +11103,6 @@ function modtype(s, mty) {
         TAG: /* Mty_alias */ 3,
         _0: module_path(s, mty._0)
       };
-    
   }
 }
 
@@ -11214,7 +11158,6 @@ function signature$2(s, sg) {
               _1: cltype_declaration(s$p, param._1),
               _2: param._2
             };
-          
         }
       }), sg, match[0]);
 }
@@ -11265,7 +11208,6 @@ function add_constructor_usage(cu, param) {
     case /* Privatize */ 2 :
       cu.cu_privatize = true;
       return;
-    
   }
 }
 
@@ -11299,7 +11241,6 @@ function force(f, x) {
         };
         throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
       }
-    
   }
 }
 
@@ -11311,7 +11252,6 @@ function get_arg(x) {
       return;
     case /* Thunk */ 2 :
       return Caml_option.some(a._0);
-    
   }
 }
 
@@ -11893,7 +11833,6 @@ function find_module_descr(path, env) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -11913,7 +11852,6 @@ function find$3(proj1, proj2, path, env) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -12029,7 +11967,6 @@ function find_module(alias, path, env) {
         md_attributes: /* [] */ 0,
         md_loc: none
       };
-    
   }
 }
 
@@ -12071,7 +12008,6 @@ function normalize_path(lax, env, path) {
         _1: normalize_path(true, env, path._1)
       };
       break;
-    
   }
   try {
     const match = find_module(true, path$1, env);
@@ -12103,7 +12039,6 @@ function normalize_path(lax, env, path) {
           case /* Papply */ 2 :
             tmp$1 = true;
             break;
-          
         }
         tmp = tmp$1;
       }
@@ -12247,7 +12182,6 @@ function is_functor_arg(_path, env) {
         continue;
       case /* Papply */ 2 :
         return true;
-      
     }
   };
 }
@@ -12324,7 +12258,6 @@ function lookup_module_descr(lid, env) {
         },
         Curry._3(components_of_functor_appl$p.contents, f$1, p1, p2)
       ];
-    
   }
 }
 
@@ -12348,7 +12281,6 @@ function lookup_module(load, lid, env) {
             case /* Pdot */ 1 :
             case /* Papply */ 2 :
               break;
-            
           }
         }
         return r[0];
@@ -12424,7 +12356,6 @@ function lookup_module(load, lid, env) {
       }
       may(Curry._3(check_modtype_inclusion.contents, env, match$3.md_type, p2), f._0.fcomp_arg);
       return p;
-    
   }
 }
 
@@ -12455,7 +12386,6 @@ function lookup(proj1, proj2, lid, env) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -12512,7 +12442,6 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -12530,9 +12459,7 @@ function cstr_shadow(cstr1, cstr2) {
           return false;
         case /* Cstr_extension */ 2 :
           return true;
-        
       }
-    
   }
 }
 
@@ -12784,7 +12711,6 @@ function is_lident(param) {
     case /* Ldot */ 1 :
     case /* Lapply */ 2 :
       return false;
-    
   }
 }
 
@@ -12841,7 +12767,6 @@ function mark_constructor(usage, env, name, desc) {
         }
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
       }
-    
   }
   const ty_path$2 = ty_path(desc.cstr_res);
   let ty_decl;
@@ -12936,7 +12861,6 @@ function scrape_alias_safe(env, _mty) {
       case /* Pdot */ 1 :
       case /* Papply */ 2 :
         break;
-      
     }
     _mty = find_module(false, id, env).md_type;
     continue;
@@ -13125,7 +13049,6 @@ function find_shadowed_comps(path, env) {
               }), l));
     case /* Papply */ 2 :
       return /* [] */ 0;
-    
   }
 }
 
@@ -13143,7 +13066,6 @@ function find_shadowed(proj1, proj2, path, env) {
               }), l));
     case /* Papply */ 2 :
       return /* [] */ 0;
-    
   }
 }
 
@@ -13301,7 +13223,6 @@ function scrape_alias(env, path, mty) {
         }
         throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
       }
-    
   }
   if (path !== undefined) {
     return Curry._3(strengthen.contents, env, mty, path);
@@ -13718,7 +13639,6 @@ function prefix_idents(root, pos, sub, param) {
         },
         match$8[1]
       ];
-    
   }
 }
 
@@ -13780,7 +13700,6 @@ function prefix_idents_and_subst(root, sub, sg) {
                     _1: cltype_declaration(sub$1, item._1),
                     _2: item._2
                   };
-                
               }
             }), sg);
       })
@@ -14153,7 +14072,6 @@ function components_of_module_maker(param) {
                       pos.contents
                     ], c.comp_cltypes);
                 return;
-              
             }
           }), sg$1, match[0]);
       return {
@@ -14178,7 +14096,6 @@ function components_of_module_maker(param) {
     case /* Mty_ident */ 0 :
     case /* Mty_alias */ 3 :
       break;
-    
   }
   return {
     TAG: /* Structure_comps */ 0,
@@ -14663,7 +14580,6 @@ function add_item(comp, env) {
       return add_class(comp._0, comp._1, env);
     case /* Sig_class_type */ 6 :
       return add_cltype(comp._0, comp._1, env);
-    
   }
 }
 
@@ -14699,7 +14615,6 @@ function open_signature(slot, root, sg, env0) {
             return store_class(slot, hide(item._0), p, item._1, env, env0);
           case /* Sig_class_type */ 6 :
             return store_cltype(slot, hide(item._0), p, item._1, env, env0);
-          
         }
       }), env0, sg$1, match[0]);
   return {
@@ -15491,7 +15406,6 @@ function report_error$1(ppf, param) {
                 },
                 _1: "'%s' is not a valid value identifier."
               }), param._1);
-    
   }
 }
 
@@ -15591,7 +15505,6 @@ function from_pair_suites(name, suites) {
                             return assert_fail("failed");
                           case /* FailWith */ 9 :
                             return assert_fail(spec._0);
-                          
                         }
                       }));
                 }), suites);
@@ -15672,7 +15585,6 @@ function from_pair_suites(name, suites) {
               case /* FailWith */ 9 :
                 console.log("failed: " + fn._0);
                 return;
-              
             }
           }), suites);
     }
@@ -15848,7 +15760,6 @@ function prepare_error(loc) {
                 },
                 _1: "broken invariant in parsetree: %s"
               }), loc._1);
-    
   }
 }
 
@@ -16369,7 +16280,6 @@ function varify_constructors(var_names, t) {
             case /* Lapply */ 2 :
               exit = 1;
               break;
-            
           }
           if (exit === 1) {
             desc = {
@@ -16453,7 +16363,6 @@ function varify_constructors(var_names, t) {
             ]
           };
           break;
-        
       }
     }
     return {
@@ -18980,7 +18889,6 @@ const yyact = [
       case "-." :
         exit = 2;
         break;
-      
     }
     if (exit === 2 && match.TAG === /* Pexp_constant */ 1) {
       const f = match._0;
@@ -19031,7 +18939,6 @@ const yyact = [
       case "+." :
         exit = 2;
         break;
-      
     }
     if (exit === 2 && desc.TAG === /* Pexp_constant */ 1 && desc._0.TAG === /* Const_float */ 3) {
       return mkexp(desc);
@@ -22823,7 +22730,6 @@ function type_of_directive(x) {
       return /* Dir_type_int */ 2;
     case /* Dir_string */ 3 :
       return /* Dir_type_string */ 3;
-    
   }
 }
 
@@ -22839,7 +22745,6 @@ function string_of_type_directive(x) {
       return "string";
     case /* Dir_type_null */ 4 :
       return "null";
-    
   }
 }
 
@@ -23250,7 +23155,6 @@ function directive_parse(token_with_comments, lexbuf) {
                             semantic_version_parse(str, 1, last_index)
                           ];
                         break;
-                      
                     }
                   } else {
                     exit$3 = 1;
@@ -24065,7 +23969,6 @@ function char_for_backslash(c) {
       return c;
     case 116 :
       return /* '\t' */9;
-    
   }
 }
 
@@ -24275,7 +24178,6 @@ function report_error$2(ppf, c) {
               },
               _1: "Unexpected directive"
             });
-      
     }
   } else {
     switch (c.TAG) {
@@ -24418,7 +24320,6 @@ function report_error$2(ppf, c) {
                   },
                   _1: "Conditional expression type mismatch (%s,%s)"
                 }), string_of_type_directive(c._0), string_of_type_directive(c._1));
-      
     }
   }
 }
@@ -25242,7 +25143,6 @@ function token$1(lexbuf) {
         case /* BlankLine */ 2 :
           set_post_docstrings(post_pos, Stdlib__List.rev(a));
           return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a));
-        
       }
       set_post_docstrings(post_pos, Stdlib__List.rev(a));
       return set_pre_docstrings(pre_pos, a);
@@ -25259,7 +25159,6 @@ function token$1(lexbuf) {
         set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
         set_floating_docstrings(pre_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
         return set_pre_extra_docstrings(pre_pos, Stdlib__List.rev(a$1));
-      
     }
     set_post_docstrings(post_pos, Stdlib__List.rev(a$1));
     set_post_extra_docstrings(post_pos, Stdlib__List.rev_append(f, Stdlib__List.rev(b)));
@@ -25298,7 +25197,6 @@ function token$1(lexbuf) {
                               _1: /* Unexpected_directive */ 6,
                               _2: curr(lexbuf)
                             });
-                      
                     }
                     break;
                   case /* END */ 24 :
@@ -25313,7 +25211,6 @@ function token$1(lexbuf) {
                               _1: /* Unexpected_directive */ 6,
                               _2: curr(lexbuf)
                             });
-                      
                     }
                   case /* IF */ 37 :
                     switch (if_then_else$1) {
@@ -25355,7 +25252,6 @@ function token$1(lexbuf) {
                                           _1: /* Unexpected_directive */ 6,
                                           _2: curr(lexbuf)
                                         });
-                                  
                                 }
                               }
                               if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
@@ -25369,7 +25265,6 @@ function token$1(lexbuf) {
                             continue;
                           };
                         }
-                      
                     }
                   default:
                     return Curry._1(look_ahead, match);
@@ -25391,7 +25286,6 @@ function token$1(lexbuf) {
                           _1: /* Unexpected_directive */ 6,
                           _2: curr(lexbuf)
                         });
-                  
                 }
               }
               switch (if_then_else$1) {
@@ -25430,7 +25324,6 @@ function token$1(lexbuf) {
                                   _1: /* Unexpected_directive */ 6,
                                   _2: curr(lexbuf)
                                 });
-                          
                         }
                       }
                       if (else_seen && is_elif(token$3)) {
@@ -25447,7 +25340,6 @@ function token$1(lexbuf) {
                 case /* Dir_if_false */ 1 :
                 case /* Dir_out */ 2 :
                   return Curry._1(look_ahead, match);
-                
               }
             }
             break;
@@ -25461,11 +25353,9 @@ function token$1(lexbuf) {
               case /* BlankLine */ 2 :
                 lines$p = /* BlankLine */ 2;
                 break;
-              
             }
             _lines = lines$p;
             continue;
-          
         }
       } else {
         switch (doc.TAG) {
@@ -25484,7 +25374,6 @@ function token$1(lexbuf) {
               case /* BlankLine */ 2 :
                 lines$p$1 = /* BlankLine */ 2;
                 break;
-              
             }
             _lines = lines$p$1;
             continue;
@@ -25515,7 +25404,6 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             } else if (docs.TAG === /* After */ 0) {
               const a = docs._0;
@@ -25541,7 +25429,6 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             } else {
               const b = docs._2;
@@ -25571,13 +25458,11 @@ function token$1(lexbuf) {
                     }
                   };
                   break;
-                
               }
             }
             _docs = docs$p;
             _lines = /* NoLine */ 0;
             continue;
-          
         }
       }
       attach(lines, docs, lexbuf.lex_start_p);
@@ -25920,7 +25805,6 @@ function alpha_pat(env, p) {
           }
           throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
         }
-      
     }
   }
   return {
@@ -26134,7 +26018,6 @@ function TypedtreeMap_MakeMap(funarg) {
           _2: map_class_type(csg._2)
         };
         break;
-      
     }
     return Curry._1(funarg.leave_class_type, {
           cltyp_desc: cltyp_desc,
@@ -26226,7 +26109,6 @@ function TypedtreeMap_MakeMap(funarg) {
             _0: map_package_type(list._0)
           };
           break;
-        
       }
     }
     return Curry._1(funarg.leave_core_type, {
@@ -26280,7 +26162,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Tmty_alias */ 5 :
         mty_desc = mty$1.mty_desc;
         break;
-      
     }
     return Curry._1(funarg.leave_module_type, {
           mty_desc: mty_desc,
@@ -26509,7 +26390,6 @@ function TypedtreeMap_MakeMap(funarg) {
           _0: map_module_expr(list._0)
         };
         break;
-      
     }
     const exp_extra = Stdlib__List.map(map_exp_extra, exp$1.exp_extra);
     return Curry._1(funarg.leave_expression, {
@@ -26580,7 +26460,6 @@ function TypedtreeMap_MakeMap(funarg) {
           _1: st._1
         };
         break;
-      
     }
     return Curry._1(funarg.leave_module_expr, {
           mod_desc: mod_desc,
@@ -26855,7 +26734,6 @@ function TypedtreeMap_MakeMap(funarg) {
           _0: vd._0
         };
         break;
-      
     }
     return Curry._1(funarg.leave_structure_item, {
           str_desc: str_desc,
@@ -27067,7 +26945,6 @@ function TypedtreeMap_MakeMap(funarg) {
             _4: clstr._4
           });
         break;
-      
     }
     return Curry._1(funarg.leave_class_expr, {
           cl_desc: cl_desc,
@@ -27117,7 +26994,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Twith_modsubst */ 3 :
         tmp = cstr$1;
         break;
-      
     }
     return Curry._1(funarg.leave_with_constraint, tmp);
   };
@@ -27203,7 +27079,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Tcf_attribute */ 5 :
         cf_desc = exp;
         break;
-      
     }
     return Curry._1(funarg.leave_class_field, {
           cf_desc: cf_desc,
@@ -27331,7 +27206,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Tsig_attribute */ 11 :
         sig_desc = vd;
         break;
-      
     }
     return Curry._1(funarg.leave_signature_item, {
           sig_desc: sig_desc,
@@ -27397,7 +27271,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Tctf_attribute */ 4 :
         ctf_desc = ct;
         break;
-      
     }
     return Curry._1(funarg.leave_class_type_field, {
           ctf_desc: ctf_desc,
@@ -27497,7 +27370,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Texp_open */ 2 :
       case /* Texp_newtype */ 4 :
         return exp_extra;
-      
     }
   };
   return {
@@ -27744,7 +27616,6 @@ function clear_part(p) {
         TAG: /* Partial_module_type */ 7,
         _0: Curry._1(ClearEnv.map_module_type, p._0)
       };
-    
   }
 }
 
@@ -27775,7 +27646,6 @@ function clear_env(binary_annots) {
         TAG: /* Partial_interface */ 4,
         _0: Stdlib__Array.map(clear_part, binary_annots._0)
       };
-    
   }
 }
 
@@ -28065,7 +27935,6 @@ function is_object_type(path) {
               23
             ]
           });
-    
   }
   return Caml_string.get(name, 0) === /* '#' */35;
 }
@@ -28209,7 +28078,6 @@ function in_current_module(param) {
     case /* Pdot */ 1 :
     case /* Papply */ 2 :
       return false;
-    
   }
 }
 
@@ -28637,7 +28505,6 @@ function signature_of_class_type(_sign) {
       case /* Cty_arrow */ 2 :
         _sign = sign._2;
         continue;
-      
     }
   };
 }
@@ -28653,7 +28520,6 @@ function class_type_arity(_param) {
         return 0;
       case /* Cty_arrow */ 2 :
         return 1 + class_type_arity(param._2) | 0;
-      
     }
   };
 }
@@ -29390,7 +29256,6 @@ function update_level(env, level, _ty) {
             continue;
           }
           break;
-        
       }
     }
     set_level(ty$1, level);
@@ -29884,7 +29749,6 @@ function copy(env, partial, keep_names, ty) {
                 save_desc(more, more.desc);
                 more$p = keep ? more : newty2(current_level.contents, more.desc);
                 break;
-              
             }
             const match$4 = repr(more$p);
             const match$5 = match$4.desc;
@@ -30217,7 +30081,6 @@ function instance_class(params, cty) {
           _1: copy(undefined, undefined, undefined, sign._1),
           _2: copy_class_type(sign._2)
         };
-      
     }
   };
   const params$p = Stdlib__List.map(simple_copy, params);
@@ -31095,7 +30958,6 @@ function occur_rec(env, visited, ty0, ty) {
       case /* Tobject */ 4 :
       case /* Tvariant */ 8 :
         return;
-      
     }
   }
   if (!occur_ok) {
@@ -32443,7 +32305,6 @@ function mcomp(type_pairs, env, _t1, _t2) {
                         });
                 }
                 break;
-              
             }
           }
           if (exit$3 === 3) {
@@ -32771,7 +32632,6 @@ function concat_longident(lid1) {
           _0: concat_longident(lid1)(s._0),
           _1: s._1
         };
-      
     }
   };
 }
@@ -34083,7 +33943,6 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                         case /* Papply */ 2 :
                           exit$7 = 7;
                           break;
-                        
                       }
                     }
                     if (exit$7 === 7) {
@@ -34101,7 +33960,6 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 case /* Papply */ 2 :
                   exit$4 = 5;
                   break;
-                
               }
             }
             break;
@@ -34341,7 +34199,6 @@ function unify3(env, t1, t1$p, t2, t2$p) {
             case /* Papply */ 2 :
               exit$2 = 2;
               break;
-            
           }
         }
       }
@@ -34404,7 +34261,6 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 });
           }
           break;
-        
       }
       if (!create_recursion) {
         return;
@@ -35275,7 +35131,6 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                       _1: /* [] */ 0
                     });
               }
-            
           }
         } else {
           throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -36093,7 +35948,6 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                       _1: /* [] */ 0
                     });
               }
-            
           }
         } else {
           throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
@@ -36342,7 +36196,6 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                   MEL_EXN_ID: Failure,
                   _1: /* [] */ 0
                 });
-          
         }
         break;
       case /* Cty_arrow */ 2 :
@@ -36383,10 +36236,8 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                   MEL_EXN_ID: Failure,
                   _1: /* [] */ 0
                 });
-          
         }
         break;
-      
     }
     if (exit === 1) {
       return moregen_clty(true, type_pairs, env, cty1, cty2._2);
@@ -36602,7 +36453,6 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
           case /* Cty_arrow */ 2 :
             exit$1 = 3;
             break;
-          
         }
         if (exit$1 === 3) {
           return equal_clty(true, type_pairs, subst, env, cty1._2, cty2);
@@ -36671,7 +36521,6 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
           case /* Cty_arrow */ 2 :
             exit = 2;
             break;
-          
         }
         break;
       case /* Cty_arrow */ 2 :
@@ -36708,10 +36557,8 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
             }
             exit = 2;
             break;
-          
         }
         break;
-      
     }
     switch (exit) {
       case 1 :
@@ -36729,7 +36576,6 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                   tl: /* [] */ 0
                 })
             });
-      
     }
   }
   catch (raw_error){
@@ -37060,7 +36906,6 @@ function lid_of_path(sharpOpt, id) {
         _0: lid_of_path(sharp, id._0),
         _1: lid_of_path(undefined, id._1)
       };
-    
   }
 }
 
@@ -37615,7 +37460,6 @@ function build_subtype(env, visited, loops, posi, level, t) {
         t$1,
         /* Unchanged */ 0
       ];
-    
   }
 }
 
@@ -38490,7 +38334,6 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
               ],
               tl: cstrs
             };
-          
         }
       } else {
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -38796,7 +38639,6 @@ function normalize_type_rec(env, visited, ty) {
           }
         };
         break;
-      
     }
   }
   iter_type_expr((function (param) {
@@ -39254,7 +39096,6 @@ function nondep_class_type(env, id, _sign) {
           _1: nondep_type_rec(env, id, sign._1),
           _2: nondep_class_type(env, id, sign._2)
         };
-      
     }
   };
 }
@@ -39416,7 +39257,6 @@ function print_ident(ppf, s) {
       return Curry._2(out_ident.contents, ppf, s._1);
     case /* Oide_ident */ 2 :
       return Curry._2(out_ident.contents, ppf, s._0);
-    
   }
 }
 
@@ -39785,7 +39625,6 @@ function print_simple_out_type(ppf, s) {
                     exit = 2;
                   }
                   break;
-                
               }
               break;
             case /* Oide_ident */ 2 :
@@ -39795,7 +39634,6 @@ function print_simple_out_type(ppf, s) {
                 exit = 2;
               }
               break;
-            
           }
           if (exit$1 === 3) {
             const name = id._1;
@@ -40182,7 +40020,6 @@ function print_simple_out_type(ppf, s) {
         case /* Oide_ident */ 2 :
           exit = 2;
           break;
-        
       }
       if (exit === 2) {
         Stdlib__Format.pp_open_box(ppf, 0);
@@ -41099,7 +40936,6 @@ function print_out_class_type(ppf, param) {
                       });
                 }), param, param$1);
           }), param._1);
-    
   }
 }
 
@@ -41267,7 +41103,6 @@ function print_out_class_sig_item(ppf, param) {
                 },
                 _1: "@[<2>val %s%s%s :@ %a@]"
               }), param._1 ? "mutable " : "", param._2 ? "virtual " : "", param._0, out_type.contents, param._3);
-    
   }
 }
 
@@ -41506,7 +41341,6 @@ function print_out_module_type(ppf, t) {
                 },
                 _1: "(module %a)"
               }), print_ident, t._0);
-    
   }
 }
 
@@ -41770,7 +41604,6 @@ function print_out_signature(ppf, param) {
                   Stdlib__List.rev(acc),
                   items
                 ];
-              
             }
           };
         };
@@ -41815,7 +41648,6 @@ function print_out_signature(ppf, param) {
       case /* Oext_next */ 1 :
       case /* Oext_exception */ 2 :
         break;
-      
     }
   }
   Curry._4(Stdlib__Format.fprintf(ppf)({
@@ -42231,7 +42063,6 @@ function print_out_sig_item(ppf, param) {
                 ext.oext_args,
                 ext.oext_ret_type
               ]);
-        
       }
     case /* Osig_modtype */ 3 :
       const name = param._0;
@@ -42383,7 +42214,6 @@ function print_out_sig_item(ppf, param) {
         case /* Orec_next */ 2 :
           tmp$1 = "and";
           break;
-        
       }
       return Curry._4(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */ 0,
@@ -42449,7 +42279,6 @@ function print_out_sig_item(ppf, param) {
         case /* Orec_next */ 2 :
           tmp$2 = "and";
           break;
-        
       }
       let td = param._0;
       const print_constraints = function (ppf) {
@@ -43044,7 +42873,6 @@ function print_out_sig_item(ppf, param) {
                 },
                 _1: "@[<2>%s %a :@ %a%a@]"
               }), kwd, value_ident, param._0, out_type.contents, param._1, pr_prims, prims);
-    
   }
 }
 
@@ -43317,7 +43145,6 @@ function longident(ppf, s) {
                 },
                 _1: "%a(%a)"
               }), longident, s._0, longident, s._1);
-    
   }
 }
 
@@ -43384,7 +43211,6 @@ function tree_of_path(id) {
         case /* Pdot */ 1 :
         case /* Papply */ 2 :
           break;
-        
       }
       return {
         TAG: /* Oide_dot */ 1,
@@ -43397,7 +43223,6 @@ function tree_of_path(id) {
         _0: tree_of_path(id._0),
         _1: tree_of_path(id._1)
       };
-    
   }
 }
 
@@ -43416,7 +43241,6 @@ function path(ppf, id) {
         case /* Pdot */ 1 :
         case /* Papply */ 2 :
           break;
-        
       }
       path(ppf, id$1);
       Stdlib__Format.pp_print_char(ppf, /* '.' */46);
@@ -43441,7 +43265,6 @@ function path(ppf, id) {
                 },
                 _1: "%a(%a)"
               }), path, id._0, path, id._1);
-    
   }
 }
 
@@ -43471,7 +43294,6 @@ function string_of_out_ident(s) {
           });
     case /* Oide_ident */ 2 :
       return s._0;
-    
   }
 }
 
@@ -43487,7 +43309,6 @@ function tree_of_rec(param) {
       return /* Orec_first */ 1;
     case /* Trec_next */ 2 :
       return /* Orec_next */ 2;
-    
   }
 }
 
@@ -44777,7 +44598,6 @@ function raw_type_desc(ppf, name) {
                 },
                 _1: "@[<hov1>Tpackage(@,%a@,%a)@]"
               }), path, name._0, raw_type_list, name._2);
-    
   }
 }
 
@@ -45112,7 +44932,6 @@ function compare$4(_p1, _p2) {
           case /* Pident */ 0 :
           case /* Papply */ 2 :
             return Caml_obj.caml_compare(p1, p2);
-          
         }
       case /* Papply */ 2 :
         switch (p2.TAG) {
@@ -45127,9 +44946,7 @@ function compare$4(_p1, _p2) {
             _p2 = p2._1;
             _p1 = p1._1;
             continue;
-          
         }
-      
     }
   };
 }
@@ -45397,7 +45214,6 @@ function path_size(id) {
         match$1[0] + path_size(id._1)[0] | 0,
         match$1[1]
       ];
-    
   }
 }
 
@@ -45920,7 +45736,6 @@ function mark_loops_rec(_visited, _ty) {
         return Stdlib__List.iter((function (param) {
               return mark_loops_rec(visited$1, param);
             }), tyl._2);
-      
     }
   };
 }
@@ -46214,7 +46029,6 @@ function tree_of_typexp(sch, ty) {
                 return tree_of_typexp(sch, param);
               }), tyl._2)
         };
-      
     }
   };
   if (Stdlib__List.memq(px, delayed.contents)) {
@@ -46490,7 +46304,6 @@ function tree_of_type_decl(id, decl) {
           case /* Papply */ 2 :
             ty$2 = ty$1;
             break;
-          
         }
       } else {
         ty$2 = ty$1;
@@ -46677,7 +46490,6 @@ function tree_of_extension_constructor(id, ext, es) {
     case /* Text_exception */ 2 :
       es$1 = /* Oext_exception */ 2;
       break;
-    
   }
   return {
     TAG: /* Osig_typext */ 2,
@@ -46775,7 +46587,6 @@ function prepare_class_type(params, _sign) {
         mark_loops(sign._1);
         _sign = sign._2;
         continue;
-      
     }
   };
 }
@@ -46908,7 +46719,6 @@ function tree_of_class_type(sch, params, _sign) {
           _1: tr,
           _2: tree_of_class_type(sch, params, sign._2)
         };
-      
     }
   };
 }
@@ -47124,7 +46934,6 @@ function hide_rec_items(param) {
           hd: match._0,
           tl: get_ids(param.tl)
         };
-      
     }
   };
   const ids_0 = match._0;
@@ -47177,7 +46986,6 @@ function tree_of_modtype(p) {
         TAG: /* Omty_alias */ 3,
         _0: tree_of_path(p._0)
       };
-    
   }
 }
 
@@ -47207,7 +47015,6 @@ function tree_of_signature_rec(env$p, in_type_group, param) {
         case /* Trec_next */ 2 :
           in_type_group$1 = true;
           break;
-        
       }
     } else {
       set_printing_env(env$p);
@@ -47228,7 +47035,6 @@ function tree_of_signature_rec(env$p, in_type_group, param) {
           set_printing_env(env$p);
           in_type_group$1 = false;
           break;
-        
       }
     } else {
       set_printing_env(env$p);
@@ -47299,7 +47105,6 @@ function tree_of_signature_rec(env$p, in_type_group, param) {
         tl: /* [] */ 0
       };
       break;
-    
   }
   const env$p$1 = add_signature({
         hd: item,
@@ -48678,7 +48483,6 @@ function explanation(unif, mis, ppf) {
         }
         exit = 2;
         break;
-      
     }
     switch (exit) {
       case 1 :
@@ -48875,7 +48679,6 @@ function explanation(unif, mis, ppf) {
                   }), match$1._0);
         }
         break;
-      
     }
   }
   
@@ -48900,7 +48703,6 @@ function path_same_name(_p1, _p2) {
           case /* Pdot */ 1 :
           case /* Papply */ 2 :
             return;
-          
         }
       case /* Pdot */ 1 :
         switch (p2.TAG) {
@@ -48914,7 +48716,6 @@ function path_same_name(_p1, _p2) {
           case /* Pident */ 0 :
           case /* Papply */ 2 :
             return;
-          
         }
       case /* Papply */ 2 :
         switch (p2.TAG) {
@@ -48926,9 +48727,7 @@ function path_same_name(_p1, _p2) {
             _p2 = p2._1;
             _p1 = p1._1;
             continue;
-          
         }
-      
     }
   };
 }
@@ -49656,7 +49455,6 @@ function include_err(ppf, lab) {
                 },
                 _1: "@[The virtual method %s cannot become concrete"
               }), lab._0);
-    
   }
 }
 
@@ -49762,7 +49560,6 @@ function is_absrow(env, ty) {
     case /* Pdot */ 1 :
     case /* Papply */ 2 :
       return false;
-    
   }
 }
 
@@ -49948,7 +49745,6 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
           
         }
         break;
-      
     }
   }
   const check_super = function (ty1) {
@@ -50059,7 +49855,6 @@ function report_type_mismatch(first, second, decl, ppf) {
                               },
                               _1: "Their variances do not agree"
                             });
-                      
                     }
                   } else {
                     switch (param$1.TAG) {
@@ -50218,7 +50013,6 @@ function report_type_mismatch(first, second, decl, ppf) {
                                   },
                                   _1: "Their internal representations differ:@ %s %s %s"
                                 }), param$1._0 ? second : first, decl, "uses unboxed float representation");
-                      
                     }
                   }
                 }), err);
@@ -50692,7 +50486,6 @@ function strengthen$1(env, mty, p) {
     case /* Mty_ident */ 0 :
     case /* Mty_alias */ 3 :
       return sg;
-    
   }
 }
 
@@ -50852,7 +50645,6 @@ function nondep_supertype(env, mid, mty) {
             case /* Strict */ 2 :
               var_inv = /* Strict */ 2;
               break;
-            
           }
           return {
             TAG: /* Mty_functor */ 2,
@@ -50872,7 +50664,6 @@ function nondep_supertype(env, mid, mty) {
           }
           _mty = find_module(false, p$1, env).md_type;
           continue;
-        
       }
     };
   };
@@ -50968,7 +50759,6 @@ function nondep_supertype(env, mid, mty) {
                 throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
                       MEL_EXN_ID: Stdlib.Not_found
                     });
-              
             }
           } else {
             throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -50994,7 +50784,6 @@ function nondep_supertype(env, mid, mty) {
           },
           tl: rem$p
         };
-      
     }
   };
   const nondep_modtype_decl = function (env, mtd) {
@@ -51150,7 +50939,6 @@ function type_paths_sig(_env, p, _pos, _sg) {
       case /* Sig_class_type */ 6 :
         _sg = sg.tl;
         continue;
-      
     }
     _sg = sg.tl;
     _pos = pos + 1 | 0;
@@ -51188,7 +50976,6 @@ function contains_type(env, _path) {
         continue;
       case /* Mty_alias */ 3 :
         return;
-      
     }
   };
 }
@@ -51871,7 +51658,6 @@ function get_prefixes(param) {
     case /* Pdot */ 1 :
     case /* Papply */ 2 :
       break;
-    
   }
   const p = param._0;
   return Curry._2(add$9, p, get_prefixes(p));
@@ -51889,7 +51675,6 @@ function get_arg_paths(_param) {
       case /* Papply */ 2 :
         const p2 = param._1;
         return Curry._2(add$9, p2, Curry._2(union$4, get_prefixes(p2), Curry._2(union$4, get_arg_paths(param._0), get_arg_paths(p2))));
-      
     }
   };
 }
@@ -51923,7 +51708,6 @@ function rollback_path(subst, _p) {
           case /* Pident */ 0 :
           case /* Papply */ 2 :
             return p;
-          
         }
       } else {
         throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
@@ -51953,7 +51737,6 @@ function collect_ids(subst, bindings, p) {
     case /* Pdot */ 1 :
     case /* Papply */ 2 :
       return /* Empty */ 0;
-    
   }
 }
 
@@ -52000,7 +51783,6 @@ function collect_arg_paths(mty) {
       case /* Mty_alias */ 3 :
         bindings.contents = add(id, p._0, bindings.contents);
         return;
-      
     }
   };
   const it = {
@@ -52046,7 +51828,6 @@ function remove_aliases(env, excl, _mty) {
         }
         _mty = mty$p;
         continue;
-      
     }
   };
 }
@@ -52356,7 +52137,6 @@ function kind_of_field_desc(param) {
       return "class";
     case /* Field_classtype */ 6 :
       return "class type";
-    
   }
 }
 
@@ -52432,7 +52212,6 @@ function item_ident_name(param) {
           _0: id$6.name
         }
       ];
-    
   }
 }
 
@@ -52526,7 +52305,6 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
             throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
                   MEL_EXN_ID: Dont_match$1
                 });
-          
         }
         break;
       case /* Mty_functor */ 2 :
@@ -52575,7 +52353,6 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
               throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
                     MEL_EXN_ID: Dont_match$1
                   });
-            
           }
         } else {
           switch (mty2.TAG) {
@@ -52608,7 +52385,6 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
               throw new Caml_js_exceptions.MelangeError(Dont_match$1, {
                     MEL_EXN_ID: Dont_match$1
                   });
-            
           }
         }
         break;
@@ -52678,7 +52454,6 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
           _0: p1$3,
           _1: modtypes(env, cxt, subst, mty1$1, mty2)
         };
-      
     }
     if (mty2.TAG === /* Mty_ident */ 0) {
       let mty2$1 = modtype(subst, mty2);
@@ -53021,7 +52796,6 @@ function signature_components(old_env, env, cxt, subst, paired) {
         return comps_rec(paired.tl);
       }
       break;
-    
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -53933,7 +53707,6 @@ function include_err$1(ppf, path$1) {
                 },
                 _1: "Module %a cannot be aliased"
               }), path, path$1._0);
-    
   }
 }
 
@@ -54088,7 +53861,6 @@ function context(ppf, param) {
                 },
                 _1: "functor (%s) ->@ %a"
               }), argname(id._0), context_mty, param.tl);
-    
   }
 }
 
@@ -54103,7 +53875,6 @@ function context_mty(ppf, rem) {
     case /* Arg */ 2 :
     case /* Body */ 3 :
       return context(ppf, rem);
-    
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
             TAG: /* Format */ 0,
@@ -54221,7 +53992,6 @@ function args(ppf, cxt) {
                   },
                   _1: "(%s)%a"
                 }), argname(x._0), args, cxt.tl);
-      
     }
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
@@ -54563,7 +54333,6 @@ function get_location(ti) {
     case /* An_call */ 4 :
     case /* An_ident */ 5 :
       return ti._0;
-    
   }
 }
 
@@ -54983,7 +54752,6 @@ function compat(_p, _q) {
                 6
               ]
             });
-      
     }
   };
 }
@@ -55143,7 +54911,6 @@ function pretty_const(c) {
                 },
                 _1: "%ndn"
               }), c._0);
-    
   }
 }
 
@@ -55772,7 +55539,6 @@ function pretty_val(ppf, v) {
                 },
                 _1: "@[<2>lazy@ %a@]"
               }), pretty_arg, c._0);
-    
   }
 }
 
@@ -56137,7 +55903,6 @@ function simple_match(p1, p2) {
           }
         }
         break;
-      
     }
   }
   if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG === /* Tpat_var */ 0) {
@@ -56213,7 +55978,6 @@ function simple_match_args(p1, _p2) {
             hd: args._0,
             tl: /* [] */ 0
           };
-        
       }
     }
     const args$1 = p1.pat_desc;
@@ -56323,7 +56087,6 @@ function normalize_pat(_q) {
               TAG: /* Tpat_lazy */ 9,
               _0: omega
             }, q.pat_type, q.pat_env);
-      
     }
   };
 }
@@ -56607,7 +56370,6 @@ function filter_one(q, pss) {
               }
             };
             continue;
-          
         }
       }
       const pss = param.tl;
@@ -56926,7 +56688,6 @@ function mark_partial(_param) {
             }
           };
           continue;
-        
       }
     }
     return {
@@ -57159,7 +56920,6 @@ function should_extend(ext, env) {
       break;
     case /* Cstr_extension */ 2 :
       return false;
-    
   }
   const path = get_type_path(p.pat_type, p.pat_env);
   return same(path, ext);
@@ -57183,7 +56943,6 @@ function complete_tags(nconsts, nconstrs, tags) {
                     14
                   ]
                 });
-          
         }
       }), tags);
   let r = /* [] */ 0;
@@ -57588,7 +57347,6 @@ function build_other(ext, env) {
                   33
                 ]
               });
-        
       }
     case /* Tpat_construct */ 4 :
       let exit = 0;
@@ -57632,7 +57390,6 @@ function build_other(ext, env) {
                 _1: c$1,
                 _2: /* [] */ 0
               }, none$2, empty);
-        
       }
       if (exit === 1) {
         let exit$1 = 0;
@@ -57901,7 +57658,6 @@ function satisfiable(_pss, _qs) {
             tl: qs$1
           };
           continue;
-        
       }
     }
     if (exit === 2) {
@@ -58472,7 +58228,6 @@ function filter_one$1(q, rs) {
                 }
               };
               continue;
-            
           }
         }
         if (simple_match(q, p)) {
@@ -58619,7 +58374,6 @@ function every_satisfiables(_pss, _qs) {
           _qs = push_no_or(qs);
           _pss = Stdlib__List.map(push_no_or, pss);
           continue;
-        
       }
     } else {
       const match$2 = qs.ors;
@@ -58791,7 +58545,6 @@ function le_pat(_p, _q) {
               break;
             case /* Tpat_constant */ 2 :
               return const_compare(match._0, match$1._0) === 0;
-            
           }
         }
         break;
@@ -58803,7 +58556,6 @@ function le_pat(_p, _q) {
               break;
             case /* Tpat_tuple */ 3 :
               return le_pats(match._0, match$1._0);
-            
           }
         }
         break;
@@ -58819,7 +58571,6 @@ function le_pat(_p, _q) {
               } else {
                 return false;
               }
-            
           }
         }
         break;
@@ -58843,7 +58594,6 @@ function le_pat(_p, _q) {
                 _q = p2;
                 _p = p1;
                 continue;
-              
             }
           }
           
@@ -58858,7 +58608,6 @@ function le_pat(_p, _q) {
               } else {
                 return l1 === match$1._0;
               }
-            
           }
         }
         break;
@@ -58871,7 +58620,6 @@ function le_pat(_p, _q) {
             case /* Tpat_record */ 6 :
               const match$2 = records_args(match._0, match$1._0);
               return le_pats(match$2[0], match$2[1]);
-            
           }
         }
         break;
@@ -58889,7 +58637,6 @@ function le_pat(_p, _q) {
               } else {
                 return false;
               }
-            
           }
         }
         break;
@@ -58906,11 +58653,9 @@ function le_pat(_p, _q) {
               _q = match$1._0;
               _p = match._0;
               continue;
-            
           }
         }
         break;
-      
     }
     if (exit === 2 && !/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1.TAG === /* Tpat_alias */ 1) {
       _q = match$1._0;
@@ -59104,7 +58849,6 @@ function do_filter_one(q, pss) {
               }
             };
             continue;
-          
         }
       }
       const pss = param.tl;
@@ -59500,7 +59244,6 @@ function collect_paths_from_pat(_r, _p) {
             break;
           case /* Cstr_extension */ 2 :
             return Stdlib__List.fold_left(collect_paths_from_pat, r, p$1._2);
-          
         }
         const path = get_type_path(p.pat_type, p.pat_env);
         return Stdlib__List.fold_left(collect_paths_from_pat, extendable_path(path) ? add_path(path, r) : r, p$1._2);
@@ -59617,7 +59360,6 @@ function string_of_payload(param) {
     case /* PTyp */ 1 :
     case /* PPat */ 2 :
       return;
-    
   }
 }
 
@@ -59739,7 +59481,6 @@ function error_of_extension(ext) {
       case /* PPat */ 2 :
         exit$1 = 2;
         break;
-      
     }
     if (exit$1 === 2) {
       return Curry._1(errorf(loc, undefined, undefined, {
@@ -59805,7 +59546,6 @@ newrecord$1.attribute = (function (param, a) {
     case "ppwarning" :
       exit = 1;
       break;
-    
   }
   if (exit === 1) {
     const match = a[1];
@@ -59839,7 +59579,6 @@ newrecord$1.attribute = (function (param, a) {
       case /* PTyp */ 1 :
       case /* PPat */ 2 :
         break;
-      
     }
   }
   return a;
@@ -59919,7 +59658,6 @@ function warning_attribute(attrs) {
             return $$process(match.loc, txt, false, param[1]);
           case 2 :
             return $$process(match.loc, txt, true, param[1]);
-          
         }
       }), attrs);
 }
@@ -59983,7 +59721,6 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
               _0: lid
             }
           });
-    
   }
   throw new Caml_js_exceptions.MelangeError($$Error$6, {
         MEL_EXN_ID: $$Error$6,
@@ -60011,12 +59748,10 @@ function find_component(lookup, make_error, env, loc, lid) {
           case /* Ldot */ 1 :
           case /* Lapply */ 2 :
             return Curry._2(lookup, lid, env);
-          
         }
       case /* Lident */ 0 :
       case /* Lapply */ 2 :
         return Curry._2(lookup, lid, env);
-      
     }
   }
   catch (raw_exn){
@@ -60672,7 +60407,6 @@ function transl_type(env, policy, styp) {
               case /* Lapply */ 2 :
                 lid2 = fatal_error("Typetexp.transl_type");
                 break;
-              
             }
             const match$3 = lookup_type$1(lid2, env);
             match$1 = [
@@ -60973,7 +60707,6 @@ function transl_type(env, policy, styp) {
                   };
                 }
                 break;
-              
             }
           }
           cty = {
@@ -61426,7 +61159,6 @@ function transl_type(env, policy, styp) {
             MEL_EXN_ID: Error_forward,
             _1: error_of_extension(name._0)
           });
-    
   }
 }
 
@@ -61470,7 +61202,6 @@ function transl_fields(loc, env, policy, seen, o, param) {
       return newvar(validate_name(undefined), undefined);
     case /* Univars */ 2 :
       return new_pre_univar(undefined, undefined);
-    
   }
 }
 
@@ -61786,7 +61517,6 @@ function spellcheck(ppf, fold, env, lid) {
               }), lid._0, env, init));
     case /* Lapply */ 2 :
       return;
-    
   }
 }
 
@@ -62545,7 +62275,6 @@ register_error_of_exn(function (err) {
                           },
                           _1: "The module %a is a functor, not a structure"
                         }), longident, param$1._0);
-              
             }
           }), err._3);
     });
@@ -62747,7 +62476,6 @@ function iter_expression(f, e) {
         case /* Pmod_ident */ 0 :
         case /* Pmod_extension */ 6 :
           return;
-        
       }
     };
   };
@@ -62800,7 +62528,6 @@ function iter_expression(f, e) {
         case /* Pcl_constr */ 0 :
         case /* Pcl_extension */ 6 :
           return;
-        
       }
     };
   };
@@ -62829,7 +62556,6 @@ function iter_expression(f, e) {
       case /* Pcf_attribute */ 5 :
       case /* Pcf_extension */ 6 :
         return;
-      
     }
   };
   expr(e);
@@ -62849,7 +62575,6 @@ function all_idents_cases(el) {
       case /* Ldot */ 1 :
       case /* Lapply */ 2 :
         return;
-      
     }
   };
   Stdlib__List.iter((function (cp) {
@@ -62882,7 +62607,6 @@ function type_constant(param) {
       return instance_def(type_int64);
     case /* Const_nativeint */ 6 :
       return instance_def(type_nativeint);
-    
   }
 }
 
@@ -64030,7 +63754,6 @@ function lookup_from_type(env, tpath, lid) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -64411,7 +64134,6 @@ function find_record_qual(_param) {
       case /* Lapply */ 2 :
         _param = param.tl;
         continue;
-      
     }
   };
 }
@@ -64446,7 +64168,6 @@ function type_label_a_list(labels, loc, closed, env, type_lbl_a, opath, lid_a_li
                               17
                             ]
                           });
-                    
                   }
                 }), lid_a_list);
           } else {
@@ -64460,7 +64181,6 @@ function type_label_a_list(labels, loc, closed, env, type_lbl_a, opath, lid_a_li
       case /* Lapply */ 2 :
         exit = 1;
         break;
-      
     }
   } else {
     exit = 1;
@@ -64486,7 +64206,6 @@ function type_label_a_list(labels, loc, closed, env, type_lbl_a, opath, lid_a_li
               case /* Ldot */ 1 :
               case /* Lapply */ 2 :
                 return lid_a;
-              
             }
           }), lid_a_list) : lid_a_list;
     lbl_a_list = disambiguate_lid_a_list(loc, closed, env, opath, lid_a_list$1);
@@ -64608,7 +64327,6 @@ function lookup_from_type$1(env, tpath, lid) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
             MEL_EXN_ID: Stdlib.Not_found
           });
-    
   }
 }
 
@@ -65041,7 +64759,6 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         case /* Lapply */ 2 :
           exit = 1;
           break;
-        
       }
       if (exit === 1) {
         constrs$1 = find_all_constructors(env.contents, lid.loc, lid.txt);
@@ -65578,7 +65295,6 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
             MEL_EXN_ID: Error_forward$1,
             _1: error_of_extension(name._0)
           });
-    
   }
 }
 
@@ -66073,7 +65789,6 @@ function is_nonexpansive_mod(_mexp) {
         continue;
       case /* Tmod_unpack */ 5 :
         return is_nonexpansive(str._0);
-      
     }
   };
 }
@@ -66388,7 +66103,6 @@ function check_application_result(env, statement, exp) {
           return;
         }
         break;
-      
     }
   }
   if (statement) {
@@ -66683,7 +66397,6 @@ function duplicate_ident_types(loc, caselist, env) {
             case /* Pdot */ 1 :
             case /* Papply */ 2 :
               return env;
-            
           }
         }
         catch (raw_exn){
@@ -66793,7 +66506,6 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                         38
                       ]
                     });
-              
             }
             tmp = {
               TAG: /* Texp_instvar */ 20,
@@ -68895,7 +68607,6 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           case /* Pdot */ 1 :
           case /* Papply */ 2 :
             return iter_type_expr(replace, t);
-          
         }
       };
       const ety = type_expr(identity, body$5.exp_type);
@@ -69017,7 +68728,6 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             MEL_EXN_ID: Error_forward$1,
             _1: error_of_extension(lid._0)
           });
-    
   }
 }
 
@@ -69406,7 +69116,6 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
                   ];
                 }
                 break;
-              
             }
           }
           return [
@@ -70037,7 +69746,6 @@ function type_application(env, funct, sargs) {
             case /* Tarrow */ 1 :
               prerr_warning(exp.exp_loc, /* Partial_application */ 2);
               break;
-            
           }
         }
         return [
@@ -70382,7 +70090,6 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
           case /* Lapply */ 2 :
             is_fake_let = false;
             break;
-          
         }
       } else {
         is_fake_let = false;
@@ -70877,7 +70584,6 @@ register_error_of_exn(function (err) {
                               },
                               _1: "@[Exception patterns must be at the top level of a match case.@]"
                             });
-                      
                     }
                   } else {
                     switch (param$1.TAG) {
@@ -72738,7 +72444,6 @@ register_error_of_exn(function (err) {
                                   },
                                   _1: "@[The GADT constructor %s of type %a@ %s.@]"
                                 }), param$1._1, path, param$1._0, "must be qualified in this pattern");
-                      
                     }
                   }
                 }));
@@ -74262,7 +73967,6 @@ function add_injectivity(param) {
               false,
               false
             ];
-          
         }
       }), param);
 }
@@ -74877,7 +74581,6 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       case /* Pdot */ 1 :
       case /* Papply */ 2 :
         return false;
-      
     }
   };
   Stdlib__List.iter((function (param) {
@@ -75262,7 +74965,6 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
       case /* Cstr_extension */ 2 :
         path = match$7._0;
         break;
-      
     }
     match = [
       args,
@@ -75517,7 +75219,6 @@ function customize_arity(arity, pval_attributes) {
           case /* PTyp */ 1 :
           case /* PPat */ 2 :
             return;
-          
         }
       }), pval_attributes);
   return cur_arity.contents;
@@ -76043,7 +75744,6 @@ function report_error$5(ppf, s) {
                   },
                   _1: "@[%s@ %s@ %s@]"
                 }), "In this GADT definition,", "the variance of some parameter", "cannot be checked");
-      
     }
   } else {
     switch (s.TAG) {
@@ -77259,7 +76959,6 @@ function report_error$5(ppf, s) {
             }), "type", (function (param) {
               return "";
             }));
-      
     }
   }
 }
@@ -77300,7 +76999,6 @@ function scrape_class_type(_cty) {
       case /* Cty_signature */ 1 :
       case /* Cty_arrow */ 2 :
         return cty;
-      
     }
   };
 }
@@ -77326,7 +77024,6 @@ function generalize_class_type(gen, _param) {
         Curry._1(gen, param._1);
         _param = param._2;
         continue;
-      
     }
   };
 }
@@ -77367,7 +77064,6 @@ function constructor_type(constr, _cty) {
           _3: /* Cok */ 0
         };
         return newty2(current_level.contents, desc);
-      
     }
   };
 }
@@ -77382,7 +77078,6 @@ function class_body(_cty) {
       case /* Cty_arrow */ 2 :
         _cty = cty._2;
         continue;
-      
     }
   };
 }
@@ -77429,7 +77124,6 @@ function abbreviate_class_type(path, params, cty) {
         _1: cty._1,
         _2: abbreviate_class_type(path, params, cty._2)
       };
-    
   }
 }
 
@@ -77460,7 +77154,6 @@ function closed_class$1(cty) {
           }
           _sign = sign._2;
           continue;
-        
       }
     };
   } else {
@@ -77493,7 +77186,6 @@ function limited_generalize$1(rv, _sign) {
         limited_generalize(rv, sign._1);
         _sign = sign._2;
         continue;
-      
     }
   };
 }
@@ -77707,7 +77399,6 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
             case /* Cty_arrow */ 2 :
               cname = "inherited";
               break;
-            
           }
           if (!Curry._1(is_empty$1, over_meths)) {
             prerr_warning(loc, {
@@ -77748,7 +77439,6 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
               _0: parent
             }
           });
-    
   }
 }
 
@@ -77976,7 +77666,6 @@ function class_signature$1(env, param) {
               case /* Cty_arrow */ 2 :
                 inher$1 = inher;
                 break;
-              
             }
             const match$1 = inheritance(self_type, env, undefined, concr_meths, /* Empty */ 0, sparent$1.pcty_loc, parent.cltyp_type);
             const partial_arg = sparent$1.pcty_loc;
@@ -78089,7 +77778,6 @@ function class_signature$1(env, param) {
                   MEL_EXN_ID: Error_forward$2,
                   _1: error_of_extension(sparent._0)
                 });
-          
         }
       }), [
         /* [] */ 0,
@@ -78227,7 +77915,6 @@ function class_type$3(env, scty) {
             MEL_EXN_ID: Error_forward$2,
             _1: error_of_extension(pcsig._0)
           });
-    
   }
 }
 
@@ -78357,7 +78044,6 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
               case /* Cty_arrow */ 2 :
                 inher$1 = inher;
                 break;
-              
             }
             const match$1 = inheritance(self_type, val_env, ovf, concr_meths, warn_vals, sparent.pcl_loc, parent.cl_type);
             const cl_sig = match$1[0];
@@ -78888,7 +78574,6 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                   MEL_EXN_ID: Error_forward$2,
                   _1: error_of_extension(expr._0)
                 });
-          
         }
       }), [
         val_env$1,
@@ -79266,7 +78951,6 @@ function class_expr(cl_num, val_env, met_env, _scl) {
               return true;
             case /* Cty_arrow */ 2 :
               return false;
-            
           }
         };
         const partial = check_partial$1(undefined, val_env, pat.pat_type)(pat.pat_loc, {
@@ -79349,7 +79033,6 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                   tl: ls
                 };
                 continue;
-              
             }
           };
         };
@@ -79516,10 +79199,8 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                       continue;
                     }
                     break;
-                  
                 }
                 break;
-              
             }
             const match$6 = Stdlib.$at(sargs, more_sargs);
             if (!match$6) {
@@ -79721,7 +79402,6 @@ function class_expr(cl_num, val_env, met_env, _scl) {
               MEL_EXN_ID: Error_forward$2,
               _1: error_of_extension(cl_str._0)
             });
-      
     }
   };
 }
@@ -80581,7 +80261,6 @@ function unify_parents_struct(env, ty, st) {
               case /* Tcl_constraint */ 5 :
                 _cl = st._0;
                 continue;
-              
             }
           };
         }
@@ -82102,7 +81781,6 @@ register_error_of_exn(function (err) {
                                 },
                                 _1: "@[The %s `%s'@ has multiple definitions in this object@]"
                               }), param$1._0, param$1._1);
-                    
                   }
                 }));
           }), err._3);
@@ -82144,7 +81822,6 @@ function path_concat(head, p) {
               16
             ]
           });
-    
   }
 }
 
@@ -82240,7 +81917,6 @@ function add_rec_types(_env, _param) {
         _param = param.tl;
         _env = add_type$1(true, match._0, match._1, env);
         continue;
-      
     }
   };
 }
@@ -82260,7 +81936,6 @@ function update_rec_next(rs, rem) {
       break;
     case /* Trec_next */ 2 :
       return rem;
-    
   }
   if (!rem) {
     return rem;
@@ -82282,7 +81957,6 @@ function update_rec_next(rs, rem) {
             },
             tl: rem.tl
           };
-        
       }
     case /* Sig_module */ 3 :
       switch (match._2) {
@@ -82299,7 +81973,6 @@ function update_rec_next(rs, rem) {
             },
             tl: rem.tl
           };
-        
       }
     default:
       return rem;
@@ -82333,7 +82006,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
         loc: s$1.loc
       };
       break;
-    
   }
   const real_id = {
     contents: undefined
@@ -82388,7 +82060,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
                                   false
                                 ];
                                 break;
-                              
                             }
                             let p = !match[1];
                             let n = !match[0];
@@ -82503,7 +82174,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
                 case /* Pwith_module */ 1 :
                 case /* Pwith_modsubst */ 3 :
                   break;
-                
               }
               if (exit === 2) {
                 if (id.name === s + "#row") {
@@ -82624,7 +82294,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
                     }
                     exit$2 = 2;
                     break;
-                  
                 }
               }
               if (exit$2 === 2 && id$1.name === s$1) {
@@ -82657,7 +82326,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
               
             }
             break;
-          
         }
         const match$4 = merge(add_item(item, env), sg.tl, namelist, row_id);
         return [
@@ -82819,7 +82487,6 @@ function merge_constraint(initial_env, loc, sg, constr) {
           const sub$1 = add_module(id$3, path, identity);
           sg$2 = signature$2(sub$1, sg$1);
           break;
-        
       }
     } else {
       sg$2 = sg$1;
@@ -82956,7 +82623,6 @@ function approx_modtype(env, _smty) {
           TAG: /* Mty_alias */ 3,
           _0: path
         };
-      
     }
   };
 }
@@ -83332,7 +82998,6 @@ function remove_duplicates(val_ids, ext_ids, _param) {
                   case /* Text_exception */ 2 :
                     exit = 2;
                     break;
-                  
                 }
               } else {
                 exit = 2;
@@ -83345,7 +83010,6 @@ function remove_duplicates(val_ids, ext_ids, _param) {
           case /* Text_exception */ 2 :
             exit = 2;
             break;
-          
         }
         if (exit === 2 && Stdlib__List.exists((function (param) {
                 return equal(id$1, param);
@@ -83354,7 +83018,6 @@ function remove_duplicates(val_ids, ext_ids, _param) {
           continue;
         }
         break;
-      
     }
     return {
       hd: f,
@@ -83533,7 +83196,6 @@ function transl_modtype$1(env, smty) {
             TAG: /* Mty_alias */ 3,
             _0: path$1
           }, env, loc, smty.pmty_attributes);
-    
   }
 }
 
@@ -83939,7 +83601,6 @@ function transl_signature(env, sg) {
               MEL_EXN_ID: Error_forward$3,
               _1: error_of_extension(sdesc._0)
             });
-      
     }
   };
   const previous_saved_types = saved_types.contents;
@@ -84132,12 +83793,10 @@ function simplify_signature(sg) {
               case /* Text_first */ 0 :
               case /* Text_exception */ 2 :
                 return k$1;
-              
             }
           case /* Text_next */ 1 :
           case /* Text_exception */ 2 :
             return k$1;
-          
         }
       default:
         const match$1 = aux(param.tl);
@@ -84210,7 +83869,6 @@ function closed_modtype(_p) {
       case /* Mty_ident */ 0 :
       case /* Mty_alias */ 3 :
         return true;
-      
     }
   };
 }
@@ -84950,7 +84608,6 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
             MEL_EXN_ID: Error_forward$3,
             _1: error_of_extension(lid._0)
           });
-    
   }
 }
 
@@ -85451,7 +85108,6 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
               MEL_EXN_ID: Error_forward$3,
               _1: error_of_extension(desc._0)
             });
-      
     }
   };
   const type_struct = function (env, sstr) {
@@ -85557,7 +85213,6 @@ function normalize_signature(env) {
                   case /* Mty_ident */ 0 :
                   case /* Mty_alias */ 3 :
                     return;
-                  
                 }
               };
             default:
@@ -85667,7 +85322,6 @@ function type_package$1(env, m, p, nl, tl) {
                 11
               ]
             });
-      
     }
   };
   const tl$p = Stdlib__List.map((function (name) {
@@ -85963,7 +85617,6 @@ register_error_of_exn(function (err) {
                               },
                               _1: "This is a generative functor. It can only be applied to ()"
                             });
-                      
                     }
                   } else {
                     switch (param$1.TAG) {
@@ -86659,7 +86312,6 @@ register_error_of_exn(function (err) {
                                   },
                                   _1: "Its type contains local dependencies:@ %a"
                                 }), type_expr$1, param$1._1);
-                      
                     }
                   }
                 }));
@@ -86983,7 +86635,6 @@ if (match$1) {
                                                                                                                                                                             case /* Papply */ 2 :
                                                                                                                                                                               eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                               break;
-                                                                                                                                                                            
                                                                                                                                                                           }
                                                                                                                                                                         }
                                                                                                                                                                       } else {
@@ -86998,7 +86649,6 @@ if (match$1) {
                                                                                                                                                                 case /* Papply */ 2 :
                                                                                                                                                                   eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                   break;
-                                                                                                                                                                
                                                                                                                                                               }
                                                                                                                                                             }
                                                                                                                                                           }
@@ -87023,7 +86673,6 @@ if (match$1) {
                                                                                                                                             case /* Papply */ 2 :
                                                                                                                                               eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                               break;
-                                                                                                                                            
                                                                                                                                           }
                                                                                                                                         }
                                                                                                                                       } else {
@@ -87038,7 +86687,6 @@ if (match$1) {
                                                                                                                                 case /* Papply */ 2 :
                                                                                                                                   eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                   break;
-                                                                                                                                
                                                                                                                               }
                                                                                                                             }
                                                                                                                           }
@@ -87060,7 +86708,6 @@ if (match$1) {
                                                                                                               case /* Papply */ 2 :
                                                                                                                 eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                 break;
-                                                                                                              
                                                                                                             }
                                                                                                           }
                                                                                                         } else {
@@ -87077,7 +86724,6 @@ if (match$1) {
                                                                                                   case /* Lapply */ 2 :
                                                                                                     eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                     break;
-                                                                                                  
                                                                                                 }
                                                                                               }
                                                                                             } else {
@@ -87088,7 +86734,6 @@ if (match$1) {
                                                                                           case /* Papply */ 2 :
                                                                                             eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                             break;
-                                                                                          
                                                                                         }
                                                                                       }
                                                                                     } else {
@@ -87109,7 +86754,6 @@ if (match$1) {
                                                                           case /* Papply */ 2 :
                                                                             eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                             break;
-                                                                          
                                                                         }
                                                                       }
                                                                     } else {
@@ -87126,7 +86770,6 @@ if (match$1) {
                                                               case /* Lapply */ 2 :
                                                                 eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                 break;
-                                                              
                                                             }
                                                           }
                                                         } else {
@@ -87137,7 +86780,6 @@ if (match$1) {
                                                       case /* Papply */ 2 :
                                                         eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                         break;
-                                                      
                                                     }
                                                   }
                                                 }

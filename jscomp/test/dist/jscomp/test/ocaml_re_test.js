@@ -854,7 +854,6 @@ function equal(_l1, _l2) {
           case /* TExp */ 1 :
           case /* TMatch */ 2 :
             return false;
-          
         }
       case /* TExp */ 1 :
         if (!l2) {
@@ -875,7 +874,6 @@ function equal(_l1, _l2) {
           case /* TSeq */ 0 :
           case /* TMatch */ 2 :
             return false;
-          
         }
       case /* TMatch */ 2 :
         if (!l2) {
@@ -893,9 +891,7 @@ function equal(_l1, _l2) {
             _l2 = l2.tl;
             _l1 = l1.tl;
             continue;
-          
         }
-      
     }
   };
 }
@@ -921,7 +917,6 @@ function hash$1(_l, _accu) {
         _accu = hash_combine(471882453, hash(marks._0, accu));
         _l = l.tl;
         continue;
-      
     }
   };
 }
@@ -948,7 +943,6 @@ function tseq(kind, x, y, rem) {
     case /* TSeq */ 0 :
     case /* TMatch */ 2 :
       break;
-    
   }
   return {
     hd: {
@@ -1024,7 +1018,6 @@ function mark_used_indices(tbl) {
             case /* TExp */ 1 :
             case /* TMatch */ 2 :
               break;
-            
           }
           Stdlib__List.iter((function (param) {
                 const i = param[1];
@@ -1068,7 +1061,6 @@ function remove_matches(param) {
             return true;
           case /* TMatch */ 2 :
             return false;
-          
         }
       }), param);
 }
@@ -1093,7 +1085,6 @@ function split_at_match_rec(_l$p, _param) {
             Stdlib__List.rev(l$p),
             remove_matches(param.tl)
           ];
-        
       }
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -1172,7 +1163,6 @@ function remove_duplicates(prev, _l, y) {
           },
           prev
         ];
-      
     }
   };
 }
@@ -1210,7 +1200,6 @@ function set_idx(idx, param) {
         },
         tl: set_idx(idx, param.tl)
       };
-    
   }
 }
 
@@ -1268,7 +1257,6 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
                 return;
               case /* TMatch */ 2 :
                 return marks._0;
-              
             }
           }), y$p$1);
       const match = marks$p !== undefined ? [
@@ -1363,7 +1351,6 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
         },
         tl: rem
       };
-    
   }
 }
 
@@ -1383,7 +1370,6 @@ function delta_seq(c, next_cat, prev_cat, kind, y, z, rem) {
             return;
           case /* TMatch */ 2 :
             return marks._0;
-          
         }
       }), y);
   if (marks === undefined) {
@@ -1414,7 +1400,6 @@ function delta_4(c, next_cat, prev_cat, l, rem) {
           hd: x,
           tl: rem$1
         };
-      
     }
   } else {
     return rem;
@@ -1463,7 +1448,6 @@ function status(s) {
           _1: m$1.pmarks
         };
         break;
-      
     }
   } else {
     st$1 = /* Failed */ 0;
@@ -1877,7 +1861,6 @@ function colorize(c, regexp) {
           case /* Start */ 8 :
           case /* Stop */ 9 :
             return;
-          
         }
       } else {
         switch (regexp.TAG) {
@@ -2000,7 +1983,6 @@ function equal$2(_x1, _x2) {
           } else {
             return false;
           }
-        
       }
     } else {
       switch (x1.TAG) {
@@ -2144,7 +2126,6 @@ function equal$2(_x1, _x2) {
           _x2 = x2._1;
           _x1 = x1._1;
           continue;
-        
       }
     }
   };
@@ -2257,7 +2238,6 @@ function merge_sequences(_param) {
         case /* Alternative */ 2 :
           _param = Stdlib.$at(l$p._0, param.tl);
           continue;
-        
       }
     }
     return {
@@ -2390,7 +2370,6 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
                 }),
             kind
           ];
-        
       }
     } else {
       switch (s.TAG) {
@@ -2712,7 +2691,6 @@ function handle_case(_ign_case, _s) {
           _0: s._0,
           _1: handle_case(ign_case, s._1)
         };
-      
     }
   };
 }
@@ -4077,7 +4055,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
           throw new Caml_js_exceptions.MelangeError(Parse_error, {
                 MEL_EXN_ID: Parse_error
               });
-        
       }
     } else {
       if (c$2 >= 48) {

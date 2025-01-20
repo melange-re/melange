@@ -12,7 +12,6 @@ function f(x) {
       return /* X3 */ 2;
     case /* X4 */ 3 :
       return /* X4 */ 3;
-    
   }
 }
 
@@ -26,7 +25,6 @@ function f2(x) {
       return /* X3 */ 2;
     case /* X4 */ 3 :
       return /* X4 */ 3;
-    
   }
 }
 

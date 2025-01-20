@@ -17,7 +17,6 @@ function isfree(id, _id$p) {
         }
         _id$p = id$p._1;
         continue;
-      
     }
   };
 }

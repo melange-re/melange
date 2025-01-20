@@ -484,7 +484,6 @@ function eq_at_i(loc, json, i, kind, expected) {
               };
             }));
       }
-    
   }
 }
 
