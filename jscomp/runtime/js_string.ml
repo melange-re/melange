@@ -97,7 +97,7 @@ external get : t -> int -> t = ""
 ]}
 *)
 
-external charAt : index:int -> t -> t = "charAt"
+external charAt : index:int -> (t[@mel.this]) -> t = "charAt"
 [@@mel.send]
 (** [charAt ~index s] gets the character at position [index] within string [s].
     If [index] is negative or greater than the length of [s], returns the empty
@@ -112,7 +112,7 @@ external charAt : index:int -> t -> t = "charAt"
 ]}
 *)
 
-external charCodeAt : index:int -> t -> float = "charCodeAt"
+external charCodeAt : index:int -> (t[@mel.this]) -> float = "charCodeAt"
 [@@mel.send]
 (** [charCodeAt s ~index] returns the character code at position [index] in string
     [s]; the result is in the range 0-65535, unlke [codePointAt], so it will
@@ -127,7 +127,7 @@ external charCodeAt : index:int -> t -> float = "charCodeAt"
 ]}
 *)
 
-external codePointAt : index:int -> t -> int option = "codePointAt"
+external codePointAt : index:int -> (t[@mel.this]) -> int option = "codePointAt"
 [@@mel.send]
 (** [codePointAt s ~index] returns the code point at position [index] within string
     [s] as a [Some] value. The return value handles code points greater than or
@@ -142,7 +142,7 @@ external codePointAt : index:int -> t -> int option = "codePointAt"
 
 (** ES2015 *)
 
-external concat : other:t -> t -> t = "concat"
+external concat : other:t -> (t[@mel.this]) -> t = "concat"
 [@@mel.send]
 (** [concat ~other:str2 str1] returns a new string with [str2] added after
     [str1].
@@ -152,8 +152,8 @@ external concat : other:t -> t -> t = "concat"
 ]}
 *)
 
-external concatMany : strings:t array -> t = "concat"
-[@@mel.send.pipe: t] [@@mel.variadic]
+external concatMany : strings:t array -> (t[@mel.this]) -> t = "concat"
+[@@mel.send] [@@mel.variadic]
 (** [concatMany ~strings original] returns a new string consisting of each item
     of the array of strings [strings] added to the [original] string.
 
@@ -162,7 +162,7 @@ external concatMany : strings:t array -> t = "concat"
 ]}
 *)
 
-external endsWith : suffix:t -> ?len:int -> t -> bool = "endsWith"
+external endsWith : suffix:t -> ?len:int -> (t[@mel.this]) -> bool = "endsWith"
 [@@mel.send]
 (** [endsWith ~suffix ?len str] returns [true] if the [str] ends with [suffix],
     [false] otherwise. If [len] is specified, `endsWith` only takes into
@@ -179,7 +179,8 @@ external endsWith : suffix:t -> ?len:int -> t -> bool = "endsWith"
 ]}
 *)
 
-external includes : search:t -> ?start:int -> t -> bool = "includes"
+external includes : search:t -> ?start:int -> (t[@mel.this]) -> bool
+  = "includes"
 [@@mel.send]
 (**
   [includes ~search ?start s] returns [true] if [search] is found anywhere
@@ -197,7 +198,7 @@ external includes : search:t -> ?start:int -> t -> bool = "includes"
 ]}
 *)
 
-external indexOf : search:t -> ?start:int -> t -> int = "indexOf"
+external indexOf : search:t -> ?start:int -> (t[@mel.this]) -> int = "indexOf"
 [@@mel.send]
 (** [indexOf ~search ?start s] returns the position at which [search] was found
     within [s] starting at character position [start], or [-1] if [search] is
@@ -215,7 +216,8 @@ external indexOf : search:t -> ?start:int -> t -> int = "indexOf"
 ]}
 *)
 
-external lastIndexOf : search:t -> ?start:int -> t -> int = "lastIndexOf"
+external lastIndexOf : search:t -> ?start:int -> (t[@mel.this]) -> int
+  = "lastIndexOf"
 [@@mel.send]
 (**
   [lastIndexOf ~search ~start s] returns the position of the {i last}
@@ -236,7 +238,7 @@ external lastIndexOf : search:t -> ?start:int -> t -> int = "lastIndexOf"
 
 (* extended by ECMA-402 *)
 
-external localeCompare : other:t -> t -> float = "localeCompare"
+external localeCompare : other:t -> (t[@mel.this]) -> float = "localeCompare"
 [@@mel.send]
 (**
   [localeCompare ~other:comparison reference] returns:
@@ -254,7 +256,8 @@ external localeCompare : other:t -> t -> float = "localeCompare"
 ]}
 *)
 
-external match_ : regexp:Js.re -> t -> t option array option = "match"
+external match_ : regexp:Js.re -> (t[@mel.this]) -> t option array option
+  = "match"
 [@@mel.send] [@@mel.return { null_to_opt }]
 (**
   [match ~regexp str] matches a string against the given [regexp]. If there is
@@ -278,8 +281,8 @@ external match_ : regexp:Js.re -> t -> t option array option = "match"
 ]}
 *)
 
-external normalize : ?form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t -> t
-  = "normalize"
+external normalize :
+  ?form:[ `NFC | `NFD | `NFKC | `NFKD ] -> (t[@mel.this]) -> t = "normalize"
 [@@mel.send]
 (** [normalize ~form str] returns the normalized Unicode string using the
     specified form of normalization, which may be one of:
@@ -302,7 +305,7 @@ external normalize : ?form:[ `NFC | `NFD | `NFKC | `NFKD ] -> t -> t
   report for details
 *)
 
-external repeat : count:int -> t -> t = "repeat"
+external repeat : count:int -> (t[@mel.this]) -> t = "repeat"
 [@@mel.send]
 (** [repeat ~count s] returns a string that consists of [count] repetitions of
     [s]. Raises [RangeError] if [n] is negative.
@@ -313,7 +316,7 @@ external repeat : count:int -> t -> t = "repeat"
 ]}
 *)
 
-external replace : search:t -> replacement:t -> t -> t = "replace"
+external replace : search:t -> replacement:t -> (t[@mel.this]) -> t = "replace"
 [@@mel.send]
 (** [replace ~search ~replacement string] returns a new string which is
     identical to [string] except with the first matching instance of [search]
@@ -328,7 +331,8 @@ external replace : search:t -> replacement:t -> t -> t = "replace"
 ]}
 *)
 
-external replaceByRe : regexp:Js.re -> replacement:t -> t -> t = "replace"
+external replaceByRe : regexp:Js.re -> replacement:t -> (t[@mel.this]) -> t
+  = "replace"
 [@@mel.send]
 (** [replaceByRe ~regexp ~replacement string] returns a new string where
     occurrences matching [regexp] have been replaced by [replacement].
@@ -340,7 +344,8 @@ external replaceByRe : regexp:Js.re -> replacement:t -> t -> t = "replace"
 *)
 
 external unsafeReplaceBy0 :
-  regexp:Js.re -> f:((t -> int -> t -> t)[@mel.uncurry]) -> t -> t = "replace"
+  regexp:Js.re -> f:((t -> int -> t -> t)[@mel.uncurry]) -> (t[@mel.this]) -> t
+  = "replace"
 [@@mel.send]
 (** [unsafeReplaceBy0 ~regexp ~f s] returns a new string with some or all
     matches of a pattern with no capturing parentheses replaced by the value
@@ -364,8 +369,10 @@ let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
 *)
 
 external unsafeReplaceBy1 :
-  regexp:Js.re -> f:((t -> t -> int -> t -> t)[@mel.uncurry]) -> t -> t
-  = "replace"
+  regexp:Js.re ->
+  f:((t -> t -> int -> t -> t)[@mel.uncurry]) ->
+  (t[@mel.this]) ->
+  t = "replace"
 [@@mel.send]
 (** [unsafeReplaceBy1 ~regexp ~f s] returns a new string with some or all
     matches of a pattern with one set of capturing parentheses replaced by the
@@ -390,8 +397,10 @@ MDN
 *)
 
 external unsafeReplaceBy2 :
-  regexp:Js.re -> f:((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t -> t
-  = "replace"
+  regexp:Js.re ->
+  f:((t -> t -> t -> int -> t -> t)[@mel.uncurry]) ->
+  (t[@mel.this]) ->
+  t = "replace"
 [@@mel.send]
 (** [unsafeReplaceBy2 ~regexp ~f s] returns a new string with some or all
     matches of a pattern with two sets of capturing parentheses replaced by the
@@ -416,7 +425,7 @@ let () = Js.log replaced (* prints "42" *)
 external unsafeReplaceBy3 :
   regexp:Js.re ->
   f:((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) ->
-  t ->
+  (t[@mel.this]) ->
   t = "replace"
 [@@mel.send]
 (** [unsafeReplaceBy3 ~regexp ~f s] returns a new string with some or all
@@ -428,7 +437,7 @@ external unsafeReplaceBy3 :
     @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
 
-external search : regexp:Js.re -> t -> int = "search"
+external search : regexp:Js.re -> (t[@mel.this]) -> int = "search"
 [@@mel.send]
 (** [search ~regexp str] returns the starting position of the first match of
     [regexp] in the given [str], or -1 if there is no match.
@@ -439,7 +448,7 @@ search ~regexp:[%re "/\\d+/"] "no numbers" = -1;;
 ]}
 *)
 
-external slice : ?start:int -> ?end_:int -> t -> t = "slice"
+external slice : ?start:int -> ?end_:int -> (t[@mel.this]) -> t = "slice"
 [@@mel.send]
 (** [slice ?start ?end str] returns the substring of [str] starting at
     character [start] up to but not including [end]
@@ -460,7 +469,7 @@ external slice : ?start:int -> ?end_:int -> t -> t = "slice"
 ]}
 *)
 
-external split : ?sep:t -> ?limit:int -> t -> t array = "split"
+external split : ?sep:t -> ?limit:int -> (t[@mel.this]) -> t array = "split"
 [@@mel.send]
 (** [split ?sep ?limit str] splits the given [str] at every occurrence of
     [sep] and returns an array of the first [limit] resulting substrings. If
@@ -474,7 +483,8 @@ external split : ?sep:t -> ?limit:int -> t -> t array = "split"
 ]}
 *)
 
-external splitByRe : regexp:Js.re -> ?limit:int -> t -> t option array = "split"
+external splitByRe :
+  regexp:Js.re -> ?limit:int -> (t[@mel.this]) -> t option array = "split"
 [@@mel.send]
 (** [splitByRe str ~regexp ?limit ()] splits the given [str] at every
     occurrence of [regexp] and returns an array of the first [limit] resulting
@@ -488,7 +498,8 @@ external splitByRe : regexp:Js.re -> ?limit:int -> t -> t option array = "split"
 ]};
 *)
 
-external startsWith : prefix:t -> ?start:int -> t -> bool = "startsWith"
+external startsWith : prefix:t -> ?start:int -> (t[@mel.this]) -> bool
+  = "startsWith"
 [@@mel.send]
 (** [startsWith ~prefix ?start str] returns [true] if the [str] starts with
     [prefix] starting at position [start], [false] otherwise. If [start] is
@@ -501,7 +512,7 @@ external startsWith : prefix:t -> ?start:int -> t -> bool = "startsWith"
 ]}
 *)
 
-external substr : ?start:int -> ?len:int -> t -> t = "substr"
+external substr : ?start:int -> ?len:int -> (t[@mel.this]) -> t = "substr"
 [@@mel.send]
 [@@alert
   deprecated
@@ -525,7 +536,8 @@ external substr : ?start:int -> ?len:int -> t -> t = "substr"
 ]}
 *)
 
-external substring : ?start:int -> ?end_:int -> t -> t = "substring"
+external substring : ?start:int -> ?end_:int -> (t[@mel.this]) -> t
+  = "substring"
 [@@mel.send]
 (** [substring ~start ~end_ str] returns characters [start] up to but not
     including [end_] from [str].
@@ -598,7 +610,7 @@ external trim : t -> t = "trim"
 
 (* HTML wrappers *)
 
-external anchor : name:t -> t -> t = "anchor"
+external anchor : name:t -> (t[@mel.this]) -> t = "anchor"
 [@@mel.send]
 [@@alert
   deprecated
@@ -613,7 +625,7 @@ external anchor : name:t -> t -> t = "anchor"
 ]}
 *)
 
-external link : href:t -> t -> t = "link"
+external link : href:t -> (t[@mel.this]) -> t = "link"
 [@@mel.send]
 [@@alert
   deprecated
