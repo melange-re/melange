@@ -174,8 +174,7 @@ type exprs = E.t list
    Invariant : Array encoding
    @return arguments and effect
 *)
-let assemble_args_no_splice (arg_types : specs) (args : exprs) :
-    exprs * E.t option =
+let assemble_args_no_splice =
   let rec aux (labels : specs) (args : exprs) : exprs * exprs =
     match (labels, args) with
     | [], _ ->
@@ -191,13 +190,15 @@ let assemble_args_no_splice (arg_types : specs) (args : exprs) :
         (append_list acc accs, List.append new_eff eff)
     | _ :: _, [] -> assert false
   in
-  let args, eff = aux arg_types args in
-  ( args,
-    match eff with
-    | [] -> None
-    | x :: xs ->
-        (* FIXME: the order of effects? *)
-        Some (E.fuse_to_seq x xs) )
+
+  fun (args : exprs) (arg_types : specs) : (exprs * E.t option) ->
+    let args, eff = aux arg_types args in
+    ( args,
+      match eff with
+      | [] -> None
+      | x :: xs ->
+          (* FIXME: the order of effects? *)
+          Some (E.fuse_to_seq x xs) )
 
 let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     exprs * E.t option * bool =
@@ -266,19 +267,30 @@ let translate_scoped_module_val
           let start = E.js_global x in
           List.fold_left ~f:E.dot ~init:start (rest @ [ fn ]))
 
-let js_send_self_and_args args arg_types ~self_idx =
-  (* PR2162 [self_type] more checks in syntax:
-                 - should not be [@as] *)
-  let[@ocaml.warning "-partial-match"] args_pre, self :: args_post =
-    List.split_at args self_idx
-  in
-  let[@ocaml.warning "-partial-match"] ( arg_types_pre,
-                                         _self_types :: arg_types_post ) =
-    List.split_at arg_types self_idx
-  in
-  (self, args_pre @ args_post, arg_types_pre @ arg_types_post)
-
 let translate_ffi =
+  let js_send_self_and_args =
+    let rec aux ~self_idx args specs (acc_args, acc_specs, cur_idx) =
+      match (args, specs) with
+      | [], [] -> assert false
+      | ( _ :: _,
+          (* constant args get elided from the `external type` but not the arg
+           specs. *)
+          ({ External_arg_spec.arg_type = Arg_cst _; _ } as spec) :: specs ) ->
+          aux ~self_idx args specs (acc_args, spec :: acc_specs, cur_idx + 1)
+      | self :: args, spec :: specs ->
+          if self_idx = cur_idx then
+            (* PR2162 [self_type] more checks in syntax:
+                 - should not be [@as] *)
+            ( self,
+              List.rev_append acc_args args,
+              List.rev_append acc_specs specs )
+          else
+            aux ~self_idx args specs
+              (self :: acc_args, spec :: acc_specs, cur_idx + 1)
+      | [], _ :: _ | _ :: _, [] -> assert false
+    in
+    fun args arg_types ~self_idx -> aux args arg_types ~self_idx ([], [], 0)
+  in
   let translate_scoped_access scopes obj =
     match scopes with
     | [] -> obj
@@ -322,7 +334,7 @@ let translate_ffi =
                 (if dynamic then splice_fn_apply fn args
                  else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
             else
-              let args, eff = assemble_args_no_splice arg_types args in
+              let args, eff = assemble_args_no_splice args arg_types in
               add_eff eff
               @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args)
     | Js_module_as_fn { external_module_name; variadic } ->
@@ -334,7 +346,7 @@ let translate_ffi =
             (if dynamic then splice_fn_apply fn args
              else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
         else
-          let args, eff = assemble_args_no_splice arg_types args in
+          let args, eff = assemble_args_no_splice args arg_types in
           (* TODO: fix in rest calling convention *)
           add_eff eff
             (E.call ~info:{ arity = Full; call_info = Call_na } fn args)
@@ -357,7 +369,7 @@ let translate_ffi =
           add_eff eff
             (if dynamic then splice_fn_new_apply fn args else E.new_ fn args)
         else
-          let args, eff = assemble_args_no_splice arg_types args in
+          let args, eff = assemble_args_no_splice args arg_types in
           add_eff eff
             (* (match cxt.continuation with *)
             (* | Declare (let_kind, id) -> *)
@@ -381,7 +393,7 @@ let translate_ffi =
         | Pipe, false ->
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
-            let args, eff = assemble_args_no_splice arg_types args in
+            let args, eff = assemble_args_no_splice args arg_types in
             add_eff eff
               (let self = translate_scoped_access scopes self in
                process_send ~new_ self name args)
@@ -390,9 +402,9 @@ let translate_ffi =
               js_send_self_and_args args arg_types ~self_idx
             in
             let args, eff, dynamic = assemble_args_has_splice arg_types args in
+            let self = translate_scoped_access scopes self in
             add_eff eff
-              (let self = translate_scoped_access scopes self in
-               if dynamic then
+              (if dynamic then
                  match new_ with
                  | true -> splice_fn_new_apply (E.dot self name) args
                  | false -> splice_obj_fn_apply self name args
@@ -401,12 +413,9 @@ let translate_ffi =
             let self, args, arg_types =
               js_send_self_and_args args arg_types ~self_idx
             in
-            (* PR2162 [self_type] more checks in syntax:
-                - should not be [@mel.as] *)
-            let args, eff = assemble_args_no_splice arg_types args in
-            add_eff eff
-              (let self = translate_scoped_access scopes self in
-               process_send ~new_ self name args))
+            let args, eff = assemble_args_no_splice args arg_types in
+            let self = translate_scoped_access scopes self in
+            add_eff eff (process_send ~new_ self name args))
     | Js_module_as_var module_name -> external_var ~dynamic_import module_name
     | Js_var { name; external_module_name; scopes } ->
         (* TODO #11
@@ -418,7 +427,7 @@ let translate_ffi =
           ~dynamic_import
     | Js_module_as_class module_name ->
         let fn = external_var ~dynamic_import module_name in
-        let args, eff = assemble_args_no_splice arg_types args in
+        let args, eff = assemble_args_no_splice args arg_types in
         (* TODO: fix in rest calling convention *)
         add_eff eff
           ((match cxt.continuation with
@@ -428,7 +437,7 @@ let translate_ffi =
            | EffectCall _ | NeedValue _ -> ());
            E.new_ fn args)
     | Js_get { name; scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
@@ -438,7 +447,7 @@ let translate_ffi =
         | _ -> assert false (* Note these assertion happens in call site *))
     | Js_set { name; scopes } -> (
         (* assert (js_splice = false) ;  *)
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match (args, arg_types) with
@@ -447,14 +456,14 @@ let translate_ffi =
             E.assign (E.dot obj name) v
         | _ -> assert false)
     | Js_get_index { scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
         | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
         | _ -> assert false)
     | Js_set_index { scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
