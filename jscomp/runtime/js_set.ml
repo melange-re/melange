@@ -30,29 +30,35 @@ external make : unit -> 'a t = "Set" [@@mel.new]
 external fromArray : 'a array -> 'a t = "Set" [@@mel.new]
 external toArray : 'a t -> 'a array = "Array.from"
 external size : 'a t -> int = "size" [@@mel.get]
-external add : value:'a -> 'a t -> 'a t = "add" [@@mel.send]
+external add : value:'a -> ('a t[@mel.this]) -> 'a t = "add" [@@mel.send]
 external clear : 'a t -> unit = "clear" [@@mel.send]
-external delete : value:'a -> 'a t -> bool = "delete" [@@mel.send]
-external forEach : f:('a -> unit) -> 'a t -> unit = "forEach" [@@mel.send]
-external has : value:'a -> 'a t -> bool = "has" [@@mel.send]
+external delete : value:'a -> ('a t[@mel.this]) -> bool = "delete" [@@mel.send]
+
+external forEach : f:('a -> unit) -> ('a t[@mel.this]) -> unit = "forEach"
+[@@mel.send]
+
+external has : value:'a -> ('a t[@mel.this]) -> bool = "has" [@@mel.send]
 external values : 'a t -> 'a Js.iterator = "values" [@@mel.send]
 external entries : 'a t -> ('a * 'a) Js.iterator = "entries" [@@mel.send]
 
 (*
- external difference : other:'a t -> 'a t = "difference" [@@mel.send.pipe: 'a t]
+ external difference : other:'a t -> ('a t[@mel.this]) -> 'a t = "difference" [@@mel.send]
 
- external intersection : other:'a t -> 'a t = "intersection"
-   [@@mel.send.pipe: 'a t]
+ external intersection : other:'a t -> ('a t[@mel.this]) -> 'a t = "intersection"
+   [@@mel.send]
 
-   external isDisjointFrom : other:'a t -> bool = "isDisjointFrom"
-   [@@mel.send.pipe: 'a t]
+ external isDisjointFrom : other:'a t -> ('a t[@mel.this]) -> bool = "isDisjointFrom"
+ [@@mel.send]
 
-   external isSubsetOf : other:'a t -> bool = "isSubsetOf" [@@mel.send.pipe: 'a t]
+ external isSubsetOf : other:'a t -> ('a t[@mel.this]) -> bool = "isSubsetOf"
+ [@@mel.send]
 
-   external isSupersetOf : other:'a t -> bool = "isSupersetOf"
-   [@@mel.send.pipe: 'a t]
+ external isSupersetOf : other:'a t -> ('a t[@mel.this]) -> bool = "isSupersetOf"
+ [@@mel.send]
 
-   external symmetricDifference : other:'a t -> 'a t = "symmetricDifference"
-   [@@mel.send.pipe: 'a t]
+ external symmetricDifference : other:'a t -> ('a t[@mel.this]) -> 'a t = "symmetricDifference"
+ [@@mel.send]
 
-   external union : other:'a t -> 'a t = "union" [@@mel.send.pipe: 'a t] *)
+ external union : other:'a t -> ('a t[@mel.this]) -> 'a t = "union"
+ [@@mel.send]
+*)

@@ -30,20 +30,24 @@ external make : unit -> ('k, 'v) t = "Map" [@@mel.new]
 external fromArray : ('k * 'v) array -> ('k, 'v) t = "Map" [@@mel.new]
 external toArray : ('k, 'v) t -> ('k * 'v) array = "from" [@@mel.scope "Array"]
 external size : ('k, 'v) t -> int = "size" [@@mel.get]
-external has : ('k, 'v) t -> key:'k -> bool = "has" [@@mel.send]
+external has : key:'k -> (('k, 'v) t[@mel.this]) -> bool = "has" [@@mel.send]
 
-external get : ('k, 'v) t -> key:'k -> 'v option = "get"
+external get : key:'k -> (('k, 'v) t[@mel.this]) -> 'v option = "get"
 [@@mel.send] [@@mel.return { undefined_to_opt }]
 
-external set : ('k, 'v) t -> key:'k -> value:'v -> ('k, 'v) t = "set"
+external set : key:'k -> value:'v -> (('k, 'v) t[@mel.this]) -> ('k, 'v) t
+  = "set"
 [@@mel.send]
 
 external clear : ('k, 'v) t -> unit = "clear" [@@mel.send]
-external delete : ('k, 'v) t -> key:'k -> bool = "delete" [@@mel.send]
+
+external delete : key:'k -> (('k, 'v) t[@mel.this]) -> bool = "delete"
+[@@mel.send]
 
 external forEach :
-  f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) -> ('k, 'v) t -> unit
-  = "forEach"
+  f:(('v -> 'k -> ('k, 'v) t -> unit)[@mel.uncurry]) ->
+  (('k, 'v) t[@mel.this]) ->
+  unit = "forEach"
 [@@mel.send]
 
 external keys : ('k, 'v) t -> 'k Js.iterator = "keys" [@@mel.send]

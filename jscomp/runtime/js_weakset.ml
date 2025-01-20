@@ -27,6 +27,12 @@
 type 'a t
 
 external make : unit -> 'a t = "WeakSet" [@@mel.new]
-external add : value:'a Js.dict -> 'a t -> 'a t = "add" [@@mel.send]
-external delete : value:'a Js.dict -> 'a t -> bool = "delete" [@@mel.send]
-external has : value:'a Js.dict -> 'a t -> bool = "has" [@@mel.send]
+
+external add : value:'a Js.dict -> ('a t[@mel.this]) -> 'a t = "add"
+[@@mel.send]
+
+external delete : value:'a Js.dict -> ('a t[@mel.this]) -> bool = "delete"
+[@@mel.send]
+
+external has : value:'a Js.dict -> ('a t[@mel.this]) -> bool = "has"
+[@@mel.send]
