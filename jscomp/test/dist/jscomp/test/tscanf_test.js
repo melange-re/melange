@@ -1907,7 +1907,6 @@ function scan_elems$2(ib, accu) {
                         hd: i,
                         tl: accu
                       });
-                
               }
             }
             

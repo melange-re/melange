@@ -41,7 +41,6 @@ function $plus$colon(_f, _g) {
           _0: f,
           _1: g
         };
-      
     }
   };
 }
@@ -108,7 +107,6 @@ function $star$colon(_f, _g) {
         _g = g._1;
         _f = $star$colon(f, g._0);
         continue;
-      
     }
   };
 }
@@ -122,7 +120,6 @@ function simplify(f) {
       return $plus$colon(simplify(f._0), simplify(f._1));
     case /* Mul */ 3 :
       return $star$colon(simplify(f._0), simplify(f._1));
-    
   }
 }
 

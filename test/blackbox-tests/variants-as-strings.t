@@ -32,7 +32,6 @@
       case /* B */ "as-string" :
       case /* C */ 2 :
         return "other";
-      
     }
   }
   
@@ -43,7 +42,6 @@
       case /* A */ 0 :
       case /* C */ 2 :
         return "other";
-      
     }
   }
   

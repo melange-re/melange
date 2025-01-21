@@ -79,7 +79,6 @@ function from_pair_suites(name, suites) {
           case /* FailWith */ 9 :
             console.log("failed: " + fn._0);
             return;
-          
         }
       }), suites);
 }

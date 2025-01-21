@@ -17,7 +17,6 @@ function f9(param) {
     case /* T66 */ 2 :
     case /* T68 */ 3 :
       return 3;
-    
   }
 }
 

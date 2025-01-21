@@ -512,7 +512,6 @@ function of_sorted_list(l) {
           
         }
         break;
-      
     }
     const nl = n / 2 | 0;
     const match$3 = sub(nl, l);

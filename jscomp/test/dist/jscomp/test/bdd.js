@@ -273,7 +273,6 @@ function and2(n1, n2) {
     case /* GREATER */ 2 :
       f = mkNode(and2(n1, l2), v2, and2(n1, r2));
       break;
-    
   }
   Caml_array.set(andslot1, h, i1);
   Caml_array.set(andslot2, h, i2);
@@ -320,7 +319,6 @@ function xor(n1, n2) {
     case /* GREATER */ 2 :
       f = mkNode(xor(n1, l2), v2, xor(n1, r2));
       break;
-    
   }
   Caml_array.set(andslot1, h, i1);
   Caml_array.set(andslot2, h, i2);

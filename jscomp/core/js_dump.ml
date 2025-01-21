@@ -476,6 +476,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
 and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
  fun cxt pp_cond
      (switch_case, ({ switch_body; should_break; comment } : J.case_clause)) ->
+  newline cxt;
   let cxt =
     group cxt 1 (fun () ->
         group cxt 0 (fun () ->
@@ -500,7 +501,6 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
               semi cxt);
             cxt))
   in
-  newline cxt;
   cxt
 
 and loop_case_clauses : 'a. _ -> (_ -> 'a -> unit) -> ('a * _) list -> _ =
@@ -1194,6 +1194,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           match def with
           | None -> cxt
           | Some def ->
+              newline cxt;
               group cxt 1 (fun () ->
                   string cxt L.default;
                   string cxt L.colon;
@@ -1215,6 +1216,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           match def with
           | None -> cxt
           | Some def ->
+              newline cxt;
               group cxt 1 (fun () ->
                   string cxt L.default;
                   string cxt L.colon;

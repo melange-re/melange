@@ -19,7 +19,6 @@ function str(e) {
       return "-" + str(e._0);
     case /* Variable */ 6 :
       return e._0;
-    
   }
 }
 

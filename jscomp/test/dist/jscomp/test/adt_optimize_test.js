@@ -11,7 +11,6 @@ function f(x) {
       return 2;
     case /* C */ 2 :
       return 3;
-    
   }
 }
 
@@ -23,7 +22,6 @@ function f_0(x) {
       return 0;
     case /* C */ 2 :
       return 1;
-    
   }
 }
 
@@ -47,7 +45,6 @@ function f3(param) {
       return /* Y3 */ 3;
     case /* X4 */ 4 :
       return /* Y4 */ 4;
-    
   }
 }
 
@@ -64,7 +61,6 @@ function f5(param) {
         return 3;
       case /* F */ 2 :
         return 4;
-      
     }
   } else {
     switch (param.TAG) {
@@ -73,7 +69,6 @@ function f5(param) {
         return 1;
       case /* E */ 2 :
         return 2;
-      
     }
   }
 }
@@ -88,7 +83,6 @@ function f6(param) {
       return 0;
     case /* F */ 2 :
       return 2;
-    
   }
 }
 
@@ -101,7 +95,6 @@ function f7(param) {
         return 2;
       case /* F */ 2 :
         return -1;
-      
     }
   } else {
     switch (param.TAG) {
@@ -111,7 +104,6 @@ function f7(param) {
         return 4;
       case /* E */ 2 :
         return -1;
-      
     }
   }
 }
@@ -168,7 +160,6 @@ function f10(param) {
         return 4;
       case /* T63 */ 3 :
         return 1;
-      
     }
   } else {
     switch (param.TAG) {
@@ -178,7 +169,6 @@ function f10(param) {
       case /* T66 */ 2 :
       case /* T68 */ 3 :
         return 3;
-      
     }
   }
 }

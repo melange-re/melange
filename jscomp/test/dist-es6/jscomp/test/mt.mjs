@@ -91,7 +91,6 @@ function handleCode(spec) {
       return assert_fail("failed");
     case /* FailWith */ 9 :
       return assert_fail(spec._0);
-    
   }
 }
 
@@ -183,7 +182,6 @@ function from_pair_suites(name, suites) {
               case /* FailWith */ 9 :
                 console.log("failed: " + _fn._0);
                 return;
-              
             }
           }), suites);
     }
