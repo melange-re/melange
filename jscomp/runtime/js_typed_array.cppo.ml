@@ -201,57 +201,57 @@ module DataView = struct
   external byteLength : t -> int = "byteLength" [@@mel.get]
   external byteOffset : t -> int = "byteOffset" [@@mel.get]
 
-  external getInt8 : int -> int = "getInt8" [@@mel.send.pipe: t]
-  external getUint8 : int -> int = "getUint8" [@@mel.send.pipe: t]
+  external getInt8 : int -> (t[@mel.this]) -> int = "getInt8" [@@mel.send]
+  external getUint8 : int -> (t[@mel.this]) -> int = "getUint8" [@@mel.send]
 
-  external getInt16: int -> int = "getInt16" [@@mel.send.pipe: t]
-  external getInt16LittleEndian : int -> (_ [@mel.as 1]) -> int = "getInt16"
-  [@@mel.send.pipe: t]
+  external getInt16: int -> (t[@mel.this]) -> int = "getInt16" [@@mel.send]
+  external getInt16LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> int = "getInt16"
+  [@@mel.send]
 
-  external getUint16: int -> int = "getUint16" [@@mel.send.pipe: t]
-  external getUint16LittleEndian : int -> (_ [@mel.as 1]) -> int =
-    "getUint16" [@@mel.send.pipe: t]
+  external getUint16: int -> (t[@mel.this]) -> int = "getUint16" [@@mel.send]
+  external getUint16LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> int =
+    "getUint16" [@@mel.send]
 
-  external getInt32: int -> int = "getInt32" [@@mel.send.pipe: t]
-  external getInt32LittleEndian : int -> (_ [@mel.as 1]) -> int =
-    "getInt32" [@@mel.send.pipe: t]
+  external getInt32: int -> (t[@mel.this]) -> int = "getInt32" [@@mel.send]
+  external getInt32LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> int =
+    "getInt32" [@@mel.send]
 
-  external getUint32: int -> int = "getUint32" [@@mel.send.pipe: t]
-  external getUint32LittleEndian : int -> (_ [@mel.as 1]) -> int =
-    "getUint32" [@@mel.send.pipe: t]
+  external getUint32: int -> (t[@mel.this]) -> int = "getUint32" [@@mel.send]
+  external getUint32LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> int =
+    "getUint32" [@@mel.send]
 
-  external getFloat32: int -> float = "getFloat32" [@@mel.send.pipe: t]
-  external getFloat32LittleEndian : int -> (_ [@mel.as 1]) -> float =
-    "getFloat32" [@@mel.send.pipe: t]
+  external getFloat32: int -> (t[@mel.this]) -> float = "getFloat32" [@@mel.send]
+  external getFloat32LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> float =
+    "getFloat32" [@@mel.send]
 
-  external getFloat64: int -> float = "getFloat64" [@@mel.send.pipe: t]
-  external getFloat64LittleEndian : int -> (_ [@mel.as 1]) -> float =
-    "getFloat64" [@@mel.send.pipe: t]
+  external getFloat64: int -> (t[@mel.this]) -> float = "getFloat64" [@@mel.send]
+  external getFloat64LittleEndian : int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> float =
+    "getFloat64" [@@mel.send]
 
-  external setInt8 : int -> int -> unit = "setInt8" [@@mel.send.pipe: t]
-  external setUint8 : int -> int -> unit = "setUint8" [@@mel.send.pipe: t]
+  external setInt8 : int -> int -> (t[@mel.this]) -> unit = "setInt8" [@@mel.send]
+  external setUint8 : int -> int -> (t[@mel.this]) -> unit = "setUint8" [@@mel.send]
 
-  external setInt16: int -> int -> unit = "setInt16" [@@mel.send.pipe: t]
-  external setInt16LittleEndian : int -> int -> (_ [@mel.as 1]) -> unit =
-    "setInt16" [@@mel.send.pipe: t]
+  external setInt16: int -> int -> (t[@mel.this]) -> unit = "setInt16" [@@mel.send]
+  external setInt16LittleEndian : int -> int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setInt16" [@@mel.send]
 
-  external setUint16: int -> int -> unit = "setUint16" [@@mel.send.pipe: t]
-  external setUint16LittleEndian : int -> int -> (_ [@mel.as 1]) -> unit =
-    "setUint16" [@@mel.send.pipe: t]
+  external setUint16: int -> int -> (t[@mel.this]) -> unit = "setUint16" [@@mel.send]
+  external setUint16LittleEndian : int -> int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setUint16" [@@mel.send]
 
-  external setInt32: int -> int -> unit = "setInt32" [@@mel.send.pipe: t]
-  external setInt32LittleEndian : int -> int -> (_ [@mel.as 1]) -> unit =
-    "setInt32" [@@mel.send.pipe: t]
+  external setInt32: int -> int -> (t[@mel.this]) -> unit = "setInt32" [@@mel.send]
+  external setInt32LittleEndian : int -> int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setInt32" [@@mel.send]
 
-  external setUint32: int -> int -> unit = "setUint32" [@@mel.send.pipe: t]
-  external setUint32LittleEndian : int -> int -> (_ [@mel.as 1]) -> unit =
-    "setUint32" [@@mel.send.pipe: t]
+  external setUint32: int -> int -> (t[@mel.this]) -> unit = "setUint32" [@@mel.send]
+  external setUint32LittleEndian : int -> int -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setUint32" [@@mel.send]
 
-  external setFloat32: int -> float -> unit = "setFloat32" [@@mel.send.pipe: t]
-  external setFloat32LittleEndian : int -> float -> (_ [@mel.as 1]) -> unit =
-    "setFloat32" [@@mel.send.pipe: t]
+  external setFloat32: int -> float -> (t[@mel.this]) -> unit = "setFloat32" [@@mel.send]
+  external setFloat32LittleEndian : int -> float -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setFloat32" [@@mel.send]
 
-  external setFloat64: int -> float -> unit = "setFloat64" [@@mel.send.pipe: t]
-  external setFloat64LittleEndian : int -> float -> (_ [@mel.as 1]) -> unit =
-    "setFloat64" [@@mel.send.pipe: t]
+  external setFloat64: int -> float -> (t[@mel.this]) -> unit = "setFloat64" [@@mel.send]
+  external setFloat64LittleEndian : int -> float -> (_ [@mel.as 1]) -> (t[@mel.this]) -> unit =
+    "setFloat64" [@@mel.send]
 end
