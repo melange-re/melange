@@ -427,8 +427,10 @@ const suites = Stdlib.$at(isLessThan("123 and 555555", BigInt("123"), BigInt("55
 
 Mt.from_pair_suites("jscomp/test/caml_compare_bigint_test.ml", suites);
 
-exports.isLessThan = isLessThan;
-exports.isEqual = isEqual;
-exports.five = five;
-exports.suites = suites;
+module.exports = {
+  isLessThan,
+  isEqual,
+  five,
+  suites,
+}
 /* five Not a pure module */

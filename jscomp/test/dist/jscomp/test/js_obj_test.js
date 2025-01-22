@@ -152,7 +152,9 @@ const suites = {
 
 Mt.from_pair_suites("Js_obj_test", suites);
 
-exports.f = f;
-exports.f_js = f_js;
-exports.suites = suites;
+module.exports = {
+  f,
+  f_js,
+  suites,
+}
 /*  Not a pure module */

@@ -54,11 +54,13 @@ console.log(({
 
 Mt.from_pair_suites("File \"jscomp/test/gpr_1946_test.ml\", line 32, characters 23-30", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.x = x;
-exports.zz = zz;
-exports.h = h;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  x,
+  zz,
+  h,
+  f,
+}
 /* x Not a pure module */

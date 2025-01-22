@@ -72,9 +72,11 @@ if (test.contents !== false) {
       });
 }
 
-exports.anno_fun = anno_fun;
-exports.usage_msg = usage_msg;
-exports.compile = compile;
-exports.test = test;
-exports.arg_spec = arg_spec;
+module.exports = {
+  anno_fun,
+  usage_msg,
+  compile,
+  test,
+  arg_spec,
+}
 /*  Not a pure module */

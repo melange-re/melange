@@ -65,10 +65,12 @@ function advance_loop(state) {
 
 const pp_infinity = 1000000010;
 
-exports.peek_queue = peek_queue;
-exports.int_of_size = int_of_size;
-exports.take_queue = take_queue;
-exports.format_pp_token = format_pp_token;
-exports.pp_infinity = pp_infinity;
-exports.advance_loop = advance_loop;
+module.exports = {
+  peek_queue,
+  int_of_size,
+  take_queue,
+  format_pp_token,
+  pp_infinity,
+  advance_loop,
+}
 /* No side effect */

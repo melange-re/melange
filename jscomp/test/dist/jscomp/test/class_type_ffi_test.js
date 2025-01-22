@@ -88,14 +88,16 @@ function omk_f(param) {
   };
 }
 
-exports.sum_float_array = sum_float_array;
-exports.sum_int_array = sum_int_array;
-exports.sum_poly = sum_poly;
-exports.test_set = test_set;
-exports.f = f;
-exports.ff = ff;
-exports.ff2 = ff2;
-exports.off2 = off2;
-exports.mk_f = mk_f;
-exports.omk_f = omk_f;
+module.exports = {
+  sum_float_array,
+  sum_int_array,
+  sum_poly,
+  test_set,
+  f,
+  ff,
+  ff2,
+  off2,
+  mk_f,
+  omk_f,
+}
 /* No side effect */

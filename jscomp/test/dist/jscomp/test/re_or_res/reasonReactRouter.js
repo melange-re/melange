@@ -189,10 +189,12 @@ function useUrl(serverUrl, param) {
 
 const dangerouslyGetInitialUrl = url;
 
-exports.push = push;
-exports.replace = replace;
-exports.watchUrl = watchUrl;
-exports.unwatchUrl = unwatchUrl;
-exports.dangerouslyGetInitialUrl = dangerouslyGetInitialUrl;
-exports.useUrl = useUrl;
+module.exports = {
+  push,
+  replace,
+  watchUrl,
+  unwatchUrl,
+  dangerouslyGetInitialUrl,
+  useUrl,
+}
 /* react Not a pure module */

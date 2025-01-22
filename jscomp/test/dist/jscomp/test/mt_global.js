@@ -53,7 +53,9 @@ function collect_approx(test_id, suites, loc, x, y) {
   };
 }
 
-exports.collect_eq = collect_eq;
-exports.collect_neq = collect_neq;
-exports.collect_approx = collect_approx;
+module.exports = {
+  collect_eq,
+  collect_neq,
+  collect_approx,
+}
 /* No side effect */

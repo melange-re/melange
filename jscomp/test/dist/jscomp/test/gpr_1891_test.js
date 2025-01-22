@@ -43,9 +43,11 @@ function foo5(x) {
   }
 }
 
-exports.foo = foo;
-exports.foo2 = foo2;
-exports.foo3 = foo3;
-exports.foo4 = foo4;
-exports.foo5 = foo5;
+module.exports = {
+  foo,
+  foo2,
+  foo3,
+  foo4,
+  foo5,
+}
 /* No side effect */

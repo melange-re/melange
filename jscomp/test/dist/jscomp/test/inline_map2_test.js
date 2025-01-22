@@ -2003,10 +2003,12 @@ Mt.from_pair_suites("Inline_map2_test", {
 
 const empty = /* Empty */ 0;
 
-exports.Make = Make;
-exports.IntMap = IntMap;
-exports.empty = empty;
-exports.m = m;
-exports.SMap = SMap;
-exports.s = s;
+module.exports = {
+  Make,
+  IntMap,
+  empty,
+  m,
+  SMap,
+  s,
+}
 /* m Not a pure module */

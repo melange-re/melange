@@ -19,9 +19,11 @@ const h = "hello";
 
 const hh = "hellohello";
 
-exports.x = x;
-exports.N = N;
-exports.N1 = N1;
-exports.h = h;
-exports.hh = hh;
+module.exports = {
+  x,
+  N,
+  N1,
+  h,
+  hh,
+}
 /*  Not a pure module */

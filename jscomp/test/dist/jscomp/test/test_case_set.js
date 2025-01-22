@@ -11,6 +11,8 @@ function g(x) {
   return Caml_oo_curry.js2(-977287917, 1, x, 3);
 }
 
-exports.f = f;
-exports.g = g;
+module.exports = {
+  f,
+  g,
+}
 /* No side effect */

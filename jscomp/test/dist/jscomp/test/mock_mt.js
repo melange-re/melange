@@ -83,5 +83,7 @@ function from_pair_suites(name, suites) {
       }), suites);
 }
 
-exports.from_pair_suites = from_pair_suites;
+module.exports = {
+  from_pair_suites,
+}
 /* No side effect */

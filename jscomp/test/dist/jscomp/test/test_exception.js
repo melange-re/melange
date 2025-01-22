@@ -47,12 +47,14 @@ const a = {
   MEL_EXN_ID: Nullary
 };
 
-exports.Local = Local;
-exports.f = f;
-exports.g = g;
-exports.h = h;
-exports.x = x;
-exports.xx = xx;
-exports.Nullary = Nullary;
-exports.a = a;
+module.exports = {
+  Local,
+  f,
+  g,
+  h,
+  x,
+  xx,
+  Nullary,
+  a,
+}
 /* No side effect */

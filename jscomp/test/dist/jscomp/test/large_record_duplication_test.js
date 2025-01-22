@@ -230,20 +230,22 @@ const v0 = {
   x22: 9
 };
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v0 = v0;
-exports.f0 = f0;
-exports.Small = Small;
-exports.f_small = f_small;
-exports.h = h;
-exports.v1 = v1;
-exports.f1 = f1;
-exports.v2 = v2;
-exports.f2 = f2;
-exports.A0 = A0;
-exports.f3 = f3;
-exports.get_x0 = get_x0$2;
-exports.v3 = v3;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v0,
+  f0,
+  Small,
+  f_small,
+  h,
+  v1,
+  f1,
+  v2,
+  f2,
+  A0,
+  f3,
+  get_x0: get_x0$2,
+  v3,
+}
 /*  Not a pure module */

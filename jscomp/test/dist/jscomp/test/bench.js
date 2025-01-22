@@ -61,8 +61,10 @@ function f2(param) {
 
 f2(undefined);
 
-exports.map = map;
-exports.init = init;
-exports.fold_left = fold_left;
-exports.f2 = f2;
+module.exports = {
+  map,
+  init,
+  fold_left,
+  f2,
+}
 /*  Not a pure module */

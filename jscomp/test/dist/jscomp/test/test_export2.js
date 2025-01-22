@@ -6,5 +6,7 @@ function f(x, y) {
   return Math.imul(x, y);
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

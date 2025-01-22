@@ -393,12 +393,14 @@ b("File \"jscomp/test/bs_poly_set_test.ml\", line 159, characters 4-11", !match$
 
 Mt.from_pair_suites("Bs_poly_set_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.t = t;
-exports.IntCmp = IntCmp;
-exports.testIterToList = testIterToList;
-exports.testIterToList2 = testIterToList2;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  t,
+  IntCmp,
+  testIterToList,
+  testIterToList2,
+}
 /* IntCmp Not a pure module */

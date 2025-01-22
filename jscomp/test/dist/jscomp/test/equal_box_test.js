@@ -111,13 +111,15 @@ b("File \"jscomp/test/equal_box_test.ml\", line 66, characters 4-11", !Caml_obj.
 
 Mt.from_pair_suites("File \"jscomp/test/equal_box_test.ml\", line 71, characters 23-30", suites.contents);
 
-exports.aa = aa;
-exports.bb = bb;
-exports.cc = cc;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.f = f;
-exports.shouldBeNull = shouldBeNull;
+module.exports = {
+  aa,
+  bb,
+  cc,
+  suites,
+  test_id,
+  eq,
+  b,
+  f,
+  shouldBeNull,
+}
 /*  Not a pure module */

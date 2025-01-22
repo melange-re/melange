@@ -203,19 +203,21 @@ eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 58, characters 7-14", ut
 
 Mt.from_pair_suites("jscomp/test/mutable_uncurry_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eqs = eqs;
-exports.eq = eq;
-exports.eq2 = eq2;
-exports.u = u;
-exports.h = h;
-exports.ut3 = ut3;
-exports.t3 = t3;
-exports.ut4 = ut4;
-exports.t4 = t4;
-exports.ut5 = ut5;
-exports.t5 = t5;
-exports.nested0 = nested0;
-exports.nested1 = nested1;
+module.exports = {
+  suites,
+  test_id,
+  eqs,
+  eq,
+  eq2,
+  u,
+  h,
+  ut3,
+  t3,
+  ut4,
+  t4,
+  ut5,
+  t5,
+  nested0,
+  nested1,
+}
 /*  Not a pure module */

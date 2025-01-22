@@ -11,7 +11,9 @@ function foo2(prim) {
 
 const bar = foo;
 
-exports.foo = foo;
-exports.foo2 = foo2;
-exports.bar = bar;
+module.exports = {
+  foo,
+  foo2,
+  bar,
+}
 /* foo Not a pure module */

@@ -161,13 +161,15 @@ if (Not_found === Stdlib.Not_found !== false) {
 
 Mt.from_suites("exception", suites);
 
-exports.v = v;
-exports.is_equal = is_equal;
-exports.is_exception = is_exception;
-exports.is_normal_exception = is_normal_exception;
-exports.is_arbitrary_exception = is_arbitrary_exception;
-exports.suites = suites;
-exports.e = e;
-exports.eq = eq;
-exports.Not_found = Not_found;
+module.exports = {
+  v,
+  is_equal,
+  is_exception,
+  is_normal_exception,
+  is_arbitrary_exception,
+  suites,
+  e,
+  eq,
+  Not_found,
+}
 /*  Not a pure module */

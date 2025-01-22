@@ -5,5 +5,7 @@ const Caml = require("melange.js/caml.js");
 
 const f = Caml.caml_int_compare;
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

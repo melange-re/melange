@@ -1496,16 +1496,18 @@ eq("File \"jscomp/test/bs_array_test.ml\", line 319, characters 5-12", arr, [
 
 Mt.from_pair_suites("File \"jscomp/test/bs_array_test.ml\", line 321, characters 23-30", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.$$throw = $$throw;
-exports.neq = neq;
-exports.push = push;
-exports.add = add;
-exports.addone = addone;
-exports.makeMatrixExn = makeMatrixExn;
-exports.sumUsingForEach = sumUsingForEach;
-exports.id = id;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  $$throw,
+  neq,
+  push,
+  add,
+  addone,
+  makeMatrixExn,
+  sumUsingForEach,
+  id,
+}
 /*  Not a pure module */

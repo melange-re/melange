@@ -36,6 +36,8 @@ f(10, (function (param) {
       
     }));
 
-exports.f = f;
-exports.test_closure = test_closure;
+module.exports = {
+  f,
+  test_closure,
+}
 /*  Not a pure module */

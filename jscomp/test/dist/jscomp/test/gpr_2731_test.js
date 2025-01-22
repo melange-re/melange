@@ -18,10 +18,12 @@ const c = g(undefined);
 
 const d = g(undefined);
 
-exports.f = f;
-exports.a = a;
-exports.b = b;
-exports.g = g;
-exports.c = c;
-exports.d = d;
+module.exports = {
+  f,
+  a,
+  b,
+  g,
+  c,
+  d,
+}
 /* a Not a pure module */

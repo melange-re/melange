@@ -22,9 +22,11 @@ const u = v.hi;
 
 const uu = v.width;
 
-exports.hh = hh;
-exports.v = v;
-exports.vv = vv;
-exports.u = u;
-exports.uu = uu;
+module.exports = {
+  hh,
+  v,
+  vv,
+  u,
+  uu,
+}
 /*  Not a pure module */

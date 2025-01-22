@@ -58,9 +58,11 @@ const M = {
   })
 };
 
-exports.O = O;
-exports.F = F;
-exports.F1 = F1;
-exports.F2 = F2;
-exports.M = M;
+module.exports = {
+  O,
+  F,
+  F1,
+  F2,
+  M,
+}
 /* No side effect */

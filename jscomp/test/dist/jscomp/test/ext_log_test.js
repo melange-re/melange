@@ -177,11 +177,13 @@ function iinfo(b, str, f) {
               }, f)), str);
 }
 
-exports.$caret$caret = $caret$caret;
-exports.err = err;
-exports.ierr = ierr;
-exports.warn = warn;
-exports.iwarn = iwarn;
-exports.info = info;
-exports.iinfo = iinfo;
+module.exports = {
+  $caret$caret,
+  err,
+  ierr,
+  warn,
+  iwarn,
+  info,
+  iinfo,
+}
 /* Stdlib__Format Not a pure module */

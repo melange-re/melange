@@ -9,5 +9,7 @@ CamlinternalOO.init_class($$class);
 
 const v = CamlinternalOO.create_object_opt(undefined, $$class);
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* class Not a pure module */

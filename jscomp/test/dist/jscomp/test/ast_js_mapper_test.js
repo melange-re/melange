@@ -63,9 +63,11 @@ function bFromJs(param) {
   return Js__Js_mapper_runtime.raiseWhenNotFound(_map[param]);
 }
 
-exports.tToJs = tToJs;
-exports.tFromJs = tFromJs;
-exports.searchForSureExists = searchForSureExists;
-exports.bToJs = bToJs;
-exports.bFromJs = bFromJs;
+module.exports = {
+  tToJs,
+  tFromJs,
+  searchForSureExists,
+  bToJs,
+  bFromJs,
+}
 /* u Not a pure module */

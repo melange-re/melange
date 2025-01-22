@@ -28,8 +28,10 @@ eq("File \"jscomp/test/external_polyfill_test.ml\", line 20, characters 5-12", h
 
 Mt.from_pair_suites("External_polyfill_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.h = h;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  h,
+}
 /*  Not a pure module */

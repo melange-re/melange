@@ -41,8 +41,10 @@ function fxxx3(v) {
   }
 }
 
-exports.f = f;
-exports.fxx = fxx;
-exports.fxxx2 = fxxx2;
-exports.fxxx3 = fxxx3;
+module.exports = {
+  f,
+  fxx,
+  fxxx2,
+  fxxx3,
+}
 /* No side effect */

@@ -8,6 +8,8 @@ const u = Stdlib__Filename.chop_extension;
 
 const v = Stdlib__List.length;
 
-exports.u = u;
-exports.v = v;
+module.exports = {
+  u,
+  v,
+}
 /* Stdlib__Filename Not a pure module */

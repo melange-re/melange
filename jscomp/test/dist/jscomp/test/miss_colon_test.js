@@ -123,7 +123,9 @@ function simplify(f) {
   }
 }
 
-exports.$plus$colon = $plus$colon;
-exports.$star$colon = $star$colon;
-exports.simplify = simplify;
+module.exports = {
+  $plus$colon,
+  $star$colon,
+  simplify,
+}
 /* No side effect */

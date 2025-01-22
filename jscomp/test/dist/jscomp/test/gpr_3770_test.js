@@ -10,5 +10,7 @@ function show(param) {
   return String(a) + String(param._1);
 }
 
-exports.show = show;
+module.exports = {
+  show,
+}
 /* No side effect */

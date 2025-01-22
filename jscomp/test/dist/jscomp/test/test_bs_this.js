@@ -49,10 +49,12 @@ function u(x) {
   return x;
 }
 
-exports.uux_this = uux_this;
-exports.even = even;
-exports.bark = bark;
-exports.js_obj = js_obj;
-exports.f = f;
-exports.u = u;
+module.exports = {
+  uux_this,
+  even,
+  bark,
+  js_obj,
+  f,
+  u,
+}
 /* uux_this Not a pure module */

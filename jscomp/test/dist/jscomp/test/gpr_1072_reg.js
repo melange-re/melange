@@ -9,5 +9,7 @@ const v1 = {
   timeZoneName: "short"
 };
 
-exports.v1 = v1;
+module.exports = {
+  v1,
+}
 /* No side effect */

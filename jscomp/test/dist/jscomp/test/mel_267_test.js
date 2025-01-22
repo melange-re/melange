@@ -12,6 +12,8 @@ function f(obj, s) {
   return Curry._1(p, s);
 }
 
-exports.i = i;
-exports.f = f;
+module.exports = {
+  i,
+  f,
+}
 /* No side effect */

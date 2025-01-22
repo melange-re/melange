@@ -162,9 +162,11 @@ function test(param) {
       });
 }
 
-exports.u = u;
-exports.uu = uu;
-exports.uuu = uuu;
-exports.v = v;
-exports.test = test;
+module.exports = {
+  u,
+  uu,
+  uuu,
+  v,
+  test,
+}
 /* class Not a pure module */

@@ -22,6 +22,8 @@ catch (raw_e){
 
 const f = /* 'o' */111;
 
-exports.f = f;
-exports.hh = hh;
+module.exports = {
+  f,
+  hh,
+}
 /* hh Not a pure module */

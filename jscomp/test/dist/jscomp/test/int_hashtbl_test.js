@@ -107,8 +107,10 @@ const suites = {
 
 Mt.from_pair_suites("Int_hashtbl_test", suites);
 
-exports.f = f;
-exports.g = g;
-exports.Int_hash = Int_hash;
-exports.suites = suites;
+module.exports = {
+  f,
+  g,
+  Int_hash,
+  suites,
+}
 /* Int_hash Not a pure module */

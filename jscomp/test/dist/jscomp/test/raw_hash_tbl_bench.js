@@ -31,6 +31,8 @@ bench(undefined);
 
 const count = 1000000;
 
-exports.count = count;
-exports.bench = bench;
+module.exports = {
+  count,
+  bench,
+}
 /*  Not a pure module */

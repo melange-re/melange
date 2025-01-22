@@ -1530,20 +1530,22 @@ const D = {
   next: next
 };
 
-exports.to_buf = to_buf;
-exports.to_string = to_string;
-exports.to_file = to_file;
-exports.to_file_seq = to_file_seq;
-exports.to_chan = to_chan;
-exports.print = print;
-exports.print_noindent = print_noindent;
-exports.MakeDecode = MakeDecode;
-exports.ID_MONAD = ID_MONAD;
-exports.D = D;
-exports.parse_string = parse_string;
-exports.parse_chan = parse_chan;
-exports.parse_chan_gen = parse_chan_gen;
-exports.parse_chan_list = parse_chan_list;
-exports.parse_file = parse_file;
-exports.parse_file_list = parse_file_list;
+module.exports = {
+  to_buf,
+  to_string,
+  to_file,
+  to_file_seq,
+  to_chan,
+  print,
+  print_noindent,
+  MakeDecode,
+  ID_MONAD,
+  D,
+  parse_string,
+  parse_chan,
+  parse_chan_gen,
+  parse_chan_list,
+  parse_file,
+  parse_file_list,
+}
 /* Stdlib__Format Not a pure module */

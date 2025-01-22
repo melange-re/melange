@@ -14,6 +14,8 @@ const v = {
 
 const u = v.x() + v.say(3) | 0;
 
-exports.v = v;
-exports.u = u;
+module.exports = {
+  v,
+  u,
+}
 /* v Not a pure module */

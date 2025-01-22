@@ -64,15 +64,17 @@ Mt.from_pair_suites("jscomp/test/unit_undefined_test.ml", suites.contents);
 
 let u4;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f_01 = f_01;
-exports.u = u;
-exports.fx = fx;
-exports.u0 = u0;
-exports.u1 = u1;
-exports.u2 = u2;
-exports.u3 = u3;
-exports.u4 = u4;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f_01,
+  u,
+  fx,
+  u0,
+  u1,
+  u2,
+  u3,
+  u4,
+}
 /*  Not a pure module */

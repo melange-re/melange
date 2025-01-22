@@ -22,5 +22,7 @@ const N = {
   f: f
 };
 
-exports.N = N;
+module.exports = {
+  N,
+}
 /* f Not a pure module */

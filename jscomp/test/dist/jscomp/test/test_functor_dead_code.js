@@ -13,5 +13,7 @@ function is_empty(param) {
 
 const v = Curry._1(is_empty, /* Empty */ 0);
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* M Not a pure module */

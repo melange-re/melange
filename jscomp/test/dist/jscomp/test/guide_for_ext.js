@@ -9,5 +9,7 @@ function mk(param) {
   };
 }
 
-exports.mk = mk;
+module.exports = {
+  mk,
+}
 /* No side effect */

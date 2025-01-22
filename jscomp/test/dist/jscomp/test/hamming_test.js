@@ -255,29 +255,31 @@ Mt.from_pair_suites("Hamming_test", {
       tl: /* [] */ 0
     });
 
-exports.n0 = n0;
-exports.n1 = n1;
-exports.n2 = n2;
-exports.n3 = n3;
-exports.n5 = n5;
-exports.$percent = $percent;
-exports.$star = $star;
-exports.$slash = $slash;
-exports.$plus = $plus;
-exports.digit = digit;
-exports.mul = mul;
-exports.cmp = cmp;
-exports.x2 = x2;
-exports.x3 = x3;
-exports.x5 = x5;
-exports.nn1 = nn1;
-exports.buf = buf;
-exports.pr = pr;
-exports.map = map;
-exports.merge = merge;
-exports.iter_interval = iter_interval;
-exports.hamming = hamming;
-exports.ham2 = ham2;
-exports.ham3 = ham3;
-exports.ham5 = ham5;
+module.exports = {
+  n0,
+  n1,
+  n2,
+  n3,
+  n5,
+  $percent,
+  $star,
+  $slash,
+  $plus,
+  digit,
+  mul,
+  cmp,
+  x2,
+  x3,
+  x5,
+  nn1,
+  buf,
+  pr,
+  map,
+  merge,
+  iter_interval,
+  hamming,
+  ham2,
+  ham3,
+  ham5,
+}
 /* digit Not a pure module */

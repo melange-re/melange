@@ -40,12 +40,14 @@ function inl2(x, y) {
   return x + y | 0;
 }
 
-exports.u = u;
-exports.u2 = u2;
-exports.f = f;
-exports.add = add;
-exports.h = h;
-exports.nested = nested;
-exports.inl = inl;
-exports.inl2 = inl2;
+module.exports = {
+  u,
+  u2,
+  f,
+  add,
+  h,
+  nested,
+  inl,
+  inl2,
+}
 /* No side effect */

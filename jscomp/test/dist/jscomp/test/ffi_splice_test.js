@@ -60,10 +60,12 @@ eq("File \"jscomp/test/ffi_splice_test.ml\", line 61, characters 12-19", u, 10);
 
 Mt.from_pair_suites("Ffi_splice_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.v = v;
-exports.u = u;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  v,
+  u,
+}
 /*  Not a pure module */

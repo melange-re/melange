@@ -49,5 +49,4 @@ for (let _i$2 = 0; _i$2 <= 100000; ++_i$2) {
 console.timeEnd("Int64.to_string");
 
 console.log(Caml_format.caml_int64_format("%d", u$2));
-
 /*  Not a pure module */

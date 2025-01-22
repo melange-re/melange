@@ -145,13 +145,15 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 96, characters 5-12",
 
 Mt.from_pair_suites("Global_module_alias_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.Make = Make;
-exports.f = f;
-exports.H = H;
-exports.g = g;
-exports.xx = xx;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  Make,
+  f,
+  H,
+  g,
+  xx,
+}
 /*  Not a pure module */

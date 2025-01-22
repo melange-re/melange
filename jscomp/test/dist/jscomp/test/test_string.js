@@ -45,10 +45,12 @@ function h(s, b) {
 
 const v = 2;
 
-exports.f = f;
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.v = v;
-exports.h = h;
+module.exports = {
+  f,
+  a,
+  b,
+  c,
+  v,
+  h,
+}
 /* No side effect */

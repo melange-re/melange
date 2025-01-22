@@ -70,6 +70,8 @@ const suites = {
 
 Mt.from_pair_suites("Buffer_test", suites);
 
-exports.v = v;
-exports.suites = suites;
+module.exports = {
+  v,
+  suites,
+}
 /*  Not a pure module */

@@ -168,30 +168,32 @@ const M1 = {
   N: N$3
 };
 
-exports.l = l;
-exports.C$p = C$p;
-exports.C$p$p$p = C$p$p$p;
-exports.C$p$p = C$p$p;
-exports.C3 = C3;
-exports.f = f;
-exports.g = g;
-exports.F = F;
-exports.C4 = C4;
-exports.G = G;
-exports.M = M;
-exports.M$p = M$p;
-exports.M$p$p = M$p$p;
-exports.M2 = M2;
-exports.M3 = M3;
-exports.M3$p = M3$p;
-exports.M4 = M4;
-exports.F0 = F0;
-exports.G0 = G0;
-exports.M5 = M5;
-exports.M6 = M6;
-exports.M1 = M1;
-exports.M7 = M7;
-exports.M8 = M8;
-exports.M9 = M9;
-exports.M10 = M10;
+module.exports = {
+  l,
+  C$p,
+  C$p$p$p,
+  C$p$p,
+  C3,
+  f,
+  g,
+  F,
+  C4,
+  G,
+  M,
+  M$p,
+  M$p$p,
+  M2,
+  M3,
+  M3$p,
+  M4,
+  F0,
+  G0,
+  M5,
+  M6,
+  M1,
+  M7,
+  M8,
+  M9,
+  M10,
+}
 /* prim Not a pure module */

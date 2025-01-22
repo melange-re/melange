@@ -33,9 +33,11 @@ const a = match[0];
 
 const x = 1;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a = a;
-exports.x = x;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a,
+  x,
+}
 /*  Not a pure module */

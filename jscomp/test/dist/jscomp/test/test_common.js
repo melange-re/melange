@@ -7,6 +7,8 @@ const U = /* @__PURE__ */ Caml_exceptions.create("Test_common.U");
 
 const H = /* @__PURE__ */ Caml_exceptions.create("Test_common.H");
 
-exports.U = U;
-exports.H = H;
+module.exports = {
+  U,
+  H,
+}
 /* No side effect */

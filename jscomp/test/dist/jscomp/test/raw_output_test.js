@@ -14,5 +14,7 @@ console.log((function () {
         return 1;
       })());
 
-exports.mk = mk;
+module.exports = {
+  mk,
+}
 /*  Not a pure module */

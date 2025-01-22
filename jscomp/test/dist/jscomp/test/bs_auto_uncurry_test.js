@@ -118,7 +118,9 @@ eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 52, characters 7-14", [
 
 Mt.from_pair_suites("Bs_auto_uncurry_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

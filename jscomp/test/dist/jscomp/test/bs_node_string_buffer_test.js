@@ -23,5 +23,7 @@ f("xx");
 f((Buffer.from ('xx')
     ));
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

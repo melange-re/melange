@@ -1477,51 +1477,53 @@ const sort = stable_sort;
 
 const fast_sort = stable_sort;
 
-exports.u = u;
-exports.length_aux = length_aux;
-exports.length = length;
-exports.hd = hd;
-exports.tl = tl;
-exports.nth = nth;
-exports.append = append;
-exports.rev_append = rev_append;
-exports.rev = rev;
-exports.flatten = flatten;
-exports.concat = concat;
-exports.map = map;
-exports.mapi = mapi$1;
-exports.rev_map = rev_map;
-exports.iter = iter;
-exports.iteri = iteri;
-exports.fold_left = fold_left;
-exports.fold_right = fold_right;
-exports.map2 = map2;
-exports.rev_map2 = rev_map2;
-exports.iter2 = iter2;
-exports.fold_left2 = fold_left2;
-exports.fold_right2 = fold_right2;
-exports.for_all = for_all;
-exports.exists = exists;
-exports.for_all2 = for_all2;
-exports.exists2 = exists2;
-exports.mem = mem;
-exports.memq = memq;
-exports.assoc = assoc;
-exports.assq = assq;
-exports.mem_assoc = mem_assoc;
-exports.mem_assq = mem_assq;
-exports.remove_assoc = remove_assoc;
-exports.remove_assq = remove_assq;
-exports.find = find;
-exports.find_all = find_all;
-exports.filter = filter;
-exports.partition = partition;
-exports.split = split;
-exports.combine = combine;
-exports.merge = merge;
-exports.chop = chop;
-exports.stable_sort = stable_sort;
-exports.sort = sort;
-exports.fast_sort = fast_sort;
-exports.sort_uniq = sort_uniq;
+module.exports = {
+  u,
+  length_aux,
+  length,
+  hd,
+  tl,
+  nth,
+  append,
+  rev_append,
+  rev,
+  flatten,
+  concat,
+  map,
+  mapi: mapi$1,
+  rev_map,
+  iter,
+  iteri,
+  fold_left,
+  fold_right,
+  map2,
+  rev_map2,
+  iter2,
+  fold_left2,
+  fold_right2,
+  for_all,
+  exists,
+  for_all2,
+  exists2,
+  mem,
+  memq,
+  assoc,
+  assq,
+  mem_assoc,
+  mem_assq,
+  remove_assoc,
+  remove_assq,
+  find,
+  find_all,
+  filter,
+  partition,
+  split,
+  combine,
+  merge,
+  chop,
+  stable_sort,
+  sort,
+  fast_sort,
+  sort_uniq,
+}
 /* No side effect */

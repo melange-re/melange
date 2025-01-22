@@ -66,10 +66,12 @@ const v4 = a4(1, 2);
 
 const v0 = 4;
 
-exports.A0 = A0;
-exports.v0 = v0;
-exports.v1 = v1;
-exports.v2 = v2;
-exports.v3 = v3;
-exports.v4 = v4;
+module.exports = {
+  A0,
+  v0,
+  v1,
+  v2,
+  v3,
+  v4,
+}
 /*  Not a pure module */

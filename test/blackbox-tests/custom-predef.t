@@ -22,8 +22,10 @@ Demonstrate redefining the `true` / `false` constructors
   
   const t = false;
   
-  exports.z = z;
-  exports.x = x;
-  exports.y = y;
-  exports.t = t;
+  module.exports = {
+    z,
+    x,
+    y,
+    t,
+  }
   /* No side effect */

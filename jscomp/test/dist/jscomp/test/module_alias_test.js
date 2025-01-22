@@ -53,9 +53,11 @@ eq("File \"jscomp/test/module_alias_test.ml\", line 30, characters 6-13", a, 3);
 
 Mt.from_pair_suites("Module_alias_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.a = a;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  a,
+}
 /* h Not a pure module */

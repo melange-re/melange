@@ -50,10 +50,12 @@ eq("File \"jscomp/test/bs_ignore_effect.ml\", line 27, characters 5-12", z, 5.0)
 
 Mt.from_pair_suites("Bs_ignore_effect", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.h = h;
-exports.z = z;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  h,
+  z,
+}
 /*  Not a pure module */

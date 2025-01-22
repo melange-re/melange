@@ -45,10 +45,6 @@ Consume the default export
   import * as Melange__Exports_something from "./exports_something.mjs";
   
   console.log("Hello, " + Melange__Exports_something.default);
-  
-  export {
-    
-  }
   /*  Not a pure module */
 
 Runs correctly in Node.js
@@ -65,8 +61,10 @@ CommonJS:
   
   const $$default = "world";
   
-  exports.default = $$default;
-  exports.__esModule = true;
+  module.exports = {
+    default: $$default,
+    __esModule: true,
+  }
   /* No side effect */
 
   $ cat ./_build/default/output/main.js
@@ -76,7 +74,6 @@ CommonJS:
   const Melange__Exports_something = require("./exports_something.js");
   
   console.log("Hello, " + Melange__Exports_something.default);
-  
   /*  Not a pure module */
 
   $ node ./_build/default/output/main.js

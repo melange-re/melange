@@ -106,7 +106,9 @@ Mt.from_pair_suites("Cps_test", {
       }
     });
 
-exports.test = test;
-exports.test_closure = test_closure;
-exports.test_closure2 = test_closure2;
+module.exports = {
+  test,
+  test_closure,
+  test_closure2,
+}
 /*  Not a pure module */

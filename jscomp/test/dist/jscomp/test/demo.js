@@ -124,6 +124,8 @@ function ui_layout(compile, lookup, appContext) {
   return hw1;
 }
 
-exports.data = data;
-exports.ui_layout = ui_layout;
+module.exports = {
+  data,
+  ui_layout,
+}
 /* @blp/ui Not a pure module */

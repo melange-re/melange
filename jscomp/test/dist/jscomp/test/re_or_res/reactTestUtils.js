@@ -90,11 +90,13 @@ function getContainer(container) {
   return Belt__Belt_Option.getExn(container.contents);
 }
 
-exports.act = act;
-exports.actAsync = actAsync;
-exports.Simulate = Simulate;
-exports.DOM = DOM;
-exports.prepareContainer = prepareContainer;
-exports.cleanupContainer = cleanupContainer;
-exports.getContainer = getContainer;
+module.exports = {
+  act,
+  actAsync,
+  Simulate,
+  DOM,
+  prepareContainer,
+  cleanupContainer,
+  getContainer,
+}
 /* react-dom/test-utils Not a pure module */

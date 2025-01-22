@@ -27,7 +27,9 @@ function f(v) {
   ];
 }
 
-exports.Make = Make;
-exports.Int_arr = Int_arr;
-exports.f = f;
+module.exports = {
+  Make,
+  Int_arr,
+  f,
+}
 /* No side effect */

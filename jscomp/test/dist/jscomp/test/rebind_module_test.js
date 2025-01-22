@@ -11,5 +11,7 @@ function x(v) {
   }
 }
 
-exports.x = x;
+module.exports = {
+  x,
+}
 /* No side effect */

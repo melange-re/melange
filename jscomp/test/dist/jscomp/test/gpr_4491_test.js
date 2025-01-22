@@ -12,5 +12,7 @@ function f(xs) {
   console.log("nothing to see here", xs);
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

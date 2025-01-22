@@ -6,7 +6,9 @@ const $$__esModule = false;
 
 const $$default = 4;
 
-exports.$$__esModule = $$__esModule;
-exports.default = $$default;
-exports.__esModule = true;
+module.exports = {
+  $$__esModule,
+  default: $$default,
+  __esModule: true,
+}
 /* No side effect */

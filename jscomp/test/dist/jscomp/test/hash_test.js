@@ -81,11 +81,13 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/hash_test.ml\", line 3
 
 Mt.from_pair_suites("Hash_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.test_strings = test_strings;
-exports.test_strings_hash_results = test_strings_hash_results;
-exports.normalize = normalize;
-exports.caml_hash = caml_hash;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  test_strings,
+  test_strings_hash_results,
+  normalize,
+  caml_hash,
+}
 /* test_strings Not a pure module */

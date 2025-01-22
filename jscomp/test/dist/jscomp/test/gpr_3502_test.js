@@ -21,8 +21,10 @@ const shortName = "a";
 
 const name$1 = 2;
 
-exports.Language = Language;
-exports.language = language;
-exports.shortName = shortName;
-exports.name = name$1;
+module.exports = {
+  Language,
+  language,
+  shortName,
+  name: name$1,
+}
 /* No side effect */

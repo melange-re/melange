@@ -81,6 +81,8 @@ const suites = {
 
 Mt.from_pair_suites("Tailcall_inline_test", suites);
 
-exports.f = f;
-exports.suites = suites;
+module.exports = {
+  f,
+  suites,
+}
 /*  Not a pure module */

@@ -24,5 +24,4 @@ console.log([
       "A",
       "A"
     ]);
-
 /*  Not a pure module */

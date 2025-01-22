@@ -11,6 +11,8 @@ let c;
 
 c = /* tag */ typeof a === "number" || typeof a === "string" ? "orange" : "white";
 
-exports.a = a;
-exports.c = c;
+module.exports = {
+  a,
+  c,
+}
 /* c Not a pure module */

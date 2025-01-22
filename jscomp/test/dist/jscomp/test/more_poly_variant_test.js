@@ -80,11 +80,13 @@ function f2(x) {
   }
 }
 
-exports.map = map;
-exports.split_cases = split_cases;
-exports.f = f;
-exports.g1 = g1;
-exports.g = g;
-exports.f1 = f1;
-exports.f2 = f2;
+module.exports = {
+  map,
+  split_cases,
+  f,
+  g1,
+  g,
+  f1,
+  f2,
+}
 /* No side effect */

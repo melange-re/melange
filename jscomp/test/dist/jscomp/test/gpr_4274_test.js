@@ -33,8 +33,10 @@ Belt__Belt_Array.mapU(bar, (function (b) {
       return b.foo;
     }));
 
-exports.N = N;
-exports.f = f;
-exports.Foo = Foo;
-exports.bar = bar;
+module.exports = {
+  N,
+  f,
+  Foo,
+  bar,
+}
 /*  Not a pure module */

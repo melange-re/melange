@@ -17,6 +17,8 @@ function randomRange(i, j) {
   return v;
 }
 
-exports.range = range;
-exports.randomRange = randomRange;
+module.exports = {
+  range,
+  randomRange,
+}
 /* No side effect */

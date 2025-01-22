@@ -84,11 +84,13 @@ eq("File \"jscomp/test/int_switch_test.ml\", line 39, characters 6-13", f(functi
 
 Mt.from_pair_suites("Int_switch_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.f = f;
-exports.f22 = f22;
-exports.f33 = f33;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  f,
+  f22,
+  f33,
+}
 /*  Not a pure module */

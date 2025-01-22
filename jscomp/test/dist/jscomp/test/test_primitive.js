@@ -97,24 +97,26 @@ const xx = [
   0
 ];
 
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
-exports.test_float = test_float;
-exports.test_abs = test_abs;
-exports.v = v;
-exports.xxx = xxx;
-exports.a = a;
-exports.u = u;
-exports.f2 = f2;
-exports.xx = xx;
-exports.unboxed_x = unboxed_x;
-exports.gg = gg;
-exports.f = f;
-exports.is_lazy_force = is_lazy_force;
-exports.fib = fib;
+module.exports = {
+  a0,
+  a1,
+  a2,
+  a3,
+  a4,
+  a5,
+  a6,
+  test_float,
+  test_abs,
+  v,
+  xxx,
+  a,
+  u,
+  f2,
+  xx,
+  unboxed_x,
+  gg,
+  f,
+  is_lazy_force,
+  fib,
+}
 /* test_abs Not a pure module */

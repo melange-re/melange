@@ -1313,6 +1313,8 @@ if (!Caml_obj.caml_equal(to_list(q2$4), {
 
 console.log("OK");
 
-exports.Q = Q;
-exports.does_raise = does_raise;
+module.exports = {
+  Q,
+  does_raise,
+}
 /* q Not a pure module */

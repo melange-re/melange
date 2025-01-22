@@ -316,35 +316,37 @@ const of_sorted_list = Set_gen.of_sorted_list;
 
 const of_sorted_array = Set_gen.of_sorted_array;
 
-exports.compare_elt = compare_elt;
-exports.empty = empty;
-exports.is_empty = is_empty;
-exports.iter = iter;
-exports.fold = fold;
-exports.for_all = for_all;
-exports.exists = exists;
-exports.singleton = singleton;
-exports.cardinal = cardinal;
-exports.elements = elements;
-exports.min_elt = min_elt;
-exports.max_elt = max_elt;
-exports.choose = choose;
-exports.partition = partition;
-exports.filter = filter;
-exports.of_sorted_list = of_sorted_list;
-exports.of_sorted_array = of_sorted_array;
-exports.split = split;
-exports.add = add;
-exports.union = union;
-exports.inter = inter;
-exports.diff = diff;
-exports.mem = mem;
-exports.remove = remove;
-exports.compare = compare;
-exports.equal = equal;
-exports.subset = subset;
-exports.find = find;
-exports.of_list = of_list;
-exports.of_array = of_array;
-exports.invariant = invariant;
+module.exports = {
+  compare_elt,
+  empty,
+  is_empty,
+  iter,
+  fold,
+  for_all,
+  exists,
+  singleton,
+  cardinal,
+  elements,
+  min_elt,
+  max_elt,
+  choose,
+  partition,
+  filter,
+  of_sorted_list,
+  of_sorted_array,
+  split,
+  add,
+  union,
+  inter,
+  diff,
+  mem,
+  remove,
+  compare,
+  equal,
+  subset,
+  find,
+  of_list,
+  of_array,
+  invariant,
+}
 /* No side effect */

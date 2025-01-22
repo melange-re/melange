@@ -30,6 +30,8 @@ function ff(c) {
   }
 }
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /* No side effect */

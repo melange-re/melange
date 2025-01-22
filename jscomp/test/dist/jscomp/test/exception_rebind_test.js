@@ -37,13 +37,15 @@ const H0 = Stdlib.Invalid_argument;
 
 const H1 = Stdlib.Invalid_argument;
 
-exports.A = A;
-exports.B = B;
-exports.H = H;
-exports.A0 = A0;
-exports.H0 = H0;
-exports.H1 = H1;
-exports.u0 = u0;
-exports.u1 = u1;
-exports.u2 = u2;
+module.exports = {
+  A,
+  B,
+  H,
+  A0,
+  H0,
+  H1,
+  u0,
+  u1,
+  u2,
+}
 /* Exception_def Not a pure module */

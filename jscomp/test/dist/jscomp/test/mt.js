@@ -264,10 +264,12 @@ function throw_suites(test_id, suites, loc, x) {
   };
 }
 
-exports.from_suites = from_suites;
-exports.from_pair_suites = from_pair_suites;
-exports.from_promise_suites = from_promise_suites;
-exports.eq_suites = eq_suites;
-exports.bool_suites = bool_suites;
-exports.throw_suites = throw_suites;
+module.exports = {
+  from_suites,
+  from_pair_suites,
+  from_promise_suites,
+  eq_suites,
+  bool_suites,
+  throw_suites,
+}
 /* val_unit Not a pure module */

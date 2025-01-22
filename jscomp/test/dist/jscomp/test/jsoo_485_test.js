@@ -6,5 +6,7 @@ function f(param) {
   3;
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

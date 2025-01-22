@@ -41,10 +41,12 @@ eq("File \"jscomp/test/polymorphic_raw_test.ml\", line 23, characters 6-13", b, 
 
 Mt.from_pair_suites("jscomp/test/polymorphic_raw_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.a = a;
-exports.b = b;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  a,
+  b,
+}
 /* a Not a pure module */

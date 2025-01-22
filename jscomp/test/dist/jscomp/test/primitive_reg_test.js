@@ -6,5 +6,7 @@ function x(prim0, prim1) {
   return prim0 % prim1;
 }
 
-exports.x = x;
+module.exports = {
+  x,
+}
 /* No side effect */

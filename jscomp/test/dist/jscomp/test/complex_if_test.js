@@ -138,8 +138,10 @@ const suites = {
 
 Mt.from_pair_suites("Complex_if_test", suites);
 
-exports.fib = fib;
-exports.escaped = escaped;
-exports.string_escaped = string_escaped;
-exports.suites = suites;
+module.exports = {
+  fib,
+  escaped,
+  string_escaped,
+  suites,
+}
 /*  Not a pure module */

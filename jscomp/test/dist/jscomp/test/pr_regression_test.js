@@ -112,8 +112,10 @@ Mt.from_pair_suites("Pr_regression_test", {
       tl: /* [] */ 0
     });
 
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.d = d;
+module.exports = {
+  a,
+  b,
+  c,
+  d,
+}
 /*  Not a pure module */

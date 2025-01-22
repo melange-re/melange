@@ -2940,25 +2940,27 @@ const hhh = [
   0
 ];
 
-exports.of_string = of_string;
-exports.from_float_of_string = from_float_of_string;
-exports.from_of_string = from_of_string;
-exports.u = u;
-exports.to_str = to_str;
-exports.v = v;
-exports.suites = suites;
-exports.$caret$caret = $caret$caret;
-exports.ff = ff;
-exports.a = a;
-exports.formatter_suites = formatter_suites;
-exports.float_data = float_data;
-exports.float_suites = float_suites;
-exports.Lambda_suites = Lambda_suites;
-exports.lambda_suites = lambda_suites;
-exports.from_lambda_pairs = from_lambda_pairs;
-exports.ksprintf_suites = ksprintf_suites;
-exports.int64_suites = int64_suites;
-exports.hh = hh;
-exports.hhh = hhh;
-exports.of_string_data = of_string_data;
+module.exports = {
+  of_string,
+  from_float_of_string,
+  from_of_string,
+  u,
+  to_str,
+  v,
+  suites,
+  $caret$caret,
+  ff,
+  a,
+  formatter_suites,
+  float_data,
+  float_suites,
+  Lambda_suites,
+  lambda_suites,
+  from_lambda_pairs,
+  ksprintf_suites,
+  int64_suites,
+  hh,
+  hhh,
+  of_string_data,
+}
 /* v Not a pure module */

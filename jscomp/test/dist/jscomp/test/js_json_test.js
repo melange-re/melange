@@ -770,13 +770,15 @@ idtest(Belt__Belt_Array.makeBy(500, (function (i) {
 
 Mt.from_pair_suites("Js_json_test", suites.contents);
 
-exports.suites = suites;
-exports.add_test = add_test;
-exports.eq = eq;
-exports.false_ = false_;
-exports.true_ = true_;
-exports.option_get = option_get;
-exports.eq_at_i = eq_at_i;
-exports.id = id;
-exports.idtest = idtest;
+module.exports = {
+  suites,
+  add_test,
+  eq,
+  false_,
+  true_,
+  option_get,
+  eq_at_i,
+  id,
+  idtest,
+}
 /* v Not a pure module */

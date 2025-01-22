@@ -41,10 +41,12 @@ function hh(param) {
 
 const g = h("A");
 
-exports.f = f;
-exports.ff = ff;
-exports.fff = fff;
-exports.h = h;
-exports.hh = hh;
-exports.g = g;
+module.exports = {
+  f,
+  ff,
+  fff,
+  h,
+  hh,
+  g,
+}
 /* g Not a pure module */

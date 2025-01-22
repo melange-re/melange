@@ -118,5 +118,7 @@ function Make(funarg) {
   };
 }
 
-exports.Make = Make;
+module.exports = {
+  Make,
+}
 /* Stdlib__Hashtbl Not a pure module */

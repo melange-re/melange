@@ -53,9 +53,11 @@ eq("File \"jscomp/test/js_nullable_test.ml\", line 34, characters 3-10", false, 
 
 Mt.from_pair_suites("Js_nullable_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.test = test;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  test,
+  f,
+}
 /*  Not a pure module */

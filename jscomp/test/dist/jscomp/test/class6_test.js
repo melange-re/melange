@@ -285,18 +285,20 @@ eq("File \"jscomp/test/class6_test.ml\", line 74, characters 5-12", [
 
 Mt.from_pair_suites("Class6_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.point = point;
-exports.colored_point = colored_point;
-exports.colored_point_to_point = colored_point_to_point;
-exports.p = p;
-exports.q = q;
-exports.lookup_obj = lookup_obj;
-exports.c = c;
-exports.d = d;
-exports.c2$p = c2$p;
-exports.functional_point = functional_point;
-exports.bad_functional_point = bad_functional_point;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  point,
+  colored_point,
+  colored_point_to_point,
+  p,
+  q,
+  lookup_obj,
+  c,
+  d,
+  c2$p,
+  functional_point,
+  bad_functional_point,
+}
 /* point Not a pure module */

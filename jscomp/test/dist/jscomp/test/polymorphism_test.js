@@ -13,5 +13,7 @@ function map(f, param) {
   };
 }
 
-exports.map = map;
+module.exports = {
+  map,
+}
 /* No side effect */

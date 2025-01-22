@@ -4,5 +4,7 @@
 
 const v = 68;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

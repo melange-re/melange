@@ -86,11 +86,13 @@ function handle_tuple(x, y) {
   return x + y | 0;
 }
 
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.r = r;
-exports.v = v;
-exports.handle_tuple = handle_tuple;
+module.exports = {
+  f,
+  f2,
+  f3,
+  f4,
+  r,
+  v,
+  handle_tuple,
+}
 /* match Not a pure module */

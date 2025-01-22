@@ -132,8 +132,10 @@ eq("File \"jscomp/test/a_filename_test.ml\", line 73, characters 5-12", Stdlib__
 
 Mt.from_pair_suites("A_filename_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.test = test;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  test,
+}
 /*  Not a pure module */

@@ -47,11 +47,13 @@ const Y1 = {
 
 let X;
 
-exports.A = A;
-exports.ASet = ASet;
-exports.X = X;
-exports.X0 = X0;
-exports.Y0 = Y0;
-exports.X1 = X1;
-exports.Y1 = Y1;
+module.exports = {
+  A,
+  ASet,
+  X,
+  X0,
+  Y0,
+  X1,
+  Y1,
+}
 /* ASet Not a pure module */

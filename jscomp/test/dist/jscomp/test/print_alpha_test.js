@@ -25,5 +25,7 @@ Mt.from_pair_suites("Print_alpha_test", {
       tl: /* [] */ 0
     });
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

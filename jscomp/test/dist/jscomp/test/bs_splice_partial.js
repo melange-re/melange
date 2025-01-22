@@ -40,10 +40,12 @@ function testUndefined(param) {
   return say(1, 2, [undefined,undefined]);
 }
 
-exports.test = test;
-exports.test_hi = test_hi;
-exports.test_hi__2 = test_hi__2;
-exports.test_cb = test_cb;
-exports.f = f;
-exports.testUndefined = testUndefined;
+module.exports = {
+  test,
+  test_hi,
+  test_hi__2,
+  test_cb,
+  f,
+  testUndefined,
+}
 /* No side effect */

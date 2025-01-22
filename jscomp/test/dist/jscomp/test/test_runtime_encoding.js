@@ -46,12 +46,14 @@ function f(x) {
   }
 }
 
-exports.g = g;
-exports.ff = ff;
-exports.fff = fff;
-exports.a = a;
-exports.aa = aa;
-exports.aaa = aaa;
-exports.aaaa = aaaa;
-exports.f = f;
+module.exports = {
+  g,
+  ff,
+  fff,
+  a,
+  aa,
+  aaa,
+  aaaa,
+  f,
+}
 /* No side effect */

@@ -15,5 +15,7 @@ const b = Belt__Belt_Array.eq([
       return prim0 === prim1;
     }));
 
-exports.b = b;
+module.exports = {
+  b,
+}
 /* b Not a pure module */

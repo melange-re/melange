@@ -8,5 +8,7 @@ u = u + 1 | 0;
 
 let v;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* v Not a pure module */

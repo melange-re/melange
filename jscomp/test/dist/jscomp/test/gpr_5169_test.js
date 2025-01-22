@@ -38,19 +38,21 @@ const l = {
   _0: 1
 };
 
-exports.NotOption = NotOption;
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.d = d;
-exports.TotallyNotOption = TotallyNotOption;
-exports.e = e;
-exports.f = f;
-exports.g = g;
-exports.h = h;
-exports.NotOption2 = NotOption2;
-exports.i = i;
-exports.j = j;
-exports.k = k;
-exports.l = l;
+module.exports = {
+  NotOption,
+  a,
+  b,
+  c,
+  d,
+  TotallyNotOption,
+  e,
+  f,
+  g,
+  h,
+  NotOption2,
+  i,
+  j,
+  k,
+  l,
+}
 /* No side effect */

@@ -26,8 +26,6 @@ open Import
 module P = Js_pp
 module L = Js_dump_lit
 
-let default_export = L.default
-let esModule = ("__esModule", "true")
 (* Exports printer *)
 
 let rev_iter_inter lst f inter =
@@ -40,21 +38,24 @@ let rev_iter_inter lst f inter =
           inter ());
       f a
 
-let accumulate_exports ~es6 =
- fun (cxt, acc) id ->
-  let id_name = Ident.name id in
-  let s = Ident.convert id_name in
-  let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-  let exports =
-    if id_name = default_export then
-      (if es6 then [ esModule ] else []) @ ((default_export, str) :: acc)
-    else (s, str) :: acc
-  in
-  (cxt, exports)
+let accumulate_exports ~add_esmodule =
+  let default_export = L.default in
+  let esModule = ("__esModule", "true") in
+  fun (cxt, acc) id ->
+    let id_name = Ident.name id in
+    let s = Ident.convert id_name in
+    let str, cxt = Js_pp.Scope.str_of_ident cxt id in
+    let exports =
+      if id_name = default_export then
+        (if add_esmodule then [ esModule ] else [])
+        @ ((default_export, str) :: acc)
+      else (s, str) :: acc
+    in
+    (cxt, exports)
 
 (* Print exports in CommonJS format *)
 let module_exports =
-  let accumulate_exports = accumulate_exports ~es6:false in
+  let accumulate_exports = accumulate_exports ~add_esmodule:true in
   fun cxt f (idents : Ident.t list) ->
     match idents with
     | [] -> cxt
@@ -73,19 +74,18 @@ let module_exports =
             rev_iter_inter reversed_list
               (fun (s, export) ->
                 P.group f 0 (fun _ ->
-                    P.string f export;
                     if not @@ String.equal export s then (
-                      P.space f;
-                      P.string f L.as_;
-                      P.space f;
-                      P.string f s);
+                      P.string f s;
+                      P.string f L.colon;
+                      P.space f);
+                    P.string f export;
                     P.string f L.comma))
               (fun _ -> P.newline f));
         outer_cxt
 
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
 let es6_export =
-  let accumulate_exports = accumulate_exports ~es6:true in
+  let accumulate_exports = accumulate_exports ~add_esmodule:false in
   fun cxt f (idents : Ident.t list) ->
     match idents with
     | [] -> cxt

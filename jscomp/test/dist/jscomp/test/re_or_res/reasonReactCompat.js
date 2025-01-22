@@ -7,6 +7,8 @@ const wrapReactForReasonReact = ReasonReact.wrapJsForReason;
 
 const wrapReasonReactForReact = ReasonReact.wrapReasonForJs;
 
-exports.wrapReactForReasonReact = wrapReactForReasonReact;
-exports.wrapReasonReactForReact = wrapReasonReactForReact;
+module.exports = {
+  wrapReactForReasonReact,
+  wrapReasonReactForReact,
+}
 /* ReasonReact Not a pure module */

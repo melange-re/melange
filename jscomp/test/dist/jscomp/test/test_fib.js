@@ -93,14 +93,16 @@ function fib3(n) {
 
 const b = fib;
 
-exports.fib = fib;
-exports.fib2 = fib2;
-exports.b = b;
-exports.sum = sum;
-exports.sumdown = sumdown;
-exports.cons = cons;
-exports.length = length;
-exports.map = map;
-exports.f = f;
-exports.fib3 = fib3;
+module.exports = {
+  fib,
+  fib2,
+  b,
+  sum,
+  sumdown,
+  cons,
+  length,
+  map,
+  f,
+  fib3,
+}
 /*  Not a pure module */

@@ -107,8 +107,10 @@ const suites = {
 
 Mt.from_pair_suites("Hashtbl_test", suites);
 
-exports.to_list = to_list;
-exports.f = f;
-exports.g = g;
-exports.suites = suites;
+module.exports = {
+  to_list,
+  f,
+  g,
+  suites,
+}
 /*  Not a pure module */

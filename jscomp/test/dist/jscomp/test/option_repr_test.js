@@ -279,35 +279,37 @@ const f9 = Caml_option.some(Caml_option.some(undefined));
 
 let none_arg;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
-exports.f9 = f9;
-exports.f10 = f10;
-exports.f11 = f11;
-exports.randomized = randomized;
-exports.create = create;
-exports.ff = ff;
-exports.a = a;
-exports.f12 = f12;
-exports.length_8_id = length_8_id;
-exports.length_10_id = length_10_id;
-exports.f13 = f13$1;
-exports.none_arg = none_arg;
-exports.ltx = ltx;
-exports.gtx = gtx;
-exports.eqx = eqx;
-exports.neqx = neqx;
-exports.all_true = all_true;
-exports.N0 = N0;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  f0,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  f9,
+  f10,
+  f11,
+  randomized,
+  create,
+  ff,
+  a,
+  f12,
+  length_8_id,
+  length_10_id,
+  f13: f13$1,
+  none_arg,
+  ltx,
+  gtx,
+  eqx,
+  neqx,
+  all_true,
+  N0,
+}
 /* ff Not a pure module */

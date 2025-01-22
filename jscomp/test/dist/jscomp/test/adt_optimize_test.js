@@ -190,16 +190,18 @@ function f11(x) {
       });
 }
 
-exports.f = f;
-exports.f_0 = f_0;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
-exports.f9 = f9;
-exports.f10 = f10;
-exports.f11 = f11;
+module.exports = {
+  f,
+  f_0,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  f9,
+  f10,
+  f11,
+}
 /* No side effect */

@@ -47,11 +47,13 @@ Mt.from_pair_suites("Gpr_2608_test", suites.contents);
 
 const nearestGroots = /* [] */ 0;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.nearestGroots = nearestGroots;
-exports.oppHeroes = oppHeroes;
-exports.huntGrootCondition = huntGrootCondition;
-exports.huntGrootCondition2 = huntGrootCondition2;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  nearestGroots,
+  oppHeroes,
+  huntGrootCondition,
+  huntGrootCondition2,
+}
 /* huntGrootCondition Not a pure module */

@@ -16,6 +16,8 @@ function orientationFromJs(param) {
 
 console.log(orientationToJs("Horizontal"));
 
-exports.orientationToJs = orientationToJs;
-exports.orientationFromJs = orientationFromJs;
+module.exports = {
+  orientationToJs,
+  orientationFromJs,
+}
 /*  Not a pure module */

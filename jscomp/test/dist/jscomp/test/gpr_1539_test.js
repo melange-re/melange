@@ -31,7 +31,9 @@ let CRS;
 
 let Layer;
 
-exports.CRS = CRS;
-exports.Layer = Layer;
-exports.Point = Point;
+module.exports = {
+  CRS,
+  Layer,
+  Point,
+}
 /* Point Not a pure module */

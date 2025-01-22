@@ -170,15 +170,17 @@ const v3 = add$1(3, "a", v0);
 
 console.log(v3);
 
-exports.Comparable = Comparable;
-exports.height = height;
-exports.create = create;
-exports.bal = bal;
-exports.add = add$1;
-exports.empty = empty;
-exports.V0 = V0;
-exports.V1 = V1;
-exports.v0 = v0;
-exports.v1 = v1;
-exports.v3 = v3;
+module.exports = {
+  Comparable,
+  height,
+  create,
+  bal,
+  add: add$1,
+  empty,
+  V0,
+  V1,
+  v0,
+  v1,
+  v3,
+}
 /* v3 Not a pure module */

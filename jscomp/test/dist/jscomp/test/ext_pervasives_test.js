@@ -104,12 +104,14 @@ function hash_variant(s) {
   }
 }
 
-exports.$$finally = $$finally;
-exports.with_file_as_chan = with_file_as_chan;
-exports.with_file_as_pp = with_file_as_pp;
-exports.is_pos_pow = is_pos_pow;
-exports.failwithf = failwithf;
-exports.invalid_argf = invalid_argf;
-exports.bad_argf = bad_argf;
-exports.hash_variant = hash_variant;
+module.exports = {
+  $$finally,
+  with_file_as_chan,
+  with_file_as_pp,
+  is_pos_pow,
+  failwithf,
+  invalid_argf,
+  bad_argf,
+  hash_variant,
+}
 /* Stdlib__Format Not a pure module */

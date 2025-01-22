@@ -65,11 +65,13 @@ eq("File \"jscomp/test/arity_deopt.ml\", line 48, characters 15-22", 6, (functio
 
 Mt.from_pair_suites("Arity_deopt", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f0,
+  f1,
+  f2,
+  f3,
+}
 /*  Not a pure module */

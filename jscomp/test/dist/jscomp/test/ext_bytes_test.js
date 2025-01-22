@@ -208,11 +208,13 @@ function f_0(a, b) {
 
 Mt.from_pair_suites("Ext_bytes_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.escaped = escaped;
-exports.starts_with = starts_with;
-exports.f = f$1;
-exports.f_0 = f_0;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  escaped,
+  starts_with,
+  f: f$1,
+  f_0,
+}
 /* a Not a pure module */

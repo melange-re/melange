@@ -100,13 +100,15 @@ function f8(_x, _y) {
   };
 }
 
-exports.f = f;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
+module.exports = {
+  f,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+}
 /* No side effect */

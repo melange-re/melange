@@ -4,5 +4,7 @@
 
 const Foo = {};
 
-exports.Foo = Foo;
+module.exports = {
+  Foo,
+}
 /* No side effect */

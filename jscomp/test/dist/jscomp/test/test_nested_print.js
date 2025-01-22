@@ -12,6 +12,8 @@ function f(g, x) {
   return u + u | 0;
 }
 
-exports.u = u;
-exports.f = f;
+module.exports = {
+  u,
+  f,
+}
 /* No side effect */

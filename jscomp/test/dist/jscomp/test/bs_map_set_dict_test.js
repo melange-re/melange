@@ -171,20 +171,22 @@ let vv;
 
 let vv2;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.Icmp = Icmp;
-exports.Icmp2 = Icmp2;
-exports.Ic3 = Ic3;
-exports.m0 = m0;
-exports.m00 = m00;
-exports.I2 = I2;
-exports.m = m;
-exports.m2 = m2;
-exports.vv = vv;
-exports.vv2 = vv2;
-exports.f = f;
-exports.$eq$tilde = $eq$tilde;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  Icmp,
+  Icmp2,
+  Ic3,
+  m0,
+  m00,
+  I2,
+  m,
+  m2,
+  vv,
+  vv2,
+  f,
+  $eq$tilde,
+}
 /* Icmp Not a pure module */

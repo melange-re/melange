@@ -48,12 +48,14 @@ function h(a) {
 
 Mt.from_pair_suites("Ppx_apply_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.u = u;
-exports.nullary = nullary;
-exports.unary = unary;
-exports.xx = xx;
-exports.h = h;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  u,
+  nullary,
+  unary,
+  xx,
+  h,
+}
 /* u Not a pure module */

@@ -183,81 +183,83 @@ const to_seq = Stdlib__List.to_seq;
 
 const of_seq = Stdlib__List.of_seq;
 
-exports.f = f;
-exports.f1 = f1;
-exports.f3 = f3;
-exports.f2 = f2;
-exports.g = g;
-exports.ff = ff;
-exports.fff = fff;
-exports.length_aux = length_aux;
-exports.length = length;
-exports.compare_lengths = compare_lengths;
-exports.compare_length_with = compare_length_with;
-exports.is_empty = is_empty;
-exports.cons = cons;
-exports.hd = hd;
-exports.tl = tl;
-exports.nth = nth;
-exports.nth_opt = nth_opt;
-exports.rev = rev;
-exports.init = init;
-exports.append = append;
-exports.rev_append = rev_append;
-exports.concat = concat;
-exports.flatten = flatten;
-exports.equal = equal;
-exports.compare = compare;
-exports.iter = iter;
-exports.iteri = iteri;
-exports.map = map;
-exports.mapi = mapi;
-exports.rev_map = rev_map;
-exports.filter_map = filter_map;
-exports.concat_map = concat_map;
-exports.fold_left_map = fold_left_map;
-exports.fold_left = fold_left;
-exports.fold_right = fold_right;
-exports.iter2 = iter2;
-exports.map2 = map2;
-exports.rev_map2 = rev_map2;
-exports.fold_left2 = fold_left2;
-exports.fold_right2 = fold_right2;
-exports.for_all = for_all;
-exports.exists = exists;
-exports.for_all2 = for_all2;
-exports.exists2 = exists2;
-exports.mem = mem;
-exports.memq = memq;
-exports.find = find;
-exports.find_opt = find_opt;
-exports.find_index = find_index;
-exports.find_map = find_map;
-exports.find_mapi = find_mapi;
-exports.filter = filter;
-exports.find_all = find_all;
-exports.filteri = filteri;
-exports.take = take;
-exports.drop = drop;
-exports.take_while = take_while;
-exports.drop_while = drop_while;
-exports.partition = partition;
-exports.partition_map = partition_map;
-exports.assoc = assoc;
-exports.assoc_opt = assoc_opt;
-exports.assq = assq;
-exports.assq_opt = assq_opt;
-exports.mem_assoc = mem_assoc;
-exports.mem_assq = mem_assq;
-exports.remove_assoc = remove_assoc;
-exports.remove_assq = remove_assq;
-exports.split = split;
-exports.combine = combine;
-exports.sort = sort;
-exports.stable_sort = stable_sort;
-exports.fast_sort = fast_sort;
-exports.sort_uniq = sort_uniq;
-exports.merge = merge;
-exports.to_seq = to_seq;
-exports.of_seq = of_seq;
+module.exports = {
+  f,
+  f1,
+  f3,
+  f2,
+  g,
+  ff,
+  fff,
+  length_aux,
+  length,
+  compare_lengths,
+  compare_length_with,
+  is_empty,
+  cons,
+  hd,
+  tl,
+  nth,
+  nth_opt,
+  rev,
+  init,
+  append,
+  rev_append,
+  concat,
+  flatten,
+  equal,
+  compare,
+  iter,
+  iteri,
+  map,
+  mapi,
+  rev_map,
+  filter_map,
+  concat_map,
+  fold_left_map,
+  fold_left,
+  fold_right,
+  iter2,
+  map2,
+  rev_map2,
+  fold_left2,
+  fold_right2,
+  for_all,
+  exists,
+  for_all2,
+  exists2,
+  mem,
+  memq,
+  find,
+  find_opt,
+  find_index,
+  find_map,
+  find_mapi,
+  filter,
+  find_all,
+  filteri,
+  take,
+  drop,
+  take_while,
+  drop_while,
+  partition,
+  partition_map,
+  assoc,
+  assoc_opt,
+  assq,
+  assq_opt,
+  mem_assoc,
+  mem_assq,
+  remove_assoc,
+  remove_assq,
+  split,
+  combine,
+  sort,
+  stable_sort,
+  fast_sort,
+  sort_uniq,
+  merge,
+  to_seq,
+  of_seq,
+}
 /* fff Not a pure module */

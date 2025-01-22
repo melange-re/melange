@@ -380,9 +380,11 @@ Mt.from_pair_suites("String_test", {
       }
     });
 
-exports.ff = ff;
-exports.gg = gg;
-exports.rev_split_by_char = rev_split_by_char;
-exports.xsplit = xsplit;
-exports.string_of_chars = string_of_chars;
+module.exports = {
+  ff,
+  gg,
+  rev_split_by_char,
+  xsplit,
+  string_of_chars,
+}
 /*  Not a pure module */

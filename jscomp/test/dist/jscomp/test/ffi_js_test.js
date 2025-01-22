@@ -178,20 +178,22 @@ function ffff(x) {
 
 Mt.from_pair_suites("Ffi_js_test", suites.contents);
 
-exports.keys = keys;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.int_config = int_config;
-exports.string_config = string_config;
-exports.same_type = same_type;
-exports.v_obj = v_obj;
-exports.u = u;
-exports.side_effect_config = side_effect_config;
-exports.vv = vv;
-exports.v = v;
-exports.vvv = vvv;
-exports.vvvv = vvvv;
-exports.create_prim = create_prim;
-exports.ffff = ffff;
+module.exports = {
+  keys,
+  suites,
+  test_id,
+  eq,
+  int_config,
+  string_config,
+  same_type,
+  v_obj,
+  u,
+  side_effect_config,
+  vv,
+  v,
+  vvv,
+  vvvv,
+  create_prim,
+  ffff,
+}
 /*  Not a pure module */

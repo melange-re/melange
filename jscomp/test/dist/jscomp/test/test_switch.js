@@ -34,6 +34,8 @@ function bind(x, f) {
   }
 }
 
-exports.f = f;
-exports.bind = bind;
+module.exports = {
+  f,
+  bind,
+}
 /* No side effect */

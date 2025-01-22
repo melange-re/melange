@@ -579,41 +579,43 @@ Mt.from_pair_suites("Rec_value_test", suites);
 
 const v$1 = 3;
 
-exports.x = x;
-exports.x0 = x0;
-exports.y0 = y0;
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.xx = xx;
-exports.naive = naive;
-exports.fib = fib;
-exports.xs = xs;
-exports.fib2 = fib2;
-exports.two = two;
-exports.fib3 = fib3;
-exports.even = even;
-exports.even2 = even2;
-exports.lazy_v = lazy_v;
-exports.sum = sum;
-exports.fake_v = fake_v;
-exports.fake_y = fake_y;
-exports.fake_z = fake_z;
-exports.fake_z2 = fake_z2;
-exports.fake_y2 = fake_y2;
-exports.v = v$1;
-exports.rec_variant_b = rec_variant_b;
-exports.rec_variant_a = rec_variant_a;
-exports.phd = phd;
-exports.ptl = ptl;
-exports.y00 = y00;
-exports.xhd = xhd;
-exports.xtl = xtl;
-exports.suites = suites;
-exports.fake_odd = fake_odd;
-exports.fake_minus = fake_minus;
-exports.fake_inline = fake_inline;
-exports.fake_inline_minus = fake_inline_minus;
-exports.fake_inline_inlie2 = fake_inline_inlie2;
-exports.u = u;
+module.exports = {
+  x,
+  x0,
+  y0,
+  a,
+  b,
+  c,
+  xx,
+  naive,
+  fib,
+  xs,
+  fib2,
+  two,
+  fib3,
+  even,
+  even2,
+  lazy_v,
+  sum,
+  fake_v,
+  fake_y,
+  fake_z,
+  fake_z2,
+  fake_y2,
+  v: v$1,
+  rec_variant_b,
+  rec_variant_a,
+  phd,
+  ptl,
+  y00,
+  xhd,
+  xtl,
+  suites,
+  fake_odd,
+  fake_minus,
+  fake_inline,
+  fake_inline_minus,
+  fake_inline_inlie2,
+  u,
+}
 /* fake_z2 Not a pure module */

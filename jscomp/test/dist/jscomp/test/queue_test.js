@@ -79,7 +79,9 @@ const suites = {
 
 Mt.from_pair_suites("Queue_test", suites);
 
-exports.Test = Test;
-exports.T1 = T1;
-exports.suites = suites;
+module.exports = {
+  Test,
+  T1,
+  suites,
+}
 /*  Not a pure module */

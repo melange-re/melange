@@ -53,11 +53,13 @@ Mt.from_pair_suites("Gpr_977_test", suites.contents);
 
 const min_32_int = -2147483648;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.int32_f = int32_f;
-exports.min_32_int = min_32_int;
-exports.u = u;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  int32_f,
+  min_32_int,
+  u,
+}
 /* u Not a pure module */

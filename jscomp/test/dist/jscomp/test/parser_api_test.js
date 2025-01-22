@@ -438,9 +438,11 @@ const lex = Parser_api.from_string;
 
 const parse = Parser_api.implementation;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.lex = lex;
-exports.parse = parse;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  lex,
+  parse,
+}
 /* match Not a pure module */

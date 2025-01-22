@@ -220,13 +220,15 @@ function test55(param) {
   return digest_file(tscanf_data_file) === tscanf_data_file_lines_digest;
 }
 
-exports.tscanf_data_file = tscanf_data_file;
-exports.tscanf_data_file_lines = tscanf_data_file_lines;
-exports.create_tscanf_data = create_tscanf_data;
-exports.write_tscanf_data_file = write_tscanf_data_file;
-exports.get_lines = get_lines;
-exports.add_digest_ib = add_digest_ib;
-exports.digest_file = digest_file;
-exports.test54 = test54;
-exports.test55 = test55;
+module.exports = {
+  tscanf_data_file,
+  tscanf_data_file_lines,
+  create_tscanf_data,
+  write_tscanf_data_file,
+  get_lines,
+  add_digest_ib,
+  digest_file,
+  test54,
+  test55,
+}
 /* Stdlib__Digest Not a pure module */

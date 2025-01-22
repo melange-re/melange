@@ -208,14 +208,16 @@ let Int32;
 
 const uuu = Xx.f;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.Int32 = Int32;
-exports.Xx = Xx;
-exports.uuu = uuu;
-exports.Int3 = Int3;
-exports.Inta = Inta;
-exports.Intb = Intb;
-exports.A = A;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  Int32,
+  Xx,
+  uuu,
+  Int3,
+  Inta,
+  Intb,
+  A,
+}
 /* Int3 Not a pure module */

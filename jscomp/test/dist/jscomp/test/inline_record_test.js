@@ -204,21 +204,23 @@ const vvv = {
   more: /* [] */ 0
 };
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.v1 = v1;
-exports.f = f;
-exports.v2 = v2;
-exports.A0 = A0;
-exports.v3 = v3;
-exports.vvv = vvv;
-exports.ff = ff;
-exports.v4 = v4;
-exports.v5 = v5;
-exports.A4 = A4;
-exports.v6 = v6;
-exports.ff0 = ff0;
-exports.ff1 = ff1;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  v1,
+  f,
+  v2,
+  A0,
+  v3,
+  vvv,
+  ff,
+  v4,
+  v5,
+  A4,
+  v6,
+  ff0,
+  ff1,
+}
 /*  Not a pure module */

@@ -78,11 +78,13 @@ Belt__Belt_MapInt.checkInvariantInternal(xx);
 
 Mt.from_pair_suites("Bs_map_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.mapOfArray = mapOfArray;
-exports.setOfArray = setOfArray;
-exports.emptyMap = emptyMap;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  mapOfArray,
+  setOfArray,
+  emptyMap,
+}
 /* v Not a pure module */

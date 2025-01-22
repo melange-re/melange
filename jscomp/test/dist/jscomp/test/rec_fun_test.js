@@ -69,11 +69,13 @@ eq("File \"jscomp/test/rec_fun_test.ml\", line 27, characters 6-13", called.cont
 
 Mt.from_pair_suites("Rec_fun_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.called = called;
-exports.g = g;
-exports.x = x;
-exports.y = y;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  called,
+  g,
+  x,
+  y,
+}
 /*  Not a pure module */

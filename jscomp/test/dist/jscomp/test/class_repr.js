@@ -217,13 +217,15 @@ function xx0_init($$class) {
 
 const xx0 = CamlinternalOO.make_class(shared$1, xx0_init);
 
-exports.x0 = x0;
-exports.x = x;
-exports.u = u;
-exports.xx = xx;
-exports.v1 = v1;
-exports.v2 = v2;
-exports.point = point;
-exports.v = v$1;
-exports.xx0 = xx0;
+module.exports = {
+  x0,
+  x,
+  u,
+  xx,
+  v1,
+  v2,
+  point,
+  v: v$1,
+  xx0,
+}
 /* x0 Not a pure module */

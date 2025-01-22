@@ -163,13 +163,15 @@ eq("File \"jscomp/test/splice_test.ml\", line 87, characters 6-13", Math.max(1, 
 
 Mt.from_pair_suites("jscomp/test/splice_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.Caml_splice_call = Caml_splice_call$1;
-exports.f00 = f00;
-exports.dynamic = dynamic;
-exports.dynamicNew = dynamicNew;
-exports.Pipe = Pipe;
-exports.f1 = f1;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  Caml_splice_call: Caml_splice_call$1,
+  f00,
+  dynamic,
+  dynamicNew,
+  Pipe,
+  f1,
+}
 /*  Not a pure module */

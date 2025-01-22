@@ -125,15 +125,17 @@ function bar(fn) {
 (Curry._1((function(){console.log("forgiving arity")}
       ), undefined));
 
-exports.f = f;
-exports.v = v;
-exports.vv = vv;
-exports.hh = hh;
-exports.u = u;
-exports.vvv = vvv;
-exports.fff = fff;
-exports.g = g;
-exports.abc = abc;
-exports.abc_u = abc_u;
-exports.bar = bar;
+module.exports = {
+  f,
+  v,
+  vv,
+  hh,
+  u,
+  vvv,
+  fff,
+  g,
+  abc,
+  abc_u,
+  bar,
+}
 /* v Not a pure module */

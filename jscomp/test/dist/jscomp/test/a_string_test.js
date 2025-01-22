@@ -121,7 +121,9 @@ const split = Ext_string_test.split;
 
 const split_by = Ext_string_test.split_by;
 
-exports.split = split;
-exports.split_by = split_by;
-exports.suites = suites;
+module.exports = {
+  split,
+  split_by,
+  suites,
+}
 /*  Not a pure module */

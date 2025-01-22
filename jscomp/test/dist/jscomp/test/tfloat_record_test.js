@@ -78,15 +78,17 @@ eq("File \"jscomp/test/tfloat_record_test.ml\", line 43, characters 5-12", Stdli
 
 Mt.from_pair_suites("Tfloat_record_test", suites.contents);
 
-exports.buf = buf;
-exports.fmt = fmt;
-exports.print_float = print_float;
-exports.print_newline = print_newline;
-exports.s = s;
-exports.b = b;
-exports.c = c;
-exports.print_array = print_array;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  buf,
+  fmt,
+  print_float,
+  print_newline,
+  s,
+  b,
+  c,
+  print_array,
+  suites,
+  test_id,
+  eq,
+}
 /* buf Not a pure module */

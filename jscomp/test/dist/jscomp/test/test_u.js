@@ -12,5 +12,7 @@ function f(x) {
   return sum;
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

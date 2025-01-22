@@ -62,9 +62,11 @@ eq("File \"jscomp/test/gpr_1728_test.ml\", line 27, characters 6-13", Caml_forma
 
 Mt.from_pair_suites("Gpr_1728_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.foo = foo;
-exports.badInlining = badInlining;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  foo,
+  badInlining,
+}
 /*  Not a pure module */

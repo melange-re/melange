@@ -140,13 +140,15 @@ Mt.from_pair_suites("Class_test", {
       }
     });
 
-exports.point = point;
-exports.p = p;
-exports.zero = zero;
-exports.three = three;
-exports.x0 = x0;
-exports.point2 = point2;
-exports.one = one;
-exports.two = two;
-exports.u = u;
+module.exports = {
+  point,
+  p,
+  zero,
+  three,
+  x0,
+  point2,
+  one,
+  two,
+  u,
+}
 /* point Not a pure module */

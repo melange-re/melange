@@ -188,14 +188,16 @@ if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
   console.log("impossible");
 }
 
-exports.height = height;
-exports.create = create;
-exports.bal = bal;
-exports.compare_int = compare_int;
-exports.add = add;
-exports.min_elt = min_elt;
-exports.remove_min_elt = remove_min_elt;
-exports.internal_merge = internal_merge;
-exports.remove = remove;
-exports.mem = mem;
+module.exports = {
+  height,
+  create,
+  bal,
+  compare_int,
+  add,
+  min_elt,
+  remove_min_elt,
+  internal_merge,
+  remove,
+  mem,
+}
 /*  Not a pure module */

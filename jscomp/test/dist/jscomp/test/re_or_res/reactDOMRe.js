@@ -99,12 +99,14 @@ const Style = {
   unsafeAddProp: unsafeAddProp
 };
 
-exports.renderToElementWithClassName = renderToElementWithClassName;
-exports.renderToElementWithId = renderToElementWithId;
-exports.Experimental = Experimental;
-exports.hydrateToElementWithClassName = hydrateToElementWithClassName;
-exports.hydrateToElementWithId = hydrateToElementWithId;
-exports.Ref = Ref;
-exports.createElementVariadic = createElementVariadic;
-exports.Style = Style;
+module.exports = {
+  renderToElementWithClassName,
+  renderToElementWithId,
+  Experimental,
+  hydrateToElementWithClassName,
+  hydrateToElementWithId,
+  Ref,
+  createElementVariadic,
+  Style,
+}
 /* react Not a pure module */

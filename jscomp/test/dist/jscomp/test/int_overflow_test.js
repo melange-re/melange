@@ -208,7 +208,9 @@ Mt.from_pair_suites("Int_overflow_test", {
       }
     });
 
-exports.hash_variant = hash_variant;
-exports.hash_variant2 = hash_variant2;
-exports.fib = fib;
+module.exports = {
+  hash_variant,
+  hash_variant2,
+  fib,
+}
 /*  Not a pure module */

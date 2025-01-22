@@ -68,8 +68,10 @@ const f_record = {
   }
 };
 
-exports.f_record = f_record;
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
+module.exports = {
+  f_record,
+  f,
+  f2,
+  f3,
+}
 /* No side effect */

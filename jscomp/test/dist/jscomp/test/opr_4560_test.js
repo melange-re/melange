@@ -143,11 +143,13 @@ Mt.from_pair_suites("jscomp/test/opr_4560_test.ml", suites.contents);
 
 const magic = 33;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.magic = magic;
-exports.c1 = c1;
-exports.c2 = c2;
-exports.e = e;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  magic,
+  c1,
+  c2,
+  e,
+}
 /* c1 Not a pure module */

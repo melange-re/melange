@@ -14,5 +14,4 @@ if (u !== undefined) {
     console.log("not main");
   }
 }
-
 /* u Not a pure module */

@@ -13,7 +13,9 @@ function say(prim0, prim1) {
 
 const v = Caml_obj.caml_compare;
 
-exports.min_int = min_int;
-exports.say = say;
-exports.v = v;
+module.exports = {
+  min_int,
+  say,
+  v,
+}
 /* No side effect */

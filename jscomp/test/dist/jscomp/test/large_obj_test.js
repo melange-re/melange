@@ -927,7 +927,9 @@ if (Caml_oo_curry.js1(291536121, 2, v) !== 56) {
       });
 }
 
-exports.raw_object = raw_object;
-exports.raw_class = raw_class;
-exports.v = v;
+module.exports = {
+  raw_object,
+  raw_class,
+  v,
+}
 /* class Not a pure module */

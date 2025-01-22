@@ -44,9 +44,11 @@ $$throw("File \"jscomp/test/ast_mapper_defensive_test.ml\", line 19, characters 
 
 Mt.from_pair_suites("Ast_mapper_defensive_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.$$throw = $$throw;
-exports.cToJs = cToJs;
-exports.cFromJs = cFromJs;
+module.exports = {
+  suites,
+  test_id,
+  $$throw,
+  cToJs,
+  cFromJs,
+}
 /*  Not a pure module */

@@ -12,7 +12,9 @@ Test `@mel.as` in variant constructors
   
   const x = /* Not_A */ "A";
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -54,10 +56,12 @@ Test `@mel.as` in variant constructors
     _0: "p1"
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.z = z;
-  exports.f = f;
+  module.exports = {
+    x,
+    y,
+    z,
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -109,11 +113,13 @@ Test `@mel.as` in variant constructors
     _0: 42
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.z = z;
-  exports.t = t;
-  exports.f = f;
+  module.exports = {
+    x,
+    y,
+    z,
+    t,
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -142,8 +148,10 @@ Test `@mel.as` in variant constructors
     s: "p2"
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.z = z;
+  module.exports = {
+    x,
+    y,
+    z,
+  }
   /* No side effect */
 

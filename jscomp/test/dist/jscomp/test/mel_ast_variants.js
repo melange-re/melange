@@ -164,15 +164,17 @@ const CustomizeTags = {
   e: CustomizeTags_e
 };
 
-exports.toEnum = toEnum;
-exports.toString = toString;
-exports.bar = bar;
-exports.and_ = and_;
-exports.id = id;
-exports.not_ = not_;
-exports.st = st;
-exports.showToJs = showToJs;
-exports.third = third;
-exports.third2 = third2;
-exports.CustomizeTags = CustomizeTags;
+module.exports = {
+  toEnum,
+  toString,
+  bar,
+  and_,
+  id,
+  not_,
+  st,
+  showToJs,
+  third,
+  third2,
+  CustomizeTags,
+}
 /* No side effect */

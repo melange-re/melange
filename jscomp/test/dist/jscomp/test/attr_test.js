@@ -20,9 +20,11 @@ function f(x) {
       }));
 }
 
-exports.u = u;
-exports.h = h;
-exports.max2 = max2;
-exports.hh = hh;
-exports.f = f;
+module.exports = {
+  u,
+  h,
+  max2,
+  hh,
+  f,
+}
 /* h Not a pure module */

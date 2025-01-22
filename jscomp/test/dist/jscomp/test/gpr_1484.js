@@ -6,5 +6,7 @@ function test(x) {
   x.nodeValue = null;
 }
 
-exports.test = test;
+module.exports = {
+  test,
+}
 /* No side effect */

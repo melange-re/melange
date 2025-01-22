@@ -24,9 +24,11 @@ const A4_a5 = {
   v: 3
 };
 
-exports.A0_a1 = A0_a1;
-exports.A1_a2 = A1_a2;
-exports.A2_a3 = A2_a3;
-exports.A3_a4 = A3_a4;
-exports.A4_a5 = A4_a5;
+module.exports = {
+  A0_a1,
+  A1_a2,
+  A2_a3,
+  A3_a4,
+  A4_a5,
+}
 /*  Not a pure module */

@@ -39,6 +39,8 @@ const suites = {
 
 Mt.from_pair_suites("Epsilon_test", suites);
 
-exports.v = v;
-exports.suites = suites;
+module.exports = {
+  v,
+  suites,
+}
 /* v Not a pure module */

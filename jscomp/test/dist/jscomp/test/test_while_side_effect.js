@@ -32,7 +32,9 @@ while ((function () {
   console.log(String(3));
 };
 
-exports.v = v;
-exports.fib = fib;
-exports.x = x;
+module.exports = {
+  v,
+  fib,
+  x,
+}
 /*  Not a pure module */

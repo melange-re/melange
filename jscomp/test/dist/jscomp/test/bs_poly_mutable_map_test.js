@@ -103,12 +103,14 @@ eq("File \"jscomp/test/bs_poly_mutable_map_test.ml\", line 41, characters 6-13",
 
 Mt.from_pair_suites("Bs_poly_mutable_map_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.Icmp = Icmp;
-exports.f = f;
-exports.ff = ff;
-exports.randomRange = randomRange;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  Icmp,
+  f,
+  ff,
+  randomRange,
+}
 /* Icmp Not a pure module */

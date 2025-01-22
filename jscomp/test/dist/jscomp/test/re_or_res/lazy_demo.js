@@ -24,8 +24,10 @@ const lb = CamlinternalLazy.force(lazy2);
 
 console.log(la, lb);
 
-exports.lazy1 = lazy1;
-exports.lazy2 = lazy2;
-exports.la = la;
-exports.lb = lb;
+module.exports = {
+  lazy1,
+  lazy2,
+  la,
+  lb,
+}
 /*  Not a pure module */

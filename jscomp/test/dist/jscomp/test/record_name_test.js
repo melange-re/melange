@@ -42,11 +42,13 @@ function u(param) {
   };
 }
 
-exports.f = f;
-exports.set = set;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.u = u;
+module.exports = {
+  f,
+  set,
+  f1,
+  f2,
+  f3,
+  f4,
+  u,
+}
 /* No side effect */

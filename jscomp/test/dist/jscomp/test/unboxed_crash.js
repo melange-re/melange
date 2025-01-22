@@ -9,6 +9,8 @@ function g(x) {
 
 const loop = g(g);
 
-exports.g = g;
-exports.loop = loop;
+module.exports = {
+  g,
+  loop,
+}
 /* loop Not a pure module */

@@ -11,6 +11,8 @@ function v(param) {
   return Foo_class.ff(3);
 }
 
-exports.f = f;
-exports.v = v;
+module.exports = {
+  f,
+  v,
+}
 /* xx/foo_class Not a pure module */

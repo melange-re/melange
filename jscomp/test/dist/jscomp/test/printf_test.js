@@ -124,7 +124,9 @@ const v = Stdlib__Format.asprintf({
 
 Mt.from_pair_suites("Printf_test", suites);
 
-exports.print_pair = print_pair;
-exports.suites = suites;
-exports.v = v;
+module.exports = {
+  print_pair,
+  suites,
+  v,
+}
 /* v Not a pure module */

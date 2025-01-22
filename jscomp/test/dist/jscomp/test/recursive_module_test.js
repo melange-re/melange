@@ -92,10 +92,12 @@ add([
 
 Mt.from_pair_suites("Recursive_module_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.add = add;
-exports.Int3 = Int3;
-exports.Fact = Fact;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  add,
+  Int3,
+  Fact,
+}
 /* Int3 Not a pure module */

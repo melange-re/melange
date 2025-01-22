@@ -23,8 +23,10 @@ function u(h) {
   return $plus$great(3, h);
 }
 
-exports.M = M;
-exports.f = f;
-exports.$plus$great = $plus$great;
-exports.u = u;
+module.exports = {
+  M,
+  f,
+  $plus$great,
+  u,
+}
 /*  Not a pure module */

@@ -60,13 +60,15 @@ if (!bbbb) {
       });
 }
 
-exports.sum = sum;
-exports.v = v;
-exports.f = f;
-exports.b = b;
-exports.c = c;
-exports.forIn = forIn;
-exports.N = N;
-exports.f3 = f3;
-exports.bbbb = bbbb;
+module.exports = {
+  sum,
+  v,
+  f,
+  b,
+  c,
+  forIn,
+  N,
+  f3,
+  bbbb,
+}
 /* v Not a pure module */

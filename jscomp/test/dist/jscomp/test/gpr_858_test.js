@@ -10,6 +10,8 @@ const indirect = {
   contents: /* [] */ 0
 };
 
-exports.direct = direct;
-exports.indirect = indirect;
+module.exports = {
+  direct,
+  indirect,
+}
 /* No side effect */

@@ -47,9 +47,11 @@ eq("File \"jscomp/test/mpr_6033_test.ml\", line 20, characters 6-13", u, "defabc
 
 Mt.from_pair_suites("Mpr_6033_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.u = u;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  u,
+}
 /*  Not a pure module */

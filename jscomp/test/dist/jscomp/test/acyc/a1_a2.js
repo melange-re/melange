@@ -5,5 +5,7 @@ const A0_a1 = require("./a0_a1.js");
 
 const v = A0_a1.v;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

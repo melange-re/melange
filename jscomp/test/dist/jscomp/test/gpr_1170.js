@@ -7,5 +7,7 @@ function f(resp) {
   resp.hi = "hi";
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

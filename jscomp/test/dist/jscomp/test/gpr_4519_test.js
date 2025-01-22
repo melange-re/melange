@@ -31,8 +31,10 @@ eq("File \"jscomp/test/gpr_4519_test.ml\", line 17, characters 6-13", nextFor(/*
 
 Mt.from_pair_suites("Gpr_4519_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.nextFor = nextFor;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  nextFor,
+}
 /*  Not a pure module */

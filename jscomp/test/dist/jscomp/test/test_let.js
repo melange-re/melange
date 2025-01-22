@@ -7,5 +7,7 @@ Stdlib.print_int(3);
 
 const b = 3;
 
-exports.b = b;
+module.exports = {
+  b,
+}
 /*  Not a pure module */

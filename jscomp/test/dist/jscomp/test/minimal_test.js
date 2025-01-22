@@ -15,6 +15,8 @@ const fake_z = {
   tl: fake_y
 };
 
-exports.fake_y = fake_y;
-exports.fake_z = fake_z;
+module.exports = {
+  fake_y,
+  fake_z,
+}
 /* No side effect */

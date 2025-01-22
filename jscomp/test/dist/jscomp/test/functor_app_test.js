@@ -45,10 +45,12 @@ eq("File \"jscomp/test/functor_app_test.ml\", line 29, characters 6-13", v, 2);
 
 Mt.from_pair_suites("Functor_app_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.Y0 = Y0;
-exports.Y1 = Y1;
-exports.v = v;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  Y0,
+  Y1,
+  v,
+}
 /* Y0 Not a pure module */

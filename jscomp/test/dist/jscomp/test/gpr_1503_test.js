@@ -51,8 +51,10 @@ eq("File \"jscomp/test/gpr_1503_test.ml\", line 22, characters 7-14", Stdlib__In
 
 Mt.from_pair_suites("Gpr_1503_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.id = id;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  id,
+}
 /* s Not a pure module */

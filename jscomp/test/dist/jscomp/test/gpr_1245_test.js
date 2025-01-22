@@ -56,12 +56,14 @@ const a = 1;
 
 const b = 2;
 
-exports.a = a;
-exports.b = b;
-exports.x = x;
-exports.y = y;
-exports.f = f;
-exports.g = g;
-exports.a0 = a0;
-exports.a1 = a1;
+module.exports = {
+  a,
+  b,
+  x,
+  y,
+  f,
+  g,
+  a0,
+  a1,
+}
 /* No side effect */

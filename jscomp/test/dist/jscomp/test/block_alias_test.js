@@ -72,15 +72,17 @@ Mt.from_pair_suites("Block_alias_test", suites.contents);
 
 const h = Stdlib__List.length;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.Block = Block;
-exports.v0 = v0;
-exports.N = N;
-exports.Caml_obj = Caml_obj$1;
-exports.V = V;
-exports.f = f;
-exports.h = h;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  Block,
+  v0,
+  N,
+  Caml_obj: Caml_obj$1,
+  V,
+  f,
+  h,
+}
 /*  Not a pure module */

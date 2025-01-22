@@ -215,18 +215,20 @@ function incr(p) {
 
 Mt.from_pair_suites("Class4_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.restricted_point = restricted_point;
-exports.restricted_point$p = restricted_point$p;
-exports.restricted_point2$p = restricted_point2$p;
-exports.Point = Point;
-exports.abstract_point = abstract_point;
-exports.point = point;
-exports.colored_point = colored_point;
-exports.p$p = p$p;
-exports.get_succ_x = get_succ_x;
-exports.set_x = set_x;
-exports.incr = incr;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  restricted_point,
+  restricted_point$p,
+  restricted_point2$p,
+  Point,
+  abstract_point,
+  point,
+  colored_point,
+  p$p,
+  get_succ_x,
+  set_x,
+  incr,
+}
 /* restricted_point Not a pure module */

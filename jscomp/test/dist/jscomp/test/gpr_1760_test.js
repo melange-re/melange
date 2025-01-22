@@ -108,13 +108,15 @@ eq("File \"jscomp/test/gpr_1760_test.ml\", line 30, characters 5-12", [
 
 Mt.from_pair_suites("Gpr_1760_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
-exports.a7 = a7;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a0,
+  a1,
+  a4,
+  a5,
+  a6,
+  a7,
+}
 /* a0 Not a pure module */

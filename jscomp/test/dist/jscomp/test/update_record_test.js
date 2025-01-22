@@ -74,11 +74,13 @@ eq("File \"jscomp/test/update_record_test.ml\", line 43, characters 5-12", val1[
 
 Mt.from_pair_suites("Update_record_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.val0 = val0;
-exports.fff = fff;
-exports.val1 = val1;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  val0,
+  fff,
+  val1,
+}
 /*  Not a pure module */

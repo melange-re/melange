@@ -20,5 +20,4 @@ b("File \"jscomp/test/test_is_js.ml\", line 9, characters 2-9", true);
 b("File \"jscomp/test/test_is_js.ml\", line 12, characters 2-9", true);
 
 Mt.from_pair_suites("Test_is_js", suites.contents);
-
 /*  Not a pure module */

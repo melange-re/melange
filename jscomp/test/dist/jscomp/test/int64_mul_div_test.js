@@ -1763,17 +1763,19 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                                   }
                                 }))))))));
 
-exports.commutative_mul = commutative_mul;
-exports.pairs = pairs;
-exports.from_pairs = from_pairs;
-exports.small_pairs = small_pairs;
-exports.to_floats = to_floats;
-exports.check_complete_compare = check_complete_compare;
-exports.of_float_pairs = of_float_pairs;
-exports.simple_divs = simple_divs;
-exports.from = from;
-exports.to_string = to_string;
-exports.int64_compare_tests = int64_compare_tests;
-exports.from_compare = from_compare;
-exports.from_to_string = from_to_string;
+module.exports = {
+  commutative_mul,
+  pairs,
+  from_pairs,
+  small_pairs,
+  to_floats,
+  check_complete_compare,
+  of_float_pairs,
+  simple_divs,
+  from,
+  to_string,
+  int64_compare_tests,
+  from_compare,
+  from_to_string,
+}
 /*  Not a pure module */

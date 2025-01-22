@@ -449,10 +449,12 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 129, characters 45-52", C
 
 Mt.from_pair_suites("Stack_comp_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.assert_ = assert_;
-exports.S = S;
-exports.does_raise = does_raise;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  assert_,
+  S,
+  does_raise,
+}
 /* s Not a pure module */

@@ -61,10 +61,12 @@ eq("File \"jscomp/test/gpr_904_test.ml\", line 26, characters 5-12", check_healt
 
 Mt.from_pair_suites("Gpr_904_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.check_healty = check_healty;
-exports.basic_not = basic_not;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  check_healty,
+  basic_not,
+  f,
+}
 /*  Not a pure module */

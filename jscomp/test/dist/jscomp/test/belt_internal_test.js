@@ -28,6 +28,8 @@ function copy(n) {
   };
 }
 
-exports.treeHeight = treeHeight;
-exports.copy = copy;
+module.exports = {
+  treeHeight,
+  copy,
+}
 /* No side effect */

@@ -267,8 +267,10 @@ eq("File \"jscomp/test/chn_test.ml\", line 89, characters 6-13", convert(" \b\t\
 
 Mt.from_pair_suites("Chn_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.convert = convert;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  convert,
+}
 /*  Not a pure module */

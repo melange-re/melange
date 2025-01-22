@@ -83,5 +83,4 @@ const suites = {
 };
 
 Mt.from_pair_suites("Ari_regress_test", suites);
-
 /* partial_arg Not a pure module */

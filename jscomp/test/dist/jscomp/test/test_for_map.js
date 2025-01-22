@@ -1163,6 +1163,8 @@ function assertion_test(param) {
   }
 }
 
-exports.IntMap = IntMap;
-exports.assertion_test = assertion_test;
+module.exports = {
+  IntMap,
+  assertion_test,
+}
 /* IntMap Not a pure module */

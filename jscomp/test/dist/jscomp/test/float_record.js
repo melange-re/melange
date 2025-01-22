@@ -10,6 +10,8 @@ function from(t) {
   return t;
 }
 
-exports.make = make;
-exports.from = from;
+module.exports = {
+  make,
+  from,
+}
 /* No side effect */

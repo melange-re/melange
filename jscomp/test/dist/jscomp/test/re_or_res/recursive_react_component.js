@@ -10,5 +10,7 @@ function make(Props) {
       });
 }
 
-exports.make = make;
+module.exports = {
+  make,
+}
 /* react Not a pure module */

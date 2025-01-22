@@ -61,14 +61,16 @@ const x = u["xx-yy"];
 
 const v$1 = x !== undefined ? x : 0;
 
-exports.b = b;
-exports.c = c;
-exports.ff = ff;
-exports.h0 = h0;
-exports.h1 = h1;
-exports.h2 = h2;
-exports.hh = hh;
-exports.hh2 = hh2;
-exports.u = u;
-exports.v = v$1;
+module.exports = {
+  b,
+  c,
+  ff,
+  h0,
+  h1,
+  h2,
+  hh,
+  hh2,
+  u,
+  v: v$1,
+}
 /*  Not a pure module */

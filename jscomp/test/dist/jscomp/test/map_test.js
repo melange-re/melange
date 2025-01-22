@@ -542,5 +542,4 @@ const int_map_suites = {
 };
 
 Mt.from_pair_suites("Map_test", int_map_suites);
-
 /* Int_map Not a pure module */

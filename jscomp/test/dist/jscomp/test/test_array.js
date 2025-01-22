@@ -44,9 +44,11 @@ const u = Caml_array.concat({
 
 const hh = Stdlib__Array.blit;
 
-exports.v = v;
-exports.h = h;
-exports.hh = hh;
-exports.hhh = hhh;
-exports.u = u;
+module.exports = {
+  v,
+  h,
+  hh,
+  hhh,
+  u,
+}
 /*  Not a pure module */

@@ -375,14 +375,16 @@ Mt.from_pair_suites("Bs_set_int_test", suites.contents);
 
 const ofA = Belt__Belt_SetInt.fromArray;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.$eq$tilde = $eq$tilde;
-exports.$eq$star = $eq$star;
-exports.ofA = ofA;
-exports.u = u;
-exports.range = range;
-exports.revRange = revRange;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  $eq$tilde,
+  $eq$star,
+  ofA,
+  u,
+  range,
+  revRange,
+}
 /*  Not a pure module */

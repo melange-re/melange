@@ -886,9 +886,11 @@ const reactNoopUpdateQueue = new React.Component().updater;
 
 const createClass = factory(React.Component, React.isValidElement, reactNoopUpdateQueue);
 
-exports._assign = _assign;
-exports.emptyObject = emptyObject;
-exports.factory = factory;
-exports.reactNoopUpdateQueue = reactNoopUpdateQueue;
-exports.createClass = createClass;
+module.exports = {
+  _assign,
+  emptyObject,
+  factory,
+  reactNoopUpdateQueue,
+  createClass,
+}
 /*  Not a pure module */

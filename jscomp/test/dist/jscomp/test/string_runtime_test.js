@@ -70,5 +70,7 @@ const suites = {
 
 Mt.from_pair_suites("String_runtime_test", suites);
 
-exports.suites = suites;
+module.exports = {
+  suites,
+}
 /*  Not a pure module */

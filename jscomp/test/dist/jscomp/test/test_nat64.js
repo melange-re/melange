@@ -5,5 +5,7 @@ const Caml_int64 = require("melange.js/caml_int64.js");
 
 const v = Caml_int64.zero;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

@@ -10,5 +10,7 @@ function register(rl) {
       }));
 }
 
-exports.register = register;
+module.exports = {
+  register,
+}
 /* No side effect */

@@ -107,11 +107,13 @@ Mt.from_pair_suites("Bs_hashset_int_test", suites.contents);
 
 const $plus$plus = Belt__Belt_Array.concat;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.$plus$plus = $plus$plus;
-exports.add = add;
-exports.sum2 = sum2;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  $plus$plus,
+  add,
+  sum2,
+}
 /* u Not a pure module */

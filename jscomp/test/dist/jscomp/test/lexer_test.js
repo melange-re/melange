@@ -215,8 +215,10 @@ const lexer_suites = {
 
 Mt.from_pair_suites("Lexer_test", lexer_suites);
 
-exports.get_tokens = get_tokens;
-exports.f = f;
-exports.from_tokens = from_tokens;
-exports.lexer_suites = lexer_suites;
+module.exports = {
+  get_tokens,
+  f,
+  from_tokens,
+  lexer_suites,
+}
 /*  Not a pure module */

@@ -17,7 +17,6 @@ Test `@mel.as` without `@mel.string` / `@mel.int` in external polyvars
   
   
   transitionTimingFunction(undefined, "ease-in");
-  
   /*  Not a pure module */
 
   $ cat > x.ml <<EOF
@@ -37,7 +36,6 @@ Test `@mel.as` without `@mel.string` / `@mel.int` in external polyvars
   
   
   transitionTimingFunction(undefined, 1);
-  
   /*  Not a pure module */
 
   $ cat > x.ml <<EOF

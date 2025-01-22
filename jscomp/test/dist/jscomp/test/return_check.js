@@ -84,11 +84,13 @@ function f_null_undefined(xs, i) {
       });
 }
 
-exports.test = test;
-exports.f_undefined = f_undefined;
-exports.f_escaped_not = f_escaped_not;
-exports.f_escaped_1 = f_escaped_1;
-exports.f_escaped_2 = f_escaped_2;
-exports.f_null = f_null;
-exports.f_null_undefined = f_null_undefined;
+module.exports = {
+  test,
+  f_undefined,
+  f_escaped_not,
+  f_escaped_1,
+  f_escaped_2,
+  f_null,
+  f_null_undefined,
+}
 /* No side effect */

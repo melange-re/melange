@@ -18,7 +18,9 @@ function yy(h) {
   return h.send("x");
 }
 
-exports.u = u;
-exports.xx = xx;
-exports.yy = yy;
+module.exports = {
+  u,
+  xx,
+  yy,
+}
 /* No side effect */

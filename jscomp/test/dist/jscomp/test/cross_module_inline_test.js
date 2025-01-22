@@ -5,5 +5,7 @@ const Test_char = require("./test_char.js");
 
 const v = Test_char.caml_is_printable(/* 'a' */97);
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* v Not a pure module */

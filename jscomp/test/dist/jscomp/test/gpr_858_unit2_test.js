@@ -36,5 +36,4 @@ for (let i = 1; i <= 2; ++i) {
 }
 
 Curry._1(delayed.contents, undefined);
-
 /*  Not a pure module */

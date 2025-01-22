@@ -15,6 +15,8 @@ const v = {
   _0: /* OT */ 0
 };
 
-exports.U = U;
-exports.v = v;
+module.exports = {
+  U,
+  v,
+}
 /* No side effect */

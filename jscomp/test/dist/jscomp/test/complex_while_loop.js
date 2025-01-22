@@ -28,6 +28,8 @@ function ff(param) {
   };
 }
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /* No side effect */

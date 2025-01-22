@@ -106,12 +106,14 @@ eq("File \"jscomp/test/ppx_this_obj_test.ml\", line 60, characters 5-12", [
 
 Mt.from_pair_suites("Ppx_this_obj_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.v2 = v2;
-exports.v3 = v3;
-exports.v4 = v4;
-exports.collection = collection;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  v2,
+  v3,
+  v4,
+  collection,
+}
 /* v Not a pure module */

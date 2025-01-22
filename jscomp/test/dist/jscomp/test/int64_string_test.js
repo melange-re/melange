@@ -1343,12 +1343,14 @@ eq("File \"jscomp/test/int64_string_test.ml\", line 165, characters 7-14", Caml_
 
 Mt.from_pair_suites("File \"jscomp/test/int64_string_test.ml\", line 166, characters 23-30", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.hh = hh;
-exports.u = u;
-exports.v = v$1;
-exports.random_data = random_data;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  hh,
+  u,
+  v: v$1,
+  random_data,
+}
 /* v Not a pure module */

@@ -47,5 +47,7 @@ const v = test0(10);
 
 test0(10) + 2 | 0;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* v Not a pure module */

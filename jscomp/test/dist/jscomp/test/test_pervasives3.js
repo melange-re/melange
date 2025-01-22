@@ -176,6 +176,8 @@ const Stdlib$1 = {
 
 const v = Stdlib.$at;
 
-exports.Stdlib = Stdlib$1;
-exports.v = v;
+module.exports = {
+  Stdlib: Stdlib$1,
+  v,
+}
 /* No side effect */

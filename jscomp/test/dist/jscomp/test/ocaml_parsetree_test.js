@@ -13965,5 +13965,4 @@ if (match) {
 }
 
 from_pair_suites("Ocaml_parsetree_test", suites.contents);
-
 /*  Not a pure module */

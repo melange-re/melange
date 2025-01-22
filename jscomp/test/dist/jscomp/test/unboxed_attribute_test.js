@@ -43,11 +43,13 @@ Mt.from_pair_suites("jscomp/test/unboxed_attribute_test.ml", suites.contents);
 
 const v0 = 3;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v0 = v0;
-exports.make = make;
-exports.get = get;
-exports.y = y;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v0,
+  make,
+  get,
+  y,
+}
 /*  Not a pure module */

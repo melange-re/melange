@@ -54,8 +54,10 @@ const suites = {
 
 Mt.from_pair_suites("Oo_js_test_date", suites);
 
-exports.d = d;
-exports.d2 = d2;
-exports.d3 = d3;
-exports.suites = suites;
+module.exports = {
+  d,
+  d2,
+  d3,
+  suites,
+}
 /* d Not a pure module */

@@ -20,5 +20,7 @@ function x(url) {
   }
 }
 
-exports.x = x;
+module.exports = {
+  x,
+}
 /* No side effect */

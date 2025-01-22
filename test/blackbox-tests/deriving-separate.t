@@ -36,7 +36,9 @@ Tests for deriving `jsProperties, getSet`
     width: "bar"
   };
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */
 
 `[@@deriving getSet]` just derives the getters / setters

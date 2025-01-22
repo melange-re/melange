@@ -14,5 +14,7 @@ function test(path) {
         })).close();
 }
 
-exports.test = test;
+module.exports = {
+  test,
+}
 /* fs Not a pure module */

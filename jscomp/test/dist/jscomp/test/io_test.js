@@ -9,5 +9,7 @@ function f(param) {
   console.log(undefined);
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

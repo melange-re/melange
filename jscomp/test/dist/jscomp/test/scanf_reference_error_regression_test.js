@@ -113,5 +113,4 @@ eq("File \"jscomp/test/scanf_reference_error_regression_test.ml\", line 36, char
     ]);
 
 Mt.from_pair_suites("Scanf_reference_error_regression_test", suites.contents);
-
 /*  Not a pure module */

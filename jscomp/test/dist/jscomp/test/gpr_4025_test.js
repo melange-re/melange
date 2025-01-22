@@ -12,5 +12,7 @@ function f(x) {
   }).x = x + 1 | 0;
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

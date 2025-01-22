@@ -7,5 +7,7 @@ function v(x) {
   return Caml_obj.caml_equal(x.c, /* [] */ 0);
 }
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

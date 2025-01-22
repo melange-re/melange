@@ -35,6 +35,8 @@ console.log(add2(/* Float */ 0, 3.0, 2.0));
 
 console.log(add2(/* String */ 1, "x", "y"));
 
-exports.string_of_kind = string_of_kind;
-exports.add2 = add2;
+module.exports = {
+  string_of_kind,
+  add2,
+}
 /*  Not a pure module */

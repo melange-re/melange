@@ -5,5 +5,7 @@ const $$Promise = require("./promise.js");
 
 const v = $$Promise.f;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* Promise Not a pure module */

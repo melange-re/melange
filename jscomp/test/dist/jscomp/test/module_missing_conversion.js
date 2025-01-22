@@ -62,8 +62,10 @@ const ghh = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
 
 const hh = 1;
 
-exports.XX = XX;
-exports.u = u;
-exports.hh = hh;
-exports.ghh = ghh;
+module.exports = {
+  XX,
+  u,
+  hh,
+  ghh,
+}
 /* ghh Not a pure module */

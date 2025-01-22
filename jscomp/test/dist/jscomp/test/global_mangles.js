@@ -30,18 +30,20 @@ const $$setInterval = 13;
 
 const $$setTimeout = 14;
 
-exports.$$__dirname = $$__dirname;
-exports.$$__filename = $$__filename;
-exports.$$clearImmediate = $$clearImmediate;
-exports.$$clearInterval = $$clearInterval;
-exports.$$clearTimeout = $$clearTimeout;
-exports.$$console = $$console;
-exports.$$exports = $$exports;
-exports.$$global = $$global;
-exports._module = _module;
-exports.$$process = $$process;
-exports.$$require = $$require;
-exports.$$setImmediate = $$setImmediate;
-exports.$$setInterval = $$setInterval;
-exports.$$setTimeout = $$setTimeout;
+module.exports = {
+  $$__dirname,
+  $$__filename,
+  $$clearImmediate,
+  $$clearInterval,
+  $$clearTimeout,
+  $$console,
+  $$exports,
+  $$global,
+  _module,
+  $$process,
+  $$require,
+  $$setImmediate,
+  $$setInterval,
+  $$setTimeout,
+}
 /* No side effect */

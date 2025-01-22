@@ -53,8 +53,10 @@ function f3(x) {
   return y + 32 | 0;
 }
 
-exports.ff = ff;
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
+module.exports = {
+  ff,
+  f,
+  f2,
+  f3,
+}
 /* No side effect */

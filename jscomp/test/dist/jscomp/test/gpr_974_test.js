@@ -37,5 +37,4 @@ if (!Caml_obj.caml_equal(Caml_option.null_to_opt(""), "")) {
         ]
       });
 }
-
 /*  Not a pure module */

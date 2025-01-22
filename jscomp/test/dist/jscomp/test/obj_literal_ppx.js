@@ -30,11 +30,13 @@ const v = f(b);
 
 const vv = h(b);
 
-exports.a = a;
-exports.b = b;
-exports.f = f;
-exports.h = h;
-exports.u = u;
-exports.v = v;
-exports.vv = vv;
+module.exports = {
+  a,
+  b,
+  f,
+  h,
+  u,
+  v,
+  vv,
+}
 /* u Not a pure module */

@@ -84,12 +84,14 @@ eq("File \"jscomp/test/exception_rebound_err_test.ml\", line 24, characters 6-13
 
 Mt.from_pair_suites("Exception_rebound_err_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.A = A;
-exports.B = B;
-exports.C = C;
-exports.test_js_error4 = test_js_error4;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  A,
+  B,
+  C,
+  test_js_error4,
+  f,
+}
 /*  Not a pure module */

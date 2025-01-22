@@ -23,9 +23,11 @@ const $$window = Export_keyword.$$window;
 
 const $$switch = Export_keyword.$$switch;
 
-exports.test2 = test2;
-exports.test = test;
-exports.$$case = $$case;
-exports.$$window = $$window;
-exports.$$switch = $$switch;
+module.exports = {
+  test2,
+  test,
+  $$case,
+  $$window,
+  $$switch,
+}
 /* No side effect */

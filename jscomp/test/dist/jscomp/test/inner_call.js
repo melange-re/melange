@@ -14,5 +14,7 @@ function f(x) {
   ];
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

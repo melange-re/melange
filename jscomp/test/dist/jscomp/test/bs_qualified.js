@@ -47,7 +47,9 @@ function f3(x) {
   return GlMatrix.mat4.create();
 }
 
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
+module.exports = {
+  f,
+  f2,
+  f3,
+}
 /* X Not a pure module */

@@ -8,5 +8,7 @@ const const_v = Stdlib__Array.append([
       2
     ], [3]);
 
-exports.const_v = const_v;
+module.exports = {
+  const_v,
+}
 /* const_v Not a pure module */

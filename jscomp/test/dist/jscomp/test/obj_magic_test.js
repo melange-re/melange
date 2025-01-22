@@ -66,6 +66,8 @@ const suites = {
 
 Mt.from_pair_suites("Obj_magic_test", suites);
 
-exports.is_block = is_block;
-exports.suites = suites;
+module.exports = {
+  is_block,
+  suites,
+}
 /*  Not a pure module */

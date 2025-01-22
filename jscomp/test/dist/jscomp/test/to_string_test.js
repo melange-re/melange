@@ -36,6 +36,8 @@ Mt.from_pair_suites("To_string_test", {
       }
     });
 
-exports.ff = ff;
-exports.f = f;
+module.exports = {
+  ff,
+  f,
+}
 /*  Not a pure module */

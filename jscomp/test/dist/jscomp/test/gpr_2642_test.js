@@ -21,5 +21,7 @@ function isfree(id, _id$p) {
   };
 }
 
-exports.isfree = isfree;
+module.exports = {
+  isfree,
+}
 /* No side effect */

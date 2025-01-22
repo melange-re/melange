@@ -350,27 +350,29 @@ Mt.from_pair_suites("Lazy_test", {
       }
     });
 
-exports.v = v;
-exports.lazy_test = lazy_test;
-exports.f = f;
-exports.s = s;
-exports.set_true = set_true;
-exports.set_false = set_false;
-exports.h = h;
-exports.u_v = u_v;
-exports.u = u$1;
-exports.exotic = exotic;
-exports.l_from_fun = l_from_fun;
-exports.forward_test = forward_test;
-exports.f005 = f005;
-exports.f006 = f006;
-exports.f007 = f007;
-exports.f008 = f008;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
-exports.a7 = a7;
-exports.a8 = a8;
+module.exports = {
+  v,
+  lazy_test,
+  f,
+  s,
+  set_true,
+  set_false,
+  h,
+  u_v,
+  u: u$1,
+  exotic,
+  l_from_fun,
+  forward_test,
+  f005,
+  f006,
+  f007,
+  f008,
+  a2,
+  a3,
+  a4,
+  a5,
+  a6,
+  a7,
+  a8,
+}
 /* h Not a pure module */

@@ -69,12 +69,14 @@ b("File \"jscomp/test/gpr_2503_test.ml\", line 43, characters 5-12", undefined =
 
 Mt.from_pair_suites("Gpr_2503_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.makeWrapper = makeWrapper;
-exports.makeWrapper2 = makeWrapper2;
-exports.makeWrapper3 = makeWrapper3;
-exports.makeWrapper4 = makeWrapper4;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  makeWrapper,
+  makeWrapper2,
+  makeWrapper3,
+  makeWrapper4,
+}
 /*  Not a pure module */

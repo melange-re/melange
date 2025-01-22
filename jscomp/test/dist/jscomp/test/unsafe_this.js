@@ -39,6 +39,8 @@ const js_obj = {
   length: 32
 };
 
-exports.js_obj = js_obj;
-exports.uux_this = uux_this;
+module.exports = {
+  js_obj,
+  uux_this,
+}
 /*  Not a pure module */

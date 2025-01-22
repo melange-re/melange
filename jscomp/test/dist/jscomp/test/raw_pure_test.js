@@ -25,9 +25,11 @@ function f(x) {
 
 const hh = Stdlib__List.length;
 
-exports.x0 = x0;
-exports.x2 = x2;
-exports.x3 = x3;
-exports.hh = hh;
-exports.f = f;
+module.exports = {
+  x0,
+  x2,
+  x3,
+  hh,
+  f,
+}
 /* No side effect */

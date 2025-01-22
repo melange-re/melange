@@ -16,11 +16,13 @@ const Suspense = {};
 
 const SuspenseList = {};
 
-exports.Ref = Ref;
-exports.Children = Children;
-exports.Context = Context;
-exports.Fragment = Fragment;
-exports.StrictMode = StrictMode;
-exports.Suspense = Suspense;
-exports.SuspenseList = SuspenseList;
+module.exports = {
+  Ref,
+  Children,
+  Context,
+  Fragment,
+  StrictMode,
+  Suspense,
+  SuspenseList,
+}
 /* No side effect */

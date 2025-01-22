@@ -18,6 +18,8 @@ const f_record = {
   }
 };
 
-exports.structural_obj = structural_obj;
-exports.f_record = f_record;
+module.exports = {
+  structural_obj,
+  f_record,
+}
 /* No side effect */

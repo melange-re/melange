@@ -2512,19 +2512,21 @@ b("File \"jscomp/test/bs_list_test.ml\", line 349, characters 4-11", Caml_obj.ca
 
 Mt.from_pair_suites("Bs_list_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.$$throw = $$throw;
-exports.sum = sum;
-exports.sum2 = sum2;
-exports.mod2 = mod2;
-exports.evenIndex = evenIndex;
-exports.id = id;
-exports.add = add;
-exports.length_10_id = length_10_id;
-exports.length_8_id = length_8_id;
-exports.succx = succx;
-exports.makeTest = makeTest;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  $$throw,
+  sum,
+  sum2,
+  mod2,
+  evenIndex,
+  id,
+  add,
+  length_10_id,
+  length_8_id,
+  succx,
+  makeTest,
+}
 /* u Not a pure module */

@@ -100,11 +100,13 @@ eq("File \"jscomp/test/gpr_4280_test.ml\", line 48, characters 6-13", fn("Unauth
 
 Mt.from_pair_suites("jscomp/test/gpr_4280_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.u = u;
-exports.div = div;
-exports.string = string;
-exports.fn = fn;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  u,
+  div,
+  string,
+  fn,
+}
 /*  Not a pure module */

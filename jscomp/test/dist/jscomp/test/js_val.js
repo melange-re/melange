@@ -11,8 +11,10 @@ const hhh = X.vv;
 
 const hhhh = X.vvvv;
 
-exports.h = h;
-exports.hh = hh;
-exports.hhh = hhh;
-exports.hhhh = hhhh;
+module.exports = {
+  h,
+  hh,
+  hhh,
+  hhhh,
+}
 /* h Not a pure module */

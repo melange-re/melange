@@ -11,6 +11,8 @@ function on2(foo, h, $$event) {
   foo.on(Curry._1(h, $$event).NAME, Curry._1(h, $$event).VAL);
 }
 
-exports.on1 = on1;
-exports.on2 = on2;
+module.exports = {
+  on1,
+  on2,
+}
 /* No side effect */

@@ -30,8 +30,10 @@ eq("File \"jscomp/test/gpr_3492_test.ml\", line 14, characters 6-13", foo(functi
 
 Mt.from_pair_suites("jscomp/test/gpr_3492_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.fn = fn;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  fn,
+}
 /*  Not a pure module */
