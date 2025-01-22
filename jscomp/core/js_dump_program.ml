@@ -66,7 +66,7 @@ let program ~output_dir ~package_info ~output_info f cxt (x : J.program) =
     Js_dump.statements ~top:true ~scope:cxt ~output_dir ~package_info
       ~output_info f x.block
   in
-  Js_dump_import_export.exports cxt f x.exports
+  Js_dump_import_export.module_exports cxt f x.exports
 
 let dump_program ~output_dir ~package_info ~output_info (x : J.program) oc =
   ignore

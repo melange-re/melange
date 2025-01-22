@@ -36,7 +36,6 @@
                 },
                 _1: "你 %s"
               }), "xx"));
-  
   /*  Not a pure module */
 
   $ node _build/default/output/x.js

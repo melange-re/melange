@@ -60,5 +60,4 @@ Using @mel.string fixes it
   
   
   document.transitionTimingFunction = "ease-in";
-  
   /*  Not a pure module */

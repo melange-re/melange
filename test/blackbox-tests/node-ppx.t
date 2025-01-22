@@ -32,8 +32,10 @@ Test `[%mel.node ... ]`
   
   console.log(main.exports);
   
-  exports.$$require = $$require;
-  exports.main = main;
+  module.exports = {
+    $$require,
+    main,
+  }
   /* require Not a pure module */
 
   $ node _build/default/out/x.js

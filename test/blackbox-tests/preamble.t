@@ -13,7 +13,9 @@ Demonstrate usage of `--preamble`
   
   const x = 1;
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -28,7 +30,9 @@ Demonstrate usage of `--preamble`
   
   const x = 1;
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */
 
 

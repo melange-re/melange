@@ -28,7 +28,9 @@ Use `[@mel.as]` to change how module output name in resulting JS
   
   const Obj = {};
   
-  exports.Obj = Obj;
+  module.exports = {
+    Obj,
+  }
   /* No side effect */
 
 Also applies to signatures
@@ -50,6 +52,8 @@ Also applies to signatures
   
   const Obj2 = {};
   
-  exports.Obj2 = Obj2;
+  module.exports = {
+    Obj2,
+  }
   /* No side effect */
 

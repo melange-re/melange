@@ -21,5 +21,4 @@
         },
         _1: "hello, world@."
       });
-  
   /*  Not a pure module */

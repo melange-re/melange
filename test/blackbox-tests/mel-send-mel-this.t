@@ -26,7 +26,6 @@ Test `@mel.send` + `@mel.this`
   arr.push(3);
   
   arr.push(3);
-  
   /*  Not a pure module */
 
 Test: relax of `pushMany` to skip over [@mel.this]
@@ -52,7 +51,6 @@ Test: relax of `pushMany` to skip over [@mel.this]
   ];
   
   arr.push(1, 2);
-  
   /*  Not a pure module */
 
 Test
@@ -83,5 +81,4 @@ Test
   arr.bar(1, 0, 1);
   
   arr.foo(1, 0, 1);
-  
   /*  Not a pure module */

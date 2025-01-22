@@ -55,12 +55,14 @@ Test cases for stdlib Array
     fl[i] = 42;
   }
   
-  exports.t = t;
-  exports.t2 = t2;
-  exports.m = m;
-  exports.x = x;
-  exports.c = c;
-  exports.s = s;
-  exports.s2 = s2;
-  exports.fl = fl;
+  module.exports = {
+    t,
+    t2,
+    m,
+    x,
+    c,
+    s,
+    s2,
+    fl,
+  }
   /* t Not a pure module */

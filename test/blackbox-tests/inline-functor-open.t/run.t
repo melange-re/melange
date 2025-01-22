@@ -40,6 +40,8 @@
   
   test3(undefined);
   
-  exports.test3 = test3;
+  module.exports = {
+    test3,
+  }
   /*  Not a pure module */
   $ node _build/default/_out/samplelib_test.js

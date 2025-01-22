@@ -44,6 +44,8 @@ B depends on A, so it should import a.js in the right path
   
   const u = A.t;
   
-  exports.u = u;
-  exports.t = t;
+  module.exports = {
+    u,
+    t,
+  }
   /* t Not a pure module */

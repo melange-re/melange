@@ -31,7 +31,9 @@ Output does not contain B_alias
   
   const App = {};
   
-  exports.App = App;
+  module.exports = {
+    App,
+  }
   /* No side effect */
 
 Make another lib that uses `App`
@@ -57,6 +59,5 @@ Output does not contain B_alias
   const B = require("../app/b.js");
   
   console.log(B.t);
-  
   /*  Not a pure module */
 

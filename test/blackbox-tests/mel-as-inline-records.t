@@ -47,8 +47,10 @@ Test `@mel.as` in inline records / record extensions
     renamed: "Corentin"
   };
   
-  exports.user = user;
-  exports.user2 = user2;
-  exports.UserException = UserException;
-  exports.user3 = user3;
+  module.exports = {
+    user,
+    user2,
+    UserException,
+    user3,
+  }
   /* No side effect */

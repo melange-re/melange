@@ -62,5 +62,7 @@ B depends on A, so it should import a.js in the right path, the default module s
   
   const t = A.t;
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */

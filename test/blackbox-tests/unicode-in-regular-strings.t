@@ -32,7 +32,9 @@ Using UTF-8 encoded Unicode text is not compatible with OCaml
   
   console.log(s);
   
-  exports.s = s;
+  module.exports = {
+    s,
+  }
   /*  Not a pure module */
   $ node _build/default/output/x.js
   ð«
@@ -57,7 +59,9 @@ Using emojis in text is not compatible with OCaml
   
   console.log(s);
   
-  exports.s = s;
+  module.exports = {
+    s,
+  }
   /*  Not a pure module */
   $ node _build/default/output/x.js
   ð«
@@ -127,10 +131,12 @@ Exercise matching over unicode strings
   
   const z = "\xf0\x9f\x90\xab";
   
-  exports.y = y;
-  exports.z = z;
-  exports.t = t;
-  exports.u = u;
+  module.exports = {
+    y,
+    z,
+    t,
+    u,
+  }
   /*  Not a pure module */
 
   $ node _build/default/output/x.js

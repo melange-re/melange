@@ -15,7 +15,6 @@ Test the interaction between `[@@mel.new]` and `[@@mel.send]`
   const BlueJs = require("path/to/blue.js");
   
   new (BlueJs.Red)("foo");
-  
   /*  Not a pure module */
 
 Test `@mel.variadic` integration
@@ -35,7 +34,6 @@ Test `@mel.variadic` integration
   const BlueJs = require("path/to/blue.js");
   
   new (BlueJs.Red)("foo", "bar");
-  
   /*  Not a pure module */
 
 `@mel.send.pipe` also works
@@ -54,7 +52,6 @@ Test `@mel.variadic` integration
   const BlueJs = require("path/to/blue.js");
   
   new (BlueJs.Red)("foo");
-  
   /*  Not a pure module */
 
 Test `@mel.variadic` + `@mel.send.pipe` integration
@@ -74,5 +71,4 @@ Test `@mel.variadic` + `@mel.send.pipe` integration
   const BlueJs = require("path/to/blue.js");
   
   new (BlueJs.Red)("foo", "bar");
-  
   /*  Not a pure module */

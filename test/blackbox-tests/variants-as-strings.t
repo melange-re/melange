@@ -45,8 +45,10 @@
     }
   }
   
-  exports.f = f;
-  exports.g = g;
+  module.exports = {
+    f,
+    g,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -68,5 +70,7 @@
     }
   }
   
-  exports.f = f;
+  module.exports = {
+    f,
+  }
   /* No side effect */

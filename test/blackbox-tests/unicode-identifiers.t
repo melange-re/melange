@@ -15,7 +15,9 @@ With PPX application
   
   const x = /* Été */ 1;
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */
 
 With PPX application
@@ -27,7 +29,9 @@ With PPX application
   
   const x = /* Été */ 1;
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */
 
 Add `@mel.as` string
@@ -44,5 +48,7 @@ Add `@mel.as` string
   
   const x = /* Été */ "Été";
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */

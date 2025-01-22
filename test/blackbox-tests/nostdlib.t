@@ -16,7 +16,6 @@ melc -nostdlib -where output is empty
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 
   $ melc -nopervasives foo.ml
@@ -41,6 +40,5 @@ melc -nostdlib -where output is empty
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 

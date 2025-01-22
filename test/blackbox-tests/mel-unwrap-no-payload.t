@@ -14,7 +14,6 @@ Test `@mel.unwrap` + polyvariants with no payload
   someFnCall("foo");
   
   someFnCall(42);
-  
   /*  Not a pure module */
 
   $ cat > x.ml <<EOF
@@ -27,7 +26,6 @@ Test `@mel.unwrap` + polyvariants with no payload
   
   
   someFnCall("bar");
-  
   /*  Not a pure module */
 
 
@@ -41,7 +39,6 @@ Test `@mel.unwrap` + polyvariants with no payload
   
   
   someFnCall(53);
-  
   /*  Not a pure module */
 
   $ cat > x.ml <<EOF
@@ -70,6 +67,5 @@ Test `@mel.unwrap` + polyvariants with no payload
         "hi",
         1
       ]);
-  
   /*  Not a pure module */
 

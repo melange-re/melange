@@ -57,7 +57,9 @@
   
   console.log(a0);
   
-  exports.A = A;
+  module.exports = {
+    A,
+  }
   /* a0 Not a pure module */
   $ node _build/default/js-out/x.js
   2
@@ -137,7 +139,9 @@ Raise `null` / `undefined`
   
   console.log(a0, a1);
   
-  exports.A = A;
+  module.exports = {
+    A,
+  }
   /* a0 Not a pure module */
   $ node _build/default/js-out/x.js
   undefined null

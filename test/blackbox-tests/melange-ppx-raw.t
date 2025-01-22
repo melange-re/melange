@@ -50,5 +50,4 @@ Show expressions in `%mel.raw` get wrapped in parentheses with proper syntax
   f(1,2)
   // after
     ));
-  
   /*  Not a pure module */

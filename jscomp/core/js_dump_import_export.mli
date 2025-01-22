@@ -25,7 +25,7 @@
 open Import
 
 val default_export : string
-val exports : Js_pp.Scope.t -> Js_pp.t -> Ident.t list -> Js_pp.Scope.t
+val module_exports : Js_pp.Scope.t -> Js_pp.t -> Ident.t list -> Js_pp.Scope.t
 val es6_export : Js_pp.Scope.t -> Js_pp.t -> Ident.t list -> Js_pp.Scope.t
 
 type module_ = { id : Ident.t; path : string; default : bool }

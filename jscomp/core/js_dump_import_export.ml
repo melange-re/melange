@@ -40,65 +40,75 @@ let rev_iter_inter lst f inter =
           inter ());
       f a
 
-(* Print exports in CommonJS format *)
-let exports cxt f (idents : Ident.t list) =
-  let outer_cxt, reversed_list =
-    List.fold_left
-      ~f:(fun (cxt, acc) id ->
-        let id_name = Ident.name id in
-        let s = Ident.convert id_name in
-        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        ( cxt,
-          if id_name = default_export then
-            (* TODO check how it will affect AMDJS*)
-            esModule :: (default_export, str) :: acc
-          else (s, str) :: acc ))
-      ~init:(cxt, []) idents
+let accumulate_exports ~es6 =
+ fun (cxt, acc) id ->
+  let id_name = Ident.name id in
+  let s = Ident.convert id_name in
+  let str, cxt = Js_pp.Scope.str_of_ident cxt id in
+  let exports =
+    if id_name = default_export then
+      (if es6 then [ esModule ] else []) @ ((default_export, str) :: acc)
+    else (s, str) :: acc
   in
-  P.at_least_two_lines f;
-  rev_iter_inter reversed_list
-    (fun (s, export) ->
-      P.group f 0 (fun _ ->
-          P.string f L.exports;
-          P.string f L.dot;
-          P.string f s;
-          P.space f;
-          P.string f L.eq;
-          P.space f;
-          P.string f export;
-          P.string f L.semi))
-    (fun _ -> P.newline f);
-  outer_cxt
+  (cxt, exports)
+
+(* Print exports in CommonJS format *)
+let module_exports =
+  let accumulate_exports = accumulate_exports ~es6:false in
+  fun cxt f (idents : Ident.t list) ->
+    match idents with
+    | [] -> cxt
+    | idents ->
+        let outer_cxt, reversed_list =
+          List.fold_left ~f:accumulate_exports ~init:(cxt, []) idents
+        in
+        P.at_least_two_lines f;
+        P.string f L.module_;
+        P.string f L.dot;
+        P.string f L.exports;
+        P.space f;
+        P.string f L.eq;
+        P.space f;
+        P.brace_vgroup f 1 (fun _ ->
+            rev_iter_inter reversed_list
+              (fun (s, export) ->
+                P.group f 0 (fun _ ->
+                    P.string f export;
+                    if not @@ String.equal export s then (
+                      P.space f;
+                      P.string f L.as_;
+                      P.space f;
+                      P.string f s);
+                    P.string f L.comma))
+              (fun _ -> P.newline f));
+        outer_cxt
 
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
-let es6_export cxt f (idents : Ident.t list) =
-  let outer_cxt, reversed_list =
-    List.fold_left
-      ~f:(fun (cxt, acc) id ->
-        let id_name = Ident.name id in
-        let s = Ident.convert id_name in
-        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        ( cxt,
-          if id_name = default_export then (default_export, str) :: acc
-          else (s, str) :: acc ))
-      ~init:(cxt, []) idents
-  in
-  P.at_least_two_lines f;
-  P.string f L.export;
-  P.space f;
-  P.brace_vgroup f 1 (fun _ ->
-      rev_iter_inter reversed_list
-        (fun (s, export) ->
-          P.group f 0 (fun _ ->
-              P.string f export;
-              if not @@ String.equal export s then (
-                P.space f;
-                P.string f L.as_;
-                P.space f;
-                P.string f s);
-              P.string f L.comma))
-        (fun _ -> P.newline f));
-  outer_cxt
+let es6_export =
+  let accumulate_exports = accumulate_exports ~es6:true in
+  fun cxt f (idents : Ident.t list) ->
+    match idents with
+    | [] -> cxt
+    | idents ->
+        let outer_cxt, reversed_list =
+          List.fold_left ~f:accumulate_exports ~init:(cxt, []) idents
+        in
+        P.at_least_two_lines f;
+        P.string f L.export;
+        P.space f;
+        P.brace_vgroup f 1 (fun _ ->
+            rev_iter_inter reversed_list
+              (fun (s, export) ->
+                P.group f 0 (fun _ ->
+                    P.string f export;
+                    if not @@ String.equal export s then (
+                      P.space f;
+                      P.string f L.as_;
+                      P.space f;
+                      P.string f s);
+                    P.string f L.comma))
+              (fun _ -> P.newline f));
+        outer_cxt
 
 type module_ = { id : Ident.t; path : string; default : bool }
 

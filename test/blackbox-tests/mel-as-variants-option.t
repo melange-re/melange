@@ -39,9 +39,11 @@
   
   const y = 42;
   
-  exports.x = x;
-  exports.y = y;
-  exports.f = f;
+  module.exports = {
+    x,
+    y,
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -68,6 +70,8 @@
   
   const x = 42;
   
-  exports.x = x;
-  exports.f = f;
+  module.exports = {
+    x,
+    f,
+  }
   /* No side effect */

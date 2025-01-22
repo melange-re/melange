@@ -33,6 +33,5 @@ Demonstrate dynamic `import()` semantics
   
   
   import("melange/int.js");
-  
   /*  Not a pure module */
 

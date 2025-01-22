@@ -39,5 +39,7 @@ Path should point to proper name of the .js dep
   
   const t = Lib__A.t;
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */
