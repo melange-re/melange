@@ -58,15 +58,6 @@ Unreleased
   ([#1248](https://github.com/melange-re/melange/pull/1248))
 - BREAKING: remove `--mel-g`
   ([#1234](https://github.com/melange-re/melange/pull/1234))
-- ffi: add `[@mel.invoke]`, a way to call a self arg as the first non-labeled param
-  ([#1252](https://github.com/melange-re/melange/pull/1252))
-  - This improvement to the FFI allows expressing more FFI constructs via
-    labeled and optionally labeled arguments, e.g.
-    `external foo: value:string -> t -> unit = "foo" [@@mel.send]` will now
-    produce `t.foo(value)` instead of `value.foo(t)`.
-  - A new alert `melsend` has been added to the PPX (which warns by default)
-    and can be turned into an error with `melange.ppx -alert ++melsend` once
-    [ocaml/dune#11234](https://github.com/ocaml/dune/pull/11234) lands.
 - runtime(`melange.js`): port `[@mel.send.pipe]` functions to `[@mel.send]`,
   taking advantage of the `@mel.send` + labeled argument improvement (see
   above) ([#1260](https://github.com/melange-re/melange/pull/1260),
@@ -109,6 +100,18 @@ Unreleased
   ([#1300](https://github.com/melange-re/melange/pull/1300))
 - JS generation: emit `module.exports` in CommonJS instead of `exports.x`
   ([#1314](https://github.com/melange-re/melange/pull/1314))
+- JS generation: remove trailing newline after `switch`
+  ([#1313](https://github.com/melange-re/melange/pull/1313))
+- ffi: allow annotating `@mel.send` FFI with `@mel.this` to specify which
+  parameter should represent the "self" argument.
+  ([#1303](https://github.com/melange-re/melange/pull/1303),
+  [#1310](https://github.com/melange-re/melange/pull/1310))
+  - This improvement to the FFI allows expressing more FFI constructs via
+    labeled and optionally labeled arguments, e.g. `external foo: value:string
+    -> (t [@mel.this]) -> unit = "foo" [@@mel.send]` will now produce
+    `t.foo(value)` instead of `value.foo(t)`.
+  - It also allows removing usages of `[@mel.send.pipe: t]` in favor of
+    `[@mel.send]` with `[@mel.this]`, including when used with `@mel.variadic`.
 
 4.0.1 2024-06-07
 ---------------
