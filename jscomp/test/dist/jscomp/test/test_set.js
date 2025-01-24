@@ -754,6 +754,8 @@ const N = {
   a: 3
 };
 
-exports.Make = Make;
-exports.N = N;
+module.exports = {
+  Make,
+  N,
+}
 /* No side effect */

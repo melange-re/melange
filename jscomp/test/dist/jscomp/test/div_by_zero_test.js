@@ -121,9 +121,11 @@ function div(x, y) {
 
 Mt.from_pair_suites("Div_by_zero_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.add = add;
-exports.div = div;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  add,
+  div,
+}
 /*  Not a pure module */

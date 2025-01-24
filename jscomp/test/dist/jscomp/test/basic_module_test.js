@@ -31,5 +31,4 @@ function eq(f, a, b) {
 eq("File \"jscomp/test/basic_module_test.ml\", line 39, characters 12-19", count.contents, 1);
 
 Mt.from_pair_suites("Basic_module_test", suites.contents);
-
 /*  Not a pure module */

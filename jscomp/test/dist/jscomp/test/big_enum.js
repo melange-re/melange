@@ -1212,6 +1212,8 @@ function to_string(param) {
   }
 }
 
-exports.to_enum = to_enum;
-exports.to_string = to_string;
+module.exports = {
+  to_enum,
+  to_string,
+}
 /* No side effect */

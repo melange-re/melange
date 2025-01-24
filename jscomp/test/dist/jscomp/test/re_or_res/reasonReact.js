@@ -393,12 +393,14 @@ function wrapJsForReason(reactClass, props, children) {
   };
 }
 
-exports.statelessComponent = statelessComponent;
-exports.statelessComponentWithRetainedProps = statelessComponentWithRetainedProps;
-exports.reducerComponent = reducerComponent;
-exports.reducerComponentWithRetainedProps = reducerComponentWithRetainedProps;
-exports.element = element;
-exports.wrapReasonForJs = wrapReasonForJs;
-exports.createDomElement = createDomElement;
-exports.wrapJsForReason = wrapJsForReason;
+module.exports = {
+  statelessComponent,
+  statelessComponentWithRetainedProps,
+  reducerComponent,
+  reducerComponentWithRetainedProps,
+  element,
+  wrapReasonForJs,
+  createDomElement,
+  wrapJsForReason,
+}
 /* dummyInteropComponent Not a pure module */

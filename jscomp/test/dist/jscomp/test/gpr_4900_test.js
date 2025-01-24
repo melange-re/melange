@@ -31,9 +31,11 @@ const from_pair_suites = Mt.from_pair_suites;
 
 const eq_suites = Mt.eq_suites;
 
-exports.from_pair_suites = from_pair_suites;
-exports.eq_suites = eq_suites;
-exports.suites = suites;
-exports.id = id;
-exports.showToJs = showToJs;
+module.exports = {
+  from_pair_suites,
+  eq_suites,
+  suites,
+  id,
+  showToJs,
+}
 /*  Not a pure module */

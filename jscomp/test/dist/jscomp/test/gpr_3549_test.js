@@ -49,12 +49,14 @@ const y = 2e3;
 
 const z = 0.2;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.u = u;
-exports.x = x;
-exports.y = y;
-exports.z = z;
-exports.others = others;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  u,
+  x,
+  y,
+  z,
+  others,
+}
 /*  Not a pure module */

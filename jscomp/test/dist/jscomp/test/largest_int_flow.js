@@ -4,5 +4,7 @@
 
 const x = 272872590;
 
-exports.x = x;
+module.exports = {
+  x,
+}
 /* No side effect */

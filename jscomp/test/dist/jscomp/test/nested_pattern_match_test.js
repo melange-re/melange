@@ -136,7 +136,9 @@ function f_opion(x) {
   }
 }
 
-exports.f_list = f_list;
-exports.f_arr = f_arr;
-exports.f_opion = f_opion;
+module.exports = {
+  f_list,
+  f_arr,
+  f_opion,
+}
 /* No side effect */

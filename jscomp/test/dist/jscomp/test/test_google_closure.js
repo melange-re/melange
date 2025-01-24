@@ -34,9 +34,11 @@ console.log([
 
 const c = arr;
 
-exports.f = f;
-exports.f2 = f2;
-exports.a = a;
-exports.b = b;
-exports.c = c;
+module.exports = {
+  f,
+  f2,
+  a,
+  b,
+  c,
+}
 /* a Not a pure module */

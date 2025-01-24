@@ -50,5 +50,7 @@ B imports A with the correct paths
   
   const t = A.t;
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */

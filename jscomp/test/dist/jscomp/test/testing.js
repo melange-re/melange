@@ -158,10 +158,12 @@ function scan_failure_test(f, x) {
       }), f, x);
 }
 
-exports.test = test;
-exports.failure_test = failure_test;
-exports.test_raises_some_exc = test_raises_some_exc;
-exports.test_raises_this_exc = test_raises_this_exc;
-exports.test_raises_exc_p = test_raises_exc_p;
-exports.scan_failure_test = scan_failure_test;
+module.exports = {
+  test,
+  failure_test,
+  test_raises_some_exc,
+  test_raises_this_exc,
+  test_raises_exc_p,
+  scan_failure_test,
+}
 /*  Not a pure module */

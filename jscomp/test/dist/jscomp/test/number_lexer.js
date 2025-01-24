@@ -79,8 +79,10 @@ function token(l, lexbuf) {
   __ocaml_lex_token_rec(l, lexbuf, 0);
 }
 
-exports.l = l;
-exports.__ocaml_lex_tables = __ocaml_lex_tables;
-exports.token = token;
-exports.__ocaml_lex_token_rec = __ocaml_lex_token_rec;
+module.exports = {
+  l,
+  __ocaml_lex_tables,
+  token,
+  __ocaml_lex_token_rec,
+}
 /* No side effect */

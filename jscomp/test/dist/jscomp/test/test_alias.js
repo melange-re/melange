@@ -5,5 +5,7 @@ const Stdlib__List = require("melange/list.js");
 
 const v = Stdlib__List.length;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

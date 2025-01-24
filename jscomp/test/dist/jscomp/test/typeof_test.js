@@ -186,6 +186,8 @@ const suites = {
 
 Mt.from_pair_suites("Typeof_test", suites);
 
-exports.string_or_number = string_or_number;
-exports.suites = suites;
+module.exports = {
+  string_or_number,
+  suites,
+}
 /*  Not a pure module */

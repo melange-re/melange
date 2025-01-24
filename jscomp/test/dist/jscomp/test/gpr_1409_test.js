@@ -164,19 +164,21 @@ eq("File \"jscomp/test/gpr_1409_test.ml\", line 73, characters 6-13", keys({
 
 Mt.from_pair_suites("Gpr_1409_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a = a;
-exports.b = b;
-exports.map = map;
-exports.make = make;
-exports.a_ = a_;
-exports.b_ = b_;
-exports.test2 = test2;
-exports.test3 = test3;
-exports.test4 = test4;
-exports.test5 = test5;
-exports.test6 = test6;
-exports.keys = keys;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a,
+  b,
+  map,
+  make,
+  a_,
+  b_,
+  test2,
+  test3,
+  test4,
+  test5,
+  test6,
+  keys,
+}
 /* a_ Not a pure module */

@@ -34,8 +34,10 @@ Same module
     console.log(2 + param | 0);
   }
   
-  exports.compose = compose;
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    compose,
+    logPlusTwo,
+  }
   /* No side effect */
 
 Different modules
@@ -63,7 +65,9 @@ Different modules
         }), param);
   }
   
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    logPlusTwo,
+  }
   /* No side effect */
 
 Different modules with cross-module-optimizations
@@ -89,7 +93,9 @@ Different modules with cross-module-optimizations
             }), param));
   }
   
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    logPlusTwo,
+  }
   /* No side effect */
 
 Library dependency
@@ -127,7 +133,9 @@ Library dependency
         }), param);
   }
   
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    logPlusTwo,
+  }
   /* No side effect */
 
 Library dependency with cross-module optimizations
@@ -166,7 +174,9 @@ Library dependency with cross-module optimizations
         }), param);
   }
   
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    logPlusTwo,
+  }
   /* No side effect */
 
 Only works across library-boundaries if the library dependency is also compiled
@@ -200,5 +210,7 @@ with `--mel-cross-module-opt`
             }), param));
   }
   
-  exports.logPlusTwo = logPlusTwo;
+  module.exports = {
+    logPlusTwo,
+  }
   /* No side effect */

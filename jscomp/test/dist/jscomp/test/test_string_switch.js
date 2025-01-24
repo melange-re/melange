@@ -16,5 +16,7 @@ switch (Stdlib__Sys.os_type) {
     os_version = 3;
 }
 
-exports.os_version = os_version;
+module.exports = {
+  os_version,
+}
 /* os_version Not a pure module */

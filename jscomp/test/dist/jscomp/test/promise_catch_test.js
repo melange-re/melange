@@ -96,10 +96,12 @@ if (exit === 1) {
 
 Mt.from_pair_suites("Promise_catch_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.handler = handler;
-exports.myHandler = myHandler;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  handler,
+  myHandler,
+  f,
+}
 /*  Not a pure module */

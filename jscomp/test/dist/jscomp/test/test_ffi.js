@@ -9,5 +9,7 @@ function v(u) {
   return u;
 }
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

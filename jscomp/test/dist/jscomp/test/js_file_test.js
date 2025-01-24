@@ -52,7 +52,9 @@ Mt.from_pair_suites("Js_file_test", {
       }
     });
 
-exports.make_with_options = make_with_options;
-exports.file_size = file_size;
-exports.file_type = file_type;
+module.exports = {
+  make_with_options,
+  file_size,
+  file_type,
+}
 /*  Not a pure module */

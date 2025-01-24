@@ -15,7 +15,9 @@ function u(v) {
 
 const s = Stdlib__String;
 
-exports.v = v;
-exports.u = u;
-exports.s = s;
+module.exports = {
+  v,
+  u,
+  s,
+}
 /* No side effect */

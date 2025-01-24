@@ -107,11 +107,13 @@ eq("File \"jscomp/test/gpr496_test.ml\", line 48, characters 5-12", true < false
 
 Mt.from_pair_suites("Gpr496_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.expected = expected;
-exports.expected2 = expected2;
-exports.u = u;
-exports.ff = ff;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  expected,
+  expected2,
+  u,
+  ff,
+}
 /* expected Not a pure module */

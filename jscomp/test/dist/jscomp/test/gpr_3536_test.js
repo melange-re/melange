@@ -41,11 +41,13 @@ const u = {
   _0: 3
 };
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.X = X;
-exports.u = u;
-exports.xx = xx;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  X,
+  u,
+  xx,
+}
 /*  Not a pure module */

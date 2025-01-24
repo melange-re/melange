@@ -351,11 +351,13 @@ const x$1 = sort(of_array(v));
 
 Caml_obj.caml_equal(x$1, of_array(y));
 
-exports.sub = sub;
-exports.update = update;
-exports.$$delete = $$delete;
-exports.loext = loext;
-exports.lorem = lorem;
-exports.Int_array = Int_array;
-exports.$eq$tilde = $eq$tilde;
+module.exports = {
+  sub,
+  update,
+  $$delete,
+  loext,
+  lorem,
+  Int_array,
+  $eq$tilde,
+}
 /* u Not a pure module */

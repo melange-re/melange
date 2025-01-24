@@ -117,10 +117,12 @@ function for_6(x, u) {
   return v.contents;
 }
 
-exports.for_ = for_;
-exports.for_2 = for_2;
-exports.for_3 = for_3;
-exports.for_4 = for_4;
-exports.for_5 = for_5;
-exports.for_6 = for_6;
+module.exports = {
+  for_,
+  for_2,
+  for_3,
+  for_4,
+  for_5,
+  for_6,
+}
 /* No side effect */

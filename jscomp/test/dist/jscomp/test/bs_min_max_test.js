@@ -83,14 +83,16 @@ b("File \"jscomp/test/bs_min_max_test.ml\", line 38, characters 4-11", undefined
 
 Mt.from_pair_suites("Bs_min_max_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5_min = f5_min;
-exports.f5_max = f5_max;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  f,
+  f2,
+  f3,
+  f4,
+  f5_min,
+  f5_max,
+}
 /*  Not a pure module */

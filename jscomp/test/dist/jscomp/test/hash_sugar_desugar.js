@@ -44,13 +44,15 @@ function chain_g(h) {
   return Caml_oo_curry.js1(122, 6, tmp$1);
 }
 
-exports.h1 = h1;
-exports.h2 = h2;
-exports.h3 = h3;
-exports.h4 = h4;
-exports.h5 = h5;
-exports.h6 = h6;
-exports.h7 = h7;
-exports.h8 = h8;
-exports.chain_g = chain_g;
+module.exports = {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  h7,
+  h8,
+  chain_g,
+}
 /* No side effect */

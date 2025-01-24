@@ -43,8 +43,10 @@ const obj = {
   set: obj_set
 };
 
-exports.even = even;
-exports.even2 = even2;
-exports.v = v;
-exports.obj = obj;
+module.exports = {
+  even,
+  even2,
+  v,
+  obj,
+}
 /* No side effect */

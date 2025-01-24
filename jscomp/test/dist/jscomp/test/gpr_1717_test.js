@@ -8,7 +8,9 @@ const A0 = {};
 
 const A1 = {};
 
-exports.A = A;
-exports.A0 = A0;
-exports.A1 = A1;
+module.exports = {
+  A,
+  A0,
+  A1,
+}
 /* No side effect */

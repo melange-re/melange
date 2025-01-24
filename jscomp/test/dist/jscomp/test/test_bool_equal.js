@@ -130,15 +130,17 @@ function f8(x) {
   return 1;
 }
 
-exports.bool_equal = bool_equal;
-exports.assertions = assertions;
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
+module.exports = {
+  bool_equal,
+  assertions,
+  f0,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+}
 /* No side effect */

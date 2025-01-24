@@ -53,11 +53,13 @@ eq("File \"jscomp/test/gpr_1817_test.ml\", line 19, characters 6-13", a2, true);
 
 Mt.from_pair_suites("Gpr_1817_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  a0,
+  a1,
+  a2,
+}
 /* match Not a pure module */

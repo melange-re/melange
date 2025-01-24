@@ -172,21 +172,23 @@ again4(undefined, (side_effect.contents = side_effect.contents - 1 | 0, undefine
 
 again4((side_effect.contents = side_effect.contents + 1 | 0, undefined), undefined, 174);
 
-exports.u = u;
-exports.v_ice_cream3 = v_ice_cream3;
-exports.v_ice_cream4 = v_ice_cream4;
-exports.vv = vv;
-exports.int_expect = int_expect;
-exports.int_expect2 = int_expect2;
-exports.int_expects = int_expects;
-exports.mk_ice = mk_ice;
-exports.my_ice2 = my_ice2;
-exports.my_ice3 = my_ice3;
-exports.v_mk4 = v_mk4;
-exports.v_mk5 = v_mk5;
-exports.v_mk6 = v_mk6;
-exports.v_mk6_1 = v_mk6_1;
-exports.mk_u = mk_u;
-exports.v_mk7 = v_mk7;
-exports.side_effect = side_effect;
+module.exports = {
+  u,
+  v_ice_cream3,
+  v_ice_cream4,
+  vv,
+  int_expect,
+  int_expect2,
+  int_expects,
+  mk_ice,
+  my_ice2,
+  my_ice3,
+  v_mk4,
+  v_mk5,
+  v_mk6,
+  v_mk6_1,
+  mk_u,
+  v_mk7,
+  side_effect,
+}
 /*  Not a pure module */

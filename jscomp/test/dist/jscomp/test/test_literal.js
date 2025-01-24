@@ -39,11 +39,13 @@ const short_int_v = [1];
 
 const empty = [];
 
-exports.Custom_inline = Custom_inline;
-exports.v = v;
-exports.vv = vv;
-exports.long_v = long_v;
-exports.long_int_v = long_int_v;
-exports.short_int_v = short_int_v;
-exports.empty = empty;
+module.exports = {
+  Custom_inline,
+  v,
+  vv,
+  long_v,
+  long_int_v,
+  short_int_v,
+  empty,
+}
 /* No side effect */

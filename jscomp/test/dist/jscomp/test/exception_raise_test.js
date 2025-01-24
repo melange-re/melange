@@ -245,21 +245,23 @@ eq("File \"jscomp/test/exception_raise_test.ml\", line 150, characters 5-12", ((
 
 Mt.from_pair_suites("Exception_raise_test", suites.contents);
 
-exports.Local = Local;
-exports.B = B;
-exports.C = C;
-exports.D = D;
-exports.appf = appf;
-exports.A = A;
-exports.f = f;
-exports.ff = ff;
-exports.fff = fff;
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.fff0 = fff0;
-exports.input_lines = input_lines;
+module.exports = {
+  Local,
+  B,
+  C,
+  D,
+  appf,
+  A,
+  f,
+  ff,
+  fff,
+  a0,
+  a1,
+  a2,
+  suites,
+  test_id,
+  eq,
+  fff0,
+  input_lines,
+}
 /* f Not a pure module */

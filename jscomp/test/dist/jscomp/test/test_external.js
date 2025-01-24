@@ -9,6 +9,8 @@ alert("hehha");
 
 const b = Curry._1(ff("x"), 3);
 
-exports.xx = xx;
-exports.b = b;
+module.exports = {
+  xx,
+  b,
+}
 /* xx Not a pure module */

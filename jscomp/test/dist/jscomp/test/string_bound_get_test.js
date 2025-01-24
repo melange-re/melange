@@ -26,12 +26,14 @@ function u_g(param) {
 
 const u_c = /* 'g' */103;
 
-exports.v = v;
-exports.u_a = u_a;
-exports.u_b = u_b;
-exports.u_c = u_c;
-exports.u_d = u_d;
-exports.u_e = u_e;
-exports.u_f = u_f;
-exports.u_g = u_g;
+module.exports = {
+  v,
+  u_a,
+  u_b,
+  u_c,
+  u_d,
+  u_e,
+  u_f,
+  u_g,
+}
 /* No side effect */

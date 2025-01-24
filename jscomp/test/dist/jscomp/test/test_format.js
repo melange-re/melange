@@ -15,5 +15,4 @@ Curry._1(Stdlib__Format.fprintf(Stdlib__Format.std_formatter)({
           },
           _1: "%d"
         }), 3);
-
 /*  Not a pure module */

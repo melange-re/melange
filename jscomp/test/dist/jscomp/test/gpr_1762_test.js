@@ -43,9 +43,11 @@ eq("File \"jscomp/test/gpr_1762_test.ml\", line 22, characters 6-13", v.contents
 
 Mt.from_pair_suites("Gpr_1762_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.update = update;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  update,
+}
 /*  Not a pure module */

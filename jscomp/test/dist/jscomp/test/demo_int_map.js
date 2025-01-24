@@ -167,5 +167,4 @@ function test(param) {
 }
 
 test(undefined);
-
 /* IntMap Not a pure module */

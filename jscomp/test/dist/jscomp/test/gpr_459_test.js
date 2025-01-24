@@ -53,5 +53,4 @@ eq("File \"jscomp/test/gpr_459_test.ml\", line 28, characters 5-12", [
     ]);
 
 Mt.from_pair_suites("Gpr_459_test", suites.contents);
-
 /* hh Not a pure module */

@@ -81,14 +81,16 @@ function test_js_error3(param) {
   }
 }
 
-exports.f = f;
-exports.assert_f = assert_f;
-exports.hh = hh;
-exports.A = A;
-exports.B = B;
-exports.C = C;
-exports.u = u;
-exports.test_not_found = test_not_found;
-exports.test_js_error2 = test_js_error2;
-exports.test_js_error3 = test_js_error3;
+module.exports = {
+  f,
+  assert_f,
+  hh,
+  A,
+  B,
+  C,
+  u,
+  test_not_found,
+  test_js_error2,
+  test_js_error3,
+}
 /* Js__Js_exn Not a pure module */

@@ -44,9 +44,11 @@ Test `@@mel.tag` attribute for discriminated unions
     d: "d"
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.s = s;
+  module.exports = {
+    x,
+    y,
+    s,
+  }
   /* No side effect */
 
 `@mel.tag` + `[@mel.as "string"]`
@@ -96,7 +98,9 @@ Test `@@mel.tag` attribute for discriminated unions
     d: "d"
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.s = s;
+  module.exports = {
+    x,
+    y,
+    s,
+  }
   /* No side effect */

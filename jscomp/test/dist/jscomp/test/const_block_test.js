@@ -93,10 +93,12 @@ const v = [
   5
 ];
 
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.v = v;
-exports.f = f;
-exports.h = h;
+module.exports = {
+  a,
+  b,
+  c,
+  v,
+  f,
+  h,
+}
 /*  Not a pure module */

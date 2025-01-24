@@ -1423,13 +1423,15 @@ const suites = {
 
 Mt.from_pair_suites("Rec_module_test", suites);
 
-exports.A = A;
-exports.B = B;
-exports.AA = AA;
-exports.BB = BB;
-exports.Even = Even;
-exports.Odd = Odd;
-exports.AAA = AAA;
-exports.ASet = ASet;
-exports.suites = suites;
+module.exports = {
+  A,
+  B,
+  AA,
+  BB,
+  Even,
+  Odd,
+  AAA,
+  ASet,
+  suites,
+}
 /* ASet Not a pure module */

@@ -83,8 +83,10 @@ function str(e) {
   }
 }
 
-exports.__ocaml_lex_tables = __ocaml_lex_tables;
-exports.lexeme = lexeme;
-exports.__ocaml_lex_lexeme_rec = __ocaml_lex_lexeme_rec;
-exports.str = str;
+module.exports = {
+  __ocaml_lex_tables,
+  lexeme,
+  __ocaml_lex_lexeme_rec,
+  str,
+}
 /* No side effect */

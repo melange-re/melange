@@ -56,7 +56,9 @@ Skip over the temporary file name printed in the error trace
     return foo.method1(x, y);
   }
   
-  exports.bla4 = bla4;
+  module.exports = {
+    bla4,
+  }
   /* No side effect */
 
 
@@ -246,7 +248,9 @@ Skip over the temporary file name printed in the error trace
     return foo.method1(x, y);
   }
   
-  exports.bla4 = bla4;
+  module.exports = {
+    bla4,
+  }
   /* No side effect */
 
 

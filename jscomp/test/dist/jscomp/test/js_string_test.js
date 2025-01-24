@@ -727,5 +727,7 @@ const suites = {
 
 Mt.from_pair_suites("Js_string_test", suites);
 
-exports.suites = suites;
+module.exports = {
+  suites,
+}
 /*  Not a pure module */

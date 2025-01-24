@@ -59,7 +59,9 @@ Caml_module.update_mod({
 
 let A;
 
-exports.Make = Make;
-exports.A = A;
-exports.B = B;
+module.exports = {
+  Make,
+  A,
+  B,
+}
 /* B Not a pure module */

@@ -25,6 +25,8 @@ catch (raw_msg){
   }
 }
 
-exports.x = x;
-exports.y = y;
+module.exports = {
+  x,
+  y,
+}
 /* y Not a pure module */

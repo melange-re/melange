@@ -31,7 +31,9 @@ function f(param) {
   return eventObj;
 }
 
-exports.obj = obj;
-exports.eventObj = eventObj;
-exports.f = f;
+module.exports = {
+  obj,
+  eventObj,
+  f,
+}
 /* obj Not a pure module */

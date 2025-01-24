@@ -112,5 +112,7 @@ const list_suites = {
 
 Mt.from_pair_suites("List_test", list_suites);
 
-exports.list_suites = list_suites;
+module.exports = {
+  list_suites,
+}
 /*  Not a pure module */

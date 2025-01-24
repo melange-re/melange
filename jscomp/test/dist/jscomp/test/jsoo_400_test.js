@@ -30,5 +30,7 @@ Mt.from_pair_suites("Jsoo_400_test", {
       tl: /* [] */ 0
     });
 
-exports.u = u;
+module.exports = {
+  u,
+}
 /*  Not a pure module */

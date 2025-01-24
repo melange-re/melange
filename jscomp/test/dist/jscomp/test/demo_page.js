@@ -49,9 +49,11 @@ ReactDom.render(React.createClass({
           })
         }), document.getElementById("hi"));
 
-exports.fib = fib;
-exports.sum = sum;
-exports.map = map;
-exports.test_curry = test_curry;
-exports.f = f;
+module.exports = {
+  fib,
+  sum,
+  map,
+  test_curry,
+  f,
+}
 /*  Not a pure module */

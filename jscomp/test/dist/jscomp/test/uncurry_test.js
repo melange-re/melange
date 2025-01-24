@@ -419,28 +419,30 @@ function xx() {
   };
 }
 
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
-exports.f9 = f9;
-exports.f10 = f10;
-exports.f11 = f11;
-exports.f12 = f12;
-exports.f13 = f13;
-exports.f14 = f14;
-exports.f15 = f15;
-exports.f16 = f16;
-exports.f17 = f17;
-exports.f18 = f18;
-exports.f19 = f19;
-exports.f20 = f20;
-exports.f21 = f21;
-exports.f22 = f22;
-exports.xx = xx;
+module.exports = {
+  f0,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  f9,
+  f10,
+  f11,
+  f12,
+  f13,
+  f14,
+  f15,
+  f16,
+  f17,
+  f18,
+  f19,
+  f20,
+  f21,
+  f22,
+  xx,
+}
 /*  Not a pure module */

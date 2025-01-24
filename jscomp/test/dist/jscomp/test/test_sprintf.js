@@ -19,5 +19,4 @@ console.error(Curry._2(Stdlib__Printf.sprintf({
               },
               _1: "%d%s"
             }), 32, "ss"));
-
 /*  Not a pure module */

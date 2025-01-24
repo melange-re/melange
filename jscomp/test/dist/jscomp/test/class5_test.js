@@ -318,19 +318,21 @@ eq("File \"jscomp/test/class5_test.ml\", line 94, characters 5-12", [
 
 Mt.from_pair_suites("Class5_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.printable_point = printable_point;
-exports.printable_colored_point = printable_colored_point;
-exports.p = p;
-exports.ref = ref;
-exports.v = v;
-exports.intlist = intlist;
-exports.intlist2 = intlist2;
-exports.l = l$1;
-exports.point = point;
-exports.distance_point = distance_point;
-exports.a = a;
-exports.b = b;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  printable_point,
+  printable_colored_point,
+  p,
+  ref,
+  v,
+  intlist,
+  intlist2,
+  l: l$1,
+  point,
+  distance_point,
+  a,
+  b,
+}
 /* printable_point Not a pure module */

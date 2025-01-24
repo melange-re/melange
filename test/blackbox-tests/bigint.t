@@ -49,7 +49,9 @@ Test `Js.Bigint` code generation
   
   console.log(x);
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* a Not a pure module */
   $ node _build/default/out/x.js
   21n

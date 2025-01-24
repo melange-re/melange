@@ -114,8 +114,10 @@ const suites = Stdlib.$at({
 
 Mt.from_pair_suites("Float_of_bits_test", suites);
 
-exports.one_float = one_float;
-exports.int32_pairs = int32_pairs;
-exports.from_pairs = from_pairs;
-exports.suites = suites;
+module.exports = {
+  one_float,
+  int32_pairs,
+  from_pairs,
+  suites,
+}
 /* suites Not a pure module */

@@ -40,9 +40,11 @@ eq("File \"jscomp/test/ignore_test.ml\", line 16, characters 5-12", undefined, u
 
 Mt.from_pair_suites("Ignore_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  ff,
+}
 /*  Not a pure module */

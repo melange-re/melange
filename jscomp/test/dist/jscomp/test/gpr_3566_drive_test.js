@@ -29,10 +29,12 @@ function f(x) {
 
 Mt.from_pair_suites("jscomp/test/gpr_3566_drive_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.H = H;
-exports.Caml_option = Caml_option$1;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  H,
+  Caml_option: Caml_option$1,
+  f,
+}
 /* H Not a pure module */

@@ -131,26 +131,28 @@ function hh(xs) {
   };
 }
 
-exports.Curry = Curry$1;
-exports.Block = Block;
-exports.xbs = xbs;
-exports.f = f;
-exports.xs = xs;
-exports.f_0 = f_0;
-exports.f_01 = f_01;
-exports.f_02 = f_02;
-exports.f_03 = f_03;
-exports.fishy = fishy;
-exports.h = h;
-exports.h1 = h1;
-exports.add3 = add3;
-exports.h2 = h2;
-exports.h3 = h3;
-exports.h4 = h4;
-exports.h5 = h5;
-exports.add = add;
-exports.h6 = h6;
-exports.unit_magic = unit_magic;
-exports.f_unit_magic = f_unit_magic;
-exports.hh = hh;
+module.exports = {
+  Curry: Curry$1,
+  Block,
+  xbs,
+  f,
+  xs,
+  f_0,
+  f_01,
+  f_02,
+  f_03,
+  fishy,
+  h,
+  h1,
+  add3,
+  h2,
+  h3,
+  h4,
+  h5,
+  add,
+  h6,
+  unit_magic,
+  f_unit_magic,
+  hh,
+}
 /* xbs Not a pure module */

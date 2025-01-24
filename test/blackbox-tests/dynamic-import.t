@@ -53,8 +53,10 @@ Demonstrate dynamic `import()` semantics
         return m.default;
       });
   
-  exports.x = x;
-  exports.a = a;
-  exports.b = b;
-  exports._ext = _ext;
+  module.exports = {
+    x,
+    a,
+    b,
+    _ext,
+  }
   /* a Not a pure module */

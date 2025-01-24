@@ -79,15 +79,17 @@ const from_pair_suites = Mt.from_pair_suites;
 
 const eq_suites = Mt.eq_suites;
 
-exports.from_pair_suites = from_pair_suites;
-exports.eq_suites = eq_suites;
-exports.suites = suites;
-exports.id = id;
-exports.u = u;
-exports.u1 = u1;
-exports.u2 = u2;
-exports.u3 = u3;
-exports.u4 = u4;
-exports.u5 = u5;
-exports.u6 = u6;
+module.exports = {
+  from_pair_suites,
+  eq_suites,
+  suites,
+  id,
+  u,
+  u1,
+  u2,
+  u3,
+  u4,
+  u5,
+  u6,
+}
 /*  Not a pure module */

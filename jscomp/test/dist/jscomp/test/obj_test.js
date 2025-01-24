@@ -336,11 +336,13 @@ const suites = {
 
 Mt.from_pair_suites("Obj_test", suites);
 
-exports.vv = vv;
-exports.v = v;
-exports.u = u;
-exports.uu = uu;
-exports.uuu = uuu;
-exports.vvvv = vvvv;
-exports.suites = suites;
+module.exports = {
+  vv,
+  v,
+  u,
+  uu,
+  uuu,
+  vvvv,
+  suites,
+}
 /* class Not a pure module */

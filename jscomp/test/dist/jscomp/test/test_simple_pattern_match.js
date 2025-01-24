@@ -24,6 +24,8 @@ const a = match[0];
 
 const b = match[1];
 
-exports.a = a;
-exports.b = b;
+module.exports = {
+  a,
+  b,
+}
 /* match Not a pure module */

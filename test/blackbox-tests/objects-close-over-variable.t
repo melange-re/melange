@@ -100,5 +100,7 @@ Test classes that close over an init variable from the outside scope
   
   console.log("x expect 42", y);
   
-  exports.fresh = fresh;
+  module.exports = {
+    fresh,
+  }
   /* f Not a pure module */

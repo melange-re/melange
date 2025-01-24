@@ -15,6 +15,8 @@ function ff(x) {
       })["Content-Type"]);
 }
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /*  Not a pure module */

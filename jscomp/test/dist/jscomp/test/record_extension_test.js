@@ -82,16 +82,18 @@ function u(f) {
 
 Mt.from_pair_suites("File \"jscomp/test/record_extension_test.ml\", line 55, characters 22-29", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.Inline_record = Inline_record;
-exports.f = f;
-exports.v0 = v0;
-exports.f2 = f2;
-exports.f2_with = f2_with;
-exports.A = A;
-exports.B = B;
-exports.C = C;
-exports.u = u;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  Inline_record,
+  f,
+  v0,
+  f2,
+  f2_with,
+  A,
+  B,
+  C,
+  u,
+}
 /*  Not a pure module */

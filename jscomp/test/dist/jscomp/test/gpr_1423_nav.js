@@ -6,5 +6,7 @@ function busted(a1, a2, param) {
   return a1 + a2;
 }
 
-exports.busted = busted;
+module.exports = {
+  busted,
+}
 /* No side effect */

@@ -298,9 +298,11 @@ const ff = Stdlib__List.length;
 
 const fff = Stdlib.$at;
 
-exports.List = List;
-exports.U = U;
-exports.f = f;
-exports.ff = ff;
-exports.fff = fff;
+module.exports = {
+  List,
+  U,
+  f,
+  ff,
+  fff,
+}
 /* No side effect */

@@ -1202,10 +1202,12 @@ b("File \"jscomp/test/bs_queue_test.ml\", line 156, characters 4-11", q$8.length
 
 Mt.from_pair_suites("Bs_queue_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.does_raise = does_raise;
-exports.$plus$plus = $plus$plus;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  does_raise,
+  $plus$plus,
+}
 /*  Not a pure module */

@@ -81,8 +81,10 @@ Mt.from_promise_suites("Js_formdata_test", {
       }
     });
 
-exports.form_data_append = form_data_append;
-exports.form_data_not_found = form_data_not_found;
-exports.form_data_append_blob = form_data_append_blob;
-exports.form_data_append_file = form_data_append_file;
+module.exports = {
+  form_data_append,
+  form_data_not_found,
+  form_data_append_blob,
+  form_data_append_file,
+}
 /*  Not a pure module */

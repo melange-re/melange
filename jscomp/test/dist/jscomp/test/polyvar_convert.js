@@ -18,9 +18,11 @@ function vFromJs(s) {
   return revData[s];
 }
 
-exports.revData = revData;
-exports.data = data;
-exports.tToJs = tToJs;
-exports.vFromJsOpt = vFromJsOpt;
-exports.vFromJs = vFromJs;
+module.exports = {
+  revData,
+  data,
+  tToJs,
+  vFromJsOpt,
+  vFromJs,
+}
 /* No side effect */

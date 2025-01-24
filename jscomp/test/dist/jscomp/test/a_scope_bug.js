@@ -15,6 +15,8 @@ function odd(_z) {
 
 const even = odd;
 
-exports.odd = odd;
-exports.even = even;
+module.exports = {
+  odd,
+  even,
+}
 /* No side effect */

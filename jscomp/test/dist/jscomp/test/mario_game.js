@@ -3345,14 +3345,16 @@ const Main = {
   preload: preload
 };
 
-exports.Actors = Actors;
-exports.Dom_html = Dom_html;
-exports.Sprite = Sprite;
-exports.Particle = Particle;
-exports.$$Object = $$Object;
-exports.Draw = Draw;
-exports.Viewport = Viewport;
-exports.Director = Director;
-exports.Procedural_generator = Procedural_generator;
-exports.Main = Main;
+module.exports = {
+  Actors,
+  Dom_html,
+  Sprite,
+  Particle,
+  $$Object,
+  Draw,
+  Viewport,
+  Director,
+  Procedural_generator,
+  Main,
+}
 /*  Not a pure module */

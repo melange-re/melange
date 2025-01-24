@@ -14,7 +14,9 @@ for the module.
   
   const dr = Curry._1(Melange__FieldsRequestDescr.Fields.Field_dsl.Aggregations.any, 2);
   
-  exports.dr = dr;
+  module.exports = {
+    dr,
+  }
   /* dr Not a pure module */
 
   $ cd _build/default/dist

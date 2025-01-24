@@ -58,11 +58,13 @@ const v = 32;
 
 const max_array_length = /* Max_wosize */ 2147483647;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.backend_type = backend_type;
-exports.max_array_length = max_array_length;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  backend_type,
+  max_array_length,
+  f,
+}
 /*  Not a pure module */

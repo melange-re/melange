@@ -9,5 +9,7 @@ console.log(Gpr_3865_foo.$$return);
 
 console.log(Gpr_3865_foo.$$return);
 
-exports.B = B;
+module.exports = {
+  B,
+}
 /*  Not a pure module */

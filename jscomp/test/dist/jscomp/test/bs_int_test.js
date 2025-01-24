@@ -85,10 +85,12 @@ eq("File \"jscomp/test/bs_int_test.ml\", line 43, characters 5-12", 0, 0);
 
 Mt.from_pair_suites("File \"jscomp/test/bs_int_test.ml\", line 45, characters 23-30", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.$$throw = $$throw;
-exports.neq = neq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  $$throw,
+  neq,
+}
 /*  Not a pure module */

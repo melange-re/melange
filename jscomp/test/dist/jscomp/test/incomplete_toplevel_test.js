@@ -19,8 +19,10 @@ const b = match[1];
 
 const c = match[2];
 
-exports.f = f;
-exports.a = a;
-exports.b = b;
-exports.c = c;
+module.exports = {
+  f,
+  a,
+  b,
+  c,
+}
 /* match Not a pure module */

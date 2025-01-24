@@ -260,6 +260,8 @@ const suites = {
 
 Mt.from_pair_suites("Js_dict_test", suites);
 
-exports.obj = obj;
-exports.suites = suites;
+module.exports = {
+  obj,
+  suites,
+}
 /*  Not a pure module */

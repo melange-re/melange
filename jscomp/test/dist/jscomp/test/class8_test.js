@@ -116,11 +116,13 @@ eq("File \"jscomp/test/class8_test.ml\", line 35, characters 5-12", 3, Caml_oo_c
 
 Mt.from_pair_suites("Class8_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.comparable = comparable;
-exports.money = money;
-exports.money2 = money2;
-exports.min = min;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  comparable,
+  money,
+  money2,
+  min,
+}
 /* money Not a pure module */

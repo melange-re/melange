@@ -22,9 +22,11 @@ function h(unit) {
 
 const a = u1(u);
 
-exports.f = f;
-exports.u = u;
-exports.u1 = u1;
-exports.h = h;
-exports.a = a;
+module.exports = {
+  f,
+  u,
+  u1,
+  h,
+  a,
+}
 /* a Not a pure module */

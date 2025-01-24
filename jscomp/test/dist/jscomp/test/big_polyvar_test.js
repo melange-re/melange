@@ -3336,7 +3336,9 @@ if (!eq(tFromJs("xx"), undefined)) {
       });
 }
 
-exports.tToJs = tToJs;
-exports.tFromJs = tFromJs;
-exports.eq = eq;
+module.exports = {
+  tToJs,
+  tFromJs,
+  eq,
+}
 /*  Not a pure module */

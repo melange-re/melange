@@ -89,9 +89,11 @@ eq("File \"jscomp/test/class_fib_open_recursion_test.ml\", line 33, characters 5
 
 Mt.from_pair_suites("Class_fib_open_recursion_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.fib = fib;
-exports.memo_fib = memo_fib;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  fib,
+  memo_fib,
+}
 /* fib Not a pure module */

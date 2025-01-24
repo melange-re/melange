@@ -84,11 +84,13 @@ eq("File \"jscomp/test/exn_error_pattern.ml\", line 34, characters 5-12", f(tmp)
 
 Mt.from_pair_suites("Exn_error_pattern", suites.contents);
 
-exports.f = f;
-exports.A = A;
-exports.B = B;
-exports.g = g;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  f,
+  A,
+  B,
+  g,
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

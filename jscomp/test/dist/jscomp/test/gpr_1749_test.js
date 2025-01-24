@@ -34,8 +34,10 @@ Mt.from_pair_suites("Gpr_1749_test", suites.contents);
 
 const a = 0;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a = a;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a,
+}
 /*  Not a pure module */

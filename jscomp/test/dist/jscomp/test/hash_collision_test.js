@@ -52,10 +52,12 @@ eq("File \"jscomp/test/hash_collision_test.ml\", line 29, characters 9-16", f1({
 
 Mt.from_pair_suites("jscomp/test/hash_collision_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f0 = f0;
-exports.f1 = f1;
-exports.hi = hi;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f0,
+  f1,
+  hi,
+}
 /*  Not a pure module */

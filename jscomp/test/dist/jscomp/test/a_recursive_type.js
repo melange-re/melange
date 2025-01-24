@@ -23,6 +23,8 @@ let xx = {};
 
 xx.xx = xx;
 
-exports.loop = loop;
-exports.non_terminate = non_terminate;
+module.exports = {
+  loop,
+  non_terminate,
+}
 /* loop Not a pure module */

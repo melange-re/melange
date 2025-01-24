@@ -107,6 +107,8 @@ Unreleased
   ([#1299](https://github.com/melange-re/melange/pull/1299))
 - JS generation: don't generate empty `default:` cases in `switch`
   ([#1300](https://github.com/melange-re/melange/pull/1300))
+- JS generation: emit `module.exports` in CommonJS instead of `exports.x`
+  ([#1314](https://github.com/melange-re/melange/pull/1314))
 
 4.0.1 2024-06-07
 ---------------

@@ -61,9 +61,11 @@ const config = {
   cwd: "."
 };
 
-exports.v1 = v1;
-exports.v2 = v2;
-exports.f = f;
-exports.register = register;
-exports.config = config;
+module.exports = {
+  v1,
+  v2,
+  f,
+  register,
+  config,
+}
 /*  Not a pure module */

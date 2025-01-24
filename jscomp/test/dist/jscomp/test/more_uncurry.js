@@ -10,5 +10,7 @@ function f(x, y, z) {
   }
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

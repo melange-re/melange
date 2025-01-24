@@ -16,5 +16,7 @@
   
   console.log("OK");
   
-  exports.X = X;
+  module.exports = {
+    X,
+  }
   /*  Not a pure module */

@@ -12,5 +12,7 @@ throw new Caml_js_exceptions.MelangeError("Match_failure", {
       ]
     });
 
-exports.coordinates = coordinates;
+module.exports = {
+  coordinates,
+}
 /*  Not a pure module */

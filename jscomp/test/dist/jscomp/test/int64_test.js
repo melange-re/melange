@@ -2286,19 +2286,21 @@ eq("File \"jscomp/test/int64_test.ml\", line 217, characters 5-12", [
 
 Mt.from_pair_suites("Int64_test", suites$1.contents);
 
-exports.f = f;
-exports.v = v;
-exports.h = h;
-exports.a = a;
-exports.commutative_add = commutative_add;
-exports.generic_compare = generic_compare;
-exports.shift_left_tests = shift_left_tests;
-exports.shift_right_tests = shift_right_tests;
-exports.shift_right_logical_suites = shift_right_logical_suites;
-exports.fib = fib;
-exports.fac = fac;
-exports.suites = suites$1;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.id = id;
+module.exports = {
+  f,
+  v,
+  h,
+  a,
+  commutative_add,
+  generic_compare,
+  shift_left_tests,
+  shift_right_tests,
+  shift_right_logical_suites,
+  fib,
+  fac,
+  suites: suites$1,
+  test_id,
+  eq,
+  id,
+}
 /* shift_left_tests Not a pure module */

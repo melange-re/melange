@@ -92,19 +92,21 @@ const with_poly = {
   VAL: 1
 };
 
-exports.t0 = t0;
-exports.t1 = t1;
-exports.t2 = t2;
-exports.t3 = t3;
-exports.f = f;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
-exports.hi = hi;
-exports.with_poly = with_poly;
+module.exports = {
+  t0,
+  t1,
+  t2,
+  t3,
+  f,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  hi,
+  with_poly,
+}
 /* No side effect */

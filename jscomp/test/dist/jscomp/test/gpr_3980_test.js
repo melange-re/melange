@@ -42,5 +42,4 @@ if (match !== undefined) {
         ]
       });
 }
-
 /*  Not a pure module */

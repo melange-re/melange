@@ -39,7 +39,9 @@ function fib3(n) {
   return a;
 }
 
-exports.fib = fib;
-exports.fib2 = fib2;
-exports.fib3 = fib3;
+module.exports = {
+  fib,
+  fib2,
+  fib3,
+}
 /* No side effect */

@@ -711,59 +711,61 @@ const parent_dir_lit = "..";
 
 const current_dir_lit = ".";
 
-exports.split_by = split_by;
-exports.trim = trim;
-exports.split = split;
-exports.quick_split_by_ws = quick_split_by_ws;
-exports.starts_with = starts_with;
-exports.ends_with_index = ends_with_index;
-exports.ends_with = ends_with;
-exports.ends_with_then_chop = ends_with_then_chop;
-exports.check_suffix_case = check_suffix_case;
-exports.check_suffix_case_then_chop = check_suffix_case_then_chop;
-exports.check_any_suffix_case = check_any_suffix_case;
-exports.check_any_suffix_case_then_chop = check_any_suffix_case_then_chop;
-exports.escaped = escaped;
-exports.unsafe_for_all_range = unsafe_for_all_range;
-exports.for_all_range = for_all_range;
-exports.for_all = for_all;
-exports.is_empty = is_empty;
-exports.repeat = repeat;
-exports.unsafe_is_sub = unsafe_is_sub;
-exports.Local_exit = Local_exit;
-exports.find = find;
-exports.contain_substring = contain_substring;
-exports.non_overlap_count = non_overlap_count;
-exports.rfind = rfind;
-exports.tail_from = tail_from;
-exports.digits_of_str = digits_of_str;
-exports.starts_with_and_number = starts_with_and_number;
-exports.equal = equal;
-exports.unsafe_concat_with_length = unsafe_concat_with_length;
-exports.rindex_rec = rindex_rec;
-exports.rindex_rec_opt = rindex_rec_opt;
-exports.rindex_neg = rindex_neg;
-exports.rindex_opt = rindex_opt;
-exports.is_valid_module_file = is_valid_module_file;
-exports.is_valid_npm_package_name = is_valid_npm_package_name;
-exports.is_valid_source_name = is_valid_source_name;
-exports.unsafe_no_char = unsafe_no_char;
-exports.unsafe_no_char_idx = unsafe_no_char_idx;
-exports.no_char = no_char;
-exports.no_slash = no_slash;
-exports.no_slash_idx = no_slash_idx;
-exports.replace_slash_backward = replace_slash_backward;
-exports.replace_backward_slash = replace_backward_slash;
-exports.empty = empty;
-exports.single_space = single_space;
-exports.single_colon = single_colon;
-exports.concat_array = concat_array;
-exports.concat3 = concat3;
-exports.concat4 = concat4;
-exports.concat5 = concat5;
-exports.inter2 = inter2;
-exports.inter3 = inter3;
-exports.inter4 = inter4;
-exports.parent_dir_lit = parent_dir_lit;
-exports.current_dir_lit = current_dir_lit;
+module.exports = {
+  split_by,
+  trim,
+  split,
+  quick_split_by_ws,
+  starts_with,
+  ends_with_index,
+  ends_with,
+  ends_with_then_chop,
+  check_suffix_case,
+  check_suffix_case_then_chop,
+  check_any_suffix_case,
+  check_any_suffix_case_then_chop,
+  escaped,
+  unsafe_for_all_range,
+  for_all_range,
+  for_all,
+  is_empty,
+  repeat,
+  unsafe_is_sub,
+  Local_exit,
+  find,
+  contain_substring,
+  non_overlap_count,
+  rfind,
+  tail_from,
+  digits_of_str,
+  starts_with_and_number,
+  equal,
+  unsafe_concat_with_length,
+  rindex_rec,
+  rindex_rec_opt,
+  rindex_neg,
+  rindex_opt,
+  is_valid_module_file,
+  is_valid_npm_package_name,
+  is_valid_source_name,
+  unsafe_no_char,
+  unsafe_no_char_idx,
+  no_char,
+  no_slash,
+  no_slash_idx,
+  replace_slash_backward,
+  replace_backward_slash,
+  empty,
+  single_space,
+  single_colon,
+  concat_array,
+  concat3,
+  concat4,
+  concat5,
+  inter2,
+  inter3,
+  inter4,
+  parent_dir_lit,
+  current_dir_lit,
+}
 /* Ext_bytes_test Not a pure module */

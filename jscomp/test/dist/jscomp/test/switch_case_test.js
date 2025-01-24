@@ -53,8 +53,10 @@ eq("File \"jscomp/test/switch_case_test.ml\", line 22, characters 7-14", f("xx\\
 
 Mt.from_pair_suites("Switch_case_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+}
 /*  Not a pure module */

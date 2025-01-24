@@ -128,27 +128,29 @@ const H3 = H2;
 
 const H4 = Stdlib.Invalid_argument;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.A = A;
-exports.U = U;
-exports.H = H;
-exports.Bx = Bx;
-exports.a = a;
-exports.u = u;
-exports.Ax = Ax;
-exports.XXX = XXX;
-exports.Aa = Aa;
-exports.v = v;
-exports.H0 = H0;
-exports.H1 = H1;
-exports.H2 = H2;
-exports.H3 = H3;
-exports.h2 = h2;
-exports.h3 = h3;
-exports.h4 = h4;
-exports.H4 = H4;
-exports.h5 = h5;
-exports.p = p;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  A,
+  U,
+  H,
+  Bx,
+  a,
+  u,
+  Ax,
+  XXX,
+  Aa,
+  v,
+  H0,
+  H1,
+  H2,
+  H3,
+  h2,
+  h3,
+  h4,
+  H4,
+  h5,
+  p,
+}
 /*  Not a pure module */

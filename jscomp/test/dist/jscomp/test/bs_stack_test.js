@@ -142,15 +142,17 @@ eq("File \"jscomp/test/bs_stack_test.ml\", line 140, characters 6-13", inOrder3(
 
 Mt.from_pair_suites("jscomp/test/bs_stack_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.inOrder = inOrder;
-exports.inOrder3 = inOrder3;
-exports.inOrder2 = inOrder2;
-exports.n = n;
-exports.test1 = test1;
-exports.pushAllLeft = pushAllLeft;
-exports.test2 = test2;
-exports.test3 = test3;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  inOrder,
+  inOrder3,
+  inOrder2,
+  n,
+  test1,
+  pushAllLeft,
+  test2,
+  test3,
+}
 /* test1 Not a pure module */

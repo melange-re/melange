@@ -44,12 +44,14 @@ eq("File \"jscomp/test/gpr_4265_test.ml\", line 17, characters 6-13", n, n1);
 
 Mt.from_pair_suites("jscomp/test/gpr_4265_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.mockMap = mockMap;
-exports.add = add;
-exports.remove = remove;
-exports.n = n;
-exports.n1 = n1;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  mockMap,
+  add,
+  remove,
+  n,
+  n1,
+}
 /*  Not a pure module */

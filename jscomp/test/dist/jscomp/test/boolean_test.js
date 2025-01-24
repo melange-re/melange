@@ -11,5 +11,4 @@ Mt.from_suites("boolean", {
       ],
       tl: /* [] */ 0
     });
-
 /*  Not a pure module */

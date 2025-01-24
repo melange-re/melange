@@ -28,7 +28,9 @@ b.js produces a require to a.js, but with lower case
   
   const t = A.t;
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */
 
 But the file is upper case

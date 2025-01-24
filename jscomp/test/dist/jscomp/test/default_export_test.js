@@ -4,6 +4,8 @@
 
 const $$default = "xx";
 
-exports.default = $$default;
-exports.__esModule = true;
+module.exports = {
+  default: $$default,
+  __esModule: true,
+}
 /* No side effect */

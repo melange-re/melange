@@ -30,7 +30,9 @@ function unfix(p) {
   };
 }
 
-exports.fix = fix;
-exports.unfixLeak = unfixLeak;
-exports.unfix = unfix;
+module.exports = {
+  fix,
+  unfixLeak,
+  unfix,
+}
 /* No side effect */

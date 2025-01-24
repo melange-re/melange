@@ -334,14 +334,16 @@ const f = fromArray;
 
 const $eq$tilde = Belt__Belt_MutableSet.eq;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.IntCmp = IntCmp;
-exports.fromArray = fromArray;
-exports.empty = empty;
-exports.$plus$plus = $plus$plus;
-exports.f = f;
-exports.$eq$tilde = $eq$tilde;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  IntCmp,
+  fromArray,
+  empty,
+  $plus$plus,
+  f,
+  $eq$tilde,
+}
 /* IntCmp Not a pure module */

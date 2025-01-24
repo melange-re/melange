@@ -46,11 +46,13 @@ const v = 3;
 
 const u = 3;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.$$ = $$;
-exports.v = v;
-exports.$$$plus = $$$plus;
-exports.u = u;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  $$,
+  v,
+  $$$plus,
+  u,
+}
 /*  Not a pure module */

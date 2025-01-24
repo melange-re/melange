@@ -297,16 +297,18 @@ eq("File \"jscomp/test/format_test.ml\", line 129, characters 5-12", f1, 9.9);
 
 Mt.from_pair_suites("Format_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.eq3 = eq3;
-exports.$caret$caret = $caret$caret;
-exports.u = u;
-exports.M = M;
-exports.f = f;
-exports.sl = sl;
-exports.aux_list = aux_list;
-exports.literals = literals;
-exports.scan_float = scan_float;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  eq3,
+  $caret$caret,
+  u,
+  M,
+  f,
+  sl,
+  aux_list,
+  literals,
+  scan_float,
+}
 /*  Not a pure module */

@@ -99,12 +99,14 @@ function add_help(speclist) {
   return Stdlib.$at(speclist, Stdlib.$at(add1, add2));
 }
 
-exports.Bad = Bad;
-exports.Help = Help;
-exports.Stop = Stop;
-exports.assoc3 = assoc3;
-exports.help_action = help_action;
-exports.v = v;
-exports.f = f;
-exports.add_help = add_help;
+module.exports = {
+  Bad,
+  Help,
+  Stop,
+  assoc3,
+  help_action,
+  v,
+  f,
+  add_help,
+}
 /* No side effect */

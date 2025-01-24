@@ -99,11 +99,13 @@ const a4 = a0;
 
 const a5 = a0;
 
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.List = List;
+module.exports = {
+  a0,
+  a1,
+  a2,
+  a3,
+  a4,
+  a5,
+  List,
+}
 /* b Not a pure module */

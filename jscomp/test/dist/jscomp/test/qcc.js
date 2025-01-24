@@ -2012,59 +2012,61 @@ const base = 4194304;
 
 const textoff = 232;
 
-exports.dbg = dbg;
-exports.inch = inch;
-exports.bufferize = bufferize;
-exports.getch = getch;
-exports.ungetch = ungetch;
-exports.peekch = peekch;
-exports.addsym = addsym;
-exports.symstr = symstr;
-exports.symitr = symitr;
-exports.glo = glo;
-exports.gpos = gpos;
-exports.base = base;
-exports.textoff = textoff;
-exports.next = next$1;
-exports.unnext = unnext;
-exports.nextis = nextis;
-exports.obuf = obuf;
-exports.opos = opos;
-exports.out = out;
-exports.le = le;
-exports.get32 = get32;
-exports.patch = patch;
-exports.load = load;
-exports.cmp = cmp;
-exports.test = test;
-exports.align = align;
-exports.push = push;
-exports.pop = pop;
-exports.lval = lval;
-exports.patchlval = patchlval;
-exports.read = read;
-exports.globs = globs;
-exports.lvls = lvls;
-exports.inss = inss;
-exports.tokint = tokint;
-exports.tokchar = tokchar;
-exports.tokret = tokret;
-exports.tokif = tokif;
-exports.tokelse = tokelse;
-exports.tokwhile = tokwhile;
-exports.tokfor = tokfor;
-exports.tokbreak = tokbreak;
-exports.binary = binary;
-exports.unary = unary;
-exports.postfix = postfix;
-exports.expr = expr;
-exports.decl = decl;
-exports.retl = retl;
-exports.stmt = stmt;
-exports.block = block;
-exports.top = top;
-exports.elfhdr = elfhdr;
-exports.elfphdr = elfphdr;
-exports.elfgen = elfgen;
-exports.main = main;
+module.exports = {
+  dbg,
+  inch,
+  bufferize,
+  getch,
+  ungetch,
+  peekch,
+  addsym,
+  symstr,
+  symitr,
+  glo,
+  gpos,
+  base,
+  textoff,
+  next: next$1,
+  unnext,
+  nextis,
+  obuf,
+  opos,
+  out,
+  le,
+  get32,
+  patch,
+  load,
+  cmp,
+  test,
+  align,
+  push,
+  pop,
+  lval,
+  patchlval,
+  read,
+  globs,
+  lvls,
+  inss,
+  tokint,
+  tokchar,
+  tokret,
+  tokif,
+  tokelse,
+  tokwhile,
+  tokfor,
+  tokbreak,
+  binary,
+  unary,
+  postfix,
+  expr,
+  decl,
+  retl,
+  stmt,
+  block,
+  top,
+  elfhdr,
+  elfphdr,
+  elfgen,
+  main,
+}
 /* match Not a pure module */

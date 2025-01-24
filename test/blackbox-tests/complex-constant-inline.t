@@ -51,5 +51,7 @@
     message: message
   };
   
-  exports.Test1 = Test1;
+  module.exports = {
+    Test1,
+  }
   /* message Not a pure module */

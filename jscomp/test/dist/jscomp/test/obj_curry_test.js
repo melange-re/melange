@@ -16,6 +16,8 @@ const a = f((CamlinternalOO.set_method($$class, hi, (function (self$1, x, y, z) 
           return (x + y | 0) + z | 0;
         })), CamlinternalOO.init_class($$class), CamlinternalOO.create_object_opt(undefined, $$class)));
 
-exports.f = f;
-exports.a = a;
+module.exports = {
+  f,
+  a,
+}
 /* a Not a pure module */

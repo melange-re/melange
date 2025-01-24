@@ -1161,8 +1161,10 @@ eq("File \"jscomp/test/caml_compare_test.ml\", line 117, characters 6-13", false
 
 Mt.from_pair_suites("Caml_compare_test", suites.contents);
 
-exports.function_equal_test = function_equal_test;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  function_equal_test,
+  suites,
+  test_id,
+  eq,
+}
 /* function_equal_test Not a pure module */

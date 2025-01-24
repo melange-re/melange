@@ -30,13 +30,15 @@ const c = null;
 
 let d;
 
-exports.u = u;
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.d = d;
-exports.Textarea = Textarea;
-exports.$$Int32Array = $$Int32Array;
-exports.v = v;
-exports.f = f;
+module.exports = {
+  u,
+  a,
+  b,
+  c,
+  d,
+  Textarea,
+  $$Int32Array,
+  v,
+  f,
+}
 /* No side effect */

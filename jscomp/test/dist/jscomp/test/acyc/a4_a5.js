@@ -7,5 +7,7 @@ console.log(A3_a4.v);
 
 const v = A3_a4.v;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /*  Not a pure module */

@@ -415,40 +415,42 @@ const one = /* One */ 0;
 
 const cacheSize = 1999;
 
-exports.$$eval = $$eval;
-exports.getId = getId;
-exports.initSize_1 = initSize_1;
-exports.nodeC = nodeC;
-exports.sz_1 = sz_1;
-exports.htab = htab;
-exports.n_items = n_items;
-exports.hashVal = hashVal;
-exports.resize = resize;
-exports.insert = insert;
-exports.resetUnique = resetUnique;
-exports.mkNode = mkNode;
-exports.cmpVar = cmpVar;
-exports.zero = zero;
-exports.one = one;
-exports.mkVar = mkVar;
-exports.cacheSize = cacheSize;
-exports.andslot1 = andslot1;
-exports.andslot2 = andslot2;
-exports.andslot3 = andslot3;
-exports.xorslot1 = xorslot1;
-exports.xorslot2 = xorslot2;
-exports.xorslot3 = xorslot3;
-exports.notslot1 = notslot1;
-exports.notslot2 = notslot2;
-exports.hash = hash;
-exports.not = not;
-exports.and2 = and2;
-exports.xor = xor;
-exports.hwb = hwb;
-exports.seed = seed;
-exports.random = random;
-exports.random_vars = random_vars;
-exports.bool_equal = bool_equal;
-exports.test_hwb = test_hwb;
-exports.main = main;
+module.exports = {
+  $$eval,
+  getId,
+  initSize_1,
+  nodeC,
+  sz_1,
+  htab,
+  n_items,
+  hashVal,
+  resize,
+  insert,
+  resetUnique,
+  mkNode,
+  cmpVar,
+  zero,
+  one,
+  mkVar,
+  cacheSize,
+  andslot1,
+  andslot2,
+  andslot3,
+  xorslot1,
+  xorslot2,
+  xorslot3,
+  notslot1,
+  notslot2,
+  hash,
+  not,
+  and2,
+  xor,
+  hwb,
+  seed,
+  random,
+  random_vars,
+  bool_equal,
+  test_hwb,
+  main,
+}
 /*  Not a pure module */

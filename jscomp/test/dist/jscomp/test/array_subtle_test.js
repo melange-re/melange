@@ -130,13 +130,15 @@ eq("File \"jscomp/test/array_subtle_test.ml\", line 53, characters 6-13", [
 
 Mt.from_pair_suites("Array_subtle_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.f = f;
-exports.fff = fff;
-exports.fff2 = fff2;
-exports.fff3 = fff3;
-exports.fff4 = fff4;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  f,
+  fff,
+  fff2,
+  fff3,
+  fff4,
+}
 /*  Not a pure module */

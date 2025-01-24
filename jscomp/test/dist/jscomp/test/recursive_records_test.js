@@ -108,16 +108,18 @@ eq("File \"jscomp/test/recursive_records_test.ml\", line 77, characters 5-12", (
 
 Mt.from_pair_suites("jscomp/test/recursive_records_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.rec_cell = rec_cell;
-exports.f0 = f0;
-exports.a0 = a0;
-exports.rec_cell2 = rec_cell2;
-exports.f2 = f2;
-exports.hd = hd;
-exports.tl_exn = tl_exn;
-exports.rec_cell3 = rec_cell3;
-exports.f3 = f3;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  rec_cell,
+  f0,
+  a0,
+  rec_cell2,
+  f2,
+  hd,
+  tl_exn,
+  rec_cell3,
+  f3,
+}
 /*  Not a pure module */

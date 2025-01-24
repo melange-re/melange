@@ -5,5 +5,7 @@ const Glob_u = require("./glob_u.js");
 
 const v = Glob_u.v;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

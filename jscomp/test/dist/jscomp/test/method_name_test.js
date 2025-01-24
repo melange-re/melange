@@ -60,12 +60,14 @@ eq("File \"jscomp/test/method_name_test.ml\", line 39, characters 12-19", 35, hg
 
 Mt.from_pair_suites("Method_name_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.ff = ff;
-exports.u = u;
-exports.h = h;
-exports.hg = hg;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  ff,
+  u,
+  h,
+  hg,
+}
 /*  Not a pure module */

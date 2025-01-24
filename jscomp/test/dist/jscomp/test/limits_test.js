@@ -40,7 +40,9 @@ eq("File \"jscomp/test/limits_test.ml\", line 12, characters 5-12", Stdlib__Int3
 
 Mt.from_pair_suites("Limits_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

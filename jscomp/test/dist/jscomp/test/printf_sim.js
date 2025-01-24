@@ -88,5 +88,4 @@ Curry._1(Stdlib__Printf.printf({
               },
               _1: "%*d\n"
             }), 32, 3));
-
 /*  Not a pure module */

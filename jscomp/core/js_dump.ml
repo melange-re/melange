@@ -519,8 +519,7 @@ and vident cxt (v : J.vident) =
       let cxt = ident cxt id in
       string cxt L.dot;
       string cxt
-        (if name = Js_dump_import_export.default_export then name
-         else Ident.convert name);
+        (if name = Js_dump_lit.default then name else Ident.convert name);
       cxt
   | Qualified ({ id; kind = External _; _ }, Some name) ->
       let cxt = ident cxt id in

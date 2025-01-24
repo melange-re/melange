@@ -104,15 +104,17 @@ Mt.from_pair_suites("Bs_hashmap_test", suites.contents);
 
 const $plus$plus = Belt__Belt_Array.concat;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eqx = eqx;
-exports.b = b;
-exports.eq = eq;
-exports.hash = hash;
-exports.cmp = cmp;
-exports.Y = Y;
-exports.empty = empty;
-exports.$plus$plus = $plus$plus;
-exports.add = add;
+module.exports = {
+  suites,
+  test_id,
+  eqx,
+  b,
+  eq,
+  hash,
+  cmp,
+  Y,
+  empty,
+  $plus$plus,
+  add,
+}
 /* Y Not a pure module */

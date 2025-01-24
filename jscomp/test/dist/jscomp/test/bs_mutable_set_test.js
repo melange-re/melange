@@ -833,13 +833,15 @@ const f = Belt__Belt_MutableSetInt.fromArray;
 
 const $eq$tilde = Belt__Belt_MutableSetInt.eq;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.empty = empty;
-exports.fromArray = fromArray;
-exports.$plus$plus = $plus$plus;
-exports.f = f;
-exports.$eq$tilde = $eq$tilde;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  empty,
+  fromArray,
+  $plus$plus,
+  f,
+  $eq$tilde,
+}
 /* u Not a pure module */

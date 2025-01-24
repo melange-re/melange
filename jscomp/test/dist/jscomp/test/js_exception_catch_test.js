@@ -203,13 +203,15 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 53, characters 5-12", 
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);
 
-exports.suites = suites;
-exports.add_test = add_test;
-exports.eq = eq;
-exports.false_ = false_;
-exports.true_ = true_;
-exports.A = A;
-exports.B = B;
-exports.C = C;
-exports.test = test;
+module.exports = {
+  suites,
+  add_test,
+  eq,
+  false_,
+  true_,
+  A,
+  B,
+  C,
+  test,
+}
 /*  Not a pure module */

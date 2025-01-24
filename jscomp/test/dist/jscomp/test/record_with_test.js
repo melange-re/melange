@@ -65,9 +65,11 @@ const uv = {
   extends: 0
 };
 
-exports.v = v;
-exports.uv = uv;
-exports.u_v = u_v;
-exports.f = f;
-exports.suites = suites;
+module.exports = {
+  v,
+  uv,
+  u_v,
+  f,
+  suites,
+}
 /*  Not a pure module */

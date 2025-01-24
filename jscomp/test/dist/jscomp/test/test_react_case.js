@@ -6,5 +6,7 @@ function v(prim) {
   return {};
 }
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

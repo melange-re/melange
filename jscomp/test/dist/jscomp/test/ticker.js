@@ -1591,14 +1591,16 @@ const lines = {
   }
 };
 
-exports.Util = Util;
-exports.string_of_rank = string_of_rank;
-exports.find_ticker_by_name = find_ticker_by_name;
-exports.print_all_composite = print_all_composite;
-exports.Ticker_map = Ticker_map;
-exports.compute_update_sequences = compute_update_sequences;
-exports.process_quote = process_quote;
-exports.process_input_line = process_input_line;
-exports.lines = lines;
-exports.loop = loop;
+module.exports = {
+  Util,
+  string_of_rank,
+  find_ticker_by_name,
+  print_all_composite,
+  Ticker_map,
+  compute_update_sequences,
+  process_quote,
+  process_input_line,
+  lines,
+  loop,
+}
 /* Ticker_map Not a pure module */

@@ -64,8 +64,10 @@ function example2(param) {
   }
 }
 
-exports.test_js_error = test_js_error;
-exports.test_js_error2 = test_js_error2;
-exports.example1 = example1;
-exports.example2 = example2;
+module.exports = {
+  test_js_error,
+  test_js_error2,
+  example1,
+  example2,
+}
 /* Js__Js_exn Not a pure module */

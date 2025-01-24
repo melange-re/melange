@@ -405,27 +405,29 @@ if (Stdlib__Sys.unix) {
 
 const $slash$slash = Stdlib__Filename.concat;
 
-exports.node_sep = node_sep;
-exports.node_parent = node_parent;
-exports.node_current = node_current;
-exports.cwd = cwd;
-exports.$slash$slash = $slash$slash;
-exports.path_as_directory = path_as_directory;
-exports.absolute_path = absolute_path;
-exports.chop_extension = chop_extension;
-exports.chop_extension_if_any = chop_extension_if_any;
-exports.os_path_separator_char = os_path_separator_char;
-exports.relative_path = relative_path;
-exports.node_relative_path = node_relative_path;
-exports.find_root_filename = find_root_filename;
-exports.find_package_json_dir = find_package_json_dir;
-exports.package_dir = package_dir;
-exports.module_name_of_file = module_name_of_file;
-exports.module_name_of_file_if_any = module_name_of_file_if_any;
-exports.combine = combine;
-exports.split_aux = split_aux;
-exports.rel_normalized_absolute_path = rel_normalized_absolute_path;
-exports.normalize_absolute_path = normalize_absolute_path;
-exports.get_extension = get_extension;
-exports.simple_convert_node_path_to_os_path = simple_convert_node_path_to_os_path;
+module.exports = {
+  node_sep,
+  node_parent,
+  node_current,
+  cwd,
+  $slash$slash,
+  path_as_directory,
+  absolute_path,
+  chop_extension,
+  chop_extension_if_any,
+  os_path_separator_char,
+  relative_path,
+  node_relative_path,
+  find_root_filename,
+  find_package_json_dir,
+  package_dir,
+  module_name_of_file,
+  module_name_of_file_if_any,
+  combine,
+  split_aux,
+  rel_normalized_absolute_path,
+  normalize_absolute_path,
+  get_extension,
+  simple_convert_node_path_to_os_path,
+}
 /* simple_convert_node_path_to_os_path Not a pure module */

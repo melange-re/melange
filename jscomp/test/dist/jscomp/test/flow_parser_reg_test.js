@@ -17743,5 +17743,4 @@ if (f !== undefined) {
 }
 
 Mt.from_pair_suites("Flow_parser_reg_test", suites.contents);
-
 /* Literal Not a pure module */

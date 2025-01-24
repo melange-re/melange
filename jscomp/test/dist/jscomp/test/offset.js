@@ -1225,7 +1225,9 @@ const M = {
 
 const x = 1;
 
-exports.M = M;
-exports.x = x;
-exports.$$Set = $$Set;
+module.exports = {
+  M,
+  x,
+  $$Set,
+}
 /* Set Not a pure module */

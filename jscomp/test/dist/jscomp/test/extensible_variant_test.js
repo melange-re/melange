@@ -90,9 +90,11 @@ const suites = {
 
 Mt.from_pair_suites("Extensible_variant_test", suites);
 
-exports.Str = Str;
-exports.N = N;
-exports.Int = Int$1;
-exports.to_int = to_int;
-exports.suites = suites;
+module.exports = {
+  Str,
+  N,
+  Int: Int$1,
+  to_int,
+  suites,
+}
 /*  Not a pure module */

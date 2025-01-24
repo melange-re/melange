@@ -31,6 +31,8 @@ throw new Caml_js_exceptions.MelangeError("Match_failure", {
       ]
     });
 
-exports.T0 = T0;
-exports.T1 = T1;
+module.exports = {
+  T0,
+  T1,
+}
 /* T1 Not a pure module */

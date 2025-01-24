@@ -6,5 +6,7 @@ function add(x, y) {
   return x + y | 0;
 }
 
-exports.add = add;
+module.exports = {
+  add,
+}
 /* No side effect */

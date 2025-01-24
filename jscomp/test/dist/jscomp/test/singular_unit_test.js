@@ -20,8 +20,10 @@ function f3(x) {
 
 let v0;
 
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f3 = f3;
-exports.v0 = v0;
+module.exports = {
+  f0,
+  f1,
+  f3,
+  v0,
+}
 /* No side effect */

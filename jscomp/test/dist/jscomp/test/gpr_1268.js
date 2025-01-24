@@ -27,10 +27,12 @@ function f4(x, y) {
   return add(y, x);
 }
 
-exports.f_add2 = f_add2;
-exports.f = f;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
+module.exports = {
+  f_add2,
+  f,
+  f1,
+  f2,
+  f3,
+  f4,
+}
 /* No side effect */

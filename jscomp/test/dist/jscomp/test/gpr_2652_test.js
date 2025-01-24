@@ -9,6 +9,8 @@ function bar(str) {
   return Buffer.from(str);
 }
 
-exports.foo = foo;
-exports.bar = bar;
+module.exports = {
+  foo,
+  bar,
+}
 /* No side effect */

@@ -536,28 +536,30 @@ eq("File \"jscomp/test/class3_test.ml\", line 195, characters 12-19", hhhh, 305)
 
 Mt.from_pair_suites("Class3_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.point = point;
-exports.adjusted_point = adjusted_point;
-exports.adjusted_point2 = adjusted_point2;
-exports.printable_point = printable_point;
-exports.my_int = my_int;
-exports.printable_point2 = printable_point2;
-exports.abstract_point = abstract_point;
-exports.vpoint = vpoint;
-exports.v = v$1;
-exports.abstract_point2 = abstract_point2;
-exports.point2 = point2;
-exports.vv = vv;
-exports.restricted_point = restricted_point;
-exports.p = p$2;
-exports.h = h$2;
-exports.point_again = point_again;
-exports.hh = hh;
-exports.point_again2 = point_again2;
-exports.hhh = hhh;
-exports.point_again3 = point_again3;
-exports.hhhh = hhhh;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  point,
+  adjusted_point,
+  adjusted_point2,
+  printable_point,
+  my_int,
+  printable_point2,
+  abstract_point,
+  vpoint,
+  v: v$1,
+  abstract_point2,
+  point2,
+  vv,
+  restricted_point,
+  p: p$2,
+  h: h$2,
+  point_again,
+  hh,
+  point_again2,
+  hhh,
+  point_again3,
+  hhhh,
+}
 /* point Not a pure module */

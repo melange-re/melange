@@ -60,11 +60,13 @@ console.timeEnd("imm_map_bench.ml 45");
 
 const count = 1000000;
 
-exports.empty = empty;
-exports.fromArray = fromArray;
-exports.should = should;
-exports.count = count;
-exports.shuffledDataAdd = shuffledDataAdd;
-exports.test = test;
-exports.test2 = test2;
+module.exports = {
+  empty,
+  fromArray,
+  should,
+  count,
+  shuffledDataAdd,
+  test,
+  test2,
+}
 /* empty Not a pure module */

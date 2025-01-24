@@ -397,25 +397,27 @@ Mt.from_pair_suites("Float_test", Stdlib.$at({
           }
         }, Stdlib.$at(from_pairs(results), suites.contents)));
 
-exports.test_id = test_id;
-exports.suites = suites;
-exports.eq = eq;
-exports.approx = approx;
-exports.epsilon_float = epsilon_float;
-exports.results = results;
-exports.from_pairs = from_pairs;
-exports.float_compare = float_compare;
-exports.generic_compare = generic_compare;
-exports.float_equal = float_equal;
-exports.generic_equal = generic_equal;
-exports.float_notequal = float_notequal;
-exports.generic_notequal = generic_notequal;
-exports.float_lessthan = float_lessthan;
-exports.generic_lessthan = generic_lessthan;
-exports.float_greaterthan = float_greaterthan;
-exports.generic_greaterthan = generic_greaterthan;
-exports.float_lessequal = float_lessequal;
-exports.generic_lessequal = generic_lessequal;
-exports.float_greaterequal = float_greaterequal;
-exports.generic_greaterequal = generic_greaterequal;
+module.exports = {
+  test_id,
+  suites,
+  eq,
+  approx,
+  epsilon_float,
+  results,
+  from_pairs,
+  float_compare,
+  generic_compare,
+  float_equal,
+  generic_equal,
+  float_notequal,
+  generic_notequal,
+  float_lessthan,
+  generic_lessthan,
+  float_greaterthan,
+  generic_greaterthan,
+  float_lessequal,
+  generic_lessequal,
+  float_greaterequal,
+  generic_greaterequal,
+}
 /* results Not a pure module */

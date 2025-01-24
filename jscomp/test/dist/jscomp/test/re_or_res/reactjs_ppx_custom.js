@@ -25,6 +25,8 @@ function Reactjs_ppx_custom(Props) {
 
 const make = Reactjs_ppx_custom;
 
-exports.Internal = Internal;
-exports.make = make;
+module.exports = {
+  Internal,
+  make,
+}
 /* react/jsx-runtime Not a pure module */

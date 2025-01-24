@@ -74,15 +74,17 @@ const nil = /* Nil */ 0;
 
 const len = Stdlib__List.length;
 
-exports.fib = fib;
-exports.nil = nil;
-exports.cons = cons;
-exports.map = map;
-exports.sum = sum;
-exports.len = len;
-exports.f = f;
-exports.g = g;
-exports.g1 = g1;
-exports.x = x;
-exports.v = v;
+module.exports = {
+  fib,
+  nil,
+  cons,
+  map,
+  sum,
+  len,
+  f,
+  g,
+  g1,
+  x,
+  v,
+}
 /* No side effect */

@@ -48,8 +48,10 @@ const suites = {
 
 Mt.from_pair_suites("Global_exception_regression_test", suites);
 
-exports.v = v;
-exports.u = u;
-exports.s = s;
-exports.suites = suites;
+module.exports = {
+  v,
+  u,
+  s,
+  suites,
+}
 /*  Not a pure module */

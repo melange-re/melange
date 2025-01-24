@@ -135,9 +135,11 @@ const u1 = "bad character decimal encoding \\";
 
 const v = "bad character decimal encoding \\%c%c%c";
 
-exports.ff = ff;
-exports.u = u;
-exports.u1 = u1;
-exports.v = v;
-exports.f = f;
+module.exports = {
+  ff,
+  u,
+  u1,
+  v,
+  f,
+}
 /* No side effect */

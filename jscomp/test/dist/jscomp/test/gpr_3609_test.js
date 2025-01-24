@@ -10,5 +10,7 @@ function func(state) {
   }
 }
 
-exports.func = func;
+module.exports = {
+  func,
+}
 /* No side effect */

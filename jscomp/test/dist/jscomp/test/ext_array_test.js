@@ -285,24 +285,26 @@ function for_all2_no_exn(p, xs, ys) {
   }
 }
 
-exports.reverse_range = reverse_range;
-exports.reverse_in_place = reverse_in_place;
-exports.reverse = reverse;
-exports.reverse_of_list = reverse_of_list;
-exports.filter = filter;
-exports.filter_map = filter_map;
-exports.range = range;
-exports.map2i = map2i;
-exports.tolist_aux = tolist_aux;
-exports.to_list_map = to_list_map;
-exports.to_list_map_acc = to_list_map_acc;
-exports.of_list_map = of_list_map;
-exports.rfind_with_index = rfind_with_index;
-exports.rfind_and_split = rfind_and_split;
-exports.find_with_index = find_with_index;
-exports.find_and_split = find_and_split;
-exports.exists = exists;
-exports.is_empty = is_empty;
-exports.unsafe_loop = unsafe_loop;
-exports.for_all2_no_exn = for_all2_no_exn;
+module.exports = {
+  reverse_range,
+  reverse_in_place,
+  reverse,
+  reverse_of_list,
+  filter,
+  filter_map,
+  range,
+  map2i,
+  tolist_aux,
+  to_list_map,
+  to_list_map_acc,
+  of_list_map,
+  rfind_with_index,
+  rfind_and_split,
+  find_with_index,
+  find_and_split,
+  exists,
+  is_empty,
+  unsafe_loop,
+  for_all2_no_exn,
+}
 /* No side effect */

@@ -17,5 +17,4 @@ function create_server(http) {
 }
 
 create_server(Http);
-
 /*  Not a pure module */

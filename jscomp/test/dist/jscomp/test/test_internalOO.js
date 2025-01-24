@@ -4243,77 +4243,79 @@ let dummy_item;
 
 const dummy_met = /* DummyA */ 0;
 
-exports.copy = copy;
-exports.params = params;
-exports.step = step;
-exports.initial_object_size = initial_object_size;
-exports.dummy_item = dummy_item;
-exports.public_method_label = public_method_label;
-exports.Vars = Vars;
-exports.Meths = Meths;
-exports.Labs = Labs;
-exports.dummy_table = dummy_table;
-exports.table_count = table_count;
-exports.dummy_met = dummy_met;
-exports.fit_size = fit_size;
-exports.new_table = new_table;
-exports.resize = resize;
-exports.put = put;
-exports.method_count = method_count;
-exports.inst_var_count = inst_var_count;
-exports.new_method = new_method;
-exports.get_method_label = get_method_label;
-exports.get_method_labels = get_method_labels;
-exports.set_method = set_method;
-exports.get_method = get_method;
-exports.to_list = to_list;
-exports.narrow = narrow;
-exports.widen = widen;
-exports.new_slot = new_slot;
-exports.new_variable = new_variable;
-exports.to_array = to_array;
-exports.new_methods_variables = new_methods_variables;
-exports.get_variable = get_variable;
-exports.get_variables = get_variables;
-exports.add_initializer = add_initializer;
-exports.create_table = create_table;
-exports.init_class = init_class;
-exports.inherits = inherits;
-exports.make_class = make_class;
-exports.make_class_store = make_class_store;
-exports.dummy_class = dummy_class;
-exports.iter_f = iter_f;
-exports.run_initializers = run_initializers;
-exports.run_initializers_opt = run_initializers_opt;
-exports.build_path = build_path;
-exports.lookup_keys = lookup_keys;
-exports.lookup_tables = lookup_tables;
-exports.get_const = get_const;
-exports.get_var = get_var;
-exports.get_env = get_env;
-exports.get_meth = get_meth;
-exports.set_var = set_var;
-exports.app_const = app_const;
-exports.app_var = app_var;
-exports.app_env = app_env;
-exports.app_meth = app_meth;
-exports.app_const_const = app_const_const;
-exports.app_const_var = app_const_var;
-exports.app_const_meth = app_const_meth;
-exports.app_var_const = app_var_const;
-exports.app_meth_const = app_meth_const;
-exports.app_const_env = app_const_env;
-exports.app_env_const = app_env_const;
-exports.meth_app_const = meth_app_const;
-exports.meth_app_var = meth_app_var;
-exports.meth_app_env = meth_app_env;
-exports.meth_app_meth = meth_app_meth;
-exports.send_const = send_const;
-exports.send_var = send_var;
-exports.send_env = send_env;
-exports.send_meth = send_meth;
-exports.new_cache = new_cache;
-exports.method_impl = method_impl;
-exports.set_methods = set_methods;
-exports.stats = stats;
+module.exports = {
+  copy,
+  params,
+  step,
+  initial_object_size,
+  dummy_item,
+  public_method_label,
+  Vars,
+  Meths,
+  Labs,
+  dummy_table,
+  table_count,
+  dummy_met,
+  fit_size,
+  new_table,
+  resize,
+  put,
+  method_count,
+  inst_var_count,
+  new_method,
+  get_method_label,
+  get_method_labels,
+  set_method,
+  get_method,
+  to_list,
+  narrow,
+  widen,
+  new_slot,
+  new_variable,
+  to_array,
+  new_methods_variables,
+  get_variable,
+  get_variables,
+  add_initializer,
+  create_table,
+  init_class,
+  inherits,
+  make_class,
+  make_class_store,
+  dummy_class,
+  iter_f,
+  run_initializers,
+  run_initializers_opt,
+  build_path,
+  lookup_keys,
+  lookup_tables,
+  get_const,
+  get_var,
+  get_env,
+  get_meth,
+  set_var,
+  app_const,
+  app_var,
+  app_env,
+  app_meth,
+  app_const_const,
+  app_const_var,
+  app_const_meth,
+  app_var_const,
+  app_meth_const,
+  app_const_env,
+  app_env_const,
+  meth_app_const,
+  meth_app_var,
+  meth_app_env,
+  meth_app_meth,
+  send_const,
+  send_var,
+  send_env,
+  send_meth,
+  new_cache,
+  method_impl,
+  set_methods,
+  stats,
+}
 /* Vars Not a pure module */

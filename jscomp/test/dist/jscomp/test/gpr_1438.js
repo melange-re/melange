@@ -21,5 +21,7 @@ function actionKey(key, a, b, c, d, e) {
   };
 }
 
-exports.actionKey = actionKey;
+module.exports = {
+  actionKey,
+}
 /* No side effect */

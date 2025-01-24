@@ -16,5 +16,7 @@ const a = {
   }
 };
 
-exports.a = a;
+module.exports = {
+  a,
+}
 /* No side effect */

@@ -1193,47 +1193,49 @@ const add_seq$1 = add_seq;
 
 const of_seq$1 = of_seq;
 
-exports.empty = empty;
-exports.add = add$1;
-exports.add_to_list = add_to_list$1;
-exports.update = update$1;
-exports.singleton = singleton$1;
-exports.remove = remove$1;
-exports.merge = merge$2;
-exports.union = union$1;
-exports.cardinal = cardinal$1;
-exports.bindings = bindings$1;
-exports.min_binding = min_binding$1;
-exports.min_binding_opt = min_binding_opt$1;
-exports.max_binding = max_binding$1;
-exports.max_binding_opt = max_binding_opt$1;
-exports.choose = choose;
-exports.choose_opt = choose_opt;
-exports.find = find$1;
-exports.find_opt = find_opt$1;
-exports.find_first = find_first$1;
-exports.find_first_opt = find_first_opt$1;
-exports.find_last = find_last$1;
-exports.find_last_opt = find_last_opt$1;
-exports.iter = iter$1;
-exports.fold = fold$1;
-exports.map = map$1;
-exports.mapi = mapi$1;
-exports.filter = filter$1;
-exports.filter_map = filter_map$1;
-exports.partition = partition$1;
-exports.split = split$1;
-exports.is_empty = is_empty$1;
-exports.mem = mem$1;
-exports.equal = equal$1;
-exports.compare = compare$2;
-exports.for_all = for_all$1;
-exports.exists = exists$1;
-exports.to_list = to_list;
-exports.of_list = of_list$1;
-exports.to_seq = to_seq$1;
-exports.to_rev_seq = to_rev_seq$1;
-exports.to_seq_from = to_seq_from$1;
-exports.add_seq = add_seq$1;
-exports.of_seq = of_seq$1;
+module.exports = {
+  empty,
+  add: add$1,
+  add_to_list: add_to_list$1,
+  update: update$1,
+  singleton: singleton$1,
+  remove: remove$1,
+  merge: merge$2,
+  union: union$1,
+  cardinal: cardinal$1,
+  bindings: bindings$1,
+  min_binding: min_binding$1,
+  min_binding_opt: min_binding_opt$1,
+  max_binding: max_binding$1,
+  max_binding_opt: max_binding_opt$1,
+  choose,
+  choose_opt,
+  find: find$1,
+  find_opt: find_opt$1,
+  find_first: find_first$1,
+  find_first_opt: find_first_opt$1,
+  find_last: find_last$1,
+  find_last_opt: find_last_opt$1,
+  iter: iter$1,
+  fold: fold$1,
+  map: map$1,
+  mapi: mapi$1,
+  filter: filter$1,
+  filter_map: filter_map$1,
+  partition: partition$1,
+  split: split$1,
+  is_empty: is_empty$1,
+  mem: mem$1,
+  equal: equal$1,
+  compare: compare$2,
+  for_all: for_all$1,
+  exists: exists$1,
+  to_list,
+  of_list: of_list$1,
+  to_seq: to_seq$1,
+  to_rev_seq: to_rev_seq$1,
+  to_seq_from: to_seq_from$1,
+  add_seq: add_seq$1,
+  of_seq: of_seq$1,
+}
 /* include Not a pure module */

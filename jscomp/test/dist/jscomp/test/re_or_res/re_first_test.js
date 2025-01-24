@@ -43,11 +43,13 @@ Mt.from_pair_suites("Re_first_test", suites.contents);
 
 const u = 3;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.x = x;
-exports.u = u;
-exports.adapterToJs = adapterToJs;
-exports.adapterFromJs = adapterFromJs;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  x,
+  u,
+  adapterToJs,
+  adapterFromJs,
+}
 /* x Not a pure module */

@@ -14,7 +14,6 @@ Test uncurried externals and `[@mel.*]` attributes
   
   
   smfn("/path");
-  
   /*  Not a pure module */
 
 Pathological case of non-literal type (not visible to `melange.ppx`)
@@ -33,7 +32,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
     return v(x);
   }
   
-  exports.f = f;
+  module.exports = {
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -47,7 +48,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   const x = smfn(3);
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* x Not a pure module */
 
 `[@mel.return ...]` and friends
@@ -64,7 +67,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   const x = Caml_option.nullable_to_opt(smfn(3));
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* x Not a pure module */
 
   $ cat > x.ml <<EOF
@@ -79,7 +84,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   const x = Caml_option.undefined_to_opt(smfn(3));
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* x Not a pure module */
 
 `[@mel.send]`
@@ -96,7 +103,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   const x = [3].length();
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* x Not a pure module */
 
 `[@mel.get]`
@@ -112,7 +121,9 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   const x = [3].length;
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* x Not a pure module */
 
 `[@mel.unwrap]` + non-unit return
@@ -128,5 +139,4 @@ Pathological case of non-literal type (not visible to `melange.ppx`)
   
   
   smfn("/path");
-  
   /*  Not a pure module */

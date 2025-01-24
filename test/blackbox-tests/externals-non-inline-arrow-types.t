@@ -13,7 +13,6 @@ Melange can't optimize `external` FFI where arrow type isn't inlined
   const Curry = require("melange.js/curry.js");
   
   Curry._2(foo, 42, undefined);
-  
   /*  Not a pure module */
 
 Compared to the inline type, which Melange can uncurry
@@ -28,6 +27,5 @@ Compared to the inline type, which Melange can uncurry
   
   
   foo(42);
-  
   /*  Not a pure module */
 

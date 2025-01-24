@@ -46,7 +46,9 @@ function compare3(x, y) {
   return x === y;
 }
 
-exports.compare = compare;
-exports.compare2 = compare2;
-exports.compare3 = compare3;
+module.exports = {
+  compare,
+  compare2,
+  compare3,
+}
 /* No side effect */

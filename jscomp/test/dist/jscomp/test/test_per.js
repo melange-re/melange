@@ -533,74 +533,76 @@ Caml_external_polyfill.resolve("caml_register_named_value")("Pervasives.do_at_ex
 
 const max_int = 2147483647;
 
-exports.failwith = failwith;
-exports.invalid_arg = invalid_arg;
-exports.Exit = Exit;
-exports.min = min;
-exports.max = max;
-exports.abs = abs;
-exports.lnot = lnot;
-exports.max_int = max_int;
-exports.min_int = min_int;
-exports.infinity = infinity;
-exports.neg_infinity = neg_infinity;
-exports.nan = nan;
-exports.max_float = max_float;
-exports.min_float = min_float;
-exports.epsilon_float = epsilon_float;
-exports.$caret = $caret;
-exports.char_of_int = char_of_int;
-exports.string_of_bool = string_of_bool;
-exports.bool_of_string = bool_of_string;
-exports.string_of_int = string_of_int;
-exports.valid_float_lexem = valid_float_lexem;
-exports.string_of_float = string_of_float;
-exports.$at = $at;
-exports.stdin = stdin;
-exports.stdout = stdout;
-exports.stderr = stderr;
-exports.open_out_gen = open_out_gen;
-exports.open_out = open_out;
-exports.open_out_bin = open_out_bin;
-exports.flush_all = flush_all;
-exports.output_bytes = output_bytes;
-exports.output_string = output_string;
-exports.output = output;
-exports.output_substring = output_substring;
-exports.output_value = output_value;
-exports.close_out = close_out;
-exports.close_out_noerr = close_out_noerr;
-exports.open_in_gen = open_in_gen;
-exports.open_in = open_in;
-exports.open_in_bin = open_in_bin;
-exports.input = input;
-exports.unsafe_really_input = unsafe_really_input;
-exports.really_input = really_input;
-exports.really_input_string = really_input_string;
-exports.input_line = input_line;
-exports.close_in_noerr = close_in_noerr;
-exports.print_char = print_char;
-exports.print_string = print_string;
-exports.print_bytes = print_bytes;
-exports.print_int = print_int;
-exports.print_float = print_float;
-exports.print_endline = print_endline;
-exports.print_newline = print_newline;
-exports.prerr_char = prerr_char;
-exports.prerr_string = prerr_string;
-exports.prerr_bytes = prerr_bytes;
-exports.prerr_int = prerr_int;
-exports.prerr_float = prerr_float;
-exports.prerr_endline = prerr_endline;
-exports.prerr_newline = prerr_newline;
-exports.read_line = read_line;
-exports.read_int = read_int;
-exports.read_float = read_float;
-exports.LargeFile = LargeFile;
-exports.string_of_format = string_of_format;
-exports.$caret$caret = $caret$caret;
-exports.exit_function = exit_function;
-exports.at_exit = at_exit;
-exports.do_at_exit = do_at_exit;
-exports.exit = exit;
+module.exports = {
+  failwith,
+  invalid_arg,
+  Exit,
+  min,
+  max,
+  abs,
+  lnot,
+  max_int,
+  min_int,
+  infinity,
+  neg_infinity,
+  nan,
+  max_float,
+  min_float,
+  epsilon_float,
+  $caret,
+  char_of_int,
+  string_of_bool,
+  bool_of_string,
+  string_of_int,
+  valid_float_lexem,
+  string_of_float,
+  $at,
+  stdin,
+  stdout,
+  stderr,
+  open_out_gen,
+  open_out,
+  open_out_bin,
+  flush_all,
+  output_bytes,
+  output_string,
+  output,
+  output_substring,
+  output_value,
+  close_out,
+  close_out_noerr,
+  open_in_gen,
+  open_in,
+  open_in_bin,
+  input,
+  unsafe_really_input,
+  really_input,
+  really_input_string,
+  input_line,
+  close_in_noerr,
+  print_char,
+  print_string,
+  print_bytes,
+  print_int,
+  print_float,
+  print_endline,
+  print_newline,
+  prerr_char,
+  prerr_string,
+  prerr_bytes,
+  prerr_int,
+  prerr_float,
+  prerr_endline,
+  prerr_newline,
+  read_line,
+  read_int,
+  read_float,
+  LargeFile,
+  string_of_format,
+  $caret$caret,
+  exit_function,
+  at_exit,
+  do_at_exit,
+  exit,
+}
 /* No side effect */

@@ -31,6 +31,8 @@ if (x !== undefined) {
   console.log(find_package_json(x));
 }
 
-exports.package_json = package_json;
-exports.find_package_json = find_package_json;
+module.exports = {
+  package_json,
+  find_package_json,
+}
 /* x Not a pure module */

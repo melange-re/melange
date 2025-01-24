@@ -29,6 +29,8 @@ path invariant.
     return Nano.nano(prim);
   }
   
-  exports.nano = nano;
+  module.exports = {
+    nano,
+  }
   /* ./nano Not a pure module */
 

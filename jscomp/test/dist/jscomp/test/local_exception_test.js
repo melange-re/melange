@@ -24,10 +24,12 @@ const d = {
   _1: 3
 };
 
-exports.A = A;
-exports.v = v;
-exports.B = B;
-exports.u = u;
-exports.D = D;
-exports.d = d;
+module.exports = {
+  A,
+  v,
+  B,
+  u,
+  D,
+  d,
+}
 /* No side effect */

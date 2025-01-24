@@ -96,5 +96,7 @@ const PrioQueue = {
   extract: extract
 };
 
-exports.PrioQueue = PrioQueue;
+module.exports = {
+  PrioQueue,
+}
 /* No side effect */

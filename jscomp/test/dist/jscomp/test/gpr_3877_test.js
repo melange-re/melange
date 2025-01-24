@@ -43,7 +43,9 @@ if (b !== "bad response") {
       });
 }
 
-exports.test = test;
-exports.a = a;
-exports.b = b;
+module.exports = {
+  test,
+  a,
+  b,
+}
 /*  Not a pure module */

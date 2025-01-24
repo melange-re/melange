@@ -1791,14 +1791,16 @@ catch (raw_exn){
   
 }
 
-exports.graph = graph;
-exports.nexts = nexts;
-exports.dfs1 = dfs1;
-exports.dfs2 = dfs2;
-exports.dfs3 = dfs3;
-exports.grwork = grwork;
-exports.unsafe_topsort = unsafe_topsort;
-exports.String_set = String_set;
-exports.Cycle = Cycle;
-exports.pathsort = pathsort;
+module.exports = {
+  graph,
+  nexts,
+  dfs1,
+  dfs2,
+  dfs3,
+  grwork,
+  unsafe_topsort,
+  String_set,
+  Cycle,
+  pathsort,
+}
 /*  Not a pure module */

@@ -72,11 +72,13 @@ const d = f("b");
 
 const e = f("c");
 
-exports.f = f;
-exports.ff = ff;
-exports.test = test;
-exports.test_poly = test_poly;
-exports.c = c;
-exports.d = d;
-exports.e = e;
+module.exports = {
+  f,
+  ff,
+  test,
+  test_poly,
+  c,
+  d,
+  e,
+}
 /* c Not a pure module */

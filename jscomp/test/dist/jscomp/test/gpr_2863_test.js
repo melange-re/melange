@@ -15,6 +15,8 @@ Belt__Belt_MutableSetInt.remove(mySet, 1);
 
 const a = 3;
 
-exports.mySet = mySet;
-exports.a = a;
+module.exports = {
+  mySet,
+  a,
+}
 /*  Not a pure module */

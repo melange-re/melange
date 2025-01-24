@@ -80,7 +80,9 @@ eq("File \"jscomp/test/bytes_split_gpr_743_test.ml\", line 32, characters 5-12",
 
 Mt.from_pair_suites("Bytes_split_gpr_743_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

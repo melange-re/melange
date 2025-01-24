@@ -160,23 +160,25 @@ const d = {
   ]
 };
 
-exports.a1 = a1;
-exports.a2 = a2;
-exports.b = b;
-exports.c = c;
-exports.d = d;
-exports.foo = foo;
-exports.fooA1 = fooA1;
-exports.fooC = fooC;
-exports.switchNum = switchNum;
-exports.Path = Path;
-exports.Make = Make;
-exports.M = M;
-exports.rollback_path = rollback_path;
-exports.EA1 = EA1;
-exports.EA2 = EA2;
-exports.EB = EB;
-exports.EC = EC;
-exports.ED = ED;
-exports.fooExn = fooExn;
+module.exports = {
+  a1,
+  a2,
+  b,
+  c,
+  d,
+  foo,
+  fooA1,
+  fooC,
+  switchNum,
+  Path,
+  Make,
+  M,
+  rollback_path,
+  EA1,
+  EA2,
+  EB,
+  EC,
+  ED,
+  fooExn,
+}
 /* No side effect */

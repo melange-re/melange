@@ -310,12 +310,14 @@ const suites = {
   tl: suites_1
 };
 
-exports.for_3 = for_3;
-exports.for_4 = for_4;
-exports.for_5 = for_5;
-exports.for_6 = for_6;
-exports.for_7 = for_7;
-exports.for_8 = for_8;
-exports.for_9 = for_9;
-exports.suites = suites;
+module.exports = {
+  for_3,
+  for_4,
+  for_5,
+  for_6,
+  for_7,
+  for_8,
+  for_9,
+  suites,
+}
 /* No side effect */

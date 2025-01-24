@@ -74,14 +74,16 @@
   
   const v10 = 0;
   
-  exports.v1 = v1;
-  exports.v2 = v2;
-  exports.v3 = v3;
-  exports.v4 = v4;
-  exports.v5 = v5;
-  exports.v6 = v6;
-  exports.v7 = v7;
-  exports.v8 = v8;
-  exports.v9 = v9;
-  exports.v10 = v10;
+  module.exports = {
+    v1,
+    v2,
+    v3,
+    v4,
+    v5,
+    v6,
+    v7,
+    v8,
+    v9,
+    v10,
+  }
   /* No side effect */

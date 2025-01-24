@@ -46,6 +46,8 @@ Mt.from_promise_suites("Js_blob_test", {
       tl: /* [] */ 0
     });
 
-exports.make_with_options = make_with_options;
-exports.blob_bytes = blob_bytes;
+module.exports = {
+  make_with_options,
+  blob_bytes,
+}
 /*  Not a pure module */

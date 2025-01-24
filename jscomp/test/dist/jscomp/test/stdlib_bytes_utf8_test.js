@@ -970,13 +970,15 @@ Stdlib__Printf.printf({
 
 const utf_16le = map;
 
-exports.fold_uchars = fold_uchars;
-exports.utf_8_spec = utf_8_spec;
-exports.utf_16be_spec = utf_16be_spec;
-exports.uchar_map_of_spec = uchar_map_of_spec;
-exports.uchar_map_get = uchar_map_get;
-exports.utf_8 = utf_8;
-exports.utf_16be = utf_16be;
-exports.utf_16le = utf_16le;
-exports.test_utf = test_utf;
+module.exports = {
+  fold_uchars,
+  utf_8_spec,
+  utf_16be_spec,
+  uchar_map_of_spec,
+  uchar_map_get,
+  utf_8,
+  utf_16be,
+  utf_16le,
+  test_utf,
+}
 /* utf_8 Not a pure module */

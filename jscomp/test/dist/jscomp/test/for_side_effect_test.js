@@ -37,7 +37,9 @@ const suites = {
 
 Mt.from_pair_suites("For_side_effect_test", suites);
 
-exports.tst = tst;
-exports.test2 = test2;
-exports.suites = suites;
+module.exports = {
+  tst,
+  test2,
+  suites,
+}
 /*  Not a pure module */

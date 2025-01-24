@@ -7,5 +7,7 @@ function f(re) {
   return 3;
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

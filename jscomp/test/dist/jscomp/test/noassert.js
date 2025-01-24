@@ -18,6 +18,8 @@ function h(param) {
   
 }
 
-exports.f = f;
-exports.h = h;
+module.exports = {
+  f,
+  h,
+}
 /* No side effect */

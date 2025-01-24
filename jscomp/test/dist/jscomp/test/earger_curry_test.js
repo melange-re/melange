@@ -173,20 +173,22 @@ eq("File \"jscomp/test/earger_curry_test.ml\", line 122, characters 7-14", all_v
 
 Mt.from_pair_suites("Earger_curry_test", suites.contents);
 
-exports.map = map;
-exports.init = init;
-exports.fold_left = fold_left;
-exports.f2 = f2;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.all_v = all_v;
-exports.add5 = add5;
-exports.f = f;
-exports.g = g;
-exports.a = a;
-exports.b = b;
-exports.c = c;
-exports.d = d;
+module.exports = {
+  map,
+  init,
+  fold_left,
+  f2,
+  suites,
+  test_id,
+  eq,
+  v,
+  all_v,
+  add5,
+  f,
+  g,
+  a,
+  b,
+  c,
+  d,
+}
 /*  Not a pure module */

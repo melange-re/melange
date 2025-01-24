@@ -42,7 +42,9 @@ const v1 = {
   VAL: "B"
 };
 
-exports.hi = hi;
-exports.v0 = v0;
-exports.v1 = v1;
+module.exports = {
+  hi,
+  v0,
+  v1,
+}
 /*  Not a pure module */

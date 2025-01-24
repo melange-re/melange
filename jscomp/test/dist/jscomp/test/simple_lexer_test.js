@@ -63,8 +63,10 @@ const suites = {
 
 Mt.from_pair_suites("Simple_lexer_test", suites);
 
-exports.__ocaml_lex_tables = __ocaml_lex_tables;
-exports.translate = translate;
-exports.__ocaml_lex_translate_rec = __ocaml_lex_translate_rec;
-exports.suites = suites;
+module.exports = {
+  __ocaml_lex_tables,
+  translate,
+  __ocaml_lex_translate_rec,
+  suites,
+}
 /*  Not a pure module */

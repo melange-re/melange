@@ -26,8 +26,10 @@ const uu = {
 
 const hh = uu["'x"];
 
-exports.f = f;
-exports.u = u;
-exports.uu = uu;
-exports.hh = hh;
+module.exports = {
+  f,
+  u,
+  uu,
+  hh,
+}
 /* p Not a pure module */

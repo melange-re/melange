@@ -135,17 +135,19 @@ function Test10($star) {
 
 const x = 3;
 
-exports.eq_A = eq_A;
-exports.Test = Test;
-exports.Test2 = Test2;
-exports.x = x;
-exports.f = f;
-exports.Test3 = Test3;
-exports.Test4 = Test4;
-exports.Test5 = Test5;
-exports.Test6 = Test6;
-exports.Test7 = Test7;
-exports.Test8 = Test8;
-exports.Test9 = Test9;
-exports.Test10 = Test10;
+module.exports = {
+  eq_A,
+  Test,
+  Test2,
+  x,
+  f,
+  Test3,
+  Test4,
+  Test5,
+  Test6,
+  Test7,
+  Test8,
+  Test9,
+  Test10,
+}
 /* No side effect */

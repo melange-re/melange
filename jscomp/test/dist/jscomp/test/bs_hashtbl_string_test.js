@@ -291,21 +291,23 @@ const count = 1000000;
 
 const initial_size = 1000000;
 
-exports.hash_string = hash_string;
-exports.hashString = hashString;
-exports.$$String = $$String;
-exports.String1 = String1;
-exports.String2 = String2;
-exports.Int = Int;
-exports.empty = empty;
-exports.bench = bench;
-exports.count = count;
-exports.initial_size = initial_size;
-exports.bench2 = bench2;
-exports.bench3 = bench3;
-exports.Sx = Sx;
-exports.bench4 = bench4;
-exports.bench5 = bench5;
-exports.bench6 = bench6;
-exports.bench7 = bench7;
+module.exports = {
+  hash_string,
+  hashString,
+  $$String,
+  String1,
+  String2,
+  Int,
+  empty,
+  bench,
+  count,
+  initial_size,
+  bench2,
+  bench3,
+  Sx,
+  bench4,
+  bench5,
+  bench6,
+  bench7,
+}
 /* String Not a pure module */

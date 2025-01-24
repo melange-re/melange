@@ -45,12 +45,14 @@ function ikf(v) {
       }), v);
 }
 
-exports.v = v;
-exports.reset = reset;
-exports.incr = incr;
-exports.reset2 = reset2;
-exports.incr2 = incr2;
-exports.f = f;
-exports.kf = kf;
-exports.ikf = ikf;
+module.exports = {
+  v,
+  reset,
+  incr,
+  reset2,
+  incr2,
+  f,
+  kf,
+  ikf,
+}
 /* No side effect */

@@ -93,21 +93,23 @@ const zToJs = /* ZToJs */ 1;
 
 const zXx = /* ZXx */ 2;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.tToJs = tToJs;
-exports.tFromJs = tFromJs;
-exports.v0 = v0;
-exports.v1 = v1;
-exports.xToJs = xToJs;
-exports.xFromJs = xFromJs;
-exports.idx = idx;
-exports.x0 = x0;
-exports.x1 = x1;
-exports.jsMapperEraseType = jsMapperEraseType;
-exports.b = b;
-exports.zFromJs = zFromJs;
-exports.zToJs = zToJs;
-exports.zXx = zXx;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  tToJs,
+  tFromJs,
+  v0,
+  v1,
+  xToJs,
+  xFromJs,
+  idx,
+  x0,
+  x1,
+  jsMapperEraseType,
+  b,
+  zFromJs,
+  zToJs,
+  zXx,
+}
 /*  Not a pure module */

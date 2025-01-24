@@ -39,7 +39,9 @@ eq("File \"jscomp/test/string_set_test.ml\", line 16, characters 5-12", String_s
 
 Mt.from_pair_suites("String_set_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

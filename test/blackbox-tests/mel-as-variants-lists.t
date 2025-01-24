@@ -37,7 +37,9 @@
     };
   }
   
-  exports.f = f;
+  module.exports = {
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -70,8 +72,10 @@
   
   const x = /* [] */ 0;
   
-  exports.x = x;
-  exports.f = f;
+  module.exports = {
+    x,
+    f,
+  }
   /* No side effect */
 
   $ cat > x.ml <<EOF
@@ -110,7 +114,9 @@
     tl: /* [] */ 0
   };
   
-  exports.x = x;
-  exports.y = y;
-  exports.f = f;
+  module.exports = {
+    x,
+    y,
+    f,
+  }
   /* No side effect */

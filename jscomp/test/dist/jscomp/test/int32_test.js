@@ -273,13 +273,15 @@ Mt.from_pair_suites("Int32_test", suites.contents);
 
 const test_div = 30;
 
-exports.f = f;
-exports.shift_right_logical_tests = shift_right_logical_tests;
-exports.shift_right_tests = shift_right_tests;
-exports.shift_left_tests = shift_left_tests;
-exports.test_div = test_div;
-exports.$star$tilde = $star$tilde;
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  f,
+  shift_right_logical_tests,
+  shift_right_tests,
+  shift_left_tests,
+  test_div,
+  $star$tilde,
+  suites,
+  test_id,
+  eq,
+}
 /* shift_right_logical_tests Not a pure module */

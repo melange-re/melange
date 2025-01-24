@@ -105,5 +105,7 @@ function escaped(s) {
   return s$p;
 }
 
-exports.escaped = escaped;
+module.exports = {
+  escaped,
+}
 /* No side effect */

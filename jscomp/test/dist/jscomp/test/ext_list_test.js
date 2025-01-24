@@ -909,52 +909,54 @@ function assoc_by_int(def, k, _lst) {
   };
 }
 
-exports.filter_map = filter_map;
-exports.excludes = excludes;
-exports.exclude_with_fact = exclude_with_fact;
-exports.exclude_with_fact2 = exclude_with_fact2;
-exports.same_length = same_length;
-exports.filter_mapi = filter_mapi;
-exports.filter_map2 = filter_map2;
-exports.filter_map2i = filter_map2i;
-exports.rev_map_append = rev_map_append;
-exports.flat_map2 = flat_map2;
-exports.flat_map_aux = flat_map_aux;
-exports.flat_map = flat_map;
-exports.flat_map_acc = flat_map_acc;
-exports.map2_last = map2_last;
-exports.map_last = map_last;
-exports.fold_right2_last = fold_right2_last;
-exports.init = init;
-exports.take = take;
-exports.try_take = try_take;
-exports.length_compare = length_compare;
-exports.length_larger_than_n = length_larger_than_n;
-exports.exclude_tail = exclude_tail;
-exports.group = group;
-exports.aux = aux;
-exports.stable_group = stable_group;
-exports.drop = drop;
-exports.find_first_not = find_first_not;
-exports.for_all_opt = for_all_opt;
-exports.fold = fold;
-exports.rev_map_acc = rev_map_acc;
-exports.map_acc = map_acc;
-exports.rev_iter = rev_iter;
-exports.for_all2_no_exn = for_all2_no_exn;
-exports.find_no_exn = find_no_exn;
-exports.find_opt = find_opt;
-exports.split_map = split_map;
-exports.reduce_from_right = reduce_from_right;
-exports.reduce_from_left = reduce_from_left;
-exports.create_ref_empty = create_ref_empty;
-exports.ref_top = ref_top;
-exports.ref_empty = ref_empty;
-exports.ref_push = ref_push;
-exports.ref_pop = ref_pop;
-exports.rev_except_last = rev_except_last;
-exports.sort_via_array = sort_via_array;
-exports.last = last;
-exports.assoc_by_string = assoc_by_string;
-exports.assoc_by_int = assoc_by_int;
+module.exports = {
+  filter_map,
+  excludes,
+  exclude_with_fact,
+  exclude_with_fact2,
+  same_length,
+  filter_mapi,
+  filter_map2,
+  filter_map2i,
+  rev_map_append,
+  flat_map2,
+  flat_map_aux,
+  flat_map,
+  flat_map_acc,
+  map2_last,
+  map_last,
+  fold_right2_last,
+  init,
+  take,
+  try_take,
+  length_compare,
+  length_larger_than_n,
+  exclude_tail,
+  group,
+  aux,
+  stable_group,
+  drop,
+  find_first_not,
+  for_all_opt,
+  fold,
+  rev_map_acc,
+  map_acc,
+  rev_iter,
+  for_all2_no_exn,
+  find_no_exn,
+  find_opt,
+  split_map,
+  reduce_from_right,
+  reduce_from_left,
+  create_ref_empty,
+  ref_top,
+  ref_empty,
+  ref_push,
+  ref_pop,
+  rev_except_last,
+  sort_via_array,
+  last,
+  assoc_by_string,
+  assoc_by_int,
+}
 /* Ext_string_test Not a pure module */

@@ -27,6 +27,8 @@ function test(param) {
 
 test(undefined);
 
-exports.should = should;
-exports.test = test;
+module.exports = {
+  should,
+  test,
+}
 /*  Not a pure module */

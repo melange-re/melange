@@ -62,6 +62,8 @@ Curry._1(PA.print, [
       2
     ]);
 
-exports.PA = PA;
-exports.P = P;
+module.exports = {
+  PA,
+  P,
+}
 /* PA Not a pure module */

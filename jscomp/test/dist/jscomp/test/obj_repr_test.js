@@ -41,5 +41,7 @@ CamlinternalOO.init_class($$class);
 
 const u = obj_init(undefined);
 
-exports.u = u;
+module.exports = {
+  u,
+}
 /* class Not a pure module */

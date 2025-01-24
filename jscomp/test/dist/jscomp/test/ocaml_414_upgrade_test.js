@@ -32,9 +32,11 @@ function g(X, xs) {
 
 const g_result = g(Y, []);
 
-exports.N = N;
-exports.Y = Y;
-exports.f = f;
-exports.g = g;
-exports.g_result = g_result;
+module.exports = {
+  N,
+  Y,
+  f,
+  g,
+  g_result,
+}
 /* g_result Not a pure module */

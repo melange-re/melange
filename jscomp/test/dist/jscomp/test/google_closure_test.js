@@ -28,5 +28,4 @@ Mt.from_pair_suites("Closure", {
       ],
       tl: /* [] */ 0
     });
-
 /*  Not a pure module */

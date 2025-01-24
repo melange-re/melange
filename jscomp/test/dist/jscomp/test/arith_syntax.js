@@ -22,5 +22,7 @@ function str(e) {
   }
 }
 
-exports.str = str;
+module.exports = {
+  str,
+}
 /* No side effect */

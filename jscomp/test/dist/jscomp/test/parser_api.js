@@ -16903,21 +16903,23 @@ function from_string(eta) {
   return Stdlib__Lexing.from_string(undefined, eta);
 }
 
-exports.Config = Config;
-exports.Clflags = Clflags;
-exports.Misc = Misc;
-exports.Terminfo = Terminfo;
-exports.Warnings = Warnings;
-exports.$$Location = $$Location;
-exports.Asttypes = Asttypes;
-exports.Longident = Longident;
-exports.Parsetree = Parsetree;
-exports.Docstrings = Docstrings;
-exports.Ast_helper = Ast_helper;
-exports.Syntaxerr = Syntaxerr;
-exports.Parser = Parser;
-exports.Lexer = Lexer;
-exports.Parse = Parse;
-exports.from_string = from_string;
-exports.implementation = implementation$1;
+module.exports = {
+  Config,
+  Clflags,
+  Misc,
+  Terminfo,
+  Warnings,
+  $$Location,
+  Asttypes,
+  Longident,
+  Parsetree,
+  Docstrings,
+  Ast_helper,
+  Syntaxerr,
+  Parser,
+  Lexer,
+  Parse,
+  from_string,
+  implementation: implementation$1,
+}
 /* standard_library Not a pure module */

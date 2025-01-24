@@ -38,7 +38,9 @@ let v;
 
 const u = 33;
 
-exports.v = v;
-exports.u = u;
-exports.f = f;
+module.exports = {
+  v,
+  u,
+  f,
+}
 /*  Not a pure module */

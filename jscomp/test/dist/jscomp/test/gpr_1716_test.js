@@ -49,10 +49,12 @@ eq("File \"jscomp/test/gpr_1716_test.ml\", line 26, characters 6-13", true, is_i
 
 Mt.from_pair_suites("Gpr_1716_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a = a;
-exports.b = b;
-exports.is_inifite = is_inifite;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a,
+  b,
+  is_inifite,
+}
 /*  Not a pure module */

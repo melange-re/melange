@@ -39,6 +39,8 @@ const suites = {
 
 Mt.from_pair_suites("Loop_regression_test", suites);
 
-exports.f = f;
-exports.suites = suites;
+module.exports = {
+  f,
+  suites,
+}
 /*  Not a pure module */

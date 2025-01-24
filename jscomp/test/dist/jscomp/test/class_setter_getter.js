@@ -16,6 +16,8 @@ function ff(x, z) {
   };
 }
 
-exports.fff = fff;
-exports.ff = ff;
+module.exports = {
+  fff,
+  ff,
+}
 /* No side effect */

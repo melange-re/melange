@@ -7,6 +7,8 @@ const f = Caml_bytes.bytes_to_string;
 
 const ff = Caml_bytes.bytes_to_string;
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /* No side effect */

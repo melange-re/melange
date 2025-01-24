@@ -4,5 +4,7 @@
 
 const v = mk(2);
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* v Not a pure module */

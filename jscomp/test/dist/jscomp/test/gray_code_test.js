@@ -52,8 +52,10 @@ function next_power(v) {
   return v$6 + 1 | 0;
 }
 
-exports.gray_encode = gray_encode;
-exports.gray_decode = gray_decode;
-exports.bool_string = bool_string;
-exports.next_power = next_power;
+module.exports = {
+  gray_encode,
+  gray_decode,
+  bool_string,
+  next_power,
+}
 /* No side effect */

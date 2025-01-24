@@ -368,5 +368,4 @@ const array_suites = {
 };
 
 Mt.from_pair_suites("Array_test", array_suites);
-
 /*  Not a pure module */

@@ -205,16 +205,18 @@ eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 105, characters 5-12", [
 
 Mt.from_pair_suites("Ppx_this_obj_field", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v5 = v5;
-exports.v = v;
-exports.u = u;
-exports.test_type = test_type;
-exports.z = z;
-exports.eventObj = eventObj;
-exports.test__ = test__;
-exports.zz = zz;
-exports.test_type2 = test_type2;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v5,
+  v,
+  u,
+  test_type,
+  z,
+  eventObj,
+  test__,
+  zz,
+  test_type2,
+}
 /* v5 Not a pure module */

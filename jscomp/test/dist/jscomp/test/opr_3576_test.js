@@ -132,9 +132,11 @@ eq("File \"jscomp/test/opr_3576_test.ml\", line 22, characters 6-13", Caml_oo_cu
 
 Mt.from_pair_suites("jscomp/test/opr_3576_test.ml", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.a = a;
-exports.b = b;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  a,
+  b,
+}
 /* a Not a pure module */

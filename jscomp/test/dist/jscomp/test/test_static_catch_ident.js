@@ -20,6 +20,8 @@ function scanf_bad_input(ib, x) {
   }
 }
 
-exports.Scan_failure = Scan_failure;
-exports.scanf_bad_input = scanf_bad_input;
+module.exports = {
+  Scan_failure,
+  scanf_bad_input,
+}
 /* No side effect */

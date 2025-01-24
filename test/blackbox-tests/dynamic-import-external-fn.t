@@ -29,7 +29,9 @@ translation converts into LFunction stubs
         return m.default;
       });
   
-  exports._ext = _ext;
+  module.exports = {
+    _ext,
+  }
   /* _ext Not a pure module */
 
 Example where the `return_unit` function attribute is `true` and the lambda
@@ -54,7 +56,9 @@ includes `Lsequence (_, Lconst Const_js_undefined)`
         return m.useEffect;
       });
   
-  exports.dynamicallyImportedUseEffect = dynamicallyImportedUseEffect;
+  module.exports = {
+    dynamicallyImportedUseEffect,
+  }
   /* dynamicallyImportedUseEffect Not a pure module */
 
 
@@ -75,6 +79,8 @@ includes `Lsequence (_, Lconst Const_js_undefined)`
         return m.uncurriedFn;
       });
   
-  exports.dynamicallyImportedUncurriedFn = dynamicallyImportedUncurriedFn;
+  module.exports = {
+    dynamicallyImportedUncurriedFn,
+  }
   /* dynamicallyImportedUncurriedFn Not a pure module */
 

@@ -52,9 +52,11 @@ Mt.from_pair_suites("Module_parameter_test", suites);
 
 const v0 = 1;
 
-exports.u = u;
-exports.N = N;
-exports.v0 = v0;
-exports.v = v;
-exports.suites = suites;
+module.exports = {
+  u,
+  N,
+  v0,
+  v,
+  suites,
+}
 /*  Not a pure module */

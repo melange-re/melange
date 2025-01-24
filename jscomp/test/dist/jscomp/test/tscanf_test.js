@@ -5616,107 +5616,109 @@ const tscanf_data_file_lines = {
   tl: /* [] */ 0
 };
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.test = test;
-exports.id = id;
-exports.test0 = test0;
-exports.test1 = test1;
-exports.test2 = test2;
-exports.test3 = test3;
-exports.test4 = test4;
-exports.test5 = test5;
-exports.test6 = test6;
-exports.test7 = test7;
-exports.verify_read = verify_read;
-exports.verify_scan_Chars = verify_scan_Chars;
-exports.test8 = test8;
-exports.unit = unit;
-exports.test_fmt = test_fmt;
-exports.test9_string = test9_string;
-exports.test_S = test_S;
-exports.test9 = test9;
-exports.test10 = test10;
-exports.test11 = test11;
-exports.test110 = test110;
-exports.test111 = test111;
-exports.ib = ib;
-exports.f = f;
-exports.test12 = test12;
-exports.g = g;
-exports.test13 = test13;
-exports.test14 = test14;
-exports.test15 = test15;
-exports.test16 = test16;
-exports.test17 = test17;
-exports.test18 = test18;
-exports.test19 = test19;
-exports.test20 = test20;
-exports.test21 = test21;
-exports.scan_rest = scan_rest$1;
-exports.test22 = test22;
-exports.test23 = test23;
-exports.test24 = test24;
-exports.test25 = test25;
-exports.test26 = test26;
-exports.test27 = test27;
-exports.scan_String_elem = scan_String_elem;
-exports.scan_String_list = scan_String_list;
-exports.test28 = test28;
-exports.scan_int_elem = scan_int_elem$1;
-exports.test29 = test29;
-exports.scan_string_elem = scan_string_elem$1;
-exports.test30 = test30;
-exports.scan_elem = scan_elem;
-exports.test31 = test31;
-exports.test32 = test32;
-exports.test33 = test33;
-exports.test34 = test34;
-exports.scan_elems = scan_elems$9;
-exports.scan_list = scan_list$4;
-exports.scan_float = scan_float;
-exports.scan_int_list = scan_int_list$8;
-exports.scan_string_list = scan_string_list$2;
-exports.scan_bool_list = scan_bool_list;
-exports.scan_char_list = scan_char_list;
-exports.test340 = test340;
-exports.scan_list_list = scan_list_list;
-exports.scan_float_item = scan_float_item;
-exports.scan_float_list = scan_float_list;
-exports.scan_float_list_list = scan_float_list_list$1;
-exports.test35 = test35;
-exports.read_elems = read_elems;
-exports.read_list = read_list;
-exports.make_read_elem = make_read_elem;
-exports.scan_List = scan_List;
-exports.test36 = test36;
-exports.test37 = test37;
-exports.test38 = test38;
-exports.test39 = test39;
-exports.test40 = test40;
-exports.test41 = test41;
-exports.test42 = test42;
-exports.test43 = test43;
-exports.test44 = test44;
-exports.test45 = test45;
-exports.test46 = test46;
-exports.test47 = test47;
-exports.test48 = test48;
-exports.test49 = test49;
-exports.next_char = next_char;
-exports.send_string = send_string;
-exports.send_int = send_int;
-exports.reader = reader;
-exports.writer = writer;
-exports.go = go;
-exports.test50 = test50;
-exports.test51 = test51;
-exports.test52 = test52;
-exports.test53 = test53;
-exports.test56 = test56;
-exports.tscanf_data_file_lines = tscanf_data_file_lines;
-exports.test57 = test57;
-exports.test58 = test58;
-exports.test60 = test60;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  test,
+  id,
+  test0,
+  test1,
+  test2,
+  test3,
+  test4,
+  test5,
+  test6,
+  test7,
+  verify_read,
+  verify_scan_Chars,
+  test8,
+  unit,
+  test_fmt,
+  test9_string,
+  test_S,
+  test9,
+  test10,
+  test11,
+  test110,
+  test111,
+  ib,
+  f,
+  test12,
+  g,
+  test13,
+  test14,
+  test15,
+  test16,
+  test17,
+  test18,
+  test19,
+  test20,
+  test21,
+  scan_rest: scan_rest$1,
+  test22,
+  test23,
+  test24,
+  test25,
+  test26,
+  test27,
+  scan_String_elem,
+  scan_String_list,
+  test28,
+  scan_int_elem: scan_int_elem$1,
+  test29,
+  scan_string_elem: scan_string_elem$1,
+  test30,
+  scan_elem,
+  test31,
+  test32,
+  test33,
+  test34,
+  scan_elems: scan_elems$9,
+  scan_list: scan_list$4,
+  scan_float,
+  scan_int_list: scan_int_list$8,
+  scan_string_list: scan_string_list$2,
+  scan_bool_list,
+  scan_char_list,
+  test340,
+  scan_list_list,
+  scan_float_item,
+  scan_float_list,
+  scan_float_list_list: scan_float_list_list$1,
+  test35,
+  read_elems,
+  read_list,
+  make_read_elem,
+  scan_List,
+  test36,
+  test37,
+  test38,
+  test39,
+  test40,
+  test41,
+  test42,
+  test43,
+  test44,
+  test45,
+  test46,
+  test47,
+  test48,
+  test49,
+  next_char,
+  send_string,
+  send_int,
+  reader,
+  writer,
+  go,
+  test50,
+  test51,
+  test52,
+  test53,
+  test56,
+  tscanf_data_file_lines,
+  test57,
+  test58,
+  test60,
+}
 /*  Not a pure module */

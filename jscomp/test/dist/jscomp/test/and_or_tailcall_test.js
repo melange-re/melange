@@ -63,7 +63,9 @@ const suites = {
 
 Mt.from_pair_suites("And_or_tailcall_test", suites);
 
-exports.f = f;
-exports.or_f = or_f;
-exports.suites = suites;
+module.exports = {
+  f,
+  or_f,
+  suites,
+}
 /*  Not a pure module */

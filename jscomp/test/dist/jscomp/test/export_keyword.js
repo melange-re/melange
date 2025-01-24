@@ -8,7 +8,9 @@ const $$window = 2;
 
 const $$switch = 3;
 
-exports.$$case = $$case;
-exports.$$window = $$window;
-exports.$$switch = $$switch;
+module.exports = {
+  $$case,
+  $$window,
+  $$switch,
+}
 /* No side effect */

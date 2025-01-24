@@ -412,13 +412,15 @@ eq("File \"jscomp/test/bs_sort_test.ml\", line 143, characters 5-12", Belt__Belt
 
 Mt.from_pair_suites("Bs_sort_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.cmp = cmp;
-exports.unions = unions;
-exports.inters = inters;
-exports.diffs = diffs;
-exports.lt = lt;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  cmp,
+  unions,
+  inters,
+  diffs,
+  lt,
+}
 /*  Not a pure module */

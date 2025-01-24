@@ -177,5 +177,7 @@ function assertion_test(param) {
       }));
 }
 
-exports.assertion_test = assertion_test;
+module.exports = {
+  assertion_test,
+}
 /* StringMap Not a pure module */

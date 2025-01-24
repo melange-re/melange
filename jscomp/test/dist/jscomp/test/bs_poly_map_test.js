@@ -302,17 +302,19 @@ b("File \"jscomp/test/bs_poly_map_test.ml\", line 139, characters 4-11", Belt__B
 
 Mt.from_pair_suites("Bs_poly_map_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.b = b;
-exports.Icmp = Icmp;
-exports.mapOfArray = mapOfArray;
-exports.setOfArray = setOfArray;
-exports.emptyMap = emptyMap;
-exports.mergeInter = mergeInter;
-exports.mergeUnion = mergeUnion;
-exports.mergeDiff = mergeDiff;
-exports.randomRange = randomRange;
-exports.acc = acc;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  b,
+  Icmp,
+  mapOfArray,
+  setOfArray,
+  emptyMap,
+  mergeInter,
+  mergeUnion,
+  mergeDiff,
+  randomRange,
+  acc,
+}
 /* Icmp Not a pure module */

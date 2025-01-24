@@ -61,6 +61,8 @@ function longer_float_array(x) {
   ];
 }
 
-exports.small_float_array = small_float_array;
-exports.longer_float_array = longer_float_array;
+module.exports = {
+  small_float_array,
+  longer_float_array,
+}
 /* No side effect */

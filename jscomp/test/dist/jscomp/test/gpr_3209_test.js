@@ -20,5 +20,7 @@ function f9(param) {
   }
 }
 
-exports.f9 = f9;
+module.exports = {
+  f9,
+}
 /* No side effect */

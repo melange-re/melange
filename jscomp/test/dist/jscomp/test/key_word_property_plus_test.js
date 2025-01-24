@@ -50,7 +50,9 @@ eq("File \"jscomp/test/key_word_property_plus_test.ml\", line 10, characters 5-1
 
 Mt.from_pair_suites("Key_word_property_plus_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

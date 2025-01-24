@@ -46,8 +46,10 @@ if (v.contents !== 45) {
 
 const count = 10;
 
-exports.v = v;
-exports.count = count;
-exports.arr = arr;
-exports.f = f;
+module.exports = {
+  v,
+  count,
+  arr,
+  f,
+}
 /*  Not a pure module */

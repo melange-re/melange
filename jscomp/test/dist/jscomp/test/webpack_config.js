@@ -70,12 +70,14 @@ function ff(prim) {
   return Local.ff();
 }
 
-exports.WebpackConfig = WebpackConfig;
-exports.WebpackDevMiddlewareConfig = WebpackDevMiddlewareConfig;
-exports.configX = configX;
-exports.U = U;
-exports.A = A;
-exports.B = B;
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  WebpackConfig,
+  WebpackDevMiddlewareConfig,
+  configX,
+  U,
+  A,
+  B,
+  f,
+  ff,
+}
 /* configx Not a pure module */

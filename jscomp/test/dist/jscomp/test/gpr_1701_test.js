@@ -107,10 +107,12 @@ function fff(f, x) {
   }
 }
 
-exports.Foo = Foo;
-exports.test = test;
-exports.read_lines = read_lines;
-exports.read_lines2 = read_lines2;
-exports.read_lines3 = read_lines3;
-exports.fff = fff;
+module.exports = {
+  Foo,
+  test,
+  read_lines,
+  read_lines2,
+  read_lines3,
+  fff,
+}
 /*  Not a pure module */

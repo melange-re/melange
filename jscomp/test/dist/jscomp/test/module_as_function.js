@@ -7,5 +7,7 @@ const v = Nightmare({
       show: true
     });
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* v Not a pure module */

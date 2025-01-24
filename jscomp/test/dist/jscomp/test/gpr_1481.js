@@ -7,5 +7,7 @@ function f(param) {
   return Moduleid.name;
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* #moduleid Not a pure module */

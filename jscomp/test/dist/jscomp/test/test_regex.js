@@ -8,7 +8,9 @@ const r = /Bucklescript是一个程序语言/;
 
 const c = v;
 
-exports.v = v;
-exports.r = r;
-exports.c = c;
+module.exports = {
+  v,
+  r,
+  c,
+}
 /* No side effect */

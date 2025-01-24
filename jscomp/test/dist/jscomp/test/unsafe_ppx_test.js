@@ -103,16 +103,18 @@ Mt.from_pair_suites("Unsafe_ppx_test", {
       }
     });
 
-exports.x = x;
-exports.max = max;
-exports.regression3 = regression3;
-exports.regression4 = regression4;
-exports.g = g;
-exports.max2 = max2;
-exports.umax = umax;
-exports.u = u;
-exports.max3 = max3;
-exports.uu = uu;
-exports.empty = empty;
-exports.v = v;
+module.exports = {
+  x,
+  max,
+  regression3,
+  regression4,
+  g,
+  max2,
+  umax,
+  u,
+  max3,
+  uu,
+  empty,
+  v,
+}
 /* max Not a pure module */

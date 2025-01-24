@@ -134,20 +134,22 @@ Mt.from_pair_suites("Js_bool_test", suites);
 
 const f3 = true;
 
-exports.f = f;
-exports.f2 = f2;
-exports.f4 = f4;
-exports.f3 = f3;
-exports.u = u;
-exports.v = v;
-exports.suites = suites;
-exports.ff = ff;
-exports.fi = fi;
-exports.fb = fb;
-exports.fadd = fadd;
-exports.ffadd = ffadd;
-exports.ss = ss;
-exports.bb = bb;
-exports.consts = consts;
-exports.bool_array = bool_array;
+module.exports = {
+  f,
+  f2,
+  f4,
+  f3,
+  u,
+  v,
+  suites,
+  ff,
+  fi,
+  fb,
+  fadd,
+  ffadd,
+  ss,
+  bb,
+  consts,
+  bool_array,
+}
 /*  Not a pure module */

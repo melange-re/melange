@@ -46,7 +46,9 @@ function H($star) {
   return {};
 }
 
-exports.f = f;
-exports.N = N;
-exports.H = H;
+module.exports = {
+  f,
+  N,
+  H,
+}
 /*  Not a pure module */

@@ -33,7 +33,9 @@ function length(_acc, _x) {
   };
 }
 
-exports.tailcall = tailcall;
-exports.non_length = non_length;
-exports.length = length;
+module.exports = {
+  tailcall,
+  non_length,
+  length,
+}
 /* No side effect */

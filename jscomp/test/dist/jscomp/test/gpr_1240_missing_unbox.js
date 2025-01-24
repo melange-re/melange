@@ -11,5 +11,7 @@ function f(x, y) {
   ];
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

@@ -8,5 +8,7 @@ function f(a) {
   };
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

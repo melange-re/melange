@@ -62,7 +62,9 @@ const suites = {
 
 Mt.from_pair_suites("Inline_regression_test", suites);
 
-exports.generic_basename = generic_basename;
-exports.basename = basename;
-exports.suites = suites;
+module.exports = {
+  generic_basename,
+  basename,
+  suites,
+}
 /*  Not a pure module */

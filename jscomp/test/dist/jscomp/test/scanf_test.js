@@ -67,7 +67,9 @@ eq("File \"jscomp/test/scanf_test.ml\", line 7, characters 5-12", [
 
 Mt.from_pair_suites("Scanf_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

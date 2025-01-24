@@ -12,6 +12,8 @@ function f(param) {
       });
 }
 
-exports.u = u;
-exports.f = f;
+module.exports = {
+  u,
+  f,
+}
 /* No side effect */

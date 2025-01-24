@@ -8,5 +8,7 @@ const o = {
   })
 };
 
-exports.o = o;
+module.exports = {
+  o,
+}
 /* o Not a pure module */

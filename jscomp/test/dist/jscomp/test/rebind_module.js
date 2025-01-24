@@ -7,6 +7,8 @@ const A = /* @__PURE__ */ Caml_exceptions.create("Rebind_module.A");
 
 const AA = /* @__PURE__ */ Caml_exceptions.create("Rebind_module.AA");
 
-exports.A = A;
-exports.AA = AA;
+module.exports = {
+  A,
+  AA,
+}
 /* No side effect */

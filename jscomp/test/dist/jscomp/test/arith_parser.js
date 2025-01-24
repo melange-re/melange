@@ -147,21 +147,23 @@ function toplevel(lexfun, lexbuf) {
 
 const yytablesize = 272;
 
-exports.yytransl_const = yytransl_const;
-exports.yytransl_block = yytransl_block;
-exports.yylhs = yylhs;
-exports.yylen = yylen;
-exports.yydefred = yydefred;
-exports.yydgoto = yydgoto;
-exports.yysindex = yysindex;
-exports.yyrindex = yyrindex;
-exports.yygindex = yygindex;
-exports.yytablesize = yytablesize;
-exports.yytable = yytable;
-exports.yycheck = yycheck;
-exports.yynames_const = yynames_const;
-exports.yynames_block = yynames_block;
-exports.yyact = yyact;
-exports.yytables = yytables;
-exports.toplevel = toplevel;
+module.exports = {
+  yytransl_const,
+  yytransl_block,
+  yylhs,
+  yylen,
+  yydefred,
+  yydgoto,
+  yysindex,
+  yyrindex,
+  yygindex,
+  yytablesize,
+  yytable,
+  yycheck,
+  yynames_const,
+  yynames_block,
+  yyact,
+  yytables,
+  toplevel,
+}
 /* No side effect */

@@ -55,7 +55,9 @@ const suites = {
 
 Mt.from_pair_suites("Stack_test", suites);
 
-exports.to_list = to_list;
-exports.v = v;
-exports.suites = suites;
+module.exports = {
+  to_list,
+  v,
+  suites,
+}
 /*  Not a pure module */

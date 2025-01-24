@@ -14,5 +14,7 @@ A test case for some exn in lam_convert
     return Math.abs(prim);
   }
   
-  exports.t = t;
+  module.exports = {
+    t,
+  }
   /* No side effect */

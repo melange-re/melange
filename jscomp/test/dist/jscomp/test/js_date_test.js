@@ -1104,6 +1104,8 @@ const suites = {
 
 Mt.from_pair_suites("Js_date_test", suites);
 
-exports.date = date;
-exports.suites = suites;
+module.exports = {
+  date,
+  suites,
+}
 /*  Not a pure module */

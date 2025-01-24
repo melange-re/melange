@@ -31,11 +31,13 @@ const x = "W";
 
 const wth_quote = "'\"'\"";
 
-exports.f = f;
-exports.u = u;
-exports.h = h;
-exports.x = x;
-exports.zero_to_255 = zero_to_255;
-exports.js_zero_to_255 = js_zero_to_255;
-exports.wth_quote = wth_quote;
+module.exports = {
+  f,
+  u,
+  h,
+  x,
+  zero_to_255,
+  js_zero_to_255,
+  wth_quote,
+}
 /*  Not a pure module */

@@ -16,5 +16,4 @@ Belt__Belt_Result.getWithDefault(Belt__Belt_Result.map({
         }, (function (r) {
           return "Value: " + r;
         })), "success");
-
 /*  Not a pure module */

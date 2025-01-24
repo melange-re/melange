@@ -89,11 +89,13 @@ Mt.from_pair_suites("Exception_repr_test", suites.contents);
 
 const AAA = Exception_def.A;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.Hi = Hi;
-exports.Hello = Hello;
-exports.A = A;
-exports.AAA = AAA;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  Hi,
+  Hello,
+  A,
+  AAA,
+}
 /*  Not a pure module */

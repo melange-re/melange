@@ -26,8 +26,10 @@ function Make(U) {
   };
 }
 
-exports.v = v;
-exports.f = f;
-exports.$$return = $$return;
-exports.Make = Make;
+module.exports = {
+  v,
+  f,
+  $$return,
+  Make,
+}
 /* No side effect */

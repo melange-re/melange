@@ -57,7 +57,9 @@ function f3(x) {
   return tmp(3);
 }
 
-exports.f0 = f0;
-exports.f1 = f1;
-exports.f3 = f3;
+module.exports = {
+  f0,
+  f1,
+  f3,
+}
 /* No side effect */

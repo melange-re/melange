@@ -52,16 +52,18 @@ function u(param) {
 
 const $$case = 3;
 
-exports.default = $$default;
-exports.__esModule = true;
-exports.default2 = default2;
-exports.oefault = oefault;
-exports.oefault2 = oefault2;
-exports.$$window = $$window;
-exports.mk = mk;
-exports.mk2 = mk2;
-exports.des = des;
-exports.$$case = $$case;
-exports.test = test;
-exports.u = u;
+module.exports = {
+  default: $$default,
+  __esModule: true,
+  default2,
+  oefault,
+  oefault2,
+  $$window,
+  mk,
+  mk2,
+  des,
+  $$case,
+  test,
+  u,
+}
 /* default Not a pure module */

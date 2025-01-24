@@ -109,50 +109,52 @@ const Floatarray = Stdlib__Array.Floatarray;
 
 const a = 3;
 
-exports.init = init;
-exports.make_matrix = make_matrix;
-exports.init_matrix = init_matrix;
-exports.append = append;
-exports.concat = concat;
-exports.sub = sub;
-exports.copy = copy;
-exports.fill = fill;
-exports.blit = blit;
-exports.to_list = to_list;
-exports.of_list = of_list;
-exports.iter = iter;
-exports.iteri = iteri;
-exports.map = map;
-exports.map_inplace = map_inplace;
-exports.mapi = mapi;
-exports.mapi_inplace = mapi_inplace;
-exports.fold_left = fold_left;
-exports.fold_left_map = fold_left_map;
-exports.fold_right = fold_right;
-exports.iter2 = iter2;
-exports.map2 = map2;
-exports.for_all = for_all;
-exports.exists = exists;
-exports.for_all2 = for_all2;
-exports.exists2 = exists2;
-exports.mem = mem;
-exports.memq = memq;
-exports.find_opt = find_opt;
-exports.find_index = find_index;
-exports.find_map = find_map;
-exports.find_mapi = find_mapi;
-exports.split = split;
-exports.combine = combine;
-exports.sort = sort;
-exports.stable_sort = stable_sort;
-exports.fast_sort = fast_sort;
-exports.shuffle = shuffle;
-exports.to_seq = to_seq;
-exports.to_seqi = to_seqi;
-exports.of_seq = of_seq;
-exports.Floatarray = Floatarray;
-exports.N = N;
-exports.NN = NN;
-exports.a = a;
-exports.v = v;
+module.exports = {
+  init,
+  make_matrix,
+  init_matrix,
+  append,
+  concat,
+  sub,
+  copy,
+  fill,
+  blit,
+  to_list,
+  of_list,
+  iter,
+  iteri,
+  map,
+  map_inplace,
+  mapi,
+  mapi_inplace,
+  fold_left,
+  fold_left_map,
+  fold_right,
+  iter2,
+  map2,
+  for_all,
+  exists,
+  for_all2,
+  exists2,
+  mem,
+  memq,
+  find_opt,
+  find_index,
+  find_map,
+  find_mapi,
+  split,
+  combine,
+  sort,
+  stable_sort,
+  fast_sort,
+  shuffle,
+  to_seq,
+  to_seqi,
+  of_seq,
+  Floatarray,
+  N,
+  NN,
+  a,
+  v,
+}
 /*  Not a pure module */

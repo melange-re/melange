@@ -244,5 +244,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                   ];
                 }), Ext_array_test.range(0, 129)))));
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /*  Not a pure module */

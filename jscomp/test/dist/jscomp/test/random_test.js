@@ -132,15 +132,17 @@ Curry._5(Stdlib__Printf.printf({
 
 Mt.from_pair_suites("Random_test", suites.contents);
 
-exports.id = id;
-exports.suites = suites;
-exports.eq = eq;
-exports.neq = neq;
-exports.approx = approx;
-exports.v = v;
-exports.f = f;
-exports.h = h;
-exports.vv = vv;
-exports.xx = xx;
-exports.xxx = xxx;
+module.exports = {
+  id,
+  suites,
+  eq,
+  neq,
+  approx,
+  v,
+  f,
+  h,
+  vv,
+  xx,
+  xxx,
+}
 /*  Not a pure module */

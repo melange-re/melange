@@ -16,5 +16,4 @@ Mt.from_pair_suites("jscomp/test/string_get_set_test.ml", {
       ],
       tl: /* [] */ 0
     });
-
 /*  Not a pure module */

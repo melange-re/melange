@@ -7,5 +7,7 @@ function f(x) {
   x.pushState(undefined, "x");
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

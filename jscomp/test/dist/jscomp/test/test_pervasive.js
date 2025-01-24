@@ -251,25 +251,27 @@ function a18(prim0, prim1) {
 
 const f = Stdlib.$at;
 
-exports.Stdlib = Stdlib$1;
-exports.f = f;
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
-exports.a7 = a7;
-exports.a8 = a8;
-exports.a9 = a9;
-exports.a10 = a10;
-exports.a11 = a11;
-exports.a12 = a12;
-exports.a13 = a13;
-exports.a14 = a14;
-exports.a15 = a15;
-exports.a16 = a16;
-exports.a17 = a17;
-exports.a18 = a18;
+module.exports = {
+  Stdlib: Stdlib$1,
+  f,
+  a0,
+  a1,
+  a2,
+  a3,
+  a4,
+  a5,
+  a6,
+  a7,
+  a8,
+  a9,
+  a10,
+  a11,
+  a12,
+  a13,
+  a14,
+  a15,
+  a16,
+  a17,
+  a18,
+}
 /* No side effect */

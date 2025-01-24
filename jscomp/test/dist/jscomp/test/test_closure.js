@@ -39,6 +39,8 @@ if (v.contents !== 45) {
       });
 }
 
-exports.v = v;
-exports.f = f;
+module.exports = {
+  v,
+  f,
+}
 /* u Not a pure module */

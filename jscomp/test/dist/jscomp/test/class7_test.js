@@ -350,16 +350,18 @@ const widget = CamlinternalOO.make_class(shared$4, widget_init);
 
 Mt.from_pair_suites("Class7_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.point = point;
-exports.ref = ref;
-exports.backup = backup;
-exports.backup_ref = backup_ref;
-exports.get = get;
-exports.backup2 = backup2;
-exports.backup_ref2 = backup_ref2;
-exports.$$window = $$window;
-exports.widget = widget;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  point,
+  ref,
+  backup,
+  backup_ref,
+  get,
+  backup2,
+  backup_ref2,
+  $$window,
+  widget,
+}
 /* point Not a pure module */

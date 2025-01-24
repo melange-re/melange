@@ -123,18 +123,20 @@ const v3 = {
   ]
 };
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.v = v;
-exports.u = u;
-exports.h = h;
-exports.A = A;
-exports.B = B;
-exports.v0 = v0;
-exports.v1 = v1;
-exports.v2 = v2;
-exports.v3 = v3;
-exports.N = N;
-exports.N0 = N0;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  v,
+  u,
+  h,
+  A,
+  B,
+  v0,
+  v1,
+  v2,
+  v3,
+  N,
+  N0,
+}
 /* i Not a pure module */

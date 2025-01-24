@@ -59,17 +59,19 @@ const f6 = 1;
 
 const f7 = 3e-6;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.H = H;
-exports.f = f;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.h = h;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  H,
+  f,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  h,
+}
 /*  Not a pure module */

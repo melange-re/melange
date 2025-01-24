@@ -55,13 +55,15 @@ function fff(_x, _y) {
   };
 }
 
-exports.$pipe$great = $pipe$great;
-exports.hello1 = hello1;
-exports.hello2 = hello2;
-exports.hello3 = hello3;
-exports.hello4 = hello4;
-exports.hello5 = hello5;
-exports.f = f;
-exports.ff = ff;
-exports.fff = fff;
+module.exports = {
+  $pipe$great,
+  hello1,
+  hello2,
+  hello3,
+  hello4,
+  hello5,
+  f,
+  ff,
+  fff,
+}
 /* No side effect */

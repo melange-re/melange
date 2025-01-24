@@ -53,11 +53,13 @@ const obj2 = {
   })
 };
 
-exports.obj = obj;
-exports.f = f;
-exports.h = h;
-exports.x = x;
-exports.f1 = f1;
-exports.obj3 = obj3;
-exports.obj2 = obj2;
+module.exports = {
+  obj,
+  f,
+  h,
+  x,
+  f1,
+  obj3,
+  obj2,
+}
 /* obj Not a pure module */

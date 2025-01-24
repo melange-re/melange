@@ -8,6 +8,8 @@ const v = console.log(3);
 
 let u;
 
-exports.u = u;
-exports.v = v;
+module.exports = {
+  u,
+  v,
+}
 /*  Not a pure module */

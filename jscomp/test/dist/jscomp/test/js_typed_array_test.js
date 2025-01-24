@@ -2333,9 +2333,11 @@ const suites = {
 
 Mt.from_pair_suites("Js_typed_array_test", suites);
 
-exports.mkI8 = mkI8;
-exports.via = via;
-exports.viaInt8 = viaInt8;
-exports.x = x;
-exports.suites = suites;
+module.exports = {
+  mkI8,
+  via,
+  viaInt8,
+  x,
+  suites,
+}
 /* x Not a pure module */

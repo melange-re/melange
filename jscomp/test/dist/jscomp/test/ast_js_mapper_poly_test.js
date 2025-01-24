@@ -79,12 +79,14 @@ Mt.from_pair_suites("Ast_js_mapper_poly_test", suites.contents);
 
 const $plus$great = Stdlib__Array.append;
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.uToJs = uToJs;
-exports.uFromJs = uFromJs;
-exports.eqU = eqU;
-exports.eqUOpt = eqUOpt;
-exports.$plus$great = $plus$great;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  uToJs,
+  uFromJs,
+  eqU,
+  eqUOpt,
+  $plus$great,
+}
 /*  Not a pure module */

@@ -97,12 +97,14 @@ eq("File \"jscomp/test/tramp_fib.ml\", line 58, characters 6-13", iter(isEven(20
 
 Mt.from_pair_suites("File \"jscomp/test/tramp_fib.ml\", line 60, characters 23-30", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.fib = fib;
-exports.u = u;
-exports.iter = iter;
-exports.isEven = isEven;
-exports.isOdd = isOdd;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  fib,
+  u,
+  iter,
+  isEven,
+  isOdd,
+}
 /* u Not a pure module */

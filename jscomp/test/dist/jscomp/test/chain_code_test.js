@@ -61,11 +61,13 @@ eq("File \"jscomp/test/chain_code_test.ml\", line 28, characters 5-12", 32, ({
 
 Mt.from_pair_suites("Chain_code_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  f,
+  f2,
+  f3,
+  f4,
+}
 /*  Not a pure module */

@@ -44,7 +44,9 @@ eq("File \"jscomp/test/ffi_array_test.ml\", line 12, characters 5-12", [
 
 Mt.from_pair_suites("Ffi_array_test", suites.contents);
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+}
 /*  Not a pure module */

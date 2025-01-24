@@ -20,6 +20,8 @@ function f(x, y) {
   ];
 }
 
-exports.test = test;
-exports.f = f;
+module.exports = {
+  test,
+  f,
+}
 /* No side effect */

@@ -99,14 +99,16 @@ function test00(param) {
 
 let none_arg;
 
-exports.arg_string = arg_string;
-exports.arg_pair = arg_pair;
-exports.some_arg = some_arg;
-exports.none_arg = none_arg;
-exports.dyn_log3 = dyn_log3;
-exports.dyn_log4 = dyn_log4;
-exports.f = f;
-exports.ff0 = ff0;
-exports.ff1 = ff1;
-exports.test00 = test00;
+module.exports = {
+  arg_string,
+  arg_pair,
+  some_arg,
+  none_arg,
+  dyn_log3,
+  dyn_log4,
+  f,
+  ff0,
+  ff1,
+  test00,
+}
 /*  Not a pure module */

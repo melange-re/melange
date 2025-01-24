@@ -9,5 +9,4 @@ console.log([
       ff,
       "A"
     ]);
-
 /*  Not a pure module */

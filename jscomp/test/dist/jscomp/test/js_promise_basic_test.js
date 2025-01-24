@@ -345,32 +345,34 @@ Mt.from_promise_suites("Js_promise_basic_test", {
       }
     });
 
-exports.suites = suites;
-exports.test_id = test_id;
-exports.eq = eq;
-exports.assert_bool = assert_bool;
-exports.fail = fail;
-exports.thenTest = thenTest;
-exports.andThenTest = andThenTest;
-exports.h = h;
-exports.assertIsNotFound = assertIsNotFound;
-exports.catchTest = catchTest;
-exports.orResolvedTest = orResolvedTest;
-exports.orRejectedTest = orRejectedTest;
-exports.orElseResolvedTest = orElseResolvedTest;
-exports.orElseRejectedResolveTest = orElseRejectedResolveTest;
-exports.orElseRejectedRejectTest = orElseRejectedRejectTest;
-exports.resolveTest = resolveTest;
-exports.rejectTest = rejectTest;
-exports.thenCatchChainResolvedTest = thenCatchChainResolvedTest;
-exports.thenCatchChainRejectedTest = thenCatchChainRejectedTest;
-exports.allResolvedTest = allResolvedTest;
-exports.is_not_found = is_not_found;
-exports.allRejectTest = allRejectTest;
-exports.raceTest = raceTest;
-exports.createPromiseRejectTest = createPromiseRejectTest;
-exports.createPromiseFulfillTest = createPromiseFulfillTest;
-exports.twop = twop;
-exports.then_ = then_;
-exports.re = re;
+module.exports = {
+  suites,
+  test_id,
+  eq,
+  assert_bool,
+  fail,
+  thenTest,
+  andThenTest,
+  h,
+  assertIsNotFound,
+  catchTest,
+  orResolvedTest,
+  orRejectedTest,
+  orElseResolvedTest,
+  orElseRejectedResolveTest,
+  orElseRejectedRejectTest,
+  resolveTest,
+  rejectTest,
+  thenCatchChainResolvedTest,
+  thenCatchChainRejectedTest,
+  allResolvedTest,
+  is_not_found,
+  allRejectTest,
+  raceTest,
+  createPromiseRejectTest,
+  createPromiseFulfillTest,
+  twop,
+  then_,
+  re,
+}
 /* h Not a pure module */
