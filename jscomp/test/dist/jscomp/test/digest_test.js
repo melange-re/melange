@@ -224,16 +224,16 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
         }, Stdlib__Array.to_list(Stdlib__Array.map((function (i) {
                   return [
                     Curry._1(Stdlib__Printf.sprintf({
-                              TAG: /* Format */ 0,
-                              _0: {
-                                TAG: /* Int */ 4,
-                                _0: /* Int_d */ 0,
-                                _1: /* No_padding */ 0,
-                                _2: /* No_precision */ 0,
-                                _3: /* End_of_format */ 0
-                              },
-                              _1: "%d"
-                            }), i),
+                            TAG: /* Format */ 0,
+                            _0: {
+                              TAG: /* Int */ 4,
+                              _0: /* Int_d */ 0,
+                              _1: /* No_padding */ 0,
+                              _2: /* No_precision */ 0,
+                              _3: /* End_of_format */ 0
+                            },
+                            _1: "%d"
+                          }), i),
                     (function (param) {
                       return {
                         TAG: /* Eq */ 0,

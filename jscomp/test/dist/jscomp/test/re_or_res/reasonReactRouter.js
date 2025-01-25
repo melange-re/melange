@@ -171,14 +171,14 @@ function useUrl(serverUrl, param) {
   React.useEffect((function () {
         const watcherId = watchUrl(function (url) {
               Curry._1(setUrl, (function (param) {
-                    return url;
-                  }));
+                  return url;
+                }));
             });
         const newUrl = url(undefined);
         if (urlNotEqual(newUrl, url$1)) {
           Curry._1(setUrl, (function (param) {
-                return newUrl;
-              }));
+              return newUrl;
+            }));
         }
         return (function (param) {
           unwatchUrl(watcherId);

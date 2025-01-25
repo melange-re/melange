@@ -44,24 +44,24 @@ Stdlib__Printexc.register_printer(function (s) {
         return "hey";
       } else if (s.MEL_EXN_ID === A) {
         return Curry._1(Stdlib__Format.asprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "A(",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */ 0
-                      }
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "A(",
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "A(%d)"
-                }), s._1);
+                  }
+                },
+                _1: "A(%d)"
+              }), s._1);
       } else {
         return;
       }

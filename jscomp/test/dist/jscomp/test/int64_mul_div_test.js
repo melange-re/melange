@@ -315,24 +315,24 @@ function from_pairs(prefix, pairs) {
             const result = param[0];
             return [
               Curry._2(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
+                      TAG: /* Format */ 0,
+                      _0: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* Char_literal */ 12,
+                          _0: /* '_' */95,
                           _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* '_' */95,
-                            _1: {
-                              TAG: /* Int */ 4,
-                              _0: /* Int_d */ 0,
-                              _1: /* No_padding */ 0,
-                              _2: /* No_precision */ 0,
-                              _3: /* End_of_format */ 0
-                            }
+                            TAG: /* Int */ 4,
+                            _0: /* Int_d */ 0,
+                            _1: /* No_padding */ 0,
+                            _2: /* No_precision */ 0,
+                            _3: /* End_of_format */ 0
                           }
-                        },
-                        _1: "%s_%d"
-                      }), prefix, i),
+                        }
+                      },
+                      _1: "%s_%d"
+                    }), prefix, i),
               (function (param) {
                 return commutative_mul(result, a, b);
               })
@@ -1537,18 +1537,18 @@ function from(xs) {
         const a = param[0];
         return [
           Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "small_divs ",
-                      _1: {
-                        TAG: /* Scan_get_counter */ 21,
-                        _0: /* Token_counter */ 2,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "small_divs %L"
-                  }), i),
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "small_divs ",
+                    _1: {
+                      TAG: /* Scan_get_counter */ 21,
+                      _0: /* Token_counter */ 2,
+                      _1: /* End_of_format */ 0
+                    }
+                  },
+                  _1: "small_divs %L"
+                }), i),
           (function (param) {
             return {
               TAG: /* Eq */ 0,
@@ -1605,18 +1605,18 @@ function from_compare(xs) {
         const a = param[0];
         return [
           Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "int64_compare ",
-                      _1: {
-                        TAG: /* Scan_get_counter */ 21,
-                        _0: /* Token_counter */ 2,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "int64_compare %L"
-                  }), i),
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "int64_compare ",
+                    _1: {
+                      TAG: /* Scan_get_counter */ 21,
+                      _0: /* Token_counter */ 2,
+                      _1: /* End_of_format */ 0
+                    }
+                  },
+                  _1: "int64_compare %L"
+                }), i),
           (function (param) {
             return {
               TAG: /* Eq */ 0,
@@ -1634,18 +1634,18 @@ function from_to_string(xs) {
         const a = param[0];
         return [
           Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "to_string ",
-                      _1: {
-                        TAG: /* Scan_get_counter */ 21,
-                        _0: /* Token_counter */ 2,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "to_string %L"
-                  }), i),
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "to_string ",
+                    _1: {
+                      TAG: /* Scan_get_counter */ 21,
+                      _0: /* Token_counter */ 2,
+                      _1: /* End_of_format */ 0
+                    }
+                  },
+                  _1: "to_string %L"
+                }), i),
           (function (param) {
             return {
               TAG: /* Eq */ 0,
@@ -1662,20 +1662,20 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                       const i64 = param[0];
                       return [
                         Curry._1(Stdlib__Printf.sprintf({
-                                  TAG: /* Format */ 0,
-                                  _0: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: "to_float_",
-                                    _1: {
-                                      TAG: /* Int */ 4,
-                                      _0: /* Int_d */ 0,
-                                      _1: /* No_padding */ 0,
-                                      _2: /* No_precision */ 0,
-                                      _3: /* End_of_format */ 0
-                                    }
-                                  },
-                                  _1: "to_float_%d"
-                                }), i),
+                                TAG: /* Format */ 0,
+                                _0: {
+                                  TAG: /* String_literal */ 11,
+                                  _0: "to_float_",
+                                  _1: {
+                                    TAG: /* Int */ 4,
+                                    _0: /* Int_d */ 0,
+                                    _1: /* No_padding */ 0,
+                                    _2: /* No_precision */ 0,
+                                    _3: /* End_of_format */ 0
+                                  }
+                                },
+                                _1: "to_float_%d"
+                              }), i),
                         (function (param) {
                           return {
                             TAG: /* Eq */ 0,
@@ -1689,20 +1689,20 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                           const f = param[0];
                           return [
                             Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "of_float_",
-                                        _1: {
-                                          TAG: /* Int */ 4,
-                                          _0: /* Int_d */ 0,
-                                          _1: /* No_padding */ 0,
-                                          _2: /* No_precision */ 0,
-                                          _3: /* End_of_format */ 0
-                                        }
-                                      },
-                                      _1: "of_float_%d"
-                                    }), i),
+                                    TAG: /* Format */ 0,
+                                    _0: {
+                                      TAG: /* String_literal */ 11,
+                                      _0: "of_float_",
+                                      _1: {
+                                        TAG: /* Int */ 4,
+                                        _0: /* Int_d */ 0,
+                                        _1: /* No_padding */ 0,
+                                        _2: /* No_precision */ 0,
+                                        _3: /* End_of_format */ 0
+                                      }
+                                    },
+                                    _1: "of_float_%d"
+                                  }), i),
                             (function (param) {
                               return {
                                 TAG: /* Eq */ 0,

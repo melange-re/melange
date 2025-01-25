@@ -591,10 +591,10 @@ and expression_desc cxt ~(level : int) x : cxt =
                   let len = List.length el in
                   if 1 <= len && len <= 8 then (
                     Curry_gen.pp_app cxt len;
-                    paren_group cxt 1 (fun () -> arguments cxt (e :: el)))
+                    paren_group cxt 0 (fun () -> arguments cxt (e :: el)))
                   else (
                     Curry_gen.pp_app_any cxt;
-                    paren_group cxt 1 (fun () ->
+                    paren_group cxt 0 (fun () ->
                         arguments cxt [ e; E.array Mutable el ]))))
   | FlatCall { expr = e; args = el } ->
       group cxt 1 (fun () ->

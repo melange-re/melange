@@ -1387,24 +1387,24 @@ const suites_1 = {
                   TAG: /* Eq */ 0,
                   _0: 2,
                   _1: Curry._1(cardinal, Curry._1(of_list, {
+                        hd: {
+                          TAG: /* Leaf */ 0,
+                          _0: "a"
+                        },
+                        tl: {
+                          hd: {
+                            TAG: /* Leaf */ 0,
+                            _0: "b"
+                          },
+                          tl: {
                             hd: {
                               TAG: /* Leaf */ 0,
                               _0: "a"
                             },
-                            tl: {
-                              hd: {
-                                TAG: /* Leaf */ 0,
-                                _0: "b"
-                              },
-                              tl: {
-                                hd: {
-                                  TAG: /* Leaf */ 0,
-                                  _0: "a"
-                                },
-                                tl: /* [] */ 0
-                              }
-                            }
-                          }))
+                            tl: /* [] */ 0
+                          }
+                        }
+                      }))
                 };
               })
             ],

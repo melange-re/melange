@@ -123,7 +123,7 @@ function bar(fn) {
 }
 
 (Curry._1((function(){console.log("forgiving arity")}
-      ), undefined));
+    ), undefined));
 
 module.exports = {
   f,

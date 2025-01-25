@@ -118,9 +118,9 @@ function createClass(debugName) {
             onUnmount: oldSelf_onUnmount
           };
           Curry._1(newComponent.didUpdate, {
-                oldSelf: oldSelf,
-                newSelf: newSelf
-              });
+              oldSelf: oldSelf,
+              newSelf: newSelf
+            });
         }),
         componentWillUnmount: (function () {
           let $$this = this;
@@ -167,9 +167,9 @@ function createClass(debugName) {
             onUnmount: oldSelf_onUnmount
           };
           Curry._1(newComponent.willUpdate, {
-                oldSelf: oldSelf,
-                newSelf: newSelf
-              });
+              oldSelf: oldSelf,
+              newSelf: newSelf
+            });
         }),
         componentWillReceiveProps: (function (nextProps) {
           let $$this = this;
@@ -221,9 +221,9 @@ function createClass(debugName) {
             onUnmount: oldSelf_onUnmount
           };
           return Curry._1(newComponent.shouldUpdate, {
-                oldSelf: oldSelf,
-                newSelf: newSelf
-              });
+              oldSelf: oldSelf,
+              newSelf: newSelf
+            });
         }),
         onUnmountMethod: (function (subscription) {
           let $$this = this;

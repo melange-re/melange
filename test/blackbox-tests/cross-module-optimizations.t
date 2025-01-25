@@ -89,8 +89,8 @@ Different modules with cross-module-optimizations
   
   function logPlusTwo(param) {
     console.log(Curry._1((function (param) {
-              return 2 + param | 0;
-            }), param));
+            return 2 + param | 0;
+          }), param));
   }
   
   module.exports = {
@@ -206,8 +206,8 @@ with `--mel-cross-module-opt`
   
   function logPlusTwo(param) {
     console.log(Curry._1((function (param) {
-              return 2 + param | 0;
-            }), param));
+            return 2 + param | 0;
+          }), param));
   }
   
   module.exports = {

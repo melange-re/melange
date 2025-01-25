@@ -383,6 +383,37 @@ const int_map_suites_0 = [
   "add",
   (function (param) {
     const v = Curry._1(of_list, {
+        hd: [
+          1,
+          /* '1' */49
+        ],
+        tl: {
+          hd: [
+            2,
+            /* '3' */51
+          ],
+          tl: {
+            hd: [
+              3,
+              /* '4' */52
+            ],
+            tl: /* [] */ 0
+          }
+        }
+      });
+    return {
+      TAG: /* Eq */ 0,
+      _0: Curry._1(cardinal, v),
+      _1: 3
+    };
+  })
+];
+
+const int_map_suites_1 = {
+  hd: [
+    "equal",
+    (function (param) {
+      const v = Curry._1(of_list, {
           hd: [
             1,
             /* '1' */49
@@ -401,19 +432,37 @@ const int_map_suites_0 = [
             }
           }
         });
-    return {
-      TAG: /* Eq */ 0,
-      _0: Curry._1(cardinal, v),
-      _1: 3
-    };
-  })
-];
-
-const int_map_suites_1 = {
-  hd: [
-    "equal",
-    (function (param) {
-      const v = Curry._1(of_list, {
+      const u = Curry._1(of_list, {
+          hd: [
+            2,
+            /* '3' */51
+          ],
+          tl: {
+            hd: [
+              3,
+              /* '4' */52
+            ],
+            tl: {
+              hd: [
+                1,
+                /* '1' */49
+              ],
+              tl: /* [] */ 0
+            }
+          }
+        });
+      return {
+        TAG: /* Eq */ 0,
+        _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
+        _1: 0
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "equal2",
+      (function (param) {
+        const v = Curry._1(of_list, {
             hd: [
               1,
               /* '1' */49
@@ -432,7 +481,7 @@ const int_map_suites_1 = {
               }
             }
           });
-      const u = Curry._1(of_list, {
+        const u = Curry._1(of_list, {
             hd: [
               2,
               /* '3' */51
@@ -451,61 +500,12 @@ const int_map_suites_1 = {
               }
             }
           });
-      return {
-        TAG: /* Eq */ 0,
-        _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
-        _1: 0
-      };
-    })
-  ],
-  tl: {
-    hd: [
-      "equal2",
-      (function (param) {
-        const v = Curry._1(of_list, {
-              hd: [
-                1,
-                /* '1' */49
-              ],
-              tl: {
-                hd: [
-                  2,
-                  /* '3' */51
-                ],
-                tl: {
-                  hd: [
-                    3,
-                    /* '4' */52
-                  ],
-                  tl: /* [] */ 0
-                }
-              }
-            });
-        const u = Curry._1(of_list, {
-              hd: [
-                2,
-                /* '3' */51
-              ],
-              tl: {
-                hd: [
-                  3,
-                  /* '4' */52
-                ],
-                tl: {
-                  hd: [
-                    1,
-                    /* '1' */49
-                  ],
-                  tl: /* [] */ 0
-                }
-              }
-            });
         return {
           TAG: /* Eq */ 0,
           _0: true,
           _1: Curry._3(equal, (function (x, y) {
-                return x === y;
-              }), u, v)
+              return x === y;
+            }), u, v)
         };
       })
     ],

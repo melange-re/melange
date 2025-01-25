@@ -384,44 +384,44 @@ function patch(rel, loc, n) {
   const x = rel ? n - (loc + 4 | 0) | 0 : n;
   if (dbg.contents) {
     Curry._3(Stdlib__Printf.eprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "patching at ",
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_d */ 0,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* String_literal */ 11,
-                    _0: " to ",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* String_literal */ 11,
-                        _0: " (n=",
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_d */ 0,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: {
-                            TAG: /* String_literal */ 11,
-                            _0: ")\n",
-                            _1: /* End_of_format */ 0
-                          }
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "patching at ",
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_d */ 0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* String_literal */ 11,
+                  _0: " to ",
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: {
+                      TAG: /* String_literal */ 11,
+                      _0: " (n=",
+                      _1: {
+                        TAG: /* Int */ 4,
+                        _0: /* Int_d */ 0,
+                        _1: /* No_padding */ 0,
+                        _2: /* No_precision */ 0,
+                        _3: {
+                          TAG: /* String_literal */ 11,
+                          _0: ")\n",
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
                   }
                 }
-              },
-              _1: "patching at %d to %d (n=%d)\n"
-            }), loc, x, n);
+              }
+            },
+            _1: "patching at %d to %d (n=%d)\n"
+          }), loc, x, n);
   }
   opos.contents = loc;
   le(32, x);
@@ -1000,18 +1000,18 @@ function unary(stk) {
           unary(stk);
           if (!Stdlib__List.mem_assoc(o, unops)) {
             const s = Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* String_literal */ 11,
-                        _0: "unknown operator ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
-                      },
-                      _1: "unknown operator %s"
-                    }), o);
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "unknown operator ",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: /* End_of_format */ 0
+                      }
+                    },
+                    _1: "unknown operator %s"
+                  }), o);
             throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: s
@@ -1289,24 +1289,24 @@ function decl(g, _n, _stk) {
       Curry._1(next$1, undefined);
       if (dbg.contents) {
         Curry._1(Stdlib__Printf.eprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "end of decl (",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* String_literal */ 11,
-                        _0: " vars)\n",
-                        _1: /* End_of_format */ 0
-                      }
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "end of decl (",
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: {
+                      TAG: /* String_literal */ 11,
+                      _0: " vars)\n",
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "end of decl (%d vars)\n"
-                }), n);
+                  }
+                },
+                _1: "end of decl (%d vars)\n"
+              }), n);
       }
       _stk = match[1];
       _n = n + match[0] | 0;
@@ -1606,22 +1606,22 @@ function top(_param) {
       out(51651);
       if (dbg.contents) {
         Curry._1(Stdlib__Printf.eprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "done with function ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "done with function ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '\n' */10,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "done with function %s\n"
-                }), symstr(f$1));
+                  }
+                },
+                _1: "done with function %s\n"
+              }), symstr(f$1));
       }
       _param = undefined;
       continue;
@@ -1870,89 +1870,89 @@ function main(param) {
     switch (s.TAG) {
       case /* Op */ 0 :
         return Curry._1(Stdlib__Printf.printf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Operator '",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Operator '",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "'\n",
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* String_literal */ 11,
+                      _0: "'\n",
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Operator '%s'\n"
-                }), s._0);
+                  }
+                },
+                _1: "Operator '%s'\n"
+              }), s._0);
       case /* ILit */ 1 :
         return Curry._1(Stdlib__Printf.printf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Int literal ",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '\n' */10,
-                        _1: /* End_of_format */ 0
-                      }
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Int literal ",
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Int literal %d\n"
-                }), s._0);
+                  }
+                },
+                _1: "Int literal %d\n"
+              }), s._0);
       case /* SLit */ 2 :
         return Curry._1(Stdlib__Printf.printf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Str literal ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Str literal ",
+                  _1: {
+                    TAG: /* Caml_string */ 3,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* Caml_string */ 3,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '\n' */10,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Str literal %S\n"
-                }), s._1);
+                  }
+                },
+                _1: "Str literal %S\n"
+              }), s._1);
       case /* Sym */ 3 :
         const i = s._0;
         return Curry._2(Stdlib__Printf.printf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Symbol '",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Symbol '",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: "' (",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "' (",
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_d */ 0,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: {
-                            TAG: /* String_literal */ 11,
-                            _0: ")\n",
-                            _1: /* End_of_format */ 0
-                          }
+                        TAG: /* Int */ 4,
+                        _0: /* Int_d */ 0,
+                        _1: /* No_padding */ 0,
+                        _2: /* No_precision */ 0,
+                        _3: {
+                          TAG: /* String_literal */ 11,
+                          _0: ")\n",
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "Symbol '%s' (%d)\n"
-                }), symstr(i), i);
+                  }
+                },
+                _1: "Symbol '%s' (%d)\n"
+              }), symstr(i), i);
     }
   };
   const f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);

@@ -79,28 +79,28 @@ const M = {};
 eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
 
 eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Int32 */ 5,
-                _0: /* Int_d */ 0,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: /* End_of_format */ 0
-              },
-              _1: "%ld"
-            }), -2147483648), "-2147483648");
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Int32 */ 5,
+              _0: /* Int_d */ 0,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: /* End_of_format */ 0
+            },
+            _1: "%ld"
+          }), -2147483648), "-2147483648");
 
 eq("File \"jscomp/test/format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.asprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Int */ 4,
-                _0: /* Int_d */ 0,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: /* End_of_format */ 0
-              },
-              _1: "%d"
-            }), -2147483648), "-2147483648");
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Int */ 4,
+              _0: /* Int_d */ 0,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: /* End_of_format */ 0
+            },
+            _1: "%d"
+          }), -2147483648), "-2147483648");
 
 eq("File \"jscomp/test/format_test.ml\", line 37, characters 5-12", 7.875, 7.875);
 
@@ -166,19 +166,19 @@ f("File \"jscomp/test/format_test.ml\", line 82, characters 6-13", {
 
 function sl(f) {
   return Curry._1(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_h */ 6
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%h"
-          }), f);
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Float */ 8,
+            _0: [
+              /* Float_flag_ */ 0,
+              /* Float_h */ 6
+            ],
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
+          },
+          _1: "%h"
+        }), f);
 }
 
 function aux_list(loc, ls) {
@@ -250,37 +250,37 @@ const literals = {
 aux_list("File \"jscomp/test/format_test.ml\", line 112, characters 11-18", literals);
 
 eq("File \"jscomp/test/format_test.ml\", line 115, characters 5-12", Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Float */ 8,
-                _0: [
-                  /* Float_flag_ */ 0,
-                  /* Float_H */ 7
-                ],
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: /* End_of_format */ 0
-              },
-              _1: "%H"
-            }), 7.875), "0X1.F8P+2");
-
-function scan_float(loc, s, expect) {
-  Curry._1(Stdlib__Scanf.sscanf(s, {
             TAG: /* Format */ 0,
             _0: {
               TAG: /* Float */ 8,
               _0: [
                 /* Float_flag_ */ 0,
-                /* Float_h */ 6
+                /* Float_H */ 7
               ],
               _1: /* No_padding */ 0,
               _2: /* No_precision */ 0,
               _3: /* End_of_format */ 0
             },
-            _1: "%h"
-          }), (function (result) {
-        eq(loc, result, expect);
-      }));
+            _1: "%H"
+          }), 7.875), "0X1.F8P+2");
+
+function scan_float(loc, s, expect) {
+  Curry._1(Stdlib__Scanf.sscanf(s, {
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Float */ 8,
+            _0: [
+              /* Float_flag_ */ 0,
+              /* Float_h */ 6
+            ],
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
+          },
+          _1: "%h"
+        }), (function (result) {
+      eq(loc, result, expect);
+    }));
 }
 
 scan_float("File \"jscomp/test/format_test.ml\", line 120, characters 13-20", "0x3f.p1", 126);

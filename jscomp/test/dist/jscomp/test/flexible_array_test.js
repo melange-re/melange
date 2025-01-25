@@ -233,14 +233,14 @@ function pp(fmt, s) {
   }
   v = v + "]";
   Curry._1(Stdlib__Format.fprintf(fmt)({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), v);
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          },
+          _1: "%s"
+        }), v);
 }
 
 function filter_from(i, p, s) {

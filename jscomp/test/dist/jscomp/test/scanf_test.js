@@ -20,45 +20,45 @@ function eq(f, param) {
 
 eq("File \"jscomp/test/scanf_test.ml\", line 6, characters 5-12", [
       Curry._1(Stdlib__Scanf.sscanf("32 31", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_d */ 0,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: /* End_of_format */ 0
-                    }
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Int */ 4,
+                _0: /* Int_d */ 0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: /* End_of_format */ 0
                   }
-                },
-                _1: "%d %d"
-              }), (function (x, y) {
-            return x + y | 0;
-          })),
+                }
+              },
+              _1: "%d %d"
+            }), (function (x, y) {
+          return x + y | 0;
+        })),
       63
     ]);
 
 eq("File \"jscomp/test/scanf_test.ml\", line 7, characters 5-12", [
       Curry._1(Stdlib__Scanf.sscanf("12306459064359371967", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int64 */ 7,
-                  _0: /* Int_u */ 12,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: /* End_of_format */ 0
-                },
-                _1: "%Lu"
-              }), (function (i) {
-            return i;
-          })),
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Int64 */ 7,
+                _0: /* Int_u */ 12,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: /* End_of_format */ 0
+              },
+              _1: "%Lu"
+            }), (function (i) {
+          return i;
+        })),
       [
         -1429646511,
         235324607

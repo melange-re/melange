@@ -91,46 +91,46 @@ function pr(param) {
   const nl = param[0];
   if (Caml_int64.compare(nh, n0) === 0) {
     return Curry._1(Stdlib__Printf.bprintf(buf, {
-              TAG: /* Format */ 0,
-              _0: {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Int64 */ 7,
+              _0: /* Int_d */ 0,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '\n' */10,
+                _1: /* End_of_format */ 0
+              }
+            },
+            _1: "%Ld\n"
+          }), nl);
+  } else {
+    return Curry._2(Stdlib__Printf.bprintf(buf, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Int64 */ 7,
+              _0: /* Int_d */ 0,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: {
                 TAG: /* Int64 */ 7,
                 _0: /* Int_d */ 0,
-                _1: /* No_padding */ 0,
+                _1: {
+                  TAG: /* Lit_padding */ 0,
+                  _0: /* Zeros */ 2,
+                  _1: 18
+                },
                 _2: /* No_precision */ 0,
                 _3: {
                   TAG: /* Char_literal */ 12,
                   _0: /* '\n' */10,
                   _1: /* End_of_format */ 0
                 }
-              },
-              _1: "%Ld\n"
-            }), nl);
-  } else {
-    return Curry._2(Stdlib__Printf.bprintf(buf, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Int64 */ 7,
-                _0: /* Int_d */ 0,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: {
-                  TAG: /* Int64 */ 7,
-                  _0: /* Int_d */ 0,
-                  _1: {
-                    TAG: /* Lit_padding */ 0,
-                    _0: /* Zeros */ 2,
-                    _1: 18
-                  },
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '\n' */10,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "%Ld%018Ld\n"
-            }), nh, nl);
+              }
+            },
+            _1: "%Ld%018Ld\n"
+          }), nh, nl);
   }
 }
 

@@ -285,30 +285,30 @@ function error(str) {
         return "Unexpected token " + str._0;
       case /* UnexpectedTokenWithSuggestion */ 2 :
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Unexpected token `",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Unexpected token `",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: "`. Did you mean `",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "`. Did you mean `",
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: "`?",
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String_literal */ 11,
+                          _0: "`?",
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "Unexpected token `%s`. Did you mean `%s`?"
-                }), str._0, str._1);
+                  }
+                },
+                _1: "Unexpected token `%s`. Did you mean `%s`?"
+              }), str._0, str._1);
       case /* InvalidRegExpFlags */ 3 :
         return "Invalid flags supplied to RegExp constructor '" + (str._0 + "'");
       case /* UnknownLabel */ 4 :
@@ -319,22 +319,22 @@ function error(str) {
         return "Expected corresponding JSX closing tag for " + str._0;
       case /* DuplicateExport */ 7 :
         return Curry._1(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Duplicate export for `",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Duplicate export for `",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '`' */96,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* '`' */96,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Duplicate export for `%s`"
-                }), str._0);
+                  }
+                },
+                _1: "Duplicate export for `%s`"
+              }), str._0);
     }
   }
 }
@@ -6147,11 +6147,11 @@ function token$3(env) {
     const token$4 = token$2(undefined, env);
     const token_value = value(undefined, env);
     Curry._1(token_sink, {
-          token_loc: token_loc,
-          token: token$4,
-          token_context: Stdlib__List.hd(env.lex_mode_stack.contents),
-          token_value: token_value
-        });
+        token_loc: token_loc,
+        token: token$4,
+        token_context: Stdlib__List.hd(env.lex_mode_stack.contents),
+        token_value: token_value
+      });
   }
   env.lex_env.contents = lex_env(undefined, env);
   error_list(env)(errors(undefined, env));
@@ -7088,9 +7088,9 @@ function param_list_or_type(env) {
         ret = {
           TAG: /* ParamList */ 0,
           _0: Curry._2(function_param_list_without_parens, env, {
-                hd: param,
-                tl: /* [] */ 0
-              })
+              hd: param,
+              tl: /* [] */ 0
+            })
         };
       }
       
@@ -7353,9 +7353,9 @@ function function_param_or_generic_type(env) {
       return {
         TAG: /* ParamList */ 0,
         _0: Curry._2(function_param_list_without_parens, env, {
-              hd: param,
-              tl: /* [] */ 0
-            })
+            hd: param,
+            tl: /* [] */ 0
+          })
       };
   }
 }
@@ -12411,9 +12411,9 @@ function assert_can_be_forin_or_forof(env, err) {
     const match$1 = param._0;
     const loc = match$1[0];
     if (!Curry._1(Parse.is_assignable_lhs, [
-            loc,
-            match$1[1]
-          ])) {
+          loc,
+          match$1[1]
+        ])) {
       return error_at(env, [
             loc,
             err
@@ -12659,9 +12659,9 @@ function element(env) {
       return {
         TAG: /* Element */ 0,
         _0: Curry._2(Parse.pattern_from_expr, env, [
-              match[0],
-              match[1]
-            ])
+            match[0],
+            match[1]
+          ])
       };
     }
     const match$1 = param._0;
@@ -14926,8 +14926,8 @@ const class_declaration$1 = class_declaration;
 
 function statement_list_with_directives(term_fn, env) {
   const match = Curry._3(directives, env, term_fn, (function (eta) {
-        return statement_list_item(undefined, eta);
-      }));
+      return statement_list_item(undefined, eta);
+    }));
   const env$1 = match[0];
   const stmts = Curry._2(statement_list$1, term_fn, env$1);
   const stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {

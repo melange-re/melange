@@ -72,52 +72,51 @@ const xx = Stdlib__Random.$$float(3.0);
 const xxx = Stdlib__Random.int32(103);
 
 Curry._5(Stdlib__Printf.printf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int64 */ 7,
-            _0: /* Int_d */ 0,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Int64 */ 7,
-                _0: /* Int_d */ 0,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_d */ 0,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* Float */ 8,
-                        _0: [
-                          /* Float_flag_ */ 0,
-                          /* Float_f */ 0
-                        ],
-                        _1: /* No_padding */ 0,
-                        _2: /* No_precision */ 0,
-                        _3: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ' ' */32,
-                          _1: {
-                            TAG: /* Int32 */ 5,
-                            _0: /* Int_d */ 0,
-                            _1: /* No_padding */ 0,
-                            _2: /* No_precision */ 0,
-                            _3: {
-                              TAG: /* String_literal */ 11,
-                              _0: " \n",
-                              _1: /* End_of_format */ 0
-                            }
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Int64 */ 7,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
+              TAG: /* Int64 */ 7,
+              _0: /* Int_d */ 0,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: {
+                  TAG: /* Int */ 4,
+                  _0: /* Int_d */ 0,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ' ' */32,
+                    _1: {
+                      TAG: /* Float */ 8,
+                      _0: [
+                        /* Float_flag_ */ 0,
+                        /* Float_f */ 0
+                      ],
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
+                        _1: {
+                          TAG: /* Int32 */ 5,
+                          _0: /* Int_d */ 0,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
+                          _3: {
+                            TAG: /* String_literal */ 11,
+                            _0: " \n",
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
@@ -126,9 +125,10 @@ Curry._5(Stdlib__Printf.printf({
                 }
               }
             }
-          },
-          _1: "%Ld %Ld %d %f %ld \n"
-        }), f, h, vv, xx, xxx);
+          }
+        },
+        _1: "%Ld %Ld %d %f %ld \n"
+      }), f, h, vv, xx, xxx);
 
 Mt.from_pair_suites("Random_test", suites.contents);
 

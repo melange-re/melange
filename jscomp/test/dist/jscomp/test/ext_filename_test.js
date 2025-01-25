@@ -72,30 +72,30 @@ function chop_extension(locOpt, name) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Filename.chop_extension ( ",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Filename.chop_extension ( ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: " : ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " : ",
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " )",
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String_literal */ 11,
+                        _0: " )",
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
-                },
-                _1: "Filename.chop_extension ( %s : %s )"
-              }), loc, name);
+                }
+              },
+              _1: "Filename.chop_extension ( %s : %s )"
+            }), loc, name);
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -170,18 +170,18 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
       const i = _i;
       if (i >= len) {
         return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "invalid path: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  },
-                  _1: "invalid path: %s"
-                }), file2);
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "invalid path: ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "invalid path: %s"
+              }), file2);
       }
       const curr_char = file2.charCodeAt(i);
       if (!(curr_char === os_path_separator_char || curr_char === /* '.' */46)) {
@@ -203,22 +203,22 @@ function find_root_filename(_cwd, filename) {
     const cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
     if (cwd$p.length >= cwd.length) {
       return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* String_literal */ 11,
+                  _0: " not found from ",
                   _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " not found from ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "%s not found from %s"
-              }), filename, cwd);
+                }
+              },
+              _1: "%s not found from %s"
+            }), filename, cwd);
     }
     _cwd = cwd$p;
     continue;

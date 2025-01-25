@@ -11,9 +11,9 @@ function Test(Queue) {
   const to_array = function (q) {
     const v = Caml_array.make(Curry._1(Queue.length, q), 0);
     Curry._3(Queue.fold, (function (i, e) {
-          Caml_array.set(v, i, e);
-          return i + 1 | 0;
-        }), 0, q);
+        Caml_array.set(v, i, e);
+        return i + 1 | 0;
+      }), 0, q);
     return v;
   };
   const queue_1 = function (x) {
