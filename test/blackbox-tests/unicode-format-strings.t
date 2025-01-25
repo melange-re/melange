@@ -24,18 +24,18 @@
   const Stdlib__Format = require("melange/format.js");
   
   console.log(Curry._1(Stdlib__Format.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "你 ",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                },
-                _1: "你 %s"
-              }), "xx"));
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "你 ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: /* End_of_format */ 0
+                }
+              },
+              _1: "你 %s"
+            }), "xx"));
   /*  Not a pure module */
 
   $ node _build/default/output/x.js

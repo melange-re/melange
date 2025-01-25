@@ -83,9 +83,9 @@ Test classes that close over an init variable from the outside scope
       object_tables.key = env_init;
     }
     return Curry._1(object_tables.key, [
-          undefined,
-          2
-        ]);
+        undefined,
+        2
+      ]);
   }
   
   const f = fresh(undefined);
