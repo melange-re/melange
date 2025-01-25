@@ -283,8 +283,8 @@ const suites_1 = {
                                                         undefined
                                                       ],
                                                       _1: Belt__Belt_Option.map(Caml_option.null_to_opt("hello word".match(/hello (world)?/)), (function (prim) {
-                                                            return prim.slice();
-                                                          }))
+                                                        return prim.slice();
+                                                      }))
                                                     };
                                                   })
                                                 ],

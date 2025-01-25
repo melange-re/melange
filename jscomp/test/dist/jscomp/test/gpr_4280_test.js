@@ -40,9 +40,9 @@ function fn(authState, route) {
     if (typeof route === "string") {
       if (route === "SignUp" || route === "SignIn" || route === "Invite" || route === "PasswordReset") {
         div({
-              hd: string("LoggedOut"),
-              tl: /* [] */ 0
-            }, undefined);
+          hd: string("LoggedOut"),
+          tl: /* [] */ 0
+        }, undefined);
         return 1;
       }
       exit = 2;
@@ -53,9 +53,9 @@ function fn(authState, route) {
     }
     if (exit === 2) {
       div({
-            hd: string("Redirect"),
-            tl: /* [] */ 0
-          }, undefined);
+        hd: string("Redirect"),
+        tl: /* [] */ 0
+      }, undefined);
       return 3;
     }
     
@@ -69,32 +69,32 @@ function fn(authState, route) {
     if (exit$1 === 2) {
       console.log(authState.VAL);
       div({
-            hd: string("VerifyEmail"),
-            tl: /* [] */ 0
-          }, undefined);
+        hd: string("VerifyEmail"),
+        tl: /* [] */ 0
+      }, undefined);
       return 2;
     }
     
   }
   console.log(onboardingRoute);
   div({
-        hd: string("Onboarding"),
-        tl: /* [] */ 0
-      }, undefined);
+    hd: string("Onboarding"),
+    tl: /* [] */ 0
+  }, undefined);
   return 0;
 }
 
 eq("File \"jscomp/test/gpr_4280_test.ml\", line 45, characters 6-13", fn("Unauthenticated", "Invite"), 1);
 
 eq("File \"jscomp/test/gpr_4280_test.ml\", line 46, characters 6-13", fn("Unauthenticated", {
-          NAME: "Onboarding",
-          VAL: 0
-        }), 0);
+  NAME: "Onboarding",
+  VAL: 0
+}), 0);
 
 eq("File \"jscomp/test/gpr_4280_test.ml\", line 47, characters 6-13", fn({
-          NAME: "Unverified",
-          VAL: 0
-        }, "Invite"), 2);
+  NAME: "Unverified",
+  VAL: 0
+}, "Invite"), 2);
 
 eq("File \"jscomp/test/gpr_4280_test.ml\", line 48, characters 6-13", fn("Unauthenticated", "xx"), 3);
 

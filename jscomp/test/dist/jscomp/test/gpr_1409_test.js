@@ -47,8 +47,8 @@ function map(f, x) {
 
 function make(foo) {
   const partial_arg = map((function (prim) {
-        return String(prim);
-      }), foo);
+    return String(prim);
+  }), foo);
   return function (param) {
     let tmp = {};
     if (partial_arg !== undefined) {
@@ -139,28 +139,28 @@ function keys(xs, ys) {
 }
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 69, characters 6-13", keys({
-          hd: "hi",
-          tl: /* [] */ 0
-        }, Object.keys(test3(undefined, undefined))), true);
+  hd: "hi",
+  tl: /* [] */ 0
+}, Object.keys(test3(undefined, undefined))), true);
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 71, characters 6-13", keys({
-          hd: "hi",
-          tl: {
-            hd: "open",
-            tl: /* [] */ 0
-          }
-        }, Object.keys(test3(2, undefined))), true);
+  hd: "hi",
+  tl: {
+    hd: "open",
+    tl: /* [] */ 0
+  }
+}, Object.keys(test3(2, undefined))), true);
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 73, characters 6-13", keys({
-          hd: "hi",
-          tl: {
-            hd: "open",
-            tl: {
-              hd: "xx",
-              tl: /* [] */ 0
-            }
-          }
-        }, Object.keys(test3(2, 2))), true);
+  hd: "hi",
+  tl: {
+    hd: "open",
+    tl: {
+      hd: "xx",
+      tl: /* [] */ 0
+    }
+  }
+}, Object.keys(test3(2, 2))), true);
 
 Mt.from_pair_suites("Gpr_1409_test", suites.contents);
 

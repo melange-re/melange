@@ -8,8 +8,8 @@ const N = {};
 
 function forEach(xs, f) {
   Belt__Belt_Array.forEach(xs, (function (x) {
-        Curry._1(f.i, x);
-      }));
+    Curry._1(f.i, x);
+  }));
 }
 
 const Y = {
@@ -18,16 +18,16 @@ const Y = {
 
 function f(X, xs) {
   X.forEach(xs, {
-        i: (function (x) {
-          console.log(x.x);
-        })
-      });
+    i: (function (x) {
+      console.log(x.x);
+    })
+  });
 }
 
 function g(X, xs) {
   Belt__Belt_Array.forEach(xs, (function (x) {
-        console.log(x);
-      }));
+    console.log(x);
+  }));
 }
 
 const g_result = g(Y, []);

@@ -38,82 +38,82 @@ function add(suite) {
 }
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 14, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int32.div(3, 0);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 14, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int32.div(3, 0);
       })
-    ]);
+    };
+  })
+]);
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 15, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int32.mod_(3, 0);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 15, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int32.mod_(3, 0);
       })
-    ]);
+    };
+  })
+]);
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 16, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int32.div(3, 0);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 16, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int32.div(3, 0);
       })
-    ]);
+    };
+  })
+]);
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 17, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int32.mod_(3, 0);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 17, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int32.mod_(3, 0);
       })
-    ]);
+    };
+  })
+]);
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 18, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int64.div([
-                  0,
-                  3
-                ], Caml_int64.zero);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 18, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int64.div([
+          0,
+          3
+        ], Caml_int64.zero);
       })
-    ]);
+    };
+  })
+]);
 
 add([
-      "File \"jscomp/test/div_by_zero_test.ml\", line 19, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Caml_int64.mod_([
-                  0,
-                  3
-                ], Caml_int64.zero);
-          })
-        };
+  "File \"jscomp/test/div_by_zero_test.ml\", line 19, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Caml_int64.mod_([
+          0,
+          3
+        ], Caml_int64.zero);
       })
-    ]);
+    };
+  })
+]);
 
 function div(x, y) {
   return Caml_int32.div(x, y) + 3 | 0;

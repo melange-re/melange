@@ -1273,32 +1273,32 @@ const IntMap = {
 };
 
 const m = Stdlib__List.fold_left((function (acc, param) {
-      return add(param[0], param[1], acc);
-    }), /* Empty */ 0, {
+  return add(param[0], param[1], acc);
+}), /* Empty */ 0, {
+  hd: [
+    10,
+    /* 'a' */97
+  ],
+  tl: {
+    hd: [
+      3,
+      /* 'b' */98
+    ],
+    tl: {
       hd: [
-        10,
-        /* 'a' */97
+        7,
+        /* 'c' */99
       ],
       tl: {
         hd: [
-          3,
-          /* 'b' */98
+          20,
+          /* 'd' */100
         ],
-        tl: {
-          hd: [
-            7,
-            /* 'c' */99
-          ],
-          tl: {
-            hd: [
-              20,
-              /* 'd' */100
-            ],
-            tl: /* [] */ 0
-          }
-        }
+        tl: /* [] */ 0
       }
-    });
+    }
+  }
+});
 
 function height$1(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -1948,58 +1948,58 @@ const SMap = {
 };
 
 const s = Stdlib__List.fold_left((function (acc, param) {
-      return add$1(param[0], param[1], acc);
-    }), /* Empty */ 0, {
+  return add$1(param[0], param[1], acc);
+}), /* Empty */ 0, {
+  hd: [
+    "10",
+    /* 'a' */97
+  ],
+  tl: {
+    hd: [
+      "3",
+      /* 'b' */98
+    ],
+    tl: {
       hd: [
-        "10",
-        /* 'a' */97
+        "7",
+        /* 'c' */99
       ],
       tl: {
         hd: [
-          "3",
-          /* 'b' */98
-        ],
-        tl: {
-          hd: [
-            "7",
-            /* 'c' */99
-          ],
-          tl: {
-            hd: [
-              "20",
-              /* 'd' */100
-            ],
-            tl: /* [] */ 0
-          }
-        }
-      }
-    });
-
-Mt.from_pair_suites("Inline_map2_test", {
-      hd: [
-        "assertion1",
-        (function (param) {
-          return {
-            TAG: /* Eq */ 0,
-            _0: find(10, m),
-            _1: /* 'a' */97
-          };
-        })
-      ],
-      tl: {
-        hd: [
-          "assertion2",
-          (function (param) {
-            return {
-              TAG: /* Eq */ 0,
-              _0: find$1("10", s),
-              _1: /* 'a' */97
-            };
-          })
+          "20",
+          /* 'd' */100
         ],
         tl: /* [] */ 0
       }
-    });
+    }
+  }
+});
+
+Mt.from_pair_suites("Inline_map2_test", {
+  hd: [
+    "assertion1",
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: find(10, m),
+        _1: /* 'a' */97
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "assertion2",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: find$1("10", s),
+          _1: /* 'a' */97
+        };
+      })
+    ],
+    tl: /* [] */ 0
+  }
+});
 
 const empty = /* Empty */ 0;
 

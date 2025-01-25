@@ -71,11 +71,11 @@ const h5 = {
 };
 
 Stdlib__Printexc.register_printer(function (s) {
-      if (s.MEL_EXN_ID === A) {
-        return "A";
-      }
-      
-    });
+  if (s.MEL_EXN_ID === A) {
+    return "A";
+  }
+  
+});
 
 function p(e) {
   if (e.MEL_EXN_ID === Stdlib.Invalid_argument) {
@@ -96,25 +96,25 @@ function p(e) {
 eq("File \"jscomp/test/exception_def.ml\", line 54, characters 6-13", p(h5), 0);
 
 eq("File \"jscomp/test/exception_def.ml\", line 55, characters 6-13", p({
-          MEL_EXN_ID: Stdlib.Not_found
-        }), 4);
+  MEL_EXN_ID: Stdlib.Not_found
+}), 4);
 
 eq("File \"jscomp/test/exception_def.ml\", line 56, characters 6-13", p({
-          MEL_EXN_ID: Stdlib.Not_found
-        }), 4);
+  MEL_EXN_ID: Stdlib.Not_found
+}), 4);
 
 eq("File \"jscomp/test/exception_def.ml\", line 57, characters 6-13", p({
-          MEL_EXN_ID: H2
-        }), 1);
+  MEL_EXN_ID: H2
+}), 1);
 
 eq("File \"jscomp/test/exception_def.ml\", line 58, characters 6-13", p({
-          MEL_EXN_ID: H2
-        }), 1);
+  MEL_EXN_ID: H2
+}), 1);
 
 eq("File \"jscomp/test/exception_def.ml\", line 59, characters 6-13", p({
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: ""
-        }), 0);
+  MEL_EXN_ID: Stdlib.Invalid_argument,
+  _1: ""
+}), 0);
 
 Mt.from_pair_suites("jscomp/test/exception_def.ml", suites.contents);
 

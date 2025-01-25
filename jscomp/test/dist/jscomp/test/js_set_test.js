@@ -183,8 +183,8 @@ const suites_1 = {
                           contents: []
                         };
                         set.forEach(function (value) {
-                              arr.contents.push(value);
-                            });
+                          arr.contents.push(value);
+                        });
                         return {
                           TAG: /* Eq */ 0,
                           _0: [
@@ -200,9 +200,9 @@ const suites_1 = {
                         "values",
                         (function (param) {
                           const values = Array.from(new Set([
-                                      "one",
-                                      "two"
-                                    ]).values());
+                                "one",
+                                "two"
+                              ]).values());
                           return {
                             TAG: /* Eq */ 0,
                             _0: [
@@ -218,9 +218,9 @@ const suites_1 = {
                           "entries",
                           (function (param) {
                             const entries = Array.from(new Set([
-                                        "one",
-                                        "two"
-                                      ]).entries());
+                                  "one",
+                                  "two"
+                                ]).entries());
                             return {
                               TAG: /* Eq */ 0,
                               _0: [
@@ -242,9 +242,9 @@ const suites_1 = {
                             "iterator",
                             (function (param) {
                               const iterator = new Set([
-                                      "one",
-                                      "two"
-                                    ]).values();
+                                    "one",
+                                    "two"
+                                  ]).values();
                               const n1 = iterator.next();
                               const n2 = iterator.next();
                               const n3 = iterator.next();

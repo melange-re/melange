@@ -30,9 +30,9 @@ const suites_1 = {
         TAG: /* Eq */ 0,
         _0: 43,
         _1: Js__Js_dict.get({
-              foo: 43,
-              bar: 86
-            }, "foo")
+          foo: 43,
+          bar: 86
+        }, "foo")
       };
     })
   ],
@@ -44,9 +44,9 @@ const suites_1 = {
           TAG: /* Eq */ 0,
           _0: undefined,
           _1: Js__Js_dict.get({
-                foo: 43,
-                bar: 86
-              }, "baz")
+            foo: 43,
+            bar: 86
+          }, "baz")
         };
       })
     ],
@@ -91,9 +91,9 @@ const suites_1 = {
                   "bar"
                 ],
                 _1: Object.keys({
-                      foo: 43,
-                      bar: 86
-                    })
+                  foo: 43,
+                  bar: 86
+                })
               };
             })
           ],
@@ -114,9 +114,9 @@ const suites_1 = {
                     ]
                   ],
                   _1: Js__Js_dict.entries({
-                        foo: 43,
-                        bar: 86
-                      })
+                    foo: 43,
+                    bar: 86
+                  })
                 };
               })
             ],
@@ -131,9 +131,9 @@ const suites_1 = {
                       86
                     ],
                     _1: Js__Js_dict.values({
-                          foo: 43,
-                          bar: 86
-                        })
+                      foo: 43,
+                      bar: 86
+                    })
                   };
                 })
               ],
@@ -165,18 +165,18 @@ const suites_1 = {
                           ]
                         ],
                         _1: Js__Js_dict.entries(Js__Js_dict.fromList({
-                                  hd: [
-                                    "x",
-                                    23
-                                  ],
-                                  tl: {
-                                    hd: [
-                                      "y",
-                                      46
-                                    ],
-                                    tl: /* [] */ 0
-                                  }
-                                }))
+                          hd: [
+                            "x",
+                            23
+                          ],
+                          tl: {
+                            hd: [
+                              "y",
+                              46
+                            ],
+                            tl: /* [] */ 0
+                          }
+                        }))
                       };
                     })
                   ],
@@ -208,15 +208,15 @@ const suites_1 = {
                               ]
                             ],
                             _1: Js__Js_dict.entries(Js__Js_dict.fromArray([
-                                      [
-                                        "x",
-                                        23
-                                      ],
-                                      [
-                                        "y",
-                                        46
-                                      ]
-                                    ]))
+                              [
+                                "x",
+                                23
+                              ],
+                              [
+                                "y",
+                                46
+                              ]
+                            ]))
                           };
                         })
                       ],
@@ -231,11 +231,11 @@ const suites_1 = {
                                 bar: "86"
                               },
                               _1: Js__Js_dict.map((function (i) {
-                                    return String(i);
-                                  }), {
-                                    foo: 43,
-                                    bar: 86
-                                  })
+                                return String(i);
+                              }), {
+                                foo: 43,
+                                bar: 86
+                              })
                             };
                           })
                         ],

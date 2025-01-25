@@ -95,14 +95,14 @@ const collection = [
 ];
 
 eq("File \"jscomp/test/ppx_this_obj_test.ml\", line 59, characters 5-12", [
-      11,
-      v.hi(3, 2)
-    ]);
+  11,
+  v.hi(3, 2)
+]);
 
 eq("File \"jscomp/test/ppx_this_obj_test.ml\", line 60, characters 5-12", [
-      11,
-      v2.hi(3, 2)
-    ]);
+  11,
+  v2.hi(3, 2)
+]);
 
 Mt.from_pair_suites("Ppx_this_obj_test", suites.contents);
 

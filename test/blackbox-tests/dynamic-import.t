@@ -46,12 +46,12 @@ Demonstrate dynamic `import()` semantics
   const a = import("./z.js");
   
   const b = import("./y.js").then(function (m) {
-        return m.x;
-      });
+    return m.x;
+  });
   
   const _ext = import("lib").then(function (m) {
-        return m.default;
-      });
+    return m.default;
+  });
   
   module.exports = {
     x,

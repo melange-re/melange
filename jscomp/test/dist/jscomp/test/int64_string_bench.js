@@ -8,9 +8,9 @@ const Stdlib__Int64 = require("melange/int64.js");
 console.time("Int64.to_string");
 
 const u = Caml_int64.sub(Stdlib__Int64.max_int, [
-      0,
-      200000
-    ]);
+  0,
+  200000
+]);
 
 for (let _i = 0; _i <= 100000; ++_i) {
   Caml_format.caml_int64_format("%d", u);
@@ -38,9 +38,9 @@ console.log(Caml_format.caml_int64_format("%d", u$1));
 console.time("Int64.to_string");
 
 const u$2 = Caml_int64.add(Stdlib__Int64.min_int, [
-      0,
-      100
-    ]);
+  0,
+  100
+]);
 
 for (let _i$2 = 0; _i$2 <= 100000; ++_i$2) {
   Caml_format.caml_int64_format("%d", u$2);

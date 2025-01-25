@@ -40,8 +40,8 @@ function generic_basename(is_dir_sep, current_dir_name, name) {
 
 function basename(param) {
   return generic_basename((function (s, i) {
-        return Caml_string.get(s, i) === /* '/' */47;
-      }), Stdlib__Filename.current_dir_name, param);
+    return Caml_string.get(s, i) === /* '/' */47;
+  }), Stdlib__Filename.current_dir_name, param);
 }
 
 const suites_0 = [

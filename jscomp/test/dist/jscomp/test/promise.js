@@ -10,10 +10,10 @@ function f(p) {
 const p = new SysBluebird.Promise();
 
 p.then(function (x) {
-        return x + 3 | 0;
-      }).catch(function (reason) {
-      return reason;
-    });
+  return x + 3 | 0;
+}).catch(function (reason) {
+  return reason;
+});
 
 const u = {
   then: 3,

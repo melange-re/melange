@@ -32,17 +32,17 @@ const N = {
 };
 
 forIn({
-      x: 3
-    }, (function (x) {
-      console.log(x);
-    }));
+  x: 3
+}, (function (x) {
+  console.log(x);
+}));
 
 forIn({
-      x: 3,
-      y: 3
-    }, (function (x) {
-      console.log(x);
-    }));
+  x: 3,
+  y: 3
+}, (function (x) {
+  console.log(x);
+}));
 
 const f3 = (()=>true
 );

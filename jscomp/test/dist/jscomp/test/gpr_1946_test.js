@@ -37,20 +37,20 @@ function f(id) {
 }
 
 eq("File \"jscomp/test/gpr_1946_test.ml\", line 28, characters 6-13", ({
-      "5": 3
-    })[5], 3);
+  "5": 3
+})[5], 3);
 
 eq("File \"jscomp/test/gpr_1946_test.ml\", line 29, characters 6-13", [
-      2,
-      3
-    ], [
-      f(h)["0123"],
-      f(h)["123_456"]
-    ]);
+  2,
+  3
+], [
+  f(h)["0123"],
+  f(h)["123_456"]
+]);
 
 console.log(({
-        "5": 3
-      }).TAG);
+    "5": 3
+  }).TAG);
 
 Mt.from_pair_suites("File \"jscomp/test/gpr_1946_test.ml\", line 32, characters 23-30", suites.contents);
 

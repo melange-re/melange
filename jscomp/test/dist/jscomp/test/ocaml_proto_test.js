@@ -211,9 +211,9 @@ function rev_split_by_char(c, s) {
       const i$p = Stdlib__String.index_from(s, i, c);
       const s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
-              hd: s$p,
-              tl: l
-            }));
+          hd: s$p,
+          tl: l
+        }));
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -263,22 +263,22 @@ function apply_until(f, _param) {
 
 function string_of_string_list(l) {
   return Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* '[' */91,
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ']' */93,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "[%s]"
-        }), Stdlib__String.concat(",", l));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* '[' */91,
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ']' */93,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "[%s]"
+  }), Stdlib__String.concat(",", l));
 }
 
 function string_fold_lefti(f, e0, s) {
@@ -325,32 +325,32 @@ function line(param) {
 
 function to_string(param) {
   return Curry._2(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "File ",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String_literal */ 11,
-                _0: ", line ",
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* String_literal */ 11,
-                    _0: ":\n",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "File ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: ", line ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* String_literal */ 11,
+              _0: ":\n",
+              _1: /* End_of_format */ 0
             }
-          },
-          _1: "File %s, line %i:\n"
-        }), option_default("", param.file_name), param.line);
+          }
+        }
+      }
+    },
+    _1: "File %s, line %i:\n"
+  }), option_default("", param.file_name), param.line);
 }
 
 function string_of_programmatic_error(e) {
@@ -377,346 +377,346 @@ const Compilation_error = /* @__PURE__ */ Caml_exceptions.create("Ocaml_proto_te
 function prepare_error(e) {
   if (/* tag */ typeof e === "number" || typeof e === "string") {
     return Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Syntax error",
-            _1: /* End_of_format */ 0
-          },
-          _1: "Syntax error"
-        });
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Syntax error",
+        _1: /* End_of_format */ 0
+      },
+      _1: "Syntax error"
+    });
   }
   switch (e.TAG) {
     case /* Unresolved_type */ 0 :
       const match = e._0;
       return Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "unresolved type for field name : ",
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "unresolved type for field name : ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " (type:",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
+                  TAG: /* String_literal */ 11,
+                  _0: ", in message: ",
                   _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " (type:",
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: ", in message: ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ')' */41,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "unresolved type for field name : %s (type:%s, in message: %s)"
-            }), match.field_name, match.type_, match.message_name);
+              }
+            }
+          }
+        },
+        _1: "unresolved type for field name : %s (type:%s, in message: %s)"
+      }), match.field_name, match.type_, match.message_name);
     case /* Duplicated_field_number */ 1 :
       const match$1 = e._0;
       return Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "duplicated field number for field name: ",
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "duplicated field number for field name: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " (previous field name:",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
+                  TAG: /* String_literal */ 11,
+                  _0: ", message: ",
                   _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " (previous field name:",
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: ", message: ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ')' */41,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "duplicated field number for field name: %s (previous field name:%s, message: %s)"
-            }), match$1.field_name, match$1.previous_field_name, match$1.message_name);
+              }
+            }
+          }
+        },
+        _1: "duplicated field number for field name: %s (previous field name:%s, message: %s)"
+      }), match$1.field_name, match$1.previous_field_name, match$1.message_name);
     case /* Invalid_default_value */ 2 :
       const match$2 = e._0;
       return Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "invalid default value for field name:",
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "invalid default value for field name:",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " (info: ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " (info: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "invalid default value for field name:%s (info: %s)"
-            }), option_default("", match$2.field_name), match$2.info);
+              }
+            }
+          }
+        },
+        _1: "invalid default value for field name:%s (info: %s)"
+      }), option_default("", match$2.field_name), match$2.info);
     case /* Unsupported_field_type */ 3 :
       const match$3 = e._0;
       return Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "unsupported field type for field name:",
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "unsupported field type for field name:",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " with type:",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
+                  TAG: /* String_literal */ 11,
+                  _0: " in bakend: ",
                   _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " with type:",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " in bakend: ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
                   }
                 }
-              },
-              _1: "unsupported field type for field name:%s with type:%s in bakend: %s"
-            }), option_default("", match$3.field_name), match$3.field_type, match$3.backend_name);
+              }
+            }
+          }
+        },
+        _1: "unsupported field type for field name:%s with type:%s in bakend: %s"
+      }), option_default("", match$3.field_name), match$3.field_type, match$3.backend_name);
     case /* Programatic_error */ 4 :
       return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "programmatic error: ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "programmatic error: %s"
-            }), string_of_programmatic_error(e._0));
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "programmatic error: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "programmatic error: %s"
+      }), string_of_programmatic_error(e._0));
     case /* Invalid_import_qualifier */ 5 :
       return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Invalid import qualified, only 'public' supported",
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "%sInvalid import qualified, only 'public' supported"
-            }), to_string(e._0));
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Invalid import qualified, only 'public' supported",
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "%sInvalid import qualified, only 'public' supported"
+      }), to_string(e._0));
     case /* Invalid_file_name */ 6 :
       return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Invalid file name: ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", format must <name>.proto",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "Invalid file name: %s, format must <name>.proto"
-            }), e._0);
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "Invalid file name: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ", format must <name>.proto",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "Invalid file name: %s, format must <name>.proto"
+      }), e._0);
     case /* Import_file_not_found */ 7 :
       return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "File: ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", could not be found.",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "File: %s, could not be found."
-            }), e._0);
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "File: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ", could not be found.",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "File: %s, could not be found."
+      }), e._0);
     case /* Invalid_packed_option */ 8 :
       return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Invalid packed option for field: ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "Invalid packed option for field: %s"
-            }), e._0);
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "Invalid packed option for field: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "Invalid packed option for field: %s"
+      }), e._0);
     case /* Missing_semicolon_for_enum_value */ 9 :
       return Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Missing semicolon for enum value: ",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "%sMissing semicolon for enum value: %s"
-            }), to_string(e._1), e._0);
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Missing semicolon for enum value: ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "%sMissing semicolon for enum value: %s"
+      }), to_string(e._1), e._0);
     case /* Invalid_enum_specification */ 10 :
       return Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Missing enum specification (<identifier> = <id>;) for enum value: ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "%sMissing enum specification (<identifier> = <id>;) for enum value: %s"
+      }), to_string(e._1), e._0);
+    case /* Invalid_mutable_option */ 11 :
+      return Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "Invalid mutable option for field ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "Invalid mutable option for field %s"
+      }), option_default("", e._0));
+    case /* Missing_one_of_name */ 12 :
+      return Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Missing oneof name",
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "%sMissing oneof name"
+      }), to_string(e._0));
+    case /* Invalid_field_label */ 13 :
+      return Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Invalid field label. [required|repeated|optional] expected",
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "%sInvalid field label. [required|repeated|optional] expected"
+      }), to_string(e._0));
+    case /* Missing_field_label */ 14 :
+      return Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: "Missing field label. [required|repeated|optional] expected",
+            _1: /* End_of_format */ 0
+          }
+        },
+        _1: "%sMissing field label. [required|repeated|optional] expected"
+      }), to_string(e._0));
+    case /* Parsing_error */ 15 :
+      return Curry._3(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "File ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ", line ",
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
                   TAG: /* String_literal */ 11,
-                  _0: "Missing enum specification (<identifier> = <id>;) for enum value: ",
+                  _0: ":\n",
                   _1: {
                     TAG: /* String */ 2,
                     _0: /* No_padding */ 0,
                     _1: /* End_of_format */ 0
                   }
                 }
-              },
-              _1: "%sMissing enum specification (<identifier> = <id>;) for enum value: %s"
-            }), to_string(e._1), e._0);
-    case /* Invalid_mutable_option */ 11 :
-      return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Invalid mutable option for field ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "Invalid mutable option for field %s"
-            }), option_default("", e._0));
-    case /* Missing_one_of_name */ 12 :
-      return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Missing oneof name",
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "%sMissing oneof name"
-            }), to_string(e._0));
-    case /* Invalid_field_label */ 13 :
-      return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Invalid field label. [required|repeated|optional] expected",
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "%sInvalid field label. [required|repeated|optional] expected"
-            }), to_string(e._0));
-    case /* Missing_field_label */ 14 :
-      return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Missing field label. [required|repeated|optional] expected",
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "%sMissing field label. [required|repeated|optional] expected"
-            }), to_string(e._0));
-    case /* Parsing_error */ 15 :
-      return Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "File ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", line ",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_i */ 3,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* String_literal */ 11,
-                        _0: ":\n",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              _1: "File %s, line %i:\n%s"
-            }), e._0, e._1, e._2);
+              }
+            }
+          }
+        },
+        _1: "File %s, line %i:\n%s"
+      }), e._0, e._1, e._2);
   }
 }
 
@@ -751,11 +751,11 @@ function add_loc(loc, exn) {
 }
 
 Stdlib__Printexc.register_printer(function (exn) {
-      if (exn.MEL_EXN_ID === Compilation_error) {
-        return prepare_error(exn._1);
-      }
-      
-    });
+  if (exn.MEL_EXN_ID === Compilation_error) {
+    return prepare_error(exn._1);
+  }
+  
+});
 
 function invalid_default_value(field_name, info, param) {
   throw new Caml_js_exceptions.MelangeError(Compilation_error, {
@@ -1099,9 +1099,9 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return extension_range_range(_1, {
-          NAME: "Number",
-          VAL: _3
-        });
+      NAME: "Number",
+      VAL: _3
+    });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
@@ -1815,18 +1815,18 @@ function lexer(lexbuf) {
         return /* EOF */ 25;
       case 21 :
         const s$1 = Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Unknown character found ",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                },
-                _1: "Unknown character found %s"
-              }), Stdlib__Lexing.lexeme(lexbuf));
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Unknown character found ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          },
+          _1: "Unknown character found %s"
+        }), Stdlib__Lexing.lexeme(lexbuf));
         throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: s$1
@@ -1903,64 +1903,64 @@ function string_of_record_field_type(param) {
       const match$1 = param._0;
       if (match$1[0] === /* At_list */ 0) {
         return Curry._3(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '(' */40,
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '(' */40,
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " * ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: ") ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " * ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   }
-                },
-                _1: "(%s * %s) %s"
-              }), string_of_basic_type(match$1[2][0]), string_of_field_type(match$1[3][0]), "list");
+                }
+              }
+            }
+          },
+          _1: "(%s * %s) %s"
+        }), string_of_basic_type(match$1[2][0]), string_of_field_type(match$1[3][0]), "list");
       } else {
         return Curry._3(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '(' */40,
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '(' */40,
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ", ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: ") ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: ", ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   }
-                },
-                _1: "(%s, %s) %s"
-              }), string_of_basic_type(match$1[2][0]), string_of_field_type(match$1[3][0]), "Hashtbl.t");
+                }
+              }
+            }
+          },
+          _1: "(%s, %s) %s"
+        }), string_of_basic_type(match$1[2][0]), string_of_field_type(match$1[3][0]), "Hashtbl.t");
       }
     case /* Rft_variant_field */ 4 :
       return param._0.v_name;
@@ -1971,48 +1971,48 @@ function function_name_of_user_defined(prefix, param) {
   const module_ = param.udt_module;
   if (module_ !== undefined) {
     return Curry._3(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '.' */46,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* '_' */95,
               _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '.' */46,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '_' */95,
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                }
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: /* End_of_format */ 0
               }
-            },
-            _1: "%s.%s_%s"
-          }), module_, prefix, param.udt_type_name);
+            }
+          }
+        }
+      },
+      _1: "%s.%s_%s"
+    }), module_, prefix, param.udt_type_name);
   } else {
     return Curry._2(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '_' */95,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s_%s"
-          }), prefix, param.udt_type_name);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '_' */95,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s_%s"
+    }), prefix, param.udt_type_name);
   }
 }
 
@@ -2280,10 +2280,10 @@ function runtime_function(param) {
 
 function decode_basic_type(bt, pk) {
   return runtime_function([
-        "Decode",
-        pk,
-        bt
-      ]);
+    "Decode",
+    pk,
+    bt
+  ]);
 }
 
 function decode_field_f(field_type, pk) {
@@ -2306,827 +2306,827 @@ function gen_decode_record(and_, param, sc) {
   const r_fields = param.r_fields;
   const r_name = param.r_name;
   const all_lists = Stdlib__List.fold_left((function (acc, param) {
-        const rf_field_type = param.rf_field_type;
-        const rf_label = param.rf_label;
-        switch (rf_field_type.TAG) {
-          case /* Rft_repeated_field */ 2 :
-            if (rf_field_type._0[0] === /* Rt_list */ 0) {
-              return {
-                hd: rf_label,
-                tl: acc
-              };
-            } else {
-              return acc;
-            }
-          case /* Rft_associative_field */ 3 :
-            if (rf_field_type._0[0] === /* At_list */ 0) {
-              return {
-                hd: rf_label,
-                tl: acc
-              };
-            } else {
-              return acc;
-            }
-          default:
-            return acc;
+    const rf_field_type = param.rf_field_type;
+    const rf_label = param.rf_label;
+    switch (rf_field_type.TAG) {
+      case /* Rft_repeated_field */ 2 :
+        if (rf_field_type._0[0] === /* Rt_list */ 0) {
+          return {
+            hd: rf_label,
+            tl: acc
+          };
+        } else {
+          return acc;
         }
-      }), /* [] */ 0, r_fields);
+      case /* Rft_associative_field */ 3 :
+        if (rf_field_type._0[0] === /* At_list */ 0) {
+          return {
+            hd: rf_label,
+            tl: acc
+          };
+        } else {
+          return acc;
+        }
+      default:
+        return acc;
+    }
+  }), /* [] */ 0, r_fields);
   const process_field_common = function (sc, encoding_number, pk_as_string, f) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "| Some (",
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* String_literal */ 11,
-                      _0: ", Pbrt.",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") -> (",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "| Some (%i, Pbrt.%s) -> ("
-              }), encoding_number, pk_as_string));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "| Some (",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: ", Pbrt.",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") -> (",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "| Some (%i, Pbrt.%s) -> ("
+    }), encoding_number, pk_as_string));
     scope(sc, (function (sc) {
-          Curry._1(f, sc);
-          line$1(sc, "loop ()");
-        }));
+      Curry._1(f, sc);
+      line$1(sc, "loop ()");
+    }));
     line$1(sc, ")");
     line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "| Some (",
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* String_literal */ 11,
-                      _0: ", pk) -> raise (",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "| Some (%i, pk) -> raise ("
-              }), encoding_number));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "| Some (",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: ", pk) -> raise (",
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "| Some (%i, pk) -> raise ("
+    }), encoding_number));
     scope(sc, (function (sc) {
-          line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* String_literal */ 11,
-                        _0: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: ", pk))",
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      },
-                      _1: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (%s, pk))"
-                    }), Curry._2(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "\"Message(",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: "), field(",
-                              _1: {
-                                TAG: /* Int */ 4,
-                                _0: /* Int_i */ 3,
-                                _1: /* No_padding */ 0,
-                                _2: /* No_precision */ 0,
-                                _3: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: ")\"",
-                                  _1: /* End_of_format */ 0
-                                }
-                              }
-                            }
-                          }
-                        },
-                        _1: "\"Message(%s), field(%i)\""
-                      }), r_name, encoding_number)));
-        }));
+      line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ", pk))",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (%s, pk))"
+      }), Curry._2(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "\"Message(",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: "), field(",
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* String_literal */ 11,
+                  _0: ")\"",
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        },
+        _1: "\"Message(%s), field(%i)\""
+      }), r_name, encoding_number)));
+    }));
     line$1(sc, ")");
   };
   const mutable_record_name = r_name + "_mutable";
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " decode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " d =",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s decode_%s d ="
+  }), let_decl_of_and(and_), r_name));
+  scope(sc, (function (sc) {
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "let v = default_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " () in",
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "let v = default_%s () in"
+    }), mutable_record_name));
+    line$1(sc, "let rec loop () = ");
+    scope(sc, (function (sc) {
+      line$1(sc, "match Pbrt.Decoder.key d with");
+      line$1(sc, "| None -> (");
+      scope(sc, (function (sc) {
+        Stdlib__List.iter((function (field_name) {
+          line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "v.",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
                 _1: {
                   TAG: /* String_literal */ 11,
-                  _0: " decode_",
+                  _0: " <- List.rev v.",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ';' */59,
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                }
+              }
+            },
+            _1: "v.%s <- List.rev v.%s;"
+          }), field_name, field_name));
+        }), all_lists);
+      }));
+      line$1(sc, ")");
+      Stdlib__List.iter((function (param) {
+        const rf_field_type = param.rf_field_type;
+        const rf_label = param.rf_label;
+        switch (rf_field_type.TAG) {
+          case /* Rft_required */ 0 :
+            let param$1 = rf_field_type._0;
+            const pk = param$1[2];
+            const field_type = param$1[0];
+            return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
+              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "v.",
                   _1: {
                     TAG: /* String */ 2,
                     _0: /* No_padding */ 0,
                     _1: {
                       TAG: /* String_literal */ 11,
-                      _0: " d =",
+                      _0: " <- ",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* Char_literal */ 12,
+                          _0: /* ';' */59,
+                          _1: /* End_of_format */ 0
+                        }
+                      }
+                    }
+                  }
+                },
+                _1: "v.%s <- %s;"
+              }), rf_label, decode_field_f(field_type, pk)));
+            }));
+          case /* Rft_optional */ 1 :
+            let param$2 = rf_field_type._0;
+            const pk$1 = param$2[2];
+            const field_type$1 = param$2[0];
+            return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(undefined), pk$1, false), (function (sc) {
+              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "v.",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " <- Some (",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: ");",
+                          _1: /* End_of_format */ 0
+                        }
+                      }
+                    }
+                  }
+                },
+                _1: "v.%s <- Some (%s);"
+              }), rf_label, decode_field_f(field_type$1, pk$1)));
+            }));
+          case /* Rft_repeated_field */ 2 :
+            let param$3 = rf_field_type._0;
+            const is_packed = param$3[4];
+            const pk$2 = param$3[3];
+            const encoding_number = param$3[2];
+            const field_type$2 = param$3[1];
+            if (param$3[0] === /* Rt_list */ 0) {
+              if (is_packed) {
+                return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "v.",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: " <- Pbrt.Decoder.packed_fold (fun l d -> (",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* String_literal */ 11,
+                              _0: ")::l) [] d;",
+                              _1: /* End_of_format */ 0
+                            }
+                          }
+                        }
+                      }
+                    },
+                    _1: "v.%s <- Pbrt.Decoder.packed_fold (fun l d -> (%s)::l) [] d;"
+                  }), rf_label, decode_field_f(field_type$2, pk$2)));
+                }));
+              } else {
+                return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
+                  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "v.",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: " <- (",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* String_literal */ 11,
+                              _0: ") :: v.",
+                              _1: {
+                                TAG: /* String */ 2,
+                                _0: /* No_padding */ 0,
+                                _1: {
+                                  TAG: /* Char_literal */ 12,
+                                  _0: /* ';' */59,
+                                  _1: /* End_of_format */ 0
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    _1: "v.%s <- (%s) :: v.%s;"
+                  }), rf_label, decode_field_f(field_type$2, pk$2), rf_label));
+                }));
+              }
+            } else if (is_packed) {
+              return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
+                line$1(sc, "Pbrt.Decoder.packed_fold (fun () d -> ");
+                scope(sc, (function (sc) {
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "Pbrt.Repeated_field.add (",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: ") v.",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* Char_literal */ 12,
+                              _0: /* ';' */59,
+                              _1: /* End_of_format */ 0
+                            }
+                          }
+                        }
+                      }
+                    },
+                    _1: "Pbrt.Repeated_field.add (%s) v.%s;"
+                  }), decode_field_f(field_type$2, pk$2), rf_label));
+                }));
+                line$1(sc, ") () d;");
+              }));
+            } else {
+              return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
+                line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "Pbrt.Repeated_field.add (",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: ") v.",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* String_literal */ 11,
+                            _0: "; ",
+                            _1: /* End_of_format */ 0
+                          }
+                        }
+                      }
+                    }
+                  },
+                  _1: "Pbrt.Repeated_field.add (%s) v.%s; "
+                }), decode_field_f(field_type$2, pk$2), rf_label));
+              }));
+            }
+          case /* Rft_associative_field */ 3 :
+            let param$4 = rf_field_type._0;
+            const match = param$4[3];
+            const value_pk = match[1];
+            const value_type = match[0];
+            const match$1 = param$4[2];
+            const at = param$4[0];
+            const decode_key_f = decode_basic_type(match$1[0], match$1[1]);
+            return process_field_common(sc, param$4[1], "Bytes", (function (sc) {
+              line$1(sc, "let decode_value = (fun d ->");
+              scope(sc, (function (sc) {
+                line$1(sc, decode_field_f(value_type, value_pk));
+              }));
+              line$1(sc, ") in");
+              const decode_expression = Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "(Pbrt.Decoder.map_entry d ~decode_key:",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " ~decode_value)",
                       _1: /* End_of_format */ 0
                     }
                   }
-                }
-              },
-              _1: "%s decode_%s d ="
-            }), let_decl_of_and(and_), r_name));
-  scope(sc, (function (sc) {
-        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "let v = default_",
+                },
+                _1: "(Pbrt.Decoder.map_entry d ~decode_key:%s ~decode_value)"
+              }), decode_key_f);
+              if (at === /* At_list */ 0) {
+                line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "v.",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " () in",
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String_literal */ 11,
+                        _0: " <- (",
+                        _1: /* End_of_format */ 0
                       }
-                    },
-                    _1: "let v = default_%s () in"
-                  }), mutable_record_name));
-        line$1(sc, "let rec loop () = ");
-        scope(sc, (function (sc) {
-              line$1(sc, "match Pbrt.Decoder.key d with");
-              line$1(sc, "| None -> (");
-              scope(sc, (function (sc) {
-                    Stdlib__List.iter((function (field_name) {
-                          line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "v.",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: " <- List.rev v.",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* Char_literal */ 12,
-                                                _0: /* ';' */59,
-                                                _1: /* End_of_format */ 0
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      _1: "v.%s <- List.rev v.%s;"
-                                    }), field_name, field_name));
-                        }), all_lists);
-                  }));
-              line$1(sc, ")");
-              Stdlib__List.iter((function (param) {
-                    const rf_field_type = param.rf_field_type;
-                    const rf_label = param.rf_label;
-                    switch (rf_field_type.TAG) {
-                      case /* Rft_required */ 0 :
-                        let param$1 = rf_field_type._0;
-                        const pk = param$1[2];
-                        const field_type = param$1[0];
-                        return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
-                              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                          TAG: /* Format */ 0,
-                                          _0: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "v.",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: " <- ",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* Char_literal */ 12,
-                                                    _0: /* ';' */59,
-                                                    _1: /* End_of_format */ 0
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          },
-                                          _1: "v.%s <- %s;"
-                                        }), rf_label, decode_field_f(field_type, pk)));
-                            }));
-                      case /* Rft_optional */ 1 :
-                        let param$2 = rf_field_type._0;
-                        const pk$1 = param$2[2];
-                        const field_type$1 = param$2[0];
-                        return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(undefined), pk$1, false), (function (sc) {
-                              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                          TAG: /* Format */ 0,
-                                          _0: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "v.",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: " <- Some (",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: ");",
-                                                    _1: /* End_of_format */ 0
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          },
-                                          _1: "v.%s <- Some (%s);"
-                                        }), rf_label, decode_field_f(field_type$1, pk$1)));
-                            }));
-                      case /* Rft_repeated_field */ 2 :
-                        let param$3 = rf_field_type._0;
-                        const is_packed = param$3[4];
-                        const pk$2 = param$3[3];
-                        const encoding_number = param$3[2];
-                        const field_type$2 = param$3[1];
-                        if (param$3[0] === /* Rt_list */ 0) {
-                          if (is_packed) {
-                            return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
-                                  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                              TAG: /* Format */ 0,
-                                              _0: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: "v.",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: " <- Pbrt.Decoder.packed_fold (fun l d -> (",
-                                                    _1: {
-                                                      TAG: /* String */ 2,
-                                                      _0: /* No_padding */ 0,
-                                                      _1: {
-                                                        TAG: /* String_literal */ 11,
-                                                        _0: ")::l) [] d;",
-                                                        _1: /* End_of_format */ 0
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              _1: "v.%s <- Pbrt.Decoder.packed_fold (fun l d -> (%s)::l) [] d;"
-                                            }), rf_label, decode_field_f(field_type$2, pk$2)));
-                                }));
-                          } else {
-                            return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
-                                  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                              TAG: /* Format */ 0,
-                                              _0: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: "v.",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: " <- (",
-                                                    _1: {
-                                                      TAG: /* String */ 2,
-                                                      _0: /* No_padding */ 0,
-                                                      _1: {
-                                                        TAG: /* String_literal */ 11,
-                                                        _0: ") :: v.",
-                                                        _1: {
-                                                          TAG: /* String */ 2,
-                                                          _0: /* No_padding */ 0,
-                                                          _1: {
-                                                            TAG: /* Char_literal */ 12,
-                                                            _0: /* ';' */59,
-                                                            _1: /* End_of_format */ 0
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              _1: "v.%s <- (%s) :: v.%s;"
-                                            }), rf_label, decode_field_f(field_type$2, pk$2), rf_label));
-                                }));
-                          }
-                        } else if (is_packed) {
-                          return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
-                                line$1(sc, "Pbrt.Decoder.packed_fold (fun () d -> ");
-                                scope(sc, (function (sc) {
-                                      line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                                  TAG: /* Format */ 0,
-                                                  _0: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: "Pbrt.Repeated_field.add (",
-                                                    _1: {
-                                                      TAG: /* String */ 2,
-                                                      _0: /* No_padding */ 0,
-                                                      _1: {
-                                                        TAG: /* String_literal */ 11,
-                                                        _0: ") v.",
-                                                        _1: {
-                                                          TAG: /* String */ 2,
-                                                          _0: /* No_padding */ 0,
-                                                          _1: {
-                                                            TAG: /* Char_literal */ 12,
-                                                            _0: /* ';' */59,
-                                                            _1: /* End_of_format */ 0
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  },
-                                                  _1: "Pbrt.Repeated_field.add (%s) v.%s;"
-                                                }), decode_field_f(field_type$2, pk$2), rf_label));
-                                    }));
-                                line$1(sc, ") () d;");
-                              }));
-                        } else {
-                          return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
-                                line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                            TAG: /* Format */ 0,
-                                            _0: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: "Pbrt.Repeated_field.add (",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: ") v.",
-                                                  _1: {
-                                                    TAG: /* String */ 2,
-                                                    _0: /* No_padding */ 0,
-                                                    _1: {
-                                                      TAG: /* String_literal */ 11,
-                                                      _0: "; ",
-                                                      _1: /* End_of_format */ 0
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            },
-                                            _1: "Pbrt.Repeated_field.add (%s) v.%s; "
-                                          }), decode_field_f(field_type$2, pk$2), rf_label));
-                              }));
-                        }
-                      case /* Rft_associative_field */ 3 :
-                        let param$4 = rf_field_type._0;
-                        const match = param$4[3];
-                        const value_pk = match[1];
-                        const value_type = match[0];
-                        const match$1 = param$4[2];
-                        const at = param$4[0];
-                        const decode_key_f = decode_basic_type(match$1[0], match$1[1]);
-                        return process_field_common(sc, param$4[1], "Bytes", (function (sc) {
-                              line$1(sc, "let decode_value = (fun d ->");
-                              scope(sc, (function (sc) {
-                                    line$1(sc, decode_field_f(value_type, value_pk));
-                                  }));
-                              line$1(sc, ") in");
-                              const decode_expression = Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "(Pbrt.Decoder.map_entry d ~decode_key:",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: " ~decode_value)",
-                                            _1: /* End_of_format */ 0
-                                          }
-                                        }
-                                      },
-                                      _1: "(Pbrt.Decoder.map_entry d ~decode_key:%s ~decode_value)"
-                                    }), decode_key_f);
-                              if (at === /* At_list */ 0) {
-                                line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                            TAG: /* Format */ 0,
-                                            _0: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: "v.",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: " <- (",
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            },
-                                            _1: "v.%s <- ("
-                                          }), rf_label));
-                                scope(sc, (function (sc) {
-                                      line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                                  TAG: /* Format */ 0,
-                                                  _0: {
-                                                    TAG: /* String */ 2,
-                                                    _0: /* No_padding */ 0,
-                                                    _1: {
-                                                      TAG: /* String_literal */ 11,
-                                                      _0: "::v.",
-                                                      _1: {
-                                                        TAG: /* String */ 2,
-                                                        _0: /* No_padding */ 0,
-                                                        _1: {
-                                                          TAG: /* Char_literal */ 12,
-                                                          _0: /* ';' */59,
-                                                          _1: /* End_of_format */ 0
-                                                        }
-                                                      }
-                                                    }
-                                                  },
-                                                  _1: "%s::v.%s;"
-                                                }), decode_expression, rf_label));
-                                    }));
-                                return line$1(sc, ");");
-                              }
-                              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                          TAG: /* Format */ 0,
-                                          _0: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "let a, b = ",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: " in",
-                                                _1: /* End_of_format */ 0
-                                              }
-                                            }
-                                          },
-                                          _1: "let a, b = %s in"
-                                        }), decode_expression));
-                              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                          TAG: /* Format */ 0,
-                                          _0: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "Hashtbl.add v.",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: " a b;",
-                                                _1: /* End_of_format */ 0
-                                              }
-                                            }
-                                          },
-                                          _1: "Hashtbl.add v.%s a b;"
-                                        }), rf_label));
-                            }));
-                      case /* Rft_variant_field */ 4 :
-                        let param$5 = rf_field_type._0;
-                        return Stdlib__List.iter((function (param) {
-                              const pk = param.vc_payload_kind;
-                              const vc_field_type = param.vc_field_type;
-                              const vc_constructor = param.vc_constructor;
-                              process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
-                                    if (!/* tag */ (typeof vc_field_type === "number" || typeof vc_field_type === "string")) {
-                                      return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                                  TAG: /* Format */ 0,
-                                                  _0: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: "v.",
-                                                    _1: {
-                                                      TAG: /* String */ 2,
-                                                      _0: /* No_padding */ 0,
-                                                      _1: {
-                                                        TAG: /* String_literal */ 11,
-                                                        _0: " <- ",
-                                                        _1: {
-                                                          TAG: /* String */ 2,
-                                                          _0: /* No_padding */ 0,
-                                                          _1: {
-                                                            TAG: /* String_literal */ 11,
-                                                            _0: " (",
-                                                            _1: {
-                                                              TAG: /* String */ 2,
-                                                              _0: /* No_padding */ 0,
-                                                              _1: {
-                                                                TAG: /* String_literal */ 11,
-                                                                _0: ");",
-                                                                _1: /* End_of_format */ 0
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  },
-                                                  _1: "v.%s <- %s (%s);"
-                                                }), rf_label, vc_constructor, decode_field_f(vc_field_type._0, pk)));
-                                    }
-                                    line$1(sc, "Pbrt.Decoder.empty_nested d;");
-                                    line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                                TAG: /* Format */ 0,
-                                                _0: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: "v.",
-                                                  _1: {
-                                                    TAG: /* String */ 2,
-                                                    _0: /* No_padding */ 0,
-                                                    _1: {
-                                                      TAG: /* String_literal */ 11,
-                                                      _0: " <- ",
-                                                      _1: {
-                                                        TAG: /* String */ 2,
-                                                        _0: /* No_padding */ 0,
-                                                        _1: {
-                                                          TAG: /* Char_literal */ 12,
-                                                          _0: /* ';' */59,
-                                                          _1: /* End_of_format */ 0
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                _1: "v.%s <- %s;"
-                                              }), rf_label, vc_constructor));
-                                  }));
-                            }), param$5.v_constructors);
                     }
-                  }), r_fields);
-              line$1(sc, "| Some (n, payload_kind) -> Pbrt.Decoder.skip d payload_kind; loop ()");
+                  },
+                  _1: "v.%s <- ("
+                }), rf_label));
+                scope(sc, (function (sc) {
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: "::v.",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */ 0
+                          }
+                        }
+                      }
+                    },
+                    _1: "%s::v.%s;"
+                  }), decode_expression, rf_label));
+                }));
+                return line$1(sc, ");");
+              }
+              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "let a, b = ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " in",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "let a, b = %s in"
+              }), decode_expression));
+              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Hashtbl.add v.",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " a b;",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "Hashtbl.add v.%s a b;"
+              }), rf_label));
             }));
-        line$1(sc, "in");
-        line$1(sc, "loop ();");
-        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+          case /* Rft_variant_field */ 4 :
+            let param$5 = rf_field_type._0;
+            return Stdlib__List.iter((function (param) {
+              const pk = param.vc_payload_kind;
+              const vc_field_type = param.vc_field_type;
+              const vc_constructor = param.vc_constructor;
+              process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
+                if (!/* tag */ (typeof vc_field_type === "number" || typeof vc_field_type === "string")) {
+                  return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
                     TAG: /* Format */ 0,
                     _0: {
                       TAG: /* String_literal */ 11,
-                      _0: "let v:",
+                      _0: "v.",
                       _1: {
                         TAG: /* String */ 2,
                         _0: /* No_padding */ 0,
                         _1: {
                           TAG: /* String_literal */ 11,
-                          _0: " = Obj.magic v in",
-                          _1: /* End_of_format */ 0
+                          _0: " <- ",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* String_literal */ 11,
+                              _0: " (",
+                              _1: {
+                                TAG: /* String */ 2,
+                                _0: /* No_padding */ 0,
+                                _1: {
+                                  TAG: /* String_literal */ 11,
+                                  _0: ");",
+                                  _1: /* End_of_format */ 0
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     },
-                    _1: "let v:%s = Obj.magic v in"
-                  }), r_name));
-        line$1(sc, "v");
-      }));
+                    _1: "v.%s <- %s (%s);"
+                  }), rf_label, vc_constructor, decode_field_f(vc_field_type._0, pk)));
+                }
+                line$1(sc, "Pbrt.Decoder.empty_nested d;");
+                line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "v.",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: " <- ",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */ 0
+                          }
+                        }
+                      }
+                    }
+                  },
+                  _1: "v.%s <- %s;"
+                }), rf_label, vc_constructor));
+              }));
+            }), param$5.v_constructors);
+        }
+      }), r_fields);
+      line$1(sc, "| Some (n, payload_kind) -> Pbrt.Decoder.skip d payload_kind; loop ()");
+    }));
+    line$1(sc, "in");
+    line$1(sc, "loop ();");
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "let v:",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " = Obj.magic v in",
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "let v:%s = Obj.magic v in"
+    }), r_name));
+    line$1(sc, "v");
+  }));
 }
 
 function gen_decode_variant(and_, param, sc) {
   const v_constructors = param.v_constructors;
   const v_name = param.v_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " decode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " d = ",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s decode_%s d = "
+  }), let_decl_of_and(and_), v_name));
+  scope(sc, (function (sc) {
+    line$1(sc, Stdlib__Printf.sprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "let rec loop () = ",
+        _1: /* End_of_format */ 0
+      },
+      _1: "let rec loop () = "
+    }));
+    scope(sc, (function (sc) {
+      line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "let ret:",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " = match Pbrt.Decoder.key d with",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "let ret:%s = match Pbrt.Decoder.key d with"
+      }), v_name));
+      scope(sc, (function (sc) {
+        line$1(sc, "| None -> failwith \"None of the known key is found\"");
+        Stdlib__List.iter((function (ctor) {
+          const vc_encoding_number = ctor.vc_encoding_number;
+          const vc_field_type = ctor.vc_field_type;
+          const vc_constructor = ctor.vc_constructor;
+          if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
+            return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
               TAG: /* Format */ 0,
               _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+                TAG: /* String_literal */ 11,
+                _0: "| Some (",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " decode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* String_literal */ 11,
+                    _0: ", _) -> (Pbrt.Decoder.empty_nested d ; ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " d = ",
-                      _1: /* End_of_format */ 0
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ')' */41,
+                        _1: /* End_of_format */ 0
+                      }
                     }
                   }
                 }
               },
-              _1: "%s decode_%s d = "
-            }), let_decl_of_and(and_), v_name));
-  scope(sc, (function (sc) {
-        line$1(sc, Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
+              _1: "| Some (%i, _) -> (Pbrt.Decoder.empty_nested d ; %s)"
+            }), vc_encoding_number, vc_constructor));
+          } else {
+            return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "| Some (",
+                _1: {
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
                     TAG: /* String_literal */ 11,
-                    _0: "let rec loop () = ",
-                    _1: /* End_of_format */ 0
-                  },
-                  _1: "let rec loop () = "
-                }));
-        scope(sc, (function (sc) {
-              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "let ret:",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " = match Pbrt.Decoder.key d with",
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          },
-                          _1: "let ret:%s = match Pbrt.Decoder.key d with"
-                        }), v_name));
-              scope(sc, (function (sc) {
-                    line$1(sc, "| None -> failwith \"None of the known key is found\"");
-                    Stdlib__List.iter((function (ctor) {
-                          const vc_encoding_number = ctor.vc_encoding_number;
-                          const vc_field_type = ctor.vc_field_type;
-                          const vc_constructor = ctor.vc_constructor;
-                          if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
-                            return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "| Some (",
-                                          _1: {
-                                            TAG: /* Int */ 4,
-                                            _0: /* Int_i */ 3,
-                                            _1: /* No_padding */ 0,
-                                            _2: /* No_precision */ 0,
-                                            _3: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: ", _) -> (Pbrt.Decoder.empty_nested d ; ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* Char_literal */ 12,
-                                                  _0: /* ')' */41,
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            }
-                                          }
-                                        },
-                                        _1: "| Some (%i, _) -> (Pbrt.Decoder.empty_nested d ; %s)"
-                                      }), vc_encoding_number, vc_constructor));
-                          } else {
-                            return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "| Some (",
-                                          _1: {
-                                            TAG: /* Int */ 4,
-                                            _0: /* Int_i */ 3,
-                                            _1: /* No_padding */ 0,
-                                            _2: /* No_precision */ 0,
-                                            _3: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: ", _) -> ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: " (",
-                                                  _1: {
-                                                    TAG: /* String */ 2,
-                                                    _0: /* No_padding */ 0,
-                                                    _1: {
-                                                      TAG: /* Char_literal */ 12,
-                                                      _0: /* ')' */41,
-                                                      _1: /* End_of_format */ 0
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        },
-                                        _1: "| Some (%i, _) -> %s (%s)"
-                                      }), vc_encoding_number, vc_constructor, decode_field_f(vc_field_type._0, ctor.vc_payload_kind)));
+                    _0: ", _) -> ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: " (",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ')' */41,
+                            _1: /* End_of_format */ 0
                           }
-                        }), v_constructors);
-                    line$1(sc, "| Some (n, payload_kind) -> (");
-                    line$1(sc, "  Pbrt.Decoder.skip d payload_kind; ");
-                    line$1(sc, "  loop () ");
-                    line$1(sc, ")");
-                  }));
-              line$1(sc, "in");
-              line$1(sc, "ret");
-            }));
-        line$1(sc, "in");
-        line$1(sc, "loop ()");
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              _1: "| Some (%i, _) -> %s (%s)"
+            }), vc_encoding_number, vc_constructor, decode_field_f(vc_field_type._0, ctor.vc_payload_kind)));
+          }
+        }), v_constructors);
+        line$1(sc, "| Some (n, payload_kind) -> (");
+        line$1(sc, "  Pbrt.Decoder.skip d payload_kind; ");
+        line$1(sc, "  loop () ");
+        line$1(sc, ")");
       }));
+      line$1(sc, "in");
+      line$1(sc, "ret");
+    }));
+    line$1(sc, "in");
+    line$1(sc, "loop ()");
+  }));
 }
 
 function gen_decode_const_variant(and_, param, sc) {
   const cv_constructors = param.cv_constructors;
   const cv_name = param.cv_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " decode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " d = ",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s decode_%s d = "
+  }), let_decl_of_and(and_), cv_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "match Pbrt.Decoder.int_as_varint d with");
+    Stdlib__List.iter((function (param) {
+      line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* String_literal */ 11,
+              _0: " -> (",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " decode_",
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ':' */58,
                   _1: {
                     TAG: /* String */ 2,
                     _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " d = ",
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
                       _1: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "%s decode_%s d = "
-            }), let_decl_of_and(and_), cv_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "match Pbrt.Decoder.int_as_varint d with");
-        Stdlib__List.iter((function (param) {
-              line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "| ",
-                            _1: {
-                              TAG: /* Int */ 4,
-                              _0: /* Int_i */ 3,
-                              _1: /* No_padding */ 0,
-                              _2: /* No_precision */ 0,
-                              _3: {
-                                TAG: /* String_literal */ 11,
-                                _0: " -> (",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* ':' */58,
-                                    _1: {
-                                      TAG: /* String */ 2,
-                                      _0: /* No_padding */ 0,
-                                      _1: {
-                                        TAG: /* Char_literal */ 12,
-                                        _0: /* ')' */41,
-                                        _1: /* End_of_format */ 0
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          _1: "| %i -> (%s:%s)"
-                        }), param[1], param[0], cv_name));
-            }), cv_constructors);
-        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "| _ -> failwith \"Unknown value for enum ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    },
-                    _1: "| _ -> failwith \"Unknown value for enum %s\""
-                  }), cv_name));
-      }));
+              }
+            }
+          }
+        },
+        _1: "| %i -> (%s:%s)"
+      }), param[1], param[0], cv_name));
+    }), cv_constructors);
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "| _ -> failwith \"Unknown value for enum ",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '"' */34,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "| _ -> failwith \"Unknown value for enum %s\""
+    }), cv_name));
+  }));
 }
 
 function gen_struct(and_, t, sc) {
@@ -3158,51 +3158,51 @@ function gen_struct(and_, t, sc) {
 function gen_sig(and_, t, sc) {
   const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "val decode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " : Pbrt.Decoder.t -> ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "val decode_%s : Pbrt.Decoder.t -> %s"
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "val decode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " : Pbrt.Decoder.t -> ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "val decode_%s : Pbrt.Decoder.t -> %s"
+    }), type_name, type_name));
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "(** [decode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " decoder] decodes a [",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "] value from [decoder] *)",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "(** [decode_%s decoder] decodes a [%s] value from [decoder] *)"
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "(** [decode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " decoder] decodes a [",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "] value from [decoder] *)",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "(** [decode_%s decoder] decodes a [%s] value from [decoder] *)"
+    }), type_name, type_name));
   };
   const match = t.spec;
   let tmp;
@@ -3250,18 +3250,18 @@ function log(x) {
 
 function endline(s) {
   Curry._1(log({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '\n' */10,
-              _1: /* End_of_format */ 0
-            }
-          },
-          _1: "%s\n"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '\n' */10,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "%s\n"
+  }), s);
 }
 
 function gen_pp_field(field_type) {
@@ -3269,525 +3269,525 @@ function gen_pp_field(field_type) {
     return function_name_of_user_defined("pp", field_type._0);
   }
   return Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Pbrt.Pp.pp_",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            }
-          },
-          _1: "Pbrt.Pp.pp_%s"
-        }), string_of_field_type(field_type));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "Pbrt.Pp.pp_",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "Pbrt.Pp.pp_%s"
+  }), string_of_field_type(field_type));
 }
 
 function gen_pp_record(and_, param, sc) {
   const r_fields = param.r_fields;
   const r_name = param.r_name;
   Curry._1(log({
-          TAG: /* Format */ 0,
-          _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "gen_pp, record_name: ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "gen_pp, record_name: %s\n"
+  }), r_name);
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " pp_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
             TAG: /* String_literal */ 11,
-            _0: "gen_pp, record_name: ",
+            _0: " fmt (v:",
             _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
+                TAG: /* String_literal */ 11,
+                _0: ") = ",
                 _1: /* End_of_format */ 0
               }
             }
+          }
+        }
+      }
+    },
+    _1: "%s pp_%s fmt (v:%s) = "
+  }), let_decl_of_and(and_), r_name, r_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "let pp_i fmt () =");
+    scope(sc, (function (sc) {
+      line$1(sc, "Format.pp_open_vbox fmt 1;");
+      Stdlib__List.iter((function (record_field) {
+        const rf_field_type = record_field.rf_field_type;
+        const rf_label = record_field.rf_label;
+        const var_name = Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "v.",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
           },
-          _1: "gen_pp, record_name: %s\n"
-        }), r_name);
-  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+          _1: "v.%s"
+        }), rf_label);
+        switch (rf_field_type.TAG) {
+          case /* Rft_required */ 0 :
+            const field_string_of = gen_pp_field(rf_field_type._0[0]);
+            return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
               TAG: /* Format */ 0,
               _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+                TAG: /* String_literal */ 11,
+                _0: "Pbrt.Pp.pp_record_field \"",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " pp_",
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: "\" ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " fmt (v:",
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
+                        TAG: /* String_literal */ 11,
+                        _0: " fmt ",
                         _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") = ",
-                          _1: /* End_of_format */ 0
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */ 0
+                          }
                         }
                       }
                     }
                   }
                 }
               },
-              _1: "%s pp_%s fmt (v:%s) = "
-            }), let_decl_of_and(and_), r_name, r_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "let pp_i fmt () =");
-        scope(sc, (function (sc) {
-              line$1(sc, "Format.pp_open_vbox fmt 1;");
-              Stdlib__List.iter((function (record_field) {
-                    const rf_field_type = record_field.rf_field_type;
-                    const rf_label = record_field.rf_label;
-                    const var_name = Curry._1(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "v.",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: /* End_of_format */ 0
-                              }
-                            },
-                            _1: "v.%s"
-                          }), rf_label);
-                    switch (rf_field_type.TAG) {
-                      case /* Rft_required */ 0 :
-                        const field_string_of = gen_pp_field(rf_field_type._0[0]);
-                        return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "Pbrt.Pp.pp_record_field \"",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "\" ",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: " fmt ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* Char_literal */ 12,
-                                                  _0: /* ';' */59,
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
-                                  }), rf_label, field_string_of, var_name));
-                      case /* Rft_optional */ 1 :
-                        const field_string_of$1 = gen_pp_field(rf_field_type._0[0]);
-                        return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "Pbrt.Pp.pp_record_field \"",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "\" (Pbrt.Pp.pp_option ",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: ") fmt ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* Char_literal */ 12,
-                                                  _0: /* ';' */59,
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_option %s) fmt %s;"
-                                  }), rf_label, field_string_of$1, var_name));
-                      case /* Rft_repeated_field */ 2 :
-                        const match = rf_field_type._0;
-                        const field_string_of$2 = gen_pp_field(match[1]);
-                        if (match[0] === /* Rt_list */ 0) {
-                          return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "Pbrt.Pp.pp_record_field \"",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "\" (Pbrt.Pp.pp_list ",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: ") fmt ",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* Char_literal */ 12,
-                                                    _0: /* ';' */59,
-                                                    _1: /* End_of_format */ 0
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_list %s) fmt %s;"
-                                    }), rf_label, field_string_of$2, var_name));
-                        } else {
-                          return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "Pbrt.Pp.pp_record_field \"",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "\" (Pbrt.Pp.pp_list ",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: ") fmt (Pbrt.Repeated_field.to_list ",
-                                                _1: {
-                                                  TAG: /* String */ 2,
-                                                  _0: /* No_padding */ 0,
-                                                  _1: {
-                                                    TAG: /* String_literal */ 11,
-                                                    _0: ");",
-                                                    _1: /* End_of_format */ 0
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_list %s) fmt (Pbrt.Repeated_field.to_list %s);"
-                                    }), rf_label, field_string_of$2, var_name));
+              _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
+            }), rf_label, field_string_of, var_name));
+          case /* Rft_optional */ 1 :
+            const field_string_of$1 = gen_pp_field(rf_field_type._0[0]);
+            return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Pbrt.Pp.pp_record_field \"",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: "\" (Pbrt.Pp.pp_option ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: ") fmt ",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */ 0
+                          }
                         }
-                      case /* Rft_associative_field */ 3 :
-                        const match$1 = rf_field_type._0;
-                        let pp_runtime_function;
-                        pp_runtime_function = match$1[0] === /* At_list */ 0 ? "pp_associative_list" : "pp_hastable";
-                        const pp_key = gen_pp_field({
-                              TAG: /* Ft_basic_type */ 0,
-                              _0: match$1[2][0]
-                            });
-                        const pp_value = gen_pp_field(match$1[3][0]);
-                        return line$1(sc, Curry._5(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "Pbrt.Pp.pp_record_field \"",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "\" (Pbrt.Pp.",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* Char_literal */ 12,
-                                              _0: /* ' ' */32,
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* Char_literal */ 12,
-                                                  _0: /* ' ' */32,
-                                                  _1: {
-                                                    TAG: /* String */ 2,
-                                                    _0: /* No_padding */ 0,
-                                                    _1: {
-                                                      TAG: /* String_literal */ 11,
-                                                      _0: ") fmt ",
-                                                      _1: {
-                                                        TAG: /* String */ 2,
-                                                        _0: /* No_padding */ 0,
-                                                        _1: {
-                                                          TAG: /* Char_literal */ 12,
-                                                          _0: /* ';' */59,
-                                                          _1: /* End_of_format */ 0
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.%s %s %s) fmt %s;"
-                                  }), rf_label, pp_runtime_function, pp_key, pp_value, var_name));
-                      case /* Rft_variant_field */ 4 :
-                        return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "Pbrt.Pp.pp_record_field \"",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "\" ",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: " fmt ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* Char_literal */ 12,
-                                                  _0: /* ';' */59,
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
-                                  }), rf_label, "pp_" + rf_field_type._0.v_name, var_name));
+                      }
                     }
-                  }), r_fields);
-              line$1(sc, "Format.pp_close_box fmt ()");
-            }));
-        line$1(sc, "in");
-        line$1(sc, "Pbrt.Pp.pp_brk pp_i fmt ()");
-      }));
+                  }
+                }
+              },
+              _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_option %s) fmt %s;"
+            }), rf_label, field_string_of$1, var_name));
+          case /* Rft_repeated_field */ 2 :
+            const match = rf_field_type._0;
+            const field_string_of$2 = gen_pp_field(match[1]);
+            if (match[0] === /* Rt_list */ 0) {
+              return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Pbrt.Pp.pp_record_field \"",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: "\" (Pbrt.Pp.pp_list ",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: ") fmt ",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* Char_literal */ 12,
+                              _0: /* ';' */59,
+                              _1: /* End_of_format */ 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_list %s) fmt %s;"
+              }), rf_label, field_string_of$2, var_name));
+            } else {
+              return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Pbrt.Pp.pp_record_field \"",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: "\" (Pbrt.Pp.pp_list ",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* String_literal */ 11,
+                          _0: ") fmt (Pbrt.Repeated_field.to_list ",
+                          _1: {
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: {
+                              TAG: /* String_literal */ 11,
+                              _0: ");",
+                              _1: /* End_of_format */ 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_list %s) fmt (Pbrt.Repeated_field.to_list %s);"
+              }), rf_label, field_string_of$2, var_name));
+            }
+          case /* Rft_associative_field */ 3 :
+            const match$1 = rf_field_type._0;
+            let pp_runtime_function;
+            pp_runtime_function = match$1[0] === /* At_list */ 0 ? "pp_associative_list" : "pp_hastable";
+            const pp_key = gen_pp_field({
+              TAG: /* Ft_basic_type */ 0,
+              _0: match$1[2][0]
+            });
+            const pp_value = gen_pp_field(match$1[3][0]);
+            return line$1(sc, Curry._5(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Pbrt.Pp.pp_record_field \"",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: "\" (Pbrt.Pp.",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ' ' */32,
+                            _1: {
+                              TAG: /* String */ 2,
+                              _0: /* No_padding */ 0,
+                              _1: {
+                                TAG: /* String_literal */ 11,
+                                _0: ") fmt ",
+                                _1: {
+                                  TAG: /* String */ 2,
+                                  _0: /* No_padding */ 0,
+                                  _1: {
+                                    TAG: /* Char_literal */ 12,
+                                    _0: /* ';' */59,
+                                    _1: /* End_of_format */ 0
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.%s %s %s) fmt %s;"
+            }), rf_label, pp_runtime_function, pp_key, pp_value, var_name));
+          case /* Rft_variant_field */ 4 :
+            return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Pbrt.Pp.pp_record_field \"",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: "\" ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: " fmt ",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */ 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              _1: "Pbrt.Pp.pp_record_field \"%s\" %s fmt %s;"
+            }), rf_label, "pp_" + rf_field_type._0.v_name, var_name));
+        }
+      }), r_fields);
+      line$1(sc, "Format.pp_close_box fmt ()");
+    }));
+    line$1(sc, "in");
+    line$1(sc, "Pbrt.Pp.pp_brk pp_i fmt ()");
+  }));
 }
 
 function gen_pp_variant(and_, param, sc) {
   const v_constructors = param.v_constructors;
   const v_name = param.v_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " pp_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " fmt (v:",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") =",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s pp_%s fmt (v:%s) ="
+  }), let_decl_of_and(and_), v_name, v_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "match v with");
+    Stdlib__List.iter((function (param) {
+      const vc_field_type = param.vc_field_type;
+      const vc_constructor = param.vc_constructor;
+      if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
+        return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "| ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "  -> Format.fprintf fmt \"",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " pp_",
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " fmt (v:",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") =",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */ 0
                   }
                 }
-              },
-              _1: "%s pp_%s fmt (v:%s) ="
-            }), let_decl_of_and(and_), v_name, v_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "match v with");
-        Stdlib__List.iter((function (param) {
-              const vc_field_type = param.vc_field_type;
-              const vc_constructor = param.vc_constructor;
-              if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
-                return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "| ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: "  -> Format.fprintf fmt \"",
-                                  _1: {
-                                    TAG: /* String */ 2,
-                                    _0: /* No_padding */ 0,
-                                    _1: {
-                                      TAG: /* Char_literal */ 12,
-                                      _0: /* '"' */34,
-                                      _1: /* End_of_format */ 0
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            _1: "| %s  -> Format.fprintf fmt \"%s\""
-                          }), vc_constructor, vc_constructor));
               }
-              const field_string_of = gen_pp_field(vc_field_type._0);
-              line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
+            }
+          },
+          _1: "| %s  -> Format.fprintf fmt \"%s\""
+        }), vc_constructor, vc_constructor));
+      }
+      const field_string_of = gen_pp_field(vc_field_type._0);
+      line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " x -> Format.fprintf fmt \"",
+              _1: {
+                TAG: /* Formatting_gen */ 18,
+                _0: {
+                  TAG: /* Open_box */ 1,
+                  _0: {
+                    TAG: /* Format */ 0,
+                    _0: /* End_of_format */ 0,
+                    _1: ""
+                  }
+                },
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '(' */40,
+                    _1: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* '%' */37,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: "a)",
+                        _1: {
+                          TAG: /* Formatting_lit */ 17,
+                          _0: /* Close_box */ 0,
+                          _1: {
                             TAG: /* String_literal */ 11,
-                            _0: "| ",
+                            _0: "\" ",
                             _1: {
                               TAG: /* String */ 2,
                               _0: /* No_padding */ 0,
                               _1: {
                                 TAG: /* String_literal */ 11,
-                                _0: " x -> Format.fprintf fmt \"",
-                                _1: {
-                                  TAG: /* Formatting_gen */ 18,
-                                  _0: {
-                                    TAG: /* Open_box */ 1,
-                                    _0: {
-                                      TAG: /* Format */ 0,
-                                      _0: /* End_of_format */ 0,
-                                      _1: ""
-                                    }
-                                  },
-                                  _1: {
-                                    TAG: /* String */ 2,
-                                    _0: /* No_padding */ 0,
-                                    _1: {
-                                      TAG: /* Char_literal */ 12,
-                                      _0: /* '(' */40,
-                                      _1: {
-                                        TAG: /* Char_literal */ 12,
-                                        _0: /* '%' */37,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "a)",
-                                          _1: {
-                                            TAG: /* Formatting_lit */ 17,
-                                            _0: /* Close_box */ 0,
-                                            _1: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: "\" ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: " x",
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
+                                _0: " x",
+                                _1: /* End_of_format */ 0
                               }
                             }
-                          },
-                          _1: "| %s x -> Format.fprintf fmt \"@[%s(%%a)@]\" %s x"
-                        }), vc_constructor, vc_constructor, field_string_of));
-            }), v_constructors);
-      }));
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        _1: "| %s x -> Format.fprintf fmt \"@[%s(%%a)@]\" %s x"
+      }), vc_constructor, vc_constructor, field_string_of));
+    }), v_constructors);
+  }));
 }
 
 function gen_pp_const_variant(and_, param, sc) {
   const cv_constructors = param.cv_constructors;
   const cv_name = param.cv_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " pp_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " fmt (v:",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") =",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s pp_%s fmt (v:%s) ="
+  }), let_decl_of_and(and_), cv_name, cv_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "match v with");
+    Stdlib__List.iter((function (param) {
+      const name = param[0];
+      line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " -> Format.fprintf fmt \"",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " pp_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " fmt (v:",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") =",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
+                  TAG: /* Char_literal */ 12,
+                  _0: /* '"' */34,
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "%s pp_%s fmt (v:%s) ="
-            }), let_decl_of_and(and_), cv_name, cv_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "match v with");
-        Stdlib__List.iter((function (param) {
-              const name = param[0];
-              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "| ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " -> Format.fprintf fmt \"",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* '"' */34,
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          _1: "| %s -> Format.fprintf fmt \"%s\""
-                        }), name, name));
-            }), cv_constructors);
-      }));
+              }
+            }
+          }
+        },
+        _1: "| %s -> Format.fprintf fmt \"%s\""
+      }), name, name));
+    }), cv_constructors);
+  }));
 }
 
 function gen_struct$1(and_, t, sc) {
@@ -3809,47 +3809,47 @@ function gen_struct$1(and_, t, sc) {
 function gen_sig$1(and_, t, sc) {
   const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "val pp_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " : Format.formatter -> ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " -> unit ",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "val pp_%s : Format.formatter -> %s -> unit "
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "val pp_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " : Format.formatter -> ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " -> unit ",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "val pp_%s : Format.formatter -> %s -> unit "
+    }), type_name, type_name));
     line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "(** [pp_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " v] formats v] *)",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "(** [pp_%s v] formats v] *)"
-              }), type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "(** [pp_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " v] formats v] *)",
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "(** [pp_%s v] formats v] *)"
+    }), type_name));
   };
   const v = t.spec;
   switch (v.TAG) {
@@ -4092,22 +4092,22 @@ function eq_value(param) {
 function string_of_option(f, x) {
   if (x !== undefined) {
     return Curry._1(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "Some(",
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ')' */41,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "Some(%s)"
-          }), Curry._1(f, Caml_option.valFromOption(x)));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Some(",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ')' */41,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "Some(%s)"
+    }), Curry._1(f, Caml_option.valFromOption(x)));
   } else {
     return "None";
   }
@@ -4115,45 +4115,45 @@ function string_of_option(f, x) {
 
 function reset(g) {
   return Curry._2(map$1, (function (core) {
-      return {
-        core: core,
-        index: undefined,
-        lowlink: undefined,
-        on_stack: false
-      };
-    }), g);
+    return {
+      core: core,
+      index: undefined,
+      lowlink: undefined,
+      on_stack: false
+    };
+  }), g);
 }
 
 function strong_connect(g, sccs, stack, index, v) {
   Curry._2(log({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[Graph] processing v [",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: "], index: ",
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '\n' */10,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[Graph] processing v [",
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* String_literal */ 11,
+          _0: "], index: ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* Char_literal */ 12,
+              _0: /* '\n' */10,
+              _1: /* End_of_format */ 0
             }
-          },
-          _1: "[Graph] processing v [%i], index: %i\n"
-        }), v.core.id, index);
+          }
+        }
+      }
+    },
+    _1: "[Graph] processing v [%i], index: %i\n"
+  }), v.core.id, index);
   v.index = index;
   v.lowlink = index;
   const stack$1 = {
@@ -4162,115 +4162,23 @@ function strong_connect(g, sccs, stack, index, v) {
   };
   v.on_stack = true;
   const match = Stdlib__List.fold_left((function (param, id) {
-        const index = param[2];
-        const stack = param[1];
-        const sccs = param[0];
-        const w = Curry._2(find, id, g);
-        Curry._2(log({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "[Graph] sub w [",
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* String_literal */ 11,
-                      _0: "], w.index: ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '\n' */10,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "[Graph] sub w [%i], w.index: %s\n"
-              }), w.core.id, string_of_option((function (prim) {
-                return String(prim);
-              }), w.index));
-        const match = w.index;
-        if (match !== undefined) {
-          if (w.on_stack) {
-            v.lowlink = min_value([
-                  v.lowlink,
-                  w.index
-                ]);
-          }
-          return [
-            sccs,
-            stack,
-            index
-          ];
-        }
-        const match$1 = strong_connect(g, sccs, stack, index + 1 | 0, w);
-        v.lowlink = min_value([
-              v.lowlink,
-              w.lowlink
-            ]);
-        return [
-          match$1[0],
-          match$1[1],
-          match$1[2]
-        ];
-      }), [
-        sccs,
-        stack$1,
-        index
-      ], v.core.sub);
-  const index$1 = match[2];
-  const stack$2 = match[1];
-  const sccs$1 = match[0];
-  Curry._3(log({
-          TAG: /* Format */ 0,
-          _0: {
+    const index = param[2];
+    const stack = param[1];
+    const sccs = param[0];
+    const w = Curry._2(find, id, g);
+    Curry._2(log({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "[Graph] sub w [",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
             TAG: /* String_literal */ 11,
-            _0: "[Graph] after sub for v [",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: "], lowlink: ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", index: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '\n' */10,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          _1: "[Graph] after sub for v [%i], lowlink: %s, index: %s\n"
-        }), v.core.id, string_of_option((function (prim) {
-          return String(prim);
-        }), v.lowlink), string_of_option((function (prim) {
-          return String(prim);
-        }), v.index));
-  Curry._1(log({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[Graph]   -> stack : ",
+            _0: "], w.index: ",
             _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
@@ -4280,15 +4188,107 @@ function strong_connect(g, sccs, stack, index, v) {
                 _1: /* End_of_format */ 0
               }
             }
-          },
-          _1: "[Graph]   -> stack : %s\n"
-        }), "[" + (Stdlib__String.concat(";", Stdlib__List.map((function (param) {
-              return String(param.core.id);
-            }), stack$2)) + "]"));
-  if (!eq_value([
+          }
+        }
+      },
+      _1: "[Graph] sub w [%i], w.index: %s\n"
+    }), w.core.id, string_of_option((function (prim) {
+      return String(prim);
+    }), w.index));
+    const match = w.index;
+    if (match !== undefined) {
+      if (w.on_stack) {
+        v.lowlink = min_value([
           v.lowlink,
-          v.index
-        ])) {
+          w.index
+        ]);
+      }
+      return [
+        sccs,
+        stack,
+        index
+      ];
+    }
+    const match$1 = strong_connect(g, sccs, stack, index + 1 | 0, w);
+    v.lowlink = min_value([
+      v.lowlink,
+      w.lowlink
+    ]);
+    return [
+      match$1[0],
+      match$1[1],
+      match$1[2]
+    ];
+  }), [
+    sccs,
+    stack$1,
+    index
+  ], v.core.sub);
+  const index$1 = match[2];
+  const stack$2 = match[1];
+  const sccs$1 = match[0];
+  Curry._3(log({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[Graph] after sub for v [",
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* String_literal */ 11,
+          _0: "], lowlink: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ", index: ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* '\n' */10,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "[Graph] after sub for v [%i], lowlink: %s, index: %s\n"
+  }), v.core.id, string_of_option((function (prim) {
+    return String(prim);
+  }), v.lowlink), string_of_option((function (prim) {
+    return String(prim);
+  }), v.index));
+  Curry._1(log({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[Graph]   -> stack : ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "[Graph]   -> stack : %s\n"
+  }), "[" + (Stdlib__String.concat(";", Stdlib__List.map((function (param) {
+    return String(param.core.id);
+  }), stack$2)) + "]"));
+  if (!eq_value([
+      v.lowlink,
+      v.index
+    ])) {
     return [
       sccs$1,
       stack$2,
@@ -4296,45 +4296,45 @@ function strong_connect(g, sccs, stack, index, v) {
     ];
   }
   const match$1 = Stdlib__List.fold_left((function (param, n) {
-        const splitted = param[2];
-        const stack = param[1];
-        const scc = param[0];
-        if (splitted) {
-          return [
-            scc,
-            {
-              hd: n,
-              tl: stack
-            },
-            splitted
-          ];
-        } else {
-          n.on_stack = false;
-          if (n.core.id === v.core.id) {
-            return [
-              {
-                hd: n.core.id,
-                tl: scc
-              },
-              stack,
-              true
-            ];
-          } else {
-            return [
-              {
-                hd: n.core.id,
-                tl: scc
-              },
-              stack,
-              false
-            ];
-          }
-        }
-      }), [
-        /* [] */ 0,
-        /* [] */ 0,
-        false
-      ], stack$2);
+    const splitted = param[2];
+    const stack = param[1];
+    const scc = param[0];
+    if (splitted) {
+      return [
+        scc,
+        {
+          hd: n,
+          tl: stack
+        },
+        splitted
+      ];
+    } else {
+      n.on_stack = false;
+      if (n.core.id === v.core.id) {
+        return [
+          {
+            hd: n.core.id,
+            tl: scc
+          },
+          stack,
+          true
+        ];
+      } else {
+        return [
+          {
+            hd: n.core.id,
+            tl: scc
+          },
+          stack,
+          false
+        ];
+      }
+    }
+  }), [
+    /* [] */ 0,
+    /* [] */ 0,
+    false
+  ], stack$2);
   return [
     {
       hd: match$1[0],
@@ -4348,24 +4348,24 @@ function strong_connect(g, sccs, stack, index, v) {
 function tarjan(g) {
   const g$1 = reset(g);
   return Curry._3(fold, (function (param, n, param$1) {
-        const index = param$1[2];
-        const stack = param$1[1];
-        const sccs = param$1[0];
-        const match = n.index;
-        if (match !== undefined) {
-          return [
-            sccs,
-            stack,
-            index
-          ];
-        } else {
-          return strong_connect(g$1, sccs, stack, index, n);
-        }
-      }), g$1, [
-        /* [] */ 0,
-        /* [] */ 0,
-        0
-      ])[0];
+      const index = param$1[2];
+      const stack = param$1[1];
+      const sccs = param$1[0];
+      const match = n.index;
+      if (match !== undefined) {
+        return [
+          sccs,
+          stack,
+          index
+        ];
+      } else {
+        return strong_connect(g$1, sccs, stack, index, n);
+      }
+    }), g$1, [
+      /* [] */ 0,
+      /* [] */ 0,
+      0
+    ])[0];
 }
 
 function field_name(param) {
@@ -4417,44 +4417,44 @@ function type_id_of_type(param) {
 
 function type_of_id(all_types, id) {
   return Stdlib__List.find((function (t) {
-        return type_id_of_type(t) === id;
-      }), all_types);
+    return type_id_of_type(t) === id;
+  }), all_types);
 }
 
 function string_of_unresolved(param) {
   return Curry._3(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "unresolved:{scope ",
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "unresolved:{scope ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: ", type_name: ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
             _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
+              TAG: /* String_literal */ 11,
+              _0: ", from_root: ",
               _1: {
-                TAG: /* String_literal */ 11,
-                _0: ", type_name: ",
+                TAG: /* Bool */ 9,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", from_root: ",
-                    _1: {
-                      TAG: /* Bool */ 9,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* '}' */125,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
+                  TAG: /* Char_literal */ 12,
+                  _0: /* '}' */125,
+                  _1: /* End_of_format */ 0
                 }
               }
             }
-          },
-          _1: "unresolved:{scope %s, type_name: %s, from_root: %b}"
-        }), string_of_string_list(param.scope), param.type_name, param.from_root);
+          }
+        }
+      }
+    },
+    _1: "unresolved:{scope %s, type_name: %s, from_root: %b}"
+  }), string_of_string_list(param.scope), param.type_name, param.from_root);
 }
 
 function scope_of_package(s) {
@@ -4579,12 +4579,12 @@ function compile_default_p2(all_types, field) {
       return invalid_default_value(field_name$1, "field of type message cannot have a default litteral value", undefined);
     }
     const default_enum_value$1 = apply_until((function (param) {
-          const enum_value_name = param.enum_value_name;
-          if (enum_value_name === default_enum_value) {
-            return enum_value_name;
-          }
-          
-        }), spec._0.enum_values);
+      const enum_value_name = param.enum_value_name;
+      if (enum_value_name === default_enum_value) {
+        return enum_value_name;
+      }
+      
+    }), spec._0.enum_values);
     if (default_enum_value$1 !== undefined) {
       return field_default$1;
     } else {
@@ -4704,112 +4704,112 @@ function type_of_spec(file_name, file_options, id, scope, spec) {
 
 function compile_enum_p1(file_name, file_options, scope, param) {
   const enum_values = Stdlib__List.map((function (enum_value) {
-        return {
-          enum_value_name: enum_value.enum_value_name,
-          enum_value_int: enum_value.enum_value_int
-        };
-      }), param.enum_values);
+    return {
+      enum_value_name: enum_value.enum_value_name,
+      enum_value_int: enum_value.enum_value_int
+    };
+  }), param.enum_values);
   return type_of_spec(file_name, file_options, param.enum_id, scope, {
-        TAG: /* Enum */ 0,
-        _0: {
-          enum_name: param.enum_name,
-          enum_values: enum_values
-        }
-      });
+    TAG: /* Enum */ 0,
+    _0: {
+      enum_name: param.enum_name,
+      enum_values: enum_values
+    }
+  });
 }
 
 function compile_message_p1(file_name, file_options, message_scope, param) {
   const message_name = param.message_name;
   const sub_scope_packages = message_scope.packages;
   const sub_scope_message_names = Stdlib.$at(message_scope.message_names, {
-        hd: message_name,
-        tl: /* [] */ 0
-      });
+    hd: message_name,
+    tl: /* [] */ 0
+  });
   const sub_scope = {
     packages: sub_scope_packages,
     message_names: sub_scope_message_names
   };
   const match = Stdlib__List.fold_left((function (param, f) {
-        const all_types = param[2];
-        const extensions = param[1];
-        const message_body = param[0];
-        switch (f.TAG) {
-          case /* Message_field */ 0 :
-            const field = {
-              TAG: /* Message_field */ 0,
-              _0: compile_field_p1(f._0)
-            };
-            return [
-              {
-                hd: field,
-                tl: message_body
-              },
-              extensions,
-              all_types
-            ];
-          case /* Message_map_field */ 1 :
-            const field$1 = {
-              TAG: /* Message_map_field */ 2,
-              _0: compile_map_p1(f._0)
-            };
-            return [
-              {
-                hd: field$1,
-                tl: message_body
-              },
-              extensions,
-              all_types
-            ];
-          case /* Message_oneof_field */ 2 :
-            const field$2 = {
-              TAG: /* Message_oneof_field */ 1,
-              _0: compile_oneof_p1(f._0)
-            };
-            return [
-              {
-                hd: field$2,
-                tl: message_body
-              },
-              extensions,
-              all_types
-            ];
-          case /* Message_sub */ 3 :
-            const all_sub_types = compile_message_p1(file_name, file_options, sub_scope, f._0);
-            return [
-              message_body,
-              extensions,
-              Stdlib.$at(all_types, all_sub_types)
-            ];
-          case /* Message_enum */ 4 :
-            return [
-              message_body,
-              extensions,
-              Stdlib.$at(all_types, {
-                    hd: compile_enum_p1(file_name, file_options, sub_scope, f._0),
-                    tl: /* [] */ 0
-                  })
-            ];
-          case /* Message_extension */ 5 :
-            return [
-              message_body,
-              Stdlib.$at(extensions, f._0),
-              all_types
-            ];
-        }
-      }), [
-        /* [] */ 0,
-        /* [] */ 0,
-        /* [] */ 0
-      ], param.message_body);
+    const all_types = param[2];
+    const extensions = param[1];
+    const message_body = param[0];
+    switch (f.TAG) {
+      case /* Message_field */ 0 :
+        const field = {
+          TAG: /* Message_field */ 0,
+          _0: compile_field_p1(f._0)
+        };
+        return [
+          {
+            hd: field,
+            tl: message_body
+          },
+          extensions,
+          all_types
+        ];
+      case /* Message_map_field */ 1 :
+        const field$1 = {
+          TAG: /* Message_map_field */ 2,
+          _0: compile_map_p1(f._0)
+        };
+        return [
+          {
+            hd: field$1,
+            tl: message_body
+          },
+          extensions,
+          all_types
+        ];
+      case /* Message_oneof_field */ 2 :
+        const field$2 = {
+          TAG: /* Message_oneof_field */ 1,
+          _0: compile_oneof_p1(f._0)
+        };
+        return [
+          {
+            hd: field$2,
+            tl: message_body
+          },
+          extensions,
+          all_types
+        ];
+      case /* Message_sub */ 3 :
+        const all_sub_types = compile_message_p1(file_name, file_options, sub_scope, f._0);
+        return [
+          message_body,
+          extensions,
+          Stdlib.$at(all_types, all_sub_types)
+        ];
+      case /* Message_enum */ 4 :
+        return [
+          message_body,
+          extensions,
+          Stdlib.$at(all_types, {
+            hd: compile_enum_p1(file_name, file_options, sub_scope, f._0),
+            tl: /* [] */ 0
+          })
+        ];
+      case /* Message_extension */ 5 :
+        return [
+          message_body,
+          Stdlib.$at(extensions, f._0),
+          all_types
+        ];
+    }
+  }), [
+    /* [] */ 0,
+    /* [] */ 0,
+    /* [] */ 0
+  ], param.message_body);
   const message_body = Stdlib__List.rev(match[0]);
   const validate_duplicate = function (number_index, field) {
     const number = field_number(field);
     const name = field_name(field);
     if (not_found(function (param) {
-            Stdlib__List.assoc(number, number_index);
-          }) && not_found(function (param) {
-            list_assoc2(name, number_index);
-          })) {
+        Stdlib__List.assoc(number, number_index);
+      }) && not_found(function (param) {
+        list_assoc2(name, number_index);
+      })) {
       return {
         hd: [
           number,
@@ -4833,40 +4833,40 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
     }
   };
   Stdlib__List.fold_left((function (number_index, f) {
-        switch (f.TAG) {
-          case /* Message_field */ 0 :
-            return validate_duplicate(number_index, f._0);
-          case /* Message_oneof_field */ 1 :
-            return Stdlib__List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
-          case /* Message_map_field */ 2 :
-            return number_index;
-        }
-      }), /* [] */ 0, message_body);
+    switch (f.TAG) {
+      case /* Message_field */ 0 :
+        return validate_duplicate(number_index, f._0);
+      case /* Message_oneof_field */ 1 :
+        return Stdlib__List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
+      case /* Message_map_field */ 2 :
+        return number_index;
+    }
+  }), /* [] */ 0, message_body);
   return Stdlib.$at(match[2], {
-        hd: type_of_spec(file_name, file_options, param.id, message_scope, {
-              TAG: /* Message */ 1,
-              _0: {
-                extensions: match[1],
-                message_name: message_name,
-                message_body: message_body
-              }
-            }),
-        tl: /* [] */ 0
-      });
+    hd: type_of_spec(file_name, file_options, param.id, message_scope, {
+      TAG: /* Message */ 1,
+      _0: {
+        extensions: match[1],
+        message_name: message_name,
+        message_body: message_body
+      }
+    }),
+    tl: /* [] */ 0
+  });
 }
 
 function compile_proto_p1(file_name, param) {
   const file_options = param.file_options;
   const scope = scope_of_package(param.package);
   const pbtt_msgs = Stdlib__List.fold_right((function (e, pbtt_msgs) {
-        return {
-          hd: compile_enum_p1(file_name, file_options, scope, e),
-          tl: pbtt_msgs
-        };
-      }), param.enums, /* [] */ 0);
+    return {
+      hd: compile_enum_p1(file_name, file_options, scope, e),
+      tl: pbtt_msgs
+    };
+  }), param.enums, /* [] */ 0);
   return Stdlib__List.fold_left((function (pbtt_msgs, pbpt_msg) {
-        return Stdlib.$at(pbtt_msgs, compile_message_p1(file_name, file_options, scope, pbpt_msg));
-      }), pbtt_msgs, param.messages);
+    return Stdlib.$at(pbtt_msgs, compile_message_p1(file_name, file_options, scope, pbpt_msg));
+  }), pbtt_msgs, param.messages);
 }
 
 function type_scope_of_type(param) {
@@ -4893,18 +4893,18 @@ function type_name_of_type(param) {
 
 function find_all_types_in_field_scope(all_types, scope) {
   return Stdlib__List.filter((function (t) {
-        const match = type_scope_of_type(t);
-        const dec_scope = Stdlib.$at(match.packages, match.message_names);
-        return Caml_obj.caml_equal(dec_scope, scope);
-      }), all_types);
+    const match = type_scope_of_type(t);
+    const dec_scope = Stdlib.$at(match.packages, match.message_names);
+    return Caml_obj.caml_equal(dec_scope, scope);
+  }), all_types);
 }
 
 function compile_message_p2(types, param, message) {
   const message_name = message.message_name;
   const message_scope = Stdlib.$at(param.packages, Stdlib.$at(param.message_names, {
-            hd: message_name,
-            tl: /* [] */ 0
-          }));
+    hd: message_name,
+    tl: /* [] */ 0
+  }));
   const search_scopes = function (field_scope, from_root) {
     if (from_root) {
       return {
@@ -4934,22 +4934,22 @@ function compile_message_p2(types, param, message) {
   };
   const compile_field_p2 = function (field_name, field_type) {
     Curry._1(log({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "[pbtt] field_name: ",
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '\n' */10,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "[pbtt] field_name: %s\n"
-          }), field_name);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "[pbtt] field_name: ",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '\n' */10,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "[pbtt] field_name: %s\n"
+    }), field_name);
     if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
       if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
         switch (field_type) {
@@ -4999,10 +4999,40 @@ function compile_message_p2(types, param, message) {
     endline("[pbtt] " + string_of_unresolved(unresolved));
     const search_scopes$1 = search_scopes(unresolved.scope, unresolved.from_root);
     Curry._1(log({
-            TAG: /* Format */ 0,
-            _0: {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "[pbtt] message scope: ",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '\n' */10,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "[pbtt] message scope: %s\n"
+    }), string_of_string_list(message_scope));
+    Stdlib__List.iteri((function (i, scope) {
+      Curry._2(log({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "[pbtt] search_scope[",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: {
+              TAG: /* Lit_padding */ 0,
+              _0: /* Right */ 1,
+              _1: 2
+            },
+            _2: /* No_precision */ 0,
+            _3: {
               TAG: /* String_literal */ 11,
-              _0: "[pbtt] message scope: ",
+              _0: "] : ",
               _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
@@ -5012,58 +5042,28 @@ function compile_message_p2(types, param, message) {
                   _1: /* End_of_format */ 0
                 }
               }
-            },
-            _1: "[pbtt] message scope: %s\n"
-          }), string_of_string_list(message_scope));
-    Stdlib__List.iteri((function (i, scope) {
-          Curry._2(log({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "[pbtt] search_scope[",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_i */ 3,
-                      _1: {
-                        TAG: /* Lit_padding */ 0,
-                        _0: /* Right */ 1,
-                        _1: 2
-                      },
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* String_literal */ 11,
-                        _0: "] : ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* '\n' */10,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
-                    }
-                  },
-                  _1: "[pbtt] search_scope[%2i] : %s\n"
-                }), i, string_of_string_list(scope));
-        }), search_scopes$1);
-    const id = apply_until((function (scope) {
-          const types$1 = find_all_types_in_field_scope(types, scope);
-          try {
-            const t = Stdlib__List.find((function (t) {
-                  return type_name === type_name_of_type(t);
-                }), types$1);
-            return type_id_of_type(t);
-          }
-          catch (raw_exn){
-            const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-              return;
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
           }
-        }), search_scopes$1);
+        },
+        _1: "[pbtt] search_scope[%2i] : %s\n"
+      }), i, string_of_string_list(scope));
+    }), search_scopes$1);
+    const id = apply_until((function (scope) {
+      const types$1 = find_all_types_in_field_scope(types, scope);
+      try {
+        const t = Stdlib__List.find((function (t) {
+          return type_name === type_name_of_type(t);
+        }), types$1);
+        return type_id_of_type(t);
+      }
+      catch (raw_exn){
+        const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+        if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+          return;
+        }
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      }
+    }), search_scopes$1);
     if (id !== undefined) {
       return {
         TAG: /* Field_type_type */ 0,
@@ -5084,86 +5084,86 @@ function compile_message_p2(types, param, message) {
     }
   };
   const message_body = Stdlib__List.fold_left((function (message_body, field) {
-        switch (field.TAG) {
-          case /* Message_field */ 0 :
-            const field$1 = field._0;
-            const field_name$1 = field_name(field$1);
-            const field_type$1 = field_type(field$1);
-            const field_field_parsed = field$1.field_parsed;
-            const field_field_type = compile_field_p2(field_name$1, field_type$1);
-            const field_field_default = field$1.field_default;
-            const field_field_options = field$1.field_options;
-            const field$2 = {
-              field_parsed: field_field_parsed,
-              field_type: field_field_type,
-              field_default: field_field_default,
-              field_options: field_field_options
-            };
-            const field_field_parsed$1 = field_field_parsed;
-            const field_field_type$1 = field_field_type;
-            const field_field_default$1 = compile_default_p2(types, field$2);
-            const field_field_options$1 = field_field_options;
-            const field$3 = {
-              field_parsed: field_field_parsed$1,
-              field_type: field_field_type$1,
-              field_default: field_field_default$1,
-              field_options: field_field_options$1
-            };
-            return {
-              hd: {
-                TAG: /* Message_field */ 0,
-                _0: field$3
-              },
-              tl: message_body
-            };
-          case /* Message_oneof_field */ 1 :
-            const oneof = field._0;
-            const oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
-                  const field_name$2 = field_name(field);
-                  const field_type$2 = field_type(field);
-                  const field_type$3 = compile_field_p2(field_name$2, field_type$2);
-                  return {
-                    hd: {
-                      field_parsed: field.field_parsed,
-                      field_type: field_type$3,
-                      field_default: field.field_default,
-                      field_options: field.field_options
-                    },
-                    tl: oneof_fields
-                  };
-                }), /* [] */ 0, oneof.oneof_fields);
-            const oneof_fields$1 = Stdlib__List.rev(oneof_fields);
-            return {
-              hd: {
-                TAG: /* Message_oneof_field */ 1,
-                _0: {
-                  oneof_name: oneof.oneof_name,
-                  oneof_fields: oneof_fields$1
-                }
-              },
-              tl: message_body
-            };
-          case /* Message_map_field */ 2 :
-            const map = field._0;
-            const map_name = map.map_name;
-            const map_key_type = compile_field_p2(map_name, map.map_key_type);
-            const map_value_type = compile_field_p2(map_name, map.map_value_type);
-            const resolved_map = {
-              TAG: /* Message_map_field */ 2,
-              _0: {
-                map_name: map_name,
-                map_number: map.map_number,
-                map_key_type: map_key_type,
-                map_value_type: map_value_type,
-                map_options: map.map_options
-              }
-            };
-            return {
-              hd: resolved_map,
-              tl: message_body
-            };
-        }
-      }), /* [] */ 0, message.message_body);
+    switch (field.TAG) {
+      case /* Message_field */ 0 :
+        const field$1 = field._0;
+        const field_name$1 = field_name(field$1);
+        const field_type$1 = field_type(field$1);
+        const field_field_parsed = field$1.field_parsed;
+        const field_field_type = compile_field_p2(field_name$1, field_type$1);
+        const field_field_default = field$1.field_default;
+        const field_field_options = field$1.field_options;
+        const field$2 = {
+          field_parsed: field_field_parsed,
+          field_type: field_field_type,
+          field_default: field_field_default,
+          field_options: field_field_options
+        };
+        const field_field_parsed$1 = field_field_parsed;
+        const field_field_type$1 = field_field_type;
+        const field_field_default$1 = compile_default_p2(types, field$2);
+        const field_field_options$1 = field_field_options;
+        const field$3 = {
+          field_parsed: field_field_parsed$1,
+          field_type: field_field_type$1,
+          field_default: field_field_default$1,
+          field_options: field_field_options$1
+        };
+        return {
+          hd: {
+            TAG: /* Message_field */ 0,
+            _0: field$3
+          },
+          tl: message_body
+        };
+      case /* Message_oneof_field */ 1 :
+        const oneof = field._0;
+        const oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
+          const field_name$2 = field_name(field);
+          const field_type$2 = field_type(field);
+          const field_type$3 = compile_field_p2(field_name$2, field_type$2);
+          return {
+            hd: {
+              field_parsed: field.field_parsed,
+              field_type: field_type$3,
+              field_default: field.field_default,
+              field_options: field.field_options
+            },
+            tl: oneof_fields
+          };
+        }), /* [] */ 0, oneof.oneof_fields);
+        const oneof_fields$1 = Stdlib__List.rev(oneof_fields);
+        return {
+          hd: {
+            TAG: /* Message_oneof_field */ 1,
+            _0: {
+              oneof_name: oneof.oneof_name,
+              oneof_fields: oneof_fields$1
+            }
+          },
+          tl: message_body
+        };
+      case /* Message_map_field */ 2 :
+        const map = field._0;
+        const map_name = map.map_name;
+        const map_key_type = compile_field_p2(map_name, map.map_key_type);
+        const map_value_type = compile_field_p2(map_name, map.map_value_type);
+        const resolved_map = {
+          TAG: /* Message_map_field */ 2,
+          _0: {
+            map_name: map_name,
+            map_number: map.map_number,
+            map_key_type: map_key_type,
+            map_value_type: map_value_type,
+            map_options: map.map_options
+          }
+        };
+        return {
+          hd: resolved_map,
+          tl: message_body
+        };
+    }
+  }), /* [] */ 0, message.message_body);
   const message_body$1 = Stdlib__List.rev(message_body);
   return {
     extensions: message.extensions,
@@ -5182,41 +5182,41 @@ function node_of_proto_type(param) {
     };
   }
   const sub = Stdlib__List.flatten(Stdlib__List.map((function (param) {
-            switch (param.TAG) {
-              case /* Message_field */ 0 :
-                const field_type = param._0.field_type;
-                if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
-                  return /* [] */ 0;
-                } else {
-                  return {
-                    hd: field_type._0,
-                    tl: /* [] */ 0
-                  };
-                }
-              case /* Message_oneof_field */ 1 :
-                return Stdlib__List.flatten(Stdlib__List.map((function (param) {
-                          const field_type = param.field_type;
-                          if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
-                            return /* [] */ 0;
-                          } else {
-                            return {
-                              hd: field_type._0,
-                              tl: /* [] */ 0
-                            };
-                          }
-                        }), param._0.oneof_fields));
-              case /* Message_map_field */ 2 :
-                const map_value_type = param._0.map_value_type;
-                if (/* tag */ typeof map_value_type === "number" || typeof map_value_type === "string") {
-                  return /* [] */ 0;
-                } else {
-                  return {
-                    hd: map_value_type._0,
-                    tl: /* [] */ 0
-                  };
-                }
-            }
-          }), match._0.message_body));
+    switch (param.TAG) {
+      case /* Message_field */ 0 :
+        const field_type = param._0.field_type;
+        if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
+          return /* [] */ 0;
+        } else {
+          return {
+            hd: field_type._0,
+            tl: /* [] */ 0
+          };
+        }
+      case /* Message_oneof_field */ 1 :
+        return Stdlib__List.flatten(Stdlib__List.map((function (param) {
+          const field_type = param.field_type;
+          if (/* tag */ typeof field_type === "number" || typeof field_type === "string") {
+            return /* [] */ 0;
+          } else {
+            return {
+              hd: field_type._0,
+              tl: /* [] */ 0
+            };
+          }
+        }), param._0.oneof_fields));
+      case /* Message_map_field */ 2 :
+        const map_value_type = param._0.map_value_type;
+        if (/* tag */ typeof map_value_type === "number" || typeof map_value_type === "string") {
+          return /* [] */ 0;
+        } else {
+          return {
+            hd: map_value_type._0,
+            tl: /* [] */ 0
+          };
+        }
+    }
+  }), match._0.message_body));
   return {
     id: id,
     sub: sub
@@ -5226,16 +5226,16 @@ function node_of_proto_type(param) {
 function group(proto) {
   const g = Stdlib__List.map(node_of_proto_type, proto);
   const g$1 = Stdlib__List.fold_left((function (m, n) {
-        return Curry._3(add, n.id, n, m);
-      }), empty_graph, g);
+    return Curry._3(add, n.id, n, m);
+  }), empty_graph, g);
   const sccs = tarjan(g$1);
   return Stdlib__List.map((function (l) {
-        return Stdlib__List.map((function (id) {
-              return Stdlib__List.find((function (param) {
-                    return id === param.id;
-                  }), proto);
-            }), l);
-      }), sccs);
+    return Stdlib__List.map((function (id) {
+      return Stdlib__List.find((function (param) {
+        return id === param.id;
+      }), proto);
+    }), l);
+  }), sccs);
 }
 
 function type_decl_of_and(param) {
@@ -5277,173 +5277,173 @@ function gen_type_record(mutable_, and_, param, sc) {
   };
   const r_name$1 = mutable_$1 ? r_name + "_mutable" : r_name;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " = {",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s %s = {"
+  }), type_decl_of_and(and_), r_name$1));
+  scope(sc, (function (sc) {
+    Stdlib__List.iter((function (param) {
+      const rf_field_type = param.rf_field_type;
+      const prefix = field_prefix(rf_field_type, param.rf_mutable);
+      const type_string = string_of_record_field_type(rf_field_type);
+      line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " : ",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
                 _1: {
                   TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " = {",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
+                  _0: /* ';' */59,
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "%s %s = {"
-            }), type_decl_of_and(and_), r_name$1));
-  scope(sc, (function (sc) {
-        Stdlib__List.iter((function (param) {
-              const rf_field_type = param.rf_field_type;
-              const prefix = field_prefix(rf_field_type, param.rf_mutable);
-              const type_string = string_of_record_field_type(rf_field_type);
-              line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " : ",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* ';' */59,
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          _1: "%s%s : %s;"
-                        }), prefix, param.rf_label, type_string));
-            }), r_fields);
-      }));
+              }
+            }
+          }
+        },
+        _1: "%s%s : %s;"
+      }), prefix, param.rf_label, type_string));
+    }), r_fields);
+  }));
   line$1(sc, "}");
 }
 
 function gen_type_variant(and_, variant, sc) {
   const v_constructors = variant.v_constructors;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " =",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s %s ="
+  }), type_decl_of_and(and_), variant.v_name));
+  scope(sc, (function (sc) {
+    Stdlib__List.iter((function (param) {
+      const vc_field_type = param.vc_field_type;
+      const vc_constructor = param.vc_constructor;
+      if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
+        return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "| ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          },
+          _1: "| %s"
+        }), vc_constructor));
+      }
+      const type_string = string_of_field_type(vc_field_type._0);
+      line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " of ",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " =",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                }
-              },
-              _1: "%s %s ="
-            }), type_decl_of_and(and_), variant.v_name));
-  scope(sc, (function (sc) {
-        Stdlib__List.iter((function (param) {
-              const vc_field_type = param.vc_field_type;
-              const vc_constructor = param.vc_constructor;
-              if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
-                return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "| ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: /* End_of_format */ 0
-                              }
-                            },
-                            _1: "| %s"
-                          }), vc_constructor));
+                _1: /* End_of_format */ 0
               }
-              const type_string = string_of_field_type(vc_field_type._0);
-              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "| ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " of ",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: /* End_of_format */ 0
-                                }
-                              }
-                            }
-                          },
-                          _1: "| %s of %s"
-                        }), vc_constructor, type_string));
-            }), v_constructors);
-      }));
+            }
+          }
+        },
+        _1: "| %s of %s"
+      }), vc_constructor, type_string));
+    }), v_constructors);
+  }));
 }
 
 function gen_type_const_variant(and_, param, sc) {
   const cv_constructors = param.cv_constructors;
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " =",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                }
-              },
-              _1: "%s %s ="
-            }), type_decl_of_and(and_), param.cv_name));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " =",
+            _1: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: "%s %s ="
+  }), type_decl_of_and(and_), param.cv_name));
   scope(sc, (function (sc) {
-        Stdlib__List.iter((function (param) {
-              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "| ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* Char_literal */ 12,
-                                _0: /* ' ' */32,
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          },
-                          _1: "| %s "
-                        }), param[0]));
-            }), cv_constructors);
-      }));
+    Stdlib__List.iter((function (param) {
+      line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "| %s "
+      }), param[0]));
+    }), cv_constructors);
+  }));
 }
 
 function gen_struct$2(and_, t, scope) {
@@ -5491,40 +5491,40 @@ function gen_encode_field_key(sc, number, pk, is_packed) {
   const s = string_of_payload_kind(undefined, pk, is_packed);
   const s$1 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s)));
   line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Pbrt.Encoder.key (",
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* String_literal */ 11,
-                    _0: ", Pbrt.",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: ") encoder; ",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              },
-              _1: "Pbrt.Encoder.key (%i, Pbrt.%s) encoder; "
-            }), number, Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s$1)))));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "Pbrt.Encoder.key (",
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* String_literal */ 11,
+          _0: ", Pbrt.",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: ") encoder; ",
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      }
+    },
+    _1: "Pbrt.Encoder.key (%i, Pbrt.%s) encoder; "
+  }), number, Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s$1)))));
 }
 
 function encode_basic_type(bt, pk) {
   return runtime_function([
-        "Encode",
-        pk,
-        bt
-      ]);
+    "Encode",
+    pk,
+    bt
+  ]);
 }
 
 function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_packed, field_type) {
@@ -5542,78 +5542,78 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
     encode_key(sc);
     const rt = encode_basic_type(field_type._0, pk);
     return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " encoder;",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "%s %s encoder;"
-              }), rt, var_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " encoder;",
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s %s encoder;"
+    }), rt, var_name));
   }
   const ud = field_type._0;
   encode_key(sc);
   const f_name = function_name_of_user_defined("encode", ud);
   if (ud.udt_nested) {
     return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Pbrt.Encoder.nested (",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") encoder;",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "Pbrt.Encoder.nested (%s %s) encoder;"
-              }), f_name, var_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Pbrt.Encoder.nested (",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") encoder;",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Pbrt.Encoder.nested (%s %s) encoder;"
+    }), f_name, var_name));
   } else {
     return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " encoder;",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "%s %s encoder;"
-              }), f_name, var_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " encoder;",
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s %s encoder;"
+    }), f_name, var_name));
   }
 }
 
@@ -5621,562 +5621,562 @@ function gen_encode_record(and_, param, sc) {
   const r_fields = param.r_fields;
   const r_name = param.r_name;
   Curry._1(log({
-          TAG: /* Format */ 0,
-          _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "gen_encode_record record_name: ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "gen_encode_record record_name: %s\n"
+  }), r_name);
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " encode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
             TAG: /* String_literal */ 11,
-            _0: "gen_encode_record record_name: ",
+            _0: " (v:",
             _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
+                TAG: /* String_literal */ 11,
+                _0: ") encoder = ",
                 _1: /* End_of_format */ 0
               }
             }
-          },
-          _1: "gen_encode_record record_name: %s\n"
-        }), r_name);
-  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
+          }
+        }
+      }
+    },
+    _1: "%s encode_%s (v:%s) encoder = "
+  }), let_decl_of_and(and_), r_name, r_name));
+  scope(sc, (function (sc) {
+    Stdlib__List.iter((function (record_field) {
+      const rf_field_type = record_field.rf_field_type;
+      const rf_label = record_field.rf_label;
+      switch (rf_field_type.TAG) {
+        case /* Rft_required */ 0 :
+          const match = rf_field_type._0;
+          const var_name = Curry._1(Stdlib__Printf.sprintf({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "v.",
+              _1: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " encode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " (v:",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") encoder = ",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              _1: "%s encode_%s (v:%s) encoder = "
-            }), let_decl_of_and(and_), r_name, r_name));
-  scope(sc, (function (sc) {
-        Stdlib__List.iter((function (record_field) {
-              const rf_field_type = record_field.rf_field_type;
-              const rf_label = record_field.rf_label;
-              switch (rf_field_type.TAG) {
-                case /* Rft_required */ 0 :
-                  const match = rf_field_type._0;
-                  const var_name = Curry._1(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "v.",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: /* End_of_format */ 0
-                            }
-                          },
-                          _1: "v.%s"
-                        }), rf_label);
-                  return gen_encode_field_type(Caml_option.some(undefined), sc, var_name, match[1], match[2], false, match[0]);
-                case /* Rft_optional */ 1 :
-                  const match$1 = rf_field_type._0;
-                  const pk = match$1[2];
-                  const encoding_number = match$1[1];
-                  const field_type = match$1[0];
-                  line$1(sc, "(");
-                  scope(sc, (function (sc) {
-                        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "match v.",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: " with ",
-                                          _1: /* End_of_format */ 0
-                                        }
-                                      }
-                                    },
-                                    _1: "match v.%s with "
-                                  }), rf_label));
-                        line$1(sc, Stdlib__Printf.sprintf({
-                                  TAG: /* Format */ 0,
-                                  _0: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: "| Some x -> (",
-                                    _1: /* End_of_format */ 0
-                                  },
-                                  _1: "| Some x -> ("
-                                }));
-                        scope(sc, (function (sc) {
-                              gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number, pk, false, field_type);
-                            }));
-                        line$1(sc, ")");
-                        line$1(sc, "| None -> ();");
-                      }));
-                  return line$1(sc, ");");
-                case /* Rft_repeated_field */ 2 :
-                  const match$2 = rf_field_type._0;
-                  const is_packed = match$2[4];
-                  const pk$1 = match$2[3];
-                  const encoding_number$1 = match$2[2];
-                  const field_type$1 = match$2[1];
-                  if (match$2[0] === /* Rt_list */ 0) {
-                    if (is_packed) {
-                      gen_encode_field_key(sc, encoding_number$1, pk$1, is_packed);
-                      line$1(sc, "Pbrt.Encoder.nested (fun encoder ->");
-                      scope(sc, (function (sc) {
-                            line$1(sc, "List.iter (fun x -> ");
-                            scope(sc, (function (sc) {
-                                  gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
-                                }));
-                            line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: ") v.",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* Char_literal */ 12,
-                                              _0: /* ';' */59,
-                                              _1: /* End_of_format */ 0
-                                            }
-                                          }
-                                        },
-                                        _1: ") v.%s;"
-                                      }), rf_label));
-                          }));
-                      return line$1(sc, ") encoder;");
-                    } else {
-                      line$1(sc, "List.iter (fun x -> ");
-                      scope(sc, (function (sc) {
-                            gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
-                          }));
-                      return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                  TAG: /* Format */ 0,
-                                  _0: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: ") v.",
-                                    _1: {
-                                      TAG: /* String */ 2,
-                                      _0: /* No_padding */ 0,
-                                      _1: {
-                                        TAG: /* Char_literal */ 12,
-                                        _0: /* ';' */59,
-                                        _1: /* End_of_format */ 0
-                                      }
-                                    }
-                                  },
-                                  _1: ") v.%s;"
-                                }), rf_label));
-                    }
-                  } else if (is_packed) {
-                    gen_encode_field_key(sc, encoding_number$1, pk$1, is_packed);
-                    line$1(sc, "Pbrt.Encoder.nested (fun encoder ->");
-                    scope(sc, (function (sc) {
-                          line$1(sc, "Pbrt.Repeated_field.iter (fun x -> ");
-                          scope(sc, (function (sc) {
-                                gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
-                              }));
-                          line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: ") v.",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: {
-                                            TAG: /* Char_literal */ 12,
-                                            _0: /* ';' */59,
-                                            _1: /* End_of_format */ 0
-                                          }
-                                        }
-                                      },
-                                      _1: ") v.%s;"
-                                    }), rf_label));
-                        }));
-                    return line$1(sc, ") encoder;");
-                  } else {
-                    line$1(sc, "Pbrt.Repeated_field.iter (fun x -> ");
-                    scope(sc, (function (sc) {
-                          gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
-                        }));
-                    return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                TAG: /* Format */ 0,
-                                _0: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: ") v.",
-                                  _1: {
-                                    TAG: /* String */ 2,
-                                    _0: /* No_padding */ 0,
-                                    _1: {
-                                      TAG: /* Char_literal */ 12,
-                                      _0: /* ';' */59,
-                                      _1: /* End_of_format */ 0
-                                    }
-                                  }
-                                },
-                                _1: ") v.%s;"
-                              }), rf_label));
-                  }
-                case /* Rft_associative_field */ 3 :
-                  const match$3 = rf_field_type._0;
-                  const match$4 = match$3[3];
-                  const value_pk = match$4[1];
-                  const value_type = match$4[0];
-                  const match$5 = match$3[2];
-                  const key_pk = match$5[1];
-                  const encoding_number$2 = match$3[1];
-                  line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                              TAG: /* Format */ 0,
-                              _0: {
-                                TAG: /* String_literal */ 11,
-                                _0: "let encode_key = ",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: " in",
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              },
-                              _1: "let encode_key = %s in"
-                            }), encode_basic_type(match$5[0], key_pk)));
-                  line$1(sc, "let encode_value = (fun x encoder ->");
-                  scope(sc, (function (sc) {
-                        gen_encode_field_type(undefined, sc, "x", -1, value_pk, false, value_type);
-                      }));
-                  line$1(sc, ") in");
-                  if (match$3[0] === /* At_list */ 0) {
-                    line$1(sc, "List.iter (fun (k, v) ->");
-                  } else {
-                    line$1(sc, "Hashtbl.iter (fun k v ->");
-                  }
-                  scope(sc, (function (sc) {
-                        gen_encode_field_key(sc, encoding_number$2, /* Pk_bytes */ 2, false);
-                        line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "let map_entry = (k, Pbrt.",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: "), (v, Pbrt.",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: ") in",
-                                              _1: /* End_of_format */ 0
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    _1: "let map_entry = (k, Pbrt.%s), (v, Pbrt.%s) in"
-                                  }), string_of_payload_kind(Caml_option.some(undefined), key_pk, false), string_of_payload_kind(Caml_option.some(undefined), value_pk, false)));
-                        line$1(sc, "Pbrt.Encoder.map_entry ~encode_key ~encode_value map_entry encoder");
-                      }));
-                  return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                              TAG: /* Format */ 0,
-                              _0: {
-                                TAG: /* String_literal */ 11,
-                                _0: ") v.",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* ';' */59,
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              },
-                              _1: ") v.%s;"
-                            }), rf_label));
-                case /* Rft_variant_field */ 4 :
-                  const v_constructors = rf_field_type._0.v_constructors;
-                  line$1(sc, "(");
-                  scope(sc, (function (sc) {
-                        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                    TAG: /* Format */ 0,
-                                    _0: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: "match v.",
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: " with",
-                                          _1: /* End_of_format */ 0
-                                        }
-                                      }
-                                    },
-                                    _1: "match v.%s with"
-                                  }), rf_label));
-                        Stdlib__List.iter((function (param) {
-                              const vc_payload_kind = param.vc_payload_kind;
-                              const vc_encoding_number = param.vc_encoding_number;
-                              const vc_field_type = param.vc_field_type;
-                              const vc_constructor = param.vc_constructor;
-                              if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
-                                line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                            TAG: /* Format */ 0,
-                                            _0: {
-                                              TAG: /* String_literal */ 11,
-                                              _0: "| ",
-                                              _1: {
-                                                TAG: /* String */ 2,
-                                                _0: /* No_padding */ 0,
-                                                _1: {
-                                                  TAG: /* String_literal */ 11,
-                                                  _0: " -> (",
-                                                  _1: /* End_of_format */ 0
-                                                }
-                                              }
-                                            },
-                                            _1: "| %s -> ("
-                                          }), vc_constructor));
-                                scope(sc, (function (sc) {
-                                      gen_encode_field_key(sc, vc_encoding_number, vc_payload_kind, false);
-                                      line$1(sc, "Pbrt.Encoder.empty_nested encoder");
-                                    }));
-                                return line$1(sc, ")");
-                              }
-                              const field_type = vc_field_type._0;
-                              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                                          TAG: /* Format */ 0,
-                                          _0: {
-                                            TAG: /* String_literal */ 11,
-                                            _0: "| ",
-                                            _1: {
-                                              TAG: /* String */ 2,
-                                              _0: /* No_padding */ 0,
-                                              _1: {
-                                                TAG: /* String_literal */ 11,
-                                                _0: " x -> (",
-                                                _1: /* End_of_format */ 0
-                                              }
-                                            }
-                                          },
-                                          _1: "| %s x -> ("
-                                        }), vc_constructor));
-                              scope(sc, (function (sc) {
-                                    gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
-                                  }));
-                              line$1(sc, ")");
-                            }), v_constructors);
-                      }));
-                  return line$1(sc, ");");
+                _1: /* End_of_format */ 0
               }
-            }), r_fields);
-        line$1(sc, "()");
-      }));
-}
-
-function gen_encode_variant(and_, variant, sc) {
-  const v_constructors = variant.v_constructors;
-  const v_name = variant.v_name;
-  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+            },
+            _1: "v.%s"
+          }), rf_label);
+          return gen_encode_field_type(Caml_option.some(undefined), sc, var_name, match[1], match[2], false, match[0]);
+        case /* Rft_optional */ 1 :
+          const match$1 = rf_field_type._0;
+          const pk = match$1[2];
+          const encoding_number = match$1[1];
+          const field_type = match$1[0];
+          line$1(sc, "(");
+          scope(sc, (function (sc) {
+            line$1(sc, Curry._1(Stdlib__Printf.sprintf({
               TAG: /* Format */ 0,
               _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+                TAG: /* String_literal */ 11,
+                _0: "match v.",
                 _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: " with ",
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: "match v.%s with "
+            }), rf_label));
+            line$1(sc, Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "| Some x -> (",
+                _1: /* End_of_format */ 0
+              },
+              _1: "| Some x -> ("
+            }));
+            scope(sc, (function (sc) {
+              gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number, pk, false, field_type);
+            }));
+            line$1(sc, ")");
+            line$1(sc, "| None -> ();");
+          }));
+          return line$1(sc, ");");
+        case /* Rft_repeated_field */ 2 :
+          const match$2 = rf_field_type._0;
+          const is_packed = match$2[4];
+          const pk$1 = match$2[3];
+          const encoding_number$1 = match$2[2];
+          const field_type$1 = match$2[1];
+          if (match$2[0] === /* Rt_list */ 0) {
+            if (is_packed) {
+              gen_encode_field_key(sc, encoding_number$1, pk$1, is_packed);
+              line$1(sc, "Pbrt.Encoder.nested (fun encoder ->");
+              scope(sc, (function (sc) {
+                line$1(sc, "List.iter (fun x -> ");
+                scope(sc, (function (sc) {
+                  gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+                }));
+                line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: ") v.",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ';' */59,
+                        _1: /* End_of_format */ 0
+                      }
+                    }
+                  },
+                  _1: ") v.%s;"
+                }), rf_label));
+              }));
+              return line$1(sc, ") encoder;");
+            } else {
+              line$1(sc, "List.iter (fun x -> ");
+              scope(sc, (function (sc) {
+                gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+              }));
+              return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
                   TAG: /* String_literal */ 11,
-                  _0: " encode_",
+                  _0: ") v.",
                   _1: {
                     TAG: /* String */ 2,
                     _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " (v:",
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ';' */59,
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: ") v.%s;"
+              }), rf_label));
+            }
+          } else if (is_packed) {
+            gen_encode_field_key(sc, encoding_number$1, pk$1, is_packed);
+            line$1(sc, "Pbrt.Encoder.nested (fun encoder ->");
+            scope(sc, (function (sc) {
+              line$1(sc, "Pbrt.Repeated_field.iter (fun x -> ");
+              scope(sc, (function (sc) {
+                gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+              }));
+              line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: ") v.",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ';' */59,
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: ") v.%s;"
+              }), rf_label));
+            }));
+            return line$1(sc, ") encoder;");
+          } else {
+            line$1(sc, "Pbrt.Repeated_field.iter (fun x -> ");
+            scope(sc, (function (sc) {
+              gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+            }));
+            return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: ") v.",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ';' */59,
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: ") v.%s;"
+            }), rf_label));
+          }
+        case /* Rft_associative_field */ 3 :
+          const match$3 = rf_field_type._0;
+          const match$4 = match$3[3];
+          const value_pk = match$4[1];
+          const value_type = match$4[0];
+          const match$5 = match$3[2];
+          const key_pk = match$5[1];
+          const encoding_number$2 = match$3[1];
+          line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "let encode_key = ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* String_literal */ 11,
+                  _0: " in",
+                  _1: /* End_of_format */ 0
+                }
+              }
+            },
+            _1: "let encode_key = %s in"
+          }), encode_basic_type(match$5[0], key_pk)));
+          line$1(sc, "let encode_value = (fun x encoder ->");
+          scope(sc, (function (sc) {
+            gen_encode_field_type(undefined, sc, "x", -1, value_pk, false, value_type);
+          }));
+          line$1(sc, ") in");
+          if (match$3[0] === /* At_list */ 0) {
+            line$1(sc, "List.iter (fun (k, v) ->");
+          } else {
+            line$1(sc, "Hashtbl.iter (fun k v ->");
+          }
+          scope(sc, (function (sc) {
+            gen_encode_field_key(sc, encoding_number$2, /* Pk_bytes */ 2, false);
+            line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "let map_entry = (k, Pbrt.",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: "), (v, Pbrt.",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") encoder = ",
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String_literal */ 11,
+                        _0: ") in",
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
                 }
               },
-              _1: "%s encode_%s (v:%s) encoder = "
-            }), let_decl_of_and(and_), v_name, v_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "match v with");
-        Stdlib__List.iter((function (param) {
+              _1: "let map_entry = (k, Pbrt.%s), (v, Pbrt.%s) in"
+            }), string_of_payload_kind(Caml_option.some(undefined), key_pk, false), string_of_payload_kind(Caml_option.some(undefined), value_pk, false)));
+            line$1(sc, "Pbrt.Encoder.map_entry ~encode_key ~encode_value map_entry encoder");
+          }));
+          return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: ") v.",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ';' */59,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            },
+            _1: ") v.%s;"
+          }), rf_label));
+        case /* Rft_variant_field */ 4 :
+          const v_constructors = rf_field_type._0.v_constructors;
+          line$1(sc, "(");
+          scope(sc, (function (sc) {
+            line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "match v.",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* String_literal */ 11,
+                    _0: " with",
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: "match v.%s with"
+            }), rf_label));
+            Stdlib__List.iter((function (param) {
               const vc_payload_kind = param.vc_payload_kind;
               const vc_encoding_number = param.vc_encoding_number;
               const vc_field_type = param.vc_field_type;
               const vc_constructor = param.vc_constructor;
               if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
                 line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "| ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: " -> (",
-                                  _1: /* End_of_format */ 0
-                                }
-                              }
-                            },
-                            _1: "| %s -> ("
-                          }), vc_constructor));
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "| ",
+                    _1: {
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: {
+                        TAG: /* String_literal */ 11,
+                        _0: " -> (",
+                        _1: /* End_of_format */ 0
+                      }
+                    }
+                  },
+                  _1: "| %s -> ("
+                }), vc_constructor));
                 scope(sc, (function (sc) {
-                      gen_encode_field_key(sc, vc_encoding_number, vc_payload_kind, false);
-                      line$1(sc, "Pbrt.Encoder.empty_nested encoder");
-                    }));
+                  gen_encode_field_key(sc, vc_encoding_number, vc_payload_kind, false);
+                  line$1(sc, "Pbrt.Encoder.empty_nested encoder");
+                }));
                 return line$1(sc, ")");
               }
               const field_type = vc_field_type._0;
               line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "| ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " x -> (",
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          },
-                          _1: "| %s x -> ("
-                        }), vc_constructor));
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "| ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " x -> (",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "| %s x -> ("
+              }), vc_constructor));
               scope(sc, (function (sc) {
-                    gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
-                  }));
+                gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
+              }));
               line$1(sc, ")");
             }), v_constructors);
+          }));
+          return line$1(sc, ");");
+      }
+    }), r_fields);
+    line$1(sc, "()");
+  }));
+}
+
+function gen_encode_variant(and_, variant, sc) {
+  const v_constructors = variant.v_constructors;
+  const v_name = variant.v_name;
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " encode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " (v:",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") encoder = ",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s encode_%s (v:%s) encoder = "
+  }), let_decl_of_and(and_), v_name, v_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "match v with");
+    Stdlib__List.iter((function (param) {
+      const vc_payload_kind = param.vc_payload_kind;
+      const vc_encoding_number = param.vc_encoding_number;
+      const vc_field_type = param.vc_field_type;
+      const vc_constructor = param.vc_constructor;
+      if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
+        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "| ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " -> (",
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "| %s -> ("
+        }), vc_constructor));
+        scope(sc, (function (sc) {
+          gen_encode_field_key(sc, vc_encoding_number, vc_payload_kind, false);
+          line$1(sc, "Pbrt.Encoder.empty_nested encoder");
+        }));
+        return line$1(sc, ")");
+      }
+      const field_type = vc_field_type._0;
+      line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "| ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " x -> (",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "| %s x -> ("
+      }), vc_constructor));
+      scope(sc, (function (sc) {
+        gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
       }));
+      line$1(sc, ")");
+    }), v_constructors);
+  }));
 }
 
 function gen_encode_const_variant(and_, param, sc) {
   const cv_constructors = param.cv_constructors;
   const cv_name = param.cv_name;
   line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " encode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " (v:",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ") encoder =",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s encode_%s (v:%s) encoder ="
+  }), let_decl_of_and(and_), cv_name, cv_name));
+  scope(sc, (function (sc) {
+    line$1(sc, "match v with");
+    Stdlib__List.iter((function (param) {
+      const value = param[1];
+      const name = param[0];
+      line$1(sc, value > 0 ? Curry._2(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "| ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " -> Pbrt.Encoder.int_as_varint ",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " encode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " (v:",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: ") encoder =",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* String_literal */ 11,
+                    _0: " encoder",
+                    _1: /* End_of_format */ 0
                   }
                 }
-              },
-              _1: "%s encode_%s (v:%s) encoder ="
-            }), let_decl_of_and(and_), cv_name, cv_name));
-  scope(sc, (function (sc) {
-        line$1(sc, "match v with");
-        Stdlib__List.iter((function (param) {
-              const value = param[1];
-              const name = param[0];
-              line$1(sc, value > 0 ? Curry._2(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "| ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: " -> Pbrt.Encoder.int_as_varint ",
-                                  _1: {
-                                    TAG: /* Int */ 4,
-                                    _0: /* Int_i */ 3,
-                                    _1: /* No_padding */ 0,
-                                    _2: /* No_precision */ 0,
-                                    _3: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: " encoder",
-                                      _1: /* End_of_format */ 0
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            _1: "| %s -> Pbrt.Encoder.int_as_varint %i encoder"
-                          }), name, value) : Curry._2(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "| ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: " -> Pbrt.Encoder.int_as_varint (",
-                                  _1: {
-                                    TAG: /* Int */ 4,
-                                    _0: /* Int_i */ 3,
-                                    _1: /* No_padding */ 0,
-                                    _2: /* No_precision */ 0,
-                                    _3: {
-                                      TAG: /* String_literal */ 11,
-                                      _0: ") encoder",
-                                      _1: /* End_of_format */ 0
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            _1: "| %s -> Pbrt.Encoder.int_as_varint (%i) encoder"
-                          }), name, value));
-            }), cv_constructors);
-      }));
+              }
+            }
+          },
+          _1: "| %s -> Pbrt.Encoder.int_as_varint %i encoder"
+        }), name, value) : Curry._2(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "| ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " -> Pbrt.Encoder.int_as_varint (",
+                _1: {
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* String_literal */ 11,
+                    _0: ") encoder",
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              }
+            }
+          },
+          _1: "| %s -> Pbrt.Encoder.int_as_varint (%i) encoder"
+        }), name, value));
+    }), cv_constructors);
+  }));
 }
 
 function gen_struct$3(and_, t, sc) {
@@ -6208,47 +6208,47 @@ function gen_struct$3(and_, t, sc) {
 function gen_sig$3(and_, t, sc) {
   const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "val encode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " : ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " -> Pbrt.Encoder.t -> unit",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "val encode_%s : %s -> Pbrt.Encoder.t -> unit"
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "val encode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " : ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " -> Pbrt.Encoder.t -> unit",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "val encode_%s : %s -> Pbrt.Encoder.t -> unit"
+    }), type_name, type_name));
     line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "(** [encode_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " v encoder] encodes [v] with the given [encoder] *)",
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "(** [encode_%s v encoder] encodes [v] with the given [encoder] *)"
-              }), type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "(** [encode_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " v encoder] encodes [v] with the given [encoder] *)",
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "(** [encode_%s v encoder] encodes [v] with the given [encoder] *)"
+    }), type_name));
   };
   const v = t.spec;
   let tmp;
@@ -6291,22 +6291,22 @@ function default_value_of_field_type(field_name, field_type, field_default) {
         if (field_default !== undefined) {
           if (field_default.TAG === /* Constant_string */ 0) {
             return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* '"' */34,
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    },
-                    _1: "\"%s\""
-                  }), field_default._0);
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '"' */34,
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: "\"%s\""
+            }), field_default._0);
           } else {
             return invalid_default_value(field_name, "invalid default type", undefined);
           }
@@ -6337,20 +6337,20 @@ function default_value_of_field_type(field_name, field_type, field_default) {
         if (field_default !== undefined) {
           if (field_default.TAG === /* Constant_int */ 2) {
             return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_i */ 3,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* 'l' */108,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "%il"
-                  }), field_default._0);
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* 'l' */108,
+                  _1: /* End_of_format */ 0
+                }
+              },
+              _1: "%il"
+            }), field_default._0);
           } else {
             return invalid_default_value(field_name, "invalid default type", undefined);
           }
@@ -6361,20 +6361,20 @@ function default_value_of_field_type(field_name, field_type, field_default) {
         if (field_default !== undefined) {
           if (field_default.TAG === /* Constant_int */ 2) {
             return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_i */ 3,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* 'L' */76,
-                        _1: /* End_of_format */ 0
-                      }
-                    },
-                    _1: "%iL"
-                  }), field_default._0);
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* 'L' */76,
+                  _1: /* End_of_format */ 0
+                }
+              },
+              _1: "%iL"
+            }), field_default._0);
           } else {
             return invalid_default_value(field_name, "invalid default type", undefined);
           }
@@ -6385,22 +6385,22 @@ function default_value_of_field_type(field_name, field_type, field_default) {
         if (field_default !== undefined) {
           if (field_default.TAG === /* Constant_string */ 0) {
             return Curry._1(Stdlib__Printf.sprintf({
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "Bytes.of_string \"",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '"' */34,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    },
-                    _1: "Bytes.of_string \"%s\""
-                  }), field_default._0);
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Bytes.of_string \"",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '"' */34,
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: "Bytes.of_string \"%s\""
+            }), field_default._0);
           } else {
             return invalid_default_value(field_name, "invalid default type", undefined);
           }
@@ -6443,42 +6443,42 @@ function record_field_default_info(record_field) {
       const match$1 = rf_field_type._0;
       const default_value$1 = match$1[3];
       default_value = default_value$1 !== undefined ? Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Some (",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ')' */41,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "Some (%s)"
-              }), dfvft(match$1[0], default_value$1)) : "None";
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Some (",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ')' */41,
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "Some (%s)"
+        }), dfvft(match$1[0], default_value$1)) : "None";
       break;
     case /* Rft_repeated_field */ 2 :
       const match$2 = rf_field_type._0;
       default_value = match$2[0] === /* Rt_list */ 0 ? "[]" : Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Pbrt.Repeated_field.make (",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ')' */41,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "Pbrt.Repeated_field.make (%s)"
-              }), dfvft(match$2[1], undefined));
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Pbrt.Repeated_field.make (",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ')' */41,
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "Pbrt.Repeated_field.make (%s)"
+        }), dfvft(match$2[1], undefined));
       break;
     case /* Rft_associative_field */ 3 :
       default_value = rf_field_type._0[0] === /* At_list */ 0 ? "[]" : "Hashtbl.create 128";
@@ -6490,26 +6490,26 @@ function record_field_default_info(record_field) {
         const vc_field_type = match$3.vc_field_type;
         const vc_constructor = match$3.vc_constructor;
         default_value = /* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string" ? vc_constructor : Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " (",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ')' */41,
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  },
-                  _1: "%s (%s)"
-                }), vc_constructor, dfvft(vc_field_type._0, undefined));
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " (",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ')' */41,
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              }
+            },
+            _1: "%s (%s)"
+          }), vc_constructor, dfvft(vc_field_type._0, undefined));
       } else {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -6535,161 +6535,161 @@ function gen_default_record(mutable_, and_, param, sc) {
   if (mutable_ !== undefined) {
     const rn = r_name + "_mutable";
     line$1(sc, Curry._3(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " default_",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " () : ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " = {",
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "%s default_%s () : %s = {"
-              }), let_decl_of_and(and_), rn, rn));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " default_",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " () : ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* String_literal */ 11,
+                  _0: " = {",
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%s default_%s () : %s = {"
+    }), let_decl_of_and(and_), rn, rn));
     scope(sc, (function (sc) {
-          Stdlib__List.iter((function (param) {
-                line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " = ",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* ';' */59,
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
-                            },
-                            _1: "%s = %s;"
-                          }), param[0], param[1]));
-              }), fields_default_info);
-        }));
+      Stdlib__List.iter((function (param) {
+        line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " = ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ';' */59,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          },
+          _1: "%s = %s;"
+        }), param[0], param[1]));
+      }), fields_default_info);
+    }));
   } else {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " default_",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s default_%s "
+    }), let_decl_of_and(and_), r_name));
+    scope(sc, (function (sc) {
+      Stdlib__List.iter((function (param) {
+        const fname = param[0];
+        line$1(sc, Curry._4(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '?' */63,
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: ":((",
+                _1: {
                   TAG: /* String */ 2,
                   _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " default_",
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ':' */58,
                     _1: {
                       TAG: /* String */ 2,
                       _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "%s default_%s "
-              }), let_decl_of_and(and_), r_name));
-    scope(sc, (function (sc) {
-          Stdlib__List.iter((function (param) {
-                const fname = param[0];
-                line$1(sc, Curry._4(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* Char_literal */ 12,
-                              _0: /* '?' */63,
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: ":((",
-                                  _1: {
-                                    TAG: /* String */ 2,
-                                    _0: /* No_padding */ 0,
-                                    _1: {
-                                      TAG: /* Char_literal */ 12,
-                                      _0: /* ':' */58,
-                                      _1: {
-                                        TAG: /* String */ 2,
-                                        _0: /* No_padding */ 0,
-                                        _1: {
-                                          TAG: /* String_literal */ 11,
-                                          _0: ") = ",
-                                          _1: {
-                                            TAG: /* String */ 2,
-                                            _0: /* No_padding */ 0,
-                                            _1: {
-                                              TAG: /* Char_literal */ 12,
-                                              _0: /* ')' */41,
-                                              _1: /* End_of_format */ 0
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            _1: "?%s:((%s:%s) = %s)"
-                          }), fname, fname, param[2], param[1]));
-              }), fields_default_info);
-          line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                      TAG: /* Format */ 0,
-                      _0: {
                         TAG: /* String_literal */ 11,
-                        _0: "() : ",
+                        _0: ") = ",
                         _1: {
                           TAG: /* String */ 2,
                           _0: /* No_padding */ 0,
                           _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: "  = {",
+                            TAG: /* Char_literal */ 12,
+                            _0: /* ')' */41,
                             _1: /* End_of_format */ 0
                           }
                         }
-                      },
-                      _1: "() : %s  = {"
-                    }), r_name));
-        }));
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          _1: "?%s:((%s:%s) = %s)"
+        }), fname, fname, param[2], param[1]));
+      }), fields_default_info);
+      line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "() : ",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: "  = {",
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: "() : %s  = {"
+      }), r_name));
+    }));
     scope(sc, (function (sc) {
-          Stdlib__List.iter((function (param) {
-                line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* Char_literal */ 12,
-                                _0: /* ';' */59,
-                                _1: /* End_of_format */ 0
-                              }
-                            },
-                            _1: "%s;"
-                          }), param[0]));
-              }), fields_default_info);
-        }));
+      Stdlib__List.iter((function (param) {
+        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ';' */59,
+              _1: /* End_of_format */ 0
+            }
+          },
+          _1: "%s;"
+        }), param[0]));
+      }), fields_default_info);
+    }));
   }
   line$1(sc, "}");
 }
@@ -6704,85 +6704,85 @@ function gen_default_variant(and_, param, sc) {
     const decl = let_decl_of_and(and_);
     if (/* tag */ typeof vc_field_type === "number" || typeof vc_field_type === "string") {
       return line$1(sc, Curry._4(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " default_",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: " (): ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: " = ",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  _1: "%s default_%s (): %s = %s"
-                }), decl, v_name, v_name, vc_constructor));
-    }
-    const default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
-    return line$1(sc, Curry._5(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " default_",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: " (): ",
+                _1: {
                   TAG: /* String */ 2,
                   _0: /* No_padding */ 0,
                   _1: {
                     TAG: /* String_literal */ 11,
-                    _0: " default_",
+                    _0: " = ",
                     _1: {
                       TAG: /* String */ 2,
                       _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        _1: "%s default_%s (): %s = %s"
+      }), decl, v_name, v_name, vc_constructor));
+    }
+    const default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
+    return line$1(sc, Curry._5(Stdlib__Printf.sprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " default_",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: " () : ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: {
+                  TAG: /* String_literal */ 11,
+                  _0: " = ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: " (",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " () : ",
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " = ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " (",
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* ')' */41,
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
-                            }
-                          }
+                          TAG: /* Char_literal */ 12,
+                          _0: /* ')' */41,
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
                   }
-                },
-                _1: "%s default_%s () : %s = %s (%s)"
-              }), decl, v_name, v_name, vc_constructor, default_value));
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%s default_%s () : %s = %s (%s)"
+    }), decl, v_name, v_name, vc_constructor, default_value));
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
         MEL_EXN_ID: "Failure",
@@ -6803,42 +6803,42 @@ function gen_default_const_variant(and_, param, sc) {
         });
   }
   line$1(sc, Curry._4(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* String_literal */ 11,
+        _0: " default_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " () = (",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ':' */58,
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: " default_",
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " () = (",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ':' */58,
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* Char_literal */ 12,
-                              _0: /* ')' */41,
-                              _1: /* End_of_format */ 0
-                            }
-                          }
-                        }
-                      }
-                    }
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ')' */41,
+                    _1: /* End_of_format */ 0
                   }
                 }
-              },
-              _1: "%s default_%s () = (%s:%s)"
-            }), let_decl_of_and(and_), cv_name, first_constructor_name, cv_name));
+              }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s default_%s () = (%s:%s)"
+  }), let_decl_of_and(and_), cv_name, first_constructor_name, cv_name));
 }
 
 function gen_struct$4(and_, t, sc) {
@@ -6871,129 +6871,129 @@ function gen_struct$4(and_, t, sc) {
 function gen_sig_record(sc, param) {
   const r_name = param.r_name;
   line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "val default_",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " : ",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "val default_%s : "
-            }), r_name));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "val default_",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " : ",
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "val default_%s : "
+  }), r_name));
   const fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
   scope(sc, (function (sc) {
-        Stdlib__List.iter((function (param) {
-              line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* '?' */63,
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* Char_literal */ 12,
-                                _0: /* ':' */58,
-                                _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: " ->",
-                                    _1: /* End_of_format */ 0
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          _1: "?%s:%s ->"
-                        }), param[0], param[2]));
-            }), fields_default_info);
-        line$1(sc, "unit ->");
-        line$1(sc, r_name);
-      }));
-  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "(** [default_",
+    Stdlib__List.iter((function (param) {
+      line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '?' */63,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ':' */58,
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " ()] is the default value for type [",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "] *)",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
+                  TAG: /* String_literal */ 11,
+                  _0: " ->",
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "(** [default_%s ()] is the default value for type [%s] *)"
-            }), r_name, r_name));
+              }
+            }
+          }
+        },
+        _1: "?%s:%s ->"
+      }), param[0], param[2]));
+    }), fields_default_info);
+    line$1(sc, "unit ->");
+    line$1(sc, r_name);
+  }));
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf({
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "(** [default_",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " ()] is the default value for type [",
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* String_literal */ 11,
+              _0: "] *)",
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      }
+    },
+    _1: "(** [default_%s ()] is the default value for type [%s] *)"
+  }), r_name, r_name));
 }
 
 function gen_sig$4(and_, t, sc) {
   const f = function (type_name) {
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "val default_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " : unit -> ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "val default_%s : unit -> %s"
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "val default_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " : unit -> ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "val default_%s : unit -> %s"
+    }), type_name, type_name));
     line$1(sc, Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "(** [default_",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " ()] is the default value for type [",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "] *)",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "(** [default_%s ()] is the default value for type [%s] *)"
-              }), type_name, type_name));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "(** [default_",
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* String_literal */ 11,
+            _0: " ()] is the default value for type [",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "] *)",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "(** [default_%s ()] is the default value for type [%s] *)"
+    }), type_name, type_name));
   };
   const r = t.spec;
   let tmp;
@@ -7045,34 +7045,34 @@ function rev_split_by_naming_convention(s) {
     }
   };
   const match = string_fold_lefti((function (param, i, c) {
-        const start_i = param[1];
-        const l = param[0];
-        if (c !== 95) {
-          if (param[2] || !is_uppercase(c)) {
-            return [
-              l,
-              start_i,
-              is_uppercase(c)
-            ];
-          } else {
-            return [
-              add_sub_string(start_i, i, l),
-              i,
-              true
-            ];
-          }
-        } else {
-          return [
-            add_sub_string(start_i, i, l),
-            i + 1 | 0,
-            false
-          ];
-        }
-      }), [
-        /* [] */ 0,
-        0,
+    const start_i = param[1];
+    const l = param[0];
+    if (c !== 95) {
+      if (param[2] || !is_uppercase(c)) {
+        return [
+          l,
+          start_i,
+          is_uppercase(c)
+        ];
+      } else {
+        return [
+          add_sub_string(start_i, i, l),
+          i,
+          true
+        ];
+      }
+    } else {
+      return [
+        add_sub_string(start_i, i, l),
+        i + 1 | 0,
         false
-      ], s);
+      ];
+    }
+  }), [
+    /* [] */ 0,
+    0,
+    false
+  ], s);
   const len = s.length;
   return add_sub_string(match[1], len, match[0]);
 }
@@ -7176,12 +7176,12 @@ function module_of_file_name(file_name) {
 
 function type_name(message_scope, name) {
   const all_names = Stdlib.$at(message_scope, {
-        hd: name,
-        tl: /* [] */ 0
-      });
+    hd: name,
+    tl: /* [] */ 0
+  });
   const all_names$1 = Stdlib__List.map((function (s) {
-        return Stdlib__List.map(Stdlib__String.lowercase_ascii, Stdlib__List.rev(rev_split_by_naming_convention(s)));
-      }), all_names);
+    return Stdlib__List.map(Stdlib__String.lowercase_ascii, Stdlib__List.rev(rev_split_by_naming_convention(s)));
+  }), all_names);
   const all_names$2 = Stdlib__List.flatten(all_names$1);
   if (all_names$2) {
     if (all_names$2.tl) {
@@ -7410,22 +7410,22 @@ function ocaml_container(field_options) {
 
 function variant_of_oneof(include_oneof_name, outer_message_names, all_types, file_options, file_name, oneof_field) {
   const v_constructors = Stdlib__List.map((function (field) {
-        const pbtt_field_type = field_type(field);
-        const field_type$1 = compile_field_type(field_name(field), all_types, file_options, field_options(field), file_name, pbtt_field_type);
-        const match = encoding_of_field(all_types, field);
-        const vc_constructor = constructor_name(field_name(field));
-        let tmp;
-        tmp = /* tag */ typeof field_type$1 === "number" || typeof field_type$1 === "string" ? /* Vct_nullary */ 0 : ({
-            TAG: /* Vct_non_nullary_constructor */ 0,
-            _0: field_type$1
-          });
-        return {
-          vc_constructor: vc_constructor,
-          vc_field_type: tmp,
-          vc_encoding_number: match[1],
-          vc_payload_kind: match[0]
-        };
-      }), oneof_field.oneof_fields);
+    const pbtt_field_type = field_type(field);
+    const field_type$1 = compile_field_type(field_name(field), all_types, file_options, field_options(field), file_name, pbtt_field_type);
+    const match = encoding_of_field(all_types, field);
+    const vc_constructor = constructor_name(field_name(field));
+    let tmp;
+    tmp = /* tag */ typeof field_type$1 === "number" || typeof field_type$1 === "string" ? /* Vct_nullary */ 0 : ({
+        TAG: /* Vct_non_nullary_constructor */ 0,
+        _0: field_type$1
+      });
+    return {
+      vc_constructor: vc_constructor,
+      vc_field_type: tmp,
+      vc_encoding_number: match[1],
+      vc_payload_kind: match[0]
+    };
+  }), oneof_field.oneof_fields);
   const v_name = include_oneof_name !== undefined ? type_name(outer_message_names, oneof_field.oneof_name) : type_name(outer_message_names, "");
   return {
     v_name: v_name,
@@ -7436,11 +7436,11 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
 function compile_enum(file_name, scope, param) {
   const module_ = module_of_file_name(file_name);
   const cv_constructors = Stdlib__List.map((function (param) {
-        return [
-          constructor_name(param.enum_value_name),
-          param.enum_value_int
-        ];
-      }), param.enum_values);
+    return [
+      constructor_name(param.enum_value_name),
+      param.enum_value_int
+    ];
+  }), param.enum_values);
   return {
     module_: module_,
     spec: {
@@ -7484,346 +7484,346 @@ function compile(proto_definition) {
   }
   const all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
   const all_pbtt_msgs$1 = Stdlib__List.map((function (param) {
-        const m = param.spec;
-        const file_options = param.file_options;
-        const file_name = param.file_name;
-        const id = param.id;
-        const scope = param.scope;
-        if (m.TAG === /* Enum */ 0) {
-          return {
-            scope: scope,
-            id: id,
-            file_name: file_name,
-            file_options: file_options,
-            spec: m
-          };
-        } else {
-          return {
-            scope: scope,
-            id: id,
-            file_name: file_name,
-            file_options: file_options,
-            spec: {
-              TAG: /* Message */ 1,
-              _0: compile_message_p2(all_pbtt_msgs, scope, m._0)
-            }
-          };
+    const m = param.spec;
+    const file_options = param.file_options;
+    const file_name = param.file_name;
+    const id = param.id;
+    const scope = param.scope;
+    if (m.TAG === /* Enum */ 0) {
+      return {
+        scope: scope,
+        id: id,
+        file_name: file_name,
+        file_options: file_options,
+        spec: m
+      };
+    } else {
+      return {
+        scope: scope,
+        id: id,
+        file_name: file_name,
+        file_options: file_options,
+        spec: {
+          TAG: /* Message */ 1,
+          _0: compile_message_p2(all_pbtt_msgs, scope, m._0)
         }
-      }), all_pbtt_msgs);
+      };
+    }
+  }), all_pbtt_msgs);
   const grouped_pbtt_msgs = Stdlib__List.rev(group(all_pbtt_msgs$1));
   const grouped_ocaml_types = Stdlib__List.map((function (pbtt_msgs) {
-        return Stdlib__List.map((function (pbtt_msg) {
-              const m = pbtt_msg.spec;
-              const file_name = pbtt_msg.file_name;
-              const scope = pbtt_msg.scope;
-              if (m.TAG === /* Enum */ 0) {
-                return {
-                  hd: compile_enum(file_name, scope, m._0),
-                  tl: /* [] */ 0
+    return Stdlib__List.map((function (pbtt_msg) {
+      const m = pbtt_msg.spec;
+      const file_name = pbtt_msg.file_name;
+      const scope = pbtt_msg.scope;
+      if (m.TAG === /* Enum */ 0) {
+        return {
+          hd: compile_enum(file_name, scope, m._0),
+          tl: /* [] */ 0
+        };
+      } else {
+        let file_options = pbtt_msg.file_options;
+        let message = m._0;
+        const module_ = module_of_file_name(file_name);
+        const message_names = scope.message_names;
+        const message_body = message.message_body;
+        const message_name = message.message_name;
+        if (!message_body) {
+          return /* [] */ 0;
+        }
+        const f = message_body.hd;
+        switch (f.TAG) {
+          case /* Message_oneof_field */ 1 :
+            if (!message_body.tl) {
+              const outer_message_names = Stdlib.$at(message_names, {
+                hd: message_name,
+                tl: /* [] */ 0
+              });
+              const variant = variant_of_oneof(undefined, outer_message_names, all_pbtt_msgs$1, file_options, file_name, f._0);
+              return {
+                hd: {
+                  module_: module_,
+                  spec: {
+                    TAG: /* Variant */ 1,
+                    _0: variant
+                  }
+                },
+                tl: /* [] */ 0
+              };
+            }
+            break;
+          case /* Message_field */ 0 :
+          case /* Message_map_field */ 2 :
+            break;
+        }
+        const match = Stdlib__List.fold_left((function (param, field) {
+          const fields = param[1];
+          const variants = param[0];
+          switch (field.TAG) {
+            case /* Message_field */ 0 :
+              const field$1 = field._0;
+              const match = encoding_of_field(all_pbtt_msgs$1, field$1);
+              const encoding_number = match[1];
+              const pk = match[0];
+              const field_name$1 = field_name(field$1);
+              const field_options$1 = field_options(field$1);
+              const field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field$1));
+              const field_default$1 = field_default(field$1);
+              const mutable_ = is_mutable(field_name$1, field_options$1);
+              const match$1 = field_label(field$1);
+              let record_field_type;
+              if (match$1 === "Optional") {
+                record_field_type = {
+                  TAG: /* Rft_optional */ 1,
+                  _0: [
+                    field_type$1,
+                    encoding_number,
+                    pk,
+                    field_default$1
+                  ]
+                };
+              } else if (match$1 === "Required") {
+                record_field_type = {
+                  TAG: /* Rft_required */ 0,
+                  _0: [
+                    field_type$1,
+                    encoding_number,
+                    pk,
+                    field_default$1
+                  ]
                 };
               } else {
-                let file_options = pbtt_msg.file_options;
-                let message = m._0;
-                const module_ = module_of_file_name(file_name);
-                const message_names = scope.message_names;
-                const message_body = message.message_body;
-                const message_name = message.message_name;
-                if (!message_body) {
-                  return /* [] */ 0;
+                const match$2 = ocaml_container(field_options$1);
+                let repeated_type;
+                if (match$2 !== undefined) {
+                  if (match$2 === "repeated_field") {
+                    repeated_type = /* Rt_repeated_field */ 1;
+                  } else {
+                    throw new Caml_js_exceptions.MelangeError("Failure", {
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid ocaml_container attribute value"
+                        });
+                  }
+                } else {
+                  repeated_type = /* Rt_list */ 0;
                 }
-                const f = message_body.hd;
-                switch (f.TAG) {
-                  case /* Message_oneof_field */ 1 :
-                    if (!message_body.tl) {
-                      const outer_message_names = Stdlib.$at(message_names, {
-                            hd: message_name,
-                            tl: /* [] */ 0
-                          });
-                      const variant = variant_of_oneof(undefined, outer_message_names, all_pbtt_msgs$1, file_options, file_name, f._0);
-                      return {
-                        hd: {
-                          module_: module_,
-                          spec: {
-                            TAG: /* Variant */ 1,
-                            _0: variant
-                          }
-                        },
-                        tl: /* [] */ 0
-                      };
-                    }
-                    break;
-                  case /* Message_field */ 0 :
-                  case /* Message_map_field */ 2 :
-                    break;
+                record_field_type = {
+                  TAG: /* Rft_repeated_field */ 2,
+                  _0: [
+                    repeated_type,
+                    field_type$1,
+                    encoding_number,
+                    pk,
+                    match[2]
+                  ]
+                };
+              }
+              const record_field_rf_label = label_name_of_field_name(field_name$1);
+              const record_field = {
+                rf_label: record_field_rf_label,
+                rf_field_type: record_field_type,
+                rf_mutable: mutable_
+              };
+              return [
+                variants,
+                {
+                  hd: record_field,
+                  tl: fields
                 }
-                const match = Stdlib__List.fold_left((function (param, field) {
-                      const fields = param[1];
-                      const variants = param[0];
-                      switch (field.TAG) {
-                        case /* Message_field */ 0 :
-                          const field$1 = field._0;
-                          const match = encoding_of_field(all_pbtt_msgs$1, field$1);
-                          const encoding_number = match[1];
-                          const pk = match[0];
-                          const field_name$1 = field_name(field$1);
-                          const field_options$1 = field_options(field$1);
-                          const field_type$1 = compile_field_type(field_name$1, all_pbtt_msgs$1, file_options, field_options$1, file_name, field_type(field$1));
-                          const field_default$1 = field_default(field$1);
-                          const mutable_ = is_mutable(field_name$1, field_options$1);
-                          const match$1 = field_label(field$1);
-                          let record_field_type;
-                          if (match$1 === "Optional") {
-                            record_field_type = {
-                              TAG: /* Rft_optional */ 1,
-                              _0: [
-                                field_type$1,
-                                encoding_number,
-                                pk,
-                                field_default$1
-                              ]
-                            };
-                          } else if (match$1 === "Required") {
-                            record_field_type = {
-                              TAG: /* Rft_required */ 0,
-                              _0: [
-                                field_type$1,
-                                encoding_number,
-                                pk,
-                                field_default$1
-                              ]
-                            };
-                          } else {
-                            const match$2 = ocaml_container(field_options$1);
-                            let repeated_type;
-                            if (match$2 !== undefined) {
-                              if (match$2 === "repeated_field") {
-                                repeated_type = /* Rt_repeated_field */ 1;
-                              } else {
-                                throw new Caml_js_exceptions.MelangeError("Failure", {
-                                      MEL_EXN_ID: "Failure",
-                                      _1: "Invalid ocaml_container attribute value"
-                                    });
-                              }
-                            } else {
-                              repeated_type = /* Rt_list */ 0;
-                            }
-                            record_field_type = {
-                              TAG: /* Rft_repeated_field */ 2,
-                              _0: [
-                                repeated_type,
-                                field_type$1,
-                                encoding_number,
-                                pk,
-                                match[2]
-                              ]
-                            };
-                          }
-                          const record_field_rf_label = label_name_of_field_name(field_name$1);
-                          const record_field = {
-                            rf_label: record_field_rf_label,
-                            rf_field_type: record_field_type,
-                            rf_mutable: mutable_
-                          };
-                          return [
-                            variants,
-                            {
-                              hd: record_field,
-                              tl: fields
-                            }
-                          ];
-                        case /* Message_oneof_field */ 1 :
-                          const field$2 = field._0;
-                          const outer_message_names = Stdlib.$at(message_names, {
-                                hd: message_name,
-                                tl: /* [] */ 0
-                              });
-                          const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$2);
-                          const record_field_rf_label$1 = label_name_of_field_name(field$2.oneof_name);
-                          const record_field_rf_field_type = {
-                            TAG: /* Rft_variant_field */ 4,
-                            _0: variant
-                          };
-                          const record_field$1 = {
-                            rf_label: record_field_rf_label$1,
-                            rf_field_type: record_field_rf_field_type,
-                            rf_mutable: false
-                          };
-                          const variants_0 = {
-                            module_: module_,
-                            spec: {
-                              TAG: /* Variant */ 1,
-                              _0: variant
-                            }
-                          };
-                          const variants$1 = {
-                            hd: variants_0,
-                            tl: variants
-                          };
-                          const fields$1 = {
-                            hd: record_field$1,
-                            tl: fields
-                          };
-                          return [
-                            variants$1,
-                            fields$1
-                          ];
-                        case /* Message_map_field */ 2 :
-                          const mf = field._0;
-                          const map_options = mf.map_options;
-                          const map_value_type = mf.map_value_type;
-                          const map_key_type = mf.map_key_type;
-                          const map_name = mf.map_name;
-                          const key_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "key of ",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: /* End_of_format */ 0
-                                        }
-                                      },
-                                      _1: "key of %s"
-                                    }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
-                          const key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
-                          let key_type$1;
-                          if (/* tag */ typeof key_type === "number" || typeof key_type === "string") {
-                            throw new Caml_js_exceptions.MelangeError("Failure", {
-                                  MEL_EXN_ID: "Failure",
-                                  _1: "Only Basic Types are supported for map keys"
-                                });
-                          }
-                          if (key_type.TAG === /* Ft_basic_type */ 0) {
-                            key_type$1 = key_type._0;
-                          } else {
-                            throw new Caml_js_exceptions.MelangeError("Failure", {
-                                  MEL_EXN_ID: "Failure",
-                                  _1: "Only Basic Types are supported for map keys"
-                                });
-                          }
-                          const value_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf({
-                                      TAG: /* Format */ 0,
-                                      _0: {
-                                        TAG: /* String_literal */ 11,
-                                        _0: "value of ",
-                                        _1: {
-                                          TAG: /* String */ 2,
-                                          _0: /* No_padding */ 0,
-                                          _1: /* End_of_format */ 0
-                                        }
-                                      },
-                                      _1: "value of %s"
-                                    }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_value_type);
-                          const value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
-                          const match$3 = ocaml_container(map_options);
-                          let associative_type;
-                          if (match$3 !== undefined) {
-                            if (match$3 === "hashtbl") {
-                              associative_type = /* At_hashtable */ 1;
-                            } else {
-                              throw new Caml_js_exceptions.MelangeError("Failure", {
-                                    MEL_EXN_ID: "Failure",
-                                    _1: "Invalid ocaml_container attribute value for map"
-                                  });
-                            }
-                          } else {
-                            associative_type = /* At_list */ 0;
-                          }
-                          const record_field_type$1 = {
-                            TAG: /* Rft_associative_field */ 3,
-                            _0: [
-                              associative_type,
-                              mf.map_number,
-                              [
-                                key_type$1,
-                                key_pk
-                              ],
-                              [
-                                value_type,
-                                value_pk
-                              ]
-                            ]
-                          };
-                          const record_field_rf_label$2 = label_name_of_field_name(map_name);
-                          const record_field_rf_mutable = is_mutable(map_name, map_options);
-                          const record_field$2 = {
-                            rf_label: record_field_rf_label$2,
-                            rf_field_type: record_field_type$1,
-                            rf_mutable: record_field_rf_mutable
-                          };
-                          return [
-                            variants,
-                            {
-                              hd: record_field$2,
-                              tl: fields
-                            }
-                          ];
-                      }
-                    }), [
-                      /* [] */ 0,
-                      /* [] */ 0
-                    ], message_body);
-                const record_r_name = type_name(message_names, message_name);
-                const record_r_fields = Stdlib__List.rev(match[1]);
-                const record = {
-                  r_name: record_r_name,
-                  r_fields: record_r_fields
-                };
-                const type__spec = {
-                  TAG: /* Record */ 0,
-                  _0: record
-                };
-                const type_ = {
-                  module_: module_,
-                  spec: type__spec
-                };
-                return Stdlib__List.rev({
-                      hd: type_,
-                      tl: match[0]
+              ];
+            case /* Message_oneof_field */ 1 :
+              const field$2 = field._0;
+              const outer_message_names = Stdlib.$at(message_names, {
+                hd: message_name,
+                tl: /* [] */ 0
+              });
+              const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$2);
+              const record_field_rf_label$1 = label_name_of_field_name(field$2.oneof_name);
+              const record_field_rf_field_type = {
+                TAG: /* Rft_variant_field */ 4,
+                _0: variant
+              };
+              const record_field$1 = {
+                rf_label: record_field_rf_label$1,
+                rf_field_type: record_field_rf_field_type,
+                rf_mutable: false
+              };
+              const variants_0 = {
+                module_: module_,
+                spec: {
+                  TAG: /* Variant */ 1,
+                  _0: variant
+                }
+              };
+              const variants$1 = {
+                hd: variants_0,
+                tl: variants
+              };
+              const fields$1 = {
+                hd: record_field$1,
+                tl: fields
+              };
+              return [
+                variants$1,
+                fields$1
+              ];
+            case /* Message_map_field */ 2 :
+              const mf = field._0;
+              const map_options = mf.map_options;
+              const map_value_type = mf.map_value_type;
+              const map_key_type = mf.map_key_type;
+              const map_name = mf.map_name;
+              const key_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "key of ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "key of %s"
+              }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
+              const key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
+              let key_type$1;
+              if (/* tag */ typeof key_type === "number" || typeof key_type === "string") {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Only Basic Types are supported for map keys"
                     });
               }
-            }), pbtt_msgs);
-      }), grouped_pbtt_msgs);
+              if (key_type.TAG === /* Ft_basic_type */ 0) {
+                key_type$1 = key_type._0;
+              } else {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "Only Basic Types are supported for map keys"
+                    });
+              }
+              const value_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "value of ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "value of %s"
+              }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_value_type);
+              const value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
+              const match$3 = ocaml_container(map_options);
+              let associative_type;
+              if (match$3 !== undefined) {
+                if (match$3 === "hashtbl") {
+                  associative_type = /* At_hashtable */ 1;
+                } else {
+                  throw new Caml_js_exceptions.MelangeError("Failure", {
+                        MEL_EXN_ID: "Failure",
+                        _1: "Invalid ocaml_container attribute value for map"
+                      });
+                }
+              } else {
+                associative_type = /* At_list */ 0;
+              }
+              const record_field_type$1 = {
+                TAG: /* Rft_associative_field */ 3,
+                _0: [
+                  associative_type,
+                  mf.map_number,
+                  [
+                    key_type$1,
+                    key_pk
+                  ],
+                  [
+                    value_type,
+                    value_pk
+                  ]
+                ]
+              };
+              const record_field_rf_label$2 = label_name_of_field_name(map_name);
+              const record_field_rf_mutable = is_mutable(map_name, map_options);
+              const record_field$2 = {
+                rf_label: record_field_rf_label$2,
+                rf_field_type: record_field_type$1,
+                rf_mutable: record_field_rf_mutable
+              };
+              return [
+                variants,
+                {
+                  hd: record_field$2,
+                  tl: fields
+                }
+              ];
+          }
+        }), [
+          /* [] */ 0,
+          /* [] */ 0
+        ], message_body);
+        const record_r_name = type_name(message_names, message_name);
+        const record_r_fields = Stdlib__List.rev(match[1]);
+        const record = {
+          r_name: record_r_name,
+          r_fields: record_r_fields
+        };
+        const type__spec = {
+          TAG: /* Record */ 0,
+          _0: record
+        };
+        const type_ = {
+          module_: module_,
+          spec: type__spec
+        };
+        return Stdlib__List.rev({
+          hd: type_,
+          tl: match[0]
+        });
+      }
+    }), pbtt_msgs);
+  }), grouped_pbtt_msgs);
   const all_ocaml_types = Stdlib__List.flatten(grouped_ocaml_types);
   let proto_file_name = "tmp.proto";
   const gen = function (otypes, sc, fs) {
     Stdlib__List.iter((function (param) {
-          const ocamldoc_title = param[1];
-          const f = param[0];
-          if (ocamldoc_title !== undefined) {
-            line$1(sc, "");
-            line$1(sc, Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "(** {2 ",
-                          _1: {
-                            TAG: /* String */ 2,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* String_literal */ 11,
-                              _0: "} *)",
-                              _1: /* End_of_format */ 0
-                            }
-                          }
-                        },
-                        _1: "(** {2 %s} *)"
-                      }), ocamldoc_title));
-            line$1(sc, "");
+      const ocamldoc_title = param[1];
+      const f = param[0];
+      if (ocamldoc_title !== undefined) {
+        line$1(sc, "");
+        line$1(sc, Curry._1(Stdlib__Printf.sprintf({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "(** {2 ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "} *)",
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "(** {2 %s} *)"
+        }), ocamldoc_title));
+        line$1(sc, "");
+      }
+      Stdlib__List.iter((function (types) {
+        Stdlib__List.fold_left((function (first, type_) {
+          const has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
+          line$1(sc, "");
+          if (first) {
+            return !has_encoded;
+          } else {
+            return false;
           }
-          Stdlib__List.iter((function (types) {
-                Stdlib__List.fold_left((function (first, type_) {
-                      const has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
-                      line$1(sc, "");
-                      if (first) {
-                        return !has_encoded;
-                      } else {
-                        return false;
-                      }
-                    }), true, types);
-              }), otypes);
-        }), fs);
+        }), true, types);
+      }), otypes);
+    }), fs);
   };
   const sc = {
     items: /* [] */ 0
@@ -7831,38 +7831,38 @@ function compile(proto_definition) {
   line$1(sc, "[@@@ocaml.warning \"-30\"]");
   line$1(sc, "");
   gen(all_ocaml_types, sc, Stdlib__List.map((function (m) {
-            return [
-              m.gen_struct,
-              undefined
-            ];
-          }), all_code_gen));
+    return [
+      m.gen_struct,
+      undefined
+    ];
+  }), all_code_gen));
   const struct_string = print(sc);
   const sc$1 = {
     items: /* [] */ 0
   };
   line$1(sc$1, Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "(** ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " Generated Types and Encoding *)",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: "(** %s Generated Types and Encoding *)"
-            }), Curry._1(Stdlib__Filename.basename, proto_file_name)));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "(** ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: " Generated Types and Encoding *)",
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "(** %s Generated Types and Encoding *)"
+  }), Curry._1(Stdlib__Filename.basename, proto_file_name)));
   gen(all_ocaml_types, sc$1, Stdlib__List.map((function (m) {
-            return [
-              m.gen_sig,
-              m.ocamldoc_title
-            ];
-          }), all_code_gen));
+    return [
+      m.gen_sig,
+      m.ocamldoc_title
+    ];
+  }), all_code_gen));
   const sig_string = print(sc$1);
   return [
     sig_string,

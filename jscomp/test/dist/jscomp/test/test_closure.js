@@ -12,12 +12,12 @@ const v = {
 
 function f(param) {
   const arr = Caml_array.make(10, (function (param) {
-        
-      }));
+    
+  }));
   for (let i = 0; i <= 9; ++i) {
     Caml_array.set(arr, i, (function (param) {
-          v.contents = v.contents + i | 0;
-        }));
+      v.contents = v.contents + i | 0;
+    }));
   }
   return arr;
 }
@@ -25,8 +25,8 @@ function f(param) {
 const u = f(undefined);
 
 Stdlib__Array.iter((function (x) {
-      Curry._1(x, undefined);
-    }), u);
+  Curry._1(x, undefined);
+}), u);
 
 if (v.contents !== 45) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

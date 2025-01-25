@@ -160,30 +160,30 @@ function unwatchUrl(watcherID) {
 
 function useUrl(serverUrl, param) {
   const match = React.useState(function () {
-        if (serverUrl !== undefined) {
-          return serverUrl;
-        } else {
-          return url(undefined);
-        }
-      });
+    if (serverUrl !== undefined) {
+      return serverUrl;
+    } else {
+      return url(undefined);
+    }
+  });
   const setUrl = match[1];
   const url$1 = match[0];
   React.useEffect((function () {
-        const watcherId = watchUrl(function (url) {
-              Curry._1(setUrl, (function (param) {
-                  return url;
-                }));
-            });
-        const newUrl = url(undefined);
-        if (urlNotEqual(newUrl, url$1)) {
-          Curry._1(setUrl, (function (param) {
-              return newUrl;
-            }));
-        }
-        return (function (param) {
-          unwatchUrl(watcherId);
-        });
-      }), []);
+    const watcherId = watchUrl(function (url) {
+      Curry._1(setUrl, (function (param) {
+        return url;
+      }));
+    });
+    const newUrl = url(undefined);
+    if (urlNotEqual(newUrl, url$1)) {
+      Curry._1(setUrl, (function (param) {
+        return newUrl;
+      }));
+    }
+    return (function (param) {
+      unwatchUrl(watcherId);
+    });
+  }), []);
   return url$1;
 }
 

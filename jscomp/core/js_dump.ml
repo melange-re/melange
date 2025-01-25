@@ -563,11 +563,11 @@ and expression_desc cxt ~(level : int) x : cxt =
       *)
   | Call { expr = e; args = el; info } ->
       cond_paren_group cxt (level > 15) (fun () ->
-          group cxt 1 (fun () ->
+          group cxt 0 (fun () ->
               match (info, el) with
               | { arity = Full; _ }, _ | _, [] ->
                   let cxt = expression ~level:15 cxt e in
-                  paren_group cxt 1 (fun () ->
+                  paren_group cxt 0 (fun () ->
                       match el with
                       | [
                        {
@@ -597,7 +597,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                     paren_group cxt 0 (fun () ->
                         arguments cxt [ e; E.array Mutable el ]))))
   | FlatCall { expr = e; args = el } ->
-      group cxt 1 (fun () ->
+      group cxt 0 (fun () ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
           string cxt L.apply;

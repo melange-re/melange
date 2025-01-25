@@ -26,8 +26,8 @@ function ui_layout(compile, lookup, appContext) {
   const computeFunction = {
     contents: (function (env) {
       return Curry._1(init, (function (key) {
-          return Curry._2(lookup, env, key);
-        }));
+        return Curry._2(lookup, env, key);
+      }));
     })
   };
   const hw1 = new BUI.HostedWindow();
@@ -91,36 +91,36 @@ function ui_layout(compile, lookup, appContext) {
   button.text = "update formula";
   button.minHeight = 20;
   button.on("click", (function (_event) {
-        try {
-          const hot_function = Curry._1(compile, inputCode.text);
-          computeFunction.contents = (function (env) {
-            return Curry._1(hot_function, (function (key) {
-                return Curry._2(lookup, env, key);
-              }));
-          });
-          return;
-        }
-        catch (e){
-          return;
-        }
-      }));
+    try {
+      const hot_function = Curry._1(compile, inputCode.text);
+      computeFunction.contents = (function (env) {
+        return Curry._1(hot_function, (function (key) {
+          return Curry._2(lookup, env, key);
+        }));
+      });
+      return;
+    }
+    catch (e){
+      return;
+    }
+  }));
   Runtime.setInterval((function () {
-        grid.dataSource = Array.prototype.map.call(data, (function (param) {
-              const price = param.price;
-              const bid = price + 20 * Math.random();
-              const ask = price + 20 * Math.random();
-              const result = Curry._1(computeFunction.contents, {
-                  bid: bid,
-                  ask: ask
-                });
-              return [
-                mk_titleRow(param.ticker),
-                mk_titleRow(bid.toFixed(2)),
-                mk_titleRow(ask.toFixed(2)),
-                mk_titleRow(result.toFixed(2))
-              ];
-            }));
-      }), 100);
+    grid.dataSource = Array.prototype.map.call(data, (function (param) {
+      const price = param.price;
+      const bid = price + 20 * Math.random();
+      const ask = price + 20 * Math.random();
+      const result = Curry._1(computeFunction.contents, {
+        bid: bid,
+        ask: ask
+      });
+      return [
+        mk_titleRow(param.ticker),
+        mk_titleRow(bid.toFixed(2)),
+        mk_titleRow(ask.toFixed(2)),
+        mk_titleRow(result.toFixed(2))
+      ];
+    }));
+  }), 100);
   return hw1;
 }
 

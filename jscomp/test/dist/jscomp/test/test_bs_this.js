@@ -16,12 +16,12 @@ function bark(param) {
   return function (x, y) {
     let o = this;
     console.log([
-          o.length,
-          o.x,
-          o.y,
-          x,
-          y
-        ]);
+      o.length,
+      o.x,
+      o.y,
+      x,
+      y
+    ]);
     return x + y | 0;
   };
 }
@@ -40,9 +40,9 @@ function f(x) {
     console.log(o);
   });
   x.addEventListener("onload", (function () {
-        let o = this;
-        console.log(o.response);
-      }));
+    let o = this;
+    console.log(o.response);
+  }));
 }
 
 function u(x) {

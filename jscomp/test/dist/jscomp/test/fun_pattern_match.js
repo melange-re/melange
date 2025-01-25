@@ -80,9 +80,9 @@ function handle_tuple(x, y) {
     return 2;
   }
   console.log([
-        x,
-        y
-      ]);
+    x,
+    y
+  ]);
   return x + y | 0;
 }
 

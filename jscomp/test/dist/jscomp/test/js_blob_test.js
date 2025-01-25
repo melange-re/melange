@@ -22,29 +22,29 @@ function decodeUint8Array(b) {
 function blob_bytes(param) {
   const file = new File(["hello"].values(), "foo.txt", undefined);
   return file.bytes().then(function (b) {
-        return Promise.resolve({
-              TAG: /* Eq */ 0,
-              _0: decodeUint8Array(b),
-              _1: "hello"
-            });
-      });
+    return Promise.resolve({
+      TAG: /* Eq */ 0,
+      _0: decodeUint8Array(b),
+      _1: "hello"
+    });
+  });
 }
 
 Mt.from_pair_suites("Js_blob_test", {
-      hd: [
-        "make with options",
-        make_with_options
-      ],
-      tl: /* [] */ 0
-    });
+  hd: [
+    "make with options",
+    make_with_options
+  ],
+  tl: /* [] */ 0
+});
 
 Mt.from_promise_suites("Js_blob_test", {
-      hd: [
-        "blob bytes",
-        blob_bytes(undefined)
-      ],
-      tl: /* [] */ 0
-    });
+  hd: [
+    "blob bytes",
+    blob_bytes(undefined)
+  ],
+  tl: /* [] */ 0
+});
 
 module.exports = {
   make_with_options,

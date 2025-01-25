@@ -5,9 +5,9 @@
 const N = {};
 
 console.log([
-      3e-6,
-      3e-6
-    ]);
+  3e-6,
+  3e-6
+]);
 
 const x = true;
 

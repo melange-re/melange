@@ -29,18 +29,18 @@ function eq(loc, x, y) {
 }
 
 eq("File \"jscomp/test/ffi_array_test.ml\", line 12, characters 5-12", [
-        1,
-        2,
-        3,
-        4
-      ].map(function (x) {
-          return x + 1 | 0;
-        }), [
-      2,
-      3,
-      4,
-      5
-    ]);
+  1,
+  2,
+  3,
+  4
+].map(function (x) {
+  return x + 1 | 0;
+}), [
+  2,
+  3,
+  4,
+  5
+]);
 
 Mt.from_pair_suites("Ffi_array_test", suites.contents);
 

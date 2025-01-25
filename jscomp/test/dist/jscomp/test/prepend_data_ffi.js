@@ -13,47 +13,47 @@ const v2 = {
 };
 
 process.on("exit", (function (exit_code) {
-      return String(exit_code);
-    }));
+  return String(exit_code);
+}));
 
 process.on(1, (function (param) {
-      
-    }));
+  
+}));
 
 process.on((function (i) {
-      return String(i);
-    }), "exit");
+  return String(i);
+}), "exit");
 
 process.on((function (i) {
-      return String(i);
-    }), 1);
+  return String(i);
+}), 1);
 
 xx(3, 3, "xxx", "a", "b");
 
 function f(x) {
   x.xx(111, [
-        1,
-        2,
-        3
-      ]);
+    1,
+    2,
+    3
+  ]);
   x.xx(112, 3, "xxx", [
-        1,
-        2,
-        3
-      ]);
+    1,
+    2,
+    3
+  ]);
   x.xx(113, 3, "xxx", 1, 2, 3);
   x.xx(114, 3, "xxx", 0, "b", 1, 2, 3, 4, 5);
   x.xx(115, 3, true, false, "你好", ["你好",1,2,3], [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}], [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}], "xxx", 0, "yyy", "b", 1, 2, 3, 4, 5);
 }
 
 process.on("exit", (function (exit_code) {
-      console.log("error code: " + String(exit_code));
-    }));
+  console.log("error code: " + String(exit_code));
+}));
 
 function register(p) {
   p.on("exit", (function (i) {
-        console.log(i);
-      }));
+    console.log(i);
+  }));
 }
 
 const config = {

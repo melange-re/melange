@@ -10,10 +10,10 @@ let function_equal_test;
 
 try {
   function_equal_test = Caml_obj.caml_equal((function (x) {
-        return x + 1 | 0;
-      }), (function (x) {
-        return x + 2 | 0;
-      }));
+    return x + 1 | 0;
+  }), (function (x) {
+    return x + 2 | 0;
+  }));
 }
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -51,9 +51,9 @@ const suites = {
               TAG: /* Eq */ 0,
               _0: true,
               _1: Caml_obj.caml_greaterthan({
-                    hd: 1,
-                    tl: /* [] */ 0
-                  }, /* [] */ 0)
+                hd: 1,
+                tl: /* [] */ 0
+              }, /* [] */ 0)
             };
           })
         ],
@@ -65,24 +65,24 @@ const suites = {
                 TAG: /* Eq */ 0,
                 _0: true,
                 _1: Caml_obj.caml_equal({
-                      hd: 1,
-                      tl: {
-                        hd: 2,
-                        tl: {
-                          hd: 3,
-                          tl: /* [] */ 0
-                        }
-                      }
-                    }, {
-                      hd: 1,
-                      tl: {
-                        hd: 2,
-                        tl: {
-                          hd: 3,
-                          tl: /* [] */ 0
-                        }
-                      }
-                    })
+                  hd: 1,
+                  tl: {
+                    hd: 2,
+                    tl: {
+                      hd: 3,
+                      tl: /* [] */ 0
+                    }
+                  }
+                }, {
+                  hd: 1,
+                  tl: {
+                    hd: 2,
+                    tl: {
+                      hd: 3,
+                      tl: /* [] */ 0
+                    }
+                  }
+                })
               };
             })
           ],
@@ -94,24 +94,24 @@ const suites = {
                   TAG: /* Eq */ 0,
                   _0: true,
                   _1: Caml_obj.caml_greaterthan({
-                        hd: 1,
-                        tl: {
-                          hd: 2,
-                          tl: {
-                            hd: 3,
-                            tl: /* [] */ 0
-                          }
-                        }
-                      }, {
-                        hd: 1,
-                        tl: {
-                          hd: 2,
-                          tl: {
-                            hd: 2,
-                            tl: /* [] */ 0
-                          }
-                        }
-                      })
+                    hd: 1,
+                    tl: {
+                      hd: 2,
+                      tl: {
+                        hd: 3,
+                        tl: /* [] */ 0
+                      }
+                    }
+                  }, {
+                    hd: 1,
+                    tl: {
+                      hd: 2,
+                      tl: {
+                        hd: 2,
+                        tl: /* [] */ 0
+                      }
+                    }
+                  })
                 };
               })
             ],
@@ -123,34 +123,34 @@ const suites = {
                     TAG: /* Eq */ 0,
                     _0: true,
                     _1: Caml_obj.caml_greaterthan([
-                          {
-                            TAG: /* A */ 0,
-                            _0: 3
-                          },
-                          {
-                            TAG: /* B */ 1,
-                            _0: 2,
-                            _1: false
-                          },
-                          {
-                            TAG: /* C */ 2,
-                            _0: 1
-                          }
-                        ], [
-                          {
-                            TAG: /* A */ 0,
-                            _0: 3
-                          },
-                          {
-                            TAG: /* B */ 1,
-                            _0: 2,
-                            _1: false
-                          },
-                          {
-                            TAG: /* C */ 2,
-                            _0: 0
-                          }
-                        ])
+                      {
+                        TAG: /* A */ 0,
+                        _0: 3
+                      },
+                      {
+                        TAG: /* B */ 1,
+                        _0: 2,
+                        _1: false
+                      },
+                      {
+                        TAG: /* C */ 2,
+                        _0: 1
+                      }
+                    ], [
+                      {
+                        TAG: /* A */ 0,
+                        _0: 3
+                      },
+                      {
+                        TAG: /* B */ 1,
+                        _0: 2,
+                        _1: false
+                      },
+                      {
+                        TAG: /* C */ 2,
+                        _0: 0
+                      }
+                    ])
                   };
                 })
               ],
@@ -162,34 +162,34 @@ const suites = {
                       TAG: /* Eq */ 0,
                       _0: true,
                       _1: Caml_obj.caml_equal([
-                            {
-                              TAG: /* A */ 0,
-                              _0: 3
-                            },
-                            {
-                              TAG: /* B */ 1,
-                              _0: 2,
-                              _1: false
-                            },
-                            {
-                              TAG: /* C */ 2,
-                              _0: 1
-                            }
-                          ], [
-                            {
-                              TAG: /* A */ 0,
-                              _0: 3
-                            },
-                            {
-                              TAG: /* B */ 1,
-                              _0: 2,
-                              _1: false
-                            },
-                            {
-                              TAG: /* C */ 2,
-                              _0: 1
-                            }
-                          ])
+                        {
+                          TAG: /* A */ 0,
+                          _0: 3
+                        },
+                        {
+                          TAG: /* B */ 1,
+                          _0: 2,
+                          _1: false
+                        },
+                        {
+                          TAG: /* C */ 2,
+                          _0: 1
+                        }
+                      ], [
+                        {
+                          TAG: /* A */ 0,
+                          _0: 3
+                        },
+                        {
+                          TAG: /* B */ 1,
+                          _0: 2,
+                          _1: false
+                        },
+                        {
+                          TAG: /* C */ 2,
+                          _0: 1
+                        }
+                      ])
                     };
                   })
                 ],
@@ -223,9 +223,9 @@ const suites = {
                             TAG: /* Eq */ 0,
                             _0: true,
                             _1: Caml_obj.caml_lessthan(undefined, [
-                                  1,
-                                  30
-                                ])
+                              1,
+                              30
+                            ])
                           };
                         })
                       ],
@@ -237,9 +237,9 @@ const suites = {
                               TAG: /* Eq */ 0,
                               _0: true,
                               _1: Caml_obj.caml_greaterthan([
-                                    1,
-                                    30
-                                  ], undefined)
+                                1,
+                                30
+                              ], undefined)
                             };
                           })
                         ],
@@ -251,25 +251,53 @@ const suites = {
                                 TAG: /* Eq */ 0,
                                 _0: true,
                                 _1: Caml_obj.caml_lessthan({
-                                      hd: 2,
+                                  hd: 2,
+                                  tl: {
+                                    hd: 6,
+                                    tl: {
+                                      hd: 1,
                                       tl: {
-                                        hd: 6,
+                                        hd: 1,
                                         tl: {
-                                          hd: 1,
+                                          hd: 2,
                                           tl: {
                                             hd: 1,
                                             tl: {
-                                              hd: 2,
+                                              hd: 4,
                                               tl: {
-                                                hd: 1,
+                                                hd: 2,
                                                 tl: {
-                                                  hd: 4,
+                                                  hd: 1,
+                                                  tl: /* [] */ 0
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }, {
+                                  hd: 2,
+                                  tl: {
+                                    hd: 6,
+                                    tl: {
+                                      hd: 1,
+                                      tl: {
+                                        hd: 1,
+                                        tl: {
+                                          hd: 2,
+                                          tl: {
+                                            hd: 1,
+                                            tl: {
+                                              hd: 4,
+                                              tl: {
+                                                hd: 2,
+                                                tl: {
+                                                  hd: 1,
                                                   tl: {
-                                                    hd: 2,
-                                                    tl: {
-                                                      hd: 1,
-                                                      tl: /* [] */ 0
-                                                    }
+                                                    hd: 409,
+                                                    tl: /* [] */ 0
                                                   }
                                                 }
                                               }
@@ -277,37 +305,9 @@ const suites = {
                                           }
                                         }
                                       }
-                                    }, {
-                                      hd: 2,
-                                      tl: {
-                                        hd: 6,
-                                        tl: {
-                                          hd: 1,
-                                          tl: {
-                                            hd: 1,
-                                            tl: {
-                                              hd: 2,
-                                              tl: {
-                                                hd: 1,
-                                                tl: {
-                                                  hd: 4,
-                                                  tl: {
-                                                    hd: 2,
-                                                    tl: {
-                                                      hd: 1,
-                                                      tl: {
-                                                        hd: 409,
-                                                        tl: /* [] */ 0
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    })
+                                    }
+                                  }
+                                })
                               };
                             })
                           ],
@@ -319,15 +319,15 @@ const suites = {
                                   TAG: /* Eq */ 0,
                                   _0: true,
                                   _1: Caml_obj.caml_lessthan({
-                                        hd: 1,
-                                        tl: /* [] */ 0
-                                      }, {
-                                        hd: 1,
-                                        tl: {
-                                          hd: 409,
-                                          tl: /* [] */ 0
-                                        }
-                                      })
+                                    hd: 1,
+                                    tl: /* [] */ 0
+                                  }, {
+                                    hd: 1,
+                                    tl: {
+                                      hd: 409,
+                                      tl: /* [] */ 0
+                                    }
+                                  })
                                 };
                               })
                             ],
@@ -339,9 +339,9 @@ const suites = {
                                     TAG: /* Eq */ 0,
                                     _0: true,
                                     _1: Caml_obj.caml_lessthan(/* [] */ 0, {
-                                          hd: 409,
-                                          tl: /* [] */ 0
-                                        })
+                                      hd: 409,
+                                      tl: /* [] */ 0
+                                    })
                                   };
                                 })
                               ],
@@ -353,28 +353,26 @@ const suites = {
                                       TAG: /* Eq */ 0,
                                       _0: true,
                                       _1: Caml_obj.caml_greaterthan({
-                                            hd: 2,
+                                        hd: 2,
+                                        tl: {
+                                          hd: 6,
+                                          tl: {
+                                            hd: 1,
                                             tl: {
-                                              hd: 6,
+                                              hd: 1,
                                               tl: {
-                                                hd: 1,
+                                                hd: 2,
                                                 tl: {
                                                   hd: 1,
                                                   tl: {
-                                                    hd: 2,
+                                                    hd: 4,
                                                     tl: {
-                                                      hd: 1,
+                                                      hd: 2,
                                                       tl: {
-                                                        hd: 4,
+                                                        hd: 1,
                                                         tl: {
-                                                          hd: 2,
-                                                          tl: {
-                                                            hd: 1,
-                                                            tl: {
-                                                              hd: 409,
-                                                              tl: /* [] */ 0
-                                                            }
-                                                          }
+                                                          hd: 409,
+                                                          tl: /* [] */ 0
                                                         }
                                                       }
                                                     }
@@ -382,34 +380,36 @@ const suites = {
                                                 }
                                               }
                                             }
-                                          }, {
-                                            hd: 2,
+                                          }
+                                        }
+                                      }, {
+                                        hd: 2,
+                                        tl: {
+                                          hd: 6,
+                                          tl: {
+                                            hd: 1,
                                             tl: {
-                                              hd: 6,
+                                              hd: 1,
                                               tl: {
-                                                hd: 1,
+                                                hd: 2,
                                                 tl: {
                                                   hd: 1,
                                                   tl: {
-                                                    hd: 2,
+                                                    hd: 4,
                                                     tl: {
-                                                      hd: 1,
+                                                      hd: 2,
                                                       tl: {
-                                                        hd: 4,
-                                                        tl: {
-                                                          hd: 2,
-                                                          tl: {
-                                                            hd: 1,
-                                                            tl: /* [] */ 0
-                                                          }
-                                                        }
+                                                        hd: 1,
+                                                        tl: /* [] */ 0
                                                       }
                                                     }
                                                   }
                                                 }
                                               }
                                             }
-                                          })
+                                          }
+                                        }
+                                      })
                                     };
                                   })
                                 ],
@@ -449,25 +449,53 @@ const suites = {
                                             TAG: /* Eq */ 0,
                                             _0: false,
                                             _1: Caml_obj.caml_equal({
-                                                  hd: 2,
+                                              hd: 2,
+                                              tl: {
+                                                hd: 6,
+                                                tl: {
+                                                  hd: 1,
                                                   tl: {
-                                                    hd: 6,
+                                                    hd: 1,
                                                     tl: {
-                                                      hd: 1,
+                                                      hd: 2,
                                                       tl: {
                                                         hd: 1,
                                                         tl: {
-                                                          hd: 2,
+                                                          hd: 4,
                                                           tl: {
-                                                            hd: 1,
+                                                            hd: 2,
                                                             tl: {
-                                                              hd: 4,
+                                                              hd: 1,
+                                                              tl: /* [] */ 0
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }, {
+                                              hd: 2,
+                                              tl: {
+                                                hd: 6,
+                                                tl: {
+                                                  hd: 1,
+                                                  tl: {
+                                                    hd: 1,
+                                                    tl: {
+                                                      hd: 2,
+                                                      tl: {
+                                                        hd: 1,
+                                                        tl: {
+                                                          hd: 4,
+                                                          tl: {
+                                                            hd: 2,
+                                                            tl: {
+                                                              hd: 1,
                                                               tl: {
-                                                                hd: 2,
-                                                                tl: {
-                                                                  hd: 1,
-                                                                  tl: /* [] */ 0
-                                                                }
+                                                                hd: 409,
+                                                                tl: /* [] */ 0
                                                               }
                                                             }
                                                           }
@@ -475,37 +503,9 @@ const suites = {
                                                       }
                                                     }
                                                   }
-                                                }, {
-                                                  hd: 2,
-                                                  tl: {
-                                                    hd: 6,
-                                                    tl: {
-                                                      hd: 1,
-                                                      tl: {
-                                                        hd: 1,
-                                                        tl: {
-                                                          hd: 2,
-                                                          tl: {
-                                                            hd: 1,
-                                                            tl: {
-                                                              hd: 4,
-                                                              tl: {
-                                                                hd: 2,
-                                                                tl: {
-                                                                  hd: 1,
-                                                                  tl: {
-                                                                    hd: 409,
-                                                                    tl: /* [] */ 0
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                })
+                                                }
+                                              }
+                                            })
                                           };
                                         })
                                       ],
@@ -517,28 +517,26 @@ const suites = {
                                               TAG: /* Eq */ 0,
                                               _0: false,
                                               _1: Caml_obj.caml_equal({
-                                                    hd: 2,
+                                                hd: 2,
+                                                tl: {
+                                                  hd: 6,
+                                                  tl: {
+                                                    hd: 1,
                                                     tl: {
-                                                      hd: 6,
+                                                      hd: 1,
                                                       tl: {
-                                                        hd: 1,
+                                                        hd: 2,
                                                         tl: {
                                                           hd: 1,
                                                           tl: {
-                                                            hd: 2,
+                                                            hd: 4,
                                                             tl: {
-                                                              hd: 1,
+                                                              hd: 2,
                                                               tl: {
-                                                                hd: 4,
+                                                                hd: 1,
                                                                 tl: {
-                                                                  hd: 2,
-                                                                  tl: {
-                                                                    hd: 1,
-                                                                    tl: {
-                                                                      hd: 409,
-                                                                      tl: /* [] */ 0
-                                                                    }
-                                                                  }
+                                                                  hd: 409,
+                                                                  tl: /* [] */ 0
                                                                 }
                                                               }
                                                             }
@@ -546,34 +544,36 @@ const suites = {
                                                         }
                                                       }
                                                     }
-                                                  }, {
-                                                    hd: 2,
+                                                  }
+                                                }
+                                              }, {
+                                                hd: 2,
+                                                tl: {
+                                                  hd: 6,
+                                                  tl: {
+                                                    hd: 1,
                                                     tl: {
-                                                      hd: 6,
+                                                      hd: 1,
                                                       tl: {
-                                                        hd: 1,
+                                                        hd: 2,
                                                         tl: {
                                                           hd: 1,
                                                           tl: {
-                                                            hd: 2,
+                                                            hd: 4,
                                                             tl: {
-                                                              hd: 1,
+                                                              hd: 2,
                                                               tl: {
-                                                                hd: 4,
-                                                                tl: {
-                                                                  hd: 2,
-                                                                  tl: {
-                                                                    hd: 1,
-                                                                    tl: /* [] */ 0
-                                                                  }
-                                                                }
+                                                                hd: 1,
+                                                                tl: /* [] */ 0
                                                               }
                                                             }
                                                           }
                                                         }
                                                       }
                                                     }
-                                                  })
+                                                  }
+                                                }
+                                              })
                                             };
                                           })
                                         ],
@@ -584,12 +584,12 @@ const suites = {
                                               return {
                                                 TAG: /* Eq */ 0,
                                                 _0: Caml_obj.caml_compare({
-                                                      x: 1,
-                                                      y: 2
-                                                    }, {
-                                                      x: 1,
-                                                      y: 2
-                                                    }),
+                                                  x: 1,
+                                                  y: 2
+                                                }, {
+                                                  x: 1,
+                                                  y: 2
+                                                }),
                                                 _1: 0
                                               };
                                             })
@@ -601,10 +601,10 @@ const suites = {
                                                 return {
                                                   TAG: /* Eq */ 0,
                                                   _0: Caml_obj.caml_compare({
-                                                        x: 1
-                                                      }, {
-                                                        x: 2
-                                                      }),
+                                                    x: 1
+                                                  }, {
+                                                    x: 2
+                                                  }),
                                                   _1: -1
                                                 };
                                               })
@@ -616,10 +616,10 @@ const suites = {
                                                   return {
                                                     TAG: /* Eq */ 0,
                                                     _0: Caml_obj.caml_compare({
-                                                          x: 2
-                                                        }, {
-                                                          x: 1
-                                                        }),
+                                                      x: 2
+                                                    }, {
+                                                      x: 1
+                                                    }),
                                                     _1: 1
                                                   };
                                                 })
@@ -653,12 +653,12 @@ const suites = {
                                                         return {
                                                           TAG: /* Eq */ 0,
                                                           _0: Caml_obj.caml_compare({
-                                                                x: 1,
-                                                                y: 2
-                                                              }, {
-                                                                y: 2,
-                                                                x: 1
-                                                              }),
+                                                            x: 1,
+                                                            y: 2
+                                                          }, {
+                                                            y: 2,
+                                                            x: 1
+                                                          }),
                                                           _1: 0
                                                         };
                                                       })
@@ -692,12 +692,12 @@ const suites = {
                                                               return {
                                                                 TAG: /* Eq */ 0,
                                                                 _0: Caml_obj.caml_compare({
-                                                                      x: 0,
-                                                                      y: 1
-                                                                    }, {
-                                                                      x: 1,
-                                                                      y: 0
-                                                                    }),
+                                                                  x: 0,
+                                                                  y: 1
+                                                                }, {
+                                                                  x: 1,
+                                                                  y: 0
+                                                                }),
                                                                 _1: -1
                                                               };
                                                             })
@@ -709,12 +709,12 @@ const suites = {
                                                                 return {
                                                                   TAG: /* Eq */ 0,
                                                                   _0: Caml_obj.caml_compare({
-                                                                        x: 1,
-                                                                        y: 0
-                                                                      }, {
-                                                                        x: 0,
-                                                                        y: 1
-                                                                      }),
+                                                                    x: 1,
+                                                                    y: 0
+                                                                  }, {
+                                                                    x: 0,
+                                                                    y: 1
+                                                                  }),
                                                                   _1: 1
                                                                 };
                                                               })
@@ -726,16 +726,16 @@ const suites = {
                                                                   return {
                                                                     TAG: /* Eq */ 0,
                                                                     _0: Caml_obj.caml_compare({
-                                                                          hd: {
-                                                                            x: 1
-                                                                          },
-                                                                          tl: /* [] */ 0
-                                                                        }, {
-                                                                          hd: {
-                                                                            x: 2
-                                                                          },
-                                                                          tl: /* [] */ 0
-                                                                        }),
+                                                                      hd: {
+                                                                        x: 1
+                                                                      },
+                                                                      tl: /* [] */ 0
+                                                                    }, {
+                                                                      hd: {
+                                                                        x: 2
+                                                                      },
+                                                                      tl: /* [] */ 0
+                                                                    }),
                                                                     _1: -1
                                                                   };
                                                                 })
@@ -747,16 +747,16 @@ const suites = {
                                                                     return {
                                                                       TAG: /* Eq */ 0,
                                                                       _0: Caml_obj.caml_compare({
-                                                                            hd: {
-                                                                              x: 2
-                                                                            },
-                                                                            tl: /* [] */ 0
-                                                                          }, {
-                                                                            hd: {
-                                                                              x: 1
-                                                                            },
-                                                                            tl: /* [] */ 0
-                                                                          }),
+                                                                        hd: {
+                                                                          x: 2
+                                                                        },
+                                                                        tl: /* [] */ 0
+                                                                      }, {
+                                                                        hd: {
+                                                                          x: 1
+                                                                        },
+                                                                        tl: /* [] */ 0
+                                                                      }),
                                                                       _1: 1
                                                                     };
                                                                   })
@@ -768,16 +768,16 @@ const suites = {
                                                                       return {
                                                                         TAG: /* Eq */ 0,
                                                                         _0: Caml_obj.caml_compare({
-                                                                              x: {
-                                                                                hd: 0,
-                                                                                tl: /* [] */ 0
-                                                                              }
-                                                                            }, {
-                                                                              x: {
-                                                                                hd: 1,
-                                                                                tl: /* [] */ 0
-                                                                              }
-                                                                            }),
+                                                                          x: {
+                                                                            hd: 0,
+                                                                            tl: /* [] */ 0
+                                                                          }
+                                                                        }, {
+                                                                          x: {
+                                                                            hd: 1,
+                                                                            tl: /* [] */ 0
+                                                                          }
+                                                                        }),
                                                                         _1: -1
                                                                       };
                                                                     })
@@ -789,16 +789,16 @@ const suites = {
                                                                         return {
                                                                           TAG: /* Eq */ 0,
                                                                           _0: Caml_obj.caml_compare({
-                                                                                x: {
-                                                                                  hd: 1,
-                                                                                  tl: /* [] */ 0
-                                                                                }
-                                                                              }, {
-                                                                                x: {
-                                                                                  hd: 0,
-                                                                                  tl: /* [] */ 0
-                                                                                }
-                                                                              }),
+                                                                            x: {
+                                                                              hd: 1,
+                                                                              tl: /* [] */ 0
+                                                                            }
+                                                                          }, {
+                                                                            x: {
+                                                                              hd: 0,
+                                                                              tl: /* [] */ 0
+                                                                            }
+                                                                          }),
                                                                           _1: 1
                                                                         };
                                                                       })
@@ -810,12 +810,12 @@ const suites = {
                                                                           return {
                                                                             TAG: /* Ok */ 4,
                                                                             _0: Caml_obj.caml_equal({
-                                                                                  x: 1,
-                                                                                  y: 2
-                                                                                }, {
-                                                                                  x: 1,
-                                                                                  y: 2
-                                                                                })
+                                                                              x: 1,
+                                                                              y: 2
+                                                                            }, {
+                                                                              x: 1,
+                                                                              y: 2
+                                                                            })
                                                                           };
                                                                         })
                                                                       ],
@@ -826,10 +826,10 @@ const suites = {
                                                                             return {
                                                                               TAG: /* Eq */ 0,
                                                                               _0: Caml_obj.caml_equal({
-                                                                                    x: 1
-                                                                                  }, {
-                                                                                    x: 2
-                                                                                  }),
+                                                                                x: 1
+                                                                              }, {
+                                                                                x: 2
+                                                                              }),
                                                                               _1: false
                                                                             };
                                                                           })
@@ -841,10 +841,10 @@ const suites = {
                                                                               return {
                                                                                 TAG: /* Eq */ 0,
                                                                                 _0: Caml_obj.caml_equal({
-                                                                                      x: 2
-                                                                                    }, {
-                                                                                      x: 1
-                                                                                    }),
+                                                                                  x: 2
+                                                                                }, {
+                                                                                  x: 1
+                                                                                }),
                                                                                 _1: false
                                                                               };
                                                                             })
@@ -878,12 +878,12 @@ const suites = {
                                                                                     return {
                                                                                       TAG: /* Ok */ 4,
                                                                                       _0: Caml_obj.caml_equal({
-                                                                                            x: 1,
-                                                                                            y: 2
-                                                                                          }, {
-                                                                                            y: 2,
-                                                                                            x: 1
-                                                                                          })
+                                                                                        x: 1,
+                                                                                        y: 2
+                                                                                      }, {
+                                                                                        y: 2,
+                                                                                        x: 1
+                                                                                      })
                                                                                     };
                                                                                   })
                                                                                 ],
@@ -916,16 +916,16 @@ const suites = {
                                                                                           return {
                                                                                             TAG: /* Eq */ 0,
                                                                                             _0: Caml_obj.caml_equal({
-                                                                                                  hd: {
-                                                                                                    x: 1
-                                                                                                  },
-                                                                                                  tl: /* [] */ 0
-                                                                                                }, {
-                                                                                                  hd: {
-                                                                                                    x: 2
-                                                                                                  },
-                                                                                                  tl: /* [] */ 0
-                                                                                                }),
+                                                                                              hd: {
+                                                                                                x: 1
+                                                                                              },
+                                                                                              tl: /* [] */ 0
+                                                                                            }, {
+                                                                                              hd: {
+                                                                                                x: 2
+                                                                                              },
+                                                                                              tl: /* [] */ 0
+                                                                                            }),
                                                                                             _1: false
                                                                                           };
                                                                                         })
@@ -937,16 +937,16 @@ const suites = {
                                                                                             return {
                                                                                               TAG: /* Eq */ 0,
                                                                                               _0: Caml_obj.caml_equal({
-                                                                                                    hd: {
-                                                                                                      x: 2
-                                                                                                    },
-                                                                                                    tl: /* [] */ 0
-                                                                                                  }, {
-                                                                                                    hd: {
-                                                                                                      x: 2
-                                                                                                    },
-                                                                                                    tl: /* [] */ 0
-                                                                                                  }),
+                                                                                                hd: {
+                                                                                                  x: 2
+                                                                                                },
+                                                                                                tl: /* [] */ 0
+                                                                                              }, {
+                                                                                                hd: {
+                                                                                                  x: 2
+                                                                                                },
+                                                                                                tl: /* [] */ 0
+                                                                                              }),
                                                                                               _1: true
                                                                                             };
                                                                                           })
@@ -958,16 +958,16 @@ const suites = {
                                                                                               return {
                                                                                                 TAG: /* Eq */ 0,
                                                                                                 _0: Caml_obj.caml_equal({
-                                                                                                      x: {
-                                                                                                        hd: 0,
-                                                                                                        tl: /* [] */ 0
-                                                                                                      }
-                                                                                                    }, {
-                                                                                                      x: {
-                                                                                                        hd: 0,
-                                                                                                        tl: /* [] */ 0
-                                                                                                      }
-                                                                                                    }),
+                                                                                                  x: {
+                                                                                                    hd: 0,
+                                                                                                    tl: /* [] */ 0
+                                                                                                  }
+                                                                                                }, {
+                                                                                                  x: {
+                                                                                                    hd: 0,
+                                                                                                    tl: /* [] */ 0
+                                                                                                  }
+                                                                                                }),
                                                                                                 _1: true
                                                                                               };
                                                                                             })
@@ -979,16 +979,16 @@ const suites = {
                                                                                                 return {
                                                                                                   TAG: /* Eq */ 0,
                                                                                                   _0: Caml_obj.caml_equal({
-                                                                                                        x: {
-                                                                                                          hd: 0,
-                                                                                                          tl: /* [] */ 0
-                                                                                                        }
-                                                                                                      }, {
-                                                                                                        x: {
-                                                                                                          hd: 1,
-                                                                                                          tl: /* [] */ 0
-                                                                                                        }
-                                                                                                      }),
+                                                                                                    x: {
+                                                                                                      hd: 0,
+                                                                                                      tl: /* [] */ 0
+                                                                                                    }
+                                                                                                  }, {
+                                                                                                    x: {
+                                                                                                      hd: 1,
+                                                                                                      tl: /* [] */ 0
+                                                                                                    }
+                                                                                                  }),
                                                                                                   _1: false
                                                                                                 };
                                                                                               })
@@ -1000,7 +1000,7 @@ const suites = {
                                                                                                   return {
                                                                                                     TAG: /* Eq */ 0,
                                                                                                     _0: Caml_obj.caml_equal({x:1}, ((function(){let o = Object.create(null);o.x = 1;return o;})()
-                                                                                                        )),
+                                                                                                    )),
                                                                                                     _1: true
                                                                                                   };
                                                                                                 })
@@ -1012,9 +1012,9 @@ const suites = {
                                                                                                     return {
                                                                                                       TAG: /* Eq */ 0,
                                                                                                       _0: Caml_obj.caml_compare(null, {
-                                                                                                            hd: 3,
-                                                                                                            tl: /* [] */ 0
-                                                                                                          }),
+                                                                                                        hd: 3,
+                                                                                                        tl: /* [] */ 0
+                                                                                                      }),
                                                                                                       _1: -1
                                                                                                     };
                                                                                                   })
@@ -1026,9 +1026,9 @@ const suites = {
                                                                                                       return {
                                                                                                         TAG: /* Eq */ 0,
                                                                                                         _0: Caml_obj.caml_compare({
-                                                                                                              hd: 3,
-                                                                                                              tl: /* [] */ 0
-                                                                                                            }, null),
+                                                                                                          hd: 3,
+                                                                                                          tl: /* [] */ 0
+                                                                                                        }, null),
                                                                                                         _1: 1
                                                                                                       };
                                                                                                     })
@@ -1143,21 +1143,21 @@ function eq(loc, x, y) {
 eq("File \"jscomp/test/caml_compare_test.ml\", line 113, characters 6-13", true, Caml_obj.caml_greaterthan(1, undefined));
 
 eq("File \"jscomp/test/caml_compare_test.ml\", line 114, characters 6-13", true, Caml_obj.caml_lessthan(/* [] */ 0, {
-          hd: 1,
-          tl: /* [] */ 0
-        }));
+  hd: 1,
+  tl: /* [] */ 0
+}));
 
 eq("File \"jscomp/test/caml_compare_test.ml\", line 115, characters 6-13", false, Caml_obj.caml_greaterthan(undefined, 1));
 
 eq("File \"jscomp/test/caml_compare_test.ml\", line 116, characters 6-13", false, Caml_obj.caml_greaterthan(undefined, [
-          1,
-          30
-        ]));
+  1,
+  30
+]));
 
 eq("File \"jscomp/test/caml_compare_test.ml\", line 117, characters 6-13", false, Caml_obj.caml_lessthan([
-          1,
-          30
-        ], undefined));
+  1,
+  30
+], undefined));
 
 Mt.from_pair_suites("Caml_compare_test", suites.contents);
 

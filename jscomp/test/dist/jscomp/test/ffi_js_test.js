@@ -51,9 +51,9 @@ const string_config = {
 };
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 32, characters 5-12", [
-      6,
-      $$higher_order(1)(2, 3)
-    ]);
+  6,
+  $$higher_order(1)(2, 3)
+]);
 
 const same_type_0 = {
   hd: int_config,
@@ -89,24 +89,24 @@ const v_obj = {
 };
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 44, characters 5-12", [
-      Object.keys(int_config).length,
-      2
-    ]);
+  Object.keys(int_config).length,
+  2
+]);
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 45, characters 5-12", [
-      Object.keys(string_config).length,
-      2
-    ]);
+  Object.keys(string_config).length,
+  2
+]);
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 46, characters 5-12", [
-      Object.keys(v_obj).indexOf("hi_x", undefined),
-      -1
-    ]);
+  Object.keys(v_obj).indexOf("hi_x", undefined),
+  -1
+]);
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 47, characters 5-12", [
-      Object.keys(v_obj).indexOf("hi", undefined),
-      0
-    ]);
+  Object.keys(v_obj).indexOf("hi", undefined),
+  0
+]);
 
 const u = {
   contents: 3
@@ -118,9 +118,9 @@ const side_effect_config = (u.contents = u.contents + 1 | 0, {
 });
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 54, characters 5-12", [
-      u.contents,
-      4
-    ]);
+  u.contents,
+  4
+]);
 
 function vv(z) {
   return z.hh();
@@ -158,9 +158,9 @@ function ffff(x) {
   ];
   const match = x[3];
   console.log([
-        match[0],
-        match[1]
-      ]);
+    match[0],
+    match[1]
+  ]);
   console.log(x.getGADT);
   const match$1 = x.getGADT2;
   console.log(match$1[0], match$1[1]);

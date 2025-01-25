@@ -10,9 +10,9 @@ const Stdlib__Hashtbl = require("melange/hashtbl.js");
 function Make(funarg) {
   const $$let = funarg.V;
   const H = Stdlib__Hashtbl.Make({
-        equal: $$let.equal,
-        hash: $$let.hash
-      });
+    equal: $$let.equal,
+    hash: $$let.hash
+  });
   const find_default = function (htbl, x) {
     try {
       return Curry._2(H.find, htbl, x);
@@ -73,12 +73,12 @@ function Make(funarg) {
           const successor = successors.hd;
           if (!find_default(already_processed, successor)) {
             return step2(successor, {
-                  hd: [
-                    top$1,
-                    successors
-                  ],
-                  tl: rest_of_stack$1
-                });
+              hd: [
+                top$1,
+                successors
+              ],
+              tl: rest_of_stack$1
+            });
           }
           const x = find_default(on_the_stack, successor) ? Curry._2(H.find, n_labels, successor) : Curry._2(H.find, l_labels, successor);
           Curry._3(H.add, l_labels, top$1, Caml.caml_int_max(Curry._2(H.find, l_labels, top$1), x));

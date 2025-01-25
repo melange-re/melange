@@ -57,12 +57,12 @@ function f(param) {
 List.xx();
 
 Stdlib__List.length({
-      hd: 1,
-      tl: {
-        hd: 2,
-        tl: /* [] */ 0
-      }
-    });
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+});
 
 Stdlib__List.length(/* [] */ 0);
 

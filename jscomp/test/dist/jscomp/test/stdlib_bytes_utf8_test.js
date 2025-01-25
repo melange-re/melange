@@ -485,28 +485,28 @@ function raises(f) {
 }
 
 raises(function (param) {
-      return Stdlib__Bytes.get_utf_8_uchar(Stdlib__Bytes.empty, 0);
-    });
+  return Stdlib__Bytes.get_utf_8_uchar(Stdlib__Bytes.empty, 0);
+});
 
 raises(function (param) {
-      return Stdlib__Bytes.set_utf_8_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
-    });
+  return Stdlib__Bytes.set_utf_8_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
+});
 
 raises(function (param) {
-      return Stdlib__Bytes.get_utf_16le_uchar(Stdlib__Bytes.empty, 0);
-    });
+  return Stdlib__Bytes.get_utf_16le_uchar(Stdlib__Bytes.empty, 0);
+});
 
 raises(function (param) {
-      return Stdlib__Bytes.set_utf_16le_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
-    });
+  return Stdlib__Bytes.set_utf_16le_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
+});
 
 raises(function (param) {
-      return Stdlib__Bytes.get_utf_16be_uchar(Stdlib__Bytes.empty, 0);
-    });
+  return Stdlib__Bytes.get_utf_16be_uchar(Stdlib__Bytes.empty, 0);
+});
 
 raises(function (param) {
-      return Stdlib__Bytes.set_utf_16be_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
-    });
+  return Stdlib__Bytes.set_utf_16be_uchar(Stdlib__Bytes.empty, 0, Stdlib__Uchar.min);
+});
 
 const b = Stdlib__Bytes.make(1, /* '\171' */171);
 
@@ -959,14 +959,14 @@ if ((d8 & 16777215) !== Stdlib__Uchar.of_int(65)) {
 }
 
 Stdlib__Printf.printf({
-      TAG: /* Format */ 0,
-      _0: {
-        TAG: /* String_literal */ 11,
-        _0: "All UTF tests passed!\n",
-        _1: /* End_of_format */ 0
-      },
-      _1: "All UTF tests passed!\n"
-    });
+  TAG: /* Format */ 0,
+  _0: {
+    TAG: /* String_literal */ 11,
+    _0: "All UTF tests passed!\n",
+    _1: /* End_of_format */ 0
+  },
+  _1: "All UTF tests passed!\n"
+});
 
 const utf_16le = map;
 

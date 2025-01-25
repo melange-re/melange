@@ -65,15 +65,15 @@ Test classes that close over an init variable from the outside scope
       const get_x = ids[1];
       const x = ids[2];
       CamlinternalOO.set_methods($$class, [
-            get_x,
-            (function (self$1) {
-              return self$1[x];
-            }),
-            set_x,
-            (function (self$1, y) {
-              self$1[x] = y;
-            })
-          ]);
+        get_x,
+        (function (self$1) {
+          return self$1[x];
+        }),
+        set_x,
+        (function (self$1, y) {
+          self$1[x] = y;
+        })
+      ]);
       const env_init = function (env) {
         const self = CamlinternalOO.create_object_opt(undefined, $$class);
         self[x] = env[1];
@@ -83,9 +83,9 @@ Test classes that close over an init variable from the outside scope
       object_tables.key = env_init;
     }
     return Curry._1(object_tables.key, [
-        undefined,
-        2
-      ]);
+      undefined,
+      2
+    ]);
   }
   
   const f = fresh(undefined);

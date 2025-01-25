@@ -35,9 +35,9 @@ function eq(f, param) {
 
 function test(loc, b) {
   eq(loc, [
-        b,
-        true
-      ]);
+    b,
+    true
+  ]);
 }
 
 function id(x) {
@@ -46,532 +46,532 @@ function id(x) {
 
 function test0(param) {
   return ((((Curry._2(Stdlib__Scanf.sscanf("", {
-          TAG: /* Format */ 0,
-          _0: /* End_of_format */ 0,
-          _1: ""
-        }), id, 1) + Curry._2(Stdlib__Scanf.sscanf("", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
-          },
-          _1: " "
-        }), id, 2) | 0) + Curry._2(Stdlib__Scanf.sscanf(" ", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
-          },
-          _1: " "
-        }), id, 3) | 0) + Curry._2(Stdlib__Scanf.sscanf("\t", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
-          },
-          _1: " "
-        }), id, 4) | 0) + Curry._2(Stdlib__Scanf.sscanf("\n", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
-          },
-          _1: " "
-        }), id, 5) | 0) + Curry._1(Stdlib__Scanf.sscanf("\n\t 6", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: " %d"
-        }), id) | 0;
+    TAG: /* Format */ 0,
+    _0: /* End_of_format */ 0,
+    _1: ""
+  }), id, 1) + Curry._2(Stdlib__Scanf.sscanf("", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: /* End_of_format */ 0
+    },
+    _1: " "
+  }), id, 2) | 0) + Curry._2(Stdlib__Scanf.sscanf(" ", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: /* End_of_format */ 0
+    },
+    _1: " "
+  }), id, 3) | 0) + Curry._2(Stdlib__Scanf.sscanf("\t", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: /* End_of_format */ 0
+    },
+    _1: " "
+  }), id, 4) | 0) + Curry._2(Stdlib__Scanf.sscanf("\n", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: /* End_of_format */ 0
+    },
+    _1: " "
+  }), id, 5) | 0) + Curry._1(Stdlib__Scanf.sscanf("\n\t 6", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: " %d"
+  }), id) | 0;
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 42, characters 5-12", test0(undefined) === 21);
 
 function test1(param) {
   return (((Curry._1(Stdlib__Scanf.sscanf("1", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_d */ 0,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%d"
-        }), id) + Curry._1(Stdlib__Scanf.sscanf(" 2", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: " %d"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" -2", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: " %d"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" +2", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: " %d"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* 'a' */97,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: " %da"
-        }), id) | 0;
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_d */ 0,
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%d"
+  }), id) + Curry._1(Stdlib__Scanf.sscanf(" 2", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: " %d"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" -2", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: " %d"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" +2", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: " %d"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* 'a' */97,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: " %da"
+  }), id) | 0;
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 54, characters 5-12", test1(undefined) === 5);
 
 function test2(param) {
   return (Curry._1(Stdlib__Scanf.sscanf("123", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: {
-              TAG: /* Lit_padding */ 0,
-              _0: /* Right */ 1,
-              _1: 2
-            },
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%2i"
-        }), id) + Curry._1(Stdlib__Scanf.sscanf("245", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_d */ 0,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%d"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 1
-              },
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* 'a' */97,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: " %1da"
-        }), id) | 0;
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: {
+        TAG: /* Lit_padding */ 0,
+        _0: /* Right */ 1,
+        _1: 2
+      },
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%2i"
+  }), id) + Curry._1(Stdlib__Scanf.sscanf("245", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_d */ 0,
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%d"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 1
+        },
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* 'a' */97,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: " %1da"
+  }), id) | 0;
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 63, characters 5-12", test2(undefined) === 259);
 
 function test3(param) {
   return ((Curry._1(Stdlib__Scanf.sscanf("0xff", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: {
-              TAG: /* Lit_padding */ 0,
-              _0: /* Right */ 1,
-              _1: 3
-            },
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%3i"
-        }), id) + Curry._1(Stdlib__Scanf.sscanf("0XEF", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: {
-              TAG: /* Lit_padding */ 0,
-              _0: /* Right */ 1,
-              _1: 3
-            },
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%3i"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf("x=-245", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " x = ",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: " x = %d"
-        }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 1
-              },
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* 'a' */97,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: " %1da"
-        }), id) | 0;
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: {
+        TAG: /* Lit_padding */ 0,
+        _0: /* Right */ 1,
+        _1: 3
+      },
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%3i"
+  }), id) + Curry._1(Stdlib__Scanf.sscanf("0XEF", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: {
+        TAG: /* Lit_padding */ 0,
+        _0: /* Right */ 1,
+        _1: 3
+      },
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%3i"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf("x=-245", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " x = ",
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: " x = %d"
+  }), id) | 0) + Curry._1(Stdlib__Scanf.sscanf(" 2a ", {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 1
+        },
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* 'a' */97,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: " %1da"
+  }), id) | 0;
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 73, characters 5-12", test3(undefined) === -214);
 
 function test4(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === -1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1."), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string(".1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 0.1;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-.1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === -0.1;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+.1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 0.1;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+1."), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-1."), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%f"
-          }), (function (b0) {
-        return b0 === -1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0 1. 1.3"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Float */ 8,
-                  _0: [
-                    /* Float_flag_ */ 0,
-                    /* Float_f */ 0
-                  ],
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Float */ 8,
-                      _0: [
-                        /* Float_flag_ */ 0,
-                        /* Float_f */ 0
-                      ],
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: /* End_of_format */ 0
-                    }
-                  }
-                }
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === -1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1."), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string(".1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 0.1;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-.1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === -0.1;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+.1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 0.1;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+1."), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-1."), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%f"
+    }), (function (b0) {
+      return b0 === -1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0 1. 1.3"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Float */ 8,
+            _0: [
+              /* Float_flag_ */ 0,
+              /* Float_f */ 0
+            ],
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Float */ 8,
+                _0: [
+                  /* Float_flag_ */ 0,
+                  /* Float_f */ 0
+                ],
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: /* End_of_format */ 0
               }
-            },
-            _1: "%f %f %f"
-          }), (function (b0, b1, b2) {
-        return b0 === 0.0 && b1 === 1.0 ? b2 === 1.3 : false;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0.113"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 4
-              },
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%4f"
-          }), (function (b0) {
-        return b0 === 0.11;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0.113"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 5
-              },
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%5f"
-          }), (function (b0) {
-        return b0 === 0.113;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("000.113"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 15
-              },
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%15f"
-          }), (function (b0) {
-        return b0 === 0.113;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+000.113"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 15
-              },
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%15f"
-          }), (function (b0) {
-        return b0 === 0.113;
-      }))) {
+            }
+          }
+        }
+      },
+      _1: "%f %f %f"
+    }), (function (b0, b1, b2) {
+      return b0 === 0.0 && b1 === 1.0 ? b2 === 1.3 : false;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0.113"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 4
+        },
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%4f"
+    }), (function (b0) {
+      return b0 === 0.11;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("0.113"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 5
+        },
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%5f"
+    }), (function (b0) {
+      return b0 === 0.113;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("000.113"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 15
+        },
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%15f"
+    }), (function (b0) {
+      return b0 === 0.113;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("+000.113"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 15
+        },
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%15f"
+    }), (function (b0) {
+      return b0 === 0.113;
+    }))) {
     return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("-000.113"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_f */ 0
-              ],
-              _1: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 15
-              },
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%15f"
-          }), (function (b0) {
-        return b0 === -0.113;
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_f */ 0
+        ],
+        _1: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 15
+        },
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%15f"
+    }), (function (b0) {
+      return b0 === -0.113;
+    }));
   } else {
     return false;
   }
@@ -581,166 +581,166 @@ test("File \"jscomp/test/tscanf_test.ml\", line 110, characters 5-12", test4(und
 
 function test5(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_e */ 1
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%e"
-          }), (function (b) {
-        return b === 10.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e+1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_e */ 1
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%e"
-          }), (function (b) {
-        return b === 10.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("10e-1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_e */ 1
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%e"
-          }), (function (b) {
-        return b === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("10.e-1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_e */ 1
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%e"
-          }), (function (b) {
-        return b === 1.0;
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e1 1.e+1 1.3e-1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_e */ 1
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Float */ 8,
-                  _0: [
-                    /* Float_flag_ */ 0,
-                    /* Float_e */ 1
-                  ],
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Float */ 8,
-                      _0: [
-                        /* Float_flag_ */ 0,
-                        /* Float_e */ 1
-                      ],
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: /* End_of_format */ 0
-                    }
-                  }
-                }
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_e */ 1
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%e"
+    }), (function (b) {
+      return b === 10.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e+1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_e */ 1
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%e"
+    }), (function (b) {
+      return b === 10.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("10e-1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_e */ 1
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%e"
+    }), (function (b) {
+      return b === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("10.e-1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_e */ 1
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%e"
+    }), (function (b) {
+      return b === 1.0;
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e1 1.e+1 1.3e-1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_e */ 1
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Float */ 8,
+            _0: [
+              /* Float_flag_ */ 0,
+              /* Float_e */ 1
+            ],
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Float */ 8,
+                _0: [
+                  /* Float_flag_ */ 0,
+                  /* Float_e */ 1
+                ],
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: /* End_of_format */ 0
               }
-            },
-            _1: "%e %e %e"
-          }), (function (b1, b2, b3) {
-        return b1 === 10.0 && b2 === b1 ? b3 === 0.13 : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1 1.1 0e+1 1.3e-1"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_g */ 3
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Float */ 8,
-                  _0: [
-                    /* Float_flag_ */ 0,
-                    /* Float_g */ 3
-                  ],
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Float */ 8,
-                      _0: [
-                        /* Float_flag_ */ 0,
-                        /* Float_g */ 3
-                      ],
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Float */ 8,
-                          _0: [
-                            /* Float_flag_ */ 0,
-                            /* Float_g */ 3
-                          ],
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: /* End_of_format */ 0
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            _1: "%g %g %g %g"
-          }), (function (b1, b2, b3, b4) {
-        if (b1 === 1.0 && b2 === 1.1 && b3 === 0.0) {
-          return b4 === 0.13;
-        } else {
-          return false;
+            }
+          }
         }
-      }));
+      },
+      _1: "%e %e %e"
+    }), (function (b1, b2, b3) {
+      return b1 === 10.0 && b2 === b1 ? b3 === 0.13 : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1 1.1 0e+1 1.3e-1"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_g */ 3
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Float */ 8,
+            _0: [
+              /* Float_flag_ */ 0,
+              /* Float_g */ 3
+            ],
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Float */ 8,
+                _0: [
+                  /* Float_flag_ */ 0,
+                  /* Float_g */ 3
+                ],
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: {
+                    TAG: /* Float */ 8,
+                    _0: [
+                      /* Float_flag_ */ 0,
+                      /* Float_g */ 3
+                    ],
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: /* End_of_format */ 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%g %g %g %g"
+    }), (function (b1, b2, b3, b4) {
+      if (b1 === 1.0 && b2 === 1.1 && b3 === 0.0) {
+        return b4 === 0.13;
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -750,111 +750,111 @@ test("File \"jscomp/test/tscanf_test.ml\", line 133, characters 5-12", test5(und
 
 function test6(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("truetrue"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Bool */ 9,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%B%B"
-          }), (function (b1, b2) {
-        return Caml_obj.caml_equal([
-              b1,
-              b2
-            ], [
-              true,
-              true
-            ]);
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("truefalse"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Bool */ 9,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%B%B"
-          }), (function (b1, b2) {
-        return Caml_obj.caml_equal([
-              b1,
-              b2
-            ], [
-              true,
-              false
-            ]);
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("falsetrue"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Bool */ 9,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%B%B"
-          }), (function (b1, b2) {
-        return Caml_obj.caml_equal([
-              b1,
-              b2
-            ], [
-              false,
-              true
-            ]);
-      })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("falsefalse"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Bool */ 9,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%B%B"
-          }), (function (b1, b2) {
-        return Caml_obj.caml_equal([
-              b1,
-              b2
-            ], [
-              false,
-              false
-            ]);
-      }))) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Bool */ 9,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%B%B"
+    }), (function (b1, b2) {
+      return Caml_obj.caml_equal([
+        b1,
+        b2
+      ], [
+        true,
+        true
+      ]);
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("truefalse"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Bool */ 9,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%B%B"
+    }), (function (b1, b2) {
+      return Caml_obj.caml_equal([
+        b1,
+        b2
+      ], [
+        true,
+        false
+      ]);
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("falsetrue"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Bool */ 9,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%B%B"
+    }), (function (b1, b2) {
+      return Caml_obj.caml_equal([
+        b1,
+        b2
+      ], [
+        false,
+        true
+      ]);
+    })) && Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("falsefalse"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Bool */ 9,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%B%B"
+    }), (function (b1, b2) {
+      return Caml_obj.caml_equal([
+        b1,
+        b2
+      ], [
+        false,
+        false
+      ]);
+    }))) {
     return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("true false"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Bool */ 9,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%B %B"
-          }), (function (b1, b2) {
-        return Caml_obj.caml_equal([
-              b1,
-              b2
-            ], [
-              true,
-              false
-            ]);
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Bool */ 9,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%B %B"
+    }), (function (b1, b2) {
+      return Caml_obj.caml_equal([
+        b1,
+        b2
+      ], [
+        true,
+        false
+      ]);
+    }));
   } else {
     return false;
   }
@@ -864,75 +864,75 @@ test("File \"jscomp/test/tscanf_test.ml\", line 150, characters 5-12", test6(und
 
 function test7(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("'a' '\n' '\t' '\0' ' '"), {
-            TAG: /* Format */ 0,
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_char */ 1,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Caml_char */ 1,
             _0: {
-              TAG: /* Caml_char */ 1,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Caml_char */ 1,
-                  _0: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Caml_char */ 1,
-                      _0: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Caml_char */ 1,
-                          _0: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ' ' */32,
-                            _1: {
-                              TAG: /* Caml_char */ 1,
-                              _0: /* End_of_format */ 0
-                            }
-                          }
-                        }
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Caml_char */ 1,
+                _0: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: {
+                    TAG: /* Caml_char */ 1,
+                    _0: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ' ' */32,
+                      _1: {
+                        TAG: /* Caml_char */ 1,
+                        _0: /* End_of_format */ 0
                       }
                     }
                   }
                 }
               }
-            },
-            _1: "%C %C %C %C %C"
-          }), (function (c1, c2, c3, c4, c5) {
-        return c1 === /* 'a' */97 && c2 === /* '\n' */10 && c3 === /* '\t' */9 && c4 === /* '\000' */0 ? c5 === /* ' ' */32 : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("a \n \t \0  b"), {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Char */ 0,
-                  _0: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Char */ 0,
-                      _0: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            _1: "%c %c %c "
-          }), (function (c1, c2, c3) {
-        if (c1 === /* 'a' */97 && c2 === /* '\000' */0) {
-          return c3 === /* 'b' */98;
-        } else {
-          return false;
+            }
+          }
         }
-      }));
+      },
+      _1: "%C %C %C %C %C"
+    }), (function (c1, c2, c3, c4, c5) {
+      return c1 === /* 'a' */97 && c2 === /* '\n' */10 && c3 === /* '\t' */9 && c4 === /* '\000' */0 ? c5 === /* ' ' */32 : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("a \n \t \0  b"), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Char */ 0,
+            _0: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Char */ 0,
+                _0: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%c %c %c "
+    }), (function (c1, c2, c3) {
+      if (c1 === /* 'a' */97 && c2 === /* '\000' */0) {
+        return c3 === /* 'b' */98;
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -942,22 +942,22 @@ test("File \"jscomp/test/tscanf_test.ml\", line 168, characters 5-12", test7(und
 
 function verify_read(c) {
   const s = Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Caml_char */ 1,
-            _0: /* End_of_format */ 0
-          },
-          _1: "%C"
-        }), c);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Caml_char */ 1,
+      _0: /* End_of_format */ 0
+    },
+    _1: "%C"
+  }), c);
   const ib = Stdlib__Scanf.Scanning.from_string(s);
   if (Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_char */ 1,
-              _0: /* End_of_format */ 0
-            },
-            _1: "%C"
-          }), id) === c) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_char */ 1,
+        _0: /* End_of_format */ 0
+      },
+      _1: "%C"
+    }), id) === c) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -984,14 +984,14 @@ test("File \"jscomp/test/tscanf_test.ml\", line 183, characters 5-12", verify_sc
 
 function unit(fmt, s) {
   const ib = Stdlib__Scanf.Scanning.from_string(Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Caml_string */ 3,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              },
-              _1: "%S"
-            }), s));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Caml_string */ 3,
+      _0: /* No_padding */ 0,
+      _1: /* End_of_format */ 0
+    },
+    _1: "%S"
+  }), s));
   return Curry._1(Stdlib__Scanf.bscanf(ib, fmt), id);
 }
 
@@ -1017,67 +1017,67 @@ function test_S(param) {
 
 function test9(param) {
   if (test_S("poi") && test_S("a\"b") && test_S("a\nb") && test_S("a\nb") && test_S("a\\\nb \\\nc\n\\\nb") && test_S("a\\\n\\\n\\\nb \\\nc\n\\\nb") && test_S("\xef") && test_S("\\xef") && Curry._1(Stdlib__Scanf.sscanf("\"\\xef\"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === "\xef" && Curry._1(Stdlib__Scanf.sscanf("\"\\xef\\xbb\\xbf\"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === test9_string && Curry._1(Stdlib__Scanf.sscanf("\"\\xef\\xbb\\xbf\"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === "\xef\xbb\xbf" && Curry._1(Stdlib__Scanf.sscanf("\"\xef\xbb\xbf\"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === test9_string && Curry._1(Stdlib__Scanf.sscanf("\"\\\\xef\\\\xbb\\\\xbf\"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === "\\xef\\xbb\\xbf") {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === "\xef" && Curry._1(Stdlib__Scanf.sscanf("\"\\xef\\xbb\\xbf\"", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === test9_string && Curry._1(Stdlib__Scanf.sscanf("\"\\xef\\xbb\\xbf\"", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === "\xef\xbb\xbf" && Curry._1(Stdlib__Scanf.sscanf("\"\xef\xbb\xbf\"", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === test9_string && Curry._1(Stdlib__Scanf.sscanf("\"\\\\xef\\\\xbb\\\\xbf\"", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === "\\xef\\xbb\\xbf") {
     return Curry._1(Stdlib__Scanf.sscanf("\" \"", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), (function (s) {
-        return s;
-      })) === " ";
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), (function (s) {
+      return s;
+    })) === " ";
   } else {
     return false;
   }
@@ -1089,80 +1089,31 @@ function test10(param) {
   const unit = function (s) {
     const ib = Stdlib__Scanf.Scanning.from_string(s);
     return Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%S"
-          }), id);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    }), id);
   };
   const res = Curry._1(Stdlib__Scanf.sscanf("Une chaine: \"celle-ci\" et \"celle-la\"!", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
             _1: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* Caml_string */ 3,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* ' ' */32,
-                          _1: {
-                            TAG: /* Caml_string */ 3,
-                            _0: /* No_padding */ 0,
-                            _1: {
-                              TAG: /* Char_literal */ 12,
-                              _0: /* ' ' */32,
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          _1: "%s %s %S %s %S %s"
-        }), (function (s1, s2, s3, s4, s5, s6) {
-      return s1 + (s2 + (s3 + (s4 + (s5 + s6))));
-    }));
-  if (res === "Unechaine:celle-cietcelle-la!" && unit("\"a\\\n  b\"") === "ab" && unit("\"\\\n  ab\"") === "ab" && unit("\"\n\\\n  ab\"") === "\nab" && unit("\"\n\\\n  a\nb\"") === "\na\nb" && unit("\"\n\\\n  \\\n  a\nb\"") === "\na\nb" && unit("\"\n\\\n  a\n\\\nb\\\n\"") === "\na\nb") {
-    return unit("\"a\\\n  \"") === "a";
-  } else {
-    return false;
-  }
-}
-
-test("File \"jscomp/test/tscanf_test.ml\", line 254, characters 5-12", test10(undefined));
-
-function test11(param) {
-  if (Curry._1(Stdlib__Scanf.sscanf("Pierre\tWeis\t70", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
+              TAG: /* Caml_string */ 3,
               _0: /* No_padding */ 0,
               _1: {
                 TAG: /* Char_literal */ 12,
@@ -1174,51 +1125,112 @@ function test11(param) {
                     TAG: /* Char_literal */ 12,
                     _0: /* ' ' */32,
                     _1: {
-                      TAG: /* String */ 2,
+                      TAG: /* Caml_string */ 3,
                       _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
+                      _1: {
+                        TAG: /* Char_literal */ 12,
+                        _0: /* ' ' */32,
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: /* End_of_format */ 0
+                        }
+                      }
                     }
                   }
                 }
               }
-            },
-            _1: "%s %s %s"
-          }), (function (prenom, nom, poids) {
-        return prenom === "Pierre" && nom === "Weis" ? Caml_format.caml_int_of_string(poids) === 70 : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Jean-Luc\tde Leage\t68", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\xff\xfd\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-              _2: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: undefined,
-                  _1: "\xff\xfd\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-                  _2: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: /* End_of_format */ 0
-                    }
-                  }
-                }
+            }
+          }
+        }
+      }
+    },
+    _1: "%s %s %S %s %S %s"
+  }), (function (s1, s2, s3, s4, s5, s6) {
+    return s1 + (s2 + (s3 + (s4 + (s5 + s6))));
+  }));
+  if (res === "Unechaine:celle-cietcelle-la!" && unit("\"a\\\n  b\"") === "ab" && unit("\"\\\n  ab\"") === "ab" && unit("\"\n\\\n  ab\"") === "\nab" && unit("\"\n\\\n  a\nb\"") === "\na\nb" && unit("\"\n\\\n  \\\n  a\nb\"") === "\na\nb" && unit("\"\n\\\n  a\n\\\nb\\\n\"") === "\na\nb") {
+    return unit("\"a\\\n  \"") === "a";
+  } else {
+    return false;
+  }
+}
+
+test("File \"jscomp/test/tscanf_test.ml\", line 254, characters 5-12", test10(undefined));
+
+function test11(param) {
+  if (Curry._1(Stdlib__Scanf.sscanf("Pierre\tWeis\t70", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: /* End_of_format */ 0
               }
-            },
-            _1: "%[^\t] %[^\t] %d"
-          }), (function (prenom, nom, poids) {
-        return prenom === "Jean-Luc" && nom === "de Leage" ? poids === 68 : false;
-      }))) {
+            }
+          }
+        }
+      },
+      _1: "%s %s %s"
+    }), (function (prenom, nom, poids) {
+      return prenom === "Pierre" && nom === "Weis" ? Caml_format.caml_int_of_string(poids) === 70 : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Jean-Luc\tde Leage\t68", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\xff\xfd\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+        _2: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: undefined,
+            _1: "\xff\xfd\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+            _2: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_d */ 0,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "%[^\t] %[^\t] %d"
+    }), (function (prenom, nom, poids) {
+      return prenom === "Jean-Luc" && nom === "de Leage" ? poids === 68 : false;
+    }))) {
     return Curry._1(Stdlib__Scanf.sscanf("Daniel\tde Rauglaudre\t66", {
-            TAG: /* Format */ 0,
-            _0: {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: {
+            TAG: /* Scan_indic */ 2,
+            _0: /* '\t' */9
+          },
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: {
@@ -1231,38 +1243,26 @@ function test11(param) {
                   TAG: /* Char_literal */ 12,
                   _0: /* ' ' */32,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Formatting_lit */ 17,
-                      _0: {
-                        TAG: /* Scan_indic */ 2,
-                        _0: /* '\t' */9
-                      },
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_d */ 0,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: /* End_of_format */ 0
-                        }
-                      }
-                    }
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: /* End_of_format */ 0
                   }
                 }
               }
-            },
-            _1: "%s@\t %s@\t %d"
-          }), (function (prenom, nom, poids) {
-        if (prenom === "Daniel" && nom === "de Rauglaudre") {
-          return poids === 66;
-        } else {
-          return false;
+            }
+          }
         }
-      }));
+      },
+      _1: "%s@\t %s@\t %d"
+    }), (function (prenom, nom, poids) {
+      if (prenom === "Daniel" && nom === "de Rauglaudre") {
+        return poids === 66;
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -1270,266 +1270,266 @@ function test11(param) {
 
 function test110(param) {
   if (Curry._2(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: /* End_of_format */ 0
-            },
-            _1: " "
-          }), (function (x) {
-        return x;
-      }), "") === "" && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: /* End_of_format */ 0
+      },
+      _1: " "
+    }), (function (x) {
+      return x;
+    }), "") === "" && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%s"
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%s%s"
+    }), (function (x, y) {
+      return x === "" ? y === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%s "
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: " %s"
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %s "
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+        _2: /* End_of_format */ 0
+      },
+      _1: "%[^\n]"
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+        _2: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%[^\n] "
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%s"
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%s%s"
+    }), (function (x, y) {
+      return x === "" ? y === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %s "
+    }), (function (x) {
+      return x === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
+            }
+          }
+        }
+      },
+      _1: " %s %s"
+    }), (function (x, y) {
+      return x === "" ? x === y : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Formatting_lit */ 17,
             _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
+              TAG: /* Break */ 0,
+              _0: "@ ",
+              _1: 1,
+              _2: 0
             },
-            _1: "%s%s"
-          }), (function (x, y) {
-        return x === "" ? y === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%s "
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: " %s"
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: " %s "
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-              _2: /* End_of_format */ 0
-            },
-            _1: "%[^\n]"
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-              _2: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[^\n] "
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
-            _0: {
+            _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
+            }
+          }
+        }
+      },
+      _1: " %s@ %s"
+    }), (function (x, y) {
+      return x === "" ? x === y : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf(" poi !", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Formatting_lit */ 17,
             _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
+              TAG: /* Break */ 0,
+              _0: "@ ",
+              _1: 1,
+              _2: 0
             },
-            _1: "%s%s"
-          }), (function (x, y) {
-        return x === "" ? y === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: " %s "
-          }), (function (x) {
-        return x === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: " %s %s"
-          }), (function (x, y) {
-        return x === "" ? x === y : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: {
-                    TAG: /* Break */ 0,
-                    _0: "@ ",
-                    _1: 1,
-                    _2: 0
-                  },
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: " %s@ %s"
-          }), (function (x, y) {
-        return x === "" ? x === y : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf(" poi !", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: {
-                    TAG: /* Break */ 0,
-                    _0: "@ ",
-                    _1: 1,
-                    _2: 0
-                  },
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Formatting_lit */ 17,
-                      _0: /* Flush_newline */ 4,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                }
-              }
-            },
-            _1: " %s@ %s@."
-          }), (function (x, y) {
-        return x === "poi" ? y === "!" : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.sscanf(" poi !", {
-            TAG: /* Format */ 0,
-            _0: {
+            _1: {
               TAG: /* String */ 2,
               _0: /* No_padding */ 0,
               _1: {
                 TAG: /* Formatting_lit */ 17,
-                _0: {
-                  TAG: /* Break */ 0,
-                  _0: "@ ",
-                  _1: 1,
-                  _2: 0
-                },
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Formatting_lit */ 17,
-                    _0: /* Flush_newline */ 4,
-                    _1: /* End_of_format */ 0
-                  }
-                }
+                _0: /* Flush_newline */ 4,
+                _1: /* End_of_format */ 0
               }
-            },
-            _1: "%s@ %s@."
-          }), (function (x, y) {
-        if (x === "") {
-          return y === "poi !";
-        } else {
-          return false;
+            }
+          }
         }
-      }));
+      },
+      _1: " %s@ %s@."
+    }), (function (x, y) {
+      return x === "poi" ? y === "!" : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.sscanf(" poi !", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: {
+            TAG: /* Break */ 0,
+            _0: "@ ",
+            _1: 1,
+            _2: 0
+          },
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Formatting_lit */ 17,
+              _0: /* Flush_newline */ 4,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s@ %s@."
+    }), (function (x, y) {
+      if (x === "") {
+        return y === "poi !";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -1537,21 +1537,21 @@ function test110(param) {
 
 function test111(param) {
   return Curry._1(Stdlib__Scanf.sscanf("", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Scan_char_set */ 20,
-            _0: undefined,
-            _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-            _2: {
-              TAG: /* Formatting_lit */ 17,
-              _0: /* Force_newline */ 3,
-              _1: /* End_of_format */ 0
-            }
-          },
-          _1: "%[^\n]@\n"
-        }), (function (x) {
-      return x === "";
-    }));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Scan_char_set */ 20,
+      _0: undefined,
+      _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+      _2: {
+        TAG: /* Formatting_lit */ 17,
+        _0: /* Force_newline */ 3,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "%[^\n]@\n"
+  }), (function (x) {
+    return x === "";
+  }));
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 293, characters 5-12", test11(undefined) && test110(undefined) && test111(undefined));
@@ -1562,15 +1562,72 @@ function ib(param) {
 
 function f(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " [",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ["
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " [",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ["
+  }), undefined);
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ';' */59,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: " %i;"
+  }), (function (i) {
+    return Curry._1(Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ';' */59,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %i;"
+    }), (function (j) {
+      return Curry._1(Stdlib__Scanf.bscanf(ib, {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ';' */59,
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: " %i;"
+      }), (function (k) {
+        return Curry._1(Stdlib__Scanf.bscanf(ib, {
           TAG: /* Format */ 0,
           _0: {
             TAG: /* Char_literal */ 12,
@@ -1588,106 +1645,49 @@ function f(ib) {
             }
           },
           _1: " %i;"
-        }), (function (i) {
-      return Curry._1(Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ';' */59,
-                    _1: /* End_of_format */ 0
-                  }
+        }), (function (l) {
+          Curry._1(Stdlib__Scanf.bscanf(ib, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: " ]",
+              _1: /* End_of_format */ 0
+            },
+            _1: " ]"
+          }), undefined);
+          return {
+            hd: i,
+            tl: {
+              hd: j,
+              tl: {
+                hd: k,
+                tl: {
+                  hd: l,
+                  tl: /* [] */ 0
                 }
-              },
-              _1: " %i;"
-            }), (function (j) {
-          return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_i */ 3,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ';' */59,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: " %i;"
-                }), (function (k) {
-              return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_i */ 3,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ';' */59,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      },
-                      _1: " %i;"
-                    }), (function (l) {
-                  Curry._1(Stdlib__Scanf.bscanf(ib, {
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: " ]",
-                            _1: /* End_of_format */ 0
-                          },
-                          _1: " ]"
-                        }), undefined);
-                  return {
-                    hd: i,
-                    tl: {
-                      hd: j,
-                      tl: {
-                        hd: k,
-                        tl: {
-                          hd: l,
-                          tl: /* [] */ 0
-                        }
-                      }
-                    }
-                  };
-                }));
-            }));
+              }
+            }
+          };
         }));
+      }));
     }));
+  }));
 }
 
 function test12(param) {
   return Caml_obj.caml_equal(f(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]")), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 311, characters 5-12", test12(undefined));
@@ -1695,29 +1695,29 @@ test("File \"jscomp/test/tscanf_test.ml\", line 311, characters 5-12", test12(un
 function scan_elems(ib, accu) {
   try {
     return Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Int */ 4,
-                _0: /* Int_i */ 3,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ';' */59,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: " %i;"
-          }), (function (i) {
-        return scan_elems(ib, {
-              hd: i,
-              tl: accu
-            });
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ';' */59,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %i;"
+    }), (function (i) {
+      return scan_elems(ib, {
+        hd: i,
+        tl: accu
+      });
+    }));
   }
   catch (exn){
     return accu;
@@ -1726,145 +1726,145 @@ function scan_elems(ib, accu) {
 
 function g(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   return Stdlib__List.rev(scan_elems(ib, /* [] */ 0));
 }
 
 function test13(param) {
   return Caml_obj.caml_equal(g(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]")), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 324, characters 5-12", test13(undefined));
 
 function scan_int_list(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   const accu = scan_elems(ib, /* [] */ 0);
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
   return Stdlib__List.rev(accu);
 }
 
 function test14(param) {
   return Caml_obj.caml_equal(scan_int_list(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]")), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 337, characters 5-12", test14(undefined));
 
 function scan_elems$1(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Char */ 0,
-                  _0: /* End_of_format */ 0
-                }
-              }
-            }
-          },
-          _1: " %i %c"
-        }), (function (i, c) {
-      if (c === 59) {
-        return scan_elems$1(ib, {
-              hd: i,
-              tl: accu
-            });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Char */ 0,
+            _0: /* End_of_format */ 0
+          }
+        }
       }
-      if (c !== 93) {
-        throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "scan_elems"
-            });
-      }
-      return Stdlib__List.rev({
-            hd: i,
-            tl: accu
+    },
+    _1: " %i %c"
+  }), (function (i, c) {
+    if (c === 59) {
+      return scan_elems$1(ib, {
+        hd: i,
+        tl: accu
+      });
+    }
+    if (c !== 93) {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "scan_elems"
           });
-    }));
+    }
+    return Stdlib__List.rev({
+      hd: i,
+      tl: accu
+    });
+  }));
 }
 
 function scan_int_list$1(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   return scan_elems$1(ib, /* [] */ 0);
 }
 
 function test15(param) {
   return Caml_obj.caml_equal(scan_int_list$1(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 357, characters 5-12", test15(undefined));
@@ -1872,69 +1872,69 @@ test("File \"jscomp/test/tscanf_test.ml\", line 357, characters 5-12", test15(un
 function scan_elems$2(ib, accu) {
   try {
     return Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%c %i"
-          }), (function (c, i) {
-        if (c >= 91) {
-          if (c < 94) {
-            switch (c) {
-              case 91 :
-                if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
-                  return scan_elems$2(ib, {
-                        hd: i,
-                        tl: accu
-                      });
-                }
-                break;
-              case 92 :
-                break;
-              case 93 :
-                return Stdlib__List.rev({
-                      hd: i,
-                      tl: accu
-                    });
-            }
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
           }
-          
-        } else if (c === 59) {
-          return scan_elems$2(ib, {
+        }
+      },
+      _1: "%c %i"
+    }), (function (c, i) {
+      if (c >= 91) {
+        if (c < 94) {
+          switch (c) {
+            case 91 :
+              if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
+                return scan_elems$2(ib, {
+                  hd: i,
+                  tl: accu
+                });
+              }
+              break;
+            case 92 :
+              break;
+            case 93 :
+              return Stdlib__List.rev({
                 hd: i,
                 tl: accu
               });
+          }
         }
-        console.log(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)));
-        throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "scan_elems"
-            });
-      }));
+        
+      } else if (c === 59) {
+        return scan_elems$2(ib, {
+          hd: i,
+          tl: accu
+        });
+      }
+      console.log(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)));
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "scan_elems"
+          });
+    }));
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       Curry._1(Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ']' */93,
-                _1: /* End_of_format */ 0
-              },
-              _1: "]"
-            }), undefined);
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ']' */93,
+          _1: /* End_of_format */ 0
+        },
+        _1: "]"
+      }), undefined);
       return accu;
     }
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
@@ -1946,43 +1946,43 @@ function scan_elems$2(ib, accu) {
 
 function test16(param) {
   if (Caml_obj.caml_equal(scan_elems$2(Stdlib__Scanf.Scanning.from_string("[]"), /* [] */ 0), Stdlib__List.rev(/* [] */ 0)) && Caml_obj.caml_equal(scan_elems$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]"), /* [] */ 0), Stdlib__List.rev({
-              hd: 1,
-              tl: {
-                hd: 2,
-                tl: {
-                  hd: 3,
-                  tl: {
-                    hd: 4,
-                    tl: /* [] */ 0
-                  }
-                }
-              }
-            })) && Caml_obj.caml_equal(scan_elems$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]"), /* [] */ 0), Stdlib__List.rev({
-              hd: 1,
-              tl: {
-                hd: 2,
-                tl: {
-                  hd: 3,
-                  tl: {
-                    hd: 4,
-                    tl: /* [] */ 0
-                  }
-                }
-              }
-            }))) {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
+          tl: {
+            hd: 4,
+            tl: /* [] */ 0
+          }
+        }
+      }
+    })) && Caml_obj.caml_equal(scan_elems$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]"), /* [] */ 0), Stdlib__List.rev({
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
+          tl: {
+            hd: 4,
+            tl: /* [] */ 0
+          }
+        }
+      }
+    }))) {
     return Caml_obj.caml_equal(scan_elems$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4"), /* [] */ 0), Stdlib__List.rev({
-              hd: 1,
-              tl: {
-                hd: 2,
-                tl: {
-                  hd: 3,
-                  tl: {
-                    hd: 4,
-                    tl: /* [] */ 0
-                  }
-                }
-              }
-            }));
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
+          tl: {
+            hd: 4,
+            tl: /* [] */ 0
+          }
+        }
+      }
+    }));
   } else {
     return false;
   }
@@ -1992,92 +1992,92 @@ test("File \"jscomp/test/tscanf_test.ml\", line 383, characters 5-12", test16(un
 
 function scan_elems$3(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0&\0\0\x01\0\0\b\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: " %i%[]; \t\n\r]"
-        }), (function (i, s) {
-      switch (s) {
-        case ";" :
-          return scan_elems$3(ib, {
-                hd: i,
-                tl: accu
-              });
-        default:
-          return Stdlib__List.rev({
-                hd: i,
-                tl: accu
-              });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0&\0\0\x01\0\0\b\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: /* End_of_format */ 0
+        }
       }
-    }));
+    },
+    _1: " %i%[]; \t\n\r]"
+  }), (function (i, s) {
+    switch (s) {
+      case ";" :
+        return scan_elems$3(ib, {
+          hd: i,
+          tl: accu
+        });
+      default:
+        return Stdlib__List.rev({
+          hd: i,
+          tl: accu
+        });
+    }
+  }));
 }
 
 function scan_int_list$2(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " [",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ["
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " [",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ["
+  }), undefined);
   return scan_elems$3(ib, /* [] */ 0);
 }
 
 function test17(param) {
   if (Caml_obj.caml_equal(scan_int_list$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        }) && Caml_obj.caml_equal(scan_int_list$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]")), {
-          hd: 1,
+        }
+      }
+    }) && Caml_obj.caml_equal(scan_int_list$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(scan_int_list$2(Stdlib__Scanf.Scanning.from_string("[1;2;3;4 5]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2087,141 +2087,141 @@ test("File \"jscomp/test/tscanf_test.ml\", line 406, characters 5-12", test17(un
 
 function scan_rest(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Char */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: /* End_of_format */ 0
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Char */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: " %c "
+  }), (function (c) {
+    if (c === 59) {
+      return Curry._1(Stdlib__Scanf.bscanf(ib, {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: /* End_of_format */ 0
+        },
+        _1: "%[]]"
+      }), (function (param) {
+        if (param === "]") {
+          return accu;
+        } else {
+          return Curry._1(Stdlib__Scanf.bscanf(ib, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: /* End_of_format */ 0
+                }
               }
-            }
-          },
-          _1: " %c "
-        }), (function (c) {
-      if (c === 59) {
-        return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: undefined,
-                  _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                },
-                _1: "%[]]"
-              }), (function (param) {
-            if (param === "]") {
-              return accu;
-            } else {
-              return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_i */ 3,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ' ' */32,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      },
-                      _1: " %i "
-                    }), (function (i) {
-                  return scan_rest(ib, {
-                        hd: i,
-                        tl: accu
-                      });
-                }));
-            }
-          }));
-      }
-      if (c !== 93) {
-        throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "scan_rest"
+            },
+            _1: " %i "
+          }), (function (i) {
+            return scan_rest(ib, {
+              hd: i,
+              tl: accu
             });
-      }
-      return accu;
-    }));
+          }));
+        }
+      }));
+    }
+    if (c !== 93) {
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "scan_rest"
+          });
+    }
+    return accu;
+  }));
 }
 
 function scan_elems$4(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Char */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: " %c "
-        }), (function (c) {
-      if (c !== 91) {
-        throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "scan_elems"
-            });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Char */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: /* End_of_format */ 0
+        }
       }
-      if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
-        return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: undefined,
-                  _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                },
-                _1: "%[]]"
-              }), (function (param) {
-            if (param === "]") {
-              return accu;
-            } else {
-              return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* Int */ 4,
-                          _0: /* Int_i */ 3,
-                          _1: /* No_padding */ 0,
-                          _2: /* No_precision */ 0,
-                          _3: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ' ' */32,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      },
-                      _1: " %i "
-                    }), (function (i) {
-                  return scan_rest(ib, {
-                        hd: i,
-                        tl: accu
-                      });
-                }));
-            }
-          }));
-      }
+    },
+    _1: " %c "
+  }), (function (c) {
+    if (c !== 91) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
             MEL_EXN_ID: "Failure",
             _1: "scan_elems"
           });
-    }));
+    }
+    if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
+      return Curry._1(Stdlib__Scanf.bscanf(ib, {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: /* End_of_format */ 0
+        },
+        _1: "%[]]"
+      }), (function (param) {
+        if (param === "]") {
+          return accu;
+        } else {
+          return Curry._1(Stdlib__Scanf.bscanf(ib, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ' ' */32,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            },
+            _1: " %i "
+          }), (function (i) {
+            return scan_rest(ib, {
+              hd: i,
+              tl: accu
+            });
+          }));
+        }
+      }));
+    }
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+          MEL_EXN_ID: "Failure",
+          _1: "scan_elems"
+        });
+  }));
 }
 
 function scan_int_list$3(ib) {
@@ -2239,34 +2239,34 @@ function test18(param) {
   }
   const ib$2 = Stdlib__Scanf.Scanning.from_string("[1;2;3;4]");
   if (!Caml_obj.caml_equal(Stdlib__List.rev(scan_elems$4(ib$2, /* [] */ 0)), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return false;
   }
   const ib$3 = Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]");
   return Caml_obj.caml_equal(Stdlib__List.rev(scan_elems$4(ib$3, /* [] */ 0)), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 446, characters 5-12", test18(undefined));
@@ -2291,175 +2291,19 @@ test21(undefined);
 
 function scan_rest$1(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Scan_char_set */ 20,
-            _0: undefined,
-            _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-            _2: /* End_of_format */ 0
-          },
-          _1: "%[]]"
-        }), (function (param) {
-      if (param === "]") {
-        return accu;
-      } else {
-        return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: " %i "
-              }), (function (i) {
-            let accu$1 = {
-              hd: i,
-              tl: accu
-            };
-            return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* Scan_char_set */ 20,
-                      _0: 1,
-                      _1: "\0\0\0\0\0\0\0\b\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                      _2: /* End_of_format */ 0
-                    },
-                    _1: "%1[];]"
-                  }), (function (param) {
-                switch (param) {
-                  case ";" :
-                    return scan_rest$1(ib, accu$1);
-                  case "]" :
-                    return accu$1;
-                  default:
-                    const s = Stdlib__Printf.sprintf({
-                          TAG: /* Format */ 0,
-                          _0: {
-                            TAG: /* String_literal */ 11,
-                            _0: "scan_int_list",
-                            _1: /* End_of_format */ 0
-                          },
-                          _1: "scan_int_list"
-                        });
-                    throw new Caml_js_exceptions.MelangeError("Failure", {
-                          MEL_EXN_ID: "Failure",
-                          _1: s
-                        });
-                }
-              }));
-          }));
-      }
-    }));
-}
-
-function scan_int_list$4(ib) {
-  Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " [ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: " [ "
-        }), undefined);
-  return Stdlib__List.rev(scan_rest$1(ib, /* [] */ 0));
-}
-
-function test22(param) {
-  if (Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1]")), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        })) {
-    return Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        });
-  } else {
-    return false;
-  }
-}
-
-test("File \"jscomp/test/tscanf_test.ml\", line 506, characters 5-12", test22(undefined));
-
-function scan_elems$5(ib, scan_elem, accu) {
-  try {
-    return Curry._2(scan_elem, ib, (function (i, s) {
-        const accu$1 = {
-          hd: i,
-          tl: accu
-        };
-        if (s === "") {
-          return accu$1;
-        } else {
-          return scan_elems$5(ib, scan_elem, accu$1);
-        }
-      }));
-  }
-  catch (raw_exn){
-    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Scan_char_set */ 20,
+      _0: undefined,
+      _1: "\0\0\0\0\0\0\0\0\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+      _2: /* End_of_format */ 0
+    },
+    _1: "%[]]"
+  }), (function (param) {
+    if (param === "]") {
       return accu;
-    }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-  }
-}
-
-function scan_list(scan_elem, ib) {
-  Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
-  const accu = scan_elems$5(ib, scan_elem, /* [] */ 0);
-  Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
-  return Stdlib__List.rev(accu);
-}
-
-function scan_int_elem(ib) {
-  return Stdlib__Scanf.bscanf(ib, {
+    } else {
+      return Curry._1(Stdlib__Scanf.bscanf(ib, {
         TAG: /* Format */ 0,
         _0: {
           TAG: /* Char_literal */ 12,
@@ -2472,17 +2316,173 @@ function scan_int_elem(ib) {
             _3: {
               TAG: /* Char_literal */ 12,
               _0: /* ' ' */32,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: 1,
-                _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: /* End_of_format */ 0
-              }
+              _1: /* End_of_format */ 0
             }
           }
         },
-        _1: " %i %1[;]"
-      });
+        _1: " %i "
+      }), (function (i) {
+        let accu$1 = {
+          hd: i,
+          tl: accu
+        };
+        return Curry._1(Stdlib__Scanf.bscanf(ib, {
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: /* End_of_format */ 0
+          },
+          _1: "%1[];]"
+        }), (function (param) {
+          switch (param) {
+            case ";" :
+              return scan_rest$1(ib, accu$1);
+            case "]" :
+              return accu$1;
+            default:
+              const s = Stdlib__Printf.sprintf({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "scan_int_list",
+                  _1: /* End_of_format */ 0
+                },
+                _1: "scan_int_list"
+              });
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: s
+                  });
+          }
+        }));
+      }));
+    }
+  }));
+}
+
+function scan_int_list$4(ib) {
+  Curry._1(Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " [ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: " [ "
+  }), undefined);
+  return Stdlib__List.rev(scan_rest$1(ib, /* [] */ 0));
+}
+
+function test22(param) {
+  if (Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1]")), {
+      hd: 1,
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
+          tl: {
+            hd: 4,
+            tl: /* [] */ 0
+          }
+        }
+      }
+    })) {
+    return Caml_obj.caml_equal(scan_int_list$4(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
+          tl: {
+            hd: 4,
+            tl: /* [] */ 0
+          }
+        }
+      }
+    });
+  } else {
+    return false;
+  }
+}
+
+test("File \"jscomp/test/tscanf_test.ml\", line 506, characters 5-12", test22(undefined));
+
+function scan_elems$5(ib, scan_elem, accu) {
+  try {
+    return Curry._2(scan_elem, ib, (function (i, s) {
+      const accu$1 = {
+        hd: i,
+        tl: accu
+      };
+      if (s === "") {
+        return accu$1;
+      } else {
+        return scan_elems$5(ib, scan_elem, accu$1);
+      }
+    }));
+  }
+  catch (raw_exn){
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+      return accu;
+    }
+    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+  }
+}
+
+function scan_list(scan_elem, ib) {
+  Curry._1(Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
+  const accu = scan_elems$5(ib, scan_elem, /* [] */ 0);
+  Curry._1(Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
+  return Stdlib__List.rev(accu);
+}
+
+function scan_int_elem(ib) {
+  return Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: " %i %1[;]"
+  });
 }
 
 function scan_int_list$5(param) {
@@ -2491,34 +2491,34 @@ function scan_int_list$5(param) {
 
 function test23(param) {
   if (Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[1]")), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-          hd: 1,
+      hd: 1,
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(scan_list(scan_int_elem, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2546,59 +2546,59 @@ test24(undefined) && test25(undefined) && test26(undefined) && test27(undefined)
 
 function scan_string_elem(ib) {
   return Stdlib__Scanf.bscanf(ib, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: " \"",
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " \"",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: {
+            TAG: /* Scan_indic */ 2,
+            _0: /* '"' */34
+          },
           _1: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
             _1: {
-              TAG: /* Formatting_lit */ 17,
-              _0: {
-                TAG: /* Scan_indic */ 2,
-                _0: /* '"' */34
-              },
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: 1,
-                  _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                }
-              }
+              TAG: /* Scan_char_set */ 20,
+              _0: 1,
+              _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+              _2: /* End_of_format */ 0
             }
           }
-        },
-        _1: " \"%s@\" %1[;]"
-      });
+        }
+      }
+    },
+    _1: " \"%s@\" %1[;]"
+  });
 }
 
 function scan_String_elem(ib) {
   return Stdlib__Scanf.bscanf(ib, {
-        TAG: /* Format */ 0,
-        _0: {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: {
           TAG: /* Char_literal */ 12,
           _0: /* ' ' */32,
           _1: {
-            TAG: /* Caml_string */ 3,
-            _0: /* No_padding */ 0,
-            _1: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: 1,
-                _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: /* End_of_format */ 0
-              }
-            }
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: /* End_of_format */ 0
           }
-        },
-        _1: " %S %1[;]"
-      });
+        }
+      }
+    },
+    _1: " %S %1[;]"
+  });
 }
 
 function scan_String_list(param) {
@@ -2607,61 +2607,61 @@ function scan_String_list(param) {
 
 function test28(param) {
   if (Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[\"Le\"]")), {
-          hd: "Le",
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
-          hd: "Le",
+      hd: "Le",
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
+      hd: "Le",
+      tl: {
+        hd: "langage",
+        tl: {
+          hd: "Objective",
           tl: {
-            hd: "langage",
-            tl: {
-              hd: "Objective",
-              tl: {
-                hd: "Caml",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "Caml",
+            tl: /* [] */ 0
           }
-        }) && Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"; ]")), {
-          hd: "Le",
+        }
+      }
+    }) && Caml_obj.caml_equal(scan_list(scan_string_elem, Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"; ]")), {
+      hd: "Le",
+      tl: {
+        hd: "langage",
+        tl: {
+          hd: "Objective",
           tl: {
-            hd: "langage",
-            tl: {
-              hd: "Objective",
-              tl: {
-                hd: "Caml",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "Caml",
+            tl: /* [] */ 0
           }
-        }) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[\"Le\"]")), {
-          hd: "Le",
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
-          hd: "Le",
+        }
+      }
+    }) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[\"Le\"]")), {
+      hd: "Le",
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
+      hd: "Le",
+      tl: {
+        hd: "langage",
+        tl: {
+          hd: "Objective",
           tl: {
-            hd: "langage",
-            tl: {
-              hd: "Objective",
-              tl: {
-                hd: "Caml",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "Caml",
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(scan_String_list(Stdlib__Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"; ]")), {
-          hd: "Le",
+      hd: "Le",
+      tl: {
+        hd: "langage",
+        tl: {
+          hd: "Objective",
           tl: {
-            hd: "langage",
-            tl: {
-              hd: "Objective",
-              tl: {
-                hd: "Caml",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "Caml",
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2671,100 +2671,100 @@ test("File \"jscomp/test/tscanf_test.ml\", line 609, characters 5-12", test28(un
 
 function scan_elems$6(ib, scan_elem, accu) {
   return Curry._3(scan_elem, ib, (function (i, s) {
-      const accu$1 = {
-        hd: i,
-        tl: accu
-      };
-      if (s === "") {
-        return accu$1;
-      } else {
-        return scan_elems$6(ib, scan_elem, accu$1);
-      }
-    }), (function (ib, exc) {
-      return accu;
-    }));
+    const accu$1 = {
+      hd: i,
+      tl: accu
+    };
+    if (s === "") {
+      return accu$1;
+    } else {
+      return scan_elems$6(ib, scan_elem, accu$1);
+    }
+  }), (function (ib, exc) {
+    return accu;
+  }));
 }
 
 function scan_list$1(scan_elem, ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   const accu = scan_elems$6(ib, scan_elem, /* [] */ 0);
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
   return Stdlib__List.rev(accu);
 }
 
 function scan_int_elem$1(ib, f, ek) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, ek, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: 1,
-                  _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                }
-              }
-            }
-          },
-          _1: " %i %1[;]"
-        }), f);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: " %i %1[;]"
+  }), f);
 }
 
 function test29(param) {
   if (Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[1]")), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-          hd: 1,
+      hd: 1,
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2774,59 +2774,59 @@ test("File \"jscomp/test/tscanf_test.ml\", line 639, characters 5-12", test29(un
 
 function scan_string_elem$1(ib, f, ek) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, ek, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: {
-              TAG: /* Caml_string */ 3,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: 1,
-                  _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                }
-              }
-            }
-          },
-          _1: " %S %1[;]"
-        }), f);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* ' ' */32,
+      _1: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: /* End_of_format */ 0
+          }
+        }
+      }
+    },
+    _1: " %S %1[;]"
+  }), f);
 }
 
 function test30(param) {
   if (Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
-          hd: "1",
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
-          hd: "1",
+      hd: "1",
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
-          hd: "1",
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2840,57 +2840,57 @@ function scan_elem(fmt, ib, f, ek) {
 
 function scan_elems$7(ib, scan_elem, accu) {
   return Curry._3(scan_elem, ib, (function (i) {
-      const accu$1 = {
-        hd: i,
-        tl: accu
-      };
-      return Curry._1(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-              return accu$1;
-            }), {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: 1,
-                  _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: /* End_of_format */ 0
-                }
-              },
-              _1: " %1[;]"
-            }), (function (s) {
-          if (s === "") {
-            return accu$1;
-          } else {
-            return scan_elems$7(ib, scan_elem, accu$1);
-          }
-        }));
-    }), (function (ib, exc) {
-      return accu;
+    const accu$1 = {
+      hd: i,
+      tl: accu
+    };
+    return Curry._1(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
+      return accu$1;
+    }), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: 1,
+          _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: /* End_of_format */ 0
+        }
+      },
+      _1: " %1[;]"
+    }), (function (s) {
+      if (s === "") {
+        return accu$1;
+      } else {
+        return scan_elems$7(ib, scan_elem, accu$1);
+      }
     }));
+  }), (function (ib, exc) {
+    return accu;
+  }));
 }
 
 function scan_list$2(scan_elem, ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   const accu = scan_elems$7(ib, scan_elem, /* [] */ 0);
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
   return Stdlib__List.rev(accu);
 }
 
@@ -2942,34 +2942,34 @@ function scan_string_list(param) {
 
 function test31(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1]")), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
-          hd: 1,
+      hd: 1,
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -2979,34 +2979,34 @@ test("File \"jscomp/test/tscanf_test.ml\", line 714, characters 5-12", test31(un
 
 function test32(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
-          hd: "1",
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
-          hd: "1",
+      hd: "1",
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
-          hd: "1",
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -3016,59 +3016,59 @@ test("File \"jscomp/test/tscanf_test.ml\", line 728, characters 5-12", test32(un
 
 function scan_elems$8(ib, scan_elem_fmt, accu) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-          return accu;
-        }), scan_elem_fmt), (function (i) {
-      const accu$1 = {
-        hd: i,
-        tl: accu
-      };
-      return Curry._1(Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Scan_char_set */ 20,
-                  _0: 1,
-                  _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                  _2: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              },
-              _1: " %1[;] "
-            }), (function (param) {
-          if (param === "") {
-            return accu$1;
-          } else {
-            return scan_elems$8(ib, scan_elem_fmt, accu$1);
+    return accu;
+  }), scan_elem_fmt), (function (i) {
+    const accu$1 = {
+      hd: i,
+      tl: accu
+    };
+    return Curry._1(Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: 1,
+          _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: /* End_of_format */ 0
           }
-        }));
+        }
+      },
+      _1: " %1[;] "
+    }), (function (param) {
+      if (param === "") {
+        return accu$1;
+      } else {
+        return scan_elems$8(ib, scan_elem_fmt, accu$1);
+      }
     }));
+  }));
 }
 
 function scan_list$3(scan_elem_fmt, ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   const accu = scan_elems$8(ib, scan_elem_fmt, /* [] */ 0);
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
   return Stdlib__List.rev(accu);
 }
 
@@ -3104,34 +3104,34 @@ function scan_string_list$1(param) {
 
 function test33(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1 ]")), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
-          hd: 1,
+      hd: 1,
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
-          hd: 1,
+      hd: 1,
+      tl: {
+        hd: 2,
+        tl: {
+          hd: 3,
           tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
+            hd: 4,
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -3141,34 +3141,34 @@ test("File \"jscomp/test/tscanf_test.ml\", line 773, characters 5-12", test33(un
 
 function test34(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
-          hd: "1",
-          tl: /* [] */ 0
-        }) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
-          hd: "1",
+      hd: "1",
+      tl: /* [] */ 0
+    }) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        })) {
+        }
+      }
+    })) {
     return Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
-          hd: "1",
+      hd: "1",
+      tl: {
+        hd: "2",
+        tl: {
+          hd: "3",
           tl: {
-            hd: "2",
-            tl: {
-              hd: "3",
-              tl: {
-                hd: "4",
-                tl: /* [] */ 0
-              }
-            }
+            hd: "4",
+            tl: /* [] */ 0
           }
-        });
+        }
+      }
+    });
   } else {
     return false;
   }
@@ -3178,191 +3178,191 @@ test("File \"jscomp/test/tscanf_test.ml\", line 787, characters 5-12", test34(un
 
 function scan_elems$9(scan_elem, accu, ib) {
   return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-          return accu;
-        }), {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Reader */ 19,
-            _0: /* End_of_format */ 0
-          },
-          _1: "%r"
-        }), (function (ib) {
-      return Curry._2(scan_elem, ib, (function (elem) {
-          const accu$1 = {
-            hd: elem,
-            tl: accu
-          };
-          return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ' ' */32,
-                    _1: {
-                      TAG: /* Scan_char_set */ 20,
-                      _0: 1,
-                      _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                      _2: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: " %1[;] "
-                }), (function (param) {
-              if (param === "") {
-                return accu$1;
-              } else {
-                return scan_elems$9(scan_elem, accu$1, ib);
-              }
-            }));
-        }));
-    }), (function (l) {
-      return l;
+    return accu;
+  }), {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Reader */ 19,
+      _0: /* End_of_format */ 0
+    },
+    _1: "%r"
+  }), (function (ib) {
+    return Curry._2(scan_elem, ib, (function (elem) {
+      const accu$1 = {
+        hd: elem,
+        tl: accu
+      };
+      return Curry._1(Stdlib__Scanf.bscanf(ib, {
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: /* End_of_format */ 0
+            }
+          }
+        },
+        _1: " %1[;] "
+      }), (function (param) {
+        if (param === "") {
+          return accu$1;
+        } else {
+          return scan_elems$9(scan_elem, accu$1, ib);
+        }
+      }));
     }));
+  }), (function (l) {
+    return l;
+  }));
 }
 
 function scan_list$4(scan_elem, ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: /* End_of_format */ 0
-          },
-          _1: "[ "
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: /* End_of_format */ 0
+    },
+    _1: "[ "
+  }), undefined);
   const accu = scan_elems$9(scan_elem, /* [] */ 0, ib);
   Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: " ]",
-            _1: /* End_of_format */ 0
-          },
-          _1: " ]"
-        }), undefined);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: " ]",
+      _1: /* End_of_format */ 0
+    },
+    _1: " ]"
+  }), undefined);
   return Stdlib__List.rev(accu);
 }
 
 function scan_float(ib) {
   return Stdlib__Scanf.bscanf(ib, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* Float */ 8,
-          _0: [
-            /* Float_flag_ */ 0,
-            /* Float_f */ 0
-          ],
-          _1: /* No_padding */ 0,
-          _2: /* No_precision */ 0,
-          _3: /* End_of_format */ 0
-        },
-        _1: "%f"
-      });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Float */ 8,
+      _0: [
+        /* Float_flag_ */ 0,
+        /* Float_f */ 0
+      ],
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%f"
+  });
 }
 
 function scan_int_list$8(param) {
   return scan_list$4((function (ib) {
-        return Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Int */ 4,
-                _0: /* Int_i */ 3,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: /* End_of_format */ 0
-              },
-              _1: "%i"
-            });
-      }), param);
+    return Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%i"
+    });
+  }), param);
 }
 
 function scan_string_list$2(param) {
   return scan_list$4((function (ib) {
-        return Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Caml_string */ 3,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              },
-              _1: "%S"
-            });
-      }), param);
+    return Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_string */ 3,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%S"
+    });
+  }), param);
 }
 
 function scan_bool_list(param) {
   return scan_list$4((function (ib) {
-        return Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Bool */ 9,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              },
-              _1: "%B"
-            });
-      }), param);
+    return Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%B"
+    });
+  }), param);
 }
 
 function scan_char_list(param) {
   return scan_list$4((function (ib) {
-        return Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Caml_char */ 1,
-                _0: /* End_of_format */ 0
-              },
-              _1: "%C"
-            });
-      }), param);
+    return Stdlib__Scanf.bscanf(ib, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Caml_char */ 1,
+        _0: /* End_of_format */ 0
+      },
+      _1: "%C"
+    });
+  }), param);
 }
 
 function scan_float_list_list(param) {
   return scan_list$4((function (ib, k) {
-        return Curry._1(k, scan_list$4(scan_float, ib));
-      }), param);
+    return Curry._1(k, scan_list$4(scan_float, ib));
+  }), param);
 }
 
 function test340(param) {
   return Caml_obj.caml_equal(scan_float_list_list(Stdlib__Scanf.Scanning.from_string("[[1.0] ; []; [2.0; 3; 5.0; 6.];]")), {
+    hd: {
+      hd: 1,
+      tl: /* [] */ 0
+    },
+    tl: {
+      hd: /* [] */ 0,
+      tl: {
         hd: {
-          hd: 1,
-          tl: /* [] */ 0
-        },
-        tl: {
-          hd: /* [] */ 0,
+          hd: 2,
           tl: {
-            hd: {
-              hd: 2,
+            hd: 3,
+            tl: {
+              hd: 5,
               tl: {
-                hd: 3,
-                tl: {
-                  hd: 5,
-                  tl: {
-                    hd: 6,
-                    tl: /* [] */ 0
-                  }
-                }
+                hd: 6,
+                tl: /* [] */ 0
               }
-            },
-            tl: /* [] */ 0
+            }
           }
-        }
-      });
+        },
+        tl: /* [] */ 0
+      }
+    }
+  });
 }
 
 function scan_list_list(scan_elems, ib) {
   return scan_list$4((function (ib, k) {
-        return Curry._1(k, Curry._1(scan_elems, ib));
-      }), ib);
+    return Curry._1(k, Curry._1(scan_elems, ib));
+  }), ib);
 }
 
 function scan_float_item(ib, k) {
   return Curry._1(k, Curry._1(scan_float(ib), (function (x) {
-        return x;
-      })));
+    return x;
+  })));
 }
 
 function scan_float_list(ib, k) {
@@ -3375,75 +3375,75 @@ function scan_float_list_list$1(ib, k) {
 
 function test35(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_get_counter */ 21,
-              _0: /* Token_counter */ 2,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%N"
-          }), (function (x) {
-        return x;
-      })) === 0 && Curry._1(Stdlib__Scanf.sscanf("456", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_get_counter */ 21,
-              _0: /* Token_counter */ 2,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%N"
-          }), (function (x) {
-        return x;
-      })) === 0 && Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf("456", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_d */ 0,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Scan_get_counter */ 21,
-                    _0: /* Token_counter */ 2,
-                    _1: /* End_of_format */ 0
-                  }
-                },
-                _1: "%d%N"
-              }), (function (x, y) {
-            return [
-              x,
-              y
-            ];
-          })), [
-          456,
-          1
-        ])) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Token_counter */ 2,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%N"
+    }), (function (x) {
+      return x;
+    })) === 0 && Curry._1(Stdlib__Scanf.sscanf("456", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Token_counter */ 2,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%N"
+    }), (function (x) {
+      return x;
+    })) === 0 && Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf("456", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Scan_get_counter */ 21,
+          _0: /* Token_counter */ 2,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%d%N"
+    }), (function (x, y) {
+      return [
+        x,
+        y
+      ];
+    })), [
+      456,
+      1
+    ])) {
     return Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf(" ", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Scan_get_counter */ 21,
-                  _0: /* Token_counter */ 2,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Scan_get_counter */ 21,
-                      _0: /* Token_counter */ 2,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "%N%s%N"
-              }), (function (x, s, y) {
-            return [
-              x,
-              s,
-              y
-            ];
-          })), [
-          0,
-          "",
-          1
-        ]);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Token_counter */ 2,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Scan_get_counter */ 21,
+            _0: /* Token_counter */ 2,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%N%s%N"
+    }), (function (x, s, y) {
+      return [
+        x,
+        s,
+        y
+      ];
+    })), [
+      0,
+      "",
+      1
+    ]);
   } else {
     return false;
   }
@@ -3453,60 +3453,60 @@ test("File \"jscomp/test/tscanf_test.ml\", line 940, characters 5-12", test340(u
 
 function read_elems(read_elem, accu, ib) {
   return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-          return accu;
-        }), {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Reader */ 19,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: 1,
-                _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            }
-          },
-          _1: "%r %1[;] "
-        }), Curry._1(read_elem, (function (elem) {
-        return {
-          hd: elem,
-          tl: accu
-        };
-      })), (function (accu, s) {
-      if (s === "") {
-        return accu;
-      } else {
-        return read_elems(read_elem, accu, ib);
+    return accu;
+  }), {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Reader */ 19,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: 1,
+          _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: /* End_of_format */ 0
+          }
+        }
       }
-    }));
+    },
+    _1: "%r %1[;] "
+  }), Curry._1(read_elem, (function (elem) {
+    return {
+      hd: elem,
+      tl: accu
+    };
+  })), (function (accu, s) {
+    if (s === "") {
+      return accu;
+    } else {
+      return read_elems(read_elem, accu, ib);
+    }
+  }));
 }
 
 function read_list(read_elem, ib) {
   return Curry._2(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "[ ",
-            _1: {
-              TAG: /* Reader */ 19,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: " ]",
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "[ %r ]"
-        }), (function (param) {
-      return read_elems(read_elem, /* [] */ 0, param);
-    }), Stdlib__List.rev);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "[ ",
+      _1: {
+        TAG: /* Reader */ 19,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: " ]",
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "[ %r ]"
+  }), (function (param) {
+    return read_elems(read_elem, /* [] */ 0, param);
+  }), Stdlib__List.rev);
 }
 
 function make_read_elem(fmt, f, ib) {
@@ -3516,82 +3516,82 @@ function make_read_elem(fmt, f, ib) {
 function scan_List(fmt) {
   return function (param) {
     return read_list((function (param, param$1) {
-          return Curry._1(Stdlib__Scanf.bscanf(param$1, fmt), param);
-        }), param);
+      return Curry._1(Stdlib__Scanf.bscanf(param$1, fmt), param);
+    }), param);
   };
 }
 
 function test36(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_get_counter */ 21,
-              _0: /* Char_counter */ 1,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%n"
-          }), (function (x) {
-        return x;
-      })) === 0 && Curry._1(Stdlib__Scanf.sscanf("456", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_get_counter */ 21,
-              _0: /* Char_counter */ 1,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%n"
-          }), (function (x) {
-        return x;
-      })) === 0 && Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf("456", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_d */ 0,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Scan_get_counter */ 21,
-                    _0: /* Char_counter */ 1,
-                    _1: /* End_of_format */ 0
-                  }
-                },
-                _1: "%d%n"
-              }), (function (x, y) {
-            return [
-              x,
-              y
-            ];
-          })), [
-          456,
-          3
-        ])) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Char_counter */ 1,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%n"
+    }), (function (x) {
+      return x;
+    })) === 0 && Curry._1(Stdlib__Scanf.sscanf("456", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Char_counter */ 1,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%n"
+    }), (function (x) {
+      return x;
+    })) === 0 && Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf("456", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Scan_get_counter */ 21,
+          _0: /* Char_counter */ 1,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%d%n"
+    }), (function (x, y) {
+      return [
+        x,
+        y
+      ];
+    })), [
+      456,
+      3
+    ])) {
     return Caml_obj.caml_equal(Curry._1(Stdlib__Scanf.sscanf(" ", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Scan_get_counter */ 21,
-                  _0: /* Char_counter */ 1,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Scan_get_counter */ 21,
-                      _0: /* Char_counter */ 1,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "%n%s%n"
-              }), (function (x, s, y) {
-            return [
-              x,
-              s,
-              y
-            ];
-          })), [
-          0,
-          "",
-          0
-        ]);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_get_counter */ 21,
+        _0: /* Char_counter */ 1,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Scan_get_counter */ 21,
+            _0: /* Char_counter */ 1,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%n%s%n"
+    }), (function (x, s, y) {
+      return [
+        x,
+        s,
+        y
+      ];
+    })), [
+      0,
+      "",
+      0
+    ]);
   } else {
     return false;
   }
@@ -3601,23 +3601,23 @@ test("File \"jscomp/test/tscanf_test.ml\", line 995, characters 5-12", test36(un
 
 function test37(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: /* End_of_format */ 0,
-            _1: ""
-          }), true) && Curry._2(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: /* End_of_format */ 0,
-            _1: ""
-          }), (function (x) {
-        return x;
-      }), 1) === 1) {
+      TAG: /* Format */ 0,
+      _0: /* End_of_format */ 0,
+      _1: ""
+    }), true) && Curry._2(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: /* End_of_format */ 0,
+      _1: ""
+    }), (function (x) {
+      return x;
+    }), 1) === 1) {
     return Curry._2(Stdlib__Scanf.sscanf("123", {
-            TAG: /* Format */ 0,
-            _0: /* End_of_format */ 0,
-            _1: ""
-          }), (function (x) {
-        return x;
-      }), 1) === 1;
+      TAG: /* Format */ 0,
+      _0: /* End_of_format */ 0,
+      _1: ""
+    }), (function (x) {
+      return x;
+    }), 1) === 1;
   } else {
     return false;
   }
@@ -3627,97 +3627,97 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1005, characters 5-12", test37(u
 
 function test38(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("a", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* 'a' */97,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            },
-            _1: "a%!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf("a", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* 'a' */97,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: {
-                  TAG: /* Flush */ 10,
-                  _0: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "a%!%!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf(" a", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: " a",
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            },
-            _1: " a%!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf("a ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "a ",
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            },
-            _1: "a %!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Flush */ 10,
-              _0: /* End_of_format */ 0
-            },
-            _1: "%!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf(" ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            },
-            _1: " %!"
-          }), true) && Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            },
-            _1: " %!"
-          }), true)) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* 'a' */97,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
+      },
+      _1: "a%!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf("a", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* 'a' */97,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: {
+            TAG: /* Flush */ 10,
+            _0: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "a%!%!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf(" a", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: " a",
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
+      },
+      _1: " a%!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf("a ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "a ",
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
+      },
+      _1: "a %!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Flush */ 10,
+        _0: /* End_of_format */ 0
+      },
+      _1: "%!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf(" ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
+      },
+      _1: " %!"
+    }), true) && Curry._1(Stdlib__Scanf.sscanf("", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
+      },
+      _1: " %!"
+    }), true)) {
     return Curry._1(Stdlib__Scanf.sscanf("", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: {
-                  TAG: /* Flush */ 10,
-                  _0: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: " %!%!"
-          }), true);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: {
+            TAG: /* Flush */ 10,
+            _0: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %!%!"
+    }), true);
   } else {
     return false;
   }
@@ -3746,28 +3746,28 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1036, characters 5-12", test39(u
 function test40(param) {
   const ib = Stdlib__Scanf.Scanning.from_string("cba");
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Scan_char_set */ 20,
-            _0: undefined,
-            _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf9\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-            _2: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "%[^ab]%s%!"
-        }), (function (s1, s2) {
-      if (s1 === "c") {
-        return s2 === "ba";
-      } else {
-        return false;
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Scan_char_set */ 20,
+      _0: undefined,
+      _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf9\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+      _2: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
       }
-    }));
+    },
+    _1: "%[^ab]%s%!"
+  }), (function (s1, s2) {
+    if (s1 === "c") {
+      return s2 === "ba";
+    } else {
+      return false;
+    }
+  }));
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 1046, characters 5-12", test40(undefined));
@@ -3775,29 +3775,29 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1046, characters 5-12", test40(u
 function test41(param) {
   const ib = Stdlib__Scanf.Scanning.from_string("cba");
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Scan_char_set */ 20,
-            _0: undefined,
-            _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-            _2: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* Flush */ 10,
-                _0: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "%[^abc]%[cba]%!"
-        }), (function (s1, s2) {
-      if (s1 === "") {
-        return s2 === "cba";
-      } else {
-        return false;
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Scan_char_set */ 20,
+      _0: undefined,
+      _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+      _2: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* Flush */ 10,
+          _0: /* End_of_format */ 0
+        }
       }
-    }));
+    },
+    _1: "%[^abc]%[cba]%!"
+  }), (function (s1, s2) {
+    if (s1 === "") {
+      return s2 === "cba";
+    } else {
+      return false;
+    }
+  }));
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 1055, characters 5-12", test41(undefined));
@@ -3806,54 +3806,54 @@ function test42(param) {
   const s = "defcbaaghi";
   const ib = Stdlib__Scanf.Scanning.from_string(s);
   if (!Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-              _2: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%[^abc]%[abc]%s%!"
-          }), (function (s1, s2, s3) {
-        if (s1 === "def" && s2 === "cbaa") {
-          return s3 === "ghi";
-        } else {
-          return false;
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+        _2: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
+            }
+          }
         }
-      }))) {
+      },
+      _1: "%[^abc]%[abc]%s%!"
+    }), (function (s1, s2, s3) {
+      if (s1 === "def" && s2 === "cbaa") {
+        return s3 === "ghi";
+      } else {
+        return false;
+      }
+    }))) {
     return false;
   }
   const ib$1 = Stdlib__Scanf.Scanning.from_string(s);
   return Curry._1(Stdlib__Scanf.bscanf(ib$1, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: {
-              TAG: /* Formatting_lit */ 17,
-              _0: {
-                TAG: /* Scan_indic */ 2,
-                _0: /* '\t' */9
-              },
-              _1: /* End_of_format */ 0
-            }
-          },
-          _1: "%s@\t"
-        }), (function (s) {
-      return s === "defcbaaghi";
-    }));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Formatting_lit */ 17,
+        _0: {
+          TAG: /* Scan_indic */ 2,
+          _0: /* '\t' */9
+        },
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "%s@\t"
+  }), (function (s) {
+    return s === "defcbaaghi";
+  }));
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 1067, characters 5-12", test42(undefined));
@@ -3862,176 +3862,176 @@ const ib$1 = Stdlib__Scanf.Scanning.from_string("");
 
 function test43(param) {
   return Curry._1(Stdlib__Scanf.bscanf(ib$1, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: {
-              TAG: /* Flush */ 10,
-              _0: /* End_of_format */ 0
-            }
-          },
-          _1: "%i%!"
-        }), (function (i) {
-      return i;
-    }));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: {
+        TAG: /* Flush */ 10,
+        _0: /* End_of_format */ 0
+      }
+    },
+    _1: "%i%!"
+  }), (function (i) {
+    return i;
+  }));
 }
 
 function test44(param) {
   return Curry._1(Stdlib__Scanf.bscanf(ib$1, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Flush */ 10,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            }
-          },
-          _1: "%!%i"
-        }), (function (i) {
-      return i;
-    }));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Flush */ 10,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      }
+    },
+    _1: "%!%i"
+  }), (function (i) {
+    return i;
+  }));
 }
 
 Testing.test_raises_this_exc({
-        MEL_EXN_ID: Stdlib.End_of_file
-      })(test43, undefined) && Testing.test_raises_this_exc({
-        MEL_EXN_ID: Stdlib.End_of_file
-      })(test44, undefined);
+  MEL_EXN_ID: Stdlib.End_of_file
+})(test43, undefined) && Testing.test_raises_this_exc({
+  MEL_EXN_ID: Stdlib.End_of_file
+})(test44, undefined);
 
 function test45(param) {
   const ib = Stdlib__Scanf.Scanning.from_string("12.2");
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Scan_char_set */ 20,
-            _0: undefined,
-            _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-            _2: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '.' */46,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Scan_char_set */ 20,
+      _0: undefined,
+      _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+      _2: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '.' */46,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
             }
-          },
-          _1: "%[0-9].%[0-9]%s%!"
-        }), (function (s1, s2, s3) {
-      if (s1 === "12" && s2 === "2") {
-        return s3 === "";
-      } else {
-        return false;
+          }
+        }
       }
-    }));
+    },
+    _1: "%[0-9].%[0-9]%s%!"
+  }), (function (s1, s2, s3) {
+    if (s1 === "12" && s2 === "2") {
+      return s3 === "";
+    } else {
+      return false;
+    }
+  }));
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 1090, characters 5-12", test45(undefined));
 
 function test46(param) {
   return Curry._3(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: {
-                TAG: /* Format_subst */ 14,
-                _0: undefined,
-                _1: {
-                  TAG: /* String_ty */ 1,
-                  _0: /* End_of_fmtty */ 0
-                },
-                _2: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '.' */46,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            }
-          },
-          _1: "%i %(%s%)."
-        }), 1, {
-      TAG: /* Format */ 0,
-      _0: {
-        TAG: /* String_literal */ 11,
-        _0: "spells one, ",
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
         _1: {
-          TAG: /* String */ 2,
-          _0: /* No_padding */ 0,
-          _1: /* End_of_format */ 0
+          TAG: /* Format_subst */ 14,
+          _0: undefined,
+          _1: {
+            TAG: /* String_ty */ 1,
+            _0: /* End_of_fmtty */ 0
+          },
+          _2: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '.' */46,
+            _1: /* End_of_format */ 0
+          }
         }
-      },
-      _1: "spells one, %s"
-    }, "in english");
+      }
+    },
+    _1: "%i %(%s%)."
+  }), 1, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "spells one, ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "spells one, %s"
+  }, "in english");
 }
 
 function test47(param) {
   return Curry._3(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Int */ 4,
+      _0: /* Int_i */ 3,
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Format_arg */ 13,
+          _0: undefined,
+          _1: {
+            TAG: /* String_ty */ 1,
+            _0: /* End_of_fmtty */ 0
+          },
+          _2: {
+            TAG: /* String_literal */ 11,
+            _0: ", ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
               _1: {
-                TAG: /* Format_arg */ 13,
-                _0: undefined,
-                _1: {
-                  TAG: /* String_ty */ 1,
-                  _0: /* End_of_fmtty */ 0
-                },
-                _2: {
-                  TAG: /* String_literal */ 11,
-                  _0: ", ",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* '.' */46,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                }
+                TAG: /* Char_literal */ 12,
+                _0: /* '.' */46,
+                _1: /* End_of_format */ 0
               }
             }
-          },
-          _1: "%i %{%s%}, %s."
-        }), 1, {
-      TAG: /* Format */ 0,
-      _0: {
-        TAG: /* String_literal */ 11,
-        _0: "spells one ",
-        _1: {
-          TAG: /* String */ 2,
-          _0: /* No_padding */ 0,
-          _1: /* End_of_format */ 0
+          }
         }
-      },
-      _1: "spells one %s"
-    }, "in english");
+      }
+    },
+    _1: "%i %{%s%}, %s."
+  }), 1, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "spells one ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "spells one %s"
+  }, "in english");
 }
 
 test("File \"jscomp/test/tscanf_test.ml\", line 1104, characters 5-12", test46(undefined) === "1 spells one, in english.");
@@ -4057,16 +4057,63 @@ function test48(param) {
     return false;
   }
   if (!test_meta_read("%i", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_d */ 0,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%d"
-        }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%d"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%i"
+    })) {
+    return false;
+  }
+  if (!Curry._1(Stdlib__Scanf.sscanf("12 \"%i\"89 ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Format_arg */ 13,
+            _0: undefined,
+            _1: {
+              TAG: /* Int_ty */ 2,
+              _0: /* End_of_fmtty */ 0
+            },
+            _2: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: {
+                  TAG: /* Flush */ 10,
+                  _0: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%i %{%d%}%s %!"
+    }), (function (i, f, s) {
+      if (i === 12 && Caml_obj.caml_equal(f, {
           TAG: /* Format */ 0,
           _0: {
             TAG: /* Int */ 4,
@@ -4077,76 +4124,29 @@ function test48(param) {
           },
           _1: "%i"
         })) {
-    return false;
-  }
-  if (!Curry._1(Stdlib__Scanf.sscanf("12 \"%i\"89 ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Format_arg */ 13,
-                  _0: undefined,
-                  _1: {
-                    TAG: /* Int_ty */ 2,
-                    _0: /* End_of_fmtty */ 0
-                  },
-                  _2: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* Flush */ 10,
-                        _0: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            _1: "%i %{%d%}%s %!"
-          }), (function (i, f, s) {
-        if (i === 12 && Caml_obj.caml_equal(f, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: /* End_of_format */ 0
-                },
-                _1: "%i"
-              })) {
-          return s === "89";
-        } else {
-          return false;
-        }
-      }))) {
+        return s === "89";
+      } else {
+        return false;
+      }
+    }))) {
     return false;
   }
   const k = function (s) {
     return Curry._1(Stdlib__Scanf.sscanf(s, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Format_subst */ 14,
-              _0: undefined,
-              _1: {
-                TAG: /* Float_ty */ 6,
-                _0: /* End_of_fmtty */ 0
-              },
-              _2: /* End_of_format */ 0
-            },
-            _1: "%(%f%)"
-          }), (function (_fmt, i) {
-        return i;
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Format_subst */ 14,
+        _0: undefined,
+        _1: {
+          TAG: /* Float_ty */ 6,
+          _0: /* End_of_fmtty */ 0
+        },
+        _2: /* End_of_format */ 0
+      },
+      _1: "%(%f%)"
+    }), (function (_fmt, i) {
+      return i;
+    }));
   };
   if (k("\" : %1f\": 987654321") !== 9.0) {
     return false;
@@ -4162,24 +4162,24 @@ function test48(param) {
   }
   const h = function (s) {
     return Curry._1(Stdlib__Scanf.sscanf(s, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "Read integers with ",
-              _1: {
-                TAG: /* Format_subst */ 14,
-                _0: undefined,
-                _1: {
-                  TAG: /* Int_ty */ 2,
-                  _0: /* End_of_fmtty */ 0
-                },
-                _2: /* End_of_format */ 0
-              }
-            },
-            _1: "Read integers with %(%i%)"
-          }), (function (_fmt, i) {
-        return i;
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Read integers with ",
+        _1: {
+          TAG: /* Format_subst */ 14,
+          _0: undefined,
+          _1: {
+            TAG: /* Int_ty */ 2,
+            _0: /* End_of_fmtty */ 0
+          },
+          _2: /* End_of_format */ 0
+        }
+      },
+      _1: "Read integers with %(%i%)"
+    }), (function (_fmt, i) {
+      return i;
+    }));
   };
   if (h("Read integers with \"%1d\"987654321") !== 9) {
     return false;
@@ -4195,96 +4195,96 @@ function test48(param) {
   }
   const i = function (s) {
     return Curry._1(Stdlib__Scanf.sscanf(s, {
-            TAG: /* Format */ 0,
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "with ",
+        _1: {
+          TAG: /* Format_subst */ 14,
+          _0: undefined,
+          _1: {
+            TAG: /* Int_ty */ 2,
             _0: {
-              TAG: /* String_literal */ 11,
-              _0: "with ",
-              _1: {
-                TAG: /* Format_subst */ 14,
-                _0: undefined,
-                _1: {
-                  TAG: /* Int_ty */ 2,
-                  _0: {
-                    TAG: /* String_ty */ 1,
-                    _0: /* End_of_fmtty */ 0
-                  }
-                },
-                _2: /* End_of_format */ 0
-              }
-            },
-            _1: "with %(%i %s%)"
-          }), (function (_fmt, amount, currency) {
-        return [
-          amount,
-          currency
-        ];
-      }));
+              TAG: /* String_ty */ 1,
+              _0: /* End_of_fmtty */ 0
+            }
+          },
+          _2: /* End_of_format */ 0
+        }
+      },
+      _1: "with %(%i %s%)"
+    }), (function (_fmt, amount, currency) {
+      return [
+        amount,
+        currency
+      ];
+    }));
   };
   if (!Caml_obj.caml_equal(i("with \" : %d %s\" :        21 euros"), [
-          21,
-          "euros"
-        ])) {
+      21,
+      "euros"
+    ])) {
     return false;
   }
   if (!Caml_obj.caml_equal(i("with \" : %d %s\" : 987654321 dollars"), [
-          987654321,
-          "dollars"
-        ])) {
+      987654321,
+      "dollars"
+    ])) {
     return false;
   }
   if (!Caml_obj.caml_equal(i("with \" : %u %s\" :     54321 pounds"), [
-          54321,
-          "pounds"
-        ])) {
+      54321,
+      "pounds"
+    ])) {
     return false;
   }
   if (!Caml_obj.caml_equal(i("with \" : %x %s\" :       321 yens"), [
-          801,
-          "yens"
-        ])) {
+      801,
+      "yens"
+    ])) {
     return false;
   }
   const j = function (s) {
     return Curry._1(Stdlib__Scanf.sscanf(s, {
-            TAG: /* Format */ 0,
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "with ",
+        _1: {
+          TAG: /* Format_subst */ 14,
+          _0: undefined,
+          _1: {
+            TAG: /* Int_ty */ 2,
             _0: {
-              TAG: /* String_literal */ 11,
-              _0: "with ",
-              _1: {
-                TAG: /* Format_subst */ 14,
-                _0: undefined,
-                _1: {
-                  TAG: /* Int_ty */ 2,
-                  _0: {
-                    TAG: /* String_ty */ 1,
-                    _0: /* End_of_fmtty */ 0
-                  }
-                },
-                _2: /* End_of_format */ 0
-              }
-            },
-            _1: "with %(%i %_s %s%)"
-          }), (function (_fmt, amount, currency) {
-        return [
-          amount,
-          currency
-        ];
-      }));
+              TAG: /* String_ty */ 1,
+              _0: /* End_of_fmtty */ 0
+            }
+          },
+          _2: /* End_of_format */ 0
+        }
+      },
+      _1: "with %(%i %_s %s%)"
+    }), (function (_fmt, amount, currency) {
+      return [
+        amount,
+        currency
+      ];
+    }));
   };
   if (Caml_obj.caml_equal(j("with \" : %1d %_s %s\" : 987654321 euros"), [
-          9,
-          "euros"
-        ]) && Caml_obj.caml_equal(j("with \" : %2d %_s %s\" : 987654321 dollars"), [
-          98,
-          "dollars"
-        ]) && Caml_obj.caml_equal(j("with \" : %3u %_s %s\" : 987654321 pounds"), [
-          987,
-          "pounds"
-        ])) {
+      9,
+      "euros"
+    ]) && Caml_obj.caml_equal(j("with \" : %2d %_s %s\" : 987654321 dollars"), [
+      98,
+      "dollars"
+    ]) && Caml_obj.caml_equal(j("with \" : %3u %_s %s\" : 987654321 pounds"), [
+      987,
+      "pounds"
+    ])) {
     return Caml_obj.caml_equal(j("with \" : %4x %_s %s\" : 987654321 yens"), [
-          39030,
-          "yens"
-        ]);
+      39030,
+      "yens"
+    ]);
   } else {
     return false;
   }
@@ -4294,213 +4294,213 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1157, characters 5-12", test48(u
 
 function test49(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: /* End_of_format */ 0
-            },
-            _1: "%[\\]"
-          }), (function (s) {
-        return s === "";
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[\\]%s"
-          }), (function (s, t) {
-        return s === "" ? t === "as" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Flush */ 10,
-                  _0: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%[\\]%s%!"
-          }), (function (s, t) {
-        return s === "" ? t === "as" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0@\0\0\0\0\0\0\x02\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: /* End_of_format */ 0
-            },
-            _1: "%[a..z]"
-          }), (function (s) {
-        return s === "a";
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: /* End_of_format */ 0
-            },
-            _1: "%[a-z]"
-          }), (function (s) {
-        return s === "as";
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0@\0\0\0\0\0\0\x02\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[a..z]%s"
-          }), (function (s, t) {
-        return s === "a" ? t === "s" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[a-z]%s"
-          }), (function (s, t) {
-        return s === "as" ? t === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0 \0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: /* End_of_format */ 0
-            },
-            _1: "%[-a-z]"
-          }), (function (s) {
-        return s === "-as";
-      })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0 \0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* Formatting_lit */ 17,
-                _0: {
-                  TAG: /* Scan_indic */ 2,
-                  _0: /* 's' */115
-                },
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[-a-z]@s"
-          }), (function (s) {
-        return s === "-a";
-      })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '-' */45,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: {
-                    TAG: /* Scan_indic */ 2,
-                    _0: /* 's' */115
-                  },
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "-%[a]@s"
-          }), (function (s) {
-        return s === "a";
-      })) && Curry._1(Stdlib__Scanf.sscanf("-asb", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '-' */45,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: {
-                    TAG: /* Scan_indic */ 2,
-                    _0: /* 's' */115
-                  },
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* 'b' */98,
-                    _1: {
-                      TAG: /* Flush */ 10,
-                      _0: /* End_of_format */ 0
-                    }
-                  }
-                }
-              }
-            },
-            _1: "-%[a]@sb%!"
-          }), (function (s) {
-        return s === "a";
-      }))) {
-    return Curry._1(Stdlib__Scanf.sscanf("-asb", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '-' */45,
-              _1: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-                _2: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: {
-                    TAG: /* Scan_indic */ 2,
-                    _0: /* 's' */115
-                  },
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "-%[a]@s%s"
-          }), (function (s, t) {
-        if (s === "a") {
-          return t === "b";
-        } else {
-          return false;
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: /* End_of_format */ 0
+      },
+      _1: "%[\\]"
+    }), (function (s) {
+      return s === "";
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
         }
-      }));
+      },
+      _1: "%[\\]%s"
+    }), (function (s, t) {
+      return s === "" ? t === "as" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Flush */ 10,
+            _0: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%[\\]%s%!"
+    }), (function (s, t) {
+      return s === "" ? t === "as" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0@\0\0\0\0\0\0\x02\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: /* End_of_format */ 0
+      },
+      _1: "%[a..z]"
+    }), (function (s) {
+      return s === "a";
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: /* End_of_format */ 0
+      },
+      _1: "%[a-z]"
+    }), (function (s) {
+      return s === "as";
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0@\0\0\0\0\0\0\x02\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%[a..z]%s"
+    }), (function (s, t) {
+      return s === "a" ? t === "s" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%[a-z]%s"
+    }), (function (s, t) {
+      return s === "as" ? t === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0 \0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: /* End_of_format */ 0
+      },
+      _1: "%[-a-z]"
+    }), (function (s) {
+      return s === "-as";
+    })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0 \0\0\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* Formatting_lit */ 17,
+          _0: {
+            TAG: /* Scan_indic */ 2,
+            _0: /* 's' */115
+          },
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%[-a-z]@s"
+    }), (function (s) {
+      return s === "-a";
+    })) && Curry._1(Stdlib__Scanf.sscanf("-as", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '-' */45,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* Formatting_lit */ 17,
+            _0: {
+              TAG: /* Scan_indic */ 2,
+              _0: /* 's' */115
+            },
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "-%[a]@s"
+    }), (function (s) {
+      return s === "a";
+    })) && Curry._1(Stdlib__Scanf.sscanf("-asb", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '-' */45,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* Formatting_lit */ 17,
+            _0: {
+              TAG: /* Scan_indic */ 2,
+              _0: /* 's' */115
+            },
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* 'b' */98,
+              _1: {
+                TAG: /* Flush */ 10,
+                _0: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "-%[a]@sb%!"
+    }), (function (s) {
+      return s === "a";
+    }))) {
+    return Curry._1(Stdlib__Scanf.sscanf("-asb", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '-' */45,
+        _1: {
+          TAG: /* Scan_char_set */ 20,
+          _0: undefined,
+          _1: "\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+          _2: {
+            TAG: /* Formatting_lit */ 17,
+            _0: {
+              TAG: /* Scan_indic */ 2,
+              _0: /* 's' */115
+            },
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "-%[a]@s%s"
+    }), (function (s, t) {
+      if (s === "a") {
+        return t === "b";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -4533,42 +4533,42 @@ function send_int(ob, i) {
 
 function writer(ib, ob) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: {
+        TAG: /* Char_literal */ 12,
+        _0: /* '\n' */10,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "%s\n"
+  }), (function (s) {
+    switch (s) {
+      case "start" :
+        send_string(ob, "Hello World!");
+        return reader(ib, ob);
+      case "stop" :
+        return Curry._1(Stdlib__Scanf.bscanf(ib, {
           TAG: /* Format */ 0,
           _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '\n' */10,
-              _1: /* End_of_format */ 0
-            }
+            TAG: /* Int */ 4,
+            _0: /* Int_i */ 3,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
           },
-          _1: "%s\n"
-        }), (function (s) {
-      switch (s) {
-        case "start" :
-          send_string(ob, "Hello World!");
-          return reader(ib, ob);
-        case "stop" :
-          return Curry._1(Stdlib__Scanf.bscanf(ib, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: /* End_of_format */ 0
-                  },
-                  _1: "%i"
-                }), (function (i) {
-              return i;
-            }));
-        default:
-          const i = Caml_format.caml_int_of_string(s);
-          send_string(ob, String(i));
-          return reader(ib, ob);
-      }
-    }));
+          _1: "%i"
+        }), (function (i) {
+          return i;
+        }));
+      default:
+        const i = Caml_format.caml_int_of_string(s);
+        send_string(ob, String(i));
+        return reader(ib, ob);
+    }
+  }));
 }
 
 const count = {
@@ -4582,41 +4582,41 @@ function reader(ib, ob) {
     return writer(ib, ob);
   } else {
     return Curry._1(Stdlib__Scanf.bscanf(ib, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-              _2: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%[^\n]\n"
-          }), (function (s) {
-        if (s === "stop") {
-          send_string(ob, "stop");
-          return writer(ib, ob);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+        _2: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */ 0
         }
-        const l = s.length;
-        count.contents = l + count.contents | 0;
-        if (count.contents >= 100) {
-          send_string(ob, "stop");
-          send_string(ob, String(count.contents));
-        } else {
-          send_string(ob, String(l));
-        }
+      },
+      _1: "%[^\n]\n"
+    }), (function (s) {
+      if (s === "stop") {
+        send_string(ob, "stop");
         return writer(ib, ob);
-      }));
+      }
+      const l = s.length;
+      count.contents = l + count.contents | 0;
+      if (count.contents >= 100) {
+        send_string(ob, "stop");
+        send_string(ob, String(count.contents));
+      } else {
+        send_string(ob, String(l));
+      }
+      return writer(ib, ob);
+    }));
   }
 }
 
 function go(param) {
   const ob = Stdlib__Buffer.create(17);
   const ib = Stdlib__Scanf.Scanning.from_function(function (param) {
-        return next_char(ob, param);
-      });
+    return next_char(ob, param);
+  });
   return reader(ib, ob);
 }
 
@@ -4628,124 +4628,124 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1228, characters 5-12", go(undef
 
 function test51(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("Hello", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%s\n"
-          }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '\n' */10,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s%s\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s\n%s%!"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s\n%s"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World!" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@\n%s"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@\n%s"
-          }), (function (s1, s2) {
-        if (s1 === "Hello ") {
-          return s2 === "";
-        } else {
-          return false;
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      },
+      _1: "%s"
+    }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */ 0
         }
-      }));
+      },
+      _1: "%s\n"
+    }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '\n' */10,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s%s\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s\n%s%!"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s\n%s"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World!" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@\n%s"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@\n%s"
+    }), (function (s1, s2) {
+      if (s1 === "Hello ") {
+        return s2 === "";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -4755,304 +4755,304 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1248, characters 5-12", test51(u
 
 function test52(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%s@\n"
-          }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%s@\n"
-          }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: /* Force_newline */ 3,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s%s@\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s@\n%s%!"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Formatting_lit */ 17,
-                    _0: /* Force_newline */ 3,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s@\n%s@\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World!" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Force_newline */ 3,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@\n%s"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Formatting_lit */ 17,
-                  _0: /* Force_newline */ 3,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s%s@\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === " " : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: {
-                  TAG: /* Ignored_param */ 23,
-                  _0: {
-                    TAG: /* Ignored_scan_char_set */ 10,
-                    _0: 1,
-                    _1: "\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-                  },
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '\n' */10,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s%s%_1[ ]\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Ignored_param */ 23,
-                _0: {
-                  TAG: /* Ignored_scan_char_set */ 10,
-                  _0: 1,
-                  _1: "\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-                },
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '\n' */10,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s%_1[ ]%s\n"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s\n%s%!"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Flush */ 10,
-                    _0: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%s\n%s%!"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World!" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '\n' */10,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Formatting_lit */ 17,
-                    _0: {
-                      TAG: /* Scan_indic */ 2,
-                      _0: /* '!' */33
-                    },
-                    _1: {
-                      TAG: /* Flush */ 10,
-                      _0: /* End_of_format */ 0
-                    }
-                  }
-                }
-              }
-            },
-            _1: "%s\n%s@!%!"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "World" : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("Hello{foo}", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_gen */ 18,
-                _0: {
-                  TAG: /* Open_tag */ 0,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: /* End_of_format */ 0,
-                    _1: ""
-                  }
-                },
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@{%s"
-          }), (function (s1, s2) {
-        return s1 === "Hello" ? s2 === "foo}" : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.sscanf("Hello[foo]", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_gen */ 18,
-                _0: {
-                  TAG: /* Open_box */ 1,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: /* End_of_format */ 0,
-                    _1: ""
-                  }
-                },
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@[%s"
-          }), (function (s1, s2) {
-        if (s1 === "Hello") {
-          return s2 === "foo]";
-        } else {
-          return false;
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: /* End_of_format */ 0
         }
-      }));
+      },
+      _1: "%s@\n"
+    }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%s@\n"
+    }), id) === "Hello" && Curry._1(Stdlib__Scanf.sscanf("Hello", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Formatting_lit */ 17,
+            _0: /* Force_newline */ 3,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s%s@\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s@\n%s%!"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Formatting_lit */ 17,
+              _0: /* Force_newline */ 3,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s@\n%s@\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World!" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Force_newline */ 3,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@\n%s"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Formatting_lit */ 17,
+            _0: /* Force_newline */ 3,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s%s@\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === " " : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: {
+            TAG: /* Ignored_param */ 23,
+            _0: {
+              TAG: /* Ignored_scan_char_set */ 10,
+              _0: 1,
+              _1: "\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+            },
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* '\n' */10,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s%s%_1[ ]\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello \n", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Ignored_param */ 23,
+          _0: {
+            TAG: /* Ignored_scan_char_set */ 10,
+            _0: 1,
+            _1: "\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+          },
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Char_literal */ 12,
+              _0: /* '\n' */10,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s%_1[ ]%s\n"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s\n%s%!"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Flush */ 10,
+              _0: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%s\n%s%!"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World!" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello\nWorld!", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '\n' */10,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: {
+              TAG: /* Formatting_lit */ 17,
+              _0: {
+                TAG: /* Scan_indic */ 2,
+                _0: /* '!' */33
+              },
+              _1: {
+                TAG: /* Flush */ 10,
+                _0: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "%s\n%s@!%!"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "World" : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("Hello{foo}", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_gen */ 18,
+          _0: {
+            TAG: /* Open_tag */ 0,
+            _0: {
+              TAG: /* Format */ 0,
+              _0: /* End_of_format */ 0,
+              _1: ""
+            }
+          },
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@{%s"
+    }), (function (s1, s2) {
+      return s1 === "Hello" ? s2 === "foo}" : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.sscanf("Hello[foo]", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_gen */ 18,
+          _0: {
+            TAG: /* Open_box */ 1,
+            _0: {
+              TAG: /* Format */ 0,
+              _0: /* End_of_format */ 0,
+              _1: ""
+            }
+          },
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@[%s"
+    }), (function (s1, s2) {
+      if (s1 === "Hello") {
+        return s2 === "foo]";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -5062,79 +5062,79 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1286, characters 5-12", test52(u
 
 function test53(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("123", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%d"
-          }), id) === 123 && Curry._1(Stdlib__Scanf.sscanf("124", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%d"
-          }), (function (i) {
-        return (i - 1 | 0) === 123;
-      })) && Curry._1(Stdlib__Scanf.sscanf("123", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int32 */ 5,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%ld"
-          }), id) === 123 && Curry._1(Stdlib__Scanf.sscanf("124", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int32 */ 5,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%ld"
-          }), (function (i) {
-        return (i + 1 | 0) === 125;
-      })) && Caml.i64_eq(Curry._1(Stdlib__Scanf.sscanf("123", {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int64 */ 7,
-                  _0: /* Int_d */ 0,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: /* End_of_format */ 0
-                },
-                _1: "%Ld"
-              }), id), [
-          0,
-          123
-        ])) {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%d"
+    }), id) === 123 && Curry._1(Stdlib__Scanf.sscanf("124", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%d"
+    }), (function (i) {
+      return (i - 1 | 0) === 123;
+    })) && Curry._1(Stdlib__Scanf.sscanf("123", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int32 */ 5,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%ld"
+    }), id) === 123 && Curry._1(Stdlib__Scanf.sscanf("124", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int32 */ 5,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%ld"
+    }), (function (i) {
+      return (i + 1 | 0) === 125;
+    })) && Caml.i64_eq(Curry._1(Stdlib__Scanf.sscanf("123", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int64 */ 7,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%Ld"
+    }), id), [
+      0,
+      123
+    ])) {
     return Curry._1(Stdlib__Scanf.sscanf("124", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int64 */ 7,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%Ld"
-          }), (function (i) {
-        return Caml.i64_eq(Caml_int64.sub(i, Caml_int64.one), [
-              0,
-              123
-            ]);
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int64 */ 7,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%Ld"
+    }), (function (i) {
+      return Caml.i64_eq(Caml_int64.sub(i, Caml_int64.one), [
+        0,
+        123
+      ]);
+    }));
   } else {
     return false;
   }
@@ -5145,37 +5145,37 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1301, characters 5-12", test53(u
 function test56(param) {
   const g = function (s) {
     return Curry._1(Stdlib__Scanf.sscanf(s, {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Scan_get_counter */ 21,
-                _0: /* Char_counter */ 1,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%d%n"
-          }), (function (i, n) {
-        return [
-          i,
-          n
-        ];
-      }));
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Scan_get_counter */ 21,
+          _0: /* Char_counter */ 1,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%d%n"
+    }), (function (i, n) {
+      return [
+        i,
+        n
+      ];
+    }));
   };
   if (Caml_obj.caml_equal(g("99"), [
-          99,
-          2
-        ]) && Caml_obj.caml_equal(g("99 syntaxes all in a row"), [
-          99,
-          2
-        ])) {
+      99,
+      2
+    ]) && Caml_obj.caml_equal(g("99 syntaxes all in a row"), [
+      99,
+      2
+    ])) {
     return Caml_obj.caml_equal(g("-20 degrees Celsius"), [
-          -20,
-          3
-        ]);
+      -20,
+      3
+    ]);
   } else {
     return false;
   }
@@ -5188,44 +5188,245 @@ function test57(param) {
     return Caml_obj.caml_equal(Stdlib__Scanf.format_from_string(s, fmt), efmt);
   };
   if (test_format_scan(" %i ", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_i */ 3,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%i"
-        }, {
-          TAG: /* Format */ 0,
-          _0: {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%i"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Char_literal */ 12,
+        _0: /* ' ' */32,
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
             TAG: /* Char_literal */ 12,
             _0: /* ' ' */32,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: " %i "
+    }) && test_format_scan("%i", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%d"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: /* End_of_format */ 0
+      },
+      _1: "%i"
+    }) && test_format_scan("Read an int %i then a string %s.", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Spec",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: "ifi",
             _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "cation",
                 _1: /* End_of_format */ 0
               }
             }
-          },
-          _1: " %i "
-        }) && test_format_scan("%i", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Int */ 4,
-            _0: /* Int_d */ 0,
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%d"
-        }, {
+          }
+        }
+      },
+      _1: "Spec%difi%scation"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Read an int ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: " then a string ",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '.' */46,
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Read an int %i then a string %s."
+    }) && test_format_scan("Read an int %i then a string \"%s\".", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Spec",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: "ifi",
+            _1: {
+              TAG: /* Caml_string */ 3,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "cation",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Spec%difi%Scation"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Read an int ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: " then a string \"",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "\".",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Read an int %i then a string \"%s\"."
+    }) && test_format_scan("Read an int %i then a string \"%s\".", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Spec",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: "ifi",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "cation",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Spec%difi%scation"
+    }, {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Read an int ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* String_literal */ 11,
+            _0: " then a string \"",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "\".",
+                _1: /* End_of_format */ 0
+              }
+            }
+          }
+        }
+      },
+      _1: "Read an int %i then a string \"%s\"."
+    })) {
+    return Curry._1(Stdlib__Scanf.sscanf("12 \"%i\"89 ", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Int */ 4,
+        _0: /* Int_i */ 3,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Format_arg */ 13,
+            _0: undefined,
+            _1: {
+              TAG: /* Int_ty */ 2,
+              _0: /* End_of_fmtty */ 0
+            },
+            _2: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: {
+                  TAG: /* Flush */ 10,
+                  _0: /* End_of_format */ 0
+                }
+              }
+            }
+          }
+        }
+      },
+      _1: "%i %{%d%}%s %!"
+    }), (function (i, f, s) {
+      if (i === 12 && Caml_obj.caml_equal(f, {
           TAG: /* Format */ 0,
           _0: {
             TAG: /* Int */ 4,
@@ -5235,213 +5436,12 @@ function test57(param) {
             _3: /* End_of_format */ 0
           },
           _1: "%i"
-        }) && test_format_scan("Read an int %i then a string %s.", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Spec",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: "ifi",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: "cation",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Spec%difi%scation"
-        }, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Read an int ",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: " then a string ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '.' */46,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Read an int %i then a string %s."
-        }) && test_format_scan("Read an int %i then a string \"%s\".", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Spec",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: "ifi",
-                _1: {
-                  TAG: /* Caml_string */ 3,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: "cation",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Spec%difi%Scation"
-        }, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Read an int ",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: " then a string \"",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: "\".",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Read an int %i then a string \"%s\"."
-        }) && test_format_scan("Read an int %i then a string \"%s\".", {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Spec",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: "ifi",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: "cation",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Spec%difi%scation"
-        }, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "Read an int ",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: " then a string \"",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: "\".",
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            }
-          },
-          _1: "Read an int %i then a string \"%s\"."
         })) {
-    return Curry._1(Stdlib__Scanf.sscanf("12 \"%i\"89 ", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_i */ 3,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ' ' */32,
-                _1: {
-                  TAG: /* Format_arg */ 13,
-                  _0: undefined,
-                  _1: {
-                    TAG: /* Int_ty */ 2,
-                    _0: /* End_of_fmtty */ 0
-                  },
-                  _2: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* Flush */ 10,
-                        _0: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            _1: "%i %{%d%}%s %!"
-          }), (function (i, f, s) {
-        if (i === 12 && Caml_obj.caml_equal(f, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: /* End_of_format */ 0
-                },
-                _1: "%i"
-              })) {
-          return s === "89";
-        } else {
-          return false;
-        }
-      }));
+        return s === "89";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }
@@ -5451,83 +5451,83 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1357, characters 5-12", test57(u
 
 function test58(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("string1%string2", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Escaped_percent */ 6,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* 's' */115,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@%%s"
-          }), id) === "string1" && Curry._1(Stdlib__Scanf.sscanf("string1%string2", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* Escaped_percent */ 6,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%s@%%%s"
-          }), (function (prim0, prim1) {
-        return prim0 + prim1;
-      })) === "string1string2" && Curry._1(Stdlib__Scanf.sscanf("string1@string2", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '@' */64,
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "%[a-z0-9]@%s"
-          }), (function (prim0, prim1) {
-        return prim0 + prim1;
-      })) === "string1string2") {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Escaped_percent */ 6,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* 's' */115,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@%%s"
+    }), id) === "string1" && Curry._1(Stdlib__Scanf.sscanf("string1%string2", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Formatting_lit */ 17,
+          _0: /* Escaped_percent */ 6,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%s@%%%s"
+    }), (function (prim0, prim1) {
+      return prim0 + prim1;
+    })) === "string1string2" && Curry._1(Stdlib__Scanf.sscanf("string1@string2", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '@' */64,
+          _1: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "%[a-z0-9]@%s"
+    }), (function (prim0, prim1) {
+      return prim0 + prim1;
+    })) === "string1string2") {
     return Curry._1(Stdlib__Scanf.sscanf("string1@%string2", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Scan_char_set */ 20,
-              _0: undefined,
-              _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-              _2: {
-                TAG: /* Char_literal */ 12,
-                _0: /* '@' */64,
-                _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '%' */37,
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%[a-z0-9]%@%%%s"
-          }), (function (prim0, prim1) {
-        return prim0 + prim1;
-      })) === "string1string2";
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_char_set */ 20,
+        _0: undefined,
+        _1: "\0\0\0\0\0\0\xff\x03\0\0\0\0\xfe\xff\xff\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+        _2: {
+          TAG: /* Char_literal */ 12,
+          _0: /* '@' */64,
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* '%' */37,
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: /* End_of_format */ 0
+            }
+          }
+        }
+      },
+      _1: "%[a-z0-9]%@%%%s"
+    }), (function (prim0, prim1) {
+      return prim0 + prim1;
+    })) === "string1string2";
   } else {
     return false;
   }
@@ -5539,66 +5539,66 @@ test("File \"jscomp/test/tscanf_test.ml\", line 1371, characters 14-21", true);
 
 function test60(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("abc", {
-            TAG: /* Format */ 0,
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Scan_next_char */ 22,
+        _0: {
+          TAG: /* Scan_next_char */ 22,
+          _0: {
+            TAG: /* Char */ 0,
             _0: {
-              TAG: /* Scan_next_char */ 22,
-              _0: {
-                TAG: /* Scan_next_char */ 22,
-                _0: {
-                  TAG: /* Char */ 0,
-                  _0: {
-                    TAG: /* Scan_get_counter */ 21,
-                    _0: /* Char_counter */ 1,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "%0c%0c%c%n"
-          }), (function (c1, c2, c3, n) {
-        return c1 === /* 'a' */97 && c2 === /* 'a' */97 && c3 === /* 'a' */97 ? n === 1 : false;
-      })) && Curry._1(Stdlib__Scanf.sscanf("abc", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 0
-              },
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%0s%s"
-          }), (function (s1, s2) {
-        return s1 === "" ? s2 === "abc" : false;
-      }))) {
-    return Curry._1(Stdlib__Scanf.sscanf("abc", {
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: {
-                TAG: /* Lit_padding */ 0,
-                _0: /* Right */ 1,
-                _1: 1
-              },
-              _1: {
-                TAG: /* String */ 2,
-                _0: /* No_padding */ 0,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%1s%s"
-          }), (function (s1, s2) {
-        if (s1 === "a") {
-          return s2 === "bc";
-        } else {
-          return false;
+              TAG: /* Scan_get_counter */ 21,
+              _0: /* Char_counter */ 1,
+              _1: /* End_of_format */ 0
+            }
+          }
         }
-      }));
+      },
+      _1: "%0c%0c%c%n"
+    }), (function (c1, c2, c3, n) {
+      return c1 === /* 'a' */97 && c2 === /* 'a' */97 && c3 === /* 'a' */97 ? n === 1 : false;
+    })) && Curry._1(Stdlib__Scanf.sscanf("abc", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 0
+        },
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%0s%s"
+    }), (function (s1, s2) {
+      return s1 === "" ? s2 === "abc" : false;
+    }))) {
+    return Curry._1(Stdlib__Scanf.sscanf("abc", {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String */ 2,
+        _0: {
+          TAG: /* Lit_padding */ 0,
+          _0: /* Right */ 1,
+          _1: 1
+        },
+        _1: {
+          TAG: /* String */ 2,
+          _0: /* No_padding */ 0,
+          _1: /* End_of_format */ 0
+        }
+      },
+      _1: "%1s%s"
+    }), (function (s1, s2) {
+      if (s1 === "a") {
+        return s2 === "bc";
+      } else {
+        return false;
+      }
+    }));
   } else {
     return false;
   }

@@ -19,15 +19,15 @@ function point_init($$class) {
   const get_x = ids[1];
   const x = ids[2];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$1) {
-          return self$1[x];
-        }),
-        move,
-        (function (self$1, d) {
-          self$1[x] = self$1[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$1) {
+      return self$1[x];
+    }),
+    move,
+    (function (self$1, d) {
+      self$1[x] = self$1[x] + d | 0;
+    })
+  ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = 0;
@@ -55,15 +55,15 @@ function point2_init($$class) {
   const get_x = ids[1];
   const x = ids[2];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$2) {
-          return self$2[x];
-        }),
-        move,
-        (function (self$2, d) {
-          self$2[x] = self$2[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$2) {
+      return self$2[x];
+    }),
+    move,
+    (function (self$2, d) {
+      self$2[x] = self$2[x] + d | 0;
+    })
+  ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     x0.contents = x0.contents + 1 | 0;
@@ -91,54 +91,54 @@ const u = {
 };
 
 Mt.from_pair_suites("Class_test", {
+  hd: [
+    "File \"jscomp/test/class_test.ml\", line 38, characters 4-11",
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: zero,
+        _1: 0
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "File \"jscomp/test/class_test.ml\", line 39, characters 4-11",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: three,
+          _1: 3
+        };
+      })
+    ],
+    tl: {
       hd: [
-        "File \"jscomp/test/class_test.ml\", line 38, characters 4-11",
+        "File \"jscomp/test/class_test.ml\", line 40, characters 4-11",
         (function (param) {
           return {
             TAG: /* Eq */ 0,
-            _0: zero,
-            _1: 0
+            _0: one,
+            _1: 1
           };
         })
       ],
       tl: {
         hd: [
-          "File \"jscomp/test/class_test.ml\", line 39, characters 4-11",
+          "File \"jscomp/test/class_test.ml\", line 41, characters 4-11",
           (function (param) {
             return {
               TAG: /* Eq */ 0,
-              _0: three,
-              _1: 3
+              _0: two,
+              _1: 2
             };
           })
         ],
-        tl: {
-          hd: [
-            "File \"jscomp/test/class_test.ml\", line 40, characters 4-11",
-            (function (param) {
-              return {
-                TAG: /* Eq */ 0,
-                _0: one,
-                _1: 1
-              };
-            })
-          ],
-          tl: {
-            hd: [
-              "File \"jscomp/test/class_test.ml\", line 41, characters 4-11",
-              (function (param) {
-                return {
-                  TAG: /* Eq */ 0,
-                  _0: two,
-                  _1: 2
-                };
-              })
-            ],
-            tl: /* [] */ 0
-          }
-        }
+        tl: /* [] */ 0
       }
-    });
+    }
+  }
+});
 
 module.exports = {
   point,

@@ -157,9 +157,9 @@ const test_type2 = {
 };
 
 eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 94, characters 5-12", [
-      6,
-      v5.say()
-    ]);
+  6,
+  v5.say()
+]);
 
 const a = v.say();
 
@@ -174,17 +174,17 @@ const c = v.say();
 v.incr();
 
 eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 101, characters 5-12", [
-      [
-        3,
-        4,
-        5
-      ],
-      [
-        a,
-        b,
-        c
-      ]
-    ]);
+  [
+    3,
+    4,
+    5
+  ],
+  [
+    a,
+    b,
+    c
+  ]
+]);
 
 const aa = z.getX();
 
@@ -193,15 +193,15 @@ z.setX(32);
 const bb = z.getX();
 
 eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 105, characters 5-12", [
-      [
-        3,
-        32
-      ],
-      [
-        aa,
-        bb
-      ]
-    ]);
+  [
+    3,
+    32
+  ],
+  [
+    aa,
+    bb
+  ]
+]);
 
 Mt.from_pair_suites("Ppx_this_obj_field", suites.contents);
 

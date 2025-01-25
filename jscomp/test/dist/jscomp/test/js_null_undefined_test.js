@@ -112,8 +112,8 @@ const suites_1 = {
                         TAG: /* StrictEq */ 2,
                         _0: null,
                         _1: Js__Js_nullable.map((function (v) {
-                              return v;
-                            }), null)
+                          return v;
+                        }), null)
                       };
                     })
                   ],
@@ -125,8 +125,8 @@ const suites_1 = {
                           TAG: /* StrictEq */ 2,
                           _0: undefined,
                           _1: Js__Js_nullable.map((function (v) {
-                                return v;
-                              }), undefined)
+                            return v;
+                          }), undefined)
                         };
                       })
                     ],
@@ -138,8 +138,8 @@ const suites_1 = {
                             TAG: /* StrictEq */ 2,
                             _0: undefined,
                             _1: Js__Js_nullable.map((function (v) {
-                                  return v;
-                                }), undefined)
+                              return v;
+                            }), undefined)
                           };
                         })
                       ],
@@ -151,8 +151,8 @@ const suites_1 = {
                               TAG: /* Eq */ 0,
                               _0: 4,
                               _1: Js__Js_nullable.map((function (n) {
-                                    return (n << 1);
-                                  }), 2)
+                                return (n << 1);
+                              }), 2)
                             };
                           })
                         ],
@@ -164,8 +164,8 @@ const suites_1 = {
                                 contents: false
                               };
                               Js__Js_nullable.iter((function (param) {
-                                    hit.contents = true;
-                                  }), null);
+                                hit.contents = true;
+                              }), null);
                               return {
                                 TAG: /* Eq */ 0,
                                 _0: false,
@@ -181,8 +181,8 @@ const suites_1 = {
                                   contents: false
                                 };
                                 Js__Js_nullable.iter((function (param) {
-                                      hit.contents = true;
-                                    }), undefined);
+                                  hit.contents = true;
+                                }), undefined);
                                 return {
                                   TAG: /* Eq */ 0,
                                   _0: false,
@@ -198,8 +198,8 @@ const suites_1 = {
                                     contents: false
                                   };
                                   Js__Js_nullable.iter((function (param) {
-                                        hit.contents = true;
-                                      }), undefined);
+                                    hit.contents = true;
+                                  }), undefined);
                                   return {
                                     TAG: /* Eq */ 0,
                                     _0: false,
@@ -215,8 +215,8 @@ const suites_1 = {
                                       contents: 0
                                     };
                                     Js__Js_nullable.iter((function (v) {
-                                          hit.contents = v;
-                                        }), 2);
+                                      hit.contents = v;
+                                    }), 2);
                                     return {
                                       TAG: /* Eq */ 0,
                                       _0: 2,

@@ -55,12 +55,12 @@ const suites_1 = {
               2
             ],
             _1: [
-                1,
-                2,
-                3,
-                4,
-                5
-              ].copyWithin(-2, undefined, undefined)
+              1,
+              2,
+              3,
+              4,
+              5
+            ].copyWithin(-2, undefined, undefined)
           };
         })
       ],
@@ -78,12 +78,12 @@ const suites_1 = {
                 5
               ],
               _1: [
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
-                ].copyWithin(0, 3, undefined)
+                1,
+                2,
+                3,
+                4,
+                5
+              ].copyWithin(0, 3, undefined)
             };
           })
         ],
@@ -101,12 +101,12 @@ const suites_1 = {
                   5
                 ],
                 _1: [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
-                  ].copyWithin(0, 3, 4)
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ].copyWithin(0, 3, 4)
               };
             })
           ],
@@ -122,10 +122,10 @@ const suites_1 = {
                     4
                   ],
                   _1: [
-                      1,
-                      2,
-                      3
-                    ].fill(4, undefined, undefined)
+                    1,
+                    2,
+                    3
+                  ].fill(4, undefined, undefined)
                 };
               })
             ],
@@ -141,10 +141,10 @@ const suites_1 = {
                       4
                     ],
                     _1: [
-                        1,
-                        2,
-                        3
-                      ].fill(4, 1, undefined)
+                      1,
+                      2,
+                      3
+                    ].fill(4, 1, undefined)
                   };
                 })
               ],
@@ -160,10 +160,10 @@ const suites_1 = {
                         3
                       ],
                       _1: [
-                          1,
-                          2,
-                          3
-                        ].fill(4, 1, 2)
+                        1,
+                        2,
+                        3
+                      ].fill(4, 1, 2)
                     };
                   })
                 ],
@@ -175,10 +175,10 @@ const suites_1 = {
                         TAG: /* Eq */ 0,
                         _0: 3,
                         _1: Caml_option.undefined_to_opt([
-                                1,
-                                2,
-                                3
-                              ].pop())
+                          1,
+                          2,
+                          3
+                        ].pop())
                       };
                     })
                   ],
@@ -201,10 +201,10 @@ const suites_1 = {
                             TAG: /* Eq */ 0,
                             _0: 4,
                             _1: [
-                                1,
-                                2,
-                                3
-                              ].push(4)
+                              1,
+                              2,
+                              3
+                            ].push(4)
                           };
                         })
                       ],
@@ -216,10 +216,10 @@ const suites_1 = {
                               TAG: /* Eq */ 0,
                               _0: 5,
                               _1: [
-                                  1,
-                                  2,
-                                  3
-                                ].push(4, 5)
+                                1,
+                                2,
+                                3
+                              ].push(4, 5)
                             };
                           })
                         ],
@@ -235,10 +235,10 @@ const suites_1 = {
                                   1
                                 ],
                                 _1: [
-                                    1,
-                                    2,
-                                    3
-                                  ].reverse()
+                                  1,
+                                  2,
+                                  3
+                                ].reverse()
                               };
                             })
                           ],
@@ -250,10 +250,10 @@ const suites_1 = {
                                   TAG: /* Eq */ 0,
                                   _0: 1,
                                   _1: Caml_option.undefined_to_opt([
-                                          1,
-                                          2,
-                                          3
-                                        ].shift())
+                                    1,
+                                    2,
+                                    3
+                                  ].shift())
                                 };
                               })
                             ],
@@ -280,10 +280,10 @@ const suites_1 = {
                                         3
                                       ],
                                       _1: [
-                                          3,
-                                          1,
-                                          2
-                                        ].sort()
+                                        3,
+                                        1,
+                                        2
+                                      ].sort()
                                     };
                                   })
                                 ],
@@ -299,12 +299,12 @@ const suites_1 = {
                                           1
                                         ],
                                         _1: [
-                                            3,
-                                            1,
-                                            2
-                                          ].sort(function (a, b) {
-                                              return b - a | 0;
-                                            })
+                                          3,
+                                          1,
+                                          2
+                                        ].sort(function (a, b) {
+                                          return b - a | 0;
+                                        })
                                       };
                                     })
                                   ],
@@ -404,10 +404,10 @@ const suites_1 = {
                                                 TAG: /* Eq */ 0,
                                                 _0: 4,
                                                 _1: [
-                                                    1,
-                                                    2,
-                                                    3
-                                                  ].unshift(4)
+                                                  1,
+                                                  2,
+                                                  3
+                                                ].unshift(4)
                                               };
                                             })
                                           ],
@@ -419,10 +419,10 @@ const suites_1 = {
                                                   TAG: /* Eq */ 0,
                                                   _0: 5,
                                                   _1: [
-                                                      1,
-                                                      2,
-                                                      3
-                                                    ].unshift(4, 5)
+                                                    1,
+                                                    2,
+                                                    3
+                                                  ].unshift(4, 5)
                                                 };
                                               })
                                             ],
@@ -439,10 +439,10 @@ const suites_1 = {
                                                       4
                                                     ],
                                                     _1: [
-                                                        1,
-                                                        2,
-                                                        3
-                                                      ].concat([4])
+                                                      1,
+                                                      2,
+                                                      3
+                                                    ].concat([4])
                                                   };
                                                 })
                                               ],
@@ -460,13 +460,13 @@ const suites_1 = {
                                                         5
                                                       ],
                                                       _1: [
-                                                          1,
-                                                          2,
-                                                          3
-                                                        ].concat([
-                                                            4,
-                                                            5
-                                                          ])
+                                                        1,
+                                                        2,
+                                                        3
+                                                      ].concat([
+                                                        4,
+                                                        5
+                                                      ])
                                                     };
                                                   })
                                                 ],
@@ -486,16 +486,16 @@ const suites_1 = {
                                                           7
                                                         ],
                                                         _1: [
-                                                            1,
-                                                            2,
-                                                            3
-                                                          ].concat([
-                                                              4,
-                                                              5
-                                                            ], [
-                                                              6,
-                                                              7
-                                                            ])
+                                                          1,
+                                                          2,
+                                                          3
+                                                        ].concat([
+                                                          4,
+                                                          5
+                                                        ], [
+                                                          6,
+                                                          7
+                                                        ])
                                                       };
                                                     })
                                                   ],
@@ -507,10 +507,10 @@ const suites_1 = {
                                                           TAG: /* Eq */ 0,
                                                           _0: true,
                                                           _1: [
-                                                              1,
-                                                              2,
-                                                              3
-                                                            ].includes(3)
+                                                            1,
+                                                            2,
+                                                            3
+                                                          ].includes(3)
                                                         };
                                                       })
                                                     ],
@@ -522,10 +522,10 @@ const suites_1 = {
                                                             TAG: /* Eq */ 0,
                                                             _0: 1,
                                                             _1: [
-                                                                1,
-                                                                2,
-                                                                3
-                                                              ].indexOf(2, undefined)
+                                                              1,
+                                                              2,
+                                                              3
+                                                            ].indexOf(2, undefined)
                                                           };
                                                         })
                                                       ],
@@ -537,11 +537,11 @@ const suites_1 = {
                                                               TAG: /* Eq */ 0,
                                                               _0: 3,
                                                               _1: [
-                                                                  1,
-                                                                  2,
-                                                                  3,
-                                                                  2
-                                                                ].indexOf(2, 2)
+                                                                1,
+                                                                2,
+                                                                3,
+                                                                2
+                                                              ].indexOf(2, 2)
                                                             };
                                                           })
                                                         ],
@@ -553,10 +553,10 @@ const suites_1 = {
                                                                 TAG: /* Eq */ 0,
                                                                 _0: "1,2,3",
                                                                 _1: [
-                                                                    1,
-                                                                    2,
-                                                                    3
-                                                                  ].join(",")
+                                                                  1,
+                                                                  2,
+                                                                  3
+                                                                ].join(",")
                                                               };
                                                             })
                                                           ],
@@ -568,10 +568,10 @@ const suites_1 = {
                                                                   TAG: /* Eq */ 0,
                                                                   _0: "1;2;3",
                                                                   _1: [
-                                                                      1,
-                                                                      2,
-                                                                      3
-                                                                    ].join(";")
+                                                                    1,
+                                                                    2,
+                                                                    3
+                                                                  ].join(";")
                                                                 };
                                                               })
                                                             ],
@@ -583,10 +583,10 @@ const suites_1 = {
                                                                     TAG: /* Eq */ 0,
                                                                     _0: 1,
                                                                     _1: [
-                                                                        1,
-                                                                        2,
-                                                                        3
-                                                                      ].lastIndexOf(2)
+                                                                      1,
+                                                                      2,
+                                                                      3
+                                                                    ].lastIndexOf(2)
                                                                   };
                                                                 })
                                                               ],
@@ -598,11 +598,11 @@ const suites_1 = {
                                                                       TAG: /* Eq */ 0,
                                                                       _0: 1,
                                                                       _1: [
-                                                                          1,
-                                                                          2,
-                                                                          3,
-                                                                          2
-                                                                        ].lastIndexOf(2, 2)
+                                                                        1,
+                                                                        2,
+                                                                        3,
+                                                                        2
+                                                                      ].lastIndexOf(2, 2)
                                                                     };
                                                                   })
                                                                 ],
@@ -617,12 +617,12 @@ const suites_1 = {
                                                                           3
                                                                         ],
                                                                         _1: [
-                                                                            1,
-                                                                            2,
-                                                                            3,
-                                                                            4,
-                                                                            5
-                                                                          ].slice(1, 3)
+                                                                          1,
+                                                                          2,
+                                                                          3,
+                                                                          4,
+                                                                          5
+                                                                        ].slice(1, 3)
                                                                       };
                                                                     })
                                                                   ],
@@ -640,12 +640,12 @@ const suites_1 = {
                                                                             5
                                                                           ],
                                                                           _1: [
-                                                                              1,
-                                                                              2,
-                                                                              3,
-                                                                              4,
-                                                                              5
-                                                                            ].slice()
+                                                                            1,
+                                                                            2,
+                                                                            3,
+                                                                            4,
+                                                                            5
+                                                                          ].slice()
                                                                         };
                                                                       })
                                                                     ],
@@ -661,12 +661,12 @@ const suites_1 = {
                                                                               5
                                                                             ],
                                                                             _1: [
-                                                                                1,
-                                                                                2,
-                                                                                3,
-                                                                                4,
-                                                                                5
-                                                                              ].slice(2, undefined)
+                                                                              1,
+                                                                              2,
+                                                                              3,
+                                                                              4,
+                                                                              5
+                                                                            ].slice(2, undefined)
                                                                           };
                                                                         })
                                                                       ],
@@ -678,10 +678,10 @@ const suites_1 = {
                                                                               TAG: /* Eq */ 0,
                                                                               _0: "1,2,3",
                                                                               _1: [
-                                                                                  1,
-                                                                                  2,
-                                                                                  3
-                                                                                ].toString()
+                                                                                1,
+                                                                                2,
+                                                                                3
+                                                                              ].toString()
                                                                             };
                                                                           })
                                                                         ],
@@ -693,10 +693,10 @@ const suites_1 = {
                                                                                 TAG: /* Eq */ 0,
                                                                                 _0: "1,2,3",
                                                                                 _1: [
-                                                                                    1,
-                                                                                    2,
-                                                                                    3
-                                                                                  ].toLocaleString()
+                                                                                  1,
+                                                                                  2,
+                                                                                  3
+                                                                                ].toLocaleString()
                                                                               };
                                                                             })
                                                                           ],
@@ -708,12 +708,12 @@ const suites_1 = {
                                                                                   TAG: /* Eq */ 0,
                                                                                   _0: true,
                                                                                   _1: [
-                                                                                      1,
-                                                                                      2,
-                                                                                      3
-                                                                                    ].every(function (n) {
-                                                                                        return n > 0;
-                                                                                      })
+                                                                                    1,
+                                                                                    2,
+                                                                                    3
+                                                                                  ].every(function (n) {
+                                                                                    return n > 0;
+                                                                                  })
                                                                                 };
                                                                               })
                                                                             ],
@@ -725,12 +725,12 @@ const suites_1 = {
                                                                                     TAG: /* Eq */ 0,
                                                                                     _0: false,
                                                                                     _1: [
-                                                                                        1,
-                                                                                        2,
-                                                                                        3
-                                                                                      ].every(function (param, i) {
-                                                                                          return i > 0;
-                                                                                        })
+                                                                                      1,
+                                                                                      2,
+                                                                                      3
+                                                                                    ].every(function (param, i) {
+                                                                                      return i > 0;
+                                                                                    })
                                                                                   };
                                                                                 })
                                                                               ],
@@ -745,13 +745,13 @@ const suites_1 = {
                                                                                         4
                                                                                       ],
                                                                                       _1: [
-                                                                                          1,
-                                                                                          2,
-                                                                                          3,
-                                                                                          4
-                                                                                        ].filter(function (n) {
-                                                                                            return n % 2 === 0;
-                                                                                          })
+                                                                                        1,
+                                                                                        2,
+                                                                                        3,
+                                                                                        4
+                                                                                      ].filter(function (n) {
+                                                                                        return n % 2 === 0;
+                                                                                      })
                                                                                     };
                                                                                   })
                                                                                 ],
@@ -766,13 +766,13 @@ const suites_1 = {
                                                                                           3
                                                                                         ],
                                                                                         _1: [
-                                                                                            1,
-                                                                                            2,
-                                                                                            3,
-                                                                                            4
-                                                                                          ].filter(function (param, i) {
-                                                                                              return i % 2 === 0;
-                                                                                            })
+                                                                                          1,
+                                                                                          2,
+                                                                                          3,
+                                                                                          4
+                                                                                        ].filter(function (param, i) {
+                                                                                          return i % 2 === 0;
+                                                                                        })
                                                                                       };
                                                                                     })
                                                                                   ],
@@ -784,13 +784,13 @@ const suites_1 = {
                                                                                           TAG: /* Eq */ 0,
                                                                                           _0: 2,
                                                                                           _1: Caml_option.undefined_to_opt([
-                                                                                                  1,
-                                                                                                  2,
-                                                                                                  3,
-                                                                                                  4
-                                                                                                ].find(function (n) {
-                                                                                                    return n % 2 === 0;
-                                                                                                  }))
+                                                                                            1,
+                                                                                            2,
+                                                                                            3,
+                                                                                            4
+                                                                                          ].find(function (n) {
+                                                                                            return n % 2 === 0;
+                                                                                          }))
                                                                                         };
                                                                                       })
                                                                                     ],
@@ -802,13 +802,13 @@ const suites_1 = {
                                                                                             TAG: /* Eq */ 0,
                                                                                             _0: undefined,
                                                                                             _1: Caml_option.undefined_to_opt([
-                                                                                                    1,
-                                                                                                    2,
-                                                                                                    3,
-                                                                                                    4
-                                                                                                  ].find(function (n) {
-                                                                                                      return n % 2 === 5;
-                                                                                                    }))
+                                                                                              1,
+                                                                                              2,
+                                                                                              3,
+                                                                                              4
+                                                                                            ].find(function (n) {
+                                                                                              return n % 2 === 5;
+                                                                                            }))
                                                                                           };
                                                                                         })
                                                                                       ],
@@ -820,13 +820,13 @@ const suites_1 = {
                                                                                               TAG: /* Eq */ 0,
                                                                                               _0: 1,
                                                                                               _1: Caml_option.undefined_to_opt([
-                                                                                                      1,
-                                                                                                      2,
-                                                                                                      3,
-                                                                                                      4
-                                                                                                    ].find(function (param, i) {
-                                                                                                        return i % 2 === 0;
-                                                                                                      }))
+                                                                                                1,
+                                                                                                2,
+                                                                                                3,
+                                                                                                4
+                                                                                              ].find(function (param, i) {
+                                                                                                return i % 2 === 0;
+                                                                                              }))
                                                                                             };
                                                                                           })
                                                                                         ],
@@ -838,13 +838,13 @@ const suites_1 = {
                                                                                                 TAG: /* Eq */ 0,
                                                                                                 _0: undefined,
                                                                                                 _1: Caml_option.undefined_to_opt([
-                                                                                                        1,
-                                                                                                        2,
-                                                                                                        3,
-                                                                                                        4
-                                                                                                      ].find(function (param, i) {
-                                                                                                          return i % 2 === 5;
-                                                                                                        }))
+                                                                                                  1,
+                                                                                                  2,
+                                                                                                  3,
+                                                                                                  4
+                                                                                                ].find(function (param, i) {
+                                                                                                  return i % 2 === 5;
+                                                                                                }))
                                                                                               };
                                                                                             })
                                                                                           ],
@@ -856,13 +856,13 @@ const suites_1 = {
                                                                                                   TAG: /* Eq */ 0,
                                                                                                   _0: 1,
                                                                                                   _1: [
-                                                                                                      1,
-                                                                                                      2,
-                                                                                                      3,
-                                                                                                      4
-                                                                                                    ].findIndex(function (n) {
-                                                                                                        return n % 2 === 0;
-                                                                                                      })
+                                                                                                    1,
+                                                                                                    2,
+                                                                                                    3,
+                                                                                                    4
+                                                                                                  ].findIndex(function (n) {
+                                                                                                    return n % 2 === 0;
+                                                                                                  })
                                                                                                 };
                                                                                               })
                                                                                             ],
@@ -874,13 +874,13 @@ const suites_1 = {
                                                                                                     TAG: /* Eq */ 0,
                                                                                                     _0: 0,
                                                                                                     _1: [
-                                                                                                        1,
-                                                                                                        2,
-                                                                                                        3,
-                                                                                                        4
-                                                                                                      ].findIndex(function (param, i) {
-                                                                                                          return i % 2 === 0;
-                                                                                                        })
+                                                                                                      1,
+                                                                                                      2,
+                                                                                                      3,
+                                                                                                      4
+                                                                                                    ].findIndex(function (param, i) {
+                                                                                                      return i % 2 === 0;
+                                                                                                    })
                                                                                                   };
                                                                                                 })
                                                                                               ],
@@ -892,12 +892,12 @@ const suites_1 = {
                                                                                                       contents: 0
                                                                                                     };
                                                                                                     [
-                                                                                                        1,
-                                                                                                        2,
-                                                                                                        3
-                                                                                                      ].forEach(function (n) {
-                                                                                                          sum.contents = sum.contents + n | 0;
-                                                                                                        });
+                                                                                                      1,
+                                                                                                      2,
+                                                                                                      3
+                                                                                                    ].forEach(function (n) {
+                                                                                                      sum.contents = sum.contents + n | 0;
+                                                                                                    });
                                                                                                     return {
                                                                                                       TAG: /* Eq */ 0,
                                                                                                       _0: 6,
@@ -913,12 +913,12 @@ const suites_1 = {
                                                                                                         contents: 0
                                                                                                       };
                                                                                                       [
-                                                                                                          1,
-                                                                                                          2,
-                                                                                                          3
-                                                                                                        ].forEach(function (param, i) {
-                                                                                                            sum.contents = sum.contents + i | 0;
-                                                                                                          });
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3
+                                                                                                      ].forEach(function (param, i) {
+                                                                                                        sum.contents = sum.contents + i | 0;
+                                                                                                      });
                                                                                                       return {
                                                                                                         TAG: /* Eq */ 0,
                                                                                                         _0: 3,
@@ -939,13 +939,13 @@ const suites_1 = {
                                                                                                             8
                                                                                                           ],
                                                                                                           _1: [
-                                                                                                              1,
-                                                                                                              2,
-                                                                                                              3,
-                                                                                                              4
-                                                                                                            ].map(function (n) {
-                                                                                                                return (n << 1);
-                                                                                                              })
+                                                                                                            1,
+                                                                                                            2,
+                                                                                                            3,
+                                                                                                            4
+                                                                                                          ].map(function (n) {
+                                                                                                            return (n << 1);
+                                                                                                          })
                                                                                                         };
                                                                                                       })
                                                                                                     ],
@@ -962,13 +962,13 @@ const suites_1 = {
                                                                                                               6
                                                                                                             ],
                                                                                                             _1: [
-                                                                                                                1,
-                                                                                                                2,
-                                                                                                                3,
-                                                                                                                4
-                                                                                                              ].map(function (param, i) {
-                                                                                                                  return (i << 1);
-                                                                                                                })
+                                                                                                              1,
+                                                                                                              2,
+                                                                                                              3,
+                                                                                                              4
+                                                                                                            ].map(function (param, i) {
+                                                                                                              return (i << 1);
+                                                                                                            })
                                                                                                           };
                                                                                                         })
                                                                                                       ],
@@ -980,13 +980,13 @@ const suites_1 = {
                                                                                                               TAG: /* Eq */ 0,
                                                                                                               _0: -10,
                                                                                                               _1: [
-                                                                                                                  1,
-                                                                                                                  2,
-                                                                                                                  3,
-                                                                                                                  4
-                                                                                                                ].reduce((function (acc, n) {
-                                                                                                                    return acc - n | 0;
-                                                                                                                  }), 0)
+                                                                                                                1,
+                                                                                                                2,
+                                                                                                                3,
+                                                                                                                4
+                                                                                                              ].reduce((function (acc, n) {
+                                                                                                                return acc - n | 0;
+                                                                                                              }), 0)
                                                                                                             };
                                                                                                           })
                                                                                                         ],
@@ -998,13 +998,13 @@ const suites_1 = {
                                                                                                                 TAG: /* Eq */ 0,
                                                                                                                 _0: -6,
                                                                                                                 _1: [
-                                                                                                                    1,
-                                                                                                                    2,
-                                                                                                                    3,
-                                                                                                                    4
-                                                                                                                  ].reduce((function (acc, param, i) {
-                                                                                                                      return acc - i | 0;
-                                                                                                                    }), 0)
+                                                                                                                  1,
+                                                                                                                  2,
+                                                                                                                  3,
+                                                                                                                  4
+                                                                                                                ].reduce((function (acc, param, i) {
+                                                                                                                  return acc - i | 0;
+                                                                                                                }), 0)
                                                                                                               };
                                                                                                             })
                                                                                                           ],
@@ -1016,13 +1016,13 @@ const suites_1 = {
                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                   _0: -10,
                                                                                                                   _1: [
-                                                                                                                      1,
-                                                                                                                      2,
-                                                                                                                      3,
-                                                                                                                      4
-                                                                                                                    ].reduceRight((function (acc, n) {
-                                                                                                                        return acc - n | 0;
-                                                                                                                      }), 0)
+                                                                                                                    1,
+                                                                                                                    2,
+                                                                                                                    3,
+                                                                                                                    4
+                                                                                                                  ].reduceRight((function (acc, n) {
+                                                                                                                    return acc - n | 0;
+                                                                                                                  }), 0)
                                                                                                                 };
                                                                                                               })
                                                                                                             ],
@@ -1034,13 +1034,13 @@ const suites_1 = {
                                                                                                                     TAG: /* Eq */ 0,
                                                                                                                     _0: -6,
                                                                                                                     _1: [
-                                                                                                                        1,
-                                                                                                                        2,
-                                                                                                                        3,
-                                                                                                                        4
-                                                                                                                      ].reduceRight((function (acc, param, i) {
-                                                                                                                          return acc - i | 0;
-                                                                                                                        }), 0)
+                                                                                                                      1,
+                                                                                                                      2,
+                                                                                                                      3,
+                                                                                                                      4
+                                                                                                                    ].reduceRight((function (acc, param, i) {
+                                                                                                                      return acc - i | 0;
+                                                                                                                    }), 0)
                                                                                                                   };
                                                                                                                 })
                                                                                                               ],
@@ -1052,13 +1052,13 @@ const suites_1 = {
                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                       _0: false,
                                                                                                                       _1: [
-                                                                                                                          1,
-                                                                                                                          2,
-                                                                                                                          3,
-                                                                                                                          4
-                                                                                                                        ].some(function (n) {
-                                                                                                                            return n <= 0;
-                                                                                                                          })
+                                                                                                                        1,
+                                                                                                                        2,
+                                                                                                                        3,
+                                                                                                                        4
+                                                                                                                      ].some(function (n) {
+                                                                                                                        return n <= 0;
+                                                                                                                      })
                                                                                                                     };
                                                                                                                   })
                                                                                                                 ],
@@ -1070,13 +1070,13 @@ const suites_1 = {
                                                                                                                         TAG: /* Eq */ 0,
                                                                                                                         _0: true,
                                                                                                                         _1: [
-                                                                                                                            1,
-                                                                                                                            2,
-                                                                                                                            3,
-                                                                                                                            4
-                                                                                                                          ].some(function (param, i) {
-                                                                                                                              return i <= 0;
-                                                                                                                            })
+                                                                                                                          1,
+                                                                                                                          2,
+                                                                                                                          3,
+                                                                                                                          4
+                                                                                                                        ].some(function (param, i) {
+                                                                                                                          return i <= 0;
+                                                                                                                        })
                                                                                                                       };
                                                                                                                     })
                                                                                                                   ],

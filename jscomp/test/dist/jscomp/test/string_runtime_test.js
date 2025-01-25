@@ -23,36 +23,36 @@ const suites_1 = {
     "caml_string_of_bytes",
     (function (param) {
       const match = Stdlib__List.split(Stdlib__List.map((function (x) {
-                const b = Caml_bytes.caml_create_bytes(x);
-                Stdlib__Bytes.fill(b, 0, x, /* 'c' */99);
-                return [
-                  Stdlib__Bytes.to_string(b),
-                  Caml_bytes.bytes_to_string(Stdlib__Bytes.init(x, (function (param) {
-                            return /* 'c' */99;
-                          })))
-                ];
-              }), {
-                hd: 1000,
+        const b = Caml_bytes.caml_create_bytes(x);
+        Stdlib__Bytes.fill(b, 0, x, /* 'c' */99);
+        return [
+          Stdlib__Bytes.to_string(b),
+          Caml_bytes.bytes_to_string(Stdlib__Bytes.init(x, (function (param) {
+            return /* 'c' */99;
+          })))
+        ];
+      }), {
+        hd: 1000,
+        tl: {
+          hd: 1024,
+          tl: {
+            hd: 1025,
+            tl: {
+              hd: 4095,
+              tl: {
+                hd: 4096,
                 tl: {
-                  hd: 1024,
+                  hd: 5000,
                   tl: {
-                    hd: 1025,
-                    tl: {
-                      hd: 4095,
-                      tl: {
-                        hd: 4096,
-                        tl: {
-                          hd: 5000,
-                          tl: {
-                            hd: 10000,
-                            tl: /* [] */ 0
-                          }
-                        }
-                      }
-                    }
+                    hd: 10000,
+                    tl: /* [] */ 0
                   }
                 }
-              }));
+              }
+            }
+          }
+        }
+      }));
       return {
         TAG: /* Eq */ 0,
         _0: match[0],

@@ -169,16 +169,16 @@ const f = Stdlib__Char.chr;
 const a$2 = Caml_bytes.bytes_to_string(Stdlib__Bytes.init(100, f));
 
 const b = Stdlib__Bytes.init(100, (function (i) {
-      return /* '\000' */0;
-    }));
+  return /* '\000' */0;
+}));
 
 Stdlib__Bytes.blit_string(a$2, 10, b, 5, 10);
 
 eq("File \"jscomp/test/ext_bytes_test.ml\", line 109, characters 7-14", b, Stdlib__Bytes.of_string("\0\0\0\0\0\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
 
 const s = Stdlib__Bytes.init(50000, (function (i) {
-      return Stdlib__Char.chr(i % 137);
-    }));
+  return Stdlib__Char.chr(i % 137);
+}));
 
 const s1 = Stdlib__Bytes.to_string(s);
 

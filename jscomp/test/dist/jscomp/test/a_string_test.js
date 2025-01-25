@@ -80,14 +80,14 @@ const suites_1 = {
             return {
               TAG: /* Eq */ 0,
               _0: Stdlib__List.filter((function (s) {
-                    return s !== "";
-                  }), Ext_string_test.split_by(undefined, (function (x) {
-                        if (x === /* ' ' */32) {
-                          return true;
-                        } else {
-                          return x === /* '\t' */9;
-                        }
-                      }), "h hgso hgso \t hi")),
+                return s !== "";
+              }), Ext_string_test.split_by(undefined, (function (x) {
+                if (x === /* ' ' */32) {
+                  return true;
+                } else {
+                  return x === /* '\t' */9;
+                }
+              }), "h hgso hgso \t hi")),
               _1: {
                 hd: "h",
                 tl: {

@@ -18,8 +18,8 @@ function eq(loc, x, y) {
 
 function f_01(param) {
   return hi(function () {
-        console.log("x");
-      });
+    console.log("x");
+  });
 }
 
 function u(x) {

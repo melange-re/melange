@@ -23,9 +23,9 @@ function eq(f, param) {
 
 function assert_(loc, v) {
   eq(loc, [
-        v,
-        true
-      ]);
+    v,
+    true
+  ]);
 }
 
 function to_list(s) {
@@ -33,11 +33,11 @@ function to_list(s) {
     contents: /* [] */ 0
   };
   Stdlib__List.iter((function (x) {
-        l.contents = {
-          hd: x,
-          tl: l.contents
-        };
-      }), s.c);
+    l.contents = {
+      hd: x,
+      tl: l.contents
+    };
+  }), s.c);
   return l.contents;
 }
 
@@ -86,78 +86,78 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 33, characters 32-39", Ca
 Stdlib__Stack.push(1, s);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 34, characters 32-39", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && s.len === 1);
+  hd: 1,
+  tl: /* [] */ 0
+}) && s.len === 1);
 
 Stdlib__Stack.push(2, s);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 35, characters 32-39", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: /* [] */ 0
-          }
-        }) && s.len === 2);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+}) && s.len === 2);
 
 Stdlib__Stack.push(3, s);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 36, characters 32-39", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: /* [] */ 0
-            }
-          }
-        }) && s.len === 3);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: /* [] */ 0
+    }
+  }
+}) && s.len === 3);
 
 Stdlib__Stack.push(4, s);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 37, characters 32-39", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        }) && s.len === 4);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: /* [] */ 0
+      }
+    }
+  }
+}) && s.len === 4);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 38, characters 10-17", Stdlib__Stack.pop(s) === 4);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 38, characters 41-48", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: /* [] */ 0
-            }
-          }
-        }) && s.len === 3);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: /* [] */ 0
+    }
+  }
+}) && s.len === 3);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 39, characters 10-17", Stdlib__Stack.pop(s) === 3);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 39, characters 41-48", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: /* [] */ 0
-          }
-        }) && s.len === 2);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+}) && s.len === 2);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 40, characters 10-17", Stdlib__Stack.pop(s) === 2);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 40, characters 41-48", Caml_obj.caml_equal(to_list(s), {
-          hd: 1,
-          tl: /* [] */ 0
-        }) && s.len === 1);
+  hd: 1,
+  tl: /* [] */ 0
+}) && s.len === 1);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 41, characters 10-17", Stdlib__Stack.pop(s) === 1);
 
@@ -233,9 +233,9 @@ assert_("File \"jscomp/test/stack_comp_test.ml\", line 68, characters 10-17", s$
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 69, characters 10-17", does_raise(Stdlib__Stack.pop, s$3));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 70, characters 10-17", Caml_obj.caml_equal(s$3, {
-          c: /* [] */ 0,
-          len: 0
-        }));
+  c: /* [] */ 0,
+  len: 0
+}));
 
 Stdlib__Stack.push(42, s$3);
 
@@ -253,68 +253,68 @@ for (let i$1 = 1; i$1 <= 10; ++i$1) {
 const s2 = Stdlib__Stack.copy(s1);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 79, characters 10-17", Caml_obj.caml_equal(to_list(s1), {
-          hd: 1,
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: {
+          hd: 5,
           tl: {
-            hd: 2,
+            hd: 6,
             tl: {
-              hd: 3,
+              hd: 7,
               tl: {
-                hd: 4,
+                hd: 8,
                 tl: {
-                  hd: 5,
+                  hd: 9,
                   tl: {
-                    hd: 6,
-                    tl: {
-                      hd: 7,
-                      tl: {
-                        hd: 8,
-                        tl: {
-                          hd: 9,
-                          tl: {
-                            hd: 10,
-                            tl: /* [] */ 0
-                          }
-                        }
-                      }
-                    }
+                    hd: 10,
+                    tl: /* [] */ 0
                   }
                 }
               }
             }
           }
-        }));
+        }
+      }
+    }
+  }
+}));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 80, characters 10-17", Caml_obj.caml_equal(to_list(s2), {
-          hd: 1,
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: {
+          hd: 5,
           tl: {
-            hd: 2,
+            hd: 6,
             tl: {
-              hd: 3,
+              hd: 7,
               tl: {
-                hd: 4,
+                hd: 8,
                 tl: {
-                  hd: 5,
+                  hd: 9,
                   tl: {
-                    hd: 6,
-                    tl: {
-                      hd: 7,
-                      tl: {
-                        hd: 8,
-                        tl: {
-                          hd: 9,
-                          tl: {
-                            hd: 10,
-                            tl: /* [] */ 0
-                          }
-                        }
-                      }
-                    }
+                    hd: 10,
+                    tl: /* [] */ 0
                   }
                 }
               }
             }
           }
-        }));
+        }
+      }
+    }
+  }
+}));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 81, characters 10-17", s1.len === 10);
 
@@ -365,9 +365,9 @@ const i$7 = {
 };
 
 Stdlib__List.iter((function (j) {
-      assert_("File \"jscomp/test/stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
-      i$7.contents = i$7.contents + 1 | 0;
-    }), s$5.c);
+  assert_("File \"jscomp/test/stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
+  i$7.contents = i$7.contents + 1 | 0;
+}), s$5.c);
 
 const s1$1 = {
   c: /* [] */ 0,
@@ -400,52 +400,52 @@ for (let i$8 = 1; i$8 <= 4; ++i$8) {
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 126, characters 10-17", s1$2.len === 4);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 126, characters 45-52", Caml_obj.caml_equal(to_list(s1$2), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        }));
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: /* [] */ 0
+      }
+    }
+  }
+}));
 
 const s2$2 = Stdlib__Stack.copy(s1$2);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 128, characters 10-17", s1$2.len === 4);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 128, characters 45-52", Caml_obj.caml_equal(to_list(s1$2), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        }));
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: /* [] */ 0
+      }
+    }
+  }
+}));
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 129, characters 10-17", s2$2.len === 4);
 
 assert_("File \"jscomp/test/stack_comp_test.ml\", line 129, characters 45-52", Caml_obj.caml_equal(to_list(s2$2), {
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: {
-                hd: 4,
-                tl: /* [] */ 0
-              }
-            }
-          }
-        }));
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: /* [] */ 0
+      }
+    }
+  }
+}));
 
 Mt.from_pair_suites("Stack_comp_test", suites.contents);
 

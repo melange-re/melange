@@ -18,43 +18,43 @@ const accum = {
 
 function record(fmt) {
   return Stdlib__Printf.ksprintf((function (s) {
-        accum.contents = {
-          hd: s,
-          tl: accum.contents
-        };
-      }), fmt);
+    accum.contents = {
+      hd: s,
+      tl: accum.contents
+    };
+  }), fmt);
 }
 
 function f_unit(param) {
   record({
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "unit()",
-          _1: /* End_of_format */ 0
-        },
-        _1: "unit()"
-      });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "unit()",
+      _1: /* End_of_format */ 0
+    },
+    _1: "unit()"
+  });
 }
 
 function f_bool(b) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "bool(",
-            _1: {
-              TAG: /* Bool */ 9,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "bool(%b)"
-        }), b);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "bool(",
+      _1: {
+        TAG: /* Bool */ 9,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "bool(%b)"
+  }), b);
 }
 
 const r_set = {
@@ -67,22 +67,22 @@ const r_clear = {
 
 function f_string(s) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "string(",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "string(%s)"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "string(",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "string(%s)"
+  }), s);
 }
 
 const r_string = {
@@ -91,24 +91,24 @@ const r_string = {
 
 function f_int(i) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "int(",
-            _1: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "int(%d)"
-        }), i);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "int(",
+      _1: {
+        TAG: /* Int */ 4,
+        _0: /* Int_d */ 0,
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "int(%d)"
+  }), i);
 }
 
 const r_int = {
@@ -117,27 +117,27 @@ const r_int = {
 
 function f_float(f) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "float(",
-            _1: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_g */ 3
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "float(%g)"
-        }), f);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "float(",
+      _1: {
+        TAG: /* Float */ 8,
+        _0: [
+          /* Float_flag_ */ 0,
+          /* Float_g */ 3
+        ],
+        _1: /* No_padding */ 0,
+        _2: /* No_precision */ 0,
+        _3: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "float(%g)"
+  }), f);
 }
 
 const r_float = {
@@ -146,62 +146,62 @@ const r_float = {
 
 function f_symbol(s) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "symbol(",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "symbol(%s)"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "symbol(",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "symbol(%s)"
+  }), s);
 }
 
 function f_rest(s) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "rest(",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "rest(%s)"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "rest(",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "rest(%s)"
+  }), s);
 }
 
 function f_anon(s) {
   Curry._1(record({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "anon(",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* Char_literal */ 12,
-                _0: /* ')' */41,
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "anon(%s)"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "anon(",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ')' */41,
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "anon(%s)"
+  }), s);
 }
 
 const spec_0 = [
@@ -430,22 +430,22 @@ const args2 = [
 
 function error(s) {
   Curry._1(Stdlib__Printf.printf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "error (",
-            _1: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: {
-                TAG: /* String_literal */ 11,
-                _0: ")\n",
-                _1: /* End_of_format */ 0
-              }
-            }
-          },
-          _1: "error (%s)\n"
-        }), s);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "error (",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: {
+          TAG: /* String_literal */ 11,
+          _0: ")\n",
+          _1: /* End_of_format */ 0
+        }
+      }
+    },
+    _1: "error (%s)\n"
+  }), s);
 }
 
 function check(r, v, msg) {
@@ -514,44 +514,44 @@ function test(argv) {
   if (Caml_obj.caml_notequal(result, reference)) {
     const f = function (x, y) {
       Curry._3(Stdlib__Printf.printf({
-              TAG: /* Format */ 0,
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String */ 2,
+          _0: {
+            TAG: /* Lit_padding */ 0,
+            _0: /* Right */ 1,
+            _1: 20
+          },
+          _1: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
+              TAG: /* Char */ 0,
               _0: {
-                TAG: /* String */ 2,
-                _0: {
-                  TAG: /* Lit_padding */ 0,
-                  _0: /* Right */ 1,
-                  _1: 20
-                },
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
                 _1: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
+                  TAG: /* String */ 2,
+                  _0: {
+                    TAG: /* Lit_padding */ 0,
+                    _0: /* Left */ 0,
+                    _1: 20
+                  },
                   _1: {
-                    TAG: /* Char */ 0,
-                    _0: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: {
-                          TAG: /* Lit_padding */ 0,
-                          _0: /* Left */ 0,
-                          _1: 20
-                        },
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '\n' */10,
-                          _1: {
-                            TAG: /* Flush */ 10,
-                            _0: /* End_of_format */ 0
-                          }
-                        }
-                      }
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '\n' */10,
+                    _1: {
+                      TAG: /* Flush */ 10,
+                      _0: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "%20s %c %-20s\n%!"
-            }), x, x === y ? /* '=' */61 : /* '#' */35, y);
+              }
+            }
+          }
+        },
+        _1: "%20s %c %-20s\n%!"
+      }), x, x === y ? /* '=' */61 : /* '#' */35, y);
     };
     Stdlib__List.iter2(f, result, reference);
   }

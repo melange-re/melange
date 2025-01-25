@@ -78,41 +78,41 @@ function string_of_rank(i) {
     }
   } else {
     return Curry._1(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "Ranked(",
-              _1: {
-                TAG: /* Int */ 4,
-                _0: /* Int_i */ 3,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ')' */41,
-                  _1: /* End_of_format */ 0
-                }
-              }
-            },
-            _1: "Ranked(%i)"
-          }), i._0);
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "Ranked(",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_i */ 3,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ')' */41,
+            _1: /* End_of_format */ 0
+          }
+        }
+      },
+      _1: "Ranked(%i)"
+    }), i._0);
   }
 }
 
 function find_ticker_by_name(all_tickers, ticker) {
   return Stdlib__List.find((function (param) {
-        return param.ticker_name === ticker;
-      }), all_tickers);
+    return param.ticker_name === ticker;
+  }), all_tickers);
 }
 
 function print_all_composite(all_tickers) {
   Stdlib__List.iter((function (param) {
-        let tmp = param.type_;
-        if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
-          return;
-        }
-        console.log(param.ticker_name);
-      }), all_tickers);
+    let tmp = param.type_;
+    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+      return;
+    }
+    console.log(param.ticker_name);
+  }), all_tickers);
 }
 
 const compare = Caml_obj.caml_compare;
@@ -1090,14 +1090,14 @@ function bindings(s) {
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), /* Empty */ 0, bs);
+    return add(param[0], param[1], m);
+  }), /* Empty */ 0, bs);
 }
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), m, i);
+    return add(param[0], param[1], m);
+  }), m, i);
 }
 
 function of_seq(i) {
@@ -1261,128 +1261,128 @@ const Ticker_map = {
 
 function compute_update_sequences(all_tickers) {
   Stdlib__List.fold_left((function (counter, ticker) {
-        const loop = function (counter, ticker) {
-          const rank = ticker.rank;
-          if (!/* tag */ (typeof rank === "number" || typeof rank === "string")) {
-            return counter;
-          }
-          if (rank !== /* Uninitialized */ 0) {
-            return counter;
-          }
-          ticker.rank = /* Visited */ 1;
-          const match = ticker.type_;
-          if (/* tag */ typeof match === "number" || typeof match === "string") {
-            const counter$1 = counter + 1 | 0;
-            ticker.rank = {
-              TAG: /* Ranked */ 0,
-              _0: counter$1
-            };
-            return counter$1;
-          }
-          const match$1 = match._0;
-          const counter$2 = loop(counter, match$1.lhs);
-          const counter$3 = loop(counter$2, match$1.rhs);
-          const counter$4 = counter$3 + 1 | 0;
-          ticker.rank = {
-            TAG: /* Ranked */ 0,
-            _0: counter$4
-          };
-          return counter$4;
+    const loop = function (counter, ticker) {
+      const rank = ticker.rank;
+      if (!/* tag */ (typeof rank === "number" || typeof rank === "string")) {
+        return counter;
+      }
+      if (rank !== /* Uninitialized */ 0) {
+        return counter;
+      }
+      ticker.rank = /* Visited */ 1;
+      const match = ticker.type_;
+      if (/* tag */ typeof match === "number" || typeof match === "string") {
+        const counter$1 = counter + 1 | 0;
+        ticker.rank = {
+          TAG: /* Ranked */ 0,
+          _0: counter$1
         };
-        return loop(counter, ticker);
-      }), 0, all_tickers);
+        return counter$1;
+      }
+      const match$1 = match._0;
+      const counter$2 = loop(counter, match$1.lhs);
+      const counter$3 = loop(counter$2, match$1.rhs);
+      const counter$4 = counter$3 + 1 | 0;
+      ticker.rank = {
+        TAG: /* Ranked */ 0,
+        _0: counter$4
+      };
+      return counter$4;
+    };
+    return loop(counter, ticker);
+  }), 0, all_tickers);
   const map = Stdlib__List.fold_left((function (map, ticker) {
-        let tmp = ticker.type_;
-        if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
-          return Curry._3(add, ticker.ticker_name, {
-              hd: ticker,
-              tl: /* [] */ 0
-            }, map);
+    let tmp = ticker.type_;
+    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+      return Curry._3(add, ticker.ticker_name, {
+        hd: ticker,
+        tl: /* [] */ 0
+      }, map);
+    }
+    const loop = function (_up, _map, _ticker) {
+      while (true) {
+        const ticker = _ticker;
+        const map = _map;
+        const up = _up;
+        const type_ = ticker.type_;
+        const ticker_name = ticker.ticker_name;
+        if (/* tag */ typeof type_ === "number" || typeof type_ === "string") {
+          const l = Curry._2(find, ticker_name, map);
+          return Curry._3(add, ticker_name, Stdlib.$at(up, l), map);
         }
-        const loop = function (_up, _map, _ticker) {
-          while (true) {
-            const ticker = _ticker;
-            const map = _map;
-            const up = _up;
-            const type_ = ticker.type_;
-            const ticker_name = ticker.ticker_name;
-            if (/* tag */ typeof type_ === "number" || typeof type_ === "string") {
-              const l = Curry._2(find, ticker_name, map);
-              return Curry._3(add, ticker_name, Stdlib.$at(up, l), map);
-            }
-            const match = type_._0;
-            const map$1 = loop({
-                  hd: ticker,
-                  tl: up
-                }, map, match.lhs);
-            _ticker = match.rhs;
-            _map = map$1;
-            _up = {
-              hd: ticker,
-              tl: up
-            };
-            continue;
-          };
+        const match = type_._0;
+        const map$1 = loop({
+          hd: ticker,
+          tl: up
+        }, map, match.lhs);
+        _ticker = match.rhs;
+        _map = map$1;
+        _up = {
+          hd: ticker,
+          tl: up
         };
-        return loop(/* [] */ 0, map, ticker);
-      }), /* Empty */ 0, Stdlib__List.rev(all_tickers));
+        continue;
+      };
+    };
+    return loop(/* [] */ 0, map, ticker);
+  }), /* Empty */ 0, Stdlib__List.rev(all_tickers));
   return Curry._3(fold, (function (k, l, map) {
-      const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
-            const x = lhs.rank;
-            if (/* tag */ typeof x === "number" || typeof x === "string") {
-              if (x === /* Uninitialized */ 0) {
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "All nodes should be ranked"
-                    });
-              }
-              throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "All nodes should be ranked"
-                  });
-            } else {
-              const y = rhs.rank;
-              if (!/* tag */ (typeof y === "number" || typeof y === "string")) {
-                return Caml.caml_int_compare(x._0, y._0);
-              }
-              if (y === /* Uninitialized */ 0) {
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "All nodes should be ranked"
-                    });
-              }
-              throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "All nodes should be ranked"
-                  });
-            }
-          }), l);
-      return Curry._3(add, k, l$1, map);
-    }), map, map);
+    const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
+      const x = lhs.rank;
+      if (/* tag */ typeof x === "number" || typeof x === "string") {
+        if (x === /* Uninitialized */ 0) {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "All nodes should be ranked"
+              });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+              MEL_EXN_ID: "Failure",
+              _1: "All nodes should be ranked"
+            });
+      } else {
+        const y = rhs.rank;
+        if (!/* tag */ (typeof y === "number" || typeof y === "string")) {
+          return Caml.caml_int_compare(x._0, y._0);
+        }
+        if (y === /* Uninitialized */ 0) {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
+                MEL_EXN_ID: "Failure",
+                _1: "All nodes should be ranked"
+              });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+              MEL_EXN_ID: "Failure",
+              _1: "All nodes should be ranked"
+            });
+      }
+    }), l);
+    return Curry._3(add, k, l$1, map);
+  }), map, map);
 }
 
 function process_quote(ticker_map, new_ticker, new_value) {
   const update_sequence = Curry._2(find, new_ticker, ticker_map);
   Stdlib__List.iter((function (ticker) {
-        const match = ticker.type_;
-        if (/* tag */ typeof match === "number" || typeof match === "string") {
-          if (ticker.ticker_name === new_ticker) {
-            ticker.value = new_value;
-            return;
-          }
-          throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "Only single Market ticker should be udpated upon a new quote"
-              });
-        }
-        const match$1 = match._0;
-        const match$2 = match$1.lhs.value;
-        const match$3 = match$1.rhs.value;
-        const value = match$2 !== undefined && match$3 !== undefined ? (
-            match$1.op === /* PLUS */ 0 ? match$2 + match$3 : match$2 - match$3
-          ) : undefined;
-        ticker.value = value;
-      }), update_sequence);
+    const match = ticker.type_;
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
+      if (ticker.ticker_name === new_ticker) {
+        ticker.value = new_value;
+        return;
+      }
+      throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "Only single Market ticker should be udpated upon a new quote"
+          });
+    }
+    const match$1 = match._0;
+    const match$2 = match$1.lhs.value;
+    const match$3 = match$1.rhs.value;
+    const value = match$2 !== undefined && match$3 !== undefined ? (
+        match$1.op === /* PLUS */ 0 ? match$2 + match$3 : match$2 - match$3
+      ) : undefined;
+    ticker.value = value;
+  }), update_sequence);
 }
 
 function process_input_line(ticker_map, all_tickers, line) {

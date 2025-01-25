@@ -39,96 +39,118 @@ function fib(n) {
 }
 
 Mt.from_pair_suites("Int_overflow_test", {
+  hd: [
+    "plus_overflow",
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: true,
+        _1: (Stdlib__Int32.max_int + 1 | 0) === Stdlib__Int32.min_int
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "minus_overflow",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: true,
+          _1: (Stdlib__Int32.min_int - Stdlib__Int32.one | 0) === Stdlib__Int32.max_int
+        };
+      })
+    ],
+    tl: {
       hd: [
-        "plus_overflow",
+        "flow_again",
         (function (param) {
           return {
             TAG: /* Eq */ 0,
-            _0: true,
-            _1: (Stdlib__Int32.max_int + 1 | 0) === Stdlib__Int32.min_int
+            _0: 2147483646,
+            _1: (Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0) + Stdlib__Int32.min_int | 0
           };
         })
       ],
       tl: {
         hd: [
-          "minus_overflow",
+          "flow_again",
           (function (param) {
             return {
               TAG: /* Eq */ 0,
-              _0: true,
-              _1: (Stdlib__Int32.min_int - Stdlib__Int32.one | 0) === Stdlib__Int32.max_int
+              _0: -2,
+              _1: Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0
             };
           })
         ],
         tl: {
           hd: [
-            "flow_again",
+            "hash_test",
             (function (param) {
               return {
                 TAG: /* Eq */ 0,
-                _0: 2147483646,
-                _1: (Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0) + Stdlib__Int32.min_int | 0
+                _0: hash_variant("xxyyzzuuxxzzyy00112233"),
+                _1: 544087776
               };
             })
           ],
           tl: {
             hd: [
-              "flow_again",
+              "hash_test2",
               (function (param) {
                 return {
                   TAG: /* Eq */ 0,
-                  _0: -2,
-                  _1: Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0
+                  _0: hash_variant("xxyyzxzzyy"),
+                  _1: -449896130
                 };
               })
             ],
             tl: {
               hd: [
-                "hash_test",
+                "File \"jscomp/test/int_overflow_test.ml\", line 37, characters 2-9",
                 (function (param) {
                   return {
                     TAG: /* Eq */ 0,
-                    _0: hash_variant("xxyyzzuuxxzzyy00112233"),
+                    _0: hash_variant2("xxyyzzuuxxzzyy00112233"),
                     _1: 544087776
                   };
                 })
               ],
               tl: {
                 hd: [
-                  "hash_test2",
+                  "File \"jscomp/test/int_overflow_test.ml\", line 38, characters 2-9",
                   (function (param) {
                     return {
                       TAG: /* Eq */ 0,
-                      _0: hash_variant("xxyyzxzzyy"),
+                      _0: hash_variant2("xxyyzxzzyy"),
                       _1: -449896130
                     };
                   })
                 ],
                 tl: {
                   hd: [
-                    "File \"jscomp/test/int_overflow_test.ml\", line 37, characters 2-9",
+                    "int_literal_flow",
                     (function (param) {
                       return {
                         TAG: /* Eq */ 0,
-                        _0: hash_variant2("xxyyzzuuxxzzyy00112233"),
-                        _1: 544087776
+                        _0: -1,
+                        _1: -1
                       };
                     })
                   ],
                   tl: {
                     hd: [
-                      "File \"jscomp/test/int_overflow_test.ml\", line 38, characters 2-9",
+                      "int_literal_flow2",
                       (function (param) {
                         return {
                           TAG: /* Eq */ 0,
-                          _0: hash_variant2("xxyyzxzzyy"),
-                          _1: -449896130
+                          _0: -1,
+                          _1: -1
                         };
                       })
                     ],
                     tl: {
                       hd: [
-                        "int_literal_flow",
+                        "int_literal_flow3",
                         (function (param) {
                           return {
                             TAG: /* Eq */ 0,
@@ -139,62 +161,38 @@ Mt.from_pair_suites("Int_overflow_test", {
                       ],
                       tl: {
                         hd: [
-                          "int_literal_flow2",
+                          "int32_mul",
                           (function (param) {
                             return {
                               TAG: /* Eq */ 0,
-                              _0: -1,
-                              _1: -1
+                              _0: -33554431,
+                              _1: -33554431
                             };
                           })
                         ],
                         tl: {
                           hd: [
-                            "int_literal_flow3",
+                            "File \"jscomp/test/int_overflow_test.ml\", line 44, characters 3-10",
                             (function (param) {
                               return {
                                 TAG: /* Eq */ 0,
-                                _0: -1,
-                                _1: -1
+                                _0: Number("3") | 0,
+                                _1: 3
                               };
                             })
                           ],
                           tl: {
                             hd: [
-                              "int32_mul",
+                              "File \"jscomp/test/int_overflow_test.ml\", line 46, characters 3-10",
                               (function (param) {
                                 return {
                                   TAG: /* Eq */ 0,
-                                  _0: -33554431,
-                                  _1: -33554431
+                                  _0: Number("3.2") | 0,
+                                  _1: 3
                                 };
                               })
                             ],
-                            tl: {
-                              hd: [
-                                "File \"jscomp/test/int_overflow_test.ml\", line 44, characters 3-10",
-                                (function (param) {
-                                  return {
-                                    TAG: /* Eq */ 0,
-                                    _0: Number("3") | 0,
-                                    _1: 3
-                                  };
-                                })
-                              ],
-                              tl: {
-                                hd: [
-                                  "File \"jscomp/test/int_overflow_test.ml\", line 46, characters 3-10",
-                                  (function (param) {
-                                    return {
-                                      TAG: /* Eq */ 0,
-                                      _0: Number("3.2") | 0,
-                                      _1: 3
-                                    };
-                                  })
-                                ],
-                                tl: /* [] */ 0
-                              }
-                            }
+                            tl: /* [] */ 0
                           }
                         }
                       }
@@ -206,7 +204,9 @@ Mt.from_pair_suites("Int_overflow_test", {
           }
         }
       }
-    });
+    }
+  }
+});
 
 module.exports = {
   hash_variant,

@@ -45,10 +45,10 @@ const arg_spec = {
 };
 
 Stdlib__Arg.parse_argv(undefined, [
-      "prog.exe",
-      "-c",
-      "-d"
-    ], arg_spec, anno_fun, usage_msg);
+  "prog.exe",
+  "-c",
+  "-d"
+], arg_spec, anno_fun, usage_msg);
 
 if (compile.contents !== true) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

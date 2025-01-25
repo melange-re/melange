@@ -11,36 +11,36 @@ Caml_array.make_float(30);
 const h = Stdlib__Array.sub(v, 0, 2);
 
 const hhh = Stdlib__Array.append([
-      1,
-      2,
-      3,
-      4
-    ], [
-      1,
-      2,
-      3,
-      5
-    ]);
+  1,
+  2,
+  3,
+  4
+], [
+  1,
+  2,
+  3,
+  5
+]);
 
 const u = Caml_array.concat({
+  hd: [
+    1,
+    2
+  ],
+  tl: {
+    hd: [
+      2,
+      3
+    ],
+    tl: {
       hd: [
-        1,
-        2
+        3,
+        4
       ],
-      tl: {
-        hd: [
-          2,
-          3
-        ],
-        tl: {
-          hd: [
-            3,
-            4
-          ],
-          tl: /* [] */ 0
-        }
-      }
-    });
+      tl: /* [] */ 0
+    }
+  }
+});
 
 const hh = Stdlib__Array.blit;
 

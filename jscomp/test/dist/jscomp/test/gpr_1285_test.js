@@ -50,20 +50,20 @@ function step1(param) {
     const $$class = CamlinternalOO.create_table(["step2"]);
     const step2 = CamlinternalOO.get_method_label($$class, "step2");
     CamlinternalOO.set_method($$class, step2, (function (self$1) {
-          if (!object_tables$1.key) {
-            const $$class = CamlinternalOO.create_table(["step3"]);
-            const step3 = CamlinternalOO.get_method_label($$class, "step3");
-            CamlinternalOO.set_method($$class, step3, (function (self$2) {
-                  return 33;
-                }));
-            const env_init = function (env) {
-              return CamlinternalOO.create_object_opt(undefined, $$class);
-            };
-            CamlinternalOO.init_class($$class);
-            object_tables$1.key = env_init;
-          }
-          return Curry._1(object_tables$1.key, undefined);
+      if (!object_tables$1.key) {
+        const $$class = CamlinternalOO.create_table(["step3"]);
+        const step3 = CamlinternalOO.get_method_label($$class, "step3");
+        CamlinternalOO.set_method($$class, step3, (function (self$2) {
+          return 33;
         }));
+        const env_init = function (env) {
+          return CamlinternalOO.create_object_opt(undefined, $$class);
+        };
+        CamlinternalOO.init_class($$class);
+        object_tables$1.key = env_init;
+      }
+      return Curry._1(object_tables$1.key, undefined);
+    }));
     const env_init = function (env) {
       return CamlinternalOO.create_object_opt(undefined, $$class);
     };

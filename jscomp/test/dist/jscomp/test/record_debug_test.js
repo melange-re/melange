@@ -78,13 +78,13 @@ const a = [
 ];
 
 eq("File \"jscomp/test/record_debug_test.ml\", line 59, characters 3-10", a, [
-      "",
-      "a",
-      "3",
-      "33",
-      "333",
-      " 3"
-    ]);
+  "",
+  "a",
+  "3",
+  "33",
+  "333",
+  " 3"
+]);
 
 Mt.from_pair_suites("jscomp/test/record_debug_test.ml", suites.contents);
 

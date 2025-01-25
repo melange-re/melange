@@ -112,8 +112,8 @@ const suites_1 = {
                   return {
                     TAG: /* Eq */ 0,
                     _0: string_or_number(function (x) {
-                          return x;
-                        }),
+                      return x;
+                    }),
                     _1: false
                   };
                 })
@@ -147,8 +147,8 @@ const suites_1 = {
                         return {
                           TAG: /* Eq */ 0,
                           _0: Js__Js_types.test((function (x) {
-                                return x;
-                              }), /* Function */ 5),
+                            return x;
+                          }), /* Function */ 5),
                           _1: true
                         };
                       })
@@ -160,8 +160,8 @@ const suites_1 = {
                           return {
                             TAG: /* Eq */ 0,
                             _0: Js__Js_types.test({
-                                  x: 3
-                                }, /* Object */ 6),
+                              x: 3
+                            }, /* Object */ 6),
                             _1: true
                           };
                         })

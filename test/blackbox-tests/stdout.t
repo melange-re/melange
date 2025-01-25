@@ -9,16 +9,16 @@
   const Stdlib__Format = require("melange/format.js");
   
   Stdlib__Format.eprintf({
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "hello, world",
-          _1: {
-            TAG: /* Formatting_lit */ 17,
-            _0: /* Flush_newline */ 4,
-            _1: /* End_of_format */ 0
-          }
-        },
-        _1: "hello, world@."
-      });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "hello, world",
+      _1: {
+        TAG: /* Formatting_lit */ 17,
+        _0: /* Flush_newline */ 4,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "hello, world@."
+  });
   /*  Not a pure module */

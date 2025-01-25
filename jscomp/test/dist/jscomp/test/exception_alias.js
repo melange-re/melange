@@ -9,12 +9,12 @@ const a0 = {
 };
 
 const b = Stdlib__List.length({
-      hd: 1,
-      tl: {
-        hd: 2,
-        tl: /* [] */ 0
-      }
-    });
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+});
 
 const List = {
   compare_lengths: Stdlib__List.compare_lengths,

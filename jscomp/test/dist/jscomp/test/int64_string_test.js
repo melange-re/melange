@@ -29,33 +29,33 @@ function f(a, b) {
 }
 
 const hh = Caml_int64.add(Stdlib__Int64.min_int, [
-      0,
-      100
-    ]);
+  0,
+  100
+]);
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 15, characters 6-13", hh, [
-      -2147483648,
-      100
-    ]);
+  -2147483648,
+  100
+]);
 
 f([
-      -1,
-      4294967263
-    ], "-33");
+  -1,
+  4294967263
+], "-33");
 
 f([
-      0,
-      33
-    ], "33");
+  0,
+  33
+], "33");
 
 f(Stdlib__Int64.min_int, "-9223372036854775808");
 
 f(hh, "-9223372036854775708");
 
 f([
-      232830,
-      2764472320
-    ], "1000000000000000");
+  232830,
+  2764472320
+], "1000000000000000");
 
 for (let i = 0; i <= 8; ++i) {
   eq("File \"jscomp/test/int64_string_test.ml\", line 25, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.of_int32(i))), "-922337203685477580" + String(8 - i | 0));
@@ -88,19 +88,19 @@ for (let i$4 = 0; i$4 <= 9; ++i$4) {
 }
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 52, characters 6-13", Caml_format.caml_int64_format("%d", [
-          2097151,
-          4294967295
-        ]), "9007199254740991");
+  2097151,
+  4294967295
+]), "9007199254740991");
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 53, characters 6-13", Caml_format.caml_int64_format("%d", [
-          -2097152,
-          1
-        ]), "-9007199254740991");
+  -2097152,
+  1
+]), "-9007199254740991");
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 54, characters 6-13", Caml_format.caml_int64_format("%d", [
-          -1,
-          4294967063
-        ]), "-233");
+  -1,
+  4294967063
+]), "-233");
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 55, characters 6-13", Caml_format.caml_int64_format("%d", Caml_int64.max_int), "9223372036854775807");
 
@@ -1307,20 +1307,8 @@ const random_data = {
 };
 
 Belt__Belt_List.forEach(random_data, (function (u) {
-      if (u) {
-        if (u.tl) {
-          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/int64_string_test.ml",
-                  161,
-                  9
-                ]
-              });
-        }
-        const match = u.hd;
-        return eq("File \"jscomp/test/int64_string_test.ml\", line 160, characters 21-28", Caml_format.caml_int64_format("%d", match[0]), match[1]);
-      }
+  if (u) {
+    if (u.tl) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
             _1: [
@@ -1329,17 +1317,29 @@ Belt__Belt_List.forEach(random_data, (function (u) {
               9
             ]
           });
-    }));
+    }
+    const match = u.hd;
+    return eq("File \"jscomp/test/int64_string_test.ml\", line 160, characters 21-28", Caml_format.caml_int64_format("%d", match[0]), match[1]);
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/int64_string_test.ml",
+          161,
+          9
+        ]
+      });
+}));
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 164, characters 7-14", Caml_format.caml_int64_format("%d", [
-          -2097152,
-          1
-        ]), "-9007199254740991");
+  -2097152,
+  1
+]), "-9007199254740991");
 
 eq("File \"jscomp/test/int64_string_test.ml\", line 165, characters 7-14", Caml_format.caml_int64_format("%d", [
-          -2097152,
-          0
-        ]), "-9007199254740992");
+  -2097152,
+  0
+]), "-9007199254740992");
 
 Mt.from_pair_suites("File \"jscomp/test/int64_string_test.ml\", line 166, characters 23-30", suites.contents);
 

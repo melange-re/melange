@@ -42,10 +42,10 @@ const suites_0 = [
       TAG: /* Eq */ 0,
       _0: 3,
       _1: to_int({
-            MEL_EXN_ID: Int,
-            _1: 3,
-            _2: 0
-          })
+        MEL_EXN_ID: Int,
+        _1: 3,
+        _2: 0
+      })
     };
   })
 ];
@@ -58,10 +58,10 @@ const suites_1 = {
         TAG: /* Eq */ 0,
         _0: 0,
         _1: to_int({
-              MEL_EXN_ID: Int$1,
-              _1: 3,
-              _2: 0
-            })
+          MEL_EXN_ID: Int$1,
+          _1: 3,
+          _2: 0
+        })
       };
     })
   ],
@@ -73,9 +73,9 @@ const suites_1 = {
           TAG: /* Eq */ 0,
           _0: -1,
           _1: to_int({
-                MEL_EXN_ID: Str,
-                _1: "x"
-              })
+            MEL_EXN_ID: Str,
+            _1: "x"
+          })
         };
       })
     ],

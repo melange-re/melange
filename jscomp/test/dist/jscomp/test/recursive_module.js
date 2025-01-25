@@ -29,48 +29,48 @@ const Xx = {
 };
 
 const Int3 = Caml_module.init_mod([
-      "jscomp/test/recursive_module.ml",
-      27,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "u"
-        ]]
-    });
+  "jscomp/test/recursive_module.ml",
+  27,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "u"
+    ]]
+});
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "u"
-        ]]
-    }, Int3, Int3);
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "u"
+    ]]
+}, Int3, Int3);
 
 const Inta = Caml_module.init_mod([
-      "jscomp/test/recursive_module.ml",
-      31,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    });
+  "jscomp/test/recursive_module.ml",
+  31,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+});
 
 const Intb = Caml_module.init_mod([
-      "jscomp/test/recursive_module.ml",
-      36,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    });
+  "jscomp/test/recursive_module.ml",
+  36,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+});
 
 const a = {
   LAZY_DONE: false,
@@ -80,14 +80,14 @@ const a = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    }, Inta, {
-      a: a
-    });
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+}, Inta, {
+  a: a
+});
 
 const a$1 = {
   LAZY_DONE: false,
@@ -97,14 +97,14 @@ const a$1 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    }, Intb, {
-      a: a$1
-    });
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+}, Intb, {
+  a: a$1
+});
 
 let tmp;
 
@@ -123,28 +123,28 @@ catch (raw_exn){
 eq("File \"jscomp/test/recursive_module.ml\", line 41, characters 3-10", -1, tmp);
 
 const Inta$1 = Caml_module.init_mod([
-      "jscomp/test/recursive_module.ml",
-      48,
-      8
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    });
+  "jscomp/test/recursive_module.ml",
+  48,
+  8
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+});
 
 const Intb$1 = Caml_module.init_mod([
-      "jscomp/test/recursive_module.ml",
-      53,
-      8
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    });
+  "jscomp/test/recursive_module.ml",
+  53,
+  8
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+});
 
 const a$2 = {
   LAZY_DONE: false,
@@ -154,14 +154,14 @@ const a$2 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    }, Inta$1, {
-      a: a$2
-    });
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+}, Inta$1, {
+  a: a$2
+});
 
 const a$3 = {
   LAZY_DONE: true,
@@ -169,14 +169,14 @@ const a$3 = {
 };
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Lazy */ 1,
-          "a"
-        ]]
-    }, Intb$1, {
-      a: a$3
-    });
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Lazy */ 1,
+      "a"
+    ]]
+}, Intb$1, {
+  a: a$3
+});
 
 const A = {
   Inta: Inta$1,

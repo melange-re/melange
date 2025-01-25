@@ -52,26 +52,26 @@ function $caret$caret(param, param$1) {
 
 function u(param) {
   return $caret$caret({
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "xx ",
-          _1: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: /* End_of_format */ 0
-          }
-        },
-        _1: "xx %s"
-      }, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "yy",
-          _1: /* End_of_format */ 0
-        },
-        _1: "yy"
-      });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "xx ",
+      _1: {
+        TAG: /* String */ 2,
+        _0: /* No_padding */ 0,
+        _1: /* End_of_format */ 0
+      }
+    },
+    _1: "xx %s"
+  }, {
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String_literal */ 11,
+      _0: "yy",
+      _1: /* End_of_format */ 0
+    },
+    _1: "yy"
+  });
 }
 
 const M = {};
@@ -79,28 +79,28 @@ const M = {};
 eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
 
 eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int32 */ 5,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%ld"
-          }), -2147483648), "-2147483648");
+  TAG: /* Format */ 0,
+  _0: {
+    TAG: /* Int32 */ 5,
+    _0: /* Int_d */ 0,
+    _1: /* No_padding */ 0,
+    _2: /* No_precision */ 0,
+    _3: /* End_of_format */ 0
+  },
+  _1: "%ld"
+}), -2147483648), "-2147483648");
 
 eq("File \"jscomp/test/format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.asprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%d"
-          }), -2147483648), "-2147483648");
+  TAG: /* Format */ 0,
+  _0: {
+    TAG: /* Int */ 4,
+    _0: /* Int_d */ 0,
+    _1: /* No_padding */ 0,
+    _2: /* No_precision */ 0,
+    _3: /* End_of_format */ 0
+  },
+  _1: "%d"
+}), -2147483648), "-2147483648");
 
 eq("File \"jscomp/test/format_test.ml\", line 37, characters 5-12", 7.875, 7.875);
 
@@ -140,51 +140,51 @@ eq("File \"jscomp/test/format_test.ml\", line 71, characters 5-12", (1 + 65535 /
 
 function f(loc, ls) {
   Stdlib__List.iter((function (param) {
-        eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
-      }), ls);
+    eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
+  }), ls);
 }
 
 f("File \"jscomp/test/format_test.ml\", line 82, characters 6-13", {
+  hd: [
+    "0x3.fp+1",
+    7.875
+  ],
+  tl: {
+    hd: [
+      " 0x3.fp2",
+      15.75
+    ],
+    tl: {
       hd: [
-        "0x3.fp+1",
-        7.875
+        " 0x4.fp2",
+        19.75
       ],
-      tl: {
-        hd: [
-          " 0x3.fp2",
-          15.75
-        ],
-        tl: {
-          hd: [
-            " 0x4.fp2",
-            19.75
-          ],
-          tl: /* [] */ 0
-        }
-      }
-    });
+      tl: /* [] */ 0
+    }
+  }
+});
 
 function sl(f) {
   return Curry._1(Stdlib__Printf.sprintf({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Float */ 8,
-            _0: [
-              /* Float_flag_ */ 0,
-              /* Float_h */ 6
-            ],
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%h"
-        }), f);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Float */ 8,
+      _0: [
+        /* Float_flag_ */ 0,
+        /* Float_h */ 6
+      ],
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%h"
+  }), f);
 }
 
 function aux_list(loc, ls) {
   Stdlib__List.iter((function (param) {
-        eq(loc, sl(param[0]), param[1]);
-      }), ls);
+    eq(loc, sl(param[0]), param[1]);
+  }), ls);
 }
 
 const literals_0 = [
@@ -250,37 +250,37 @@ const literals = {
 aux_list("File \"jscomp/test/format_test.ml\", line 112, characters 11-18", literals);
 
 eq("File \"jscomp/test/format_test.ml\", line 115, characters 5-12", Curry._1(Stdlib__Printf.sprintf({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Float */ 8,
-              _0: [
-                /* Float_flag_ */ 0,
-                /* Float_H */ 7
-              ],
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: /* End_of_format */ 0
-            },
-            _1: "%H"
-          }), 7.875), "0X1.F8P+2");
+  TAG: /* Format */ 0,
+  _0: {
+    TAG: /* Float */ 8,
+    _0: [
+      /* Float_flag_ */ 0,
+      /* Float_H */ 7
+    ],
+    _1: /* No_padding */ 0,
+    _2: /* No_precision */ 0,
+    _3: /* End_of_format */ 0
+  },
+  _1: "%H"
+}), 7.875), "0X1.F8P+2");
 
 function scan_float(loc, s, expect) {
   Curry._1(Stdlib__Scanf.sscanf(s, {
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* Float */ 8,
-            _0: [
-              /* Float_flag_ */ 0,
-              /* Float_h */ 6
-            ],
-            _1: /* No_padding */ 0,
-            _2: /* No_precision */ 0,
-            _3: /* End_of_format */ 0
-          },
-          _1: "%h"
-        }), (function (result) {
-      eq(loc, result, expect);
-    }));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Float */ 8,
+      _0: [
+        /* Float_flag_ */ 0,
+        /* Float_h */ 6
+      ],
+      _1: /* No_padding */ 0,
+      _2: /* No_precision */ 0,
+      _3: /* End_of_format */ 0
+    },
+    _1: "%h"
+  }), (function (result) {
+    eq(loc, result, expect);
+  }));
 }
 
 scan_float("File \"jscomp/test/format_test.ml\", line 120, characters 13-20", "0x3f.p1", 126);
@@ -288,8 +288,8 @@ scan_float("File \"jscomp/test/format_test.ml\", line 120, characters 13-20", "0
 scan_float("File \"jscomp/test/format_test.ml\", line 121, characters 13-20", "0x1.3333333333333p-2", 0.3);
 
 Stdlib__List.iter((function (param) {
-      scan_float("File \"jscomp/test/format_test.ml\", line 123, characters 13-20", param[1], param[0]);
-    }), literals);
+  scan_float("File \"jscomp/test/format_test.ml\", line 123, characters 13-20", param[1], param[0]);
+}), literals);
 
 const f1 = - -9.9;
 

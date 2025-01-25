@@ -39,12 +39,12 @@ function eq(loc, x, y) {
 function fib_init($$class) {
   const calc = CamlinternalOO.get_method_label($$class, "calc");
   CamlinternalOO.set_method($$class, calc, (function (self$1, x) {
-        if (x === 0 || x === 1) {
-          return 1;
-        } else {
-          return Curry._2(self$1[0][calc], self$1, x - 1 | 0) + Curry._2(self$1[0][calc], self$1, x - 2 | 0) | 0;
-        }
-      }));
+    if (x === 0 || x === 1) {
+      return 1;
+    } else {
+      return Curry._2(self$1[0][calc], self$1, x - 1 | 0) + Curry._2(self$1[0][calc], self$1, x - 2 | 0) | 0;
+    }
+  }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -60,19 +60,19 @@ function memo_fib_init($$class) {
   const obj_init = inh[0];
   const calc$1 = inh[1];
   CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
-        try {
-          return Stdlib__Hashtbl.find(self$2[cache], x);
-        }
-        catch (raw_exn){
-          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            const v = Curry._2(calc$1, self$2, x);
-            Stdlib__Hashtbl.add(self$2[cache], x, v);
-            return v;
-          }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-        }
-      }));
+    try {
+      return Stdlib__Hashtbl.find(self$2[cache], x);
+    }
+    catch (raw_exn){
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+        const v = Curry._2(calc$1, self$2, x);
+        Stdlib__Hashtbl.add(self$2[cache], x, v);
+        return v;
+      }
+      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    }
+  }));
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[cache] = Stdlib__Hashtbl.create(undefined, 31);

@@ -20,25 +20,25 @@ function tFromJs(param) {
 }
 
 const u = tToJs({
-      xx: 3,
-      yy: "x",
-      zz: [
-        1,
-        2
-      ]
-    });
+  xx: 3,
+  yy: "x",
+  zz: [
+    1,
+    2
+  ]
+});
 
 tFromJs(u);
 
 tFromJs({
-      xx: 3,
-      yy: "2",
-      zz: [
-        1,
-        2
-      ],
-      cc: 3
-    });
+  xx: 3,
+  yy: "2",
+  zz: [
+    1,
+    2
+  ],
+  cc: 3
+});
 
 function searchForSureExists(xs, k) {
   let _i = 0;

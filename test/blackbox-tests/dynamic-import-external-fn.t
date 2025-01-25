@@ -26,8 +26,8 @@ translation converts into LFunction stubs
   
   
   const _ext = import("lib").then(function (m) {
-        return m.default;
-      });
+    return m.default;
+  });
   
   module.exports = {
     _ext,
@@ -53,8 +53,8 @@ includes `Lsequence (_, Lconst Const_js_undefined)`
   
   
   const dynamicallyImportedUseEffect = import("react").then(function (m) {
-        return m.useEffect;
-      });
+    return m.useEffect;
+  });
   
   module.exports = {
     dynamicallyImportedUseEffect,
@@ -76,8 +76,8 @@ includes `Lsequence (_, Lconst Const_js_undefined)`
   
   
   const dynamicallyImportedUncurriedFn = import("some-uncurried-module").then(function (m) {
-        return m.uncurriedFn;
-      });
+    return m.uncurriedFn;
+  });
   
   module.exports = {
     dynamicallyImportedUncurriedFn,

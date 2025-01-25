@@ -38,24 +38,24 @@ function add(suite) {
 }
 
 const Int3 = Caml_module.init_mod([
-      "jscomp/test/recursive_module_test.ml",
-      13,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "u"
-        ]]
-    });
+  "jscomp/test/recursive_module_test.ml",
+  13,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "u"
+    ]]
+});
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "u"
-        ]]
-    }, Int3, Int3);
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "u"
+    ]]
+}, Int3, Int3);
 
 function fact(n) {
   if (n <= 1) {
@@ -79,16 +79,16 @@ const Fact = {
 eq("File \"jscomp/test/recursive_module_test.ml\", line 30, characters 5-12", 120, Curry._1(fact$1, 5));
 
 add([
-      "File \"jscomp/test/recursive_module_test.ml\", line 34, characters 7-14",
-      (function (param) {
-        return {
-          TAG: /* ThrowAny */ 7,
-          _0: (function (param) {
-            Curry._1(Int3.u, 3);
-          })
-        };
+  "File \"jscomp/test/recursive_module_test.ml\", line 34, characters 7-14",
+  (function (param) {
+    return {
+      TAG: /* ThrowAny */ 7,
+      _0: (function (param) {
+        Curry._1(Int3.u, 3);
       })
-    ]);
+    };
+  })
+]);
 
 Mt.from_pair_suites("Recursive_module_test", suites.contents);
 

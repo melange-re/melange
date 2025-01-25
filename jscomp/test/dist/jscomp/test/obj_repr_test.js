@@ -6,13 +6,13 @@ const CamlinternalOO = require("melange/camlinternalOO.js");
 const $$class = CamlinternalOO.create_table(0);
 
 const ids = CamlinternalOO.new_methods_variables($$class, 0, [
-      "x0",
-      "x1",
-      "x2",
-      "x3",
-      "x4",
-      "x5"
-    ]);
+  "x0",
+  "x1",
+  "x2",
+  "x3",
+  "x4",
+  "x5"
+]);
 
 const x0 = ids[0];
 

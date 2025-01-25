@@ -17,28 +17,28 @@ function f(v) {
 }
 
 const v = [
-    1,
-    2,
-    3
-  ].map(function (a, b) {
-      return f(a)(b);
-    });
+  1,
+  2,
+  3
+].map(function (a, b) {
+  return f(a)(b);
+});
 
 const vv = [
-    1,
-    2,
-    3
-  ].map(function (a, b) {
-      return a + b | 0;
-    });
+  1,
+  2,
+  3
+].map(function (a, b) {
+  return a + b | 0;
+});
 
 const hh = [
-    "1",
-    "2",
-    "3"
-  ].map(function (x) {
-      return parseInt(x);
-    });
+  "1",
+  "2",
+  "3"
+].map(function (x) {
+  return parseInt(x);
+});
 
 function u() {
   return 3;
@@ -69,61 +69,61 @@ const abc_u = abc;
 g();
 
 Mt.from_pair_suites("Ffi_arity_test", {
+  hd: [
+    "File \"jscomp/test/ffi_arity_test.ml\", line 45, characters 4-11",
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: v,
+        _1: [
+          0,
+          1,
+          4
+        ]
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "File \"jscomp/test/ffi_arity_test.ml\", line 46, characters 4-11",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: vv,
+          _1: [
+            1,
+            3,
+            5
+          ]
+        };
+      })
+    ],
+    tl: {
       hd: [
-        "File \"jscomp/test/ffi_arity_test.ml\", line 45, characters 4-11",
+        "File \"jscomp/test/ffi_arity_test.ml\", line 47, characters 4-11",
         (function (param) {
           return {
             TAG: /* Eq */ 0,
-            _0: v,
+            _0: hh,
             _1: [
-              0,
               1,
-              4
+              2,
+              3
             ]
           };
         })
       ],
-      tl: {
-        hd: [
-          "File \"jscomp/test/ffi_arity_test.ml\", line 46, characters 4-11",
-          (function (param) {
-            return {
-              TAG: /* Eq */ 0,
-              _0: vv,
-              _1: [
-                1,
-                3,
-                5
-              ]
-            };
-          })
-        ],
-        tl: {
-          hd: [
-            "File \"jscomp/test/ffi_arity_test.ml\", line 47, characters 4-11",
-            (function (param) {
-              return {
-                TAG: /* Eq */ 0,
-                _0: hh,
-                _1: [
-                  1,
-                  2,
-                  3
-                ]
-              };
-            })
-          ],
-          tl: /* [] */ 0
-        }
-      }
-    });
+      tl: /* [] */ 0
+    }
+  }
+});
 
 function bar(fn) {
   return Curry._1(fn, undefined);
 }
 
 (Curry._1((function(){console.log("forgiving arity")}
-    ), undefined));
+  ), undefined));
 
 module.exports = {
   f,

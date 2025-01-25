@@ -49,15 +49,15 @@ function f(check) {
 }
 
 eq("File \"jscomp/test/gpr_904_test.ml\", line 23, characters 5-12", f({
-          x: true,
-          y: false
-        }), false);
+  x: true,
+  y: false
+}), false);
 
 eq("File \"jscomp/test/gpr_904_test.ml\", line 26, characters 5-12", check_healty({
-          a: false,
-          b: false,
-          c: true
-        }), false);
+  a: false,
+  b: false,
+  c: true
+}), false);
 
 Mt.from_pair_suites("Gpr_904_test", suites.contents);
 
