@@ -554,6 +554,19 @@ let char_to_int ?loc ?comment (v : t) : t =
 
 let rec string_append ?loc ?comment (e : t) (el : t) : t =
   match (e.expression_desc, el.expression_desc) with
+  | Str "", Str a | Str a, Str "" -> str ?comment a
+  | ( Str "",
+      String_append { prefix = { expression_desc = Str a; _ }; suffix = b } )
+  | ( String_append { prefix = { expression_desc = Str a; _ }; suffix = b },
+      Str "" ) ->
+      string_append ?comment (str a) b
+  | ( Str _,
+      String_append { prefix = { expression_desc = Str ""; _ }; suffix = b } )
+    ->
+      string_append ?comment e b
+  | ( String_append { prefix = { expression_desc = Str ""; _ }; suffix = a },
+      Str _ ) ->
+      string_append ?comment a el
   | Str a, String_append { prefix = { expression_desc = Str b; _ }; suffix = c }
     ->
       string_append ?comment (str (a ^ b)) c
