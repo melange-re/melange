@@ -28,20 +28,20 @@ Test cases for stdlib Array
   const t = Caml_array.make_float(10);
   
   const t2 = Stdlib__Array.init(10, (function (prim) {
-        return prim;
-      }));
+    return prim;
+  }));
   
   const m = Stdlib__Array.make_matrix(2, 2, undefined);
   
   const x = Stdlib__Array.append([2], [3]);
   
   const c = Stdlib__Array.concat({
-        hd: [1],
-        tl: {
-          hd: [2],
-          tl: /* [] */ 0
-        }
-      });
+    hd: [1],
+    tl: {
+      hd: [2],
+      tl: /* [] */ 0
+    }
+  });
   
   const s = Stdlib__Array.sub(c, 1, 1);
   
