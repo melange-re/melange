@@ -28,8 +28,8 @@ const suites_0 = [
       const $$class = CamlinternalOO.create_table(["say"]);
       const say = CamlinternalOO.get_method_label($$class, "say");
       CamlinternalOO.set_method($$class, say, (function (self$1, x) {
-            return 1 + x | 0;
-          }));
+        return 1 + x | 0;
+      }));
       const env_init = function (env) {
         return CamlinternalOO.create_object_opt(undefined, $$class);
       };
@@ -52,10 +52,10 @@ const suites_1 = {
         TAG: /* Eq */ 0,
         _0: 34,
         _1: ({
-            say: (function (x) {
-              return x + 2 | 0;
-            })
-          }).say(32)
+          say: (function (x) {
+            return x + 2 | 0;
+          })
+        }).say(32)
       };
     })
   ],
@@ -67,10 +67,10 @@ const suites_1 = {
           TAG: /* Eq */ 0,
           _0: 34,
           _1: ({
-              say: (function (x) {
-                return x + 2 | 0;
-              })
-            }).say(32)
+            say: (function (x) {
+              return x + 2 | 0;
+            })
+          }).say(32)
         };
       })
     ],
@@ -95,8 +95,8 @@ const suites_1 = {
                 a: 1
               },
               _1: Object.assign({}, {
-                    a: 1
-                  })
+                a: 1
+              })
             };
           })
         ],
@@ -113,8 +113,8 @@ const suites_1 = {
                   a: 2
                 },
                 _1: Object.assign({}, original, {
-                      a: 2
-                    })
+                  a: 2
+                })
               };
             })
           ],
@@ -126,8 +126,8 @@ const suites_1 = {
                   a: 1
                 };
                 Object.assign({}, original, {
-                      a: 2
-                    });
+                  a: 2
+                });
                 return {
                   TAG: /* Eq */ 0,
                   _0: {

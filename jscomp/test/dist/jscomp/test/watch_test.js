@@ -5,13 +5,13 @@ const Fs = require("fs");
 
 function test(path) {
   Fs.watch(path, {
-            recursive: true
-          }).on("change", (function ($$event, string_buffer) {
-          console.log([
-                $$event,
-                string_buffer
-              ]);
-        })).close();
+    recursive: true
+  }).on("change", (function ($$event, string_buffer) {
+    console.log([
+      $$event,
+      string_buffer
+    ]);
+  })).close();
 }
 
 module.exports = {

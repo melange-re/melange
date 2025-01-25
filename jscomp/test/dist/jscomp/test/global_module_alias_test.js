@@ -52,12 +52,12 @@ function f(param) {
 }
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 51, characters 5-12", Stdlib__List.length({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: /* [] */ 0
-          }
-        }), 2);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+}), 2);
 
 v.contents = v.contents + 1 | 0;
 
@@ -89,18 +89,18 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 57, characters 5-12",
 
 function g(param) {
   return Stdlib__List.length({
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      });
+      }
+    }
+  });
 }
 
 function xx(param) {
@@ -119,27 +119,27 @@ v.contents = v.contents + 1 | 0;
 v.contents = v.contents + 1 | 0;
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 92, characters 5-12", Stdlib__List.length({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: /* [] */ 0
-            }
-          }
-        }), 3);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: /* [] */ 0
+    }
+  }
+}), 3);
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 93, characters 5-12", v.contents, 15);
 
 const H$1 = f(undefined);
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 95, characters 5-12", Curry._1(H$1.length, {
-        hd: 1,
-        tl: {
-          hd: 2,
-          tl: /* [] */ 0
-        }
-      }), 2);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+}), 2);
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 96, characters 5-12", v.contents, 21);
 

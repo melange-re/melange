@@ -33,24 +33,24 @@ function file_type(param) {
 }
 
 Mt.from_pair_suites("Js_file_test", {
+  hd: [
+    "make with options",
+    make_with_options
+  ],
+  tl: {
+    hd: [
+      "file type",
+      file_size
+    ],
+    tl: {
       hd: [
-        "make with options",
-        make_with_options
+        "file size",
+        file_type
       ],
-      tl: {
-        hd: [
-          "file type",
-          file_size
-        ],
-        tl: {
-          hd: [
-            "file size",
-            file_type
-          ],
-          tl: /* [] */ 0
-        }
-      }
-    });
+      tl: /* [] */ 0
+    }
+  }
+});
 
 module.exports = {
   make_with_options,

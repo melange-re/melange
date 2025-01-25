@@ -126,12 +126,12 @@ function source_cmp(a, b) {
 
 function pos_cmp(a, b) {
   return Caml_obj.caml_compare([
-        a.line,
-        a.column
-      ], [
-        b.line,
-        b.column
-      ]);
+    a.line,
+    a.column
+  ], [
+    b.line,
+    b.column
+  ]);
 }
 
 function compare(loc1, loc2) {
@@ -285,30 +285,30 @@ function error(str) {
         return "Unexpected token " + str._0;
       case /* UnexpectedTokenWithSuggestion */ 2 :
         return Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Unexpected token `",
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Unexpected token `",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "`. Did you mean `",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: "`. Did you mean `",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "`?",
-                          _1: /* End_of_format */ 0
-                        }
-                      }
-                    }
+                    TAG: /* String_literal */ 11,
+                    _0: "`?",
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "Unexpected token `%s`. Did you mean `%s`?"
-              }), str._0, str._1);
+                }
+              }
+            }
+          },
+          _1: "Unexpected token `%s`. Did you mean `%s`?"
+        }), str._0, str._1);
       case /* InvalidRegExpFlags */ 3 :
         return "Invalid flags supplied to RegExp constructor '" + (str._0 + "'");
       case /* UnknownLabel */ 4 :
@@ -319,1375 +319,1375 @@ function error(str) {
         return "Expected corresponding JSX closing tag for " + str._0;
       case /* DuplicateExport */ 7 :
         return Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Duplicate export for `",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* '`' */96,
-                      _1: /* End_of_format */ 0
-                    }
-                  }
-                },
-                _1: "Duplicate export for `%s`"
-              }), str._0);
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Duplicate export for `",
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '`' */96,
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "Duplicate export for `%s`"
+        }), str._0);
     }
   }
 }
 
 const Literal = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      44,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$RegExp"
-        ]]
-    });
+  "spider_monkey_ast.ml",
+  44,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$RegExp"
+    ]]
+});
 
 const Type = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      191,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Param"
-              ]]
-          },
-          "$$Function"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Indexer"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "CallProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Identifier"
-              ]]
-          },
-          "Generic"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "StringLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "NumberLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "BooleanLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: [[
-                      {
-                        TAG: /* Module */ 0,
-                        _0: []
-                      },
-                      "Variance"
-                    ]]
-                },
-                "TypeParam"
-              ]]
-          },
-          "ParameterDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ParameterInstantiation"
+  "spider_monkey_ast.ml",
+  191,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Param"
+          ]]
+      },
+      "$$Function"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Indexer"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "CallProperty"
+          ]
         ]
-      ]
-    });
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Identifier"
+          ]]
+      },
+      "Generic"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "StringLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "NumberLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "BooleanLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: [[
+                  {
+                    TAG: /* Module */ 0,
+                    _0: []
+                  },
+                  "Variance"
+                ]]
+            },
+            "TypeParam"
+          ]]
+      },
+      "ParameterDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ParameterInstantiation"
+    ]
+  ]
+});
 
 const Statement = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      493,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Block"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "If"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Labeled"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Break"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Continue"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "With"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TypeAlias"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Case"
-              ]]
-          },
-          "Switch"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Return"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Throw"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "CatchClause"
-              ]]
-          },
-          "Try"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Declarator"
-              ]]
-          },
-          "VariableDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "While"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DoWhile"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "For"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ForIn"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ForOf"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Let"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Interface"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareVariable"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareFunction"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareModule"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Specifier"
-              ]]
-          },
-          "ExportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareExportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "NamedSpecifier"
-              ]]
-          },
-          "ImportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Expression"
-        ]
-      ]
-    });
+  "spider_monkey_ast.ml",
+  493,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Block"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "If"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Labeled"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Break"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Continue"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "With"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TypeAlias"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Case"
+          ]]
+      },
+      "Switch"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Return"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Throw"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "CatchClause"
+          ]]
+      },
+      "Try"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Declarator"
+          ]]
+      },
+      "VariableDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "While"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DoWhile"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "For"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ForIn"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ForOf"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Let"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Interface"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareVariable"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareFunction"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareModule"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Specifier"
+          ]]
+      },
+      "ExportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareExportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "NamedSpecifier"
+          ]]
+      },
+      "ImportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Expression"
+    ]
+  ]
+});
 
 const Expression = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      758,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "SpreadElement"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$Array"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "$$Element"
-              ]]
-          },
-          "TemplateLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TaggedTemplate"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Sequence"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Unary"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Binary"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Assignment"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Update"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Logical"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Conditional"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "New"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Call"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Member"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Yield"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Block"
-              ]]
-          },
-          "Comprehension"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Generator"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Let"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TypeCast"
+  "spider_monkey_ast.ml",
+  758,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "SpreadElement"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$Array"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "$$Element"
+          ]]
+      },
+      "TemplateLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TaggedTemplate"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadProperty"
+          ]
         ]
-      ]
-    });
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Sequence"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Unary"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Binary"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Assignment"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Update"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Logical"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Conditional"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "New"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Call"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Member"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Yield"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Block"
+          ]]
+      },
+      "Comprehension"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Generator"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Let"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TypeCast"
+    ]
+  ]
+});
 
 const JSX = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      861,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Identifier"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "NamespacedName"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ExpressionContainer"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$Text"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Attribute"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "SpreadAttribute"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "MemberExpression"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Opening"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Closing"
-        ]
-      ]
-    });
+  "spider_monkey_ast.ml",
+  861,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Identifier"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "NamespacedName"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ExpressionContainer"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$Text"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Attribute"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "SpreadAttribute"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "MemberExpression"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Opening"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Closing"
+    ]
+  ]
+});
 
 const Pattern = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      919,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadElement"
-              ]]
-          },
-          "$$Array"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Assignment"
+  "spider_monkey_ast.ml",
+  919,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadProperty"
+          ]
         ]
-      ]
-    });
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadElement"
+          ]]
+      },
+      "$$Array"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Assignment"
+    ]
+  ]
+});
 
 const Class = Caml_module.init_mod([
-      "spider_monkey_ast.ml",
-      978,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Method"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Property"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Implements"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Body"
-        ]
-      ]
-    });
+  "spider_monkey_ast.ml",
+  978,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Method"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Property"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Implements"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Body"
+    ]
+  ]
+});
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$RegExp"
-        ]]
-    }, Literal, Literal);
+  TAG: /* Module */ 0,
+  _0: [[
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$RegExp"
+    ]]
+}, Literal, Literal);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Param"
-              ]]
-          },
-          "$$Function"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Indexer"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "CallProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Identifier"
-              ]]
-          },
-          "Generic"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "StringLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "NumberLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "BooleanLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: [[
-                      {
-                        TAG: /* Module */ 0,
-                        _0: []
-                      },
-                      "Variance"
-                    ]]
-                },
-                "TypeParam"
-              ]]
-          },
-          "ParameterDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ParameterInstantiation"
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Param"
+          ]]
+      },
+      "$$Function"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Indexer"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "CallProperty"
+          ]
         ]
-      ]
-    }, Type, Type);
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Identifier"
+          ]]
+      },
+      "Generic"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "StringLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "NumberLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "BooleanLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: [[
+                  {
+                    TAG: /* Module */ 0,
+                    _0: []
+                  },
+                  "Variance"
+                ]]
+            },
+            "TypeParam"
+          ]]
+      },
+      "ParameterDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ParameterInstantiation"
+    ]
+  ]
+}, Type, Type);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Block"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "If"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Labeled"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Break"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Continue"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "With"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TypeAlias"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Case"
-              ]]
-          },
-          "Switch"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Return"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Throw"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "CatchClause"
-              ]]
-          },
-          "Try"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Declarator"
-              ]]
-          },
-          "VariableDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "While"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DoWhile"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "For"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ForIn"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ForOf"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Let"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Interface"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareVariable"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareFunction"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareModule"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Specifier"
-              ]]
-          },
-          "ExportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "DeclareExportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "NamedSpecifier"
-              ]]
-          },
-          "ImportDeclaration"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Expression"
-        ]
-      ]
-    }, Statement, Statement);
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Block"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "If"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Labeled"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Break"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Continue"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "With"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TypeAlias"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Case"
+          ]]
+      },
+      "Switch"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Return"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Throw"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "CatchClause"
+          ]]
+      },
+      "Try"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Declarator"
+          ]]
+      },
+      "VariableDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "While"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DoWhile"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "For"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ForIn"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ForOf"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Let"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Interface"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareVariable"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareFunction"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareModule"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Specifier"
+          ]]
+      },
+      "ExportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "DeclareExportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "NamedSpecifier"
+          ]]
+      },
+      "ImportDeclaration"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Expression"
+    ]
+  ]
+}, Statement, Statement);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "SpreadElement"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$Array"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "$$Element"
-              ]]
-          },
-          "TemplateLiteral"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TaggedTemplate"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Sequence"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Unary"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Binary"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Assignment"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Update"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Logical"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Conditional"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "New"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Call"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Member"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Yield"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Block"
-              ]]
-          },
-          "Comprehension"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Generator"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Let"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "TypeCast"
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "SpreadElement"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$Array"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "$$Element"
+          ]]
+      },
+      "TemplateLiteral"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TaggedTemplate"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadProperty"
+          ]
         ]
-      ]
-    }, Expression, Expression);
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Sequence"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Unary"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Binary"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Assignment"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Update"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Logical"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Conditional"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "New"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Call"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Member"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Yield"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Block"
+          ]]
+      },
+      "Comprehension"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Generator"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Let"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "TypeCast"
+    ]
+  ]
+}, Expression, Expression);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Identifier"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "NamespacedName"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "ExpressionContainer"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "$$Text"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Attribute"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "SpreadAttribute"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "MemberExpression"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Opening"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Closing"
-        ]
-      ]
-    }, JSX, JSX);
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Identifier"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "NamespacedName"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "ExpressionContainer"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "$$Text"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Attribute"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "SpreadAttribute"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "MemberExpression"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Opening"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Closing"
+    ]
+  ]
+}, JSX, JSX);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "Property"
-              ],
-              [
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadProperty"
-              ]
-            ]
-          },
-          "$$Object"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: [[
-                {
-                  TAG: /* Module */ 0,
-                  _0: []
-                },
-                "SpreadElement"
-              ]]
-          },
-          "$$Array"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Assignment"
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "Property"
+          ],
+          [
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadProperty"
+          ]
         ]
-      ]
-    }, Pattern, Pattern);
+      },
+      "$$Object"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: [[
+            {
+              TAG: /* Module */ 0,
+              _0: []
+            },
+            "SpreadElement"
+          ]]
+      },
+      "$$Array"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Assignment"
+    ]
+  ]
+}, Pattern, Pattern);
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Method"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Property"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Implements"
-        ],
-        [
-          {
-            TAG: /* Module */ 0,
-            _0: []
-          },
-          "Body"
-        ]
-      ]
-    }, Class, Class);
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Method"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Property"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Implements"
+    ],
+    [
+      {
+        TAG: /* Module */ 0,
+        _0: []
+      },
+      "Body"
+    ]
+  ]
+}, Class, Class);
 
 function token_to_string(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
@@ -2090,26 +2090,26 @@ function lex_error(env, loc, err) {
 
 function unexpected_error(env, loc, value) {
   return lex_error(env, loc, {
-        TAG: /* UnexpectedToken */ 1,
-        _0: value
-      });
+    TAG: /* UnexpectedToken */ 1,
+    _0: value
+  });
 }
 
 function unexpected_error_w_suggest(env, loc, value, suggest) {
   return lex_error(env, loc, {
-        TAG: /* UnexpectedTokenWithSuggestion */ 2,
-        _0: value,
-        _1: suggest
-      });
+    TAG: /* UnexpectedTokenWithSuggestion */ 2,
+    _0: value,
+    _1: suggest
+  });
 }
 
 function illegal_number(env, lexbuf, word, token) {
   const loc = from_lb(env.lex_source, lexbuf);
   yyback(word.length, lexbuf);
   const env$1 = lex_error(env, loc, {
-        TAG: /* UnexpectedToken */ 1,
-        _0: "ILLEGAL"
-      });
+    TAG: /* UnexpectedToken */ 1,
+    _0: "ILLEGAL"
+  });
   return [
     env$1,
     token
@@ -2139,11 +2139,11 @@ function start(str) {
     contents: /* [] */ 0
   };
   Stdlib__String.iter((function (c) {
-        todo.contents = {
-          hd: c,
-          tl: todo.contents
-        };
-      }), str);
+    todo.contents = {
+      hd: c,
+      tl: todo.contents
+    };
+  }), str);
   return {
     negative: false,
     mantissa: 0,
@@ -2502,260 +2502,258 @@ const keywords = Stdlib__Hashtbl.create(undefined, 53);
 const type_keywords = Stdlib__Hashtbl.create(undefined, 53);
 
 Stdlib__List.iter((function (param) {
-      Stdlib__Hashtbl.add(keywords, param[0], param[1]);
-    }), {
+  Stdlib__Hashtbl.add(keywords, param[0], param[1]);
+}), {
+  hd: [
+    "function",
+    /* T_FUNCTION */ 13
+  ],
+  tl: {
+    hd: [
+      "if",
+      /* T_IF */ 14
+    ],
+    tl: {
       hd: [
-        "function",
-        /* T_FUNCTION */ 13
+        "in",
+        /* T_IN */ 15
       ],
       tl: {
         hd: [
-          "if",
-          /* T_IF */ 14
+          "instanceof",
+          /* T_INSTANCEOF */ 16
         ],
         tl: {
           hd: [
-            "in",
-            /* T_IN */ 15
+            "return",
+            /* T_RETURN */ 17
           ],
           tl: {
             hd: [
-              "instanceof",
-              /* T_INSTANCEOF */ 16
+              "switch",
+              /* T_SWITCH */ 18
             ],
             tl: {
               hd: [
-                "return",
-                /* T_RETURN */ 17
+                "this",
+                /* T_THIS */ 19
               ],
               tl: {
                 hd: [
-                  "switch",
-                  /* T_SWITCH */ 18
+                  "throw",
+                  /* T_THROW */ 20
                 ],
                 tl: {
                   hd: [
-                    "this",
-                    /* T_THIS */ 19
+                    "try",
+                    /* T_TRY */ 21
                   ],
                   tl: {
                     hd: [
-                      "throw",
-                      /* T_THROW */ 20
+                      "var",
+                      /* T_VAR */ 22
                     ],
                     tl: {
                       hd: [
-                        "try",
-                        /* T_TRY */ 21
+                        "while",
+                        /* T_WHILE */ 23
                       ],
                       tl: {
                         hd: [
-                          "var",
-                          /* T_VAR */ 22
+                          "with",
+                          /* T_WITH */ 24
                         ],
                         tl: {
                           hd: [
-                            "while",
-                            /* T_WHILE */ 23
+                            "const",
+                            /* T_CONST */ 25
                           ],
                           tl: {
                             hd: [
-                              "with",
-                              /* T_WITH */ 24
+                              "let",
+                              /* T_LET */ 26
                             ],
                             tl: {
                               hd: [
-                                "const",
-                                /* T_CONST */ 25
+                                "null",
+                                /* T_NULL */ 27
                               ],
                               tl: {
                                 hd: [
-                                  "let",
-                                  /* T_LET */ 26
+                                  "false",
+                                  /* T_FALSE */ 28
                                 ],
                                 tl: {
                                   hd: [
-                                    "null",
-                                    /* T_NULL */ 27
+                                    "true",
+                                    /* T_TRUE */ 29
                                   ],
                                   tl: {
                                     hd: [
-                                      "false",
-                                      /* T_FALSE */ 28
+                                      "break",
+                                      /* T_BREAK */ 30
                                     ],
                                     tl: {
                                       hd: [
-                                        "true",
-                                        /* T_TRUE */ 29
+                                        "case",
+                                        /* T_CASE */ 31
                                       ],
                                       tl: {
                                         hd: [
-                                          "break",
-                                          /* T_BREAK */ 30
+                                          "catch",
+                                          /* T_CATCH */ 32
                                         ],
                                         tl: {
                                           hd: [
-                                            "case",
-                                            /* T_CASE */ 31
+                                            "continue",
+                                            /* T_CONTINUE */ 33
                                           ],
                                           tl: {
                                             hd: [
-                                              "catch",
-                                              /* T_CATCH */ 32
+                                              "default",
+                                              /* T_DEFAULT */ 34
                                             ],
                                             tl: {
                                               hd: [
-                                                "continue",
-                                                /* T_CONTINUE */ 33
+                                                "do",
+                                                /* T_DO */ 35
                                               ],
                                               tl: {
                                                 hd: [
-                                                  "default",
-                                                  /* T_DEFAULT */ 34
+                                                  "finally",
+                                                  /* T_FINALLY */ 36
                                                 ],
                                                 tl: {
                                                   hd: [
-                                                    "do",
-                                                    /* T_DO */ 35
+                                                    "for",
+                                                    /* T_FOR */ 37
                                                   ],
                                                   tl: {
                                                     hd: [
-                                                      "finally",
-                                                      /* T_FINALLY */ 36
+                                                      "class",
+                                                      /* T_CLASS */ 38
                                                     ],
                                                     tl: {
                                                       hd: [
-                                                        "for",
-                                                        /* T_FOR */ 37
+                                                        "extends",
+                                                        /* T_EXTENDS */ 39
                                                       ],
                                                       tl: {
                                                         hd: [
-                                                          "class",
-                                                          /* T_CLASS */ 38
+                                                          "static",
+                                                          /* T_STATIC */ 40
                                                         ],
                                                         tl: {
                                                           hd: [
-                                                            "extends",
-                                                            /* T_EXTENDS */ 39
+                                                            "else",
+                                                            /* T_ELSE */ 41
                                                           ],
                                                           tl: {
                                                             hd: [
-                                                              "static",
-                                                              /* T_STATIC */ 40
+                                                              "new",
+                                                              /* T_NEW */ 42
                                                             ],
                                                             tl: {
                                                               hd: [
-                                                                "else",
-                                                                /* T_ELSE */ 41
+                                                                "delete",
+                                                                /* T_DELETE */ 43
                                                               ],
                                                               tl: {
                                                                 hd: [
-                                                                  "new",
-                                                                  /* T_NEW */ 42
+                                                                  "typeof",
+                                                                  /* T_TYPEOF */ 44
                                                                 ],
                                                                 tl: {
                                                                   hd: [
-                                                                    "delete",
-                                                                    /* T_DELETE */ 43
+                                                                    "void",
+                                                                    /* T_VOID */ 45
                                                                   ],
                                                                   tl: {
                                                                     hd: [
-                                                                      "typeof",
-                                                                      /* T_TYPEOF */ 44
+                                                                      "enum",
+                                                                      /* T_ENUM */ 46
                                                                     ],
                                                                     tl: {
                                                                       hd: [
-                                                                        "void",
-                                                                        /* T_VOID */ 45
+                                                                        "export",
+                                                                        /* T_EXPORT */ 47
                                                                       ],
                                                                       tl: {
                                                                         hd: [
-                                                                          "enum",
-                                                                          /* T_ENUM */ 46
+                                                                          "import",
+                                                                          /* T_IMPORT */ 48
                                                                         ],
                                                                         tl: {
                                                                           hd: [
-                                                                            "export",
-                                                                            /* T_EXPORT */ 47
+                                                                            "super",
+                                                                            /* T_SUPER */ 49
                                                                           ],
                                                                           tl: {
                                                                             hd: [
-                                                                              "import",
-                                                                              /* T_IMPORT */ 48
+                                                                              "implements",
+                                                                              /* T_IMPLEMENTS */ 50
                                                                             ],
                                                                             tl: {
                                                                               hd: [
-                                                                                "super",
-                                                                                /* T_SUPER */ 49
+                                                                                "interface",
+                                                                                /* T_INTERFACE */ 51
                                                                               ],
                                                                               tl: {
                                                                                 hd: [
-                                                                                  "implements",
-                                                                                  /* T_IMPLEMENTS */ 50
+                                                                                  "package",
+                                                                                  /* T_PACKAGE */ 52
                                                                                 ],
                                                                                 tl: {
                                                                                   hd: [
-                                                                                    "interface",
-                                                                                    /* T_INTERFACE */ 51
+                                                                                    "private",
+                                                                                    /* T_PRIVATE */ 53
                                                                                   ],
                                                                                   tl: {
                                                                                     hd: [
-                                                                                      "package",
-                                                                                      /* T_PACKAGE */ 52
+                                                                                      "protected",
+                                                                                      /* T_PROTECTED */ 54
                                                                                     ],
                                                                                     tl: {
                                                                                       hd: [
-                                                                                        "private",
-                                                                                        /* T_PRIVATE */ 53
+                                                                                        "public",
+                                                                                        /* T_PUBLIC */ 55
                                                                                       ],
                                                                                       tl: {
                                                                                         hd: [
-                                                                                          "protected",
-                                                                                          /* T_PROTECTED */ 54
+                                                                                          "yield",
+                                                                                          /* T_YIELD */ 56
                                                                                         ],
                                                                                         tl: {
                                                                                           hd: [
-                                                                                            "public",
-                                                                                            /* T_PUBLIC */ 55
+                                                                                            "debugger",
+                                                                                            /* T_DEBUGGER */ 57
                                                                                           ],
                                                                                           tl: {
                                                                                             hd: [
-                                                                                              "yield",
-                                                                                              /* T_YIELD */ 56
+                                                                                              "declare",
+                                                                                              /* T_DECLARE */ 58
                                                                                             ],
                                                                                             tl: {
                                                                                               hd: [
-                                                                                                "debugger",
-                                                                                                /* T_DEBUGGER */ 57
+                                                                                                "type",
+                                                                                                /* T_TYPE */ 59
                                                                                               ],
                                                                                               tl: {
                                                                                                 hd: [
-                                                                                                  "declare",
-                                                                                                  /* T_DECLARE */ 58
+                                                                                                  "of",
+                                                                                                  /* T_OF */ 60
                                                                                                 ],
                                                                                                 tl: {
                                                                                                   hd: [
-                                                                                                    "type",
-                                                                                                    /* T_TYPE */ 59
+                                                                                                    "async",
+                                                                                                    /* T_ASYNC */ 61
                                                                                                   ],
                                                                                                   tl: {
                                                                                                     hd: [
-                                                                                                      "of",
-                                                                                                      /* T_OF */ 60
+                                                                                                      "await",
+                                                                                                      /* T_AWAIT */ 62
                                                                                                     ],
-                                                                                                    tl: {
-                                                                                                      hd: [
-                                                                                                        "async",
-                                                                                                        /* T_ASYNC */ 61
-                                                                                                      ],
-                                                                                                      tl: {
-                                                                                                        hd: [
-                                                                                                          "await",
-                                                                                                          /* T_AWAIT */ 62
-                                                                                                        ],
-                                                                                                        tl: /* [] */ 0
-                                                                                                      }
-                                                                                                    }
+                                                                                                    tl: /* [] */ 0
                                                                                                   }
                                                                                                 }
                                                                                               }
@@ -2803,68 +2801,68 @@ Stdlib__List.iter((function (param) {
           }
         }
       }
-    });
+    }
+  }
+});
 
 Stdlib__List.iter((function (param) {
-      Stdlib__Hashtbl.add(type_keywords, param[0], param[1]);
-    }), {
+  Stdlib__Hashtbl.add(type_keywords, param[0], param[1]);
+}), {
+  hd: [
+    "static",
+    /* T_STATIC */ 40
+  ],
+  tl: {
+    hd: [
+      "typeof",
+      /* T_TYPEOF */ 44
+    ],
+    tl: {
       hd: [
-        "static",
-        /* T_STATIC */ 40
+        "any",
+        /* T_ANY_TYPE */ 107
       ],
       tl: {
         hd: [
-          "typeof",
-          /* T_TYPEOF */ 44
+          "bool",
+          /* T_BOOLEAN_TYPE */ 108
         ],
         tl: {
           hd: [
-            "any",
-            /* T_ANY_TYPE */ 107
+            "boolean",
+            /* T_BOOLEAN_TYPE */ 108
           ],
           tl: {
             hd: [
-              "bool",
-              /* T_BOOLEAN_TYPE */ 108
+              "true",
+              /* T_TRUE */ 29
             ],
             tl: {
               hd: [
-                "boolean",
-                /* T_BOOLEAN_TYPE */ 108
+                "false",
+                /* T_FALSE */ 28
               ],
               tl: {
                 hd: [
-                  "true",
-                  /* T_TRUE */ 29
+                  "number",
+                  /* T_NUMBER_TYPE */ 109
                 ],
                 tl: {
                   hd: [
-                    "false",
-                    /* T_FALSE */ 28
+                    "string",
+                    /* T_STRING_TYPE */ 110
                   ],
                   tl: {
                     hd: [
-                      "number",
-                      /* T_NUMBER_TYPE */ 109
+                      "void",
+                      /* T_VOID_TYPE */ 111
                     ],
                     tl: {
                       hd: [
-                        "string",
-                        /* T_STRING_TYPE */ 110
+                        "null",
+                        /* T_NULL */ 27
                       ],
-                      tl: {
-                        hd: [
-                          "void",
-                          /* T_VOID_TYPE */ 111
-                        ],
-                        tl: {
-                          hd: [
-                            "null",
-                            /* T_NULL */ 27
-                          ],
-                          tl: /* [] */ 0
-                        }
-                      }
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -2873,7 +2871,9 @@ Stdlib__List.iter((function (param) {
           }
         }
       }
-    });
+    }
+  }
+});
 
 const __ocaml_lex_tables = {
   lex_base: "\0\0\xb2\xff\xb3\xff\xb9\xffB\0C\0T\0W\0F\0I\0J\0K\0M\0e\0\xdd\xff\xde\xff\xdf\xff\xe0\xff\xe3\xff\xe4\xff\xe5\xff\xe6\xff\xe7\xff\xe8\xff\xc0\0L\0e\0\x17\x01n\x01\xf6\xff\xf7\xffl\0u\0v\0\0\0\x0e\0\x0f\0\x07\x003\x01\xfe\xff\xff\xff\x01\0\x12\0(\0\f\0\x15\0*\0\f\0=\0-\0\t\0\xb6\xff\xf9\xff\xe0\x01B\0u\0\x0f\x000\x004\0\x17\0\xe5\x01(\x008\0\x1a\0K\0:\0\x17\0\xfb\xffh\0a\0\xac\0q\0m\0y\0q\0i\0{\0{\0\xa8\0\xca\xff\xfa\xff\xc9\xff\xf8\xff\x0b\x02\xa5\x02\xfc\x02S\x03\xaa\x03\x01\x04X\x04\xaf\x04\x06\x05]\x05\xb4\x05\x0b\x06b\x06\xb9\x06\xc3\x01\x10\x07g\x07\xbe\x07\x15\bl\b\xc3\b\x1a\tq\t\xc8\t\xb8\0\xe2\xffE\x02\xc7\xff\xdc\xff\xc6\xff\xdb\xff\xb7\xff\xaa\0\xda\xff\xab\0\xd9\xff\xac\0\xd8\xff\xd2\xff\xad\0\xd7\xff\xb0\0\xd0\xff\xcf\xff\xcc\xff\xd4\xff\xcb\xff\xd3\xff\xc8\xff\xc5\xff:\n\xcf\xff\xd0\xff\xd2\xff\xd6\xff\xd7\xff\xb0\0\xdc\xff\xdd\xff\xe0\xff\xe1\xff\xe2\xff\xe3\xff\xe6\xff\xe7\xff\xe8\xff\xe9\xff\xea\xff\xeb\xff\x94\n\xfa\n\xd6\x01Q\x0b\xa8\x0b\x1a\f\xf9\xff\xcc\0\xf1\0A\0}\0~\0\xa3\0\xc4\x0b\xff\xffa\0\x9d\0\xc1\0\xa4\0\x90\0\xc6\0\xb2\0\xcb\t\xd2\0\x95\0\xfa\xff\x1f\f\xe9\0\x1c\x01\x9c\0\xf2\0\xf3\0\xf9\0$\f\xe7\0\xf7\0\xf5\0\xdf\x0b\x15\x01\xd7\0\xfc\xff(\x01!\x01m\x012\x01/\x01E\x01=\x015\x01G\x01G\x01\xfb\xff\xf3\x01\xf2\0.\x01I\x01P\x01K\f=\x01L\x01/\x01\xec\x0bk\x010\x01x\f\xff\fV\r\xad\r\0\x02\x04\x0e[\x0e\xb2\x0e\t\x0f`\x0f\xb7\x0f\x0e\x10e\x10\xbc\x10\x13\x11j\x11\xc1\x11\x18\x12o\x12\xc6\x12\x1d\x13t\x13\xcb\x13\"\x14\xcf\x01\xe5\xffy\x14\xd0\x14'\x15~\x15\xd4\xff\x1b\f\xfc\xff\xfd\xff\xfe\xff\xff\xff\xcf\x15\xee\xff\x01\0\xef\xff\x18\x16\xf4\xff\xf5\xff\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xf1\x02H\x03>\x16\xfe\xff\xff\xffU\x16\xfd\xff\x9f\x03\xfc\xff{\x16\x92\x16\xb8\x16\xcf\x16\xf2\xff\xf5\x16\xf1\xff\xd7\x02\xfb\xff\xd2\x01\xfe\xff\xff\xff\xcf\x01\xfd\xff\xfc\xff;\x02\xfd\xff\xfe\xff\xff\xff\0\x17\xf9\xff\xe8\x01G\x01\x83\x01\x90\x01y\x01)\fC\x15\xfe\xff\xff\xff]\x01\x9b\x01\x9c\x01*\x02\x90\x01\xa0\x01\x82\x01\x87\x15\xad\x01o\x01\xfb\xff\xfc\xff\x0b\x16\xf8\xff\x04\0\xf9\xff\xfa\xff8\x17,\x03\xff\xff\xfd\xff\x05\0\xfe\xff\xc0\x17\x96\t\xfb\xff\xfc\xff\xeb\x01\xff\xff\xfd\xff\xfe\xff2\x18\xf1\xff\xf2\xff\x8a\x18\xf4\xff\xf5\xff\xf6\xff\xf7\xff\xf8\xff\xfa\xff<\x02\x7f\x01\xc9\x01\xe7\x01+\x02\x88\x167\x18\xfe\xff\xff\xff\x8f\x01 \x02!\x023\x02\x15\x02%\x02!\x02\xbd\x16L\x02\x0f\x02\xfb\xff\xfc\xff|\f\xfb\xff\xfc\xff\xfd\xff\xfe\xff\x06\0\xff\xff\xfc\x18\xf9\xff\xf8\x18\x07\0\xfd\xff\xfe\xff\xff\xffO\x19\xdf\n_\f\x84\x17\x9c\x19\xfc\xff\xfb\xff\xd3\x19\xfa\xff*\x1a\x81\x1a\xd8\x1a/\x1b\x86\x1b\x96\x02\xf8\x1b\xfa\xff\xfb\xff\xb5\x02%\x02b\x02\x82\x02\xf3\x02\x04\x19K\x1b\xff\xff(\x02e\x02\xa9\x02J\x03r\x02\x85\x02\x8c\x02\xc9\x16\xb7\x02y\x02\xfc\xff\xfd\xff\xc3\x16\xf9\xff\xfa\xff\b\0\xfc\xff\xbf\x02\xfe\xff\xff\xff\xfd\xff\xfb\xff",
@@ -2901,9 +2901,9 @@ function token(env, lexbuf) {
         return token(env, lexbuf);
       case 1 :
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return token(env$1, lexbuf);
       case 2 :
         unicode_fix_cols(lexbuf);
@@ -3012,9 +3012,9 @@ function token(env, lexbuf) {
       case 10 :
         const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w, {
-              TAG: /* T_NUMBER */ 0,
-              _0: /* BINARY */ 0
-            });
+          TAG: /* T_NUMBER */ 0,
+          _0: /* BINARY */ 0
+        });
       case 11 :
         return [
           env,
@@ -3026,9 +3026,9 @@ function token(env, lexbuf) {
       case 12 :
         const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$1, {
-              TAG: /* T_NUMBER */ 0,
-              _0: /* OCTAL */ 2
-            });
+          TAG: /* T_NUMBER */ 0,
+          _0: /* OCTAL */ 2
+        });
       case 13 :
         return [
           env,
@@ -3040,9 +3040,9 @@ function token(env, lexbuf) {
       case 14 :
         const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$2, {
-              TAG: /* T_NUMBER */ 0,
-              _0: /* LEGACY_OCTAL */ 1
-            });
+          TAG: /* T_NUMBER */ 0,
+          _0: /* LEGACY_OCTAL */ 1
+        });
       case 15 :
         return [
           env,
@@ -3363,9 +3363,9 @@ function token(env, lexbuf) {
         ];
       case 77 :
         const env$9 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$9,
           /* T_ERROR */ 104
@@ -3377,9 +3377,9 @@ function token(env, lexbuf) {
     }
     const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
     return illegal_number(env, lexbuf, w$3, {
-          TAG: /* T_NUMBER */ 0,
-          _0: /* NORMAL */ 3
-        });
+      TAG: /* T_NUMBER */ 0,
+      _0: /* NORMAL */ 3
+    });
   };
 }
 
@@ -3427,9 +3427,9 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
         return jsx_text(env, mode, buf, raw, lexbuf);
       case 1 :
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$1,
           from_lb(env$1.lex_source, lexbuf)
@@ -3446,8 +3446,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
         Stdlib__Buffer.add_string(raw, s);
         const code = Caml_format.caml_int_of_string("0x" + n);
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code));
         return jsx_text(env, mode, buf, raw, lexbuf);
       case 4 :
         const n$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
@@ -3455,8 +3455,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
         Stdlib__Buffer.add_string(raw, s$1);
         const code$1 = Caml_format.caml_int_of_string(n$1);
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code$1));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code$1));
         return jsx_text(env, mode, buf, raw, lexbuf);
       case 5 :
         const entity = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos - 1 | 0);
@@ -4228,8 +4228,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
         }
         if (code$2 !== undefined) {
           Stdlib__List.iter((function (param) {
-                return Stdlib__Buffer.add_char(buf, param);
-              }), utf16to8(code$2));
+            return Stdlib__Buffer.add_char(buf, param);
+          }), utf16to8(code$2));
         } else {
           Stdlib__Buffer.add_string(buf, "&" + (entity + ";"));
         }
@@ -4366,9 +4366,9 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$1,
           btwn(start, from_lb(env$1.lex_source, lexbuf)),
@@ -4432,9 +4432,9 @@ function comment(env, buf, lexbuf) {
     switch (__ocaml_lex_state$1) {
       case 0 :
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$1,
           from_lb(env$1.lex_source, lexbuf)
@@ -4526,9 +4526,9 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
         ];
       case 5 :
         const env$3 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$3,
           {
@@ -4655,9 +4655,9 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
         const x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, x);
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         Stdlib__Buffer.add_string(buf, x);
         return [
           env$1,
@@ -4699,8 +4699,8 @@ function string_escape(env, buf, lexbuf) {
         const b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
         const code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code));
         return [
           env,
           false
@@ -4712,13 +4712,13 @@ function string_escape(env, buf, lexbuf) {
         const code$1 = ((oct_to_int(a$1) << 6) + (oct_to_int(b$1) << 3) | 0) + oct_to_int(c) | 0;
         if (code$1 < 256) {
           Stdlib__List.iter((function (param) {
-                return Stdlib__Buffer.add_char(buf, param);
-              }), utf16to8(code$1));
+            return Stdlib__Buffer.add_char(buf, param);
+          }), utf16to8(code$1));
         } else {
           const code$2 = (oct_to_int(a$1) << 3) + oct_to_int(b$1) | 0;
           Stdlib__List.iter((function (param) {
-                return Stdlib__Buffer.add_char(buf, param);
-              }), utf16to8(code$2));
+            return Stdlib__Buffer.add_char(buf, param);
+          }), utf16to8(code$2));
           Stdlib__Buffer.add_char(buf, c);
         }
         return [
@@ -4730,8 +4730,8 @@ function string_escape(env, buf, lexbuf) {
         const b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
         const code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code$3));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code$3));
         return [
           env,
           true
@@ -4782,8 +4782,8 @@ function string_escape(env, buf, lexbuf) {
         const a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const code$4 = oct_to_int(a$3);
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code$4));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code$4));
         return [
           env,
           true
@@ -4795,8 +4795,8 @@ function string_escape(env, buf, lexbuf) {
         const d = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 4 | 0);
         const code$5 = (((hexa_to_int(a$4) << 12) + (hexa_to_int(b$3) << 8) | 0) + (hexa_to_int(c$1) << 4) | 0) + hexa_to_int(d) | 0;
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code$5));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code$5));
         return [
           env,
           false
@@ -4805,12 +4805,12 @@ function string_escape(env, buf, lexbuf) {
         const hex_code = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
         const code$6 = Caml_format.caml_int_of_string("0x" + hex_code);
         const env$1 = code$6 > 1114111 ? lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */ 1,
-                _0: "ILLEGAL"
-              }) : env;
+            TAG: /* UnexpectedToken */ 1,
+            _0: "ILLEGAL"
+          }) : env;
         Stdlib__List.iter((function (param) {
-              return Stdlib__Buffer.add_char(buf, param);
-            }), utf16to8(code$6));
+          return Stdlib__Buffer.add_char(buf, param);
+        }), utf16to8(code$6));
         return [
           env$1,
           false
@@ -4818,9 +4818,9 @@ function string_escape(env, buf, lexbuf) {
       case 15 :
         const c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         Stdlib__Buffer.add_char(buf, c$2);
         return [
           env$2,
@@ -5270,9 +5270,9 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
         ];
       case 6 :
         const env$4 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-              TAG: /* UnexpectedToken */ 1,
-              _0: "ILLEGAL"
-            });
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
         return [
           env$4,
           /* T_ERROR */ 104
@@ -5420,9 +5420,9 @@ function jsx_child$1(env) {
   const raw = Stdlib__Buffer.create(127);
   const match = jsx_child(env, start, buf, raw, env.lex_lb);
   return get_result_and_clear_state([
-        match[0],
-        match[1]
-      ]);
+    match[0],
+    match[1]
+  ]);
 }
 
 function jsx_tag(env) {
@@ -5667,9 +5667,9 @@ function lex(t) {
   const cloned_env = with_lexbuf(lexbuf$1, lex_env$1);
   t.la_lex_env = lex_env$1;
   Caml_array.set(t.la_results, t.la_num_lexed, [
-        cloned_env,
-        match$1[1]
-      ]);
+    cloned_env,
+    match$1[1]
+  ]);
   t.la_num_lexed = t.la_num_lexed + 1 | 0;
 }
 
@@ -5769,11 +5769,11 @@ function error_at(env, param) {
 function comment_list(env) {
   return function (param) {
     return Stdlib__List.iter((function (c) {
-          env.comments.contents = {
-            hd: c,
-            tl: env.comments.contents
-          };
-        }), param);
+      env.comments.contents = {
+        hd: c,
+        tl: env.comments.contents
+      };
+    }), param);
   };
 }
 
@@ -5782,12 +5782,12 @@ function record_export(env, param) {
   const $$exports = env.exports.contents;
   if (Curry._2(mem, export_name, $$exports)) {
     return error_at(env, [
-          param[0],
-          {
-            TAG: /* DuplicateExport */ 7,
-            _0: export_name
-          }
-        ]);
+      param[0],
+      {
+        TAG: /* DuplicateExport */ 7,
+        _0: export_name
+      }
+    ]);
   } else {
     env.exports.contents = Curry._2(add, export_name, env.exports.contents);
     return;
@@ -5881,8 +5881,8 @@ function with_error_callback(error_callback, env) {
 function error_list(env) {
   return function (param) {
     return Stdlib__List.iter((function (param) {
-          return error_at(env, param);
-        }), param);
+      return error_at(env, param);
+    }), param);
   };
 }
 
@@ -6068,9 +6068,9 @@ function is_class(iOpt, env) {
 function error$1(env, e) {
   const loc$1 = loc(undefined, env);
   error_at(env, [
-        loc$1,
-        e
-      ]);
+    loc$1,
+    e
+  ]);
 }
 
 function get_unexpected_error(param) {
@@ -6107,19 +6107,19 @@ function get_unexpected_error(param) {
 function error_unexpected(env) {
   error_list(env)(errors(undefined, env));
   error$1(env, get_unexpected_error([
-            token$2(undefined, env),
-            value(undefined, env)
-          ]));
+    token$2(undefined, env),
+    value(undefined, env)
+  ]));
 }
 
 function error_on_decorators(env) {
   return function (param) {
     return Stdlib__List.iter((function (decorator) {
-          error_at(env, [
-                decorator[0],
-                /* UnsupportedDecorator */ 57
-              ]);
-        }), param);
+      error_at(env, [
+        decorator[0],
+        /* UnsupportedDecorator */ 57
+      ]);
+    }), param);
   };
 }
 
@@ -6133,9 +6133,9 @@ function strict_error(env, e) {
 function strict_error_at(env, param) {
   if (env.in_strict_mode) {
     return error_at(env, [
-          param[0],
-          param[1]
-        ]);
+      param[0],
+      param[1]
+    ]);
   }
   
 }
@@ -6147,11 +6147,11 @@ function token$3(env) {
     const token$4 = token$2(undefined, env);
     const token_value = value(undefined, env);
     Curry._1(token_sink, {
-        token_loc: token_loc,
-        token: token$4,
-        token_context: Stdlib__List.hd(env.lex_mode_stack.contents),
-        token_value: token_value
-      });
+      token_loc: token_loc,
+      token: token$4,
+      token_context: Stdlib__List.hd(env.lex_mode_stack.contents),
+      token_value: token_value
+    });
   }
   env.lex_env.contents = lex_env(undefined, env);
   error_list(env)(errors(undefined, env));
@@ -6753,26 +6753,26 @@ function mem$2(x, _param) {
 function filter_duplicate_errors(errs) {
   const errs$1 = Stdlib__List.rev(errs);
   const match = Stdlib__List.fold_left((function (param, err) {
-        const deduped = param[1];
-        const set = param[0];
-        if (Curry._2(mem$2, err, set)) {
-          return [
-            set,
-            deduped
-          ];
-        } else {
-          return [
-            Curry._2(add$3, err, set),
-            {
-              hd: err,
-              tl: deduped
-            }
-          ];
+    const deduped = param[1];
+    const set = param[0];
+    if (Curry._2(mem$2, err, set)) {
+      return [
+        set,
+        deduped
+      ];
+    } else {
+      return [
+        Curry._2(add$3, err, set),
+        {
+          hd: err,
+          tl: deduped
         }
-      }), [
-        /* Empty */ 0,
-        /* [] */ 0
-      ], errs$1);
+      ];
+    }
+  }), [
+    /* Empty */ 0,
+    /* [] */ 0
+  ], errs$1);
   return Stdlib__List.rev(match[1]);
 }
 
@@ -6781,9 +6781,9 @@ function with_loc(fn, env) {
   const result = Curry._1(fn, env);
   const loc = env.last_loc.contents;
   const end_loc = loc !== undefined ? loc : (error$1(env, {
-          TAG: /* Assertion */ 0,
-          _0: "did not consume any tokens"
-        }), Curry._2(Parser_env_Peek.loc, undefined, env));
+      TAG: /* Assertion */ 0,
+      _0: "did not consume any tokens"
+    }), Curry._2(Parser_env_Peek.loc, undefined, env));
   return [
     btwn(start_loc, end_loc),
     result
@@ -6791,106 +6791,106 @@ function with_loc(fn, env) {
 }
 
 const Parse = Caml_module.init_mod([
-      "parser_flow.ml",
-      95,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          /* Function */ 0,
-          "program"
-        ],
-        [
-          /* Function */ 0,
-          "statement"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list_item"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list_with_directives"
-        ],
-        [
-          /* Function */ 0,
-          "module_body"
-        ],
-        [
-          /* Function */ 0,
-          "expression"
-        ],
-        [
-          /* Function */ 0,
-          "assignment"
-        ],
-        [
-          /* Function */ 0,
-          "object_initializer"
-        ],
-        [
-          /* Function */ 0,
-          "array_initializer"
-        ],
-        [
-          /* Function */ 0,
-          "identifier"
-        ],
-        [
-          /* Function */ 0,
-          "identifier_or_reserved_keyword"
-        ],
-        [
-          /* Function */ 0,
-          "identifier_with_type"
-        ],
-        [
-          /* Function */ 0,
-          "block_body"
-        ],
-        [
-          /* Function */ 0,
-          "function_block_body"
-        ],
-        [
-          /* Function */ 0,
-          "jsx_element"
-        ],
-        [
-          /* Function */ 0,
-          "pattern"
-        ],
-        [
-          /* Function */ 0,
-          "pattern_from_expr"
-        ],
-        [
-          /* Function */ 0,
-          "object_key"
-        ],
-        [
-          /* Function */ 0,
-          "class_declaration"
-        ],
-        [
-          /* Function */ 0,
-          "class_expression"
-        ],
-        [
-          /* Function */ 0,
-          "is_assignable_lhs"
-        ],
-        [
-          /* Function */ 0,
-          "predicate"
-        ]
-      ]
-    });
+  "parser_flow.ml",
+  95,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      /* Function */ 0,
+      "program"
+    ],
+    [
+      /* Function */ 0,
+      "statement"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list_item"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list_with_directives"
+    ],
+    [
+      /* Function */ 0,
+      "module_body"
+    ],
+    [
+      /* Function */ 0,
+      "expression"
+    ],
+    [
+      /* Function */ 0,
+      "assignment"
+    ],
+    [
+      /* Function */ 0,
+      "object_initializer"
+    ],
+    [
+      /* Function */ 0,
+      "array_initializer"
+    ],
+    [
+      /* Function */ 0,
+      "identifier"
+    ],
+    [
+      /* Function */ 0,
+      "identifier_or_reserved_keyword"
+    ],
+    [
+      /* Function */ 0,
+      "identifier_with_type"
+    ],
+    [
+      /* Function */ 0,
+      "block_body"
+    ],
+    [
+      /* Function */ 0,
+      "function_block_body"
+    ],
+    [
+      /* Function */ 0,
+      "jsx_element"
+    ],
+    [
+      /* Function */ 0,
+      "pattern"
+    ],
+    [
+      /* Function */ 0,
+      "pattern_from_expr"
+    ],
+    [
+      /* Function */ 0,
+      "object_key"
+    ],
+    [
+      /* Function */ 0,
+      "class_declaration"
+    ],
+    [
+      /* Function */ 0,
+      "class_expression"
+    ],
+    [
+      /* Function */ 0,
+      "is_assignable_lhs"
+    ],
+    [
+      /* Function */ 0,
+      "predicate"
+    ]
+  ]
+});
 
 function union(env) {
   maybe(env, /* T_BIT_OR */ 80);
@@ -7088,9 +7088,9 @@ function param_list_or_type(env) {
         ret = {
           TAG: /* ParamList */ 0,
           _0: Curry._2(function_param_list_without_parens, env, {
-              hd: param,
-              tl: /* [] */ 0
-            })
+            hd: param,
+            tl: /* [] */ 0
+          })
         };
       }
       
@@ -7226,14 +7226,14 @@ function primary(env) {
           strict_error(env, /* StrictOctalLiteral */ 31);
         }
         token$4(env, {
-              TAG: /* T_STRING */ 1,
-              _0: [
-                loc$1,
-                value,
-                raw,
-                octal
-              ]
-            });
+          TAG: /* T_STRING */ 1,
+          _0: [
+            loc$1,
+            value,
+            raw,
+            octal
+          ]
+        });
         return [
           loc$1,
           {
@@ -7249,10 +7249,10 @@ function primary(env) {
         const number_type = token$5._0;
         const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, {
-              TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
-              _0: number_type,
-              _1: value$1
-            });
+          TAG: /* T_NUMBER_SINGLETON_TYPE */ 5,
+          _0: number_type,
+          _1: value$1
+        });
         if (number_type === /* LEGACY_OCTAL */ 1) {
           strict_error(env, /* StrictOctalLiteral */ 31);
         }
@@ -7353,9 +7353,9 @@ function function_param_or_generic_type(env) {
       return {
         TAG: /* ParamList */ 0,
         _0: Curry._2(function_param_list_without_parens, env, {
-            hd: param,
-            tl: /* [] */ 0
-          })
+          hd: param,
+          tl: /* [] */ 0
+        })
       };
   }
 }
@@ -7616,9 +7616,9 @@ function params$1(env, allow_default, _require_default, _acc) {
       if (exit === 1) {
         if (require_default) {
           error_at(env, [
-                loc,
-                /* MissingTypeParamDefault */ 58
-              ]);
+            loc,
+            /* MissingTypeParamDefault */ 58
+          ]);
         }
         match$3 = [
           undefined,
@@ -7858,9 +7858,9 @@ function properties(allow_static, env, _param) {
         let exit$1 = 0;
         if ($$static && /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */ 77) {
           strict_error_at(env, [
-                start_loc,
-                /* StrictReservedWord */ 39
-              ]);
+            start_loc,
+            /* StrictReservedWord */ 39
+          ]);
           const static_key_1 = {
             TAG: /* Identifier */ 1,
             _0: [
@@ -7945,10 +7945,10 @@ function _object(allow_staticOpt, env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */ 1);
   const match = properties(allow_static, env, [
-        /* [] */ 0,
-        /* [] */ 0,
-        /* [] */ 0
-      ]);
+    /* [] */ 0,
+    /* [] */ 0,
+    /* [] */ 0
+  ]);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */ 2);
   return [
@@ -8044,23 +8044,23 @@ function pattern(check_env, _param) {
         const env = check_env[0];
         if (Curry._2(mem$1, name, param_names)) {
           error_at(env, [
-                id[0],
-                /* StrictParamDupe */ 29
-              ]);
+            id[0],
+            /* StrictParamDupe */ 29
+          ]);
         }
         const match = identifier_no_dupe_check([
-              env,
-              param_names
-            ], id);
+          env,
+          param_names
+        ], id);
         return [
           match[0],
           Curry._2(add$1, name, match[1])
         ];
       case /* Expression */ 4 :
         error_at(check_env[0], [
-              param[0],
-              /* ExpectedPatternFoundExpression */ 18
-            ]);
+          param[0],
+          /* ExpectedPatternFoundExpression */ 18
+        ]);
         return check_env;
     }
   };
@@ -8107,15 +8107,15 @@ function identifier_no_dupe_check(param, param$1) {
   const env = param[0];
   if (is_restricted(name)) {
     strict_error_at(env, [
-          loc,
-          /* StrictParamName */ 28
-        ]);
+      loc,
+      /* StrictParamName */ 28
+    ]);
   }
   if (is_future_reserved(name) || is_strict_reserved(name)) {
     strict_error_at(env, [
-          loc,
-          /* StrictReservedWord */ 39
-        ]);
+      loc,
+      /* StrictReservedWord */ 39
+    ]);
   }
   return [
     env,
@@ -8133,22 +8133,22 @@ function strict_post_check(env, strict, simple, id, params) {
     const loc = id[0];
     if (is_restricted(name)) {
       strict_error_at(env$1, [
-            loc,
-            /* StrictFunctionName */ 30
-          ]);
+        loc,
+        /* StrictFunctionName */ 30
+      ]);
     }
     if (is_future_reserved(name) || is_strict_reserved(name)) {
       strict_error_at(env$1, [
-            loc,
-            /* StrictReservedWord */ 39
-          ]);
+        loc,
+        /* StrictReservedWord */ 39
+      ]);
     }
     
   }
   Stdlib__List.fold_left(pattern, [
-        env$1,
-        /* Empty */ 0
-      ], params);
+    env$1,
+    /* Empty */ 0
+  ], params);
 }
 
 function param$1(env) {
@@ -8225,10 +8225,10 @@ function param_list(env, _param) {
 function function_params(env) {
   token$4(env, /* T_LPAREN */ 3);
   const match = param_list(env, [
-        /* [] */ 0,
-        /* [] */ 0,
-        false
-      ]);
+    /* [] */ 0,
+    /* [] */ 0,
+    false
+  ]);
   token$4(env, /* T_RPAREN */ 4);
   return [
     match[0],
@@ -8446,18 +8446,18 @@ function $$const(env) {
   const match$1 = match[0];
   const variable = match$1[1];
   const errs = Stdlib__List.fold_left((function (errs, decl) {
-        if (decl[1].init !== undefined) {
-          return errs;
-        } else {
-          return {
-            hd: [
-              decl[0],
-              /* NoUninitializedConst */ 42
-            ],
-            tl: errs
-          };
-        }
-      }), match[1], variable.declarations);
+    if (decl[1].init !== undefined) {
+      return errs;
+    } else {
+      return {
+        hd: [
+          decl[0],
+          /* NoUninitializedConst */ 42
+        ],
+        tl: errs
+      };
+    }
+  }), match[1], variable.declarations);
   return [
     [
       match$1[0],
@@ -8667,9 +8667,9 @@ function unary(env) {
       let tmp = argument[1];
       if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* Identifier */ 18) {
         strict_error_at(env, [
-              loc,
-              /* StrictDelete */ 32
-            ]);
+          loc,
+          /* StrictDelete */ 32
+        ]);
       }
       
     }
@@ -8727,9 +8727,9 @@ function unary(env) {
     }
     if (!is_lhs(argument$1)) {
       error_at(env, [
-            argument$1[0],
-            /* InvalidLHSInAssignment */ 14
-          ]);
+        argument$1[0],
+        /* InvalidLHSInAssignment */ 14
+      ]);
     }
     const match$2 = argument$1[1];
     if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2.TAG === /* Identifier */ 18) {
@@ -8756,9 +8756,9 @@ function unary(env) {
   const argument$2 = unary(env);
   if (!is_lhs(argument$2)) {
     error_at(env, [
-          argument$2[0],
-          /* InvalidLHSInAssignment */ 14
-        ]);
+      argument$2[0],
+      /* InvalidLHSInAssignment */ 14
+    ]);
   }
   const match$3 = argument$2[1];
   if (!/* tag */ (typeof match$3 === "number" || typeof match$3 === "string") && match$3.TAG === /* Identifier */ 18) {
@@ -8786,8 +8786,8 @@ function left_hand_side(env) {
   let exit = 0;
   if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
     expr = _new(env, (function (new_expr, _args) {
-          return new_expr;
-        }));
+      return new_expr;
+    }));
   } else {
     exit = 1;
   }
@@ -8940,37 +8940,37 @@ function member(env, left) {
       const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_RBRACKET */ 6);
       return call(env, [
-            btwn(left[0], last_loc),
-            {
-              TAG: /* Member */ 13,
-              _0: {
-                _object: left,
-                property: {
-                  TAG: /* PropertyExpression */ 1,
-                  _0: expr
-                },
-                computed: true
-              }
-            }
-          ]);
+        btwn(left[0], last_loc),
+        {
+          TAG: /* Member */ 13,
+          _0: {
+            _object: left,
+            property: {
+              TAG: /* PropertyExpression */ 1,
+              _0: expr
+            },
+            computed: true
+          }
+        }
+      ]);
     case /* T_PERIOD */ 9 :
       token$4(env, /* T_PERIOD */ 9);
       const match$1 = identifier_or_reserved_keyword(env);
       const id = match$1[0];
       return call(env, [
-            btwn(left[0], id[0]),
-            {
-              TAG: /* Member */ 13,
-              _0: {
-                _object: left,
-                property: {
-                  TAG: /* PropertyIdentifier */ 0,
-                  _0: id
-                },
-                computed: false
-              }
-            }
-          ]);
+        btwn(left[0], id[0]),
+        {
+          TAG: /* Member */ 13,
+          _0: {
+            _object: left,
+            property: {
+              TAG: /* PropertyIdentifier */ 0,
+              _0: id
+            },
+            computed: false
+          }
+        }
+      ]);
     default:
       return left;
   }
@@ -9057,9 +9057,9 @@ function number(env, number_type) {
       break;
   }
   token$4(env, {
-        TAG: /* T_NUMBER */ 0,
-        _0: number_type
-      });
+    TAG: /* T_NUMBER */ 0,
+    _0: number_type
+  });
   return value$1;
 }
 
@@ -9087,9 +9087,9 @@ function primary$1(env) {
           switch (match$1) {
             case /* T_COMMA */ 8 :
               ret = sequence(env, {
-                    hd: expression,
-                    tl: /* [] */ 0
-                  });
+                hd: expression,
+                tl: /* [] */ 0
+              });
               break;
             case /* T_COLON */ 77 :
               const typeAnnotation = wrap(annotation, env);
@@ -9213,34 +9213,34 @@ function primary$1(env) {
         pop_lex_mode(env);
         const filtered_flags = Stdlib__Buffer.create(raw_flags.length);
         Stdlib__String.iter((function (c) {
-              if (c >= 110) {
-                if (c !== 121) {
-                  return;
-                } else {
-                  return Stdlib__Buffer.add_char(filtered_flags, c);
-                }
-              }
-              if (c < 103) {
-                return;
-              }
-              switch (c) {
-                case 104 :
-                case 106 :
-                case 107 :
-                case 108 :
-                  return;
-                case 103 :
-                case 105 :
-                case 109 :
-                  return Stdlib__Buffer.add_char(filtered_flags, c);
-              }
-            }), raw_flags);
+          if (c >= 110) {
+            if (c !== 121) {
+              return;
+            } else {
+              return Stdlib__Buffer.add_char(filtered_flags, c);
+            }
+          }
+          if (c < 103) {
+            return;
+          }
+          switch (c) {
+            case 104 :
+            case 106 :
+            case 107 :
+            case 108 :
+              return;
+            case 103 :
+            case 105 :
+            case 109 :
+              return Stdlib__Buffer.add_char(filtered_flags, c);
+          }
+        }), raw_flags);
         const flags = Stdlib__Buffer.contents(filtered_flags);
         if (flags !== raw_flags) {
           error$1(env, {
-                TAG: /* InvalidRegExpFlags */ 3,
-                _0: raw_flags
-              });
+            TAG: /* InvalidRegExpFlags */ 3,
+            _0: raw_flags
+          });
         }
         const value = {
           TAG: /* RegExp */ 3,
@@ -9290,14 +9290,14 @@ function primary$1(env) {
           strict_error(env, /* StrictOctalLiteral */ 31);
         }
         token$4(env, {
-              TAG: /* T_STRING */ 1,
-              _0: [
-                loc$3,
-                value$2,
-                raw$3,
-                octal
-              ]
-            });
+          TAG: /* T_STRING */ 1,
+          _0: [
+            loc$3,
+            value$2,
+            raw$3,
+            octal
+          ]
+        });
         const value$3 = {
           TAG: /* String */ 0,
           _0: value$2
@@ -9504,9 +9504,9 @@ function identifier_or_reserved_keyword(env) {
         err = [
           lex_loc,
           get_unexpected_error([
-                lex_token,
-                lex_value
-              ])
+            lex_token,
+            lex_value
+          ])
         ];
       }
       token$3(env);
@@ -9537,17 +9537,17 @@ function assignment_but_not_arrow_function(env) {
   }
   if (!is_assignable_lhs(expr)) {
     error_at(env, [
-          expr[0],
-          /* InvalidLHSInAssignment */ 14
-        ]);
+      expr[0],
+      /* InvalidLHSInAssignment */ 14
+    ]);
   }
   const match = expr[1];
   if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* Identifier */ 18) {
     if (is_restricted(match._0[1].name)) {
       strict_error_at(env, [
-            expr[0],
-            /* StrictLHSAssignment */ 36
-          ]);
+        expr[0],
+        /* StrictLHSAssignment */ 36
+      ]);
     }
     
   }
@@ -10055,14 +10055,14 @@ function binary(env) {
     const rop = match[0];
     if (is_unary && rop === /* Exp */ 14) {
       error_at(env, [
-            right_loc,
-            /* InvalidLHSInExponentiation */ 15
-          ]);
+        right_loc,
+        /* InvalidLHSInExponentiation */ 15
+      ]);
     }
     _stack = add_to_stack(right, [
-          rop,
-          match[1]
-        ], right_loc, stack);
+      rop,
+      match[1]
+    ], right_loc, stack);
     continue;
   };
 }
@@ -10219,9 +10219,9 @@ function template_parts(env, _quasis, _expressions) {
     return [
       expr[0],
       Stdlib__List.rev({
-            hd: imaginary_quasi,
-            tl: quasis
-          }),
+        hd: imaginary_quasi,
+        tl: quasis
+      }),
       Stdlib__List.rev(expressions$1)
     ];
   };
@@ -10232,9 +10232,9 @@ function template_literal(env, part) {
   const match = part[1];
   const start_loc = part[0];
   token$4(env, {
-        TAG: /* T_TEMPLATE_PART */ 2,
-        _0: part
-      });
+    TAG: /* T_TEMPLATE_PART */ 2,
+    _0: part
+  });
   const head_1 = {
     value: {
       raw: match.raw,
@@ -10254,9 +10254,9 @@ function template_literal(env, part) {
       },
       /* [] */ 0
     ] : template_parts(env, {
-          hd: head,
-          tl: /* [] */ 0
-        }, /* [] */ 0);
+      hd: head,
+      tl: /* [] */ 0
+    }, /* [] */ 0);
   const loc = btwn(start_loc, match$1[0]);
   return [
     loc,
@@ -10400,26 +10400,26 @@ function try_arrow_function(env) {
   token$4(env$2, /* T_ARROW */ 10);
   const env$3 = without_error_callback(env$2);
   const match$2 = with_loc((function (param) {
-        let generator = false;
-        const env = with_in_function(true, param);
-        const match = Curry._2(Parser_env_Peek.token, undefined, env);
-        if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */ 1) {
-          const match$1 = function_body(env, async, generator);
-          return [
-            match$1[1],
-            match$1[2]
-          ];
-        }
-        const env$1 = enter_function(env, async, generator);
-        const expr = Curry._1(Parse.assignment, env$1);
-        return [
-          {
-            TAG: /* BodyExpression */ 1,
-            _0: expr
-          },
-          env$1.in_strict_mode
-        ];
-      }), env$3);
+    let generator = false;
+    const env = with_in_function(true, param);
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */ 1) {
+      const match$1 = function_body(env, async, generator);
+      return [
+        match$1[1],
+        match$1[2]
+      ];
+    }
+    const env$1 = enter_function(env, async, generator);
+    const expr = Curry._1(Parse.assignment, env$1);
+    return [
+      {
+        TAG: /* BodyExpression */ 1,
+        _0: expr
+      },
+      env$1.in_strict_mode
+    ];
+  }), env$3);
   const match$3 = match$2[1];
   const body = match$3[0];
   const simple = is_simple_function_params(params, defaults, rest);
@@ -10526,14 +10526,14 @@ function key(env) {
           strict_error(env, /* StrictOctalLiteral */ 31);
         }
         token$4(env, {
-              TAG: /* T_STRING */ 1,
-              _0: [
-                loc$1,
-                value$2,
-                raw$1,
-                octal
-              ]
-            });
+          TAG: /* T_STRING */ 1,
+          _0: [
+            loc$1,
+            value$2,
+            raw$1,
+            octal
+          ]
+        });
         const value$3 = {
           TAG: /* String */ 0,
           _0: value$2
@@ -10987,14 +10987,14 @@ function check_property(env, prop_map, prop) {
       case "Init" :
         if (Curry._2(mem$1, "Init", prev_kinds)) {
           strict_error_at(env, [
-                prop_loc,
-                /* StrictDuplicateProperty */ 33
-              ]);
+            prop_loc,
+            /* StrictDuplicateProperty */ 33
+          ]);
         } else if (Curry._2(mem$1, "Set", prev_kinds) || Curry._2(mem$1, "Get", prev_kinds)) {
           error_at(env, [
-                prop_loc,
-                /* AccessorDataProperty */ 34
-              ]);
+            prop_loc,
+            /* AccessorDataProperty */ 34
+          ]);
         }
         break;
       case "Get" :
@@ -11005,14 +11005,14 @@ function check_property(env, prop_map, prop) {
     if (exit$1 === 2) {
       if (Curry._2(mem$1, "Init", prev_kinds)) {
         error_at(env, [
-              prop_loc,
-              /* AccessorDataProperty */ 34
-            ]);
+          prop_loc,
+          /* AccessorDataProperty */ 34
+        ]);
       } else if (Curry._2(mem$1, kind_string, prev_kinds)) {
         error_at(env, [
-              prop_loc,
-              /* AccessorGetSet */ 35
-            ]);
+          prop_loc,
+          /* AccessorGetSet */ 35
+        ]);
       }
       
     }
@@ -11054,9 +11054,9 @@ function _initializer(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */ 1);
   const props = properties$1(env, [
-        /* Empty */ 0,
-        /* [] */ 0
-      ]);
+    /* Empty */ 0,
+    /* [] */ 0
+  ]);
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */ 2);
   return [
@@ -11587,14 +11587,14 @@ function declare(in_moduleOpt, env) {
                 strict_error(env, /* StrictOctalLiteral */ 31);
               }
               token$4(env, {
-                    TAG: /* T_STRING */ 1,
-                    _0: [
-                      loc$2,
-                      value,
-                      raw,
-                      octal
-                    ]
-                  });
+                TAG: /* T_STRING */ 1,
+                _0: [
+                  loc$2,
+                  value,
+                  raw,
+                  octal
+                ]
+              });
               const value$1 = {
                 TAG: /* String */ 0,
                 _0: value
@@ -11712,9 +11712,9 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
       const match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
       const name = match$3[0];
       record_export(env, [
-            name[0],
-            extract_ident_name(name)
-          ]);
+        name[0],
+        extract_ident_name(name)
+      ]);
       match$2 = [
         name,
         undefined,
@@ -11723,9 +11723,9 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
     } else {
       const loc = id[0];
       record_export(env, [
-            loc,
-            extract_ident_name(id)
-          ]);
+        loc,
+        extract_ident_name(id)
+      ]);
       match$2 = [
         undefined,
         match$1[1],
@@ -11954,8 +11954,8 @@ function declare_export_declaration(allow_export_typeOpt, env) {
       const end_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
       token$4(env$1, /* T_RCURLY */ 2);
       const source$2 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
-              return error_at(env$1, param);
-            }), match$6[1]), undefined);
+          return error_at(env$1, param);
+        }), match$6[1]), undefined);
       const loc$5 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
       const end_loc$3 = loc$5 !== undefined ? loc$5 : (
           source$2 !== undefined ? source$2[0] : end_loc$2
@@ -12126,14 +12126,14 @@ function export_source(env) {
       strict_error(env, /* StrictOctalLiteral */ 31);
     }
     token$4(env, {
-          TAG: /* T_STRING */ 1,
-          _0: [
-            loc,
-            value,
-            raw,
-            octal
-          ]
-        });
+      TAG: /* T_STRING */ 1,
+      _0: [
+        loc,
+        value,
+        raw,
+        octal
+      ]
+    });
     const value$1 = {
       TAG: /* String */ 0,
       _0: value
@@ -12354,24 +12354,24 @@ function fold(acc) {
     switch (match.TAG) {
       case /* Object */ 0 :
         return Stdlib__List.fold_left((function (acc, prop) {
-              if (prop.TAG === /* Property */ 0) {
-                return fold(acc)(prop._0[1].pattern);
-              } else {
-                return fold(acc)(prop._0[1].argument);
-              }
-            }), acc, match._0.properties);
+          if (prop.TAG === /* Property */ 0) {
+            return fold(acc)(prop._0[1].pattern);
+          } else {
+            return fold(acc)(prop._0[1].argument);
+          }
+        }), acc, match._0.properties);
       case /* Array */ 1 :
         return Stdlib__List.fold_left((function (acc, elem) {
-              if (elem !== undefined) {
-                if (elem.TAG === /* Element */ 0) {
-                  return fold(acc)(elem._0);
-                } else {
-                  return fold(acc)(elem._0[1].argument);
-                }
-              } else {
-                return acc;
-              }
-            }), acc, match._0.elements);
+          if (elem !== undefined) {
+            if (elem.TAG === /* Element */ 0) {
+              return fold(acc)(elem._0);
+            } else {
+              return fold(acc)(elem._0[1].argument);
+            }
+          } else {
+            return acc;
+          }
+        }), acc, match._0.elements);
       case /* Assignment */ 2 :
         return fold(acc)(match._0.left);
       case /* Identifier */ 3 :
@@ -12404,20 +12404,20 @@ function assert_can_be_forin_or_forof(env, err) {
         return;
       }
       return error_at(env, [
-            match[0],
-            err
-          ]);
+        match[0],
+        err
+      ]);
     }
     const match$1 = param._0;
     const loc = match$1[0];
     if (!Curry._1(Parse.is_assignable_lhs, [
-          loc,
-          match$1[1]
-        ])) {
+        loc,
+        match$1[1]
+      ])) {
       return error_at(env, [
-            loc,
-            err
-          ]);
+        loc,
+        err
+      ]);
     }
     
   };
@@ -12518,8 +12518,8 @@ function var_or_const(env) {
   const end_loc$1 = end_loc !== undefined ? end_loc : start_loc;
   semicolon(env);
   Stdlib__List.iter((function (param) {
-        return error_at(env, param);
-      }), match[1]);
+    return error_at(env, param);
+  }), match[1]);
   return [
     btwn(start_loc, end_loc$1),
     match$1[1]
@@ -12539,14 +12539,14 @@ function source(env) {
       strict_error(env, /* StrictOctalLiteral */ 31);
     }
     token$4(env, {
-          TAG: /* T_STRING */ 1,
-          _0: [
-            loc,
-            value,
-            raw,
-            octal
-          ]
-        });
+      TAG: /* T_STRING */ 1,
+      _0: [
+        loc,
+        value,
+        raw,
+        octal
+      ]
+    });
     const value$1 = {
       TAG: /* String */ 0,
       _0: value
@@ -12659,9 +12659,9 @@ function element(env) {
       return {
         TAG: /* Element */ 0,
         _0: Curry._2(Parse.pattern_from_expr, env, [
-            match[0],
-            match[1]
-          ])
+          match[0],
+          match[1]
+        ])
       };
     }
     const match$1 = param._0;
@@ -12705,56 +12705,56 @@ function from_expr(env, param) {
           expr._0
         ];
         const properties = Stdlib__List.map((function (param) {
-              if (param.TAG === /* Property */ 0) {
-                const match = param._0;
-                const match$1 = match[1];
-                const key = match$1.key;
-                let key$1;
-                switch (key.TAG) {
-                  case /* Literal */ 0 :
-                    key$1 = {
-                      TAG: /* Literal */ 0,
-                      _0: key._0
-                    };
-                    break;
-                  case /* Identifier */ 1 :
-                    key$1 = {
-                      TAG: /* Identifier */ 1,
-                      _0: key._0
-                    };
-                    break;
-                  case /* Computed */ 2 :
-                    key$1 = {
-                      TAG: /* Computed */ 2,
-                      _0: key._0
-                    };
-                    break;
-                }
-                const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
-                return {
-                  TAG: /* Property */ 0,
-                  _0: [
-                    match[0],
-                    {
-                      key: key$1,
-                      pattern: pattern,
-                      shorthand: match$1.shorthand
-                    }
-                  ]
+          if (param.TAG === /* Property */ 0) {
+            const match = param._0;
+            const match$1 = match[1];
+            const key = match$1.key;
+            let key$1;
+            switch (key.TAG) {
+              case /* Literal */ 0 :
+                key$1 = {
+                  TAG: /* Literal */ 0,
+                  _0: key._0
                 };
+                break;
+              case /* Identifier */ 1 :
+                key$1 = {
+                  TAG: /* Identifier */ 1,
+                  _0: key._0
+                };
+                break;
+              case /* Computed */ 2 :
+                key$1 = {
+                  TAG: /* Computed */ 2,
+                  _0: key._0
+                };
+                break;
+            }
+            const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
+            return {
+              TAG: /* Property */ 0,
+              _0: [
+                match[0],
+                {
+                  key: key$1,
+                  pattern: pattern,
+                  shorthand: match$1.shorthand
+                }
+              ]
+            };
+          }
+          const match$2 = param._0;
+          const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
+          return {
+            TAG: /* SpreadProperty */ 1,
+            _0: [
+              match$2[0],
+              {
+                argument: argument
               }
-              const match$2 = param._0;
-              const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
-              return {
-                TAG: /* SpreadProperty */ 1,
-                _0: [
-                  match$2[0],
-                  {
-                    argument: argument
-                  }
-                ]
-              };
-            }), param$2[1].properties);
+            ]
+          };
+        }), param$2[1].properties);
         return [
           param$2[0],
           {
@@ -13548,9 +13548,9 @@ function normalize(name) {
       const _object = match$1._object;
       let _object$1;
       _object$1 = _object.TAG === /* Identifier */ 0 ? _object._0[1].name : normalize({
-              TAG: /* MemberExpression */ 2,
-              _0: _object._0
-            });
+          TAG: /* MemberExpression */ 2,
+          _0: _object._0
+        });
       return _object$1 + ("." + match$1.property[1].name);
   }
 }
@@ -13567,9 +13567,9 @@ function element_without_lt(env, start_loc) {
     const opening_name = normalize(openingElement[1].name);
     if (normalize(closingElement[1].name) !== opening_name) {
       error$1(env, {
-            TAG: /* ExpectedJSXClosingTag */ 6,
-            _0: opening_name
-          });
+        TAG: /* ExpectedJSXClosingTag */ 6,
+        _0: opening_name
+      });
     }
     end_loc = closingElement[0];
   } else {
@@ -13603,9 +13603,9 @@ function module_item(env) {
           case /* T_DEFAULT */ 34 :
             token$4(env$1, /* T_DEFAULT */ 34);
             record_export(env$1, [
-                  btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env$1)),
-                  "default"
-                ]);
+              btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env$1)),
+              "default"
+            ]);
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env$1);
             let match$3;
             let exit$1 = 0;
@@ -13672,9 +13672,9 @@ function module_item(env) {
             }
             if (match$4.TAG === /* InterfaceDeclaration */ 21) {
               record_export(env$1, [
-                    $$interface$1[0],
-                    extract_ident_name(match$4._0.id)
-                  ]);
+                $$interface$1[0],
+                extract_ident_name(match$4._0.id)
+              ]);
             } else {
               throw new Caml_js_exceptions.MelangeError("Failure", {
                     MEL_EXN_ID: "Failure",
@@ -13713,9 +13713,9 @@ function module_item(env) {
               }
               if (match$5.TAG === /* TypeAlias */ 7) {
                 record_export(env$1, [
-                      type_alias$1[0],
-                      extract_ident_name(match$5._0.id)
-                    ]);
+                  type_alias$1[0],
+                  extract_ident_name(match$5._0.id)
+                ]);
               } else {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
@@ -13804,8 +13804,8 @@ function module_item(env) {
           const end_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
           token$4(env$1, /* T_RCURLY */ 2);
           const source$3 = Curry._2(Parser_env_Peek.value, undefined, env$1) === "from" ? export_source(env$1) : (Stdlib__List.iter((function (param) {
-                  return error_at(env$1, param);
-                }), match$7[1]), undefined);
+              return error_at(env$1, param);
+            }), match$7[1]), undefined);
           const loc$3 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env$1);
           const end_loc$5 = loc$3 !== undefined ? loc$3 : (
               source$3 !== undefined ? source$3[0] : end_loc$4
@@ -13848,21 +13848,21 @@ function module_item(env) {
                 };
               } else {
                 error_at(env$1, [
-                      loc$4,
-                      /* ExportNamelessFunction */ 56
-                    ]);
+                  loc$4,
+                  /* ExportNamelessFunction */ 56
+                ]);
                 names = /* [] */ 0;
               }
               break;
             case /* VariableDeclaration */ 19 :
               names = Stdlib__List.fold_left((function (names, param) {
-                    const id = param[1].id;
-                    let param$1 = {
-                      hd: id,
-                      tl: /* [] */ 0
-                    };
-                    return Stdlib__List.fold_left(fold, names, param$1);
-                  }), /* [] */ 0, match$8._0.declarations);
+                const id = param[1].id;
+                let param$1 = {
+                  hd: id,
+                  tl: /* [] */ 0
+                };
+                return Stdlib__List.fold_left(fold, names, param$1);
+              }), /* [] */ 0, match$8._0.declarations);
               break;
             case /* ClassDeclaration */ 20 :
               const id$1 = match$8._0.id;
@@ -13876,9 +13876,9 @@ function module_item(env) {
                 };
               } else {
                 error_at(env$1, [
-                      loc$4,
-                      /* ExportNamelessClass */ 55
-                    ]);
+                  loc$4,
+                  /* ExportNamelessClass */ 55
+                ]);
                 names = /* [] */ 0;
               }
               break;
@@ -13889,8 +13889,8 @@ function module_item(env) {
                   });
           }
           Stdlib__List.iter((function (param) {
-                return record_export(env$1, param);
-              }), names);
+            return record_export(env$1, param);
+          }), names);
           const declaration = {
             TAG: /* Declaration */ 0,
             _0: stmt
@@ -13972,14 +13972,14 @@ function module_item(env) {
             strict_error(env$2, /* StrictOctalLiteral */ 31);
           }
           token$4(env$2, {
-                TAG: /* T_STRING */ 1,
-                _0: [
-                  str_loc,
-                  value,
-                  raw,
-                  octal
-                ]
-              });
+            TAG: /* T_STRING */ 1,
+            _0: [
+              str_loc,
+              value,
+              raw,
+              octal
+            ]
+          });
           const value$1 = {
             TAG: /* String */ 0,
             _0: value
@@ -14133,20 +14133,20 @@ function statement_list_item(decoratorsOpt, env) {
           token$4(env, /* T_LPAREN */ 3);
           const match$1 = helper(with_no_let(true, env), /* [] */ 0, /* [] */ 0);
           const head = Stdlib__List.map((function (param) {
-                const match = param[1];
-                return {
-                  id: match.id,
-                  init: match.init
-                };
-              }), match$1[1]);
+            const match = param[1];
+            return {
+              id: match.id,
+              init: match.init
+            };
+          }), match$1[1]);
           token$4(env, /* T_RPAREN */ 4);
           const body = Curry._1(Parse.statement, env);
           const end_loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
           const end_loc$1 = end_loc !== undefined ? end_loc : match$1[0];
           semicolon(env);
           Stdlib__List.iter((function (param) {
-                return error_at(env, param);
-              }), match$1[2]);
+            return error_at(env, param);
+          }), match$1[2]);
           return [
             btwn(start_loc, end_loc$1),
             {
@@ -14170,8 +14170,8 @@ function statement_list_item(decoratorsOpt, env) {
         const end_loc$3 = end_loc$2 !== undefined ? end_loc$2 : match$2[0];
         semicolon(env);
         Stdlib__List.iter((function (param) {
-              return error_at(env, param);
-            }), match$2[2]);
+          return error_at(env, param);
+        }), match$2[2]);
         return [
           btwn(start_loc, end_loc$3),
           declaration
@@ -14252,9 +14252,9 @@ function statement(env) {
           token$4(env, /* T_RPAREN */ 4);
           token$4(env, /* T_LCURLY */ 1);
           const cases = case_list(env, [
-                false,
-                /* [] */ 0
-              ]);
+            false,
+            /* [] */ 0
+          ]);
           const end_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_RCURLY */ 2);
           return [
@@ -14273,9 +14273,9 @@ function statement(env) {
           token$4(env, /* T_THROW */ 20);
           if (Curry._1(Parser_env_Peek.is_line_terminator, env)) {
             error_at(env, [
-                  start_loc$2,
-                  /* NewlineAfterThrow */ 11
-                ]);
+              start_loc$2,
+              /* NewlineAfterThrow */ 11
+            ]);
           }
           const argument$1 = Curry._1(Parse.expression, env);
           const loc$2 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
@@ -14334,9 +14334,9 @@ function statement(env) {
           }
           const end_loc$3 = finalizer !== undefined ? finalizer[0] : (
               handler !== undefined ? handler[0] : (error_at(env, [
-                      block[0],
-                      /* NoCatchOrFinally */ 20
-                    ]), block[0])
+                  block[0],
+                  /* NoCatchOrFinally */ 20
+                ]), block[0])
             );
           return [
             btwn(start_loc$3, end_loc$3),
@@ -14378,9 +14378,9 @@ function statement(env) {
           const body$2 = Curry._1(Parse.statement, env);
           const loc$4 = btwn(start_loc$6, body$2[0]);
           strict_error_at(env, [
-                loc$4,
-                /* StrictModeWith */ 25
-              ]);
+            loc$4,
+            /* StrictModeWith */ 25
+          ]);
           return [
             loc$4,
             {
@@ -14402,9 +14402,9 @@ function statement(env) {
             const name = label$1[1].name;
             if (!Curry._2(mem$1, name, env.labels)) {
               error$1(env, {
-                    TAG: /* UnknownLabel */ 4,
-                    _0: name
-                  });
+                TAG: /* UnknownLabel */ 4,
+                _0: name
+              });
             }
             label = label$1;
           }
@@ -14415,9 +14415,9 @@ function statement(env) {
           const loc$6 = btwn(start_loc$7, end_loc$4);
           if (label === undefined && !(env.in_loop || env.in_switch)) {
             error_at(env, [
-                  loc$6,
-                  /* IllegalBreak */ 22
-                ]);
+              loc$6,
+              /* IllegalBreak */ 22
+            ]);
           }
           semicolon(env);
           return [
@@ -14440,9 +14440,9 @@ function statement(env) {
             const name$1 = label$3[1].name;
             if (!Curry._2(mem$1, name$1, env.labels)) {
               error$1(env, {
-                    TAG: /* UnknownLabel */ 4,
-                    _0: name$1
-                  });
+                TAG: /* UnknownLabel */ 4,
+                _0: name$1
+              });
             }
             label$2 = label$3;
           }
@@ -14453,9 +14453,9 @@ function statement(env) {
           const loc$8 = btwn(start_loc$8, end_loc$5);
           if (!env.in_loop) {
             error_at(env, [
-                  loc$8,
-                  /* IllegalContinue */ 21
-                ]);
+              loc$8,
+              /* IllegalContinue */ 21
+            ]);
           }
           semicolon(env);
           return [
@@ -14632,8 +14632,8 @@ function statement(env) {
             }
           }
           Stdlib__List.iter((function (param) {
-                return error_at(env, param);
-              }), match$5[1]);
+            return error_at(env, param);
+          }), match$5[1]);
           token$4(env, /* T_SEMICOLON */ 7);
           const match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
           let test$2;
@@ -14691,13 +14691,13 @@ function statement(env) {
           token$4(env, /* T_COLON */ 77);
           if (Curry._2(mem$1, name$2, env.labels)) {
             error_at(env, [
-                  loc$11,
-                  {
-                    TAG: /* Redeclaration */ 5,
-                    _0: "Label",
-                    _1: name$2
-                  }
-                ]);
+              loc$11,
+              {
+                TAG: /* Redeclaration */ 5,
+                _0: "Label",
+                _1: name$2
+              }
+            ]);
           }
           const env$1 = add_label(env, name$2);
           const labeled_stmt = Curry._1(Parse.statement, env$1);
@@ -14875,28 +14875,28 @@ function statement_list(_env, term_fn, item_fn, _param) {
 
 function directives(env, term_fn, item_fn) {
   const match = statement_list(env, term_fn, item_fn, [
-        /* [] */ 0,
-        /* [] */ 0
-      ]);
+    /* [] */ 0,
+    /* [] */ 0
+  ]);
   const env$1 = match[0];
   Stdlib__List.iter((function (param) {
-        const token = param[1];
-        if (!/* tag */ (typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */ 1) {
-          if (token._0[3]) {
-            return strict_error_at(env$1, [
-                  param[0],
-                  /* StrictOctalLiteral */ 31
-                ]);
-          } else {
-            return;
-          }
-        }
-        const s = "Nooo: " + (token_to_string(token) + "\n");
-        throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: s
-            });
-      }), Stdlib__List.rev(match[1]));
+    const token = param[1];
+    if (!/* tag */ (typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */ 1) {
+      if (token._0[3]) {
+        return strict_error_at(env$1, [
+          param[0],
+          /* StrictOctalLiteral */ 31
+        ]);
+      } else {
+        return;
+      }
+    }
+    const s = "Nooo: " + (token_to_string(token) + "\n");
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+          MEL_EXN_ID: "Failure",
+          _1: s
+        });
+  }), Stdlib__List.rev(match[1]));
   return [
     env$1,
     match[2]
@@ -14926,16 +14926,16 @@ const class_declaration$1 = class_declaration;
 
 function statement_list_with_directives(term_fn, env) {
   const match = Curry._3(directives, env, term_fn, (function (eta) {
-      return statement_list_item(undefined, eta);
-    }));
+    return statement_list_item(undefined, eta);
+  }));
   const env$1 = match[0];
   const stmts = Curry._2(statement_list$1, term_fn, env$1);
   const stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {
-        return {
-          hd: stmt,
-          tl: acc
-        };
-      }), stmts, match[1]);
+    return {
+      hd: stmt,
+      tl: acc
+    };
+  }), stmts, match[1]);
   return [
     stmts$1,
     env$1.in_strict_mode
@@ -14952,9 +14952,9 @@ function identifier$2(restricted_error, env) {
       strict_error(env, /* StrictReservedWord */ 39);
     } else if (env.no_let) {
       error$1(env, {
-            TAG: /* UnexpectedToken */ 1,
-            _0: name
-          });
+        TAG: /* UnexpectedToken */ 1,
+        _0: name
+      });
     }
     token$3(env);
   } else {
@@ -14982,9 +14982,9 @@ function identifier$2(restricted_error, env) {
   }
   if (restricted_error !== undefined && is_restricted(name)) {
     strict_error_at(env, [
-          loc,
-          restricted_error
-        ]);
+      loc,
+      restricted_error
+    ]);
   }
   return [
     loc,
@@ -15000,17 +15000,17 @@ function module_body_with_directives(env, term_fn) {
   const match = Curry._3(directives, env, term_fn, module_item);
   const stmts = Curry._2(module_body, term_fn, match[0]);
   return Stdlib__List.fold_left((function (acc, stmt) {
-        return {
-          hd: stmt,
-          tl: acc
-        };
-      }), stmts, match[1]);
+    return {
+      hd: stmt,
+      tl: acc
+    };
+  }), stmts, match[1]);
 }
 
 function program(env) {
   const stmts = module_body_with_directives(env, (function (param) {
-        return false;
-      }));
+    return false;
+  }));
   const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_EOF */ 105);
   const loc = stmts ? btwn(Stdlib__List.hd(stmts)[0], Stdlib__List.hd(Stdlib__List.rev(stmts))[0]) : end_loc;
@@ -15027,9 +15027,9 @@ function expression$1(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
     return sequence(env, {
-          hd: expr,
-          tl: /* [] */ 0
-        });
+      hd: expr,
+      tl: /* [] */ 0
+    });
   } else {
     return expr;
   }
@@ -15142,126 +15142,126 @@ function predicate(env) {
 }
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [
-        [
-          /* Function */ 0,
-          "program"
-        ],
-        [
-          /* Function */ 0,
-          "statement"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list_item"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list"
-        ],
-        [
-          /* Function */ 0,
-          "statement_list_with_directives"
-        ],
-        [
-          /* Function */ 0,
-          "module_body"
-        ],
-        [
-          /* Function */ 0,
-          "expression"
-        ],
-        [
-          /* Function */ 0,
-          "assignment"
-        ],
-        [
-          /* Function */ 0,
-          "object_initializer"
-        ],
-        [
-          /* Function */ 0,
-          "array_initializer"
-        ],
-        [
-          /* Function */ 0,
-          "identifier"
-        ],
-        [
-          /* Function */ 0,
-          "identifier_or_reserved_keyword"
-        ],
-        [
-          /* Function */ 0,
-          "identifier_with_type"
-        ],
-        [
-          /* Function */ 0,
-          "block_body"
-        ],
-        [
-          /* Function */ 0,
-          "function_block_body"
-        ],
-        [
-          /* Function */ 0,
-          "jsx_element"
-        ],
-        [
-          /* Function */ 0,
-          "pattern"
-        ],
-        [
-          /* Function */ 0,
-          "pattern_from_expr"
-        ],
-        [
-          /* Function */ 0,
-          "object_key"
-        ],
-        [
-          /* Function */ 0,
-          "class_declaration"
-        ],
-        [
-          /* Function */ 0,
-          "class_expression"
-        ],
-        [
-          /* Function */ 0,
-          "is_assignable_lhs"
-        ],
-        [
-          /* Function */ 0,
-          "predicate"
-        ]
-      ]
-    }, Parse, {
-      program: program,
-      statement: statement,
-      statement_list_item: statement_list_item,
-      statement_list: statement_list$1,
-      statement_list_with_directives: statement_list_with_directives,
-      module_body: module_body,
-      expression: expression$1,
-      assignment: assignment,
-      object_initializer: _initializer,
-      array_initializer: array_initializer,
-      identifier: identifier$2,
-      identifier_or_reserved_keyword: identifier_or_reserved_keyword,
-      identifier_with_type: identifier_with_type,
-      block_body: block_body,
-      function_block_body: function_block_body,
-      jsx_element: element$1,
-      pattern: pattern$1,
-      pattern_from_expr: from_expr,
-      object_key: key,
-      class_declaration: class_declaration$1,
-      class_expression: class_expression,
-      is_assignable_lhs: is_assignable_lhs,
-      predicate: predicate
-    });
+  TAG: /* Module */ 0,
+  _0: [
+    [
+      /* Function */ 0,
+      "program"
+    ],
+    [
+      /* Function */ 0,
+      "statement"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list_item"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list"
+    ],
+    [
+      /* Function */ 0,
+      "statement_list_with_directives"
+    ],
+    [
+      /* Function */ 0,
+      "module_body"
+    ],
+    [
+      /* Function */ 0,
+      "expression"
+    ],
+    [
+      /* Function */ 0,
+      "assignment"
+    ],
+    [
+      /* Function */ 0,
+      "object_initializer"
+    ],
+    [
+      /* Function */ 0,
+      "array_initializer"
+    ],
+    [
+      /* Function */ 0,
+      "identifier"
+    ],
+    [
+      /* Function */ 0,
+      "identifier_or_reserved_keyword"
+    ],
+    [
+      /* Function */ 0,
+      "identifier_with_type"
+    ],
+    [
+      /* Function */ 0,
+      "block_body"
+    ],
+    [
+      /* Function */ 0,
+      "function_block_body"
+    ],
+    [
+      /* Function */ 0,
+      "jsx_element"
+    ],
+    [
+      /* Function */ 0,
+      "pattern"
+    ],
+    [
+      /* Function */ 0,
+      "pattern_from_expr"
+    ],
+    [
+      /* Function */ 0,
+      "object_key"
+    ],
+    [
+      /* Function */ 0,
+      "class_declaration"
+    ],
+    [
+      /* Function */ 0,
+      "class_expression"
+    ],
+    [
+      /* Function */ 0,
+      "is_assignable_lhs"
+    ],
+    [
+      /* Function */ 0,
+      "predicate"
+    ]
+  ]
+}, Parse, {
+  program: program,
+  statement: statement,
+  statement_list_item: statement_list_item,
+  statement_list: statement_list$1,
+  statement_list_with_directives: statement_list_with_directives,
+  module_body: module_body,
+  expression: expression$1,
+  assignment: assignment,
+  object_initializer: _initializer,
+  array_initializer: array_initializer,
+  identifier: identifier$2,
+  identifier_or_reserved_keyword: identifier_or_reserved_keyword,
+  identifier_with_type: identifier_with_type,
+  block_body: block_body,
+  function_block_body: function_block_body,
+  jsx_element: element$1,
+  pattern: pattern$1,
+  pattern_from_expr: from_expr,
+  object_key: key,
+  class_declaration: class_declaration$1,
+  class_expression: class_expression,
+  is_assignable_lhs: is_assignable_lhs,
+  predicate: predicate
+});
 
 function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   const fail = failOpt !== undefined ? failOpt : true;
@@ -15341,15 +15341,15 @@ function parse(content, options) {
     };
     const position = function (p) {
       return obj([
-            [
-              "line",
-              number$1(p.line)
-            ],
-            [
-              "column",
-              number$1(p.column)
-            ]
-          ]);
+        [
+          "line",
+          number$1(p.line)
+        ],
+        [
+          "column",
+          number$1(p.column)
+        ]
+      ]);
     };
     const loc = function ($$location) {
       const match = $$location.source;
@@ -15357,54 +15357,54 @@ function parse(content, options) {
           /* tag */ typeof match === "number" || typeof match === "string" ? string("(global)") : string(match._0)
         ) : $$null;
       return obj([
-            [
-              "source",
-              source
-            ],
-            [
-              "start",
-              position($$location.start)
-            ],
-            [
-              "end",
-              position($$location._end)
-            ]
-          ]);
+        [
+          "source",
+          source
+        ],
+        [
+          "start",
+          position($$location.start)
+        ],
+        [
+          "end",
+          position($$location._end)
+        ]
+      ]);
     };
     const range = function ($$location) {
       return array([
-            number$1($$location.start.offset),
-            number$1($$location._end.offset)
-          ]);
+        number$1($$location.start.offset),
+        number$1($$location._end.offset)
+      ]);
     };
     const node = function (_type, $$location, props) {
       return obj(Stdlib__Array.append([
-                [
-                  "type",
-                  string(_type)
-                ],
-                [
-                  "loc",
-                  loc($$location)
-                ],
-                [
-                  "range",
-                  range($$location)
-                ]
-              ], props));
+        [
+          "type",
+          string(_type)
+        ],
+        [
+          "loc",
+          loc($$location)
+        ],
+        [
+          "range",
+          range($$location)
+        ]
+      ], props));
     };
     const errors = function (l) {
       const error$2 = function (param) {
         return obj([
-              [
-                "loc",
-                loc(param[0])
-              ],
-              [
-                "message",
-                string(error(param[1]))
-              ]
-            ]);
+          [
+            "loc",
+            loc(param[0])
+          ],
+          [
+            "message",
+            string(error(param[1]))
+          ]
+        ]);
       };
       return array_of_list(error$2, l);
     };
@@ -15433,25 +15433,25 @@ function parse(content, options) {
           case /* Nullable */ 0 :
             let t$1 = t._0;
             return node("NullableTypeAnnotation", loc, [[
-                    "typeAnnotation",
-                    _type(t$1)
-                  ]]);
+                "typeAnnotation",
+                _type(t$1)
+              ]]);
           case /* Function */ 1 :
             return function_type([
-                  loc,
-                  t._0
-                ]);
+              loc,
+              t._0
+            ]);
           case /* Object */ 2 :
             return object_type([
-                  loc,
-                  t._0
-                ]);
+              loc,
+              t._0
+            ]);
           case /* Array */ 3 :
             let t$2 = t._0;
             return node("ArrayTypeAnnotation", loc, [[
-                    "elementType",
-                    _type(t$2)
-                  ]]);
+                "elementType",
+                _type(t$2)
+              ]]);
           case /* Generic */ 4 :
             let param$1 = [
               loc,
@@ -15462,51 +15462,51 @@ function parse(content, options) {
             let id$1;
             id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
             return node("GenericTypeAnnotation", param$1[0], [
-                  [
-                    "id",
-                    id$1
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_instantiation, g.typeParameters)
-                  ]
-                ]);
+              [
+                "id",
+                id$1
+              ],
+              [
+                "typeParameters",
+                option(type_parameter_instantiation, g.typeParameters)
+              ]
+            ]);
           case /* Union */ 5 :
             let param$2 = [
               loc,
               t._0
             ];
             return node("UnionTypeAnnotation", param$2[0], [[
-                    "types",
-                    array_of_list(_type, param$2[1])
-                  ]]);
+                "types",
+                array_of_list(_type, param$2[1])
+              ]]);
           case /* Intersection */ 6 :
             let param$3 = [
               loc,
               t._0
             ];
             return node("IntersectionTypeAnnotation", param$3[0], [[
-                    "types",
-                    array_of_list(_type, param$3[1])
-                  ]]);
+                "types",
+                array_of_list(_type, param$3[1])
+              ]]);
           case /* Typeof */ 7 :
             let param$4 = [
               loc,
               t._0
             ];
             return node("TypeofTypeAnnotation", param$4[0], [[
-                    "argument",
-                    _type(param$4[1])
-                  ]]);
+                "argument",
+                _type(param$4[1])
+              ]]);
           case /* Tuple */ 8 :
             let param$5 = [
               loc,
               t._0
             ];
             return node("TupleTypeAnnotation", param$5[0], [[
-                    "types",
-                    array_of_list(_type, param$5[1])
-                  ]]);
+                "types",
+                array_of_list(_type, param$5[1])
+              ]]);
           case /* StringLiteral */ 9 :
             let param$6 = [
               loc,
@@ -15514,15 +15514,15 @@ function parse(content, options) {
             ];
             const s = param$6[1];
             return node("StringLiteralTypeAnnotation", param$6[0], [
-                  [
-                    "value",
-                    string(s.value)
-                  ],
-                  [
-                    "raw",
-                    string(s.raw)
-                  ]
-                ]);
+              [
+                "value",
+                string(s.value)
+              ],
+              [
+                "raw",
+                string(s.raw)
+              ]
+            ]);
           case /* NumberLiteral */ 10 :
             let param$7 = [
               loc,
@@ -15530,15 +15530,15 @@ function parse(content, options) {
             ];
             const s$1 = param$7[1];
             return node("NumberLiteralTypeAnnotation", param$7[0], [
-                  [
-                    "value",
-                    number$1(s$1.value)
-                  ],
-                  [
-                    "raw",
-                    string(s$1.raw)
-                  ]
-                ]);
+              [
+                "value",
+                number$1(s$1.value)
+              ],
+              [
+                "raw",
+                string(s$1.raw)
+              ]
+            ]);
           case /* BooleanLiteral */ 11 :
             let param$8 = [
               loc,
@@ -15546,40 +15546,40 @@ function parse(content, options) {
             ];
             const s$2 = param$8[1];
             return node("BooleanLiteralTypeAnnotation", param$8[0], [
-                  [
-                    "value",
-                    bool(s$2.value)
-                  ],
-                  [
-                    "raw",
-                    string(s$2.raw)
-                  ]
-                ]);
+              [
+                "value",
+                bool(s$2.value)
+              ],
+              [
+                "raw",
+                string(s$2.raw)
+              ]
+            ]);
         }
       }
     };
     const identifier = function (param) {
       const id = param[1];
       return node("Identifier", param[0], [
-            [
-              "name",
-              string(id.name)
-            ],
-            [
-              "typeAnnotation",
-              option(type_annotation, id.typeAnnotation)
-            ],
-            [
-              "optional",
-              bool(id.optional)
-            ]
-          ]);
+        [
+          "name",
+          string(id.name)
+        ],
+        [
+          "typeAnnotation",
+          option(type_annotation, id.typeAnnotation)
+        ],
+        [
+          "optional",
+          bool(id.optional)
+        ]
+      ]);
     };
     const type_annotation = function (param) {
       return node("TypeAnnotation", param[0], [[
-              "typeAnnotation",
-              _type(param[1])
-            ]]);
+          "typeAnnotation",
+          _type(param[1])
+        ]]);
     };
     const expression = function (param) {
       const arr = param[1];
@@ -15590,83 +15590,83 @@ function parse(content, options) {
       switch (arr.TAG) {
         case /* Array */ 0 :
           return node("ArrayExpression", loc, [[
-                  "elements",
-                  array_of_list((function (param) {
-                        return option(expression_or_spread, param);
-                      }), arr._0.elements)
-                ]]);
+              "elements",
+              array_of_list((function (param) {
+                return option(expression_or_spread, param);
+              }), arr._0.elements)
+            ]]);
         case /* Object */ 1 :
           return node("ObjectExpression", loc, [[
-                  "properties",
-                  array_of_list(object_property, arr._0.properties)
-                ]]);
+              "properties",
+              array_of_list(object_property, arr._0.properties)
+            ]]);
         case /* Function */ 2 :
           return function_expression([
-                loc,
-                arr._0
-              ]);
+            loc,
+            arr._0
+          ]);
         case /* ArrowFunction */ 3 :
           const arrow = arr._0;
           const b = arrow.body;
           let body;
           body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
           return node("ArrowFunctionExpression", loc, [
-                [
-                  "id",
-                  option(identifier, arrow.id)
-                ],
-                [
-                  "params",
-                  array_of_list(pattern, arrow.params)
-                ],
-                [
-                  "defaults",
-                  array_of_list((function (param) {
-                        return option(expression, param);
-                      }), arrow.defaults)
-                ],
-                [
-                  "rest",
-                  option(identifier, arrow.rest)
-                ],
-                [
-                  "body",
-                  body
-                ],
-                [
-                  "async",
-                  bool(arrow.async)
-                ],
-                [
-                  "generator",
-                  bool(arrow.generator)
-                ],
-                [
-                  "expression",
-                  bool(arrow.expression)
-                ],
-                [
-                  "returnType",
-                  option(type_annotation, arrow.returnType)
-                ],
-                [
-                  "typeParameters",
-                  option(type_parameter_declaration, arrow.typeParameters)
-                ]
-              ]);
+            [
+              "id",
+              option(identifier, arrow.id)
+            ],
+            [
+              "params",
+              array_of_list(pattern, arrow.params)
+            ],
+            [
+              "defaults",
+              array_of_list((function (param) {
+                return option(expression, param);
+              }), arrow.defaults)
+            ],
+            [
+              "rest",
+              option(identifier, arrow.rest)
+            ],
+            [
+              "body",
+              body
+            ],
+            [
+              "async",
+              bool(arrow.async)
+            ],
+            [
+              "generator",
+              bool(arrow.generator)
+            ],
+            [
+              "expression",
+              bool(arrow.expression)
+            ],
+            [
+              "returnType",
+              option(type_annotation, arrow.returnType)
+            ],
+            [
+              "typeParameters",
+              option(type_parameter_declaration, arrow.typeParameters)
+            ]
+          ]);
         case /* Sequence */ 4 :
           return node("SequenceExpression", loc, [[
-                  "expressions",
-                  array_of_list(expression, arr._0.expressions)
-                ]]);
+              "expressions",
+              array_of_list(expression, arr._0.expressions)
+            ]]);
         case /* Unary */ 5 :
           const unary = arr._0;
           const match = unary.operator;
           if (match === /* Await */ 7) {
             return node("AwaitExpression", loc, [[
-                    "argument",
-                    expression(unary.argument)
-                  ]]);
+                "argument",
+                expression(unary.argument)
+              ]]);
           }
           const match$1 = unary.operator;
           let operator;
@@ -15699,19 +15699,19 @@ function parse(content, options) {
                   });
           }
           return node("UnaryExpression", loc, [
-                [
-                  "operator",
-                  string(operator)
-                ],
-                [
-                  "prefix",
-                  bool(unary.prefix)
-                ],
-                [
-                  "argument",
-                  expression(unary.argument)
-                ]
-              ]);
+            [
+              "operator",
+              string(operator)
+            ],
+            [
+              "prefix",
+              bool(unary.prefix)
+            ],
+            [
+              "argument",
+              expression(unary.argument)
+            ]
+          ]);
         case /* Binary */ 6 :
           const binary = arr._0;
           const match$2 = binary.operator;
@@ -15785,19 +15785,19 @@ function parse(content, options) {
               break;
           }
           return node("BinaryExpression", loc, [
-                [
-                  "operator",
-                  string(operator$1)
-                ],
-                [
-                  "left",
-                  expression(binary.left)
-                ],
-                [
-                  "right",
-                  expression(binary.right)
-                ]
-              ]);
+            [
+              "operator",
+              string(operator$1)
+            ],
+            [
+              "left",
+              expression(binary.left)
+            ],
+            [
+              "right",
+              expression(binary.right)
+            ]
+          ]);
         case /* Assignment */ 7 :
           const assignment = arr._0;
           const match$3 = assignment.operator;
@@ -15844,176 +15844,176 @@ function parse(content, options) {
               break;
           }
           return node("AssignmentExpression", loc, [
-                [
-                  "operator",
-                  string(operator$2)
-                ],
-                [
-                  "left",
-                  pattern(assignment.left)
-                ],
-                [
-                  "right",
-                  expression(assignment.right)
-                ]
-              ]);
+            [
+              "operator",
+              string(operator$2)
+            ],
+            [
+              "left",
+              pattern(assignment.left)
+            ],
+            [
+              "right",
+              expression(assignment.right)
+            ]
+          ]);
         case /* Update */ 8 :
           const update = arr._0;
           const match$4 = update.operator;
           let operator$3;
           operator$3 = match$4 === /* Increment */ 0 ? "++" : "--";
           return node("UpdateExpression", loc, [
-                [
-                  "operator",
-                  string(operator$3)
-                ],
-                [
-                  "argument",
-                  expression(update.argument)
-                ],
-                [
-                  "prefix",
-                  bool(update.prefix)
-                ]
-              ]);
+            [
+              "operator",
+              string(operator$3)
+            ],
+            [
+              "argument",
+              expression(update.argument)
+            ],
+            [
+              "prefix",
+              bool(update.prefix)
+            ]
+          ]);
         case /* Logical */ 9 :
           const logical = arr._0;
           const match$5 = logical.operator;
           let operator$4;
           operator$4 = match$5 === /* Or */ 0 ? "||" : "&&";
           return node("LogicalExpression", loc, [
-                [
-                  "operator",
-                  string(operator$4)
-                ],
-                [
-                  "left",
-                  expression(logical.left)
-                ],
-                [
-                  "right",
-                  expression(logical.right)
-                ]
-              ]);
+            [
+              "operator",
+              string(operator$4)
+            ],
+            [
+              "left",
+              expression(logical.left)
+            ],
+            [
+              "right",
+              expression(logical.right)
+            ]
+          ]);
         case /* Conditional */ 10 :
           const conditional = arr._0;
           return node("ConditionalExpression", loc, [
-                [
-                  "test",
-                  expression(conditional.test)
-                ],
-                [
-                  "consequent",
-                  expression(conditional.consequent)
-                ],
-                [
-                  "alternate",
-                  expression(conditional.alternate)
-                ]
-              ]);
+            [
+              "test",
+              expression(conditional.test)
+            ],
+            [
+              "consequent",
+              expression(conditional.consequent)
+            ],
+            [
+              "alternate",
+              expression(conditional.alternate)
+            ]
+          ]);
         case /* New */ 11 :
           const _new = arr._0;
           return node("NewExpression", loc, [
-                [
-                  "callee",
-                  expression(_new.callee)
-                ],
-                [
-                  "arguments",
-                  array_of_list(expression_or_spread, _new.arguments)
-                ]
-              ]);
+            [
+              "callee",
+              expression(_new.callee)
+            ],
+            [
+              "arguments",
+              array_of_list(expression_or_spread, _new.arguments)
+            ]
+          ]);
         case /* Call */ 12 :
           const call = arr._0;
           return node("CallExpression", loc, [
-                [
-                  "callee",
-                  expression(call.callee)
-                ],
-                [
-                  "arguments",
-                  array_of_list(expression_or_spread, call.arguments)
-                ]
-              ]);
+            [
+              "callee",
+              expression(call.callee)
+            ],
+            [
+              "arguments",
+              array_of_list(expression_or_spread, call.arguments)
+            ]
+          ]);
         case /* Member */ 13 :
           const member = arr._0;
           const id = member.property;
           let property;
           property = id.TAG === /* PropertyIdentifier */ 0 ? identifier(id._0) : expression(id._0);
           return node("MemberExpression", loc, [
-                [
-                  "object",
-                  expression(member._object)
-                ],
-                [
-                  "property",
-                  property
-                ],
-                [
-                  "computed",
-                  bool(member.computed)
-                ]
-              ]);
+            [
+              "object",
+              expression(member._object)
+            ],
+            [
+              "property",
+              property
+            ],
+            [
+              "computed",
+              bool(member.computed)
+            ]
+          ]);
         case /* Yield */ 14 :
           const $$yield = arr._0;
           return node("YieldExpression", loc, [
-                [
-                  "argument",
-                  option(expression, $$yield.argument)
-                ],
-                [
-                  "delegate",
-                  bool($$yield.delegate)
-                ]
-              ]);
+            [
+              "argument",
+              option(expression, $$yield.argument)
+            ],
+            [
+              "delegate",
+              bool($$yield.delegate)
+            ]
+          ]);
         case /* Comprehension */ 15 :
           const comp = arr._0;
           return node("ComprehensionExpression", loc, [
-                [
-                  "blocks",
-                  array_of_list(comprehension_block, comp.blocks)
-                ],
-                [
-                  "filter",
-                  option(expression, comp.filter)
-                ]
-              ]);
+            [
+              "blocks",
+              array_of_list(comprehension_block, comp.blocks)
+            ],
+            [
+              "filter",
+              option(expression, comp.filter)
+            ]
+          ]);
         case /* Generator */ 16 :
           const gen = arr._0;
           return node("GeneratorExpression", loc, [
-                [
-                  "blocks",
-                  array_of_list(comprehension_block, gen.blocks)
-                ],
-                [
-                  "filter",
-                  option(expression, gen.filter)
-                ]
-              ]);
+            [
+              "blocks",
+              array_of_list(comprehension_block, gen.blocks)
+            ],
+            [
+              "filter",
+              option(expression, gen.filter)
+            ]
+          ]);
         case /* Let */ 17 :
           const _let = arr._0;
           return node("LetExpression", loc, [
-                [
-                  "head",
-                  array_of_list(let_assignment, _let.head)
-                ],
-                [
-                  "body",
-                  expression(_let.body)
-                ]
-              ]);
+            [
+              "head",
+              array_of_list(let_assignment, _let.head)
+            ],
+            [
+              "body",
+              expression(_let.body)
+            ]
+          ]);
         case /* Identifier */ 18 :
           return identifier(arr._0);
         case /* Literal */ 19 :
           return literal([
-                loc,
-                arr._0
-              ]);
+            loc,
+            arr._0
+          ]);
         case /* TemplateLiteral */ 20 :
           return template_literal([
-                loc,
-                arr._0
-              ]);
+            loc,
+            arr._0
+          ]);
         case /* TaggedTemplate */ 21 :
           let param$1 = [
             loc,
@@ -16021,20 +16021,20 @@ function parse(content, options) {
           ];
           const tagged = param$1[1];
           return node("TaggedTemplateExpression", param$1[0], [
-                [
-                  "tag",
-                  expression(tagged.tag)
-                ],
-                [
-                  "quasi",
-                  template_literal(tagged.quasi)
-                ]
-              ]);
+            [
+              "tag",
+              expression(tagged.tag)
+            ],
+            [
+              "quasi",
+              template_literal(tagged.quasi)
+            ]
+          ]);
         case /* JSXElement */ 22 :
           return jsx_element([
-                loc,
-                arr._0
-              ]);
+            loc,
+            arr._0
+          ]);
         case /* Class */ 23 :
           let param$2 = [
             loc,
@@ -16042,47 +16042,47 @@ function parse(content, options) {
           ];
           const c = param$2[1];
           return node("ClassExpression", param$2[0], [
-                [
-                  "id",
-                  option(identifier, c.id)
-                ],
-                [
-                  "body",
-                  class_body(c.body)
-                ],
-                [
-                  "superClass",
-                  option(expression, c.superClass)
-                ],
-                [
-                  "typeParameters",
-                  option(type_parameter_declaration, c.typeParameters)
-                ],
-                [
-                  "superTypeParameters",
-                  option(type_parameter_instantiation, c.superTypeParameters)
-                ],
-                [
-                  "implements",
-                  array_of_list(class_implements, c.implements)
-                ],
-                [
-                  "decorators",
-                  array_of_list(expression, c.classDecorators)
-                ]
-              ]);
+            [
+              "id",
+              option(identifier, c.id)
+            ],
+            [
+              "body",
+              class_body(c.body)
+            ],
+            [
+              "superClass",
+              option(expression, c.superClass)
+            ],
+            [
+              "typeParameters",
+              option(type_parameter_declaration, c.typeParameters)
+            ],
+            [
+              "superTypeParameters",
+              option(type_parameter_instantiation, c.superTypeParameters)
+            ],
+            [
+              "implements",
+              array_of_list(class_implements, c.implements)
+            ],
+            [
+              "decorators",
+              array_of_list(expression, c.classDecorators)
+            ]
+          ]);
         case /* TypeCast */ 24 :
           const typecast = arr._0;
           return node("TypeCastExpression", loc, [
-                [
-                  "expression",
-                  expression(typecast.expression)
-                ],
-                [
-                  "typeAnnotation",
-                  type_annotation(typecast.typeAnnotation)
-                ]
-              ]);
+            [
+              "expression",
+              expression(typecast.expression)
+            ],
+            [
+              "typeAnnotation",
+              type_annotation(typecast.typeAnnotation)
+            ]
+          ]);
       }
     };
     const literal = function (param) {
@@ -16117,15 +16117,15 @@ function parse(content, options) {
       } else {
         const match$1 = value._0;
         const regex = obj([
-              [
-                "pattern",
-                string(match$1.pattern)
-              ],
-              [
-                "flags",
-                string(match$1.flags)
-              ]
-            ]);
+          [
+            "pattern",
+            string(match$1.pattern)
+          ],
+          [
+            "flags",
+            string(match$1.flags)
+          ]
+        ]);
         props = [
           [
             "value",
@@ -16162,41 +16162,41 @@ function parse(content, options) {
         case /* Object */ 0 :
           const obj$1 = obj._0;
           return node("ObjectPattern", loc, [
-                [
-                  "properties",
-                  array_of_list(object_pattern_property, obj$1.properties)
-                ],
-                [
-                  "typeAnnotation",
-                  option(type_annotation, obj$1.typeAnnotation)
-                ]
-              ]);
+            [
+              "properties",
+              array_of_list(object_pattern_property, obj$1.properties)
+            ],
+            [
+              "typeAnnotation",
+              option(type_annotation, obj$1.typeAnnotation)
+            ]
+          ]);
         case /* Array */ 1 :
           const arr = obj._0;
           return node("ArrayPattern", loc, [
-                [
-                  "elements",
-                  array_of_list((function (param) {
-                        return option(array_pattern_element, param);
-                      }), arr.elements)
-                ],
-                [
-                  "typeAnnotation",
-                  option(type_annotation, arr.typeAnnotation)
-                ]
-              ]);
+            [
+              "elements",
+              array_of_list((function (param) {
+                return option(array_pattern_element, param);
+              }), arr.elements)
+            ],
+            [
+              "typeAnnotation",
+              option(type_annotation, arr.typeAnnotation)
+            ]
+          ]);
         case /* Assignment */ 2 :
           const match = obj._0;
           return node("AssignmentPattern", loc, [
-                [
-                  "left",
-                  pattern(match.left)
-                ],
-                [
-                  "right",
-                  expression(match.right)
-                ]
-              ]);
+            [
+              "left",
+              pattern(match.left)
+            ],
+            [
+              "right",
+              expression(match.right)
+            ]
+          ]);
         case /* Identifier */ 3 :
           return identifier(obj._0);
         case /* Expression */ 4 :
@@ -16216,42 +16216,42 @@ function parse(content, options) {
     const template_element = function (param) {
       const element = param[1];
       const value = obj([
-            [
-              "raw",
-              string(element.value.raw)
-            ],
-            [
-              "cooked",
-              string(element.value.cooked)
-            ]
-          ]);
+        [
+          "raw",
+          string(element.value.raw)
+        ],
+        [
+          "cooked",
+          string(element.value.cooked)
+        ]
+      ]);
       return node("TemplateElement", param[0], [
-            [
-              "value",
-              value
-            ],
-            [
-              "tail",
-              bool(element.tail)
-            ]
-          ]);
+        [
+          "value",
+          value
+        ],
+        [
+          "tail",
+          bool(element.tail)
+        ]
+      ]);
     };
     const object_type = function (param) {
       const o = param[1];
       return node("ObjectTypeAnnotation", param[0], [
-            [
-              "properties",
-              array_of_list(object_type_property, o.properties)
-            ],
-            [
-              "indexers",
-              array_of_list(object_type_indexer, o.indexers)
-            ],
-            [
-              "callProperties",
-              array_of_list(object_type_call_property, o.callProperties)
-            ]
-          ]);
+        [
+          "properties",
+          array_of_list(object_type_property, o.properties)
+        ],
+        [
+          "indexers",
+          array_of_list(object_type_indexer, o.indexers)
+        ],
+        [
+          "callProperties",
+          array_of_list(object_type_call_property, o.callProperties)
+        ]
+      ]);
     };
     const interface_extends = function (param) {
       const g = param[1];
@@ -16259,34 +16259,34 @@ function parse(content, options) {
       let id$1;
       id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("InterfaceExtends", param[0], [
-            [
-              "id",
-              id$1
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_instantiation, g.typeParameters)
-            ]
-          ]);
+        [
+          "id",
+          id$1
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, g.typeParameters)
+        ]
+      ]);
     };
     const type_parameter_declaration = function (param) {
       return node("TypeParameterDeclaration", param[0], [[
-              "params",
-              array_of_list(type_param, param[1].params)
-            ]]);
+          "params",
+          array_of_list(type_param, param[1].params)
+        ]]);
     };
     const jsx_namespaced_name = function (param) {
       const namespaced_name = param[1];
       return node("JSXNamespacedName", param[0], [
-            [
-              "namespace",
-              jsx_identifier(namespaced_name.namespace)
-            ],
-            [
-              "name",
-              jsx_identifier(namespaced_name.name)
-            ]
-          ]);
+        [
+          "namespace",
+          jsx_identifier(namespaced_name.namespace)
+        ],
+        [
+          "name",
+          jsx_identifier(namespaced_name.name)
+        ]
+      ]);
     };
     const jsx_member_expression = function (param) {
       const member_expression = param[1];
@@ -16294,65 +16294,65 @@ function parse(content, options) {
       let _object;
       _object = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
       return node("JSXMemberExpression", param[0], [
-            [
-              "object",
-              _object
-            ],
-            [
-              "property",
-              jsx_identifier(member_expression.property)
-            ]
-          ]);
+        [
+          "object",
+          _object
+        ],
+        [
+          "property",
+          jsx_identifier(member_expression.property)
+        ]
+      ]);
     };
     const jsx_identifier = function (param) {
       return node("JSXIdentifier", param[0], [[
-              "name",
-              string(param[1].name)
-            ]]);
+          "name",
+          string(param[1].name)
+        ]]);
     };
     const function_type = function (param) {
       const fn = param[1];
       return node("FunctionTypeAnnotation", param[0], [
-            [
-              "params",
-              array_of_list(function_type_param, fn.params)
-            ],
-            [
-              "returnType",
-              _type(fn.returnType)
-            ],
-            [
-              "rest",
-              option(function_type_param, fn.rest)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_declaration, fn.typeParameters)
-            ]
-          ]);
+        [
+          "params",
+          array_of_list(function_type_param, fn.params)
+        ],
+        [
+          "returnType",
+          _type(fn.returnType)
+        ],
+        [
+          "rest",
+          option(function_type_param, fn.rest)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, fn.typeParameters)
+        ]
+      ]);
     };
     const jsx_closing = function (param) {
       return node("JSXClosingElement", param[0], [[
-              "name",
-              jsx_name(param[1].name)
-            ]]);
+          "name",
+          jsx_name(param[1].name)
+        ]]);
     };
     const jsx_opening = function (param) {
       const opening = param[1];
       return node("JSXOpeningElement", param[0], [
-            [
-              "name",
-              jsx_name(opening.name)
-            ],
-            [
-              "attributes",
-              array_of_list(jsx_opening_attribute, opening.attributes)
-            ],
-            [
-              "selfClosing",
-              bool(opening.selfClosing)
-            ]
-          ]);
+        [
+          "name",
+          jsx_name(opening.name)
+        ],
+        [
+          "attributes",
+          array_of_list(jsx_opening_attribute, opening.attributes)
+        ],
+        [
+          "selfClosing",
+          bool(opening.selfClosing)
+        ]
+      ]);
     };
     const jsx_child = function (param) {
       const element = param[1];
@@ -16360,14 +16360,14 @@ function parse(content, options) {
       switch (element.TAG) {
         case /* Element */ 0 :
           return jsx_element([
-                loc,
-                element._0
-              ]);
+            loc,
+            element._0
+          ]);
         case /* ExpressionContainer */ 1 :
           return jsx_expression_container([
-                loc,
-                element._0
-              ]);
+            loc,
+            element._0
+          ]);
         case /* Text */ 2 :
           let param$1 = [
             loc,
@@ -16375,15 +16375,15 @@ function parse(content, options) {
           ];
           const text = param$1[1];
           return node("JSXText", param$1[0], [
-                [
-                  "value",
-                  string(text.value)
-                ],
-                [
-                  "raw",
-                  string(text.raw)
-                ]
-              ]);
+            [
+              "value",
+              string(text.value)
+            ],
+            [
+              "raw",
+              string(text.raw)
+            ]
+          ]);
       }
     };
     const jsx_expression_container = function (param) {
@@ -16391,26 +16391,26 @@ function parse(content, options) {
       let expression$1;
       expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
       return node("JSXExpressionContainer", param[0], [[
-              "expression",
-              expression$1
-            ]]);
+          "expression",
+          expression$1
+        ]]);
     };
     const jsx_element = function (param) {
       const element = param[1];
       return node("JSXElement", param[0], [
-            [
-              "openingElement",
-              jsx_opening(element.openingElement)
-            ],
-            [
-              "closingElement",
-              option(jsx_closing, element.closingElement)
-            ],
-            [
-              "children",
-              array_of_list(jsx_child, element.children)
-            ]
-          ]);
+        [
+          "openingElement",
+          jsx_opening(element.openingElement)
+        ],
+        [
+          "closingElement",
+          option(jsx_closing, element.closingElement)
+        ],
+        [
+          "children",
+          array_of_list(jsx_child, element.children)
+        ]
+      ]);
     };
     const jsx_opening_attribute = function (attribute) {
       if (attribute.TAG === /* Attribute */ 0) {
@@ -16420,77 +16420,77 @@ function parse(content, options) {
         let name;
         name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
         return node("JSXAttribute", param[0], [
-              [
-                "name",
-                name
-              ],
-              [
-                "value",
-                option(jsx_attribute_value, attribute$1.value)
-              ]
-            ]);
+          [
+            "name",
+            name
+          ],
+          [
+            "value",
+            option(jsx_attribute_value, attribute$1.value)
+          ]
+        ]);
       } else {
         let param$1 = attribute._0;
         return node("JSXSpreadAttribute", param$1[0], [[
-                "argument",
-                expression(param$1[1].argument)
-              ]]);
+            "argument",
+            expression(param$1[1].argument)
+          ]]);
       }
     };
     const function_type_param = function (param) {
       const param$1 = param[1];
       return node("FunctionTypeParam", param[0], [
-            [
-              "name",
-              identifier(param$1.name)
-            ],
-            [
-              "typeAnnotation",
-              _type(param$1.typeAnnotation)
-            ],
-            [
-              "optional",
-              bool(param$1.optional)
-            ]
-          ]);
+        [
+          "name",
+          identifier(param$1.name)
+        ],
+        [
+          "typeAnnotation",
+          _type(param$1.typeAnnotation)
+        ],
+        [
+          "optional",
+          bool(param$1.optional)
+        ]
+      ]);
     };
     const variable_declarator = function (param) {
       const declarator = param[1];
       return node("VariableDeclarator", param[0], [
-            [
-              "id",
-              pattern(declarator.id)
-            ],
-            [
-              "init",
-              option(expression, declarator.init)
-            ]
-          ]);
+        [
+          "id",
+          pattern(declarator.id)
+        ],
+        [
+          "init",
+          option(expression, declarator.init)
+        ]
+      ]);
     };
     const export_specifier = function (param) {
       const specifier = param[1];
       return node("ExportSpecifier", param[0], [
-            [
-              "id",
-              identifier(specifier.id)
-            ],
-            [
-              "name",
-              option(identifier, specifier.name)
-            ]
-          ]);
+        [
+          "id",
+          identifier(specifier.id)
+        ],
+        [
+          "name",
+          option(identifier, specifier.name)
+        ]
+      ]);
     };
     const jsx_attribute_value = function (param) {
       if (param.TAG === /* Literal */ 0) {
         return literal([
-              param._0,
-              param._1
-            ]);
+          param._0,
+          param._1
+        ]);
       } else {
         return jsx_expression_container([
-              param._0,
-              param._1
-            ]);
+          param._0,
+          param._1
+        ]);
       }
     };
     const generic_type_qualified_identifier = function (param) {
@@ -16499,61 +16499,61 @@ function parse(content, options) {
       let qualification;
       qualification = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
       return node("QualifiedTypeIdentifier", param[0], [
-            [
-              "qualification",
-              qualification
-            ],
-            [
-              "id",
-              identifier(q.id)
-            ]
-          ]);
+        [
+          "qualification",
+          qualification
+        ],
+        [
+          "id",
+          identifier(q.id)
+        ]
+      ]);
     };
     const type_parameter_instantiation = function (param) {
       return node("TypeParameterInstantiation", param[0], [[
-              "params",
-              array_of_list(_type, param[1].params)
-            ]]);
+          "params",
+          array_of_list(_type, param[1].params)
+        ]]);
     };
     const block = function (param) {
       return node("BlockStatement", param[0], [[
-              "body",
-              array_of_list(statement, param[1].body)
-            ]]);
+          "body",
+          array_of_list(statement, param[1].body)
+        ]]);
     };
     const object_type_indexer = function (param) {
       const indexer = param[1];
       return node("ObjectTypeIndexer", param[0], [
-            [
-              "id",
-              identifier(indexer.id)
-            ],
-            [
-              "key",
-              _type(indexer.key)
-            ],
-            [
-              "value",
-              _type(indexer.value)
-            ],
-            [
-              "static",
-              bool(indexer.static)
-            ]
-          ]);
+        [
+          "id",
+          identifier(indexer.id)
+        ],
+        [
+          "key",
+          _type(indexer.key)
+        ],
+        [
+          "value",
+          _type(indexer.value)
+        ],
+        [
+          "static",
+          bool(indexer.static)
+        ]
+      ]);
     };
     const object_type_call_property = function (param) {
       const callProperty = param[1];
       return node("ObjectTypeCallProperty", param[0], [
-            [
-              "value",
-              function_type(callProperty.value)
-            ],
-            [
-              "static",
-              bool(callProperty.static)
-            ]
-          ]);
+        [
+          "value",
+          function_type(callProperty.value)
+        ],
+        [
+          "static",
+          bool(callProperty.static)
+        ]
+      ]);
     };
     const object_type_property = function (param) {
       const prop = param[1];
@@ -16573,23 +16573,23 @@ function parse(content, options) {
               });
       }
       return node("ObjectTypeProperty", param[0], [
-            [
-              "key",
-              key
-            ],
-            [
-              "value",
-              _type(prop.value)
-            ],
-            [
-              "optional",
-              bool(prop.optional)
-            ],
-            [
-              "static",
-              bool(prop.static)
-            ]
-          ]);
+        [
+          "key",
+          key
+        ],
+        [
+          "value",
+          _type(prop.value)
+        ],
+        [
+          "optional",
+          bool(prop.optional)
+        ],
+        [
+          "static",
+          bool(prop.static)
+        ]
+      ]);
     };
     const function_expression = function (param) {
       const _function = param[1];
@@ -16597,49 +16597,49 @@ function parse(content, options) {
       let body;
       body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
       return node("FunctionExpression", param[0], [
-            [
-              "id",
-              option(identifier, _function.id)
-            ],
-            [
-              "params",
-              array_of_list(pattern, _function.params)
-            ],
-            [
-              "defaults",
-              array_of_list((function (param) {
-                    return option(expression, param);
-                  }), _function.defaults)
-            ],
-            [
-              "rest",
-              option(identifier, _function.rest)
-            ],
-            [
-              "body",
-              body
-            ],
-            [
-              "async",
-              bool(_function.async)
-            ],
-            [
-              "generator",
-              bool(_function.generator)
-            ],
-            [
-              "expression",
-              bool(_function.expression)
-            ],
-            [
-              "returnType",
-              option(type_annotation, _function.returnType)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_declaration, _function.typeParameters)
-            ]
-          ]);
+        [
+          "id",
+          option(identifier, _function.id)
+        ],
+        [
+          "params",
+          array_of_list(pattern, _function.params)
+        ],
+        [
+          "defaults",
+          array_of_list((function (param) {
+            return option(expression, param);
+          }), _function.defaults)
+        ],
+        [
+          "rest",
+          option(identifier, _function.rest)
+        ],
+        [
+          "body",
+          body
+        ],
+        [
+          "async",
+          bool(_function.async)
+        ],
+        [
+          "generator",
+          bool(_function.generator)
+        ],
+        [
+          "expression",
+          bool(_function.expression)
+        ],
+        [
+          "returnType",
+          option(type_annotation, _function.returnType)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, _function.typeParameters)
+        ]
+      ]);
     };
     const class_element = function (m) {
       if (m.TAG === /* Method */ 0) {
@@ -16683,31 +16683,31 @@ function parse(content, options) {
             break;
         }
         return node("MethodDefinition", param[0], [
-              [
-                "key",
-                match[0]
-              ],
-              [
-                "value",
-                function_expression(method_.value)
-              ],
-              [
-                "kind",
-                string(kind)
-              ],
-              [
-                "static",
-                bool(method_.static)
-              ],
-              [
-                "computed",
-                bool(match[1])
-              ],
-              [
-                "decorators",
-                array_of_list(expression, method_.decorators)
-              ]
-            ]);
+          [
+            "key",
+            match[0]
+          ],
+          [
+            "value",
+            function_expression(method_.value)
+          ],
+          [
+            "kind",
+            string(kind)
+          ],
+          [
+            "static",
+            bool(method_.static)
+          ],
+          [
+            "computed",
+            bool(match[1])
+          ],
+          [
+            "decorators",
+            array_of_list(expression, method_.decorators)
+          ]
+        ]);
       } else {
         let param$1 = m._0;
         const prop = param$1[1];
@@ -16734,27 +16734,27 @@ function parse(content, options) {
             break;
         }
         return node("ClassProperty", param$1[0], [
-              [
-                "key",
-                match$1[0]
-              ],
-              [
-                "value",
-                option(expression, prop.value)
-              ],
-              [
-                "typeAnnotation",
-                option(type_annotation, prop.typeAnnotation)
-              ],
-              [
-                "computed",
-                bool(match$1[1])
-              ],
-              [
-                "static",
-                bool(prop.static)
-              ]
-            ]);
+          [
+            "key",
+            match$1[0]
+          ],
+          [
+            "value",
+            option(expression, prop.value)
+          ],
+          [
+            "typeAnnotation",
+            option(type_annotation, prop.typeAnnotation)
+          ],
+          [
+            "computed",
+            bool(match$1[1])
+          ],
+          [
+            "static",
+            bool(prop.static)
+          ]
+        ]);
       }
     };
     const comment = function (param) {
@@ -16768,9 +16768,9 @@ function parse(content, options) {
           c._0
         ];
       return node(match[0], param[0], [[
-              "value",
-              string(match[1])
-            ]]);
+          "value",
+          string(match[1])
+        ]]);
     };
     const statement = function (param) {
       const b = param[1];
@@ -16785,139 +16785,139 @@ function parse(content, options) {
       switch (b.TAG) {
         case /* Block */ 0 :
           return block([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* Expression */ 1 :
           return node("ExpressionStatement", loc, [[
-                  "expression",
-                  expression(b._0.expression)
-                ]]);
+              "expression",
+              expression(b._0.expression)
+            ]]);
         case /* If */ 2 :
           const _if = b._0;
           return node("IfStatement", loc, [
-                [
-                  "test",
-                  expression(_if.test)
-                ],
-                [
-                  "consequent",
-                  statement(_if.consequent)
-                ],
-                [
-                  "alternate",
-                  option(statement, _if.alternate)
-                ]
-              ]);
+            [
+              "test",
+              expression(_if.test)
+            ],
+            [
+              "consequent",
+              statement(_if.consequent)
+            ],
+            [
+              "alternate",
+              option(statement, _if.alternate)
+            ]
+          ]);
         case /* Labeled */ 3 :
           const labeled = b._0;
           return node("LabeledStatement", loc, [
-                [
-                  "label",
-                  identifier(labeled.label)
-                ],
-                [
-                  "body",
-                  statement(labeled.body)
-                ]
-              ]);
+            [
+              "label",
+              identifier(labeled.label)
+            ],
+            [
+              "body",
+              statement(labeled.body)
+            ]
+          ]);
         case /* Break */ 4 :
           return node("BreakStatement", loc, [[
-                  "label",
-                  option(identifier, b._0.label)
-                ]]);
+              "label",
+              option(identifier, b._0.label)
+            ]]);
         case /* Continue */ 5 :
           return node("ContinueStatement", loc, [[
-                  "label",
-                  option(identifier, b._0.label)
-                ]]);
+              "label",
+              option(identifier, b._0.label)
+            ]]);
         case /* With */ 6 :
           const _with = b._0;
           return node("WithStatement", loc, [
-                [
-                  "object",
-                  expression(_with._object)
-                ],
-                [
-                  "body",
-                  statement(_with.body)
-                ]
-              ]);
+            [
+              "object",
+              expression(_with._object)
+            ],
+            [
+              "body",
+              statement(_with.body)
+            ]
+          ]);
         case /* TypeAlias */ 7 :
           return type_alias([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* Switch */ 8 :
           const $$switch = b._0;
           return node("SwitchStatement", loc, [
-                [
-                  "discriminant",
-                  expression($$switch.discriminant)
-                ],
-                [
-                  "cases",
-                  array_of_list($$case, $$switch.cases)
-                ],
-                [
-                  "lexical",
-                  bool($$switch.lexical)
-                ]
-              ]);
+            [
+              "discriminant",
+              expression($$switch.discriminant)
+            ],
+            [
+              "cases",
+              array_of_list($$case, $$switch.cases)
+            ],
+            [
+              "lexical",
+              bool($$switch.lexical)
+            ]
+          ]);
         case /* Return */ 9 :
           return node("ReturnStatement", loc, [[
-                  "argument",
-                  option(expression, b._0.argument)
-                ]]);
+              "argument",
+              option(expression, b._0.argument)
+            ]]);
         case /* Throw */ 10 :
           return node("ThrowStatement", loc, [[
-                  "argument",
-                  expression(b._0.argument)
-                ]]);
+              "argument",
+              expression(b._0.argument)
+            ]]);
         case /* Try */ 11 :
           const _try = b._0;
           return node("TryStatement", loc, [
-                [
-                  "block",
-                  block(_try.block)
-                ],
-                [
-                  "handler",
-                  option($$catch, _try.handler)
-                ],
-                [
-                  "guardedHandlers",
-                  array_of_list($$catch, _try.guardedHandlers)
-                ],
-                [
-                  "finalizer",
-                  option(block, _try.finalizer)
-                ]
-              ]);
+            [
+              "block",
+              block(_try.block)
+            ],
+            [
+              "handler",
+              option($$catch, _try.handler)
+            ],
+            [
+              "guardedHandlers",
+              array_of_list($$catch, _try.guardedHandlers)
+            ],
+            [
+              "finalizer",
+              option(block, _try.finalizer)
+            ]
+          ]);
         case /* While */ 12 :
           const _while = b._0;
           return node("WhileStatement", loc, [
-                [
-                  "test",
-                  expression(_while.test)
-                ],
-                [
-                  "body",
-                  statement(_while.body)
-                ]
-              ]);
+            [
+              "test",
+              expression(_while.test)
+            ],
+            [
+              "body",
+              statement(_while.body)
+            ]
+          ]);
         case /* DoWhile */ 13 :
           const dowhile = b._0;
           return node("DoWhileStatement", loc, [
-                [
-                  "body",
-                  statement(dowhile.body)
-                ],
-                [
-                  "test",
-                  expression(dowhile.test)
-                ]
-              ]);
+            [
+              "body",
+              statement(dowhile.body)
+            ],
+            [
+              "test",
+              expression(dowhile.test)
+            ]
+          ]);
         case /* For */ 14 :
           const _for = b._0;
           const init = function (init$1) {
@@ -16928,77 +16928,77 @@ function parse(content, options) {
             }
           };
           return node("ForStatement", loc, [
-                [
-                  "init",
-                  option(init, _for.init)
-                ],
-                [
-                  "test",
-                  option(expression, _for.test)
-                ],
-                [
-                  "update",
-                  option(expression, _for.update)
-                ],
-                [
-                  "body",
-                  statement(_for.body)
-                ]
-              ]);
+            [
+              "init",
+              option(init, _for.init)
+            ],
+            [
+              "test",
+              option(expression, _for.test)
+            ],
+            [
+              "update",
+              option(expression, _for.update)
+            ],
+            [
+              "body",
+              statement(_for.body)
+            ]
+          ]);
         case /* ForIn */ 15 :
           const forin = b._0;
           const left = forin.left;
           let left$1;
           left$1 = left.TAG === /* LeftDeclaration */ 0 ? variable_declaration(left._0) : expression(left._0);
           return node("ForInStatement", loc, [
-                [
-                  "left",
-                  left$1
-                ],
-                [
-                  "right",
-                  expression(forin.right)
-                ],
-                [
-                  "body",
-                  statement(forin.body)
-                ],
-                [
-                  "each",
-                  bool(forin.each)
-                ]
-              ]);
+            [
+              "left",
+              left$1
+            ],
+            [
+              "right",
+              expression(forin.right)
+            ],
+            [
+              "body",
+              statement(forin.body)
+            ],
+            [
+              "each",
+              bool(forin.each)
+            ]
+          ]);
         case /* ForOf */ 16 :
           const forof = b._0;
           const left$2 = forof.left;
           let left$3;
           left$3 = left$2.TAG === /* LeftDeclaration */ 0 ? variable_declaration(left$2._0) : expression(left$2._0);
           return node("ForOfStatement", loc, [
-                [
-                  "left",
-                  left$3
-                ],
-                [
-                  "right",
-                  expression(forof.right)
-                ],
-                [
-                  "body",
-                  statement(forof.body)
-                ]
-              ]);
+            [
+              "left",
+              left$3
+            ],
+            [
+              "right",
+              expression(forof.right)
+            ],
+            [
+              "body",
+              statement(forof.body)
+            ]
+          ]);
         case /* Let */ 17 :
           const _let = b._0;
           return node("LetStatement", loc, [
-                [
-                  "head",
-                  array_of_list(let_assignment, _let.head)
-                ],
-                [
-                  "body",
-                  statement(_let.body)
-                ]
-              ]);
+            [
+              "head",
+              array_of_list(let_assignment, _let.head)
+            ],
+            [
+              "body",
+              statement(_let.body)
+            ]
+          ]);
         case /* FunctionDeclaration */ 18 :
           const fn = b._0;
           const id = fn.id;
@@ -17013,54 +17013,54 @@ function parse(content, options) {
           let body;
           body = b$1.TAG === /* BodyBlock */ 0 ? block(b$1._0) : expression(b$1._0);
           return node(match[0], loc, [
-                [
-                  "id",
-                  match[1]
-                ],
-                [
-                  "params",
-                  array_of_list(pattern, fn.params)
-                ],
-                [
-                  "defaults",
-                  array_of_list((function (param) {
-                        return option(expression, param);
-                      }), fn.defaults)
-                ],
-                [
-                  "rest",
-                  option(identifier, fn.rest)
-                ],
-                [
-                  "body",
-                  body
-                ],
-                [
-                  "async",
-                  bool(fn.async)
-                ],
-                [
-                  "generator",
-                  bool(fn.generator)
-                ],
-                [
-                  "expression",
-                  bool(fn.expression)
-                ],
-                [
-                  "returnType",
-                  option(type_annotation, fn.returnType)
-                ],
-                [
-                  "typeParameters",
-                  option(type_parameter_declaration, fn.typeParameters)
-                ]
-              ]);
+            [
+              "id",
+              match[1]
+            ],
+            [
+              "params",
+              array_of_list(pattern, fn.params)
+            ],
+            [
+              "defaults",
+              array_of_list((function (param) {
+                return option(expression, param);
+              }), fn.defaults)
+            ],
+            [
+              "rest",
+              option(identifier, fn.rest)
+            ],
+            [
+              "body",
+              body
+            ],
+            [
+              "async",
+              bool(fn.async)
+            ],
+            [
+              "generator",
+              bool(fn.generator)
+            ],
+            [
+              "expression",
+              bool(fn.expression)
+            ],
+            [
+              "returnType",
+              option(type_annotation, fn.returnType)
+            ],
+            [
+              "typeParameters",
+              option(type_parameter_declaration, fn.typeParameters)
+            ]
+          ]);
         case /* VariableDeclaration */ 19 :
           return variable_declaration([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* ClassDeclaration */ 20 :
           let param$1 = [
             loc,
@@ -17076,55 +17076,55 @@ function parse(content, options) {
               $$null
             ];
           return node(match$1[0], param$1[0], [
-                [
-                  "id",
-                  match$1[1]
-                ],
-                [
-                  "body",
-                  class_body(c.body)
-                ],
-                [
-                  "superClass",
-                  option(expression, c.superClass)
-                ],
-                [
-                  "typeParameters",
-                  option(type_parameter_declaration, c.typeParameters)
-                ],
-                [
-                  "superTypeParameters",
-                  option(type_parameter_instantiation, c.superTypeParameters)
-                ],
-                [
-                  "implements",
-                  array_of_list(class_implements, c.implements)
-                ],
-                [
-                  "decorators",
-                  array_of_list(expression, c.classDecorators)
-                ]
-              ]);
+            [
+              "id",
+              match$1[1]
+            ],
+            [
+              "body",
+              class_body(c.body)
+            ],
+            [
+              "superClass",
+              option(expression, c.superClass)
+            ],
+            [
+              "typeParameters",
+              option(type_parameter_declaration, c.typeParameters)
+            ],
+            [
+              "superTypeParameters",
+              option(type_parameter_instantiation, c.superTypeParameters)
+            ],
+            [
+              "implements",
+              array_of_list(class_implements, c.implements)
+            ],
+            [
+              "decorators",
+              array_of_list(expression, c.classDecorators)
+            ]
+          ]);
         case /* InterfaceDeclaration */ 21 :
           return interface_declaration([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* DeclareVariable */ 22 :
           return declare_variable([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* DeclareFunction */ 23 :
           return declare_function([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* DeclareClass */ 24 :
           return declare_class([
-                loc,
-                b._0
-              ]);
+            loc,
+            b._0
+          ]);
         case /* DeclareModule */ 25 :
           const m = b._0;
           const lit = m.id;
@@ -17134,24 +17134,24 @@ function parse(content, options) {
           let tmp;
           tmp = match$2.TAG === /* CommonJS */ 0 ? string("CommonJS") : string("ES");
           return node("DeclareModule", loc, [
-                [
-                  "id",
-                  id$2
-                ],
-                [
-                  "body",
-                  block(m.body)
-                ],
-                [
-                  "kind",
-                  tmp
-                ]
-              ]);
+            [
+              "id",
+              id$2
+            ],
+            [
+              "body",
+              block(m.body)
+            ],
+            [
+              "kind",
+              tmp
+            ]
+          ]);
         case /* DeclareModuleExports */ 26 :
           return node("DeclareModuleExports", loc, [[
-                  "typeAnnotation",
-                  type_annotation(b._0)
-                ]]);
+              "typeAnnotation",
+              type_annotation(b._0)
+            ]]);
         case /* DeclareExportDeclaration */ 27 :
           const $$export = b._0;
           const match$3 = $$export.declaration;
@@ -17181,23 +17181,23 @@ function parse(content, options) {
             declaration = $$null;
           }
           return node("DeclareExportDeclaration", loc, [
-                [
-                  "default",
-                  bool($$export.default)
-                ],
-                [
-                  "declaration",
-                  declaration
-                ],
-                [
-                  "specifiers",
-                  export_specifiers($$export.specifiers)
-                ],
-                [
-                  "source",
-                  option(literal, $$export.source)
-                ]
-              ]);
+            [
+              "default",
+              bool($$export.default)
+            ],
+            [
+              "declaration",
+              declaration
+            ],
+            [
+              "specifiers",
+              export_specifiers($$export.specifiers)
+            ],
+            [
+              "source",
+              option(literal, $$export.source)
+            ]
+          ]);
         case /* ExportDeclaration */ 28 :
           const $$export$1 = b._0;
           const match$4 = $$export$1.declaration;
@@ -17205,60 +17205,60 @@ function parse(content, options) {
               match$4.TAG === /* Declaration */ 0 ? statement(match$4._0) : expression(match$4._0)
             ) : $$null;
           return node("ExportDeclaration", loc, [
-                [
-                  "default",
-                  bool($$export$1.default)
-                ],
-                [
-                  "declaration",
-                  declaration$1
-                ],
-                [
-                  "specifiers",
-                  export_specifiers($$export$1.specifiers)
-                ],
-                [
-                  "source",
-                  option(literal, $$export$1.source)
-                ],
-                [
-                  "exportKind",
-                  string(export_kind($$export$1.exportKind))
-                ]
-              ]);
+            [
+              "default",
+              bool($$export$1.default)
+            ],
+            [
+              "declaration",
+              declaration$1
+            ],
+            [
+              "specifiers",
+              export_specifiers($$export$1.specifiers)
+            ],
+            [
+              "source",
+              option(literal, $$export$1.source)
+            ],
+            [
+              "exportKind",
+              string(export_kind($$export$1.exportKind))
+            ]
+          ]);
         case /* ImportDeclaration */ 29 :
           const $$import = b._0;
           const specifiers = Stdlib__List.map((function (id) {
-                switch (id.TAG) {
-                  case /* ImportNamedSpecifier */ 0 :
-                    const match = id._0;
-                    let local_id = match.local;
-                    let remote_id = match.remote;
-                    const span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
-                    return node("ImportSpecifier", span_loc, [
-                          [
-                            "id",
-                            identifier(remote_id)
-                          ],
-                          [
-                            "name",
-                            option(identifier, local_id)
-                          ]
-                        ]);
-                  case /* ImportDefaultSpecifier */ 1 :
-                    let id$1 = id._0;
-                    return node("ImportDefaultSpecifier", id$1[0], [[
-                            "id",
-                            identifier(id$1)
-                          ]]);
-                  case /* ImportNamespaceSpecifier */ 2 :
-                    let param = id._0;
-                    return node("ImportNamespaceSpecifier", param[0], [[
-                            "id",
-                            identifier(param[1])
-                          ]]);
-                }
-              }), $$import.specifiers);
+            switch (id.TAG) {
+              case /* ImportNamedSpecifier */ 0 :
+                const match = id._0;
+                let local_id = match.local;
+                let remote_id = match.remote;
+                const span_loc = local_id !== undefined ? btwn(remote_id[0], local_id[0]) : remote_id[0];
+                return node("ImportSpecifier", span_loc, [
+                  [
+                    "id",
+                    identifier(remote_id)
+                  ],
+                  [
+                    "name",
+                    option(identifier, local_id)
+                  ]
+                ]);
+              case /* ImportDefaultSpecifier */ 1 :
+                let id$1 = id._0;
+                return node("ImportDefaultSpecifier", id$1[0], [[
+                    "id",
+                    identifier(id$1)
+                  ]]);
+              case /* ImportNamespaceSpecifier */ 2 :
+                let param = id._0;
+                return node("ImportNamespaceSpecifier", param[0], [[
+                    "id",
+                    identifier(param[1])
+                  ]]);
+            }
+          }), $$import.specifiers);
           const match$5 = $$import.importKind;
           let import_kind;
           switch (match$5) {
@@ -17273,19 +17273,19 @@ function parse(content, options) {
               break;
           }
           return node("ImportDeclaration", loc, [
-                [
-                  "specifiers",
-                  array(Stdlib__Array.of_list(specifiers))
-                ],
-                [
-                  "source",
-                  literal($$import.source)
-                ],
-                [
-                  "importKind",
-                  string(import_kind)
-                ]
-              ]);
+            [
+              "specifiers",
+              array(Stdlib__Array.of_list(specifiers))
+            ],
+            [
+              "source",
+              literal($$import.source)
+            ],
+            [
+              "importKind",
+              string(import_kind)
+            ]
+          ]);
       }
     };
     const type_param = function (param) {
@@ -17298,46 +17298,46 @@ function parse(content, options) {
         }
       };
       return node("TypeParameter", param[0], [
-            [
-              "name",
-              string(tp.name)
-            ],
-            [
-              "bound",
-              option(type_annotation, tp.bound)
-            ],
-            [
-              "variance",
-              option(variance, tp.variance)
-            ],
-            [
-              "default",
-              option(_type, tp.default)
-            ]
-          ]);
+        [
+          "name",
+          string(tp.name)
+        ],
+        [
+          "bound",
+          option(type_annotation, tp.bound)
+        ],
+        [
+          "variance",
+          option(variance, tp.variance)
+        ],
+        [
+          "default",
+          option(_type, tp.default)
+        ]
+      ]);
     };
     const $$catch = function (param) {
       const c = param[1];
       return node("CatchClause", param[0], [
-            [
-              "param",
-              pattern(c.param)
-            ],
-            [
-              "guard",
-              option(expression, c.guard)
-            ],
-            [
-              "body",
-              block(c.body)
-            ]
-          ]);
+        [
+          "param",
+          pattern(c.param)
+        ],
+        [
+          "guard",
+          option(expression, c.guard)
+        ],
+        [
+          "body",
+          block(c.body)
+        ]
+      ]);
     };
     const declare_function = function (param) {
       return node("DeclareFunction", param[0], [[
-              "id",
-              identifier(param[1].id)
-            ]]);
+          "id",
+          identifier(param[1].id)
+        ]]);
     };
     const variable_declaration = function (param) {
       const $$var = param[1];
@@ -17355,63 +17355,63 @@ function parse(content, options) {
           break;
       }
       return node("VariableDeclaration", param[0], [
-            [
-              "declarations",
-              array_of_list(variable_declarator, $$var.declarations)
-            ],
-            [
-              "kind",
-              string(kind)
-            ]
-          ]);
+        [
+          "declarations",
+          array_of_list(variable_declarator, $$var.declarations)
+        ],
+        [
+          "kind",
+          string(kind)
+        ]
+      ]);
     };
     const declare_variable = function (param) {
       return node("DeclareVariable", param[0], [[
-              "id",
-              identifier(param[1].id)
-            ]]);
+          "id",
+          identifier(param[1].id)
+        ]]);
     };
     const interface_declaration = function (param) {
       const i = param[1];
       return node("InterfaceDeclaration", param[0], [
-            [
-              "id",
-              identifier(i.id)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_declaration, i.typeParameters)
-            ],
-            [
-              "body",
-              object_type(i.body)
-            ],
-            [
-              "extends",
-              array_of_list(interface_extends, i.extends)
-            ]
-          ]);
+        [
+          "id",
+          identifier(i.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, i.typeParameters)
+        ],
+        [
+          "body",
+          object_type(i.body)
+        ],
+        [
+          "extends",
+          array_of_list(interface_extends, i.extends)
+        ]
+      ]);
     };
     const declare_class = function (param) {
       const d = param[1];
       return node("DeclareClass", param[0], [
-            [
-              "id",
-              identifier(d.id)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_declaration, d.typeParameters)
-            ],
-            [
-              "body",
-              object_type(d.body)
-            ],
-            [
-              "extends",
-              array_of_list(interface_extends, d.extends)
-            ]
-          ]);
+        [
+          "id",
+          identifier(d.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, d.typeParameters)
+        ],
+        [
+          "body",
+          object_type(d.body)
+        ],
+        [
+          "extends",
+          array_of_list(interface_extends, d.extends)
+        ]
+      ]);
     };
     const export_kind = function (param) {
       if (param === /* ExportType */ 0) {
@@ -17422,32 +17422,32 @@ function parse(content, options) {
     };
     const let_assignment = function (assignment) {
       return obj([
-            [
-              "id",
-              pattern(assignment.id)
-            ],
-            [
-              "init",
-              option(expression, assignment.init)
-            ]
-          ]);
+        [
+          "id",
+          pattern(assignment.id)
+        ],
+        [
+          "init",
+          option(expression, assignment.init)
+        ]
+      ]);
     };
     const type_alias = function (param) {
       const alias = param[1];
       return node("TypeAlias", param[0], [
-            [
-              "id",
-              identifier(alias.id)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_declaration, alias.typeParameters)
-            ],
-            [
-              "right",
-              _type(alias.right)
-            ]
-          ]);
+        [
+          "id",
+          identifier(alias.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, alias.typeParameters)
+        ],
+        [
+          "right",
+          _type(alias.right)
+        ]
+      ]);
     };
     const export_specifiers = function (param) {
       if (param !== undefined) {
@@ -17455,9 +17455,9 @@ function parse(content, options) {
           return array_of_list(export_specifier, param._0);
         } else {
           return array([node("ExportBatchSpecifier", param._0, [[
-                        "name",
-                        option(identifier, param._1)
-                      ]])]);
+                "name",
+                option(identifier, param._1)
+              ]])]);
         }
       } else {
         return array([]);
@@ -17466,28 +17466,28 @@ function parse(content, options) {
     const $$case = function (param) {
       const c = param[1];
       return node("SwitchCase", param[0], [
-            [
-              "test",
-              option(expression, c.test)
-            ],
-            [
-              "consequent",
-              array_of_list(statement, c.consequent)
-            ]
-          ]);
+        [
+          "test",
+          option(expression, c.test)
+        ],
+        [
+          "consequent",
+          array_of_list(statement, c.consequent)
+        ]
+      ]);
     };
     const template_literal = function (param) {
       const value = param[1];
       return node("TemplateLiteral", param[0], [
-            [
-              "quasis",
-              array_of_list(template_element, value.quasis)
-            ],
-            [
-              "expressions",
-              array_of_list(expression, value.expressions)
-            ]
-          ]);
+        [
+          "quasis",
+          array_of_list(template_element, value.quasis)
+        ],
+        [
+          "expressions",
+          array_of_list(expression, value.expressions)
+        ]
+      ]);
     };
     const object_pattern_property = function (param) {
       if (param.TAG === /* Property */ 0) {
@@ -17516,29 +17516,29 @@ function parse(content, options) {
             break;
         }
         return node("PropertyPattern", match[0], [
-              [
-                "key",
-                match$1[0]
-              ],
-              [
-                "pattern",
-                pattern(prop.pattern)
-              ],
-              [
-                "computed",
-                bool(match$1[1])
-              ],
-              [
-                "shorthand",
-                bool(prop.shorthand)
-              ]
-            ]);
+          [
+            "key",
+            match$1[0]
+          ],
+          [
+            "pattern",
+            pattern(prop.pattern)
+          ],
+          [
+            "computed",
+            bool(match$1[1])
+          ],
+          [
+            "shorthand",
+            bool(prop.shorthand)
+          ]
+        ]);
       }
       const match$2 = param._0;
       return node("SpreadPropertyPattern", match$2[0], [[
-              "argument",
-              pattern(match$2[1].argument)
-            ]]);
+          "argument",
+          pattern(match$2[1].argument)
+        ]]);
     };
     const array_pattern_element = function (p) {
       if (p.TAG === /* Element */ 0) {
@@ -17546,28 +17546,28 @@ function parse(content, options) {
       }
       const match = p._0;
       return node("SpreadElementPattern", match[0], [[
-              "argument",
-              pattern(match[1].argument)
-            ]]);
+          "argument",
+          pattern(match[1].argument)
+        ]]);
     };
     const class_body = function (param) {
       return node("ClassBody", param[0], [[
-              "body",
-              array_of_list(class_element, param[1].body)
-            ]]);
+          "body",
+          array_of_list(class_element, param[1].body)
+        ]]);
     };
     const class_implements = function (param) {
       const $$implements = param[1];
       return node("ClassImplements", param[0], [
-            [
-              "id",
-              identifier($$implements.id)
-            ],
-            [
-              "typeParameters",
-              option(type_parameter_instantiation, $$implements.typeParameters)
-            ]
-          ]);
+        [
+          "id",
+          identifier($$implements.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, $$implements.typeParameters)
+        ]
+      ]);
     };
     const object_property = function (param) {
       if (param.TAG === /* Property */ 0) {
@@ -17609,54 +17609,54 @@ function parse(content, options) {
             break;
         }
         return node("Property", match[0], [
-              [
-                "key",
-                match$1[0]
-              ],
-              [
-                "value",
-                expression(prop.value)
-              ],
-              [
-                "kind",
-                string(kind)
-              ],
-              [
-                "method",
-                bool(prop._method)
-              ],
-              [
-                "shorthand",
-                bool(prop.shorthand)
-              ],
-              [
-                "computed",
-                bool(match$1[1])
-              ]
-            ]);
+          [
+            "key",
+            match$1[0]
+          ],
+          [
+            "value",
+            expression(prop.value)
+          ],
+          [
+            "kind",
+            string(kind)
+          ],
+          [
+            "method",
+            bool(prop._method)
+          ],
+          [
+            "shorthand",
+            bool(prop.shorthand)
+          ],
+          [
+            "computed",
+            bool(match$1[1])
+          ]
+        ]);
       }
       const match$3 = param._0;
       return node("SpreadProperty", match$3[0], [[
-              "argument",
-              expression(match$3[1].argument)
-            ]]);
+          "argument",
+          expression(match$3[1].argument)
+        ]]);
     };
     const comprehension_block = function (param) {
       const b = param[1];
       return node("ComprehensionBlock", param[0], [
-            [
-              "left",
-              pattern(b.left)
-            ],
-            [
-              "right",
-              expression(b.right)
-            ],
-            [
-              "each",
-              bool(b.each)
-            ]
-          ]);
+        [
+          "left",
+          pattern(b.left)
+        ],
+        [
+          "right",
+          expression(b.right)
+        ],
+        [
+          "each",
+          bool(b.each)
+        ]
+      ]);
     };
     const expression_or_spread = function (expr) {
       if (expr.TAG === /* Expression */ 0) {
@@ -17664,21 +17664,21 @@ function parse(content, options) {
       }
       const match = expr._0;
       return node("SpreadElement", match[0], [[
-              "argument",
-              expression(match[1].argument)
-            ]]);
+          "argument",
+          expression(match[1].argument)
+        ]]);
     };
     const program$2 = function (param) {
       return node("Program", param[0], [
-            [
-              "body",
-              array_of_list(statement, param[1])
-            ],
-            [
-              "comments",
-              array_of_list(comment, param[2])
-            ]
-          ]);
+        [
+          "body",
+          array_of_list(statement, param[1])
+        ],
+        [
+          "comments",
+          array_of_list(comment, param[2])
+        ]
+      ]);
     };
     const ret = program$2(match[0]);
     const translation_errors$1 = translation_errors.contents;
@@ -17728,9 +17728,9 @@ if (f !== undefined) {
   const f$1 = Path.join(f, "flow_parser_sample.js");
   const v = parse(Fs.readFileSync(f$1, "utf8"), undefined);
   eq("File \"runParser.ml\", line 14, characters 7-14", [
-        0,
-        2842
-      ], v.range);
+    0,
+    2842
+  ], v.range);
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",

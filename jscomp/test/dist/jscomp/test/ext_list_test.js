@@ -618,8 +618,8 @@ function for_all_opt(p, _param) {
 
 function fold(f, l, init) {
   return Stdlib__List.fold_left((function (acc, i) {
-        return Curry._2(f, i, init);
-      }), init, l);
+    return Curry._2(f, i, init);
+  }), init, l);
 }
 
 function rev_map_acc(acc, f, l) {
@@ -744,8 +744,8 @@ function reduce_from_right(fn, lst) {
   const match = Stdlib__List.rev(lst);
   if (match) {
     return Stdlib__List.fold_left((function (x, y) {
-          return Curry._2(fn, y, x);
-        }), match.hd, match.tl);
+      return Curry._2(fn, y, x);
+    }), match.hd, match.tl);
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",

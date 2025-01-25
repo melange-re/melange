@@ -51,9 +51,9 @@ const res = Caml_bytes.bytes_to_string(b);
 console.log(res);
 
 eq("File \"jscomp/test/bytes_split_gpr_743_test.ml\", line 17, characters 5-12", [
-      "aab",
-      res
-    ]);
+  "aab",
+  res
+]);
 
 const b$1 = [
   0,
@@ -74,9 +74,9 @@ const res2 = Caml_bytes.bytes_to_string(b$1);
 console.log(res2);
 
 eq("File \"jscomp/test/bytes_split_gpr_743_test.ml\", line 32, characters 5-12", [
-      "bcc",
-      res2
-    ]);
+  "bcc",
+  res2
+]);
 
 Mt.from_pair_suites("Bytes_split_gpr_743_test", suites.contents);
 

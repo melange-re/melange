@@ -64,10 +64,10 @@ const suites_1 = {
           }
         },
         _1: Stdlib__Array.to_list([
-              1,
-              2,
-              3
-            ])
+          1,
+          2,
+          3
+        ])
       };
     })
   ],

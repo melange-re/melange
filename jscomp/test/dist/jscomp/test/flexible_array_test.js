@@ -233,14 +233,14 @@ function pp(fmt, s) {
   }
   v = v + "]";
   Curry._1(Stdlib__Format.fprintf(fmt)({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: /* End_of_format */ 0
-          },
-          _1: "%s"
-        }), v);
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: /* End_of_format */ 0
+    },
+    _1: "%s"
+  }), v);
 }
 
 function filter_from(i, p, s) {
@@ -273,11 +273,11 @@ function sort(s) {
   }
   const head = get(s, 0);
   const larger = sort(filter_from(1, (function (x) {
-            return Caml_obj.caml_greaterthan(x, head);
-          }), s));
+    return Caml_obj.caml_greaterthan(x, head);
+  }), s));
   const smaller = sort(filter_from(1, (function (x) {
-            return Caml_obj.caml_lessequal(x, head);
-          }), s));
+    return Caml_obj.caml_lessequal(x, head);
+  }), s));
   return append(smaller, push_front(larger, head));
 }
 
@@ -311,24 +311,24 @@ function $eq$tilde(x, y) {
 }
 
 const u = of_array([
-      1,
-      2,
-      2,
-      5,
-      3,
-      6
-    ]);
+  1,
+  2,
+  2,
+  5,
+  3,
+  6
+]);
 
 const x = sort(u);
 
 if (!Caml_obj.caml_equal(x, of_array([
-            1,
-            2,
-            2,
-            3,
-            5,
-            6
-          ]))) {
+    1,
+    2,
+    2,
+    3,
+    5,
+    6
+  ]))) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -340,12 +340,12 @@ if (!Caml_obj.caml_equal(x, of_array([
 }
 
 const v = Stdlib__Array.init(500, (function (i) {
-      return 500 - i | 0;
-    }));
+  return 500 - i | 0;
+}));
 
 const y = Stdlib__Array.init(500, (function (i) {
-      return i + 1 | 0;
-    }));
+  return i + 1 | 0;
+}));
 
 const x$1 = sort(of_array(v));
 

@@ -4,15 +4,15 @@
 const Mt = require("./mt.js");
 
 console.log(JSON.stringify({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
-              tl: /* [] */ 0
-            }
-          }
-        }));
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: /* [] */ 0
+    }
+  }
+}));
 
 console.log("hey");
 

@@ -25,9 +25,9 @@ const backend_type = {
 };
 
 eq("File \"jscomp/test/406_primitive_test.ml\", line 24, characters 6-13", backend_type, {
-      TAG: /* Other */ 0,
-      _0: "Melange"
-    });
+  TAG: /* Other */ 0,
+  _0: "Melange"
+});
 
 function f(param) {
   const A = /* @__PURE__ */ Caml_exceptions.create("A");

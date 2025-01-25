@@ -209,6 +209,6 @@ const b = {
 };
 
 console.log(compare(/* InSum */ 0, {
-          complex: true
-        }, a, b));
+  complex: true
+}, a, b));
 /*  Not a pure module */

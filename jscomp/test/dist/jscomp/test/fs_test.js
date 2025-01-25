@@ -50,10 +50,10 @@ const module_ = typeof module === "undefined" ? undefined : module;
 
 if (module_ !== undefined) {
   console.log([
-        module_.id,
-        module_.paths,
-        pathobj.name
-      ]);
+    module_.id,
+    module_.paths,
+    pathobj.name
+  ]);
 }
 
 Mt.from_pair_suites("Fs_test", suites.contents);

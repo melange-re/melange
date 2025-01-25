@@ -9,11 +9,11 @@ const Stdlib__Queue = require("melange/queue.js");
 
 function to_list(q) {
   return Stdlib__List.rev(Stdlib__Queue.fold((function (l, x) {
-            return {
-              hd: x,
-              tl: l
-            };
-          }), /* [] */ 0, q));
+    return {
+      hd: x,
+      tl: l
+    };
+  }), /* [] */ 0, q));
 }
 
 const Q = {
@@ -75,9 +75,9 @@ if (!(Caml_obj.caml_equal(to_list(q), /* [] */ 0) && q.length === 0)) {
 Stdlib__Queue.add(1, q);
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 1,
-        tl: /* [] */ 0
-      }) && q.length === 1)) {
+    hd: 1,
+    tl: /* [] */ 0
+  }) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -91,12 +91,12 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 Stdlib__Queue.add(2, q);
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 1,
-        tl: {
-          hd: 2,
-          tl: /* [] */ 0
-        }
-      }) && q.length === 2)) {
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: /* [] */ 0
+    }
+  }) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -110,15 +110,15 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 Stdlib__Queue.add(3, q);
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 1,
-        tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: /* [] */ 0
-          }
-        }
-      }) && q.length === 3)) {
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
+        tl: /* [] */ 0
+      }
+    }
+  }) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -132,18 +132,18 @@ if (!(Caml_obj.caml_equal(to_list(q), {
 Stdlib__Queue.add(4, q);
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      }) && q.length === 4)) {
+      }
+    }
+  }) && q.length === 4)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -166,15 +166,15 @@ if (Stdlib__Queue.take(q) !== 1) {
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 2,
-        tl: {
-          hd: 3,
-          tl: {
-            hd: 4,
-            tl: /* [] */ 0
-          }
-        }
-      }) && q.length === 3)) {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: {
+        hd: 4,
+        tl: /* [] */ 0
+      }
+    }
+  }) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -197,12 +197,12 @@ if (Stdlib__Queue.take(q) !== 2) {
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 3,
-        tl: {
-          hd: 4,
-          tl: /* [] */ 0
-        }
-      }) && q.length === 2)) {
+    hd: 3,
+    tl: {
+      hd: 4,
+      tl: /* [] */ 0
+    }
+  }) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -225,9 +225,9 @@ if (Stdlib__Queue.take(q) !== 3) {
 }
 
 if (!(Caml_obj.caml_equal(to_list(q), {
-        hd: 4,
-        tl: /* [] */ 0
-      }) && q.length === 1)) {
+    hd: 4,
+    tl: /* [] */ 0
+  }) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -504,10 +504,10 @@ if (!does_raise(Stdlib__Queue.take, q$3)) {
 }
 
 if (!Caml_obj.caml_equal(q$3, {
-        length: 0,
-        first: /* Nil */ 0,
-        last: /* Nil */ 0
-      })) {
+    length: 0,
+    first: /* Nil */ 0,
+    last: /* Nil */ 0
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -544,28 +544,26 @@ for (let i$1 = 1; i$1 <= 10; ++i$1) {
 const q2 = Stdlib__Queue.copy(q1);
 
 if (!Caml_obj.caml_equal(to_list(q1), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
+          hd: 4,
           tl: {
-            hd: 3,
+            hd: 5,
             tl: {
-              hd: 4,
+              hd: 6,
               tl: {
-                hd: 5,
+                hd: 7,
                 tl: {
-                  hd: 6,
+                  hd: 8,
                   tl: {
-                    hd: 7,
+                    hd: 9,
                     tl: {
-                      hd: 8,
-                      tl: {
-                        hd: 9,
-                        tl: {
-                          hd: 10,
-                          tl: /* [] */ 0
-                        }
-                      }
+                      hd: 10,
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -573,7 +571,9 @@ if (!Caml_obj.caml_equal(to_list(q1), {
             }
           }
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -585,28 +585,26 @@ if (!Caml_obj.caml_equal(to_list(q1), {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
+          hd: 4,
           tl: {
-            hd: 3,
+            hd: 5,
             tl: {
-              hd: 4,
+              hd: 6,
               tl: {
-                hd: 5,
+                hd: 7,
                 tl: {
-                  hd: 6,
+                  hd: 8,
                   tl: {
-                    hd: 7,
+                    hd: 9,
                     tl: {
-                      hd: 8,
-                      tl: {
-                        hd: 9,
-                        tl: {
-                          hd: 10,
-                          tl: /* [] */ 0
-                        }
-                      }
+                      hd: 10,
+                      tl: /* [] */ 0
                     }
                   }
                 }
@@ -614,7 +612,9 @@ if (!Caml_obj.caml_equal(to_list(q2), {
             }
           }
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -778,18 +778,18 @@ const i$7 = {
 };
 
 Stdlib__Queue.iter((function (j) {
-      if (i$7.contents !== j) {
-        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/libqueue_test.ml",
-                107,
-                19
-              ]
-            });
-      }
-      i$7.contents = i$7.contents + 1 | 0;
-    }), q$5);
+  if (i$7.contents !== j) {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/libqueue_test.ml",
+            107,
+            19
+          ]
+        });
+  }
+  i$7.contents = i$7.contents + 1 | 0;
+}), q$5);
 
 const q1$1 = {
   length: 0,
@@ -921,18 +921,18 @@ if (q1$2.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$2), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1001,18 +1001,18 @@ if (q2$2.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$2), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1073,18 +1073,18 @@ if (q2$3.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$3), {
-        hd: 5,
+    hd: 5,
+    tl: {
+      hd: 6,
+      tl: {
+        hd: 7,
         tl: {
-          hd: 6,
-          tl: {
-            hd: 7,
-            tl: {
-              hd: 8,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 8,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1131,18 +1131,18 @@ if (q2$3.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$3), {
-        hd: 5,
+    hd: 5,
+    tl: {
+      hd: 6,
+      tl: {
+        hd: 7,
         tl: {
-          hd: 6,
-          tl: {
-            hd: 7,
-            tl: {
-              hd: 8,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 8,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1185,18 +1185,18 @@ if (q1$4.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q1$4), {
-        hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
+      tl: {
+        hd: 3,
         tl: {
-          hd: 2,
-          tl: {
-            hd: 3,
-            tl: {
-              hd: 4,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 4,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1219,18 +1219,18 @@ if (q2$4.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$4), {
-        hd: 5,
+    hd: 5,
+    tl: {
+      hd: 6,
+      tl: {
+        hd: 7,
         tl: {
-          hd: 6,
-          tl: {
-            hd: 7,
-            tl: {
-              hd: 8,
-              tl: /* [] */ 0
-            }
-          }
+          hd: 8,
+          tl: /* [] */ 0
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1277,30 +1277,30 @@ if (q2$4.length !== 8) {
 }
 
 if (!Caml_obj.caml_equal(to_list(q2$4), {
-        hd: 5,
+    hd: 5,
+    tl: {
+      hd: 6,
+      tl: {
+        hd: 7,
         tl: {
-          hd: 6,
+          hd: 8,
           tl: {
-            hd: 7,
+            hd: 1,
             tl: {
-              hd: 8,
+              hd: 2,
               tl: {
-                hd: 1,
+                hd: 3,
                 tl: {
-                  hd: 2,
-                  tl: {
-                    hd: 3,
-                    tl: {
-                      hd: 4,
-                      tl: /* [] */ 0
-                    }
-                  }
+                  hd: 4,
+                  tl: /* [] */ 0
                 }
               }
             }
           }
         }
-      })) {
+      }
+    }
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [

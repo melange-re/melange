@@ -46,28 +46,28 @@ function eq(loc, x, y) {
 
 function restricted_point_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
-        "move",
-        "get_x",
-        "bump"
-      ], shared$2);
+    "move",
+    "get_x",
+    "bump"
+  ], shared$2);
   const move = ids[0];
   const get_x = ids[1];
   const bump = ids[2];
   const x = ids[3];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$1) {
-          return self$1[x];
-        }),
-        move,
-        (function (self$1, d) {
-          self$1[x] = self$1[x] + d | 0;
-        }),
-        bump,
-        (function (self$1) {
-          return Curry._2(self$1[0][move], self$1, 1);
-        })
-      ]);
+    get_x,
+    (function (self$1) {
+      return self$1[x];
+    }),
+    move,
+    (function (self$1, d) {
+      self$1[x] = self$1[x] + d | 0;
+    }),
+    bump,
+    (function (self$1) {
+      return Curry._2(self$1[0][move], self$1, 1);
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x_init;
@@ -107,8 +107,8 @@ function abstract_point_1($$class) {
   const get_x = ids[1];
   const get_offset = ids[2];
   CamlinternalOO.set_method($$class, get_offset, (function (self$5) {
-        return Curry._1(self$5[0][get_x], self$5) - self$5[x_init] | 0;
-      }));
+    return Curry._1(self$5[0][get_x], self$5) - self$5[x_init] | 0;
+  }));
   return function (env, self, x_init$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x_init] = x_init$1;
@@ -128,20 +128,20 @@ function point_init($$class) {
   const get_x = ids[1];
   const x = ids[3];
   const inh = CamlinternalOO.inherits($$class, 0, [
-        "move",
-        "get_x"
-      ], ["get_offset"], abstract_point, true);
+    "move",
+    "get_x"
+  ], ["get_offset"], abstract_point, true);
   const obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$6) {
-          return self$6[x];
-        }),
-        move,
-        (function (self$6, d) {
-          self$6[x] = self$6[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$6) {
+      return self$6[x];
+    }),
+    move,
+    (function (self$6, d) {
+      self$6[x] = self$6[x] + d | 0;
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x_init);
@@ -151,29 +151,29 @@ function point_init($$class) {
 }
 
 const point = CamlinternalOO.make_class([
-      "move",
-      "get_offset",
-      "get_x"
-    ], point_init);
+  "move",
+  "get_offset",
+  "get_x"
+], point_init);
 
 function colored_point_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
-        "move",
-        "get_x",
-        "get_offset",
-        "color"
-      ], ["c"]);
+    "move",
+    "get_x",
+    "get_offset",
+    "color"
+  ], ["c"]);
   const color = ids[3];
   const c = ids[4];
   const inh = CamlinternalOO.inherits($$class, shared$2, 0, [
-        "get_offset",
-        "get_x",
-        "move"
-      ], point, true);
+    "get_offset",
+    "get_x",
+    "move"
+  ], point, true);
   const obj_init = inh[0];
   CamlinternalOO.set_method($$class, color, (function (self$7) {
-        return self$7[c];
-      }));
+    return self$7[c];
+  }));
   return function (env, self, x, c$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);
@@ -183,21 +183,21 @@ function colored_point_init($$class) {
 }
 
 const colored_point = CamlinternalOO.make_class([
-      "move",
-      "color",
-      "get_offset",
-      "get_x"
-    ], colored_point_init);
+  "move",
+  "color",
+  "get_offset",
+  "get_x"
+], colored_point_init);
 
 const p$p = Curry._3(colored_point[0], undefined, 5, "red");
 
 eq("File \"jscomp/test/class4_test.ml\", line 67, characters 5-12", [
-      5,
-      "red"
-    ], [
-      Caml_oo_curry.js1(291546447, 1, p$p),
-      Caml_oo_curry.js1(-899911325, 2, p$p)
-    ]);
+  5,
+  "red"
+], [
+  Caml_oo_curry.js1(291546447, 1, p$p),
+  Caml_oo_curry.js1(-899911325, 2, p$p)
+]);
 
 function get_succ_x(p) {
   return Caml_oo_curry.js1(291546447, 3, p) + 1 | 0;

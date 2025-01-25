@@ -43,8 +43,8 @@ function commutative_add(result, a, b) {
 const generic_compare = Caml_obj.caml_compare;
 
 const shift_left_tests_0 = Stdlib__Array.map((function (i) {
-      return Caml_int64.lsl_(Caml_int64.one, i);
-    }), Ext_array_test.range(0, 63));
+  return Caml_int64.lsl_(Caml_int64.one, i);
+}), Ext_array_test.range(0, 63));
 
 const shift_left_tests_1 = [
   Caml_int64.one,
@@ -305,8 +305,8 @@ const shift_left_tests = [
 ];
 
 const shift_right_tests_0 = Stdlib__Array.map((function (i) {
-      return Caml_int64.asr_(Caml_int64.min_int, i);
-    }), Ext_array_test.range(0, 63));
+  return Caml_int64.asr_(Caml_int64.min_int, i);
+}), Ext_array_test.range(0, 63));
 
 const shift_right_tests_1 = [
   Caml_int64.min_int,
@@ -567,8 +567,8 @@ const shift_right_tests = [
 ];
 
 const shift_right_logical_suites_0 = Stdlib__Array.map((function (i) {
-      return Caml_int64.lsr_(Caml_int64.min_int, i);
-    }), Ext_array_test.range(0, 63));
+  return Caml_int64.lsr_(Caml_int64.min_int, i);
+}), Ext_array_test.range(0, 63));
 
 const shift_right_logical_suites_1 = [
   Caml_int64.min_int,
@@ -857,1215 +857,1213 @@ function fac(_n, _acc) {
 }
 
 const suites = Stdlib.$at({
+  hd: [
+    "add_one",
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: v,
+        _1: [
+          0,
+          2147483648
+        ]
+      };
+    })
+  ],
+  tl: {
+    hd: [
+      "add_2",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: [
+            0,
+            4294967294
+          ],
+          _1: Caml_int64.add(a, a)
+        };
+      })
+    ],
+    tl: {
       hd: [
-        "add_one",
+        "add_3",
         (function (param) {
           return {
             TAG: /* Eq */ 0,
-            _0: v,
-            _1: [
-              0,
-              2147483648
-            ]
+            _0: Caml_int64.zero,
+            _1: Caml_int64.zero
           };
         })
       ],
       tl: {
         hd: [
-          "add_2",
+          "add_4",
           (function (param) {
-            return {
-              TAG: /* Eq */ 0,
-              _0: [
-                0,
-                4294967294
-              ],
-              _1: Caml_int64.add(a, a)
-            };
+            return commutative_add([
+              -1,
+              4294967294
+            ], [
+              -1,
+              4294967293
+            ], Caml_int64.one);
           })
         ],
         tl: {
           hd: [
-            "add_3",
+            "add_5",
             (function (param) {
-              return {
-                TAG: /* Eq */ 0,
-                _0: Caml_int64.zero,
-                _1: Caml_int64.zero
-              };
+              return commutative_add([
+                -1,
+                4294967293
+              ], [
+                -1,
+                4294967293
+              ], Caml_int64.zero);
             })
           ],
           tl: {
             hd: [
-              "add_4",
+              "add_6",
               (function (param) {
                 return commutative_add([
-                      -1,
-                      4294967294
-                    ], [
-                      -1,
-                      4294967293
-                    ], Caml_int64.one);
+                  0,
+                  4
+                ], [
+                  -1,
+                  4294967293
+                ], [
+                  0,
+                  7
+                ]);
               })
             ],
             tl: {
               hd: [
-                "add_5",
+                "add_7",
                 (function (param) {
                   return commutative_add([
-                        -1,
-                        4294967293
-                      ], [
-                        -1,
-                        4294967293
-                      ], Caml_int64.zero);
+                    1,
+                    0
+                  ], [
+                    0,
+                    2147483648
+                  ], [
+                    0,
+                    2147483648
+                  ]);
                 })
               ],
               tl: {
                 hd: [
-                  "add_6",
+                  "add_8",
                   (function (param) {
                     return commutative_add([
-                          0,
-                          4
-                        ], [
-                          -1,
-                          4294967293
-                        ], [
-                          0,
-                          7
-                        ]);
+                      1,
+                      0
+                    ], [
+                      0,
+                      4294967295
+                    ], Caml_int64.one);
                   })
                 ],
                 tl: {
                   hd: [
-                    "add_7",
+                    "add_9",
                     (function (param) {
                       return commutative_add([
-                            1,
-                            0
-                          ], [
-                            0,
-                            2147483648
-                          ], [
-                            0,
-                            2147483648
-                          ]);
+                        0,
+                        4294967295
+                      ], [
+                        0,
+                        2147483648
+                      ], [
+                        0,
+                        2147483647
+                      ]);
                     })
                   ],
                   tl: {
                     hd: [
-                      "add_8",
+                      "add_10",
                       (function (param) {
                         return commutative_add([
-                              1,
-                              0
-                            ], [
-                              0,
-                              4294967295
-                            ], Caml_int64.one);
+                          0,
+                          2147483648
+                        ], [
+                          0,
+                          2147483648
+                        ], Caml_int64.zero);
                       })
                     ],
                     tl: {
                       hd: [
-                        "add_9",
+                        "add_11",
                         (function (param) {
                           return commutative_add([
-                                0,
-                                4294967295
-                              ], [
-                                0,
-                                2147483648
-                              ], [
-                                0,
-                                2147483647
-                              ]);
+                            0,
+                            4294967295
+                          ], [
+                            0,
+                            4294967295
+                          ], Caml_int64.zero);
                         })
                       ],
                       tl: {
                         hd: [
-                          "add_10",
+                          "to_int32",
                           (function (param) {
-                            return commutative_add([
-                                  0,
-                                  2147483648
-                                ], [
-                                  0,
-                                  2147483648
-                                ], Caml_int64.zero);
+                            return {
+                              TAG: /* Eq */ 0,
+                              _0: 3,
+                              _1: Caml_int64.to_int32([
+                                0,
+                                3
+                              ])
+                            };
                           })
                         ],
                         tl: {
                           hd: [
-                            "add_11",
+                            "to_int",
                             (function (param) {
-                              return commutative_add([
-                                    0,
-                                    4294967295
-                                  ], [
-                                    0,
-                                    4294967295
-                                  ], Caml_int64.zero);
+                              return {
+                                TAG: /* Eq */ 0,
+                                _0: 3,
+                                _1: Caml_int64.to_int32([
+                                  0,
+                                  3
+                                ])
+                              };
                             })
                           ],
                           tl: {
                             hd: [
-                              "to_int32",
+                              "of_int",
                               (function (param) {
                                 return {
                                   TAG: /* Eq */ 0,
-                                  _0: 3,
-                                  _1: Caml_int64.to_int32([
-                                        0,
-                                        3
-                                      ])
+                                  _0: [
+                                    0,
+                                    3
+                                  ],
+                                  _1: [
+                                    0,
+                                    3
+                                  ]
                                 };
                               })
                             ],
                             tl: {
                               hd: [
-                                "to_int",
+                                "lognot",
                                 (function (param) {
                                   return {
                                     TAG: /* Eq */ 0,
-                                    _0: 3,
-                                    _1: Caml_int64.to_int32([
-                                          0,
-                                          3
-                                        ])
+                                    _0: [
+                                      -1,
+                                      4294967293
+                                    ],
+                                    _1: [
+                                      -1,
+                                      4294967293
+                                    ]
                                   };
                                 })
                               ],
                               tl: {
                                 hd: [
-                                  "of_int",
+                                  "neg",
                                   (function (param) {
                                     return {
                                       TAG: /* Eq */ 0,
                                       _0: [
-                                        0,
-                                        3
+                                        -1,
+                                        4294967294
                                       ],
                                       _1: [
-                                        0,
-                                        3
+                                        -1,
+                                        4294967294
                                       ]
                                     };
                                   })
                                 ],
                                 tl: {
                                   hd: [
-                                    "lognot",
+                                    "File \"jscomp/test/int64_test.ml\", line 80, characters 4-11",
                                     (function (param) {
                                       return {
                                         TAG: /* Eq */ 0,
-                                        _0: [
-                                          -1,
-                                          4294967293
-                                        ],
-                                        _1: [
-                                          -1,
-                                          4294967293
-                                        ]
+                                        _0: Stdlib__Int64.min_int,
+                                        _1: Caml_int64.neg(Stdlib__Int64.min_int)
                                       };
                                     })
                                   ],
                                   tl: {
                                     hd: [
-                                      "neg",
+                                      "File \"jscomp/test/int64_test.ml\", line 81, characters 4-11",
                                       (function (param) {
                                         return {
                                           TAG: /* Eq */ 0,
-                                          _0: [
-                                            -1,
-                                            4294967294
-                                          ],
-                                          _1: [
-                                            -1,
-                                            4294967294
-                                          ]
+                                          _0: Stdlib__Int64.max_int,
+                                          _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
                                         };
                                       })
                                     ],
                                     tl: {
                                       hd: [
-                                        "File \"jscomp/test/int64_test.ml\", line 80, characters 4-11",
+                                        "sub1",
                                         (function (param) {
                                           return {
                                             TAG: /* Eq */ 0,
-                                            _0: Stdlib__Int64.min_int,
-                                            _1: Caml_int64.neg(Stdlib__Int64.min_int)
+                                            _0: [
+                                              0,
+                                              2
+                                            ],
+                                            _1: [
+                                              0,
+                                              2
+                                            ]
                                           };
                                         })
                                       ],
                                       tl: {
                                         hd: [
-                                          "File \"jscomp/test/int64_test.ml\", line 81, characters 4-11",
+                                          "xor1",
                                           (function (param) {
                                             return {
                                               TAG: /* Eq */ 0,
-                                              _0: Stdlib__Int64.max_int,
-                                              _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
+                                              _0: [
+                                                [
+                                                  0,
+                                                  286331153
+                                                ],
+                                                Caml_int64.xor(a, [
+                                                  0,
+                                                  4009750271
+                                                ])
+                                              ],
+                                              _1: [
+                                                [
+                                                  0,
+                                                  286331153
+                                                ],
+                                                [
+                                                  0,
+                                                  2432700672
+                                                ]
+                                              ]
                                             };
                                           })
                                         ],
                                         tl: {
                                           hd: [
-                                            "sub1",
+                                            "or",
                                             (function (param) {
                                               return {
                                                 TAG: /* Eq */ 0,
                                                 _0: [
                                                   0,
-                                                  2
+                                                  4294967295
                                                 ],
                                                 _1: [
                                                   0,
-                                                  2
+                                                  4294967295
                                                 ]
                                               };
                                             })
                                           ],
                                           tl: {
                                             hd: [
-                                              "xor1",
+                                              "and",
                                               (function (param) {
                                                 return {
                                                   TAG: /* Eq */ 0,
                                                   _0: [
-                                                    [
-                                                      0,
-                                                      286331153
-                                                    ],
-                                                    Caml_int64.xor(a, [
-                                                          0,
-                                                          4009750271
-                                                        ])
+                                                    0,
+                                                    4008636142
                                                   ],
                                                   _1: [
-                                                    [
-                                                      0,
-                                                      286331153
-                                                    ],
-                                                    [
-                                                      0,
-                                                      2432700672
-                                                    ]
+                                                    0,
+                                                    4008636142
                                                   ]
                                                 };
                                               })
                                             ],
                                             tl: {
                                               hd: [
-                                                "or",
+                                                "lsl",
                                                 (function (param) {
                                                   return {
                                                     TAG: /* Eq */ 0,
-                                                    _0: [
-                                                      0,
-                                                      4294967295
-                                                    ],
+                                                    _0: Stdlib__Array.map((function (x) {
+                                                      return Caml_int64.lsl_(Caml_int64.one, x);
+                                                    }), Stdlib__Array.init(64, (function (i) {
+                                                      return i;
+                                                    }))),
                                                     _1: [
-                                                      0,
-                                                      4294967295
+                                                      Caml_int64.one,
+                                                      [
+                                                        0,
+                                                        2
+                                                      ],
+                                                      [
+                                                        0,
+                                                        4
+                                                      ],
+                                                      [
+                                                        0,
+                                                        8
+                                                      ],
+                                                      [
+                                                        0,
+                                                        16
+                                                      ],
+                                                      [
+                                                        0,
+                                                        32
+                                                      ],
+                                                      [
+                                                        0,
+                                                        64
+                                                      ],
+                                                      [
+                                                        0,
+                                                        128
+                                                      ],
+                                                      [
+                                                        0,
+                                                        256
+                                                      ],
+                                                      [
+                                                        0,
+                                                        512
+                                                      ],
+                                                      [
+                                                        0,
+                                                        1024
+                                                      ],
+                                                      [
+                                                        0,
+                                                        2048
+                                                      ],
+                                                      [
+                                                        0,
+                                                        4096
+                                                      ],
+                                                      [
+                                                        0,
+                                                        8192
+                                                      ],
+                                                      [
+                                                        0,
+                                                        16384
+                                                      ],
+                                                      [
+                                                        0,
+                                                        32768
+                                                      ],
+                                                      [
+                                                        0,
+                                                        65536
+                                                      ],
+                                                      [
+                                                        0,
+                                                        131072
+                                                      ],
+                                                      [
+                                                        0,
+                                                        262144
+                                                      ],
+                                                      [
+                                                        0,
+                                                        524288
+                                                      ],
+                                                      [
+                                                        0,
+                                                        1048576
+                                                      ],
+                                                      [
+                                                        0,
+                                                        2097152
+                                                      ],
+                                                      [
+                                                        0,
+                                                        4194304
+                                                      ],
+                                                      [
+                                                        0,
+                                                        8388608
+                                                      ],
+                                                      [
+                                                        0,
+                                                        16777216
+                                                      ],
+                                                      [
+                                                        0,
+                                                        33554432
+                                                      ],
+                                                      [
+                                                        0,
+                                                        67108864
+                                                      ],
+                                                      [
+                                                        0,
+                                                        134217728
+                                                      ],
+                                                      [
+                                                        0,
+                                                        268435456
+                                                      ],
+                                                      [
+                                                        0,
+                                                        536870912
+                                                      ],
+                                                      [
+                                                        0,
+                                                        1073741824
+                                                      ],
+                                                      [
+                                                        0,
+                                                        2147483648
+                                                      ],
+                                                      [
+                                                        1,
+                                                        0
+                                                      ],
+                                                      [
+                                                        2,
+                                                        0
+                                                      ],
+                                                      [
+                                                        4,
+                                                        0
+                                                      ],
+                                                      [
+                                                        8,
+                                                        0
+                                                      ],
+                                                      [
+                                                        16,
+                                                        0
+                                                      ],
+                                                      [
+                                                        32,
+                                                        0
+                                                      ],
+                                                      [
+                                                        64,
+                                                        0
+                                                      ],
+                                                      [
+                                                        128,
+                                                        0
+                                                      ],
+                                                      [
+                                                        256,
+                                                        0
+                                                      ],
+                                                      [
+                                                        512,
+                                                        0
+                                                      ],
+                                                      [
+                                                        1024,
+                                                        0
+                                                      ],
+                                                      [
+                                                        2048,
+                                                        0
+                                                      ],
+                                                      [
+                                                        4096,
+                                                        0
+                                                      ],
+                                                      [
+                                                        8192,
+                                                        0
+                                                      ],
+                                                      [
+                                                        16384,
+                                                        0
+                                                      ],
+                                                      [
+                                                        32768,
+                                                        0
+                                                      ],
+                                                      [
+                                                        65536,
+                                                        0
+                                                      ],
+                                                      [
+                                                        131072,
+                                                        0
+                                                      ],
+                                                      [
+                                                        262144,
+                                                        0
+                                                      ],
+                                                      [
+                                                        524288,
+                                                        0
+                                                      ],
+                                                      [
+                                                        1048576,
+                                                        0
+                                                      ],
+                                                      [
+                                                        2097152,
+                                                        0
+                                                      ],
+                                                      [
+                                                        4194304,
+                                                        0
+                                                      ],
+                                                      [
+                                                        8388608,
+                                                        0
+                                                      ],
+                                                      [
+                                                        16777216,
+                                                        0
+                                                      ],
+                                                      [
+                                                        33554432,
+                                                        0
+                                                      ],
+                                                      [
+                                                        67108864,
+                                                        0
+                                                      ],
+                                                      [
+                                                        134217728,
+                                                        0
+                                                      ],
+                                                      [
+                                                        268435456,
+                                                        0
+                                                      ],
+                                                      [
+                                                        536870912,
+                                                        0
+                                                      ],
+                                                      [
+                                                        1073741824,
+                                                        0
+                                                      ],
+                                                      Caml_int64.min_int
                                                     ]
                                                   };
                                                 })
                                               ],
                                               tl: {
                                                 hd: [
-                                                  "and",
+                                                  "lsr",
                                                   (function (param) {
                                                     return {
                                                       TAG: /* Eq */ 0,
-                                                      _0: [
-                                                        0,
-                                                        4008636142
-                                                      ],
+                                                      _0: Stdlib__Array.map((function (x) {
+                                                        return Caml_int64.lsr_(Caml_int64.neg_one, x);
+                                                      }), Stdlib__Array.init(64, (function (i) {
+                                                        return i;
+                                                      }))),
                                                       _1: [
-                                                        0,
-                                                        4008636142
+                                                        Caml_int64.neg_one,
+                                                        Caml_int64.max_int,
+                                                        [
+                                                          1073741823,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          536870911,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          268435455,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          134217727,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          67108863,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          33554431,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          16777215,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          8388607,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          4194303,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          2097151,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          1048575,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          524287,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          262143,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          131071,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          65535,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          32767,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          16383,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          8191,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          4095,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          2047,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          1023,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          511,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          255,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          127,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          63,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          31,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          15,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          7,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          3,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          1,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          0,
+                                                          4294967295
+                                                        ],
+                                                        [
+                                                          0,
+                                                          2147483647
+                                                        ],
+                                                        [
+                                                          0,
+                                                          1073741823
+                                                        ],
+                                                        [
+                                                          0,
+                                                          536870911
+                                                        ],
+                                                        [
+                                                          0,
+                                                          268435455
+                                                        ],
+                                                        [
+                                                          0,
+                                                          134217727
+                                                        ],
+                                                        [
+                                                          0,
+                                                          67108863
+                                                        ],
+                                                        [
+                                                          0,
+                                                          33554431
+                                                        ],
+                                                        [
+                                                          0,
+                                                          16777215
+                                                        ],
+                                                        [
+                                                          0,
+                                                          8388607
+                                                        ],
+                                                        [
+                                                          0,
+                                                          4194303
+                                                        ],
+                                                        [
+                                                          0,
+                                                          2097151
+                                                        ],
+                                                        [
+                                                          0,
+                                                          1048575
+                                                        ],
+                                                        [
+                                                          0,
+                                                          524287
+                                                        ],
+                                                        [
+                                                          0,
+                                                          262143
+                                                        ],
+                                                        [
+                                                          0,
+                                                          131071
+                                                        ],
+                                                        [
+                                                          0,
+                                                          65535
+                                                        ],
+                                                        [
+                                                          0,
+                                                          32767
+                                                        ],
+                                                        [
+                                                          0,
+                                                          16383
+                                                        ],
+                                                        [
+                                                          0,
+                                                          8191
+                                                        ],
+                                                        [
+                                                          0,
+                                                          4095
+                                                        ],
+                                                        [
+                                                          0,
+                                                          2047
+                                                        ],
+                                                        [
+                                                          0,
+                                                          1023
+                                                        ],
+                                                        [
+                                                          0,
+                                                          511
+                                                        ],
+                                                        [
+                                                          0,
+                                                          255
+                                                        ],
+                                                        [
+                                                          0,
+                                                          127
+                                                        ],
+                                                        [
+                                                          0,
+                                                          63
+                                                        ],
+                                                        [
+                                                          0,
+                                                          31
+                                                        ],
+                                                        [
+                                                          0,
+                                                          15
+                                                        ],
+                                                        [
+                                                          0,
+                                                          7
+                                                        ],
+                                                        [
+                                                          0,
+                                                          3
+                                                        ],
+                                                        Caml_int64.one
                                                       ]
                                                     };
                                                   })
                                                 ],
                                                 tl: {
                                                   hd: [
-                                                    "lsl",
+                                                    "asr",
                                                     (function (param) {
                                                       return {
                                                         TAG: /* Eq */ 0,
                                                         _0: Stdlib__Array.map((function (x) {
-                                                              return Caml_int64.lsl_(Caml_int64.one, x);
-                                                            }), Stdlib__Array.init(64, (function (i) {
-                                                                  return i;
-                                                                }))),
+                                                          return Caml_int64.asr_(Caml_int64.neg_one, x);
+                                                        }), Stdlib__Array.init(64, (function (i) {
+                                                          return i;
+                                                        }))),
                                                         _1: [
-                                                          Caml_int64.one,
-                                                          [
-                                                            0,
-                                                            2
-                                                          ],
-                                                          [
-                                                            0,
-                                                            4
-                                                          ],
-                                                          [
-                                                            0,
-                                                            8
-                                                          ],
-                                                          [
-                                                            0,
-                                                            16
-                                                          ],
-                                                          [
-                                                            0,
-                                                            32
-                                                          ],
-                                                          [
-                                                            0,
-                                                            64
-                                                          ],
-                                                          [
-                                                            0,
-                                                            128
-                                                          ],
-                                                          [
-                                                            0,
-                                                            256
-                                                          ],
-                                                          [
-                                                            0,
-                                                            512
-                                                          ],
-                                                          [
-                                                            0,
-                                                            1024
-                                                          ],
-                                                          [
-                                                            0,
-                                                            2048
-                                                          ],
-                                                          [
-                                                            0,
-                                                            4096
-                                                          ],
-                                                          [
-                                                            0,
-                                                            8192
-                                                          ],
-                                                          [
-                                                            0,
-                                                            16384
-                                                          ],
-                                                          [
-                                                            0,
-                                                            32768
-                                                          ],
-                                                          [
-                                                            0,
-                                                            65536
-                                                          ],
-                                                          [
-                                                            0,
-                                                            131072
-                                                          ],
-                                                          [
-                                                            0,
-                                                            262144
-                                                          ],
-                                                          [
-                                                            0,
-                                                            524288
-                                                          ],
-                                                          [
-                                                            0,
-                                                            1048576
-                                                          ],
-                                                          [
-                                                            0,
-                                                            2097152
-                                                          ],
-                                                          [
-                                                            0,
-                                                            4194304
-                                                          ],
-                                                          [
-                                                            0,
-                                                            8388608
-                                                          ],
-                                                          [
-                                                            0,
-                                                            16777216
-                                                          ],
-                                                          [
-                                                            0,
-                                                            33554432
-                                                          ],
-                                                          [
-                                                            0,
-                                                            67108864
-                                                          ],
-                                                          [
-                                                            0,
-                                                            134217728
-                                                          ],
-                                                          [
-                                                            0,
-                                                            268435456
-                                                          ],
-                                                          [
-                                                            0,
-                                                            536870912
-                                                          ],
-                                                          [
-                                                            0,
-                                                            1073741824
-                                                          ],
-                                                          [
-                                                            0,
-                                                            2147483648
-                                                          ],
-                                                          [
-                                                            1,
-                                                            0
-                                                          ],
-                                                          [
-                                                            2,
-                                                            0
-                                                          ],
-                                                          [
-                                                            4,
-                                                            0
-                                                          ],
-                                                          [
-                                                            8,
-                                                            0
-                                                          ],
-                                                          [
-                                                            16,
-                                                            0
-                                                          ],
-                                                          [
-                                                            32,
-                                                            0
-                                                          ],
-                                                          [
-                                                            64,
-                                                            0
-                                                          ],
-                                                          [
-                                                            128,
-                                                            0
-                                                          ],
-                                                          [
-                                                            256,
-                                                            0
-                                                          ],
-                                                          [
-                                                            512,
-                                                            0
-                                                          ],
-                                                          [
-                                                            1024,
-                                                            0
-                                                          ],
-                                                          [
-                                                            2048,
-                                                            0
-                                                          ],
-                                                          [
-                                                            4096,
-                                                            0
-                                                          ],
-                                                          [
-                                                            8192,
-                                                            0
-                                                          ],
-                                                          [
-                                                            16384,
-                                                            0
-                                                          ],
-                                                          [
-                                                            32768,
-                                                            0
-                                                          ],
-                                                          [
-                                                            65536,
-                                                            0
-                                                          ],
-                                                          [
-                                                            131072,
-                                                            0
-                                                          ],
-                                                          [
-                                                            262144,
-                                                            0
-                                                          ],
-                                                          [
-                                                            524288,
-                                                            0
-                                                          ],
-                                                          [
-                                                            1048576,
-                                                            0
-                                                          ],
-                                                          [
-                                                            2097152,
-                                                            0
-                                                          ],
-                                                          [
-                                                            4194304,
-                                                            0
-                                                          ],
-                                                          [
-                                                            8388608,
-                                                            0
-                                                          ],
-                                                          [
-                                                            16777216,
-                                                            0
-                                                          ],
-                                                          [
-                                                            33554432,
-                                                            0
-                                                          ],
-                                                          [
-                                                            67108864,
-                                                            0
-                                                          ],
-                                                          [
-                                                            134217728,
-                                                            0
-                                                          ],
-                                                          [
-                                                            268435456,
-                                                            0
-                                                          ],
-                                                          [
-                                                            536870912,
-                                                            0
-                                                          ],
-                                                          [
-                                                            1073741824,
-                                                            0
-                                                          ],
-                                                          Caml_int64.min_int
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one,
+                                                          Caml_int64.neg_one
                                                         ]
                                                       };
                                                     })
                                                   ],
                                                   tl: {
                                                     hd: [
-                                                      "lsr",
+                                                      "mul simple",
                                                       (function (param) {
                                                         return {
                                                           TAG: /* Eq */ 0,
-                                                          _0: Stdlib__Array.map((function (x) {
-                                                                return Caml_int64.lsr_(Caml_int64.neg_one, x);
-                                                              }), Stdlib__Array.init(64, (function (i) {
-                                                                    return i;
-                                                                  }))),
+                                                          _0: [
+                                                            0,
+                                                            6
+                                                          ],
                                                           _1: [
-                                                            Caml_int64.neg_one,
-                                                            Caml_int64.max_int,
-                                                            [
-                                                              1073741823,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              536870911,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              268435455,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              134217727,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              67108863,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              33554431,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              16777215,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              8388607,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              4194303,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              2097151,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              1048575,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              524287,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              262143,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              131071,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              65535,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              32767,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              16383,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              8191,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              4095,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              2047,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              1023,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              511,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              255,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              127,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              63,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              31,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              15,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              7,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              3,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              1,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              0,
-                                                              4294967295
-                                                            ],
-                                                            [
-                                                              0,
-                                                              2147483647
-                                                            ],
-                                                            [
-                                                              0,
-                                                              1073741823
-                                                            ],
-                                                            [
-                                                              0,
-                                                              536870911
-                                                            ],
-                                                            [
-                                                              0,
-                                                              268435455
-                                                            ],
-                                                            [
-                                                              0,
-                                                              134217727
-                                                            ],
-                                                            [
-                                                              0,
-                                                              67108863
-                                                            ],
-                                                            [
-                                                              0,
-                                                              33554431
-                                                            ],
-                                                            [
-                                                              0,
-                                                              16777215
-                                                            ],
-                                                            [
-                                                              0,
-                                                              8388607
-                                                            ],
-                                                            [
-                                                              0,
-                                                              4194303
-                                                            ],
-                                                            [
-                                                              0,
-                                                              2097151
-                                                            ],
-                                                            [
-                                                              0,
-                                                              1048575
-                                                            ],
-                                                            [
-                                                              0,
-                                                              524287
-                                                            ],
-                                                            [
-                                                              0,
-                                                              262143
-                                                            ],
-                                                            [
-                                                              0,
-                                                              131071
-                                                            ],
-                                                            [
-                                                              0,
-                                                              65535
-                                                            ],
-                                                            [
-                                                              0,
-                                                              32767
-                                                            ],
-                                                            [
-                                                              0,
-                                                              16383
-                                                            ],
-                                                            [
-                                                              0,
-                                                              8191
-                                                            ],
-                                                            [
-                                                              0,
-                                                              4095
-                                                            ],
-                                                            [
-                                                              0,
-                                                              2047
-                                                            ],
-                                                            [
-                                                              0,
-                                                              1023
-                                                            ],
-                                                            [
-                                                              0,
-                                                              511
-                                                            ],
-                                                            [
-                                                              0,
-                                                              255
-                                                            ],
-                                                            [
-                                                              0,
-                                                              127
-                                                            ],
-                                                            [
-                                                              0,
-                                                              63
-                                                            ],
-                                                            [
-                                                              0,
-                                                              31
-                                                            ],
-                                                            [
-                                                              0,
-                                                              15
-                                                            ],
-                                                            [
-                                                              0,
-                                                              7
-                                                            ],
-                                                            [
-                                                              0,
-                                                              3
-                                                            ],
-                                                            Caml_int64.one
+                                                            0,
+                                                            6
                                                           ]
                                                         };
                                                       })
                                                     ],
                                                     tl: {
                                                       hd: [
-                                                        "asr",
+                                                        "of_int32",
                                                         (function (param) {
                                                           return {
                                                             TAG: /* Eq */ 0,
-                                                            _0: Stdlib__Array.map((function (x) {
-                                                                  return Caml_int64.asr_(Caml_int64.neg_one, x);
-                                                                }), Stdlib__Array.init(64, (function (i) {
-                                                                      return i;
-                                                                    }))),
+                                                            _0: Stdlib__Array.map(Caml_int64.of_int32, [
+                                                              0,
+                                                              -2147483648
+                                                            ]),
                                                             _1: [
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one,
-                                                              Caml_int64.neg_one
+                                                              Caml_int64.zero,
+                                                              [
+                                                                -1,
+                                                                2147483648
+                                                              ]
                                                             ]
                                                           };
                                                         })
                                                       ],
                                                       tl: {
                                                         hd: [
-                                                          "mul simple",
+                                                          "of_int32_singleton",
                                                           (function (param) {
                                                             return {
                                                               TAG: /* Eq */ 0,
                                                               _0: [
-                                                                0,
-                                                                6
+                                                                -1,
+                                                                4294967293
                                                               ],
                                                               _1: [
-                                                                0,
-                                                                6
+                                                                -1,
+                                                                4294967293
                                                               ]
                                                             };
                                                           })
                                                         ],
                                                         tl: {
                                                           hd: [
-                                                            "of_int32",
+                                                            "File \"jscomp/test/int64_test.ml\", line 134, characters 4-11",
                                                             (function (param) {
                                                               return {
                                                                 TAG: /* Eq */ 0,
-                                                                _0: Stdlib__Array.map(Caml_int64.of_int32, [
-                                                                      0,
-                                                                      -2147483648
-                                                                    ]),
+                                                                _0: [
+                                                                  0,
+                                                                  3
+                                                                ],
                                                                 _1: [
-                                                                  Caml_int64.zero,
-                                                                  [
-                                                                    -1,
-                                                                    2147483648
-                                                                  ]
+                                                                  0,
+                                                                  3
                                                                 ]
                                                               };
                                                             })
                                                           ],
                                                           tl: {
                                                             hd: [
-                                                              "of_int32_singleton",
+                                                              "to_int32",
                                                               (function (param) {
                                                                 return {
                                                                   TAG: /* Eq */ 0,
-                                                                  _0: [
-                                                                    -1,
-                                                                    4294967293
-                                                                  ],
+                                                                  _0: Stdlib__Array.map(Caml_int64.to_int32, [
+                                                                    Caml_int64.zero,
+                                                                    [
+                                                                      0,
+                                                                      2147483648
+                                                                    ]
+                                                                  ]),
                                                                   _1: [
-                                                                    -1,
-                                                                    4294967293
+                                                                    0,
+                                                                    -2147483648
                                                                   ]
                                                                 };
                                                               })
                                                             ],
                                                             tl: {
                                                               hd: [
-                                                                "File \"jscomp/test/int64_test.ml\", line 134, characters 4-11",
+                                                                "discard_sign",
                                                                 (function (param) {
                                                                   return {
                                                                     TAG: /* Eq */ 0,
-                                                                    _0: [
-                                                                      0,
-                                                                      3
-                                                                    ],
-                                                                    _1: [
-                                                                      0,
-                                                                      3
-                                                                    ]
+                                                                    _0: Caml_int64.discard_sign(Caml_int64.neg_one),
+                                                                    _1: Caml_int64.max_int
                                                                   };
                                                                 })
                                                               ],
                                                               tl: {
                                                                 hd: [
-                                                                  "to_int32",
+                                                                  "div_mod",
                                                                   (function (param) {
                                                                     return {
                                                                       TAG: /* Eq */ 0,
-                                                                      _0: Stdlib__Array.map(Caml_int64.to_int32, [
-                                                                            Caml_int64.zero,
-                                                                            [
-                                                                              0,
-                                                                              2147483648
-                                                                            ]
-                                                                          ]),
-                                                                      _1: [
+                                                                      _0: Caml_int64.div_mod([
                                                                         0,
-                                                                        -2147483648
+                                                                        7
+                                                                      ], [
+                                                                        0,
+                                                                        3
+                                                                      ]),
+                                                                      _1: [
+                                                                        [
+                                                                          0,
+                                                                          2
+                                                                        ],
+                                                                        Caml_int64.one
                                                                       ]
                                                                     };
                                                                   })
                                                                 ],
                                                                 tl: {
                                                                   hd: [
-                                                                    "discard_sign",
+                                                                    "to_hex",
                                                                     (function (param) {
                                                                       return {
                                                                         TAG: /* Eq */ 0,
-                                                                        _0: Caml_int64.discard_sign(Caml_int64.neg_one),
-                                                                        _1: Caml_int64.max_int
+                                                                        _0: Caml_int64.to_hex(Caml_int64.neg_one),
+                                                                        _1: "ffffffffffffffff"
                                                                       };
                                                                     })
                                                                   ],
                                                                   tl: {
                                                                     hd: [
-                                                                      "div_mod",
+                                                                      "generic_compare",
                                                                       (function (param) {
                                                                         return {
                                                                           TAG: /* Eq */ 0,
-                                                                          _0: Caml_int64.div_mod([
-                                                                                0,
-                                                                                7
-                                                                              ], [
-                                                                                0,
-                                                                                3
-                                                                              ]),
-                                                                          _1: [
-                                                                            [
-                                                                              0,
-                                                                              2
-                                                                            ],
-                                                                            Caml_int64.one
-                                                                          ]
+                                                                          _0: Caml_obj.caml_compare([
+                                                                            1,
+                                                                            0
+                                                                          ], Caml_int64.one) > 0,
+                                                                          _1: true
                                                                         };
                                                                       })
                                                                     ],
                                                                     tl: {
                                                                       hd: [
-                                                                        "to_hex",
+                                                                        "test_compier_literal",
                                                                         (function (param) {
                                                                           return {
                                                                             TAG: /* Eq */ 0,
-                                                                            _0: Caml_int64.to_hex(Caml_int64.neg_one),
-                                                                            _1: "ffffffffffffffff"
+                                                                            _0: [
+                                                                              0,
+                                                                              4294967295
+                                                                            ],
+                                                                            _1: [
+                                                                              0,
+                                                                              4294967295
+                                                                            ]
                                                                           };
                                                                         })
                                                                       ],
                                                                       tl: {
                                                                         hd: [
-                                                                          "generic_compare",
+                                                                          "generic_compare2",
                                                                           (function (param) {
                                                                             return {
                                                                               TAG: /* Eq */ 0,
                                                                               _0: Caml_obj.caml_compare([
-                                                                                    1,
-                                                                                    0
-                                                                                  ], Caml_int64.one) > 0,
+                                                                                0,
+                                                                                2147483648
+                                                                              ], Caml_int64.one) > 0,
                                                                               _1: true
                                                                             };
                                                                           })
                                                                         ],
                                                                         tl: {
                                                                           hd: [
-                                                                            "test_compier_literal",
+                                                                            "shift_left",
                                                                             (function (param) {
                                                                               return {
                                                                                 TAG: /* Eq */ 0,
                                                                                 _0: [
                                                                                   0,
-                                                                                  4294967295
+                                                                                  4294967040
                                                                                 ],
                                                                                 _1: [
                                                                                   0,
-                                                                                  4294967295
+                                                                                  4294967040
                                                                                 ]
                                                                               };
                                                                             })
                                                                           ],
                                                                           tl: {
                                                                             hd: [
-                                                                              "generic_compare2",
+                                                                              "fib_int64",
                                                                               (function (param) {
                                                                                 return {
                                                                                   TAG: /* Eq */ 0,
-                                                                                  _0: Caml_obj.caml_compare([
-                                                                                        0,
-                                                                                        2147483648
-                                                                                      ], Caml_int64.one) > 0,
-                                                                                  _1: true
+                                                                                  _0: fib(1000, Caml_int64.one, [
+                                                                                    0,
+                                                                                    2
+                                                                                  ]),
+                                                                                  _1: [
+                                                                                    -1990564327,
+                                                                                    2874523960
+                                                                                  ]
                                                                                 };
                                                                               })
                                                                             ],
                                                                             tl: {
                                                                               hd: [
-                                                                                "shift_left",
+                                                                                "fac_int64",
                                                                                 (function (param) {
                                                                                   return {
                                                                                     TAG: /* Eq */ 0,
-                                                                                    _0: [
-                                                                                      0,
-                                                                                      4294967040
-                                                                                    ],
+                                                                                    _0: fac(30, Caml_int64.one),
                                                                                     _1: [
-                                                                                      0,
-                                                                                      4294967040
+                                                                                      -2040662563,
+                                                                                      1409286144
                                                                                     ]
                                                                                   };
                                                                                 })
                                                                               ],
                                                                               tl: {
                                                                                 hd: [
-                                                                                  "fib_int64",
+                                                                                  "File \"jscomp/test/int64_test.ml\", line 163, characters 6-13",
                                                                                   (function (param) {
                                                                                     return {
                                                                                       TAG: /* Eq */ 0,
-                                                                                      _0: fib(1000, Caml_int64.one, [
-                                                                                            0,
-                                                                                            2
-                                                                                          ]),
+                                                                                      _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
                                                                                       _1: [
-                                                                                        -1990564327,
-                                                                                        2874523960
+                                                                                        -1,
+                                                                                        4294967294
                                                                                       ]
                                                                                     };
                                                                                   })
                                                                                 ],
                                                                                 tl: {
                                                                                   hd: [
-                                                                                    "fac_int64",
+                                                                                    "File \"jscomp/test/int64_test.ml\", line 166, characters 6-13",
                                                                                     (function (param) {
                                                                                       return {
                                                                                         TAG: /* Eq */ 0,
-                                                                                        _0: fac(30, Caml_int64.one),
-                                                                                        _1: [
-                                                                                          -2040662563,
-                                                                                          1409286144
-                                                                                        ]
+                                                                                        _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
+                                                                                        _1: Caml_int64.zero
                                                                                       };
                                                                                     })
                                                                                   ],
                                                                                   tl: {
                                                                                     hd: [
-                                                                                      "File \"jscomp/test/int64_test.ml\", line 163, characters 6-13",
+                                                                                      "File \"jscomp/test/int64_test.ml\", line 170, characters 6-13",
                                                                                       (function (param) {
                                                                                         return {
                                                                                           TAG: /* Eq */ 0,
-                                                                                          _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
-                                                                                          _1: [
-                                                                                            -1,
-                                                                                            4294967294
-                                                                                          ]
+                                                                                          _0: Caml_int64.neg_one,
+                                                                                          _1: Caml_int64.neg_one
                                                                                         };
                                                                                       })
                                                                                     ],
-                                                                                    tl: {
-                                                                                      hd: [
-                                                                                        "File \"jscomp/test/int64_test.ml\", line 166, characters 6-13",
-                                                                                        (function (param) {
-                                                                                          return {
-                                                                                            TAG: /* Eq */ 0,
-                                                                                            _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
-                                                                                            _1: Caml_int64.zero
-                                                                                          };
-                                                                                        })
-                                                                                      ],
-                                                                                      tl: {
-                                                                                        hd: [
-                                                                                          "File \"jscomp/test/int64_test.ml\", line 170, characters 6-13",
-                                                                                          (function (param) {
-                                                                                            return {
-                                                                                              TAG: /* Eq */ 0,
-                                                                                              _0: Caml_int64.neg_one,
-                                                                                              _1: Caml_int64.neg_one
-                                                                                            };
-                                                                                          })
-                                                                                        ],
-                                                                                        tl: /* [] */ 0
-                                                                                      }
-                                                                                    }
+                                                                                    tl: /* [] */ 0
                                                                                   }
                                                                                 }
                                                                               }
@@ -2105,82 +2103,84 @@ const suites = Stdlib.$at({
           }
         }
       }
-    }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                  return [
-                    Curry._1(Stdlib__Format.asprintf({
-                            TAG: /* Format */ 0,
-                            _0: {
-                              TAG: /* String_literal */ 11,
-                              _0: "shift_left_cases ",
-                              _1: {
-                                TAG: /* Int */ 4,
-                                _0: /* Int_d */ 0,
-                                _1: /* No_padding */ 0,
-                                _2: /* No_precision */ 0,
-                                _3: /* End_of_format */ 0
-                              }
-                            },
-                            _1: "shift_left_cases %d"
-                          }), i),
-                    (function (param) {
-                      return {
-                        TAG: /* Eq */ 0,
-                        _0: a,
-                        _1: b
-                      };
-                    })
-                  ];
-                }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                      return [
-                        Curry._1(Stdlib__Format.asprintf({
-                                TAG: /* Format */ 0,
-                                _0: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: "shift_right_cases ",
-                                  _1: {
-                                    TAG: /* Int */ 4,
-                                    _0: /* Int_d */ 0,
-                                    _1: /* No_padding */ 0,
-                                    _2: /* No_precision */ 0,
-                                    _3: /* End_of_format */ 0
-                                  }
-                                },
-                                _1: "shift_right_cases %d"
-                              }), i),
-                        (function (param) {
-                          return {
-                            TAG: /* Eq */ 0,
-                            _0: a,
-                            _1: b
-                          };
-                        })
-                      ];
-                    }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                      return [
-                        Curry._1(Stdlib__Format.asprintf({
-                                TAG: /* Format */ 0,
-                                _0: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: "shift_right_logical_cases ",
-                                  _1: {
-                                    TAG: /* Int */ 4,
-                                    _0: /* Int_d */ 0,
-                                    _1: /* No_padding */ 0,
-                                    _2: /* No_precision */ 0,
-                                    _3: /* End_of_format */ 0
-                                  }
-                                },
-                                _1: "shift_right_logical_cases %d"
-                              }), i),
-                        (function (param) {
-                          return {
-                            TAG: /* Eq */ 0,
-                            _0: a,
-                            _1: b
-                          };
-                        })
-                      ];
-                    }), shift_right_logical_suites_0, shift_right_logical_suites_1)))));
+    }
+  }
+}, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+  return [
+    Curry._1(Stdlib__Format.asprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "shift_left_cases ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: /* End_of_format */ 0
+        }
+      },
+      _1: "shift_left_cases %d"
+    }), i),
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: a,
+        _1: b
+      };
+    })
+  ];
+}), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+  return [
+    Curry._1(Stdlib__Format.asprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "shift_right_cases ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: /* End_of_format */ 0
+        }
+      },
+      _1: "shift_right_cases %d"
+    }), i),
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: a,
+        _1: b
+      };
+    })
+  ];
+}), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+  return [
+    Curry._1(Stdlib__Format.asprintf({
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* String_literal */ 11,
+        _0: "shift_right_logical_cases ",
+        _1: {
+          TAG: /* Int */ 4,
+          _0: /* Int_d */ 0,
+          _1: /* No_padding */ 0,
+          _2: /* No_precision */ 0,
+          _3: /* End_of_format */ 0
+        }
+      },
+      _1: "shift_right_logical_cases %d"
+    }), i),
+    (function (param) {
+      return {
+        TAG: /* Eq */ 0,
+        _0: a,
+        _1: b
+      };
+    })
+  ];
+}), shift_right_logical_suites_0, shift_right_logical_suites_1)))));
 
 const suites$1 = {
   contents: suites
@@ -2205,84 +2205,84 @@ function id(loc, x) {
 }
 
 eq("File \"jscomp/test/int64_test.ml\", line 202, characters 5-12", Caml_int64.bits_of_float(0.3), [
-      1070805811,
-      858993459
-    ]);
+  1070805811,
+  858993459
+]);
 
 eq("File \"jscomp/test/int64_test.ml\", line 203, characters 5-12", Caml_int64.float_of_bits([
-          1070805811,
-          858993459
-        ]), 0.3);
+  1070805811,
+  858993459
+]), 0.3);
 
 id("File \"jscomp/test/int64_test.ml\", line 204, characters 5-12", Caml_int64.neg_one);
 
 id("File \"jscomp/test/int64_test.ml\", line 205, characters 5-12", [
-      -1,
-      4294967196
-    ]);
+  -1,
+  4294967196
+]);
 
 id("File \"jscomp/test/int64_test.ml\", line 206, characters 5-12", [
-      0,
-      4294967295
-    ]);
+  0,
+  4294967295
+]);
 
 id("File \"jscomp/test/int64_test.ml\", line 207, characters 5-12", [
-      0,
-      536870911
-    ]);
+  0,
+  536870911
+]);
 
 id("File \"jscomp/test/int64_test.ml\", line 208, characters 5-12", [
-      0,
-      536870655
-    ]);
+  0,
+  536870655
+]);
 
 eq("File \"jscomp/test/int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Stdlib__Int64.min_int, [
-          0,
-          10
-        ]), [
-      -214748365,
-      858993460
-    ]);
+  0,
+  10
+]), [
+  -214748365,
+  858993460
+]);
 
 eq("File \"jscomp/test/int64_test.ml\", line 210, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.div(Stdlib__Int64.min_int, [
-              0,
-              10
-            ])), "-922337203685477580");
+  0,
+  10
+])), "-922337203685477580");
 
 eq("File \"jscomp/test/int64_test.ml\", line 211, characters 5-12", Caml_int64.mul(Stdlib__Int64.min_int, [
-          0,
-          10
-        ]), Caml_int64.zero);
+  0,
+  10
+]), Caml_int64.zero);
 
 eq("File \"jscomp/test/int64_test.ml\", line 212, characters 5-12", Caml_int64.mul([
-          0,
-          10
-        ], Stdlib__Int64.min_int), Caml_int64.zero);
+  0,
+  10
+], Stdlib__Int64.min_int), Caml_int64.zero);
 
 eq("File \"jscomp/test/int64_test.ml\", line 213, characters 5-12", Caml_int64.mul(Caml_int64.one, Stdlib__Int64.min_int), Stdlib__Int64.min_int);
 
 eq("File \"jscomp/test/int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Stdlib__Int64.max_int, [
-          0,
-          10
-        ]), [
-      -1,
-      4294967286
-    ]);
+  0,
+  10
+]), [
+  -1,
+  4294967286
+]);
 
 eq("File \"jscomp/test/int64_test.ml\", line 215, characters 5-12", Caml_int64.add(Stdlib__Int64.max_int, Caml_int64.one), Stdlib__Int64.min_int);
 
 eq("File \"jscomp/test/int64_test.ml\", line 216, characters 5-12", Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one), [
-      -2147483648,
-      1
-    ]);
+  -2147483648,
+  1
+]);
 
 eq("File \"jscomp/test/int64_test.ml\", line 217, characters 5-12", [
-      1,
-      0
-    ], [
-      1,
-      0
-    ]);
+  1,
+  0
+], [
+  1,
+  0
+]);
 
 Mt.from_pair_suites("Int64_test", suites$1.contents);
 

@@ -63,14 +63,14 @@ function inOrder3(v) {
     current = v$1.left;
   };
   Belt__Belt_MutableStack.dynamicPopIter(s, (function (popped) {
-        Belt__Belt_MutableQueue.add(q, popped.value);
-        let current = popped.right;
-        while (current !== undefined) {
-          const v = current;
-          Belt__Belt_MutableStack.push(s, v);
-          current = v.left;
-        };
-      }));
+    Belt__Belt_MutableQueue.add(q, popped.value);
+    let current = popped.right;
+    while (current !== undefined) {
+      const v = current;
+      Belt__Belt_MutableStack.push(s, v);
+      current = v.left;
+    };
+  }));
   return Belt__Belt_MutableQueue.toArray(q);
 }
 
@@ -125,20 +125,20 @@ const test2 = n(n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), 
 const test3 = n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), n(undefined, undefined, 3), 1);
 
 eq("File \"jscomp/test/bs_stack_test.ml\", line 137, characters 6-13", inOrder(test1), [
-      4,
-      2,
-      5,
-      1,
-      3
-    ]);
+  4,
+  2,
+  5,
+  1,
+  3
+]);
 
 eq("File \"jscomp/test/bs_stack_test.ml\", line 140, characters 6-13", inOrder3(test1), [
-      4,
-      2,
-      5,
-      1,
-      3
-    ]);
+  4,
+  2,
+  5,
+  1,
+  3
+]);
 
 Mt.from_pair_suites("jscomp/test/bs_stack_test.ml", suites.contents);
 

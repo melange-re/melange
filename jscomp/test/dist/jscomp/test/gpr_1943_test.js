@@ -41,24 +41,24 @@ function f(x) {
 }
 
 const v = f({
-      "003": 0,
-      "50": 1,
-      "50x": 2,
-      __50: 3,
-      __50x: 4,
-      "50x'": 5,
-      "x'": 6
-    });
+  "003": 0,
+  "50": 1,
+  "50x": 2,
+  __50: 3,
+  __50x: 4,
+  "50x'": 5,
+  "x'": 6
+});
 
 eq("File \"jscomp/test/gpr_1943_test.ml\", line 30, characters 6-13", [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ], v);
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+], v);
 
 Mt.from_pair_suites("Gpr_1943_test", suites.contents);
 

@@ -5,8 +5,8 @@ const Stdlib__String = require("melange/string.js");
 
 function v(u) {
   t({
-        compare: Stdlib__String.compare
-      });
+    compare: Stdlib__String.compare
+  });
 }
 
 function u(v) {

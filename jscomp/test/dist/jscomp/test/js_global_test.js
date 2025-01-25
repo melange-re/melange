@@ -7,8 +7,8 @@ const suites_0 = [
   "setTimeout/clearTimeout sanity check",
   (function (param) {
     const handle = setTimeout((function (param) {
-          
-        }), 0);
+      
+    }), 0);
     clearTimeout(handle);
     return {
       TAG: /* Ok */ 4,
@@ -22,8 +22,8 @@ const suites_1 = {
     "setInerval/clearInterval sanity check",
     (function (param) {
       const handle = setInterval((function (param) {
-            
-          }), 0);
+        
+      }), 0);
       clearInterval(handle);
       return {
         TAG: /* Ok */ 4,

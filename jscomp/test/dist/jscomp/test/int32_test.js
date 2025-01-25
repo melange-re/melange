@@ -19,8 +19,8 @@ function f(x) {
 }
 
 const shift_right_logical_tests_0 = Stdlib__Array.map((function (x) {
-      return (-1 >>> x) | 0;
-    }), Ext_array_test.range(0, 31));
+  return (-1 >>> x) | 0;
+}), Ext_array_test.range(0, 31));
 
 const shift_right_logical_tests_1 = [
   -1,
@@ -63,8 +63,8 @@ const shift_right_logical_tests = [
 ];
 
 const shift_right_tests_0 = Stdlib__Array.map((function (x) {
-      return (Stdlib__Int32.min_int >> x);
-    }), Ext_array_test.range(0, 31));
+  return (Stdlib__Int32.min_int >> x);
+}), Ext_array_test.range(0, 31));
 
 const shift_right_tests_1 = [
   -2147483648,
@@ -107,8 +107,8 @@ const shift_right_tests = [
 ];
 
 const shift_left_tests_0 = Stdlib__Array.map((function (x) {
-      return (1 << x);
-    }), Ext_array_test.range(0, 31));
+  return (1 << x);
+}), Ext_array_test.range(0, 31));
 
 const shift_left_tests_1 = [
   1,
@@ -156,105 +156,105 @@ function $star$tilde(prim0, prim1) {
 
 const suites = {
   contents: Stdlib.$at({
-        hd: [
-          "File \"jscomp/test/int32_test.ml\", line 31, characters 2-9",
-          (function (param) {
-            return {
-              TAG: /* Eq */ 0,
-              _0: 1,
-              _1: 1
-            };
-          })
-        ],
-        tl: {
-          hd: [
-            "File \"jscomp/test/int32_test.ml\", line 32, characters 2-9",
-            (function (param) {
-              return {
-                TAG: /* Eq */ 0,
-                _0: -2147483647,
-                _1: -2147483647
-              };
-            })
-          ],
-          tl: /* [] */ 0
-        }
-      }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                    return [
-                      Curry._1(Stdlib__Format.asprintf({
-                              TAG: /* Format */ 0,
-                              _0: {
-                                TAG: /* String_literal */ 11,
-                                _0: "shift_right_logical_cases ",
-                                _1: {
-                                  TAG: /* Int */ 4,
-                                  _0: /* Int_d */ 0,
-                                  _1: /* No_padding */ 0,
-                                  _2: /* No_precision */ 0,
-                                  _3: /* End_of_format */ 0
-                                }
-                              },
-                              _1: "shift_right_logical_cases %d"
-                            }), i),
-                      (function (param) {
-                        return {
-                          TAG: /* Eq */ 0,
-                          _0: a,
-                          _1: b
-                        };
-                      })
-                    ];
-                  }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                        return [
-                          Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */ 0,
-                                  _0: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: "shift_right_cases ",
-                                    _1: {
-                                      TAG: /* Int */ 4,
-                                      _0: /* Int_d */ 0,
-                                      _1: /* No_padding */ 0,
-                                      _2: /* No_precision */ 0,
-                                      _3: /* End_of_format */ 0
-                                    }
-                                  },
-                                  _1: "shift_right_cases %d"
-                                }), i),
-                          (function (param) {
-                            return {
-                              TAG: /* Eq */ 0,
-                              _0: a,
-                              _1: b
-                            };
-                          })
-                        ];
-                      }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
-                        return [
-                          Curry._1(Stdlib__Format.asprintf({
-                                  TAG: /* Format */ 0,
-                                  _0: {
-                                    TAG: /* String_literal */ 11,
-                                    _0: "shift_left_cases ",
-                                    _1: {
-                                      TAG: /* Int */ 4,
-                                      _0: /* Int_d */ 0,
-                                      _1: /* No_padding */ 0,
-                                      _2: /* No_precision */ 0,
-                                      _3: /* End_of_format */ 0
-                                    }
-                                  },
-                                  _1: "shift_left_cases %d"
-                                }), i),
-                          (function (param) {
-                            return {
-                              TAG: /* Eq */ 0,
-                              _0: a,
-                              _1: b
-                            };
-                          })
-                        ];
-                      }), shift_left_tests_0, shift_left_tests_1)))))
+    hd: [
+      "File \"jscomp/test/int32_test.ml\", line 31, characters 2-9",
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: 1,
+          _1: 1
+        };
+      })
+    ],
+    tl: {
+      hd: [
+        "File \"jscomp/test/int32_test.ml\", line 32, characters 2-9",
+        (function (param) {
+          return {
+            TAG: /* Eq */ 0,
+            _0: -2147483647,
+            _1: -2147483647
+          };
+        })
+      ],
+      tl: /* [] */ 0
+    }
+  }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    return [
+      Curry._1(Stdlib__Format.asprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "shift_right_logical_cases ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_d */ 0,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
+          }
+        },
+        _1: "shift_right_logical_cases %d"
+      }), i),
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: a,
+          _1: b
+        };
+      })
+    ];
+  }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    return [
+      Curry._1(Stdlib__Format.asprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "shift_right_cases ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_d */ 0,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
+          }
+        },
+        _1: "shift_right_cases %d"
+      }), i),
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: a,
+          _1: b
+        };
+      })
+    ];
+  }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    return [
+      Curry._1(Stdlib__Format.asprintf({
+        TAG: /* Format */ 0,
+        _0: {
+          TAG: /* String_literal */ 11,
+          _0: "shift_left_cases ",
+          _1: {
+            TAG: /* Int */ 4,
+            _0: /* Int_d */ 0,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: /* End_of_format */ 0
+          }
+        },
+        _1: "shift_left_cases %d"
+      }), i),
+      (function (param) {
+        return {
+          TAG: /* Eq */ 0,
+          _0: a,
+          _1: b
+        };
+      })
+    ];
+  }), shift_left_tests_0, shift_left_tests_1)))))
 };
 
 const test_id = {

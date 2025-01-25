@@ -39,15 +39,15 @@ function f(x) {
 const h = f(/* [] */ 0);
 
 const a = Curry._1(h.length, {
-    hd: 1,
+  hd: 1,
+  tl: {
+    hd: 2,
     tl: {
-      hd: 2,
-      tl: {
-        hd: 3,
-        tl: /* [] */ 0
-      }
+      hd: 3,
+      tl: /* [] */ 0
     }
-  });
+  }
+});
 
 eq("File \"jscomp/test/module_alias_test.ml\", line 30, characters 6-13", a, 3);
 

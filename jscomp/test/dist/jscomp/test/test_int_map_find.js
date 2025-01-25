@@ -139,30 +139,30 @@ function add(x, data, m) {
 }
 
 Stdlib__List.fold_left((function (acc, param) {
-      return Curry._3(add, param[0], param[1], acc);
-    }), /* Empty */ 0, {
+  return Curry._3(add, param[0], param[1], acc);
+}), /* Empty */ 0, {
+  hd: [
+    10,
+    /* 'a' */97
+  ],
+  tl: {
+    hd: [
+      3,
+      /* 'b' */98
+    ],
+    tl: {
       hd: [
-        10,
-        /* 'a' */97
+        7,
+        /* 'c' */99
       ],
       tl: {
         hd: [
-          3,
-          /* 'b' */98
+          20,
+          /* 'd' */100
         ],
-        tl: {
-          hd: [
-            7,
-            /* 'c' */99
-          ],
-          tl: {
-            hd: [
-              20,
-              /* 'd' */100
-            ],
-            tl: /* [] */ 0
-          }
-        }
+        tl: /* [] */ 0
       }
-    });
+    }
+  }
+});
 /* IntMap Not a pure module */

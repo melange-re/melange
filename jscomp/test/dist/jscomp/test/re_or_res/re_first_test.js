@@ -17,15 +17,15 @@ function eq(loc, x, y) {
 }
 
 const x = Stdlib__List.length({
-      hd: 1,
-      tl: {
-        hd: 2,
-        tl: {
-          hd: 3,
-          tl: /* [] */ 0
-        }
-      }
-    });
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: {
+      hd: 3,
+      tl: /* [] */ 0
+    }
+  }
+});
 
 const _map = {"idb":"idb","leveldb":"leveldb","http":"http"};
 

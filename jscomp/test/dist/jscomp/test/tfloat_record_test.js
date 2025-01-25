@@ -16,26 +16,26 @@ const fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
   Curry._1(Stdlib__Format.fprintf(fmt)({
-          TAG: /* Format */ 0,
-          _0: {
-            TAG: /* String */ 2,
-            _0: /* No_padding */ 0,
-            _1: /* End_of_format */ 0
-          },
-          _1: "%s"
-        }), Stdlib.string_of_float(f));
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* String */ 2,
+      _0: /* No_padding */ 0,
+      _1: /* End_of_format */ 0
+    },
+    _1: "%s"
+  }), Stdlib.string_of_float(f));
 }
 
 function print_newline(param) {
   Stdlib__Format.fprintf(fmt)({
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* Char_literal */ 12,
-          _0: /* '\n' */10,
-          _1: /* End_of_format */ 0
-        },
-        _1: "\n"
-      });
+    TAG: /* Format */ 0,
+    _0: {
+      TAG: /* Char_literal */ 12,
+      _0: /* '\n' */10,
+      _1: /* End_of_format */ 0
+    },
+    _1: "\n"
+  });
 }
 
 const s = {
@@ -52,9 +52,9 @@ const c = Float_array.longer_float_array(34);
 
 function print_array(a) {
   Stdlib__Array.iter((function (f) {
-        print_float(f);
-        print_newline(undefined);
-      }), a);
+    print_float(f);
+    print_newline(undefined);
+  }), a);
   print_newline(undefined);
 }
 

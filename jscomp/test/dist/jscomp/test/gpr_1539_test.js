@@ -4,28 +4,28 @@
 const Caml_module = require("melange.js/caml_module.js");
 
 const Point = Caml_module.init_mod([
-      "jscomp/test/gpr_1539_test.ml",
-      10,
-      6
-    ], {
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "add"
-        ]]
-    });
+  "jscomp/test/gpr_1539_test.ml",
+  10,
+  6
+], {
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "add"
+    ]]
+});
 
 Caml_module.update_mod({
-      TAG: /* Module */ 0,
-      _0: [[
-          /* Function */ 0,
-          "add"
-        ]]
-    }, Point, {
-      add: (function (prim0, prim1) {
-        return prim0.add(prim1);
-      })
-    });
+  TAG: /* Module */ 0,
+  _0: [[
+      /* Function */ 0,
+      "add"
+    ]]
+}, Point, {
+  add: (function (prim0, prim1) {
+    return prim0.add(prim1);
+  })
+});
 
 let CRS;
 

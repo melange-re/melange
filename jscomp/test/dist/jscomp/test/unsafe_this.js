@@ -7,10 +7,10 @@ const u = {
   y: 32,
   bark: (function ($$this, x, y) {
     console.log([
-          $$this.length,
-          $$this.x,
-          $$this.y
-        ]);
+      $$this.length,
+      $$this.x,
+      $$this.y
+    ]);
   }),
   length: 32
 };
@@ -28,12 +28,12 @@ const js_obj = {
   bark: (function (x, y) {
     let o = this;
     console.log([
-          o.length,
-          o.x,
-          o.y,
-          x,
-          y
-        ]);
+      o.length,
+      o.x,
+      o.y,
+      x,
+      y
+    ]);
     return x + y | 0;
   }),
   length: 32

@@ -17,19 +17,19 @@ x.tl = x;
 let x0 = {};
 
 Caml_obj.update_dummy(x0, {
-      NAME: "Cons",
-      VAL: [
-        1,
-        x0
-      ]
-    });
+  NAME: "Cons",
+  VAL: [
+    1,
+    x0
+  ]
+});
 
 let y0 = {};
 
 Caml_obj.update_dummy(y0, {
-      NAME: "Cons",
-      VAL: y0
-    });
+  NAME: "Cons",
+  VAL: y0
+});
 
 let a = {};
 
@@ -38,19 +38,19 @@ let b = {};
 let c = {};
 
 Caml_obj.update_dummy(a, {
-      hd: 2,
-      tl: b
-    });
+  hd: 2,
+  tl: b
+});
 
 Caml_obj.update_dummy(b, {
-      hd: 3,
-      tl: c
-    });
+  hd: 3,
+  tl: c
+});
 
 Caml_obj.update_dummy(c, {
-      hd: 3,
-      tl: a
-    });
+  hd: 3,
+  tl: a
+});
 
 let xx = {};
 
@@ -294,10 +294,10 @@ function ptl(l) {
 let y00 = {};
 
 Caml_obj.update_dummy(y00, {
-      TAG: /* C1 */ 1,
-      hd: 1,
-      tail: y00
-    });
+  TAG: /* C1 */ 1,
+  hd: 1,
+  tail: y00
+});
 
 function xhd(h) {
   return h.hd;
@@ -571,9 +571,9 @@ const fake_inline_inlie2 = fake_inline_minus(3);
 let u = [];
 
 Caml_obj.update_dummy(u, [
-      1,
-      u
-    ]);
+  1,
+  u
+]);
 
 Mt.from_pair_suites("Rec_value_test", suites);
 

@@ -68,9 +68,9 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 2), q)), [
-        1,
-        2
-      ]) && q.length === 2)) {
+    1,
+    2
+  ]) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -82,10 +82,10 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 3), q)), [
-        1,
-        2,
-        3
-      ]) && q.length === 3)) {
+    1,
+    2,
+    3
+  ]) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -97,11 +97,11 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 4), q)), [
-        1,
-        2,
-        3,
-        4
-      ]) && q.length === 4)) {
+    1,
+    2,
+    3,
+    4
+  ]) && q.length === 4)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -124,10 +124,10 @@ if (Belt__Belt_MutableQueue.popExn(q) !== 1) {
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
-        2,
-        3,
-        4
-      ]) && q.length === 3)) {
+    2,
+    3,
+    4
+  ]) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -150,9 +150,9 @@ if (Belt__Belt_MutableQueue.popExn(q) !== 2) {
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
-        3,
-        4
-      ]) && q.length === 2)) {
+    3,
+    4
+  ]) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -441,10 +441,10 @@ if (!does_raise(Belt__Belt_MutableQueue.popExn, q$3)) {
 }
 
 if (!Caml_obj.caml_equal(q$3, {
-        length: 0,
-        first: undefined,
-        last: undefined
-      })) {
+    length: 0,
+    first: undefined,
+    last: undefined
+  })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -481,17 +481,17 @@ for (let i$1 = 1; i$1 <= 10; ++i$1) {
 const q2 = Belt__Belt_MutableQueue.copy(q1);
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1), [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ])) {
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -503,17 +503,17 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1), [
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2), [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ])) {
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -677,18 +677,18 @@ const i$7 = {
 };
 
 Belt__Belt_MutableQueue.forEach(q$5, (function (j) {
-      if (i$7.contents !== j) {
-        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/test/bs_queue_test.ml",
-                100,
-                24
-              ]
-            });
-      }
-      i$7.contents = i$7.contents + 1 | 0;
-    }));
+  if (i$7.contents !== j) {
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/bs_queue_test.ml",
+            100,
+            24
+          ]
+        });
+  }
+  i$7.contents = i$7.contents + 1 | 0;
+}));
 
 const q1$1 = {
   length: 0,
@@ -820,11 +820,11 @@ if (q1$2.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$2), [
-        1,
-        2,
-        3,
-        4
-      ])) {
+    1,
+    2,
+    3,
+    4
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -893,11 +893,11 @@ if (q2$2.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$2), [
-        1,
-        2,
-        3,
-        4
-      ])) {
+    1,
+    2,
+    3,
+    4
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -958,11 +958,11 @@ if (q2$3.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
-        5,
-        6,
-        7,
-        8
-      ])) {
+    5,
+    6,
+    7,
+    8
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1009,11 +1009,11 @@ if (q2$3.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
-        5,
-        6,
-        7,
-        8
-      ])) {
+    5,
+    6,
+    7,
+    8
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1056,11 +1056,11 @@ if (q1$4.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$4), [
-        1,
-        2,
-        3,
-        4
-      ])) {
+    1,
+    2,
+    3,
+    4
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1083,11 +1083,11 @@ if (q2$4.length !== 4) {
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$4), [
-        5,
-        6,
-        7,
-        8
-      ])) {
+    5,
+    6,
+    7,
+    8
+  ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1156,10 +1156,10 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$4), v)) {
 }
 
 if (Belt__Belt_MutableQueue.reduce(q2$4, 0, (function (x, y) {
-        return x - y | 0;
-      })) !== Belt__Belt_Array.reduce(v, 0, (function (x, y) {
-        return x - y | 0;
-      }))) {
+    return x - y | 0;
+  })) !== Belt__Belt_Array.reduce(v, 0, (function (x, y) {
+    return x - y | 0;
+  }))) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -1173,30 +1173,30 @@ if (Belt__Belt_MutableQueue.reduce(q2$4, 0, (function (x, y) {
 console.log("OK");
 
 const q$6 = Belt__Belt_MutableQueue.fromArray([
-      1,
-      2,
-      3,
-      4
-    ]);
+  1,
+  2,
+  3,
+  4
+]);
 
 const q1$5 = Belt__Belt_MutableQueue.map(q$6, (function (x) {
-      return x - 1 | 0;
-    }));
+  return x - 1 | 0;
+}));
 
 eq("File \"jscomp/test/bs_queue_test.ml\", line 154, characters 5-12", Belt__Belt_MutableQueue.toArray(q1$5), [
-      0,
-      1,
-      2,
-      3
-    ]);
+  0,
+  1,
+  2,
+  3
+]);
 
 const q$7 = Belt__Belt_MutableQueue.fromArray([]);
 
 b("File \"jscomp/test/bs_queue_test.ml\", line 155, characters 4-11", q$7.length === 0);
 
 const q$8 = Belt__Belt_MutableQueue.map(Belt__Belt_MutableQueue.fromArray([]), (function (x) {
-      return x + 1 | 0;
-    }));
+  return x + 1 | 0;
+}));
 
 b("File \"jscomp/test/bs_queue_test.ml\", line 156, characters 4-11", q$8.length === 0);
 

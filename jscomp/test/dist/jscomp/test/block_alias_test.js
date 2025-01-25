@@ -53,18 +53,18 @@ const V = {
 const f = Caml_obj.caml_equal;
 
 eq("File \"jscomp/test/block_alias_test.ml\", line 32, characters 6-13", Stdlib__List.length({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: /* [] */ 0
-          }
-        }), 2);
+  hd: 1,
+  tl: {
+    hd: 2,
+    tl: /* [] */ 0
+  }
+}), 2);
 
 b("File \"jscomp/test/block_alias_test.ml\", line 33, characters 5-12", Caml_obj.caml_equal(v0, {
-          TAG: /* A */ 1,
-          _0: 0,
-          _1: 1
-        }));
+  TAG: /* A */ 1,
+  _0: 0,
+  _1: 1
+}));
 
 eq("File \"jscomp/test/block_alias_test.ml\", line 34, characters 6-13", v0, v1);
 

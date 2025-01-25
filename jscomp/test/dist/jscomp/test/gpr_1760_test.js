@@ -91,20 +91,20 @@ catch (exn$5){
 }
 
 eq("File \"jscomp/test/gpr_1760_test.ml\", line 30, characters 5-12", [
-      a0,
-      a1,
-      a4,
-      a5,
-      a6,
-      a7
-    ], [
-      1,
-      1,
-      1,
-      1,
-      1,
-      1
-    ]);
+  a0,
+  a1,
+  a4,
+  a5,
+  a6,
+  a7
+], [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+]);
 
 Mt.from_pair_suites("Gpr_1760_test", suites.contents);
 

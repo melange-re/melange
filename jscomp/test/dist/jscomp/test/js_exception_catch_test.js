@@ -30,30 +30,30 @@ function add_test(loc, test) {
 
 function eq(loc, x, y) {
   add_test(loc, (function (param) {
-        return {
-          TAG: /* Eq */ 0,
-          _0: x,
-          _1: y
-        };
-      }));
+    return {
+      TAG: /* Eq */ 0,
+      _0: x,
+      _1: y
+    };
+  }));
 }
 
 function false_(loc) {
   add_test(loc, (function (param) {
-        return {
-          TAG: /* Ok */ 4,
-          _0: false
-        };
-      }));
+    return {
+      TAG: /* Ok */ 4,
+      _0: false
+    };
+  }));
 }
 
 function true_(loc) {
   add_test(loc, (function (param) {
-        return {
-          TAG: /* Ok */ 4,
-          _0: true
-        };
-      }));
+    return {
+      TAG: /* Ok */ 4,
+      _0: true
+    };
+  }));
 }
 
 let exit = 0;
@@ -68,11 +68,11 @@ catch (raw_x){
   const x = Caml_js_exceptions.internalToOCamlException(raw_x);
   if (x.MEL_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
-          return {
-            TAG: /* Ok */ 4,
-            _0: true
-          };
-        }));
+      return {
+        TAG: /* Ok */ 4,
+        _0: true
+      };
+    }));
   } else {
     throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
   }
@@ -80,11 +80,11 @@ catch (raw_x){
 
 if (exit === 1) {
   add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 22, characters 16-23", (function (param) {
-        return {
-          TAG: /* Ok */ 4,
-          _0: false
-        };
-      }));
+    return {
+      TAG: /* Ok */ 4,
+      _0: false
+    };
+  }));
 }
 
 const A = /* @__PURE__ */ Caml_exceptions.create("Js_exception_catch_test.A");
@@ -131,75 +131,75 @@ function test(f) {
 }
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 43, characters 5-12", test(function (param) {
-          
-        }), "No_error");
+  
+}), "No_error");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 44, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                MEL_EXN_ID: Stdlib.Not_found
-              });
-        }), "Not_found");
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+        MEL_EXN_ID: Stdlib.Not_found
+      });
+}), "Not_found");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: "x"
-              });
-        }), "Invalid_argument");
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "x"
+      });
+}), "Invalid_argument");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-                MEL_EXN_ID: "Invalid_argument",
-                _1: ""
-              });
-        }), "Invalid_any");
+  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+        MEL_EXN_ID: "Invalid_argument",
+        _1: ""
+      });
+}), "Invalid_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(A, {
-                MEL_EXN_ID: A,
-                _1: 2
-              });
-        }), "A2");
+  throw new Caml_js_exceptions.MelangeError(A, {
+        MEL_EXN_ID: A,
+        _1: 2
+      });
+}), "A2");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 48, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(A, {
-                MEL_EXN_ID: A,
-                _1: 3
-              });
-        }), "A_any");
+  throw new Caml_js_exceptions.MelangeError(A, {
+        MEL_EXN_ID: A,
+        _1: 3
+      });
+}), "A_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 49, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(B, {
-                MEL_EXN_ID: B
-              });
-        }), "B");
+  throw new Caml_js_exceptions.MelangeError(B, {
+        MEL_EXN_ID: B
+      });
+}), "B");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 50, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(C, {
-                MEL_EXN_ID: C,
-                _1: 1,
-                _2: 2
-              });
-        }), "C");
+  throw new Caml_js_exceptions.MelangeError(C, {
+        MEL_EXN_ID: C,
+        _1: 1,
+        _2: 2
+      });
+}), "C");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 51, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(C, {
-                MEL_EXN_ID: C,
-                _1: 0,
-                _2: 2
-              });
-        }), "C_any");
+  throw new Caml_js_exceptions.MelangeError(C, {
+        MEL_EXN_ID: C,
+        _1: 0,
+        _2: 2
+      });
+}), "C_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 52, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
-        }), "Js_error");
+  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
+}), "Js_error");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
-          throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "x"
-              });
-        }), "Any");
+  throw new Caml_js_exceptions.MelangeError("Failure", {
+        MEL_EXN_ID: "Failure",
+        _1: "x"
+      });
+}), "Any");
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);
 

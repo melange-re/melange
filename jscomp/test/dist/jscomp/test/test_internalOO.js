@@ -1018,14 +1018,14 @@ function bindings(s) {
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), /* Empty */ 0, bs);
+    return add(param[0], param[1], m);
+  }), /* Empty */ 0, bs);
 }
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), m, i);
+    return add(param[0], param[1], m);
+  }), m, i);
 }
 
 function of_seq(i) {
@@ -2162,14 +2162,14 @@ function bindings$1(s) {
 
 function of_list$1(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-        return add$1(param[0], param[1], m);
-      }), /* Empty */ 0, bs);
+    return add$1(param[0], param[1], m);
+  }), /* Empty */ 0, bs);
 }
 
 function add_seq$1(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-        return add$1(param[0], param[1], m);
-      }), m, i);
+    return add$1(param[0], param[1], m);
+  }), m, i);
 }
 
 function of_seq$1(i) {
@@ -3306,14 +3306,14 @@ function bindings$2(s) {
 
 function of_list$2(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-        return add$2(param[0], param[1], m);
-      }), /* Empty */ 0, bs);
+    return add$2(param[0], param[1], m);
+  }), /* Empty */ 0, bs);
 }
 
 function add_seq$2(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-        return add$2(param[0], param[1], m);
-      }), m, i);
+    return add$2(param[0], param[1], m);
+  }), m, i);
 }
 
 function of_seq$2(i) {
@@ -3566,8 +3566,8 @@ function get_method_label(table, name) {
 
 function get_method_labels(table, names) {
   return Stdlib__Array.map((function (param) {
-        return get_method_label(table, param);
-      }), names);
+    return get_method_label(table, param);
+  }), names);
 }
 
 function set_method(table, label, element) {
@@ -3612,11 +3612,11 @@ function narrow(table, vars, virt_meths, concr_meths) {
   const virt_meths$1 = to_list(virt_meths);
   const concr_meths$1 = to_list(concr_meths);
   const virt_meth_labs = Stdlib__List.map((function (param) {
-        return get_method_label(table, param);
-      }), virt_meths$1);
+    return get_method_label(table, param);
+  }), virt_meths$1);
   const concr_meth_labs = Stdlib__List.map((function (param) {
-        return get_method_label(table, param);
-      }), concr_meths$1);
+    return get_method_label(table, param);
+  }), concr_meths$1);
   table.previous_states = {
     hd: [
       table.methods_by_name,
@@ -3629,12 +3629,12 @@ function narrow(table, vars, virt_meths, concr_meths) {
     tl: table.previous_states
   };
   table.vars = Curry._3(fold, (function (lab, info, tvars) {
-      if (Stdlib__List.mem(lab, vars$1)) {
-        return Curry._3(add, lab, info, tvars);
-      } else {
-        return tvars;
-      }
-    }), table.vars, /* Empty */ 0);
+    if (Stdlib__List.mem(lab, vars$1)) {
+      return Curry._3(add, lab, info, tvars);
+    } else {
+      return tvars;
+    }
+  }), table.vars, /* Empty */ 0);
   const by_name = {
     contents: /* Empty */ 0
   };
@@ -3642,37 +3642,37 @@ function narrow(table, vars, virt_meths, concr_meths) {
     contents: /* Empty */ 0
   };
   Stdlib__List.iter2((function (met, label) {
-        by_name.contents = Curry._3(add$1, met, label, by_name.contents);
-        let tmp;
-        try {
-          tmp = Curry._2(find$2, label, table.methods_by_label);
-        }
-        catch (raw_exn){
-          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            tmp = true;
-          } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-          }
-        }
-        by_label.contents = Curry._3(add$2, label, tmp, by_label.contents);
-      }), concr_meths$1, concr_meth_labs);
+    by_name.contents = Curry._3(add$1, met, label, by_name.contents);
+    let tmp;
+    try {
+      tmp = Curry._2(find$2, label, table.methods_by_label);
+    }
+    catch (raw_exn){
+      const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+        tmp = true;
+      } else {
+        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      }
+    }
+    by_label.contents = Curry._3(add$2, label, tmp, by_label.contents);
+  }), concr_meths$1, concr_meth_labs);
   Stdlib__List.iter2((function (met, label) {
-        by_name.contents = Curry._3(add$1, met, label, by_name.contents);
-        by_label.contents = Curry._3(add$2, label, false, by_label.contents);
-      }), virt_meths$1, virt_meth_labs);
+    by_name.contents = Curry._3(add$1, met, label, by_name.contents);
+    by_label.contents = Curry._3(add$2, label, false, by_label.contents);
+  }), virt_meths$1, virt_meth_labs);
   table.methods_by_name = by_name.contents;
   table.methods_by_label = by_label.contents;
   table.hidden_meths = Stdlib__List.fold_right((function (met, hm) {
-        if (Stdlib__List.mem(met[0], virt_meth_labs)) {
-          return hm;
-        } else {
-          return {
-            hd: met,
-            tl: hm
-          };
-        }
-      }), table.hidden_meths, /* [] */ 0);
+    if (Stdlib__List.mem(met[0], virt_meth_labs)) {
+      return hm;
+    } else {
+      return {
+        hd: met,
+        tl: hm
+      };
+    }
+  }), table.hidden_meths, /* [] */ 0);
 }
 
 function widen(table) {
@@ -3680,20 +3680,20 @@ function widen(table) {
   const virt_meths = match[4];
   table.previous_states = Stdlib__List.tl(table.previous_states);
   table.vars = Stdlib__List.fold_left((function (s, v) {
-        return Curry._3(add, v, Curry._2(find, v, table.vars), s);
-      }), match[3], match[5]);
+    return Curry._3(add, v, Curry._2(find, v, table.vars), s);
+  }), match[3], match[5]);
   table.methods_by_name = match[0];
   table.methods_by_label = match[1];
   table.hidden_meths = Stdlib__List.fold_right((function (met, hm) {
-        if (Stdlib__List.mem(met[0], virt_meths)) {
-          return hm;
-        } else {
-          return {
-            hd: met,
-            tl: hm
-          };
-        }
-      }), table.hidden_meths, match[2]);
+    if (Stdlib__List.mem(met[0], virt_meths)) {
+      return hm;
+    } else {
+      return {
+        hd: met,
+        tl: hm
+      };
+    }
+  }), table.hidden_meths, match[2]);
 }
 
 function new_slot(table) {
@@ -3763,8 +3763,8 @@ function get_variable(table, name) {
 
 function get_variables(table, names) {
   return Stdlib__Array.map((function (param) {
-        return get_variable(table, param);
-      }), names);
+    return get_variable(table, param);
+  }), names);
 }
 
 function add_initializer(table, f) {
@@ -3781,10 +3781,10 @@ function create_table(public_methods) {
   const tags = Stdlib__Array.map(public_method_label, public_methods);
   const table = new_table(tags);
   Stdlib__Array.iteri((function (i, met) {
-        const lab = (i << 1) + 2 | 0;
-        table.methods_by_name = Curry._3(add$1, met, lab, table.methods_by_name);
-        table.methods_by_label = Curry._3(add$2, lab, true, table.methods_by_label);
-      }), public_methods);
+    const lab = (i << 1) + 2 | 0;
+    table.methods_by_name = Curry._3(add$1, met, lab, table.methods_by_name);
+    table.methods_by_label = Curry._3(add$2, lab, true, table.methods_by_label);
+  }), public_methods);
   return table;
 }
 
@@ -3800,19 +3800,19 @@ function inherits(cla, vals, virt_meths, concr_meths, param, top) {
   const init = top ? Curry._2($$super, cla, param[3]) : Curry._1($$super, cla);
   widen(cla);
   return Caml_array.concat({
-        hd: [init],
-        tl: {
-          hd: Stdlib__Array.map((function (param) {
-                return get_variable(cla, param);
-              }), to_array(vals)),
-          tl: {
-            hd: Stdlib__Array.map((function (nm) {
-                  return get_method(cla, get_method_label(cla, nm));
-                }), to_array(concr_meths)),
-            tl: /* [] */ 0
-          }
-        }
-      });
+    hd: [init],
+    tl: {
+      hd: Stdlib__Array.map((function (param) {
+        return get_variable(cla, param);
+      }), to_array(vals)),
+      tl: {
+        hd: Stdlib__Array.map((function (nm) {
+          return get_method(cla, get_method_label(cla, nm));
+        }), to_array(concr_meths)),
+        tl: /* [] */ 0
+      }
+    }
+  });
 }
 
 function make_class(pub_meths, class_init) {

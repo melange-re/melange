@@ -34,12 +34,12 @@ let a = {};
 let b = {};
 
 Caml_obj.update_dummy(a, {
-      b: b
-    });
+  b: b
+});
 
 Caml_obj.update_dummy(b, {
-      a: a
-    });
+  a: a
+});
 
 function is_inifite(x) {
   return x.b.a === x;

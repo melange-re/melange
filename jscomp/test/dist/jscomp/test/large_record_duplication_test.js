@@ -47,16 +47,16 @@ const h = {
 };
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 72, characters 6-13", f_small(h), {
-      MEL_EXN_ID: Small,
-      x: 2,
-      y: ""
-    });
+  MEL_EXN_ID: Small,
+  x: 2,
+  y: ""
+});
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6-13", Caml_obj.caml_equal(h, {
-          MEL_EXN_ID: Small,
-          x: 2,
-          y: ""
-        }), false);
+  MEL_EXN_ID: Small,
+  x: 2,
+  y: ""
+}), false);
 
 const v1 = {
   TAG: /* A0 */ 0,
@@ -199,8 +199,8 @@ eq("File \"jscomp/test/large_record_duplication_test.ml\", line 270, characters 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2({
-          MEL_EXN_ID: Stdlib.Not_found
-        }), undefined);
+  MEL_EXN_ID: Stdlib.Not_found
+}), undefined);
 
 Mt.from_pair_suites("Large_record_duplication_test", suites.contents);
 

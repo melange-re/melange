@@ -64,11 +64,11 @@ catch (raw_exn){
 eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 23, characters 5-12", "Z", tmp);
 
 console.log([
-      Caml_sys.caml_sys_getcwd(undefined),
-      Caml_sys.caml_sys_time(undefined),
-      Caml_sys.caml_sys_argv(0),
-      Stdlib__Sys.executable_name
-    ]);
+  Caml_sys.caml_sys_getcwd(undefined),
+  Caml_sys.caml_sys_time(undefined),
+  Caml_sys.caml_sys_argv(0),
+  Stdlib__Sys.executable_name
+]);
 
 Mt.from_pair_suites("Caml_sys_poly_fill_test", suites.contents);
 

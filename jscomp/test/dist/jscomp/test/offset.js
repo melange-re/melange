@@ -555,24 +555,24 @@ function subset(_s1, _s2) {
     }
     if (c < 0) {
       if (!subset({
-              TAG: /* Node */ 0,
-              l: l1,
-              v: v1,
-              r: /* Empty */ 0,
-              h: 0
-            }, l2)) {
+          TAG: /* Node */ 0,
+          l: l1,
+          v: v1,
+          r: /* Empty */ 0,
+          h: 0
+        }, l2)) {
         return false;
       }
       _s1 = r1;
       continue;
     }
     if (!subset({
-            TAG: /* Node */ 0,
-            l: /* Empty */ 0,
-            v: v1,
-            r: r1,
-            h: 0
-          }, r2)) {
+        TAG: /* Node */ 0,
+        l: /* Empty */ 0,
+        v: v1,
+        r: r1,
+        h: 0
+      }, r2)) {
       return false;
     }
     _s1 = l1;
@@ -1065,8 +1065,8 @@ function of_list(l) {
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (s, x) {
-        return add(x, s);
-      }), m, i);
+    return add(x, s);
+  }), m, i);
 }
 
 function of_seq(i) {

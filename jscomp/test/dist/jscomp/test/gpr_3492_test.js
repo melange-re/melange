@@ -24,9 +24,9 @@ function fn(param) {
 }
 
 eq("File \"jscomp/test/gpr_3492_test.ml\", line 14, characters 6-13", foo(function () {
-          console.log("hi");
-          return 1;
-        }), 1);
+  console.log("hi");
+  return 1;
+}), 1);
 
 Mt.from_pair_suites("jscomp/test/gpr_3492_test.ml", suites.contents);
 

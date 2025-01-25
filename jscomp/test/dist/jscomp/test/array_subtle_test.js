@@ -39,45 +39,45 @@ const v = [
 ];
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 12, characters 5-12", [
-      4,
-      v.length
-    ]);
+  4,
+  v.length
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 15, characters 5-12", [
-      5,
-      v.push(3)
-    ]);
+  5,
+  v.push(3)
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 16, characters 5-12", [
-      5,
-      v.length
-    ]);
+  5,
+  v.length
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 17, characters 5-12", [
-      5,
-      v.length
-    ]);
+  5,
+  v.length
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 21, characters 5-12", [
-      3,
-      Caml_array.get(v, 2)
-    ]);
+  3,
+  Caml_array.get(v, 2)
+]);
 
 Caml_array.set(v, 2, 4);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 23, characters 5-12", [
-      4,
-      Caml_array.get(v, 2)
-    ]);
+  4,
+  Caml_array.get(v, 2)
+]);
 
 while (v.length > 0) {
   v.pop();
 };
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 29, characters 5-12", [
-      0,
-      v.length
-    ]);
+  0,
+  v.length
+]);
 
 function f(v) {
   const x = v.pop();
@@ -114,19 +114,19 @@ function fff4(x) {
 }
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 51, characters 6-13", [
-      fff3([]),
-      1
-    ]);
+  fff3([]),
+  1
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 52, characters 6-13", [
-      fff4([]),
-      2
-    ]);
+  fff4([]),
+  2
+]);
 
 eq("File \"jscomp/test/array_subtle_test.ml\", line 53, characters 6-13", [
-      fff4([1]),
-      1
-    ]);
+  fff4([1]),
+  1
+]);
 
 Mt.from_pair_suites("Array_subtle_test", suites.contents);
 

@@ -31,12 +31,12 @@ function form_data_append_blob(param) {
   fd.append("b", blob, "foo.txt");
   const got_blob = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_blob.text().then(function (x) {
-        return Promise.resolve({
-              TAG: /* Eq */ 0,
-              _0: x,
-              _1: "hello"
-            });
-      });
+    return Promise.resolve({
+      TAG: /* Eq */ 0,
+      _0: x,
+      _1: "hello"
+    });
+  });
 }
 
 function form_data_append_file(param) {
@@ -45,41 +45,41 @@ function form_data_append_file(param) {
   fd.append("b", file, "foo.txt");
   const got_file = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_file.text().then(function (x) {
-        return Promise.resolve({
-              TAG: /* Eq */ 0,
-              _0: x,
-              _1: "hello"
-            });
-      });
+    return Promise.resolve({
+      TAG: /* Eq */ 0,
+      _0: x,
+      _1: "hello"
+    });
+  });
 }
 
 Mt.from_pair_suites("Js_formdata_test", {
-      hd: [
-        "append",
-        form_data_append
-      ],
-      tl: {
-        hd: [
-          "not found",
-          form_data_not_found
-        ],
-        tl: /* [] */ 0
-      }
-    });
+  hd: [
+    "append",
+    form_data_append
+  ],
+  tl: {
+    hd: [
+      "not found",
+      form_data_not_found
+    ],
+    tl: /* [] */ 0
+  }
+});
 
 Mt.from_promise_suites("Js_formdata_test", {
-      hd: [
-        "append blob",
-        form_data_append_blob(undefined)
-      ],
-      tl: {
-        hd: [
-          "append file",
-          form_data_append_file(undefined)
-        ],
-        tl: /* [] */ 0
-      }
-    });
+  hd: [
+    "append blob",
+    form_data_append_blob(undefined)
+  ],
+  tl: {
+    hd: [
+      "append file",
+      form_data_append_file(undefined)
+    ],
+    tl: /* [] */ 0
+  }
+});
 
 module.exports = {
   form_data_append,

@@ -25,8 +25,8 @@ let huntGrootCondition = false;
 
 if (Stdlib__List.length(/* [] */ 0) > 0) {
   const x = Stdlib__List.filter((function (h) {
-        return Stdlib__List.hd(/* [] */ 0) <= 1000;
-      }), oppHeroes);
+    return Stdlib__List.hd(/* [] */ 0) <= 1000;
+  }), oppHeroes);
   huntGrootCondition = Stdlib__List.length(x) === 0;
 }
 
@@ -34,8 +34,8 @@ let huntGrootCondition2 = true;
 
 if (Stdlib__List.length(/* [] */ 0) < 0) {
   const x$1 = Stdlib__List.filter((function (h) {
-        return Stdlib__List.hd(/* [] */ 0) <= 1000;
-      }), oppHeroes);
+    return Stdlib__List.hd(/* [] */ 0) <= 1000;
+  }), oppHeroes);
   huntGrootCondition2 = Stdlib__List.length(x$1) === 0;
 }
 

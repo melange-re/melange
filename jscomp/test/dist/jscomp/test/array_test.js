@@ -60,8 +60,8 @@ const array_suites_0 = [
     return {
       TAG: /* Eq */ 0,
       _0: Stdlib__Array.init(5, (function (x) {
-            return x;
-          })),
+        return x;
+      })),
       _1: [
         0,
         1,
@@ -79,22 +79,22 @@ const array_suites_1 = {
     (function (param) {
       const aux = function (xs) {
         return Stdlib__List.fold_left((function (acc, param) {
-              return {
-                hd: [
-                  Stdlib__Array.to_list(param[0]),
-                  param[1]
-                ],
-                tl: acc
-              };
-            }), /* [] */ 0, xs);
+          return {
+            hd: [
+              Stdlib__Array.to_list(param[0]),
+              param[1]
+            ],
+            tl: acc
+          };
+        }), /* [] */ 0, xs);
       };
       const match = Stdlib__List.split(aux({
-                hd: [
-                  [],
-                  /* [] */ 0
-                ],
-                tl: /* [] */ 0
-              }));
+        hd: [
+          [],
+          /* [] */ 0
+        ],
+        tl: /* [] */ 0
+      }));
       return {
         TAG: /* Eq */ 0,
         _0: match[0],
@@ -117,25 +117,25 @@ const array_suites_1 = {
             5
           ],
           _1: Caml_array.concat({
-                hd: [
-                  0,
-                  1,
-                  2
-                ],
+            hd: [
+              0,
+              1,
+              2
+            ],
+            tl: {
+              hd: [
+                3,
+                4
+              ],
+              tl: {
+                hd: [],
                 tl: {
-                  hd: [
-                    3,
-                    4
-                  ],
-                  tl: {
-                    hd: [],
-                    tl: {
-                      hd: [5],
-                      tl: /* [] */ 0
-                    }
-                  }
+                  hd: [5],
+                  tl: /* [] */ 0
                 }
-              })
+              }
+            }
+          })
         };
       })
     ],
@@ -151,11 +151,11 @@ const array_suites_1 = {
             ],
             _1: [
               Stdlib__Array.init(100, (function (param) {
-                    return /* 'a' */97;
-                  })),
+                return /* 'a' */97;
+              })),
               Stdlib__Array.init(100, (function (param) {
-                    return 0;
-                  }))
+                return 0;
+              }))
             ]
           };
         })
@@ -167,12 +167,12 @@ const array_suites_1 = {
             return {
               TAG: /* Eq */ 0,
               _0: Stdlib__Array.sub([
-                    0,
-                    1,
-                    2,
-                    3,
-                    4
-                  ], 2, 2),
+                0,
+                1,
+                2,
+                3,
+                4
+              ], 2, 2),
               _1: [
                 2,
                 3
@@ -190,8 +190,8 @@ const array_suites_1 = {
                 0
               ];
               const v = Stdlib__Array.init(3, (function (x) {
-                    return (x << 1);
-                  }));
+                return (x << 1);
+              }));
               Stdlib__Array.blit(v, 1, u, 1, 2);
               return {
                 TAG: /* Eq */ 0,
@@ -219,40 +219,40 @@ const array_suites_1 = {
               "File \"jscomp/test/array_test.ml\", line 62, characters 2-9",
               (function (param) {
                 const a0 = Stdlib__Array.init(100, (function (i) {
-                      return (i << 0);
-                    }));
+                  return (i << 0);
+                }));
                 Stdlib__Array.blit(a0, 10, a0, 5, 20);
                 return {
                   TAG: /* Eq */ 0,
                   _0: true,
                   _1: starts_with(a0, [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        10,
-                        11,
-                        12,
-                        13,
-                        14,
-                        15,
-                        16,
-                        17,
-                        18,
-                        19,
-                        20,
-                        21,
-                        22,
-                        23,
-                        24,
-                        25,
-                        26,
-                        27,
-                        28
-                      ], (function (prim0, prim1) {
-                        return prim0 === prim1;
-                      }))
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22,
+                    23,
+                    24,
+                    25,
+                    26,
+                    27,
+                    28
+                  ], (function (prim0, prim1) {
+                    return prim0 === prim1;
+                  }))
                 };
               })
             ],
@@ -261,42 +261,42 @@ const array_suites_1 = {
                 "File \"jscomp/test/array_test.ml\", line 71, characters 2-9",
                 (function (param) {
                   const a0 = Stdlib__Array.init(100, (function (i) {
-                        return (i << 0);
-                      }));
+                    return (i << 0);
+                  }));
                   Stdlib__Array.blit(a0, 5, a0, 10, 20);
                   return {
                     TAG: /* Eq */ 0,
                     _0: true,
                     _1: starts_with(a0, [
-                          0,
-                          1,
-                          2,
-                          3,
-                          4,
-                          5,
-                          6,
-                          7,
-                          8,
-                          9,
-                          5,
-                          6,
-                          7,
-                          8,
-                          9,
-                          10,
-                          11,
-                          12,
-                          13,
-                          14,
-                          15,
-                          16,
-                          17,
-                          18,
-                          19,
-                          20
-                        ], (function (prim0, prim1) {
-                          return prim0 === prim1;
-                        }))
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11,
+                      12,
+                      13,
+                      14,
+                      15,
+                      16,
+                      17,
+                      18,
+                      19,
+                      20
+                    ], (function (prim0, prim1) {
+                      return prim0 === prim1;
+                    }))
                   };
                 })
               ],
@@ -327,10 +327,10 @@ const array_suites_1 = {
                       return {
                         TAG: /* Eq */ 0,
                         _0: Caml_obj.caml_equal([
-                              0,
-                              1,
-                              3
-                            ], u),
+                          0,
+                          1,
+                          3
+                        ], u),
                         _1: true
                       };
                     })
@@ -340,8 +340,8 @@ const array_suites_1 = {
                       "sort_large",
                       (function (param) {
                         const v = Stdlib__Array.init(4, (function (i) {
-                              return i % 17;
-                            }));
+                          return i % 17;
+                        }));
                         Stdlib__Array.sort(Caml.caml_int_compare, v);
                         return {
                           TAG: /* Eq */ 0,

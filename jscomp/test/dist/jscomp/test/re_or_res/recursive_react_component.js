@@ -6,8 +6,8 @@ const React = require("react");
 function make(Props) {
   let foo = Props.foo;
   return React.createElement(make, {
-        foo: foo
-      });
+    foo: foo
+  });
 }
 
 module.exports = {

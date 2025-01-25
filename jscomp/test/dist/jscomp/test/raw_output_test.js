@@ -8,11 +8,11 @@ function mk(fn) {
 }
 
 (((_)=> console.log('should works')
-    )(undefined));
+  )(undefined));
 
 console.log((function () {
-        return 1;
-      })());
+  return 1;
+})());
 
 module.exports = {
   mk,

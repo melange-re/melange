@@ -39,53 +39,53 @@ const object_tables$1 = {
 
 function a_init($$class) {
   const ids = CamlinternalOO.get_method_labels($$class, [
-        "m2",
-        "m1"
-      ]);
+    "m2",
+    "m1"
+  ]);
   const m2 = ids[0];
   const m1 = ids[1];
   CamlinternalOO.set_methods($$class, [
+    m1,
+    (function (self$1) {
+      if (!object_tables$1.key) {
+        const $$class = CamlinternalOO.create_table(["m3"]);
+        const m3 = CamlinternalOO.get_method_label($$class, "m3");
+        CamlinternalOO.set_method($$class, m3, (function (self$2) {
+          return 3;
+        }));
+        const env_init = function (env) {
+          return CamlinternalOO.create_object_opt(undefined, $$class);
+        };
+        CamlinternalOO.init_class($$class);
+        object_tables$1.key = env_init;
+      }
+      return Curry._1(object_tables$1.key, undefined);
+    }),
+    m2,
+    (function (self$1) {
+      if (!object_tables.key) {
+        const $$class = CamlinternalOO.create_table(["m4"]);
+        const env = CamlinternalOO.new_variable($$class, "");
+        const m4 = CamlinternalOO.get_method_label($$class, "m4");
+        CamlinternalOO.set_method($$class, m4, (function (self$3) {
+          const env$1 = self$3[env];
+          const tmp = env$1[1];
+          return Curry._1(tmp[0][env$1[0]], tmp);
+        }));
+        const env_init = function (env$1) {
+          const self = CamlinternalOO.create_object_opt(undefined, $$class);
+          self[env] = env$1;
+          return self;
+        };
+        CamlinternalOO.init_class($$class);
+        object_tables.key = env_init;
+      }
+      return Curry._1(object_tables.key, [
         m1,
-        (function (self$1) {
-          if (!object_tables$1.key) {
-            const $$class = CamlinternalOO.create_table(["m3"]);
-            const m3 = CamlinternalOO.get_method_label($$class, "m3");
-            CamlinternalOO.set_method($$class, m3, (function (self$2) {
-                  return 3;
-                }));
-            const env_init = function (env) {
-              return CamlinternalOO.create_object_opt(undefined, $$class);
-            };
-            CamlinternalOO.init_class($$class);
-            object_tables$1.key = env_init;
-          }
-          return Curry._1(object_tables$1.key, undefined);
-        }),
-        m2,
-        (function (self$1) {
-          if (!object_tables.key) {
-            const $$class = CamlinternalOO.create_table(["m4"]);
-            const env = CamlinternalOO.new_variable($$class, "");
-            const m4 = CamlinternalOO.get_method_label($$class, "m4");
-            CamlinternalOO.set_method($$class, m4, (function (self$3) {
-                  const env$1 = self$3[env];
-                  const tmp = env$1[1];
-                  return Curry._1(tmp[0][env$1[0]], tmp);
-                }));
-            const env_init = function (env$1) {
-              const self = CamlinternalOO.create_object_opt(undefined, $$class);
-              self[env] = env$1;
-              return self;
-            };
-            CamlinternalOO.init_class($$class);
-            object_tables.key = env_init;
-          }
-          return Curry._1(object_tables.key, [
-              m1,
-              self$1
-            ]);
-        })
+        self$1
       ]);
+    })
+  ]);
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -95,16 +95,16 @@ const a = CamlinternalOO.make_class(shared, a_init);
 
 function b_init($$class) {
   const ids = CamlinternalOO.get_method_labels($$class, [
-        "m2",
-        "m1",
-        "a_text"
-      ]);
+    "m2",
+    "m1",
+    "a_text"
+  ]);
   const a_text = ids[2];
   const inh = CamlinternalOO.inherits($$class, 0, 0, shared, a, true);
   const obj_init = inh[0];
   CamlinternalOO.set_method($$class, a_text, (function (self$4, param) {
-        
-      }));
+    
+  }));
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._1(obj_init, self$1);
@@ -113,10 +113,10 @@ function b_init($$class) {
 }
 
 const b = CamlinternalOO.make_class([
-      "a_text",
-      "m1",
-      "m2"
-    ], b_init);
+  "a_text",
+  "m1",
+  "m2"
+], b_init);
 
 const tmp = Curry._1(a[0], undefined);
 

@@ -62,34 +62,34 @@ function lnot(x) {
 const min_int = -2147483648;
 
 const infinity = Caml_int64.float_of_bits([
-      2146435072,
-      0
-    ]);
+  2146435072,
+  0
+]);
 
 const neg_infinity = Caml_int64.float_of_bits([
-      -1048576,
-      0
-    ]);
+  -1048576,
+  0
+]);
 
 const nan = Caml_int64.float_of_bits([
-      2146435072,
-      1
-    ]);
+  2146435072,
+  1
+]);
 
 const max_float = Caml_int64.float_of_bits([
-      2146435071,
-      4294967295
-    ]);
+  2146435071,
+  4294967295
+]);
 
 const min_float = Caml_int64.float_of_bits([
-      1048576,
-      0
-    ]);
+  1048576,
+  0
+]);
 
 const epsilon_float = Caml_int64.float_of_bits([
-      1018167296,
-      0
-    ]);
+  1018167296,
+  0
+]);
 
 function $caret(s1, s2) {
   const l1 = s1.length;
@@ -187,34 +187,34 @@ function open_out_gen(mode, perm, name) {
 
 function open_out(name) {
   return open_out_gen({
-        hd: /* Open_wronly */ 1,
+    hd: /* Open_wronly */ 1,
+    tl: {
+      hd: /* Open_creat */ 3,
+      tl: {
+        hd: /* Open_trunc */ 4,
         tl: {
-          hd: /* Open_creat */ 3,
-          tl: {
-            hd: /* Open_trunc */ 4,
-            tl: {
-              hd: /* Open_text */ 7,
-              tl: /* [] */ 0
-            }
-          }
+          hd: /* Open_text */ 7,
+          tl: /* [] */ 0
         }
-      }, 438, name);
+      }
+    }
+  }, 438, name);
 }
 
 function open_out_bin(name) {
   return open_out_gen({
-        hd: /* Open_wronly */ 1,
+    hd: /* Open_wronly */ 1,
+    tl: {
+      hd: /* Open_creat */ 3,
+      tl: {
+        hd: /* Open_trunc */ 4,
         tl: {
-          hd: /* Open_creat */ 3,
-          tl: {
-            hd: /* Open_trunc */ 4,
-            tl: {
-              hd: /* Open_binary */ 6,
-              tl: /* [] */ 0
-            }
-          }
+          hd: /* Open_binary */ 6,
+          tl: /* [] */ 0
         }
-      }, 438, name);
+      }
+    }
+  }, 438, name);
 }
 
 function flush_all(param) {
@@ -293,22 +293,22 @@ function open_in_gen(mode, perm, name) {
 
 function open_in(name) {
   return open_in_gen({
-        hd: /* Open_rdonly */ 0,
-        tl: {
-          hd: /* Open_text */ 7,
-          tl: /* [] */ 0
-        }
-      }, 0, name);
+    hd: /* Open_rdonly */ 0,
+    tl: {
+      hd: /* Open_text */ 7,
+      tl: /* [] */ 0
+    }
+  }, 0, name);
 }
 
 function open_in_bin(name) {
   return open_in_gen({
-        hd: /* Open_rdonly */ 0,
-        tl: {
-          hd: /* Open_binary */ 6,
-          tl: /* [] */ 0
-        }
-      }, 0, name);
+    hd: /* Open_rdonly */ 0,
+    tl: {
+      hd: /* Open_binary */ 6,
+      tl: /* [] */ 0
+    }
+  }, 0, name);
 }
 
 function input(ic, s, ofs, len) {
@@ -395,9 +395,9 @@ function input_line(chan) {
       }
       const len$1 = (len + n | 0) - 1 | 0;
       return build_result(Caml_bytes.caml_create_bytes(len$1), len$1, {
-            hd: res,
-            tl: accu
-          });
+        hd: res,
+        tl: accu
+      });
     }
     const beg = Caml_bytes.caml_create_bytes(-n | 0);
     Caml_external_polyfill.resolve("caml_ml_input")(chan, beg, 0, -n | 0);

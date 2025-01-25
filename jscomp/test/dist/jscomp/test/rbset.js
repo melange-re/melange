@@ -218,12 +218,12 @@ function unbalanced_left(param) {
         if (match._0 === /* Black */ 0) {
           return [
             balance_left({
-                  TAG: /* Node */ 0,
-                  _0: /* Red */ 1,
-                  _1: match._1,
-                  _2: match._2,
-                  _3: match._3
-                }, param._2, param._3),
+              TAG: /* Node */ 0,
+              _0: /* Red */ 1,
+              _1: match._1,
+              _2: match._2,
+              _3: match._3
+            }, param._2, param._3),
             true
           ];
         }
@@ -236,12 +236,12 @@ function unbalanced_left(param) {
               _1: match._1,
               _2: match._2,
               _3: balance_left({
-                    TAG: /* Node */ 0,
-                    _0: /* Red */ 1,
-                    _1: match$1._1,
-                    _2: match$1._2,
-                    _3: match$1._3
-                  }, param._2, param._3)
+                TAG: /* Node */ 0,
+                _0: /* Red */ 1,
+                _1: match$1._1,
+                _2: match$1._2,
+                _3: match$1._3
+              }, param._2, param._3)
             },
             false
           ];
@@ -254,12 +254,12 @@ function unbalanced_left(param) {
       if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */ 0) {
         return [
           balance_left({
-                TAG: /* Node */ 0,
-                _0: /* Red */ 1,
-                _1: match$2._1,
-                _2: match$2._2,
-                _3: match$2._3
-              }, param._2, param._3),
+            TAG: /* Node */ 0,
+            _0: /* Red */ 1,
+            _1: match$2._1,
+            _2: match$2._2,
+            _3: match$2._3
+          }, param._2, param._3),
           false
         ];
       }
@@ -286,12 +286,12 @@ function unbalanced_right(param) {
         if (match._0 === /* Black */ 0) {
           return [
             balance_right(a, x, {
-                  TAG: /* Node */ 0,
-                  _0: /* Red */ 1,
-                  _1: match._1,
-                  _2: match._2,
-                  _3: match._3
-                }),
+              TAG: /* Node */ 0,
+              _0: /* Red */ 1,
+              _1: match._1,
+              _2: match._2,
+              _3: match._3
+            }),
             true
           ];
         }
@@ -302,12 +302,12 @@ function unbalanced_right(param) {
               TAG: /* Node */ 0,
               _0: /* Black */ 0,
               _1: balance_right(a, x, {
-                    TAG: /* Node */ 0,
-                    _0: /* Red */ 1,
-                    _1: match$1._1,
-                    _2: match$1._2,
-                    _3: match$1._3
-                  }),
+                TAG: /* Node */ 0,
+                _0: /* Red */ 1,
+                _1: match$1._1,
+                _2: match$1._2,
+                _3: match$1._3
+              }),
               _2: match._2,
               _3: match._3
             },
@@ -322,12 +322,12 @@ function unbalanced_right(param) {
       if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2._0 === /* Black */ 0) {
         return [
           balance_right(param._1, param._2, {
-                TAG: /* Node */ 0,
-                _0: /* Red */ 1,
-                _1: match$2._1,
-                _2: match$2._2,
-                _3: match$2._3
-              }),
+            TAG: /* Node */ 0,
+            _0: /* Red */ 1,
+            _1: match$2._1,
+            _2: match$2._2,
+            _3: match$2._3
+          }),
           false
         ];
       }

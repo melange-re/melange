@@ -984,14 +984,14 @@ function bindings(s) {
 
 function of_list(bs) {
   return Stdlib__List.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), /* Empty */ 0, bs);
+    return add(param[0], param[1], m);
+  }), /* Empty */ 0, bs);
 }
 
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
-        return add(param[0], param[1], m);
-      }), m, i);
+    return add(param[0], param[1], m);
+  }), m, i);
 }
 
 function of_seq(i) {

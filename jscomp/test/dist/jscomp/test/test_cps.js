@@ -22,19 +22,19 @@ function f(_n, _acc) {
 
 function test_closure(param) {
   const arr = Caml_array.make(6, (function (x) {
-        return x;
-      }));
+    return x;
+  }));
   for (let i = 0; i <= 6; ++i) {
     Caml_array.set(arr, i, (function (param) {
-          return i;
-        }));
+      return i;
+    }));
   }
   return arr;
 }
 
 f(10, (function (param) {
-      
-    }));
+  
+}));
 
 module.exports = {
   f,

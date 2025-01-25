@@ -42,24 +42,24 @@ const comparable = [
 
 function money_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
-        "value",
-        "leq"
-      ], shared);
+    "value",
+    "leq"
+  ], shared);
   const value = ids[0];
   const leq = ids[1];
   const repr = ids[2];
   const inh = CamlinternalOO.inherits($$class, 0, ["leq"], 0, comparable, true);
   const obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
-        value,
-        (function (self$2) {
-          return self$2[repr];
-        }),
-        leq,
-        (function (self$2, p) {
-          return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
-        })
-      ]);
+    value,
+    (function (self$2) {
+      return self$2[repr];
+    }),
+    leq,
+    (function (self$2, p) {
+      return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
+    })
+  ]);
   return function (env, self, x) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._1(obj_init, self$1);
@@ -72,19 +72,19 @@ const money = CamlinternalOO.make_class(shared$1, money_init);
 
 function money2_init($$class) {
   const ids = CamlinternalOO.get_method_labels($$class, [
-        "value",
-        "times",
-        "leq"
-      ]);
+    "value",
+    "times",
+    "leq"
+  ]);
   const times = ids[1];
   const inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
   const obj_init = inh[0];
   const repr = inh[1];
   CamlinternalOO.set_method($$class, times, (function (self$3, k) {
-        const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
-        copy[repr] = k * self$3[repr];
-        return copy;
-      }));
+    const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+    copy[repr] = k * self$3[repr];
+    return copy;
+  }));
   return function (env, self, x) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x);
@@ -93,10 +93,10 @@ function money2_init($$class) {
 }
 
 const money2 = CamlinternalOO.make_class([
-      "leq",
-      "times",
-      "value"
-    ], money2_init);
+  "leq",
+  "times",
+  "value"
+], money2_init);
 
 function min(x, y) {
   if (Caml_oo_curry.js2(5393368, 2, x, y)) {

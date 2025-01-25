@@ -102,15 +102,15 @@ function point_init($$class) {
   const get_x = ids[1];
   const x = ids[2];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$1) {
-          return self$1[x];
-        }),
-        move,
-        (function (self$1, d) {
-          self$1[x] = self$1[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$1) {
+      return self$1[x];
+    }),
+    move,
+    (function (self$1, d) {
+      self$1[x] = self$1[x] + d | 0;
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x_init;
@@ -132,19 +132,19 @@ function adjusted_point_init($$class) {
   const get_offset = ids[2];
   const x = ids[3];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$2) {
-          return self$2[x];
-        }),
-        get_offset,
-        (function (self$2) {
-          return self$2[x] - self$2[origin] | 0;
-        }),
-        move,
-        (function (self$2, d) {
-          self$2[x] = self$2[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$2) {
+      return self$2[x];
+    }),
+    get_offset,
+    (function (self$2) {
+      return self$2[x] - self$2[origin] | 0;
+    }),
+    move,
+    (function (self$2, d) {
+      self$2[x] = self$2[x] + d | 0;
+    })
+  ]);
   return function (env, self, x_init) {
     const origin$1 = Math.imul(x_init / 10 | 0, 10);
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -199,19 +199,19 @@ function printable_point_init($$class) {
   const get_x = ids[2];
   const x = ids[3];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$4) {
-          return self$4[x];
-        }),
-        move,
-        (function (self$4, d) {
-          self$4[x] = self$4[x] + d | 0;
-        }),
-        print,
-        (function (self$4) {
-          return Curry._1(self$4[0][get_x], self$4);
-        })
-      ]);
+    get_x,
+    (function (self$4) {
+      return self$4[x];
+    }),
+    move,
+    (function (self$4, d) {
+      self$4[x] = self$4[x] + d | 0;
+    }),
+    print,
+    (function (self$4) {
+      return Curry._1(self$4[0][get_x], self$4);
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x_init;
@@ -240,22 +240,22 @@ const n = ids[1];
 const len = ids[2];
 
 CamlinternalOO.set_methods($$class, [
-      n,
-      (function (self$5) {
-        return 1;
-      }),
-      register,
-      (function (self$5) {
-        ints.contents = {
-          hd: self$5,
-          tl: ints.contents
-        };
-      }),
-      len,
-      (function (self$5) {
-        return Stdlib__List.length(ints.contents);
-      })
-    ]);
+  n,
+  (function (self$5) {
+    return 1;
+  }),
+  register,
+  (function (self$5) {
+    ints.contents = {
+      hd: self$5,
+      tl: ints.contents
+    };
+  }),
+  len,
+  (function (self$5) {
+    return Stdlib__List.length(ints.contents);
+  })
+]);
 
 CamlinternalOO.init_class($$class);
 
@@ -279,23 +279,23 @@ function printable_point2_init($$class) {
   const get_x = ids[2];
   const x = ids[3];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$6) {
-          return self$6[x];
-        }),
-        move,
-        (function (self$6, d) {
-          self$6[x] = self$6[x] + d | 0;
-        }),
-        print,
-        (function (self$6) {
-          return Stdlib.print_int(Curry._1(self$6[0][get_x], self$6));
-        })
-      ]);
+    get_x,
+    (function (self$6) {
+      return self$6[x];
+    }),
+    move,
+    (function (self$6, d) {
+      self$6[x] = self$6[x] + d | 0;
+    }),
+    print,
+    (function (self$6) {
+      return Stdlib.print_int(Curry._1(self$6[0][get_x], self$6));
+    })
+  ]);
   CamlinternalOO.add_initializer($$class, (function (self$6) {
-        console.log("initializingFile \"jscomp/test/class3_test.ml\", line 76, characters 50-57");
-        return Caml_array.set(v, 0, self$6[x]);
-      }));
+    console.log("initializingFile \"jscomp/test/class3_test.ml\", line 76, characters 50-57");
+    return Caml_array.set(v, 0, self$6[x]);
+  }));
   return function (env, self, x_init) {
     const origin = Math.imul(x_init / 10 | 0, 10);
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -309,9 +309,9 @@ const printable_point2 = CamlinternalOO.make_class(shared$10, printable_point2_i
 Curry._2(printable_point2[0], undefined, 31);
 
 eq("File \"jscomp/test/class3_test.ml\", line 81, characters 12-19", v, [
-      30,
-      3
-    ]);
+  30,
+  3
+]);
 
 function abstract_point_1($$class) {
   const x_init = CamlinternalOO.new_variable($$class, "");
@@ -319,8 +319,8 @@ function abstract_point_1($$class) {
   const get_x = ids[1];
   const get_offset = ids[2];
   CamlinternalOO.set_method($$class, get_offset, (function (self$7) {
-        return Curry._1(self$7[0][get_x], self$7) - self$7[x_init] | 0;
-      }));
+    return Curry._1(self$7[0][get_x], self$7) - self$7[x_init] | 0;
+  }));
   return function (env, self, x_init$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x_init] = x_init$1;
@@ -342,15 +342,15 @@ function vpoint_init($$class) {
   const inh = CamlinternalOO.inherits($$class, 0, shared, ["get_offset"], abstract_point, true);
   const obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$8) {
-          return self$8[x];
-        }),
-        move,
-        (function (self$8, d) {
-          self$8[x] = self$8[x] + d | 0;
-        })
-      ]);
+    get_x,
+    (function (self$8) {
+      return self$8[x];
+    }),
+    move,
+    (function (self$8, d) {
+      self$8[x] = self$8[x] + d | 0;
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     Curry._2(obj_init, self$1, x_init);
@@ -374,8 +374,8 @@ function abstract_point2_1($$class) {
   const move = ids[0];
   const x = ids[1];
   CamlinternalOO.set_method($$class, move, (function (self$9, d) {
-        self$9[x] = self$9[x] + d | 0;
-      }));
+    self$9[x] = self$9[x] + d | 0;
+  }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -395,8 +395,8 @@ function point2_init($$class) {
   const obj_init = inh[0];
   const x = inh[1];
   CamlinternalOO.set_method($$class, get_offset, (function (self$10) {
-        return self$10[x] - self$10[x_init] | 0;
-      }));
+    return self$10[x] - self$10[x_init] | 0;
+  }));
   return function (env, self, x_init$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x_init] = x_init$1;
@@ -423,19 +423,19 @@ function restricted_point_init($$class) {
   const bump = ids[2];
   const x = ids[3];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$11) {
-          return self$11[x];
-        }),
-        move,
-        (function (self$11, d) {
-          self$11[x] = self$11[x] + d | 0;
-        }),
-        bump,
-        (function (self$11) {
-          return Curry._2(self$11[0][move], self$11, 1);
-        })
-      ]);
+    get_x,
+    (function (self$11) {
+      return self$11[x];
+    }),
+    move,
+    (function (self$11, d) {
+      self$11[x] = self$11[x] + d | 0;
+    }),
+    bump,
+    (function (self$11) {
+      return Curry._2(self$11[0][move], self$11, 1);
+    })
+  ]);
   return function (env, self, x_init) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x_init;
@@ -444,9 +444,9 @@ function restricted_point_init($$class) {
 }
 
 const restricted_point = CamlinternalOO.make_class([
-      "bump",
-      "get_x"
-    ], restricted_point_init);
+  "bump",
+  "get_x"
+], restricted_point_init);
 
 const p$2 = Curry._2(restricted_point[0], undefined, 0);
 

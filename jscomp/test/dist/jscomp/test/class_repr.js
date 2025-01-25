@@ -34,8 +34,8 @@ function x_init($$class) {
   const get_x = ids[0];
   const x = ids[1];
   CamlinternalOO.set_method($$class, get_x, (function (self$2) {
-        return self$2[x];
-      }));
+    return self$2[x];
+  }));
   return function (env, self, v) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = v;
@@ -78,17 +78,17 @@ function xx_init($$class) {
   const get_money = ids[1];
   const money = ids[2];
   CamlinternalOO.set_methods($$class, [
-        get_money,
-        (function (self$3) {
-          return self$3[money];
-        }),
-        incr,
-        (function (self$3) {
-          const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
-          copy[money] = 2 * self$3[x] + Curry._1(self$3[0][get_money], self$3);
-          return copy;
-        })
-      ]);
+    get_money,
+    (function (self$3) {
+      return self$3[money];
+    }),
+    incr,
+    (function (self$3) {
+      const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+      copy[money] = 2 * self$3[x] + Curry._1(self$3[0][get_money], self$3);
+      return copy;
+    })
+  ]);
   return function (env, self, x$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x$1;
@@ -118,9 +118,9 @@ if (/* tag */ typeof Stdlib__Sys.backend_type === "number" || typeof Stdlib__Sys
   Stdlib__Sys.backend_type === /* Native */ 0;
 } else if (Stdlib__Sys.backend_type._0 === "Melange") {
   console.log([
-        Caml_oo_curry.js1(-804710761, 5, v1),
-        Caml_oo_curry.js1(-804710761, 6, v2)
-      ]);
+    Caml_oo_curry.js1(-804710761, 5, v1),
+    Caml_oo_curry.js1(-804710761, 6, v2)
+  ]);
 }
 
 if (Caml_oo_curry.js1(-804710761, 7, v2) !== 9) {
@@ -136,22 +136,22 @@ if (Caml_oo_curry.js1(-804710761, 7, v2) !== 9) {
 
 function point_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
-        "get_x5",
-        "get_x"
-      ], shared$2);
+    "get_x5",
+    "get_x"
+  ], shared$2);
   const get_x5 = ids[0];
   const get_x = ids[1];
   const x = ids[2];
   CamlinternalOO.set_methods($$class, [
-        get_x,
-        (function (self$4) {
-          return self$4[x];
-        }),
-        get_x5,
-        (function (self$4) {
-          return Curry._1(self$4[0][get_x], self$4) + 5 | 0;
-        })
-      ]);
+    get_x,
+    (function (self$4) {
+      return self$4[x];
+    }),
+    get_x5,
+    (function (self$4) {
+      return Curry._1(self$4[0][get_x], self$4) + 5 | 0;
+    })
+  ]);
   return function (env, self) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = 0;
@@ -160,9 +160,9 @@ function point_init($$class) {
 }
 
 const point = CamlinternalOO.make_class([
-      "get_x",
-      "get_x5"
-    ], point_init);
+  "get_x",
+  "get_x5"
+], point_init);
 
 const v$1 = Curry._1(point[0], undefined);
 
@@ -180,11 +180,11 @@ if (Caml_oo_curry.js1(590348294, 8, v$1) !== 5) {
 function xx0_init($$class) {
   const x = CamlinternalOO.new_variable($$class, "");
   const ids = CamlinternalOO.new_methods_variables($$class, shared$1, [
-        "money",
-        "a0",
-        "a1",
-        "a2"
-      ]);
+    "money",
+    "a0",
+    "a1",
+    "a2"
+  ]);
   const incr = ids[0];
   const get_money = ids[1];
   const money = ids[2];
@@ -192,18 +192,18 @@ function xx0_init($$class) {
   const a1 = ids[4];
   const a2 = ids[5];
   CamlinternalOO.set_methods($$class, [
-        get_money,
-        (function (self$5) {
-          return self$5[money];
-        }),
-        incr,
-        (function (self$5) {
-          const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5));
-          copy[money] = 2 * self$5[x] + Curry._1(self$5[0][get_money], self$5);
-          copy[a0] = 2;
-          return copy;
-        })
-      ]);
+    get_money,
+    (function (self$5) {
+      return self$5[money];
+    }),
+    incr,
+    (function (self$5) {
+      const copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5));
+      copy[money] = 2 * self$5[x] + Curry._1(self$5[0][get_money], self$5);
+      copy[a0] = 2;
+      return copy;
+    })
+  ]);
   return function (env, self, x$1) {
     const self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[x] = x$1;

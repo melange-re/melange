@@ -41,27 +41,27 @@ const object_tables = {
 function create(param) {
   if (!object_tables.key) {
     const $$class = CamlinternalOO.create_table([
-          "add",
-          "get"
-        ]);
+      "add",
+      "get"
+    ]);
     const ids = CamlinternalOO.new_methods_variables($$class, [
-          "get",
-          "add"
-        ], ["data"]);
+      "get",
+      "add"
+    ], ["data"]);
     const get = ids[0];
     const add = ids[1];
     const data = ids[2];
     CamlinternalOO.set_methods($$class, [
-          add,
-          (function (self$1, param) {
-            self$1[data] = self$1[data] + 1 | 0;
-            return self$1;
-          }),
-          get,
-          (function (self$1, param) {
-            return self$1[data];
-          })
-        ]);
+      add,
+      (function (self$1, param) {
+        self$1[data] = self$1[data] + 1 | 0;
+        return self$1;
+      }),
+      get,
+      (function (self$1, param) {
+        return self$1[data];
+      })
+    ]);
     const env_init = function (env) {
       const self = CamlinternalOO.create_object_opt(undefined, $$class);
       self[data] = 0;

@@ -27,9 +27,9 @@ rec_cell.next = rec_cell;
 function f0(x) {
   let rec_cell = {};
   Caml_obj.update_dummy(rec_cell, {
-        content: Math.imul(x, x) - 6 | 0,
-        next: rec_cell
-      });
+    content: Math.imul(x, x) - 6 | 0,
+    next: rec_cell
+  });
   return rec_cell;
 }
 
@@ -50,10 +50,10 @@ rec_cell2.next = rec_cell2;
 function f2(x) {
   let rec_cell2 = {};
   Caml_obj.update_dummy(rec_cell2, {
-        TAG: /* Cons */ 0,
-        content: Math.imul(x, x) - 6 | 0,
-        next: rec_cell2
-      });
+    TAG: /* Cons */ 0,
+    content: Math.imul(x, x) - 6 | 0,
+    next: rec_cell2
+  });
   return rec_cell2;
 }
 
@@ -94,9 +94,9 @@ rec_cell3.tl = rec_cell3;
 function f3(x) {
   let rec_cell3 = {};
   Caml_obj.update_dummy(rec_cell3, {
-        hd: Math.imul(x, x) - 6 | 0,
-        tl: rec_cell3
-      });
+    hd: Math.imul(x, x) - 6 | 0,
+    tl: rec_cell3
+  });
   return rec_cell3;
 }
 

@@ -273,11 +273,11 @@ const suites_1 = {
                             contents: []
                           };
                           map.forEach(function (value, key, param) {
-                                arr.contents.push([
-                                      key,
-                                      value
-                                    ]);
-                              });
+                            arr.contents.push([
+                              key,
+                              value
+                            ]);
+                          });
                           return {
                             TAG: /* Eq */ 0,
                             _0: [
@@ -299,15 +299,15 @@ const suites_1 = {
                           "keys",
                           (function (param) {
                             const keys = Array.from(new Map([
-                                        [
-                                          1,
-                                          "one"
-                                        ],
-                                        [
-                                          2,
-                                          "two"
-                                        ]
-                                      ]).keys());
+                                  [
+                                    1,
+                                    "one"
+                                  ],
+                                  [
+                                    2,
+                                    "two"
+                                  ]
+                                ]).keys());
                             return {
                               TAG: /* Eq */ 0,
                               _0: [
@@ -323,15 +323,15 @@ const suites_1 = {
                             "values",
                             (function (param) {
                               const values = Array.from(new Map([
-                                          [
-                                            1,
-                                            "one"
-                                          ],
-                                          [
-                                            2,
-                                            "two"
-                                          ]
-                                        ]).values());
+                                    [
+                                      1,
+                                      "one"
+                                    ],
+                                    [
+                                      2,
+                                      "two"
+                                    ]
+                                  ]).values());
                               return {
                                 TAG: /* Eq */ 0,
                                 _0: [

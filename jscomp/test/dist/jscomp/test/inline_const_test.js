@@ -47,9 +47,9 @@ eq("File \"jscomp/test/inline_const_test.ml\", line 35, characters 5-12", 1, 1);
 eq("File \"jscomp/test/inline_const_test.ml\", line 36, characters 5-12", 3e-6, 0.000003);
 
 const h = Caml_int64.add(Caml_int64.add([
-          0,
-          100
-        ], Stdlib__Int64.one), Caml_int64.one);
+  0,
+  100
+], Stdlib__Int64.one), Caml_int64.one);
 
 Mt.from_pair_suites("File \"jscomp/test/inline_const_test.ml\", line 43, characters 22-29", suites.contents);
 

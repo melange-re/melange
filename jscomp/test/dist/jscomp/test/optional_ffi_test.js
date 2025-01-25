@@ -42,15 +42,15 @@ const u = hey(undefined, 3);
 const z = hey(5, 3);
 
 eq("File \"jscomp/test/optional_ffi_test.ml\", line 23, characters 5-12", [
-      [
-        u,
-        z
-      ],
-      [
-        6,
-        8
-      ]
-    ]);
+  [
+    u,
+    z
+  ],
+  [
+    6,
+    8
+  ]
+]);
 
 const counter = {
   contents: 0

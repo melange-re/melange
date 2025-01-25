@@ -66,14 +66,14 @@ eq("File \"jscomp/test/ast_js_mapper_poly_test.ml\", line 26, characters 5-12", 
 eq("File \"jscomp/test/ast_js_mapper_poly_test.ml\", line 27, characters 5-12", eqUOpt(uFromJs("f"), undefined), true);
 
 eq("File \"jscomp/test/ast_js_mapper_poly_test.ml\", line 28, characters 5-12", Stdlib__Array.map(uToJs, [
-          "D",
-          "C",
-          "f"
-        ]), [
-      "D",
-      "C",
-      "x"
-    ]);
+  "D",
+  "C",
+  "f"
+]), [
+  "D",
+  "C",
+  "x"
+]);
 
 Mt.from_pair_suites("Ast_js_mapper_poly_test", suites.contents);
 

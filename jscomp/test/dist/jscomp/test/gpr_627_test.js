@@ -63,9 +63,9 @@ const p = [
 eq("File \"jscomp/test/gpr_627_test.ml\", line 26, characters 5-12", p);
 
 eq("File \"jscomp/test/gpr_627_test.ml\", line 27, characters 5-12", [
-      v.hi(1, 2),
-      6
-    ]);
+  v.hi(1, 2),
+  6
+]);
 
 Mt.from_pair_suites("Gpr_627_test", suites.contents);
 

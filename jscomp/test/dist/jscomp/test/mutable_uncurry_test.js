@@ -28,16 +28,16 @@ function eq2(x, param) {
 }
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 14, characters 7-14", false, eq({
-          contents: 1
-        }, {
-          contents: 2
-        }));
+  contents: 1
+}, {
+  contents: 2
+}));
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 15, characters 7-14", true, eq({
-          contents: 2
-        }, {
-          contents: 2
-        }));
+  contents: 2
+}, {
+  contents: 2
+}));
 
 const u = {
   hi: (function (param, param$1) {
@@ -48,10 +48,10 @@ const u = {
 };
 
 const h = u.hi({
-      contents: 1
-    }, {
-      contents: 2
-    });
+  contents: 1
+}, {
+  contents: 2
+});
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 25, characters 7-14", h, false);
 
@@ -160,46 +160,46 @@ function nested1(param, param$1, param$2) {
 }
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 55, characters 9-16", ut3({
-          contents: 1
-        }, {
-          contents: 2
-        }, {
-          contents: 3
-        }), [
-      1,
-      2,
-      3
-    ]);
+  contents: 1
+}, {
+  contents: 2
+}, {
+  contents: 3
+}), [
+  1,
+  2,
+  3
+]);
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 56, characters 7-14", t3({
-          contents: 1
-        }, {
-          contents: 2
-        }, {
-          contents: 3
-        }), [
-      1,
-      2,
-      3
-    ]);
+  contents: 1
+}, {
+  contents: 2
+}, {
+  contents: 3
+}), [
+  1,
+  2,
+  3
+]);
 
 eqs("File \"jscomp/test/mutable_uncurry_test.ml\", line 58, characters 7-14", ut5({
-          contents: 1
-        }, {
-          contents: 2
-        }, {
-          contents: 3
-        }, {
-          contents: 1
-        }, {
-          contents: 1
-        }), [
-      1,
-      2,
-      3,
-      1,
-      1
-    ]);
+  contents: 1
+}, {
+  contents: 2
+}, {
+  contents: 3
+}, {
+  contents: 1
+}, {
+  contents: 1
+}), [
+  1,
+  2,
+  3,
+  1,
+  1
+]);
 
 Mt.from_pair_suites("jscomp/test/mutable_uncurry_test.ml", suites.contents);
 

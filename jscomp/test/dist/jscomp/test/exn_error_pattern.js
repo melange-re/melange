@@ -54,22 +54,22 @@ function eq(loc, x, y) {
 }
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f({
-          MEL_EXN_ID: Stdlib.Not_found
-        }), 0);
+  MEL_EXN_ID: Stdlib.Not_found
+}), 0);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f({
-          MEL_EXN_ID: Stdlib.Invalid_argument,
-          _1: ""
-        }), 1);
+  MEL_EXN_ID: Stdlib.Invalid_argument,
+  _1: ""
+}), 1);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f({
-          MEL_EXN_ID: Stdlib.Stack_overflow
-        }), 1);
+  MEL_EXN_ID: Stdlib.Stack_overflow
+}), 1);
 
 eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
-          MEL_EXN_ID: Stdlib.Sys_error,
-          _1: ""
-        }), 2);
+  MEL_EXN_ID: Stdlib.Sys_error,
+  _1: ""
+}), 2);
 
 let tmp;
 

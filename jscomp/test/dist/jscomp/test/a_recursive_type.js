@@ -8,9 +8,9 @@ function g(x) {
 }
 
 const loop = g({
-      TAG: /* A */ 0,
-      _0: g
-    });
+  TAG: /* A */ 0,
+  _0: g
+});
 
 const x = {
   TAG: /* A */ 0,
