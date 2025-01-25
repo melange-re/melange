@@ -28,24 +28,24 @@ const tscanf_data_file_lines = {
 function create_tscanf_data(ob, lines) {
   const add_line = function (param) {
     Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Caml_string */ 3,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  },
-                  _1: "%S"
-                }), param[0]));
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Caml_string */ 3,
+                  _0: /* No_padding */ 0,
+                  _1: /* End_of_format */ 0
+                },
+                _1: "%S"
+              }), param[0]));
     Stdlib__Buffer.add_string(ob, " -> ");
     Stdlib__Buffer.add_string(ob, Curry._1(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Caml_string */ 3,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  },
-                  _1: "%S"
-                }), param[1]));
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Caml_string */ 3,
+                  _0: /* No_padding */ 0,
+                  _1: /* End_of_format */ 0
+                },
+                _1: "%S"
+              }), param[1]));
     Stdlib__Buffer.add_string(ob, ";\n");
   };
   Stdlib__List.iter(add_line, lines);
@@ -68,38 +68,38 @@ function get_lines(fname) {
   try {
     while (!Stdlib__Scanf.Scanning.end_of_input(ib)) {
       Curry._1(Stdlib__Scanf.bscanf(ib, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* ' ' */32,
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: {
+                  TAG: /* Caml_string */ 3,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* Caml_string */ 3,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: " -> ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " -> ",
+                      TAG: /* Caml_string */ 3,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* Caml_string */ 3,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* String_literal */ 11,
-                          _0: "; ",
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String_literal */ 11,
+                        _0: "; ",
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
-                },
-                _1: " %S -> %S; "
-              }), (function (x, y) {
-            l.contents = {
-              hd: [
-                x,
-                y
-              ],
-              tl: l.contents
-            };
-          }));
+                }
+              },
+              _1: " %S -> %S; "
+            }), (function (x, y) {
+          l.contents = {
+            hd: [
+              x,
+              y
+            ],
+            tl: l.contents
+          };
+        }));
     };
     return Stdlib__List.rev(l.contents);
   }
@@ -107,26 +107,26 @@ function get_lines(fname) {
     const s = Caml_js_exceptions.internalToOCamlException(raw_s);
     if (s.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       const s$1 = Curry._2(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "in file ",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "in file ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: ", ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: ", ",
-                      _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
+                      _1: /* End_of_format */ 0
                     }
                   }
-                },
-                _1: "in file %s, %s"
-              }), fname, s._1);
+                }
+              },
+              _1: "in file %s, %s"
+            }), fname, s._1);
       throw new Caml_js_exceptions.MelangeError("Failure", {
             MEL_EXN_ID: "Failure",
             _1: s$1
@@ -134,22 +134,22 @@ function get_lines(fname) {
     }
     if (s.MEL_EXN_ID === Stdlib.End_of_file) {
       const s$2 = Curry._1(Stdlib__Printf.sprintf({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "in file ",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "in file ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: ", unexpected end of file",
-                      _1: /* End_of_format */ 0
-                    }
+                    TAG: /* String_literal */ 11,
+                    _0: ", unexpected end of file",
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "in file %s, unexpected end of file"
-              }), fname);
+                }
+              },
+              _1: "in file %s, unexpected end of file"
+            }), fname);
       throw new Caml_js_exceptions.MelangeError("Failure", {
             MEL_EXN_ID: "Failure",
             _1: s$2
@@ -162,19 +162,19 @@ function get_lines(fname) {
 function add_digest_ib(ob, ib) {
   const scan_line = function (ib, f) {
     return Curry._1(Stdlib__Scanf.bscanf(ib, {
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Scan_char_set */ 20,
-                _0: undefined,
-                _1: "\xff\xdb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-                _2: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '\n' */10,
-                  _1: /* End_of_format */ 0
-                }
-              },
-              _1: "%[^\n\r]\n"
-            }), f);
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Scan_char_set */ 20,
+              _0: undefined,
+              _1: "\xff\xdb\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+              _2: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '\n' */10,
+                _1: /* End_of_format */ 0
+              }
+            },
+            _1: "%[^\n\r]\n"
+          }), f);
   };
   const output_line_digest = function (s) {
     Stdlib__Buffer.add_string(ob, s);

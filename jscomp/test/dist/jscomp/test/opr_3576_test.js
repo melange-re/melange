@@ -81,9 +81,9 @@ function a_init($$class) {
             object_tables.key = env_init;
           }
           return Curry._1(object_tables.key, [
-                m1,
-                self$1
-              ]);
+              m1,
+              self$1
+            ]);
         })
       ]);
   return function (env, self) {

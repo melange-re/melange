@@ -78,24 +78,24 @@ function string_of_rank(i) {
     }
   } else {
     return Curry._1(Stdlib__Printf.sprintf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "Ranked(",
-                _1: {
-                  TAG: /* Int */ 4,
-                  _0: /* Int_i */ 3,
-                  _1: /* No_padding */ 0,
-                  _2: /* No_precision */ 0,
-                  _3: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* ')' */41,
-                    _1: /* End_of_format */ 0
-                  }
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "Ranked(",
+              _1: {
+                TAG: /* Int */ 4,
+                _0: /* Int_i */ 3,
+                _1: /* No_padding */ 0,
+                _2: /* No_precision */ 0,
+                _3: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "Ranked(%i)"
-            }), i._0);
+              }
+            },
+            _1: "Ranked(%i)"
+          }), i._0);
   }
 }
 
@@ -1295,9 +1295,9 @@ function compute_update_sequences(all_tickers) {
         let tmp = ticker.type_;
         if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
           return Curry._3(add, ticker.ticker_name, {
-                hd: ticker,
-                tl: /* [] */ 0
-              }, map);
+              hd: ticker,
+              tl: /* [] */ 0
+            }, map);
         }
         const loop = function (_up, _map, _ticker) {
           while (true) {
@@ -1327,38 +1327,38 @@ function compute_update_sequences(all_tickers) {
         return loop(/* [] */ 0, map, ticker);
       }), /* Empty */ 0, Stdlib__List.rev(all_tickers));
   return Curry._3(fold, (function (k, l, map) {
-        const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
-              const x = lhs.rank;
-              if (/* tag */ typeof x === "number" || typeof x === "string") {
-                if (x === /* Uninitialized */ 0) {
-                  throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: "All nodes should be ranked"
-                      });
-                }
-                throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "All nodes should be ranked"
-                    });
-              } else {
-                const y = rhs.rank;
-                if (!/* tag */ (typeof y === "number" || typeof y === "string")) {
-                  return Caml.caml_int_compare(x._0, y._0);
-                }
-                if (y === /* Uninitialized */ 0) {
-                  throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: "All nodes should be ranked"
-                      });
-                }
+      const l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
+            const x = lhs.rank;
+            if (/* tag */ typeof x === "number" || typeof x === "string") {
+              if (x === /* Uninitialized */ 0) {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
                       _1: "All nodes should be ranked"
                     });
               }
-            }), l);
-        return Curry._3(add, k, l$1, map);
-      }), map, map);
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "All nodes should be ranked"
+                  });
+            } else {
+              const y = rhs.rank;
+              if (!/* tag */ (typeof y === "number" || typeof y === "string")) {
+                return Caml.caml_int_compare(x._0, y._0);
+              }
+              if (y === /* Uninitialized */ 0) {
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                      MEL_EXN_ID: "Failure",
+                      _1: "All nodes should be ranked"
+                    });
+              }
+              throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "All nodes should be ranked"
+                  });
+            }
+          }), l);
+      return Curry._3(add, k, l$1, map);
+    }), map, map);
 }
 
 function process_quote(ticker_map, new_ticker, new_value) {

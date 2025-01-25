@@ -937,36 +937,35 @@ function message(s) {
         return "unused variable " + (s._0 + ".");
       case /* Duplicate_definitions */ 14 :
         return Curry._4(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "the ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "the ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ' ' */32,
                       _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
+                          TAG: /* String_literal */ 11,
+                          _0: " is defined in both types ",
                           _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " is defined in both types ",
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
                             _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
+                              TAG: /* String_literal */ 11,
+                              _0: " and ",
                               _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: " and ",
+                                TAG: /* String */ 2,
+                                _0: /* No_padding */ 0,
                                 _1: {
-                                  TAG: /* String */ 2,
-                                  _0: /* No_padding */ 0,
-                                  _1: {
-                                    TAG: /* Char_literal */ 12,
-                                    _0: /* '.' */46,
-                                    _1: /* End_of_format */ 0
-                                  }
+                                  TAG: /* Char_literal */ 12,
+                                  _0: /* '.' */46,
+                                  _1: /* End_of_format */ 0
                                 }
                               }
                             }
@@ -974,39 +973,40 @@ function message(s) {
                         }
                       }
                     }
-                  },
-                  _1: "the %s %s is defined in both types %s and %s."
-                }), s._0, s._1, s._2, s._3);
+                  }
+                },
+                _1: "the %s %s is defined in both types %s and %s."
+              }), s._0, s._1, s._2, s._3);
       case /* Multiple_definition */ 15 :
         return Curry._3(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "files ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "files ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: " and ",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " and ",
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
+                          TAG: /* String_literal */ 11,
+                          _0: " both define a module named ",
                           _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " both define a module named ",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: /* End_of_format */ 0
-                            }
+                            TAG: /* String */ 2,
+                            _0: /* No_padding */ 0,
+                            _1: /* End_of_format */ 0
                           }
                         }
                       }
                     }
-                  },
-                  _1: "files %s and %s both define a module named %s"
-                }), s._1, s._2, s._0);
+                  }
+                },
+                _1: "files %s and %s both define a module named %s"
+              }), s._1, s._2, s._0);
       case /* Unused_value_declaration */ 16 :
         return "unused value " + (s._0 + ".");
       case /* Unused_open */ 17 :
@@ -1076,123 +1076,123 @@ function message(s) {
         return "the label " + (s._0 + " is not optional.");
       case /* Open_shadow_identifier */ 27 :
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "this open statement shadows the ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "this open statement shadows the ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: " identifier ",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " identifier ",
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " (which is later used)",
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String_literal */ 11,
+                          _0: " (which is later used)",
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "this open statement shadows the %s identifier %s (which is later used)"
-                }), s._0, s._1);
+                  }
+                },
+                _1: "this open statement shadows the %s identifier %s (which is later used)"
+              }), s._0, s._1);
       case /* Open_shadow_label_constructor */ 28 :
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "this open statement shadows the ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "this open statement shadows the ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ' ' */32,
                       _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
                         _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* String_literal */ 11,
-                            _0: " (which is later used)",
-                            _1: /* End_of_format */ 0
-                          }
+                          TAG: /* String_literal */ 11,
+                          _0: " (which is later used)",
+                          _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "this open statement shadows the %s %s (which is later used)"
-                }), s._0, s._1);
+                  }
+                },
+                _1: "this open statement shadows the %s %s (which is later used)"
+              }), s._0, s._1);
       case /* Bad_env_variable */ 29 :
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "illegal environment variable ",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "illegal environment variable ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: " : ",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: " : ",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: /* End_of_format */ 0
                       }
                     }
-                  },
-                  _1: "illegal environment variable %s : %s"
-                }), s._0, s._1);
+                  }
+                },
+                _1: "illegal environment variable %s : %s"
+              }), s._0, s._1);
       case /* Attribute_payload */ 30 :
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "illegal payload for attribute '",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "illegal payload for attribute '",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* String_literal */ 11,
+                      _0: "'.\n",
                       _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "'.\n",
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: /* End_of_format */ 0
                       }
                     }
-                  },
-                  _1: "illegal payload for attribute '%s'.\n%s"
-                }), s._0, s._1);
+                  }
+                },
+                _1: "illegal payload for attribute '%s'.\n%s"
+              }), s._0, s._1);
       case /* Eliminated_optional_arguments */ 31 :
         const sl = s._0;
         return Curry._2(Stdlib__Printf.sprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "implicit elimination of optional argument",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "implicit elimination of optional argument",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ' ' */32,
                       _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ' ' */32,
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: /* End_of_format */ 0
                       }
                     }
-                  },
-                  _1: "implicit elimination of optional argument%s %s"
-                }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
+                  }
+                },
+                _1: "implicit elimination of optional argument%s %s"
+              }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
       case /* No_cmi_file */ 32 :
         return "no cmi file was found in path for module " + s._0;
       case /* Bad_docstring */ 33 :
@@ -1219,24 +1219,24 @@ function print(ppf, w) {
   const msg = message(w);
   const num = number(w);
   Curry._2(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* Int */ 4,
-              _0: /* Int_d */ 0,
-              _1: /* No_padding */ 0,
-              _2: /* No_precision */ 0,
-              _3: {
-                TAG: /* String_literal */ 11,
-                _0: ": ",
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: /* End_of_format */ 0
-                }
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Int */ 4,
+            _0: /* Int_d */ 0,
+            _1: /* No_padding */ 0,
+            _2: /* No_precision */ 0,
+            _3: {
+              TAG: /* String_literal */ 11,
+              _0: ": ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
+                _1: /* End_of_format */ 0
               }
-            },
-            _1: "%d: %s"
-          }), num, msg);
+            }
+          },
+          _1: "%d: %s"
+        }), num, msg);
   Stdlib__Format.pp_print_flush(ppf, undefined);
   if (Caml_array.get(current.contents.error, num)) {
     nerrors.contents = nerrors.contents + 1 | 0;
@@ -1386,38 +1386,38 @@ function highlight_dumb(ppf, lb, loc) {
     
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "Characters ",
-              _1: {
-                TAG: /* Int */ 4,
-                _0: /* Int_i */ 3,
-                _1: /* No_padding */ 0,
-                _2: /* No_precision */ 0,
-                _3: {
-                  TAG: /* Char_literal */ 12,
-                  _0: /* '-' */45,
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ':' */58,
-                      _1: {
-                        TAG: /* Formatting_lit */ 17,
-                        _0: /* Flush_newline */ 4,
-                        _1: /* End_of_format */ 0
-                      }
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "Characters ",
+            _1: {
+              TAG: /* Int */ 4,
+              _0: /* Int_i */ 3,
+              _1: /* No_padding */ 0,
+              _2: /* No_precision */ 0,
+              _3: {
+                TAG: /* Char_literal */ 12,
+                _0: /* '-' */45,
+                _1: {
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* ':' */58,
+                    _1: {
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
               }
-            },
-            _1: "Characters %i-%i:@."
-          }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
+            }
+          },
+          _1: "Characters %i-%i:@."
+        }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
   Stdlib__Format.pp_print_string(ppf, "  ");
   let line = 0;
   let pos_at_bol = 0;
@@ -1577,14 +1577,14 @@ function show_filename(file) {
 
 function print_filename(ppf, file) {
   Curry._1(Stdlib__Format.fprintf(ppf)({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), show_filename(file));
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          },
+          _1: "%s"
+        }), show_filename(file));
 }
 
 function get_pos_info(pos) {
@@ -1610,95 +1610,95 @@ function print_loc(ppf, loc) {
       return;
     } else {
       return Curry._2(Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Characters ",
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* '-' */45,
-                      _1: {
-                        TAG: /* Int */ 4,
-                        _0: /* Int_i */ 3,
-                        _1: /* No_padding */ 0,
-                        _2: /* No_precision */ 0,
-                        _3: /* End_of_format */ 0
-                      }
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Characters ",
+                _1: {
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '-' */45,
+                    _1: {
+                      TAG: /* Int */ 4,
+                      _0: /* Int_i */ 3,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: /* End_of_format */ 0
                     }
                   }
-                },
-                _1: "Characters %i-%i"
-              }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
+                }
+              },
+              _1: "Characters %i-%i"
+            }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
     }
   } else {
     Curry._5(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Formatting_gen */ 18,
+                _0: {
+                  TAG: /* Open_tag */ 0,
+                  _0: {
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "<loc>",
+                      _1: /* End_of_format */ 0
+                    },
+                    _1: "<loc>"
+                  }
+                },
+                _1: {
+                  TAG: /* Alpha */ 15,
+                  _0: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Int */ 4,
+                      _0: /* Int_i */ 3,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: /* End_of_format */ 0
+                    }
+                  }
+                }
+              }
+            },
+            _1: "%s@{<loc>%a%s%i"
+          }), "File \"", print_filename, file, "\", line ", match[1]);
+    if (startchar$1 >= 0) {
+      Curry._4(Stdlib__Format.fprintf(ppf)({
               TAG: /* Format */ 0,
               _0: {
                 TAG: /* String */ 2,
                 _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* Formatting_gen */ 18,
-                  _0: {
-                    TAG: /* Open_tag */ 0,
-                    _0: {
-                      TAG: /* Format */ 0,
-                      _0: {
-                        TAG: /* String_literal */ 11,
-                        _0: "<loc>",
-                        _1: /* End_of_format */ 0
-                      },
-                      _1: "<loc>"
-                    }
-                  },
-                  _1: {
-                    TAG: /* Alpha */ 15,
-                    _0: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Int */ 4,
-                        _0: /* Int_i */ 3,
-                        _1: /* No_padding */ 0,
-                        _2: /* No_precision */ 0,
-                        _3: /* End_of_format */ 0
-                      }
+                  TAG: /* Int */ 4,
+                  _0: /* Int_i */ 3,
+                  _1: /* No_padding */ 0,
+                  _2: /* No_precision */ 0,
+                  _3: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Int */ 4,
+                      _0: /* Int_i */ 3,
+                      _1: /* No_padding */ 0,
+                      _2: /* No_precision */ 0,
+                      _3: /* End_of_format */ 0
                     }
                   }
                 }
               },
-              _1: "%s@{<loc>%a%s%i"
-            }), "File \"", print_filename, file, "\", line ", match[1]);
-    if (startchar$1 >= 0) {
-      Curry._4(Stdlib__Format.fprintf(ppf)({
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Int */ 4,
-                    _0: /* Int_i */ 3,
-                    _1: /* No_padding */ 0,
-                    _2: /* No_precision */ 0,
-                    _3: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Int */ 4,
-                        _0: /* Int_i */ 3,
-                        _1: /* No_padding */ 0,
-                        _2: /* No_precision */ 0,
-                        _3: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                },
-                _1: "%s%i%s%i"
-              }), ", characters ", startchar$1, "-", endchar);
+              _1: "%s%i%s%i"
+            }), ", characters ", startchar$1, "-", endchar);
     }
     return Stdlib__Format.fprintf(ppf)({
           TAG: /* Format */ 0,
@@ -1721,49 +1721,6 @@ function print$1(ppf, loc) {
     return;
   } else {
     return Curry._3(Stdlib__Format.fprintf(ppf)({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Formatting_gen */ 18,
-                _0: {
-                  TAG: /* Open_tag */ 0,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "<loc>",
-                      _1: /* End_of_format */ 0
-                    },
-                    _1: "<loc>"
-                  }
-                },
-                _1: {
-                  TAG: /* Alpha */ 15,
-                  _0: {
-                    TAG: /* Formatting_lit */ 17,
-                    _0: /* Close_tag */ 1,
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Formatting_lit */ 17,
-                        _0: /* Flush_newline */ 4,
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  }
-                }
-              },
-              _1: "@{<loc>%a@}%s@."
-            }), print_loc, loc, ":");
-  }
-}
-
-const error_prefix = "Error";
-
-function print_error(ppf, loc) {
-  print$1(ppf, loc);
-  Curry._1(Misc_Color.setup, color.contents);
-  Curry._1(Stdlib__Format.fprintf(ppf)({
             TAG: /* Format */ 0,
             _0: {
               TAG: /* Formatting_gen */ 18,
@@ -1773,10 +1730,91 @@ function print_error(ppf, loc) {
                   TAG: /* Format */ 0,
                   _0: {
                     TAG: /* String_literal */ 11,
-                    _0: "<error>",
+                    _0: "<loc>",
                     _1: /* End_of_format */ 0
                   },
-                  _1: "<error>"
+                  _1: "<loc>"
+                }
+              },
+              _1: {
+                TAG: /* Alpha */ 15,
+                _0: {
+                  TAG: /* Formatting_lit */ 17,
+                  _0: /* Close_tag */ 1,
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Formatting_lit */ 17,
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                }
+              }
+            },
+            _1: "@{<loc>%a@}%s@."
+          }), print_loc, loc, ":");
+  }
+}
+
+const error_prefix = "Error";
+
+function print_error(ppf, loc) {
+  print$1(ppf, loc);
+  Curry._1(Misc_Color.setup, color.contents);
+  Curry._1(Stdlib__Format.fprintf(ppf)({
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Formatting_gen */ 18,
+            _0: {
+              TAG: /* Open_tag */ 0,
+              _0: {
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "<error>",
+                  _1: /* End_of_format */ 0
+                },
+                _1: "<error>"
+              }
+            },
+            _1: {
+              TAG: /* String */ 2,
+              _0: /* No_padding */ 0,
+              _1: {
+                TAG: /* Formatting_lit */ 17,
+                _0: /* Close_tag */ 1,
+                _1: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* ':' */58,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            }
+          },
+          _1: "@{<error>%s@}:"
+        }), error_prefix);
+}
+
+function default_warning_printer(loc, ppf, w) {
+  if (is_active(w)) {
+    Curry._1(Misc_Color.setup, color.contents);
+    print$1(ppf, loc);
+    return Curry._3(Stdlib__Format.fprintf(ppf)({
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Formatting_gen */ 18,
+              _0: {
+                TAG: /* Open_tag */ 0,
+                _0: {
+                  TAG: /* Format */ 0,
+                  _0: {
+                    TAG: /* String_literal */ 11,
+                    _0: "<warning>",
+                    _1: /* End_of_format */ 0
+                  },
+                  _1: "<warning>"
                 }
               },
               _1: {
@@ -1787,59 +1825,21 @@ function print_error(ppf, loc) {
                   _0: /* Close_tag */ 1,
                   _1: {
                     TAG: /* Char_literal */ 12,
-                    _0: /* ':' */58,
-                    _1: /* End_of_format */ 0
-                  }
-                }
-              }
-            },
-            _1: "@{<error>%s@}:"
-          }), error_prefix);
-}
-
-function default_warning_printer(loc, ppf, w) {
-  if (is_active(w)) {
-    Curry._1(Misc_Color.setup, color.contents);
-    print$1(ppf, loc);
-    return Curry._3(Stdlib__Format.fprintf(ppf)({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* Formatting_gen */ 18,
-                _0: {
-                  TAG: /* Open_tag */ 0,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: {
-                      TAG: /* String_literal */ 11,
-                      _0: "<warning>",
-                      _1: /* End_of_format */ 0
-                    },
-                    _1: "<warning>"
-                  }
-                },
-                _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* Formatting_lit */ 17,
-                    _0: /* Close_tag */ 1,
+                    _0: /* ' ' */32,
                     _1: {
-                      TAG: /* Char_literal */ 12,
-                      _0: /* ' ' */32,
-                      _1: {
-                        TAG: /* Alpha */ 15,
-                        _0: {
-                          TAG: /* Formatting_lit */ 17,
-                          _0: /* Flush_newline */ 4,
-                          _1: /* End_of_format */ 0
-                        }
+                      TAG: /* Alpha */ 15,
+                      _0: {
+                        TAG: /* Formatting_lit */ 17,
+                        _0: /* Flush_newline */ 4,
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
                 }
-              },
-              _1: "@{<warning>%s@} %a@."
-            }), "Warning", print, w);
+              }
+            },
+            _1: "@{<warning>%s@} %a@."
+          }), "Warning", print, w);
   }
   
 }
@@ -1930,54 +1930,54 @@ function register_error_of_exn(f) {
 
 function error_of_printer(loc, print, x) {
   return Curry._2(errorf(loc, undefined, undefined, {
-            TAG: /* Format */ 0,
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Alpha */ 15,
             _0: {
-              TAG: /* Alpha */ 15,
-              _0: {
-                TAG: /* Formatting_lit */ 17,
-                _0: /* FFlush */ 2,
-                _1: /* End_of_format */ 0
-              }
-            },
-            _1: "%a@?"
-          }), print, x);
+              TAG: /* Formatting_lit */ 17,
+              _0: /* FFlush */ 2,
+              _1: /* End_of_format */ 0
+            }
+          },
+          _1: "%a@?"
+        }), print, x);
 }
 
 register_error_of_exn(function (msg) {
       if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "I/O error: ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  },
-                  _1: "I/O error: %s"
-                }), msg._1);
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "I/O error: ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "I/O error: %s"
+              }), msg._1);
       } else if (msg.MEL_EXN_ID === Errors) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, {
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Some fatal warnings were triggered (",
-                    _1: {
-                      TAG: /* Int */ 4,
-                      _0: /* Int_d */ 0,
-                      _1: /* No_padding */ 0,
-                      _2: /* No_precision */ 0,
-                      _3: {
-                        TAG: /* String_literal */ 11,
-                        _0: " occurrences)",
-                        _1: /* End_of_format */ 0
-                      }
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Some fatal warnings were triggered (",
+                  _1: {
+                    TAG: /* Int */ 4,
+                    _0: /* Int_d */ 0,
+                    _1: /* No_padding */ 0,
+                    _2: /* No_precision */ 0,
+                    _3: {
+                      TAG: /* String_literal */ 11,
+                      _0: " occurrences)",
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Some fatal warnings were triggered (%d occurrences)"
-                }), msg._1);
+                  }
+                },
+                _1: "Some fatal warnings were triggered (%d occurrences)"
+              }), msg._1);
       } else {
         return;
       }
@@ -3554,101 +3554,101 @@ function prepare_error(loc) {
       const closing = loc._3;
       const opening = loc._1;
       return Curry._1(errorf(loc._2, {
-                hd: Curry._1(errorf(loc._0, undefined, undefined, {
-                          TAG: /* Format */ 0,
-                          _0: {
+              hd: Curry._1(errorf(loc._0, undefined, undefined, {
+                      TAG: /* Format */ 0,
+                      _0: {
+                        TAG: /* String_literal */ 11,
+                        _0: "This '",
+                        _1: {
+                          TAG: /* String */ 2,
+                          _0: /* No_padding */ 0,
+                          _1: {
                             TAG: /* String_literal */ 11,
-                            _0: "This '",
-                            _1: {
-                              TAG: /* String */ 2,
-                              _0: /* No_padding */ 0,
-                              _1: {
-                                TAG: /* String_literal */ 11,
-                                _0: "' might be unmatched",
-                                _1: /* End_of_format */ 0
-                              }
-                            }
-                          },
-                          _1: "This '%s' might be unmatched"
-                        }), opening),
-                tl: /* [] */ 0
-              }, Curry._2(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
+                            _0: "' might be unmatched",
+                            _1: /* End_of_format */ 0
+                          }
+                        }
+                      },
+                      _1: "This '%s' might be unmatched"
+                    }), opening),
+              tl: /* [] */ 0
+            }, Curry._2(Stdlib__Printf.sprintf({
+                    TAG: /* Format */ 0,
+                    _0: {
+                      TAG: /* String_literal */ 11,
+                      _0: "Syntax error: '",
+                      _1: {
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
                           TAG: /* String_literal */ 11,
-                          _0: "Syntax error: '",
+                          _0: "' expected, the highlighted '",
                           _1: {
                             TAG: /* String */ 2,
                             _0: /* No_padding */ 0,
                             _1: {
                               TAG: /* String_literal */ 11,
-                              _0: "' expected, the highlighted '",
-                              _1: {
-                                TAG: /* String */ 2,
-                                _0: /* No_padding */ 0,
-                                _1: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: "' might be unmatched",
-                                  _1: /* End_of_format */ 0
-                                }
-                              }
+                              _0: "' might be unmatched",
+                              _1: /* End_of_format */ 0
                             }
                           }
-                        },
-                        _1: "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
-                      }), closing, opening), {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Syntax error: '",
+                        }
+                      }
+                    },
+                    _1: "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
+                  }), closing, opening), {
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Syntax error: '",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: "' expected",
-                      _1: /* End_of_format */ 0
-                    }
+                    TAG: /* String_literal */ 11,
+                    _0: "' expected",
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "Syntax error: '%s' expected"
-              }), closing);
+                }
+              },
+              _1: "Syntax error: '%s' expected"
+            }), closing);
     case /* Expecting */ 1 :
       return Curry._1(errorf(loc._0, undefined, undefined, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Syntax error: ",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Syntax error: ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " expected.",
-                      _1: /* End_of_format */ 0
-                    }
+                    TAG: /* String_literal */ 11,
+                    _0: " expected.",
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "Syntax error: %s expected."
-              }), loc._1);
+                }
+              },
+              _1: "Syntax error: %s expected."
+            }), loc._1);
     case /* Not_expecting */ 2 :
       return Curry._1(errorf(loc._0, undefined, undefined, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Syntax error: ",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "Syntax error: ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " not expected.",
-                      _1: /* End_of_format */ 0
-                    }
+                    TAG: /* String_literal */ 11,
+                    _0: " not expected.",
+                    _1: /* End_of_format */ 0
                   }
-                },
-                _1: "Syntax error: %s not expected."
-              }), loc._1);
+                }
+              },
+              _1: "Syntax error: %s not expected."
+            }), loc._1);
     case /* Applicative_path */ 3 :
       return errorf(loc._0, undefined, undefined, {
             TAG: /* Format */ 0,
@@ -3662,30 +3662,30 @@ function prepare_error(loc) {
     case /* Variable_in_scope */ 4 :
       const $$var = loc._1;
       return Curry._2(errorf(loc._0, undefined, undefined, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "In this scoped type, variable '",
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "In this scoped type, variable '",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* String_literal */ 11,
+                    _0: " is reserved for the local type ",
                     _1: {
-                      TAG: /* String_literal */ 11,
-                      _0: " is reserved for the local type ",
+                      TAG: /* String */ 2,
+                      _0: /* No_padding */ 0,
                       _1: {
-                        TAG: /* String */ 2,
-                        _0: /* No_padding */ 0,
-                        _1: {
-                          TAG: /* Char_literal */ 12,
-                          _0: /* '.' */46,
-                          _1: /* End_of_format */ 0
-                        }
+                        TAG: /* Char_literal */ 12,
+                        _0: /* '.' */46,
+                        _1: /* End_of_format */ 0
                       }
                     }
                   }
-                },
-                _1: "In this scoped type, variable '%s is reserved for the local type %s."
-              }), $$var, $$var);
+                }
+              },
+              _1: "In this scoped type, variable '%s is reserved for the local type %s."
+            }), $$var, $$var);
     case /* Other */ 5 :
       return errorf(loc._0, undefined, undefined, {
             TAG: /* Format */ 0,
@@ -3698,18 +3698,18 @@ function prepare_error(loc) {
           });
     case /* Ill_formed_ast */ 6 :
       return Curry._1(errorf(loc._0, undefined, undefined, {
-                TAG: /* Format */ 0,
-                _0: {
-                  TAG: /* String_literal */ 11,
-                  _0: "broken invariant in parsetree: ",
-                  _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
-                    _1: /* End_of_format */ 0
-                  }
-                },
-                _1: "broken invariant in parsetree: %s"
-              }), loc._1);
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "broken invariant in parsetree: ",
+                _1: {
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
+                  _1: /* End_of_format */ 0
+                }
+              },
+              _1: "broken invariant in parsetree: %s"
+            }), loc._1);
   }
 }
 
@@ -3812,15 +3812,15 @@ function reloc_exp(x) {
 function mkoperator(name, pos) {
   const loc = rhs_loc(pos);
   return Curry._3(Ast_helper_Exp.mk, loc, undefined, {
-        TAG: /* Pexp_ident */ 0,
-        _0: {
-          txt: {
-            TAG: /* Lident */ 0,
-            _0: name
-          },
-          loc: loc
-        }
-      });
+      TAG: /* Pexp_ident */ 0,
+      _0: {
+        txt: {
+          TAG: /* Lident */ 0,
+          _0: name
+        },
+        loc: loc
+      }
+    });
 }
 
 function mkpatvar(name, pos) {
@@ -3875,16 +3875,16 @@ function neg_float_string(f) {
 
 function mkexp_cons(consloc, args, loc) {
   return Curry._3(Ast_helper_Exp.mk, loc, undefined, {
-        TAG: /* Pexp_construct */ 9,
-        _0: {
-          txt: {
-            TAG: /* Lident */ 0,
-            _0: "::"
-          },
-          loc: consloc
+      TAG: /* Pexp_construct */ 9,
+      _0: {
+        txt: {
+          TAG: /* Lident */ 0,
+          _0: "::"
         },
-        _1: args
-      });
+        loc: consloc
+      },
+      _1: args
+    });
 }
 
 function mkpat_cons(consloc, args, loc) {
@@ -3913,15 +3913,15 @@ function mktailexp(nilloc, param) {
       loc_ghost: true
     };
     const arg = Curry._3(Ast_helper_Exp.mk, loc, undefined, {
-          TAG: /* Pexp_tuple */ 8,
-          _0: {
-            hd: e1,
-            tl: {
-              hd: exp_el,
-              tl: /* [] */ 0
-            }
+        TAG: /* Pexp_tuple */ 8,
+        _0: {
+          hd: e1,
+          tl: {
+            hd: exp_el,
+            tl: /* [] */ 0
           }
-        });
+        }
+      });
     return mkexp_cons({
           loc_start: loc_loc_start,
           loc_end: loc_loc_end,
@@ -3944,10 +3944,10 @@ function mktailexp(nilloc, param) {
     loc: loc$1
   };
   return Curry._3(Ast_helper_Exp.mk, loc$1, undefined, {
-        TAG: /* Pexp_construct */ 9,
-        _0: nil,
-        _1: undefined
-      });
+      TAG: /* Pexp_construct */ 9,
+      _0: nil,
+      _1: undefined
+    });
 }
 
 function mktailpat(nilloc, param) {
@@ -12116,40 +12116,40 @@ function report_error(ppf, c) {
     switch (c.TAG) {
       case /* Illegal_character */ 0 :
         return Curry._1(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Illegal character (",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Illegal character (",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Illegal character (%s)"
-                }), Stdlib__Char.escaped(c._0));
+                  }
+                },
+                _1: "Illegal character (%s)"
+              }), Stdlib__Char.escaped(c._0));
       case /* Illegal_escape */ 1 :
         return Curry._1(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Illegal backslash escape in string or character (",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Illegal backslash escape in string or character (",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
                     _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */ 0
-                      }
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */ 0
                     }
-                  },
-                  _1: "Illegal backslash escape in string or character (%s)"
-                }), c._0);
+                  }
+                },
+                _1: "Illegal backslash escape in string or character (%s)"
+              }), c._0);
       case /* Unterminated_comment */ 2 :
         return Stdlib__Format.fprintf(ppf)({
               TAG: /* Format */ 0,
@@ -12162,97 +12162,97 @@ function report_error(ppf, c) {
             });
       case /* Unterminated_string_in_comment */ 3 :
         return Curry._2(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "This comment contains an unterminated string literal",
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "This comment contains an unterminated string literal",
+                  _1: {
+                    TAG: /* Formatting_lit */ 17,
+                    _0: /* Flush_newline */ 4,
                     _1: {
-                      TAG: /* Formatting_lit */ 17,
-                      _0: /* Flush_newline */ 4,
+                      TAG: /* Alpha */ 15,
+                      _0: {
+                        TAG: /* String_literal */ 11,
+                        _0: "String literal begins here",
+                        _1: /* End_of_format */ 0
+                      }
+                    }
+                  }
+                },
+                _1: "This comment contains an unterminated string literal@.%aString literal begins here"
+              }), print_error, c._1);
+      case /* Keyword_as_label */ 4 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* '`' */96,
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* String_literal */ 11,
+                      _0: "' is a keyword, it cannot be used as label name",
+                      _1: /* End_of_format */ 0
+                    }
+                  }
+                },
+                _1: "`%s' is a keyword, it cannot be used as label name"
+              }), c._0);
+      case /* Literal_overflow */ 5 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Integer literal exceeds the range of representable integers of type ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "Integer literal exceeds the range of representable integers of type %s"
+              }), c._0);
+      case /* Illegal_semver */ 6 :
+        return Curry._1(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Illegal semantic version string ",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: /* End_of_format */ 0
+                  }
+                },
+                _1: "Illegal semantic version string %s"
+              }), c._0);
+      case /* Conditional_expr_expected_type */ 7 :
+        return Curry._2(Stdlib__Format.fprintf(ppf)({
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "Conditional expression type mismatch (",
+                  _1: {
+                    TAG: /* String */ 2,
+                    _0: /* No_padding */ 0,
+                    _1: {
+                      TAG: /* Char_literal */ 12,
+                      _0: /* ',' */44,
                       _1: {
-                        TAG: /* Alpha */ 15,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "String literal begins here",
+                        TAG: /* String */ 2,
+                        _0: /* No_padding */ 0,
+                        _1: {
+                          TAG: /* Char_literal */ 12,
+                          _0: /* ')' */41,
                           _1: /* End_of_format */ 0
                         }
                       }
                     }
-                  },
-                  _1: "This comment contains an unterminated string literal@.%aString literal begins here"
-                }), print_error, c._1);
-      case /* Keyword_as_label */ 4 :
-        return Curry._1(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Char_literal */ 12,
-                    _0: /* '`' */96,
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* String_literal */ 11,
-                        _0: "' is a keyword, it cannot be used as label name",
-                        _1: /* End_of_format */ 0
-                      }
-                    }
-                  },
-                  _1: "`%s' is a keyword, it cannot be used as label name"
-                }), c._0);
-      case /* Literal_overflow */ 5 :
-        return Curry._1(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Integer literal exceeds the range of representable integers of type ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  },
-                  _1: "Integer literal exceeds the range of representable integers of type %s"
-                }), c._0);
-      case /* Illegal_semver */ 6 :
-        return Curry._1(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Illegal semantic version string ",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: /* End_of_format */ 0
-                    }
-                  },
-                  _1: "Illegal semantic version string %s"
-                }), c._0);
-      case /* Conditional_expr_expected_type */ 7 :
-        return Curry._2(Stdlib__Format.fprintf(ppf)({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* String_literal */ 11,
-                    _0: "Conditional expression type mismatch (",
-                    _1: {
-                      TAG: /* String */ 2,
-                      _0: /* No_padding */ 0,
-                      _1: {
-                        TAG: /* Char_literal */ 12,
-                        _0: /* ',' */44,
-                        _1: {
-                          TAG: /* String */ 2,
-                          _0: /* No_padding */ 0,
-                          _1: {
-                            TAG: /* Char_literal */ 12,
-                            _0: /* ')' */41,
-                            _1: /* End_of_format */ 0
-                          }
-                        }
-                      }
-                    }
-                  },
-                  _1: "Conditional expression type mismatch (%s,%s)"
-                }), string_of_type_directive(c._0), string_of_type_directive(c._1));
+                  }
+                },
+                _1: "Conditional expression type mismatch (%s,%s)"
+              }), string_of_type_directive(c._0), string_of_type_directive(c._1));
     }
   }
 }

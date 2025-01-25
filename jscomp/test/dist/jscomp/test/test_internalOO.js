@@ -3629,12 +3629,12 @@ function narrow(table, vars, virt_meths, concr_meths) {
     tl: table.previous_states
   };
   table.vars = Curry._3(fold, (function (lab, info, tvars) {
-        if (Stdlib__List.mem(lab, vars$1)) {
-          return Curry._3(add, lab, info, tvars);
-        } else {
-          return tvars;
-        }
-      }), table.vars, /* Empty */ 0);
+      if (Stdlib__List.mem(lab, vars$1)) {
+        return Curry._3(add, lab, info, tvars);
+      } else {
+        return tvars;
+      }
+    }), table.vars, /* Empty */ 0);
   const by_name = {
     contents: /* Empty */ 0
   };

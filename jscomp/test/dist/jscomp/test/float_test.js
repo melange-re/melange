@@ -130,20 +130,20 @@ function from_pairs(ps) {
             const a = param[0];
             return [
               Curry._1(Stdlib__Printf.sprintf({
-                        TAG: /* Format */ 0,
-                        _0: {
-                          TAG: /* String_literal */ 11,
-                          _0: "pair ",
-                          _1: {
-                            TAG: /* Int */ 4,
-                            _0: /* Int_d */ 0,
-                            _1: /* No_padding */ 0,
-                            _2: /* No_precision */ 0,
-                            _3: /* End_of_format */ 0
-                          }
-                        },
-                        _1: "pair %d"
-                      }), i),
+                      TAG: /* Format */ 0,
+                      _0: {
+                        TAG: /* String_literal */ 11,
+                        _0: "pair ",
+                        _1: {
+                          TAG: /* Int */ 4,
+                          _0: /* Int_d */ 0,
+                          _1: /* No_padding */ 0,
+                          _2: /* No_precision */ 0,
+                          _3: /* End_of_format */ 0
+                        }
+                      },
+                      _1: "pair %d"
+                    }), i),
               (function (param) {
                 return {
                   TAG: /* Approx */ 5,

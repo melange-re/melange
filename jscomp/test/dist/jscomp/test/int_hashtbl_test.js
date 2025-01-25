@@ -15,14 +15,14 @@ function f(H) {
   return Stdlib__List.sort((function (param, param$1) {
         return Caml.caml_int_compare(param[0], param$1[0]);
       }), Curry._3(H.fold, (function (k, v, acc) {
-            return {
-              hd: [
-                k,
-                v
-              ],
-              tl: acc
-            };
-          }), tbl, /* [] */ 0));
+          return {
+            hd: [
+              k,
+              v
+            ],
+            tl: acc
+          };
+        }), tbl, /* [] */ 0));
 }
 
 function g(H, count) {
@@ -34,14 +34,14 @@ function g(H, count) {
     Curry._3(H.replace, tbl, (i$1 << 1), String(i$1));
   }
   const v = Curry._3(H.fold, (function (k, v, acc) {
-        return {
-          hd: [
-            k,
-            v
-          ],
-          tl: acc
-        };
-      }), tbl, /* [] */ 0);
+      return {
+        hd: [
+          k,
+          v
+        ],
+        tl: acc
+      };
+    }), tbl, /* [] */ 0);
   return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
             return Caml.caml_int_compare(param[0], param$1[0]);
           }), v));

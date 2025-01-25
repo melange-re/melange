@@ -16,14 +16,14 @@ const fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
   Curry._1(Stdlib__Format.fprintf(fmt)({
-            TAG: /* Format */ 0,
-            _0: {
-              TAG: /* String */ 2,
-              _0: /* No_padding */ 0,
-              _1: /* End_of_format */ 0
-            },
-            _1: "%s"
-          }), Stdlib.string_of_float(f));
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String */ 2,
+            _0: /* No_padding */ 0,
+            _1: /* End_of_format */ 0
+          },
+          _1: "%s"
+        }), Stdlib.string_of_float(f));
 }
 
 function print_newline(param) {

@@ -58,9 +58,9 @@ Caml_module.update_mod({
     });
 
 Curry._1(PA.print, [
-      1,
-      2
-    ]);
+    1,
+    2
+  ]);
 
 module.exports = {
   PA,

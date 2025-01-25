@@ -188,15 +188,15 @@ function intlist_init($$class) {
 const intlist = CamlinternalOO.make_class(shared$1, intlist_init);
 
 const l = Curry._2(intlist[0], undefined, {
-      hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
       tl: {
-        hd: 2,
-        tl: {
-          hd: 3,
-          tl: /* [] */ 0
-        }
+        hd: 3,
+        tl: /* [] */ 0
       }
-    });
+    }
+  });
 
 eq("File \"jscomp/test/class5_test.ml\", line 54, characters 5-12", 6, Caml_oo_curry.js3(-1010803711, 4, l, (function (x, y) {
           return x + y | 0;
@@ -227,15 +227,15 @@ function intlist2_init($$class) {
 const intlist2 = CamlinternalOO.make_class(shared$1, intlist2_init);
 
 const l$1 = Curry._2(intlist2[0], undefined, {
-      hd: 1,
+    hd: 1,
+    tl: {
+      hd: 2,
       tl: {
-        hd: 2,
-        tl: {
-          hd: 3,
-          tl: /* [] */ 0
-        }
+        hd: 3,
+        tl: /* [] */ 0
       }
-    });
+    }
+  });
 
 eq("File \"jscomp/test/class5_test.ml\", line 67, characters 5-12", [
       6,

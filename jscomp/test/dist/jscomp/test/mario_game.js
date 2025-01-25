@@ -3266,22 +3266,22 @@ function load(param) {
     canvas = el;
   } else {
     Curry._1(Stdlib__Printf.printf({
-              TAG: /* Format */ 0,
-              _0: {
-                TAG: /* String_literal */ 11,
-                _0: "cant find canvas ",
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "cant find canvas ",
+              _1: {
+                TAG: /* String */ 2,
+                _0: /* No_padding */ 0,
                 _1: {
-                  TAG: /* String */ 2,
-                  _0: /* No_padding */ 0,
-                  _1: {
-                    TAG: /* String_literal */ 11,
-                    _0: " \n",
-                    _1: /* End_of_format */ 0
-                  }
+                  TAG: /* String_literal */ 11,
+                  _0: " \n",
+                  _1: /* End_of_format */ 0
                 }
-              },
-              _1: "cant find canvas %s \n"
-            }), canvas_id);
+              }
+            },
+            _1: "cant find canvas %s \n"
+          }), canvas_id);
     throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
           _1: "fail"

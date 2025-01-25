@@ -33,20 +33,20 @@ function from_pairs(pair) {
                 return {
                   hd: [
                     Curry._1(Stdlib__Printf.sprintf({
-                              TAG: /* Format */ 0,
-                              _0: {
-                                TAG: /* String_literal */ 11,
-                                _0: "int32_float_of_bits ",
-                                _1: {
-                                  TAG: /* Int */ 4,
-                                  _0: /* Int_d */ 0,
-                                  _1: /* No_padding */ 0,
-                                  _2: /* No_precision */ 0,
-                                  _3: /* End_of_format */ 0
-                                }
-                              },
-                              _1: "int32_float_of_bits %d"
-                            }), i),
+                            TAG: /* Format */ 0,
+                            _0: {
+                              TAG: /* String_literal */ 11,
+                              _0: "int32_float_of_bits ",
+                              _1: {
+                                TAG: /* Int */ 4,
+                                _0: /* Int_d */ 0,
+                                _1: /* No_padding */ 0,
+                                _2: /* No_precision */ 0,
+                                _3: /* End_of_format */ 0
+                              }
+                            },
+                            _1: "int32_float_of_bits %d"
+                          }), i),
                     (function (param) {
                       return {
                         TAG: /* Eq */ 0,
@@ -58,20 +58,20 @@ function from_pairs(pair) {
                   tl: {
                     hd: [
                       Curry._1(Stdlib__Printf.sprintf({
-                                TAG: /* Format */ 0,
-                                _0: {
-                                  TAG: /* String_literal */ 11,
-                                  _0: "int32_bits_of_float ",
-                                  _1: {
-                                    TAG: /* Int */ 4,
-                                    _0: /* Int_d */ 0,
-                                    _1: /* No_padding */ 0,
-                                    _2: /* No_precision */ 0,
-                                    _3: /* End_of_format */ 0
-                                  }
-                                },
-                                _1: "int32_bits_of_float %d"
-                              }), i),
+                              TAG: /* Format */ 0,
+                              _0: {
+                                TAG: /* String_literal */ 11,
+                                _0: "int32_bits_of_float ",
+                                _1: {
+                                  TAG: /* Int */ 4,
+                                  _0: /* Int_d */ 0,
+                                  _1: /* No_padding */ 0,
+                                  _2: /* No_precision */ 0,
+                                  _3: /* End_of_format */ 0
+                                }
+                              },
+                              _1: "int32_bits_of_float %d"
+                            }), i),
                       (function (param) {
                         return {
                           TAG: /* Eq */ 0,

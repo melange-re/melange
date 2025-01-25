@@ -36,69 +36,69 @@ function eq(loc, param) {
 function print_or_error(fmt, x) {
   if (x.NAME === "Error") {
     return Curry._1(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */ 0,
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Formatting_gen */ 18,
               _0: {
-                TAG: /* Formatting_gen */ 18,
+                TAG: /* Open_box */ 1,
                 _0: {
-                  TAG: /* Open_box */ 1,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: /* End_of_format */ 0,
-                    _1: ""
-                  }
-                },
+                  TAG: /* Format */ 0,
+                  _0: /* End_of_format */ 0,
+                  _1: ""
+                }
+              },
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "Error:",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Error:",
+                  TAG: /* String */ 2,
+                  _0: /* No_padding */ 0,
                   _1: {
-                    TAG: /* String */ 2,
-                    _0: /* No_padding */ 0,
+                    TAG: /* Formatting_lit */ 17,
+                    _0: /* Close_box */ 0,
                     _1: {
                       TAG: /* Formatting_lit */ 17,
-                      _0: /* Close_box */ 0,
-                      _1: {
-                        TAG: /* Formatting_lit */ 17,
-                        _0: /* Flush_newline */ 4,
-                        _1: /* End_of_format */ 0
-                      }
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "@[Error:%s@]@."
-            }), x.VAL);
+              }
+            },
+            _1: "@[Error:%s@]@."
+          }), x.VAL);
   } else {
     return Curry._2(Stdlib__Format.fprintf(fmt)({
-              TAG: /* Format */ 0,
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* Formatting_gen */ 18,
               _0: {
-                TAG: /* Formatting_gen */ 18,
+                TAG: /* Open_box */ 1,
                 _0: {
-                  TAG: /* Open_box */ 1,
-                  _0: {
-                    TAG: /* Format */ 0,
-                    _0: /* End_of_format */ 0,
-                    _1: ""
-                  }
-                },
+                  TAG: /* Format */ 0,
+                  _0: /* End_of_format */ 0,
+                  _1: ""
+                }
+              },
+              _1: {
+                TAG: /* String_literal */ 11,
+                _0: "Ok:",
                 _1: {
-                  TAG: /* String_literal */ 11,
-                  _0: "Ok:",
-                  _1: {
-                    TAG: /* Alpha */ 15,
-                    _0: {
+                  TAG: /* Alpha */ 15,
+                  _0: {
+                    TAG: /* Formatting_lit */ 17,
+                    _0: /* Close_box */ 0,
+                    _1: {
                       TAG: /* Formatting_lit */ 17,
-                      _0: /* Close_box */ 0,
-                      _1: {
-                        TAG: /* Formatting_lit */ 17,
-                        _0: /* Flush_newline */ 4,
-                        _1: /* End_of_format */ 0
-                      }
+                      _0: /* Flush_newline */ 4,
+                      _1: /* End_of_format */ 0
                     }
                   }
                 }
-              },
-              _1: "@[Ok:%a@]@."
-            }), Sexpm.print, x.VAL);
+              }
+            },
+            _1: "@[Ok:%a@]@."
+          }), Sexpm.print, x.VAL);
   }
 }
 
@@ -147,13 +147,13 @@ eq("File \"jscomp/test/sexpm_test.ml\", line 17, characters 7-14", [
 
 eq("File \"jscomp/test/sexpm_test.ml\", line 21, characters 7-14", [
       Curry._2(Stdlib__Format.asprintf({
-                  TAG: /* Format */ 0,
-                  _0: {
-                    TAG: /* Alpha */ 15,
-                    _0: /* End_of_format */ 0
-                  },
-                  _1: "%a"
-                }), print_or_error, a).trim(),
+                TAG: /* Format */ 0,
+                _0: {
+                  TAG: /* Alpha */ 15,
+                  _0: /* End_of_format */ 0
+                },
+                _1: "%a"
+              }), print_or_error, a).trim(),
       "Ok:(x x gh 3 3)\n".trim()
     ]);
 
