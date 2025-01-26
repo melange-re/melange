@@ -24,16 +24,12 @@
   'use strict';
   
   
-  function sum(a) {
-    return function (b) {
-      return a + b | 0;
-    };
+  function sum(a, b) {
+    return a + b | 0;
   }
   
-  function sum2(a) {
-    return function (b) {
-      return a + b | 0;
-    };
+  function sum2(a, b) {
+    return a + b | 0;
   }
   
   function sum3(param) {

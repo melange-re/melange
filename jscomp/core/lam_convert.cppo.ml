@@ -536,6 +536,20 @@ let nat_of_string_exn =
     let acc = int_of_string_aux s 0 0 (String.length s) in
     if acc < 0 then invalid_arg s else acc
 
+let convert_lfunction_params_and_body params body =
+  let just_params = List.map ~f:fst params in
+  let new_map, body =
+    rename_optional_parameters Ident.Map.empty just_params body
+  in
+  let params =
+    if Ident.Map.is_empty new_map then just_params
+    else
+      List.map
+        ~f:(fun x -> Ident.Map.find_default new_map x x)
+        just_params
+  in
+  params, body
+
 let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     Lam.t * Lam_module_ident.Hash_set.t =
   let alias_tbl = Ident.Hash.create 64 in
@@ -751,20 +765,19 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             ap_inlined;
             ap_status = App_na;
           }
-    | Lfunction { params; body; attr; _ } ->
-        let just_params = List.map ~f:fst params in
-        let body = convert_aux ~dynamic_import body in
-        let new_map, body =
-          rename_optional_parameters Ident.Map.empty just_params body
-        in
-        let params =
-          if Ident.Map.is_empty new_map then just_params
-          else
-            List.map
-              ~f:(fun x -> Ident.Map.find_default new_map x x)
-              just_params
-        in
-        Lam.function_ ~attr ~arity:(List.length params) ~params ~body
+    | Lfunction { params; body = l; attr = attr1; _ } -> (
+        (* because of ocaml/ocaml#12236, `fun a -> fun b -> ..` becomes 2
+           `Lfunction` nodes in the AST on OCaml 5.2 and up. *)
+        match convert_aux ~dynamic_import l with
+        | Lfunction { arity = arity'; params = params'; body; attr = attr2 }
+          when List.length params + List.length params' <= Lambda.max_arity() ->
+
+          let params, body = convert_lfunction_params_and_body params body in
+          let arity = (List.length params) + arity' in
+          Lam.function_ ~arity ~params:(params @ params') ~body ~attr:attr2
+        | body ->
+          let params, body = convert_lfunction_params_and_body params body in
+          Lam.function_ ~attr:attr1 ~arity:(List.length params) ~params ~body)
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body
