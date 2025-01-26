@@ -340,6 +340,7 @@ let parse_external_attributes (prim_name_check : string)
             { st with val_send = name_from_payload_or_prim ~loc payload }
         | "mel.send.pipe" | "bs.send.pipe" | "send.pipe" ->
             Ast_attributes.error_if_bs_or_non_namespaced ~loc txt;
+            Mel_ast_invariant.warn ~loc Deprecated_send_pipe;
             {
               st with
               val_send_pipe =

@@ -9,7 +9,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.variadic]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml
+  $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 2-7, characters 0-18:
   2 | external
   3 |   f :
@@ -28,7 +28,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.variadic]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml
+  $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 1-6, characters 0-18:
   1 | external
   2 |   f2 :

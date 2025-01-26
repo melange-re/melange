@@ -357,6 +357,11 @@ Demonstrate PPX error messages
   > external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
   > EOF
   $ dune build @melange
+  File "x.ml", line 2, characters 37-50:
+  2 | external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
+                                           ^^^^^^^^^^^^^
+  Alert deprecated: [@mel.send.pipe] is deprecated and will be removed in the next version of Melange
+  
   File "x.ml", line 2, characters 0-71:
   2 | external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -405,6 +410,11 @@ Demonstrate PPX error messages
   > [@@mel.send.pipe: (_ [@mel.as "x"])]
   > EOF
   $ dune build @melange
+  File "x.ml", line 3, characters 3-16:
+  3 | [@@mel.send.pipe: (_ [@mel.as "x"])]
+         ^^^^^^^^^^^^^
+  Alert deprecated: [@mel.send.pipe] is deprecated and will be removed in the next version of Melange
+  
   File "x.ml", lines 2-3, characters 0-36:
   2 | external f: int -> unit = "set"
   3 | [@@mel.send.pipe: (_ [@mel.as "x"])]
