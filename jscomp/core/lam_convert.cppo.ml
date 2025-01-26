@@ -779,7 +779,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             id, convert_aux lambda) bindings
         in
 #else
-        let bindings = List.map_snd bindings convert_aux in
+        let bindings = List.map_snd ~f:convert_aux bindings in
 #endif
         let body = convert_aux body in
         let lam = Lam.letrec bindings body in
