@@ -104,7 +104,7 @@ Unreleased
   ([#1313](https://github.com/melange-re/melange/pull/1313))
 - ffi: allow annotating `@mel.send` FFI with `@mel.this` to specify which
   parameter should represent the "self" argument.
-  ([#1303](https://github.com/melange-re/melange/pull/1303),
+  ([#1303](https://github.com/melange-re/melange/pull/1285),
   [#1310](https://github.com/melange-re/melange/pull/1310))
   - This improvement to the FFI allows expressing more FFI constructs via
     labeled and optionally labeled arguments, e.g. `external foo: value:string
@@ -112,6 +112,8 @@ Unreleased
     `t.foo(value)` instead of `value.foo(t)`.
   - It also allows removing usages of `[@mel.send.pipe: t]` in favor of
     `[@mel.send]` with `[@mel.this]`, including when used with `@mel.variadic`.
+- ppx: deprecate `[@mel.send.pipe]`
+  ([#1321](https://github.com/melange-re/melange/pull/1321))
 
 4.0.1 2024-06-07
 ---------------
