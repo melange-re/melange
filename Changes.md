@@ -114,6 +114,9 @@ Unreleased
     `[@mel.send]` with `[@mel.this]`, including when used with `@mel.variadic`.
 - ppx: deprecate `[@mel.send.pipe]`
   ([#1321](https://github.com/melange-re/melange/pull/1321))
+- core: fix missed optimization on OCaml versions 5.2 and above, caused by
+  [ocaml/ocaml#12236](https://github.com/ocaml/ocaml/pull/12236) generating
+  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR.
 
 4.0.1 2024-06-07
 ---------------
