@@ -22,6 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Map = struct
+  type ('k, 'v) t
+
+  external make : unit -> ('k, 'v) t = "Map" [@@mel.new]
+  external set : ('k, 'v) t -> 'k -> 'v -> unit = "set" [@@mel.send]
+  external get : ('k, 'v) t -> 'k -> 'v option = "get" [@@mel.send]
+end
+
 type t = { id : string [@mel.as "MEL_EXN_ID"] }
 
 (**
@@ -32,11 +40,16 @@ type t = { id : string [@mel.as "MEL_EXN_ID"] }
    {[ a = caml_set_oo_id([248,"string", caml_oo_last_id++]) ]}
 *)
 
-let id = ref 0
+let idMap : (string, int) Map.t = Map.make ()
+
+let fresh str =
+  let id = match Map.get idMap str with Some v -> v + 1 | None -> 1 in
+  Map.set idMap str id;
+  id
 
 let create (str : string) : string =
-  id.contents <- id.contents + 1;
-  str ^ "/" ^ (Obj.magic (id.contents : int) : string)
+  let id = fresh str in
+  str ^ "/" ^ (Obj.magic (id : int) : string)
 
 (**
    This function should never throw
