@@ -3934,151 +3934,103 @@ function lookup_tables(root, keys) {
   }
 }
 
-function get_const(x) {
-  return function (obj) {
-    return x;
-  };
+function get_const(x, obj) {
+  return x;
 }
 
-function get_var(n) {
-  return function (obj) {
-    return obj[n];
-  };
+function get_var(n, obj) {
+  return obj[n];
 }
 
-function get_env(e, n) {
-  return function (obj) {
-    return obj[e][n];
-  };
+function get_env(e, n, obj) {
+  return obj[e][n];
 }
 
-function get_meth(n) {
-  return function (obj) {
-    return Curry._1(obj[0][n], obj);
-  };
+function get_meth(n, obj) {
+  return Curry._1(obj[0][n], obj);
 }
 
-function set_var(n) {
-  return function (obj, x) {
-    obj[n] = x;
-  };
+function set_var(n, obj, x) {
+  obj[n] = x;
 }
 
-function app_const(f, x) {
-  return function (obj) {
-    return Curry._1(f, x);
-  };
+function app_const(f, x, obj) {
+  return Curry._1(f, x);
 }
 
-function app_var(f, n) {
-  return function (obj) {
-    return Curry._1(f, obj[n]);
-  };
+function app_var(f, n, obj) {
+  return Curry._1(f, obj[n]);
 }
 
-function app_env(f, e, n) {
-  return function (obj) {
-    return Curry._1(f, obj[e][n]);
-  };
+function app_env(f, e, n, obj) {
+  return Curry._1(f, obj[e][n]);
 }
 
-function app_meth(f, n) {
-  return function (obj) {
-    return Curry._1(f, Curry._1(obj[0][n], obj));
-  };
+function app_meth(f, n, obj) {
+  return Curry._1(f, Curry._1(obj[0][n], obj));
 }
 
-function app_const_const(f, x, y) {
-  return function (obj) {
-    return Curry._2(f, x, y);
-  };
+function app_const_const(f, x, y, obj) {
+  return Curry._2(f, x, y);
 }
 
-function app_const_var(f, x, n) {
-  return function (obj) {
-    return Curry._2(f, x, obj[n]);
-  };
+function app_const_var(f, x, n, obj) {
+  return Curry._2(f, x, obj[n]);
 }
 
-function app_const_meth(f, x, n) {
-  return function (obj) {
-    return Curry._2(f, x, Curry._1(obj[0][n], obj));
-  };
+function app_const_meth(f, x, n, obj) {
+  return Curry._2(f, x, Curry._1(obj[0][n], obj));
 }
 
-function app_var_const(f, n, x) {
-  return function (obj) {
-    return Curry._2(f, obj[n], x);
-  };
+function app_var_const(f, n, x, obj) {
+  return Curry._2(f, obj[n], x);
 }
 
-function app_meth_const(f, n, x) {
-  return function (obj) {
-    return Curry._2(f, Curry._1(obj[0][n], obj), x);
-  };
+function app_meth_const(f, n, x, obj) {
+  return Curry._2(f, Curry._1(obj[0][n], obj), x);
 }
 
-function app_const_env(f, x, e, n) {
-  return function (obj) {
-    return Curry._2(f, x, obj[e][n]);
-  };
+function app_const_env(f, x, e, n, obj) {
+  return Curry._2(f, x, obj[e][n]);
 }
 
-function app_env_const(f, e, n, x) {
-  return function (obj) {
-    return Curry._2(f, obj[e][n], x);
-  };
+function app_env_const(f, e, n, x, obj) {
+  return Curry._2(f, obj[e][n], x);
 }
 
-function meth_app_const(n, x) {
-  return function (obj) {
-    return Curry._2(obj[0][n], obj, x);
-  };
+function meth_app_const(n, x, obj) {
+  return Curry._2(obj[0][n], obj, x);
 }
 
-function meth_app_var(n, m) {
-  return function (obj) {
-    return Curry._2(obj[0][n], obj, obj[m]);
-  };
+function meth_app_var(n, m, obj) {
+  return Curry._2(obj[0][n], obj, obj[m]);
 }
 
-function meth_app_env(n, e, m) {
-  return function (obj) {
-    return Curry._2(obj[0][n], obj, obj[e][m]);
-  };
+function meth_app_env(n, e, m, obj) {
+  return Curry._2(obj[0][n], obj, obj[e][m]);
 }
 
-function meth_app_meth(n, m) {
-  return function (obj) {
-    return Curry._2(obj[0][n], obj, Curry._1(obj[0][m], obj));
-  };
+function meth_app_meth(n, m, obj) {
+  return Curry._2(obj[0][n], obj, Curry._1(obj[0][m], obj));
 }
 
-function send_const(m, x, c) {
-  return function (obj) {
-    return Curry._3(Curry._3(Caml_oo.caml_get_public_method, x, m, 1), x, obj[0], c);
-  };
+function send_const(m, x, c, obj) {
+  return Curry._3(Curry._3(Caml_oo.caml_get_public_method, x, m, 1), x, obj[0], c);
 }
 
-function send_var(m, n, c) {
-  return function (obj) {
-    const tmp = obj[n];
-    return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 2), tmp, obj[0], c);
-  };
+function send_var(m, n, c, obj) {
+  const tmp = obj[n];
+  return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 2), tmp, obj[0], c);
 }
 
-function send_env(m, e, n, c) {
-  return function (obj) {
-    const tmp = obj[e][n];
-    return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 3), tmp, obj[0], c);
-  };
+function send_env(m, e, n, c, obj) {
+  const tmp = obj[e][n];
+  return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 3), tmp, obj[0], c);
 }
 
-function send_meth(m, n, c) {
-  return function (obj) {
-    const tmp = Curry._1(obj[0][n], obj);
-    return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 4), tmp, obj[0], c);
-  };
+function send_meth(m, n, c, obj) {
+  const tmp = Curry._1(obj[0][n], obj);
+  return Curry._3(Curry._3(Caml_oo.caml_get_public_method, tmp, m, 4), tmp, obj[0], c);
 }
 
 function new_cache(table) {
@@ -4099,120 +4051,161 @@ function method_impl(table, i, arr) {
   }
   switch (clo) {
     case /* GetConst */ 0 :
-      const x = next(undefined);
-      return function (obj) {
-        return x;
+      const partial_arg = next(undefined);
+      return function (param) {
+        return partial_arg;
       };
     case /* GetVar */ 1 :
-      const n = next(undefined);
-      return function (obj) {
-        return obj[n];
+      const partial_arg$1 = next(undefined);
+      return function (param) {
+        return param[partial_arg$1];
       };
     case /* GetEnv */ 2 :
       const e = next(undefined);
-      const n$1 = next(undefined);
-      return get_env(e, n$1);
+      const n = next(undefined);
+      return function (param) {
+        return get_env(e, n, param);
+      };
     case /* GetMeth */ 3 :
-      return get_meth(next(undefined));
+      const partial_arg$2 = next(undefined);
+      return function (param) {
+        return get_meth(partial_arg$2, param);
+      };
     case /* SetVar */ 4 :
-      const n$2 = next(undefined);
-      return function (obj, x) {
-        obj[n$2] = x;
+      const partial_arg$3 = next(undefined);
+      return function (param, param$1) {
+        param[partial_arg$3] = param$1;
       };
     case /* AppConst */ 5 :
       const f = next(undefined);
-      const x$1 = next(undefined);
-      return function (obj) {
-        return Curry._1(f, x$1);
+      const x = next(undefined);
+      return function (param) {
+        return Curry._1(f, x);
       };
     case /* AppVar */ 6 :
       const f$1 = next(undefined);
-      const n$3 = next(undefined);
-      return function (obj) {
-        return Curry._1(f$1, obj[n$3]);
+      const n$1 = next(undefined);
+      return function (param) {
+        return Curry._1(f$1, param[n$1]);
       };
     case /* AppEnv */ 7 :
       const f$2 = next(undefined);
       const e$1 = next(undefined);
-      const n$4 = next(undefined);
-      return app_env(f$2, e$1, n$4);
+      const n$2 = next(undefined);
+      return function (param) {
+        return app_env(f$2, e$1, n$2, param);
+      };
     case /* AppMeth */ 8 :
       const f$3 = next(undefined);
-      const n$5 = next(undefined);
-      return app_meth(f$3, n$5);
+      const n$3 = next(undefined);
+      return function (param) {
+        return app_meth(f$3, n$3, param);
+      };
     case /* AppConstConst */ 9 :
       const f$4 = next(undefined);
-      const x$2 = next(undefined);
+      const x$1 = next(undefined);
       const y = next(undefined);
-      return function (obj) {
-        return Curry._2(f$4, x$2, y);
+      return function (param) {
+        return Curry._2(f$4, x$1, y);
       };
     case /* AppConstVar */ 10 :
       const f$5 = next(undefined);
-      const x$3 = next(undefined);
-      const n$6 = next(undefined);
-      return app_const_var(f$5, x$3, n$6);
+      const x$2 = next(undefined);
+      const n$4 = next(undefined);
+      return function (param) {
+        return app_const_var(f$5, x$2, n$4, param);
+      };
     case /* AppConstEnv */ 11 :
       const f$6 = next(undefined);
-      const x$4 = next(undefined);
+      const x$3 = next(undefined);
       const e$2 = next(undefined);
-      const n$7 = next(undefined);
-      return app_const_env(f$6, x$4, e$2, n$7);
+      const n$5 = next(undefined);
+      return function (param) {
+        return app_const_env(f$6, x$3, e$2, n$5, param);
+      };
     case /* AppConstMeth */ 12 :
       const f$7 = next(undefined);
-      const x$5 = next(undefined);
-      const n$8 = next(undefined);
-      return app_const_meth(f$7, x$5, n$8);
+      const x$4 = next(undefined);
+      const n$6 = next(undefined);
+      return function (param) {
+        return app_const_meth(f$7, x$4, n$6, param);
+      };
     case /* AppVarConst */ 13 :
       const f$8 = next(undefined);
-      const n$9 = next(undefined);
-      const x$6 = next(undefined);
-      return app_var_const(f$8, n$9, x$6);
+      const n$7 = next(undefined);
+      const x$5 = next(undefined);
+      return function (param) {
+        return app_var_const(f$8, n$7, x$5, param);
+      };
     case /* AppEnvConst */ 14 :
       const f$9 = next(undefined);
       const e$3 = next(undefined);
-      const n$10 = next(undefined);
-      const x$7 = next(undefined);
-      return app_env_const(f$9, e$3, n$10, x$7);
+      const n$8 = next(undefined);
+      const x$6 = next(undefined);
+      return function (param) {
+        return app_env_const(f$9, e$3, n$8, x$6, param);
+      };
     case /* AppMethConst */ 15 :
       const f$10 = next(undefined);
-      const n$11 = next(undefined);
-      const x$8 = next(undefined);
-      return app_meth_const(f$10, n$11, x$8);
+      const n$9 = next(undefined);
+      const x$7 = next(undefined);
+      return function (param) {
+        return app_meth_const(f$10, n$9, x$7, param);
+      };
     case /* MethAppConst */ 16 :
-      const n$12 = next(undefined);
-      const x$9 = next(undefined);
-      return meth_app_const(n$12, x$9);
+      const n$10 = next(undefined);
+      const x$8 = next(undefined);
+      return function (param) {
+        return meth_app_const(n$10, x$8, param);
+      };
     case /* MethAppVar */ 17 :
-      const n$13 = next(undefined);
+      const n$11 = next(undefined);
       const m = next(undefined);
-      return meth_app_var(n$13, m);
+      return function (param) {
+        return meth_app_var(n$11, m, param);
+      };
     case /* MethAppEnv */ 18 :
-      const n$14 = next(undefined);
+      const n$12 = next(undefined);
       const e$4 = next(undefined);
       const m$1 = next(undefined);
-      return meth_app_env(n$14, e$4, m$1);
+      return function (param) {
+        return meth_app_env(n$12, e$4, m$1, param);
+      };
     case /* MethAppMeth */ 19 :
-      const n$15 = next(undefined);
+      const n$13 = next(undefined);
       const m$2 = next(undefined);
-      return meth_app_meth(n$15, m$2);
+      return function (param) {
+        return meth_app_meth(n$13, m$2, param);
+      };
     case /* SendConst */ 20 :
       const m$3 = next(undefined);
-      const x$10 = next(undefined);
-      return send_const(m$3, x$10, new_cache(table));
+      const x$9 = next(undefined);
+      const partial_arg$4 = new_cache(table);
+      return function (param) {
+        return send_const(m$3, x$9, partial_arg$4, param);
+      };
     case /* SendVar */ 21 :
       const m$4 = next(undefined);
-      const n$16 = next(undefined);
-      return send_var(m$4, n$16, new_cache(table));
+      const n$14 = next(undefined);
+      const partial_arg$5 = new_cache(table);
+      return function (param) {
+        return send_var(m$4, n$14, partial_arg$5, param);
+      };
     case /* SendEnv */ 22 :
       const m$5 = next(undefined);
       const e$5 = next(undefined);
-      const n$17 = next(undefined);
-      return send_env(m$5, e$5, n$17, new_cache(table));
+      const n$15 = next(undefined);
+      const partial_arg$6 = new_cache(table);
+      return function (param) {
+        return send_env(m$5, e$5, n$15, partial_arg$6, param);
+      };
     case /* SendMeth */ 23 :
       const m$6 = next(undefined);
-      const n$18 = next(undefined);
-      return send_meth(m$6, n$18, new_cache(table));
+      const n$16 = next(undefined);
+      const partial_arg$7 = new_cache(table);
+      return function (param) {
+        return send_meth(m$6, n$16, partial_arg$7, param);
+      };
   }
 }
 
