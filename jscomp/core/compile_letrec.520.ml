@@ -35,7 +35,7 @@ let compile_letrec :
         | Lambda.Lfunction def -> { Lambda.id; def }
         | _ ->
             let def =
-              Lambda.lfunction' ~kind:Tupled ~params:[] ~return:Pgenval
+              Lambda.lfunction' ~kind:Curried ~params:[] ~return:Pgenval
                 ~body:lambda
                 ~attr:
                   {
