@@ -32611,29 +32611,27 @@ const package_subtype = {
   })
 };
 
-function concat_longident(lid1) {
-  return function (s) {
-    switch (s.TAG) {
-      case /* Lident */ 0 :
-        return {
-          TAG: /* Ldot */ 1,
-          _0: lid1,
-          _1: s._0
-        };
-      case /* Ldot */ 1 :
-        return {
-          TAG: /* Ldot */ 1,
-          _0: concat_longident(lid1)(s._0),
-          _1: s._1
-        };
-      case /* Lapply */ 2 :
-        return {
-          TAG: /* Lapply */ 2,
-          _0: concat_longident(lid1)(s._0),
-          _1: s._1
-        };
-    }
-  };
+function concat_longident(lid1, s) {
+  switch (s.TAG) {
+    case /* Lident */ 0 :
+      return {
+        TAG: /* Ldot */ 1,
+        _0: lid1,
+        _1: s._0
+      };
+    case /* Ldot */ 1 :
+      return {
+        TAG: /* Ldot */ 1,
+        _0: concat_longident(lid1, s._0),
+        _1: s._1
+      };
+    case /* Lapply */ 2 :
+      return {
+        TAG: /* Lapply */ 2,
+        _0: concat_longident(lid1, s._0),
+        _1: s._1
+      };
+  }
 }
 
 function nondep_instance(env, level, id, ty) {
@@ -32679,7 +32677,7 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
           const match = lookup_type$1(concat_longident({
             TAG: /* Lident */ 0,
             _0: "Pkg"
-          })(n), env$p);
+          }, n), env$p);
           const decl = match[1];
           if (decl.type_arity !== 0) {
             throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {

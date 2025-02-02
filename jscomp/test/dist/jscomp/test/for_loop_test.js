@@ -10,10 +10,8 @@ function for_3(x) {
   const v = {
     contents: 0
   };
-  const arr = Stdlib__Array.map((function (param) {
-    return function (param) {
-      
-    };
+  const arr = Stdlib__Array.map((function (param, param$1) {
+    
   }), x);
   for (let i = 0, i_finish = x.length; i < i_finish; ++i) {
     const j = (i << 1);
@@ -31,10 +29,8 @@ function for_4(x) {
   const v = {
     contents: 0
   };
-  const arr = Stdlib__Array.map((function (param) {
-    return function (param) {
-      
-    };
+  const arr = Stdlib__Array.map((function (param, param$1) {
+    
   }), x);
   for (let i = 0, i_finish = x.length; i < i_finish; ++i) {
     const j = (i << 1);
@@ -53,10 +49,8 @@ function for_5(x, u) {
   const v = {
     contents: 0
   };
-  const arr = Stdlib__Array.map((function (param) {
-    return function (param) {
-      
-    };
+  const arr = Stdlib__Array.map((function (param, param$1) {
+    
   }), x);
   for (let i = 0, i_finish = x.length; i < i_finish; ++i) {
     const k = Math.imul((u << 1), u);
@@ -74,10 +68,8 @@ function for_6(x, u) {
   const v = {
     contents: 0
   };
-  const arr = Stdlib__Array.map((function (param) {
-    return function (param) {
-      
-    };
+  const arr = Stdlib__Array.map((function (param, param$1) {
+    
   }), x);
   const v4 = {
     contents: 0

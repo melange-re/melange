@@ -40,10 +40,8 @@ function sum(n) {
   return v;
 }
 
-function f(x, y) {
-  return function (z) {
-    return (x + y | 0) + z | 0;
-  };
+function f(x, y, z) {
+  return (x + y | 0) + z | 0;
 }
 
 function g(x, y) {

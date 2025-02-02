@@ -8066,39 +8066,35 @@ function pattern(check_env, _param) {
   };
 }
 
-function object_property(check_env) {
-  return function (param) {
-    if (param.TAG !== /* Property */ 0) {
-      return pattern(check_env, param._0[1].argument);
-    }
-    const property = param._0[1];
-    const id = property.key;
-    let check_env$1;
-    switch (id.TAG) {
-      case /* Identifier */ 1 :
-        check_env$1 = identifier_no_dupe_check(check_env, id._0);
-        break;
-      case /* Literal */ 0 :
-      case /* Computed */ 2 :
-        check_env$1 = check_env;
-        break;
-    }
-    return pattern(check_env$1, property.pattern);
-  };
+function object_property(check_env, param) {
+  if (param.TAG !== /* Property */ 0) {
+    return pattern(check_env, param._0[1].argument);
+  }
+  const property = param._0[1];
+  const id = property.key;
+  let check_env$1;
+  switch (id.TAG) {
+    case /* Identifier */ 1 :
+      check_env$1 = identifier_no_dupe_check(check_env, id._0);
+      break;
+    case /* Literal */ 0 :
+    case /* Computed */ 2 :
+      check_env$1 = check_env;
+      break;
+  }
+  return pattern(check_env$1, property.pattern);
 }
 
-function array_element(check_env) {
-  return function (param) {
-    if (param !== undefined) {
-      if (param.TAG === /* Element */ 0) {
-        return pattern(check_env, param._0);
-      } else {
-        return pattern(check_env, param._0[1].argument);
-      }
+function array_element(check_env, param) {
+  if (param !== undefined) {
+    if (param.TAG === /* Element */ 0) {
+      return pattern(check_env, param._0);
     } else {
-      return check_env;
+      return pattern(check_env, param._0[1].argument);
     }
-  };
+  } else {
+    return check_env;
+  }
 }
 
 function identifier_no_dupe_check(param, param$1) {
@@ -10333,25 +10329,23 @@ function array_initializer(env) {
   ];
 }
 
-function error_callback$1(param) {
-  return function (param) {
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
-      switch (param) {
-        case /* StrictParamName */ 28 :
-        case /* NewlineBeforeArrow */ 44 :
-        case /* ParameterAfterRestParameter */ 47 :
-          return;
-        default:
-          throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-                MEL_EXN_ID: Parser_env_Try.Rollback
-              });
-      }
-    } else {
-      throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-            MEL_EXN_ID: Parser_env_Try.Rollback
-          });
+function error_callback$1(param, param$1) {
+  if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
+    switch (param$1) {
+      case /* StrictParamName */ 28 :
+      case /* NewlineBeforeArrow */ 44 :
+      case /* ParameterAfterRestParameter */ 47 :
+        return;
+      default:
+        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
+              MEL_EXN_ID: Parser_env_Try.Rollback
+            });
     }
-  };
+  } else {
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
+          MEL_EXN_ID: Parser_env_Try.Rollback
+        });
+  }
 }
 
 function try_arrow_function(env) {
@@ -12348,32 +12342,34 @@ function module_items(env, _module_kind, _acc) {
   };
 }
 
-function fold(acc) {
-  return function (param) {
+function fold(acc, _param) {
+  while (true) {
+    const param = _param;
     const match = param[1];
     switch (match.TAG) {
       case /* Object */ 0 :
         return Stdlib__List.fold_left((function (acc, prop) {
           if (prop.TAG === /* Property */ 0) {
-            return fold(acc)(prop._0[1].pattern);
+            return fold(acc, prop._0[1].pattern);
           } else {
-            return fold(acc)(prop._0[1].argument);
+            return fold(acc, prop._0[1].argument);
           }
         }), acc, match._0.properties);
       case /* Array */ 1 :
         return Stdlib__List.fold_left((function (acc, elem) {
           if (elem !== undefined) {
             if (elem.TAG === /* Element */ 0) {
-              return fold(acc)(elem._0);
+              return fold(acc, elem._0);
             } else {
-              return fold(acc)(elem._0[1].argument);
+              return fold(acc, elem._0[1].argument);
             }
           } else {
             return acc;
           }
         }), acc, match._0.elements);
       case /* Assignment */ 2 :
-        return fold(acc)(match._0.left);
+        _param = match._0.left;
+        continue;
       case /* Identifier */ 3 :
         const match$1 = match._0;
         return {
@@ -12392,35 +12388,33 @@ function fold(acc) {
   };
 }
 
-function assert_can_be_forin_or_forof(env, err) {
-  return function (param) {
-    if (param === undefined) {
-      return error$1(env, err);
+function assert_can_be_forin_or_forof(env, err, param) {
+  if (param === undefined) {
+    return error$1(env, err);
+  }
+  if (param.TAG === /* InitDeclaration */ 0) {
+    const match = param._0;
+    const declarations = match[1].declarations;
+    if (declarations && declarations.hd[1].init === undefined && !declarations.tl) {
+      return;
     }
-    if (param.TAG === /* InitDeclaration */ 0) {
-      const match = param._0;
-      const declarations = match[1].declarations;
-      if (declarations && declarations.hd[1].init === undefined && !declarations.tl) {
-        return;
-      }
-      return error_at(env, [
-        match[0],
-        err
-      ]);
-    }
-    const match$1 = param._0;
-    const loc = match$1[0];
-    if (!Curry._1(Parse.is_assignable_lhs, [
-        loc,
-        match$1[1]
-      ])) {
-      return error_at(env, [
-        loc,
-        err
-      ]);
-    }
-    
-  };
+    return error_at(env, [
+      match[0],
+      err
+    ]);
+  }
+  const match$1 = param._0;
+  const loc = match$1[0];
+  if (!Curry._1(Parse.is_assignable_lhs, [
+      loc,
+      match$1[1]
+    ])) {
+    return error_at(env, [
+      loc,
+      err
+    ]);
+  }
+  
 }
 
 function _if(env) {
@@ -12649,35 +12643,6 @@ function named_or_namespace_specifier(env) {
   return specifiers;
 }
 
-function element(env) {
-  return function (param) {
-    if (param === undefined) {
-      return;
-    }
-    if (param.TAG === /* Expression */ 0) {
-      const match = param._0;
-      return {
-        TAG: /* Element */ 0,
-        _0: Curry._2(Parse.pattern_from_expr, env, [
-          match[0],
-          match[1]
-        ])
-      };
-    }
-    const match$1 = param._0;
-    const argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
-    return {
-      TAG: /* Spread */ 1,
-      _0: [
-        match$1[0],
-        {
-          argument: argument
-        }
-      ]
-    };
-  };
-}
-
 function from_expr(env, param) {
   const expr = param[1];
   const loc = param[0];
@@ -12688,7 +12653,32 @@ function from_expr(env, param) {
           loc,
           expr._0
         ];
-        const elements = Stdlib__List.map(element(env), param$1[1].elements);
+        const elements = Stdlib__List.map((function (param) {
+          if (param === undefined) {
+            return;
+          }
+          if (param.TAG === /* Expression */ 0) {
+            const match = param._0;
+            return {
+              TAG: /* Element */ 0,
+              _0: Curry._2(Parse.pattern_from_expr, env, [
+                match[0],
+                match[1]
+              ])
+            };
+          }
+          const match$1 = param._0;
+          const argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
+          return {
+            TAG: /* Spread */ 1,
+            _0: [
+              match$1[0],
+              {
+                argument: argument
+              }
+            ]
+          };
+        }), param$1[1].elements);
         return [
           param$1[0],
           {
@@ -13441,17 +13431,17 @@ function child(env) {
       }
     ];
   }
-  const element$2 = element$1(env);
+  const element$1 = element(env);
   return [
-    element$2[0],
+    element$1[0],
     {
       TAG: /* Element */ 0,
-      _0: element$2[1]
+      _0: element$1[1]
     }
   ];
 }
 
-function element$1(env) {
+function element(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   push_lex_mode(env, /* JSX_TAG */ 2);
   token$4(env, /* T_LESS_THAN */ 89);
@@ -14557,7 +14547,7 @@ function statement(env) {
           if (/* tag */ typeof match$9 === "number" || typeof match$9 === "string") {
             switch (match$9) {
               case /* T_IN */ 15 :
-                assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */ 16)(init);
+                assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */ 16, init);
                 let left;
                 if (init !== undefined) {
                   left = init.TAG === /* InitDeclaration */ 0 ? ({
@@ -14594,7 +14584,7 @@ function statement(env) {
                   }
                 ];
               case /* T_OF */ 60 :
-                assert_can_be_forin_or_forof(env, /* InvalidLHSInForOf */ 17)(init);
+                assert_can_be_forin_or_forof(env, /* InvalidLHSInForOf */ 17, init);
                 let left$1;
                 if (init !== undefined) {
                   left$1 = init.TAG === /* InitDeclaration */ 0 ? ({
@@ -15253,7 +15243,7 @@ Caml_module.update_mod({
   identifier_with_type: identifier_with_type,
   block_body: block_body,
   function_block_body: function_block_body,
-  jsx_element: element$1,
+  jsx_element: element,
   pattern: pattern$1,
   pattern_from_expr: from_expr,
   object_key: key,
