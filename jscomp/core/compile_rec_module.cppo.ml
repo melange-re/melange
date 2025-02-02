@@ -147,7 +147,7 @@ let eval_rec_bindings (bindings : binding list) cont =
             | Id id, _, rhs ->
               let def =
                 Lambda.lfunction'
-                  ~kind:Tupled ~params:[] ~return:Pgenval
+                  ~kind:Curried ~params:[] ~return:Pgenval
                   ~body:rhs
                   ~attr:{ Lambda.default_function_attribute with smuggled_lambda = true }
                   ~loc:Loc_unknown
