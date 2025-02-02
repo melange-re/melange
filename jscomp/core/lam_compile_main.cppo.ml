@@ -152,7 +152,7 @@ let compile
       lam
       |> _d "flatten1"
       |>  Lam_pass_exits.simplify_exits
-      |> _d "simplyf_exits"
+      |> _d "simplify_exits"
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
 #ifndef BS_RELEASE_BUILD
       let () =
@@ -168,7 +168,7 @@ let compile
       |> _d "simplify_alias"
       |> Lam_pass_deep_flatten.deep_flatten
       |> _d  "flatten2"
-    in  (* Inling happens*)
+    in  (* Inlining happens*)
 
     let ()  = Lam_pass_collect.collect_info meta lam in
     let lam = Lam_pass_remove_alias.simplify_alias meta lam  in
@@ -179,7 +179,8 @@ let compile
       |> _d "alpha_before"
       |> Lam_pass_alpha_conversion.alpha_conversion meta
       |> _d "alpha_after"
-      |> Lam_pass_exits.simplify_exits in
+      |> Lam_pass_exits.simplify_exits
+    in
     let () = Lam_pass_collect.collect_info meta lam in
 
 
