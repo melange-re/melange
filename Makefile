@@ -3,6 +3,10 @@ USER_SHELL = $(shell echo $$SHELL)
 nix-%:
 	nix develop -L '.?submodules=1#' --command $*
 
+.PHONY: shell
+shell:
+	nix develop -L '.?submodules=1#' --command $(USER_SHELL)
+
 .PHONY: release-shell
 release-shell:
 	nix develop '.?submodules=1#release' --command $(USER_SHELL)
