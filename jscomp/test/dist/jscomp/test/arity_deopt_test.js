@@ -51,19 +51,15 @@ function f3(x) {
   };
 }
 
-eq("File \"jscomp/test/arity_deopt.ml\", line 45, characters 7-14", 6, f0(1, 2, 3));
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 45, characters 7-14", 6, f0(1, 2, 3));
 
-eq("File \"jscomp/test/arity_deopt.ml\", line 46, characters 11-18", 6, (function (y, z) {
-  return (1 + y | 0) + z | 0;
-})(2, 3));
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 46, characters 11-18", 6, f1(1)(2, 3));
 
-eq("File \"jscomp/test/arity_deopt.ml\", line 47, characters 15-22", 6, Curry._1(f2(1, 2), 3));
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 47, characters 15-22", 6, Curry._1(f2(1, 2), 3));
 
-eq("File \"jscomp/test/arity_deopt.ml\", line 48, characters 15-22", 6, (function (y, z) {
-  return (1 + y | 0) + z | 0;
-})(2, 3));
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 48, characters 15-22", 6, f3(1)(2, 3));
 
-Mt.from_pair_suites("Arity_deopt", suites.contents);
+Mt.from_pair_suites("Arity_deopt_test", suites.contents);
 
 module.exports = {
   suites,
