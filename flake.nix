@@ -6,7 +6,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs";
+      url = "github:melange-re/melange-compiler-libs/5.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -16,7 +16,7 @@
       forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_3;
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_2;
           });
         in
         f pkgs);
