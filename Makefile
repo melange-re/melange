@@ -9,7 +9,7 @@ shell:
 
 .PHONY: release-shell
 release-shell:
-	nix develop '.?submodules=1#release' --command $(USER_SHELL)
+	nix develop -L '.?submodules=1#release' --command $(USER_SHELL)
 
 .PHONY: vim
 vim:
