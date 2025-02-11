@@ -19,13 +19,15 @@
   }
   
   function x(param) {
-    for(let _round = 1; _round <= 10; ++_round){
+    for (let _round = 1; _round <= 10; ++_round) {
       pure(2);
     }
   }
   
   x(undefined);
   
-  exports.pure = pure;
-  exports.x = x;
+  module.exports = {
+    pure,
+    x,
+  }
   /*  Not a pure module */
