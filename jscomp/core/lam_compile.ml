@@ -1634,9 +1634,17 @@ and compile_prim (prim_info : Lam.prim_info)
      [
        Lprim
          {
-           primitive =
-             Pjs_unsafe_downgrade { name = property; setter = true; _ };
-           args = [ obj ];
+           primitive = Popaque;
+           args =
+             [
+               Lprim
+                 {
+                   primitive =
+                     Pjs_unsafe_downgrade { name = property; setter = true; _ };
+                   args = [ obj ];
+                   _;
+                 };
+             ];
            _;
          };
        setter_val;
@@ -1663,7 +1671,16 @@ and compile_prim (prim_info : Lam.prim_info)
   | {
    primitive = Pfull_apply;
    args =
-     Lprim { primitive = Pjs_unsafe_downgrade { setter = true; _ }; _ } :: _;
+     Lprim
+       {
+         primitive = Popaque;
+         args =
+           [
+             Lprim { primitive = Pjs_unsafe_downgrade { setter = true; _ }; _ };
+           ];
+         _;
+       }
+     :: _;
    _;
   } ->
       assert false
@@ -1678,19 +1695,52 @@ and compile_prim (prim_info : Lam.prim_info)
       (* It's a bit sad that we have to match specifically on the output of
          `Lam_ffi.result_wrap` to handle the case of result wrapping for
          uncurried externals. *)
-      | Lprim
-          {
-            primitive =
-              Pjs_call
-                { ffi = Js_call _ | Js_send _ | Js_get _ | Js_get_index _; _ }
-              as primitive;
-            args = [];
-            loc;
-          }
+      | ( Lprim
+            {
+              primitive =
+                Pjs_call
+                  { ffi = Js_call _ | Js_send _ | Js_get _ | Js_get_index _; _ }
+                as primitive;
+              args = [];
+              loc;
+            }
+        | Lprim
+            {
+              primitive = Popaque;
+              args =
+                [
+                  Lprim
+                    {
+                      primitive =
+                        Pjs_call
+                          {
+                            ffi =
+                              Js_call _ | Js_send _ | Js_get _ | Js_get_index _;
+                            _;
+                          } as primitive;
+                      args = [];
+                      loc;
+                    };
+                ];
+              _;
+            } )
         :: rest ->
           compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest loc)
-      | Lsequence
-          (Lprim { primitive = Pjs_call _ as primitive; args = []; loc }, l2)
+      | ( Lprim
+            {
+              primitive = Popaque;
+              args =
+                [
+                  Lsequence
+                    ( Lprim
+                        { primitive = Pjs_call _ as primitive; args = []; loc },
+                      l2 );
+                ];
+              _;
+            }
+        | Lsequence
+            (Lprim { primitive = Pjs_call _ as primitive; args = []; loc }, l2)
+          )
         :: rest ->
           let output_l1 =
             compile_lambda
@@ -1699,15 +1749,41 @@ and compile_prim (prim_info : Lam.prim_info)
           in
           let output_l2 = compile_lambda lambda_cxt l2 in
           Js_output.append_output output_l1 output_l2
-      | Lprim
-          {
-            primitive =
-              (Pnull_to_opt | Pnull_undefined_to_opt | Pundefined_to_opt) as
-              nu_prim;
-            args =
-              [ Lprim { primitive = Pjs_call _ as primitive; args = []; loc } ];
-            loc = nu_loc;
-          }
+      | ( Lprim
+            {
+              primitive =
+                (Pnull_to_opt | Pnull_undefined_to_opt | Pundefined_to_opt) as
+                nu_prim;
+              args =
+                [
+                  Lprim { primitive = Pjs_call _ as primitive; args = []; loc };
+                ];
+              loc = nu_loc;
+            }
+        | Lprim
+            {
+              primitive = Popaque;
+              args =
+                [
+                  Lprim
+                    {
+                      primitive =
+                        ( Pnull_to_opt | Pnull_undefined_to_opt
+                        | Pundefined_to_opt ) as nu_prim;
+                      args =
+                        [
+                          Lprim
+                            {
+                              primitive = Pjs_call _ as primitive;
+                              args = [];
+                              loc;
+                            };
+                        ];
+                      loc = nu_loc;
+                    };
+                ];
+              _;
+            } )
         :: rest ->
           compile_lambda lambda_cxt
             (Lam.prim ~primitive:nu_prim

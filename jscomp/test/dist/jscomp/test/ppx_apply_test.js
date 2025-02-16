@@ -28,7 +28,9 @@ function eq(loc, x, y) {
   };
 }
 
-const u = 3;
+const u = (function (a, b) {
+  return a + b | 0;
+})(1, 2);
 
 function nullary() {
   return 3;

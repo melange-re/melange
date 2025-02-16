@@ -1,3 +1,9 @@
+Unreleased
+---------------
+
+- Support `Sys.opaque_identity` to turn off optimizations
+  ([#1276](https://github.com/melange-re/melange/pull/1276))
+
 5.0.0-53
 ---------------
 

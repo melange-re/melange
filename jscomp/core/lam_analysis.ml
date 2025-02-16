@@ -122,7 +122,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Parraysets
       (* byte swap *)
       | Pbswap16 | Pbbswap _ | Parraysetu | Poffsetref _ | Praise | Plazyforce
-      | Psetfield _ | Psetfield_computed ->
+      | Psetfield _ | Psetfield_computed | Popaque ->
           false)
   | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
       no_side_effects arg && no_side_effects body
