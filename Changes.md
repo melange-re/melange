@@ -1,5 +1,11 @@
-5.0.0-414
+Unreleased
 ---------------
+
+- Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
+  `[@mel.as ".."]` arguments
+  ([#1328](https://github.com/melange-re/melange/pull/1328))
+
+5.0.0-414
 
 - Make the `unprocessed` alert fatal by default
   ([#1135](https://github.com/melange-re/melange/pull/1135))

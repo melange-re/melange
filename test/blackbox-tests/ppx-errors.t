@@ -338,7 +338,7 @@ Demonstrate PPX error messages
   File "x.ml", line 1, characters 0-78:
   1 | external get : (_ [@mel.as {json|{}|json}]) -> string = "some-fn" [@@mel.send]
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: `[@mel.send]`'s first argument must not be a constant
+  Error: `[@mel.send]`'s must have at least a non-constant argument
   [1]
 
   $ cat > x.ml <<EOF
