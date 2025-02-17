@@ -661,7 +661,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
       Location.raise_errorf ~loc
         "Found an attribute that conflicts with `[%@mel.obj]'"
 
-let mel_send_this_index arg_types =
+let mel_send_this_index arg_type_specs arg_types =
   let find_index ~f:p =
     let rec aux i = function
       | [] -> None
@@ -669,18 +669,28 @@ let mel_send_this_index arg_types =
     in
     aux 0
   in
-  find_index
-    ~f:(fun { attrs; _ } ->
-      List.exists
-        ~f:(fun ({ attr_name = { txt; _ }; _ } as attr) ->
-          match txt with
-          | "mel.this" ->
-              Mel_ast_invariant.mark_used_mel_attribute attr;
-              true
-          | _ -> false)
-        attrs)
-    arg_types
-  |> Option.value ~default:0
+  let mel_this_idx =
+    find_index
+      ~f:(fun { attrs; _ } ->
+        List.exists
+          ~f:(fun ({ attr_name = { txt; _ }; _ } as attr) ->
+            match txt with
+            | "mel.this" ->
+                Mel_ast_invariant.mark_used_mel_attribute attr;
+                true
+            | _ -> false)
+          attrs)
+      arg_types
+  in
+  match mel_this_idx with
+  | Some self_idx -> self_idx
+  | None ->
+      (* find the first non-constant argument *)
+      find_index
+        ~f:(function
+          | { External_arg_spec.arg_type = Arg_cst _; _ } -> false | _ -> true)
+        arg_type_specs
+      |> Option.get
 
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
@@ -886,7 +896,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
               variadic;
               name;
               scopes;
-              kind = Send (mel_send_this_index arg_types_ty);
+              kind = Send (mel_send_this_index arg_type_specs arg_types_ty);
               new_ = not (new_name = `Nm_na);
             })
   | { val_send = #bundle_source; _ } ->
