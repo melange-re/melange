@@ -3,6 +3,9 @@ Unreleased
 
 - Support `Sys.opaque_identity` to turn off optimizations
   ([#1276](https://github.com/melange-re/melange/pull/1276))
+- Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
+  `[@mel.as ".."]` arguments
+  ([#1328](https://github.com/melange-re/melange/pull/1328))
 
 5.0.0-53
 ---------------
