@@ -57,3 +57,14 @@ Test `@mel.send` + `@mel.this` in the presence of `[@mel.as ".."]` constant args
   }));
   /*  Not a pure module */
 
+
+  $ cat > x.ml <<EOF
+  > external get : (_ [@mel.as {json|{}|json}]) -> string = "some-fn" [@@mel.send]
+  > let x = get
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed ./x.ml
+  File "./x.ml", line 1, characters 0-78:
+  1 | external get : (_ [@mel.as {json|{}|json}]) -> string = "some-fn" [@@mel.send]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.send]`'s must have at least a non-constant argument
+  [2]

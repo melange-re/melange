@@ -874,6 +874,9 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | [], _ ->
           Location.raise_errorf ~loc
             "`[%@mel.send]` requires a function with at least one argument"
+      | [ { arg_type = Arg_cst _; arg_label = _ } ], _ ->
+          Location.raise_errorf ~loc
+            "`[%@mel.send]`'s must have at least a non-constant argument"
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
             "`[%@mel.send]' doesn't expect an attribute payload"
