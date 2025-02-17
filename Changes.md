@@ -4,6 +4,9 @@ Unreleased
 - Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
   `[@mel.as ".."]` arguments
   ([#1328](https://github.com/melange-re/melange/pull/1328))
+- Allow skipping over `[@mel.as ".."]` constant arguments in `[@mel.send]` in
+  the absence of `@mel.this`
+  ([#1328](https://github.com/melange-re/melange/pull/1328))
 
 5.0.0-414
 
