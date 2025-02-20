@@ -766,17 +766,18 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             ap_status = App_na;
           }
     | Lfunction { params; body = l; attr = attr1; _ } -> (
+        let params, body =
+          let body = convert_aux ~dynamic_import l in
+          convert_lfunction_params_and_body params body
+        in
         (* because of ocaml/ocaml#12236, `fun a -> fun b -> ..` becomes 2
            `Lfunction` nodes in the AST on OCaml 5.2 and up. *)
-        match convert_aux ~dynamic_import l with
+        match body with
         | Lfunction { arity = arity'; params = params'; body; attr = attr2 }
           when List.length params + List.length params' <= Lambda.max_arity() ->
-
-          let params, body = convert_lfunction_params_and_body params body in
           let arity = (List.length params) + arity' in
           Lam.function_ ~arity ~params:(params @ params') ~body ~attr:attr2
         | body ->
-          let params, body = convert_lfunction_params_and_body params body in
           Lam.function_ ~attr:attr1 ~arity:(List.length params) ~params ~body)
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
