@@ -5,11 +5,11 @@ An example that uses exceptions runtime
   >   try f () with
   >   | exn -> Printexc.exn_slot_id exn
   > let result = run (fun _ -> failwith "oops")
-  > 
+  >
   > exception Custom
   > let () =
-  >   Js.log2 (Printexc.exn_slot_id Custom) (Printexc.exn_slot_id Not_found)
-  > 
+  >   Js.log2 (Printexc.exn_slot_id Custom) (Printexc.exn_slot_id Not_found);
+  >   Js.log2 (Printexc.exn_slot_name Custom) (Printexc.exn_slot_name Not_found)
   > EOF
   $ cat > dune-project <<EOF
   > (lang dune 3.8)
