@@ -9,6 +9,12 @@ Unreleased
 - Allow skipping over `[@mel.as ".."]` constant arguments in `[@mel.send]` in
   the absence of `@mel.this`
   ([#1328](https://github.com/melange-re/melange/pull/1328))
+- core: fix missed function argument fusion optimization on OCaml versions 5.2
+  and above, caused by [ocaml/ocaml#12236](https://github.com/ocaml/ocaml/pull/12236) generating
+  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR. This
+  issue, while partially fixed in Melange 5.0.0, didn't account for default
+  arguments ([#1253](https://github.com/melange-re/melange/issues/1253),
+  [#1334](https://github.com/melange-re/melange/issues/1334)).
 
 5.0.0-53
 ---------------
@@ -128,7 +134,9 @@ Unreleased
   ([#1321](https://github.com/melange-re/melange/pull/1321))
 - core: fix missed optimization on OCaml versions 5.2 and above, caused by
   [ocaml/ocaml#12236](https://github.com/ocaml/ocaml/pull/12236) generating
-  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR.
+  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR
+  ([#1253](https://github.com/melange-re/melange/issues/1253),
+   [#1323](https://github.com/melange-re/melange/issues/1323)).
 
 4.0.1 2024-06-07
 ---------------
