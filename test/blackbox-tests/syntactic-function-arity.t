@@ -88,11 +88,9 @@
     return Stdlib__Option.value(a, 0) + b | 0;
   }
   
-  function sum_optional_default(aOpt) {
+  function sum_optional_default(aOpt, b) {
     const a = aOpt !== undefined ? aOpt : 2;
-    return function (b) {
-      return a + b | 0;
-    };
+    return a + b | 0;
   }
   
   module.exports = {
