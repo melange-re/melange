@@ -475,13 +475,26 @@ let rec rename_optional_parameters map params (body : Lam.t) =
          && Ident.same opt opt2 && List.mem opt ~set:params ->
       let map, rest = rename_optional_parameters map params rest in
       let new_id = Ident.create_local (Ident.name id ^ "Opt") in
-      ( Ident.Map.add map opt new_id,
-        Lam.let_ k id
-          (Lam.if_
-             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
-             f)
-          rest )
+      begin match rest with
+      | Lam.Lfunction { params; body; attr; arity } ->
+        let body =
+          Lam.let_ k id
+            (Lam.if_
+               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+               f)
+            body
+        in
+        (Ident.Map.add map opt new_id, Lam.function_ ~attr ~arity ~params ~body)
+      | _ ->
+        ( Ident.Map.add map opt new_id,
+          Lam.let_ k id
+            (Lam.if_
+               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+               f)
+            rest )
+      end
   | Llet
       ( k,
         id,
@@ -493,8 +506,20 @@ let rec rename_optional_parameters map params (body : Lam.t) =
     when Ident.name opt = "*opt*"
          && Ident.name opt2 = "*opt*"
          && Ident.same opt opt2 && List.mem opt ~set:params ->
-      let map, rest = rename_optional_parameters map params rest in
-      let new_id = Ident.create_local (Ident.name id ^ "Opt") in
+    let map, rest = rename_optional_parameters map params rest in
+    let new_id = Ident.create_local (Ident.name id ^ "Opt") in
+    begin match rest with
+    | Lfunction { attr; arity; params; body} ->
+      let body =
+        Lam.let_ k id
+          (Lam.if_
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             f)
+          body
+      in
+      (Ident.Map.add map opt new_id, Lam.function_ ~attr ~arity ~params ~body)
+    | _ ->
       ( Ident.Map.add map opt new_id,
         Lam.let_ k id
           (Lam.if_
@@ -502,6 +527,7 @@ let rec rename_optional_parameters map params (body : Lam.t) =
              (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
              f)
           rest )
+    end
   | Lmutlet
       ( id,
         Lifthenelse
