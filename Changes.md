@@ -1,4 +1,4 @@
-Unreleased
+5.0.1-51 2025-02-23
 ---------------
 
 - Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
@@ -14,7 +14,8 @@ Unreleased
   arguments ([#1253](https://github.com/melange-re/melange/issues/1253),
   [#1334](https://github.com/melange-re/melange/issues/1334)).
 
-5.0.0-51
+5.0.0-51 2025-02-09
+---------------
 
 - Make the `unprocessed` alert fatal by default
   ([#1135](https://github.com/melange-re/melange/pull/1135))
