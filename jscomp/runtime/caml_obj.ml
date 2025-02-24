@@ -173,9 +173,11 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
           if Caml_option.isNested b then 1 else -1
         else if b == Obj.repr Js.null then
           if Caml_option.isNested a then -1 else 1
-        else if (* double_array_tag: 254
+        else if
+          (* double_array_tag: 254
         *)
-                Caml_option.isNested a then
+          Caml_option.isNested a
+        then
           if Caml_option.isNested b then aux_obj_compare a b
             (* Some None < Some (Some None)) *)
           else
