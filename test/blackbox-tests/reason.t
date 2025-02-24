@@ -19,5 +19,4 @@ Now specify the output filename with `-o`
   
   
   console.log("Here's two:", 2);
-  
   /*  Not a pure module */

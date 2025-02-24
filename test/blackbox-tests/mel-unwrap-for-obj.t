@@ -30,6 +30,8 @@ Test `@mel.unwrap` in `@mel.obj`
     polyParam: "hello"
   };
   
-  exports.x = x;
-  exports.y = y;
+  module.exports = {
+    x,
+    y,
+  }
   /* No side effect */

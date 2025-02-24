@@ -357,7 +357,7 @@ let string_of_int n =
 external int_of_string : string -> int = "caml_int_of_string"
 
 let int_of_string_opt s =
-  (* TODO: provide this directly as a non-raising primitive. *)
+  (* Trashes current backtrace *)
   try Some (int_of_string s)
   with Failure _ -> None
 
@@ -378,7 +378,7 @@ let string_of_float f = valid_float_lexem (format_float "%.12g" f)
 external float_of_string : string -> float = "caml_float_of_string"
 
 let float_of_string_opt s =
-  (* TODO: provide this directly as a non-raising primitive. *)
+  (* Trashes current backtrace *)
   try Some (float_of_string s)
   with Failure _ -> None
 
@@ -711,81 +711,82 @@ let _ = register_named_value "Pervasives.do_at_exit" do_at_exit
 
 
 (*MODULE_ALIASES*)
-module Arg          = Arg
-module Array        = Array
-module ArrayLabels  = ArrayLabels
-module Atomic       = Atomic
+module Arg            = Arg
+module Array          = Array
+module ArrayLabels    = ArrayLabels
+module Atomic         = Atomic
 #ifdef BS
 #else
-module Bigarray     = Bigarray
+module Bigarray       = Bigarray
 #endif
-module Bool         = Bool
-module Buffer       = Buffer
-module Bytes        = Bytes
-module BytesLabels  = BytesLabels
+module Bool           = Bool
+module Buffer         = Buffer
+module Bytes          = Bytes
+module BytesLabels    = BytesLabels
 #ifdef BS
 #else
-module Callback     = Callback
+module Callback       = Callback
 #endif
-module Char         = Char
-module Complex      = Complex
+module Char           = Char
+module Complex        = Complex
 #ifdef BS
 #else
 module Condition      = Condition
 #endif
-module Digest       = Digest
+module Digest         = Digest
 module Domain         = Domain
+module Dynarray       = Dynarray
 module Effect         = Effect
-module Either       = Either
+module Either         = Either
 #ifdef BS
 #else
-module Ephemeron    = Ephemeron
+module Ephemeron      = Ephemeron
 #endif
-module Filename     = Filename
-module Float        = Float
-module Format       = Format
-module Fun          = Fun
-module Gc           = Gc
-module Hashtbl      = Hashtbl
-module In_channel   = In_channel
-module Int          = Int
-module Int32        = Int32
-module Int64        = Int64
-module Lazy         = Lazy
-module Lexing       = Lexing
-module List         = List
-module ListLabels   = ListLabels
-module Map          = Map
-module Marshal      = Marshal
-module MoreLabels   = MoreLabels
+module Filename       = Filename
+module Float          = Float
+module Format         = Format
+module Fun            = Fun
+module Gc             = Gc
+module Hashtbl        = Hashtbl
+module In_channel     = In_channel
+module Int            = Int
+module Int32          = Int32
+module Int64          = Int64
+module Lazy           = Lazy
+module Lexing         = Lexing
+module List           = List
+module ListLabels     = ListLabels
+module Map            = Map
+module Marshal        = Marshal
+module MoreLabels     = MoreLabels
 module Mutex          = Mutex
 #ifdef BS
 #else
-module Nativeint    = Nativeint
+module Nativeint      = Nativeint
 #endif
-module Obj          = Obj
-module Oo           = Oo
-module Option       = Option
-module Out_channel  = Out_channel
-module Parsing      = Parsing
-module Printexc     = Printexc
-module Printf       = Printf
-module Queue        = Queue
-module Random       = Random
-module Result       = Result
-module Scanf        = Scanf
+module Obj            = Obj
+module Oo             = Oo
+module Option         = Option
+module Out_channel    = Out_channel
+module Parsing        = Parsing
+module Printexc       = Printexc
+module Printf         = Printf
+module Queue          = Queue
+module Random         = Random
+module Result         = Result
+module Scanf          = Scanf
 #ifdef BS
 #else
 module Semaphore      = Semaphore
 #endif
-module Seq          = Seq
-module Set          = Set
-module Stack        = Stack
-module StdLabels    = StdLabels
-module String       = String
-module StringLabels = StringLabels
-module Sys          = Sys
+module Seq            = Seq
+module Set            = Set
+module Stack          = Stack
+module StdLabels      = StdLabels
+module String         = String
+module StringLabels   = StringLabels
+module Sys            = Sys
 module Type           = Type
-module Uchar        = Uchar
-module Unit         = Unit
-module Weak         = Weak
+module Uchar          = Uchar
+module Unit           = Unit
+module Weak           = Weak

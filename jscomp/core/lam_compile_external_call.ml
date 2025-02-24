@@ -23,18 +23,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+module External_arg_spec = Melange_ffi.External_arg_spec
+module External_ffi_types = Melange_ffi.External_ffi_types
 module E = Js_exp_make
 
 let splice_fn_apply fn args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceApply"
     [ fn; E.array Immutable args ]
 
 let splice_fn_new_apply fn args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceNewApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceNewApply"
     [ fn; E.array Immutable args ]
 
 let splice_obj_fn_apply obj name args =
-  E.runtime_call Js_runtime_modules.caml_splice_call "spliceObjApply"
+  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
+    ~fn_name:"spliceObjApply"
     [ obj; E.str name; E.array Immutable args ]
 
 (*
@@ -49,10 +54,13 @@ let splice_obj_fn_apply obj name args =
    bundle *)
 
 let external_var
-    ({ bundle; module_bind_name } :
-      Melange_ffi.External_ffi_types.external_module_name) =
-  let id = Lam_compile_env.add_js_module module_bind_name bundle false in
-  E.external_var id ~external_name:bundle
+    ({ bundle; module_bind_name } : External_ffi_types.external_module_name)
+    ~dynamic_import =
+  let id =
+    Lam_compile_env.add_js_module module_bind_name bundle ~default:false
+      ~dynamic_import
+  in
+  E.external_var id ~external_name:bundle ~dynamic_import
 
 (* let handle_external_opt
      (module_name : External_ffi_types.external_module_name option)
@@ -95,8 +103,8 @@ let append_list x xs =
 
      This would not work with [NonNullString]
 *)
-let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
-    ~(arg_type : Melange_ffi.External_arg_spec.attr) (raw_arg : E.t) :
+let rec ocaml_to_js_eff ~(arg_label : External_arg_spec.Arg_label.t)
+    ~(arg_type : External_arg_spec.attr) (raw_arg : E.t) :
     arg_expression * E.t list =
   let arg =
     match arg_label with
@@ -125,11 +133,19 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
       *)
   | Int dispatches ->
       (Splice1 (Js_of_lam_variant.eval_as_int arg dispatches), [])
-  | Unwrap ->
-      let single_arg =
-        match arg_label with
-        | Arg_optional ->
-            (*
+  | Unwrap polyvar -> (
+      match (polyvar, raw_arg.expression_desc) with
+      | (Poly_var_string _ | Poly_var _ | Int _), Caml_block _ ->
+          Location.raise_errorf ?loc:raw_arg.loc
+            "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
+             without a payload."
+      | (Poly_var_string _ | Poly_var _ | Int _), _ ->
+          ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
+      | Nothing, _ ->
+          let single_arg =
+            match arg_label with
+            | Arg_optional ->
+                (*
            If this is an optional arg (like `?arg`), we have to potentially do
            2 levels of unwrapping:
            - if ocaml arg is `None`, let js arg be `undefined` (no unwrapping)
@@ -138,16 +154,17 @@ let ocaml_to_js_eff ~(arg_label : Melange_ffi.External_arg_spec.label_noname)
            - Here `Some x` is `x` due to the current encoding
            Lets inline here since it depends on the runtime encoding
         *)
-            Js_of_lam_option.option_unwrap raw_arg
-        | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
-      in
-      (Splice1 single_arg, [])
+                Js_of_lam_option.option_unwrap raw_arg
+            | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
+          in
+          (Splice1 single_arg, [])
+      | _, _ -> assert false)
   | Nothing -> (Splice1 arg, [])
 
 let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
-type specs = Melange_ffi.External_arg_spec.params
+type specs = External_arg_spec.Arg_label.t External_arg_spec.param list
 type exprs = E.t list
 
 (* TODO: fix splice,
@@ -157,8 +174,7 @@ type exprs = E.t list
    Invariant : Array encoding
    @return arguments and effect
 *)
-let assemble_args_no_splice (arg_types : specs) (args : exprs) :
-    exprs * E.t option =
+let assemble_args_no_splice =
   let rec aux (labels : specs) (args : exprs) : exprs * exprs =
     match (labels, args) with
     | [], _ ->
@@ -174,13 +190,15 @@ let assemble_args_no_splice (arg_types : specs) (args : exprs) :
         (append_list acc accs, List.append new_eff eff)
     | _ :: _, [] -> assert false
   in
-  let args, eff = aux arg_types args in
-  ( args,
-    match eff with
-    | [] -> None
-    | x :: xs ->
-        (* FIXME: the order of effects? *)
-        Some (E.fuse_to_seq x xs) )
+
+  fun (args : exprs) (arg_types : specs) : (exprs * E.t option) ->
+    let args, eff = aux arg_types args in
+    ( args,
+      match eff with
+      | [] -> None
+      | x :: xs ->
+          (* FIXME: the order of effects? *)
+          Some (E.fuse_to_seq x xs) )
 
 let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     exprs * E.t option * bool =
@@ -196,7 +214,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     | { arg_label; arg_type } :: labels, arg :: args -> (
         let accs, eff = aux labels args in
         match (args, (arg : E.t)) with
-        | [], { expression_desc = Array (ls, _mutable_flag); _ } ->
+        | [], { expression_desc = Array { items = ls; _ }; _ } ->
             (List.append ls accs, eff)
         | _ ->
             if args = [] then dynamic := true;
@@ -214,25 +232,31 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     !dynamic )
 
 let translate_scoped_module_val
-    (module_name : Melange_ffi.External_ffi_types.external_module_name option)
-    (fn : string) (scopes : string list) =
+    (module_name : External_ffi_types.external_module_name option) (fn : string)
+    (scopes : string list) ~dynamic_import =
   match module_name with
   | Some { bundle; module_bind_name } -> (
       match scopes with
       | [] ->
           let default = fn = "default" in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle default
+            Lam_compile_env.add_js_module module_bind_name bundle ~default
+              ~dynamic_import
           in
-          E.external_var_field ~external_name:bundle ~field:fn ~default id
+          E.external_var_field ~dynamic_import ~external_name:bundle ~field:fn
+            ~default id
       | x :: rest ->
-          (* TODO: what happens when scope contains "default" ?*)
-          let default = false in
+          let default =
+            (* TODO: what happens when scope contains "default"? *)
+            false
+          in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle default
+            Lam_compile_env.add_js_module module_bind_name bundle ~default
+              ~dynamic_import
           in
           let start =
-            E.external_var_field ~external_name:bundle ~field:x ~default id
+            E.external_var_field ~dynamic_import ~external_name:bundle ~field:x
+              ~default id
           in
           List.fold_left ~f:E.dot ~init:start (List.append rest [ fn ]))
   | None -> (
@@ -243,12 +267,35 @@ let translate_scoped_module_val
           let start = E.js_global x in
           List.fold_left ~f:E.dot ~init:start (rest @ [ fn ]))
 
-let translate_scoped_access scopes obj =
-  match scopes with
-  | [] -> obj
-  | x :: xs -> List.fold_left ~f:E.dot ~init:(E.dot obj x) xs
-
 let translate_ffi =
+  let js_send_self_and_args =
+    let rec aux ~self_idx args specs (acc_args, acc_specs, cur_idx) =
+      match (args, specs) with
+      | [], [] -> assert false
+      | ( _ :: _,
+          (* constant args get elided from the `external type` but not the arg
+           specs. *)
+          ({ External_arg_spec.arg_type = Arg_cst _; _ } as spec) :: specs ) ->
+          aux ~self_idx args specs (acc_args, spec :: acc_specs, cur_idx + 1)
+      | self :: args, spec :: specs ->
+          if self_idx = cur_idx then
+            (* PR2162 [self_type] more checks in syntax:
+                 - should not be [@as] *)
+            ( self,
+              List.rev_append acc_args args,
+              List.rev_append acc_specs specs )
+          else
+            aux ~self_idx args specs
+              (self :: acc_args, spec :: acc_specs, cur_idx + 1)
+      | [], _ :: _ | _ :: _, [] -> assert false
+    in
+    fun args arg_types ~self_idx -> aux args arg_types ~self_idx ([], [], 0)
+  in
+  let translate_scoped_access scopes obj =
+    match scopes with
+    | [] -> obj
+    | x :: xs -> List.fold_left ~f:E.dot ~init:(E.dot obj x) xs
+  in
   let process_send ~new_ self name args =
     match new_ with
     | true -> E.new_ (E.dot self name) args
@@ -258,23 +305,40 @@ let translate_ffi =
           (E.dot self name) args
   in
   fun (cxt : Lam_compile_context.t) arg_types
-      (ffi : Melange_ffi.External_ffi_types.external_spec)
-      (args : J.expression list) ->
+      (ffi : External_ffi_types.external_spec) (args : J.expression list)
+      ~dynamic_import ->
     match ffi with
     | Js_call
-        { external_module_name = module_name; name = fn; variadic; scopes } ->
-        let fn = translate_scoped_module_val module_name fn scopes in
-        if variadic then
-          let args, eff, dynamic = assemble_args_has_splice arg_types args in
-          add_eff eff
-            (if dynamic then splice_fn_apply fn args
-             else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
-        else
-          let args, eff = assemble_args_no_splice arg_types args in
-          add_eff eff
-          @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args
+        { external_module_name = module_name; name = fn; variadic; scopes } -> (
+        let fn =
+          translate_scoped_module_val module_name fn scopes ~dynamic_import
+        in
+        match (arg_types, args) with
+        | _ :: _, [] ->
+            (* We end up here in the following case:
+
+                external x : ('a -> 'a array[@u]) = "x"
+                let x = x
+
+               An uncurried external being used as an OCaml value:
+                 - arg types were extracted to process attributes, but there
+                   are no args since the function is being used as a value.
+            *)
+            fn
+        | _ ->
+            if variadic then
+              let args, eff, dynamic =
+                assemble_args_has_splice arg_types args
+              in
+              add_eff eff
+                (if dynamic then splice_fn_apply fn args
+                 else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+            else
+              let args, eff = assemble_args_no_splice args arg_types in
+              add_eff eff
+              @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args)
     | Js_module_as_fn { external_module_name; variadic } ->
-        let fn = external_var external_module_name in
+        let fn = external_var ~dynamic_import external_module_name in
         if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           (* TODO: fix in rest calling convention *)
@@ -282,7 +346,7 @@ let translate_ffi =
             (if dynamic then splice_fn_apply fn args
              else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
         else
-          let args, eff = assemble_args_no_splice arg_types args in
+          let args, eff = assemble_args_no_splice args arg_types in
           (* TODO: fix in rest calling convention *)
           add_eff eff
             (E.call ~info:{ arity = Full; call_info = Call_na } fn args)
@@ -297,13 +361,15 @@ let translate_ffi =
            TODO: we should propagate this property
            as much as we can(in alias table)
         *)
-        let fn = translate_scoped_module_val module_name fn scopes in
+        let fn =
+          translate_scoped_module_val module_name fn scopes ~dynamic_import
+        in
         if variadic then
           let args, eff, dynamic = assemble_args_has_splice arg_types args in
           add_eff eff
             (if dynamic then splice_fn_new_apply fn args else E.new_ fn args)
         else
-          let args, eff = assemble_args_no_splice arg_types args in
+          let args, eff = assemble_args_no_splice args arg_types in
           add_eff eff
             (* (match cxt.continuation with *)
             (* | Declare (let_kind, id) -> *)
@@ -312,51 +378,45 @@ let translate_ffi =
             (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
             (* | EffectCall _ | NeedValue _ -> ()); *)
             (E.new_ fn args)
-    | Js_send { variadic; name; pipe; js_send_scopes; new_ } -> (
-        if pipe then
-          (* variadic should not happen *)
-          (* assert (js_splice = false) ;  *)
-          if variadic then
+    | Js_send { variadic; name; kind; scopes; new_ } -> (
+        match (kind, variadic) with
+        (* variadic should not happen *)
+        (* assert (js_splice = false) ;  *)
+        | Pipe, true ->
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
             let args, eff, dynamic = assemble_args_has_splice arg_types args in
             add_eff eff
-              (let self = translate_scoped_access js_send_scopes self in
+              (let self = translate_scoped_access scopes self in
                if dynamic then splice_obj_fn_apply self name args
                else process_send ~new_ self name args)
-          else
+        | Pipe, false ->
             let args, self = List.split_at_last args in
             let arg_types, _ = List.split_at_last arg_types in
-            let args, eff = assemble_args_no_splice arg_types args in
+            let args, eff = assemble_args_no_splice args arg_types in
             add_eff eff
-              (let self = translate_scoped_access js_send_scopes self in
+              (let self = translate_scoped_access scopes self in
                process_send ~new_ self name args)
-        else
-          match args with
-          | self :: args ->
-              (* PR2162 [self_type] more checks in syntax:
-                 - should not be [@as] *)
-              let[@ocaml.warning "-partial-match"] (_self_type :: arg_types) =
-                arg_types
-              in
-              if variadic then
-                let args, eff, dynamic =
-                  assemble_args_has_splice arg_types args
-                in
-                add_eff eff
-                  (let self = translate_scoped_access js_send_scopes self in
-                   if dynamic then
-                     match new_ with
-                     | true -> splice_fn_new_apply (E.dot self name) args
-                     | false -> splice_obj_fn_apply self name args
-                   else process_send ~new_ self name args)
-              else
-                let args, eff = assemble_args_no_splice arg_types args in
-                add_eff eff
-                  (let self = translate_scoped_access js_send_scopes self in
-                   process_send ~new_ self name args)
-          | _ -> assert false)
-    | Js_module_as_var module_name -> external_var module_name
+        | Send self_idx, true ->
+            let self, args, arg_types =
+              js_send_self_and_args args arg_types ~self_idx
+            in
+            let args, eff, dynamic = assemble_args_has_splice arg_types args in
+            let self = translate_scoped_access scopes self in
+            add_eff eff
+              (if dynamic then
+                 match new_ with
+                 | true -> splice_fn_new_apply (E.dot self name) args
+                 | false -> splice_obj_fn_apply self name args
+               else process_send ~new_ self name args)
+        | Send self_idx, false ->
+            let self, args, arg_types =
+              js_send_self_and_args args arg_types ~self_idx
+            in
+            let args, eff = assemble_args_no_splice args arg_types in
+            let self = translate_scoped_access scopes self in
+            add_eff eff (process_send ~new_ self name args))
+    | Js_module_as_var module_name -> external_var ~dynamic_import module_name
     | Js_var { name; external_module_name; scopes } ->
         (* TODO #11
            1. check args -- error checking
@@ -364,9 +424,10 @@ let translate_ffi =
            we need know whether we should call [add_js_module] or not
         *)
         translate_scoped_module_val external_module_name name scopes
+          ~dynamic_import
     | Js_module_as_class module_name ->
-        let fn = external_var module_name in
-        let args, eff = assemble_args_no_splice arg_types args in
+        let fn = external_var ~dynamic_import module_name in
+        let args, eff = assemble_args_no_splice args arg_types in
         (* TODO: fix in rest calling convention *)
         add_eff eff
           ((match cxt.continuation with
@@ -375,8 +436,8 @@ let translate_ffi =
            | Assign id -> cxt.continuation <- Assign (Ident.make_js_object id)
            | EffectCall _ | NeedValue _ -> ());
            E.new_ fn args)
-    | Js_get { js_get_name = name; js_get_scopes = scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+    | Js_get { name; scopes } -> (
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
@@ -384,9 +445,9 @@ let translate_ffi =
             let obj = translate_scoped_access scopes obj in
             E.dot obj name
         | _ -> assert false (* Note these assertion happens in call site *))
-    | Js_set { js_set_name = name; js_set_scopes = scopes } -> (
+    | Js_set { name; scopes } -> (
         (* assert (js_splice = false) ;  *)
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match (args, arg_types) with
@@ -394,18 +455,20 @@ let translate_ffi =
             let obj = translate_scoped_access scopes obj in
             E.assign (E.dot obj name) v
         | _ -> assert false)
-    | Js_get_index { js_get_index_scopes = scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+    | Js_get_index { scopes } -> (
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
-        | [ obj; v ] -> Js_arr.ref_array (translate_scoped_access scopes obj) v
+        | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
         | _ -> assert false)
-    | Js_set_index { js_set_index_scopes = scopes } -> (
-        let args, cur_eff = assemble_args_no_splice arg_types args in
+    | Js_set_index { scopes } -> (
+        let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
         @@
         match args with
         | [ obj; v; value ] ->
-            Js_arr.set_array (translate_scoped_access scopes obj) v value
+            E.assign
+              (E.array_index (translate_scoped_access scopes obj) v)
+              value
         | _ -> assert false)

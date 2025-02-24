@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Creator utilities for the [J] module *)
 
 type t = J.statement
@@ -77,7 +79,7 @@ val string_switch :
   ?declaration:Lam_group.let_kind * Ident.t ->
   ?default:J.block ->
   J.expression ->
-  (string * J.case_clause) list ->
+  (Lambda.as_modifier * J.case_clause) list ->
   t
 
 val declare_variable :
@@ -130,7 +132,7 @@ val assign : ?comment:string -> J.ident -> J.expression -> t
    J.ident ->
    t *)
 
-val while_ : ?comment:string -> ?label:J.label -> J.expression -> J.block -> t
+val while_ : ?comment:string -> J.expression -> J.block -> t
 
 val for_ :
   ?comment:string ->
@@ -164,3 +166,4 @@ val return_stmt : ?comment:string -> J.expression -> t
 
 val continue_ : t
 val debugger_block : t list
+val named_expression : J.expression -> (J.statement * Ident.t) option

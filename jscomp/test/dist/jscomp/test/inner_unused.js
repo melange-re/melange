@@ -11,15 +11,17 @@ function M(S) {
     return x;
   };
   return {
-          f: f
-        };
+    f: f
+  };
 }
 
 function fff(param, param$1) {
   return 3;
 }
 
-exports.f = f;
-exports.M = M;
-exports.fff = fff;
+module.exports = {
+  f,
+  M,
+  fff,
+}
 /* No side effect */

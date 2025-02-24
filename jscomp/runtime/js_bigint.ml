@@ -1,6 +1,30 @@
+(* Copyright (C) 2022- Authors of Melange
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * In addition to the permissions granted to you by the LGPL, you may combine
+ * or link a "work that uses the Library" with a publicly distributed version
+ * of this file to produce a combined library or application, then distribute
+ * that combined work under the terms of your choosing, with no requirement
+ * to comply with the obligations normally placed on you by section 4 of the
+ * LGPL version 3 (or the corresponding section of a later version of the LGPL
+ * should you choose to use a later version).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
 (** JavaScript BigInt API *)
 
-type t
+type t = Js.bigint
 
 external make : 'a -> t = "BigInt"
 (**
@@ -25,8 +49,9 @@ external asUintN : precision:int -> t -> t = "asUintN"
 type toLocaleStringOptions = { style : string; currency : string }
 
 external toLocaleString :
-  locale:string -> ?options:toLocaleStringOptions -> string = "toLocaleString"
-[@@mel.send.pipe: t]
+  locale:string -> ?options:toLocaleStringOptions -> (t[@mel.this]) -> string
+  = "toLocaleString"
+[@@mel.send]
 (**
   [toLocaleString bigint] returns a string with a language-sensitive
   representation of this BigInt. *)
@@ -34,7 +59,7 @@ external toLocaleString :
 external toString : t -> string = "toLocaleString"
 [@@mel.send]
 (**
-    [toString bigint] returns a string representing the specified BigInt value.
+  [toString bigint] returns a string representing the specified BigInt value.
  *)
 
 external neg : t -> t = "%negfloat"

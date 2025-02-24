@@ -45,12 +45,12 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
   | Lprim
       {
         primitive = Pfield (_, Fld_module { name });
-        args = [ Lglobal_module id ];
+        args = [ Lglobal_module { id; dynamic_import } ];
         _;
       } -> (
-      match (Lam_compile_env.query_external_id_info id name).arity with
-      | Single x -> x
-      | Submodule _ -> Lam_arity.na)
+      match Lam_compile_env.query_external_id_info ~dynamic_import id name with
+      | Some { arity = Single x; _ } -> x
+      | Some { arity = Submodule _; _ } | None -> Lam_arity.na)
   | Lprim
       {
         primitive = Pfield (m, _);
@@ -59,15 +59,16 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
             Lprim
               {
                 primitive = Pfield (_, Fld_module { name });
-                args = [ Lglobal_module id ];
+                args = [ Lglobal_module { id; dynamic_import } ];
                 _;
               };
           ];
         _;
       } -> (
-      match (Lam_compile_env.query_external_id_info id name).arity with
-      | Submodule subs -> subs.(m) (* TODO: shall we store it as array?*)
-      | Single _ -> Lam_arity.na)
+      match Lam_compile_env.query_external_id_info ~dynamic_import id name with
+      | Some { arity = Submodule subs; _ } ->
+          subs.(m) (* TODO: shall we store it as array?*)
+      | Some { arity = Single _; _ } | None -> Lam_arity.na)
   (* TODO: all information except Pccall is complete, we could
      get more arity information
   *)

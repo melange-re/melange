@@ -24,19 +24,13 @@
 
 (** Contains functionality for dealing with values that can be both [null] and [undefined] *)
 
-open Melange_mini_stdlib
-
-type +'a t = 'a Js_internal.nullable
+type +'a t = 'a Js.nullable
 
 external toOption : 'a t -> 'a option = "#nullable_to_opt"
 external return : 'a -> 'a t = "%identity"
 external isNullable : 'a t -> bool = "#is_nullable"
 external null : 'a t = "#null"
 external undefined : 'a t = "#undefined"
-
-open struct
-  module Js = Js_internal
-end
 
 let map ~f x =
   match toOption x with

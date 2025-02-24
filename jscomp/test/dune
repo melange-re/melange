@@ -5,7 +5,7 @@
  (modules mt)
  (preprocess
   (pps melange.ppx))
- (melange.compile_flags -bs-cross-module-opt)
+ (melange.compile_flags --mel-cross-module-opt)
  (libraries melange melange.node))
 
 (library
@@ -16,7 +16,7 @@
  (preprocess
   (pps melange.ppx reason-react-ppx))
  (modules :standard \ mt es6_export es6_import es6_module_test)
- (melange.compile_flags -w -27-32+104 -bs-cross-module-opt))
+ (melange.compile_flags -w -27-32+104 --mel-cross-module-opt))
 
 (include_subdirs unqualified)
 
@@ -30,7 +30,7 @@
   (pps melange.ppx))
  (wrapped false)
  (modules es6_export es6_import es6_module_test)
- (melange.compile_flags -w +104 -bs-cross-module-opt))
+ (melange.compile_flags -w +104 --mel-cross-module-opt))
 
 (ocamllex arith_lexer)
 
@@ -46,6 +46,7 @@
  (module_systems
   (commonjs js))
  (libraries melange melange_runtime_tests)
+ (compile_flags :standard --mel-cross-module-opt)
  (runtime_deps
   (glob_files *.js)))
 
@@ -56,4 +57,5 @@
  (modules)
  (module_systems
   (es6 mjs))
- (libraries melange melange_runtime_es6_tests))
+ (libraries melange melange_runtime_es6_tests)
+ (compile_flags :standard --mel-cross-module-opt))

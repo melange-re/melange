@@ -8,5 +8,7 @@ function f(point) {
   return Math.pow(x * x + y * y, 2);
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

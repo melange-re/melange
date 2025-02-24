@@ -3,8 +3,8 @@
 
 
 function tailcall(x) {
-  while(true) {
-    continue ;
+  while (true) {
+    continue;
   };
 }
 
@@ -17,7 +17,7 @@ function non_length(x) {
 }
 
 function length(_acc, _x) {
-  while(true) {
+  while (true) {
     const x = _x;
     const acc = _acc;
     if (!x) {
@@ -29,11 +29,13 @@ function length(_acc, _x) {
     }
     _x = x.tl;
     _acc = acc + 1 | 0;
-    continue ;
+    continue;
   };
 }
 
-exports.tailcall = tailcall;
-exports.non_length = non_length;
-exports.length = length;
+module.exports = {
+  tailcall,
+  non_length,
+  length,
+}
 /* No side effect */

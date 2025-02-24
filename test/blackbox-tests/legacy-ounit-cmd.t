@@ -9,7 +9,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.variadic]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml
+  $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 2-7, characters 0-18:
   2 | external
   3 |   f :
@@ -17,7 +17,7 @@
   5 |   = ""
   6 |   [@@mel.send.pipe:int]
   7 |   [@@mel.variadic]
-  Error: `@mel.variadic' expects its last argument to be an array
+  Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
   $ cat > x.ml <<EOF
@@ -28,7 +28,7 @@
   >   [@@mel.send.pipe:int]
   >   [@@mel.variadic]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml
+  $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 1-6, characters 0-18:
   1 | external
   2 |   f2 :
@@ -36,7 +36,7 @@
   4 |   = ""
   5 |   [@@mel.send.pipe:int]
   6 |   [@@mel.variadic]
-  Error: `@mel.variadic' cannot be applied to an optionally labelled argument
+  Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
 Skip over the temporary file name printed in the error trace
@@ -56,7 +56,9 @@ Skip over the temporary file name printed in the error trace
     return foo.method1(x, y);
   }
   
-  exports.bla4 = bla4;
+  module.exports = {
+    bla4,
+  }
   /* No side effect */
 
 
@@ -81,7 +83,7 @@ Skip over the temporary file name printed in the error trace
   1 | external ff :
   2 |     resp -> (_ [@mel.as "x"]) -> int -> unit =
   3 |     "x" [@@mel.set]
-  Error: `@mel.set' requires a function of two arguments
+  Error: `[@mel.set]' requires a function of two arguments
   [2]
 
   $ cat > x.ml <<EOF
@@ -106,7 +108,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 1, characters 0-53:
   1 | external v4 : (int -> int -> int [@mel.uncurry]) = ""
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: `@mel.uncurry' must not be applied to the entire annotation
+  Error: `[@mel.uncurry]' must not be applied to the entire annotation
   [2]
 
   $ melc -ppx melppx -bs-eval '{js| \uFFF|js}' 2>&1 | grep -v File
@@ -166,7 +168,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 3, characters 12-15:
   3 | let rec x = A x;;
                   ^^^
-  Error: This kind of expression is not allowed as right-hand side of `let rec'
+  Error: This kind of expression is not allowed as right-hand side of let rec
   [2]
 
   $ cat > x.ml <<EOF
@@ -177,7 +179,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 2, characters 12-19:
   2 | let rec x = {x = y} and y = 3L;;
                   ^^^^^^^
-  Error: This kind of expression is not allowed as right-hand side of `let rec'
+  Error: This kind of expression is not allowed as right-hand side of let rec
   [2]
 
   $ cat > x.ml <<EOF
@@ -188,7 +190,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 2, characters 12-15:
   2 | let rec y = A y;;
                   ^^^
-  Error: This kind of expression is not allowed as right-hand side of `let rec'
+  Error: This kind of expression is not allowed as right-hand side of let rec
   [2]
 
   $ melc -ppx melppx -bs-eval 'external f : int = "%identity"' 2>&1 | grep -v File
@@ -214,23 +216,6 @@ Skip over the temporary file name printed in the error trace
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: The `%identity' primitive type must take a single argument ('a -> 'b)
 
-  $ cat > x.ml <<EOF
-  > external foo_bar :
-  >  (_ [@mel.as "foo"]) ->
-  >  string ->
-  >  string = "bar"
-  >  [@@mel.send]
-  > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 1-5, characters 0-13:
-  1 | external foo_bar :
-  2 |  (_ [@mel.as "foo"]) ->
-  3 |  string ->
-  4 |  string = "bar"
-  5 |  [@@mel.send]
-  Error: `@mel.send`'s first argument must not be a constant
-  [2]
-
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y = foo##(method1 x y [@u])' 2>&1 | grep -v File
   1 | let bla4 foo x y = foo##(method1 x y [@u])
                                              ^
@@ -246,7 +231,9 @@ Skip over the temporary file name printed in the error trace
     return foo.method1(x, y);
   }
   
-  exports.bla4 = bla4;
+  module.exports = {
+    bla4,
+  }
   /* No side effect */
 
 
@@ -287,6 +274,6 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 5, characters 9-12:
   5 |   push a "3" |. ignore
                ^^^
-  Error: This expression has type string but an expression was expected of type
+  Error: This constant has type string but an expression was expected of type
            int
   [2]

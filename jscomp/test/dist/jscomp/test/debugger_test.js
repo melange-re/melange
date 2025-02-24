@@ -4,9 +4,9 @@
 
 function f(x, y) {
   console.log([
-        x,
-        y
-      ]);
+    x,
+    y
+  ]);
   return x + y | 0;
 }
 
@@ -28,7 +28,9 @@ function exterme_g(param) {
   return 3;
 }
 
-exports.f = f;
-exports.g = g;
-exports.exterme_g = exterme_g;
+module.exports = {
+  f,
+  g,
+  exterme_g,
+}
 /* No side effect */

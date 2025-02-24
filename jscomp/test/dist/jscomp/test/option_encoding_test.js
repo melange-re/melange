@@ -11,7 +11,9 @@ const u = [
 
 let h;
 
-exports.N = N;
-exports.u = u;
-exports.h = h;
+module.exports = {
+  N,
+  u,
+  h,
+}
 /* No side effect */

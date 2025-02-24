@@ -25,19 +25,20 @@ let suites =
            =~ [ 1; 2; 2; 3; 3; 4 ] );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
-             (List.stable_group [ 1; 2; 3; 4; 3 ] ( = ))
+             (List.stable_group [ 1; 2; 3; 4; 3 ] ~equal:( = ))
              [ [ 1 ]; [ 2 ]; [ 4 ]; [ 3; 3 ] ] );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:printer_int_list in
            let f b _v = if b then 1 else 0 in
-           List.map_last [] f =~ [];
-           List.map_last [ 0 ] f =~ [ 1 ];
-           List.map_last [ 0; 0 ] f =~ [ 0; 1 ];
-           List.map_last [ 0; 0; 0 ] f =~ [ 0; 0; 1 ];
-           List.map_last [ 0; 0; 0; 0 ] f =~ [ 0; 0; 0; 1 ];
-           List.map_last [ 0; 0; 0; 0; 0 ] f =~ [ 0; 0; 0; 0; 1 ];
-           List.map_last [ 0; 0; 0; 0; 0; 0 ] f =~ [ 0; 0; 0; 0; 0; 1 ];
-           List.map_last [ 0; 0; 0; 0; 0; 0; 0 ] f =~ [ 0; 0; 0; 0; 0; 0; 1 ] );
+           List.map_last [] ~f =~ [];
+           List.map_last [ 0 ] ~f =~ [ 1 ];
+           List.map_last [ 0; 0 ] ~f =~ [ 0; 1 ];
+           List.map_last [ 0; 0; 0 ] ~f =~ [ 0; 0; 1 ];
+           List.map_last [ 0; 0; 0; 0 ] ~f =~ [ 0; 0; 0; 1 ];
+           List.map_last [ 0; 0; 0; 0; 0 ] ~f =~ [ 0; 0; 0; 0; 1 ];
+           List.map_last [ 0; 0; 0; 0; 0; 0 ] ~f =~ [ 0; 0; 0; 0; 0; 1 ];
+           List.map_last [ 0; 0; 0; 0; 0; 0; 0 ] ~f =~ [ 0; 0; 0; 0; 0; 0; 1 ]
+         );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
              (List.map ~f:(fun x -> string_of_int x) [ 0; 1; 2 ]

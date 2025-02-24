@@ -42,8 +42,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pis_not_none -> Js_of_lam_option.is_not_none (List.hd args)
   | Pcreate_extension s -> E.make_exception s
   | Pwrap_exn ->
-      E.runtime_call Js_runtime_modules.caml_js_exceptions
-        "internalToOCamlException" args
+      E.runtime_call ~module_name:Js_runtime_modules.caml_js_exceptions
+        ~fn_name:"internalToOCamlException" args
   | Praw_js_code { code; code_info } -> E.raw_js_code code_info code
   | Pjs_runtime_apply -> (
       match args with [ f; args ] -> E.flat_call f args | _ -> assert false)
@@ -56,7 +56,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e ] -> (
           match e.expression_desc with
           | Var _ | Undefined | Null -> Js_of_lam_option.null_to_opt e
-          | _ -> E.runtime_call Js_runtime_modules.option "null_to_opt" args)
+          | _ ->
+              E.runtime_call ~module_name:Js_runtime_modules.option
+                ~fn_name:"null_to_opt" args)
       | _ -> assert false)
   | Pundefined_to_opt -> (
       match args with
@@ -64,15 +66,17 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           match e.expression_desc with
           | Var _ | Undefined | Null -> Js_of_lam_option.undef_to_opt e
           | _ ->
-              E.runtime_call Js_runtime_modules.option "undefined_to_opt" args)
+              E.runtime_call ~module_name:Js_runtime_modules.option
+                ~fn_name:"undefined_to_opt" args)
       | _ -> assert false)
   | Pnull_undefined_to_opt -> (
       match args with
       | [ e ] -> (
           match e.expression_desc with
           | Var _ | Undefined | Null -> Js_of_lam_option.null_undef_to_opt e
-          | _ -> E.runtime_call Js_runtime_modules.option "nullable_to_opt" args
-          )
+          | _ ->
+              E.runtime_call ~module_name:Js_runtime_modules.option
+                ~fn_name:"nullable_to_opt" args)
       | _ -> assert false)
   | Pjs_function_length -> E.function_length (List.hd args)
   | Pcaml_obj_length -> E.obj_length (List.hd args)
@@ -81,13 +85,17 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pis_null_undefined -> E.is_null_undefined (List.hd args)
   | Pjs_typeof -> E.typeof (List.hd args)
   | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply | Pjs_fn_make _
-    ->
+  | Pimport ->
       assert false (* already handled by {!Lam_compile} *)
   | Pjs_fn_method -> assert false
   | Pstringadd -> (
       match args with [ a; b ] -> E.string_append a b | _ -> assert false)
-  | Pinit_mod -> E.runtime_call Js_runtime_modules.module_ "init_mod" args
-  | Pupdate_mod -> E.runtime_call Js_runtime_modules.module_ "update_mod" args
+  | Pinit_mod ->
+      E.runtime_call ~module_name:Js_runtime_modules.module_ ~fn_name:"init_mod"
+        args
+  | Pupdate_mod ->
+      E.runtime_call ~module_name:Js_runtime_modules.module_
+        ~fn_name:"update_mod" args
   | Psome -> (
       let arg = List.hd args in
       match arg.expression_desc with
@@ -102,7 +110,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pmakeblock (tag, tag_info, mutable_flag) ->
       (* RUNTIME *)
       Js_of_lam_block.make_block
-        (Js_op_util.of_lam_mutable_flag mutable_flag)
+        (Js_op.of_lam_mutable_flag mutable_flag)
         tag_info (E.small_int tag) args
   | Pval_from_option -> Js_of_lam_option.val_from_option (List.hd args)
   | Pval_from_option_not_nest -> List.hd args
@@ -178,7 +186,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       (* Global Builtin Exception is an int, like
          [Not_found] or [Invalid_argument] ?
       *)
-      match args with [ e1; e2 ] -> E.int_comp cmp e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.int_comp cmp e1 e2
+      | _ -> assert false)
   (* List --> stamp = 0
      Assert_false --> stamp = 26
   *)
@@ -195,10 +205,14 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       E.seq (E.assign v (E.offset v n)) E.unit
   | Psequand -> (
       (* TODO: rhs is possibly a tail call *)
-      match args with [ e1; e2 ] -> E.and_ e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.and_ e1 e2
+      | _ -> assert false)
   | Psequor -> (
       (* TODO: rhs is possibly a tail call *)
-      match args with [ e1; e2 ] -> E.or_ e1 e2 | _ -> assert false)
+      match args with
+      | [ e1; e2 ] -> E.or_ e1 e2
+      | _ -> assert false)
   | Pisout off -> (
       match args with
       (* predicate: [x > range  or x < 0 ]
@@ -230,40 +244,43 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e; e0; e1 ] ->
           ensure_value_unit cxt.continuation (Js_of_lam_string.set_byte e e0 e1)
       | _ -> assert false)
-  | Pbytessets -> E.runtime_call Js_runtime_modules.bytes "set" args
+  | Pbytessets ->
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"set" args
   | Pbytesrefu -> (
       match args with
       | [ e; e1 ] -> Js_of_lam_string.ref_byte e e1
       | _ -> assert false)
-  | Pbytesrefs -> E.runtime_call Js_runtime_modules.bytes "get" args
+  | Pbytesrefs ->
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"get" args
   | Pstring_load_16 unsafe ->
       let fn = if unsafe then "get16u" else "get16" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pstring_load_32 unsafe ->
       let fn = if unsafe then "get32u" else "get32" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pstring_load_64 unsafe ->
       let fn = if unsafe then "get64u" else "get64" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_load_16 unsafe ->
       let fn = if unsafe then "get16u" else "get16" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_load_32 unsafe ->
       let fn = if unsafe then "get32u" else "get32" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_load_64 unsafe ->
       let fn = if unsafe then "get64u" else "get64" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_set_16 unsafe ->
       let fn = if unsafe then "set16u" else "set16" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_set_32 unsafe ->
       let fn = if unsafe then "set32u" else "set32" in
-      E.runtime_call Js_runtime_modules.bytes fn args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
   | Pbytes_set_64 unsafe ->
       let fn = if unsafe then "set64u" else "set64" in
-      E.runtime_call Js_runtime_modules.bytes fn args
-  | Pstringrefs -> E.runtime_call Js_runtime_modules.string "get" args
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
+  | Pstringrefs ->
+      E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:"get" args
   (* For bytes and string, they both return [int] in ocaml
       we need tell Pbyteref from Pstringref
       1. Pbyteref -> a[i]
@@ -295,8 +312,10 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with
       | [ e; e1 ] -> Js_of_lam_array.ref_array e e1 (* Todo: Constant Folding *)
       | _ -> assert false)
-  | Parrayrefs -> E.runtime_call Js_runtime_modules.array "get" args
-  | Parraysets -> E.runtime_call Js_runtime_modules.array "set" args
+  | Parrayrefs ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"get" args
+  | Parraysets ->
+      E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"set" args
   | Pmakearray -> Js_of_lam_array.make_array Mutable args
   | Parraysetu -> (
       match args with
@@ -308,22 +327,27 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Lam_compile_external_call.translate loc cxt prim args *)
   (* Test if the argument is a block or an immediate integer *)
   | Pjs_object_create _ -> assert false
-  | Pjs_call { arg_types; ffi; _ } ->
+  | Pjs_call { arg_types; ffi; dynamic_import; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
+        ~dynamic_import
   (* FIXME, this can be removed later *)
   | Pisint -> E.is_type_number (List.hd args)
   | Pis_poly_var_const -> E.is_type_string (List.hd args)
   | Pctconst ct -> (
       match ct with
       | Big_endian -> E.bool Sys.big_endian
-      | Ostype -> E.runtime_call Js_runtime_modules.sys "os_type" args
+      | Ostype ->
+          E.runtime_call ~module_name:Js_runtime_modules.sys ~fn_name:"os_type"
+            args
       | Ostype_unix ->
           E.string_equal
-            (E.runtime_call Js_runtime_modules.sys "os_type" args)
+            (E.runtime_call ~module_name:Js_runtime_modules.sys
+               ~fn_name:"os_type" args)
             (E.str "Unix")
       | Ostype_win32 ->
           E.string_equal
-            (E.runtime_call Js_runtime_modules.sys "os_type" args)
+            (E.runtime_call ~module_name:Js_runtime_modules.sys
+               ~fn_name:"os_type" args)
             (E.str "Win32")
           (* | Max_wosize ->
              (* max_array_length*)
@@ -336,10 +360,17 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
                { name = "Other"; num_nonconst = 1; attributes = [] })
             [ E.str "Melange" ]
             Immutable)
-  | Pbswap16 -> E.runtime_call Js_runtime_modules.bytes "bswap16" args
+  | Pbswap16 ->
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap16"
+        args
   | Pbbswap Pnativeint -> assert false
-  | Pbbswap Pint32 -> E.runtime_call Js_runtime_modules.bytes "bswap32" args
-  | Pbbswap Pint64 -> E.runtime_call Js_runtime_modules.bytes "bswap64" args
+  | Pbbswap Pint32 ->
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap32"
+        args
+  | Popaque -> List.hd args
+  | Pbbswap Pint64 ->
+      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap64"
+        args
   | Pduprecord (Record_regular | Record_extension | Record_inlined _) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args
   | Plazyforce
@@ -349,7 +380,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* let parm = Ident.create "prim" in
          Lfunction(Curried, [parm],
                    Matching.inline_lazy_force (Lvar parm) Location.none)
-     It is inlined, this should not appear here *) ->
+     It is inlined, this should not appear here *)
+    ->
       (*we dont use [throw] here, since [throw] is an statement  *)
       let s = Lam_print.primitive_to_string prim in
       Location.prerr_warning loc (Mel_unimplemented_primitive s);

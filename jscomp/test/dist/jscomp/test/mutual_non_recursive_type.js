@@ -10,10 +10,13 @@ const U = {
   f: f
 };
 
-const v = /* H */{
-  _0: /* OT */0
+const v = {
+  TAG: /* H */ 0,
+  _0: /* OT */ 0
 };
 
-exports.U = U;
-exports.v = v;
+module.exports = {
+  U,
+  v,
+}
 /* No side effect */

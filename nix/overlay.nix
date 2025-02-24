@@ -1,4 +1,4 @@
-{ nix-filter, melange-compiler-libs-vendor-dir }:
+{ melange-compiler-libs-vendor-dir }:
 
 final: prev:
 
@@ -9,11 +9,11 @@ final: prev:
 
     {
       melange = prev.callPackage ./. {
-        inherit nix-filter melange-compiler-libs-vendor-dir;
+        inherit melange-compiler-libs-vendor-dir;
         doCheck = false;
       };
       melange-playground = prev.lib.callPackageWith oself ./melange-playground.nix {
-        inherit nix-filter melange-compiler-libs-vendor-dir;
+        inherit melange-compiler-libs-vendor-dir;
         inherit (prev) nodejs;
       };
     }

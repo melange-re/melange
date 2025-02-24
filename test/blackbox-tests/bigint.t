@@ -8,6 +8,7 @@ Test `Js.Bigint` code generation
   $ cat > dune <<EOF
   > (melange.emit
   >  (target out)
+  >  (emit_stdlib false)
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > x.ml <<EOF
@@ -48,7 +49,9 @@ Test `Js.Bigint` code generation
   
   console.log(x);
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* a Not a pure module */
   $ node _build/default/out/x.js
   21n

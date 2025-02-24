@@ -33,14 +33,14 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, s) -> E.str (List.assoc s dispatches)
+    | Str s -> E.str (List.assoc s dispatches)
     | _ ->
         E.of_block
           [
             S.string_switch arg
               (List.map
                  ~f:(fun (i, r) ->
-                   ( i,
+                   ( Lambda.String i,
                      J.
                        {
                          switch_body = [ S.return_stmt (E.str r) ];
@@ -56,7 +56,12 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
 let eval_as_event (arg : J.expression)
     (dispatches : (string * string) list option) =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Str (_, s); _ }; cb ], _, _, Blk_poly_var)
+  | Caml_block
+      {
+        fields = [ { expression_desc = Str s; _ }; cb ];
+        tag_info = Blk_poly_var;
+        _;
+      }
     when Js_analyzer.no_side_effect_expression cb ->
       let v =
         match dispatches with
@@ -74,7 +79,7 @@ let eval_as_event (arg : J.expression)
                     (E.poly_var_tag_access arg)
                     (List.map
                        ~f:(fun (i, r) ->
-                         ( i,
+                         ( Lambda.String i,
                            J.
                              {
                                switch_body = [ S.return_stmt (E.str r) ];
@@ -103,14 +108,14 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str (_, i) -> E.int (Int32.of_int (List.assoc i dispatches))
+    | Str i -> E.int (Int32.of_int (List.assoc i dispatches))
     | _ ->
         E.of_block
           [
             S.string_switch arg
               (List.map
                  ~f:(fun (i, r) ->
-                   ( i,
+                   ( Lambda.String i,
                      J.
                        {
                          switch_body =
@@ -124,5 +129,6 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
 
 let eval_as_unwrap (arg : J.expression) : E.t =
   match arg.expression_desc with
-  | Caml_block ([ { expression_desc = Number _; _ }; cb ], _, _, _) -> cb
+  | Caml_block { fields = [ { expression_desc = Number _; _ }; cb ]; _ } -> cb
+  | Str _ | Unicode _ -> arg
   | _ -> E.poly_var_value_access arg

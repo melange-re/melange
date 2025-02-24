@@ -29,8 +29,6 @@
 (* TODO: see GPR#333
    the encoding of int is platform dependent *)
 
-open Melange_mini_stdlib
-
 let%private { shift_right_logical = ( >>>~ ); add = ( +~ ); mul = ( *~ ) } =
   (module Caml_nativeint_extern)
 
@@ -94,13 +92,13 @@ let add (self : t) ({ lo = y_lo; hi = y_hi } : t) = add_aux self ~y_lo ~y_hi
 (* let not ( {lo; hi })  = mk ~lo:(lognot lo) ~hi:(lognot hi) *)
 
 let equal_null x y =
-  match Js_internal.nullToOption y with None -> false | Some y -> eq x y
+  match Js.nullToOption y with None -> false | Some y -> eq x y
 
 let equal_undefined x y =
-  match Js_internal.undefinedToOption y with None -> false | Some y -> eq x y
+  match Js.undefinedToOption y with None -> false | Some y -> eq x y
 
 let equal_nullable x y =
-  match Js_internal.toOption y with None -> false | Some y -> eq x y
+  match Js.toOption y with None -> false | Some y -> eq x y
 
 (* when [lo] is unsigned integer, [lognot lo] is still an unsigned integer  *)
 let sub_aux x ~lo ~hi =
@@ -194,7 +192,6 @@ let and_ { lo = this_lo; hi = this_hi } { lo = other_lo; hi = other_hi } =
 *)
 
 let to_float ({ hi; lo } : t) =
-  let module Js = Js_internal in
   Caml_nativeint_extern.to_float ((hi *~ [%raw {|0x100000000|}]) +~ lo)
 
 (** sign: Positive
@@ -213,8 +210,8 @@ external mod_float : float -> float -> float = "caml_fmod_float"
 *)
 
 let rec of_float (x : float) : t =
-  if Caml_float_extern.isNaN x || Pervasives.not (Caml_float_extern.isFinite x)
-  then zero
+  if Caml_float_extern.isNaN x || Stdlib.not (Caml_float_extern.isFinite x) then
+    zero
   else if x <= neg_two_ptr_63 then min_int
   else if x +. 1. >= two_ptr_63_dbl then max_int (* Undefined behavior *)
   else if x < 0. then neg (of_float (-.x))
@@ -234,8 +231,7 @@ external floor : float -> float = "floor" [@@mel.scope "Math"]
 *)
 let isSafeInteger { hi; lo } =
   let top11Bits = hi asr 21 in
-  top11Bits = 0
-  || (top11Bits = -1 && Pervasives.not (lo = 0 && hi = 0xff_e0_00_00))
+  top11Bits = 0 || (top11Bits = -1 && Stdlib.not (lo = 0 && hi = 0xff_e0_00_00))
 
 external string_of_float : float -> string = "String"
 
@@ -390,7 +386,6 @@ let discard_sign (x : int64) : int64 =
 *)
 
 let float_of_bits (x : t) : float =
-  let module Js = Js_internal in
   ([%raw
      {|function(lo,hi){ return (new Float64Array(new Int32Array([lo,hi]).buffer))[0]}|}]
     : _ -> _ -> _)
@@ -408,7 +403,6 @@ let float_of_bits (x : t) : float =
 
 let bits_of_float : float -> t =
  fun x ->
-  let module Js = Js_internal in
   let lo, hi =
     ([%raw {|function(x){return new Int32Array(new Float64Array([x]).buffer)}|}]
       : _ -> _)

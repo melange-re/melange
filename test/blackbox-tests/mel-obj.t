@@ -32,8 +32,10 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
     hi: 42
   };
   
-  exports.x = x;
-  exports.y = y;
+  module.exports = {
+    x,
+    y,
+  }
   /* No side effect */
 
 
@@ -55,5 +57,7 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
     "Content-Length": "50"
   };
   
-  exports.x = x;
+  module.exports = {
+    x,
+  }
   /* No side effect */

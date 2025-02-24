@@ -435,7 +435,7 @@ external erfc : float -> float = "caml_erfc_float" "caml_erfc"
   [@@unboxed] [@@noalloc]
 (** Complementary error function ([erfc x = 1 - erf x]).
     The argument ranges over the entire real line.
-    The result is always within [[-1.0, 1.0]].
+    The result is always within [[0.0, 2.0]].
 
     @since 4.13
 *)
@@ -617,6 +617,27 @@ module Array : sig
       applied to the integers [0] to [n-1].
       @raise Invalid_argument if [n < 0] or [n > Sys.max_floatarray_length]. *)
 
+  val make_matrix : int -> int -> float -> t array
+  (** [make_matrix dimx dimy e] returns a two-dimensional array
+      (an array of arrays) with first dimension [dimx] and
+      second dimension [dimy], where all elements are initialized with [e].
+
+      @raise Invalid_argument if [dimx] or [dimy] is negative or
+      greater than {!Sys.max_floatarray_length}.
+
+      @since 5.2 *)
+
+  val init_matrix : int -> int -> (int -> int -> float) -> t array
+  (** [init_matrix dimx dimy f] returns a two-dimensional array
+      (an array of arrays)
+      with first dimension [dimx] and second dimension [dimy],
+      where the element at index ([x,y]) is initialized with [f x y].
+
+      @raise Invalid_argument if [dimx] or [dimy] is negative or
+      greater than {!Sys.max_floatarray_length}.
+
+      @since 5.2 *)
+
   val append : t -> t -> t
   (** [append v1 v2] returns a fresh floatarray containing the
       concatenation of the floatarrays [v1] and [v2].
@@ -664,7 +685,7 @@ module Array : sig
       @raise Invalid_argument if the length of [l] is greater than
       [Sys.max_floatarray_length].*)
 
-  (** {2 Iterators} *)
+  (** {1 Iterators} *)
 
   val iter : (float -> unit) -> t -> unit
   (** [iter f a] applies function [f] in turn to all
@@ -705,7 +726,7 @@ module Array : sig
       [f a.(0) (f a.(1) ( ... (f a.(n-1) init) ...))],
       where [n] is the length of the floatarray [a]. *)
 
-  (** {2 Iterators on two arrays} *)
+  (** {1 Iterators on two arrays} *)
 
   val iter2 : (float -> float -> unit) -> t -> t -> unit
   (** [Array.iter2 f a b] applies function [f] to all the elements of [a]
@@ -718,7 +739,7 @@ module Array : sig
       [[| f a.(0) b.(0); ...; f a.(length a - 1) b.(length b - 1)|]].
       @raise Invalid_argument if the floatarrays are not the same size. *)
 
-  (** {2 Array scanning} *)
+  (** {1 Array scanning} *)
 
   val for_all : (float -> bool) -> t -> bool
   (** [for_all f [|a1; ...; an|]] checks if all elements of the floatarray
@@ -738,7 +759,7 @@ module Array : sig
   val mem_ieee : float -> t -> bool
   (** Same as {!mem}, but uses IEEE equality instead of structural equality. *)
 
-  (** {2 Array searching} *)
+  (** {1 Array searching} *)
 
   val find_opt : (float -> bool) -> t -> float option
   (* [find_opt f a] returns the first element of the array [a] that satisfies
@@ -766,7 +787,7 @@ module Array : sig
 
      @since 5.1 *)
 
-  (** {2 Sorting} *)
+  (** {1:sorting_and_shuffling Sorting and shuffling} *)
 
   val sort : (float -> float -> int) -> t -> unit
   (** Sort a floatarray in increasing order according to a comparison
@@ -790,7 +811,7 @@ module Array : sig
 
       When [sort] returns, [a] contains the same elements as before,
       reordered in such a way that for all i and j valid indices of [a] :
-  -      [cmp a.(i) a.(j)] >= 0 if and only if i >= j
+  -      [cmp a.(i) a.(j)] >= 0 if i >= j
   *)
 
   val stable_sort : (float -> float -> int) -> t -> unit
@@ -806,7 +827,19 @@ module Array : sig
   (** Same as {!sort} or {!stable_sort}, whichever is faster
       on typical input. *)
 
-  (** {2 Float arrays and Sequences} *)
+  val shuffle :
+    rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> t -> unit
+  (** [shuffle rand a] randomly permutes [a]'s elements using [rand]
+      for randomness. The distribution of permutations is uniform.
+
+      [rand] must be such that a call to [rand n] returns a uniformly
+      distributed random number in the range \[[0];[n-1]\].
+      {!Random.int} can be used for this (do not forget to
+      {{!Random.self_init}initialize} the generator).
+
+      @since 5.2 *)
+
+  (** {1 Float arrays and Sequences} *)
 
   val to_seq : t -> float Seq.t
   (** Iterate on the floatarray, in increasing order. Modifications of the
@@ -906,7 +939,7 @@ module Array : sig
 
   (**/**)
 
-  (** {2 Undocumented functions} *)
+  (** {1 Undocumented functions} *)
 
   (* These functions are for system use only. Do not call directly. *)
   external unsafe_get : t -> int -> float = "%floatarray_unsafe_get"
@@ -952,6 +985,27 @@ module ArrayLabels : sig
       In other terms, [init n ~f] tabulates the results of [f]
       applied to the integers [0] to [n-1].
       @raise Invalid_argument if [n < 0] or [n > Sys.max_floatarray_length]. *)
+
+  val make_matrix : dimx:int -> dimy:int -> float -> t array
+  (** [make_matrix ~dimx ~dimy e] returns a two-dimensional array
+      (an array of arrays) with first dimension [dimx] and
+      second dimension [dimy], where all elements are initialized with [e].
+
+      @raise Invalid_argument if [dimx] or [dimy] is negative or
+      greater than {!Sys.max_floatarray_length}.
+
+      @since 5.2 *)
+
+  val init_matrix : dimx:int -> dimy:int -> f:(int -> int -> float) -> t array
+  (** [init_matrix ~dimx ~dimy ~f] returns a two-dimensional array
+      (an array of arrays)
+      with first dimension [dimx] and second dimension [dimy],
+      where the element at index ([x,y]) is initialized with [f x y].
+
+      @raise Invalid_argument if [dimx] or [dimy] is negative or
+      greater than {!Sys.max_floatarray_length}.
+
+      @since 5.2 *)
 
   val append : t -> t -> t
   (** [append v1 v2] returns a fresh floatarray containing the
@@ -1000,7 +1054,7 @@ module ArrayLabels : sig
       @raise Invalid_argument if the length of [l] is greater than
       [Sys.max_floatarray_length].*)
 
-  (** {2 Iterators} *)
+  (** {1 Iterators} *)
 
   val iter : f:(float -> unit) -> t -> unit
   (** [iter ~f a] applies function [f] in turn to all
@@ -1041,7 +1095,7 @@ module ArrayLabels : sig
       [f a.(0) (f a.(1) ( ... (f a.(n-1) init) ...))],
       where [n] is the length of the floatarray [a]. *)
 
-  (** {2 Iterators on two arrays} *)
+  (** {1 Iterators on two arrays} *)
 
   val iter2 : f:(float -> float -> unit) -> t -> t -> unit
   (** [Array.iter2 ~f a b] applies function [f] to all the elements of [a]
@@ -1054,7 +1108,7 @@ module ArrayLabels : sig
       [[| f a.(0) b.(0); ...; f a.(length a - 1) b.(length b - 1)|]].
       @raise Invalid_argument if the floatarrays are not the same size. *)
 
-  (** {2 Array scanning} *)
+  (** {1 Array scanning} *)
 
   val for_all : f:(float -> bool) -> t -> bool
   (** [for_all ~f [|a1; ...; an|]] checks if all elements of the floatarray
@@ -1074,7 +1128,7 @@ module ArrayLabels : sig
   val mem_ieee : float -> set:t -> bool
   (** Same as {!mem}, but uses IEEE equality instead of structural equality. *)
 
-  (** {2 Array searching} *)
+  (** {1 Array searching} *)
 
   val find_opt : f:(float -> bool) -> t -> float option
   (* [find_opt ~f a] returns the first element of the array [a] that satisfies
@@ -1102,7 +1156,7 @@ module ArrayLabels : sig
 
      @since 5.1 *)
 
-  (** {2 Sorting} *)
+  (** {1:sorting_and_shuffling Sorting and shuffling} *)
 
   val sort : cmp:(float -> float -> int) -> t -> unit
   (** Sort a floatarray in increasing order according to a comparison
@@ -1126,7 +1180,7 @@ module ArrayLabels : sig
 
       When [sort] returns, [a] contains the same elements as before,
       reordered in such a way that for all i and j valid indices of [a] :
-  -      [cmp a.(i) a.(j)] >= 0 if and only if i >= j
+  -      [cmp a.(i) a.(j)] >= 0 if i >= j
   *)
 
   val stable_sort : cmp:(float -> float -> int) -> t -> unit
@@ -1142,7 +1196,19 @@ module ArrayLabels : sig
   (** Same as {!sort} or {!stable_sort}, whichever is faster
       on typical input. *)
 
-  (** {2 Float arrays and Sequences} *)
+  val shuffle :
+    rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> t -> unit
+  (** [shuffle ~rand a] randomly permutes [a]'s elements using [rand]
+      for randomness. The distribution of permutations is uniform.
+
+      [rand] must be such that a call to [rand n] returns a uniformly
+      distributed random number in the range \[[0];[n-1]\].
+      {!Random.int} can be used for this (do not forget to
+      {{!Random.self_init}initialize} the generator).
+
+      @since 5.2 *)
+
+  (** {1 Float arrays and Sequences} *)
 
   val to_seq : t -> float Seq.t
   (** Iterate on the floatarray, in increasing order. Modifications of the
@@ -1242,7 +1308,7 @@ module ArrayLabels : sig
 
   (**/**)
 
-  (** {2 Undocumented functions} *)
+  (** {1 Undocumented functions} *)
 
   (* These functions are for system use only. Do not call directly. *)
   external unsafe_get : t -> int -> float = "%floatarray_unsafe_get"

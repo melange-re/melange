@@ -6,3 +6,4 @@ jscomp/stdlib/*
 jscomp/stdlib/*/*
 
 jscomp/js_parser/*
+vendor/*/*

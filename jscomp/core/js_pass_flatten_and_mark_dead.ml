@@ -43,7 +43,7 @@ let mark_dead_code (js : J.program) : J.program =
               Ident.Hash.add ident_use_stats ident Recursive
           (* recursive identifiers *)
           | Some Recursive -> ()
-          | Some (Info x) -> Js_op_util.update_used_stats x Used);
+          | Some (Info x) -> Js_op.update_used_stats x Used);
       variable_declaration =
         (fun self vd ->
           match vd.ident_info.used_stats with
@@ -65,11 +65,11 @@ let mark_dead_code (js : J.program) : J.program =
               in
               let () =
                 if Ident.Set.mem js.export_set ident then
-                  Js_op_util.update_used_stats ident_info Exported
+                  Js_op.update_used_stats ident_info Exported
               in
               match Ident.Hash.find_opt ident_use_stats ident with
               | Some Recursive ->
-                  Js_op_util.update_used_stats ident_info Used;
+                  Js_op.update_used_stats ident_info Used;
                   Ident.Hash.replace ident_use_stats ident (Info ident_info)
               | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
@@ -80,7 +80,7 @@ let mark_dead_code (js : J.program) : J.program =
               | None ->
                   (* First time *)
                   Ident.Hash.add ident_use_stats ident (Info ident_info);
-                  Js_op_util.update_used_stats ident_info
+                  Js_op.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
@@ -88,9 +88,9 @@ let mark_dead_code (js : J.program) : J.program =
   Ident.Hash.iter ident_use_stats (fun _id (info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
-          Js_op_util.update_used_stats info Dead_pure
+          Js_op.update_used_stats info Dead_pure
       | Info ({ used_stats = Scanning_non_pure } as info) ->
-          Js_op_util.update_used_stats info Dead_non_pure
+          Js_op.update_used_stats info Dead_non_pure
       | _ -> ());
   js
 
@@ -185,7 +185,12 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
                    ({
                       expression_desc =
                         Caml_block
-                          ((_ :: _ :: _ as ls), Immutable, tag, tag_info);
+                          {
+                            fields = _ :: _ :: _ as ls;
+                            mutable_flag = Immutable;
+                            tag;
+                            tag_info;
+                          };
                       _;
                     } as block);
                _;
@@ -232,7 +237,13 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
               {
                 block with
                 expression_desc =
-                  Caml_block (List.rev e, Immutable, tag, tag_info);
+                  Caml_block
+                    {
+                      fields = List.rev e;
+                      mutable_flag = Immutable;
+                      tag;
+                      tag_info;
+                    };
               }
             in
             let () = add_substitue substitution ident e in
@@ -258,12 +269,20 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
       (fun self x ->
         match x.expression_desc with
         | Array_index
-            ( { expression_desc = Var (Id id); _ },
-              { expression_desc = Number (Int { i; _ }); _ } )
-        | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
+            {
+              expr = { expression_desc = Var (Id id); _ };
+              index = { expression_desc = Number (Int { i; _ }); _ };
+            }
+        | Static_index
+            { expr = { expression_desc = Var (Id id); _ }; pos = Some i; _ }
+          -> (
             match Ident.Hash.find_opt substitution id with
-            | Some { expression_desc = Caml_block (ls, Immutable, _, _); _ }
-              -> (
+            | Some
+                {
+                  expression_desc =
+                    Caml_block { fields = ls; mutable_flag = Immutable; _ };
+                  _;
+                } -> (
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)

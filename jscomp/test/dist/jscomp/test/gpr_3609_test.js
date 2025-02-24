@@ -3,12 +3,14 @@
 
 
 function func(state) {
-  if (typeof state === "number") {
+  if (/* tag */ typeof state === "number" || typeof state === "string") {
     return 0;
   } else {
     return 0 + state._0 | 0;
   }
 }
 
-exports.func = func;
+module.exports = {
+  func,
+}
 /* No side effect */

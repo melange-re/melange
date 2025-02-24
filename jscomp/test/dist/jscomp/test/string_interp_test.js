@@ -73,26 +73,28 @@ const a2 = "Hello \$";
 
 const a4 = "";
 
-exports.hi2 = hi2;
-exports.hi = hi;
-exports.b = b;
-exports.c = c;
-exports.a = a;
-exports.a0 = a0;
-exports.a1 = a1;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
-exports.a7 = a7;
-exports.ffff = ffff;
-exports.f = f;
-exports.world = world;
-exports.hello_world = hello_world;
-exports.test1 = test1;
-exports.test3 = test3;
-exports.test5 = test5;
-exports.js_in_raw = js_in_raw;
-exports.j_in_raw = j_in_raw;
+module.exports = {
+  hi2,
+  hi,
+  b,
+  c,
+  a,
+  a0,
+  a1,
+  a2,
+  a3,
+  a4,
+  a5,
+  a6,
+  a7,
+  ffff,
+  f,
+  world,
+  hello_world,
+  test1,
+  test3,
+  test5,
+  js_in_raw,
+  j_in_raw,
+}
 /* js_in_raw Not a pure module */

@@ -3,17 +3,17 @@
 
 
 function f(_x, _y) {
-  while(true) {
+  while (true) {
     const y = _y;
     const x = _x;
     _y = x;
     _x = y;
-    continue ;
+    continue;
   };
 }
 
 function f1(_x, _y, _z) {
-  while(true) {
+  while (true) {
     const z = _z;
     const y = _y;
     const x = _x;
@@ -21,92 +21,94 @@ function f1(_x, _y, _z) {
     _z = x;
     _y = z;
     _x = y;
-    continue ;
+    continue;
   };
 }
 
 function f2(x, _y) {
-  while(true) {
+  while (true) {
     const y = _y;
     _y = y + 10 | 0;
-    continue ;
+    continue;
   };
 }
 
 function f3(_x, _y) {
-  while(true) {
+  while (true) {
     const y = _y;
     const x = _x;
     _y = x + 10 | 0;
     _x = y;
-    continue ;
+    continue;
   };
 }
 
 function f4(_x, _y) {
-  while(true) {
+  while (true) {
     const y = _y;
     const x = _x;
     _y = y + x | 0;
     _x = x + 10 | 0;
-    continue ;
+    continue;
   };
 }
 
 function f5(_x, _y, z) {
-  while(true) {
+  while (true) {
     const y = _y;
     _y = z + 20 | 0;
     _x = y + 10 | 0;
-    continue ;
+    continue;
   };
 }
 
 function f6(b) {
-  while(true) {
+  while (true) {
     if (!b) {
       return false;
     }
-    continue ;
+    continue;
   };
 }
 
 function f7(b) {
-  while(true) {
+  while (true) {
     if (b) {
       return true;
     }
-    continue ;
+    continue;
   };
 }
 
 function f8(_x, _y) {
-  while(true) {
+  while (true) {
     const y = _y;
     const x = _x;
     if (x > 10) {
       _y = y + 1 | 0;
-      continue ;
+      continue;
     }
     if (x < 5) {
       _x = x - 1 | 0;
-      continue ;
+      continue;
     }
     if (x <= 6) {
       return f8(x, y + 1 | 0) + f8(x - 1 | 0, y) | 0;
     }
     _x = x - 2 | 0;
-    continue ;
+    continue;
   };
 }
 
-exports.f = f;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.f5 = f5;
-exports.f6 = f6;
-exports.f7 = f7;
-exports.f8 = f8;
+module.exports = {
+  f,
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+}
 /* No side effect */

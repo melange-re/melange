@@ -4,14 +4,16 @@
 
 function map(f, param) {
   if (!param) {
-    return /* [] */0;
+    return /* [] */ 0;
   }
   const r = f(param.hd);
   return {
-          hd: r,
-          tl: map(f, param.tl)
-        };
+    hd: r,
+    tl: map(f, param.tl)
+  };
 }
 
-exports.map = map;
+module.exports = {
+  map,
+}
 /* No side effect */

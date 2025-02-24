@@ -25,4 +25,5 @@
 
 val defaults_w : string
 val defaults_warn_error : string
+val default_alert_errors : string
 val parse_warnings : warn_error:bool -> string -> unit

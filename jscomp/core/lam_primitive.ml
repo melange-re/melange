@@ -28,7 +28,12 @@ type ident = Ident.t
 
 type record_representation =
   | Record_regular
-  | Record_inlined of { tag : int; name : string; num_nonconsts : int }
+  | Record_inlined of {
+      tag : int;
+      name : string;
+      num_nonconsts : int;
+      attributes : Parsetree.attributes;
+    }
     (* Inlined record *)
   | Record_extension
 (* Inlined record under extension *)
@@ -48,10 +53,17 @@ type t =
   | Pccall of { prim_name : string }
   | Pjs_call of {
       prim_name : string;
-      arg_types : Melange_ffi.External_arg_spec.params;
+      arg_types :
+        Melange_ffi.External_arg_spec.Arg_label.t
+        Melange_ffi.External_arg_spec.param
+        list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
+      dynamic_import : bool;
     }
-  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
+  | Pjs_object_create of
+      Melange_ffi.External_arg_spec.Obj_label.t
+      Melange_ffi.External_arg_spec.param
+      list
   (* Exceptions *)
   | Praise
   (* Boolean operations *)
@@ -137,6 +149,9 @@ type t =
       Lam_compat.compile_time_constant (* Integer to external pointer *)
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
+  (* Inhibition of optimisation *)
+  | Popaque
+  (* JS specific *)
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
@@ -146,7 +161,7 @@ type t =
   | Pvoid_run
   | Pfull_apply
   (* we wrap it when do the conversion to prevent
-     accendential optimization
+     accidental optimization
      play safe first
   *)
   | Pjs_fn_method
@@ -156,6 +171,7 @@ type t =
   | Pis_null
   | Pis_undefined
   | Pis_null_undefined
+  | Pimport
   | Pjs_typeof
   | Pjs_function_length
   | Pcaml_obj_length
@@ -186,10 +202,12 @@ let eq_record_representation (p : record_representation)
     (p1 : record_representation) =
   match p with
   | Record_regular -> p1 = Record_regular
-  | Record_inlined { tag; name; num_nonconsts } -> (
+  | Record_inlined { tag; name; num_nonconsts; attributes } -> (
       match p1 with
       | Record_inlined rhs ->
-          tag = rhs.tag && name = rhs.name && num_nonconsts = rhs.num_nonconsts
+          tag = rhs.tag && name = rhs.name
+          && num_nonconsts = rhs.num_nonconsts
+          && attributes = rhs.attributes
       | _ -> false)
   | Record_extension -> p1 = Record_extension
 
@@ -265,6 +283,7 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
   | Psome_not_nest -> rhs = Psome_not_nest
   | Pis_undefined -> rhs = Pis_undefined
   | Pis_null_undefined -> rhs = Pis_null_undefined
+  | Pimport -> rhs = Pimport
   | Pjs_typeof -> rhs = Pjs_typeof
   | Pisint -> rhs = Pisint
   | Pis_poly_var_const -> rhs = Pis_poly_var_const
@@ -297,11 +316,12 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
       | Pduprecord record_repesentation1 ->
           eq_record_representation record_repesentation0 record_repesentation1
       | _ -> false)
-  | Pjs_call { prim_name; arg_types; ffi } -> (
+  | Pjs_call { prim_name; arg_types; ffi; dynamic_import } -> (
       match rhs with
       | Pjs_call rhs ->
           prim_name = rhs.prim_name && arg_types = rhs.arg_types
           && ffi = rhs.ffi
+          && dynamic_import = rhs.dynamic_import
       | _ -> false)
   | Pjs_object_create obj_create -> (
       match rhs with
@@ -355,6 +375,7 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
       | _ -> false)
   | Pbswap16 -> rhs = Pbswap16
   | Pbbswap i1 -> ( match rhs with Pbbswap i2 -> i1 = i2 | _ -> false)
+  | Popaque -> ( match rhs with Popaque -> true | _ -> false)
   | Pjs_unsafe_downgrade { name; loc = _; setter } -> (
       match rhs with
       | Pjs_unsafe_downgrade rhs -> name = rhs.name && setter = rhs.setter

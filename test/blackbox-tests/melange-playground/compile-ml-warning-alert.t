@@ -18,8 +18,8 @@
       'const t = x;\n' +
       '\n' +
       'export {\n' +
-      '  Deprecated ,\n' +
-      '  t ,\n' +
+      '  Deprecated,\n' +
+      '  t,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [
@@ -63,19 +63,19 @@
         start: [Object],
         end: [Object],
         kind: 'expression',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       },
       {
         start: [Object],
         end: [Object],
         kind: 'pattern_type',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       },
       {
         start: [Object],
         end: [Object],
         kind: 'binding',
-        hint: "'a Js__Js_internal.null"
+        hint: "'a Js.null"
       }
     ]
   }

@@ -4,11 +4,13 @@
 
 function register(rl) {
   return rl.on("line", (function (x) {
-                  console.log(x);
-                })).on("close", (function (param) {
-                console.log("finished");
-              }));
+    console.log(x);
+  })).on("close", (function (param) {
+    console.log("finished");
+  }));
 }
 
-exports.register = register;
+module.exports = {
+  register,
+}
 /* No side effect */

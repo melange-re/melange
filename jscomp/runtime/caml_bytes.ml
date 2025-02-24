@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 external new_uninitialized : int -> bytes = "Array" [@@mel.new]
 external ( .![] ) : bytes -> int -> char = "%bytes_unsafe_get"
 external ( .![]<- ) : bytes -> int -> char -> unit = "%bytes_unsafe_set"

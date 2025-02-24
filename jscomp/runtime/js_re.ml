@@ -30,10 +30,10 @@ will evaluate to a {! t} that can be passed around and used like usual.
 
 {b Note:} This is not an immutable API. A RegExp object with the [global] ("g")
 flag set will modify the {! lastIndex} property when the RegExp object is used,
-and subsequent uses will ocntinue the search from the previous {! lastIndex}.
+and subsequent uses will continue the search from the previous {! lastIndex}.
 
 {[
-let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
+let maybeMatches = Js.String.exec ~str:"banana" [\[%re "/na+/g"\]]
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp> JavaScript API reference on MDN
@@ -41,13 +41,13 @@ let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions> JavaScript Regular Expressions Guide on MDN
 *)
 
-type t
+type t = Js.re
 (** the RegExp object *)
 
 type result
 (** the result of a executing a RegExp on a string *)
 
-external captures : result -> string Js_internal.nullable array = "%identity"
+external captures : result -> string Js.nullable array = "%identity"
 (** an array of the match and captures, the first is the full match and the remaining are the substring captures *)
 
 external index : result -> int = "index"
@@ -154,8 +154,8 @@ external unicode : t -> bool = "unicode"
 [@@mel.get]
 (** returns a bool indicating whether the [unicode] flag is set *)
 
-external exec : str:string -> result option = "exec"
-[@@mel.send.pipe: t] [@@mel.return null_to_opt]
+external exec : str:string -> (t[@mel.this]) -> result option = "exec"
+[@@mel.send] [@@mel.return null_to_opt]
 (** executes a search on a given string using the given RegExp object
 
 {b returns} [Some] {! result} if a match is found, [None] otherwise
@@ -173,8 +173,8 @@ let result = re |. Js.Re.exec ~str:"The Quick Brown Fox Jumps Over The Lazy Dog"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec> MDN
 *)
 
-external test : str:string -> bool = "test"
-[@@mel.send.pipe: t]
+external test : str:string -> (t[@mel.this]) -> bool = "test"
+[@@mel.send]
 (** tests whether the given RegExp object will match a given string
 
 {b returns} [true] if a match is found, [false] otherwise

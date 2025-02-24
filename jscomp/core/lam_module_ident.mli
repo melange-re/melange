@@ -26,12 +26,19 @@ open Import
 
 (** A type for qualified identifiers in Lambda IR *)
 
-type t = J.module_id = { (*private*) id : Ident.t; kind : Js_op.kind }
+type t = J.module_id = private {
+  id : Ident.t;
+  kind : Js_op.kind;
+  dynamic_import : bool;
+}
 
 val id : t -> Ident.t
 val name : t -> string
-val of_ml : Ident.t -> t
+val of_ml : dynamic_import:bool -> Ident.t -> t
 val of_runtime : Ident.t -> t
+
+val external_ :
+  dynamic_import:bool -> Ident.t -> name:string -> default:bool -> t
 
 module Hash : Hash_gen.S with type key = t
 module Hash_set : Hash_set_gen.S with type key = t

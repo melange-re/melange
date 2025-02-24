@@ -23,9 +23,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (** Efficient JSON encoding using JavaScript API
-
-@see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON> MDN
-*)
+    @see
+    <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON>
+    MDN *)
 
 (** {2 Types} *)
 
@@ -34,12 +34,12 @@ type t
 
 (** Underlying type of a JSON value *)
 type _ kind =
-  | String : Js_string.t kind
+  | String : string kind
   | Number : float kind
-  | Object : t Js_dict.t kind
+  | Object : t Js.dict kind
   | Array : t array kind
   | Boolean : bool kind
-  | Null : Js_types.null_val kind
+  | Null : t Js.null kind
 
 type tagged_t =
   | JSONFalse
@@ -47,7 +47,7 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js_dict.t
+  | JSONObject of t Js.dict
   | JSONArray of t array
 
 (** {2 Accessor} *)
@@ -57,7 +57,7 @@ val classify : t -> tagged_t
 val test : 'a -> 'b kind -> bool
 (** [test v kind] returns true if [v] is of [kind] *)
 
-val decodeString : t -> Js_string.t option
+val decodeString : t -> string option
 (** [decodeString json] returns [Some s] if [json] is a string, [None]
     otherwise *)
 
@@ -65,7 +65,7 @@ val decodeNumber : t -> float option
 (** [decodeNumber json] returns [Some n] if [json] is a number, [None]
     otherwise *)
 
-val decodeObject : t -> t Js_dict.t option
+val decodeObject : t -> t Js.dict option
 (** [decodeObject json] returns [Some o] if [json] is an object, [None]
     otherwise *)
 
@@ -77,7 +77,7 @@ val decodeBoolean : t -> bool option
 (** [decodeBoolean json] returns [Some b] if [json] is a boolean, [None]
     otherwise *)
 
-val decodeNull : t -> 'a Js_null.t option
+val decodeNull : t -> 'a Js.null option
 (** [decodeNull json] returns [Some null] if [json] is a null, [None]
     otherwise *)
 
@@ -100,8 +100,8 @@ external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
 (** [boolean b] makes a JSON boolean of the [bool] [b] *)
 
-external object_ : t Js_dict.t -> t = "%identity"
-(** [object_ dict] makes a JSON object of the [Js.Dict.t] [dict] *)
+external object_ : t Js.dict -> t = "%identity"
+(** [object_ dict] makes a JSON object of the [Js.dict] [dict] *)
 
 external array : t array -> t = "%identity"
 (** [array a] makes a JSON array of the [Js.Json.t array] [a] *)
@@ -119,7 +119,7 @@ external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
 (** [booleanArray] makes a JSON array of the [bool array] [a] *)
 
-external objectArray : t Js_dict.t array -> t = "%identity"
+external objectArray : t Js.dict array -> t = "%identity"
 (** [objectArray a] makes a JSON array of the [JsDict.t array] [a] *)
 
 (** {2 String conversion} *)
@@ -158,7 +158,7 @@ let getIds s =
   in
   match Js.Json.classify json with
   | Js.Json.JSONObject value ->
-    (* In this branch, compiler infer value : Js.Json.t Js.Dict.t *)
+    (* In this branch, compiler infer value : Js.Json.t Js.dict *)
     begin match Js.Dict.get value "ids" with
     | Some ids ->
       begin match Js.Json.classify ids with

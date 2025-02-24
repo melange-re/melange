@@ -20,13 +20,24 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
-open Import
-
-val statements : bool -> Js_pp.Scope.t -> Js_pp.t -> J.block -> Js_pp.Scope.t
+val statements :
+  top:bool ->
+  scope:Js_pp.Scope.t ->
+  output_dir:string ->
+  package_info:Js_packages_info.t ->
+  output_info:Js_packages_info.output_info ->
+  Js_pp.t ->
+  J.block ->
+  Js_pp.Scope.t
 (** Print JS IR to vanilla Javascript code
     Called by module {!Js_dump_program} *)
 
-val string_of_block : J.block -> string
+val string_of_block :
+  output_dir:string ->
+  package_info:Js_packages_info.t ->
+  output_info:Js_packages_info.output_info ->
+  J.block ->
+  string
 (** 2 functions Only used for debugging *)
 
 val string_of_expression : J.expression -> string

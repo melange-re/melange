@@ -7,5 +7,7 @@ const v = [
   1
 ];
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /* No side effect */

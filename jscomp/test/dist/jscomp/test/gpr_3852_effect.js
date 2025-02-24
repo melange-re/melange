@@ -6,5 +6,7 @@ console.log("hello");
 
 const v = 0;
 
-exports.v = v;
+module.exports = {
+  v,
+}
 /*  Not a pure module */

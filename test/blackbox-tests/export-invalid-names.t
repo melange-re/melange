@@ -36,8 +36,10 @@ Export otherwise invalid OCaml identifiers to JavaScript
   
   const $$class = 2;
   
-  exports.GET = GET;
-  exports.$$class = $$class;
+  module.exports = {
+    GET,
+    $$class,
+  }
   /* No side effect */
 
   $ cat > z.ml <<EOF
@@ -60,8 +62,10 @@ Export otherwise invalid OCaml identifiers to JavaScript
   
   const POST = 1;
   
-  exports.post = post;
-  exports.POST = POST;
+  module.exports = {
+    post,
+    POST,
+  }
   /* No side effect */
 
 Duplicate `@mel.as` attributes

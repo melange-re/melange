@@ -71,7 +71,15 @@
  (deps camlinternalMod.cppo.ml)
  (target camlinternalMod.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps camlinternalMod.cppo.mli)
@@ -83,13 +91,29 @@
  (deps camlinternalOO.cppo.ml)
  (target camlinternalOO.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps camlinternalOO.cppo.mli)
  (target camlinternalOO.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run
+   cppo
+   -D=BS
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{target})))
 
 (rule
  (deps float.cppo.ml)
@@ -116,14 +140,26 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (deps obj.cppo.ml)
- (target obj.ml)
+ (deps in_channel.cppo.ml)
+ (target in_channel.ml)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (deps obj.cppo.mli)
- (target obj.mli)
+ (deps in_channel.cppo.mli)
+ (target in_channel.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps out_channel.cppo.ml)
+ (target out_channel.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps out_channel.cppo.mli)
+ (target out_channel.mli)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
@@ -154,5 +190,11 @@
 (rule
  (deps sys.cppo.ml)
  (target sys.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps sys.cppo.mli)
+ (target sys.mli)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))

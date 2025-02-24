@@ -38,12 +38,14 @@ let absorb_info (x : used_info) (y : used_info) =
       x.times <- x0 + y0;
       if captured then x.captured <- true
 
-let pp_info fmt (x : used_info) =
-  Format.fprintf fmt "(<captured:%b>:%d)" x.captured x.times
+let pp_info (x : used_info) = Pp.textf "(<captured:%b>:%d)" x.captured x.times
 
-let pp_occ_tbl fmt tbl =
-  Ident.Hash.iter tbl (fun k v ->
-      Format.fprintf fmt "@[%a@ %a@]@." Ident.print k pp_info v)
+let pp_occ_tbl tbl =
+  Ident.Hash.to_list tbl (fun k v ->
+      Pp.box
+        (Pp.concat ~sep:Pp.space
+           [ Pp.text (Format.asprintf "%a" Ident.print k); pp_info v ]))
+  |> Pp.concat ~sep:Pp.newline
 
 (* The global table [occ] associates to each let-bound identifier
    the number of its uses (as a reference):

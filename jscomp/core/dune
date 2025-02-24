@@ -1,6 +1,5 @@
 (library
  (name melangelib)
- (modules_without_implementation js_op j)
  (libraries
   melstd
   melange_compiler_libs
@@ -9,8 +8,133 @@
   dune-build-info))
 
 (rule
+ (targets compile_letrec.ml)
+ (deps compile_letrec.520.ml)
+ (action
+  (copy %{deps} %{targets}))
+ (enabled_if
+  (>= %{ocaml_version} 5.2.0)))
+
+(rule
+ (targets lambda_simplif.ml)
+ (deps lambda_simplif.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets cmd_ast_exception.ml)
+ (deps cmd_ast_exception.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets compile_rec_module.ml)
+ (deps compile_rec_module.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets js_implementation.ml)
+ (deps js_implementation.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets record_attributes_check.ml)
+ (deps record_attributes_check.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets mel_ast_invariant.ml)
+ (deps mel_ast_invariant.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets mel_exception.ml)
+ (deps mel_exception.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets matching_polyfill.ml)
+ (deps matching_polyfill.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets lam_convert.ml)
  (deps lam_convert.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets lam_variant_tag.ml)
+ (deps lam_variant_tag.cppo.ml)
  (action
   (run
    cppo
@@ -92,27 +216,48 @@
 
 (rule
  (targets js_record_iter.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-iter))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-iter))))
 
 (rule
  (targets js_record_map.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-map))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-map))))
 
 (rule
  (targets js_record_fold.ml)
- (deps j.mli)
+ (deps j.ml)
  (action
   (with-stdout-to
    %{targets}
-   (run ./gen/gen_traversal.exe --input %{deps} --mode record-fold))))
+   (run
+    ./gen/gen_traversal.exe
+    --input
+    %{deps}
+    --output
+    %{targets}
+    --mode
+    record-fold))))
 
 (rule
  (targets git_commit.ml)

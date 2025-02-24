@@ -20,8 +20,10 @@ function g(x) {
   return x.method2(3, 3);
 }
 
-exports.f = f;
-exports.h = h;
-exports.chain = chain;
-exports.g = g;
+module.exports = {
+  f,
+  h,
+  chain,
+  g,
+}
 /* No side effect */

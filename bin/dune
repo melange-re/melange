@@ -12,7 +12,7 @@
  (modules melc melc_cli)
  (preprocess
   (action
-   (run cppo "%{env:CPPO_FLAGS=}" %{input-file}))))
+   (run cppo "%{env:CPPO_FLAGS=}" -V OCAML:%{ocaml_version} %{input-file}))))
 
 (executable
  (public_name melppx)

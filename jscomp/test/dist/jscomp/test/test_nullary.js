@@ -6,5 +6,7 @@ function f(param) {
   console.log("hey");
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

@@ -14,7 +14,7 @@ function fib2(n) {
   let _a = 1;
   let _b = 1;
   let _i = 0;
-  while(true) {
+  while (true) {
     const i = _i;
     const b = _b;
     const a = _a;
@@ -24,14 +24,14 @@ function fib2(n) {
     _i = i + 1 | 0;
     _b = a + b | 0;
     _a = b;
-    continue ;
+    continue;
   };
 }
 
 function fib3(n) {
   let a = 1;
   let b = 1;
-  for(let _i = 1; _i <= n; ++_i){
+  for (let _i = 1; _i <= n; ++_i) {
     const tmp = a;
     a = b;
     b = b + tmp | 0;
@@ -39,7 +39,9 @@ function fib3(n) {
   return a;
 }
 
-exports.fib = fib;
-exports.fib2 = fib2;
-exports.fib3 = fib3;
+module.exports = {
+  fib,
+  fib2,
+  fib3,
+}
 /* No side effect */

@@ -86,6 +86,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pval_from_option_not_nest -> fprintf ppf "[?unbox-not-nest]"
   | Pis_undefined -> fprintf ppf "[?undefined]"
   | Pis_null_undefined -> fprintf ppf "[?null?undefined]"
+  | Pimport -> fprintf ppf "[import]"
   (* | Psetglobal id -> fprintf ppf "setglobal %a" Ident.print id *)
   | Pmakeblock (tag, _, Immutable) -> fprintf ppf "makeblock %i" tag
   | Pmakeblock (tag, _, Mutable) -> fprintf ppf "makemutable %i" tag
@@ -189,6 +190,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbbswap Pnativeint -> fprintf ppf "bswap_nativeint"
   | Pbbswap Pint32 -> fprintf ppf "bswap32"
   | Pbbswap Pint64 -> fprintf ppf "bswap64"
+  | Popaque -> fprintf ppf "opaque"
   | Pisint -> fprintf ppf "isint"
   | Pis_poly_var_const -> fprintf ppf "#is_poly_var_const"
   | Pisout i -> fprintf ppf "isout %d" i
@@ -282,7 +284,10 @@ let lambda ppf v =
     match l with
     | Lvar id -> Ident.print ppf id
     | Lmutvar id -> fprintf ppf "*%a" Ident.print id
-    | Lglobal_module id -> fprintf ppf "global %a" Ident.print id
+    | Lglobal_module { id; dynamic_import } ->
+        fprintf ppf "%sglobal %a"
+          (if dynamic_import then "dynamic " else "")
+          Ident.print id
     | Lconst cst -> struct_const ppf cst
     | Lapply { ap_func; ap_args; ap_info = { ap_inlined; _ } } ->
         let lams ppf args =
@@ -322,10 +327,12 @@ let lambda ppf v =
     | Lprim
         {
           primitive = Pfield (n, Fld_module { name = s });
-          args = [ Lglobal_module id ];
+          args = [ Lglobal_module { id; dynamic_import } ];
           _;
         } ->
-        fprintf ppf "%s.%s/%d" (Ident.name id) s n
+        fprintf ppf "%s%s.%s/%d"
+          (if dynamic_import then "dynamic " else "")
+          (Ident.name id) s n
     | Lprim { primitive = prim; args = largs; _ } ->
         let lams ppf largs =
           List.iter ~f:(fun l -> fprintf ppf "@ %a" lam l) largs
@@ -338,14 +345,18 @@ let lambda ppf v =
             ~f:(fun (n, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<hv 1>case int %i %S:@ %a@]" n
-                (match sw.sw_names with None -> "" | Some x -> x.consts.(n))
+                (match sw.sw_names with
+                | None -> ""
+                | Some x -> x.consts.(n).name)
                 lam l)
             sw.sw_consts;
           List.iter
             ~f:(fun (n, l) ->
               if !spc then fprintf ppf "@ " else spc := true;
               fprintf ppf "@[<hv 1>case tag %i %S:@ %a@]" n
-                (match sw.sw_names with None -> "" | Some x -> x.blocks.(n))
+                (match sw.sw_names with
+                | None -> ""
+                | Some x -> x.blocks.(n).cstr_name.name)
                 lam l)
             sw.sw_blocks;
           match sw.sw_failaction with

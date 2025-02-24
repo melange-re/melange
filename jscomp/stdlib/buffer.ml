@@ -148,7 +148,7 @@ let rec add_utf_16le_uchar b u =
 
 let add_substring b s offset len =
   if offset < 0 || len < 0 || offset > String.length s - len
-  then invalid_arg "Buffer.add_substring/add_subbytes";
+  then invalid_arg "Buffer.add_substring";
   let position = b.position in
   let {buffer;length} = b.inner in
   let new_position = position + len in
@@ -159,22 +159,24 @@ let add_substring b s offset len =
     Bytes.unsafe_blit_string s offset buffer position len;
   b.position <- new_position
 
-let add_subbytes b s offset len =
-  add_substring b (Bytes.unsafe_to_string s) offset len
-
-let add_string b s =
-  let len = String.length s in
+let add_subbytes b bytes offset len =
+  if offset < 0 || len < 0 || offset > Bytes.length bytes - len
+  then invalid_arg "Buffer.add_subbytes";
   let position = b.position in
-  let {buffer; length} = b.inner in
+  let {buffer;length} = b.inner in
   let new_position = position + len in
   if new_position > length then (
     resize b len;
-    Bytes.blit_string s 0 b.inner.buffer b.position len;
+    Bytes.blit bytes offset b.inner.buffer b.position len
   ) else
-    Bytes.unsafe_blit_string s 0 buffer position len;
+    Bytes.unsafe_blit bytes offset buffer position len;
   b.position <- new_position
 
-let add_bytes b s = add_string b (Bytes.unsafe_to_string s)
+let add_string b s =
+  add_substring b s 0 (String.length s)
+
+let add_bytes b bytes =
+  add_subbytes b bytes 0 (Bytes.length bytes)
 
 let add_buffer b bs =
   add_subbytes b bs.inner.buffer 0 bs.position
@@ -251,7 +253,8 @@ let find_ident s start lim =
      String.sub s new_start (stop - start - 1), stop + 1
   (* Regular ident *)
   | _ ->
-     let stop = advance_to_non_alpha s (start + 1) in
+     let stop = advance_to_non_alpha s start in
+     if stop = start then raise Not_found else
      String.sub s start (stop - start), stop
 
 (* Substitute $ident, $(ident), or ${ident} in s,
@@ -266,17 +269,17 @@ let add_substitute b f s =
          subst ' ' (i + 1)
       | '$' ->
          let j = i + 1 in
-         let ident, next_i = find_ident s j lim in
-         add_string b (f ident);
-         subst ' ' next_i
-      | current when previous == '\\' ->
-         add_char b '\\';
-         add_char b current;
-         subst ' ' (i + 1)
-      | '\\' as current ->
-         subst current (i + 1)
+         begin match find_ident s j lim with
+         | ident, next_i ->
+           add_string b (f ident);
+           subst ' ' next_i
+         | exception Not_found ->
+           add_char b '$';
+           subst ' ' j
+         end
       | current ->
-         add_char b current;
+         if previous = '\\' then add_char b previous;
+         if current <> '\\' then add_char b current;
          subst current (i + 1)
     end else
     if previous = '\\' then add_char b previous in

@@ -20,7 +20,7 @@ Show how certain attribute errors are printed on type mismatches
   File "x.ml", line 2, characters 8-11:
   2 | let _ = sum 4 5 [@u]
               ^^^
-  Error: This expression has type int -> int -> int
+  Error: The value sum has type int -> int -> int
          but an expression was expected of type ('a [@u])
   [1]
 

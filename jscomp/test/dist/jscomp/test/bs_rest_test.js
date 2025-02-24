@@ -15,8 +15,10 @@ const u = xxx(3);
 
 const xx = xxx("3");
 
-exports.v = v;
-exports.xxx = xxx;
-exports.u = u;
-exports.xx = xx;
+module.exports = {
+  v,
+  xxx,
+  u,
+  xx,
+}
 /*  Not a pure module */

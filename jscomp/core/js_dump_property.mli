@@ -22,7 +22,5 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Import
-
 val property_access : Js_pp.t -> string -> unit
 val property_key : J.property_name -> string

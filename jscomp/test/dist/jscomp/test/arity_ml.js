@@ -4,9 +4,11 @@
 
 const o = {
   hi: (function (x, y) {
-      return x + y | 0;
-    })
+    return x + y | 0;
+  })
 };
 
-exports.o = o;
+module.exports = {
+  o,
+}
 /* o Not a pure module */

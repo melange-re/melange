@@ -235,6 +235,14 @@ val pp_print_string : formatter -> string -> unit
 val print_string : string -> unit
 (** [pp_print_string ppf s] prints [s] in the current pretty-printing box. *)
 
+val pp_print_substring : pos:int -> len:int -> formatter -> string -> unit
+val print_substring : pos:int -> len:int -> string -> unit
+(** [pp_print_substring ~pos ~len ppf s] prints the substring of [s] that starts
+    at position [pos] and stops at position [pos+len] in the current
+    pretty-printing box.
+  @since 5.3
+*)
+
 val pp_print_bytes : formatter -> bytes -> unit
 val print_bytes : bytes -> unit
 (** [pp_print_bytes ppf b] prints [b] in the current pretty-printing box.
@@ -245,6 +253,15 @@ val pp_print_as : formatter -> int -> string -> unit
 val print_as : int -> string -> unit
 (** [pp_print_as ppf len s] prints [s] in the current pretty-printing box.
   The pretty-printer formats [s] as if it were of length [len].
+*)
+
+val pp_print_substring_as :
+  pos:int -> len:int -> formatter -> int -> string -> unit
+val print_substring_as : pos:int -> len:int -> int -> string -> unit
+(** [pp_print_substring_as ~first ~len ppf len_as s] prints the substring of [s]
+  that starts at position [pos] and stop at position [pos+len] in the current
+  pretty-printing box as if it were of length [len_as].
+  @since 5.1
 *)
 
 val pp_print_int : formatter -> int -> unit
@@ -262,6 +279,11 @@ val print_char : char -> unit
 val pp_print_bool : formatter -> bool -> unit
 val print_bool : bool -> unit
 (** Print a boolean in the current pretty-printing box. *)
+
+val pp_print_nothing : formatter -> unit -> unit
+(** Print nothing.
+    @since 5.2
+*)
 
 (** {1:breaks Break hints} *)
 
@@ -418,6 +440,13 @@ val print_newline : unit -> unit
 
 (** {1 Margin} *)
 
+val pp_infinity : int
+(** [pp_infinity] is the maximal size of the margin.
+  Its exact value is implementation dependent but is guaranteed to be greater
+  than 10{^9}.
+
+  @since 5.2*)
+
 val pp_set_margin : formatter -> int -> unit
 val set_margin : int -> unit
 (** [pp_set_margin ppf d] sets the right margin to [d] (in characters):
@@ -426,8 +455,7 @@ val set_margin : int -> unit
   Setting the margin to [d] means that the formatting engine aims at
   printing at most [d-1] characters per line.
   Nothing happens if [d] is smaller than 2.
-  If [d] is too large, the right margin is set to the maximum
-  admissible value (which is greater than [10 ^ 9]).
+  If [d >= ]{!pp_infinity}, the right margin is set to {!pp_infinity}[ - 1].
   If [d] is less than the current maximum indentation limit, the
   maximum indentation limit is decreased while trying to preserve
   a minimal ratio [max_indent/margin>=50%] and if possible
@@ -473,11 +501,8 @@ val set_max_indent : int -> unit
 
   Nothing happens if [d] is smaller than 2.
 
-  If [d] is too large, the limit is set to the maximum
-  admissible value (which is greater than [10 ^ 9]).
-
-  If [d] is greater or equal than the current margin, it is ignored,
-  and the current maximum indentation limit is kept.
+  If [d] is greater than the current margin, it is ignored, and the current
+    maximum indentation limit is kept.
 
   See also {!pp_set_geometry}.
 *)
@@ -497,8 +522,10 @@ type geometry = { max_indent:int; margin: int}
 (** @since 4.08 *)
 
 val check_geometry: geometry -> bool
-(** Check if the formatter geometry is valid: [1 < max_indent < margin]
-    @since 4.08 *)
+(** Check if the formatter geometry is valid:
+  [1 < max_indent < margin < ]{!pp_infinity}
+
+  @since 4.08 *)
 
 val pp_set_geometry : formatter -> max_indent:int -> margin:int -> unit
 val set_geometry : max_indent:int -> margin:int -> unit
@@ -508,7 +535,7 @@ val safe_set_geometry : max_indent:int -> margin:int -> unit
    [pp_set_geometry ppf ~max_indent ~margin] sets both the margin
    and maximum indentation limit for [ppf].
 
-   When [1 < max_indent < margin],
+   When [1 < max_indent < margin < ]{!pp_infinity},
    [pp_set_geometry ppf ~max_indent ~margin]
    is equivalent to
    [pp_set_margin ppf margin; pp_set_max_indent ppf max_indent];
@@ -1041,7 +1068,7 @@ val make_formatter :
   For instance,
   {[
     make_formatter
-      (Stdlib.output oc)
+      (Stdlib.output_substring oc)
       (fun () -> Stdlib.flush oc)
   ]}
   returns a formatter to the {!Stdlib.out_channel} [oc].
@@ -1482,7 +1509,7 @@ val kasprintf : (string -> 'a) -> ('b, formatter, unit, 'a) format4 -> 'b
 
     - [Format.printf "l = [@[<hov>%a@]]@." ... l] is like [printf], but
       with additional formatting instructions (denoted with "@"). The pair
-      "@[<hov>" and "@]" is a "horizontal-or-vertical box".
+      "[@\[<hov>]" and "[@\]]" is a "horizontal-or-vertical box".
 
     - "@." ends formatting with a newline. It is similar to "\n" but is also
       aware of the [Format.formatter]'s state. Do not use "\n" with [Format].

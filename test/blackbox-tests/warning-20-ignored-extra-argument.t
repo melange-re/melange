@@ -16,5 +16,7 @@ Test showing "ignored extra argument" warning
     return evt.clipboardData.getData("text");
   }
   
-  exports.from_event = from_event;
+  module.exports = {
+    from_event,
+  }
   /* No side effect */

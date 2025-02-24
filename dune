@@ -1,4 +1,4 @@
-(dirs :standard \ docs node_modules nix reason-react)
+(dirs :standard \ docs rfcs nix)
 
 (env
  (dev
@@ -9,3 +9,22 @@
    (CPPO_FLAGS -D=BS_RELEASE_BUILD))
   (ocamlopt_flags
    (:standard -O3 -unbox-closures))))
+
+(subdir node_modules
+ (dirs melange melange.js melange.belt)
+ (rule
+  (alias runtime)
+  (mode
+   (promote
+    (until-clean)))
+  (targets
+   (dir melange)
+   (dir melange.js)
+   (dir melange.belt))
+  (deps (alias ../runtime-export/runtime-export))
+  (action
+   (concurrent
+   (run cp -r ../runtime-export/packages/melange.js ./melange.js)
+   (run cp -r ../runtime-export/packages/melange ./melange)
+   (run cp -r ../runtime-export/packages/melange.belt ./melange.belt)))))
+

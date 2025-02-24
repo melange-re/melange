@@ -1,6 +1,6 @@
 [@@@mel.config {
   flags = [|
-  "-bs-no-cross-module-opt"
+  "-mel-no-cross-module-opt"
   |]
 }]
 

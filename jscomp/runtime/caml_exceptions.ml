@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 type t = { id : string [@mel.as "MEL_EXN_ID"] }
 
 (**
@@ -72,8 +70,7 @@ let create (str : string) : string =
    This is not a problem in `try .. with` since the logic above is not expressible, see more design in [destruct_exn.md]
 *)
 let caml_is_extension (type a) (e : a) : bool =
-  if Js_internal.testAny e then false
-  else Js_internal.typeof (Obj.magic e : t).id = "string"
+  if Js.testAny e then false else Js.typeof (Obj.magic e : t).id = "string"
 
 (**FIXME: remove the trailing `/` *)
 let caml_exn_slot_name (x : t) : string = x.id

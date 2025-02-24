@@ -24,10 +24,8 @@
 
 (** Provides functionality for dealing with the ['a Js.undefined] type *)
 
-type +'a t = 'a Js_internal.undefined
+type +'a t = 'a Js.undefined
 (** Local alias for ['a Js.undefined] *)
-
-module Js := Js_internal
 
 external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.undefined] containing a value of ['a] *)

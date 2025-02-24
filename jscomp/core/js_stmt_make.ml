@@ -107,7 +107,12 @@ let int_switch ?(comment : string option)
                 Exp
                   {
                     expression_desc =
-                      Bin (Eq, { expression_desc = Var (Id id); _ }, e0);
+                      Bin
+                        {
+                          op = Eq;
+                          expr1 = { expression_desc = Var (Id id); _ };
+                          expr2 = e0;
+                        };
                     _;
                   };
               _;
@@ -124,21 +129,29 @@ let int_switch ?(comment : string option)
           block
             [
               declare_variable ?comment ~kind did;
-              { statement_desc = J.Int_switch (e, clauses, default); comment };
+              {
+                statement_desc = J.Int_switch { expr = e; clauses; default };
+                comment;
+              };
             ]
-      | None -> { statement_desc = J.Int_switch (e, clauses, default); comment }
-      )
+      | None ->
+          {
+            statement_desc = J.Int_switch { expr = e; clauses; default };
+            comment;
+          })
 
 let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
-    (e : J.expression) (clauses : (string * J.case_clause) list) : t =
+    (e : J.expression) (clauses : J.string_clause list) : t =
   match e.expression_desc with
-  | Str (_, txt) | Unicode txt -> (
+  | Str txt | Unicode txt -> (
       let continuation =
         match
           List.find_map
             ~f:(fun (switch_case, (x : J.case_clause)) ->
-              if switch_case = txt then Some x.switch_body else None)
+              match switch_case with
+              | Lambda.String s -> if s = txt then Some x.switch_body else None
+              | Int _ -> None)
             clauses
         with
         | Some case -> case
@@ -152,7 +165,12 @@ let string_switch ?(comment : string option)
                 Exp
                   {
                     expression_desc =
-                      Bin (Eq, { expression_desc = Var (Id id); _ }, e0);
+                      Bin
+                        {
+                          op = Eq;
+                          expr1 = { expression_desc = Var (Id id); _ };
+                          expr2 = e0;
+                        };
                     _;
                   };
               _;
@@ -169,17 +187,23 @@ let string_switch ?(comment : string option)
           block
             [
               declare_variable ?comment ~kind did;
-              { statement_desc = String_switch (e, clauses, default); comment };
+              {
+                statement_desc = String_switch { expr = e; clauses; default };
+                comment;
+              };
             ]
       | None ->
-          { statement_desc = String_switch (e, clauses, default); comment })
+          {
+            statement_desc = String_switch { expr = e; clauses; default };
+            comment;
+          })
 
 let rec block_last_is_return_throw_or_continue (x : J.block) =
   match x with
   | [] -> false
   | [ x ] -> (
       match x.statement_desc with
-      | Return _ | Throw _ | Continue _ -> true
+      | Return _ | Throw _ | Continue -> true
       | _ -> false)
   | _ :: rest -> block_last_is_return_throw_or_continue rest
 
@@ -239,9 +263,20 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             [ { statement_desc = Return ret_ifnot; _ } ] ) ->
             return_stmt (E.econd e ret_ifso ret_ifnot)
         | _, [ { statement_desc = Return _; _ } ] ->
-            block ({ statement_desc = If (E.not e, ifnot, []); comment } :: ifso)
+            block
+              ({
+                 statement_desc =
+                   If { pred = E.not e; then_ = ifnot; else_ = [] };
+                 comment;
+               }
+              :: ifso)
         | _, _ when block_last_is_return_throw_or_continue ifso ->
-            block ({ statement_desc = If (e, ifso, []); comment } :: ifnot)
+            block
+              ({
+                 statement_desc = If { pred = e; then_ = ifso; else_ = [] };
+                 comment;
+               }
+              :: ifnot)
         | ( [
               {
                 statement_desc =
@@ -249,10 +284,13 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                     {
                       expression_desc =
                         Bin
-                          ( Eq,
-                            ({ expression_desc = Var (Id var_ifso); _ } as
-                             lhs_ifso),
-                            rhs_ifso );
+                          {
+                            op = Eq;
+                            expr1 =
+                              { expression_desc = Var (Id var_ifso); _ } as
+                              lhs_ifso;
+                            expr2 = rhs_ifso;
+                          };
                       _;
                     };
                 _;
@@ -265,9 +303,11 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                     {
                       expression_desc =
                         Bin
-                          ( Eq,
-                            { expression_desc = Var (Id var_ifnot); _ },
-                            lhs_ifnot );
+                          {
+                            op = Eq;
+                            expr1 = { expression_desc = Var (Id var_ifnot); _ };
+                            expr2 = lhs_ifnot;
+                          };
                       _;
                     };
                 _;
@@ -282,16 +322,40 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [ { statement_desc = Exp exp_ifso; _ } ],
             [ { statement_desc = Exp exp_ifnot; _ } ] ) ->
             exp (E.econd e exp_ifso exp_ifnot)
-        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
+        | ( [
+              {
+                statement_desc =
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ],
+            _ )
           when Js_analyzer.eq_block ifnot1 ifnot ->
             aux ?comment (E.and_ e pred1) ifso1 ifnot1
-        | [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ], _
+        | ( [
+              {
+                statement_desc =
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ],
+            _ )
           when Js_analyzer.eq_block ifso1 ifnot ->
             aux ?comment (E.and_ e (E.not pred1)) ifnot1 ifso1
-        | _, [ { statement_desc = If (pred1, ifso1, else_); _ } ]
+        | ( _,
+            [
+              { statement_desc = If { pred = pred1; then_ = ifso1; else_ }; _ };
+            ] )
           when Js_analyzer.eq_block ifso ifso1 ->
             aux ?comment (E.or_ e pred1) ifso else_
-        | _, [ { statement_desc = If (pred1, ifso1, ifnot1); _ } ]
+        | ( _,
+            [
+              {
+                statement_desc =
+                  If { pred = pred1; then_ = ifso1; else_ = ifnot1 };
+                _;
+              };
+            ] )
           when Js_analyzer.eq_block ifso ifnot1 ->
             aux ?comment (E.or_ e (E.not pred1)) ifso ifso1
         | ifso1 :: ifso_rest, ifnot1 :: ifnot_rest
@@ -302,7 +366,11 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             *)
             add_prefix ifso1;
             aux ?comment e ifso_rest ifnot_rest
-        | _ -> { statement_desc = If (e, ifso, ifnot); comment })
+        | _ ->
+            {
+              statement_desc = If { pred = e; then_ = ifso; else_ = ifnot };
+              comment;
+            })
   in
   let if_block =
     aux ?comment e then_ (match else_ with None -> [] | Some v -> v)
@@ -318,19 +386,26 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
 let assign ?comment id e : t =
   { statement_desc = J.Exp (E.assign (E.var id) e); comment }
 
-let while_ ?comment ?label (e : E.t) (st : J.block) : t =
-  { statement_desc = While (label, e, st); comment }
+let while_ ?comment (e : E.t) (st : J.block) : t =
+  { statement_desc = While { cond = e; body = st }; comment }
 
 let for_ ?comment for_ident_expression finish_ident_expression id direction
     (b : J.block) : t =
   {
     statement_desc =
-      ForRange (for_ident_expression, finish_ident_expression, id, direction, b);
+      ForRange
+        {
+          for_ident_expr = for_ident_expression;
+          finish_expr = finish_ident_expression;
+          for_ident = id;
+          direction;
+          body = b;
+        };
     comment;
   }
 
 let try_ ?comment ?with_ ?finally body : t =
-  { statement_desc = Try (body, with_, finally); comment }
+  { statement_desc = Try { body; catch = with_; finally }; comment }
 
 (* TODO:
     actually, only loops can be labelled
@@ -341,5 +416,13 @@ let try_ ?comment ?with_ ?finally body : t =
      comment;
    } *)
 
-let continue_ : t = { statement_desc = Continue ""; comment = None }
+let continue_ : t = { statement_desc = Continue; comment = None }
 let debugger_block : t list = [ { statement_desc = Debugger; comment = None } ]
+
+let named_expression (e : J.expression) : (J.statement * Ident.t) option =
+  match Js_analyzer.is_okay_to_duplicate e with
+  | true -> None
+  | false ->
+      let obj = Ident.create_tmp () in
+      let obj_code = define_variable ~kind:Strict obj e in
+      Some (obj_code, obj)

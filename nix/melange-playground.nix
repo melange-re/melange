@@ -1,6 +1,6 @@
 { melange
+, lib
 , buildDunePackage
-, nix-filter
 , cppo
 , menhir
 , nodejs
@@ -16,18 +16,23 @@ buildDunePackage {
   version = "dev";
   duneVersion = "3";
 
-  src = with nix-filter; filter {
-    root = ./..;
-    include = [
-      "dune-project"
-      "dune"
-      "melange-playground.opam"
-      "bin"
-      "jscomp"
-      "vendor"
-      "test/blackbox-tests/melange-playground"
-    ];
-  };
+  src =
+    let fs = lib.fileset; in
+    fs.toSource {
+      root = ./..;
+      fileset = fs.unions [
+        ../belt
+        ../bin
+        ../dune-project
+        ../dune
+        (fs.difference ../jscomp ../jscomp/test)
+        ../melange-playground.opam
+        ../playground
+        ../test/blackbox-tests/melange-playground
+        ../vendor
+      ];
+    };
+
   postPatch = ''
     rm -rf vendor/melange-compiler-libs
     mkdir -p ./vendor

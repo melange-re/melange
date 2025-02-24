@@ -5,4 +5,5 @@
   setup.sh
   (package melange)
   %{bin:jq}
-  %{bin:ocamlmerlin}))
+  %{bin:ocamlmerlin}
+  %{lib:melange.belt:melange/belt.cmj}))

@@ -8,6 +8,32 @@
   reason-react-ppx
   reason))
 
+(rule
+ (targets toolchain.ml)
+ (deps toolchain.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets mel_playground.ml)
+ (deps mel_playground.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
 (install
  (section bin)
  (package melange-playground)
@@ -19,7 +45,7 @@
   %{bin:js_of_ocaml}
   (:some-js-cmi %{lib:melange:js/melange/js.cmi})
   (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
-  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi})
+  (:some-belt-cmi %{lib:melange.belt:melange/belt.cmi})
   (:some-dom-cmi %{lib:melange:dom/melange/dom.cmi}))
  (target cmi-files.txt)
  (action

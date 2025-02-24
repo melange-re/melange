@@ -32,19 +32,21 @@ const $$Animation = {};
 
 const Transition = {};
 
-exports.Synthetic = Synthetic;
-exports.Clipboard = Clipboard;
-exports.Composition = Composition;
-exports.Keyboard = Keyboard;
-exports.Focus = Focus;
-exports.Form = Form;
-exports.Mouse = Mouse;
-exports.$$Selection = $$Selection;
-exports.$$Touch = $$Touch;
-exports.UI = UI;
-exports.Wheel = Wheel;
-exports.Media = Media;
-exports.$$Image = $$Image;
-exports.$$Animation = $$Animation;
-exports.Transition = Transition;
+module.exports = {
+  Synthetic,
+  Clipboard,
+  Composition,
+  Keyboard,
+  Focus,
+  Form,
+  Mouse,
+  $$Selection,
+  $$Touch,
+  UI,
+  Wheel,
+  Media,
+  $$Image,
+  $$Animation,
+  Transition,
+}
 /* No side effect */

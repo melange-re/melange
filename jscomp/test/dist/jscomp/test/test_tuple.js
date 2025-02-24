@@ -4,8 +4,8 @@
 
 let r = 0;
 
-for(let _k = 1; _k <= 10; ++_k){
-  for(let i = 1; i <= 10; ++i){
+for (let _k = 1; _k <= 10; ++_k) {
+  for (let i = 1; i <= 10; ++i) {
     const match = i % 2 === 0 ? [
         1,
         (i << 1)
@@ -16,5 +16,4 @@ for(let _k = 1; _k <= 10; ++_k){
     r = Math.imul(r, match[0]) + match[1] | 0;
   }
 }
-
 /*  Not a pure module */

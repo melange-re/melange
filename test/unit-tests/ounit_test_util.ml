@@ -76,8 +76,8 @@ let rec dump r =
         "(" ^ String.concat ", " (List.map dump fields) ^ ")"
     | x when x = Obj.lazy_tag ->
         (* Note that [lazy_tag .. forward_tag] are < no_scan_tag.  Not
-           * clear if very large constructed values could have the same
-           * tag. XXX *)
+         * clear if very large constructed values could have the same
+         * tag. XXX *)
         opaque "lazy"
     | x when x = Obj.closure_tag -> opaque "closure"
     | x when x = Obj.object_tag ->
@@ -86,7 +86,7 @@ let rec dump r =
           match fields with h :: h' :: t -> (h, h', t) | _ -> assert false
         in
         (* No information on decoding the class (first field).  So just print
-           * out the ID and the slots. *)
+         * out the ID and the slots. *)
         "Object #" ^ dump id ^ " ("
         ^ String.concat ", " (List.map dump slots)
         ^ ")"

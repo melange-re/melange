@@ -12,7 +12,7 @@
       'const t = 1;\n' +
       '\n' +
       'export {\n' +
-      '  t ,\n' +
+      '  t,\n' +
       '}\n' +
       '/* No side effect */\n',
     warnings: [],

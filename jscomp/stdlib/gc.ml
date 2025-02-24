@@ -112,17 +112,20 @@ let rec call_alarm arec =
     Fun.protect ~finally arec.f
   end
 
-
-let create_alarm f =
-  let arec = { active = Atomic.make true; f = f } in
-  finalise call_alarm arec;
-  arec.active
-
-
 let delete_alarm a = Atomic.set a false
+
+(* never inline, to prevent [arec] from being allocated statically *)
+let[@inline never] create_alarm f =
+  let alarm = Atomic.make true in
+  Domain.at_exit (fun () -> delete_alarm alarm);
+  let arec = { active = alarm; f = f } in
+  finalise call_alarm arec;
+  alarm
+
 
 module Memprof =
   struct
+    type t
     type allocation_source = Normal | Marshal | Custom
     type allocation =
       { n_samples : int;
@@ -147,7 +150,7 @@ module Memprof =
     }
 
     external c_start :
-      float -> int -> ('minor, 'major) tracker -> unit
+      float -> int -> ('minor, 'major) tracker -> t
       = "caml_memprof_start"
 
     let start
@@ -157,4 +160,6 @@ module Memprof =
       c_start sampling_rate callstack_size tracker
 
     external stop : unit -> unit = "caml_memprof_stop"
+
+    external discard : t -> unit = "caml_memprof_discard"
   end

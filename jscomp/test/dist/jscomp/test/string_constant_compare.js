@@ -14,10 +14,12 @@ const a5 = "'" === "'";
 
 const a6 = "'" !== "'";
 
-exports.a1 = a1;
-exports.a2 = a2;
-exports.a3 = a3;
-exports.a4 = a4;
-exports.a5 = a5;
-exports.a6 = a6;
+module.exports = {
+  a1,
+  a2,
+  a3,
+  a4,
+  a5,
+  a6,
+}
 /* a1 Not a pure module */

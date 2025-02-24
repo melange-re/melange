@@ -17,7 +17,6 @@ This external triggers the `redundant` alert
   
   
   foo("foo");
-  
   /*  Not a pure module */
 
 But this does not
@@ -33,7 +32,6 @@ But this does not
   
   
   foo("bar");
-  
   /*  Not a pure module */
 
 This case doesn't warn, but it probably should
@@ -49,7 +47,6 @@ This case doesn't warn, but it probably should
   
   
   foo("foo", "bar");
-  
   /*  Not a pure module */
 
 The analog case with `@mel.int` fails to build

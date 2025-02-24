@@ -1,5 +1,4 @@
 [@@@mel.config { flags = [|"--mel-no-cross-module-opt"; |]}]
-#2 "stdlib/sys.mlp"
 (**************************************************************************)
 (*                                                                        *)
 (*                                 OCaml                                  *)
@@ -14,10 +13,6 @@
 (*   special exception on linking described in the file LICENSE.          *)
 (*                                                                        *)
 (**************************************************************************)
-
-(* WARNING: sys.ml is generated from sys.mlp.  DO NOT EDIT sys.ml or
-   your changes will be lost.
-*)
 
 type backend_type =
   | Native
@@ -64,6 +59,11 @@ let max_string_length = word_size / 8 * max_array_length - 1
 #endif
 external runtime_variant : unit -> string = "caml_runtime_variant"
 external runtime_parameters : unit -> string = "caml_runtime_parameters"
+
+#ifdef BS
+#else
+external poll_actions : unit -> unit = "%poll"
+#endif
 
 external file_exists: string -> bool = "caml_sys_file_exists"
 external is_directory : string -> bool = "caml_sys_is_directory"
@@ -152,6 +152,7 @@ external runtime_warnings_enabled: unit -> bool =
 
 (* The version string is found in file ../VERSION *)
 
+(* TODO(anmonteiro): fix correct version *)
 let ocaml_version = "4.14.0+mel"
 
 let development_version = false

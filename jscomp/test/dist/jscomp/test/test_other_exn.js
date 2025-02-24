@@ -10,7 +10,9 @@ const U = {};
 
 const V = {};
 
-exports.Make = Make;
-exports.U = U;
-exports.V = V;
+module.exports = {
+  Make,
+  U,
+  V,
+}
 /* No side effect */

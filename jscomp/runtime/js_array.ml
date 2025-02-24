@@ -25,11 +25,7 @@
 (** JavaScript Array API *)
 
 type 'a t = 'a array
-type 'a array_like
-
-(* commented out until Melange has a plan for iterators
-   type 'a array_iter = 'a array_like
-*)
+type 'a array_like = 'a Js.array_like
 
 external from : 'a array_like -> 'a array = "from" [@@mel.scope "Array"]
 (* ES2015 *)
@@ -47,22 +43,24 @@ external length : 'a array -> int = "length" [@@mel.get]
 
 (** Mutating functions *)
 
-external copyWithin : to_:int -> ?start:int -> ?end_:int -> 'a t = "copyWithin"
-[@@mel.send.pipe: 'a t]
+external copyWithin :
+  to_:int -> ?start:int -> ?end_:int -> ('a t[@mel.this]) -> 'a t = "copyWithin"
+[@@mel.send]
 (* ES2015 *)
 
-external fill : value:'a -> ?start:int -> ?end_:int -> 'a t = "fill"
-[@@mel.send.pipe: 'a t]
+external fill : value:'a -> ?start:int -> ?end_:int -> ('a t[@mel.this]) -> 'a t
+  = "fill"
+[@@mel.send]
 (* ES2015 *)
 
 external pop : 'a t -> 'a option = "pop"
 [@@mel.send] [@@mel.return undefined_to_opt]
 (** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push *)
 
-external push : value:'a -> int = "push" [@@mel.send.pipe: 'a t]
+external push : value:'a -> ('a t[@mel.this]) -> int = "push" [@@mel.send]
 
-external pushMany : values:'a array -> int = "push"
-[@@mel.send.pipe: 'a t] [@@mel.variadic]
+external pushMany : values:'a array -> ('a t[@mel.this]) -> int = "push"
+[@@mel.send] [@@mel.variadic]
 
 external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
 
@@ -71,126 +69,151 @@ external shift : 'a t -> 'a option = "shift"
 
 external sortInPlace : 'a t -> 'a t = "sort" [@@mel.send]
 
-external sortInPlaceWith : f:(('a -> 'a -> int)[@mel.uncurry]) -> 'a t = "sort"
-[@@mel.send.pipe: 'a t]
+external sortInPlaceWith :
+  f:(('a -> 'a -> int)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t = "sort"
+[@@mel.send]
 
-external spliceInPlace : start:int -> remove:int -> add:'a array -> 'a t
+external spliceInPlace :
+  start:int -> remove:int -> add:'a array -> ('a t[@mel.this]) -> 'a t
   = "splice"
-[@@mel.send.pipe: 'a t] [@@mel.variadic]
+[@@mel.send] [@@mel.variadic]
 
-external removeFromInPlace : start:int -> 'a t = "splice"
-[@@mel.send.pipe: 'a t]
+external removeFromInPlace : start:int -> ('a t[@mel.this]) -> 'a t = "splice"
+[@@mel.send]
 
-external removeCountInPlace : start:int -> count:int -> 'a t = "splice"
-[@@mel.send.pipe: 'a t]
+external removeCountInPlace :
+  start:int -> count:int -> ('a t[@mel.this]) -> 'a t = "splice"
+[@@mel.send]
 
-external unshift : value:'a -> int = "unshift" [@@mel.send.pipe: 'a t]
+external unshift : value:'a -> ('a t[@mel.this]) -> int = "unshift" [@@mel.send]
 
-external unshiftMany : values:'a array -> int = "unshift"
-[@@mel.send.pipe: 'a t] [@@mel.variadic]
+external unshiftMany : values:'a array -> ('a t[@mel.this]) -> int = "unshift"
+[@@mel.send] [@@mel.variadic]
 
-external concat : other:'a t -> 'a t = "concat" [@@mel.send.pipe: 'a t]
+external concat : other:'a t -> ('a t[@mel.this]) -> 'a t = "concat"
+[@@mel.send]
 
-external concatMany : arrays:'a t array -> 'a t = "concat"
-[@@mel.send.pipe: 'a t] [@@mel.variadic]
+external concatMany : arrays:'a t array -> ('a t[@mel.this]) -> 'a t = "concat"
+[@@mel.send] [@@mel.variadic]
 
-external includes : value:'a -> bool = "includes"
-[@@mel.send.pipe: 'a t]
+external includes : value:'a -> ('a t[@mel.this]) -> bool = "includes"
+[@@mel.send]
 (** ES2015 *)
 
-external join : ?sep:string -> string = "join" [@@mel.send.pipe: 'a t]
+external join : ?sep:string -> ('a t[@mel.this]) -> string = "join" [@@mel.send]
 
 (** Accessor functions *)
 
-external indexOf : value:'a -> ?start:int -> int = "indexOf"
-[@@mel.send.pipe: 'a t]
+external indexOf : value:'a -> ?start:int -> ('a t[@mel.this]) -> int
+  = "indexOf"
+[@@mel.send]
 
-external lastIndexOf : value:'a -> int = "lastIndexOf" [@@mel.send.pipe: 'a t]
+external lastIndexOf : value:'a -> ('a t[@mel.this]) -> int = "lastIndexOf"
+[@@mel.send]
 
-external lastIndexOfFrom : value:'a -> start:int -> int = "lastIndexOf"
-[@@mel.send.pipe: 'a t]
+external lastIndexOfFrom : value:'a -> start:int -> ('a t[@mel.this]) -> int
+  = "lastIndexOf"
+[@@mel.send]
 
 external copy : 'a t -> 'a t = "slice" [@@mel.send]
 
-external slice : ?start:int -> ?end_:int -> 'a t = "slice"
-[@@mel.send.pipe: 'a t]
+external slice : ?start:int -> ?end_:int -> ('a t[@mel.this]) -> 'a t = "slice"
+[@@mel.send]
 
 external toString : 'a t -> string = "toString" [@@mel.send]
 external toLocaleString : 'a t -> string = "toLocaleString" [@@mel.send]
 
 (** Iteration functions *)
 
-(* commented out until Melange has a plan for iterators
-   external entries : 'a t -> (int * 'a) array_iter = "" [@@mel.send] (* ES2015 *)
-*)
+external entries : 'a t -> (int * 'a) Js.iterator = "entries" [@@mel.send]
 
-external every : f:(('a -> bool)[@mel.uncurry]) -> bool = "every"
-[@@mel.send.pipe: 'a t]
+external every : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> bool
+  = "every"
+[@@mel.send]
 
-external everyi : f:(('a -> int -> bool)[@mel.uncurry]) -> bool = "every"
-[@@mel.send.pipe: 'a t]
+external everyi :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> bool = "every"
+[@@mel.send]
 
-external filter : f:(('a -> bool)[@mel.uncurry]) -> 'a t = "filter"
-[@@mel.send.pipe: 'a t]
+external filter : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t
+  = "filter"
+[@@mel.send]
 
-external filteri : f:(('a -> int -> bool)[@mel.uncurry]) -> 'a t = "filter"
-[@@mel.send.pipe: 'a t]
+external filteri :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t = "filter"
+[@@mel.send]
 
-external find : f:(('a -> bool)[@mel.uncurry]) -> 'a option = "find"
-[@@mel.send.pipe: 'a t] [@@mel.return { undefined_to_opt }]
+external find : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
+  = "find"
+[@@mel.send] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
-external findi : f:(('a -> int -> bool)[@mel.uncurry]) -> 'a option = "find"
-[@@mel.send.pipe: 'a t] [@@mel.return { undefined_to_opt }]
+external findi :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
+  = "find"
+[@@mel.send] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
-external findIndex : f:(('a -> bool)[@mel.uncurry]) -> int = "findIndex"
-[@@mel.send.pipe: 'a t]
+external findIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
+  = "findIndex"
+[@@mel.send]
 (* ES2015 *)
 
-external findIndexi : f:(('a -> int -> bool)[@mel.uncurry]) -> int = "findIndex"
-[@@mel.send.pipe: 'a t]
+external findIndexi :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
+  = "findIndex"
+[@@mel.send]
 (* ES2015 *)
 
-external forEach : f:(('a -> unit)[@mel.uncurry]) -> unit = "forEach"
-[@@mel.send.pipe: 'a t]
+external forEach : f:(('a -> unit)[@mel.uncurry]) -> ('a t[@mel.this]) -> unit
+  = "forEach"
+[@@mel.send]
 
-external forEachi : f:(('a -> int -> unit)[@mel.uncurry]) -> unit = "forEach"
-[@@mel.send.pipe: 'a t]
+external forEachi :
+  f:(('a -> int -> unit)[@mel.uncurry]) -> ('a t[@mel.this]) -> unit = "forEach"
+[@@mel.send]
 
-(* commented out until Melange has a plan for iterators
-   external keys : 'a t -> int array_iter = "" [@@mel.send] (* ES2015 *)
-*)
+external keys : 'a t -> int Js.iterator = "keys" [@@mel.send]
 
-external map : f:(('a -> 'b)[@mel.uncurry]) -> 'b t = "map"
-[@@mel.send.pipe: 'a t]
+external map : f:(('a -> 'b)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'b t = "map"
+[@@mel.send]
 
-external mapi : f:(('a -> int -> 'b)[@mel.uncurry]) -> 'b t = "map"
-[@@mel.send.pipe: 'a t]
+external mapi : f:(('a -> int -> 'b)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'b t
+  = "map"
+[@@mel.send]
 
-external reduce : f:(('b -> 'a -> 'b)[@mel.uncurry]) -> init:'b -> 'b = "reduce"
-[@@mel.send.pipe: 'a t]
-
-external reducei : f:(('b -> 'a -> int -> 'b)[@mel.uncurry]) -> init:'b -> 'b
+external reduce :
+  f:(('b -> 'a -> 'b)[@mel.uncurry]) -> init:'b -> ('a t[@mel.this]) -> 'b
   = "reduce"
-[@@mel.send.pipe: 'a t]
+[@@mel.send]
 
-external reduceRight : f:(('b -> 'a -> 'b)[@mel.uncurry]) -> init:'b -> 'b
+external reducei :
+  f:(('b -> 'a -> int -> 'b)[@mel.uncurry]) ->
+  init:'b ->
+  ('a t[@mel.this]) ->
+  'b = "reduce"
+[@@mel.send]
+
+external reduceRight :
+  f:(('b -> 'a -> 'b)[@mel.uncurry]) -> init:'b -> ('a t[@mel.this]) -> 'b
   = "reduceRight"
-[@@mel.send.pipe: 'a t]
+[@@mel.send]
 
 external reduceRighti :
-  f:(('b -> 'a -> int -> 'b)[@mel.uncurry]) -> init:'b -> 'b = "reduceRight"
-[@@mel.send.pipe: 'a t]
+  f:(('b -> 'a -> int -> 'b)[@mel.uncurry]) ->
+  init:'b ->
+  ('a t[@mel.this]) ->
+  'b = "reduceRight"
+[@@mel.send]
 
-external some : f:(('a -> bool)[@mel.uncurry]) -> bool = "some"
-[@@mel.send.pipe: 'a t]
+external some : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> bool
+  = "some"
+[@@mel.send]
 
-external somei : f:(('a -> int -> bool)[@mel.uncurry]) -> bool = "some"
-[@@mel.send.pipe: 'a t]
+external somei :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> bool = "some"
+[@@mel.send]
 
-(* commented out until Melange has a plan for iterators
-   external values : 'a t -> 'a array_iter = "" [@@mel.send] (* ES2015 *) *)
-
+external values : 'a t -> 'a Js.iterator = "values" [@@mel.send]
 external unsafe_get : 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set : 'a array -> int -> 'a -> unit = "%array_unsafe_set"

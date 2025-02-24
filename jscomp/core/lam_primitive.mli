@@ -28,7 +28,12 @@ type ident = Ident.t
 
 type record_representation =
   | Record_regular
-  | Record_inlined of { tag : int; name : string; num_nonconsts : int }
+  | Record_inlined of {
+      tag : int;
+      name : string;
+      num_nonconsts : int;
+      attributes : Parsetree.attributes;
+    }
     (* Inlined record *)
   | Record_extension
 (* Inlined record under extension *)
@@ -45,10 +50,17 @@ type t =
   | Pjs_call of {
       (* Location.t *  [loc] is passed down *)
       prim_name : string;
-      arg_types : Melange_ffi.External_arg_spec.params;
+      arg_types :
+        Melange_ffi.External_arg_spec.Arg_label.t
+        Melange_ffi.External_arg_spec.param
+        list;
       ffi : Melange_ffi.External_ffi_types.external_spec;
+      dynamic_import : bool;
     }
-  | Pjs_object_create of Melange_ffi.External_arg_spec.obj_params
+  | Pjs_object_create of
+      Melange_ffi.External_arg_spec.Obj_label.t
+      Melange_ffi.External_arg_spec.param
+      list
   | Praise
   | Psequand
   | Psequor
@@ -129,6 +141,8 @@ type t =
   | Pctconst of Lam_compat.compile_time_constant
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
+  (* Inhibition of optimisation *)
+  | Popaque
   (* Integer to external pointer *)
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
@@ -145,6 +159,7 @@ type t =
   | Pis_null
   | Pis_undefined
   | Pis_null_undefined
+  | Pimport
   | Pjs_typeof
   | Pjs_function_length
   | Pcaml_obj_length

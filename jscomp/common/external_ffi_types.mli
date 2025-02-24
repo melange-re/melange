@@ -38,7 +38,8 @@ type external_module_name = {
 }
 
 type arg_type = External_arg_spec.attr
-type arg_label = External_arg_spec.label
+type arg_label = External_arg_spec.Obj_label.t
+type js_send_kind = Pipe | Send of int
 
 type external_spec =
   | Js_var of {
@@ -61,9 +62,9 @@ type external_spec =
   | Js_send of {
       name : string;
       variadic : bool;
-      pipe : bool;
+      kind : js_send_kind;
       new_ : bool;
-      js_send_scopes : string list;
+      scopes : string list;
     }
     (* we know it is a js send, but what will happen if you pass an ocaml objct *)
   | Js_new of {
@@ -72,10 +73,10 @@ type external_spec =
       variadic : bool;
       scopes : string list;
     }
-  | Js_set of { js_set_name : string; js_set_scopes : string list }
-  | Js_get of { js_get_name : string; js_get_scopes : string list }
-  | Js_get_index of { js_get_index_scopes : string list }
-  | Js_set_index of { js_set_index_scopes : string list }
+  | Js_set of { name : string; scopes : string list }
+  | Js_get of { name : string; scopes : string list }
+  | Js_get_index of { scopes : string list }
+  | Js_set_index of { scopes : string list }
 
 type return_wrapper =
   | Return_unset
@@ -85,32 +86,33 @@ type return_wrapper =
   | Return_null_undefined_to_opt
   | Return_replaced_with_unit
 
-type params = Params of External_arg_spec.params | Param_number of int
+type params =
+  | Params of External_arg_spec.Arg_label.t External_arg_spec.param list
+  | Param_number of int
 
 type t = private
   | Ffi_mel of params * return_wrapper * external_spec
-  | Ffi_obj_create of External_arg_spec.obj_params
+  | Ffi_obj_create of External_arg_spec.Obj_label.t External_arg_spec.param list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
-(* When it's normal, it is handled as normal c functional ffi call *)
+(* Ffi_normal represents a C functional ffi call *)
 
-(* val name_of_ffi : external_spec -> string *)
-
-val check_ffi : loc:Location.t -> external_spec -> bool
 val to_string : t -> string
-
 val from_string : string -> t
+
 (** Note *)
 
-val inline_string_primitive : string -> string option -> string list
-val inline_bool_primitive : bool -> string list
-val inline_int_primitive : int32 -> string list
-val inline_int64_primitive : int64 -> string list
-val inline_float_primitive : string -> string list
-val ffi_mel : External_arg_spec.params -> return_wrapper -> external_spec -> t
+val inline_string_primitive : ?op:string -> string -> t
+val inline_bool_primitive : bool -> t
+val inline_int_primitive : int32 -> t
+val inline_int64_primitive : int64 -> t
+val inline_float_primitive : string -> t
 
-val ffi_mel_as_prims :
-  External_arg_spec.params -> return_wrapper -> external_spec -> string list
+val ffi_mel :
+  External_arg_spec.Arg_label.t External_arg_spec.param list ->
+  return_wrapper ->
+  external_spec ->
+  t
 
-val ffi_obj_create : External_arg_spec.obj_params -> t
-val ffi_obj_as_prims : External_arg_spec.obj_params -> string list
+val ffi_obj_create :
+  External_arg_spec.Obj_label.t External_arg_spec.param list -> t

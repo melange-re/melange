@@ -3,25 +3,24 @@
 
 
 function f9(param) {
-  if (typeof param === "number") {
-    switch (param) {
-      case /* T60 */0 :
-      case /* T61 */1 :
-      case /* T62 */2 :
-          return 1;
-      default:
-        return 3;
+  if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (param === /* T63 */ 3) {
+      return 3;
+    } else {
+      return 1;
     }
-  } else {
-    switch (param.TAG | 0) {
-      case /* T64 */0 :
-      case /* T65 */1 :
-          return 2;
-      default:
-        return 3;
-    }
+  }
+  switch (param.TAG) {
+    case /* T64 */ 0 :
+    case /* T65 */ 1 :
+      return 2;
+    case /* T66 */ 2 :
+    case /* T68 */ 3 :
+      return 3;
   }
 }
 
-exports.f9 = f9;
+module.exports = {
+  f9,
+}
 /* No side effect */

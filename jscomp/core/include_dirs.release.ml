@@ -26,7 +26,7 @@ open Import
 
 let paths =
   let lib = "lib" and package_name = "melange" in
-  Path.
+  Paths.
     [
       (* [melange] / [Stdlib] *)
       lib // package_name;

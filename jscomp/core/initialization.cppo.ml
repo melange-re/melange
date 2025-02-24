@@ -29,6 +29,7 @@ module Global = struct
     Translcore.wrap_single_field_record :=
       Transl_single_field_record.wrap_single_field_record;
     Translmod.eval_rec_bindings := Compile_rec_module.eval_rec_bindings;
+    Translmod.mangle_ident := Compile_rec_module.mangle_ident;
     Typemod.should_hide := Typemod_hide.should_hide;
     Matching.make_test_sequence_variant_constant :=
       Polyvar_pattern_match.make_test_sequence_variant_constant;
@@ -39,6 +40,7 @@ module Global = struct
     Clflags.no_std_include := true (* `-nostdlib` *);
     ignore @@ Warnings.parse_options false Melc_warnings.defaults_w;
     ignore @@ Warnings.parse_options true Melc_warnings.defaults_warn_error;
+    Warnings.parse_alert_option Melc_warnings.default_alert_errors;
     Clflags.locations := false;
     Clflags.compile_only := true;
     Config.unsafe_empty_array := false;
@@ -69,7 +71,11 @@ module Global = struct
     Lambda.blk_record_inlined := Record_attributes_check.blk_record_inlined;
     Lambda.blk_record_ext := Record_attributes_check.blk_record_ext;
     Matching.names_from_construct_pattern :=
-      Matching_polyfill.names_from_construct_pattern
+      Matching_polyfill.names_from_construct_pattern;
+#if OCAML_VERSION >= (5,2,0)
+    Value_rec_compiler.compile_letrec := Compile_letrec.compile_letrec
+#endif
+  ;;
 
   let () = at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
 end
@@ -82,12 +88,45 @@ module Perfile = struct
     in
     Load_path.reset ();
     let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
-    List.iter ~f:Load_path.add_dir exp_dirs;
+    List.iter
+#if OCAML_VERSION >= (5,2,0)
+      ~f:(Load_path.add_dir ~hidden:false)
+#else
+      ~f:(Load_path.add_dir)
+#endif
+      exp_dirs;
+#if OCAML_VERSION >= (5,2,0)
+    let hidden_dirs = !Clflags.hidden_include_dirs in
+    let hidden_exp_dirs =
+      List.map ~f:(Misc.expand_directory Config.standard_library) hidden_dirs
+    in
+    List.iter ~f:(Load_path.add_dir ~hidden:true) hidden_exp_dirs;
+#endif
+    let
+#if OCAML_VERSION >= (5,2,0)
+      { Load_path.visible; hidden }
+#else
+      visible
+#endif
+     = Load_path.get_paths ()
+    in
     Log.info ~loc:(Loc.of_pos __POS__)
-      (Pp.concat ~sep:Pp.space
+      (Pp.concat ~sep:Pp.newline
          [
            Pp.text "Compiler include dirs:";
-           Pp.enumerate (Load_path.get_paths ()) ~f:Pp.text;
+           Pp.vbox
+             (Pp.concat ~sep:Pp.newline
+               [Pp.text "Visible:"
+               ; Pp.vbox ~indent:2 (Pp.enumerate visible ~f:Pp.text)
+               ]);
+
+#if OCAML_VERSION >= (5,2,0)
+           Pp.vbox
+             (Pp.concat ~sep:Pp.newline
+               [Pp.text "Hidden:"
+               ; Pp.vbox ~indent:2 (Pp.enumerate hidden ~f:Pp.text)
+               ]);
+#endif
          ]);
     Env.reset_cache ()
 
@@ -113,4 +152,9 @@ end
 
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_in_path_exn file =
-  Misc.find_in_path_uncap (Load_path.get_paths ()) file
+#if OCAML_VERSION >= (5,2,0)
+  Misc.find_in_path_normalized (Load_path.get_paths ()).visible
+#else
+  Misc.find_in_path_uncap (Load_path.get_paths ())
+#endif
+  file

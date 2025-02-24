@@ -48,7 +48,6 @@ val mel_get_index : attribute
 val mel_get_arity : attribute
 val mel_set : attribute
 val internal_expansive : attribute
-val has_internal_expansive : attribute list -> bool
 val mel_return_undefined : attribute
 
 val iter_process_mel_string_int_unwrap_uncurry :
@@ -70,3 +69,7 @@ val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute
 val is_mel_as : attribute -> bool
 val has_mel_as_payload : attribute list -> attribute list * attribute option
+val mel_ffi : Melange_ffi.External_ffi_types.t -> attribute
+
+val partition_by_mel_ffi_attribute :
+  attribute list -> string option * attribute list

@@ -26,7 +26,7 @@ open Import
 
 let paths =
   let jscomp = "jscomp" in
-  Path.
+  Paths.
     [
       (* [melange] / [Stdlib] *)
       jscomp // "stdlib" // ".stdlib.objs";

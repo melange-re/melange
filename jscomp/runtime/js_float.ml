@@ -27,7 +27,6 @@
 type t = float
 
 external _NaN : t = "NaN"
-
 (** The special value "Not a Number"
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN> MDN
@@ -68,8 +67,9 @@ let _ = Js.Float.isFinite 1234
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite> MDN
 *)
 
-external toExponential : ?digits:int -> string = "toExponential"
-[@@mel.send.pipe: t]
+external toExponential : ?digits:int -> (t[@mel.this]) -> string
+  = "toExponential"
+[@@mel.send]
 (** Formats a [float] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -90,8 +90,8 @@ The output will be rounded or padded with zeroes if necessary.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
 
-external toFixed : ?digits:int -> string = "toFixed"
-[@@mel.send.pipe: t]
+external toFixed : ?digits:int -> (t[@mel.this]) -> string = "toFixed"
+[@@mel.send]
 (** Formats a [float] using fixed point notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -113,8 +113,8 @@ The output will be rounded or padded with zeroes if necessary.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed> MDN
 *)
 
-external toPrecision : ?digits:int -> string = "toPrecision"
-[@@mel.send.pipe: t]
+external toPrecision : ?digits:int -> (t[@mel.this]) -> string = "toPrecision"
+[@@mel.send]
 (** Formats a [float] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -143,8 +143,8 @@ before the decimal point.
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
 
-external toString : ?radix:int -> string = "toString"
-[@@mel.send.pipe: t]
+external toString : ?radix:int -> (t[@mel.this]) -> string = "toString"
+[@@mel.send]
 (** Formats a [float] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -166,7 +166,6 @@ value must be in the range \[2, 36\] (inclusive).
 *)
 
 external fromString : string -> t = "Number"
-
 (** Parses the given [string] into a [float] using JavaScript semantics
 
 {b Returns} the number as a [float] if successfully parsed, [_NaN] otherwise.

@@ -16,7 +16,9 @@ function h(x) {
   x.width = 3;
 }
 
-exports.f = f;
-exports.g = g;
-exports.h = h;
+module.exports = {
+  f,
+  g,
+  h,
+}
 /* No side effect */

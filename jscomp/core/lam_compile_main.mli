@@ -32,5 +32,5 @@ val compile_coercion : output_prefix:string -> Lambda.lambda -> Js_cmj_format.t
 (** For toplevel, [filename] is [""] which is the same as
     {!Env.get_unit_name ()} *)
 
-val optimize_program : Js_cmj_format.t -> J.deps_program
+val optimize_program : output_prefix:string -> Js_cmj_format.t -> J.deps_program
 val lambda_as_module : output_prefix:string -> Js_cmj_format.t -> unit

@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val ocaml_to_js_eff :
-  arg_label:Melange_ffi.External_arg_spec.label_noname ->
+  arg_label:Melange_ffi.External_arg_spec.Arg_label.t ->
   arg_type:Melange_ffi.External_arg_spec.attr ->
   J.expression ->
   Js_of_lam_variant.arg_expression * J.expression list
@@ -31,9 +31,11 @@ val ocaml_to_js_eff :
 
 val translate_ffi :
   Lam_compile_context.t ->
-  Melange_ffi.External_arg_spec.params ->
+  Melange_ffi.External_arg_spec.Arg_label.t Melange_ffi.External_arg_spec.param
+  list ->
   Melange_ffi.External_ffi_types.external_spec ->
   J.expression list ->
+  dynamic_import:bool ->
   J.expression
 
 (** TODO: document supported attributes

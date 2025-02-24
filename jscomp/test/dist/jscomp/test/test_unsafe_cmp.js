@@ -4,11 +4,11 @@
 
 function f(x, y) {
   return [
-          x < y,
-          x <= y,
-          x > y,
-          x >= y
-        ];
+    x < y,
+    x <= y,
+    x > y,
+    x >= y
+  ];
 }
 
 function ff(x, y) {
@@ -19,6 +19,8 @@ function ff(x, y) {
   }
 }
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /* No side effect */

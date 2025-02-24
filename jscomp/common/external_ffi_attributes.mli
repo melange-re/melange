@@ -23,3 +23,4 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val has_mel_attributes : string list -> bool
+val is_mel_attribute : string -> bool

@@ -20,8 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *)
 
-open Melange_mini_stdlib
-
 external ( .![] ) : string -> int -> int = "%string_unsafe_get"
 external ( .!() ) : string -> int -> char = "%string_unsafe_get"
 

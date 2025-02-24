@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 let div (x : int) (y : int) =
   if y = 0 then raise Division_by_zero else Caml_nativeint_extern.div x y
 

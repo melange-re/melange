@@ -4,15 +4,17 @@
 
 function f(obj) {
   if (typeof obj === "function") {
-    return ;
+    return;
   }
   const size = obj.length;
   if (size !== undefined) {
     console.log(size);
-    return ;
+    return;
   }
   
 }
 
-exports.f = f;
+module.exports = {
+  f,
+}
 /* No side effect */

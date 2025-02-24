@@ -14,6 +14,8 @@ const Foo = {
   make: Gpr_3519_jsx_test$Foo
 };
 
-exports.React = React;
-exports.Foo = Foo;
+module.exports = {
+  React,
+  Foo,
+}
 /* No side effect */

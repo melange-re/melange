@@ -4,22 +4,24 @@
 
 function test(x, y) {
   return [
-          x < y,
-          x <= y,
-          x > y,
-          x >= y,
-          x === y,
-          x !== y
-        ];
+    x < y,
+    x <= y,
+    x > y,
+    x >= y,
+    x === y,
+    x !== y
+  ];
 }
 
 function f(x, y) {
   return [
-          String.fromCharCode.apply(null, x),
-          0
-        ];
+    String.fromCharCode.apply(null, x),
+    0
+  ];
 }
 
-exports.test = test;
-exports.f = f;
+module.exports = {
+  test,
+  f,
+}
 /* No side effect */

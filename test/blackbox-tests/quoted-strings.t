@@ -24,5 +24,4 @@ Showcases how quoted strings work without melange.ppx
   
   
   console.log("🪄");
-  
   /*  Not a pure module */

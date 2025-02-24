@@ -12,17 +12,16 @@ function ff(x) {
 
 function fff(x) {
   const x$1 = {
-    TAG: /* A */0,
+    TAG: /* A */ 0,
     _0: x
   };
-  switch (x$1.TAG | 0) {
-    case /* A */0 :
-        return x;
-    case /* B */1 :
-        return 1;
-    case /* C */2 :
-        return 2;
-    
+  switch (x$1.TAG) {
+    case /* A */ 0 :
+      return x;
+    case /* B */ 1 :
+      return 1;
+    case /* C */ 2 :
+      return 2;
   }
 }
 
@@ -42,10 +41,12 @@ function hh(param) {
 
 const g = h("A");
 
-exports.f = f;
-exports.ff = ff;
-exports.fff = fff;
-exports.h = h;
-exports.hh = hh;
-exports.g = g;
+module.exports = {
+  f,
+  ff,
+  fff,
+  h,
+  hh,
+  g,
+}
 /* g Not a pure module */

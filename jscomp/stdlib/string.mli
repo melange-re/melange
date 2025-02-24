@@ -94,6 +94,15 @@ val empty : string
     @since 4.13
 *)
 
+external length : string -> int = "%string_length"
+(** [length s] is the length (number of bytes/characters) of [s]. *)
+
+external get : string -> int -> char = "%string_safe_get"
+(** [get s i] is the character at index [i] in [s]. This is the same
+    as writing [s.[i]].
+
+    @raise Invalid_argument if [i] not an index of [s]. *)
+
 val of_bytes : bytes -> string
 (** Return a new string that contains the same bytes as the given byte
     sequence.
@@ -108,14 +117,9 @@ val to_bytes : string -> bytes
     @since 4.13
 *)
 
-external length : string -> int = "%string_length"
-(** [length s] is the length (number of bytes/characters) of [s]. *)
-
-external get : string -> int -> char = "%string_safe_get"
-(** [get s i] is the character at index [i] in [s]. This is the same
-    as writing [s.[i]].
-
-    @raise Invalid_argument if [i] not an index of [s]. *)
+val blit :
+  string -> int -> bytes -> int -> int -> unit
+(** Same as {!Bytes.blit_string} which should be preferred. *)
 
 (** {1:concat Concatenating}
 
@@ -191,6 +195,7 @@ val sub : string -> int -> int -> string
 val split_on_char : char -> string -> string list
 (** [split_on_char sep s] is the list of all (possibly empty)
     substrings of [s] that are delimited by the character [sep].
+    If [s] is empty, the result is the singleton list [[""]].
 
     The function's result is specified by the following invariants:
     {ul
@@ -342,8 +347,7 @@ val rindex_opt : string -> char -> int option
 
 val to_seq : t -> char Seq.t
 (** [to_seq s] is a sequence made of the string's characters in
-    increasing order. In ["unsafe-string"] mode, modifications of the string
-    during iteration will be reflected in the sequence.
+    increasing order.
 
     @since 4.07 *)
 
@@ -390,16 +394,6 @@ val get_utf_16le_uchar : t -> int -> Uchar.utf_decode
 val is_valid_utf_16le : t -> bool
 (** [is_valid_utf_16le b] is [true] if and only if [b] contains valid
     UTF-16LE data. *)
-
-val blit :
-  string -> int -> bytes -> int -> int -> unit
-(** [blit src src_pos dst dst_pos len] copies [len] bytes
-    from the string [src], starting at index [src_pos],
-    to byte sequence [dst], starting at character number [dst_pos].
-
-    @raise Invalid_argument if [src_pos] and [len] do not
-    designate a valid range of [src], or if [dst_pos] and [len]
-    do not designate a valid range of [dst]. *)
 
 (** {1 Binary decoding of integers} *)
 
@@ -486,6 +480,20 @@ val get_int32_ne : string -> int -> int32
     @since 4.13
 *)
 
+val hash : t -> int
+(** An unseeded hash function for strings, with the same output value as
+    {!Hashtbl.hash}. This function allows this module to be passed as argument
+    to the functor {!Hashtbl.Make}.
+
+    @since 5.0 *)
+
+val seeded_hash : int -> t -> int
+(** A seeded hash function for strings, with the same output value as
+    {!Hashtbl.seeded_hash}. This function allows this module to be passed as
+    argument to the functor {!Hashtbl.MakeSeeded}.
+
+    @since 5.0 *)
+
 val get_int32_be : string -> int -> int32
 (** [get_int32_be b i] is [b]'s big-endian 32-bit integer
     starting at character index [i].
@@ -520,21 +528,6 @@ val get_int64_le : string -> int -> int64
 
     @since 4.13
 *)
-
-val hash : t -> int
-(** An unseeded hash function for strings, with the same output value as
-    {!Hashtbl.hash}. This function allows this module to be passed as argument
-    to the functor {!Hashtbl.Make}.
-
-    @since 5.0 *)
-
-val seeded_hash : int -> t -> int
-(** A seeded hash function for strings, with the same output value as
-    {!Hashtbl.seeded_hash}. This function allows this module to be passed as
-    argument to the functor {!Hashtbl.MakeSeeded}.
-
-    @since 5.0 *)
-
 
 (**/**)
 

@@ -10,7 +10,9 @@ function f(x, y) {
   return x + y;
 }
 
-exports.h = h;
-exports.hh = hh;
-exports.f = f;
+module.exports = {
+  h,
+  hh,
+  f,
+}
 /* h Not a pure module */

@@ -25,7 +25,9 @@ const Test = {
   v: 33
 };
 
-exports.ExtUnixAll = ExtUnixAll;
-exports.ExtUnix = ExtUnix;
-exports.Test = Test;
+module.exports = {
+  ExtUnixAll,
+  ExtUnix,
+  Test,
+}
 /* No side effect */

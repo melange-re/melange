@@ -6,6 +6,8 @@ const fib = 3;
 
 const u = 3;
 
-exports.fib = fib;
-exports.u = u;
+module.exports = {
+  fib,
+  u,
+}
 /* No side effect */

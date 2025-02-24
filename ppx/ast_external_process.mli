@@ -28,7 +28,7 @@ type response = {
   pval_type : core_type;
   pval_prim : string list;
   pval_attributes : attributes;
-  no_inline_cross_module : bool;
+  dont_inline_cross_module : bool;
 }
 
 val handle_attributes_as_string :

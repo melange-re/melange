@@ -1,12 +1,43 @@
 (library
+ (name melange_mini_stdlib)
+ (package melange)
+ (modules melange_mini_stdlib)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (modes melange)
+ (melange.compile_flags -nostdlib -nopervasives))
+
+(rule
+ (deps js.pre.ml)
+ (target js.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
+
+(rule
+ (deps js.pre.mli)
+ (target js.mli)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
+
+(library
  (public_name melange.js)
  (name js)
  (modes melange)
+ (modules :standard \ melange_mini_stdlib)
+ (stdlib
+  (internal_modules Caml* Curry))
  (preprocess
   (pps melange.ppx -unsafe))
+ (libraries melange_mini_stdlib)
  (melange.compile_flags
-  -nopervasives
-  -nostdlib
+  -open
+  Melange_mini_stdlib
   -mel-no-check-div-by-zero
   -mel-cross-module-opt
   -unsafe))

@@ -31,12 +31,6 @@ type env_value =
     we never load runtime/*.cmj
 *)
 
-type ident_info = Js_cmj_format.keyed_cmj_value = {
-  name : string;
-  arity : Js_cmj_format.arity;
-  persistent_closed_lambda : Lam.t option;
-}
-
 (*
    refer: [Env.find_pers_struct]
    [ find_in_path_uncap !load_path (name ^ ".cmi")]
@@ -63,7 +57,7 @@ let reset () =
     be escaped quite ugly
 *)
 let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
-    (module_name : string) default : Ident.t =
+    (module_name : string) ~default ~dynamic_import : Ident.t =
   let id =
     Ident.create_local
       (match hint_name with
@@ -73,8 +67,8 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       *)
       | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
   in
-  let lam_module_ident : J.module_id =
-    { id; kind = External { name = module_name; default } }
+  let lam_module_ident : Lam_module_ident.t =
+    Lam_module_ident.external_ id ~dynamic_import ~name:module_name ~default
   in
   match Lam_module_ident.Hash.find_key_opt cached_tbl lam_module_ident with
   | None ->
@@ -82,8 +76,9 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
       id
   | Some old_key -> old_key.id
 
-let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
-  let oid = Lam_module_ident.of_ml module_id in
+let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
+    (name : string) : Js_cmj_format.keyed_cmj_value =
+  let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
     | None ->
@@ -94,6 +89,10 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
     | Some External -> assert false
   in
   Js_cmj_format.query_by_name cmj_table name
+
+let query_external_id_info ~dynamic_import module_id name =
+  try Some (query_external_id_info_exn ~dynamic_import module_id name)
+  with Mel_exception.Error (Cmj_not_found _) -> None
 
 let get_dependency_info_from_cmj (id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =
@@ -130,9 +129,9 @@ let is_pure_module (oid : Lam_module_ident.t) =
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               oid +> Ml cmj_load_info;
-              cmj_load_info.cmj_table.effect = None
+              cmj_load_info.cmj_table.effect_ = None
           | exception _ -> false)
-      | Some (Ml { cmj_table; _ }) -> cmj_table.effect = None
+      | Some (Ml { cmj_table; _ }) -> cmj_table.effect_ = None
       | Some External -> false)
 
 let populate_required_modules extras

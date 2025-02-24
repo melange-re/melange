@@ -24,7 +24,7 @@
 
 open Import
 
-let ( // ) = Path.( // )
+let ( // ) = Paths.( // )
 
 let fix_path_for_windows : string -> string =
   let replace_backward_slash (x : string) =
@@ -62,18 +62,21 @@ let get_runtime_module_path ~package_info ~output_info
   | Package_script -> Module_system.runtime_package_path js_file
   | Package_found _path_info -> (
       match module_system with
-      | NodeJS | Es6 -> Module_system.runtime_package_path js_file
+      | CommonJS | ESM -> Module_system.runtime_package_path js_file
       (* Note we did a post-processing when working on Windows *)
-      | Es6_global ->
+      | ESM_global ->
           (* lib/ocaml/xx.cmj --
               HACKING: FIXME
               maybe we can caching relative package path calculation or employ package map *)
-          let dep_path = "lib" // Module_system.runtime_dir module_system in
+          let dep_path =
+            "lib"
+            (* // Module_system.runtime_dir module_system  *)
+          in
           (* TODO(anmonteiro): This doesn't work yet *)
-          Path.rel_normalized_absolute_path
+          Paths.rel_normalized_absolute_path
             ~from:
               (Js_packages_info.get_output_dir
-                 package_info (* ~package_dir:(Lazy.force Path.package_dir) *)
+                 package_info (* ~package_dir:(Lazy.force Paths.package_dir) *)
                  ~package_dir:(Sys.getcwd ()) module_system)
             (* Invariant: the package path to `node_modules/melange`, it is used to
                calculate relative js path *)
@@ -128,18 +131,18 @@ let string_of_module_id ~package_info ~output_info
             | true ->
                 (* If this is the same package, we know all imports are
                    relative. *)
-                Path.node_rebase_file ~from:cur_pkg.rel_path
+                Paths.node_rebase_file ~from:cur_pkg.rel_path
                   ~to_:dep_info.rel_path js_file
             | false -> (
                 match module_system with
-                | NodeJS | Es6 -> dep_info.pkg_rel_path // js_file
+                | CommonJS | ESM -> dep_info.pkg_rel_path // js_file
                 (* Note we did a post-processing when working on Windows *)
-                | Es6_global ->
-                    Path.rel_normalized_absolute_path
+                | ESM_global ->
+                    Paths.rel_normalized_absolute_path
                       ~from:
                         (Js_packages_info.get_output_dir
                            package_info
-                           (* ~package_dir:(Lazy.force Path.package_dir) *)
+                           (* ~package_dir:(Lazy.force Paths.package_dir) *)
                            (* FIXME *)
                            ~package_dir:(Sys.getcwd ()) module_system)
                       (* FIXME: https://github.com/melange-re/melange/issues/559 *)
@@ -154,9 +157,9 @@ let string_of_module_id ~package_info ~output_info
             | file ->
                 let basename = Filename.basename file in
                 let dirname = Filename.dirname file in
-                Path.node_rebase_file
-                  ~from:(Path.absolute_cwd_path output_dir)
-                  ~to_:(Path.absolute_cwd_path dirname)
+                Paths.node_rebase_file
+                  ~from:(Paths.absolute_cwd_path output_dir)
+                  ~to_:(Paths.absolute_cwd_path dirname)
                   basename
             | exception Not_found -> Mel_exception.error (Js_not_found js_file))
         ))

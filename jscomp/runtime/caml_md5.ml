@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
 open Caml_int32_extern.Ops
 
 let lognot n = n ^~ -1l
@@ -256,3 +255,6 @@ let caml_md5_string (s : string) start len =
       state.(3) >>~ 16 &~ 0xffl;
       state.(3) >>~ 24 &~ 0xffl;
     |]
+
+let caml_md5_bytes (s : bytes) start len =
+  caml_md5_string (Caml_bytes.bytes_to_string s) start len

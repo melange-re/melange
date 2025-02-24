@@ -16,10 +16,12 @@ const g = 3;
 
 const gg = 4;
 
-exports.N = N;
-exports.v = v;
-exports.u = u;
-exports.h = h;
-exports.g = g;
-exports.gg = gg;
+module.exports = {
+  N,
+  v,
+  u,
+  h,
+  g,
+  gg,
+}
 /* No side effect */

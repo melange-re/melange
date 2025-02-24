@@ -4,5 +4,7 @@
 
 const $$return = 5;
 
-exports.$$return = $$return;
+module.exports = {
+  $$return,
+}
 /* No side effect */

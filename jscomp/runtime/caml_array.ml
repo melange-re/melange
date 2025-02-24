@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 external dup : 'a array -> (_[@mel.as 0]) -> 'a array = "slice" [@@mel.send]
 
 let%private { unsafe_get = ( .!() ); unsafe_set = ( .!()<- ) } =

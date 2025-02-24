@@ -6,5 +6,7 @@ function Make(U) {
   return U;
 }
 
-exports.Make = Make;
+module.exports = {
+  Make,
+}
 /* No side effect */

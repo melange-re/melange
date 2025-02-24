@@ -1,6 +1,6 @@
 { lib
 , mkShell
-, nodejs_latest
+, nodejs
 , packages
 , system
 , yarn
@@ -25,7 +25,7 @@ mkShell {
     ocaml-lsp
     merlin
     python3
-    nodejs_latest
+    nodejs
     yarn
     nodePackages.mocha
     js_of_ocaml-compiler
@@ -33,6 +33,7 @@ mkShell {
     cacert
     curl
     ocamlPackages.dune-release
+    ocamlPackages.odoc
     git
   ]);
   shellHook = ''

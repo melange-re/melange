@@ -27,7 +27,11 @@
 val reset : unit -> unit
 
 val add_js_module :
-  Melange_ffi.External_ffi_types.module_bind_name -> string -> bool -> Ident.t
+  Melange_ffi.External_ffi_types.module_bind_name ->
+  string ->
+  default:bool ->
+  dynamic_import:bool ->
+  Ident.t
 (**
   [add_js_module hint_name module_name]
   Given a js module name and hint name, assign an id to it
@@ -59,11 +63,23 @@ val add_js_module :
    pay attention to for those modules are actually used or not
 *)
 
-val query_external_id_info : Ident.t -> string -> Js_cmj_format.keyed_cmj_value
-(**
-  [query_external_id_info id pos env found]
-  will raise if not found
-*)
+val query_external_id_info :
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  Js_cmj_format.keyed_cmj_value option
+(** [query_external_id_info module_id name]
+
+  Note: This function checks whether there's inlining information available for
+  the lambda being compiled.
+
+  The fallback case (deopt) happens in 2 scenarios:
+
+    1. there's no inlining information available in the `.cmj` file
+    2. there's no `.cmj` file available. This can happen if we're compiling a
+    dune virtual library where one of the modules uses a binding from any of
+    its virtual modules. Because we're programming against the interface file
+    at this point, we must emit the deoptimized expression too. *)
 
 val is_pure_module : Lam_module_ident.t -> bool
 

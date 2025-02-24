@@ -11,10 +11,12 @@ console.log(f["Content-Type"]);
 function ff(x) {
   x["Content-Type"] = "hello";
   console.log(({
-          "Content-Type": "hello"
-        })["Content-Type"]);
+    "Content-Type": "hello"
+  })["Content-Type"]);
 }
 
-exports.f = f;
-exports.ff = ff;
+module.exports = {
+  f,
+  ff,
+}
 /*  Not a pure module */

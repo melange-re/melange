@@ -16,31 +16,31 @@ function c_x(param) {
 
 function d_int(param_0) {
   return {
-          TAG: /* D_int */0,
-          _0: param_0
-        };
+    TAG: /* D_int */ 0,
+    _0: param_0
+  };
 }
 
 function d_tuple(param_0, param_1) {
   return {
-          TAG: /* D_tuple */1,
-          _0: param_0,
-          _1: param_1
-        };
+    TAG: /* D_tuple */ 1,
+    _0: param_0,
+    _1: param_1
+  };
 }
 
 function newContent(param_0) {
   return {
-          TAG: /* NewContent */2,
-          _0: param_0
-        };
+    TAG: /* NewContent */ 2,
+    _0: param_0
+  };
 }
 
 function d_tweak(param_0) {
   return {
-          TAG: /* D_tweak */3,
-          _0: param_0
-        };
+    TAG: /* D_tweak */ 3,
+    _0: param_0
+  };
 }
 
 function u_X(param) {
@@ -52,24 +52,24 @@ function d(param) {
 }
 
 const v = {
-  TAG: /* D_int */0,
+  TAG: /* D_int */ 0,
   _0: 3
 };
 
 const h_1 = {
   hd: {
-    TAG: /* D_int */0,
+    TAG: /* D_int */ 0,
     _0: 3
   },
   tl: {
     hd: {
-      TAG: /* D_tuple */1,
+      TAG: /* D_tuple */ 1,
       _0: 3,
       _1: "hgo"
     },
     tl: {
       hd: {
-        TAG: /* D_tweak */3,
+        TAG: /* D_tweak */ 3,
         _0: [
           3,
           "hgo"
@@ -77,49 +77,53 @@ const h_1 = {
       },
       tl: {
         hd: {
-          TAG: /* NewContent */2,
+          TAG: /* NewContent */ 2,
           _0: "3"
         },
-        tl: /* [] */0
+        tl: /* [] */ 0
       }
     }
   }
 };
 
 const h = {
-  hd: /* D_empty */0,
+  hd: /* D_empty */ 0,
   tl: h_1
 };
 
 function xx(param_0) {
-  return /* Xx */{
-          _0: param_0
-        };
+  return {
+    TAG: /* Xx */ 0,
+    _0: param_0
+  };
 }
 
 function a(param_0) {
-  return /* A */{
-          _0: param_0
-        };
+  return {
+    TAG: /* A */ 0,
+    _0: param_0
+  };
 }
 
-const d_empty = /* D_empty */0;
+const d_empty = /* D_empty */ 0;
 
-const hei = /* Hei */0;
+const hei = /* Hei */ 0;
 
-exports.u_x = u_x;
-exports.b_x = b_x;
-exports.c_x = c_x;
-exports.d_empty = d_empty;
-exports.d_int = d_int;
-exports.d_tuple = d_tuple;
-exports.newContent = newContent;
-exports.d_tweak = d_tweak;
-exports.hei = hei;
-exports.u_X = u_X;
-exports.d = d;
-exports.v = v;
-exports.h = h;
-exports.xx = xx;
-exports.a = a;
+module.exports = {
+  u_x,
+  b_x,
+  c_x,
+  d_empty,
+  d_int,
+  d_tuple,
+  newContent,
+  d_tweak,
+  hei,
+  u_X,
+  d,
+  v,
+  h,
+  xx,
+  a,
+}
 /* No side effect */

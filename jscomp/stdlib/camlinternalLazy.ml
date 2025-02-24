@@ -48,7 +48,6 @@ let is_val (type a ) (l : a lazy_t) : bool =
 
 let forward_with_closure (type a ) (blk : a concrete) (closure : unit -> a [@u]) : a =
   let result = closure () [@u] in
-  (* do set_field BEFORE set_tag *)
   blk.value <- result;
   blk.tag<- true;
   result

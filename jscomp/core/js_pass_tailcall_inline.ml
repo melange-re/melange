@@ -183,7 +183,8 @@ let subst (export_set : Ident.Set.t)
               Return
                 {
                   expression_desc =
-                    Call ({ expression_desc = Var (Id id); _ }, args, _info);
+                    Call
+                      { expr = { expression_desc = Var (Id id); _ }; args; _ };
                   _;
                 };
             _;
@@ -196,7 +197,7 @@ let subst (export_set : Ident.Set.t)
                      Some
                        {
                          expression_desc =
-                           Fun (false, params, block, env, _return_unit);
+                           Fun { method_ = false; params; body = block; env; _ };
                          comment = _;
                          _;
                        };
@@ -208,7 +209,7 @@ let subst (export_set : Ident.Set.t)
                    ident = _;
                  } as v)
               when List.same_length params args ->
-                Js_op_util.update_used_stats v.ident_info Dead_pure;
+                Js_op.update_used_stats v.ident_info Dead_pure;
                 let no_tailcall = Js_fun_env.no_tailcall env in
                 let processed_blocks =
                   self.block self block
@@ -230,13 +231,17 @@ let subst (export_set : Ident.Set.t)
                {
                  expression_desc =
                    Call
-                     ( {
-                         expression_desc =
-                           Fun (false, params, block, env, _return_unit);
-                         _;
-                       },
-                       args,
-                       _info );
+                     {
+                       expr =
+                         {
+                           expression_desc =
+                             Fun
+                               { method_ = false; params; body = block; env; _ };
+                           _;
+                         };
+                       args;
+                       _;
+                     };
                  _;
                };
            _;

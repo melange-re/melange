@@ -24,7 +24,7 @@
 
 open Import
 
-(** Define intemediate format to be serialized for cross module optimization *)
+(** Define intermediate format to be serialized for cross module optimization *)
 
 (** In this module,
     currently only arity information is  exported,
@@ -50,19 +50,19 @@ type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
 type cmj_value = {
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
       (* Either constant or closed functor *)
 }
 
 type keyed_cmj_value = {
   name : string;
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
 }
 
 type t = {
   values : keyed_cmj_value array;
-  effect : string option;
+  effect_ : string option;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
@@ -70,7 +70,7 @@ type t = {
 
 val make :
   values:cmj_value String.Map.t ->
-  effect:string option ->
+  effect_:string option ->
   package_spec:Js_packages_info.t ->
   case:Js_packages_info.file_case ->
   delayed_program:J.deps_program ->

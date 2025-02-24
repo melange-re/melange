@@ -94,7 +94,7 @@ module Types = struct
   and t =
     | Lvar of ident
     | Lmutvar of ident
-    | Lglobal_module of ident
+    | Lglobal_module of { id : ident; dynamic_import : bool }
     | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
@@ -144,7 +144,7 @@ module X = struct
   and t = Types.t =
     | Lvar of ident
     | Lmutvar of ident
-    | Lglobal_module of ident
+    | Lglobal_module of { id : ident; dynamic_import : bool }
     | Lconst of Constant.t
     | Lapply of apply
     | Lfunction of lfunction
@@ -191,7 +191,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       Lmutlet (id, arg, body)
   | Lletrec (decl, body) ->
       let body = f body in
-      let decl = List.map_snd decl f in
+      let decl = List.map_snd decl ~f in
       Lletrec (decl, body)
   | Lglobal_module _ -> (l : X.t)
   | Lprim { args; primitive; loc } ->
@@ -208,8 +208,8 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           sw_names;
         } ) ->
       let arg = f arg in
-      let sw_consts = List.map_snd sw_consts f in
-      let sw_blocks = List.map_snd sw_blocks f in
+      let sw_consts = List.map_snd sw_consts ~f in
+      let sw_blocks = List.map_snd sw_blocks ~f in
       let sw_failaction = Option.map f sw_failaction in
       Lswitch
         ( arg,
@@ -223,7 +223,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
           } )
   | Lstringswitch (arg, cases, default) ->
       let arg = f arg in
-      let cases = List.map_snd cases f in
+      let cases = List.map_snd cases ~f in
       let default = Option.map f default in
       Lstringswitch (arg, cases, default)
   | Lstaticraise (id, args) ->
@@ -366,8 +366,11 @@ let rec apply fn args (ap_info : ap_info) : t =
 
 let rec eq_approx (l1 : t) (l2 : t) =
   match l1 with
-  | Lglobal_module i1 -> (
-      match l2 with Lglobal_module i2 -> Ident.same i1 i2 | _ -> false)
+  | Lglobal_module { id = i1; dynamic_import = d1 } -> (
+      match l2 with
+      | Lglobal_module { id = i2; dynamic_import = d2 } ->
+          Ident.same i1 i2 && d1 = d2
+      | _ -> false)
   | Lvar i1 -> ( match l2 with Lvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lmutvar i1 -> ( match l2 with Lmutvar i2 -> Ident.same i1 i2 | _ -> false)
   | Lconst c1 -> (
@@ -410,7 +413,7 @@ let rec eq_approx (l1 : t) (l2 : t) =
       | Lstringswitch (arg2, patterns2, default2) ->
           eq_approx arg arg2 && eq_option default default2
           && List.for_all2_no_exn patterns patterns2
-               (fun ((k : string), v) (k2, v2) -> k = k2 && eq_approx v v2)
+               ~f:(fun ((k : string), v) (k2, v2) -> k = k2 && eq_approx v v2)
       | _ -> false)
   | Lfunction _
   | Llet (_, _, _, _)
@@ -429,7 +432,7 @@ and eq_option l1 l2 =
   | None -> l2 = None
   | Some l1 -> ( match l2 with Some l2 -> eq_approx l1 l2 | None -> false)
 
-and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 eq_approx
+and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 ~f:eq_approx
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
@@ -480,7 +483,7 @@ let rec seq (a : t) b : t =
 
 let var id : t = Lvar id
 let mutvar id : t = Lmutvar id
-let global_module id = Lglobal_module id
+let global_module ~dynamic_import id = Lglobal_module { id; dynamic_import }
 let const ct : t = Lconst ct
 
 let function_ ~attr ~arity ~params ~body : t =
@@ -623,7 +626,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                 Lprim
                   {
                     primitive = Pfield (pos, Fld_module { name = f1 });
-                    args = [ (Lglobal_module v1 | Lvar v1) ];
+                    args = [ (Lglobal_module { id = v1; _ } | Lvar v1) ];
                     _;
                   }
                 :: args ) ->
@@ -636,7 +639,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
               Lprim
                 {
                   primitive = Pfield (pos, Fld_module { name = f1 });
-                  args = [ ((Lglobal_module v1 | Lvar v1) as lam) ];
+                  args = [ ((Lglobal_module { id = v1; _ } | Lvar v1) as lam) ];
                   _;
                 }
               :: args1 ) ->
@@ -648,7 +651,8 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                { x0 : y0 ; x1 : y1 }
              ]}
              such module x can indeed be replaced by module y
-          *))
+          *)
+          )
       | _ -> default ())
 
 let not_ loc x : t =
@@ -803,59 +807,3 @@ let sequor l r = if_ l true_ r
 
 (* [l && r ] *)
 let sequand l r = if_ l r false_
-
-(*********************************)
-(* only [handle_mel_non_obj_ffi] will be used outside *)
-(*
-   [no_auto_uncurried_arg_types xs]
-   check if the FFI have @uncurry attribute.
-   if it does not we wrap it in a nomral way otherwise
-*)
-let rec no_auto_uncurried_arg_types (xs : Melange_ffi.External_arg_spec.params)
-    =
-  match xs with
-  | [] -> true
-  | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
-  | _ :: xs -> no_auto_uncurried_arg_types xs
-
-let result_wrap loc
-    (result_type : Melange_ffi.External_ffi_types.return_wrapper) result =
-  match result_type with
-  | Return_replaced_with_unit -> seq result unit
-  | Return_null_to_opt -> prim ~primitive:Pnull_to_opt ~args:[ result ] loc
-  | Return_null_undefined_to_opt ->
-      prim ~primitive:Pnull_undefined_to_opt ~args:[ result ] loc
-  | Return_undefined_to_opt ->
-      prim ~primitive:Pundefined_to_opt ~args:[ result ] loc
-  | Return_unset | Return_identity -> result
-
-let rec transform_uncurried_arg_type loc
-    (arg_types : Melange_ffi.External_arg_spec.params) (args : t list) =
-  match (arg_types, args) with
-  | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
-      let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
-      ( { Melange_ffi.External_arg_spec.arg_type = Nothing; arg_label }
-        :: o_arg_types,
-        prim ~primitive:(Pjs_fn_make n) ~args:[ y ] loc :: o_args )
-  | x :: xs, y :: ys -> (
-      match x with
-      | { arg_type = Arg_cst _; _ } ->
-          let o_arg_types, o_args = transform_uncurried_arg_type loc xs args in
-          (x :: o_arg_types, o_args)
-      | _ ->
-          let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
-          (x :: o_arg_types, y :: o_args))
-  | ([], [] | _ :: _, [] | [], _ :: _) as ok -> ok
-
-let handle_mel_non_obj_ffi (arg_types : Melange_ffi.External_arg_spec.params)
-    (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi args loc
-    prim_name =
-  if no_auto_uncurried_arg_types arg_types then
-    result_wrap loc result_type
-      (prim ~primitive:(Pjs_call { prim_name; arg_types; ffi }) ~args loc)
-  else
-    let n_arg_types, n_args = transform_uncurried_arg_type loc arg_types args in
-    result_wrap loc result_type
-      (prim
-         ~primitive:(Pjs_call { prim_name; arg_types = n_arg_types; ffi })
-         ~args:n_args loc)

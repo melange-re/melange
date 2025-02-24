@@ -24,31 +24,13 @@
 
 include StdLabels.List
 
-external ( .!() ) : 'a array -> int -> 'a = "%array_unsafe_get"
-
-let rec map_combine l1 l2 f =
+let rec map_combine l1 l2 ~f =
   match (l1, l2) with
   | [], [] -> []
-  | a1 :: l1, a2 :: l2 -> (f a1, a2) :: map_combine l1 l2 f
+  | a1 :: l1, a2 :: l2 -> (f a1, a2) :: map_combine l1 l2 ~f
   | _, _ -> invalid_arg "List.map_combine"
 
-let rec arr_list_combine_unsafe arr l i j acc f =
-  if i = j then acc
-  else
-    match l with
-    | [] -> invalid_arg "List.combine"
-    | h :: tl ->
-        (f arr.!(i), h) :: arr_list_combine_unsafe arr tl (i + 1) j acc f
-
-let map_combine_array_append arr l acc f =
-  let len = Stdlib.Array.length arr in
-  arr_list_combine_unsafe arr l 0 len acc f
-
-let map_combine_array arr l f =
-  let len = Stdlib.Array.length arr in
-  arr_list_combine_unsafe arr l 0 len [] f
-
-let rec map_snd l f =
+let rec map_snd l ~f =
   match l with
   | [] -> []
   | [ (v1, x1) ] ->
@@ -75,9 +57,10 @@ let rec map_snd l f =
       let y3 = f x3 in
       let y4 = f x4 in
       let y5 = f x5 in
-      (v1, y1) :: (v2, y2) :: (v3, y3) :: (v4, y4) :: (v5, y5) :: map_snd tail f
+      (v1, y1) :: (v2, y2) :: (v3, y3) :: (v4, y4) :: (v5, y5)
+      :: map_snd tail ~f
 
-let rec map_last l f =
+let rec map_last l ~f =
   match l with
   | [] -> []
   | [ x1 ] ->
@@ -104,12 +87,12 @@ let rec map_last l f =
       let y2 = f false x2 in
       let y3 = f false x3 in
       let y4 = f false x4 in
-      y1 :: y2 :: y3 :: y4 :: map_last tail f
+      y1 :: y2 :: y3 :: y4 :: map_last tail ~f
 
-let rec fold_left_with_offset l accu i f =
+let rec fold_left_with_offset l ~init:accu ~off:i ~f =
   match l with
   | [] -> accu
-  | a :: l -> fold_left_with_offset l (f a accu i) (i + 1) f
+  | a :: l -> fold_left_with_offset l ~init:(f a accu i) ~off:(i + 1) ~f
 
 let rec same_length xs ys =
   match (xs, ys) with
@@ -175,9 +158,9 @@ let stable_group =
         if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
     | _ :: _ -> assert false
   in
-  fun lst eq -> group eq lst |> Stdlib.List.rev
+  fun lst ~equal -> group equal lst |> Stdlib.List.rev
 
-let rec rev_iter l f =
+let rec rev_iter l ~f =
   match l with
   | [] -> ()
   | [ x1 ] -> f x1
@@ -194,20 +177,20 @@ let rec rev_iter l f =
       f x2;
       f x1
   | x1 :: x2 :: x3 :: x4 :: x5 :: tail ->
-      rev_iter tail f;
+      rev_iter tail ~f;
       f x5;
       f x4;
       f x3;
       f x2;
       f x1
 
-let rec for_all2_no_exn l1 l2 p =
+let rec for_all2_no_exn l1 l2 ~f =
   match (l1, l2) with
   | [], [] -> true
-  | a1 :: l1, a2 :: l2 -> p a1 a2 && for_all2_no_exn l1 l2 p
+  | a1 :: l1, a2 :: l2 -> f a1 a2 && for_all2_no_exn l1 l2 ~f
   | _, _ -> false
 
-let rec split_map l f =
+let rec split_map l ~f =
   match l with
   | [] -> ([], [])
   | [ x1 ] ->
@@ -234,5 +217,5 @@ let rec split_map l f =
       let a3, b3 = f x3 in
       let a4, b4 = f x4 in
       let a5, b5 = f x5 in
-      let ass, bss = split_map tail f in
+      let ass, bss = split_map tail ~f in
       (a1 :: a2 :: a3 :: a4 :: a5 :: ass, b1 :: b2 :: b3 :: b4 :: b5 :: bss)

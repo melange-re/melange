@@ -27,11 +27,20 @@
 type t = Node.buffer
 
 type encoding =
-  [ `ascii | `utf8 | `utf16le | `usc2 | `base64 | `latin1 | `binary | `hex ]
+  [ `ascii
+  | `utf8
+  | `utf16le
+  | `ucs2
+  | `base64
+  | `base64url
+  | `latin1
+  | `binary
+  | `hex ]
 
 external isBuffer : 'a -> bool = "isBuffer" [@@mel.scope "Buffer"]
+external fromString : string -> t = "from" [@@mel.scope "Buffer"]
 
-external fromString : ?encoding:encoding -> string -> t = "from"
+external fromStringWithEncoding : string -> encoding:encoding -> t = "from"
 [@@mel.scope "Buffer"]
 
 external toString : ?encoding:encoding -> string = "toString"

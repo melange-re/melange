@@ -24,10 +24,6 @@
 
 type global
 
-open struct
-  module Js = Js_internal
-end
-
 let getGlobalThis : (unit -> global[@u]) =
   [%raw
     {| function(){

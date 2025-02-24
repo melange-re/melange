@@ -10,5 +10,7 @@ const u = {
   lo4: -3
 };
 
-exports.u = u;
+module.exports = {
+  u,
+}
 /* No side effect */

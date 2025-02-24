@@ -1,5 +1,5 @@
 (* [@@@mel.config {flags = [|
-  "-bs-package-output"; "es6:."
+  "-mel-package-output"; "es6:."
 |]}]
 *)
 (* FIXME it does not work*)

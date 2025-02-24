@@ -1,10 +1,12 @@
-(lang dune 3.8)
+(lang dune 3.13)
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 
 (using menhir 2.1)
 
 (using melange 0.1)
+
+(using directory-targets 0.1)
 
 (executables_implicit_empty_intf true)
 
@@ -32,21 +34,18 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (>= "5.1"))
+   (and (>= "5.3") (< "5.4")))
   (cmdliner
    (>= "1.1.0"))
   dune-build-info
   (cppo :build)
   (ounit :with-test)
   (reason
-   (and
-    :with-test
-    (>= "3.9.0")))
+   (and :dev :with-test))
   (ppxlib
    (>= "0.30.0"))
   (menhir
    (>= 20201214))
-  pp
   (reason-react-ppx
    (and :with-test :post))
   (merlin :with-test)))

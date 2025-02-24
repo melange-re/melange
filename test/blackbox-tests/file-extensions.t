@@ -14,7 +14,6 @@ Specify the output filename with `-o`
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 
 Try other extensions
@@ -26,7 +25,6 @@ Try other extensions
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 
   $ melc -impl x.ml -o x.ml.js
@@ -36,7 +34,6 @@ Try other extensions
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 
   $ melc -impl x.ml -o x.melange.js
@@ -46,7 +43,6 @@ Try other extensions
   
   
   console.log("hello");
-  
   /*  Not a pure module */
 
   $ rm *

@@ -29,11 +29,13 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
+    | Deprecated_send_pipe
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
+    | Deprecated_send_pipe -> "deprecated"
 
   let pp fmt t =
     match t with
@@ -51,27 +53,20 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
+    | Deprecated_send_pipe ->
+        Format.fprintf fmt
+          "[@mel.send.pipe] is deprecated and will be removed in the next \
+           version of Melange"
 end
 
-let warn =
+let warn_raw =
   let module Location = Ocaml_common.Location in
-  fun ~loc t ->
+  fun ~loc ~kind message ->
     Location.prerr_alert loc
-      {
-        Ocaml_common.Warnings.kind = Warnings.kind t;
-        message = Format.asprintf "%a" Warnings.pp t;
-        def = Location.none;
-        use = loc;
-      }
+      { Ocaml_common.Warnings.kind; message; def = Location.none; use = loc }
 
-let is_mel_attribute txt =
-  let len = String.length txt in
-  (len = 1 && String.unsafe_get txt 0 = 'u')
-  || len >= 5
-     && String.unsafe_get txt 0 = 'm'
-     && String.unsafe_get txt 1 = 'e'
-     && String.unsafe_get txt 2 = 'l'
-     && String.unsafe_get txt 3 = '.'
+let warn ~loc t =
+  warn_raw ~loc ~kind:(Warnings.kind t) (Format.asprintf "%a" Warnings.pp t)
 
 let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16
@@ -83,7 +78,11 @@ let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     : unit =
   if
-    is_mel_attribute txt && (not loc.loc_ghost)
+    (* XXX(anmonteiro): the `not loc.loc_ghost` expression is holding together
+     e.g. the fact that we don't emit unused attribute warnings for
+     `mel.internal.ffi` *)
+    Melange_ffi.External_ffi_attributes.is_mel_attribute txt
+    && (not loc.loc_ghost)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)
   then warn ~loc (Unused_attribute txt)
 

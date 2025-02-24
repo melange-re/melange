@@ -24,7 +24,7 @@
 
 open Import
 
-let ( // ) = Path.( // )
+let ( // ) = Paths.( // )
 
 type file_case = Uppercase | Lowercase
 type output_info = { module_system : Module_system.t; suffix : Js_suffix.t }
@@ -206,8 +206,22 @@ let add_npm_package_path (t : t) ?module_name s =
 
 let is_lower_case c =
   (c >= 'a' && c <= 'z')
-  || (c >= (* à *) '\224' && c <= (* ö *) '\246')
-  || (c >= (* ø *) '\248' && c <= (* ÿ *) '\255')
+  || c
+     >=
+     (* à *)
+     '\224'
+     && c
+        <=
+        (* ö *)
+        '\246'
+  || c
+     >=
+     (* ø *)
+     '\248'
+     && c
+        <=
+        (* ÿ *)
+        '\255'
 
 let module_case t ~output_prefix =
   let module_name =

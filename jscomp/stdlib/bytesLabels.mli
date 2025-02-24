@@ -332,9 +332,9 @@ val ends_with :
     This section describes unsafe, low-level conversion functions
     between [bytes] and [string]. They do not copy the internal data;
     used improperly, they can break the immutability invariant on
-    strings provided by the [-safe-string] option. They are available for
-    expert library authors, but for most purposes you should use the
-    always-correct {!to_string} and {!of_string} instead.
+    strings. They are available for expert library authors, but for
+    most purposes you should use the always-correct {!to_string} and
+    {!of_string} instead.
 *)
 
 val unsafe_to_string : bytes -> string
@@ -460,6 +460,7 @@ let s = Bytes.of_string "hello"
 val split_on_char: sep:char -> bytes -> bytes list
 (** [split_on_char sep s] returns the list of all (possibly empty)
     subsequences of [s] that are delimited by the [sep] character.
+    If [s] is empty, the result is the singleton list [[empty]].
 
     The function's output is specified by the following invariants:
 

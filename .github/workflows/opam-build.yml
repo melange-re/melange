@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    # Prime the caches every Monday
-    - cron: 0 1 * * MON
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,9 +20,10 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
+          - ubuntu-22.04-arm
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - ocaml-base-compiler.5.1.1
+          - ocaml-base-compiler.5.3.0
 
     runs-on: ${{ matrix.os }}
 
@@ -33,13 +31,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
           path: melange
 
       - name: Use Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install Homebrew dependencies
         if: ${{ matrix.os == 'macos-latest' }}
@@ -47,9 +45,18 @@ jobs:
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: Restore OPAM cache
+        id: opam-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.opam
+            ~/work/melange/melange/_opam
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
 
       - name: Install dependencies
         working-directory: melange
@@ -65,8 +72,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
-          opam pin add reason-react-ppx.dev git+https://github.com/reasonml/reason-react
-          opam pin add reason-react.dev git+https://github.com/reasonml/reason-react
+          opam install -y reason-react
           npm install
 
       - name: Build basic template
@@ -78,4 +84,13 @@ jobs:
       - name: Run resulting .js files
         working-directory: melange-opam-template
         run: |
-          node ./_build/default/src/node/src/Hello.js
+          node ./_build/default/src/node/src/Hello.mjs
+
+      - name: Save OPAM cache
+        uses: actions/cache/save@v4
+        if: steps.opam-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            ~/.opam
+            ~/work/melange/melange/_opam
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}

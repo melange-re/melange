@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 (* borrowed from others/js_math.ml *)
 external _LOG2E : float = "Math.LOG2E"
 external _LOG10E : float = "Math.LOG10E"
@@ -112,8 +110,8 @@ let caml_log1p_float : float -> float = function x ->
 
 let caml_hypot_float (x : float) (y : float) : float =
   let x0, y0 = (abs_float x, abs_float y) in
-  let a = Pervasives.max x0 y0 in
-  let b = Pervasives.min x0 y0 /. if a <> 0. then a else 1. in
+  let a = Stdlib.max x0 y0 in
+  let b = Stdlib.min x0 y0 /. if a <> 0. then a else 1. in
   a *. sqrt (1. +. (b *. b))
 
 let caml_log10_float (x : float) : float = _LOG10E *. log x

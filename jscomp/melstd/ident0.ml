@@ -139,7 +139,14 @@ let name_mangle name =
    a valid js identifier
 *)
 let convert (name : string) =
-  if Js_reserved_map.is_reserved name then "$$" ^ name else name_mangle name
+  if Js_reserved_map.is_reserved name then (
+    let len = String.length name in
+    let b = Bytes.create (2 + len) in
+    Bytes.set b 0 '$';
+    Bytes.set b 1 '$';
+    Bytes.blit_string ~src:name ~src_pos:0 ~dst:b ~dst_pos:2 ~len;
+    Bytes.unsafe_to_string b)
+  else name_mangle name
 
 (** keyword could be used in property *)
 
@@ -160,3 +167,16 @@ let compare (x : Ident.t) (y : Ident.t) =
 let equal (x : Ident.t) (y : Ident.t) =
   if stamp x <> 0 then stamp x = stamp y
   else stamp y = 0 && Ident.name x = Ident.name y
+
+module Mangled = struct
+  type t = Reserved of string | Mangled of string
+
+  let of_ident (id : Ident.t) : t =
+    if is_js id then (* reserved by compiler *)
+      Reserved (Ident.name id)
+    else
+      let id_name = Ident.name id in
+      Mangled (convert id_name)
+
+  let to_string = function Reserved name | Mangled name -> name
+end

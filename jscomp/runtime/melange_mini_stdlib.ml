@@ -56,16 +56,13 @@ module Obj = struct
   external field : t -> int -> t = "%obj_field"
   external set_field : t -> int -> t -> unit = "%obj_set_field"
   external tag : t -> int = "caml_obj_tag"
-
-  (* The compiler ensures (|0) operation *)
-  external set_tag : t -> int -> unit = "TAG" [@@mel.set]
   external repr : 'a -> t = "%identity"
   external obj : t -> 'a = "%identity"
   external magic : 'a -> 'b = "%identity"
   external size : t -> int = "#obj_length"
 end
 
-module Pervasives = struct
+module Stdlib = struct
   external compare : 'a -> 'a -> int = "%compare"
   external not : bool -> bool = "%boolnot"
   external min : 'a -> 'a -> 'a = "%bs_min"

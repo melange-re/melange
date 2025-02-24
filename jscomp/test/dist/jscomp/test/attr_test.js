@@ -16,13 +16,15 @@ const hh = max2(1, 2);
 
 function f(x) {
   des(x, (function () {
-          console.log("hei");
-        }));
+    console.log("hei");
+  }));
 }
 
-exports.u = u;
-exports.h = h;
-exports.max2 = max2;
-exports.hh = hh;
-exports.f = f;
+module.exports = {
+  u,
+  h,
+  max2,
+  hh,
+  f,
+}
 /* h Not a pure module */

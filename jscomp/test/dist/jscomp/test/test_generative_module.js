@@ -4,14 +4,16 @@
 
 function M($star) {
   return {
-          v: 3
-        };
+    v: 3
+  };
 }
 
 const V = {
   v: 3
 };
 
-exports.M = M;
-exports.V = V;
+module.exports = {
+  M,
+  V,
+}
 /* No side effect */

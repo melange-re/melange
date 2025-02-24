@@ -26,20 +26,24 @@ open Import
 
 type pointer_info =
   | None
-  | Pt_constructor of {
-      name : string;
-      const : int;
-      non_const : int;
-      attributes : Parsetree.attributes;
-    }
+  | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
   | Some of string
 
-let string_of_pointer_info (x : pointer_info) : string option =
+let comment_of_pointer_info (x : pointer_info) : string option =
   match x with
-  | Some name | Pt_constructor { name; _ } -> Some name
+  | Some name -> Some name
+  | Pt_constructor { name = { Lambda.name; _ }; _ } -> Some name
   | Pt_assertfalse -> Some "assert_false"
   | None -> None
+
+let modifier_of_pointer_info (x : pointer_info) : Lambda.as_modifier option =
+  match x with
+  | Pt_constructor { name = { as_modifier = Some modifier; _ }; _ } ->
+      Some modifier
+  | Pt_constructor { name = { as_modifier = None; _ }; _ }
+  | Pt_assertfalse | Some _ | None ->
+      None
 
 type t =
   | Const_js_null
@@ -80,11 +84,11 @@ let rec eq_approx (x : t) (y : t) =
   | Const_block (ix, _, ixs) -> (
       match y with
       | Const_block (iy, _, iys) ->
-          ix = iy && List.for_all2_no_exn ixs iys eq_approx
+          ix = iy && List.for_all2_no_exn ixs iys ~f:eq_approx
       | _ -> false)
   | Const_float_array ixs -> (
       match y with
-      | Const_float_array iys -> List.for_all2_no_exn ixs iys String.equal
+      | Const_float_array iys -> List.for_all2_no_exn ixs iys ~f:String.equal
       | _ -> false)
   | Const_some ix -> (
       match y with Const_some iy -> eq_approx ix iy | _ -> false)

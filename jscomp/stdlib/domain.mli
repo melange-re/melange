@@ -12,11 +12,19 @@
 (*                                                                        *)
 (*   All rights reserved.  This file is distributed under the terms of    *)
 (*   the GNU Lesser General Public License version 2.1, with the          *)
-(*   special exception on linking described in the LICENSE file           *)
-(*   of the OCaml distribution:                                           *)
-(*     https://github.com/ocaml/ocaml/blob/4.14.0/LICENSE                 *)
+(*   special exception on linking described in the file LICENSE.          *)
 (*                                                                        *)
 (**************************************************************************)
+
+[@@@alert unstable
+    "The Domain interface may change in incompatible ways in the future."
+]
+
+(** Domains.
+
+    See 'Parallel programming' chapter in the manual.
+
+    @since 5.0 *)
 
 type !'a t
 (** A domain of type ['a t] runs independently, eventually producing a
@@ -24,7 +32,10 @@ type !'a t
 
 val spawn : (unit -> 'a) -> 'a t
 (** [spawn f] creates a new domain that runs in parallel with the
-    current domain. *)
+    current domain.
+
+    @raise Failure if the program has insufficient resources to create another
+    domain. *)
 
 val join : 'a t -> 'a Js.Promise.t
 (** [join d] blocks until domain [d] runs to completion. If [d] results in a
@@ -53,24 +64,19 @@ val at_exit : (unit -> unit) -> unit
 (** [at_exit f] registers [f] to be called when the current domain exits. Note
     that [at_exit] callbacks are domain-local and only apply to the calling
     domain. The registered functions are called in 'last in, first out' order:
-    the function most recently added with [at_exit] is called first.
-
-    The [at_exit] function can be used in combination with [at_each_spawn] to
-    clean up domain-local resources. Consider the following example:
+    the function most recently added with [at_exit] is called first. An example:
 
     {[
 let temp_file_key = Domain.DLS.new_key (fun _ ->
-  snd (Filename.open_temp_file "" ""))
-
-let _ = Domain.(at_each_spawn (fun _ ->
-  at_exit (fun _ -> close_out (DLS.get temp_file_key))))
+  let tmp = snd (Filename.open_temp_file "" "") in
+  Domain.at_exit (fun () -> close_out_noerr tmp);
+  tmp)
     ]}
 
-    The snippet above uses domain-local state ({!Domain.DLS}) to create a
-    temporary file for each domain. The [at_each_spawn] callback installs an
-    [at_exit] callback on each domain which closes the temporary file when the
-    domain terminates.
-    *)
+    The snippet above creates a key that when retrieved for the first
+    time will open a temporary file and register an [at_exit] callback
+    to close it, thus guaranteeing the descriptor is not leaked in
+    case the current domain exits. *)
 
 val cpu_relax : unit -> unit
 (** If busy-waiting, calling cpu_relax () between iterations
@@ -85,6 +91,18 @@ val recommended_domain_count : unit -> int
 
     The value returned is at least [1]. *)
 
+val self_index : unit -> int
+(** The index of the current domain. It is an integer unique among
+    currently-running domains, in the interval [0; N-1] where N is the
+    peak number of domains running simultaneously so far.
+
+    The index of a terminated domain may be reused for a new
+    domain. Use [(Domain.self () :> int)] instead for an identifier
+    unique among all domains ever created by the program.
+
+    @since 5.3
+*)
+
 module DLS : sig
 (** Domain-local Storage *)
 
@@ -95,13 +113,43 @@ module DLS : sig
     (** [new_key f] returns a new key bound to initialiser [f] for accessing
         domain-local variables.
 
-        If [split_from_parent] is provided, spawning a domain will derive the
-        child value (for this key) from the parent value.
+        If [split_from_parent] is not provided, the value for a new
+        domain will be computed on-demand by the new domain: the first
+        [get] call will call the initializer [f] and store that value.
 
-        Note that the [split_from_parent] call is computed in the parent
-        domain, and is always computed regardless of whether the child domain
-        will use it. If the splitting function is expensive or requires
-        client-side computation, consider using ['a Lazy.t key].
+        {b Warning.} [f] may be called several times if another call
+        to [get] occurs during initialization on the same domain. Only
+        the 'first' value computed will be used, the other now-useless
+        values will be discarded. Your initialization function should
+        support this situation, or contain logic to detect this case
+        and fail.
+
+        If [split_from_parent] is provided, spawning a domain will
+        derive the child value (for this key) from the parent
+        value. This computation happens in the parent domain and it
+        always happens, regardless of whether the child domain will
+        use it.
+        If the splitting function is expensive or requires
+        child-side computation, consider using ['a Lazy.t key]:
+
+        {[
+        let init () = ...
+
+        let split_from_parent parent_value =
+          ... parent-side computation ...;
+          lazy (
+            ... child-side computation ...
+          )
+
+        let key = Domain.DLS.new_key ~split_from_parent init
+
+        let get () = Lazy.force (Domain.DLS.get key)
+        ]}
+
+        In this case a part of the computation happens on the child
+        domain; in particular, it can access [parent_value]
+        concurrently with the parent domain, which may require
+        explicit synchronization to avoid data races.
     *)
 
     val get : 'a key -> 'a

@@ -33,17 +33,17 @@
   
   
   const person1 = {
-    TAG: /* Teacher */0,
+    TAG: /* Teacher */ 0,
     age: 12345
   };
   
   let message;
   
-  if (person1.TAG === /* Teacher */0) {
+  if (person1.TAG === /* Teacher */ 0) {
     message = "b";
   } else {
     let tmp = 12345;
-    message = typeof tmp === "number" || tmp.TAG === /* Vacations */0 ? "a" : "b";
+    message = /* tag */ typeof tmp === "number" || typeof tmp === "string" || tmp.TAG === /* Vacations */ 0 ? "a" : "b";
   }
   
   const Test1 = {
@@ -51,5 +51,7 @@
     message: message
   };
   
-  exports.Test1 = Test1;
+  module.exports = {
+    Test1,
+  }
   /* message Not a pure module */

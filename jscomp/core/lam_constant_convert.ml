@@ -24,6 +24,14 @@
 
 open Import
 
+let modifier ~name attributes =
+  if name = "[]" then { Lambda.name; as_modifier = None }
+  else
+    match Record_attributes_check.find_mel_as_name attributes with
+    | Some (String s) -> { Lambda.name; as_modifier = Some (String s) }
+    | Some (Int modifier) -> { name; as_modifier = Some (Int modifier) }
+    | None -> { name; as_modifier = None }
+
 let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   match const with
   | Const_base
@@ -42,7 +50,9 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
           Const_int
             {
               i = Int32.of_int i;
-              comment = Pt_constructor { name; const; non_const; attributes };
+              comment =
+                Pt_constructor
+                  { name = modifier ~name attributes; const; non_const };
             }
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
@@ -71,6 +81,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
           let t : Lam.Tag_info.t =
             Blk_constructor { name; num_nonconst; attributes }
           in
+          (* TODO: *)
           Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_tuple ->
           let t : Lam.Tag_info.t = Blk_tuple in
@@ -112,9 +123,9 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Blk_na s ->
           let t : Lam.Tag_info.t = Blk_na s in
           Const_block (i, t, List.map ~f:convert_constant xs)
-      | Blk_record_inlined { name; fields; num_nonconst } ->
+      | Blk_record_inlined { name; fields; num_nonconst; attributes } ->
           let t : Lam.Tag_info.t =
-            Blk_record_inlined { name; fields; num_nonconst }
+            Blk_record_inlined { name; fields; num_nonconst; attributes }
           in
           Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_record_ext s ->

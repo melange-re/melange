@@ -24,4 +24,5 @@
 
 open Import
 
+val modifier : name:string -> Parsetree.attribute list -> Lambda.cstr_name
 val convert_constant : Lambda.structured_constant -> Lam.Constant.t

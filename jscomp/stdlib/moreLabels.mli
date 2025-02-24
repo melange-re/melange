@@ -60,9 +60,11 @@ module Hashtbl : sig
 
   (** {b Unsynchronized accesses} *)
 
+  [@@@warning "-53"]
   [@@@alert unsynchronized_access
       "Unsynchronized accesses to hash tables are a programming error."
   ]
+  [@@@warning "+53"]
 
    (**
       Unsynchronized accesses to a hash table may lead to an invalid hash table
@@ -79,11 +81,12 @@ module Hashtbl : sig
 
   val create : ?random: (* thwart tools/sync_stdlib_docs *) bool ->
                int -> ('a, 'b) t
-  (** [Hashtbl.create n] creates a new, empty hash table, with
-     initial size [n].  For best results, [n] should be on the
-     order of the expected number of elements that will be in
-     the table.  The table grows as needed, so [n] is just an
-     initial guess.
+  (** [Hashtbl.create n] creates a new, empty hash table, with initial
+     size greater or equal to the suggested size [n].  For best results,
+     [n] should be on the order of the expected number of elements that
+     will be in the table.  The table grows as needed, so [n] is just an
+     initial guess.  If [n] is very small or negative then it is
+     disregarded and a small default size is used.
 
      The optional [~random] parameter (a boolean) controls whether
      the internal organization of the hash table is randomized at each

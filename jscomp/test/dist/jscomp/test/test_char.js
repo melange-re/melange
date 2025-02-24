@@ -10,5 +10,7 @@ function caml_is_printable(c) {
   }
 }
 
-exports.caml_is_printable = caml_is_printable;
+module.exports = {
+  caml_is_printable,
+}
 /* No side effect */

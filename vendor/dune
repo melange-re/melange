@@ -1,52 +1,40 @@
 (data_only_dirs melange-compiler-libs)
 
 (subdir
+ gen
+ (rule
+  (targets optional_5_2_modules.txt)
+  (action
+   (with-stdout-to
+    %{targets}
+    (echo value_rec_types)))
+  (enabled_if
+   (>= %{ocaml_version} 5.2.0)))
+ (rule
+  (targets optional_5_2_modules.txt)
+  (action
+   (with-stdout-to
+    %{targets}
+    (echo "()")))
+  (enabled_if
+   (< %{ocaml_version} 5.2.0))))
+
+(subdir
  melange-compiler-libs
- (subdir
-  wrapper
-  (library
-   (name melange_wrapper)
-   (package melange)
-   (libraries compiler-libs.common)
-   (modules_without_implementation melange_wrapper)))
- (subdir
-  lib
-  ;; the `#` directive breaks menhir
-  (copy_files ../parsing/*)
-  (copy_files# ../utils/*)
-  (copy_files# ../file_formats/*)
-  (copy_files# ../lambda/*)
-  (copy_files# ../typing/*)
-  (library
-   (name melange_compiler_libs)
-   (package melange)
-   (flags -w -9)
-   (libraries menhirLib melange_wrapper)
-   (modules_without_implementation annot outcometree parsetree))
-  (ocamllex
-   (modules lexer)
-   (mode fallback))
-  (menhir
-   (modules parser)
-   ; flag reference:
-   ; https://github.com/ocaml/ocaml/blob/f0a1be6f0/Makefile.menhir#L76-L82
-   (flags
-    --lalr
-    --explain
-    --dump
-    --require-aliases
-    --strict
-    --table
-    -lg
-    1
-    -la
-    1
-    --unused-token
-    COMMENT
-    --unused-token
-    DOCSTRING
-    --unused-token
-    EOL
-    --unused-token
-    GREATERRBRACKET
-    --fixed-exception))))
+ (dirs wrapper lib parsing utils file_formats lambda typing)
+ (include_subdirs unqualified)
+ (library
+  (name melange_wrapper)
+  (package melange)
+  (libraries compiler-libs.common)
+  (modules melange_wrapper)
+  (modules_without_implementation melange_wrapper))
+ (library
+  (name melange_compiler_libs)
+  (package melange)
+  (flags -w -9)
+  (libraries menhirLib melange_wrapper)
+  (modules :standard \ melange_wrapper)
+  (modules_without_implementation
+   annot
+   (:include ../gen/optional_5_2_modules.txt))))

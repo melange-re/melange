@@ -22,13 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
 (** *)
 
 type symbol
 (**Js symbol type only available in ES6 *)
 
-type bigint_val = Js_bigint.t
+type bigint_val
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
@@ -64,10 +63,12 @@ type tagged_t =
   | JSSymbol of symbol
   | JSBigInt of bigint_val
 
+external js_null : 'a t = "#null"
+
 let classify (x : 'a) : tagged_t =
-  let ty = Js_internal.typeof x in
+  let ty = Js.typeof x in
   if ty = "undefined" then JSUndefined
-  else if x == Obj.magic Js_null.empty then JSNull
+  else if x == Obj.magic js_null then JSNull
   else if ty = "number" then JSNumber (Obj.magic x)
   else if ty = "bigint" then JSBigInt (Obj.magic x)
   else if ty = "string" then JSString (Obj.magic x)
@@ -78,12 +79,12 @@ let classify (x : 'a) : tagged_t =
 
 let test (type a) (x : 'a) (v : a t) : bool =
   match v with
-  | Number -> Js_internal.typeof x = "number"
-  | Boolean -> Js_internal.typeof x = "boolean"
-  | Undefined -> Js_internal.typeof x = "undefined"
-  | Null -> x == Obj.magic Js_null.empty
-  | String -> Js_internal.typeof x = "string"
-  | Function -> Js_internal.typeof x = "function"
-  | Object -> Js_internal.typeof x = "object"
-  | Symbol -> Js_internal.typeof x = "symbol"
-  | BigInt -> Js_internal.typeof x = "bigint"
+  | Number -> Js.typeof x = "number"
+  | Boolean -> Js.typeof x = "boolean"
+  | Undefined -> Js.typeof x = "undefined"
+  | Null -> x == Obj.magic js_null
+  | String -> Js.typeof x = "string"
+  | Function -> Js.typeof x = "function"
+  | Object -> Js.typeof x = "object"
+  | Symbol -> Js.typeof x = "symbol"
+  | BigInt -> Js.typeof x = "bigint"

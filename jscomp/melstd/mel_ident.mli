@@ -24,9 +24,17 @@
 
 (** A wrapper around [Ident] module in compiler-libs *)
 
-include module type of struct
-  include Ident
-end
+type t = Ident.t
+
+val name : t -> string
+val same : t -> t -> bool
+val create_local : string -> t
+val create_persistent : string -> t
+val rename : t -> t
+val print : Format.formatter -> t -> unit
+val is_predef : t -> bool
+val reinit : unit -> unit
+val global : t -> bool
 
 module Map = Map_ident
 module Set = Set_ident
@@ -50,3 +58,10 @@ val convert : string -> string
 val is_js_or_global : t -> bool
 val compare : t -> t -> int
 val equal : t -> t -> bool
+
+module Mangled : sig
+  type t = Reserved of string | Mangled of string
+
+  val of_ident : Ident.t -> t
+  val to_string : t -> string
+end

@@ -8,17 +8,17 @@ function ff(x) {
     case "0" :
     case "1" :
     case "2" :
-        a = 3;
-        break;
+      a = 3;
+      break;
     case "3" :
-        a = 4;
-        break;
+      a = 4;
+      break;
     case "4" :
-        a = 6;
-        break;
+      a = 6;
+      break;
     case "7" :
-        a = 7;
-        break;
+      a = 7;
+      break;
     default:
       a = 8;
   }
@@ -27,7 +27,7 @@ function ff(x) {
 
 function f(x) {
   let y;
-  y = x.TAG === /* A */0 ? 3 : 4;
+  y = x.TAG === /* A */ 0 ? 3 : 4;
   return y + 32 | 0;
 }
 
@@ -35,7 +35,7 @@ function f2(x) {
   let v = 0;
   let y;
   v = 1;
-  if (x.TAG === /* A */0) {
+  if (x.TAG === /* A */ 0) {
     const z = 33;
     y = z + 3 | 0;
   } else {
@@ -49,12 +49,14 @@ function f3(x) {
   let v = 0;
   let y;
   v = 1;
-  y = x.TAG === /* A */0 ? 3 : 4;
+  y = x.TAG === /* A */ 0 ? 3 : 4;
   return y + 32 | 0;
 }
 
-exports.ff = ff;
-exports.f = f;
-exports.f2 = f2;
-exports.f3 = f3;
+module.exports = {
+  ff,
+  f,
+  f2,
+  f3,
+}
 /* No side effect */

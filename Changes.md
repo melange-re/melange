@@ -1,6 +1,158 @@
 Unreleased
 ---------------
 
+- Support `Sys.opaque_identity` to turn off optimizations
+  ([#1276](https://github.com/melange-re/melange/pull/1276))
+- Update JS reserved keywords
+  ([#1338](https://github.com/melange-re/melange/pull/1338))
+
+5.0.1-53 2025-02-23
+---------------
+
+- Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
+  `[@mel.as ".."]` arguments
+  ([#1328](https://github.com/melange-re/melange/pull/1328))
+- Allow skipping over `[@mel.as ".."]` constant arguments in `[@mel.send]` in
+  the absence of `@mel.this`
+  ([#1328](https://github.com/melange-re/melange/pull/1328))
+- core: fix missed function argument fusion optimization on OCaml versions 5.2
+  and above, caused by [ocaml/ocaml#12236](https://github.com/ocaml/ocaml/pull/12236) generating
+  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR. This
+  issue, while partially fixed in Melange 5.0.0, didn't account for default
+  arguments ([#1253](https://github.com/melange-re/melange/issues/1253),
+  [#1334](https://github.com/melange-re/melange/issues/1334)).
+
+5.0.0-53 2025-02-09
+---------------
+
+- Make the `unprocessed` alert fatal by default
+  ([#1135](https://github.com/melange-re/melange/pull/1135))
+- support `-H` for hidden include dirs in OCaml 5.2
+  ([#1137](https://github.com/melange-re/melange/pull/1137))
+- support `[@mel.*]` attributes in uncurried externals
+  ([#1140](https://github.com/melange-re/melange/pull/1140))
+- add Worker types to `melange.dom`
+  ([#1147](https://github.com/melange-re/melange/pull/1147))
+- Add support for dynamic `import()`
+  ([#1164](https://github.com/melange-re/melange/pull/1164))
+- Fix code generation of custom `true` / `false` constructors
+  ([#1175](https://github.com/melange-re/melange/pull/1175))
+- Fix code generation of OCaml objects that refers to an init variable in scope
+  ([#1183](https://github.com/melange-re/melange/pull/1183))
+- Support `[@mel.as "string"]` in variant definitions
+  ([#884](https://github.com/melange-re/melange/pull/884))
+- BREAKING: remove `[@@deriving jsConverter]` for variant definitions
+  ([#884](https://github.com/melange-re/melange/pull/884)). Use `[@mel.as
+  "string here"]` instead.
+- Support OCaml 5.3 ([#1168](https://github.com/melange-re/melange/pull/1168))
+- Upgrade Stdlib to the OCaml 5.3 Stdlib
+  ([#1182](https://github.com/melange-re/melange/pull/1182))
+- Support `[@mel.tag "the_tag"]` in variant definitions
+  ([#1189](https://github.com/melange-re/melange/pull/1189))
+  - combined with `[@mel.as ..]` in variant definitions and inline record
+    payloads, Melange can now express types for discriminated union object
+    shapes.
+- melange-ppx: don't silence warning 20 (`ignored-extra-argument`) for
+  `%mel.raw` application
+  ([#1166](https://github.com/melange-re/melange/pull/1166)).
+  - This change reverts the behavior introduced in
+    ([#915](https://github.com/melange-re/melange/pull/915)).
+  - The new recommendation is to annotate `%mel.raw` functions or disable
+    warning 20 at the project level.
+- ppx,core: propagate internal FFI information via attributes instead of adding
+  marshalled data in the native primitive name
+  ([#1222](https://github.com/melange-re/melange/pull/1222))
+- melange-ppx: allow `@mel.unwrap` polyvariants not to have a payload
+  ([#1239](https://github.com/melange-re/melange/pull/1239))
+- `melange.node`: fix `Buffer.fromString` and add
+  `Buffer.fromStringWithEncoding`
+  ([#1246](https://github.com/melange-re/melange/pull/1246))
+- `melange.node`: bind to all supported Node.js `Buffer` encodings in
+  `Node.Buffer` ([#1246](https://github.com/melange-re/melange/pull/1246))
+- `melange.js`: Add `Js.FormData` with bindings to the
+  [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) API
+  ([#1153](https://github.com/melange-re/melange/pull/1153),
+  [#1270](https://github.com/melange-re/melange/pull/1270),
+  [#1281](https://github.com/melange-re/melange/pull/1281)
+- `melange.js`: Add `Js.Blob` and `Js.File` with bindings to the
+  [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) and
+  [File](https://developer.mozilla.org/en-US/docs/Web/API/File) APIs
+  ([#1218](https://github.com/melange-re/melange/pull/1218))
+- `melange.js`: add `TypedArray` types at the toplevel in the `Js` module
+  ([#1248](https://github.com/melange-re/melange/pull/1248))
+- BREAKING: remove `--mel-g`
+  ([#1234](https://github.com/melange-re/melange/pull/1234))
+- runtime(`melange.js`): port `[@mel.send.pipe]` functions to `[@mel.send]`,
+  taking advantage of the `@mel.send` + labeled argument improvement (see
+  above) ([#1260](https://github.com/melange-re/melange/pull/1260),
+  [#1264](https://github.com/melange-re/melange/pull/1264),
+  [#1265](https://github.com/melange-re/melange/pull/1265),
+  [#1266](https://github.com/melange-re/melange/pull/1266),
+  [#1280](https://github.com/melange-re/melange/pull/1280),
+  [#1278](https://github.com/melange-re/melange/pull/1278))
+- core: fix a crash related to finding constructor names in pattern matching triggered by dune's earlier implementation of `(implicit_transitive_deps false)`
+  ([#1238](https://github.com/melange-re/melange/pull/1238),
+  [#1262](https://github.com/melange-re/melange/pull/1262))
+- core: pre-compute the closure param map for functions inlined with
+  `--mel-cross-module-opt`
+  ([#1219](https://github.com/melange-re/melange/pull/1219))
+- BREAKING: ppx: print the `deprecated` alert for `@@deriving abstract` at the
+  declaration site rather than at (all) usages
+  ([#1269](https://github.com/melange-re/melange/pull/1269))
+- JS generation: prettify `for` loops
+  ([#1275](https://github.com/melange-re/melange/pull/1275))
+- JS generation: improve formatting for `throw` and `return` statements, JS
+  objects ([#1286](https://github.com/melange-re/melange/pull/1286),
+  [#1289](https://github.com/melange-re/melange/pull/1289))
+- JS generation: improve formatting for empty return and continue statements
+  ([#1288](https://github.com/melange-re/melange/pull/1288))
+- JS generation: remove trailing spaces before commas in `export`
+  ([#1287](https://github.com/melange-re/melange/pull/1287))
+- JS generation: remove redundant switch cases branches
+  ([#1295](https://github.com/melange-re/melange/pull/1295))
+- JS generation: move space before comma inside `for` definition
+  ([#1296](https://github.com/melange-re/melange/pull/1296))
+- JS generation: add space before while loop condition
+  ([#1297](https://github.com/melange-re/melange/pull/1297))
+- JS generation: improve indentation of parenthesized blocks
+  ([#1293](https://github.com/melange-re/melange/pull/1293))
+- JS generation: add space after constructor comments
+  ([#1294](https://github.com/melange-re/melange/pull/1294))
+- JS generation: improve identation of `switch` cases
+  ([#1299](https://github.com/melange-re/melange/pull/1299))
+- JS generation: don't generate empty `default:` cases in `switch`
+  ([#1300](https://github.com/melange-re/melange/pull/1300))
+- JS generation: emit `module.exports` in CommonJS instead of `exports.x`
+  ([#1314](https://github.com/melange-re/melange/pull/1314))
+- JS generation: remove trailing newline after `switch`
+  ([#1313](https://github.com/melange-re/melange/pull/1313))
+- ffi: allow annotating `@mel.send` FFI with `@mel.this` to specify which
+  parameter should represent the "self" argument.
+  ([#1303](https://github.com/melange-re/melange/pull/1285),
+  [#1310](https://github.com/melange-re/melange/pull/1310))
+  - This improvement to the FFI allows expressing more FFI constructs via
+    labeled and optionally labeled arguments, e.g. `external foo: value:string
+    -> (t [@mel.this]) -> unit = "foo" [@@mel.send]` will now produce
+    `t.foo(value)` instead of `value.foo(t)`.
+  - It also allows removing usages of `[@mel.send.pipe: t]` in favor of
+    `[@mel.send]` with `[@mel.this]`, including when used with `@mel.variadic`.
+- ppx: deprecate `[@mel.send.pipe]`
+  ([#1321](https://github.com/melange-re/melange/pull/1321))
+- core: fix missed optimization on OCaml versions 5.2 and above, caused by
+  [ocaml/ocaml#12236](https://github.com/ocaml/ocaml/pull/12236) generating
+  multiple function nodes for `fun a -> fun b -> ...` in the Lambda IR
+  ([#1253](https://github.com/melange-re/melange/issues/1253),
+   [#1323](https://github.com/melange-re/melange/issues/1323)).
+
+4.0.1 2024-06-07
+---------------
+
+- Support `-bin-annot-occurrences` on OCaml 5.2
+  ([#1132](https://github.com/melange-re/melange/pull/1132))
+
+4.0.0 2024-05-15
+---------------
+
 - CLI: passing `--eval` to `melc` now works as expected
   ([#1040](https://github.com/melange-re/melange/pull/1040))
 - runtime: add some bindings to `Js.Bigint`
@@ -17,6 +169,39 @@ Unreleased
 - runtime: add bindings to `Js.Set`
   ([#1047](https://github.com/melange-re/melange/pull/1047))
 - runtime: add minimal bindings for JS iterators ([#1060](https://github.com/melange-re/melange/pull/1060))
+- core: in compiled JS, emit `const` for variables that Melange knows aren't
+  going to be reassigned
+  ([#1019](https://github.com/melange-re/melange/pull/1019),
+  [#1059](https://github.com/melange-re/melange/pull/1059)).
+- runtime: add minimal bindings for JS iterators
+  ([#1060](https://github.com/melange-re/melange/pull/1060))
+- core: handle missing `.cmj` when compiling dune virtual libraries
+  ([#1067](https://github.com/melange-re/melange/pull/1067), fixes
+  [#658](https://github.com/melange-re/melange/issues/658))
+- core: print lambda IR after TRMC pass when `--drawlambda` is passed
+  ([#1072](https://github.com/melange-re/melange/pull/1072))
+- core: remove unnecessary internal code from melange-compiler-libs, slimming
+  down the melange executable and speeding up the build
+  ([#1075](https://github.com/melange-re/melange/pull/1075))
+- core: implement warning 51 in Melange (`wrong-tailcall-expectation`)
+    - This warning had previously been disabled entirely in the typechecker
+      version that Melange uses. It becomes more important with TRMC support
+      added in Melange 2.1.0.
+- core: accept `esm{,-global}` in addition to `es6{,-global}` for
+  `--mel-module-type`; accept `--mel-module-system` in addition to
+  `--mel-module-type` too
+  ([#1086](https://github.com/melange-re/melange/pull/1086)).
+- core: upgrade the OCaml type checker version to OCaml 5.2
+  ([#1074](https://github.com/melange-re/melange/pull/1074))
+- core: upgrade the Stdlib to match OCaml 5.2's
+  ([#1078](https://github.com/melange-re/melange/pull/1078))
+- runtime: add bindings for functions in `WeakMap` and `WeakSet`
+  ([#1058](https://github.com/melange-re/melange/pull/1058))
+- runtime: add bindings to `Js.Map`
+  ([#1101](https://github.com/melange-re/melange/pull/1101))
+- core: fix a recursive module code generation bug when submodule names inside
+  recursive modules are mangled
+  ([#1111](https://github.com/melange-re/melange/pull/1111))
 
 3.0.0 2024-01-28
 ---------------

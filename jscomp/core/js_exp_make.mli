@@ -48,7 +48,13 @@ val runtime_var_dot :
 
 (* val runtime_var_vid : string -> string -> J.vident *)
 
-val ml_var_dot : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t
+val ml_var_dot :
+  ?loc:Location.t ->
+  ?comment:string ->
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  t
 (** [ml_var_dot ocaml_module name]
 *)
 
@@ -56,6 +62,7 @@ val external_var_field :
   ?loc:Location.t ->
   ?comment:string ->
   external_name:string ->
+  dynamic_import:bool ->
   Ident.t ->
   field:string ->
   default:bool ->
@@ -65,26 +72,23 @@ val external_var_field :
 *)
 
 val external_var :
-  ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
+  ?loc:Location.t ->
+  ?comment:string ->
+  external_name:string ->
+  dynamic_import:bool ->
+  Ident.t ->
+  t
 
-val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
+val ml_module_as_var :
+  ?loc:Location.t -> ?comment:string -> dynamic_import:bool -> Ident.t -> t
 
-val runtime_call :
-  string -> (* module_name *)
-            string -> (* fn_name *)
-                      t list -> (* args *)
-                                t
-
-val pure_runtime_call :
-  string -> (* module_name *)
-            string -> (* fn_name *)
-                      t list -> (* args *)
-                                t
-
+val runtime_call : module_name:string -> fn_name:string -> t list -> t
+val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
 val runtime_ref : string -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
-val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
+val str : ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
+val module_ : ?loc:Location.t -> ?comment:string -> J.module_id -> t
 
 val ocaml_fun :
   ?loc:Location.t ->
@@ -171,6 +175,7 @@ val assign_by_int : ?loc:Location.t -> ?comment:string -> t -> int32 -> t -> t
 
 val assign_by_exp : t -> t -> t -> t
 val assign : ?loc:Location.t -> ?comment:string -> t -> t -> t
+val as_value : ?comment:string -> Import.Lambda.as_modifier -> t
 val triple_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 (* TODO: reduce [triple_equal] use *)
 
@@ -185,6 +190,7 @@ val neq_null_undefined_boolean :
   ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val is_type_number : ?loc:Location.t -> ?comment:string -> t -> t
+val is_tag : t -> t
 val is_type_string : ?loc:Location.t -> ?comment:string -> t -> t
 val typeof : ?loc:Location.t -> ?comment:string -> t -> t
 val to_int32 : ?loc:Location.t -> ?comment:string -> t -> t
@@ -289,7 +295,9 @@ val unit : t
 (** [unit] in ocaml will be compiled into [0]  in js *)
 
 val undefined : t
-val tag : ?loc:Location.t -> ?comment:string -> J.expression -> t
+
+val tag :
+  ?loc:Location.t -> ?comment:string -> ?name:string -> J.expression -> t
 
 (** Note that this is coupled with how we encode block, if we use the
     `Object.defineProperty(..)` since the array already hold the length,

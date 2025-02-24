@@ -14,5 +14,7 @@ function unuse_v(param) {
 
 const h = unuse_v;
 
-exports.h = h;
+module.exports = {
+  h,
+}
 /*  Not a pure module */

@@ -12,7 +12,9 @@ const b = 4;
 
 const c = 3;
 
-exports.a = a;
-exports.b = b;
-exports.c = c;
+module.exports = {
+  a,
+  b,
+  c,
+}
 /*  Not a pure module */

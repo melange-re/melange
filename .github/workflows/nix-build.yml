@@ -3,52 +3,34 @@ name: Nix Pipeline
 on:
   pull_request:
   push:
-   branches:
-     - main
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  ubuntu-tests:
+  nix-build-test:
     name: Build and test (Ubuntu)
 
     strategy:
       matrix:
-        ocaml-version:
-          - 5_1
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - macos-13
+          - macos-14
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
-    - uses: cachix/install-nix-action@v25
-      with:
-        extra_nix_config: |
-          extra-substituters = https://anmonteiro.nix-cache.workers.dev
-          extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
-    - name: "Run nix-build"
-      run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
-
-  macos-tests:
-    name: Build and test (macOS)
-
-    strategy:
-      matrix:
-        ocaml-version:
-          - 5_1
-
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
-    - uses: cachix/install-nix-action@v25
-      with:
-        extra_nix_config: |
-          extra-substituters = https://anmonteiro.nix-cache.workers.dev
-          extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
-    - name: "Run nix-build"
-      run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
+      - uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-substituters = https://anmonteiro.nix-cache.workers.dev
+            extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
+      - name: "Run nix-build"
+        run: nix flake check -L

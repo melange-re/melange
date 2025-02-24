@@ -27,15 +27,15 @@ open Melstd
 
 type t = {
   include_dirs : string list;
+  hidden_include_dirs : string list;
   alerts : string list;
   warnings : string list;
   output_name : string option;
   ppx : string list;
   open_modules : string list;
   bs_package_output : string list;
-  bs_module_type : Module_system.t option;
+  mel_module_system : Module_system.t option;
   bs_syntax_only : bool;
-  bs_g : bool;
   bs_package_name : string option;
   bs_module_name : string option;
   as_ppx : bool;
@@ -88,12 +88,18 @@ type t = {
   bs_stop_after_cmj : bool;
   runtime : string option;
   filenames : string list;
+  store_occurrences : bool;
 }
 
 let include_dirs =
   let doc = "Add $(docv) to the list of include directories" in
   let docv = "dir" in
   Arg.(value & opt_all string [] & info [ "I" ] ~doc ~docv)
+
+let hidden_include_dirs =
+  let doc = "Add $(docv) to the list of \"hidden\" include directories" in
+  let docv = "dir" in
+  Arg.(value & opt_all string [] & info [ "H" ] ~doc ~docv)
 
 let alerts =
   let doc =
@@ -140,10 +146,6 @@ let open_modules =
 let bs_syntax_only =
   let doc = "Only check syntax" in
   Arg.(value & flag & info [ "bs-syntax-only"; "mel-syntax-only" ] ~doc)
-
-let bs_g =
-  let doc = "Debug mode" in
-  Arg.(value & flag & info [ "bs-g"; "mel-g" ] ~doc)
 
 let bs_package_name =
   let doc = "Set package name, useful when you want to produce npm packages" in
@@ -259,7 +261,7 @@ module Internal = struct
       value & opt_all string []
       & info [ "bs-package-output"; "mel-package-output" ] ~doc)
 
-  let bs_module_type =
+  let mel_module_system =
     let module_system_conv =
       let parse m =
         match Module_system.of_string m with
@@ -267,14 +269,16 @@ module Internal = struct
         | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
       in
       let print fmt ms = Format.fprintf fmt "%s" (Module_system.to_string ms) in
-      Arg.conv ~docv:"method" (parse, print)
+      Arg.conv ~docv:"module system" (parse, print)
     in
     let doc = "Specify the module type for JS imports" in
     let docv = "module-type" in
     Arg.(
       value
       & opt (some module_system_conv) None
-      & info [ "bs-module-type"; "mel-module-type" ] ~doc ~docv)
+      & info
+          [ "bs-module-type"; "mel-module-type"; "mel-module-system" ]
+          ~doc ~docv)
 
   let as_ppx =
     let doc = "*internal* As ppx for editor integration" in
@@ -443,6 +447,15 @@ let filenames =
   let docv = "filenames" in
   Arg.(value & pos_all string [] & info [] ~docv)
 
+let store_occurrences =
+  let doc =
+    "Store every occurrence of a bound name in the .cmt file.\n\
+     This information can be used by external tools to provide\n\
+     features such as project-wide occurrences. This flag has\n\
+     no effect in the absence of '-bin-annot'."
+  in
+  Arg.(value & flag & info [ "bin-annot-occurrences" ] ~doc)
+
 let help =
   let doc =
     "Show this help. The format is pager or plain whenever the TERM env var is \
@@ -458,28 +471,28 @@ module Compat = struct
   let c = Arg.(value & flag & info [ "c" ] ~doc)
 end
 
-let parse help include_dirs alerts warnings output_name ppx open_modules
-    bs_package_output bs_module_type bs_syntax_only bs_g bs_package_name
-    bs_module_name as_ppx as_pp no_alias_deps bs_gentype unboxed_types
-    bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
+let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
+    open_modules bs_package_output mel_module_system bs_syntax_only
+    bs_package_name bs_module_name as_ppx as_pp no_alias_deps bs_gentype
+    unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
     dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
     modules nolabels principal rectypes short_paths unsafe warn_help warn_error
-    bs_stop_after_cmj runtime filenames _c =
+    bs_stop_after_cmj runtime filenames _c store_occurrences =
   {
     help;
     include_dirs;
+    hidden_include_dirs;
     alerts;
     warnings;
     output_name;
     ppx;
     open_modules;
     bs_package_output;
-    bs_module_type;
+    mel_module_system;
     bs_syntax_only;
-    bs_g;
     bs_package_name;
     bs_module_name;
     as_ppx;
@@ -531,18 +544,20 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     bs_stop_after_cmj;
     runtime;
     filenames;
+    store_occurrences;
   }
 
 let cmd =
   Term.(
-    const parse $ help $ include_dirs $ alerts $ warnings $ output_name $ ppx
-    $ open_modules $ Internal.bs_package_output $ Internal.bs_module_type
-    $ bs_syntax_only $ bs_g $ bs_package_name $ bs_module_name $ Internal.as_ppx
-    $ Internal.as_pp $ Internal.no_alias_deps $ Internal.bs_gentype
-    $ unboxed_types $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
-    $ Internal.bs_eval $ Internal.bs_cmi_only $ Internal.bs_no_version_header
-    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ where $ verbose
-    $ keep_locs $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
+    const parse $ help $ include_dirs $ hidden_include_dirs $ alerts $ warnings
+    $ output_name $ ppx $ open_modules $ Internal.bs_package_output
+    $ Internal.mel_module_system $ bs_syntax_only $ bs_package_name
+    $ bs_module_name $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
+    $ Internal.bs_gentype $ unboxed_types $ Internal.bs_unsafe_empty_array
+    $ Internal.nostdlib $ color $ Internal.bs_eval $ Internal.bs_cmi_only
+    $ Internal.bs_no_version_header $ Internal.bs_cross_module_opt
+    $ Internal.bs_diagnose $ where $ verbose $ keep_locs
+    $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.g $ Internal.opaque $ preamble
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
@@ -550,7 +565,7 @@ let cmd =
     $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
     $ Internal.nolabels $ Internal.principal $ Internal.rectypes
     $ Internal.short_paths $ unsafe $ warn_help $ warn_error $ bs_stop_after_cmj
-    $ Internal.runtime $ filenames $ Compat.c)
+    $ Internal.runtime $ filenames $ Compat.c $ store_occurrences)
 
 let normalize_argv argv =
   let len = Array.length argv in

@@ -10,6 +10,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
+open Melange_compiler_libs
 open Melstd
 
 #ifndef BS_RELEASE_BUILD
@@ -36,7 +37,7 @@ let print_backtrace () =
 let set_abs_input_name sourcefile =
   let sourcefile =
     if !Clflags.absname && Filename.is_relative  sourcefile then
-      Path.absolute_cwd_path sourcefile
+      Paths.absolute_cwd_path sourcefile
     else sourcefile in
   Location.set_input_name sourcefile;
   sourcefile
@@ -111,9 +112,7 @@ let apply_lazy ~source ~target =
       output_value oc ast
   | Impl ast ->
       let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.structure =
-        let ast: Melange_compiler_libs.Parsetree.structure =
-          apply ~kind:Ml_binary.Ml ast
-        in
+        let ast = apply ~kind:Ml_binary.Ml ast in
         let ppxlib_ast: Melange_ast_version.Ast.Parsetree.structure =
           Obj.magic ast
         in
@@ -147,7 +146,7 @@ let anonymous =
       else
         begin
             if !Js_config.syntax_only then begin
-              List.rev_iter rev_args (fun filename ->
+              List.rev_iter rev_args ~f:(fun filename ->
                   begin
                     (* Clflags.reset_dump_state (); *)
                     (* Warnings.reset (); *)
@@ -209,15 +208,15 @@ let print_version_string () =
 let main: Melc_cli.t -> _ Cmdliner.Term.ret
     = fun {
       Melc_cli.include_dirs;
+      hidden_include_dirs;
       alerts;
       warnings;
       output_name;
       ppx;
       open_modules;
       bs_package_output;
-      bs_module_type;
+      mel_module_system;
       bs_syntax_only;
-      bs_g;
       bs_package_name;
       bs_module_name;
       as_ppx;
@@ -269,7 +268,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_stop_after_cmj;
       runtime = _;
       filenames;
-      help
+      help;
+      store_occurrences = _store_occurrences
     } ->
   let open Melangelib in
   if help then `Help (`Auto, None)
@@ -278,6 +278,13 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
+#if OCAML_VERSION >= (5,2,0)
+    Clflags.hidden_include_dirs :=
+      List.rev_append hidden_include_dirs !Clflags.hidden_include_dirs;
+#else
+    let _hidden_include_dirs = hidden_include_dirs in
+#endif
+
     List.iter ~f:Warnings.parse_alert_option alerts;
 
     List.iter warnings ~f:(fun w ->
@@ -294,12 +301,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-    if bs_g then Js_config.debug := bs_g;
-
     Option.iter Js_packages_state.set_package_name bs_package_name;
-    begin match bs_module_type, bs_package_output with
+    begin match mel_module_system, bs_package_output with
     | None, [] -> ()
-    | Some bs_module_type, [] ->
+    | Some mel_module_system, [] ->
       let suffix = match output_name with
         | Some output_name ->
           (match Filename.get_all_extensions_maybe output_name with
@@ -309,7 +314,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         | None ->
           raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
       in
-      Js_packages_state.set_output_info ~suffix bs_module_type
+      Js_packages_state.set_output_info ~suffix mel_module_system
     | None, bs_package_output ->
       List.iter
         ~f:(Js_packages_state.update_npm_package_path ?module_name:bs_module_name)
@@ -375,6 +380,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Js_config.preamble := preamble;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
+#if OCAML_VERSION >= (5,2,0)
+    if _store_occurrences then Clflags.store_occurrences := _store_occurrences;
+#endif
 
     Option.iter impl impl_source_file ;
     Option.iter intf intf_source_file ;
@@ -407,7 +415,12 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let args =
       ( List.map ~f:(fun (e: Parsetree.expression) ->
           match e.pexp_desc with
-          | Pexp_constant (Pconst_string(name,_,_)) -> name
+#if OCAML_VERSION >= (5, 3, 0)
+          | Pexp_constant { pconst_desc = Pconst_string(name,_,_); _ }
+#else
+          | Pexp_constant (Pconst_string(name,_,_))
+#endif
+            -> name
           | _ -> Location.raise_errorf ~loc:e.pexp_loc "Flags must be a literal array of strings") args)
     in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in

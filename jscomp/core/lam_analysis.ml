@@ -52,9 +52,10 @@ let rec no_side_effects (lam : Lam.t) : bool =
               (* non-observable side effect *)
               | "caml_sys_get_config" | "caml_sys_argv" (* should be fine *)
               | "caml_sys_executable_name" | "caml_string_repeat"
-              | "caml_make_vect" | "caml_create_bytes" | "caml_obj_dup"
-              | "caml_array_dup" | "nativeint_add" | "nativeint_div"
-              | "nativeint_mod" | "nativeint_lsr" | "nativeint_mul" ),
+              | "caml_make_vect" | "caml_array_make" | "caml_create_bytes"
+              | "caml_obj_dup" | "caml_array_dup" | "nativeint_add"
+              | "nativeint_div" | "nativeint_mod" | "nativeint_lsr"
+              | "nativeint_mul" ),
               _ ) ->
               true
           | "caml_ml_open_descriptor_in", [ Lconst (Const_int { i = 0l; _ }) ]
@@ -74,9 +75,9 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Pcreate_extension _ | Pjs_typeof | Pis_null | Pis_not_none | Psome
       | Psome_not_nest | Pis_undefined | Pis_null_undefined | Pnull_to_opt
       | Pundefined_to_opt | Pnull_undefined_to_opt | Pjs_fn_make _
-      | Pjs_object_create _ (* TODO: check *) | Pbytes_to_string
-      | Pbytes_of_string | Pmakeblock _ (* whether it's mutable or not *)
-      | Pfield _ | Pfield_computed | Pval_from_option
+      | Pjs_object_create _ | Pbytes_to_string | Pbytes_of_string
+      | Pmakeblock _ (* whether it's mutable or not *) | Pfield _
+      | Pfield_computed | Pval_from_option
       | Pval_from_option_not_nest
         (* NOP The compiler already [t option] is the same as t *)
       | Pduprecord _
@@ -113,7 +114,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
           true
       | Pjs_apply | Pjs_runtime_apply | Pjs_call _ | Pinit_mod | Pupdate_mod
       | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply
-      | Pjs_fn_method
+      | Pjs_fn_method | Pimport
       (* TODO *)
       | Praw_js_code _ | Pbytessetu | Pbytessets | Pbytes_set_16 _
       | Pbytes_set_32 _ | Pbytes_set_64 _
@@ -121,7 +122,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Parraysets
       (* byte swap *)
       | Pbswap16 | Pbbswap _ | Parraysetu | Poffsetref _ | Praise | Plazyforce
-      | Psetfield _ | Psetfield_computed ->
+      | Psetfield _ | Psetfield_computed | Popaque ->
           false)
   | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
       no_side_effects arg && no_side_effects body
@@ -279,8 +280,7 @@ let ok_to_inline_fun_when_app (m : Lam.lfunction) (args : Lam.t list) =
           || (args_all_const args && s < 10 && no_side_effects body))
 
 (* TODO:  We can relax this a bit later,
-    but decide whether to inline it later in the call site
-*)
+    but decide whether to inline it later in the call site *)
 let safe_to_inline (lam : Lam.t) =
   match lam with
   | Lfunction _ -> true

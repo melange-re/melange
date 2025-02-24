@@ -31,7 +31,7 @@ Demonstrate dune produces JS files corresponding to the original file name
   const t = 1;
   
   export {
-    x ,
-    t ,
+    x,
+    t,
   }
   /* No side effect */

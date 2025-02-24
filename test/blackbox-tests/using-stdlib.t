@@ -25,13 +25,13 @@ Check b.js output
   import * as Stdlib__List from "melange/list.js";
   
   const t = Stdlib__List.map((function (greeting) {
-          return greeting;
-        }), {
-        hd: "Hello",
-        tl: /* [] */0
-      });
+    return greeting;
+  }), {
+    hd: "Hello",
+    tl: /* [] */ 0
+  });
   
   export {
-    t ,
+    t,
   }
   /* t Not a pure module */

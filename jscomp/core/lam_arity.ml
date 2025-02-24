@@ -37,7 +37,7 @@ let equal (x : t) y =
   | Arity_info (xs, a) -> (
       match y with
       | Arity_info (ys, b) ->
-          a = b && List.for_all2_no_exn xs ys (fun x y -> x = y)
+          a = b && List.for_all2_no_exn xs ys ~f:(fun x y -> x = y)
       | Arity_na -> false)
 
 let pp = Format.fprintf

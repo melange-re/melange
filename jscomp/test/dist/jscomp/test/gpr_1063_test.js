@@ -22,9 +22,11 @@ function bla5(foo, x, y) {
   return foo.method1(x, y);
 }
 
-exports.bla = bla;
-exports.bla2 = bla2;
-exports.bla3 = bla3;
-exports.bla4 = bla4;
-exports.bla5 = bla5;
+module.exports = {
+  bla,
+  bla2,
+  bla3,
+  bla4,
+  bla5,
+}
 /* No side effect */

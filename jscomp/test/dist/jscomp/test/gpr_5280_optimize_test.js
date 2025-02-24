@@ -2,12 +2,17 @@
 'use strict';
 
 
-const a = /* Color */{
+const a = {
+  TAG: /* Color */ 0,
   _0: "#ffff"
 };
 
-const c = "white";
+let c;
 
-exports.a = a;
-exports.c = c;
-/* No side effect */
+c = /* tag */ typeof a === "number" || typeof a === "string" ? "orange" : "white";
+
+module.exports = {
+  a,
+  c,
+}
+/* c Not a pure module */

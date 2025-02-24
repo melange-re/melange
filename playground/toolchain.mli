@@ -1,6 +1,7 @@
 open Ppxlib
 module Js := Jsoo_runtime.Js
 
+val feed_string_with_newline : string -> Lexing.lexbuf
 val parseRE : Js.t -> Parsetree.structure * Reason_comment.t list
 val parseML : Js.t -> Parsetree.structure * Reason_comment.t list
 val printRE : Parsetree.structure * Reason_comment.t list -> Js.t

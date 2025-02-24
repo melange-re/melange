@@ -22,15 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Melange_mini_stdlib
-
 (** Provides functionality for dealing with the ['a Js.undefined] type *)
 
-type +'a t = 'a Js_internal.undefined
-
-open struct
-  module Js = Js_internal
-end
+type +'a t = 'a Js.undefined
 
 external toOption : 'a t -> 'a option = "#undefined_to_opt"
 external return : 'a -> 'a t = "%identity"
@@ -40,9 +34,15 @@ let testAny : 'a -> bool = fun x -> Obj.magic x = empty
 
 external getUnsafe : 'a t -> 'a = "%identity"
 
+module Exn = struct
+  external makeError : string -> 'a = "Error" [@@mel.new]
+
+  let raiseError str = raise (Obj.magic (makeError str) : exn)
+end
+
 let getExn f =
   match toOption f with
-  | None -> Js_exn.raiseError "Js.Undefined.getExn"
+  | None -> Exn.raiseError "Js.Undefined.getExn"
   | Some x -> x
 
 let map ~f x =

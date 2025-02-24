@@ -4,8 +4,8 @@
 
 function f(x) {
   return {
-          THIS_IS_NOT_EXPRESSIBLE_IN_BUCKLE: x
-        };
+    THIS_IS_NOT_EXPRESSIBLE_IN_BUCKLE: x
+  };
 }
 
 function set(x) {
@@ -20,15 +20,15 @@ function f1(u) {
 function f2(x) {
   x["x'"] = x["x'"] + 3 | 0;
   return {
-          "x'": x["x'"] + 3 | 0
-        };
+    "x'": x["x'"] + 3 | 0
+  };
 }
 
 function f3(x) {
   x.in = x.in + 3 | 0;
   return {
-          in: x.in + 3 | 0
-        };
+    in: x.in + 3 | 0
+  };
 }
 
 function f4(param) {
@@ -37,16 +37,18 @@ function f4(param) {
 
 function u(param) {
   return {
-          x: 22,
-          h: 3
-        };
+    x: 22,
+    h: 3
+  };
 }
 
-exports.f = f;
-exports.set = set;
-exports.f1 = f1;
-exports.f2 = f2;
-exports.f3 = f3;
-exports.f4 = f4;
-exports.u = u;
+module.exports = {
+  f,
+  set,
+  f1,
+  f2,
+  f3,
+  f4,
+  u,
+}
 /* No side effect */

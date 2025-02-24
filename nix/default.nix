@@ -5,7 +5,6 @@
 , git
 , tree
 , makeWrapper
-, nix-filter
 , nodejs
 , melange-compiler-libs-vendor-dir
 , doCheck ? true
@@ -18,22 +17,24 @@ buildDunePackage {
   version = "dev";
   duneVersion = "3";
 
-  src = with nix-filter; filter {
-    root = ./..;
-    include = [
-      "bin"
-      "dune-project"
-      "dune"
-      "jscomp"
-      "lib"
-      "melange.opam"
-      "ppx"
-      "test"
-      "scripts"
-      "vendor"
-    ];
-    exclude = [ "jscomp/test" ];
-  };
+  src =
+    let fs = lib.fileset; in
+    fs.toSource {
+      root = ./..;
+      fileset = fs.unions [
+        ../belt
+        ../bin
+        ../dune-project
+        ../dune
+        (fs.difference ../jscomp ../jscomp/test)
+        ../melange.opam
+        ../ppx
+        ../scripts
+        ../test
+        ../vendor
+      ];
+    };
+
   postPatch = ''
     rm -rf vendor/melange-compiler-libs
     mkdir -p ./vendor
@@ -45,9 +46,13 @@ buildDunePackage {
       --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange"
   '';
 
-  inherit doCheck;
+  doCheck = doCheck &&
+    # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
+    # x86_64-darwin?
+    !(stdenv.isDarwin && stdenv.isx86_64);
   nativeCheckInputs = [ tree nodejs reason jq merlin ];
   checkInputs = [ ounit2 ];
+  DUNE_CACHE = "disabled";
 
   nativeBuildInputs = [ menhir cppo git makeWrapper ];
   propagatedBuildInputs = [
@@ -55,7 +60,6 @@ buildDunePackage {
     cmdliner
     ppxlib
     menhirLib
-    pp
   ];
   meta.mainProgram = "melc";
 }

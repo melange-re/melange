@@ -50,7 +50,7 @@ external set : 'a array -> int -> 'a -> unit = "%array_safe_set"
    @raise Invalid_argument
    if [n] is outside the range 0 to [length a - 1]. *)
 
-external make : int -> 'a -> 'a array = "caml_make_vect"
+external make : int -> 'a -> 'a array = "caml_array_make"
 (** [make n x] returns a fresh array of length [n],
    initialized with [x].
    All the elements of this new array are initially
@@ -63,7 +63,7 @@ external make : int -> 'a -> 'a array = "caml_make_vect"
    If the value of [x] is a floating-point number, then the maximum
    size is only [Sys.max_array_length / 2].*)
 
-external create_float: int -> float array = "caml_make_float_vect"
+external create_float: int -> float array = "caml_array_create_float"
 (** [create_float n] returns a fresh float array of length [n],
     with uninitialized data.
     @since 4.03 *)
@@ -90,6 +90,21 @@ val make_matrix : int -> int -> 'a -> 'a array array
    greater than {!Sys.max_array_length}.
    If the value of [e] is a floating-point number, then the maximum
    size is only [Sys.max_array_length / 2]. *)
+
+val init_matrix : int -> int -> (int -> int -> 'a) -> 'a array array
+(** [init_matrix dimx dimy f] returns a two-dimensional array
+   (an array of arrays)
+   with first dimension [dimx] and second dimension [dimy],
+   where the element at index ([x,y]) is initialized with [f x y].
+   The element ([x,y]) of a matrix [m] is accessed
+   with the notation [m.(x).(y)].
+
+   @raise Invalid_argument if [dimx] or [dimy] is negative or
+   greater than {!Sys.max_array_length}.
+   If the return type of [f] is [float],
+   then the maximum size is only [Sys.max_array_length / 2].
+
+   @since 5.2 *)
 
 val append : 'a array -> 'a array -> 'a array
 (** [append v1 v2] returns a fresh array containing the
@@ -236,13 +251,13 @@ val exists2 : ('a -> 'b -> bool) -> 'a array -> 'b array -> bool
 
 val mem : 'a -> 'a array -> bool
 (** [mem a set] is true if and only if [a] is structurally equal
-    to an element of [l] (i.e. there is an [x] in [l] such that
+    to an element of [set] (i.e. there is an [x] in [set] such that
     [compare a x = 0]).
     @since 4.03 *)
 
 val memq : 'a -> 'a array -> bool
 (** Same as {!mem}, but uses physical equality
-   instead of structural equality to compare list elements.
+   instead of structural equality to compare array elements.
    @since 4.03 *)
 
 val find_opt : ('a -> bool) -> 'a array -> 'a option
@@ -287,7 +302,7 @@ val combine : 'a array -> 'b array -> ('a * 'b) array
 
     @since 4.13 *)
 
-(** {1 Sorting} *)
+(** {1:sorting_and_shuffling Sorting and shuffling} *)
 
 val sort : ('a -> 'a -> int) -> 'a array -> unit
 (** Sort an array in increasing order according to a comparison
@@ -311,7 +326,7 @@ val sort : ('a -> 'a -> int) -> 'a array -> unit
 
    When [sort] returns, [a] contains the same elements as before,
    reordered in such a way that for all i and j valid indices of [a] :
--   [cmp a.(i) a.(j)] >= 0 if and only if i >= j
+-   [cmp a.(i) a.(j)] >= 0 if i >= j
 *)
 
 val stable_sort : ('a -> 'a -> int) -> 'a array -> unit
@@ -328,6 +343,17 @@ val fast_sort : ('a -> 'a -> int) -> 'a array -> unit
 (** Same as {!sort} or {!stable_sort}, whichever is
     faster on typical input. *)
 
+val shuffle :
+  rand: (* thwart tools/sync_stdlib_docs *) (int -> int) -> 'a array -> unit
+(** [shuffle rand a] randomly permutes [a]'s element using [rand] for
+    randomness. The distribution of permutations is uniform.
+
+    [rand] must be such that a call to [rand n] returns a uniformly
+    distributed random number in the range \[[0];[n-1]\].
+    {!Random.int} can be used for this (do not forget to
+    {{!Random.self_init}initialize} the generator).
+
+    @since 5.2 *)
 
 (** {1 Arrays and Sequences} *)
 

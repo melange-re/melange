@@ -24,6 +24,8 @@
 
 open Import
 
+val js_property : Location.t -> expression -> string -> expression_desc
+
 (* TODO: the interface is not reusable, it depends on too much context *)
 (* syntax: {[f arg0 arg1 [@bs]]}*)
 val uncurry_fn_apply :

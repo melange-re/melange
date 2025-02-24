@@ -3,13 +3,13 @@
 
 
 function even(_n) {
-  while(true) {
+  while (true) {
     const n = _n;
     if (n === 0) {
       return true;
     }
     _n = n - 1 | 0;
-    continue ;
+    continue;
   };
 }
 
@@ -43,8 +43,10 @@ const obj = {
   set: obj_set
 };
 
-exports.even = even;
-exports.even2 = even2;
-exports.v = v;
-exports.obj = obj;
+module.exports = {
+  even,
+  even2,
+  v,
+  obj,
+}
 /* No side effect */

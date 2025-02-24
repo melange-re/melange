@@ -29,7 +29,7 @@ type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 (* TODO: add a magic number *)
 type cmj_value = {
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
       (** Either constant or closed functor *)
 }
 
@@ -38,20 +38,20 @@ let single_na = Single Lam_arity.na
 type keyed_cmj_value = {
   name : string;
   arity : arity;
-  persistent_closed_lambda : Lam.t option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
 }
 
 type keyed_cmj_values = keyed_cmj_value array
 
 type t = {
   values : keyed_cmj_values;
-  effect : string option;
+  effect_ : string option;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
 }
 
-let make ~(values : cmj_value String.Map.t) ~effect ~package_spec ~case
+let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
     ~delayed_program : t =
   {
     values =
@@ -61,7 +61,7 @@ let make ~(values : cmj_value String.Map.t) ~effect ~package_spec ~case
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
           });
-    effect;
+    effect_;
     package_spec;
     case;
     delayed_program;
@@ -114,8 +114,9 @@ let not_found key =
 let get_result midVal =
   match midVal.persistent_closed_lambda with
   | Some
-      (Lconst
-        (Const_js_null | Const_js_undefined | Const_js_true | Const_js_false))
+      ( Lconst
+          (Const_js_null | Const_js_undefined | Const_js_true | Const_js_false),
+        _ )
   | None ->
       midVal
   | Some _ ->
@@ -133,8 +134,10 @@ let rec binarySearchAux arr lo hi (key : string) =
       let loVal = Array.unsafe_get arr lo in
       if loVal.name = key then get_result loVal else not_found key
     else binarySearchAux arr lo mid key
-  else if (*  a[lo] =< a[mid] < key <= a[hi] *)
-          lo = mid then
+  else if
+    (*  a[lo] =< a[mid] < key <= a[hi] *)
+    lo = mid
+  then
     let hiVal = Array.unsafe_get arr hi in
     if hiVal.name = key then get_result hiVal else not_found key
   else binarySearchAux arr mid hi key

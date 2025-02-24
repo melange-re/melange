@@ -26,12 +26,8 @@
     this binding does not track the error type, it treat it as an opaque type
 *)
 
-type +'a t
+type +'a t = 'a Js.promise
 type error
-
-open struct
-  module Js = Js_internal
-end
 
 external make :
   ((resolve:(('a -> unit)[@u]) -> reject:((exn -> unit)[@u]) -> unit)
@@ -64,11 +60,13 @@ external all6 :
 
 external race : 'a t array -> 'a t = "race" [@@mel.scope "Promise"]
 
-external then_ : (('a -> 'b t)[@mel.uncurry]) -> 'b t = "then"
-[@@mel.send.pipe: 'a t]
+external then_ : (('a -> 'b t)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'b t
+  = "then"
+[@@mel.send]
 
-external catch : ((error -> 'a t)[@mel.uncurry]) -> 'a t = "catch"
-[@@mel.send.pipe: 'a t]
+external catch : ((error -> 'a t)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t
+  = "catch"
+[@@mel.send]
 (* [ p |> catch handler]
     Note in JS the returned promise type is actually runtime dependent,
     if promise is rejected, it will pick the [handler] otherwise the original promise,

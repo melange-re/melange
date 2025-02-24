@@ -2,7 +2,8 @@
 'use strict';
 
 
-const u = /* A */{
+const u = {
+  TAG: /* A */0,
   _0: 1,
   _1: 2
 };

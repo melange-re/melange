@@ -233,17 +233,34 @@ module Array = struct
   let unsafe_fill a ofs len v =
     for i = ofs to ofs + len - 1 do unsafe_set a i v done
 
+
+  external make : (int[@untagged]) -> (float[@unboxed]) -> t =
+    "caml_floatarray_make" "caml_floatarray_make_unboxed"
+
+#ifdef BS
+#else
+  external unsafe_fill
+    : t -> (int[@untagged]) -> (int[@untagged]) -> (float[@unboxed]) -> unit
+    = "caml_floatarray_fill" "caml_floatarray_fill_unboxed"
+#endif
+
   external unsafe_blit: t -> int -> t -> int -> int -> unit =
     "caml_floatarray_blit" [@@noalloc]
+
+#ifdef BS
+#else
+  external unsafe_sub : t -> int -> int -> t = "caml_floatarray_sub"
+  external append_prim : t -> t -> t = "caml_floatarray_append"
+#endif
 
   let check a ofs len msg =
     if ofs < 0 || len < 0 || ofs + len < 0 || ofs + len > length a then
       invalid_arg msg
 
-  let make n v =
-    let result = create n in
-    unsafe_fill result 0 n v;
-    result
+#ifdef BS
+#else
+  let empty = create 0
+#endif
 
   let init l f =
     if l < 0 then invalid_arg "Float.Array.init"
@@ -254,13 +271,31 @@ module Array = struct
       done;
       res
 
-  let append a1 a2 =
-    let l1 = length a1 in
-    let l2 = length a2 in
-    let result = create (l1 + l2) in
-    unsafe_blit a1 0 result 0 l1;
-    unsafe_blit a2 0 result l1 l2;
-    result
+  let make_matrix sx sy v =
+    (* We raise even if [sx = 0 && sy < 0]: *)
+    if sy < 0 then invalid_arg "Float.Array.make_matrix";
+    let res = Array.make sx (create 0) in
+    if sy > 0 then begin
+      for x = 0 to sx - 1 do
+        Array.unsafe_set res x (make sy v)
+      done;
+    end;
+    res
+
+  let init_matrix sx sy f =
+    (* We raise even if [sx = 0 && sy < 0]: *)
+    if sy < 0 then invalid_arg "Float.Array.init_matrix";
+    let res = Array.make sx (create 0) in
+    if sy > 0 then begin
+      for x = 0 to sx - 1 do
+        let row = create sy in
+        for y = 0 to sy - 1 do
+          unsafe_set row y (f x y)
+        done;
+        Array.unsafe_set res x row
+      done;
+    end;
+    res
 
   (* next 3 functions: modified copy of code from string.ml *)
   let ensure_ge (x:int) y =
@@ -286,14 +321,31 @@ module Array = struct
 
   let sub a ofs len =
     check a ofs len "Float.Array.sub";
+#ifdef BS
     let result = create len in
     unsafe_blit a ofs result 0 len;
     result
+#else
+    unsafe_sub a ofs len
+#endif
 
   let copy a =
     let l = length a in
+#ifdef BS
     let result = create l in
     unsafe_blit a 0 result 0 l;
+    result
+#else
+    if l = 0 then empty
+    else unsafe_sub a 0 l
+#endif
+
+  let append a1 a2 =
+    let l1 = length a1 in
+    let l2 = length a2 in
+    let result = create (l1 + l2) in
+    unsafe_blit a1 0 result 0 l1;
+    unsafe_blit a2 0 result l1 l2;
     result
 
   let fill a ofs len v =
@@ -576,6 +628,15 @@ module Array = struct
     end
 
   let fast_sort = stable_sort
+
+  (* duplicated from array.ml *)
+  let shuffle ~rand a = (* Fisher-Yates *)
+    for i = length a - 1 downto 1 do
+      let j = rand (i + 1) in
+      let v = unsafe_get a i in
+      unsafe_set a i (get a j);
+      unsafe_set a j v
+    done
 
   (* duplicated from array.ml *)
   let to_seq a =

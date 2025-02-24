@@ -10,5 +10,7 @@ const X = {
   List: List
 };
 
-exports.X = X;
+module.exports = {
+  X,
+}
 /* No side effect */

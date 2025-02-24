@@ -10,5 +10,7 @@ function ff(param) {
   }
 }
 
-exports.ff = ff;
+module.exports = {
+  ff,
+}
 /* No side effect */

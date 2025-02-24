@@ -25,26 +25,6 @@
 open Import
 open Ast_helper
 
-let deprecated_abstract =
-  let loc = Location.none in
-  {
-    attr_name = { txt = "alert"; loc };
-    attr_payload =
-      PStr
-        [
-          [%stri
-            deprecated
-              "`@@deriving abstract' deprecated. Use `@@deriving jsProperties, \
-               getSet' instead."];
-        ];
-    attr_loc = loc;
-  }
-
-let with_deprecation ~is_deprecated attrs =
-  match is_deprecated with
-  | false -> attrs
-  | true -> deprecated_abstract :: attrs
-
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_mel_optional attrs in
   if is_optional then
@@ -55,69 +35,100 @@ let get_pld_type pld_type ~attrs =
           "`[@mel.optional]' must appear on an option literal type (`_ option')"
   else pld_type
 
-let derive_js_constructor ?(is_deprecated = false) tdcl =
-  match tdcl.ptype_kind with
-  | Ptype_record label_declarations -> (
-      let loc = tdcl.ptype_loc in
-      let has_optional_field =
-        List.exists
-          ~f:(fun (x : label_declaration) ->
-            Ast_attributes.has_mel_optional x.pld_attributes)
-          label_declarations
-      in
-      let makeType, labels =
-        List.fold_right
-          ~f:(fun
-              {
-                pld_name = { txt = label_name; loc = _ } as pld_name;
-                pld_type;
-                pld_attributes;
-                pld_loc;
-                _;
-              }
-              (maker, labels)
-            ->
-            let newLabel =
-              match
-                Ast_attributes.iter_process_mel_string_as pld_attributes
-              with
-              | None -> pld_name
-              | Some new_name -> { pld_name with txt = new_name }
-            in
-            let is_optional = Ast_attributes.has_mel_optional pld_attributes in
-            let maker =
-              if is_optional then
-                let pld_type = get_pld_type ~attrs:pld_attributes pld_type in
-                Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker
-              else Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker
-            in
-            (maker, (is_optional, newLabel) :: labels))
-          label_declarations
-          ~init:
-            ( (let core_type =
-                 Ast_derive_util.core_type_of_type_declaration tdcl
-               in
-               if has_optional_field then [%type: unit -> [%t core_type]]
-               else core_type),
-              [] )
-      in
-      match tdcl.ptype_private with
-      | Private -> []
-      | Public ->
-          let myPrims =
-            Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
-          in
-          [
-            Val.mk ~loc
-              { loc; txt = tdcl.ptype_name.txt }
-              ~attrs:
-                (with_deprecation ~is_deprecated
-                   [ Ast_attributes.unboxable_type_in_prim_decl ])
-              ~prim:myPrims makeType;
-          ])
-  | Ptype_abstract | Ptype_variant _ | Ptype_open ->
-      (* Looks obvious that it does not make sense to warn *)
-      []
+let derive_js_constructor =
+  let do_alert_deprecated ~loc =
+    Mel_ast_invariant.warn_raw ~loc ~kind:"deprecated"
+      "`@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' \
+       instead."
+  in
+  let ffi_of_option_labels labels ~ends_with_unit =
+    Melange_ffi.External_ffi_types.ffi_obj_create
+      (List.fold_right labels
+         ~init:
+           (if ends_with_unit then
+              [ Melange_ffi.External_arg_spec.empty_kind Extern_unit ]
+            else [])
+         ~f:(fun ((is_option, p) : bool * string Asttypes.loc) arg_kinds ->
+           let obj_arg_label =
+             let label_name = Melange_ffi.Lam_methname.translate p.txt in
+             if is_option then
+               Melange_ffi.External_arg_spec.Obj_label.optional
+                 ~for_sure_no_nested_option:false label_name
+             else Melange_ffi.External_arg_spec.Obj_label.obj label_name
+           in
+           {
+             Melange_ffi.External_arg_spec.arg_type = Nothing;
+             arg_label = obj_arg_label;
+           }
+           :: arg_kinds))
+  in
+  fun ?(is_deprecated = false) tdcl ->
+    match tdcl.ptype_kind with
+    | Ptype_record label_declarations -> (
+        let loc = tdcl.ptype_loc in
+        let has_optional_field =
+          List.exists
+            ~f:(fun (x : label_declaration) ->
+              Ast_attributes.has_mel_optional x.pld_attributes)
+            label_declarations
+        in
+        let makeType, labels =
+          List.fold_right
+            ~f:(fun
+                {
+                  pld_name = { txt = label_name; loc = _ } as pld_name;
+                  pld_type;
+                  pld_attributes;
+                  pld_loc;
+                  _;
+                }
+                (maker, labels)
+              ->
+              let newLabel =
+                match
+                  Ast_attributes.iter_process_mel_string_as pld_attributes
+                with
+                | None -> pld_name
+                | Some new_name -> { pld_name with txt = new_name }
+              in
+              let is_optional =
+                Ast_attributes.has_mel_optional pld_attributes
+              in
+              let maker =
+                if is_optional then
+                  let pld_type = get_pld_type ~attrs:pld_attributes pld_type in
+                  Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker
+                else Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker
+              in
+              (maker, (is_optional, newLabel) :: labels))
+            label_declarations
+            ~init:
+              ( (let core_type =
+                   Ast_derive_util.core_type_of_type_declaration tdcl
+                 in
+                 if has_optional_field then [%type: unit -> [%t core_type]]
+                 else core_type),
+                [] )
+        in
+        match tdcl.ptype_private with
+        | Private -> []
+        | Public ->
+            if is_deprecated then do_alert_deprecated ~loc;
+            [
+              Val.mk ~loc
+                { loc; txt = tdcl.ptype_name.txt }
+                ~attrs:
+                  [
+                    Ast_attributes.mel_ffi
+                      (ffi_of_option_labels labels
+                         ~ends_with_unit:has_optional_field);
+                    Ast_attributes.unboxable_type_in_prim_decl;
+                  ]
+                ~prim:Ast_external.pval_prim_default makeType;
+            ])
+    | Ptype_abstract | Ptype_variant _ | Ptype_open ->
+        (* Looks obvious that it does not make sense to warn *)
+        []
 
 let derive_getters_setters =
   let get_optional_attrs =
@@ -129,7 +140,7 @@ let derive_getters_setters =
     Ast_attributes.[ mel_get_arity; unboxable_type_in_prim_decl ]
   in
   let set_attrs = Ast_attributes.[ mel_set; unboxable_type_in_prim_decl ] in
-  fun ?(is_deprecated = false) ~light tdcl ->
+  fun ~light tdcl ->
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         let loc = tdcl.ptype_loc in
@@ -166,14 +177,15 @@ let derive_getters_setters =
                 Val.mk ~loc:pld_loc
                   (if light then pld_name
                    else { pld_name with txt = pld_name.txt ^ "Get" })
-                  ~attrs:(with_deprecation ~is_deprecated get_attrs)
-                  ~prim:
-                    ((* Not needed actually*)
-                     Melange_ffi.External_ffi_types.ffi_mel_as_prims
-                       [ Melange_ffi.External_arg_spec.dummy ]
-                       Return_identity
-                       (Js_get
-                          { js_get_name = prim_as_name; js_get_scopes = [] }))
+                  ~attrs:
+                    (Ast_attributes.mel_ffi
+                       (* Not needed actually*)
+                       (Melange_ffi.External_ffi_types.ffi_mel
+                          [ Melange_ffi.External_arg_spec.dummy ]
+                          Return_identity
+                          (Js_get { name = prim_as_name; scopes = [] }))
+                    :: get_attrs)
+                  ~prim:Ast_external.pval_prim_default
                   [%type: [%t core_type] -> [%t pld_type]]
                 :: acc
             in
@@ -185,8 +197,7 @@ let derive_getters_setters =
                 in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
-                  ~attrs:(with_deprecation ~is_deprecated set_attrs)
-                  ~prim setter_type
+                  ~attrs:set_attrs ~prim setter_type
                 :: acc
             | Immutable -> acc)
           label_declarations ~init:[]
@@ -226,9 +237,7 @@ let derive_abstract_str ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
-      let value_descriptions =
-        derive_getters_setters ~is_deprecated:true ~light tdcl
-      in
+      let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
     tdcls ~init:[]
 
@@ -236,8 +245,6 @@ let derive_abstract_sig ~light tdcls =
   List.fold_right
     ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
-      let value_descriptions =
-        derive_getters_setters ~is_deprecated:true ~light tdcl
-      in
+      let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value (cstr_descriptions @ value_descriptions) @ sts)
     tdcls ~init:[]

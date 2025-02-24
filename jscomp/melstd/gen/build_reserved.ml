@@ -202,8 +202,10 @@ let binary_search =
           (*  a[lo] =< key < a[mid] <= a[hi] *)
           if hi = mid then Stdlib.Array.unsafe_get arr lo = key
           else binarySearchAux arr lo mid key
-        else if (*  a[lo] =< a[mid] < key <= a[hi] *)
-                lo = mid then Stdlib.Array.unsafe_get arr hi = key
+        else if
+          (*  a[lo] =< a[mid] < key <= a[hi] *)
+          lo = mid
+        then Stdlib.Array.unsafe_get arr hi = key
         else binarySearchAux arr mid hi key
       in
       fun (sorted : element array) (key : element) ->
@@ -225,7 +227,7 @@ let write_ast oc ast =
   output_value oc "reserved_keywords.ml";
   output_value oc (Ppxlib_ast.Selected_ast.To_ocaml.copy_structure ast)
 
-let main keyword_file =
+let main keyword_file output_name =
   let ast =
     let keywords_array =
       let ss = Reserved_words.all_from_file keyword_file in
@@ -233,14 +235,15 @@ let main keyword_file =
         Ast_helper.(
           Exp.array
             (SSet.fold (fun s acc -> Exp.constant (Const.string s) :: acc) ss []
-            |> (* Binary search expects an alphabetically ordered array. *)
+            |>
+            (* Binary search expects an alphabetically ordered array. *)
             List.rev))
       in
       [%stri let sorted_keywords = [%e array]]
     in
     keywords_array :: binary_search
   in
-  let oc = stdout in
+  let oc = open_out_bin output_name in
   write_ast oc ast;
   close_out oc
 
@@ -250,4 +253,4 @@ for i = 0 to Array.length Sys.argv - 1  do
   print_endline ">"; print_string Sys.argv.(i)
 done
 ;; *)
-let () = main Sys.argv.(1)
+let () = main Sys.argv.(1) Sys.argv.(2)

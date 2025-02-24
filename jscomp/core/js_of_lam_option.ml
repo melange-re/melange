@@ -58,13 +58,15 @@ let is_not_none (e : J.expression) : J.expression =
 
   - avoid duplicate evlauation of [arg] when it
    is not a variable
-  {!Js_ast_util.named_expression} does not help
+  {!Js_stmt_make.named_expression} does not help
    since we need an expression here, it might be a statement
 *)
 let val_from_option (arg : J.expression) =
   match arg.expression_desc with
   | Optional_block (x, _) -> x
-  | _ -> E.runtime_call Js_runtime_modules.option "valFromOption" [ arg ]
+  | _ ->
+      E.runtime_call ~module_name:Js_runtime_modules.option
+        ~fn_name:"valFromOption" [ arg ]
 
 let get_default_undefined_from_optional (arg : J.expression) : J.expression =
   let desc = arg.expression_desc in
@@ -76,7 +78,9 @@ let get_default_undefined_from_optional (arg : J.expression) : J.expression =
         if Js_analyzer.is_okay_to_duplicate arg then
           (* FIXME: no need do such inlining*)
           E.econd (is_not_none arg) (val_from_option arg) E.undefined
-        else E.runtime_call Js_runtime_modules.option "option_get" [ arg ]
+        else
+          E.runtime_call ~module_name:Js_runtime_modules.option
+            ~fn_name:"option_get" [ arg ]
 
 let option_unwrap (arg : J.expression) : J.expression =
   let desc = arg.expression_desc in
@@ -85,7 +89,9 @@ let option_unwrap (arg : J.expression) : J.expression =
     match desc with
     | Optional_block (x, _) ->
         E.poly_var_value_access x (* invariant: option encoding *)
-    | _ -> E.runtime_call Js_runtime_modules.option "option_unwrap" [ arg ]
+    | _ ->
+        E.runtime_call ~module_name:Js_runtime_modules.option
+          ~fn_name:"option_unwrap" [ arg ]
 
 let destruct_optional ~for_sure_none ~for_sure_some ~not_sure
     (arg : J.expression) =

@@ -22,35 +22,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = NodeJS | Es6 | Es6_global
+type t = CommonJS | ESM | ESM_global
 
-let default = NodeJS
+let default = CommonJS
 
 (* ocamlopt could not optimize such simple case..*)
 let compatible ~dep t =
   match t with
-  | NodeJS -> dep = NodeJS
-  | Es6 -> dep = Es6
-  | Es6_global -> dep = Es6_global || dep = Es6
+  | CommonJS -> dep = CommonJS
+  | ESM -> dep = ESM
+  | ESM_global -> dep = ESM_global || dep = ESM
 (* As a dependency Leaf Node, it is the same either [global] or [not] *)
 
-(* in runtime lib, [es6] and [es6] are treated the same way *)
-let runtime_dir = function NodeJS -> "js" | Es6 | Es6_global -> "es6"
-
 let runtime_package_path =
-  let ( // ) = Path.( // ) in
+  let ( // ) = Paths.( // ) in
   let melange_js = "melange.js" in
   fun js_file -> melange_js // js_file
 
 let to_string = function
-  | NodeJS -> "commonjs"
-  | Es6 -> "es6"
-  | Es6_global -> "es6-global"
+  | CommonJS -> "commonjs"
+  | ESM -> "esm"
+  | ESM_global -> "esm-global"
 
 let of_string_exn = function
-  | "commonjs" -> NodeJS
-  | "es6" -> Es6
-  | "es6-global" -> Es6_global
+  | "commonjs" -> CommonJS
+  | "esm" | "es6" -> ESM
+  | "esm-global" | "es6-global" -> ESM_global
   | s -> raise (Arg.Bad ("invalid module system " ^ s))
 
 let of_string s =

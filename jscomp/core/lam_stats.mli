@@ -39,5 +39,5 @@ type t = {
    *)
 }
 
-val print : Format.formatter -> t -> unit
+val print : t -> _ Pp.t
 val make : export_idents:Ident.t list -> export_ident_sets:Ident.Set.t -> t
