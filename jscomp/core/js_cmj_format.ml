@@ -45,7 +45,7 @@ type keyed_cmj_values = keyed_cmj_value array
 
 type t = {
   values : keyed_cmj_values;
-  pure : bool;
+  effect_ : string option;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
@@ -61,7 +61,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
           });
-    pure = effect_ = None;
+    effect_;
     package_spec;
     case;
     delayed_program;
