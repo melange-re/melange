@@ -3,6 +3,10 @@ Unreleased
 
 - Support `Sys.opaque_identity` to turn off optimizations
   ([#1276](https://github.com/melange-re/melange/pull/1276))
+
+5.0.1-53 2025-02-23
+---------------
+
 - Fix `[@mel.send]` and `[@mel.this]` interaction in the presence of constant
   `[@mel.as ".."]` arguments
   ([#1328](https://github.com/melange-re/melange/pull/1328))
@@ -16,7 +20,7 @@ Unreleased
   arguments ([#1253](https://github.com/melange-re/melange/issues/1253),
   [#1334](https://github.com/melange-re/melange/issues/1334)).
 
-5.0.0-53
+5.0.0-53 2025-02-09
 ---------------
 
 - Make the `unprocessed` alert fatal by default
