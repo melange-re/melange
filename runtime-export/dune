@@ -1,7 +1,7 @@
 (env
  (_
   (env-vars
-   (MELANGE_RUNTIME_VERSION 0.1.0))))
+   (MELANGE_RUNTIME_VERSION 5.0.1))))
 
 (melange.emit
  (target x)
@@ -14,6 +14,7 @@
 
 (rule
  (alias runtime-pkg)
+ (mode (promote (until-clean)))
  (target
   (dir packages))
  (deps
