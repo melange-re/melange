@@ -36,7 +36,6 @@ val is_predef : t -> bool
 val reinit : unit -> unit
 val global : t -> bool
 
-
 module Map = Map_ident
 module Set = Set_ident
 module Hash = Hash_ident
