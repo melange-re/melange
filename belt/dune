@@ -201,4 +201,3 @@
  (deps internal_set.cppo.ml)
  (action
   (run cppo -D TYPE_INT %{deps} -o %{target})))
-

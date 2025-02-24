@@ -69,7 +69,7 @@ val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute
 val is_mel_as : attribute -> bool
 val has_mel_as_payload : attribute list -> attribute list * attribute option
-
 val mel_ffi : Melange_ffi.External_ffi_types.t -> attribute
 
-val partition_by_mel_ffi_attribute: attribute list -> string option * attribute list
+val partition_by_mel_ffi_attribute :
+  attribute list -> string option * attribute list

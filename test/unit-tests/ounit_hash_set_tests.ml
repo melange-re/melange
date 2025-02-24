@@ -148,9 +148,9 @@ let suites =
              Polyvariant.Hash_set.remove v { name = "x"; stamp = i }
            done;
            OUnit.assert_equal (Polyvariant.Hash_set.length v) 1990
-           (* OUnit.assert_equal (Hash_set.stats v) *)
-           (*   {Hashtbl.num_bindings = 1990; num_buckets = 1024; max_bucket_length = 7; *)
-           (*    bucket_histogram = [|139; 303; 264; 178; 93; 32; 12; 3|]} *) );
+         (* OUnit.assert_equal (Hash_set.stats v) *)
+         (*   {Hashtbl.num_bindings = 1990; num_buckets = 1024; max_bucket_length = 7; *)
+         (*    bucket_histogram = [|139; 303; 264; 178; 93; 32; 12; 3|]} *) );
          ( __LOC__ >:: fun _ ->
            let v = Id_hash_set.create 30 in
            for i = 0 to 2_000 do
@@ -179,9 +179,9 @@ let suites =
              OUnit.assert_bool "exist"
                (Id_hash_set.mem v { name = "x"; stamp = i })
            done
-           (* OUnit.assert_equal (Hash_set.stats v) *)
-           (*   {num_bindings = 1990; num_buckets = 1024; max_bucket_length = 8; *)
-           (*    bucket_histogram = [|148; 275; 285; 182; 95; 21; 14; 2; 2|]} *)
+         (* OUnit.assert_equal (Hash_set.stats v) *)
+         (*   {num_bindings = 1990; num_buckets = 1024; max_bucket_length = 8; *)
+         (*    bucket_histogram = [|148; 275; 285; 182; 95; 21; 14; 2; 2|]} *)
          );
          ( __LOC__ >:: fun _ ->
            let duplicate arr =
