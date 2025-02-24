@@ -3,6 +3,8 @@ Unreleased
 
 - Support `Sys.opaque_identity` to turn off optimizations
   ([#1276](https://github.com/melange-re/melange/pull/1276))
+- Update JS reserved keywords
+  ([#1338](https://github.com/melange-re/melange/pull/1338))
 
 5.0.1-53 2025-02-23
 ---------------
