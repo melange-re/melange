@@ -52,4 +52,4 @@ external uptime : t -> unit -> float = "uptime"
 *)
 let putEnvVar key (var : string) = Js.Dict.set process##env key var
 
-let deleteEnvVar s = (Js.Dict.unsafeDeleteKey process##env s [@u])
+let deleteEnvVar s = Js.Dict.unsafeDeleteKey process##env s [@u]

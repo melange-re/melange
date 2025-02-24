@@ -202,8 +202,10 @@ let binary_search =
           (*  a[lo] =< key < a[mid] <= a[hi] *)
           if hi = mid then Stdlib.Array.unsafe_get arr lo = key
           else binarySearchAux arr lo mid key
-        else if (*  a[lo] =< a[mid] < key <= a[hi] *)
-                lo = mid then Stdlib.Array.unsafe_get arr hi = key
+        else if
+          (*  a[lo] =< a[mid] < key <= a[hi] *)
+          lo = mid
+        then Stdlib.Array.unsafe_get arr hi = key
         else binarySearchAux arr mid hi key
       in
       fun (sorted : element array) (key : element) ->
@@ -233,7 +235,8 @@ let main keyword_file output_name =
         Ast_helper.(
           Exp.array
             (SSet.fold (fun s acc -> Exp.constant (Const.string s) :: acc) ss []
-            |> (* Binary search expects an alphabetically ordered array. *)
+            |>
+            (* Binary search expects an alphabetically ordered array. *)
             List.rev))
       in
       [%stri let sorted_keywords = [%e array]]
