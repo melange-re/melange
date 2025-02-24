@@ -13,8 +13,7 @@
  (libraries melange.js melange melange.belt))
 
 (rule
- (alias runtime-pkg)
- (mode (promote (until-clean)))
+ (alias runtime-export)
  (target
   (dir packages))
  (deps
