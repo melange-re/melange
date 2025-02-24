@@ -322,7 +322,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       (* Note that in ocaml, [int] has tag [1000] and [string] has tag [252]
          also now we need do nullary check
       *)
-      match args with [ e ] -> E.tag e | _ -> assert false)
+      match args with
+      | [ e ] -> E.tag e
+      | _ -> assert false)
   | "caml_get_public_method" -> call Js_runtime_modules.oo
   (* TODO: Primitives not implemented yet ...*)
   | "caml_install_signal_handler" -> (
