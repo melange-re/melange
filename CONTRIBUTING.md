@@ -86,6 +86,37 @@ If that all passes, then congratulations! You are well on your way to becoming a
 
 To submit a Pull Request, follow [this guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) on creating one from a fork.
 
+## Releasing Melange
+
+Releasing Melange involves a few steps across different package managers and
+GitHub repos:
+
+- Melange releases across a few OCaml versions to the OPAM repository. To
+  release to OPAM:
+    1. cut release branches e.g. v5-414, v5-51, v5-52, v5-53
+        - These branches also serve as long-term release maintenance branches
+          if new patch releases need to be cut.
+    2. for each new branch, check out the corresponding
+       `vendor/melange-compiler-libs` branch in the submodule (e.g. 4.14, 5.1,
+       5.2)
+    3. [use dune-release](https://gist.github.com/anmonteiro/abd9275456888740758aa9f772d1992a)
+       to release the Melange package, adding `-p melange` and
+       `--include-submodules` in the relevant commands
+- Since the resolution of
+  [melange-re/melange#620](https://github.com/melange-re/melange/issues/620),
+  Melange releases also include publishing the Melange runtime / stdlib to NPM
+  in their compiled form. This makes it easier to use Melange and `(emit_stdlib
+  false)` with a well-known, already compiled runtime, speeding up builds in a
+  lot of cases. To release the Melange compiled runtime / stdlib to NPM:
+    1. set the `MELANGE_RUNTIME_VERSION` variable in `./runtime-export/dune`
+    2. run `dune build @runtime`, preferably in the tagged release branch.
+    3. `cd` into each of the newly created
+       `node_modules/{melange.js,melange,melange.belt}` and run `npm publish`,
+       in this order.
+- Finally, follow the release process documented in
+  [melange-re/melange-re.github.io](https://github.com/melange-re/melange-re.github.io/)
+  to publish the Melange website for the new version at https://melange.re.
+
 ## Update JS Reserved Keywords Map
 
 The compiler sources include a list of reserved JS keywords in
