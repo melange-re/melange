@@ -31,27 +31,12 @@
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 63-66:
+  File "x.ml", line 16, characters 0-47:
+  16 | external mk : ?hi:int -> unit -> _ = "" [@@obj]
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Alert fragile: mk : the external name is inferred from val name is unsafe from refactoring when changing value name
+  File "x.ml", line 2, characters 0-67:
   2 | external clipboardData : t -> < .. > Js.t = "clipboardData" [@@get]
-                                                                     ^^^
-  Error: `[@bs.*]' and non-namespaced attributes have been removed in favor of `[@mel.*]' attributes.
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Found these deprecated attributes in external declaration: `get`. Migrate to the right `[@mel.*]` attributes instead.
   [1]
-
-Skip processing with PPX but still use `@mel.config`
-
-  $ cat > dune <<EOF
-  > (melange.emit
-  >  (target out)
-  >  (emit_stdlib false))
-  > EOF
-  $ cat > x.ml <<EOF
-  > [@@@config { flags = [| "-w"; "-32" |] }]
-  > let x = 1
-  > EOF
-  $ dune build @melange
-  File "x.ml", line 1, characters 4-10:
-  1 | [@@@config { flags = [| "-w"; "-32" |] }]
-          ^^^^^^
-  Error: `[@bs.*]' and non-namespaced attributes have been removed in favor of `[@mel.*]' attributes. Use `[@mel.config]' instead.
-  [1]
-
