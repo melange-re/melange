@@ -38,7 +38,6 @@ type attr_kind =
   | Uncurry of attribute
   | Method of attribute
 
-val error_if_bs_or_non_namespaced : loc:location -> label -> unit
 val process_attributes_rev : attribute list -> attr_kind * attribute list
 val process_pexp_fun_attributes_rev : attribute list -> bool * attribute list
 val process_uncurried : attribute list -> bool * attribute list

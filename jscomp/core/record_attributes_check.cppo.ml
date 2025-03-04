@@ -29,7 +29,7 @@ type label = Types.label_description
 let find_mel_as_name =
   let find_mel_as_name (attr : Parsetree.attribute) =
     match attr.attr_name with
-    | { txt = ("mel.as" | "as" | "bs.as") as txt; loc } -> (
+    | { txt = "mel.as"; loc = _ } -> (
         match attr.attr_payload with
         | PStr
             [
@@ -38,7 +38,6 @@ let find_mel_as_name =
                 _;
               };
             ] -> (
-            Lam_variant_tag.namespace_error ~loc txt;
             match
 #if OCAML_VERSION >= (5, 3, 0)
             const.pconst_desc
@@ -67,7 +66,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
   match attr with
   | {
-   attr_name = { txt = ("mel.as" | "as" | "bs.as") as txt; loc };
+   attr_name = { txt = "mel.as"; loc };
    attr_payload =
      PStr
        [
@@ -89,7 +88,6 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
        ];
    _;
   } ->
-      Lam_variant_tag.namespace_error ~loc txt;
       Some { txt = s; loc }
   | _ -> None
 

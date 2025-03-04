@@ -24,15 +24,6 @@
 
 open Import
 
-let namespace_error ~loc txt =
-  match txt with
-  | "bs.as" | "as" ->
-      Location.raise_errorf ~loc
-        "`[@bs.*]' and non-namespaced attributes have been removed in favor of \
-         `[@mel.*]' attributes. Use `[@mel.as]' instead."
-  | _ -> ()
-
-
 let process_tag_name attrs =
   let st = ref None in
   List.iter attrs
@@ -49,7 +40,6 @@ let process_tag_name attrs =
                     _;
                   };
                 ] -> (
-                namespace_error ~loc txt;
                 match
 #if OCAML_VERSION >= (5, 3, 0)
                   const.pconst_desc

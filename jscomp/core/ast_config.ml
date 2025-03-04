@@ -40,21 +40,9 @@ let signature_config_table : action_table ref = ref String.Map.empty
 let add_signature k v =
   signature_config_table := String.Map.add !signature_config_table k v
 
-let namespace_error ~loc =
-  Location.raise_errorf ~loc
-    "`[@bs.*]' and non-namespaced attributes have been removed in favor of \
-     `[@mel.*]' attributes. Use `[@mel.config]' instead."
-
 let rec iter_on_mel_config_stru (x : Parsetree.structure) =
   match x with
   | [] -> ()
-  | {
-      pstr_desc =
-        Pstr_attribute { attr_name = { txt = "bs.config" | "config"; loc }; _ };
-      _;
-    }
-    :: _ ->
-      namespace_error ~loc
   | {
       pstr_desc =
         Pstr_attribute
@@ -96,13 +84,6 @@ let rec iter_on_mel_config_stru (x : Parsetree.structure) =
 let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
   match x with
   | [] -> ()
-  | {
-      psig_desc =
-        Psig_attribute { attr_name = { txt = "bs.config" | "config"; loc }; _ };
-      _;
-    }
-    :: _ ->
-      namespace_error ~loc
   | {
       psig_desc =
         Psig_attribute
