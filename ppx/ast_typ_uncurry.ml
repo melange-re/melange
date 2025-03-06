@@ -59,7 +59,7 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
     let v = self_type loc in
     match alias_type with
     | None -> v
-    | Some ty -> Typ.alias ~loc ty self_type_lit
+    | Some ty -> Typ.alias ~loc ty { loc; txt = self_type_lit }
   in
   if arity = 0 then to_method_callback_type loc mapper Nolabel self_type result
   else
