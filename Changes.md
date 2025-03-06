@@ -11,6 +11,13 @@ Unreleased
       before that
     - erroring on e.g. attributes like `@as` prevents e.g. universal libraries
       that want to use PPXes supporting `@as` with native semantics.
+- remove `@mel.splice` error
+  ([#1350](https://github.com/melange-re/melange/pull/1350))
+    - `@mel.splice` has been removed in earlier Melange versions and it has
+      been producing errors for the last 2 versions. Since ecosystem libraries
+      have been keeping up to date with Melange versions, after this change, it
+      will be silently ignored.
+-
 
 5.0.1-53 2025-02-23
 ---------------
