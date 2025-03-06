@@ -235,7 +235,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       like normal one to set the identifier *)
   | "caml_exn_slot_id" | "caml_exn_slot_name" | "caml_is_extension" ->
       call Js_runtime_modules.exceptions
-  | "caml_as_js_exn" -> call Js_runtime_modules.caml_js_exceptions
+  (* | "caml_as_js_exn" -> call Js_runtime_modules.caml_js_exceptions *)
   | "caml_set_oo_id" (* needed in {!camlinternalOO.set_id} *) ->
       call Js_runtime_modules.oo
   | "caml_sys_executable_name" | "caml_sys_argv"

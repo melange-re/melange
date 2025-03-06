@@ -27,16 +27,19 @@
       ));
   }
   catch (exn){
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   /*  Not a pure module */
 
   $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
+  
   $TESTCASE_ROOT/_build/default/out/x.js:11
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
-                                                  ^
+    throw exn;
+    ^
+  undefined
+  (Use `node --trace-uncaught ...` to show where the exception was thrown)
   
-  TypeError: Cannot read properties of undefined (reading 'MEL_EXN_ID')
-  
+
+
 
 

@@ -212,11 +212,11 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Blk_tuple ->
           let info : Lam.Tag_info.t = Blk_tuple in
           Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_extension ->
-          let info : Lam.Tag_info.t = Blk_extension in
+      | Blk_extension { exn } ->
+          let info : Lam.Tag_info.t = Blk_extension { exn } in
           unbox_extension info args mutable_flag loc
-      | Blk_record_ext s ->
-          let info : Lam.Tag_info.t = Blk_record_ext s in
+      | Blk_record_ext { fields; exn } ->
+          let info : Lam.Tag_info.t = Blk_record_ext { fields; exn } in
           unbox_extension info args mutable_flag loc
       | Blk_extension_slot -> (
           match args with
