@@ -43,7 +43,7 @@ external fromString : string -> t = "from" [@@mel.scope "Buffer"]
 external fromStringWithEncoding : string -> encoding:encoding -> t = "from"
 [@@mel.scope "Buffer"]
 
-external toString : ?encoding:encoding -> string = "toString"
-[@@mel.send.pipe: t]
+external toString : ?encoding:encoding -> (t[@mel.this]) -> string = "toString"
+[@@mel.send]
 
 external concat : t array -> t = "concat" [@@mel.scope "Buffer"]
