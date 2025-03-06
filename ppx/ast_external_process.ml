@@ -327,9 +327,6 @@ let parse_external_attributes (prim_name_check : string)
             (* We need err on empty scope, so we can tell the difference
                between unset/set *)
             | scopes -> { st with scopes })
-        | "mel.splice" ->
-            Location.raise_errorf ~loc
-              "`%s' has been removed. Use `@mel.variadic' instead." txt
         | "mel.variadic" -> { st with variadic = true }
         | "mel.send" ->
             { st with val_send = name_from_payload_or_prim ~loc payload }
