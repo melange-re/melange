@@ -850,7 +850,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             "`[%@mel.send]`'s must have at least a non-constant argument"
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
-            "`[%@mel.send]' doesn't expect an attribute payload"
+            "`[%@mel.new]' doesn't expect an attribute payload"
       | _ :: _, (`Nm_na | `Nm_external _) ->
           Js_send
             {
