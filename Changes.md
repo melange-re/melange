@@ -3,6 +3,12 @@ Unreleased
 
 - Update JS reserved keywords
   ([#1338](https://github.com/melange-re/melange/pull/1338))
+- Remove errors for `bs.*` and non-namespaced attributes
+  ([#1348](https://github.com/melange-re/melange/pull/1348))
+    - These attributes haven't been supported since Melange v4, and deprecated
+      before that
+    - erroring on e.g. attributes like `@as` prevents e.g. universal libraries
+      that want to use PPXes supporting `@as` with native semantics.
 
 5.0.1-414 2025-02-23
 ---------------
