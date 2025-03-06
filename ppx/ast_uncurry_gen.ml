@@ -33,9 +33,18 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
-        | Pexp_fun (arg_label, _, arg, body) ->
-            Error.optional_err ~loc arg_label;
-            aux ((arg_label, self#pattern arg) :: acc) body
+        | Pexp_function (args, _, Pfunction_body body) ->
+            let acc' =
+              List.fold_left ~init:acc
+                ~f:(fun acc param ->
+                  match param with
+                  | { pparam_desc = Pparam_newtype _; _ } -> acc
+                  | { pparam_desc = Pparam_val (arg_label, _, arg); _ } ->
+                      Error.optional_err ~loc arg_label;
+                      (arg_label, self#pattern arg) :: acc)
+                args
+            in
+            aux acc' body
         | _ -> (self#expression body, acc))
     | _, _ -> (self#expression body, acc)
   in
@@ -73,9 +82,18 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
-        | Pexp_fun (arg_label, _, arg, body) ->
-            Error.optional_err ~loc arg_label;
-            aux ((arg_label, self#pattern arg) :: acc) body
+        | Pexp_function (args, _, Pfunction_body body) ->
+            let acc' =
+              List.fold_left ~init:acc
+                ~f:(fun acc param ->
+                  match param with
+                  | { pparam_desc = Pparam_newtype _; _ } -> acc
+                  | { pparam_desc = Pparam_val (arg_label, _, arg); _ } ->
+                      Error.optional_err ~loc arg_label;
+                      (arg_label, self#pattern arg) :: acc)
+                args
+            in
+            aux acc' body
         | _ -> (self#expression body, acc))
     | _, _ -> (self#expression body, acc)
   in

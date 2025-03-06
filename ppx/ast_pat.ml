@@ -32,16 +32,30 @@ let is_unit_cont ~yes ~no p =
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e] *)
 let arity_of_fun pat e =
-  let rec aux e =
+  let cnt =
     match e.pexp_desc with
-    | Pexp_fun (_, _, _, e) -> 1 + aux e (*FIXME error on optional*)
+    | Pexp_function (params, _, Pfunction_body _) ->
+        (* FIXME error on optional *)
+        List.fold_left ~init:0
+          ~f:(fun acc param ->
+            match param with
+            | { pparam_desc = Pparam_newtype _; _ } -> acc
+            | { pparam_desc = Pparam_val (_, _, _); _ } -> acc + 1)
+          params
+    | Pexp_function (_, _, Pfunction_cases _) -> assert false
     | _ -> 0
   in
-  is_unit_cont ~yes:0 ~no:1 pat + aux e
+  is_unit_cont ~yes:0 ~no:1 pat + cnt
 
-let rec labels_of_fun e =
+let labels_of_fun e =
   match e.pexp_desc with
-  | Pexp_fun (l, _, _, e) -> l :: labels_of_fun e
+  | Pexp_function (params, _, Pfunction_body _) ->
+      List.filter_map
+        ~f:(function
+          | { pparam_desc = Pparam_newtype _; _ } -> None
+          | { pparam_desc = Pparam_val (l, _, _); _ } -> Some l)
+        params
+  | Pexp_function (_, _, Pfunction_cases _) -> assert false
   | _ -> []
 
 let rec is_single_variable_pattern_conservative p =
