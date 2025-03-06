@@ -378,26 +378,11 @@ let translate_ffi =
             (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
             (* | EffectCall _ | NeedValue _ -> ()); *)
             (E.new_ fn args)
-    | Js_send { variadic; name; kind; scopes; new_ } -> (
-        match (kind, variadic) with
+    | Js_send { variadic; name; self_idx; scopes; new_ } -> (
+        match variadic with
         (* variadic should not happen *)
         (* assert (js_splice = false) ;  *)
-        | Pipe, true ->
-            let args, self = List.split_at_last args in
-            let arg_types, _ = List.split_at_last arg_types in
-            let args, eff, dynamic = assemble_args_has_splice arg_types args in
-            add_eff eff
-              (let self = translate_scoped_access scopes self in
-               if dynamic then splice_obj_fn_apply self name args
-               else process_send ~new_ self name args)
-        | Pipe, false ->
-            let args, self = List.split_at_last args in
-            let arg_types, _ = List.split_at_last arg_types in
-            let args, eff = assemble_args_no_splice args arg_types in
-            add_eff eff
-              (let self = translate_scoped_access scopes self in
-               process_send ~new_ self name args)
-        | Send self_idx, true ->
+        | true ->
             let self, args, arg_types =
               js_send_self_and_args args arg_types ~self_idx
             in
@@ -409,7 +394,7 @@ let translate_ffi =
                  | true -> splice_fn_new_apply (E.dot self name) args
                  | false -> splice_obj_fn_apply self name args
                else process_send ~new_ self name args)
-        | Send self_idx, false ->
+        | false ->
             let self, args, arg_types =
               js_send_self_and_args args arg_types ~self_idx
             in
