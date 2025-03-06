@@ -24,37 +24,11 @@
 
 open Import
 
-let external_attrs =
-  [|
-    "get";
-    "set";
-    "get_index";
-    "return";
-    "obj";
-    "val";
-    "module";
-    "scope";
-    "variadic";
-    "send";
-    "new";
-    "set_index";
-    (* TODO(anmonteiro): re-enable when we enable gentype *)
-    (* Literals.gentype_import; *)
-  |]
-
 let has_mel_attributes attrs =
   List.exists
     ~f:(fun txt ->
       String.starts_with txt ~prefix:"mel."
       && not (String.starts_with txt ~prefix:"mel.internal"))
-    attrs
-
-let is_deprecated_attribute txt =
-  Array.exists ~f:(fun (x : string) -> txt = x) external_attrs
-
-let has_deprecated_attributes attrs =
-  List.exists
-    ~f:(fun txt -> Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
     attrs
 
 let is_mel_attribute txt =

@@ -71,10 +71,6 @@ let emit_external_warnings : Ast_iterator.iterator =
     Melange_ffi.External_ffi_attributes.has_mel_attributes
       (List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt) attrs)
   in
-  let has_deprecated_attributes attrs =
-    Melange_ffi.External_ffi_attributes.has_deprecated_attributes
-      (List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt) attrs)
-  in
   let print_unprocessed_alert ~loc =
     Location.prerr_alert loc
       {
@@ -85,20 +81,6 @@ let emit_external_warnings : Ast_iterator.iterator =
         def = Location.none;
         use = loc;
       }
-  in
-  let print_deprecated_error ~loc attributes =
-    let attributes_names =
-      String.concat ~sep:", "
-        (List.filter
-           ~f:(fun (attr: Parsetree.attribute) ->
-             (Melange_ffi.External_ffi_attributes.is_deprecated_attribute
-                    attr.attr_name.txt))
-           attributes
-        |> List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt))
-    in
-    Location.raise_errorf ~loc
-      "Found these deprecated attributes in external declaration: `%s`. Migrate to the right `[@mel.*]` attributes instead."
-      attributes_names
   in
   let print_unprocessed_uncurried_alert ~loc =
     Location.prerr_alert loc
@@ -121,8 +103,6 @@ let emit_external_warnings : Ast_iterator.iterator =
         | Psig_value { pval_attributes; pval_loc; _ } ->
             if has_mel_attributes pval_attributes then
               print_unprocessed_alert ~loc:pval_loc
-            else if has_deprecated_attributes pval_attributes then
-              print_deprecated_error ~loc:pval_loc pval_attributes
             else super.signature_item self sigi
         | _ -> super.signature_item self sigi);
     expr =
@@ -156,8 +136,6 @@ let emit_external_warnings : Ast_iterator.iterator =
         | { pval_attributes; pval_loc; _ } ->
             if has_mel_attributes pval_attributes then
               print_unprocessed_alert ~loc:pval_loc
-            else if has_deprecated_attributes pval_attributes then
-              print_deprecated_error ~loc:pval_loc pval_attributes
             else super.value_description self v);
     pat =
       (fun self (pat : Parsetree.pattern) ->
