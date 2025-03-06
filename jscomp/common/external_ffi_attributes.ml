@@ -24,30 +24,11 @@
 
 open Import
 
-let external_attrs =
-  [|
-    "get";
-    "set";
-    "get_index";
-    "return";
-    "obj";
-    "val";
-    "module";
-    "scope";
-    "variadic";
-    "send";
-    "new";
-    "set_index";
-    (* TODO(anmonteiro): re-enable when we enable gentype *)
-    (* Literals.gentype_import; *)
-  |]
-
 let has_mel_attributes attrs =
   List.exists
     ~f:(fun txt ->
-      match String.starts_with txt ~prefix:"mel." with
-      | true -> not (String.starts_with txt ~prefix:"mel.internal")
-      | false -> Array.exists ~f:(fun (x : string) -> txt = x) external_attrs)
+      String.starts_with txt ~prefix:"mel."
+      && not (String.starts_with txt ~prefix:"mel.internal"))
     attrs
 
 let is_mel_attribute txt =
