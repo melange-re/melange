@@ -136,20 +136,16 @@ end
 let semi cxt = string cxt L.semi
 let comma cxt = string cxt L.comma
 
-let new_error name cause =
-  E.new_
-    (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
-       Js_dump_lit.melange_error)
-    [ name; cause ]
-
-let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
-    : J.expression =
-  let field_name =
+let exn_block_as_obj (el : J.expression list) (ext : J.tag_info) : J.expression
+    =
+  let field_name, exn =
     match ext with
-    | Blk_extension _ -> (
-        fun i -> match i with 0 -> L.exception_id | i -> "_" ^ string_of_int i)
-    | Blk_record_ext { fields = ss; _ } -> (
-        fun i -> match i with 0 -> L.exception_id | i -> ss.(i - 1))
+    | Blk_extension { exn } ->
+        ( (fun i ->
+            match i with 0 -> L.exception_id | i -> "_" ^ string_of_int i),
+          exn )
+    | Blk_record_ext { fields = ss; exn } ->
+        ((fun i -> match i with 0 -> L.exception_id | i -> ss.(i - 1)), exn)
     | _ -> assert false
   in
   let cause =
@@ -160,10 +156,18 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
       loc = None;
     }
   in
-  if stack then new_error (List.hd el) cause else cause
-
-let exn_ref_as_obj cause : J.expression =
-  new_error (E.record_access cause Js_dump_lit.exception_id 0l) cause
+  (* if exn then new_error (List.hd el) cause else cause *)
+  if exn then
+    (* match el with
+    | [ extension_id ] ->
+        E.runtime_call ~module_name:Js_runtime_modules.caml_js_exceptions
+          ~fn_name:"internalMakeExn" [ extension_id ]
+    | _ -> *)
+    E.new_
+      (E.runtime_var_dot Js_runtime_modules.caml_js_exceptions
+         Js_dump_lit.melange_error)
+      [ List.hd el; cause ]
+  else cause
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -780,7 +784,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Caml_block
       { fields = el; tag_info = (Blk_extension _ | Blk_record_ext _) as ext; _ }
     ->
-      expression cxt ~level (exn_block_as_obj ~stack:false el ext)
+      expression cxt ~level (exn_block_as_obj el ext)
   | Caml_block { fields = el; tag; tag_info = Blk_record_inlined p; _ } ->
       let objs =
         let tails = List.combine (Array.to_list p.fields) el in
@@ -1222,7 +1226,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                   newline cxt;
                   statements ~top:false cxt def))
   | Throw e ->
-      let e =
+      (* let e =
         match e.expression_desc with
         | Caml_block
             {
@@ -1236,7 +1240,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                 (exn_block_as_obj ~stack:true el ext).expression_desc;
             }
         | _ -> { e with expression_desc = (exn_ref_as_obj e).expression_desc }
-      in
+      in *)
       string cxt L.throw;
       space cxt;
       group cxt 0 (fun () ->
