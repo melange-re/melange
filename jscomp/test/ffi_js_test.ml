@@ -57,8 +57,8 @@ type null_obj
 
 external hh : null_obj   -> int = "hh" [@@mel.send] (* it also work *)
 external ff : null_obj -> unit  -> int = "ff" [@@mel.send]
-external ff_pipe :  unit  -> int = "ff_pipe" [@@mel.send.pipe: null_obj]
-external ff_pipe2 :   int = "ff_pipe2" [@@mel.send.pipe: null_obj] (* FIXME *)
+external ff_pipe : unit -> (null_obj [@mel.this]) -> int = "ff_pipe" [@@mel.send]
+external ff_pipe2 : null_obj -> int = "ff_pipe2" [@@mel.send] (* FIXME *)
 let vv z = hh z
 
 let v z = ff z ()

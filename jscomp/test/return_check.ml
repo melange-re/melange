@@ -1,7 +1,7 @@
 type element
 type dom
-external getElementById : string -> element option = "getElementById"
-[@@mel.send.pipe:dom] [@@mel.return {null_to_opt}]
+external getElementById : string -> (dom [@mel.this]) -> element option = "getElementById"
+[@@mel.send] [@@mel.return {null_to_opt}]
 
 let test dom =
     let elem = dom |> getElementById "haha"  in
@@ -11,14 +11,6 @@ let test dom =
 
 (* external getElementById2 : dom -> string -> element option = ""
 [@@mel.return null_to_opt] *)
-
-
-
-
-
-
-
-
 
 
 external get_undefined : int array -> int -> int option = ""

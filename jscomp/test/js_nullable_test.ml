@@ -9,8 +9,8 @@ let eq loc x y =
 
 type element
 type dom
-external getElementById : string -> element option = "getElementById"
-[@@mel.send.pipe:dom] [@@mel.return nullable]
+external getElementById : string -> (dom [@mel.this]) -> element option = "getElementById"
+[@@mel.send] [@@mel.return nullable]
 
 let test dom =
     let elem = dom |> getElementById "haha" in

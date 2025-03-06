@@ -7,8 +7,8 @@ let eq loc x y =
 
 
 external map :
-     ('a -> 'b [@mel.uncurry]) -> 'b array =
-     "map" [@@mel.send.pipe: 'a array]
+  ('a -> 'b [@mel.uncurry]) -> ('a array [@mel.this]) -> 'b array =
+     "map" [@@mel.send]
 
 
 [%%raw{|

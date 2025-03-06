@@ -91,12 +91,12 @@ external send2 : t -> int -> unit = "send2"
 external send3 : t -> int -> unit = "send3"
 [@@mel.send] [@@mel.scope "a0","a1"]
 
-external psend1 : int -> unit = "psend1"
-[@@mel.send.pipe:t] [@@mel.scope "a0"]
-external psend2 :  int -> unit = "psend2"
-[@@mel.send.pipe:t] [@@mel.scope "a0","a1"]
-external psend3 :  int -> unit = "psend3"
-[@@mel.send.pipe:t] [@@mel.scope "a0","a1"]
+external psend1 : int -> (t [@mel.this]) -> unit = "psend1"
+[@@mel.send] [@@mel.scope "a0"]
+external psend2 :  int -> (t [@mel.this]) -> unit = "psend2"
+[@@mel.send] [@@mel.scope "a0","a1"]
+external psend3 :  int -> (t [@mel.this]) -> unit = "psend3"
+[@@mel.send] [@@mel.scope "a0","a1"]
 
 let f3 x =
   ignore @@ makeBuffer 20;

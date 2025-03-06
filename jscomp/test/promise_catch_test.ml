@@ -10,7 +10,7 @@ type 'a t
 type error
 external resolve : 'a -> 'a t = "Promise.resolve"
 external catch :
-  (error -> 'a t [@mel.uncurry]) -> 'a t  = "catch" [@@mel.send.pipe: 'a t]
+  (error -> 'a t [@mel.uncurry]) -> ('a t [@mel.this]) -> 'a t = "catch" [@@mel.send]
 
 
 (** rejectXXError for the FFI .. which is similar to [bs.this] *)

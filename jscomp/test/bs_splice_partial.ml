@@ -9,9 +9,9 @@ external on_exit_slice3 :
     -> h:(_ [@mel.as 3])
     -> (_ [@mel.as "xxx"])
     -> int array
-    -> unit
+    -> (t [@mel.this]) -> unit
     =
-    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
+    "xx" [@@mel.send] [@@mel.variadic]
 
 
 
@@ -22,9 +22,9 @@ external on_exit_slice3 :
 
 
 
-external hi : int array -> int option = "hi"
+external hi : int array -> (int [@mel.this]) -> int option = "hi"
     [@@mel.variadic] [@@mel.return {null_to_opt}]
-    [@@mel.send.pipe:int]
+    [@@mel.send]
 
 
 let test_hi x =
@@ -33,9 +33,9 @@ let test_hi x =
     | Some y -> Js.log y ; 2
 
 
-external hi__2 : int array -> int option = "hi__2"
+external hi__2 : int array -> (int [@mel.this]) -> int option = "hi__2"
 [@@mel.variadic] [@@mel.return nullable ]
-[@@mel.send.pipe:int]
+[@@mel.send]
 
 let test_hi__2 x =
     match x |> hi__2 [||]with
@@ -44,13 +44,13 @@ let test_hi__2 x =
 
 type id = int -> int
 
-external cb : string -> int array -> id = "cb"
-[@@mel.variadic] [@@mel.send.pipe: int]
+external cb : string -> int array -> (int [@mel.this]) -> id = "cb"
+[@@mel.variadic] [@@mel.send]
 
 
 type id2 = int -> int [@u]
-external cb2 : string -> int array -> id2 = "cb2"
-[@@mel.variadic] [@@mel.send.pipe: int]
+external cb2 : string -> int array -> (int [@mel.this]) -> id2 = "cb2"
+[@@mel.variadic] [@@mel.send]
 
 
 let test_cb x =

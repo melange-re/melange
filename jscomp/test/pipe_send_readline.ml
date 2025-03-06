@@ -7,8 +7,9 @@ external on :
   ([ `line of (string -> unit [@u])
    | `close of (unit -> unit [@u])]
      [@mel.string]) ->
+  (readline as 'self [@mel.this]) ->
   'self =
-  "on" [@@mel.send.pipe:readline as 'self]
+  "on" [@@mel.send]
 let u rl =
   rl
   |> on (`line (fun [@u] x -> Js.log x ))
@@ -17,7 +18,10 @@ let u rl =
 
 
 
-external send : string -> 'self   = "send" [@@mel.send.pipe: < hi : int > Js.t as 'self]
+external send :
+  string ->
+  (< hi : int > Js.t as 'self [@mel.this]) ->
+  'self = "send" [@@mel.send]
 
 
 let xx h : int  =
