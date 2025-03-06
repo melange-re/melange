@@ -436,8 +436,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
    set_index = false;
    mk_obj = _;
    scopes = [];
- (* wrapper does not work with @obj
-    TODO: better error message *)
+   _ (* wrapper does not work with @obj
+    TODO: better error message *);
   } ->
       if String.length prim_name > 0 then
         Location.raise_errorf ~loc
@@ -857,50 +857,12 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
               variadic;
               name;
               scopes;
-              kind = Send (mel_send_this_index arg_type_specs arg_types_ty);
+              self_idx = mel_send_this_index arg_type_specs arg_types_ty;
               new_ = not (new_name = `Nm_na);
             })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `[%@mel.send]'"
-  | {
-   val_send = `Nm_na;
-   call_name = `Nm_na;
-   module_as_val = None;
-   set_index = false;
-   get_index = false;
-   new_name;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   external_module_name = None;
-   mk_obj = _;
-   return_wrapper = _;
-   scopes;
-   variadic;
-  } -> (
-      match new_name with
-      | `Nm_payload _ ->
-          Location.raise_errorf ~loc
-            "`[%@mel.new]' doesn't expect an attribute payload"
-      | `Nm_na ->
-          (* can be one argument *)
-          Js_send
-            {
-              variadic;
-              name = string_of_bundle_source prim_name_or_pval_prim;
-              scopes;
-              kind = Pipe;
-              new_ = false;
-            }
-      | `Nm_external _ ->
-          Js_send
-            {
-              variadic;
-              name = string_of_bundle_source prim_name_or_pval_prim;
-              scopes;
-              kind = Pipe;
-              new_ = true;
-            })
   | {
    new_name = `Nm_external (lazy name);
    external_module_name;
