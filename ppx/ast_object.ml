@@ -128,8 +128,25 @@ let ocaml_object_as_js_object =
           match x.pcf_desc with
           | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
-              | Pexp_poly ({ pexp_desc = Pexp_fun (lbl, _, pat, e); _ }, None)
-                ->
+              | Pexp_poly
+                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                    None ) ->
+                  assert false
+              | Pexp_poly
+                  ( {
+                      pexp_desc =
+                        Pexp_function
+                          ( {
+                              pparam_desc = Pparam_val (lbl, None, pat);
+                              pparam_loc = _loc;
+                            }
+                              (* TODO(anmonteiro): Check if this can be multiple args *)
+                            :: _,
+                            _,
+                            Pfunction_body e );
+                      _;
+                    },
+                    None ) ->
                   let method_type =
                     Ast_typ_uncurry.generate_arg_type x.pcf_loc mapper label.txt
                       lbl pat e
@@ -180,8 +197,24 @@ let ocaml_object_as_js_object =
           | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
               | Pexp_poly
-                  (({ pexp_desc = Pexp_fun (ll, None, pat, e); _ } as f), None)
-                ->
+                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                    None ) ->
+                  assert false
+              | Pexp_poly
+                  ( ({
+                       pexp_desc =
+                         Pexp_function
+                           ( {
+                               pparam_desc = Pparam_val (ll, None, pat);
+                               pparam_loc = _loc;
+                             }
+                               (* TODO(anmonteiro): Check if this can be multiple args *)
+                             :: _,
+                             _,
+                             Pfunction_body e );
+                       _;
+                     } as f),
+                    None ) ->
                   let alias_type =
                     if aliased then None else Some internal_obj_type
                   in

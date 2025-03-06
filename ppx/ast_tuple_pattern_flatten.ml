@@ -62,10 +62,19 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
                 pvb_expr = Ast_open_cxt.restore_exp exp wholes;
                 pvb_attributes;
                 pvb_loc = vb.pvb_loc;
+                pvb_constraint = vb.pvb_constraint;
               }
               :: acc)
             xs es ~init:acc
-      | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc)
+      | _ ->
+          {
+            pvb_pat;
+            pvb_expr;
+            pvb_loc = vb.pvb_loc;
+            pvb_attributes;
+            pvb_constraint = vb.pvb_constraint;
+          }
+          :: acc)
   | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
       List.map
         ~f:(fun (lid, pat) ->
@@ -78,13 +87,22 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
                     { lid with txt = Ldot (id.txt, s) };
                 pvb_attributes = [];
                 pvb_loc = pat.ppat_loc;
+                pvb_constraint = vb.pvb_constraint;
               }
           | _ ->
               Location.raise_errorf ~loc:lid.loc
                 "Pattern matching on modules requires simple labels")
         lid_pats
       @ acc
-  | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc
+  | _ ->
+      {
+        pvb_pat;
+        pvb_expr;
+        pvb_loc = vb.pvb_loc;
+        pvb_attributes;
+        pvb_constraint = vb.pvb_constraint;
+      }
+      :: acc
 
 (* XXX(anmonteiro): this one is a little brittle. Because it might introduce
    new value bindings, it must be called at every AST node that has a
