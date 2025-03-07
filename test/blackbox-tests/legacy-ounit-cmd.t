@@ -4,18 +4,18 @@
   > type 'a arra = 'a array
   > external
   >   f :
-  >   int -> int -> int arra -> unit
+  >   int -> int -> int arra -> (int [@mel.this]) -> unit
   >   = ""
-  >   [@@mel.send.pipe:int]
+  >   [@@mel.send]
   >   [@@mel.variadic]
   > EOF
   $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 2-7, characters 0-18:
   2 | external
   3 |   f :
-  4 |   int -> int -> int arra -> unit
+  4 |   int -> int -> int arra -> (int [@mel.this]) -> unit
   5 |   = ""
-  6 |   [@@mel.send.pipe:int]
+  6 |   [@@mel.send]
   7 |   [@@mel.variadic]
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
@@ -23,18 +23,18 @@
   $ cat > x.ml <<EOF
   > external
   >   f2 :
-  >   int -> int -> ?y:int array -> unit
+  >   int -> int -> ?y:int array -> (int [@mel.this]) -> unit
   >   = ""
-  >   [@@mel.send.pipe:int]
+  >   [@@mel.send]
   >   [@@mel.variadic]
   > EOF
   $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
   File "x.ml", lines 1-6, characters 0-18:
   1 | external
   2 |   f2 :
-  3 |   int -> int -> ?y:int array -> unit
+  3 |   int -> int -> ?y:int array -> (int [@mel.this]) -> unit
   4 |   = ""
-  5 |   [@@mel.send.pipe:int]
+  5 |   [@@mel.send]
   6 |   [@@mel.variadic]
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]

@@ -207,7 +207,6 @@ type external_desc = {
   external_module_name : External_ffi_types.external_module_name option;
   module_as_val : External_ffi_types.external_module_name option;
   val_send : name_source;
-  val_send_pipe : core_type option;
   variadic : bool; (* mutable *)
   scopes : string list;
   set_index : bool; (* mutable *)
@@ -225,7 +224,6 @@ let init_st =
     external_module_name = None;
     module_as_val = None;
     val_send = `Nm_na;
-    val_send_pipe = None;
     variadic = false;
     scopes = [];
     set_index = false;
@@ -331,17 +329,10 @@ let parse_external_attributes (prim_name_check : string)
         | "mel.send" ->
             { st with val_send = name_from_payload_or_prim ~loc payload }
         | "mel.send.pipe" ->
-            Mel_ast_invariant.warn ~loc Deprecated_send_pipe;
-            {
-              st with
-              val_send_pipe =
-                (match payload with
-                | PTyp x -> Some x
-                | _ ->
-                    Location.raise_errorf ~loc
-                      "expected a type after `[%@mel.send.pipe]', e.g. \
-                       `[%@mel.send.pipe: t]'");
-            }
+            Location.raise_errorf ~loc
+              "`%s' has been removed. Use `@mel.send' with the `@mel.this` \
+               marker instead."
+              txt
         | "mel.set" ->
             { st with set_name = name_from_payload_or_prim ~loc payload }
         | "mel.get" ->
@@ -435,7 +426,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    variadic = false;
    new_name = `Nm_na;
    call_name = `Nm_na;
@@ -446,8 +436,8 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
    set_index = false;
    mk_obj = _;
    scopes = [];
- (* wrapper does not work with @obj
-    TODO: better error message *)
+   _ (* wrapper does not work with @obj
+    TODO: better error message *);
   } ->
       if String.length prim_name > 0 then
         Location.raise_errorf ~loc
@@ -682,7 +672,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    variadic = false;
    scopes;
    get_index = false;
@@ -707,7 +696,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    external_module_name = None;
    module_as_val = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    variadic = false;
    scopes;
    new_name = `Nm_na;
@@ -733,7 +721,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    new_name;
    external_module_name = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    scopes = [];
    (* module as var does not need scopes *)
    variadic;
@@ -770,7 +757,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    set_index = false;
    get_index = false;
    val_send = `Nm_na;
-   val_send_pipe = None;
    new_name = `Nm_na;
    set_name = `Nm_na;
    external_module_name = None;
@@ -797,7 +783,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    external_module_name;
    module_as_val = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    set_index = false;
    get_index = false;
    new_name = `Nm_na;
@@ -822,7 +807,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    call_name = `Nm_na;
    module_as_val = None;
    val_send = `Nm_na;
-   val_send_pipe = None;
    set_index = false;
    get_index = false;
    new_name = `Nm_na;
@@ -844,7 +828,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    val_send = `Nm_external (lazy name) | `Nm_payload name;
    variadic;
    scopes;
-   val_send_pipe = None;
    call_name = `Nm_na;
    module_as_val = None;
    set_index = false;
@@ -867,62 +850,19 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
             "`[%@mel.send]`'s must have at least a non-constant argument"
       | _, `Nm_payload _ ->
           Location.raise_errorf ~loc
-            "`[%@mel.send]' doesn't expect an attribute payload"
+            "`[%@mel.new]' doesn't expect an attribute payload"
       | _ :: _, (`Nm_na | `Nm_external _) ->
           Js_send
             {
               variadic;
               name;
               scopes;
-              kind = Send (mel_send_this_index arg_type_specs arg_types_ty);
+              self_idx = mel_send_this_index arg_type_specs arg_types_ty;
               new_ = not (new_name = `Nm_na);
             })
   | { val_send = #bundle_source; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `[%@mel.send]'"
-  | {
-   val_send_pipe = Some _;
-   (* variadic = (false as variadic); *)
-   val_send = `Nm_na;
-   call_name = `Nm_na;
-   module_as_val = None;
-   set_index = false;
-   get_index = false;
-   new_name;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   external_module_name = None;
-   mk_obj = _;
-   return_wrapper = _;
-   scopes;
-   variadic;
-  } -> (
-      match new_name with
-      | `Nm_payload _ ->
-          Location.raise_errorf ~loc
-            "`[%@mel.new]' doesn't expect an attribute payload"
-      | `Nm_na ->
-          (* can be one argument *)
-          Js_send
-            {
-              variadic;
-              name = string_of_bundle_source prim_name_or_pval_prim;
-              scopes;
-              kind = Pipe;
-              new_ = false;
-            }
-      | `Nm_external _ ->
-          Js_send
-            {
-              variadic;
-              name = string_of_bundle_source prim_name_or_pval_prim;
-              scopes;
-              kind = Pipe;
-              new_ = true;
-            })
-  | { val_send_pipe = Some _; _ } ->
-      Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `[%@mel.send.pipe]'"
   | {
    new_name = `Nm_external (lazy name);
    external_module_name;
@@ -931,7 +871,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    set_index = false;
    get_index = false;
    val_send = `Nm_na;
-   val_send_pipe = None;
    set_name = `Nm_na;
    get_name = `Nm_na;
    variadic;
@@ -951,7 +890,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    set_index = false;
    get_index = false;
    val_send = `Nm_na;
-   val_send_pipe = None;
    new_name = `Nm_na;
    get_name = `Nm_na;
    external_module_name = None;
@@ -974,7 +912,6 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
    set_index = false;
    get_index = false;
    val_send = `Nm_na;
-   val_send_pipe = None;
    new_name = `Nm_na;
    set_name = `Nm_na;
    external_module_name = None;
@@ -1163,26 +1100,7 @@ module From_attributes = struct
                   : External_arg_spec.Arg_label.t External_arg_spec.param list
                     * param_type list
                     * (int * bool)) =
-              match external_desc.val_send_pipe with
-              | Some obj -> (
-                  match refine_arg_type ~nolabel:true obj with
-                  | Arg_cst _ ->
-                      Location.raise_errorf ~loc
-                        "`[%@mel.as ..]' must not be used in the payload for \
-                         `[%@mel.send.pipe]'"
-                  | arg_type ->
-                      (* more error checking *)
-                      ( [ { External_arg_spec.arg_label = Arg_empty; arg_type } ],
-                        [
-                          {
-                            label = Nolabel;
-                            ty = obj;
-                            attrs = [];
-                            loc = obj.ptyp_loc;
-                          };
-                        ],
-                        (0, false) ))
-              | None -> ([], [], (0, false))
+              ([], [], (0, false))
             in
             List.fold_right
               ~f:(fun

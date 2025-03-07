@@ -56,22 +56,22 @@ let () =
 type t
 
 external on_exit_slice1 :
-    int -> int array -> unit = "xx" [@@mel.send.pipe: t]
+    int -> int array -> (t [@mel.this]) -> unit = "xx" [@@mel.send]
 
 external on_exit_slice2 :
     int
     -> (_ [@mel.as 3])
-    -> (_ [@mel.as "xxx"]) -> int array -> unit =
-    "xx"    [@@mel.send.pipe: t]
+    -> (_ [@mel.as "xxx"]) -> int array -> (t [@mel.this]) -> unit =
+    "xx"    [@@mel.send]
 
 external on_exit_slice3 :
     int
     -> (_ [@mel.as 3])
     -> (_ [@mel.as "xxx"])
     -> int array
-    -> unit
+    -> (t [@mel.this]) -> unit
     =
-    "xx"    [@@mel.send.pipe: t] [@@mel.variadic]
+    "xx"    [@@mel.send] [@@mel.variadic]
 
 external on_exit_slice4 :
     int
@@ -80,9 +80,9 @@ external on_exit_slice4 :
     -> ([`a|`b|`c] [@mel.int])
     -> ([`a|`b|`c] )
     -> int array
-    -> unit
+    -> (t [@mel.this]) -> unit
     =
-    "xx" [@@mel.send.pipe: t] [@@mel.variadic]
+    "xx" [@@mel.send] [@@mel.variadic]
 
 
 external on_exit_slice5 :
@@ -99,9 +99,9 @@ external on_exit_slice5 :
     -> (_ [@mel.as "yyy"])
     -> ([`a|`b|`c] )
     -> int array
-    -> unit
+    -> (t [@mel.this]) -> unit
     =
-    "xx" [@@mel.send.pipe: t] [@@mel.variadic]
+    "xx" [@@mel.send] [@@mel.variadic]
 
 
 (**
@@ -124,8 +124,8 @@ let () =
 
 type process
 
-external on_exit :  (_ [@mel.as "exit"]) -> (int -> unit) -> unit =
-    "on" [@@mel.send.pipe: process]
+external on_exit :  (_ [@mel.as "exit"]) -> (int -> unit) -> (process [@mel.this]) -> unit =
+    "on" [@@mel.send]
 let register (p : process) =
         p |> on_exit (fun i -> Js.log i )
 

@@ -23,7 +23,7 @@ function f_undefined(xs, i) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/return_check.ml",
-          30,
+          22,
           14
         ]
       });
@@ -63,7 +63,7 @@ function f_null(xs, i) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/return_check.ml",
-          58,
+          50,
           14
         ]
       });
@@ -78,7 +78,7 @@ function f_null_undefined(xs, i) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/return_check.ml",
-          67,
+          59,
           14
         ]
       });

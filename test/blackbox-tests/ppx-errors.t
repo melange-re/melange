@@ -349,22 +349,17 @@ Demonstrate PPX error messages
   File "x.ml", line 2, characters 0-68:
   2 | external get : t -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: `[@mel.send]' doesn't expect an attribute payload
+  Error: `[@mel.new]' doesn't expect an attribute payload
   [1]
 
   $ cat > x.ml <<EOF
   > type t
-  > external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
+  > external get : (t [@mel.this]) -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 37-50:
-  2 | external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
-                                           ^^^^^^^^^^^^^
-  Alert deprecated: [@mel.send.pipe] is deprecated and will be removed in the next version of Melange
-  
-  File "x.ml", line 2, characters 0-71:
-  2 | external get : string = "some-fn" [@@mel.send.pipe: t] [@@mel.new "hi"]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "x.ml", line 2, characters 0-82:
+  2 | external get : (t [@mel.this]) -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: `[@mel.new]' doesn't expect an attribute payload
   [1]
 
@@ -406,20 +401,17 @@ Demonstrate PPX error messages
 
   $ cat > x.ml <<EOF
   > type t
-  > external f: int -> unit = "set"
-  > [@@mel.send.pipe: (_ [@mel.as "x"])]
+  > external f: int -> (_ [@mel.as "x"] [@mel.this]) -> unit = "set"
+  > [@@mel.send]
   > EOF
   $ dune build @melange
-  File "x.ml", line 3, characters 3-16:
-  3 | [@@mel.send.pipe: (_ [@mel.as "x"])]
-         ^^^^^^^^^^^^^
-  Alert deprecated: [@mel.send.pipe] is deprecated and will be removed in the next version of Melange
+  File "x.ml", line 2, characters 38-46:
+  2 | external f: int -> (_ [@mel.as "x"] [@mel.this]) -> unit = "set"
+                                            ^^^^^^^^
+  Alert unused: Unused attribute [@mel.this]
+  This means such annotation is not annotated properly.
+  For example, some annotations are only meaningful in externals
   
-  File "x.ml", lines 2-3, characters 0-36:
-  2 | external f: int -> unit = "set"
-  3 | [@@mel.send.pipe: (_ [@mel.as "x"])]
-  Error: `[@mel.as ..]' must not be used in the payload for `[@mel.send.pipe]'
-  [1]
 
   $ cat > x.ml <<EOF
   > external join : ?foo:string array -> string = "join"

@@ -29,13 +29,11 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_send_pipe
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_mel_string -> "redundant"
-    | Deprecated_send_pipe -> "deprecated"
 
   let pp fmt t =
     match t with
@@ -53,10 +51,6 @@ module Warnings = struct
     | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
-    | Deprecated_send_pipe ->
-        Format.fprintf fmt
-          "[@mel.send.pipe] is deprecated and will be removed in the next \
-           version of Melange"
 end
 
 let warn_raw =

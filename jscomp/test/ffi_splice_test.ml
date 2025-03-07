@@ -42,7 +42,7 @@ external sum : t -> unit -> int = "sum" [@@mel.send]
 (* external join : string  -> string = "" [@@mel.module "path"] [@@mel.variadic] *)
 external join : string array -> string = "join" [@@mel.module "path"] [@@mel.variadic]
 
-external test : string array -> t = "test" [@@mel.send.pipe: t ] [@@mel.variadic] (*FIXME*)
+external test : string array -> (t [@mel.this]) -> t = "test" [@@mel.send] [@@mel.variadic] (*FIXME*)
 
 (* compile error *)
 (* external test2 : int -> string -> t= "" [@@mel.send.pipe: t ] [@@mel.variadic] *)

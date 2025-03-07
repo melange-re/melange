@@ -57,8 +57,8 @@ let dynamicNew arr =
 ;; dynamicNew [|1;3|]
 
 module Pipe = struct
-  external push :  int -> int array -> unit =
-    "push" [@@mel.send.pipe: int array ] [@@mel.variadic]
+  external push :  int -> int array -> (int array [@mel.this]) -> unit =
+    "push" [@@mel.send] [@@mel.variadic]
 
   (* This is only test, the binding maybe wrong
      since in OCaml array'length is not mutable

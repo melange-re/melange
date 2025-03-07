@@ -29,7 +29,6 @@ module Warnings : sig
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_mel_string
-    | Deprecated_send_pipe
 end
 
 val warn_raw : loc:location -> kind:label -> label -> unit

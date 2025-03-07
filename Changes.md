@@ -34,6 +34,11 @@ Unreleased
   issue, while partially fixed in Melange 5.0.0, didn't account for default
   arguments ([#1253](https://github.com/melange-re/melange/issues/1253),
   [#1334](https://github.com/melange-re/melange/issues/1334)).
+- BREAKING(ppx): remove `@mel.send.pipe`
+  ([#1349](https://github.com/melange-re/melange/pull/1349))
+  - `@mel.send.pipe`, deprecated in Melange 5, is no longer needed as part of
+    the melange attribute language, and can be replaced by the more versatile
+    `@mel.send` combined with `@mel.this` to mark the "self" argument.
 
 5.0.0-53 2025-02-09
 ---------------

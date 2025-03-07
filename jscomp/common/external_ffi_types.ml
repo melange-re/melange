@@ -46,7 +46,6 @@ type arg_type = External_arg_spec.attr
    hand *)
 
 type arg_label = External_arg_spec.Obj_label.t
-type js_send_kind = Pipe | Send of int
 
 type external_spec =
   | Js_var of {
@@ -69,7 +68,7 @@ type external_spec =
   | Js_send of {
       name : string;
       variadic : bool;
-      kind : js_send_kind;
+      self_idx : int;
       new_ : bool;
       scopes : string list;
     }

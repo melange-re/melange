@@ -17,7 +17,7 @@ external min_int : int -> int -> int = "min"  [@@mel.scope "Math"]
 let min_int = min_int
 
 type t
-external say : int -> int = "say"[@@mel.send.pipe:t]
+external say : int -> (t [@mel.this]) -> int = "say"[@@mel.send]
 
 let say = say
 
