@@ -6,6 +6,12 @@
   > 
   > (* nested fun with uncurry, should generate 2 uncurried fn *)
   > let y = fun [@u] a b -> fun [@u] c -> a + b + c
+  > 
+  > let[@warning "-61"] u : < say : (int -> int -> int[@mel.meth]) > Js.t =
+  >   object
+  >     method say x = fun y -> x + y
+  >   end
+  >   [@u]
   > EOF
 
   $ melc -ppx melppx x.ml
@@ -23,8 +29,15 @@
     };
   }
   
+  const u = {
+    say: (function (x, y) {
+      return x + y | 0;
+    })
+  };
+  
   module.exports = {
     x,
     y,
+    u,
   }
-  /* No side effect */
+  /* u Not a pure module */
