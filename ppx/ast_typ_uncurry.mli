@@ -69,16 +69,14 @@ val generate_method_type :
   Ast_traverse.map ->
   ?alias_type:core_type ->
   string ->
-  Asttypes.arg_label ->
-  pattern ->
+  function_param list ->
   expression ->
   core_type
 
 val generate_arg_type :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
   string ->
-  Asttypes.arg_label ->
-  pattern ->
+  function_param list ->
   expression ->
   core_type
