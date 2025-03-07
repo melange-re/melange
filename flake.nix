@@ -16,7 +16,27 @@
       forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_3;
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_3.overrideScope (oself: osuper: {
+              ppxlib = osuper.ppxlib.overrideAttrs (_: {
+                src = builtins.fetchurl {
+                  url = "https://github.com/ocaml-ppx/ppxlib/releases/download/0.36.0/ppxlib-0.36.0.tbz";
+                  sha256 = "0d54j19vi1khzmw0ffngs8xzjjq07n20q49h85hhhcf52k71pfjs";
+                };
+              });
+              reason = osuper.reason.overrideAttrs (_: {
+                src = super.fetchFromGitHub {
+                  owner = "reasonml";
+                  repo = "reason";
+                  rev = "e504484a4f9ab46686f8fb56550a1ee58fdd87d2";
+                  hash = "sha256-ONE8jWcQ3H41YfaZ7849LRUha2M+6DOx4NGQN4LkA6E=";
+                };
+                doCheck = false;
+              });
+
+              pp = osuper.pp.overrideAttrs (o: {
+                doCheck = false;
+              });
+            });
           });
         in
         f pkgs);

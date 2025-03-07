@@ -48,6 +48,7 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
   let pvb_pat = self#pattern vb.pvb_pat in
   let pvb_expr = self#expression vb.pvb_expr in
   let pvb_attributes = self#attributes vb.pvb_attributes in
+  let pvb_constraint = Option.map self#value_constraint vb.pvb_constraint in
   match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
   | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
       match Ast_open_cxt.destruct_open_tuple pvb_expr [] with
@@ -62,10 +63,19 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
                 pvb_expr = Ast_open_cxt.restore_exp exp wholes;
                 pvb_attributes;
                 pvb_loc = vb.pvb_loc;
+                pvb_constraint;
               }
               :: acc)
             xs es ~init:acc
-      | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc)
+      | _ ->
+          {
+            pvb_pat;
+            pvb_expr;
+            pvb_loc = vb.pvb_loc;
+            pvb_attributes;
+            pvb_constraint;
+          }
+          :: acc)
   | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
       List.map
         ~f:(fun (lid, pat) ->
@@ -78,13 +88,22 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
                     { lid with txt = Ldot (id.txt, s) };
                 pvb_attributes = [];
                 pvb_loc = pat.ppat_loc;
+                pvb_constraint;
               }
           | _ ->
               Location.raise_errorf ~loc:lid.loc
                 "Pattern matching on modules requires simple labels")
         lid_pats
       @ acc
-  | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc
+  | _ ->
+      {
+        pvb_pat;
+        pvb_expr;
+        pvb_loc = vb.pvb_loc;
+        pvb_attributes;
+        pvb_constraint;
+      }
+      :: acc
 
 (* XXX(anmonteiro): this one is a little brittle. Because it might introduce
    new value bindings, it must be called at every AST node that has a
