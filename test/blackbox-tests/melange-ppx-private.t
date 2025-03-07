@@ -21,6 +21,9 @@ Test to showcase errors when using %%private extensions with melange ppx
   >     Webapi.Dom.MouseEvent.t -> Webapi.Dom.Event.t = "%identity"]
   > EOF
   $ dune build @mel
-  File "main.ml", lines 1-3:
+  File "main.ml", lines 1-3, characters 0-2:
+  1 | (**
+  2 |   Hey
+  3 | *)
   Error: Attributes not allowed here
   [1]
