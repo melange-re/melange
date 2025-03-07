@@ -38,6 +38,8 @@ let caml_methods_cache = Caml_array_extern.make 1000 0
 
 (* refer to {!CamlinternalOO.create_obj_opt}*)
 
+let caml_oo_id = "CamlOO"
+
 (* see  #251
    {[
      CAMLprim value caml_set_oo_id (value obj) {
@@ -48,8 +50,8 @@ let caml_methods_cache = Caml_array_extern.make 1000 0
 
    ]}*)
 let caml_set_oo_id (b : obj) : obj =
-  Obj.set_field (Obj.repr b) 1 (Obj.repr Caml_exceptions.id.contents);
-  Caml_exceptions.id.contents <- Caml_exceptions.id.contents + 1;
+  let id = Caml_exceptions.fresh caml_oo_id in
+  Obj.set_field (Obj.repr b) 1 (Obj.repr id);
   b
 
 let caml_get_public_method (obj : obj) (tag : int) (cacheid : int) : closure =
