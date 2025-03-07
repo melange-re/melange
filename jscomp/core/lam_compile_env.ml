@@ -129,9 +129,9 @@ let is_pure_module (oid : Lam_module_ident.t) =
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               oid +> Ml cmj_load_info;
-              cmj_load_info.cmj_table.pure
+              cmj_load_info.cmj_table.effect_ = None
           | exception _ -> false)
-      | Some (Ml { cmj_table; _ }) -> cmj_table.pure
+      | Some (Ml { cmj_table; _ }) -> cmj_table.effect_ = None
       | Some External -> false)
 
 let populate_required_modules extras
