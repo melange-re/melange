@@ -75,10 +75,8 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
                [ Typ.any ~loc () ]) );
       ] )
 
-let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
-    body : expression_desc =
-  Error.optional_err ~loc label;
-  let rec aux acc (body : expression) =
+let to_uncurry_fn =
+  let rec aux ~loc self acc (body : expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
@@ -93,25 +91,36 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
                       (arg_label, self#pattern arg) :: acc)
                 args
             in
-            aux acc' body
+            aux ~loc self acc' body
         | _ -> (self#expression body, acc))
     | _, _ -> (self#expression body, acc)
   in
-  let first_arg = self#pattern pat in
-
-  let result, rev_extra_args = aux [ (label, first_arg) ] body in
-  let body =
-    List.fold_left
-      ~f:(fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
-      ~init:result rev_extra_args
-  in
-  let len = List.length rev_extra_args in
-  let arity =
-    match rev_extra_args with
-    | [ (_, p) ] -> Ast_pat.is_unit_cont ~yes:0 ~no:len p
-    | _ -> len
-  in
-  Error.err_large_arity ~loc arity;
-  let arity_s = string_of_int arity in
-  Pexp_record
-    ([ ({ txt = Ldot (Ast_literal.js_fn, "I" ^ arity_s); loc }, body) ], None)
+  fun ~loc (self : Ast_traverse.map) args body : expression_desc ->
+    let result, rev_extra_args =
+      let rev_args =
+        List.fold_left ~init:[]
+          ~f:(fun acc param ->
+            match param with
+            | { pparam_desc = Pparam_newtype _; _ } -> acc
+            | { pparam_desc = Pparam_val (arg_label, _, arg); _ } ->
+                Error.optional_err ~loc arg_label;
+                (arg_label, self#pattern arg) :: acc)
+          args
+      in
+      aux ~loc self rev_args body
+    in
+    let body =
+      List.fold_left
+        ~f:(fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
+        ~init:result rev_extra_args
+    in
+    let len = List.length rev_extra_args in
+    let arity =
+      match rev_extra_args with
+      | [ (_, p) ] -> Ast_pat.is_unit_cont ~yes:0 ~no:len p
+      | _ -> len
+    in
+    Error.err_large_arity ~loc arity;
+    let arity_s = string_of_int arity in
+    Pexp_record
+      ([ ({ txt = Ldot (Ast_literal.js_fn, "I" ^ arity_s); loc }, body) ], None)
