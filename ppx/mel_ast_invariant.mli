@@ -36,7 +36,7 @@ val warn_raw : loc:location -> kind:label -> label -> unit
 val warn : loc:Location.t -> Warnings.t -> unit
 val mark_used_mel_attribute : attribute -> unit
 
-val warn_discarded_unused_attributes : attributes -> unit
+val warn_discarded_unused_attributes : ?has_mel_send:bool -> attributes -> unit
 (** [warn_discarded_unused_attributes discarded] warn if [discarded] has unused
     mel attribute *)
 
