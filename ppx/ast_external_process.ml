@@ -130,7 +130,7 @@ let const_payload_cst = function
   | Js_literal_str s -> Arg_cst (External_arg_spec.cst_obj_literal s)
 
 (* is_optional = false *)
-let refine_arg_type ~(nolabel : bool) (ptyp : core_type) :
+let refine_arg_type ~(nolabel : bool) ~has_mel_send (ptyp : core_type) :
     External_arg_spec.attr =
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
@@ -140,7 +140,7 @@ let refine_arg_type ~(nolabel : bool) (ptyp : core_type) :
       | None -> spec_of_ptyp ~nolabel ptyp
       | Some cst ->
           (* (_[@as ])*)
-          Mel_ast_invariant.warn_discarded_unused_attributes
+          Mel_ast_invariant.warn_discarded_unused_attributes ~has_mel_send
             ptyp.ptyp_attributes;
           const_payload_cst cst)
   | _ ->
@@ -1165,7 +1165,9 @@ module From_attributes = struct
                     * (int * bool)) =
               match external_desc.val_send_pipe with
               | Some obj -> (
-                  match refine_arg_type ~nolabel:true obj with
+                  match
+                    refine_arg_type ~has_mel_send:true ~nolabel:true obj
+                  with
                   | Arg_cst _ ->
                       Location.raise_errorf ~loc
                         "`[%@mel.as ..]' must not be used in the payload for \
@@ -1243,14 +1245,20 @@ module From_attributes = struct
                       | arg_type ->
                           (Arg_optional, arg_type, param_type :: arg_types))
                   | Labelled _ -> (
-                      let arg_type = refine_arg_type ~nolabel:false ty in
+                      let arg_type =
+                        let has_mel_send = external_desc.val_send <> `Nm_na in
+                        refine_arg_type ~nolabel:false ~has_mel_send ty
+                      in
                       ( Arg_label,
                         arg_type,
                         match arg_type with
                         | Arg_cst _ -> arg_types
                         | _ -> param_type :: arg_types ))
                   | Nolabel -> (
-                      let arg_type = refine_arg_type ~nolabel:true ty in
+                      let arg_type =
+                        let has_mel_send = external_desc.val_send <> `Nm_na in
+                        refine_arg_type ~nolabel:true ~has_mel_send ty
+                      in
                       ( Arg_empty,
                         arg_type,
                         match arg_type with

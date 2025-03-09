@@ -272,11 +272,17 @@ let translate_ffi =
     let rec aux ~self_idx args specs (acc_args, acc_specs, cur_idx) =
       match (args, specs) with
       | [], [] -> assert false
-      | ( _ :: _,
+      | ( args,
           (* constant args get elided from the `external type` but not the arg
-           specs. *)
-          ({ External_arg_spec.arg_type = Arg_cst _; _ } as spec) :: specs ) ->
-          aux ~self_idx args specs (acc_args, spec :: acc_specs, cur_idx + 1)
+             specs. *)
+          ({ External_arg_spec.arg_type = Arg_cst cst; _ } as spec) :: specs )
+        ->
+          if self_idx = cur_idx then
+            ( Lam_compile_const.translate_arg_cst cst,
+              List.rev_append acc_args args,
+              List.rev_append acc_specs specs )
+          else
+            aux ~self_idx args specs (acc_args, spec :: acc_specs, cur_idx + 1)
       | self :: args, spec :: specs ->
           if self_idx = cur_idx then
             (* PR2162 [self_type] more checks in syntax:

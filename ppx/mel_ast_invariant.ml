@@ -86,7 +86,15 @@ let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     && not (Polyvariant.Hash_set.mem used_attributes sloc)
   then warn ~loc (Unused_attribute txt)
 
-let warn_discarded_unused_attributes (attrs : attributes) =
+let warn_discarded_unused_attributes ?(has_mel_send = false)
+    (attrs : attributes) =
+  let attrs =
+    if has_mel_send then
+      List.filter attrs ~f:(function
+        | { attr_name = { txt = "mel.this"; _ }; _ } -> false
+        | _ -> true)
+    else attrs
+  in
   if attrs <> [] then List.iter ~f:warn_unused_attribute attrs
 
 let emit_external_warnings : Ast_traverse.iter =
