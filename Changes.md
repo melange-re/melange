@@ -17,7 +17,9 @@ Unreleased
       been producing errors for the last 2 versions. Since ecosystem libraries
       have been keeping up to date with Melange versions, after this change, it
       will be silently ignored.
--
+- allow `@mel.as "constant"` and `@mel.this` to coexist -- marking the constant
+  argument as the instance / self argument
+  ([#1353](https://github.com/melange-re/melange/pull/1353))
 
 5.0.1-53 2025-02-23
 ---------------

@@ -400,20 +400,6 @@ Demonstrate PPX error messages
   [1]
 
   $ cat > x.ml <<EOF
-  > type t
-  > external f: int -> (_ [@mel.as "x"] [@mel.this]) -> unit = "set"
-  > [@@mel.send]
-  > EOF
-  $ dune build @melange
-  File "x.ml", line 2, characters 38-46:
-  2 | external f: int -> (_ [@mel.as "x"] [@mel.this]) -> unit = "set"
-                                            ^^^^^^^^
-  Alert unused: Unused attribute [@mel.this]
-  This means such annotation is not annotated properly.
-  For example, some annotations are only meaningful in externals
-  
-
-  $ cat > x.ml <<EOF
   > external join : ?foo:string array -> string = "join"
   > [@@mel.module "path"] [@@mel.variadic]
   > EOF
