@@ -99,7 +99,9 @@ let derive_structure tdcls =
                      in
                      List.fold_right
                        ~f:(fun var b ->
-                         Exp.fun_ Nolabel None (Pat.var { loc; txt = var }) b)
+                         Ast_builder.Default.pexp_fun ~loc Nolabel None
+                           (Pat.var { loc; txt = var })
+                           b)
                        vars ~init:exp);
               ])
           constructor_declarations
