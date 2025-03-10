@@ -43,7 +43,9 @@
   (reason
    (and :dev :with-test))
   (ppxlib
-   (>= "0.30.0"))
+   (and
+     (>= "0.30.0")
+     (< "0.36.0")))
   (menhir
    (>= 20201214))
   (reason-react-ppx
