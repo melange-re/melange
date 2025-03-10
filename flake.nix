@@ -17,6 +17,22 @@
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_5_3.overrideScope (oself: osuper: {
+              js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
+                src = super.fetchFromGitHub {
+                  owner = "ocsigen";
+                  repo = "js_of_ocaml";
+                  rev = "99efd3f41e0a9a1137aac20389d33ed41615dfb1";
+                  hash = "sha256-KR1JxK/mNb5TQ99GPaIKKaU+ovvuuogCZJPsuIZYtWo=";
+                };
+              });
+              sedlex = osuper.sedlex.overrideAttrs (_: {
+                src = super.fetchFromGitHub {
+                  owner = "ocaml-community";
+                  repo = "sedlex";
+                  rev = "4dbaf572ed52281140be924a2c16fa4f287d88f0";
+                  hash = "sha256-pRZ/GRTpBIa8ZcKdmCo1pmAHR3tJrIfNqU4IreEhO7g=";
+                };
+              });
               ppxlib = osuper.ppxlib.overrideAttrs (_: {
                 src = builtins.fetchurl {
                   url = "https://github.com/ocaml-ppx/ppxlib/releases/download/0.36.0/ppxlib-0.36.0.tbz";
@@ -27,10 +43,19 @@
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
                   repo = "reason";
-                  rev = "e504484a4f9ab46686f8fb56550a1ee58fdd87d2";
-                  hash = "sha256-ONE8jWcQ3H41YfaZ7849LRUha2M+6DOx4NGQN4LkA6E=";
+                  rev = "f9b776b890017e9a2389b5107a5f4853acf9cc8c";
+                  hash = "sha256-nOBnquoEx0uWcHVQGR6gN2A8q9VF3BrzRsTiIJWJJnU=";
                 };
+                patches = [ ];
                 doCheck = false;
+              });
+              reason-react-ppx = osuper.reason-react-ppx.overrideAttrs (_: {
+                src = super.fetchFromGitHub {
+                  owner = "reasonml";
+                  repo = "reason-react";
+                  rev = "c97615d62311f32c2dbb1e5d159c06e147ca7545";
+                  hash = "sha256-dZZyjc+G2erukLXsICExaKwWqs6eqGLrkHTouoe8k40=";
+                };
               });
 
               pp = osuper.pp.overrideAttrs (o: {
