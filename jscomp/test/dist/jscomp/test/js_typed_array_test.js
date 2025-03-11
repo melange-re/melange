@@ -20,10 +20,10 @@ function viaInt8(f, arr) {
 }
 
 const x = new Int8Array([
-      1,
-      2,
-      3
-    ]);
+    1,
+    2,
+    3
+  ]);
 
 const suites_0 = [
   "array_buffer - make",
@@ -77,12 +77,12 @@ const suites_1 = {
               TAG: /* Eq */ 0,
               _0: 4,
               _1: new Int8Array([
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ])[3]
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ])[3]
             };
           })
         ],
@@ -91,12 +91,12 @@ const suites_1 = {
             "typed_array - unsafe_set",
             (function (param) {
               const a = new Int8Array([
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
-                  ]);
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]);
               a[3] = 14;
               return {
                 TAG: /* Eq */ 0,
@@ -112,17 +112,17 @@ const suites_1 = {
                 return {
                   TAG: /* Eq */ 0,
                   _0: new Int8Array([
+                      3,
+                      4,
+                      5
+                    ]),
+                  _1: new Int8Array(new Int8Array([
+                        1,
+                        2,
                         3,
                         4,
                         5
-                      ]),
-                  _1: new Int8Array(new Int8Array([
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                          ]).buffer, 2, undefined)
+                      ]).buffer, 2, undefined)
                 };
               })
             ],
@@ -134,12 +134,12 @@ const suites_1 = {
                     TAG: /* Eq */ 0,
                     _0: 10,
                     _1: new Int16Array([
-                          1,
-                          2,
-                          3,
-                          4,
-                          5
-                        ]).byteLength
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]).byteLength
                   };
                 })
               ],
@@ -151,12 +151,12 @@ const suites_1 = {
                       TAG: /* Eq */ 0,
                       _0: 0,
                       _1: new Int8Array([
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                          ]).byteOffset
+                          1,
+                          2,
+                          3,
+                          4,
+                          5
+                        ]).byteOffset
                     };
                   })
                 ],
@@ -175,19 +175,19 @@ const suites_1 = {
                       return {
                         TAG: /* Eq */ 0,
                         _0: new Int8Array([
-                              9,
-                              8,
-                              7,
-                              4,
-                              5
-                            ]),
+                            9,
+                            8,
+                            7,
+                            4,
+                            5
+                          ]),
                         _1: f(new Int8Array([
-                              1,
-                              2,
-                              3,
-                              4,
-                              5
-                            ]))
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                          ]))
                       };
                     })
                   ],
@@ -206,19 +206,19 @@ const suites_1 = {
                         return {
                           TAG: /* Eq */ 0,
                           _0: new Int8Array([
-                                1,
-                                2,
-                                9,
-                                8,
-                                7
-                              ]),
+                              1,
+                              2,
+                              9,
+                              8,
+                              7
+                            ]),
                           _1: f(new Int8Array([
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                              ]))
+                              1,
+                              2,
+                              3,
+                              4,
+                              5
+                            ]))
                         };
                       })
                     ],
@@ -230,12 +230,12 @@ const suites_1 = {
                             TAG: /* Eq */ 0,
                             _0: 5,
                             _1: new Int8Array([
-                                  1,
-                                  2,
-                                  3,
-                                  4,
-                                  5
-                                ]).length
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                              ]).length
                           };
                         })
                       ],
@@ -246,19 +246,19 @@ const suites_1 = {
                             return {
                               TAG: /* Eq */ 0,
                               _0: new Int8Array([
-                                    1,
-                                    2,
-                                    3,
-                                    1,
-                                    2
-                                  ]),
+                                  1,
+                                  2,
+                                  3,
+                                  1,
+                                  2
+                                ]),
                               _1: new Int8Array([
-                                    1,
-                                    2,
-                                    3,
-                                    4,
-                                    5
-                                  ]).copyWithin(-2, undefined, undefined)
+                                  1,
+                                  2,
+                                  3,
+                                  4,
+                                  5
+                                ]).copyWithin(-2, undefined, undefined)
                             };
                           })
                         ],
@@ -269,19 +269,19 @@ const suites_1 = {
                               return {
                                 TAG: /* Eq */ 0,
                                 _0: new Int8Array([
-                                      4,
-                                      5,
-                                      3,
-                                      4,
-                                      5
-                                    ]),
+                                    4,
+                                    5,
+                                    3,
+                                    4,
+                                    5
+                                  ]),
                                 _1: new Int8Array([
-                                      1,
-                                      2,
-                                      3,
-                                      4,
-                                      5
-                                    ]).copyWithin(0, 3, undefined)
+                                    1,
+                                    2,
+                                    3,
+                                    4,
+                                    5
+                                  ]).copyWithin(0, 3, undefined)
                               };
                             })
                           ],
@@ -292,19 +292,19 @@ const suites_1 = {
                                 return {
                                   TAG: /* Eq */ 0,
                                   _0: new Int8Array([
-                                        4,
-                                        2,
-                                        3,
-                                        4,
-                                        5
-                                      ]),
+                                      4,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                    ]),
                                   _1: new Int8Array([
-                                        1,
-                                        2,
-                                        3,
-                                        4,
-                                        5
-                                      ]).copyWithin(0, 3, 4)
+                                      1,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                    ]).copyWithin(0, 3, 4)
                                 };
                               })
                             ],
@@ -315,15 +315,15 @@ const suites_1 = {
                                   return {
                                     TAG: /* Eq */ 0,
                                     _0: new Int8Array([
-                                          4,
-                                          4,
-                                          4
-                                        ]),
+                                        4,
+                                        4,
+                                        4
+                                      ]),
                                     _1: new Int8Array([
-                                          1,
-                                          2,
-                                          3
-                                        ]).fill(4, undefined, undefined)
+                                        1,
+                                        2,
+                                        3
+                                      ]).fill(4, undefined, undefined)
                                   };
                                 })
                               ],
@@ -334,15 +334,15 @@ const suites_1 = {
                                     return {
                                       TAG: /* Eq */ 0,
                                       _0: new Int8Array([
-                                            1,
-                                            4,
-                                            4
-                                          ]),
+                                          1,
+                                          4,
+                                          4
+                                        ]),
                                       _1: new Int8Array([
-                                            1,
-                                            2,
-                                            3
-                                          ]).fill(4, 1, undefined)
+                                          1,
+                                          2,
+                                          3
+                                        ]).fill(4, 1, undefined)
                                     };
                                   })
                                 ],
@@ -353,15 +353,15 @@ const suites_1 = {
                                       return {
                                         TAG: /* Eq */ 0,
                                         _0: new Int8Array([
-                                              1,
-                                              4,
-                                              3
-                                            ]),
+                                            1,
+                                            4,
+                                            3
+                                          ]),
                                         _1: new Int8Array([
-                                              1,
-                                              2,
-                                              3
-                                            ]).fill(4, 1, 2)
+                                            1,
+                                            2,
+                                            3
+                                          ]).fill(4, 1, 2)
                                       };
                                     })
                                   ],
@@ -372,15 +372,15 @@ const suites_1 = {
                                         return {
                                           TAG: /* Eq */ 0,
                                           _0: new Int8Array([
-                                                3,
-                                                2,
-                                                1
-                                              ]),
+                                              3,
+                                              2,
+                                              1
+                                            ]),
                                           _1: new Int8Array([
-                                                1,
-                                                2,
-                                                3
-                                              ]).reverse()
+                                              1,
+                                              2,
+                                              3
+                                            ]).reverse()
                                         };
                                       })
                                     ],
@@ -391,15 +391,15 @@ const suites_1 = {
                                           return {
                                             TAG: /* Eq */ 0,
                                             _0: new Int8Array([
-                                                  1,
-                                                  2,
-                                                  3
-                                                ]),
+                                                1,
+                                                2,
+                                                3
+                                              ]),
                                             _1: new Int8Array([
-                                                  3,
-                                                  1,
-                                                  2
-                                                ]).sort()
+                                                3,
+                                                1,
+                                                2
+                                              ]).sort()
                                           };
                                         })
                                       ],
@@ -410,15 +410,15 @@ const suites_1 = {
                                             return {
                                               TAG: /* Eq */ 0,
                                               _0: new Int8Array([
-                                                    3,
-                                                    2,
-                                                    1
-                                                  ]),
+                                                  3,
+                                                  2,
+                                                  1
+                                                ]),
                                               _1: new Int8Array([
-                                                    3,
-                                                    1,
-                                                    2
-                                                  ]).sort(function (a, b) {
+                                                  3,
+                                                  1,
+                                                  2
+                                                ]).sort(function (a, b) {
                                                 return b - a | 0;
                                               })
                                             };
@@ -432,10 +432,10 @@ const suites_1 = {
                                                 TAG: /* Eq */ 0,
                                                 _0: true,
                                                 _1: new Int8Array([
-                                                      1,
-                                                      2,
-                                                      3
-                                                    ]).includes(3)
+                                                    1,
+                                                    2,
+                                                    3
+                                                  ]).includes(3)
                                               };
                                             })
                                           ],
@@ -447,10 +447,10 @@ const suites_1 = {
                                                   TAG: /* Eq */ 0,
                                                   _0: 1,
                                                   _1: new Int8Array([
-                                                        1,
-                                                        2,
-                                                        3
-                                                      ]).indexOf(2, undefined)
+                                                      1,
+                                                      2,
+                                                      3
+                                                    ]).indexOf(2, undefined)
                                                 };
                                               })
                                             ],
@@ -462,11 +462,11 @@ const suites_1 = {
                                                     TAG: /* Eq */ 0,
                                                     _0: 3,
                                                     _1: new Int8Array([
-                                                          1,
-                                                          2,
-                                                          3,
-                                                          2
-                                                        ]).indexOf(2, 2)
+                                                        1,
+                                                        2,
+                                                        3,
+                                                        2
+                                                      ]).indexOf(2, 2)
                                                   };
                                                 })
                                               ],
@@ -478,10 +478,10 @@ const suites_1 = {
                                                       TAG: /* Eq */ 0,
                                                       _0: "1,2,3",
                                                       _1: new Int8Array([
-                                                            1,
-                                                            2,
-                                                            3
-                                                          ]).join(undefined)
+                                                          1,
+                                                          2,
+                                                          3
+                                                        ]).join(undefined)
                                                     };
                                                   })
                                                 ],
@@ -493,10 +493,10 @@ const suites_1 = {
                                                         TAG: /* Eq */ 0,
                                                         _0: "1;2;3",
                                                         _1: new Int8Array([
-                                                              1,
-                                                              2,
-                                                              3
-                                                            ]).join(";")
+                                                            1,
+                                                            2,
+                                                            3
+                                                          ]).join(";")
                                                       };
                                                     })
                                                   ],
@@ -508,10 +508,10 @@ const suites_1 = {
                                                           TAG: /* Eq */ 0,
                                                           _0: 1,
                                                           _1: new Int8Array([
-                                                                1,
-                                                                2,
-                                                                3
-                                                              ]).lastIndexOf(2)
+                                                              1,
+                                                              2,
+                                                              3
+                                                            ]).lastIndexOf(2)
                                                         };
                                                       })
                                                     ],
@@ -523,11 +523,11 @@ const suites_1 = {
                                                             TAG: /* Eq */ 0,
                                                             _0: 1,
                                                             _1: new Int8Array([
-                                                                  1,
-                                                                  2,
-                                                                  3,
-                                                                  2
-                                                                ]).lastIndexOf(2, 2)
+                                                                1,
+                                                                2,
+                                                                3,
+                                                                2
+                                                              ]).lastIndexOf(2, 2)
                                                           };
                                                         })
                                                       ],
@@ -538,16 +538,16 @@ const suites_1 = {
                                                             return {
                                                               TAG: /* Eq */ 0,
                                                               _0: new Int8Array([
-                                                                    2,
-                                                                    3
-                                                                  ]),
+                                                                  2,
+                                                                  3
+                                                                ]),
                                                               _1: new Int8Array([
-                                                                    1,
-                                                                    2,
-                                                                    3,
-                                                                    4,
-                                                                    5
-                                                                  ]).slice(1, 3)
+                                                                  1,
+                                                                  2,
+                                                                  3,
+                                                                  4,
+                                                                  5
+                                                                ]).slice(1, 3)
                                                             };
                                                           })
                                                         ],
@@ -558,19 +558,19 @@ const suites_1 = {
                                                               return {
                                                                 TAG: /* Eq */ 0,
                                                                 _0: new Int8Array([
-                                                                      1,
-                                                                      2,
-                                                                      3,
-                                                                      4,
-                                                                      5
-                                                                    ]),
+                                                                    1,
+                                                                    2,
+                                                                    3,
+                                                                    4,
+                                                                    5
+                                                                  ]),
                                                                 _1: new Int8Array([
-                                                                      1,
-                                                                      2,
-                                                                      3,
-                                                                      4,
-                                                                      5
-                                                                    ]).slice()
+                                                                    1,
+                                                                    2,
+                                                                    3,
+                                                                    4,
+                                                                    5
+                                                                  ]).slice()
                                                               };
                                                             })
                                                           ],
@@ -581,17 +581,17 @@ const suites_1 = {
                                                                 return {
                                                                   TAG: /* Eq */ 0,
                                                                   _0: new Int8Array([
-                                                                        3,
-                                                                        4,
-                                                                        5
-                                                                      ]),
+                                                                      3,
+                                                                      4,
+                                                                      5
+                                                                    ]),
                                                                   _1: new Int8Array([
-                                                                        1,
-                                                                        2,
-                                                                        3,
-                                                                        4,
-                                                                        5
-                                                                      ]).slice(2, undefined)
+                                                                      1,
+                                                                      2,
+                                                                      3,
+                                                                      4,
+                                                                      5
+                                                                    ]).slice(2, undefined)
                                                                 };
                                                               })
                                                             ],
@@ -602,16 +602,16 @@ const suites_1 = {
                                                                   return {
                                                                     TAG: /* Eq */ 0,
                                                                     _0: new Int8Array([
-                                                                          2,
-                                                                          3
-                                                                        ]),
+                                                                        2,
+                                                                        3
+                                                                      ]),
                                                                     _1: new Int8Array([
-                                                                          1,
-                                                                          2,
-                                                                          3,
-                                                                          4,
-                                                                          5
-                                                                        ]).subarray(1, 3)
+                                                                        1,
+                                                                        2,
+                                                                        3,
+                                                                        4,
+                                                                        5
+                                                                      ]).subarray(1, 3)
                                                                   };
                                                                 })
                                                               ],
@@ -622,17 +622,17 @@ const suites_1 = {
                                                                     return {
                                                                       TAG: /* Eq */ 0,
                                                                       _0: new Int8Array([
-                                                                            3,
-                                                                            4,
-                                                                            5
-                                                                          ]),
+                                                                          3,
+                                                                          4,
+                                                                          5
+                                                                        ]),
                                                                       _1: new Int8Array([
-                                                                            1,
-                                                                            2,
-                                                                            3,
-                                                                            4,
-                                                                            5
-                                                                          ]).subarray(2, undefined)
+                                                                          1,
+                                                                          2,
+                                                                          3,
+                                                                          4,
+                                                                          5
+                                                                        ]).subarray(2, undefined)
                                                                     };
                                                                   })
                                                                 ],
@@ -644,10 +644,10 @@ const suites_1 = {
                                                                         TAG: /* Eq */ 0,
                                                                         _0: "1,2,3",
                                                                         _1: new Int8Array([
-                                                                              1,
-                                                                              2,
-                                                                              3
-                                                                            ]).toString()
+                                                                            1,
+                                                                            2,
+                                                                            3
+                                                                          ]).toString()
                                                                       };
                                                                     })
                                                                   ],
@@ -659,10 +659,10 @@ const suites_1 = {
                                                                           TAG: /* Eq */ 0,
                                                                           _0: "1,2,3",
                                                                           _1: new Int8Array([
-                                                                                1,
-                                                                                2,
-                                                                                3
-                                                                              ]).toLocaleString()
+                                                                              1,
+                                                                              2,
+                                                                              3
+                                                                            ]).toLocaleString()
                                                                         };
                                                                       })
                                                                     ],
@@ -674,10 +674,10 @@ const suites_1 = {
                                                                             TAG: /* Eq */ 0,
                                                                             _0: true,
                                                                             _1: new Int8Array([
-                                                                                  1,
-                                                                                  2,
-                                                                                  3
-                                                                                ]).every(function (n) {
+                                                                                1,
+                                                                                2,
+                                                                                3
+                                                                              ]).every(function (n) {
                                                                               return n > 0;
                                                                             })
                                                                           };
@@ -691,10 +691,10 @@ const suites_1 = {
                                                                               TAG: /* Eq */ 0,
                                                                               _0: false,
                                                                               _1: new Int8Array([
-                                                                                    1,
-                                                                                    2,
-                                                                                    3
-                                                                                  ]).every(function (param, i) {
+                                                                                  1,
+                                                                                  2,
+                                                                                  3
+                                                                                ]).every(function (param, i) {
                                                                                 return i > 0;
                                                                               })
                                                                             };
@@ -707,15 +707,15 @@ const suites_1 = {
                                                                               return {
                                                                                 TAG: /* Eq */ 0,
                                                                                 _0: new Int8Array([
-                                                                                      2,
-                                                                                      4
-                                                                                    ]),
+                                                                                    2,
+                                                                                    4
+                                                                                  ]),
                                                                                 _1: new Int8Array([
-                                                                                      1,
-                                                                                      2,
-                                                                                      3,
-                                                                                      4
-                                                                                    ]).filter(function (n) {
+                                                                                    1,
+                                                                                    2,
+                                                                                    3,
+                                                                                    4
+                                                                                  ]).filter(function (n) {
                                                                                   return n % 2 === 0;
                                                                                 })
                                                                               };
@@ -728,15 +728,15 @@ const suites_1 = {
                                                                                 return {
                                                                                   TAG: /* Eq */ 0,
                                                                                   _0: new Int8Array([
-                                                                                        1,
-                                                                                        3
-                                                                                      ]),
+                                                                                      1,
+                                                                                      3
+                                                                                    ]),
                                                                                   _1: new Int8Array([
-                                                                                        1,
-                                                                                        2,
-                                                                                        3,
-                                                                                        4
-                                                                                      ]).filter(function (param, i) {
+                                                                                      1,
+                                                                                      2,
+                                                                                      3,
+                                                                                      4
+                                                                                    ]).filter(function (param, i) {
                                                                                     return i % 2 === 0;
                                                                                   })
                                                                                 };
@@ -750,11 +750,11 @@ const suites_1 = {
                                                                                     TAG: /* Eq */ 0,
                                                                                     _0: 2,
                                                                                     _1: new Int8Array([
-                                                                                          1,
-                                                                                          2,
-                                                                                          3,
-                                                                                          4
-                                                                                        ]).find(function (n) {
+                                                                                        1,
+                                                                                        2,
+                                                                                        3,
+                                                                                        4
+                                                                                      ]).find(function (n) {
                                                                                       return n % 2 === 0;
                                                                                     })
                                                                                   };
@@ -768,11 +768,11 @@ const suites_1 = {
                                                                                       TAG: /* Eq */ 0,
                                                                                       _0: 1,
                                                                                       _1: new Int8Array([
-                                                                                            1,
-                                                                                            2,
-                                                                                            3,
-                                                                                            4
-                                                                                          ]).find(function (param, i) {
+                                                                                          1,
+                                                                                          2,
+                                                                                          3,
+                                                                                          4
+                                                                                        ]).find(function (param, i) {
                                                                                         return i % 2 === 0;
                                                                                       })
                                                                                     };
@@ -786,11 +786,11 @@ const suites_1 = {
                                                                                         TAG: /* Eq */ 0,
                                                                                         _0: 1,
                                                                                         _1: new Int8Array([
-                                                                                              1,
-                                                                                              2,
-                                                                                              3,
-                                                                                              4
-                                                                                            ]).findIndex(function (n) {
+                                                                                            1,
+                                                                                            2,
+                                                                                            3,
+                                                                                            4
+                                                                                          ]).findIndex(function (n) {
                                                                                           return n % 2 === 0;
                                                                                         })
                                                                                       };
@@ -804,11 +804,11 @@ const suites_1 = {
                                                                                           TAG: /* Eq */ 0,
                                                                                           _0: 0,
                                                                                           _1: new Int8Array([
-                                                                                                1,
-                                                                                                2,
-                                                                                                3,
-                                                                                                4
-                                                                                              ]).findIndex(function (param, i) {
+                                                                                              1,
+                                                                                              2,
+                                                                                              3,
+                                                                                              4
+                                                                                            ]).findIndex(function (param, i) {
                                                                                             return i % 2 === 0;
                                                                                           })
                                                                                         };
@@ -822,10 +822,10 @@ const suites_1 = {
                                                                                             contents: 0
                                                                                           };
                                                                                           new Int8Array([
-                                                                                                1,
-                                                                                                2,
-                                                                                                3
-                                                                                              ]).forEach(function (n) {
+                                                                                              1,
+                                                                                              2,
+                                                                                              3
+                                                                                            ]).forEach(function (n) {
                                                                                             sum.contents = sum.contents + n | 0;
                                                                                           });
                                                                                           return {
@@ -843,10 +843,10 @@ const suites_1 = {
                                                                                               contents: 0
                                                                                             };
                                                                                             new Int8Array([
-                                                                                                  1,
-                                                                                                  2,
-                                                                                                  3
-                                                                                                ]).forEach(function (param, i) {
+                                                                                                1,
+                                                                                                2,
+                                                                                                3
+                                                                                              ]).forEach(function (param, i) {
                                                                                               sum.contents = sum.contents + i | 0;
                                                                                             });
                                                                                             return {
@@ -863,17 +863,17 @@ const suites_1 = {
                                                                                               return {
                                                                                                 TAG: /* Eq */ 0,
                                                                                                 _0: new Int8Array([
-                                                                                                      2,
-                                                                                                      4,
-                                                                                                      6,
-                                                                                                      8
-                                                                                                    ]),
+                                                                                                    2,
+                                                                                                    4,
+                                                                                                    6,
+                                                                                                    8
+                                                                                                  ]),
                                                                                                 _1: new Int8Array([
-                                                                                                      1,
-                                                                                                      2,
-                                                                                                      3,
-                                                                                                      4
-                                                                                                    ]).map(function (n) {
+                                                                                                    1,
+                                                                                                    2,
+                                                                                                    3,
+                                                                                                    4
+                                                                                                  ]).map(function (n) {
                                                                                                   return (n << 1);
                                                                                                 })
                                                                                               };
@@ -886,17 +886,17 @@ const suites_1 = {
                                                                                                 return {
                                                                                                   TAG: /* Eq */ 0,
                                                                                                   _0: new Int8Array([
-                                                                                                        0,
-                                                                                                        2,
-                                                                                                        4,
-                                                                                                        6
-                                                                                                      ]),
+                                                                                                      0,
+                                                                                                      2,
+                                                                                                      4,
+                                                                                                      6
+                                                                                                    ]),
                                                                                                   _1: new Int8Array([
-                                                                                                        1,
-                                                                                                        2,
-                                                                                                        3,
-                                                                                                        4
-                                                                                                      ]).map(function (param, i) {
+                                                                                                      1,
+                                                                                                      2,
+                                                                                                      3,
+                                                                                                      4
+                                                                                                    ]).map(function (param, i) {
                                                                                                     return (i << 1);
                                                                                                   })
                                                                                                 };
@@ -910,11 +910,11 @@ const suites_1 = {
                                                                                                     TAG: /* Eq */ 0,
                                                                                                     _0: -10,
                                                                                                     _1: new Int8Array([
-                                                                                                          1,
-                                                                                                          2,
-                                                                                                          3,
-                                                                                                          4
-                                                                                                        ]).reduce((function (acc, n) {
+                                                                                                        1,
+                                                                                                        2,
+                                                                                                        3,
+                                                                                                        4
+                                                                                                      ]).reduce((function (acc, n) {
                                                                                                       return acc - n | 0;
                                                                                                     }), 0)
                                                                                                   };
@@ -928,11 +928,11 @@ const suites_1 = {
                                                                                                       TAG: /* Eq */ 0,
                                                                                                       _0: -6,
                                                                                                       _1: new Int8Array([
-                                                                                                            1,
-                                                                                                            2,
-                                                                                                            3,
-                                                                                                            4
-                                                                                                          ]).reduce((function (acc, param, i) {
+                                                                                                          1,
+                                                                                                          2,
+                                                                                                          3,
+                                                                                                          4
+                                                                                                        ]).reduce((function (acc, param, i) {
                                                                                                         return acc - i | 0;
                                                                                                       }), 0)
                                                                                                     };
@@ -946,11 +946,11 @@ const suites_1 = {
                                                                                                         TAG: /* Eq */ 0,
                                                                                                         _0: -10,
                                                                                                         _1: new Int8Array([
-                                                                                                              1,
-                                                                                                              2,
-                                                                                                              3,
-                                                                                                              4
-                                                                                                            ]).reduceRight((function (acc, n) {
+                                                                                                            1,
+                                                                                                            2,
+                                                                                                            3,
+                                                                                                            4
+                                                                                                          ]).reduceRight((function (acc, n) {
                                                                                                           return acc - n | 0;
                                                                                                         }), 0)
                                                                                                       };
@@ -964,11 +964,11 @@ const suites_1 = {
                                                                                                           TAG: /* Eq */ 0,
                                                                                                           _0: -6,
                                                                                                           _1: new Int8Array([
-                                                                                                                1,
-                                                                                                                2,
-                                                                                                                3,
-                                                                                                                4
-                                                                                                              ]).reduceRight((function (acc, param, i) {
+                                                                                                              1,
+                                                                                                              2,
+                                                                                                              3,
+                                                                                                              4
+                                                                                                            ]).reduceRight((function (acc, param, i) {
                                                                                                             return acc - i | 0;
                                                                                                           }), 0)
                                                                                                         };
@@ -982,11 +982,11 @@ const suites_1 = {
                                                                                                             TAG: /* Eq */ 0,
                                                                                                             _0: false,
                                                                                                             _1: new Int8Array([
-                                                                                                                  1,
-                                                                                                                  2,
-                                                                                                                  3,
-                                                                                                                  4
-                                                                                                                ]).some(function (n) {
+                                                                                                                1,
+                                                                                                                2,
+                                                                                                                3,
+                                                                                                                4
+                                                                                                              ]).some(function (n) {
                                                                                                               return n <= 0;
                                                                                                             })
                                                                                                           };
@@ -1000,11 +1000,11 @@ const suites_1 = {
                                                                                                               TAG: /* Eq */ 0,
                                                                                                               _0: true,
                                                                                                               _1: new Int8Array([
-                                                                                                                    1,
-                                                                                                                    2,
-                                                                                                                    3,
-                                                                                                                    4
-                                                                                                                  ]).some(function (param, i) {
+                                                                                                                  1,
+                                                                                                                  2,
+                                                                                                                  3,
+                                                                                                                  4
+                                                                                                                ]).some(function (param, i) {
                                                                                                                 return i <= 0;
                                                                                                               })
                                                                                                             };
@@ -1029,10 +1029,10 @@ const suites_1 = {
                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                   _0: 3,
                                                                                                                   _1: new Int8Array([
-                                                                                                                        1,
-                                                                                                                        2,
-                                                                                                                        3
-                                                                                                                      ]).byteLength
+                                                                                                                      1,
+                                                                                                                      2,
+                                                                                                                      3
+                                                                                                                    ]).byteLength
                                                                                                                 };
                                                                                                               })
                                                                                                             ],
@@ -1087,12 +1087,12 @@ const suites_1 = {
                                                                                                                         "int8_array - unsafe_set - typed_array sanity check",
                                                                                                                         (function (param) {
                                                                                                                           const a = new Int8Array([
-                                                                                                                                1,
-                                                                                                                                2,
-                                                                                                                                3,
-                                                                                                                                4,
-                                                                                                                                5
-                                                                                                                              ]);
+                                                                                                                              1,
+                                                                                                                              2,
+                                                                                                                              3,
+                                                                                                                              4,
+                                                                                                                              5
+                                                                                                                            ]);
                                                                                                                           a[3] = 14;
                                                                                                                           return {
                                                                                                                             TAG: /* Eq */ 0,
@@ -1120,10 +1120,10 @@ const suites_1 = {
                                                                                                                                 TAG: /* Eq */ 0,
                                                                                                                                 _0: 3,
                                                                                                                                 _1: new Uint8Array([
-                                                                                                                                      1,
-                                                                                                                                      2,
-                                                                                                                                      3
-                                                                                                                                    ]).byteLength
+                                                                                                                                    1,
+                                                                                                                                    2,
+                                                                                                                                    3
+                                                                                                                                  ]).byteLength
                                                                                                                               };
                                                                                                                             })
                                                                                                                           ],
@@ -1178,12 +1178,12 @@ const suites_1 = {
                                                                                                                                       "uint8_array - unsafe_set - typed_array sanity check",
                                                                                                                                       (function (param) {
                                                                                                                                         const a = new Uint8Array([
-                                                                                                                                              1,
-                                                                                                                                              2,
-                                                                                                                                              3,
-                                                                                                                                              4,
-                                                                                                                                              5
-                                                                                                                                            ]);
+                                                                                                                                            1,
+                                                                                                                                            2,
+                                                                                                                                            3,
+                                                                                                                                            4,
+                                                                                                                                            5
+                                                                                                                                          ]);
                                                                                                                                         a[3] = 14;
                                                                                                                                         return {
                                                                                                                                           TAG: /* Eq */ 0,
@@ -1211,10 +1211,10 @@ const suites_1 = {
                                                                                                                                               TAG: /* Eq */ 0,
                                                                                                                                               _0: 3,
                                                                                                                                               _1: new Uint8ClampedArray([
-                                                                                                                                                    1,
-                                                                                                                                                    2,
-                                                                                                                                                    3
-                                                                                                                                                  ]).byteLength
+                                                                                                                                                  1,
+                                                                                                                                                  2,
+                                                                                                                                                  3
+                                                                                                                                                ]).byteLength
                                                                                                                                             };
                                                                                                                                           })
                                                                                                                                         ],
@@ -1269,12 +1269,12 @@ const suites_1 = {
                                                                                                                                                     "uint8clamped_array - unsafe_set - typed_array sanity check",
                                                                                                                                                     (function (param) {
                                                                                                                                                       const a = new Uint8ClampedArray([
-                                                                                                                                                            1,
-                                                                                                                                                            2,
-                                                                                                                                                            3,
-                                                                                                                                                            4,
-                                                                                                                                                            5
-                                                                                                                                                          ]);
+                                                                                                                                                          1,
+                                                                                                                                                          2,
+                                                                                                                                                          3,
+                                                                                                                                                          4,
+                                                                                                                                                          5
+                                                                                                                                                        ]);
                                                                                                                                                       a[3] = 14;
                                                                                                                                                       return {
                                                                                                                                                         TAG: /* Eq */ 0,
@@ -1302,10 +1302,10 @@ const suites_1 = {
                                                                                                                                                             TAG: /* Eq */ 0,
                                                                                                                                                             _0: 6,
                                                                                                                                                             _1: new Int16Array([
-                                                                                                                                                                  1,
-                                                                                                                                                                  2,
-                                                                                                                                                                  3
-                                                                                                                                                                ]).byteLength
+                                                                                                                                                                1,
+                                                                                                                                                                2,
+                                                                                                                                                                3
+                                                                                                                                                              ]).byteLength
                                                                                                                                                           };
                                                                                                                                                         })
                                                                                                                                                       ],
@@ -1360,12 +1360,12 @@ const suites_1 = {
                                                                                                                                                                   "int16_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                   (function (param) {
                                                                                                                                                                     const a = new Int16Array([
-                                                                                                                                                                          1,
-                                                                                                                                                                          2,
-                                                                                                                                                                          3,
-                                                                                                                                                                          4,
-                                                                                                                                                                          5
-                                                                                                                                                                        ]);
+                                                                                                                                                                        1,
+                                                                                                                                                                        2,
+                                                                                                                                                                        3,
+                                                                                                                                                                        4,
+                                                                                                                                                                        5
+                                                                                                                                                                      ]);
                                                                                                                                                                     a[3] = 14;
                                                                                                                                                                     return {
                                                                                                                                                                       TAG: /* Eq */ 0,
@@ -1393,10 +1393,10 @@ const suites_1 = {
                                                                                                                                                                           TAG: /* Eq */ 0,
                                                                                                                                                                           _0: 6,
                                                                                                                                                                           _1: new Uint16Array([
-                                                                                                                                                                                1,
-                                                                                                                                                                                2,
-                                                                                                                                                                                3
-                                                                                                                                                                              ]).byteLength
+                                                                                                                                                                              1,
+                                                                                                                                                                              2,
+                                                                                                                                                                              3
+                                                                                                                                                                            ]).byteLength
                                                                                                                                                                         };
                                                                                                                                                                       })
                                                                                                                                                                     ],
@@ -1451,12 +1451,12 @@ const suites_1 = {
                                                                                                                                                                                 "uint16_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                 (function (param) {
                                                                                                                                                                                   const a = new Uint16Array([
-                                                                                                                                                                                        1,
-                                                                                                                                                                                        2,
-                                                                                                                                                                                        3,
-                                                                                                                                                                                        4,
-                                                                                                                                                                                        5
-                                                                                                                                                                                      ]);
+                                                                                                                                                                                      1,
+                                                                                                                                                                                      2,
+                                                                                                                                                                                      3,
+                                                                                                                                                                                      4,
+                                                                                                                                                                                      5
+                                                                                                                                                                                    ]);
                                                                                                                                                                                   a[3] = 14;
                                                                                                                                                                                   return {
                                                                                                                                                                                     TAG: /* Eq */ 0,
@@ -1484,12 +1484,12 @@ const suites_1 = {
                                                                                                                                                                                         TAG: /* Eq */ 0,
                                                                                                                                                                                         _0: 12,
                                                                                                                                                                                         _1: new Int32Array(Stdlib__Array.map((function (prim) {
-                                                                                                                                                                                              return prim;
-                                                                                                                                                                                            }), [
-                                                                                                                                                                                              1,
-                                                                                                                                                                                              2,
-                                                                                                                                                                                              3
-                                                                                                                                                                                            ])).byteLength
+                                                                                                                                                                                            return prim;
+                                                                                                                                                                                          }), [
+                                                                                                                                                                                            1,
+                                                                                                                                                                                            2,
+                                                                                                                                                                                            3
+                                                                                                                                                                                          ])).byteLength
                                                                                                                                                                                       };
                                                                                                                                                                                     })
                                                                                                                                                                                   ],
@@ -1544,14 +1544,14 @@ const suites_1 = {
                                                                                                                                                                                               "int32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                               (function (param) {
                                                                                                                                                                                                 const a = new Int32Array(Stdlib__Array.map((function (prim) {
-                                                                                                                                                                                                      return prim;
-                                                                                                                                                                                                    }), [
-                                                                                                                                                                                                      1,
-                                                                                                                                                                                                      2,
-                                                                                                                                                                                                      3,
-                                                                                                                                                                                                      4,
-                                                                                                                                                                                                      5
-                                                                                                                                                                                                    ]));
+                                                                                                                                                                                                    return prim;
+                                                                                                                                                                                                  }), [
+                                                                                                                                                                                                    1,
+                                                                                                                                                                                                    2,
+                                                                                                                                                                                                    3,
+                                                                                                                                                                                                    4,
+                                                                                                                                                                                                    5
+                                                                                                                                                                                                  ]));
                                                                                                                                                                                                 a[3] = 14;
                                                                                                                                                                                                 return {
                                                                                                                                                                                                   TAG: /* Eq */ 0,
@@ -1579,10 +1579,10 @@ const suites_1 = {
                                                                                                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                                                                                                       _0: 12,
                                                                                                                                                                                                       _1: new Uint32Array([
-                                                                                                                                                                                                            1,
-                                                                                                                                                                                                            2,
-                                                                                                                                                                                                            3
-                                                                                                                                                                                                          ]).byteLength
+                                                                                                                                                                                                          1,
+                                                                                                                                                                                                          2,
+                                                                                                                                                                                                          3
+                                                                                                                                                                                                        ]).byteLength
                                                                                                                                                                                                     };
                                                                                                                                                                                                   })
                                                                                                                                                                                                 ],
@@ -1637,12 +1637,12 @@ const suites_1 = {
                                                                                                                                                                                                             "uint32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                             (function (param) {
                                                                                                                                                                                                               const a = new Uint32Array([
-                                                                                                                                                                                                                    1,
-                                                                                                                                                                                                                    2,
-                                                                                                                                                                                                                    3,
-                                                                                                                                                                                                                    4,
-                                                                                                                                                                                                                    5
-                                                                                                                                                                                                                  ]);
+                                                                                                                                                                                                                  1,
+                                                                                                                                                                                                                  2,
+                                                                                                                                                                                                                  3,
+                                                                                                                                                                                                                  4,
+                                                                                                                                                                                                                  5
+                                                                                                                                                                                                                ]);
                                                                                                                                                                                                               a[3] = 14;
                                                                                                                                                                                                               return {
                                                                                                                                                                                                                 TAG: /* Eq */ 0,
@@ -1670,10 +1670,10 @@ const suites_1 = {
                                                                                                                                                                                                                     TAG: /* Eq */ 0,
                                                                                                                                                                                                                     _0: 12,
                                                                                                                                                                                                                     _1: new Float32Array([
-                                                                                                                                                                                                                          1,
-                                                                                                                                                                                                                          2,
-                                                                                                                                                                                                                          3
-                                                                                                                                                                                                                        ]).byteLength
+                                                                                                                                                                                                                        1,
+                                                                                                                                                                                                                        2,
+                                                                                                                                                                                                                        3
+                                                                                                                                                                                                                      ]).byteLength
                                                                                                                                                                                                                   };
                                                                                                                                                                                                                 })
                                                                                                                                                                                                               ],
@@ -1728,12 +1728,12 @@ const suites_1 = {
                                                                                                                                                                                                                           "float32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                                           (function (param) {
                                                                                                                                                                                                                             const a = new Float32Array([
-                                                                                                                                                                                                                                  1,
-                                                                                                                                                                                                                                  2,
-                                                                                                                                                                                                                                  3,
-                                                                                                                                                                                                                                  4,
-                                                                                                                                                                                                                                  5
-                                                                                                                                                                                                                                ]);
+                                                                                                                                                                                                                                1,
+                                                                                                                                                                                                                                2,
+                                                                                                                                                                                                                                3,
+                                                                                                                                                                                                                                4,
+                                                                                                                                                                                                                                5
+                                                                                                                                                                                                                              ]);
                                                                                                                                                                                                                             a[3] = 14;
                                                                                                                                                                                                                             return {
                                                                                                                                                                                                                               TAG: /* Eq */ 0,
@@ -1761,10 +1761,10 @@ const suites_1 = {
                                                                                                                                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                                                                                                                                   _0: 24,
                                                                                                                                                                                                                                   _1: new Float64Array([
-                                                                                                                                                                                                                                        1,
-                                                                                                                                                                                                                                        2,
-                                                                                                                                                                                                                                        3
-                                                                                                                                                                                                                                      ]).byteLength
+                                                                                                                                                                                                                                      1,
+                                                                                                                                                                                                                                      2,
+                                                                                                                                                                                                                                      3
+                                                                                                                                                                                                                                    ]).byteLength
                                                                                                                                                                                                                                 };
                                                                                                                                                                                                                               })
                                                                                                                                                                                                                             ],
@@ -1819,12 +1819,12 @@ const suites_1 = {
                                                                                                                                                                                                                                         "float64_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                                                                         (function (param) {
                                                                                                                                                                                                                                           const a = new Float64Array([
-                                                                                                                                                                                                                                                1,
-                                                                                                                                                                                                                                                2,
-                                                                                                                                                                                                                                                3,
-                                                                                                                                                                                                                                                4,
-                                                                                                                                                                                                                                                5
-                                                                                                                                                                                                                                              ]);
+                                                                                                                                                                                                                                              1,
+                                                                                                                                                                                                                                              2,
+                                                                                                                                                                                                                                              3,
+                                                                                                                                                                                                                                              4,
+                                                                                                                                                                                                                                              5
+                                                                                                                                                                                                                                            ]);
                                                                                                                                                                                                                                           a[3] = 14;
                                                                                                                                                                                                                                           return {
                                                                                                                                                                                                                                             TAG: /* Eq */ 0,

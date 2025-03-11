@@ -69,13 +69,13 @@ if (A0 === A0) {
   tmp = 3;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          46,
-          54
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/inline_record_test.ml",
+        46,
+        54
+      ]
+    });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 46, characters 6-13", tmp, 3);
@@ -111,13 +111,13 @@ if (v4.TAG === /* A0 */ 0) {
   tmp$1 = v4.x;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          64,
-          48
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/inline_record_test.ml",
+        64,
+        48
+      ]
+    });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 64, characters 6-13", tmp$1, 11);
@@ -126,13 +126,13 @@ let tmp$2;
 
 if (v5.TAG === /* A0 */ 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          66,
-          48
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/inline_record_test.ml",
+        66,
+        48
+      ]
+    });
 }
 
 tmp$2 = v5.z;
@@ -167,13 +167,13 @@ if (v6.MEL_EXN_ID === A4) {
   tmp$3 = v6.x;
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/inline_record_test.ml",
-          82,
-          49
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/inline_record_test.ml",
+        82,
+        49
+      ]
+    });
 }
 
 eq("File \"jscomp/test/inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);

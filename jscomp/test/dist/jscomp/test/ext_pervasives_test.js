@@ -55,8 +55,8 @@ function is_pos_pow(n) {
         continue;
       }
       throw new Caml_js_exceptions.MelangeError(E, {
-            MEL_EXN_ID: E
-          });
+          MEL_EXN_ID: E
+        });
     };
   }
   catch (raw_exn){
@@ -72,9 +72,9 @@ function failwithf(loc, fmt) {
   return Stdlib__Format.ksprintf((function (s) {
     const s$1 = loc + s;
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: s$1
-        });
+        MEL_EXN_ID: "Failure",
+        _1: s$1
+      });
   }), fmt);
 }
 
@@ -85,9 +85,9 @@ function invalid_argf(fmt) {
 function bad_argf(fmt) {
   return Stdlib__Format.ksprintf((function (x) {
     throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-          MEL_EXN_ID: Stdlib__Arg.Bad,
-          _1: x
-        });
+        MEL_EXN_ID: Stdlib__Arg.Bad,
+        _1: x
+      });
   }), fmt);
 }
 

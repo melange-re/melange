@@ -267,13 +267,13 @@ function unbalanced_left(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rbset.ml",
-          57,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/rbset.ml",
+        57,
+        9
+      ]
+    });
 }
 
 function unbalanced_right(param) {
@@ -335,13 +335,13 @@ function unbalanced_right(param) {
     }
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/rbset.ml",
-          63,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/rbset.ml",
+        63,
+        9
+      ]
+    });
 }
 
 function lbalance(x1, x2, x3) {
@@ -558,13 +558,13 @@ function add(x, s) {
 function remove_min(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rbset.ml",
-            115,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/rbset.ml",
+          115,
+          4
+        ]
+      });
   }
   const c = param._0;
   if (c === /* Black */ 0) {
@@ -593,13 +593,13 @@ function remove_min(param) {
         ];
       }
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/rbset.ml",
-              115,
-              4
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/rbset.ml",
+            115,
+            4
+          ]
+        });
     }
     
   } else {

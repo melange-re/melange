@@ -47,19 +47,19 @@ const suites_1 = {
       "size",
       (function (param) {
         const map = new Map([
-              [
-                1,
-                "one"
-              ],
-              [
-                2,
-                "two"
-              ],
-              [
-                2,
-                "two"
-              ]
-            ]);
+            [
+              1,
+              "one"
+            ],
+            [
+              2,
+              "two"
+            ],
+            [
+              2,
+              "two"
+            ]
+          ]);
         return {
           TAG: /* Eq */ 0,
           _0: 2,
@@ -72,15 +72,15 @@ const suites_1 = {
         "size - with duplicates",
         (function (param) {
           const map = new Map([
-                [
-                  1,
-                  "one"
-                ],
-                [
-                  1,
-                  "one"
-                ]
-              ]);
+              [
+                1,
+                "one"
+              ],
+              [
+                1,
+                "one"
+              ]
+            ]);
           return {
             TAG: /* Eq */ 0,
             _0: 1,
@@ -93,15 +93,15 @@ const suites_1 = {
           "has - true",
           (function (param) {
             const map = new Map([
-                  [
-                    1,
-                    "one"
-                  ],
-                  [
-                    2,
-                    "two"
-                  ]
-                ]);
+                [
+                  1,
+                  "one"
+                ],
+                [
+                  2,
+                  "two"
+                ]
+              ]);
             return {
               TAG: /* Eq */ 0,
               _0: true,
@@ -114,15 +114,15 @@ const suites_1 = {
             "has - false",
             (function (param) {
               const map = new Map([
-                    [
-                      1,
-                      "one"
-                    ],
-                    [
-                      2,
-                      "two"
-                    ]
-                  ]);
+                  [
+                    1,
+                    "one"
+                  ],
+                  [
+                    2,
+                    "two"
+                  ]
+                ]);
               return {
                 TAG: /* Eq */ 0,
                 _0: false,
@@ -135,15 +135,15 @@ const suites_1 = {
               "get",
               (function (param) {
                 const map = new Map([
-                      [
-                        1,
-                        "one"
-                      ],
-                      [
-                        2,
-                        "two"
-                      ]
-                    ]);
+                    [
+                      1,
+                      "one"
+                    ],
+                    [
+                      2,
+                      "two"
+                    ]
+                  ]);
                 const one = map.get(1);
                 const two = map.get(2);
                 const three = map.get(3);
@@ -188,15 +188,15 @@ const suites_1 = {
                   "delete",
                   (function (param) {
                     const map = new Map([
-                          [
-                            1,
-                            "one"
-                          ],
-                          [
-                            2,
-                            "two"
-                          ]
-                        ]);
+                        [
+                          1,
+                          "one"
+                        ],
+                        [
+                          2,
+                          "two"
+                        ]
+                      ]);
                     const deleted = map.delete(2);
                     return {
                       TAG: /* Eq */ 0,
@@ -216,15 +216,15 @@ const suites_1 = {
                     "clear",
                     (function (param) {
                       const map = new Map([
-                            [
-                              1,
-                              "one"
-                            ],
-                            [
-                              2,
-                              "two"
-                            ]
-                          ]);
+                          [
+                            1,
+                            "one"
+                          ],
+                          [
+                            2,
+                            "two"
+                          ]
+                        ]);
                       map.clear();
                       return {
                         TAG: /* Eq */ 0,
@@ -260,15 +260,15 @@ const suites_1 = {
                         "forEach",
                         (function (param) {
                           const map = new Map([
-                                [
-                                  1,
-                                  "one"
-                                ],
-                                [
-                                  2,
-                                  "two"
-                                ]
-                              ]);
+                              [
+                                1,
+                                "one"
+                              ],
+                              [
+                                2,
+                                "two"
+                              ]
+                            ]);
                           const arr = {
                             contents: []
                           };
@@ -299,15 +299,15 @@ const suites_1 = {
                           "keys",
                           (function (param) {
                             const keys = Array.from(new Map([
-                                  [
-                                    1,
-                                    "one"
-                                  ],
-                                  [
-                                    2,
-                                    "two"
-                                  ]
-                                ]).keys());
+                                [
+                                  1,
+                                  "one"
+                                ],
+                                [
+                                  2,
+                                  "two"
+                                ]
+                              ]).keys());
                             return {
                               TAG: /* Eq */ 0,
                               _0: [
@@ -323,15 +323,15 @@ const suites_1 = {
                             "values",
                             (function (param) {
                               const values = Array.from(new Map([
-                                    [
-                                      1,
-                                      "one"
-                                    ],
-                                    [
-                                      2,
-                                      "two"
-                                    ]
-                                  ]).values());
+                                  [
+                                    1,
+                                    "one"
+                                  ],
+                                  [
+                                    2,
+                                    "two"
+                                  ]
+                                ]).values());
                               return {
                                 TAG: /* Eq */ 0,
                                 _0: [

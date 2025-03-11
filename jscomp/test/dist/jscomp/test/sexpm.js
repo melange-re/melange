@@ -46,13 +46,13 @@ function _must_escape(s) {
             exit = 1;
           } else {
             throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                  MEL_EXN_ID: Stdlib.Exit
-                });
+                MEL_EXN_ID: Stdlib.Exit
+              });
           }
         } else {
           throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                MEL_EXN_ID: Stdlib.Exit
-              });
+              MEL_EXN_ID: Stdlib.Exit
+            });
         }
       } else if (c >= 11) {
         if (c >= 32) {
@@ -70,8 +70,8 @@ function _must_escape(s) {
             case 40 :
             case 41 :
               throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                    MEL_EXN_ID: Stdlib.Exit
-                  });
+                  MEL_EXN_ID: Stdlib.Exit
+                });
           }
         } else {
           exit = 1;
@@ -79,15 +79,15 @@ function _must_escape(s) {
       } else {
         if (c >= 9) {
           throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                MEL_EXN_ID: Stdlib.Exit
-              });
+              MEL_EXN_ID: Stdlib.Exit
+            });
         }
         exit = 1;
       }
       if (exit === 1 && c > 127) {
         throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-              MEL_EXN_ID: Stdlib.Exit
-            });
+            MEL_EXN_ID: Stdlib.Exit
+          });
       }
       
     }
@@ -434,13 +434,13 @@ function _refill(t, k_succ, k_fail) {
 function _get(t) {
   if (t.i >= t.len) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/sexpm.ml",
-            152,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/sexpm.ml",
+          152,
+          4
+        ]
+      });
   }
   const c = Caml_bytes.get(t.buf, t.i);
   t.i = t.i + 1 | 0;
@@ -550,13 +550,13 @@ function expr_starting_with(c, k, t) {
       switch (c) {
         case 32 :
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "jscomp/test/sexpm.ml",
-                  183,
-                  27
-                ]
-              });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "jscomp/test/sexpm.ml",
+                183,
+                27
+              ]
+            });
         case 34 :
           return quoted(k, t);
         case 33 :
@@ -583,13 +583,13 @@ function expr_starting_with(c, k, t) {
     
   } else if (c >= 9) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/sexpm.ml",
-            183,
-            27
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/sexpm.ml",
+          183,
+          27
+        ]
+      });
   }
   Stdlib__Buffer.add_char(t.atom, c);
   return atom(k, t);
@@ -1048,13 +1048,13 @@ function MakeDecode(funarg) {
   const _get = function (t) {
     if (t.i >= t.len) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/sexpm.ml",
-              152,
-              4
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/sexpm.ml",
+            152,
+            4
+          ]
+        });
     }
     const c = Caml_bytes.get(t.buf, t.i);
     t.i = t.i + 1 | 0;
@@ -1160,13 +1160,13 @@ function MakeDecode(funarg) {
         switch (c) {
           case 32 :
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "jscomp/test/sexpm.ml",
-                    183,
-                    27
-                  ]
-                });
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/sexpm.ml",
+                  183,
+                  27
+                ]
+              });
           case 34 :
             return quoted(k, t);
           case 33 :
@@ -1193,13 +1193,13 @@ function MakeDecode(funarg) {
       
     } else if (c >= 9) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/sexpm.ml",
-              183,
-              27
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/sexpm.ml",
+            183,
+            27
+          ]
+        });
     }
     Stdlib__Buffer.add_char(t.atom, c);
     return atom(k, t);

@@ -52,24 +52,24 @@ Stdlib__Arg.parse_argv(undefined, [
 
 if (compile.contents !== true) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/argv_test.ml",
-          20,
-          0
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/argv_test.ml",
+        20,
+        0
+      ]
+    });
 }
 
 if (test.contents !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/argv_test.ml",
-          21,
-          0
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/argv_test.ml",
+        21,
+        0
+      ]
+    });
 }
 
 module.exports = {

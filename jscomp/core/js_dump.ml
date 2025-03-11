@@ -871,7 +871,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           cxt)
   | New { expr = e; args = el } ->
       cond_paren_group cxt (level > 15) (fun () ->
-          group cxt 1 (fun () ->
+          group cxt 0 (fun () ->
               string cxt L.new_;
               space cxt;
               let cxt = expression ~level:16 cxt e in

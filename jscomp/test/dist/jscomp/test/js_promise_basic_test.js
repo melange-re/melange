@@ -39,20 +39,20 @@ function assert_bool(b) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
-        _1: "Assertion Failure."
-      });
+      MEL_EXN_ID: Stdlib.Invalid_argument,
+      _1: "Assertion Failure."
+    });
 }
 
 function fail(param) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_promise_basic_test.ml",
-          17,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/js_promise_basic_test.ml",
+        17,
+        2
+      ]
+    });
 }
 
 function thenTest(param) {
@@ -79,13 +79,13 @@ function assertIsNotFound(x) {
     return h;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_promise_basic_test.ml",
-          34,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/js_promise_basic_test.ml",
+        34,
+        9
+      ]
+    });
 }
 
 function catchTest(param) {
@@ -149,13 +149,13 @@ function orElseRejectedRejectTest(param) {
       return h;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/js_promise_basic_test.ml",
-            76,
-            19
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/js_promise_basic_test.ml",
+          76,
+          19
+        ]
+      });
   });
 }
 
@@ -241,10 +241,10 @@ function raceTest(param) {
 
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
-        reject({
-          MEL_EXN_ID: Stdlib.Not_found
-        });
-      })).catch(function (error) {
+      reject({
+        MEL_EXN_ID: Stdlib.Not_found
+      });
+    })).catch(function (error) {
     assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
     return h;
   });
@@ -252,8 +252,8 @@ function createPromiseRejectTest(param) {
 
 function createPromiseFulfillTest(param) {
   return new Promise((function (resolve, param) {
-        resolve("success");
-      })).then(function (resolved) {
+      resolve("success");
+    })).then(function (resolved) {
     assert_bool(resolved === "success");
     return h;
   }).catch(fail);

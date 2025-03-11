@@ -84,9 +84,9 @@ function scan_rest(ib, accu) {
                 _1: "scan_int_list"
               });
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: s
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: s
+                });
           }
         }));
       }));

@@ -15,13 +15,13 @@ function bench(param) {
   for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Rbset.mem(i$1, data)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bs_rbset_int_bench.ml",
-              12,
-              4
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/bs_rbset_int_bench.ml",
+            12,
+            4
+          ]
+        });
     }
     
   }
@@ -35,13 +35,13 @@ function bench(param) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_rbset_int_bench.ml",
-          17,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_rbset_int_bench.ml",
+        17,
+        2
+      ]
+    });
 }
 
 console.time("bs_rbset_int_bench.ml 21");

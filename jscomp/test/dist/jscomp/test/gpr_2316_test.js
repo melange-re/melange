@@ -34,9 +34,9 @@ let y;
 
 try {
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "boo"
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "boo"
+    });
 }
 catch (raw_msg){
   const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
@@ -53,9 +53,9 @@ let exit = 0;
 
 try {
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "boo"
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "boo"
+    });
 }
 catch (raw_msg$1){
   const msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);

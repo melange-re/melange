@@ -55,9 +55,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l.r;
     const ld = l.d;
@@ -70,9 +70,9 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -86,9 +86,9 @@ function bal(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r.r;
   const rd = r.d;
@@ -101,9 +101,9 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function is_empty(param) {
@@ -165,8 +165,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -182,8 +182,8 @@ function find_first(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -258,8 +258,8 @@ function find_last(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -364,8 +364,8 @@ function min_binding(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const l = param.l;
     if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -402,8 +402,8 @@ function max_binding(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     let tmp = param.r;
     if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
@@ -438,9 +438,9 @@ function max_binding_opt(_param) {
 function remove_min_binding(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.remove_min_elt"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt"
+      });
   }
   const l = param.l;
   if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -762,13 +762,13 @@ function merge$1(f, s1, s2) {
   }
   if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/stdlib/map.ml",
-            408,
-            10
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/stdlib/map.ml",
+          408,
+          10
+        ]
+      });
   }
   const v2 = s2.v;
   const match$1 = split(v2, s1);

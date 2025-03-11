@@ -161,9 +161,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l.r;
     const ld = l.d;
@@ -176,9 +176,9 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -192,9 +192,9 @@ function bal(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r.r;
   const rd = r.d;
@@ -207,9 +207,9 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function is_empty(param) {
@@ -271,8 +271,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -288,8 +288,8 @@ function find_first(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -364,8 +364,8 @@ function find_last(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -470,8 +470,8 @@ function min_binding(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const l = param.l;
     if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -508,8 +508,8 @@ function max_binding(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     let tmp = param.r;
     if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
@@ -544,9 +544,9 @@ function max_binding_opt(_param) {
 function remove_min_binding(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.remove_min_elt"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt"
+      });
   }
   const l = param.l;
   if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -868,13 +868,13 @@ function merge$1(f, s1, s2) {
   }
   if (/* tag */ typeof s2 === "number" || typeof s2 === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/stdlib/map.ml",
-            408,
-            10
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/stdlib/map.ml",
+          408,
+          10
+        ]
+      });
   }
   const v2 = s2.v;
   const match$1 = split$1(v2, s1);
@@ -1332,14 +1332,14 @@ function compute_update_sequences(all_tickers) {
       if (/* tag */ typeof x === "number" || typeof x === "string") {
         if (x === /* Uninitialized */ 0) {
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "All nodes should be ranked"
-              });
-        }
-        throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "All nodes should be ranked"
             });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "All nodes should be ranked"
+          });
       } else {
         const y = rhs.rank;
         if (!/* tag */ (typeof y === "number" || typeof y === "string")) {
@@ -1347,14 +1347,14 @@ function compute_update_sequences(all_tickers) {
         }
         if (y === /* Uninitialized */ 0) {
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "All nodes should be ranked"
-              });
-        }
-        throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "All nodes should be ranked"
             });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "All nodes should be ranked"
+          });
       }
     }), l);
     return Curry._3(add, k, l$1, map);
@@ -1371,9 +1371,9 @@ function process_quote(ticker_map, new_ticker, new_value) {
         return;
       }
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "Only single Market ticker should be udpated upon a new quote"
-          });
+          MEL_EXN_ID: "Failure",
+          _1: "Only single Market ticker should be udpated upon a new quote"
+        });
     }
     const match$1 = match._0;
     const match$2 = match$1.lhs.value;
@@ -1413,9 +1413,9 @@ function process_input_line(ticker_map, all_tickers, line) {
           if (match$1) {
             if (match$1.tl) {
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Invalid input line"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Invalid input line"
+                });
             }
             const ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
             const value = Caml_format.caml_float_of_string(match$1.hd);
@@ -1426,14 +1426,14 @@ function process_input_line(ticker_map, all_tickers, line) {
             ];
           }
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "Invalid input line"
-              });
-        }
-        throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "Invalid input line"
             });
+        }
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "Invalid input line"
+          });
       case "R" :
         const match$2 = tokens.tl;
         if (match$2) {
@@ -1448,9 +1448,9 @@ function process_input_line(ticker_map, all_tickers, line) {
                   if (match$5) {
                     if (match$5.tl) {
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line"
-                          });
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
+                        });
                     }
                     return [
                       {
@@ -1461,14 +1461,14 @@ function process_input_line(ticker_map, all_tickers, line) {
                     ];
                   }
                   throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line"
-                      });
-                }
-                throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
                       _1: "Invalid input line"
                     });
+                }
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  });
               case "-" :
                 const match$6 = match$3.tl;
                 if (match$6) {
@@ -1476,9 +1476,9 @@ function process_input_line(ticker_map, all_tickers, line) {
                   if (match$7) {
                     if (match$7.tl) {
                       throw new Caml_js_exceptions.MelangeError("Failure", {
-                            MEL_EXN_ID: "Failure",
-                            _1: "Invalid input line"
-                          });
+                          MEL_EXN_ID: "Failure",
+                          _1: "Invalid input line"
+                        });
                     }
                     return [
                       {
@@ -1489,20 +1489,20 @@ function process_input_line(ticker_map, all_tickers, line) {
                     ];
                   }
                   throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line"
-                      });
-                }
-                throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
                       _1: "Invalid input line"
                     });
+                }
+                throw new Caml_js_exceptions.MelangeError("Failure", {
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  });
               case "S" :
                 if (match$3.tl) {
                   throw new Caml_js_exceptions.MelangeError("Failure", {
-                        MEL_EXN_ID: "Failure",
-                        _1: "Invalid input line"
-                      });
+                      MEL_EXN_ID: "Failure",
+                      _1: "Invalid input line"
+                    });
                 }
                 return [
                   {
@@ -1518,33 +1518,33 @@ function process_input_line(ticker_map, all_tickers, line) {
                 ];
               default:
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Invalid input line"
-                    });
+                    MEL_EXN_ID: "Failure",
+                    _1: "Invalid input line"
+                  });
             }
           } else {
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Invalid input line"
-                });
-          }
-        } else {
-          throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
                 _1: "Invalid input line"
               });
-        }
-      default:
-        throw new Caml_js_exceptions.MelangeError("Failure", {
+          }
+        } else {
+          throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "Invalid input line"
             });
+        }
+      default:
+        throw new Caml_js_exceptions.MelangeError("Failure", {
+            MEL_EXN_ID: "Failure",
+            _1: "Invalid input line"
+          });
     }
   } else {
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: "Invalid input line"
-        });
+        MEL_EXN_ID: "Failure",
+        _1: "Invalid input line"
+      });
   }
 }
 

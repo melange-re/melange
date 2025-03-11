@@ -5,8 +5,8 @@ const Mt = require("./mt.js");
 
 function make_with_options(param) {
   const blob = new Blob(["hello"].values(), {
-        type: "application/json"
-      });
+      type: "application/json"
+    });
   return {
     TAG: /* Eq */ 0,
     _0: blob.type,

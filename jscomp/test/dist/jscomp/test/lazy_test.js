@@ -40,13 +40,13 @@ function f(param) {
     return 1;
   }
   throw new Caml_js_exceptions.MelangeError("Match_failure", {
-        MEL_EXN_ID: "Match_failure",
-        _1: [
-          "jscomp/test/lazy_test.ml",
-          9,
-          8
-        ]
-      });
+      MEL_EXN_ID: "Match_failure",
+      _1: [
+        "jscomp/test/lazy_test.ml",
+        9,
+        8
+      ]
+    });
 }
 
 const s = {
@@ -134,8 +134,8 @@ const f007 = {
   LAZY_DONE: false,
   VAL: (function () {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
-        });
+        MEL_EXN_ID: Stdlib.Not_found
+      });
   })
 };
 
@@ -144,8 +144,8 @@ const f008 = {
   VAL: (function () {
     console.log("hi");
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
-        });
+        MEL_EXN_ID: Stdlib.Not_found
+      });
   })
 };
 
@@ -329,8 +329,8 @@ Mt.from_pair_suites("Lazy_test", {
                                 LAZY_DONE: false,
                                 VAL: (function () {
                                   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                                        MEL_EXN_ID: Stdlib.Not_found
-                                      });
+                                      MEL_EXN_ID: Stdlib.Not_found
+                                    });
                                 })
                               })
                             };

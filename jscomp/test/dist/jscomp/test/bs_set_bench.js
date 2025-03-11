@@ -15,13 +15,13 @@ function bench(param) {
   for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
     if (!Belt__Belt_SetInt.has(data, i$1)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/bs_set_bench.ml",
-              12,
-              4
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/test/bs_set_bench.ml",
+            12,
+            4
+          ]
+        });
     }
     
   }
@@ -35,13 +35,13 @@ function bench(param) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_set_bench.ml",
-          17,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_set_bench.ml",
+        17,
+        2
+      ]
+    });
 }
 
 console.time("bs_set_bench.ml 21");

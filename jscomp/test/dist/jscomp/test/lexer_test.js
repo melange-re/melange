@@ -45,8 +45,8 @@ function from_tokens(lst) {
       return match.hd;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-          MEL_EXN_ID: Stdlib.End_of_file
-        });
+        MEL_EXN_ID: Stdlib.End_of_file
+      });
   };
 }
 

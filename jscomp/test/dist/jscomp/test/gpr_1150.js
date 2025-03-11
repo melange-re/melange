@@ -217,13 +217,13 @@ function f(children) {
   }
   if (children$15.tl) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/gpr_1150.ml",
-            56,
-            34
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/gpr_1150.ml",
+          56,
+          34
+        ]
+      });
   }
   return [
     a0,

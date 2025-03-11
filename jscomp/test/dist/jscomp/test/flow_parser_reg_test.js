@@ -2130,8 +2130,8 @@ function eat(f) {
     };
   }
   throw new Caml_js_exceptions.MelangeError(No_good, {
-        MEL_EXN_ID: No_good
-      });
+      MEL_EXN_ID: No_good
+    });
 }
 
 function start(str) {
@@ -2180,8 +2180,8 @@ function parse_hex_symbol(f) {
   if (match) {
     if (match.hd !== 48) {
       throw new Caml_js_exceptions.MelangeError(No_good, {
-            MEL_EXN_ID: No_good
-          });
+          MEL_EXN_ID: No_good
+        });
     }
     const match$1 = match.tl;
     if (match$1) {
@@ -2191,18 +2191,18 @@ function parse_hex_symbol(f) {
       }
       if (match$2 !== 120) {
         throw new Caml_js_exceptions.MelangeError(No_good, {
-              MEL_EXN_ID: No_good
-            });
+            MEL_EXN_ID: No_good
+          });
       }
       return eat(eat(f));
     }
     throw new Caml_js_exceptions.MelangeError(No_good, {
-          MEL_EXN_ID: No_good
-        });
-  }
-  throw new Caml_js_exceptions.MelangeError(No_good, {
         MEL_EXN_ID: No_good
       });
+  }
+  throw new Caml_js_exceptions.MelangeError(No_good, {
+      MEL_EXN_ID: No_good
+    });
 }
 
 function parse_exponent(f) {
@@ -2215,8 +2215,8 @@ function parse_exponent(f) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Failure) {
       throw new Caml_js_exceptions.MelangeError(No_good, {
-            MEL_EXN_ID: No_good
-          });
+          MEL_EXN_ID: No_good
+        });
     }
     throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
   }
@@ -2265,8 +2265,8 @@ function parse_body(_f) {
         continue;
       }
       throw new Caml_js_exceptions.MelangeError(No_good, {
-            MEL_EXN_ID: No_good
-          });
+          MEL_EXN_ID: No_good
+        });
     }
     let ref_char_code;
     if (c >= /* '0' */48 && c <= /* '9' */57) {
@@ -2277,8 +2277,8 @@ function parse_body(_f) {
       ref_char_code = 87;
     } else {
       throw new Caml_js_exceptions.MelangeError(No_good, {
-            MEL_EXN_ID: No_good
-          });
+          MEL_EXN_ID: No_good
+        });
     }
     const value = c - ref_char_code | 0;
     const e = f.decimal_exponent;
@@ -2306,13 +2306,13 @@ function float_of_string(str) {
         let f = parse_body(parse_hex_symbol(parse_sign(start(str))));
         if (!Caml_obj.caml_equal(f.todo, /* [] */ 0)) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "lexer_flow.mll",
-                  546,
-                  4
-                ]
-              });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "lexer_flow.mll",
+                546,
+                4
+              ]
+            });
         }
         const ret = f.mantissa;
         const decimal_exponent = f.decimal_exponent;
@@ -2398,13 +2398,13 @@ function unicode_fix_cols(lb) {
 function oct_to_int(x) {
   if (x > 55 || x < 48) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "lexer_flow.mll",
-            604,
-            11
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "lexer_flow.mll",
+          604,
+          11
+        ]
+      });
   }
   return x - /* '0' */48 | 0;
 }
@@ -2424,13 +2424,13 @@ function hexa_to_int(x) {
     return x - /* '0' */48 | 0;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "lexer_flow.mll",
-          610,
-          11
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "lexer_flow.mll",
+        610,
+        11
+      ]
+    });
 }
 
 function utf16to8(code) {
@@ -5475,9 +5475,9 @@ function bal(l, v, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Set.bal"
+        });
     }
     const lr = l.r;
     const lv = l.v;
@@ -5489,9 +5489,9 @@ function bal(l, v, r) {
       return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -5504,9 +5504,9 @@ function bal(l, v, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   const rr = r.r;
   const rv = r.v;
@@ -5518,9 +5518,9 @@ function bal(l, v, r) {
     return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Set.bal"
+    });
 }
 
 function add(x, t) {
@@ -5798,13 +5798,13 @@ function lookahead(iOpt, env) {
   const i = iOpt !== undefined ? iOpt : 0;
   if (i >= 2) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_env.ml",
-            288,
-            2
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "parser_env.ml",
+          288,
+          2
+        ]
+      });
   }
   let t = env.lookahead.contents;
   lex_until(t, i);
@@ -5813,9 +5813,9 @@ function lookahead(iOpt, env) {
     return match[1];
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "Lookahead.peek failed"
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "Lookahead.peek failed"
+    });
 }
 
 function with_strict(in_strict_mode, env) {
@@ -5977,9 +5977,9 @@ function lex_env(iOpt, env) {
     return match[0];
   }
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "Lookahead.peek failed"
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "Lookahead.peek failed"
+    });
 }
 
 function is_line_terminator(env) {
@@ -6181,9 +6181,9 @@ function pop_lex_mode(env) {
     new_stack = match.tl;
   } else {
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: "Popping lex mode from empty stack"
-        });
+        MEL_EXN_ID: "Failure",
+        _1: "Popping lex mode from empty stack"
+      });
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
@@ -6198,15 +6198,15 @@ function double_pop_lex_mode(env) {
       new_stack = match$1.tl;
     } else {
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "Popping lex mode from empty stack"
-          });
-    }
-  } else {
-    throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
           _1: "Popping lex mode from empty stack"
         });
+    }
+  } else {
+    throw new Caml_js_exceptions.MelangeError("Failure", {
+        MEL_EXN_ID: "Failure",
+        _1: "Popping lex mode from empty stack"
+      });
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, Stdlib__List.hd(env.lex_mode_stack.contents));
@@ -6368,9 +6368,9 @@ function bal$1(l, v, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Set.bal"
+        });
     }
     const lr = l.r;
     const lv = l.v;
@@ -6382,9 +6382,9 @@ function bal$1(l, v, r) {
       return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -6397,9 +6397,9 @@ function bal$1(l, v, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   const rr = r.r;
   const rv = r.v;
@@ -6411,9 +6411,9 @@ function bal$1(l, v, r) {
     return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Set.bal"
+    });
 }
 
 function add$1(x, t) {
@@ -6497,9 +6497,9 @@ function bal$2(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l.r;
     const ld = l.d;
@@ -6512,9 +6512,9 @@ function bal$2(l, x, d, r) {
       return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -6528,9 +6528,9 @@ function bal$2(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r.r;
   const rd = r.d;
@@ -6543,9 +6543,9 @@ function bal$2(l, x, d, r) {
     return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function add$2(x, data, m) {
@@ -6599,8 +6599,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const c = Curry._2(funarg$2.compare, x, param.v);
     if (c === 0) {
@@ -6654,9 +6654,9 @@ function bal$3(l, v, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Set.bal"
+        });
     }
     const lr = l.r;
     const lv = l.v;
@@ -6668,9 +6668,9 @@ function bal$3(l, v, r) {
       return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -6683,9 +6683,9 @@ function bal$3(l, v, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   const rr = r.r;
   const rv = r.v;
@@ -6697,9 +6697,9 @@ function bal$3(l, v, r) {
     return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Set.bal"
+    });
 }
 
 function add$3(x, t) {
@@ -6924,13 +6924,13 @@ function rev_nonempty_acc(acc) {
     end_loc = acc.hd[0];
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            127,
-            13
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "parser_flow.ml",
+          127,
+          13
+        ]
+      });
   }
   const acc$1 = Stdlib__List.rev(acc);
   let start_loc;
@@ -6938,13 +6938,13 @@ function rev_nonempty_acc(acc) {
     start_loc = acc$1.hd[0];
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            131,
-            13
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "parser_flow.ml",
+          131,
+          13
+        ]
+      });
   }
   return [
     btwn(start_loc, end_loc),
@@ -7976,13 +7976,13 @@ function annotation(env) {
     end_loc = loc;
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "parser_flow.ml",
-            121,
-            16
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "parser_flow.ml",
+          121,
+          16
+        ]
+      });
   }
   return [
     btwn(start_loc, end_loc),
@@ -9178,13 +9178,13 @@ function primary$1(env) {
         let match$5;
         if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "parser_flow.ml",
-                  1699,
-                  15
-                ]
-              });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "parser_flow.ml",
+                1699,
+                15
+              ]
+            });
         }
         if (match$4.TAG === /* T_REGEXP */ 3) {
           const match$6 = match$4._0;
@@ -9197,13 +9197,13 @@ function primary$1(env) {
           ];
         } else {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                MEL_EXN_ID: "Assert_failure",
-                _1: [
-                  "parser_flow.ml",
-                  1699,
-                  15
-                ]
-              });
+              MEL_EXN_ID: "Assert_failure",
+              _1: [
+                "parser_flow.ml",
+                1699,
+                15
+              ]
+            });
         }
         const raw_flags = match$5[2];
         pop_lex_mode(env);
@@ -9565,8 +9565,8 @@ function assignment_but_not_arrow_function(env) {
 
 function error_callback(param, param$1) {
   throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-        MEL_EXN_ID: Parser_env_Try.Rollback
-      });
+      MEL_EXN_ID: Parser_env_Try.Rollback
+    });
 }
 
 function try_assignment_but_not_arrow_function(env) {
@@ -9578,8 +9578,8 @@ function try_assignment_but_not_arrow_function(env) {
       case /* T_ARROW */ 10 :
       case /* T_COLON */ 77 :
         throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-              MEL_EXN_ID: Parser_env_Try.Rollback
-            });
+            MEL_EXN_ID: Parser_env_Try.Rollback
+          });
     }
   }
   if (!Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
@@ -9587,8 +9587,8 @@ function try_assignment_but_not_arrow_function(env) {
   }
   if (Curry._2(Parser_env_Peek.value, undefined, env$1) === "checks") {
     throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-          MEL_EXN_ID: Parser_env_Try.Rollback
-        });
+        MEL_EXN_ID: Parser_env_Try.Rollback
+      });
   }
   const match$1 = ret[1];
   if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
@@ -9602,8 +9602,8 @@ function try_assignment_but_not_arrow_function(env) {
   }
   if (!Curry._1(Parser_env_Peek.is_line_terminator, env$1)) {
     throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-          MEL_EXN_ID: Parser_env_Try.Rollback
-        });
+        MEL_EXN_ID: Parser_env_Try.Rollback
+      });
   }
   return ret;
 }
@@ -10144,13 +10144,13 @@ function template_parts(env, _quasis, _expressions) {
       let match$2;
       if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                1602,
-                19
-              ]
-            });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parser_flow.ml",
+              1602,
+              19
+            ]
+          });
       }
       if (match$1.TAG === /* T_TEMPLATE_PART */ 2) {
         const match$3 = match$1._0;
@@ -10170,13 +10170,13 @@ function template_parts(env, _quasis, _expressions) {
         ];
       } else {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                1602,
-                19
-              ]
-            });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parser_flow.ml",
+              1602,
+              19
+            ]
+          });
       }
       const loc = match$2[0];
       pop_lex_mode(env);
@@ -10338,13 +10338,13 @@ function error_callback$1(param, param$1) {
         return;
       default:
         throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-              MEL_EXN_ID: Parser_env_Try.Rollback
-            });
+            MEL_EXN_ID: Parser_env_Try.Rollback
+          });
     }
   } else {
     throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-          MEL_EXN_ID: Parser_env_Try.Rollback
-        });
+        MEL_EXN_ID: Parser_env_Try.Rollback
+      });
   }
 }
 
@@ -10576,13 +10576,13 @@ function _method(env, kind) {
   switch (kind) {
     case /* Init */ 0 :
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "parser_flow.ml",
-              1954,
-              16
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "parser_flow.ml",
+            1954,
+            16
+          ]
+        });
     case /* Get */ 1 :
       params = /* [] */ 0;
       break;
@@ -10932,9 +10932,9 @@ function check_property(env, prop_map, prop) {
               break;
             case /* RegExp */ 3 :
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "RegExp cannot be property key"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "RegExp cannot be property key"
+                });
           }
         }
         break;
@@ -10943,13 +10943,13 @@ function check_property(env, prop_map, prop) {
         break;
       case /* Computed */ 2 :
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                2103,
-                30
-              ]
-            });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parser_flow.ml",
+              2103,
+              30
+            ]
+          });
     }
     let prev_kinds;
     try {
@@ -12000,23 +12000,23 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             break;
           default:
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                  MEL_EXN_ID: "Assert_failure",
-                  _1: [
-                    "parser_flow.ml",
-                    3480,
-                    17
-                  ]
-                });
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "parser_flow.ml",
+                  3480,
+                  17
+                ]
+              });
         }
       } else {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "parser_flow.ml",
-                3480,
-                17
-              ]
-            });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parser_flow.ml",
+              3480,
+              17
+            ]
+          });
       }
       if (exit$2 === 3) {
         if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
@@ -12381,9 +12381,9 @@ function fold(acc, _param) {
         };
       case /* Expression */ 4 :
         throw new Caml_js_exceptions.MelangeError("Failure", {
-              MEL_EXN_ID: "Failure",
-              _1: "Parser error: No such thing as an expression pattern!"
-            });
+            MEL_EXN_ID: "Failure",
+            _1: "Parser error: No such thing as an expression pattern!"
+          });
     }
   };
 }
@@ -13656,9 +13656,9 @@ function module_item(env) {
             const match$4 = $$interface$1[1];
             if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                });
             }
             if (match$4.TAG === /* InterfaceDeclaration */ 21) {
               record_export(env$1, [
@@ -13667,9 +13667,9 @@ function module_item(env) {
               ]);
             } else {
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                });
             }
             const end_loc$1 = $$interface$1[0];
             return [
@@ -13697,9 +13697,9 @@ function module_item(env) {
               const match$5 = type_alias$1[1];
               if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string") {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
-                    });
+                    MEL_EXN_ID: "Failure",
+                    _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                  });
               }
               if (match$5.TAG === /* TypeAlias */ 7) {
                 record_export(env$1, [
@@ -13708,9 +13708,9 @@ function module_item(env) {
                 ]);
               } else {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
-                      MEL_EXN_ID: "Failure",
-                      _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
-                    });
+                    MEL_EXN_ID: "Failure",
+                    _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                  });
               }
               const end_loc$2 = type_alias$1[0];
               return [
@@ -13821,9 +13821,9 @@ function module_item(env) {
           let names;
           if (/* tag */ typeof match$8 === "number" || typeof match$8 === "string") {
             throw new Caml_js_exceptions.MelangeError("Failure", {
-                  MEL_EXN_ID: "Failure",
-                  _1: "Internal Flow Error! Unexpected export statement declaration!"
-                });
+                MEL_EXN_ID: "Failure",
+                _1: "Internal Flow Error! Unexpected export statement declaration!"
+              });
           }
           switch (match$8.TAG) {
             case /* FunctionDeclaration */ 18 :
@@ -13874,9 +13874,9 @@ function module_item(env) {
               break;
             default:
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "Internal Flow Error! Unexpected export statement declaration!"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "Internal Flow Error! Unexpected export statement declaration!"
+                });
           }
           Stdlib__List.iter((function (param) {
             return record_export(env$1, param);
@@ -14559,13 +14559,13 @@ function statement(env) {
                     });
                 } else {
                   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "parser_flow.ml",
-                          2556,
-                          22
-                        ]
-                      });
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "parser_flow.ml",
+                        2556,
+                        22
+                      ]
+                    });
                 }
                 token$4(env, /* T_IN */ 15);
                 const right = Curry._1(Parse.expression, env);
@@ -14596,13 +14596,13 @@ function statement(env) {
                     });
                 } else {
                   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                        MEL_EXN_ID: "Assert_failure",
-                        _1: [
-                          "parser_flow.ml",
-                          2573,
-                          22
-                        ]
-                      });
+                      MEL_EXN_ID: "Assert_failure",
+                      _1: [
+                        "parser_flow.ml",
+                        2573,
+                        22
+                      ]
+                    });
                 }
                 token$4(env, /* T_OF */ 60);
                 const right$1 = Curry._1(Parse.assignment, env);
@@ -14883,9 +14883,9 @@ function directives(env, term_fn, item_fn) {
     }
     const s = "Nooo: " + (token_to_string(token) + "\n");
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: s
-        });
+        MEL_EXN_ID: "Failure",
+        _1: s
+      });
   }), Stdlib__List.rev(match[1]));
   return [
     env$1,
@@ -15268,9 +15268,9 @@ function program$1(failOpt, token_sinkOpt, parse_optionsOpt, content) {
   const error_list = filter_duplicate_errors(env.errors.contents);
   if (fail && Caml_obj.caml_notequal(error_list, /* [] */ 0)) {
     throw new Caml_js_exceptions.MelangeError($$Error, {
-          MEL_EXN_ID: $$Error,
-          _1: error_list
-        });
+        MEL_EXN_ID: $$Error,
+        _1: error_list
+      });
   }
   return [
     ast,
@@ -15684,9 +15684,9 @@ function parse(content, options) {
               break;
             case /* Await */ 7 :
               throw new Caml_js_exceptions.MelangeError("Failure", {
-                    MEL_EXN_ID: "Failure",
-                    _1: "matched above"
-                  });
+                  MEL_EXN_ID: "Failure",
+                  _1: "matched above"
+                });
           }
           return node("UnaryExpression", loc, [
             [
@@ -16558,9 +16558,9 @@ function parse(content, options) {
           break;
         case /* Computed */ 2 :
           throw new Caml_js_exceptions.MelangeError("Failure", {
-                MEL_EXN_ID: "Failure",
-                _1: "There should not be computed object type property keys"
-              });
+              MEL_EXN_ID: "Failure",
+              _1: "There should not be computed object type property keys"
+            });
       }
       return node("ObjectTypeProperty", param[0], [
         [
@@ -17723,13 +17723,13 @@ if (f !== undefined) {
   ], v.range);
 } else {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "runParser.ml",
-          15,
-          12
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "runParser.ml",
+        15,
+        12
+      ]
+    });
 }
 
 Mt.from_pair_suites("Flow_parser_reg_test", suites.contents);

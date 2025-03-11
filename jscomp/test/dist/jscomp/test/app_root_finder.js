@@ -17,8 +17,8 @@ function find_package_json(_dir) {
     const new_dir = Path.dirname(dir);
     if (new_dir === dir) {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     _dir = new_dir;
     continue;

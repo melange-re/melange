@@ -47,24 +47,24 @@ const q = {
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), []) && q.length === 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          21,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        21,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 1), q)), [1]) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          22,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        22,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 2), q)), [
@@ -72,13 +72,13 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
     2
   ]) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          23,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        23,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 3), q)), [
@@ -87,13 +87,13 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
     3
   ]) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          24,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        24,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQueue.add(q, 4), q)), [
@@ -103,24 +103,24 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray((Belt__Belt_MutableQue
     4
   ]) && q.length === 4)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          25,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        25,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          26,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        26,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
@@ -129,24 +129,24 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
     4
   ]) && q.length === 3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          26,
-          27
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        26,
+        27
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          27,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        27,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
@@ -154,68 +154,68 @@ if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [
     4
   ]) && q.length === 2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          27,
-          27
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        27,
+        27
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          28,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        28,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), [4]) && q.length === 1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          28,
-          27
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        28,
+        27
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q) !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          29,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        29,
+        2
+      ]
+    });
 }
 
 if (!(Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q), []) && q.length === 0)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          29,
-          27
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        29,
+        27
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.popExn, q)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          30,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        30,
+        2
+      ]
+    });
 }
 
 const q$1 = {
@@ -226,57 +226,57 @@ const q$1 = {
 
 if (Belt__Belt_MutableQueue.popExn((Belt__Belt_MutableQueue.add(q$1, 1), q$1)) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          35,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        35,
+        2
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.popExn, q$1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          35,
-          34
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        35,
+        34
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn((Belt__Belt_MutableQueue.add(q$1, 2), q$1)) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          36,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        36,
+        2
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.popExn, q$1)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          36,
-          34
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        36,
+        34
+      ]
+    });
 }
 
 if (q$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          37,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        37,
+        2
+      ]
+    });
 }
 
 const q$2 = {
@@ -287,123 +287,123 @@ const q$2 = {
 
 if (Belt__Belt_MutableQueue.peekExn((Belt__Belt_MutableQueue.add(q$2, 1), q$2)) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          42,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        42,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.peekExn((Belt__Belt_MutableQueue.add(q$2, 2), q$2)) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          43,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        43,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.peekExn((Belt__Belt_MutableQueue.add(q$2, 3), q$2)) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          44,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        44,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.peekExn(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          45,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        45,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q$2) !== 1) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          45,
-          28
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        45,
+        28
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.peekExn(q$2) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          46,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        46,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q$2) !== 2) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          46,
-          28
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        46,
+        28
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.peekExn(q$2) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          47,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        47,
+        2
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.popExn(q$2) !== 3) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          47,
-          28
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        47,
+        28
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.peekExn, q$2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          48,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        48,
+        2
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.peekExn, q$2)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          49,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        49,
+        2
+      ]
+    });
 }
 
 const q$3 = {
@@ -420,24 +420,24 @@ Belt__Belt_MutableQueue.clear(q$3);
 
 if (q$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          56,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        56,
+        2
+      ]
+    });
 }
 
 if (!does_raise(Belt__Belt_MutableQueue.popExn, q$3)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          57,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        57,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(q$3, {
@@ -446,26 +446,26 @@ if (!Caml_obj.caml_equal(q$3, {
     last: undefined
   })) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          58,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        58,
+        2
+      ]
+    });
 }
 
 Belt__Belt_MutableQueue.add(q$3, 42);
 
 if (Belt__Belt_MutableQueue.popExn(q$3) !== 42) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          60,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        60,
+        2
+      ]
+    });
 }
 
 const q1 = {
@@ -493,13 +493,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1), [
     10
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          67,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        67,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2), [
@@ -515,47 +515,47 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2), [
     10
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          68,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        68,
+        2
+      ]
+    });
 }
 
 if (q1.length !== 10) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          69,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        69,
+        2
+      ]
+    });
 }
 
 if (q2.length !== 10) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          70,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        70,
+        2
+      ]
+    });
 }
 
 for (let i$2 = 1; i$2 <= 10; ++i$2) {
   if (Belt__Belt_MutableQueue.popExn(q1) !== i$2) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            72,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          72,
+          4
+        ]
+      });
   }
   
 }
@@ -563,13 +563,13 @@ for (let i$2 = 1; i$2 <= 10; ++i$2) {
 for (let i$3 = 1; i$3 <= 10; ++i$3) {
   if (Belt__Belt_MutableQueue.popExn(q2) !== i$3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            75,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          75,
+          4
+        ]
+      });
   }
   
 }
@@ -582,36 +582,36 @@ const q$4 = {
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          81,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        81,
+        2
+      ]
+    });
 }
 
 for (let i$4 = 1; i$4 <= 10; ++i$4) {
   Belt__Belt_MutableQueue.add(q$4, i$4);
   if (q$4.length !== i$4) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            84,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          84,
+          4
+        ]
+      });
   }
   if (q$4.length === 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            85,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          85,
+          4
+        ]
+      });
   }
   
 }
@@ -619,47 +619,47 @@ for (let i$4 = 1; i$4 <= 10; ++i$4) {
 for (let i$5 = 10; i$5 >= 1; --i$5) {
   if (q$4.length !== i$5) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            88,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          88,
+          4
+        ]
+      });
   }
   if (q$4.length === 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            89,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          89,
+          4
+        ]
+      });
   }
   Belt__Belt_MutableQueue.popExn(q$4);
 }
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          92,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        92,
+        2
+      ]
+    });
 }
 
 if (q$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          93,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        93,
+        2
+      ]
+    });
 }
 
 const q$5 = {
@@ -679,13 +679,13 @@ const i$7 = {
 Belt__Belt_MutableQueue.forEach(q$5, (function (j) {
   if (i$7.contents !== j) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/bs_queue_test.ml",
-            100,
-            24
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/bs_queue_test.ml",
+          100,
+          24
+        ]
+      });
   }
   i$7.contents = i$7.contents + 1 | 0;
 }));
@@ -704,92 +704,92 @@ const q2$1 = {
 
 if (q1$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          105,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        105,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$1), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          105,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        105,
+        26
+      ]
+    });
 }
 
 if (q2$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          106,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        106,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$1), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          106,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        106,
+        26
+      ]
+    });
 }
 
 Belt__Belt_MutableQueue.transfer(q1$1, q2$1);
 
 if (q1$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          108,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        108,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$1), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          108,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        108,
+        26
+      ]
+    });
 }
 
 if (q2$1.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          109,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        109,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$1), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          109,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        109,
+        26
+      ]
+    });
 }
 
 const q1$2 = {
@@ -810,13 +810,13 @@ for (let i$8 = 1; i$8 <= 4; ++i$8) {
 
 if (q1$2.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          115,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        115,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$2), [
@@ -826,70 +826,70 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$2), [
     4
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          115,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        115,
+        26
+      ]
+    });
 }
 
 if (q2$2.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          116,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        116,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$2), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          116,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        116,
+        26
+      ]
+    });
 }
 
 Belt__Belt_MutableQueue.transfer(q1$2, q2$2);
 
 if (q1$2.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          118,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        118,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$2), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          118,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        118,
+        26
+      ]
+    });
 }
 
 if (q2$2.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          119,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        119,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$2), [
@@ -899,13 +899,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$2), [
     4
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          119,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        119,
+        26
+      ]
+    });
 }
 
 const q1$3 = {
@@ -926,35 +926,35 @@ for (let i$9 = 5; i$9 <= 8; ++i$9) {
 
 if (q1$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          125,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        125,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$3), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          125,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        125,
+        26
+      ]
+    });
 }
 
 if (q2$3.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          126,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        126,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
@@ -964,48 +964,48 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
     8
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          126,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        126,
+        26
+      ]
+    });
 }
 
 Belt__Belt_MutableQueue.transfer(q1$3, q2$3);
 
 if (q1$3.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          128,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        128,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$3), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          128,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        128,
+        26
+      ]
+    });
 }
 
 if (q2$3.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          129,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        129,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
@@ -1015,13 +1015,13 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$3), [
     8
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          129,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        129,
+        26
+      ]
+    });
 }
 
 const q1$4 = {
@@ -1046,13 +1046,13 @@ for (let i$11 = 5; i$11 <= 8; ++i$11) {
 
 if (q1$4.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          136,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        136,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$4), [
@@ -1062,24 +1062,24 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$4), [
     4
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          136,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        136,
+        26
+      ]
+    });
 }
 
 if (q2$4.length !== 4) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          137,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        137,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$4), [
@@ -1089,37 +1089,37 @@ if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$4), [
     8
   ])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          137,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        137,
+        26
+      ]
+    });
 }
 
 Belt__Belt_MutableQueue.transfer(q1$4, q2$4);
 
 if (q1$4.length !== 0) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          139,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        139,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q1$4), [])) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          139,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        139,
+        26
+      ]
+    });
 }
 
 const v = [
@@ -1135,24 +1135,24 @@ const v = [
 
 if (q2$4.length !== 8) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          141,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        141,
+        2
+      ]
+    });
 }
 
 if (!Caml_obj.caml_equal(Belt__Belt_MutableQueue.toArray(q2$4), v)) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          141,
-          26
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        141,
+        26
+      ]
+    });
 }
 
 if (Belt__Belt_MutableQueue.reduce(q2$4, 0, (function (x, y) {
@@ -1161,13 +1161,13 @@ if (Belt__Belt_MutableQueue.reduce(q2$4, 0, (function (x, y) {
     return x - y | 0;
   }))) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/bs_queue_test.ml",
-          143,
-          2
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/bs_queue_test.ml",
+        143,
+        2
+      ]
+    });
 }
 
 console.log("OK");

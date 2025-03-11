@@ -9,28 +9,28 @@ const Stdlib = require("melange/stdlib.js");
 
 function f(param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
-      });
+      MEL_EXN_ID: Stdlib.Not_found
+    });
 }
 
 function assert_f(x) {
   if (x <= 3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/exception_value_test.ml",
-            9,
-            12
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/exception_value_test.ml",
+          9,
+          12
+        ]
+      });
   }
   return 3;
 }
 
 function hh(param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
-      });
+      MEL_EXN_ID: Stdlib.Not_found
+    });
 }
 
 const A = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.A");
