@@ -125,7 +125,7 @@ module Ref = {
  * Watch out! There are two props types and the only difference is the type of ref.
  * Please keep in sync.
  */
-[@deriving abstract]
+[@deriving (jsProperties, getSet)]
 type domProps = {
   [@mel.optional]
   key: option(string),
@@ -1131,7 +1131,7 @@ external createDOMElementVariadic:
  * Watch out! There are two props types and the only difference is the type of ref.
  * Please keep in sync.
  */
-[@deriving abstract]
+[@deriving (jsProperties, getSet)]
 type props = {
   [@mel.optional]
   key: option(string),
