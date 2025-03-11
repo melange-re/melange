@@ -8,7 +8,7 @@ type t = {
     [@mel.as "l"];
   mutable x : int;
     [@mel.as "open"]
-} [@@deriving abstract]
+} [@@deriving jsProperties, getSet]
   (* [@@mel.x] *)
 
 
@@ -32,7 +32,7 @@ type a = {
   [@mel.as "lo-x"]
 ;
   hi : int
-} [@@deriving abstract]
+} [@@deriving jsProperties, getSet]
 
 
 (**
@@ -99,7 +99,7 @@ type css =
     a15 : int option
     [@mel.optional] ;
   }
-  [@@deriving abstract]
+  [@@deriving jsProperties, getSet]
 
 
 let u = css ~a9:3 ()
