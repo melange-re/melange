@@ -56,5 +56,4 @@ val alias_ident_or_global :
 
 val refine_let : kind:Lam_group.let_kind -> Ident.t -> Lam.t -> Lam.t -> Lam.t
 val generate_label : ?name:string -> unit -> string
-val not_function : Lam.t -> bool
 val is_function : Lam.t -> bool

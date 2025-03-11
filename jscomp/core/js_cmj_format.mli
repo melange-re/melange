@@ -62,7 +62,7 @@ type keyed_cmj_value = {
 
 type t = {
   values : keyed_cmj_value array;
-  pure : bool;
+  effect_ : string option;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
