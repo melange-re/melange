@@ -608,20 +608,20 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Char_to_int e -> (
       match e.expression_desc with
       | String_index { expr = a; index = b } ->
-          group cxt 1 (fun () ->
+          group cxt 0 (fun () ->
               let cxt = expression ~level:15 cxt a in
               string cxt L.dot;
               string cxt L.char_code_at;
               paren_group cxt 1 (fun () -> expression ~level:0 cxt b))
       | _ ->
-          group cxt 1 (fun () ->
+          group cxt 0 (fun () ->
               let cxt = expression ~level:15 cxt e in
               string cxt L.dot;
               string cxt L.char_code_at;
               string cxt "(0)";
               cxt))
   | Char_of_int e ->
-      group cxt 1 (fun () ->
+      group cxt 0 (fun () ->
           string cxt L.string_cap;
           string cxt L.dot;
           string cxt L.fromCharcode;
@@ -842,7 +842,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       } ->
       expression_desc cxt ~level (Array { items = el; mutable_flag })
   | Caml_block_tag { expr = e; name } ->
-      group cxt 1 (fun () ->
+      group cxt 0 (fun () ->
           let cxt = expression ~level:15 cxt e in
           string cxt L.dot;
           string cxt name;
@@ -850,7 +850,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Array_index { expr = e; index = p } | String_index { expr = e; index = p }
     ->
       cond_paren_group cxt (level > 15) (fun () ->
-          group cxt 1 (fun () ->
+          group cxt 0 (fun () ->
               let cxt = expression ~level:15 cxt e in
               bracket_group cxt 1 (fun () -> expression ~level:0 cxt p)))
   | Static_index { expr = e; field = s; _ } ->
