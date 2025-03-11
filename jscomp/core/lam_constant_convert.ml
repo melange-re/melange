@@ -116,8 +116,8 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
           assert false
           (* let t : Lam.Tag_info.t = Blk_extension_slot in
              Const_block (i,t, Ext_list.map xs convert_constant ) *)
-      | Blk_extension ->
-          let t : Lam.Tag_info.t = Blk_extension in
+      | Blk_extension { exn } ->
+          let t : Lam.Tag_info.t = Blk_extension { exn } in
           Const_block (i, t, List.map ~f:convert_constant xs)
       | Blk_lazy_general -> assert false
       | Blk_na s ->
@@ -128,6 +128,6 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
             Blk_record_inlined { name; fields; num_nonconst; attributes }
           in
           Const_block (i, t, List.map ~f:convert_constant xs)
-      | Blk_record_ext s ->
-          let t : Lam.Tag_info.t = Blk_record_ext s in
+      | Blk_record_ext { fields; exn } ->
+          let t : Lam.Tag_info.t = Blk_record_ext { fields; exn } in
           Const_block (i, t, List.map ~f:convert_constant xs))
