@@ -1484,9 +1484,9 @@ function game_win(ctx) {
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("You win!", 180, 128);
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "Game over."
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "Game over."
+    });
 }
 
 function game_loss(ctx) {
@@ -1497,9 +1497,9 @@ function game_loss(ctx) {
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("GAME OVER. You lose!", 60, 128);
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "Game over."
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "Game over."
+    });
 }
 
 const Draw = {
@@ -2458,9 +2458,9 @@ function choose_enemy_typ(typ) {
       return /* Goomba */ 0;
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "Shouldn't reach here"
-          });
+          MEL_EXN_ID: "Failure",
+          _1: "Shouldn't reach here"
+        });
   }
 }
 
@@ -2481,9 +2481,9 @@ function choose_sblock_typ(typ) {
       return /* Ground */ 5;
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "Shouldn't reach here"
-          });
+          MEL_EXN_ID: "Failure",
+          _1: "Shouldn't reach here"
+        });
   }
 }
 
@@ -2995,9 +2995,9 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
       };
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: "Shouldn't reach here"
-          });
+          MEL_EXN_ID: "Failure",
+          _1: "Shouldn't reach here"
+        });
   }
 }
 
@@ -3283,9 +3283,9 @@ function load(param) {
       _1: "cant find canvas %s \n"
     }), canvas_id);
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: "fail"
-        });
+        MEL_EXN_ID: "Failure",
+        _1: "fail"
+      });
   }
   const context = canvas.getContext("2d");
   document.addEventListener("keydown", keydown, true);
