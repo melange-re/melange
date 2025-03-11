@@ -24,11 +24,11 @@
 
 open Import
 
-val is_unit_cont : yes:'a -> no:'a -> pattern -> 'a
+val is_unit : pattern -> bool
 
-val arity_of_fun : pattern -> expression -> int
+val arity_of_fun : function_param list -> expression -> int
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e]*)
 
-val labels_of_fun : expression -> Asttypes.arg_label list
+val labels_of_fun : function_param list -> expression -> Asttypes.arg_label list
 val is_single_variable_pattern_conservative : pattern -> bool
