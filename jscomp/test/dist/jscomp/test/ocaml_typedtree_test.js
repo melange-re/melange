@@ -55923,8 +55923,8 @@ function record_arg(p) {
 
 function get_field(pos, arg) {
   return Stdlib__List.find((function (param) {
-      return pos === param[1].lbl_pos;
-    }), arg)[2];
+    return pos === param[1].lbl_pos;
+  }), arg)[2];
 }
 
 function simple_match_args(p1, _p2) {
@@ -59833,16 +59833,16 @@ function find_value$1(env, loc, lid) {
 function lookup_module$1(loadOpt, env, loc, lid) {
   const load = loadOpt !== undefined ? loadOpt : false;
   return find_component((function (lid, env) {
-      return [
-        lookup_module(load, lid, env),
-        undefined
-      ];
-    }), (function (lid) {
-      return {
-        TAG: /* Unbound_module */ 20,
-        _0: lid
-      };
-    }), env, loc, lid)[0];
+    return [
+      lookup_module(load, lid, env),
+      undefined
+    ];
+  }), (function (lid) {
+    return {
+      TAG: /* Unbound_module */ 20,
+      _0: lid
+    };
+  }), env, loc, lid)[0];
 }
 
 function find_module$1(env, loc, lid) {
@@ -74192,9 +74192,9 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       contents: /* [] */ 0
     };
     const td = find_type_full({
-        TAG: /* Pident */ 0,
-        _0: id
-      }, temp_env)[0];
+      TAG: /* Pident */ 0,
+      _0: id
+    }, temp_env)[0];
     const name = id.name;
     set_type_used_callback(name, td, (function (old_callback) {
       const slot$1 = current_slot.contents;
