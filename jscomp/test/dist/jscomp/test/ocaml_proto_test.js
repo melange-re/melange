@@ -4348,24 +4348,24 @@ function strong_connect(g, sccs, stack, index, v) {
 function tarjan(g) {
   const g$1 = reset(g);
   return Curry._3(fold, (function (param, n, param$1) {
-      const index = param$1[2];
-      const stack = param$1[1];
-      const sccs = param$1[0];
-      const match = n.index;
-      if (match !== undefined) {
-        return [
-          sccs,
-          stack,
-          index
-        ];
-      } else {
-        return strong_connect(g$1, sccs, stack, index, n);
-      }
-    }), g$1, [
-      /* [] */ 0,
-      /* [] */ 0,
-      0
-    ])[0];
+    const index = param$1[2];
+    const stack = param$1[1];
+    const sccs = param$1[0];
+    const match = n.index;
+    if (match !== undefined) {
+      return [
+        sccs,
+        stack,
+        index
+      ];
+    } else {
+      return strong_connect(g$1, sccs, stack, index, n);
+    }
+  }), g$1, [
+    /* [] */ 0,
+    /* [] */ 0,
+    0
+  ])[0];
 }
 
 function field_name(param) {
