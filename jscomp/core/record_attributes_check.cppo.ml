@@ -127,14 +127,14 @@ let blk_record fields =
   in
   Lambda.Blk_record all_labels_info
 
-let blk_record_ext fields =
+let blk_record_ext ~is_exn fields =
   let all_labels_info =
     Array.map
       ~f:(fun ((lbl : label), _) ->
         find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
-  Lambda.Blk_record_ext all_labels_info
+  Lambda.Blk_record_ext { fields = all_labels_info; exn = is_exn }
 
 let blk_record_inlined fields name num_nonconst attrs =
   let fields =

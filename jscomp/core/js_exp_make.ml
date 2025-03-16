@@ -256,7 +256,7 @@ let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
   *)
   match info with
   | Blk_record _ | Blk_module _ | Blk_constructor _ | Blk_record_inlined _
-  | Blk_poly_var | Blk_extension | Blk_record_ext _ ->
+  | Blk_poly_var | Blk_extension _ | Blk_record_ext _ ->
       make_expression ?loc ?comment (Object [])
   | Blk_tuple | Blk_array | Blk_na _ | Blk_class | Blk_module_export ->
       make_expression ?loc ?comment
