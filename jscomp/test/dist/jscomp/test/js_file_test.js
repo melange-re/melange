@@ -5,8 +5,8 @@ const Mt = require("./mt.js");
 
 function make_with_options(param) {
   const file = new File(["hello"].values(), "foo.txt", {
-        lastModified: 0
-      });
+      lastModified: 0
+    });
   return {
     TAG: /* Eq */ 0,
     _0: file.lastModified,

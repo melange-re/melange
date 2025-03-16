@@ -42,13 +42,13 @@ function convert(s) {
       return x$1;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/chn_test.ml",
-            20,
-            22
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/chn_test.ml",
+          20,
+          22
+        ]
+      });
   })));
 }
 

@@ -46,9 +46,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l._3;
     const ld = l._2;
@@ -61,9 +61,9 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -77,9 +77,9 @@ function bal(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r._3;
   const rd = r._2;
@@ -92,9 +92,9 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function add(x, data, compare, param) {

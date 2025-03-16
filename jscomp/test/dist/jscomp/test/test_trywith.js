@@ -110,8 +110,8 @@ function ff(g, x) {
 
 function u(param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
-      });
+      MEL_EXN_ID: Stdlib.Not_found
+    });
 }
 
 function f(x) {
@@ -122,13 +122,13 @@ function f(x) {
     return 1;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/test_trywith.ml",
-          51,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/test_trywith.ml",
+        51,
+        9
+      ]
+    });
 }
 
 const u1 = "bad character decimal encoding \\";
