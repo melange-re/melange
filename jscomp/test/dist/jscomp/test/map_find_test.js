@@ -43,9 +43,9 @@ function bal(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l.r;
     const ld = l.d;
@@ -58,9 +58,9 @@ function bal(l, x, d, r) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -74,9 +74,9 @@ function bal(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r.r;
   const rd = r.d;
@@ -89,9 +89,9 @@ function bal(l, x, d, r) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function add(x, data, m) {
@@ -145,8 +145,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
@@ -220,9 +220,9 @@ function bal$1(l, x, d, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Map.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Map.bal"
+        });
     }
     const lr = l.r;
     const ld = l.d;
@@ -235,9 +235,9 @@ function bal$1(l, x, d, r) {
       return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -251,9 +251,9 @@ function bal$1(l, x, d, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Map.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Map.bal"
+      });
   }
   const rr = r.r;
   const rd = r.d;
@@ -266,9 +266,9 @@ function bal$1(l, x, d, r) {
     return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Map.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Map.bal"
+    });
 }
 
 function add$1(x, data, m) {
@@ -322,8 +322,8 @@ function find$1(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const c = Curry._2(funarg$1.compare, x, param.v);
     if (c === 0) {

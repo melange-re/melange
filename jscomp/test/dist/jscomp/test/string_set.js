@@ -226,8 +226,8 @@ function find(x, _tree) {
     const tree = _tree;
     if (/* tag */ typeof tree === "number" || typeof tree === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = tree._1;
     const c = Caml.caml_string_compare(x, v);

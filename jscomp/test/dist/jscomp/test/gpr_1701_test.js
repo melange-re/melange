@@ -11,8 +11,8 @@ const Foo = /* @__PURE__ */ Caml_exceptions.create("Gpr_1701_test.Foo");
 function test(n) {
   if (n === 0) {
     throw new Caml_js_exceptions.MelangeError(Foo, {
-          MEL_EXN_ID: Foo
-        });
+        MEL_EXN_ID: Foo
+      });
   }
   try {
     return test(n - 1 | 0);

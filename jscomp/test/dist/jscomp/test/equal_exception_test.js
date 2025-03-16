@@ -14,35 +14,35 @@ const v = "gso";
 function is_equal(param) {
   if (Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0) !== /* 'a' */97) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/equal_exception_test.ml",
-            9,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/equal_exception_test.ml",
+          9,
+          4
+        ]
+      });
   }
   if (Stdlib__Bytes.make(3, /* 'a' */97)[0] !== /* 'a' */97) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/equal_exception_test.ml",
-            10,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/equal_exception_test.ml",
+          10,
+          4
+        ]
+      });
   }
   const u = Stdlib__Bytes.make(3, /* 'a' */97);
   u[0] = /* 'b' */98;
   if (u[0] !== /* 'b' */98) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/equal_exception_test.ml",
-            13,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/equal_exception_test.ml",
+          13,
+          4
+        ]
+      });
   }
   
 }
@@ -50,8 +50,8 @@ function is_equal(param) {
 function is_exception(param) {
   try {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
-        });
+        MEL_EXN_ID: Stdlib.Not_found
+      });
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -87,8 +87,8 @@ function is_arbitrary_exception(param) {
   const A = /* @__PURE__ */ Caml_exceptions.create("A");
   try {
     throw new Caml_js_exceptions.MelangeError(A, {
-          MEL_EXN_ID: A
-        });
+        MEL_EXN_ID: A
+      });
   }
   catch (exn){
     return;
@@ -139,24 +139,24 @@ if (Caml_obj.caml_equal(e, {
     MEL_EXN_ID: Not_found
   }) !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/equal_exception_test.ml",
-          50,
-          3
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/equal_exception_test.ml",
+        50,
+        3
+      ]
+    });
 }
 
 if (Not_found === Stdlib.Not_found !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/equal_exception_test.ml",
-          51,
-          3
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/equal_exception_test.ml",
+        51,
+        3
+      ]
+    });
 }
 
 Mt.from_suites("exception", suites);

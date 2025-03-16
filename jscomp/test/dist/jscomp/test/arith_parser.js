@@ -47,9 +47,9 @@ const yynames_block = "NUMERAL\0IDENT\0";
 const yyact = [
   (function (param) {
     throw new Caml_js_exceptions.MelangeError("Failure", {
-          MEL_EXN_ID: "Failure",
-          _1: "parser"
-        });
+        MEL_EXN_ID: "Failure",
+        _1: "parser"
+      });
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
@@ -116,9 +116,9 @@ const yyact = [
   }),
   (function (__caml_parser_env) {
     throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-          MEL_EXN_ID: Stdlib__Parsing.YYexit,
-          _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
-        });
+        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+        _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
+      });
   })
 ];
 
