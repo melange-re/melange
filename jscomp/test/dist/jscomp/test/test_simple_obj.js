@@ -91,75 +91,75 @@ const v = CamlinternalOO.create_object_opt(undefined, $$class$3);
 function test(param) {
   if (Caml_oo_curry.js1(23515, 1, uu) !== "uu") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            21,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          21,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js3(4846113, 2, uuu, 1, 20) !== 21) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            22,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          22,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js3(4846113, 3, v, 3, 7) !== 10) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            23,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          23,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js1(5243894, 4, u) !== 3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            25,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          25,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js1(5243895, 5, u) !== 4) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            26,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          26,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js3(23297, 6, u, 1, 2) !== 3) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/test_simple_obj.ml",
-            27,
-            4
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/test_simple_obj.ml",
+          27,
+          4
+        ]
+      });
   }
   if (Caml_oo_curry.js2(616641298, 7, u, 32) === 32) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/test_simple_obj.ml",
-          28,
-          4
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/test_simple_obj.ml",
+        28,
+        4
+      ]
+    });
 }
 
 module.exports = {

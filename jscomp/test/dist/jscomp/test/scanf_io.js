@@ -128,9 +128,9 @@ function get_lines(fname) {
         _1: "in file %s, %s"
       }), fname, s._1);
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: s$1
-          });
+          MEL_EXN_ID: "Failure",
+          _1: s$1
+        });
     }
     if (s.MEL_EXN_ID === Stdlib.End_of_file) {
       const s$2 = Curry._1(Stdlib__Printf.sprintf({
@@ -151,9 +151,9 @@ function get_lines(fname) {
         _1: "in file %s, unexpected end of file"
       }), fname);
       throw new Caml_js_exceptions.MelangeError("Failure", {
-            MEL_EXN_ID: "Failure",
-            _1: s$2
-          });
+          MEL_EXN_ID: "Failure",
+          _1: s$2
+        });
     }
     throw new Caml_js_exceptions.MelangeError(s.MEL_EXN_ID, s);
   }

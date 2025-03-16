@@ -136,58 +136,58 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 43, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 44, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
-      });
+      MEL_EXN_ID: Stdlib.Not_found
+    });
 }), "Not_found");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "x"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "x"
+    });
 }), "Invalid_argument");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: ""
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: ""
+    });
 }), "Invalid_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(A, {
-        MEL_EXN_ID: A,
-        _1: 2
-      });
+      MEL_EXN_ID: A,
+      _1: 2
+    });
 }), "A2");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 48, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(A, {
-        MEL_EXN_ID: A,
-        _1: 3
-      });
+      MEL_EXN_ID: A,
+      _1: 3
+    });
 }), "A_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 49, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(B, {
-        MEL_EXN_ID: B
-      });
+      MEL_EXN_ID: B
+    });
 }), "B");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 50, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(C, {
-        MEL_EXN_ID: C,
-        _1: 1,
-        _2: 2
-      });
+      MEL_EXN_ID: C,
+      _1: 1,
+      _2: 2
+    });
 }), "C");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 51, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError(C, {
-        MEL_EXN_ID: C,
-        _1: 0,
-        _2: 2
-      });
+      MEL_EXN_ID: C,
+      _1: 0,
+      _2: 2
+    });
 }), "C_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 52, characters 5-12", test(function (param) {
@@ -196,9 +196,9 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 52, characters 5-12", 
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: "x"
-      });
+      MEL_EXN_ID: "Failure",
+      _1: "x"
+    });
 }), "Any");
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);

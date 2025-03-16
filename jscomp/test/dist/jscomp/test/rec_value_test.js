@@ -82,13 +82,13 @@ const h = {
 const v = {
   contents: (function (param) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rec_value_test.ml",
-            36,
-            24
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/rec_value_test.ml",
+          36,
+          24
+        ]
+      });
   })
 };
 
@@ -246,18 +246,6 @@ const rec_variant_a = {
 function phd(l) {
   if (typeof l === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rec_value_test.ml",
-            107,
-            9
-          ]
-        });
-  }
-  if (l.NAME === "Cons") {
-    return l.VAL[0];
-  }
-  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rec_value_test.ml",
@@ -265,23 +253,23 @@ function phd(l) {
           9
         ]
       });
+  }
+  if (l.NAME === "Cons") {
+    return l.VAL[0];
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/rec_value_test.ml",
+        107,
+        9
+      ]
+    });
 }
 
 function ptl(l) {
   if (typeof l === "string") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "jscomp/test/rec_value_test.ml",
-            112,
-            9
-          ]
-        });
-  }
-  if (l.NAME === "Cons") {
-    return l.VAL[1];
-  }
-  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/rec_value_test.ml",
@@ -289,6 +277,18 @@ function ptl(l) {
           9
         ]
       });
+  }
+  if (l.NAME === "Cons") {
+    return l.VAL[1];
+  }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/rec_value_test.ml",
+        112,
+        9
+      ]
+    });
 }
 
 let y00 = {};
@@ -351,16 +351,6 @@ const suites_1 = {
               tmp = match.hd;
             } else {
               throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "jscomp/test/rec_value_test.ml",
-                      142,
-                      2
-                    ]
-                  });
-            }
-          } else {
-            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                   MEL_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/rec_value_test.ml",
@@ -368,6 +358,16 @@ const suites_1 = {
                     2
                   ]
                 });
+            }
+          } else {
+            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                MEL_EXN_ID: "Assert_failure",
+                _1: [
+                  "jscomp/test/rec_value_test.ml",
+                  142,
+                  2
+                ]
+              });
           }
           return {
             TAG: /* Eq */ 0,
@@ -504,13 +504,13 @@ const suites_1 = {
                             };
                           }
                           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                MEL_EXN_ID: "Assert_failure",
-                                _1: [
-                                  "jscomp/test/rec_value_test.ml",
-                                  166,
-                                  11
-                                ]
-                              });
+                              MEL_EXN_ID: "Assert_failure",
+                              _1: [
+                                "jscomp/test/rec_value_test.ml",
+                                166,
+                                11
+                              ]
+                            });
                         })
                       ],
                       tl: {
@@ -525,13 +525,13 @@ const suites_1 = {
                               };
                             }
                             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                  MEL_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "jscomp/test/rec_value_test.ml",
-                                    171,
-                                    11
-                                  ]
-                                });
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/rec_value_test.ml",
+                                  171,
+                                  11
+                                ]
+                              });
                           })
                         ],
                         tl: /* [] */ 0

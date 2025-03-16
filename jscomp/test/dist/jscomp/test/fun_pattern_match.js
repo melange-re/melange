@@ -25,13 +25,13 @@ function f3(param, param$1) {
     rhs === /* Uninitialized */ 0;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/fun_pattern_match.ml",
-          41,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/fun_pattern_match.ml",
+        41,
+        9
+      ]
+    });
 }
 
 function f4(param, param$1) {
@@ -46,13 +46,13 @@ function f4(param, param$1) {
     rhs === /* Uninitialized */ 0;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/fun_pattern_match.ml",
-          49,
-          9
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/fun_pattern_match.ml",
+        49,
+        9
+      ]
+    });
 }
 
 const x = {
