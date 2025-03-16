@@ -7,10 +7,10 @@ const suites_0 = [
   "fromArray/toArray",
   (function (param) {
     const set = new Set([
-          1,
-          2,
-          3
-        ]);
+        1,
+        2,
+        3
+      ]);
     return {
       TAG: /* Eq */ 0,
       _0: [
@@ -40,10 +40,10 @@ const suites_1 = {
       "size",
       (function (param) {
         const set = new Set([
-              "one",
-              "two",
-              "two"
-            ]);
+            "one",
+            "two",
+            "two"
+          ]);
         return {
           TAG: /* Eq */ 0,
           _0: 2,
@@ -56,9 +56,9 @@ const suites_1 = {
         "size - with duplicates",
         (function (param) {
           const set = new Set([
-                "one",
-                "one"
-              ]);
+              "one",
+              "one"
+            ]);
           return {
             TAG: /* Eq */ 0,
             _0: 1,
@@ -71,9 +71,9 @@ const suites_1 = {
           "has - true",
           (function (param) {
             const set = new Set([
-                  "one",
-                  "two"
-                ]);
+                "one",
+                "two"
+              ]);
             return {
               TAG: /* Eq */ 0,
               _0: true,
@@ -86,9 +86,9 @@ const suites_1 = {
             "has - false",
             (function (param) {
               const set = new Set([
-                    "one",
-                    "two"
-                  ]);
+                  "one",
+                  "two"
+                ]);
               return {
                 TAG: /* Eq */ 0,
                 _0: false,
@@ -101,9 +101,9 @@ const suites_1 = {
               "delete",
               (function (param) {
                 const set = new Set([
-                      "one",
-                      "two"
-                    ]);
+                    "one",
+                    "two"
+                  ]);
                 const deleted = set.delete("two");
                 return {
                   TAG: /* Eq */ 0,
@@ -138,9 +138,9 @@ const suites_1 = {
                   "clear",
                   (function (param) {
                     const set = new Set([
-                          "one",
-                          "two"
-                        ]);
+                        "one",
+                        "two"
+                      ]);
                     set.clear();
                     return {
                       TAG: /* Eq */ 0,
@@ -176,9 +176,9 @@ const suites_1 = {
                       "forEach",
                       (function (param) {
                         const set = new Set([
-                              "one",
-                              "two"
-                            ]);
+                            "one",
+                            "two"
+                          ]);
                         const arr = {
                           contents: []
                         };
@@ -200,9 +200,9 @@ const suites_1 = {
                         "values",
                         (function (param) {
                           const values = Array.from(new Set([
-                                "one",
-                                "two"
-                              ]).values());
+                              "one",
+                              "two"
+                            ]).values());
                           return {
                             TAG: /* Eq */ 0,
                             _0: [
@@ -218,9 +218,9 @@ const suites_1 = {
                           "entries",
                           (function (param) {
                             const entries = Array.from(new Set([
-                                  "one",
-                                  "two"
-                                ]).entries());
+                                "one",
+                                "two"
+                              ]).entries());
                             return {
                               TAG: /* Eq */ 0,
                               _0: [
@@ -242,9 +242,9 @@ const suites_1 = {
                             "iterator",
                             (function (param) {
                               const iterator = new Set([
-                                    "one",
-                                    "two"
-                                  ]).values();
+                                  "one",
+                                  "two"
+                                ]).values();
                               const n1 = iterator.next();
                               const n2 = iterator.next();
                               const n3 = iterator.next();
