@@ -18,6 +18,10 @@ Unreleased
 - allow `@mel.as "constant"` and `@mel.this` to coexist -- marking the constant
   argument as the instance / self argument
   ([#1353](https://github.com/melange-re/melange/pull/1353))
+- JS generation: improve indentation of `new` blocks
+  ([#1360](https://github.com/melange-re/melange/pull/1360))
+- JS generation: improve indentation of blocks with array/string/char accesses
+  ([#1361](https://github.com/melange-re/melange/pull/1361))
 
 5.0.1-53 2025-02-23
 ---------------
