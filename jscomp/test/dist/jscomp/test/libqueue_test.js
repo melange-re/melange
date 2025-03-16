@@ -51,7 +51,7 @@ function does_raise(f, q) {
     if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 

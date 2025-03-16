@@ -81,7 +81,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 

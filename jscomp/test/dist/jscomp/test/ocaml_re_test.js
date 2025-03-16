@@ -1530,7 +1530,7 @@ function find_state(re, desc) {
       Curry._3(Re_automata_State.Table.add, re.states, desc, st);
       return st;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -1611,7 +1611,7 @@ function $$final(info, st, cat) {
       };
       return res;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -1632,7 +1632,7 @@ function find_initial_state(re, cat) {
       };
       return st;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -1742,7 +1742,7 @@ function trans_set(cache, cm, s) {
       cache.contents = Curry._3(add, v, l, cache.contents);
       return l;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -3336,7 +3336,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
         return false;
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
   };
   const get = function (param) {
@@ -3848,7 +3848,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                 MEL_EXN_ID: Parse_error
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         if (!accept_s(":]")) {
           throw new Caml_js_exceptions.MelangeError(Parse_error, {

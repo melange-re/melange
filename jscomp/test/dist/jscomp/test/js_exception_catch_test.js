@@ -74,7 +74,7 @@ catch (raw_x){
       };
     }));
   } else {
-    throw new Caml_js_exceptions.MelangeError(x.MEL_EXN_ID, x);
+    throw x;
   }
 }
 
@@ -191,7 +191,7 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 51, characters 5-12", 
 }), "C_any");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 52, characters 5-12", test(function (param) {
-  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
+  throw new Error("x");
 }), "Js_error");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {

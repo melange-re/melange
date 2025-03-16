@@ -70,7 +70,7 @@ function memo_fib_init($$class) {
         Stdlib__Hashtbl.add(self$2[cache], x, v);
         return v;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }));
   return function (env, self) {
