@@ -24,9 +24,9 @@ Test `@mel.as` in inline records / record extensions
   function user3(param) {
     try {
       throw new Caml_js_exceptions.MelangeError(UserException, {
-            MEL_EXN_ID: UserException,
-            renamed: "Corentin"
-          });
+          MEL_EXN_ID: UserException,
+          renamed: "Corentin"
+        });
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);

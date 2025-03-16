@@ -398,9 +398,9 @@ if (Stdlib__Sys.unix) {
 } else {
   const s = "Unknown OS : " + Stdlib__Sys.os_type;
   throw new Caml_js_exceptions.MelangeError("Failure", {
-        MEL_EXN_ID: "Failure",
-        _1: s
-      });
+      MEL_EXN_ID: "Failure",
+      _1: s
+    });
 }
 
 const $slash$slash = Stdlib__Filename.concat;

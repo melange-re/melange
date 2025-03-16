@@ -129,9 +129,9 @@ function bal(l, v, r) {
   if (hl > (hr + 2 | 0)) {
     if (/* tag */ typeof l === "number" || typeof l === "string") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-            MEL_EXN_ID: "Invalid_argument",
-            _1: "Set.bal"
-          });
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "Set.bal"
+        });
     }
     const lr = l.r;
     const lv = l.v;
@@ -143,9 +143,9 @@ function bal(l, v, r) {
       return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   if (hr <= (hl + 2 | 0)) {
     return {
@@ -158,9 +158,9 @@ function bal(l, v, r) {
   }
   if (/* tag */ typeof r === "number" || typeof r === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.bal"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.bal"
+      });
   }
   const rr = r.r;
   const rv = r.v;
@@ -172,9 +172,9 @@ function bal(l, v, r) {
     return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "Set.bal"
-      });
+      MEL_EXN_ID: "Invalid_argument",
+      _1: "Set.bal"
+    });
 }
 
 function add(x, t) {
@@ -259,8 +259,8 @@ function min_elt(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const l = param.l;
     if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -291,8 +291,8 @@ function max_elt(_param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     let tmp = param.r;
     if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
@@ -321,9 +321,9 @@ function max_elt_opt(_param) {
 function remove_min_elt(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-          MEL_EXN_ID: "Invalid_argument",
-          _1: "Set.remove_min_elt"
-        });
+        MEL_EXN_ID: "Invalid_argument",
+        _1: "Set.remove_min_elt"
+      });
   }
   const l = param.l;
   if (/* tag */ typeof l === "number" || typeof l === "string") {
@@ -807,8 +807,8 @@ function find(x, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     const c = Curry._2(AAA.compare, x, v);
@@ -825,8 +825,8 @@ function find_first(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -889,8 +889,8 @@ function find_last(f, _param) {
     const param = _param;
     if (/* tag */ typeof param === "number" || typeof param === "string") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
-          });
+          MEL_EXN_ID: Stdlib.Not_found
+        });
     }
     const v = param.v;
     if (Curry._1(f, v)) {
@@ -1131,13 +1131,13 @@ function of_list(l) {
           ];
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-              MEL_EXN_ID: "Assert_failure",
-              _1: [
-                "jscomp/stdlib/set.ml",
-                571,
-                18
-              ]
-            });
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "jscomp/stdlib/set.ml",
+              571,
+              18
+            ]
+          });
       };
       return sub(Stdlib__List.length(l$1), l$1)[0];
     } else {

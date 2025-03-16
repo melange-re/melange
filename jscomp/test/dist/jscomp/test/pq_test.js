@@ -42,8 +42,8 @@ const Queue_is_empty = /* @__PURE__ */ Caml_exceptions.create("Pq_test.PrioQueue
 function remove_top(param) {
   if (/* tag */ typeof param === "number" || typeof param === "string") {
     throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-          MEL_EXN_ID: Queue_is_empty
-        });
+        MEL_EXN_ID: Queue_is_empty
+      });
   }
   const left = param._2;
   let tmp = param._3;
@@ -84,8 +84,8 @@ function extract(queue) {
     ];
   }
   throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
-        MEL_EXN_ID: Queue_is_empty
-      });
+      MEL_EXN_ID: Queue_is_empty
+    });
 }
 
 const PrioQueue = {

@@ -99,18 +99,6 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
     const ty3 = Js__Js_json.classify(x);
     if (/* tag */ typeof ty3 === "number" || typeof ty3 === "string") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "jscomp/test/js_json_test.ml",
-              38,
-              21
-            ]
-          });
-    }
-    if (ty3.TAG === /* JSONNumber */ 1) {
-      return;
-    }
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/js_json_test.ml",
@@ -118,6 +106,18 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
             21
           ]
         });
+    }
+    if (ty3.TAG === /* JSONNumber */ 1) {
+      return;
+    }
+    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "jscomp/test/js_json_test.ml",
+          38,
+          21
+        ]
+      });
   });
   return {
     TAG: /* Ok */ 4,
@@ -257,13 +257,13 @@ function option_get(x) {
     return Caml_option.valFromOption(x);
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/test/js_json_test.ml",
-          103,
-          36
-        ]
-      });
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/js_json_test.ml",
+        103,
+        36
+      ]
+    });
 }
 
 const dict = {};
