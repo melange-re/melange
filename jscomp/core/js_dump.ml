@@ -146,9 +146,9 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
     : J.expression =
   let field_name =
     match ext with
-    | Blk_extension -> (
+    | Blk_extension _ -> (
         fun i -> match i with 0 -> L.exception_id | i -> "_" ^ string_of_int i)
-    | Blk_record_ext ss -> (
+    | Blk_record_ext { fields = ss; _ } -> (
         fun i -> match i with 0 -> L.exception_id | i -> ss.(i - 1))
     | _ -> assert false
   in
@@ -200,7 +200,7 @@ let exp_need_paren (e : J.expression) =
   | Caml_block
       {
         tag_info =
-          ( Blk_record _ | Blk_module _ | Blk_poly_var | Blk_extension
+          ( Blk_record _ | Blk_module _ | Blk_poly_var | Blk_extension _
           | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ );
         _;
       }
@@ -527,9 +527,9 @@ and vident cxt (v : J.vident) =
       cxt
 
 (* The higher the level, the more likely that inner has to add parens *)
-and expression ~level:l cxt (exp : J.expression) : cxt =
+and expression ~level cxt (exp : J.expression) : cxt =
   pp_comment_option cxt exp.comment;
-  expression_desc cxt ~level:l exp.expression_desc
+  expression_desc cxt ~level exp.expression_desc
 
 and expression_desc cxt ~(level : int) x : cxt =
   match x with
@@ -778,7 +778,7 @@ and expression_desc cxt ~(level : int) x : cxt =
             (Object [ (L.polyvar_hash, E.str name); (L.polyvar_value, value) ])
       | _ -> assert false)
   | Caml_block
-      { fields = el; tag_info = (Blk_extension | Blk_record_ext _) as ext; _ }
+      { fields = el; tag_info = (Blk_extension _ | Blk_record_ext _) as ext; _ }
     ->
       expression cxt ~level (exn_block_as_obj ~stack:false el ext)
   | Caml_block { fields = el; tag; tag_info = Blk_record_inlined p; _ } ->
@@ -1227,7 +1227,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
         | Caml_block
             {
               fields = el;
-              tag_info = (Blk_extension | Blk_record_ext _) as ext;
+              tag_info = (Blk_extension _ | Blk_record_ext _) as ext;
               _;
             } ->
             {
