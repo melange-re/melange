@@ -23,11 +23,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module Map = struct
-  type ('k, 'v) t
+  type t
 
-  external make : unit -> ('k, 'v) t = "Map" [@@mel.new]
-  external set : ('k, 'v) t -> 'k -> 'v -> unit = "set" [@@mel.send]
-  external get : ('k, 'v) t -> 'k -> 'v option = "get" [@@mel.send]
+  external empty : unit -> t = "" [@@mel.obj]
+  external set : t -> string -> int -> unit = "" [@@mel.set_index]
+
+  (* It's the same as `Js.Dict.get` but it doesn't have runtime overhead to
+     check if the key exists. *)
+  external get_unsafe : t -> string -> int option = ""
+  [@@mel.get_index] [@@mel.return nullable]
 end
 
 type t = { id : string [@mel.as "MEL_EXN_ID"] }
@@ -40,10 +44,17 @@ type t = { id : string [@mel.as "MEL_EXN_ID"] }
    {[ a = caml_set_oo_id([248,"string", caml_oo_last_id++]) ]}
 *)
 
-let idMap : (string, int) Map.t = Map.make ()
+let idMap : Map.t = Map.empty ()
 
 let fresh str =
-  let id = match Map.get idMap str with Some v -> v + 1 | None -> 1 in
+  let id =
+    (* we need to assign an ID to exceptions e.g. `Error/1` because functors
+       may define exceptions that get instantiated multiple times (with the
+       same name). *)
+    match Map.get_unsafe idMap str with
+    | Some v -> v + 1
+    | None -> 1
+  in
   Map.set idMap str id;
   id
 
@@ -85,7 +96,7 @@ let create (str : string) : string =
 let caml_is_extension (type a) (e : a) : bool =
   if Js.testAny e then false else Js.typeof (Obj.magic e : t).id = "string"
 
-(**FIXME: remove the trailing `/` *)
+(** FIXME: remove the trailing `/` *)
 let caml_exn_slot_name (x : t) : string = x.id
 
 let caml_exn_slot_id : t -> int =
