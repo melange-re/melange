@@ -24,6 +24,9 @@ Unreleased
   ([#1360](https://github.com/melange-re/melange/pull/1360))
 - JS generation: improve indentation of blocks with array/string/char accesses
   ([#1361](https://github.com/melange-re/melange/pull/1361))
+- runtime: improve the runtime for exceptions / extensible variants to account
+  for sharing extensions across contexts
+  ([#1326](https://github.com/melange-re/melange/pull/1326))
 
 5.0.1-53 2025-02-23
 ---------------
