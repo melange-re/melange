@@ -170,9 +170,9 @@ Raise `null` / `undefined`
   
   try {
     throw new Caml_js_exceptions.MelangeError(A, {
-          MEL_EXN_ID: A,
-          _1: 42
-        });
+        MEL_EXN_ID: A,
+        _1: 42
+      });
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);
@@ -180,13 +180,13 @@ Raise `null` / `undefined`
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "x.ml",
-              6,
-              11
-            ]
-          });
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "x.ml",
+            6,
+            11
+          ]
+        });
     }
   }
   
@@ -226,9 +226,9 @@ Re-throw
   
   try {
     throw new Caml_js_exceptions.MelangeError(A, {
-          MEL_EXN_ID: A,
-          _1: 42
-        });
+        MEL_EXN_ID: A,
+        _1: 42
+      });
   }
   catch (raw_e){
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
@@ -236,13 +236,13 @@ Re-throw
       throw e;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-          MEL_EXN_ID: "Assert_failure",
-          _1: [
-            "x.ml",
-            6,
-            11
-          ]
-        });
+        MEL_EXN_ID: "Assert_failure",
+        _1: [
+          "x.ml",
+          6,
+          11
+        ]
+      });
   }
   
   console.log(a0);
@@ -281,9 +281,9 @@ Exception without raising
   const A = /* @__PURE__ */ Caml_exceptions.create("Melange__X.A");
   
   const _a = new Caml_js_exceptions.MelangeError(A, {
-        MEL_EXN_ID: A,
-        _1: 42
-      });
+      MEL_EXN_ID: A,
+      _1: 42
+    });
   
   module.exports = {
     A,
