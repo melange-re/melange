@@ -22,6 +22,14 @@ Unreleased
   ([#1360](https://github.com/melange-re/melange/pull/1360))
 - JS generation: improve indentation of blocks with array/string/char accesses
   ([#1361](https://github.com/melange-re/melange/pull/1361))
+- runtime: improve the runtime for exceptions / extensible variants to account
+  for sharing extensions across contexts
+  ([#1326](https://github.com/melange-re/melange/pull/1326))
+    - This change moves the exception runtime from a global counter to a
+      counter _per module_. This impacts calls to `Printexc.exn_slot_id` and
+      `Printexc.exn_slot_name`, which would previously return the global
+      identifier at exception creation, and will now return the module-local
+      runtime identifier.
 
 5.0.1-51 2025-02-23
 ---------------
