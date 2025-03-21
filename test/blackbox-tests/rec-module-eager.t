@@ -43,6 +43,8 @@
       ^
   
   Error [MelangeError]: Undefined_recursive_module
+    MEL_EXN_ID: 'Undefined_recursive_module',
+    _1: [ 'x.ml', 20, 6 ],
     [cause]: { MEL_EXN_ID: 'Undefined_recursive_module', _1: [ 'x.ml', 20, 6 ] }
   }
   

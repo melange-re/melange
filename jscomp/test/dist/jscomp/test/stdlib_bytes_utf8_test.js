@@ -468,7 +468,7 @@ function raises(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   if (tmp) {

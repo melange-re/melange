@@ -2,27 +2,28 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 const A = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.A");
 
-const v = {
-  MEL_EXN_ID: A,
-  _1: 3,
-  _2: true
-};
+const v = new Caml_js_exceptions.MelangeError(A, {
+    MEL_EXN_ID: A,
+    _1: 3,
+    _2: true
+  });
 
 const B = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.B");
 
-const u = {
-  MEL_EXN_ID: B
-};
+const u = new Caml_js_exceptions.MelangeError(B, {
+    MEL_EXN_ID: B
+  });
 
 const D = /* @__PURE__ */ Caml_exceptions.create("Local_exception_test.D");
 
-const d = {
-  MEL_EXN_ID: D,
-  _1: 3
-};
+const d = new Caml_js_exceptions.MelangeError(D, {
+    MEL_EXN_ID: D,
+    _1: 3
+  });
 
 module.exports = {
   A,

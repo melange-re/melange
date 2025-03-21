@@ -2,14 +2,15 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 const Custom_inline = /* @__PURE__ */ Caml_exceptions.create("Test_literal.Custom_inline");
 
-const v = {
-  MEL_EXN_ID: Custom_inline,
-  _1: 1,
-  _2: 2
-};
+const v = new Caml_js_exceptions.MelangeError(Custom_inline, {
+    MEL_EXN_ID: Custom_inline,
+    _1: 1,
+    _2: 2
+  });
 
 const vv = [
   1,

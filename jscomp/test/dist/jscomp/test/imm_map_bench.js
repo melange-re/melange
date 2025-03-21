@@ -22,7 +22,7 @@ function should(b) {
   if (b) {
     return;
   }
-  throw new Caml_js_exceptions.MelangeError(new Error("impossible").MEL_EXN_ID, new Error("impossible"));
+  throw new Error("impossible");
 }
 
 const shuffledDataAdd = Belt__Belt_Array.makeByAndShuffle(1000001, (function (i) {

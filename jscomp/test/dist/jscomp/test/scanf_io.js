@@ -155,7 +155,7 @@ function get_lines(fname) {
           _1: s$2
         });
     }
-    throw new Caml_js_exceptions.MelangeError(s.MEL_EXN_ID, s);
+    throw s;
   }
 }
 
@@ -194,7 +194,7 @@ function add_digest_ib(ob, ib) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 

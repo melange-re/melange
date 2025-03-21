@@ -34,7 +34,7 @@ Test `@mel.as` in inline records / record extensions
         console.log("name:", exn.renamed);
         return;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   

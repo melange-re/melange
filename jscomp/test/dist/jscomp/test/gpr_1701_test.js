@@ -22,7 +22,7 @@ function test(n) {
     if (exn.MEL_EXN_ID === Foo) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -41,7 +41,7 @@ function read_lines(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         l = undefined;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     if (l === undefined) {
@@ -68,7 +68,7 @@ function read_lines2(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         return Stdlib__List.rev(acc);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
     _acc = {
       hd: l,
@@ -92,7 +92,7 @@ function read_lines3(inc) {
       if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
         return Stdlib__List.rev(acc);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   return loop(/* [] */ 0);

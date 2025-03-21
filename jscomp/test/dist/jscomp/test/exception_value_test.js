@@ -39,10 +39,10 @@ const B = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.B");
 
 const C = /* @__PURE__ */ Caml_exceptions.create("Exception_value_test.C");
 
-const u = {
-  MEL_EXN_ID: A,
-  _1: 3
-};
+const u = new Caml_js_exceptions.MelangeError(A, {
+    MEL_EXN_ID: A,
+    _1: 3
+  });
 
 function test_not_found(f, param) {
   try {
@@ -53,7 +53,7 @@ function test_not_found(f, param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -65,9 +65,9 @@ function test_js_error2(param) {
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
-      throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+      throw e;
     }
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 
