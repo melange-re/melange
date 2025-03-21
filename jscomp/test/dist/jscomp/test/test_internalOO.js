@@ -3560,7 +3560,7 @@ function get_method_label(table, name) {
       table.methods_by_label = Curry._3(add$2, label, true, table.methods_by_label);
       return label;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -3595,7 +3595,7 @@ function get_method(table, label) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return Caml_array.get(table.methods, label);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -3652,7 +3652,7 @@ function narrow(table, vars, virt_meths, concr_meths) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         tmp = true;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     by_label.contents = Curry._3(add$2, label, tmp, by_label.contents);
@@ -3715,7 +3715,7 @@ function new_variable(table, name) {
       }
       return index;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -3757,7 +3757,7 @@ function get_variable(table, name) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 

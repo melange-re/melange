@@ -36,7 +36,7 @@ function split(delim, s) {
             tl: l
           };
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       const l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       const l$1 = {

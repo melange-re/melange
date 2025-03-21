@@ -43,9 +43,9 @@ function xx(param) {
 
 const Nullary = /* @__PURE__ */ Caml_exceptions.create("Test_exception.Nullary");
 
-const a = {
-  MEL_EXN_ID: Nullary
-};
+const a = new Caml_js_exceptions.MelangeError(Nullary, {
+    MEL_EXN_ID: Nullary
+  });
 
 module.exports = {
   Local,

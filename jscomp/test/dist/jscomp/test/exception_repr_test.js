@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Curry = require("melange.js/curry.js");
 const Exception_def = require("./exception_def.js");
 const Mt = require("./mt.js");
@@ -67,23 +68,23 @@ Stdlib__Printexc.register_printer(function (s) {
   }
 });
 
-eq("File \"jscomp/test/exception_repr_test.ml\", line 24, characters 7-14", "hey", Stdlib__Printexc.to_string({
-  MEL_EXN_ID: Hi
-}));
+eq("File \"jscomp/test/exception_repr_test.ml\", line 24, characters 7-14", "hey", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Hi, {
+    MEL_EXN_ID: Hi
+  })));
 
-eq("File \"jscomp/test/exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Stdlib__Printexc.to_string({
-  MEL_EXN_ID: A,
-  _1: 1
-}));
+eq("File \"jscomp/test/exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(A, {
+    MEL_EXN_ID: A,
+    _1: 1
+  })));
 
-eq("File \"jscomp/test/exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string({
-  MEL_EXN_ID: Hello
-}).startsWith("Exception_repr_test.Hello", undefined), true);
+eq("File \"jscomp/test/exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Hello, {
+    MEL_EXN_ID: Hello
+  })).startsWith("Exception_repr_test.Hello", undefined), true);
 
-eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string({
-  MEL_EXN_ID: Exception_def.A,
-  _1: 3
-}));
+eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Exception_def.A, {
+    MEL_EXN_ID: Exception_def.A,
+    _1: 3
+  })));
 
 Mt.from_pair_suites("Exception_repr_test", suites.contents);
 

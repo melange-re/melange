@@ -24,6 +24,9 @@
 
 open Import
 
+let caml_js_exceptions_id =
+  Ident.create_persistent Js_runtime_modules.caml_js_exceptions
+
 let check_additional_id =
   let option_id = Some (Ident.create_persistent Js_runtime_modules.option)
   and curry_id = Some (Ident.create_persistent Js_runtime_modules.curry) in
@@ -31,6 +34,13 @@ let check_additional_id =
     match x.expression_desc with
     | Optional_block (_, false) -> option_id
     | Call { info = { arity = NA; _ }; _ } -> curry_id
+    | Caml_block
+        {
+          tag_info =
+            Blk_extension { exn = true } | Blk_record_ext { exn = true; _ };
+          _;
+        } ->
+        Some caml_js_exceptions_id
     | _ -> None
 
 let check_additional_statement_id =
