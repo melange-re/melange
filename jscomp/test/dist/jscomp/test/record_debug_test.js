@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -32,10 +33,10 @@ const A = /* @__PURE__ */ Caml_exceptions.create("Record_debug_test.A");
 
 const B = /* @__PURE__ */ Caml_exceptions.create("Record_debug_test.B");
 
-const v0 = {
-  MEL_EXN_ID: A,
-  _1: 3
-};
+const v0 = new Caml_js_exceptions.MelangeError(A, {
+    MEL_EXN_ID: A,
+    _1: 3
+  });
 
 const v1 = {
   MEL_EXN_ID: B,

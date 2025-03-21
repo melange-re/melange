@@ -25,7 +25,7 @@
 type t
 type exn += private Error of t
 
-external asJsExn : exn -> t option = "caml_as_js_exn"
+val asJsExn : exn -> t option
 external stack : t -> string option = "stack" [@@mel.get]
 external message : t -> string option = "message" [@@mel.get]
 external name : t -> string option = "name" [@@mel.get]

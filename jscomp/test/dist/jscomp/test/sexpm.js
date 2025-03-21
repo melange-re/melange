@@ -98,7 +98,7 @@ function _must_escape(s) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -375,7 +375,7 @@ function to_file_seq(filename, seq) {
   catch (e){
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 

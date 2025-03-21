@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
@@ -28,35 +29,35 @@ const Small = /* @__PURE__ */ Caml_exceptions.create("Large_record_duplication_t
 
 function f_small(u) {
   if (u.MEL_EXN_ID === Small) {
-    return {
-      MEL_EXN_ID: Small,
-      x: 2,
-      y: u.y
-    };
+    return new Caml_js_exceptions.MelangeError(Small, {
+        MEL_EXN_ID: Small,
+        x: 2,
+        y: u.y
+      });
   } else {
-    return {
-      MEL_EXN_ID: Stdlib.Not_found
-    };
+    return new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+        MEL_EXN_ID: Stdlib.Not_found
+      });
   }
 }
 
-const h = {
-  MEL_EXN_ID: Small,
-  x: 1,
-  y: ""
-};
+const h = new Caml_js_exceptions.MelangeError(Small, {
+    MEL_EXN_ID: Small,
+    x: 1,
+    y: ""
+  });
 
-eq("File \"jscomp/test/large_record_duplication_test.ml\", line 72, characters 6-13", f_small(h), {
-  MEL_EXN_ID: Small,
-  x: 2,
-  y: ""
-});
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 72, characters 6-13", f_small(h), new Caml_js_exceptions.MelangeError(Small, {
+    MEL_EXN_ID: Small,
+    x: 2,
+    y: ""
+  }));
 
-eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6-13", Caml_obj.caml_equal(h, {
-  MEL_EXN_ID: Small,
-  x: 2,
-  y: ""
-}), false);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6-13", Caml_obj.caml_equal(h, new Caml_js_exceptions.MelangeError(Small, {
+    MEL_EXN_ID: Small,
+    x: 2,
+    y: ""
+  })), false);
 
 const v1 = {
   TAG: /* A0 */ 0,
@@ -167,40 +168,40 @@ function get_x0$2(x) {
   
 }
 
-const v3 = {
-  MEL_EXN_ID: A0,
-  x0: 9,
-  x1: 9,
-  x2: 9,
-  x3: 9,
-  x4: 9,
-  x5: 9,
-  x6: 9,
-  x7: 9,
-  x8: 9,
-  x9: 9,
-  x10: 9,
-  x11: 9,
-  x12: 9,
-  x13: 9,
-  x14: 9,
-  x15: 9,
-  x16: 9,
-  x17: 9,
-  x18: 9,
-  x19: 9,
-  x20: 9,
-  x21: 9,
-  x22: 9
-};
+const v3 = new Caml_js_exceptions.MelangeError(A0, {
+    MEL_EXN_ID: A0,
+    x0: 9,
+    x1: 9,
+    x2: 9,
+    x3: 9,
+    x4: 9,
+    x5: 9,
+    x6: 9,
+    x7: 9,
+    x8: 9,
+    x9: 9,
+    x10: 9,
+    x11: 9,
+    x12: 9,
+    x13: 9,
+    x14: 9,
+    x15: 9,
+    x16: 9,
+    x17: 9,
+    x18: 9,
+    x19: 9,
+    x20: 9,
+    x21: 9,
+    x22: 9
+  });
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 270, characters 6-13", get_x0$2(f3(v3)), 1);
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
 
-eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2({
-  MEL_EXN_ID: Stdlib.Not_found
-}), undefined);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  })), undefined);
 
 Mt.from_pair_suites("Large_record_duplication_test", suites.contents);
 

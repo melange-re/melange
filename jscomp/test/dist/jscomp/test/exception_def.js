@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Printexc = require("melange/printexc.js");
@@ -44,31 +45,31 @@ const v_1 = [
   0
 ];
 
-const v = {
-  MEL_EXN_ID: Stdlib.Match_failure,
-  _1: v_1
-};
+const v = new Caml_js_exceptions.MelangeError(Stdlib.Match_failure, {
+    MEL_EXN_ID: Stdlib.Match_failure,
+    _1: v_1
+  });
 
 const H1 = /* @__PURE__ */ Caml_exceptions.create("Exception_def.H1");
 
 const H2 = /* @__PURE__ */ Caml_exceptions.create("Exception_def.H2");
 
-const h2 = {
-  MEL_EXN_ID: H2
-};
+const h2 = new Caml_js_exceptions.MelangeError(H2, {
+    MEL_EXN_ID: H2
+  });
 
-const h3 = {
-  MEL_EXN_ID: H2
-};
+const h3 = new Caml_js_exceptions.MelangeError(H2, {
+    MEL_EXN_ID: H2
+  });
 
-const h4 = {
-  MEL_EXN_ID: Stdlib.Not_found
-};
+const h4 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  });
 
-const h5 = {
-  MEL_EXN_ID: Stdlib.Invalid_argument,
-  _1: "xx"
-};
+const h5 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+    MEL_EXN_ID: Stdlib.Invalid_argument,
+    _1: "xx"
+  });
 
 Stdlib__Printexc.register_printer(function (s) {
   if (s.MEL_EXN_ID === A) {
@@ -95,26 +96,26 @@ function p(e) {
 
 eq("File \"jscomp/test/exception_def.ml\", line 54, characters 6-13", p(h5), 0);
 
-eq("File \"jscomp/test/exception_def.ml\", line 55, characters 6-13", p({
-  MEL_EXN_ID: Stdlib.Not_found
-}), 4);
+eq("File \"jscomp/test/exception_def.ml\", line 55, characters 6-13", p(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  })), 4);
 
-eq("File \"jscomp/test/exception_def.ml\", line 56, characters 6-13", p({
-  MEL_EXN_ID: Stdlib.Not_found
-}), 4);
+eq("File \"jscomp/test/exception_def.ml\", line 56, characters 6-13", p(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  })), 4);
 
-eq("File \"jscomp/test/exception_def.ml\", line 57, characters 6-13", p({
-  MEL_EXN_ID: H2
-}), 1);
+eq("File \"jscomp/test/exception_def.ml\", line 57, characters 6-13", p(new Caml_js_exceptions.MelangeError(H2, {
+    MEL_EXN_ID: H2
+  })), 1);
 
-eq("File \"jscomp/test/exception_def.ml\", line 58, characters 6-13", p({
-  MEL_EXN_ID: H2
-}), 1);
+eq("File \"jscomp/test/exception_def.ml\", line 58, characters 6-13", p(new Caml_js_exceptions.MelangeError(H2, {
+    MEL_EXN_ID: H2
+  })), 1);
 
-eq("File \"jscomp/test/exception_def.ml\", line 59, characters 6-13", p({
-  MEL_EXN_ID: Stdlib.Invalid_argument,
-  _1: ""
-}), 0);
+eq("File \"jscomp/test/exception_def.ml\", line 59, characters 6-13", p(new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+    MEL_EXN_ID: Stdlib.Invalid_argument,
+    _1: ""
+  })), 0);
 
 Mt.from_pair_suites("jscomp/test/exception_def.ml", suites.contents);
 

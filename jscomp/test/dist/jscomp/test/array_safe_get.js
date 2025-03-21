@@ -21,7 +21,7 @@ catch (raw_msg){
     console.log(msg._1);
     y = 0;
   } else {
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw msg;
   }
 }
 

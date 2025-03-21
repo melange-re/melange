@@ -58,18 +58,18 @@ function is_exception(param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
 function is_normal_exception(_x) {
   const A = /* @__PURE__ */ Caml_exceptions.create("A");
-  const v = {
-    MEL_EXN_ID: A,
-    _1: 3
-  };
+  const v = new Caml_js_exceptions.MelangeError(A, {
+      MEL_EXN_ID: A,
+      _1: 3
+    });
   try {
-    throw new Caml_js_exceptions.MelangeError(v.MEL_EXN_ID, v);
+    throw v;
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -77,9 +77,9 @@ function is_normal_exception(_x) {
       if (exn._1 === 3) {
         return;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -125,9 +125,9 @@ const suites = {
   tl: suites_1
 };
 
-const e = {
-  MEL_EXN_ID: Stdlib.Not_found
-};
+const e = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  });
 
 function eq(param) {
   return param.MEL_EXN_ID === Stdlib.Not_found;
@@ -135,9 +135,9 @@ function eq(param) {
 
 const Not_found = /* @__PURE__ */ Caml_exceptions.create("Equal_exception_test.Not_found");
 
-if (Caml_obj.caml_equal(e, {
-    MEL_EXN_ID: Not_found
-  }) !== false) {
+if (Caml_obj.caml_equal(e, new Caml_js_exceptions.MelangeError(Not_found, {
+      MEL_EXN_ID: Not_found
+    })) !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
       MEL_EXN_ID: "Assert_failure",
       _1: [

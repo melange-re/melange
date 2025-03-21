@@ -32,6 +32,9 @@ Unreleased
       runtime identifier.
 - build: fix Melange build on dune profiles other than `dev` / `release`
   ([#1365](https://github.com/melange-re/melange/pull/1365))
+- core, runtime: optimize throwing errors in Melange, fix re-throwing
+  regression and throwing JS values
+  ([#1362](https://github.com/melange-re/melange/pull/1362))
 
 5.0.1-414 2025-02-23
 ---------------
