@@ -32,6 +32,8 @@ Unreleased
       `Printexc.exn_slot_name`, which would previously return the global
       identifier at exception creation, and will now return the module-local
       runtime identifier.
+- build: fix Melange build on dune profiles other than `dev` / `release`
+  ([#1365](https://github.com/melange-re/melange/pull/1365))
 
 5.0.1-53 2025-02-23
 ---------------
