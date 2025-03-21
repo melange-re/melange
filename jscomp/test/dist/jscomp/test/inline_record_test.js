@@ -141,12 +141,12 @@ eq("File \"jscomp/test/inline_record_test.ml\", line 66, characters 6-13", tmp$2
 
 const A4 = /* @__PURE__ */ Caml_exceptions.create("Inline_record_test.A4");
 
-const v6 = {
-  MEL_EXN_ID: A4,
-  x: 0,
-  y: 0,
-  z: 0
-};
+const v6 = new Caml_js_exceptions.MelangeError(A4, {
+    MEL_EXN_ID: A4,
+    x: 0,
+    y: 0,
+    z: 0
+  });
 
 function ff0(x) {
   if (x.MEL_EXN_ID === A4) {

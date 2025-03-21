@@ -145,10 +145,10 @@ function test_raises_this_exc(exc) {
 
 function failure_test(f, x, s) {
   return test_raises_exc_p((function (x) {
-    return Caml_obj.caml_equal(x, {
-      MEL_EXN_ID: Stdlib.Failure,
-      _1: s
-    });
+    return Caml_obj.caml_equal(x, new Caml_js_exceptions.MelangeError(Stdlib.Failure, {
+        MEL_EXN_ID: Stdlib.Failure,
+        _1: s
+      }));
   }), f, x);
 }
 

@@ -200,7 +200,7 @@ function file_option(file_options, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   return x;
 }
@@ -223,7 +223,7 @@ function rev_split_by_char(c, s) {
           tl: l
         };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   return loop(0, /* [] */ 0);
@@ -739,15 +739,15 @@ function add_loc(loc, exn) {
   const file_name$1 = option_default("", file_name(loc));
   const line$1 = line(loc);
   const detail = Stdlib__Printexc.to_string(exn);
-  return {
-    MEL_EXN_ID: Compilation_error,
-    _1: {
-      TAG: /* Parsing_error */ 15,
-      _0: file_name$1,
-      _1: line$1,
-      _2: detail
-    }
-  };
+  return new Caml_js_exceptions.MelangeError(Compilation_error, {
+      MEL_EXN_ID: Compilation_error,
+      _1: {
+        TAG: /* Parsing_error */ 15,
+        _0: file_name$1,
+        _1: line$1,
+        _2: detail
+      }
+    });
 }
 
 Stdlib__Printexc.register_printer(function (exn) {
@@ -4402,7 +4402,7 @@ function find_field_option(field_options, option_name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   return Caml_option.some(x);
 }
@@ -4627,7 +4627,7 @@ function get_default(field_name, field_options, field_type) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   return Caml_option.some(constant);
 }
@@ -4671,7 +4671,7 @@ function not_found(f) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -5061,7 +5061,7 @@ function compile_message_p2(types, param, message) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }), search_scopes$1);
     if (id !== undefined) {
@@ -7169,7 +7169,7 @@ function module_of_file_name(file_name) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   return constructor_name(Stdlib__String.sub(file_name$1, 0, dot_index) + "_pb");
 }
@@ -7300,7 +7300,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
     if (is_empty_message(t)) {
       return /* Ft_unit */ 0;
@@ -7480,7 +7480,7 @@ function compile(proto_definition) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    throw new Caml_js_exceptions.MelangeError(add_loc(from_lexbuf(lexbuf), exn).MEL_EXN_ID, add_loc(from_lexbuf(lexbuf), exn));
+    throw add_loc(from_lexbuf(lexbuf), exn);
   }
   const all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
   const all_pbtt_msgs$1 = Stdlib__List.map((function (param) {

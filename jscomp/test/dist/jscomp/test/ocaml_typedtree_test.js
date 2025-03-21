@@ -47,7 +47,7 @@ try {
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   
 }
@@ -177,7 +177,7 @@ function try_finally(work, cleanup) {
   }
   catch (e){
     Curry._1(cleanup, undefined);
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
   Curry._1(cleanup, undefined);
   return result;
@@ -303,7 +303,7 @@ function remove_file(filename) {
     if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw msg;
   }
 }
 
@@ -324,7 +324,7 @@ function chop_extension_if_any(fname) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -522,7 +522,7 @@ function set_color_tag_handling(ppf) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg, param);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   const functions$p_mark_close_stag = function (param) {
@@ -542,7 +542,7 @@ function set_color_tag_handling(ppf) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   const functions$p_print_open_stag = functions.print_open_stag;
@@ -1788,7 +1788,7 @@ function highlight_locations(ppf, locs) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           norepeat = false;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
       if (norepeat) {
@@ -1804,7 +1804,7 @@ function highlight_locations(ppf, locs) {
         if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
-        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        throw exn$1;
       }
     } else {
       const lb$1 = input_lexbuf.contents;
@@ -1820,7 +1820,7 @@ function highlight_locations(ppf, locs) {
         if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
-        throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+        throw exn$2;
       }
     }
   };
@@ -6246,7 +6246,7 @@ function forget_abbrev(mem, path) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -6593,7 +6593,7 @@ function read_cmi(filename) {
           _1: e._1
         });
     }
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 
@@ -6746,7 +6746,7 @@ function extract(l, tbl) {
           tl: assc
         };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), /* [] */ 0, l$1);
 }
@@ -7777,7 +7777,7 @@ function get_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7790,7 +7790,7 @@ function mark_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7814,7 +7814,7 @@ function get_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7827,7 +7827,7 @@ function mark_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7841,7 +7841,7 @@ function get_info(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7863,7 +7863,7 @@ function get_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7885,7 +7885,7 @@ function get_pre_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -7907,7 +7907,7 @@ function get_post_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -10434,7 +10434,7 @@ function module_path(s, p) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return p;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Pdot */ 1 :
       return {
@@ -10468,7 +10468,7 @@ function modtype_path(s, p) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return p;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Pdot */ 1 :
       return {
@@ -10493,7 +10493,7 @@ function type_path(s, p) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return p;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Pdot */ 1 :
       return {
@@ -11064,7 +11064,7 @@ function modtype(s, mty) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return mty;
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         case /* Pdot */ 1 :
           return {
@@ -11223,7 +11223,7 @@ function force(f, x) {
     case /* Done */ 0 :
       return x$1._0;
     case /* Raise */ 1 :
-      throw new Caml_js_exceptions.MelangeError(x$1._0.MEL_EXN_ID, x$1._0);
+      throw x$1._0;
     case /* Thunk */ 2 :
       try {
         const y = Curry._1(f, x$1._0);
@@ -11239,7 +11239,7 @@ function force(f, x) {
           TAG: /* Raise */ 1,
           _0: e
         };
-        throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+        throw e;
       }
   }
 }
@@ -11269,7 +11269,7 @@ function already_defined(s, tbl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -11659,7 +11659,7 @@ function check_consistency(ps) {
             source
           ]);
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }), ps.ps_crcs);
     ps.ps_crcs_checked = true;
@@ -11678,7 +11678,7 @@ function check_consistency(ps) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -11760,7 +11760,7 @@ function find_pers_struct(checkOpt, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       r = undefined;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   let ps;
@@ -11787,7 +11787,7 @@ function find_pers_struct(checkOpt, name) {
             MEL_EXN_ID: Stdlib.Not_found
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
     ps = read_pers_struct(name, filename);
   }
@@ -11814,7 +11814,7 @@ function find_module_descr(path, env) {
               MEL_EXN_ID: Stdlib.Not_found
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Pdot */ 1 :
       const c = force(components_of_module_maker$p.contents, find_module_descr(path._0, env));
@@ -11912,7 +11912,7 @@ function find_module(alias, path, env) {
               MEL_EXN_ID: Stdlib.Not_found
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Pdot */ 1 :
       const c = force(components_of_module_maker$p.contents, find_module_descr(path._0, env));
@@ -11958,7 +11958,7 @@ function find_module(alias, path, env) {
             Stdlib__Hashtbl.add(f$1.fcomp_subst_cache, p2, mty);
             md_type$1 = mty;
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
         }
       }
@@ -12045,9 +12045,9 @@ function normalize_path(lax, env, path) {
       if (tmp) {
         return path$1;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
 }
@@ -12079,7 +12079,7 @@ function normalize_path$1(oloc, env, path) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12175,7 +12175,7 @@ function is_functor_arg(_path, env) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return false;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       case /* Pdot */ 1 :
         _path = path._0;
@@ -12216,7 +12216,7 @@ function lookup_module_descr(lid, env) {
             ps.ps_comps
           ];
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Ldot */ 1 :
       const s$1 = lid._1;
@@ -12305,7 +12305,7 @@ function lookup_module(load, lid, env) {
                   _0: s
                 });
               } else {
-                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                throw exn$1;
               }
             }
           } else {
@@ -12320,7 +12320,7 @@ function lookup_module(load, lid, env) {
             }
           };
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Ldot */ 1 :
       const s$1 = lid._1;
@@ -12423,7 +12423,7 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             comps = /* [] */ 0;
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         return Stdlib__List.map((function (param) {
@@ -12538,7 +12538,7 @@ function mark_value_used(env, name, vd) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12557,7 +12557,7 @@ function mark_type_used(env, name, vd) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12577,7 +12577,7 @@ function mark_constructor_used(usage, env, name, vd, constr) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12598,7 +12598,7 @@ function mark_extension_used(usage, env, ext, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12627,7 +12627,7 @@ function set_type_used_callback(name, td, callback) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   Stdlib__Hashtbl.replace(type_declarations, key, (function (param) {
     Curry._1(callback, old);
@@ -12660,7 +12660,7 @@ function mark_type_path(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12735,9 +12735,9 @@ function lookup_all_constructors$1(lid, env) {
       if (is_lident(lid)) {
         return /* [] */ 0;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12765,7 +12765,7 @@ function mark_constructor(usage, env, name, desc) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
   }
   const ty_path$2 = ty_path(desc.cstr_res);
@@ -12785,7 +12785,7 @@ function mark_constructor(usage, env, name, desc) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+    throw exn$1;
   }
   const ty_name$1 = last(ty_path$2);
   mark_constructor_used(usage, env, ty_name$1, ty_decl, name);
@@ -12812,9 +12812,9 @@ function lookup_all_labels$1(lid, env) {
       if (is_lident(lid)) {
         return /* [] */ 0;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -12904,7 +12904,7 @@ function iter_types(f) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               safe = false;
             } else {
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }
         } else {
@@ -13029,7 +13029,7 @@ function find_all_comps(proj, s, param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -13155,7 +13155,7 @@ function add_gadt_instances(env, lv, tl) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   set_typeset(r, Stdlib__List.fold_right(add$3, tl, r.contents));
 }
@@ -13177,7 +13177,7 @@ function add_gadt_instance_chain(env, lv, t) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   const add_instance = function (t) {
     const t$1 = repr(t);
@@ -13206,7 +13206,7 @@ function scrape_alias(env, path, mty) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return mty;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Mty_signature */ 1 :
     case /* Mty_functor */ 2 :
@@ -13221,7 +13221,7 @@ function scrape_alias(env, path, mty) {
         if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
           return mty;
         }
-        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        throw exn$1;
       }
   }
   if (path !== undefined) {
@@ -13724,7 +13724,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
       Stdlib__Hashtbl.add(prefixed_sg, root, sgs$1);
       sgs = sgs$1;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   try {
@@ -13743,7 +13743,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
       };
       return r;
     }
-    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+    throw exn$1;
   }
 }
 
@@ -13757,7 +13757,7 @@ function add_to_tbl(id, decl, tbl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       decls = /* [] */ 0;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   return add$5(id, {
@@ -14372,7 +14372,7 @@ function components_of_functor_appl(f, p1, p2) {
       Stdlib__Hashtbl.add(f.fcomp_cache, p2, comps);
       return comps;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -14784,7 +14784,7 @@ function save_signature(sg, modname, filename) {
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     remove_file(filename);
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -22789,7 +22789,7 @@ catch (raw_exn$1){
   if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+    throw exn$2;
   }
 }
 
@@ -22905,7 +22905,7 @@ function query(loc, str) {
             _0: false
           };
         }
-        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        throw exn$1;
       }
       if (exit === 2) {
         try {
@@ -22939,7 +22939,7 @@ function query(loc, str) {
       }
       
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   if (/* tag */ typeof v === "number" || typeof v === "string") {
@@ -24417,7 +24417,7 @@ function token(lexbuf) {
               _0: s
             };
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       case 11 :
         prerr_warning(curr(lexbuf), {
@@ -24461,7 +24461,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+          throw exn$1;
         }
       case 15 :
         return {
@@ -24487,7 +24487,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+          throw exn$2;
         }
       case 17 :
         try {
@@ -24508,7 +24508,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+          throw exn$3;
         }
       case 18 :
         try {
@@ -24529,7 +24529,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+          throw exn$4;
         }
       case 19 :
         reset_string_buffer(undefined);
@@ -24963,12 +24963,12 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                     ]
                   });
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             } else {
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         is_in_string.contents = false;
@@ -25013,12 +25013,12 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                     ]
                   });
               }
-              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+              throw exn$1;
             } else {
-              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+              throw exn$1;
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
         }
         is_in_string.contents = false;
@@ -25514,7 +25514,7 @@ function skip_phrase(lexbuf) {
           if (tmp === /* Unterminated_string */ 0) {
             continue;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         } else {
           switch (tmp.TAG) {
             case /* Illegal_character */ 0 :
@@ -25522,11 +25522,11 @@ function skip_phrase(lexbuf) {
             case /* Unterminated_string_in_comment */ 3 :
               continue;
             default:
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
           }
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   };
@@ -25554,26 +25554,26 @@ function wrap$1(parsing_fun, lexbuf) {
     if (err.MEL_EXN_ID === $$Error$4) {
       let tmp = err._1;
       if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
       if (tmp.TAG === /* Illegal_character */ 0) {
         if (input_name.contents === "//toplevel//") {
           skip_phrase(lexbuf);
-          throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+          throw err;
         }
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
-      throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+      throw err;
     } else {
       if (err.MEL_EXN_ID === $$Error$3) {
         if (input_name.contents === "//toplevel//") {
           maybe_skip_phrase(lexbuf);
-          throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+          throw err;
         }
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
       if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error && err.MEL_EXN_ID !== Escape_error) {
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
       
     }
@@ -25770,7 +25770,7 @@ function alpha_pat(env, p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             tmp = /* Tpat_any */ 0;
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         return {
@@ -25803,7 +25803,7 @@ function alpha_pat(env, p) {
           if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
             return new_p;
           }
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+          throw exn$1;
         }
     }
   }
@@ -27395,7 +27395,7 @@ catch (raw_exn$2){
   if (exn$3.MEL_EXN_ID === Stdlib.Not_found) {
     need_to_clear_env = true;
   } else {
-    throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+    throw exn$3;
   }
 }
 
@@ -28067,7 +28067,7 @@ function set_mode_pattern(generate, injective, f) {
     umode.contents = old_unification_mode;
     generate_equations.contents = old_gen;
     assume_injective.contents = old_inj;
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 
@@ -28094,7 +28094,7 @@ function in_pervasives(p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -28701,7 +28701,7 @@ function closed_schema(ty) {
       unmark_type(ty);
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -28763,7 +28763,7 @@ function free_vars_rec(_real, _ty) {
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
           
         }
@@ -28841,7 +28841,7 @@ function closed_parameterized_type(params, ty) {
     if (exn.MEL_EXN_ID === Non_closed) {
       ok = false;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   Stdlib__List.iter(unmark_type, params);
@@ -28881,7 +28881,7 @@ function closed_type_decl(decl) {
       it_type_declaration(unmark_iterators, decl);
       return exn._1;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -28903,7 +28903,7 @@ function closed_extension_constructor(ext) {
       unmark_extension_constructor(ext);
       return exn._1;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -28945,7 +28945,7 @@ function closed_class(params, sign) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }), fields);
     iter_type_expr(mark_type, repr(sign.csig_self));
@@ -28961,7 +28961,7 @@ function closed_class(params, sign) {
       unmark_class_signature(sign);
       return reason._1;
     }
-    throw new Caml_js_exceptions.MelangeError(reason.MEL_EXN_ID, reason);
+    throw reason;
   }
 }
 
@@ -29089,7 +29089,7 @@ function get_level(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return binding_time(p);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -29105,7 +29105,7 @@ function normalize_package_path(env, _p) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         t = undefined;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     if (t === undefined) {
@@ -29174,7 +29174,7 @@ function update_level(env, level, _ty) {
                   return update_level(env, level, param);
                 }), ty$1);
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }
           break;
@@ -29310,7 +29310,7 @@ function generalize_expansive(env, var_level, _ty) {
               return Types_Variance.may_inv;
             }), tyl);
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         match._2.contents = /* Mnil */ 0;
@@ -29345,7 +29345,7 @@ function generalize_expansive$1(env, ty) {
       const tr$1 = tr._1;
       if (tr$1) {
         if (tr$1.tl) {
-          throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+          throw tr;
         }
         throw new Caml_js_exceptions.MelangeError(Unify, {
             MEL_EXN_ID: Unify,
@@ -29358,9 +29358,9 @@ function generalize_expansive$1(env, ty) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+      throw tr;
     }
-    throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+    throw tr;
   }
 }
 
@@ -29469,7 +29469,7 @@ function inv_type(hash, pty, ty) {
         return inv_type(hash, partial_arg, param);
       }), ty$1);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -29503,7 +29503,7 @@ function compute_univars(ty) {
           return add_univar(univ, param);
         }), inv.inv_parents);
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   Curry._2(TypeHash.iter, (function (ty, inv) {
@@ -29521,7 +29521,7 @@ function compute_univars(ty) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return /* Empty */ 0;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
 }
@@ -29882,7 +29882,7 @@ function get_new_abstract_name(s) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       index = 0;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   reified_var_counter.contents = Curry._3(Meths.add, s, index, reified_var_counter.contents);
@@ -30235,7 +30235,7 @@ function copy_sep(fixed, free, bound, visited, ty) {
       t$1.desc = tmp;
       return t$1;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30381,9 +30381,9 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Unify) {
       current_level.contents = old_level;
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30428,7 +30428,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID !== Unify) {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
           
         }
@@ -30446,7 +30446,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
             MEL_EXN_ID: Cannot_expand
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
     const ty$p = subst(env, level, kind, abbrev, ty, match$1[0], args, match$1[1]);
     const ty$2 = repr(ty$p);
@@ -30533,7 +30533,7 @@ function expand_head_once(env, ty) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30553,7 +30553,7 @@ function safe_abbrev(env, ty) {
       backtrack(snap);
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30586,7 +30586,7 @@ function try_expand_safe(env, ty) {
           MEL_EXN_ID: Cannot_expand
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30600,7 +30600,7 @@ function try_expand_head(try_once, env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return ty$p;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30622,7 +30622,7 @@ function expand_head_unif(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return repr(ty);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30635,7 +30635,7 @@ function expand_head(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return repr(ty);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30670,7 +30670,7 @@ function extract_concrete_typedecl(env, ty) {
             MEL_EXN_ID: Stdlib.Not_found
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
     const match$1 = extract_concrete_typedecl(env, ty$2);
     return [
@@ -30714,7 +30714,7 @@ function try_expand_head_opt(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return ty$p;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30733,7 +30733,7 @@ function expand_head_opt(env, ty) {
       backtrack(snap);
       return repr(ty);
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30766,7 +30766,7 @@ function enforce_constraints(env, ty) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -30817,7 +30817,7 @@ function generic_abbrev(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30846,7 +30846,7 @@ function generic_private_abbrev(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30870,7 +30870,7 @@ function is_contractive(env, ty) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -30948,10 +30948,10 @@ function occur_rec(env, visited, ty0, ty) {
                     MEL_EXN_ID: Occur
                   });
               }
-              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+              throw exn$1;
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         break;
@@ -30991,15 +30991,10 @@ function occur(env, ty0, ty) {
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     merge$2(type_changed, old);
-    throw new Caml_js_exceptions.MelangeError((
-        exn.MEL_EXN_ID === Occur ? ({
-            MEL_EXN_ID: Unify,
-            _1: /* [] */ 0
-          }) : exn
-      ).MEL_EXN_ID, exn.MEL_EXN_ID === Occur ? ({
+    throw exn.MEL_EXN_ID === Occur ? new Caml_js_exceptions.MelangeError(Unify, {
           MEL_EXN_ID: Unify,
           _1: /* [] */ 0
-        }) : exn);
+        }) : exn;
   }
 }
 
@@ -31013,7 +31008,7 @@ function occur_in(env, ty0, t) {
     if (exn.MEL_EXN_ID === Unify) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31034,7 +31029,7 @@ function unify_univar(t1, t2, _param) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       };
       const match$1 = find_univ(t1, match[0]);
@@ -31121,7 +31116,7 @@ function occur_univar(env, ty) {
               visited.contents = Curry._3(add$4, ty$1, bound, visited.contents);
               tmp$1 = true;
             } else {
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }
         }
@@ -31158,7 +31153,7 @@ function occur_univar(env, ty) {
                 return occur_rec(bound, param);
               }), tl);
             }
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
         case /* Tunivar */ 9 :
           if (Curry._2(mem$3, ty$1, bound)) {
@@ -31195,7 +31190,7 @@ function occur_univar(env, ty) {
   }
   catch (exn){
     unmark_type(ty);
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31260,7 +31255,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
             if (exn.MEL_EXN_ID === Stdlib.Not_found) {
               return Stdlib__List.iter(occur, tl);
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         case /* Tunivar */ 9 :
           if (!Curry._2(mem$3, t$1, family)) {
@@ -31291,7 +31286,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
     if (exn.MEL_EXN_ID === Occur) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31356,7 +31351,7 @@ function enter_poly(env, univar_pairs, t1, tl1, t2, tl2, f) {
   }
   catch (exn){
     univar_pairs.contents = old_univars;
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31445,7 +31440,7 @@ function deep_occur(t0, ty) {
       unmark_type(ty);
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31587,7 +31582,7 @@ function is_newtype(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31623,7 +31618,7 @@ function expands_to_datatype(env, ty) {
     if (exn.MEL_EXN_ID === Cannot_expand) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -31831,7 +31826,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                               return false;
                             }), tl1);
                           } else {
-                            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                            throw exn$1;
                           }
                         }
                         return Stdlib__List.iter2((function (i, param) {
@@ -31994,7 +31989,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                       if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
                         return;
                       }
-                      throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+                      throw exn$2;
                     }
                   }
                   p = p1;
@@ -32340,12 +32335,12 @@ function mcomp(type_pairs, env, _t1, _t2) {
               if (exn$3.MEL_EXN_ID === Stdlib.Not_found) {
                 return;
               }
-              throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+              throw exn$3;
             }
           }
           
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
     }
@@ -32541,7 +32536,7 @@ function find_newtype_level(env, path) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -32736,7 +32731,7 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
                   MEL_EXN_ID: Stdlib.Not_found
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
           
         }
@@ -32786,7 +32781,7 @@ function unify_eq(env, t1, t2) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -32857,7 +32852,7 @@ function unify(env, t1, t2) {
                       if (exn.MEL_EXN_ID === Cannot_expand) {
                         unify2(env, t1$1, t2$1);
                       } else {
-                        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                        throw exn;
                       }
                     }
                   } else {
@@ -32919,7 +32914,7 @@ function unify(env, t1, t2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -33009,7 +33004,7 @@ function unify2(env, t1, t2) {
           }), trace._1)
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -33084,7 +33079,7 @@ function unify_fields(env, ty1, ty2) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), match$2[0]);
   }
@@ -33093,7 +33088,7 @@ function unify_fields(env, ty1, ty2) {
     rest1.desc = d1;
     log_type(rest2);
     rest2.desc = d2;
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -33129,7 +33124,7 @@ function unify_row(env, row1, row2) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }), r2);
   }
@@ -33324,7 +33319,7 @@ function unify_row(env, row1, row2) {
               }
               catch (exn){
                 e2.contents = undefined;
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                throw exn;
               }
             } else {
               if (/* tag */ typeof f2$2 === "number" || typeof f2$2 === "string") {
@@ -33422,7 +33417,7 @@ function unify_row(env, row1, row2) {
                 }
                 catch (exn$1){
                   e1$1.contents = undefined;
-                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                  throw exn$1;
                 }
               } else {
                 throw new Caml_js_exceptions.MelangeError(Unify, {
@@ -33544,7 +33539,7 @@ function unify_row(env, row1, row2) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), pairs);
   }
@@ -33553,7 +33548,7 @@ function unify_row(env, row1, row2) {
     rm1.desc = md1;
     log_type(rm2);
     rm2.desc = md2;
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -33878,7 +33873,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                           return false;
                         }), tl1);
                       } else {
-                        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                        throw exn;
                       }
                     }
                     Stdlib__List.iter2((function (i, param) {
@@ -33899,7 +33894,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                               reify(env, t1);
                               return reify(env, t2);
                             }
-                            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                            throw exn;
                           }
                         }));
                       }
@@ -34065,7 +34060,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                       }
                       
                     } else {
-                      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                      throw exn$1;
                     }
                   }
                 }
@@ -34164,7 +34159,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                       return reify(env, param);
                     }), Stdlib.$at(tl1$2, tl2$1));
                   } else {
-                    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+                    throw exn$2;
                   }
                 }
                 break;
@@ -34287,7 +34282,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
             _1: trace._1
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
   }
   
@@ -34317,7 +34312,7 @@ function unify$1(env, ty1, ty2) {
           })
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -34361,7 +34356,7 @@ function unify_var(env, t1, t2) {
           _1: expanded_trace
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -34536,7 +34531,7 @@ function filter_self_method(env, lab, priv, meths, ty) {
       meths.contents = Curry._3(add$1, lab, pair, meths.contents);
       return pair;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -34579,7 +34574,7 @@ function moregen_occur(env, level, ty) {
           _1: /* [] */ 0
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   occur_univar(env, ty);
   update_level(env, level, ty);
@@ -35121,7 +35116,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                         _1: /* [] */ 0
                       });
                   }
-                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                  throw exn$1;
                 }
               } else {
                 throw new Caml_js_exceptions.MelangeError(Unify, {
@@ -35131,7 +35126,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
               }
           }
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
     }
@@ -35151,7 +35146,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -35215,7 +35210,7 @@ function moregen_fields(inst_nongen, type_pairs, env, ty1, ty2) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
   }), match$2[0]);
 }
@@ -35285,7 +35280,7 @@ function moregeneral(env, inst_nongen, pat_sch, subj_sch) {
     if (exn.MEL_EXN_ID === Unify) {
       res = false;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   current_level.contents = old_level;
@@ -35395,7 +35390,7 @@ function matches(env, ty, ty$p) {
     if (exn.MEL_EXN_ID === Unify) {
       ok = false;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   backtrack(snap);
@@ -35481,7 +35476,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                 };
                 return;
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }
           break;
@@ -35571,7 +35566,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                       };
                       return;
                     }
-                    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+                    throw exn$2;
                   }
                 } else {
                   throw new Caml_js_exceptions.MelangeError(Unify, {
@@ -35938,7 +35933,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                         _1: /* [] */ 0
                       });
                   }
-                  throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+                  throw exn$3;
                 }
               } else {
                 throw new Caml_js_exceptions.MelangeError(Unify, {
@@ -35948,7 +35943,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
               }
           }
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+          throw exn$1;
         }
       }
     }
@@ -35968,7 +35963,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -36051,7 +36046,7 @@ function eqtype_fields(rename, type_pairs, subst, env, ty1, _ty2) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), match$4[0]);
   };
@@ -36112,7 +36107,7 @@ function equal$5(env, rename, tyl1, tyl2) {
     if (exn.MEL_EXN_ID === Unify) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -36162,7 +36157,7 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+                throw trace;
               }
             }), match$2[0]);
             return Curry._2(Meths.iter, (function (lab, param) {
@@ -36186,7 +36181,7 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+                throw trace;
               }
             }), sign2.csig_vars);
           case /* Cty_arrow */ 2 :
@@ -36226,7 +36221,7 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace$1.MEL_EXN_ID, trace$1);
+                throw trace$1;
               }
               return moregen_clty(false, type_pairs, env, cty1._2, cty2._2);
             }
@@ -36260,9 +36255,9 @@ function moregen_clty(trace, type_pairs, env, cty1, cty2) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(error.MEL_EXN_ID, error);
+      throw error;
     }
-    throw new Caml_js_exceptions.MelangeError(error.MEL_EXN_ID, error);
+    throw error;
   }
 }
 
@@ -36342,7 +36337,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
           tl: err
         };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), match$4[0], error$1);
   const error$3 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -36379,7 +36374,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
           tl: err
         };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), sign2.csig_vars, error$2);
   const error$4 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -36430,7 +36425,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
       if (r.MEL_EXN_ID === Failure) {
         res = r._1;
       } else {
-        throw new Caml_js_exceptions.MelangeError(r.MEL_EXN_ID, r);
+        throw r;
       }
     }
   }
@@ -36489,7 +36484,7 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+                throw trace;
               }
             }), match$2[0]);
             return Curry._2(Meths.iter, (function (lab, param) {
@@ -36513,7 +36508,7 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+                throw trace;
               }
             }), sign2.csig_vars);
           case /* Cty_arrow */ 2 :
@@ -36549,7 +36544,7 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(trace$1.MEL_EXN_ID, trace$1);
+                throw trace$1;
               }
               return equal_clty(false, type_pairs, subst, env, cty1._2, cty2._2);
             }
@@ -36593,9 +36588,9 @@ function equal_clty(trace, type_pairs, subst, env, cty1, cty2) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(error.MEL_EXN_ID, error);
+      throw error;
     }
-    throw new Caml_js_exceptions.MelangeError(error.MEL_EXN_ID, error);
+    throw error;
   }
 }
 
@@ -36728,7 +36723,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
           tl: err
         };
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), sign2.csig_vars, error$2);
   const error$4 = Curry._3(Meths.fold, (function (lab, param, err) {
@@ -36796,7 +36791,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), patt_params, subj_params);
     equal_clty(false, type_pairs, subst, env, {
@@ -36823,7 +36818,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
     if (r.MEL_EXN_ID === Failure) {
       return r._1;
     }
-    throw new Caml_js_exceptions.MelangeError(r.MEL_EXN_ID, r);
+    throw r;
   }
 }
 
@@ -36991,7 +36986,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
             /* Unchanged */ 0
           ];
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Tarrow */ 1 :
       if (memq_warn(t$1, visited)) {
@@ -37164,7 +37159,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       ]
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                throw exn$1;
               }
               return [
                 t$p$p,
@@ -37196,7 +37191,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
               ];
             }
           }
-          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+          throw exn$2;
         }
       } else {
         if (memq_warn(t$1, visited)) {
@@ -37258,7 +37253,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
               /* Unchanged */ 0
             ];
           }
-          throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+          throw exn$3;
         }
       }
     case /* Tobject */ 4 :
@@ -38032,7 +38027,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                           tl: cstrs
                         };
                       }
-                      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                      throw exn$1;
                     }
                   default:
                     exit = 1;
@@ -38100,7 +38095,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                               tl: cstrs
                             };
                           }
-                          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+                          throw exn$2;
                         }
                       } else {
                         const match$8 = instance_poly(undefined, false, tl1$1, u1$1);
@@ -38174,7 +38169,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                               MEL_EXN_ID: Stdlib.Not_found
                             });
                         }
-                        throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+                        throw exn$3;
                       }
                     }
                     catch (raw_exn$4){
@@ -38190,7 +38185,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                           tl: cstrs
                         };
                       }
-                      throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+                      throw exn$4;
                     }
                   default:
                     exit = 1;
@@ -38306,7 +38301,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                     tl: cstrs
                   };
                 }
-                throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
+                throw exn$5;
               }
             }
             if (exit$8 === 4) {
@@ -38334,7 +38329,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
             };
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   };
@@ -38367,7 +38362,7 @@ function subtype(env, ty1, ty2) {
               _2: Stdlib__List.tl(Stdlib__List.tl(trace._1))
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), Stdlib__List.rev(cstrs));
   };
@@ -38487,7 +38482,7 @@ function cyclic_abbrev(env, id, ty) {
       if (exn.MEL_EXN_ID === Unify) {
         return true;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   return check_cycle(/* [] */ 0, ty);
@@ -38713,7 +38708,7 @@ function nondep_type_rec(env, id, _ty) {
                           MEL_EXN_ID: Stdlib.Not_found
                         });
                     }
-                    throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                    throw exn$1;
                   }
                 } else {
                   tmp = {
@@ -38786,7 +38781,7 @@ function nondep_type_rec(env, id, _ty) {
                         _0: row$2
                       });
                   } else {
-                    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+                    throw exn$2;
                   }
                 }
                 break;
@@ -38823,7 +38818,7 @@ function nondep_type_rec(env, id, _ty) {
           ty$p.desc = tmp;
           return ty$p;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     
@@ -38846,7 +38841,7 @@ function nondep_type(env, id, ty) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -38922,10 +38917,10 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
         if (is_covariant) {
           tk = /* Type_abstract */ 0;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     let tm;
@@ -38939,10 +38934,10 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
         if (is_covariant) {
           tm = undefined;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+          throw exn$1;
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        throw exn$1;
       }
     }
     Curry._1(TypeHash.clear, nondep_hash);
@@ -38969,7 +38964,7 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+    throw exn$2;
   }
 }
 
@@ -39038,7 +39033,7 @@ function nondep_extension_constructor(env, mid, ext) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -43159,7 +43154,7 @@ function ident_name(id) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return id.name;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -43174,7 +43169,7 @@ function add_unique(id) {
       unique_names.contents = add(id, unique_toplevel_name(id), unique_names.contents);
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -45187,7 +45182,7 @@ function normalize_type_path(cacheOpt, env, p) {
         /* Id */ 0
       ];
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -45278,7 +45273,7 @@ function set_printing_env(env) {
         }, printing_map.contents);
         return;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   });
   const cont = function (param) {
@@ -45384,7 +45379,7 @@ function best_type_path(p) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             tmp$1 = true;
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         tmp = tmp$1;
@@ -45405,7 +45400,7 @@ function best_type_path(p) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       p$p$p = p$p;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   return [
@@ -45527,7 +45522,7 @@ function name_of_type(t) {
       }
       return name;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -48889,7 +48884,7 @@ function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
         }
         catch (exn){
           print_labels.contents = true;
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       } else {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -48942,7 +48937,7 @@ function trace$1(fst, keep_last, txt, ppf, tr) {
   }
   catch (exn){
     print_labels.contents = true;
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -49766,7 +49761,7 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
       if (exn.MEL_EXN_ID === Cannot_expand) {
         return false;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   return check_super(ty1);
@@ -50450,7 +50445,7 @@ function scrape(env, mty) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return mty;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -50759,7 +50754,7 @@ function nondep_supertype(env, mid, mty) {
                   });
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
       case /* Sig_class */ 5 :
@@ -50831,7 +50826,7 @@ function enrich_typedecl(env, p, decl) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return decl;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -50965,7 +50960,7 @@ function contains_type(env, _path) {
                 MEL_EXN_ID: Stdlib.Exit
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       case /* Mty_signature */ 1 :
         return contains_type_sig(env)(path._0);
@@ -51026,7 +51021,7 @@ function contains_type$1(env, mty) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -51708,7 +51703,7 @@ function rollback_path(subst, _p) {
             return p;
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   };
@@ -51728,7 +51723,7 @@ function collect_ids(subst, bindings, p) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           ids = /* Empty */ 0;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
       return Curry._2(add$11, id$1, ids);
@@ -51947,7 +51942,7 @@ function value_descriptions(env, cxt, subst, id, vd1, vd2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -52063,7 +52058,7 @@ function may_expand_module_path(env, path) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -52089,7 +52084,7 @@ function expand_module_path(env, cxt, path) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -52115,7 +52110,7 @@ function expand_module_alias(env, cxt, path) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -52256,10 +52251,10 @@ function modtypes(env, cxt, subst, mty1, mty2) {
     }
     if (err.MEL_EXN_ID === $$Error$5) {
       if (mty1.TAG === /* Mty_alias */ 3) {
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
       if (mty2.TAG === /* Mty_alias */ 3) {
-        throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+        throw err;
       }
       throw new Caml_js_exceptions.MelangeError($$Error$5, {
           MEL_EXN_ID: $$Error$5,
@@ -52277,7 +52272,7 @@ function modtypes(env, cxt, subst, mty1, mty2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(err.MEL_EXN_ID, err);
+    throw err;
   }
 }
 
@@ -52442,9 +52437,9 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         const mty1$1 = strengthen$1(env, expand_module_alias(env, cxt, p1$3), p1$3);
         return {
@@ -52641,7 +52636,7 @@ function signatures(env, cxt, subst, sig1, sig2) {
             _unpaired = unpaired$1;
             continue;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       } else {
         if (unpaired) {
@@ -52856,7 +52851,7 @@ function modtype_infos(env, cxt, subst, id, info1, info2) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(reasons.MEL_EXN_ID, reasons);
+    throw reasons;
   }
 }
 
@@ -52891,7 +52886,7 @@ function check_modtype_inclusion$1(env, mty1, path1, mty2) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    throw new Caml_js_exceptions.MelangeError(reasons.MEL_EXN_ID, reasons);
+    throw reasons;
   }
 }
 
@@ -52920,7 +52915,7 @@ function compunit(env, impl_name, impl_sig, intf_name, intf_sig) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(reasons.MEL_EXN_ID, reasons);
+    throw reasons;
   }
 }
 
@@ -55962,7 +55957,7 @@ function simple_match_args(p1, _p2) {
               if (exn.MEL_EXN_ID === Stdlib.Not_found) {
                 return omega;
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }), omegas);
         case /* Tpat_tuple */ 3 :
@@ -56143,7 +56138,7 @@ function discr_pat(q, pss) {
                   tl: r
                 };
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           }), match$1._0, record_arg(acc));
           _pss = pss$1.tl;
@@ -57224,7 +57219,7 @@ function build_other(ext, env) {
                 _param = param.tl;
                 continue;
               }
-              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+              throw exn;
             }
           };
         case /* Const_string */ 2 :
@@ -57800,7 +57795,7 @@ function exhaust(ext, pss, n) {
       if (exn.MEL_EXN_ID === Empty) {
         return fatal_error("Parmatch.exhaust");
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   } else {
     const r$2 = exhaust(ext, filter_extra(pss), n - 1 | 0);
@@ -57905,7 +57900,7 @@ function exhaust_gadt(ext, pss, n) {
       if (exn.MEL_EXN_ID === Empty) {
         return fatal_error("Parmatch.exhaust");
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   } else {
     const r$1 = exhaust_gadt(ext, filter_extra(pss), n - 1 | 0);
@@ -58924,7 +58919,7 @@ function check_partial_all(v, casel) {
     if (exn.MEL_EXN_ID === NoGuard) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -59632,7 +59627,7 @@ function warning_attribute(attrs) {
           _1: "Ill-formed list of warnings"
         });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   Stdlib__List.iter((function (param) {
@@ -59684,7 +59679,7 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
             _3: /* Illegal_reference_to_recursive_module */ 1
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   switch (lid.TAG) {
@@ -59765,7 +59760,7 @@ function find_component(lookup, make_error, env, loc, lid) {
           _3: /* Illegal_reference_to_recursive_module */ 1
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -60069,7 +60064,7 @@ function transl_type_param(env, styp) {
         type_variables.contents = add$5(name$1, v, type_variables.contents);
         ty$1 = v;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     return {
@@ -60186,11 +60181,11 @@ function transl_type(env, policy, styp) {
               ], used_variables.contents);
               ty$1 = v;
             } else {
-              throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+              throw exn$1;
             }
           }
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
       return ctyp({
@@ -60285,7 +60280,7 @@ function transl_type(env, policy, styp) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
       }), Stdlib__List.combine(stl$2, args), params);
       const constr = newconstr(path, Stdlib__List.map((function (ctyp) {
@@ -60307,7 +60302,7 @@ function transl_type(env, policy, styp) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
       return ctyp({
         TAG: /* Ttyp_constr */ 3,
@@ -60426,10 +60421,10 @@ function transl_type(env, policy, styp) {
                   ]
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+            throw exn$3;
           }
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+          throw exn$2;
         }
       }
       const decl$2 = match$1[1];
@@ -60468,7 +60463,7 @@ function transl_type(env, policy, styp) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
       }), Stdlib__List.combine(stl$3, args$1), params$1);
       const ty_args = Stdlib__List.map((function (ctyp) {
@@ -60491,7 +60486,7 @@ function transl_type(env, policy, styp) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace$1.MEL_EXN_ID, trace$1);
+        throw trace$1;
       }
       const row = ty$6.desc;
       let ty$7;
@@ -60618,7 +60613,7 @@ function transl_type(env, policy, styp) {
           if (exn$4.MEL_EXN_ID === Stdlib.Not_found) {
             t$1 = instance(undefined, env, find$2(alias, used_variables.contents)[0]);
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+            throw exn$4;
           }
         }
         const ty$8 = transl_type(env, policy, st);
@@ -60639,7 +60634,7 @@ function transl_type(env, policy, styp) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace$2.MEL_EXN_ID, trace$2);
+          throw trace$2;
         }
         cty = ty$8;
       }
@@ -60672,7 +60667,7 @@ function transl_type(env, policy, styp) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(trace$4.MEL_EXN_ID, trace$4);
+            throw trace$4;
           }
           if (principal.contents) {
             end_def(undefined);
@@ -60715,7 +60710,7 @@ function transl_type(env, policy, styp) {
             ctyp_attributes: ty$9.ctyp_attributes
           };
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
+          throw exn$5;
         }
       }
       return ctyp({
@@ -60795,7 +60790,7 @@ function transl_type(env, policy, styp) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+            throw trace;
           }
         }
         catch (raw_exn){
@@ -60806,7 +60801,7 @@ function transl_type(env, policy, styp) {
               f
             ]);
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       };
       const add_field = function (sty) {
@@ -60888,7 +60883,7 @@ function transl_type(env, policy, styp) {
           if (exn.MEL_EXN_ID === Stdlib.Exit) {
             name$2.contents = undefined;
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         const match$2 = expand_head(env, cty.ctyp_type);
@@ -61307,7 +61302,7 @@ function globalize_used_variables(env, fixed) {
         type_variables.contents = add$5(name, v2, type_variables.contents);
         return;
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
   }), used_variables.contents);
   used_variables.contents = /* Empty */ 0;
@@ -61329,7 +61324,7 @@ function globalize_used_variables(env, fixed) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), r.contents);
   };
@@ -62759,7 +62754,7 @@ function extract_label_names(sexp, env, ty) {
           ]
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -62804,7 +62799,7 @@ function unify_pat_types(loc, env, ty, ty$p) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -62837,7 +62832,7 @@ function unify_exp_types(loc, env, ty, expected_ty) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -62895,7 +62890,7 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
           });
       }
       newtype_level.contents = undefined;
-      throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+      throw e;
     }
   }
   catch (raw_trace){
@@ -62934,7 +62929,7 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
 }
 
@@ -63064,7 +63059,7 @@ function has_variants(p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -63196,7 +63191,7 @@ function enter_orpat_variables(loc, env, p1_vs, p2_vs) {
                     }
                   });
               }
-              throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+              throw trace;
             }
             return {
               hd: [
@@ -63624,7 +63619,7 @@ function expand_path(env, _p) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         decl = undefined;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     if (decl !== undefined) {
@@ -63665,7 +63660,7 @@ function wrap_disambiguate(kind, ty, f, x) {
     if (exn.MEL_EXN_ID === $$Error$7) {
       const match = exn._3;
       if (/* tag */ typeof match === "number" || typeof match === "string") {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       if (match.TAG === /* Wrong_name */ 13) {
         throw new Caml_js_exceptions.MelangeError($$Error$7, {
@@ -63682,9 +63677,9 @@ function wrap_disambiguate(kind, ty, f, x) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
 }
@@ -63745,7 +63740,7 @@ function lookup_from_type(env, tpath, lid) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Ldot */ 1 :
     case /* Lapply */ 2 :
@@ -63905,11 +63900,11 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
                 });
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   } else if (lbls) {
@@ -64318,7 +64313,7 @@ function lookup_from_type$1(env, tpath, lid) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     case /* Ldot */ 1 :
     case /* Lapply */ 2 :
@@ -64478,11 +64473,11 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
                 });
             }
           } else {
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   } else if (lbls) {
@@ -64725,7 +64720,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           opath = undefined;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
       const match$1 = lid.txt;
@@ -64941,7 +64936,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
             newvar(undefined, undefined)
           ];
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+          throw exn$1;
         }
       }
       const record_ty = match$3[1];
@@ -64973,7 +64968,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
         const arg = type_pat$1(undefined, undefined)(param[2], ty_arg);
         if (Caml_obj.caml_notequal(vars, /* [] */ 0)) {
@@ -65310,7 +65305,7 @@ function type_pat$1(allow_existentialsOpt, constrs, labels, levOpt, env, sp, exp
   }
   catch (e){
     newtype_level$1.contents = undefined;
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 
@@ -65846,7 +65841,7 @@ function approx_type(env, _sty) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return newvar(undefined, undefined);
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       case /* Ptyp_poly */ 8 :
         _sty = args._1;
@@ -65945,7 +65940,7 @@ function type_approx(env, _sexp) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
         return ty1;
       case /* Pexp_coerce */ 20 :
@@ -65975,7 +65970,7 @@ function type_approx(env, _sexp) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace$1.MEL_EXN_ID, trace$1);
+          throw trace$1;
         }
         return ty2;
       default:
@@ -66134,7 +66129,7 @@ function generalizable(level, ty) {
       unmark_type(ty);
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -66197,7 +66192,7 @@ function contains_variant_either(ty) {
       unmark_type(ty);
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -66255,7 +66250,7 @@ function contains_polymorphic_variant(p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -66282,7 +66277,7 @@ function contains_gadt(env, p) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       
     }
@@ -66297,7 +66292,7 @@ function contains_gadt(env, p) {
     if (exn.MEL_EXN_ID === Stdlib.Exit) {
       return true;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -66402,7 +66397,7 @@ function duplicate_ident_types(loc, caselist, env) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return env;
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), env, idents);
 }
@@ -66816,7 +66811,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   ]
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
           _ty_fun = match._2;
           _seen = {
@@ -66982,7 +66977,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           opath = undefined;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }
       const constrs = find_all_constructors(env, lid$2.loc, lid$2.txt);
@@ -67244,7 +67239,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             exp_attributes: sexp.pexp_attributes
           });
         }
-        throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+        throw exn$1;
       }
     case /* Pexp_record */ 11 :
       const opt_sexp = lid._1;
@@ -67280,7 +67275,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       };
       const op = get_path(ty_expected);
@@ -67704,7 +67699,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+          throw exn$2;
         }
         end_def(undefined);
         generalize_structure$1(current_level.contents, ty$5);
@@ -67768,7 +67763,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   backtrack(snap);
                   tmp$4 = false;
                 } else {
-                  throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+                  throw exn$3;
                 }
               }
               tmp$3 = tmp$4;
@@ -67800,7 +67795,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+                throw exn$4;
               }
             }
             
@@ -67826,7 +67821,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     }
                   });
               }
-              throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+              throw trace;
             }
           }
         }
@@ -67912,7 +67907,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                         }
                       });
                   }
-                  throw new Caml_js_exceptions.MelangeError(exn$5.MEL_EXN_ID, exn$5);
+                  throw exn$5;
                 }
                 const match$43 = lookup_value$1({
                   TAG: /* Lident */ 0,
@@ -68111,7 +68106,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn$6.MEL_EXN_ID, exn$6);
+        throw exn$6;
       }
       break;
     case /* Pexp_new */ 22 :
@@ -68218,7 +68213,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn$7.MEL_EXN_ID, exn$7);
+        throw exn$7;
       }
       break;
     case /* Pexp_override */ 24 :
@@ -68266,7 +68261,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               _3: /* Outside_class */ 0
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn$8.MEL_EXN_ID, exn$8);
+        throw exn$8;
       }
       const match$54 = match$53[0][1];
       const match$55 = match$54.val_kind;
@@ -68308,7 +68303,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         };
         const modifs = Stdlib__List.map(type_override, lst);
@@ -68363,7 +68358,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn$9.MEL_EXN_ID, exn$9);
+        throw exn$9;
       }
       return re({
         exp_desc: {
@@ -68781,7 +68776,7 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
       }
       
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   const ty_res = match$1[1];
@@ -68804,7 +68799,7 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
             ]
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
     ty_arg$1 = type_option$1(tv);
   } else {
@@ -68876,7 +68871,7 @@ function type_label_access(env, loc, srecord, lid) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       opath = undefined;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   const labels = find_all_labels(env, lid.loc, lid.txt);
@@ -68937,7 +68932,7 @@ function type_label_exp(create, env, loc, ty_expected, param) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
   const ty_arg$1 = instance_def(ty_arg);
   if (separate) {
@@ -68977,7 +68972,7 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   }
   catch (exn){
     if (is_nonexpansive(arg)) {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
     try {
       may(backtrack, snap);
@@ -68994,14 +68989,14 @@ function type_label_exp(create, env, loc, ty_expected, param) {
       if (e.MEL_EXN_ID === $$Error$7) {
         let tmp = e._3;
         if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         if (tmp.TAG === /* Less_general */ 31) {
-          throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+          throw e;
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
   }
@@ -69462,7 +69457,7 @@ function type_application(env, funct, sargs) {
                       match$9[3]
                     ];
                   } else {
-                    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                    throw exn;
                   }
                 }
                 const sarg0$3 = match$7[1];
@@ -69510,7 +69505,7 @@ function type_application(env, funct, sargs) {
                       }), undefined)
                   ];
                 } else {
-                  throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                  throw exn$1;
                 }
               }
             }
@@ -70017,7 +70012,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
         if (exn.MEL_EXN_ID === Empty || exn.MEL_EXN_ID === Stdlib.Not_found || exn.MEL_EXN_ID === NoGuard) {
           exit = 1;
         } else {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         if (exit === 1) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -70254,7 +70249,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return Stdlib__Hashtbl.add(value_declarations, key, callback);
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }), pat_bound_idents(pat));
     return [
@@ -72745,7 +72740,7 @@ function make_params(env, params) {
             _2: /* Repeated_parameter */ 0
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   };
   return Stdlib__List.map(make_param, params);
@@ -72874,7 +72869,7 @@ function check_constraints_rec(env, loc, visited, _ty) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         if (!matches(env, ty$1, ty$p)) {
           throw new Caml_js_exceptions.MelangeError($$Error$8, {
@@ -73109,7 +73104,7 @@ function check_coherence(env, loc, id, decl) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   } else {
     throw new Caml_js_exceptions.MelangeError($$Error$8, {
@@ -73173,7 +73168,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
           exp_nodes
         ];
       } else {
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     }
     const exp_nodes$1 = match$1[1];
@@ -73232,7 +73227,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
       if (exn$1.MEL_EXN_ID === Unify) {
         return backtrack(snap);
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
   };
   wrap_trace_gadt_instances(env, (function (param) {
@@ -73331,7 +73326,7 @@ function check_recursion(env, loc, path, decl, to_check) {
                       }
                     });
                 }
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                throw exn;
               }
               check_regular(path$p, args, {
                 hd: path$p,
@@ -73341,7 +73336,7 @@ function check_recursion(env, loc, path, decl, to_check) {
             catch (raw_exn$1){
               const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
               if (exn$1.MEL_EXN_ID !== Stdlib.Not_found) {
-                throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                throw exn$1;
               }
               
             }
@@ -73375,7 +73370,7 @@ function get_variance(ty, visited) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return Types_Variance.$$null;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -73435,7 +73430,7 @@ function compute_variance(env, visited, vari, ty) {
                 return compute_variance_rec(Types_Variance.may_inv, param);
               }), tl$1);
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         case /* Tfield */ 5 :
           compute_variance_rec(vari$1, tl._2);
@@ -74062,7 +74057,7 @@ function check_duplicates(sdecl_list) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return Stdlib__Hashtbl.add(constrs, pcd.pcd_name.txt, sdecl.ptype_name.txt);
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }), cl._0);
     } else {
@@ -74083,7 +74078,7 @@ function check_duplicates(sdecl_list) {
           if (exn.MEL_EXN_ID === Stdlib.Not_found) {
             return Stdlib__Hashtbl.add(labels, cname.txt, sdecl.ptype_name.txt);
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
       }), cl._0);
     }
@@ -74446,7 +74441,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+        throw tr;
       }
     }), cstrs);
     end_def(undefined);
@@ -74470,7 +74465,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
               ]
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       set_fixed_row(temp_env, name_sdecl.ptype_loc, match$3[0], decl);
     }
@@ -74540,7 +74535,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+        throw trace;
       }
     }), id_list, sdecl_list$1);
   }
@@ -74716,7 +74711,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                 ]
               });
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         const sret_type = match.pcd_res;
         Stdlib__List.iter2((function (sty, ty) {
@@ -74843,7 +74838,7 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
     if (!cdescr.cstr_generalized) {
       const vars = free_variables$1(undefined, newty2(100000000, {
@@ -75026,7 +75021,7 @@ function transl_type_extension(check_open, env, loc, styext) {
       catch (raw_exn){
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         
       }
@@ -75330,7 +75325,7 @@ function transl_with_constraint(env, id, row_path, orig_decl, sdecl) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+      throw tr;
     }
   }), sdecl.ptype_cstrs);
   const no_row = !is_fixed_type(sdecl);
@@ -75570,7 +75565,7 @@ function explain_unbound(ppf, tv, tl, typ, kwd, lab) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -77270,7 +77265,7 @@ function enter_val(cl_num, vars, inh, lab, mut, virt, ty, val_env, met_env, par_
         virt
       ];
     } else {
-      throw new Caml_js_exceptions.MelangeError(tr.MEL_EXN_ID, tr);
+      throw tr;
     }
   }
   const id = match[0];
@@ -77366,7 +77361,7 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
           }
           
         } else {
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
       }
       const over_meths = Curry._2(inter$1, cl_sig$1.csig_concr, concr_meths);
@@ -77463,7 +77458,7 @@ function virtual_method(val_env, meths, self_type, lab, priv, sty, loc) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
   return cty;
 }
@@ -77494,7 +77489,7 @@ function declare_method(val_env, meths, self_type, lab, priv, sty, loc) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
   };
   const sty$1 = force_poly(sty);
@@ -77551,7 +77546,7 @@ function type_constraint(val_env, sty, sty$p, loc) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+    throw trace;
   }
   return [
     cty,
@@ -77582,7 +77577,7 @@ function add_val(env, loc, lab, param, val_sig) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       virt$1 = virt;
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   return Curry._3(Meths.add, lab, [
@@ -77627,7 +77622,7 @@ function class_signature$1(env, param) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   warning_enter_scope(undefined);
   const match = Stdlib__List.fold_left((function (param, param$1) {
@@ -77863,7 +77858,7 @@ function class_type$3(env, scty) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
         return cty$p;
       }), styl, params);
@@ -77977,7 +77972,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
   const get_methods = function (ty) {
     return flatten_fields(object_fields(expand_head(val_env$1, ty)))[0];
@@ -78225,7 +78220,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             const match$7 = exn._1;
             if (match$7) {
               if (match$7.tl) {
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                throw exn;
               }
               throw new Caml_js_exceptions.MelangeError($$Error$9, {
                   MEL_EXN_ID: $$Error$9,
@@ -78237,9 +78232,9 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         if (principal.contents) {
           end_def(undefined);
@@ -78428,7 +78423,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+          throw trace;
         }
         const meth_expr = make_method(self_loc, cl_num, expr$2);
         const vars_local = vars.contents;
@@ -78682,7 +78677,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
   }
   if (principal.contents) {
@@ -78794,7 +78789,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+            throw trace;
           }
         }), tyl, params);
         const cl = rc({
@@ -79134,7 +79129,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                 match$5[3]
                               ];
                             } else {
-                              throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                              throw exn;
                             }
                           }
                           const sarg0$1 = match$3[1];
@@ -79169,7 +79164,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                               is_optional(l) && (Stdlib__List.mem_assoc("", sargs) || Stdlib__List.mem_assoc("", more_sargs)) ? option_none(ty0, none) : undefined
                             ];
                           } else {
-                            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+                            throw exn$1;
                           }
                         }
                       }
@@ -79263,7 +79258,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             const match$8 = exn._1;
             if (match$8) {
               if (match$8.tl) {
-                throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+                throw exn;
               }
               throw new Caml_js_exceptions.MelangeError($$Error$9, {
                   MEL_EXN_ID: $$Error$9,
@@ -79275,9 +79270,9 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
-          throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+          throw exn;
         }
         const val_env$1 = match$7[1];
         const defs = match$7[0];
@@ -79626,7 +79621,7 @@ function type_classes(define_class, approx, kind, env, cls) {
               _3: /* Repeated_parameter */ 0
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
     };
     const ci_params = Stdlib__List.map(make_param, cl.pci_params);
@@ -79654,7 +79649,7 @@ function type_classes(define_class, approx, kind, env, cls) {
     }
     catch (exn){
       self_coercion.contents = /* [] */ 0;
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
     const typ = match[1];
     end_def(undefined);
@@ -79706,7 +79701,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
     try {
       unify$2(env, ty, constr);
@@ -79726,7 +79721,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$2.MEL_EXN_ID, exn$2);
+      throw exn$2;
     }
     const match$3 = instance_class(params, typ);
     const cl_params$p = match$3[0];
@@ -79759,7 +79754,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$3.MEL_EXN_ID, exn$3);
+      throw exn$3;
     }
     try {
       unify$2(env, ty$1, cl_ty);
@@ -79783,7 +79778,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn$4.MEL_EXN_ID, exn$4);
+      throw exn$4;
     }
     try {
       unify$2(env, constructor_type(constr, obj_type), instance(undefined, env, constr_type));
@@ -79802,7 +79797,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
     const cty_variance = Stdlib__List.map((function (param) {
       return Types_Variance.full;
@@ -80002,7 +79997,7 @@ function type_classes(define_class, approx, kind, env, cls) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(trace.MEL_EXN_ID, trace);
+      throw trace;
     }
     Stdlib__List.iter(generalize, clty.cty_params);
     generalize_class_type(generalize, clty.cty_type);
@@ -80136,7 +80131,7 @@ function type_classes(define_class, approx, kind, env, cls) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       if (!opened_object(cl_ty)) {
         throw new Caml_js_exceptions.MelangeError($$Error$9, {
@@ -82443,7 +82438,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                   _3: /* With_need_typeconstr */ 2
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
           let match$3;
           try {
@@ -82461,7 +82456,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                   ]
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+            throw exn$1;
           }
           const sub = add_type(id$1, match$3[0], identity);
           sg$2 = signature$2(sub, sg$1);
@@ -82508,7 +82503,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(explanation.MEL_EXN_ID, explanation);
+    throw explanation;
   }
 }
 
@@ -83851,7 +83846,7 @@ function path_of_module$1(mexp) {
     if (exn.MEL_EXN_ID === Not_a_path) {
       return;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -83989,7 +83984,7 @@ function check_recmodule_inclusion(env, bindings) {
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+        throw msg;
       }
       const modl$p_mod_desc = {
         TAG: /* Tmod_constraint */ 4,
@@ -84160,7 +84155,7 @@ function modtype_of_package(env, loc, p, nl, tl) {
           _3: error
         });
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -84182,7 +84177,7 @@ function package_subtype$1(env, p1, nl1, tl1, p2, nl2, tl2) {
     if (msg.MEL_EXN_ID === $$Error$5) {
       return false;
     }
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw msg;
   }
 }
 
@@ -84206,7 +84201,7 @@ function wrap_constraint(env, arg, mty, explicit) {
           }
         });
     }
-    throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+    throw msg;
   }
   return {
     mod_desc: {
@@ -84431,7 +84426,7 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
                 }
               });
           }
-          throw new Caml_js_exceptions.MelangeError(msg.MEL_EXN_ID, msg);
+          throw msg;
         }
         let mty_appl;
         if (path$1 !== undefined) {
@@ -84455,7 +84450,7 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
                   }
                 });
             }
-            throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+            throw exn;
           }
         }
         const node_mod_desc$2 = {
@@ -85361,7 +85356,7 @@ function type_package$1(env, m, p, nl, tl) {
             }
           });
       }
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }), nl, tl$p);
   return [
@@ -85437,7 +85432,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
               }
             });
         }
-        throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+        throw exn;
       }
       const dclsig = read_signature(modulename, intf_file);
       const coercion = compunit(initial_env, sourcefile, sg, intf_file, dclsig);
@@ -85512,7 +85507,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
       TAG: /* Partial_implementation */ 3,
       _0: Stdlib__Array.of_list(saved_types.contents)
     }, sourcefile, initial_env, undefined);
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 

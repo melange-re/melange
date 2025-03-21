@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Printexc = require("melange/printexc.js");
@@ -35,18 +36,18 @@ const A = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.A");
 
 const B = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.B");
 
-eq("File \"jscomp/test/gpr_1501_test.ml\", line 14, characters 7-14", "Not_found", Stdlib__Printexc.to_string({
-  MEL_EXN_ID: Stdlib.Not_found
-}));
+eq("File \"jscomp/test/gpr_1501_test.ml\", line 14, characters 7-14", "Not_found", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  })));
 
-eq("File \"jscomp/test/gpr_1501_test.ml\", line 15, characters 7-14", /Gpr_1501_test.A\/[0-9]+/.test(Stdlib__Printexc.to_string({
-  MEL_EXN_ID: A
-})), true);
+eq("File \"jscomp/test/gpr_1501_test.ml\", line 15, characters 7-14", /Gpr_1501_test.A\/[0-9]+/.test(Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(A, {
+    MEL_EXN_ID: A
+  }))), true);
 
-eq("File \"jscomp/test/gpr_1501_test.ml\", line 18, characters 7-14", /Gpr_1501_test.B\/[0-9]+\(1\)/.test(Stdlib__Printexc.to_string({
-  MEL_EXN_ID: B,
-  _1: 1
-})), true);
+eq("File \"jscomp/test/gpr_1501_test.ml\", line 18, characters 7-14", /Gpr_1501_test.B\/[0-9]+\(1\)/.test(Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(B, {
+    MEL_EXN_ID: B,
+    _1: 1
+  }))), true);
 
 Mt.from_pair_suites("Gpr_1501_test", suites.contents);
 

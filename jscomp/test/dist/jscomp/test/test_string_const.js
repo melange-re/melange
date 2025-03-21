@@ -16,7 +16,7 @@ catch (raw_e){
     console.log(e._1);
     hh = /* 'a' */97;
   } else {
-    throw new Caml_js_exceptions.MelangeError(e.MEL_EXN_ID, e);
+    throw e;
   }
 }
 

@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Exception_def = require("./exception_def.js");
 const Stdlib = require("melange/stdlib.js");
 
@@ -17,19 +18,19 @@ const B = {
 
 const A0 = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A0");
 
-const u0 = {
-  MEL_EXN_ID: Stdlib.Invalid_argument,
-  _1: "x"
-};
+const u0 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+    MEL_EXN_ID: Stdlib.Invalid_argument,
+    _1: "x"
+  });
 
-const u1 = {
-  MEL_EXN_ID: Stdlib.Invalid_argument,
-  _1: "x"
-};
+const u1 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+    MEL_EXN_ID: Stdlib.Invalid_argument,
+    _1: "x"
+  });
 
-const u2 = {
-  MEL_EXN_ID: Stdlib.Not_found
-};
+const u2 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  });
 
 const H = Exception_def.A;
 

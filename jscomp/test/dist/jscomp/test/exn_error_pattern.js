@@ -53,28 +53,28 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f({
-  MEL_EXN_ID: Stdlib.Not_found
-}), 0);
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+    MEL_EXN_ID: Stdlib.Not_found
+  })), 0);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f({
-  MEL_EXN_ID: Stdlib.Invalid_argument,
-  _1: ""
-}), 1);
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
+    MEL_EXN_ID: Stdlib.Invalid_argument,
+    _1: ""
+  })), 1);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f({
-  MEL_EXN_ID: Stdlib.Stack_overflow
-}), 1);
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Stack_overflow, {
+    MEL_EXN_ID: Stdlib.Stack_overflow
+  })), 1);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
-  MEL_EXN_ID: Stdlib.Sys_error,
-  _1: ""
-}), 2);
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Sys_error, {
+    MEL_EXN_ID: Stdlib.Sys_error,
+    _1: ""
+  })), 2);
 
 let tmp;
 
 try {
-  throw new Caml_js_exceptions.MelangeError(new Error("x").MEL_EXN_ID, new Error("x"));
+  throw new Error("x");
 }
 catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);
