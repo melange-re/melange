@@ -238,7 +238,7 @@ let rec compile_external_field ~dynamic_import
     name : Js_output.t =
   match Lam_compile_env.query_external_id_info ~dynamic_import id name with
   | Some { persistent_closed_lambda = Some (lam, _); _ }
-    when Lam_util.not_function lam ->
+    when not (Lam_util.is_function lam) ->
       compile_lambda lamba_cxt lam
   | Some _ | None ->
       Js_output.output_of_expression lamba_cxt.continuation
