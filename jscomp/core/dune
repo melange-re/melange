@@ -188,13 +188,29 @@
  (target include_dirs.ml)
  (deps include_dirs.dev.ml include_dirs.release.ml)
  (action
-  (copy# include_dirs.%{profile}.ml %{target})))
+  (copy# include_dirs.%{profile}.ml %{target}))
+ (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+
+(rule
+ (target include_dirs.ml)
+ (deps include_dirs.dev.ml include_dirs.release.ml)
+ (action
+  (copy# include_dirs.release.ml %{target}))
+ (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
 
 (rule
  (target js_pass_debug.ml)
  (deps js_pass_debug.dev.ml js_pass_debug.release.ml)
  (action
-  (copy# js_pass_debug.%{profile}.ml %{target})))
+  (copy# js_pass_debug.%{profile}.ml %{target}))
+ (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+
+(rule
+ (target js_pass_debug.ml)
+ (deps js_pass_debug.dev.ml js_pass_debug.release.ml)
+ (action
+  (copy# js_pass_debug.release.ml %{target}))
+ (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
 
 (rule
  (targets lam_pass_lets_dce.ml)
@@ -206,7 +222,15 @@
  (target lam_dump.ml)
  (deps lam_dump.dev.ml lam_dump.release.ml)
  (action
-  (copy# lam_dump.%{profile}.ml %{target})))
+  (copy# lam_dump.%{profile}.ml %{target}))
+ (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+
+(rule
+ (target lam_dump.ml)
+ (deps lam_dump.dev.ml lam_dump.release.ml)
+ (action
+  (copy# lam_dump.release.ml %{target}))
+ (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
 
 (rule
  (targets lam_compile_main.ml)
