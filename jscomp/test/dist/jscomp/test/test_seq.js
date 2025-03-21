@@ -70,7 +70,7 @@ function add_help(speclist) {
         tl: /* [] */ 0
       };
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
   let add2;
@@ -93,7 +93,7 @@ function add_help(speclist) {
         tl: /* [] */ 0
       };
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn$1.MEL_EXN_ID, exn$1);
+      throw exn$1;
     }
   }
   return Stdlib.$at(speclist, Stdlib.$at(add1, add2));

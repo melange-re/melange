@@ -96,7 +96,7 @@ function rollback_path(subst, p) {
           return "Pident | Papply";
       }
     } else {
-      throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+      throw exn;
     }
   }
 }
@@ -133,7 +133,7 @@ function fooExn(f) {
       const match = n._1;
       return match[0] + match[1] | 0;
     }
-    throw new Caml_js_exceptions.MelangeError(n.MEL_EXN_ID, n);
+    throw n;
   }
 }
 

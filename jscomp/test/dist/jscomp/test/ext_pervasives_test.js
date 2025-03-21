@@ -16,7 +16,7 @@ function $$finally(v, action, f) {
   }
   catch (e$1){
     Curry._1(action, v);
-    throw new Caml_js_exceptions.MelangeError(e$1.MEL_EXN_ID, e$1);
+    throw e$1;
   }
   Curry._1(action, v);
   return e;
@@ -64,7 +64,7 @@ function is_pos_pow(n) {
     if (exn.MEL_EXN_ID === E) {
       return -1;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 

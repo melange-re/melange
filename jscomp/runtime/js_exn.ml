@@ -22,11 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = Caml_js_exceptions.t
+type t = Any : 'a -> t [@@unboxed] [@@ocaml.warning "-37"]
 
-exception Error = Caml_js_exceptions.Error
+exception Error of t [@@ocaml.warning "-38"]
 
-external asJsExn : exn -> t option = "caml_as_js_exn"
+(* external asJsExn : exn -> t option = "caml_as_js_exn" *)
+let asJsExn exn = match exn with Error t -> Some t | _ -> None
+
 external stack : t -> string option = "stack" [@@mel.get]
 external message : t -> string option = "message" [@@mel.get]
 external name : t -> string option = "name" [@@mel.get]

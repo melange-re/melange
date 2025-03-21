@@ -591,7 +591,7 @@ let caml_hexstring_of_float : float -> int -> char -> string =
 
 let float_of_string : string -> exn -> float =
   [%raw
-    {|function(s,exn){
+    {|function(s,exn) {
 
     var res = +s;
     if ((s.length > 0) && (res === res))
@@ -614,7 +614,7 @@ let float_of_string : string -> exn -> float =
         return Infinity;
     if (/^-inf(inity)?$/i.test(s))
         return -Infinity;
-    throw new Error(exn.MEL_EXN_ID, { cause: exn });
+    throw exn;
 }
 |}]
 

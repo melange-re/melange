@@ -1940,7 +1940,7 @@ function scan_elems$2(ib, accu) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -2431,7 +2431,7 @@ function scan_elems$5(ib, scan_elem, accu) {
     if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       return accu;
     }
-    throw new Caml_js_exceptions.MelangeError(exn.MEL_EXN_ID, exn);
+    throw exn;
   }
 }
 
@@ -3898,11 +3898,11 @@ function test44(param) {
   }));
 }
 
-Testing.test_raises_this_exc({
-  MEL_EXN_ID: Stdlib.End_of_file
-})(test43, undefined) && Testing.test_raises_this_exc({
-  MEL_EXN_ID: Stdlib.End_of_file
-})(test44, undefined);
+Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+    MEL_EXN_ID: Stdlib.End_of_file
+  }))(test43, undefined) && Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
+    MEL_EXN_ID: Stdlib.End_of_file
+  }))(test44, undefined);
 
 function test45(param) {
   const ib = Stdlib__Scanf.Scanning.from_string("12.2");
