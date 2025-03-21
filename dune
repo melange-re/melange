@@ -4,7 +4,7 @@
  (dev
   (env-vars
    (CPPO_FLAGS -U=BS_RELEASE_BUILD)))
- (release
+ (_
   (env-vars
    (CPPO_FLAGS -D=BS_RELEASE_BUILD))
   (ocamlopt_flags
