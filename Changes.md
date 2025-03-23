@@ -35,6 +35,8 @@ Unreleased
 - core, runtime: optimize throwing errors in Melange, fix re-throwing
   regression and throwing JS values
   ([#1362](https://github.com/melange-re/melange/pull/1362))
+- runtime: add `Js.Fetch` module with types for `fetch` in JS
+  ([#1343](https://github.com/melange-re/melange/pull/1343))
 
 5.0.1-414 2025-02-23
 ---------------
