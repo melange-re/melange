@@ -37,6 +37,8 @@ Unreleased
   ([#1362](https://github.com/melange-re/melange/pull/1362))
 - runtime: add `Js.Fetch` module with types for `fetch` in JS
   ([#1343](https://github.com/melange-re/melange/pull/1343))
+- runtime: add `Js.ReadableStream` module to unify around its type in community
+  libraries ([#1344](https://github.com/melange-re/melange/pull/1344))
 
 5.0.1-53 2025-02-23
 ---------------
