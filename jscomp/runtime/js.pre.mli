@@ -261,6 +261,9 @@ module File = Js_file
 module FormData = Js_formData
 (** Bindings to FormData *)
 
+module Fetch = Js_fetch
+(** Abstract types for Fetch *)
+
 (**/**)
 
 module OO = Js_OO
