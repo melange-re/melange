@@ -163,4 +163,5 @@ module Blob = Js_blob
 module File = Js_file
 module FormData = Js_formData
 module Fetch = Js_fetch
+module ReadableStream = Js_readableStream
 module OO = Js_OO
