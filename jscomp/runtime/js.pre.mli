@@ -258,6 +258,9 @@ module Blob = Js_blob
 module File = Js_file
 (** Bindings to File *)
 
+module ReadableStream = Js_readableStream
+(** Bindings to ReadableStream *)
+
 module FormData = Js_formData
 (** Bindings to FormData *)
 
