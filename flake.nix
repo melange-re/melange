@@ -21,8 +21,8 @@
                 src = super.fetchFromGitHub {
                   owner = "ocsigen";
                   repo = "js_of_ocaml";
-                  rev = "99efd3f41e0a9a1137aac20389d33ed41615dfb1";
-                  hash = "sha256-KR1JxK/mNb5TQ99GPaIKKaU+ovvuuogCZJPsuIZYtWo=";
+                  rev = "c76316cb4f07fc0b1ffc46805fd350d4be77e0dc";
+                  hash = "sha256-9aYCYQ+wt5INgm54COeUcbAAqUfpWruLh1TyRDy0Fp0=";
                 };
               });
               sedlex = osuper.sedlex.overrideAttrs (_: {
@@ -43,8 +43,8 @@
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
                   repo = "reason";
-                  rev = "f9b776b890017e9a2389b5107a5f4853acf9cc8c";
-                  hash = "sha256-nOBnquoEx0uWcHVQGR6gN2A8q9VF3BrzRsTiIJWJJnU=";
+                  rev = "0b2f1aa14f5722a07a63bedb608c381d218f24cf";
+                  hash = "sha256-rtFEhEdNwHgRFAk9S7xx9MKvn9/gtTrIcVZp6d45Fxk=";
                 };
                 patches = [ ];
                 doCheck = false;
@@ -57,7 +57,6 @@
                   hash = "sha256-dZZyjc+G2erukLXsICExaKwWqs6eqGLrkHTouoe8k40=";
                 };
               });
-
               pp = osuper.pp.overrideAttrs (o: {
                 doCheck = false;
               });
