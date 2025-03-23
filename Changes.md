@@ -41,6 +41,8 @@ Unreleased
   ([#1343](https://github.com/melange-re/melange/pull/1343))
 - runtime: add `Js.ReadableStream` module to unify around its type in community
   libraries ([#1344](https://github.com/melange-re/melange/pull/1344))
+- runtime: add `Js.WritableStream`
+  ([#1367](https://github.com/melange-re/melange/pull/1367))
 
 5.0.1-53 2025-02-23
 ---------------
