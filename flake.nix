@@ -58,17 +58,10 @@
         }
       );
 
-      checks = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_3;
-          });
-        in
-        {
-          melange-check = pkgs.callPackage ./nix/ci/test.nix {
-            packages = self.packages.${pkgs.system};
-          };
-        }
-      );
+      checks = forAllSystems (pkgs: {
+        melange-check = pkgs.callPackage ./nix/test.nix {
+          packages = self.packages.${pkgs.system};
+        };
+      });
     };
 }
