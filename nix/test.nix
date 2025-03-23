@@ -13,7 +13,7 @@ with ocamlPackages;
 stdenv.mkDerivation {
   name = "melange-tests-${inputString}";
 
-  src = ../../jscomp/test;
+  src = ../jscomp/test;
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
