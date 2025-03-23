@@ -33,8 +33,8 @@ dev-repo: "git+https://github.com/melange-re/melange.git"
 pin-depends: [
   [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#4cd7df45183ca6f590240eeb6f48c984fb925067" ]
   [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#4cd7df45183ca6f590240eeb6f48c984fb925067" ]
-  [ "sedlex.dev" "git+https://github.com/ocaml-community/sedlex.git#4dbaf572ed52281140be924a2c16fa4f287d88f0" ]
+  [ "sedlex.dev" "git+https://github.com/ocaml-community/sedlex.git#4dbaf572ed52281140be924a2c16fa4f287d88f0"]
   [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react-ppx.git#c97615d62311f32c2dbb1e5d159c06e147ca7545"]
+  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#c97615d62311f32c2dbb1e5d159c06e147ca7545"]
 ]
 

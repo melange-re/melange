@@ -1,4 +1,4 @@
 pin-depends: [
   [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react-ppx.git#c97615d62311f32c2dbb1e5d159c06e147ca7545"]
+  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#c97615d62311f32c2dbb1e5d159c06e147ca7545"]
 ]
