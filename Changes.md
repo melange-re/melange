@@ -1,4 +1,5 @@
-Unreleased
+5.1.0-52 2025-03-23
+---------------
 
 - Update JS reserved keywords
   ([#1338](https://github.com/melange-re/melange/pull/1338))
