@@ -223,7 +223,8 @@ let compile =
       let v =
         let buffer = Buffer.create 1000 in
         let () =
-          Js_dump_program.pp_deps_program ~output_prefix:""
+          let output_prefix = "" in
+          Js_dump_program.pp_deps_program ~output_prefix
             ~package_info:Js_packages_info.empty
             ~output_info:
               {
@@ -231,9 +232,8 @@ let compile =
                 suffix = Js_suffix.default;
               }
             (Js_pp.from_buffer buffer)
-            (Lam_compile_main.compile
-            ~package_info:Js_packages_info.empty
-            "" lam)
+            (Lam_compile_main.compile_coercion ~output_prefix lam
+            |> Lam_compile_main.optimize_program ~output_prefix)
         in
         Buffer.contents buffer
       in
