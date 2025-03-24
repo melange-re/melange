@@ -1,7 +1,7 @@
 (env
  (_
   (env-vars
-   (MELANGE_RUNTIME_VERSION 5.0.1))))
+   (MELANGE_RUNTIME_VERSION 5.1.0))))
 
 (melange.emit
  (target x)
