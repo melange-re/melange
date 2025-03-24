@@ -50,34 +50,31 @@ let to_method_callback_type loc (mapper : Ast_traverse.map)
 let self_type_lit = "self_type"
 
 let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
-    lbl pat e : core_type =
-  let arity = Ast_pat.arity_of_fun pat e in
+    params body : core_type =
   let result = Typ.var ~loc method_name in
-  let self_type loc = Typ.var ~loc self_type_lit in
-
   let self_type =
-    let v = self_type loc in
     match alias_type with
-    | None -> v
-    | Some ty -> Typ.alias ~loc ty self_type_lit
+    | None -> Typ.var ~loc self_type_lit
+    | Some ty -> Typ.alias ~loc ty { loc; txt = self_type_lit }
   in
-  if arity = 0 then to_method_callback_type loc mapper Nolabel self_type result
-  else
-    let tyvars =
-      List.mapi
-        ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
-        (lbl :: Ast_pat.labels_of_fun e)
-    in
-    match tyvars with
-    | (label, x) :: rest ->
-        let method_rest =
-          List.fold_right
-            ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
-            rest ~init:result
-        in
-        to_method_callback_type loc mapper Nolabel self_type
-          (Typ.arrow ~loc label x method_rest)
-    | _ -> assert false
+  match Ast_pat.arity_of_fun params body with
+  | 0 -> to_method_callback_type loc mapper Nolabel self_type result
+  | _n -> (
+      let tyvars =
+        List.mapi
+          ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+          (Ast_pat.labels_of_fun params body)
+      in
+      match tyvars with
+      | (label, x) :: rest ->
+          let method_rest =
+            List.fold_right
+              ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+              rest ~init:result
+          in
+          to_method_callback_type loc mapper Nolabel self_type
+            (Typ.arrow ~loc label x method_rest)
+      | _ -> assert false)
 
 let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
     (first_arg : core_type) (typ : core_type) =
@@ -94,16 +91,16 @@ let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
         [ meth_type ]
   | None -> assert false
 
-let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
-    : core_type =
-  let arity = Ast_pat.arity_of_fun pat body in
+let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body :
+    core_type =
+  let arity = Ast_pat.arity_of_fun params body in
   let result = Typ.var ~loc method_name in
   if arity = 0 then to_method_type loc mapper Nolabel [%type: unit] result
   else
     let tyvars =
       List.mapi
         ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
-        (label :: Ast_pat.labels_of_fun body)
+        (Ast_pat.labels_of_fun params body)
     in
     match tyvars with
     | (label, x) :: rest ->

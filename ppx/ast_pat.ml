@@ -24,25 +24,64 @@
 
 open Import
 
-let is_unit_cont ~yes ~no p =
+let is_unit p =
   match p with
-  | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> yes
-  | _ -> no
+  | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> true
+  | _ -> false
 
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e] *)
-let arity_of_fun pat e =
-  let rec aux e =
-    match e.pexp_desc with
-    | Pexp_fun (_, _, _, e) -> 1 + aux e (*FIXME error on optional*)
-    | _ -> 0
+let arity_of_fun =
+  let rec arity_of_fun =
+    let arity_aux params ~init =
+      (* FIXME error on optional *)
+      List.fold_left ~init
+        ~f:(fun acc param ->
+          match param with
+          | { pparam_desc = Pparam_newtype _; _ } -> acc
+          | {
+           pparam_desc =
+             Pparam_val
+               ( _,
+                 _,
+                 {
+                   ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None);
+                   _;
+                 } );
+           _;
+          }
+            when acc = 0 ->
+              acc
+          | { pparam_desc = Pparam_val (_, _, _); _ } -> acc + 1)
+        params
+    in
+    fun acc params body ->
+      let base = arity_aux params ~init:acc in
+      match body with
+      | { pexp_desc = Pexp_function (params', _, Pfunction_body body); _ } ->
+          arity_of_fun base params' body
+      | _ -> base
   in
-  is_unit_cont ~yes:0 ~no:1 pat + aux e
+  fun params body -> arity_of_fun 0 params body
 
-let rec labels_of_fun e =
-  match e.pexp_desc with
-  | Pexp_fun (l, _, _, e) -> l :: labels_of_fun e
-  | _ -> []
+let labels_of_fun =
+  let rec labels_of_fun =
+    let lbls_aux params ~init =
+      List.fold_left ~init
+        ~f:(fun acc param ->
+          match param with
+          | { pparam_desc = Pparam_newtype _; _ } -> acc
+          | { pparam_desc = Pparam_val (l, _, _); _ } -> l :: acc)
+        params
+    in
+    fun acc params body ->
+      let base = lbls_aux params ~init:acc in
+      match body with
+      | { pexp_desc = Pexp_function (params', _, Pfunction_body body); _ } ->
+          labels_of_fun base params' body
+      | _ -> List.rev base
+  in
+  fun params body -> labels_of_fun [] params body
 
 let rec is_single_variable_pattern_conservative p =
   match p.ppat_desc with

@@ -128,11 +128,16 @@ let ocaml_object_as_js_object =
           match x.pcf_desc with
           | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
-              | Pexp_poly ({ pexp_desc = Pexp_fun (lbl, _, pat, e); _ }, None)
-                ->
+              | Pexp_poly
+                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                    None ) ->
+                  assert false
+              | Pexp_poly
+                  ( { pexp_desc = Pexp_function (args, _, Pfunction_body e); _ },
+                    None ) ->
                   let method_type =
-                    Ast_typ_uncurry.generate_arg_type x.pcf_loc mapper label.txt
-                      lbl pat e
+                    Ast_typ_uncurry.generate_arg_type ~loc:x.pcf_loc mapper
+                      label.txt args e
                   in
                   ( Of.tag label method_type :: label_attr_types,
                     if public_flag = Public then
@@ -180,24 +185,55 @@ let ocaml_object_as_js_object =
           | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
               | Pexp_poly
-                  (({ pexp_desc = Pexp_fun (ll, None, pat, e); _ } as f), None)
-                ->
+                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                    None ) ->
+                  assert false
+              | Pexp_poly
+                  ( ({
+                       pexp_desc = Pexp_function (params, _, Pfunction_body e);
+                       _;
+                     } as f),
+                    None ) ->
                   let alias_type =
                     if aliased then None else Some internal_obj_type
                   in
                   let label_type =
                     Ast_typ_uncurry.generate_method_type ?alias_type x.pcf_loc
-                      mapper label.txt ll pat e
+                      mapper label.txt params e
                   in
                   ( label :: labels,
                     label_type :: label_types,
                     {
                       f with
                       pexp_desc =
-                        (let f = Ast_pat.is_unit_cont pat ~yes:e ~no:f in
-                         Ast_uncurry_gen.to_method_callback loc mapper Nolabel
-                           self_pat f)
-                        (* the first argument is this*);
+                        (let f =
+                           let first_arg =
+                             match
+                               List.find_opt
+                                 ~f:(function
+                                   | { pparam_desc = Pparam_val _; _ } -> true
+                                   | { pparam_desc = Pparam_newtype _; _ } ->
+                                       false)
+                                 params
+                             with
+                             | Some { pparam_desc = Pparam_val (_, _, pat); _ }
+                               ->
+                                 pat
+                             | Some { pparam_desc = Pparam_newtype _; _ } | None
+                               ->
+                                 assert false
+                           in
+                           if Ast_pat.is_unit first_arg then e else f
+                         in
+                         Ast_uncurry_gen.to_method_callback ~loc mapper
+                           [
+                             {
+                               pparam_desc = Pparam_val (Nolabel, None, self_pat);
+                               pparam_loc = x.pcf_loc;
+                             };
+                           ]
+                           f)
+                        (* the first argument is this *);
                     }
                     :: exprs,
                     true )

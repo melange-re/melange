@@ -412,7 +412,7 @@ module Mapper = struct
             Ast_exp_apply.app_exp_mapper e (self, super#expression) fn args
         | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
             String_interp.transform e s ~loc ~delim
-        | Pexp_function cases -> (
+        | Pexp_function (_, _, Pfunction_cases (cases, _, _)) -> (
             (* {[ function [@mel.open]
                   | Not_found -> 0
                   | Invalid_argument -> 1
@@ -424,14 +424,14 @@ module Mapper = struct
             | true, pexp_attributes ->
                 Ast_mel_open.convert_mel_error_function e.pexp_loc self
                   pexp_attributes cases)
-        | Pexp_fun (label, _, pat, body) -> (
+        | Pexp_function (args, _, Pfunction_body body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with
             | Nothing, _ -> super#expression e
             | Uncurry _, pexp_attributes ->
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self label pat body;
+                    Ast_uncurry_gen.to_uncurry_fn ~loc:e.pexp_loc self args body;
                   pexp_attributes;
                 }
             | Method _, _ ->
@@ -449,7 +449,7 @@ module Mapper = struct
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_gen.to_method_callback e.pexp_loc self label pat
+                    Ast_uncurry_gen.to_method_callback ~loc:e.pexp_loc self args
                       body;
                   pexp_attributes;
                 })
@@ -581,6 +581,7 @@ module Mapper = struct
                   pvb_expr;
                   pvb_attributes;
                   pvb_loc;
+                  pvb_constraint
                 };
               ] ) -> (
             let attrs, found =
@@ -721,7 +722,7 @@ module Mapper = struct
                     Pstr_value
                       ( Nonrecursive,
                         Ast_tuple_pattern_flatten.value_bindings_mapper self
-                          [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ] );
+                          [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc; pvb_constraint } ] );
                 })
         | Pstr_value (r, vbs) ->
             {

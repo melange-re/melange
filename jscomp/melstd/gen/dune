@@ -2,4 +2,4 @@
  (name build_reserved)
  (preprocess
   (pps ppxlib.metaquot))
- (libraries ppxlib.ast))
+ (libraries ppxlib ppxlib.ast))

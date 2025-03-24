@@ -25,10 +25,9 @@
 open Import
 
 val to_uncurry_fn :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
-  Asttypes.arg_label ->
-  pattern ->
+  function_param list ->
   expression ->
   expression_desc
 (**
@@ -40,10 +39,9 @@ val to_uncurry_fn :
 *)
 
 val to_method_callback :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
-  Asttypes.arg_label ->
-  pattern ->
+  function_param list ->
   expression ->
   expression_desc
 (** syntax:
