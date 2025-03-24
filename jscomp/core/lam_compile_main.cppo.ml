@@ -100,7 +100,7 @@ let no_side_effects (rest : Lam_group.t list) : string option =
 
 
 let _d  = fun  s lam ->
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
   Lam_dump.dump s lam;
   let loc = Loc.of_pos __POS__ in
   Log.warn ~loc (Pp.textf "START CHECKING PASS %s" s);
@@ -127,7 +127,7 @@ let compile
   let export_ident_sets = Ident.Set.of_list export_idents in
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
     List.iter
       ~f:(fun id ->
         Log.warn
@@ -154,7 +154,7 @@ let compile
       |>  Lam_pass_exits.simplify_exits
       |> _d "simplify_exits"
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
       let () =
         Log.warn ~loc:(Loc.of_pos __POS__)
           (Pp.concat
@@ -198,7 +198,7 @@ let compile
        ; Lam_pass_remove_alias.simplify_alias meta lam) *)
     |> Lam_pass_exits.simplify_exits
     |> _d "simplify_lets"
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
     |> (fun lam ->
          Log.warn
            ~loc:(Loc.of_pos __POS__)
@@ -216,7 +216,7 @@ let compile
   in
   let groups = Lam_coercion.groups coerced_input in
 
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
   let () =
     Log.warn ~loc:(Loc.of_pos __POS__)
       (Pp.concat
@@ -239,7 +239,7 @@ let compile
   in
 #endif
   let maybe_pure = no_side_effects groups in
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
   let () =
     Log.warn ~loc:(Loc.of_pos __POS__)
       (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
@@ -251,7 +251,7 @@ let compile
     |> Js_output.concat
     |> Js_output.output_as_block
   in
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
   let () =
     Log.warn ~loc:(Loc.of_pos __POS__)
       (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))

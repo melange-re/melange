@@ -13,7 +13,7 @@
 open Melange_compiler_libs
 open Melstd
 
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
 let print_backtrace () =
   let raw_bt = Printexc.backtrace_slots (Printexc.get_raw_backtrace ()) in
   match raw_bt with
@@ -197,7 +197,7 @@ let bs_version_string =
   " (Using OCaml:" ^ Config.version ^ ")"
 
 let print_version_string () =
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
     print_string "DEV VERSION: ";
 #endif
     print_endline bs_version_string;
@@ -392,7 +392,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       `Error (false, msg)
     | x ->
       begin
-#ifndef BS_RELEASE_BUILD
+#ifndef MELANGE_RELEASE_BUILD
         print_backtrace ();
 #endif
         Location.report_exception ppf x;
