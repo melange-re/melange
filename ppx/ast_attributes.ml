@@ -133,81 +133,36 @@ let is_uncurried attr =
   | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
-let mel_get =
+let attr name payload =
   {
-    attr_name = { txt = "mel.get"; loc = Location.none };
-    attr_payload = PStr [];
+    attr_name = { txt = name; loc = Location.none };
+    attr_payload = PStr payload;
     attr_loc = Location.none;
   }
 
-let mel_get_index =
-  {
-    attr_name = { txt = "mel.get_index"; loc = Location.none };
-    attr_payload = PStr [];
-    attr_loc = Location.none;
-  }
+let mel_get = attr "mel.get" []
+let mel_get_index = attr "mel.get_index" []
+let mel_set = attr "mel.set" []
 
 let mel_get_arity =
-  {
-    attr_name = { txt = "internal.arity"; loc = Location.none };
-    attr_payload =
-      PStr
-        [
-          {
-            pstr_desc =
-              Pstr_eval
-                ( {
-                    pexp_loc = Location.none;
-                    pexp_loc_stack = [];
-                    pexp_attributes = [];
-                    pexp_desc =
-                      Pexp_constant (Pconst_integer (string_of_int 1, None));
-                  },
-                  [] );
-            pstr_loc = Location.none;
-          };
-        ];
-    attr_loc = Location.none;
-  }
+  attr "internal.arity"
+    [
+      Ast_builder.Default.pstr_eval ~loc:Location.none
+        (Ast_builder.Default.pexp_constant ~loc:Location.none
+           (Pconst_integer ("1", None)))
+        [];
+    ]
 
-let mel_set =
-  {
-    attr_name = { txt = "mel.set"; loc = Location.none };
-    attr_payload = PStr [];
-    attr_loc = Location.none;
-  }
-
-let internal_expansive =
-  let internal_expansive_label = "internal.expansive" in
-  {
-    attr_name = { txt = internal_expansive_label; loc = Location.none };
-    attr_payload = PStr [];
-    attr_loc = Location.none;
-  }
+let internal_expansive = attr "internal.expansive" []
 
 let mel_return_undefined =
-  {
-    attr_name = { txt = "mel.return"; loc = Location.none };
-    attr_payload =
-      PStr
-        [
-          {
-            pstr_desc =
-              Pstr_eval
-                ( {
-                    pexp_desc =
-                      Pexp_ident
-                        { txt = Lident "undefined_to_opt"; loc = Location.none };
-                    pexp_loc = Location.none;
-                    pexp_loc_stack = [];
-                    pexp_attributes = [];
-                  },
-                  [] );
-            pstr_loc = Location.none;
-          };
-        ];
-    attr_loc = Location.none;
-  }
+  attr "mel.return"
+    [
+      Ast_builder.Default.pstr_eval ~loc:Location.none
+        (Ast_builder.Default.pexp_ident ~loc:Location.none
+           { txt = Lident "undefined_to_opt"; loc = Location.none })
+        [];
+    ]
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
@@ -415,11 +370,11 @@ let has_mel_optional attrs : bool =
       | _ -> false)
     attrs
 
-let is_inline : attribute -> bool =
- fun { attr_name = { txt; loc = _ }; _ } ->
-  match txt with "mel.inline" -> true | _ -> false
-
-let has_inline_payload attrs = List.find_opt ~f:is_inline attrs
+let has_inline_payload =
+ fun attrs ->
+  List.find_opt
+    ~f:(fun { attr_name = { txt; loc = _ }; _ } -> txt = "mel.inline")
+    attrs
 
 let is_mel_as { attr_name = { txt; loc = _ }; _ } =
   match txt with "mel.as" -> true | _ -> false
@@ -436,14 +391,13 @@ let has_mel_as_payload attrs =
     ~init:([], None) attrs
 
 let ocaml_warning w =
-  {
-    attr_name = { txt = "ocaml.warning"; loc = Location.none };
-    attr_payload =
-      PStr
-        Ast_helper.
-          [ Str.eval (Exp.constant (Pconst_string (w, Location.none, None))) ];
-    attr_loc = Location.none;
-  }
+  attr "ocaml.warning"
+    [
+      Ast_builder.Default.pstr_eval ~loc:Location.none
+        (Ast_builder.Default.pexp_constant ~loc:Location.none
+           (Pconst_string (w, Location.none, None)))
+        [];
+    ]
 
 (* We disable warning 61 in Melange externals since they're substantially
    different from OCaml externals. This warning doesn't make sense for a JS
@@ -453,15 +407,11 @@ let ignored_extra_argument = ocaml_warning "-ignored-extra-argument"
 
 let mel_ffi =
  fun (t : Melange_ffi.External_ffi_types.t) ->
-  {
-    Parsetree.attr_name = { txt = "mel.internal.ffi"; loc = Location.none };
-    attr_loc = Location.none;
-    attr_payload =
-      PStr
-        [
-          Ast_helper.(
-            Str.eval
-              (Exp.constant
-                 (Const.string (Melange_ffi.External_ffi_types.to_string t))));
-        ];
-  }
+  attr "mel.internal.ffi"
+    [
+      Ast_builder.Default.pstr_eval ~loc:Location.none
+        (Ast_builder.Default.pexp_constant ~loc:Location.none
+           (Pconst_string
+              (Melange_ffi.External_ffi_types.to_string t, Location.none, None)))
+        [];
+    ]
