@@ -281,7 +281,7 @@ let prims_to_be_encoded (attrs : string list) =
   | _ :: x :: _ when first_marshal_char x -> false
   | _ -> true
 
-let partition_by_mel_ffi_attribute attrs =
+let partition_by_mel_ffi_attribute =
   let rec inner attrs acc st =
     match attrs with
     | ({
@@ -313,7 +313,7 @@ let partition_by_mel_ffi_attribute attrs =
     | x :: xs -> inner xs (x :: acc) st
     | [] -> (st, List.rev acc)
   in
-  inner attrs [] None
+  fun attrs -> inner attrs [] None
 
 (**
 
