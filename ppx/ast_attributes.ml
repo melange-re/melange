@@ -220,27 +220,32 @@ let iter_process_mel_string_or_int_as (attrs : attributes) =
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
    inconsistency in arity *)
-let iter_process_mel_string_int_unwrap_uncurry attrs =
-  let st = ref `Nothing in
-  let assign v ({ attr_name = { loc; _ }; _ } as attr) =
-    if !st = `Nothing then (
-      Mel_ast_invariant.mark_used_mel_attribute attr;
-      st := v)
-    else Error.err ~loc Conflict_attributes
+let iter_process_mel_string_int_unwrap_uncurry =
+  let assign ({ attr_name = { loc; _ }; _ } as attr) st v =
+    match st with
+    | `Nothing ->
+        Mel_ast_invariant.mark_used_mel_attribute attr;
+        v
+    | _ -> Error.err ~loc Conflict_attributes
   in
-  List.iter
-    ~f:(fun
-        ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr) ->
-      match txt with
-      | "mel.string" -> assign `String attr
-      | "mel.int" -> assign `Int attr
-      | "mel.ignore" -> assign `Ignore attr
-      | "mel.unwrap" -> assign `Unwrap attr
-      | "mel.uncurry" ->
-          assign (`Uncurry (Ast_payload.is_single_int payload)) attr
-      | _ -> ())
-    attrs;
-  !st
+  let rec inner attrs st =
+    match attrs with
+    | ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr)
+      :: rest ->
+        let st' =
+          match txt with
+          | "mel.string" -> assign attr st `String
+          | "mel.int" -> assign attr st `Int
+          | "mel.ignore" -> assign attr st `Ignore
+          | "mel.unwrap" -> assign attr st `Unwrap
+          | "mel.uncurry" ->
+              assign attr st (`Uncurry (Ast_payload.is_single_int payload))
+          | _ -> st
+        in
+        inner rest st'
+    | [] -> st
+  in
+  fun attrs -> inner attrs `Nothing
 
 let iter_process_mel_string_as =
   let rec inner attrs st =
