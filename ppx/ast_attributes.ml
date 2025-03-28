@@ -24,7 +24,7 @@
 
 open Import
 
-type ('a, 'b) st = { get : 'a option; set : 'b option }
+type st = { get : (bool * bool) option; set : [ `Get | `No_get ] option }
 
 let assert_bool_lit (e : expression) =
   match e.pexp_desc with

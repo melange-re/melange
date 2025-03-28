@@ -24,13 +24,10 @@
 
 open Import
 
-type ('a, 'b) st = { get : 'a option; set : 'b option }
+type st = { get : (bool * bool) option; set : [ `Get | `No_get ] option }
 
 val process_method_attributes_rev :
-  attribute list ->
-  ( (bool * bool, [ `Get | `No_get ]) st * attribute list,
-    Location.t * string )
-  result
+  attribute list -> (st * attribute list, Location.t * string) result
 
 type attr_kind =
   | Nothing
