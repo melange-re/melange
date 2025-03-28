@@ -343,22 +343,24 @@ let rs_externals attrs pval_prim =
                 (List.map ~f:(fun { attr_name = { txt; _ }; _ } -> txt) attrs)
               || prims_to_be_encoded pval_prim))
 
-let iter_process_mel_int_as attrs =
-  let st = ref None in
-  List.iter
-    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
-      match txt with
-      | "mel.as" ->
-          if !st = None then (
+let iter_process_mel_int_as =
+  let rec inner attrs acc =
+    match attrs with
+    | ({ attr_name = { txt = "mel.as"; loc }; attr_payload = payload; _ } as
+       attr)
+      :: rest -> (
+        match acc with
+        | None -> (
             match Ast_payload.is_single_int payload with
             | None -> Error.err ~loc Expect_int_literal
             | Some _ as v ->
                 Mel_ast_invariant.mark_used_mel_attribute attr;
-                st := v)
-          else Error.err ~loc Duplicated_mel_as
-      | _ -> ())
-    attrs;
-  !st
+                inner rest v)
+        | Some _ -> Error.err ~loc Duplicated_mel_as)
+    | _ :: rest -> inner rest acc
+    | [] -> acc
+  in
+  fun attrs -> inner attrs None
 
 let has_mel_optional attrs : bool =
   List.exists
