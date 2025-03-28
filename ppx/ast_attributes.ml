@@ -166,56 +166,60 @@ let mel_return_undefined =
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
-let iter_process_mel_string_or_int_as (attrs : attributes) =
-  let st = ref None in
-  List.iter
-    ~f:(fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
-      match txt with
-      | "mel.as" ->
-          if !st = None then (
-            Mel_ast_invariant.mark_used_mel_attribute attr;
-            match Ast_payload.is_single_int payload with
+let iter_process_mel_string_or_int_as =
+  let rec inner attrs st =
+    match attrs with
+    | ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) :: rest
+      -> (
+        match txt with
+        | "mel.as" -> (
+            match st with
             | None -> (
-                match payload with
-                | PStr
-                    [
-                      {
-                        pstr_desc =
-                          Pstr_eval
-                            ( {
-                                pexp_desc =
-                                  Pexp_constant
-                                    (Pconst_string
-                                       (s, _, ((None | Some "json") as dec)));
-                                pexp_loc;
-                                _;
-                              },
-                              _ );
-                        _;
-                      };
-                    ] ->
-                    if dec = None then st := Some (Str s)
-                    else (
-                      (match
-                         Melange_ffi.Classify_function.classify
-                           ~check:
-                             ( pexp_loc,
-                               Melange_ffi.Flow_ast_utils.flow_deli_offset dec
-                             )
-                           s
-                       with
-                      | Js_literal _ -> ()
-                      | _ ->
-                          Location.raise_errorf ~loc:pexp_loc
-                            "`[@mel.as {json| ... |json}]' only supports \
-                             JavaScript literals");
-                      st := Some (Js_literal_str s))
-                | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
-            | Some v -> st := Some (Int v))
-          else Error.err ~loc Duplicated_mel_as
-      | _ -> ())
-    attrs;
-  !st
+                Mel_ast_invariant.mark_used_mel_attribute attr;
+                match Ast_payload.is_single_int payload with
+                | None -> (
+                    match payload with
+                    | PStr
+                        [
+                          {
+                            pstr_desc =
+                              Pstr_eval
+                                ( {
+                                    pexp_desc =
+                                      Pexp_constant
+                                        (Pconst_string
+                                           (s, _, ((None | Some "json") as dec)));
+                                    pexp_loc;
+                                    _;
+                                  },
+                                  _ );
+                            _;
+                          };
+                        ] -> (
+                        match dec with
+                        | None -> inner rest (Some (Str s))
+                        | Some _ ->
+                            (match
+                               Melange_ffi.Classify_function.classify
+                                 ~check:
+                                   ( pexp_loc,
+                                     Melange_ffi.Flow_ast_utils.flow_deli_offset
+                                       dec )
+                                 s
+                             with
+                            | Js_literal _ -> ()
+                            | _ ->
+                                Location.raise_errorf ~loc:pexp_loc
+                                  "`[@mel.as {json| ... |json}]' only supports \
+                                   JavaScript literals");
+                            inner rest (Some (Js_literal_str s)))
+                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
+                | Some v -> inner rest (Some (Int v)))
+            | Some _ -> Error.err ~loc Duplicated_mel_as)
+        | _ -> inner rest st)
+    | [] -> st
+  in
+  fun (attrs : attributes) -> inner attrs None
 
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
