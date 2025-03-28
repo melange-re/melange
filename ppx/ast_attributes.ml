@@ -282,39 +282,38 @@ let prims_to_be_encoded (attrs : string list) =
   | _ -> true
 
 let partition_by_mel_ffi_attribute attrs =
-  let st = ref None in
-  let _ffi, rest =
-    List.partition attrs ~f:(function
-      | {
-          Parsetree.attr_name = { txt = "mel.internal.ffi"; loc };
-          attr_payload;
-          _;
-        } -> (
-          match !st with
-          | Some _ ->
-              Location.raise_errorf ~loc
-                "Duplicate `[@mel.internal.ffi \"..\"]' annotation"
-          | None -> (
-              match attr_payload with
-              | PStr
-                  [
-                    {
-                      pstr_desc =
-                        Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
-                      _;
-                    };
-                  ] -> (
-                  match const with
-                  | Pconst_string (s, _, _) ->
-                      st := Some s;
-                      true
-                  | _ -> false)
-              | _ ->
-                  Location.raise_errorf ~loc
-                    "`[@mel.internal.ffi \"..\"]' annotation must be a string"))
-      | _ -> false)
+  let rec inner attrs acc st =
+    match attrs with
+    | ({
+         Parsetree.attr_name = { txt = "mel.internal.ffi"; loc };
+         attr_payload;
+         _;
+       } as x)
+      :: rest -> (
+        match st with
+        | None -> (
+            match attr_payload with
+            | PStr
+                [
+                  {
+                    pstr_desc =
+                      Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+                    _;
+                  };
+                ] -> (
+                match const with
+                | Pconst_string (s, _, _) -> inner rest acc (Some s)
+                | _ -> inner rest (x :: acc) st)
+            | _ ->
+                Location.raise_errorf ~loc
+                  "`[@mel.internal.ffi \"..\"]' annotation must be a string")
+        | Some _ ->
+            Location.raise_errorf ~loc
+              "Duplicate `[@mel.internal.ffi \"..\"]' annotation")
+    | x :: xs -> inner xs (x :: acc) st
+    | [] -> (st, List.rev acc)
   in
-  (!st, rest)
+  inner attrs [] None
 
 (**
 
