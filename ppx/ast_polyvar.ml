@@ -28,7 +28,9 @@ let is_enum_polyvar =
   let is_enum row_fields =
     List.for_all
       ~f:(fun (x : row_field) ->
-        match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
+        match x.prf_desc with
+        | Rtag (_, true, []) -> true
+        | Rtag _ | Rinherit _ -> false)
       row_fields
   in
   fun (ty : type_declaration) ->
@@ -36,7 +38,7 @@ let is_enum_polyvar =
     | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
       when is_enum row_fields ->
         Some row_fields
-    | _ -> None
+    | Some _ | None -> None
 
 let map_row_fields_into_ints (row_fields : row_field list) ~loc
     ~allow_no_payload =
@@ -46,20 +48,16 @@ let map_row_fields_into_ints (row_fields : row_field list) ~loc
         match rtag.prf_desc with
         | Rtag ({ txt; _ }, true, []) ->
             let i =
-              match
-                Ast_attributes.iter_process_mel_int_as rtag.prf_attributes
-              with
-              | Some i -> i
-              | None -> i
+              Option.value
+                (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
+                ~default:i
             in
             (i + 1, (txt, i) :: acc)
         | Rtag ({ txt; _ }, _, _) when allow_no_payload ->
             let i =
-              match
-                Ast_attributes.iter_process_mel_int_as rtag.prf_attributes
-              with
-              | Some i -> i
-              | None -> i
+              Option.value
+                (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
+                ~default:i
             in
             (i + 1, (txt, i) :: acc)
         | _ -> Error.err ~loc Invalid_mel_int_type)
@@ -99,10 +97,10 @@ let map_row_fields_into_strings (row_fields : row_field list) ~loc
   | `Nothing -> Error.err ~loc Invalid_mel_string_type
   | `Null | `NonNull -> (
       let has_payload = case = `NonNull in
-      let descr = if !has_mel_as then Some result else None in
-      match (has_payload, descr) with
-      | false, None ->
+      match (has_payload, !has_mel_as) with
+      | false, false ->
           Mel_ast_invariant.warn ~loc Redundant_mel_string;
           Melange_ffi.External_arg_spec.Nothing
-      | false, Some descr -> Poly_var_string { descr }
-      | true, _ -> Poly_var { descr })
+      | false, true -> Poly_var_string { descr = result }
+      | true, has_mel_as ->
+          Poly_var { descr = (if has_mel_as then Some result else None) })
