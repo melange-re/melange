@@ -3,6 +3,10 @@ Unreleased
 
 - Support `Sys.opaque_identity` to turn off optimizations
   ([#1276](https://github.com/melange-re/melange/pull/1276))
+
+5.1.0-53 2025-03-23
+---------------
+
 - Update JS reserved keywords
   ([#1338](https://github.com/melange-re/melange/pull/1338))
 - Remove errors for `bs.*` and non-namespaced attributes
