@@ -66,90 +66,84 @@ module Core_type = struct
   let is_arity_one ty = get_curry_arity ty = 1
 end
 
-let emit_external_warnings : Ast_iterator.iterator =
-  let has_mel_attributes attrs =
-    Melange_ffi.External_ffi_attributes.has_mel_attributes
-      (List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt) attrs)
+let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
+  let emit_external_warnings =
+    let has_mel_attributes attrs =
+      Melange_ffi.External_ffi_attributes.has_mel_attributes
+        (List.map ~f:(fun (attr: Parsetree.attribute) -> attr.attr_name.txt) attrs)
+    in
+    let print_unprocessed_alert ~loc =
+      Location.prerr_alert loc
+        {
+          Warnings.kind = "unprocessed";
+          message =
+            "`[@mel.*]' attributes found in external declaration. Did you forget \
+             to preprocess with `melange.ppx'?";
+          def = Location.none;
+          use = loc;
+        }
+    in
+    let print_unprocessed_uncurried_alert ~loc =
+      Location.prerr_alert loc
+        {
+          Warnings.kind = "unprocessed";
+          message =
+            "Found uncurried (`[@u]') attribute. Did you forget to preprocess \
+             with `melange.ppx'?";
+          def = Location.none;
+          use = loc;
+        }
+    in
+
+    let super = Ast_iterator.default_iterator in
+    {
+      super with
+      signature_item = (fun self sigi ->
+          match sigi.psig_desc with
+          | Psig_value { pval_attributes; pval_loc; _ } ->
+              if has_mel_attributes pval_attributes then
+                print_unprocessed_alert ~loc:pval_loc
+              else super.signature_item self sigi
+          | _ -> super.signature_item self sigi);
+      expr = (fun self a ->
+          (match
+             List.find_opt
+               ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt = "u")
+               a.pexp_attributes
+           with
+          | Some { attr_name = { loc; _ }; _ } ->
+              print_unprocessed_uncurried_alert ~loc
+          | None -> ());
+
+          match a.pexp_desc with
+          | Pexp_constant const -> check_constant ~loc:a.pexp_loc `expr const
+          | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
+            ->
+              if
+                List.mem op ~set:Melange_ffi.External_ffi_types.Literals.infix_ops
+              then print_unprocessed_alert ~loc
+          | _ -> super.expr self a);
+      value_description = (fun self v ->
+          match v with
+          | ({ pval_loc; pval_prim = "%identity" :: _; pval_type; _ } :
+              Parsetree.value_description)
+            when not (Core_type.is_arity_one pval_type) ->
+              Location.raise_errorf ~loc:pval_loc
+                "The `%%identity' primitive type must take a single argument ('a \
+                 -> 'b)"
+          | { pval_attributes; pval_loc; _ } ->
+              if has_mel_attributes pval_attributes then
+                print_unprocessed_alert ~loc:pval_loc
+              else super.value_description self v);
+      pat = (fun self (pat : Parsetree.pattern) ->
+          match pat.ppat_desc with
+          | Ppat_constant constant ->
+              check_constant ~loc:pat.ppat_loc `pat constant
+          | Ppat_record ([], _) ->
+              Location.raise_errorf ~loc:pat.ppat_loc
+                "Empty record pattern is not supported"
+          | _ -> super.pat self pat);
+    }
   in
-  let print_unprocessed_alert ~loc =
-    Location.prerr_alert loc
-      {
-        Warnings.kind = "unprocessed";
-        message =
-          "`[@mel.*]' attributes found in external declaration. Did you forget \
-           to preprocess with `melange.ppx'?";
-        def = Location.none;
-        use = loc;
-      }
-  in
-  let print_unprocessed_uncurried_alert ~loc =
-    Location.prerr_alert loc
-      {
-        Warnings.kind = "unprocessed";
-        message =
-          "Found uncurried (`[@u]') attribute. Did you forget to preprocess \
-           with `melange.ppx'?";
-        def = Location.none;
-        use = loc;
-      }
-  in
-
-  let super = Ast_iterator.default_iterator in
-  {
-    super with
-    signature_item =
-      (fun self sigi ->
-        match sigi.psig_desc with
-        | Psig_value { pval_attributes; pval_loc; _ } ->
-            if has_mel_attributes pval_attributes then
-              print_unprocessed_alert ~loc:pval_loc
-            else super.signature_item self sigi
-        | _ -> super.signature_item self sigi);
-    expr =
-      (fun self a ->
-        (match
-           List.find_opt
-             ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt = "u")
-             a.pexp_attributes
-         with
-        | Some { attr_name = { loc; _ }; _ } ->
-            print_unprocessed_uncurried_alert ~loc
-        | None -> ());
-
-        match a.pexp_desc with
-        | Pexp_constant const -> check_constant ~loc:a.pexp_loc `expr const
-        | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
-          ->
-            if
-              List.mem op ~set:Melange_ffi.External_ffi_types.Literals.infix_ops
-            then print_unprocessed_alert ~loc
-        | _ -> super.expr self a);
-    value_description =
-      (fun self v ->
-        match v with
-        | ({ pval_loc; pval_prim = "%identity" :: _; pval_type; _ } :
-            Parsetree.value_description)
-          when not (Core_type.is_arity_one pval_type) ->
-            Location.raise_errorf ~loc:pval_loc
-              "The `%%identity' primitive type must take a single argument ('a \
-               -> 'b)"
-        | { pval_attributes; pval_loc; _ } ->
-            if has_mel_attributes pval_attributes then
-              print_unprocessed_alert ~loc:pval_loc
-            else super.value_description self v);
-    pat =
-      (fun self (pat : Parsetree.pattern) ->
-        match pat.ppat_desc with
-        | Ppat_constant constant ->
-            check_constant ~loc:pat.ppat_loc `pat constant
-        | Ppat_record ([], _) ->
-            Location.raise_errorf ~loc:pat.ppat_loc
-              "Empty record pattern is not supported"
-        | _ -> super.pat self pat);
-  }
-
-let emit_external_warnings_on_structure (stru : Parsetree.structure) =
-  emit_external_warnings.structure emit_external_warnings stru
-
-let emit_external_warnings_on_signature (sigi : Parsetree.signature) =
-  emit_external_warnings.signature emit_external_warnings sigi
+  emit_external_warnings.structure emit_external_warnings,
+  emit_external_warnings.signature emit_external_warnings
