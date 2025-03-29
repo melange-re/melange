@@ -69,11 +69,11 @@ let pp_error fmt err =
   | Invalid_syntax_of_var s ->
       "`" ^ s ^ "' is not a valid syntax of interpolated identifer"
 
-let valid_lead_identifier_char x =
-  match x with 'a' .. 'z' | '_' -> true | _ -> false
+let valid_lead_identifier_char = function
+  | 'a' .. 'z' | '_' -> true
+  | _ -> false
 
-let valid_identifier_char x =
-  match x with
+let valid_identifier_char = function
   | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '\'' -> true
   | _ -> false
 
@@ -100,23 +100,23 @@ let valid_identifier =
    if there is no line offset. Note {|{j||} border will never trigger a new
    line *)
 let update_position border { lnum; offset; byte_bol } (pos : Lexing.position) =
-  if lnum = 0 then { pos with pos_cnum = pos.pos_cnum + border + offset }
-    (* When no newline, the column number is [border + offset] *)
-  else
-    {
-      pos with
-      pos_lnum = pos.pos_lnum + lnum;
-      pos_bol = pos.pos_cnum + border + byte_bol;
-      pos_cnum = pos.pos_cnum + border + byte_bol + offset;
-      (* when newline, the column number is [offset] *)
-    }
+  match lnum with
+  | 0 -> { pos with pos_cnum = pos.pos_cnum + border + offset }
+  | _ ->
+      (* When no newline, the column number is [border + offset] *)
+      {
+        pos with
+        pos_lnum = pos.pos_lnum + lnum;
+        pos_bol = pos.pos_cnum + border + byte_bol;
+        pos_cnum = pos.pos_cnum + border + byte_bol + offset;
+        (* when newline, the column number is [offset] *)
+      }
 
 let update border start finish (loc : Location.t) =
-  let start_pos = loc.loc_start in
   {
     loc with
-    loc_start = update_position border start start_pos;
-    loc_end = update_position border finish start_pos;
+    loc_start = update_position border start loc.loc_start;
+    loc_end = update_position border finish loc.loc_start;
   }
 
 let pos_error cxt ~loc error =
@@ -136,38 +136,41 @@ let add_var_segment cxt loc loffset roffset =
   let next_loc =
     { lnum = cxt.pos_lnum; offset = loc - cxt.pos_bol; byte_bol = cxt.byte_bol }
   in
-  if valid_identifier content then (
-    cxt.segments <-
-      {
-        start = cxt.segment_start;
-        finish = next_loc;
-        kind = Var (loffset, roffset);
-        content;
-      }
-      :: cxt.segments;
-    cxt.segment_start <- next_loc)
-  else
-    let cxt =
-      match String.trim content with
-      | "" ->
-          (* Move the position back 2 characters "$(" if this is the empty
+  match valid_identifier content with
+  | true ->
+      cxt.segments <-
+        {
+          start = cxt.segment_start;
+          finish = next_loc;
+          kind = Var (loffset, roffset);
+          content;
+        }
+        :: cxt.segments;
+      cxt.segment_start <- next_loc
+  | false ->
+      let cxt =
+        match String.trim content with
+        | "" ->
+            (* Move the position back 2 characters "$(" if this is the empty
              interpolation. *)
-          {
-            cxt with
-            segment_start =
-              {
-                cxt.segment_start with
-                offset =
-                  (match cxt.segment_start.offset with 0 -> 0 | n -> n - 3);
-                byte_bol =
-                  (match cxt.segment_start.byte_bol with 0 -> 0 | n -> n - 3);
-              };
-            pos_bol = cxt.pos_bol + 3;
-            byte_bol = cxt.byte_bol + 3;
-          }
-      | _ -> cxt
-    in
-    pos_error cxt ~loc (Invalid_syntax_of_var content)
+            {
+              cxt with
+              segment_start =
+                {
+                  cxt.segment_start with
+                  offset =
+                    (match cxt.segment_start.offset with 0 -> 0 | n -> n - 3);
+                  byte_bol =
+                    (match cxt.segment_start.byte_bol with
+                    | 0 -> 0
+                    | n -> n - 3);
+                };
+              pos_bol = cxt.pos_bol + 3;
+              byte_bol = cxt.byte_bol + 3;
+            }
+        | _ -> cxt
+      in
+      pos_error cxt ~loc (Invalid_syntax_of_var content)
 
 let add_str_segment cxt loc =
   let content = Buffer.contents cxt.buf in
@@ -211,10 +214,10 @@ let rec check_and_transform loc s byte_offset ({ s_len; buf; _ } as cxt) =
    in the future for example
    let f = [%fn{| $x + $y = $x_add_y |}] *)
 and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
-  let v = ref offset in
   if not (offset < s_len && valid_lead_identifier_char s.[offset]) then
     pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
-  else (
+  else
+    let v = ref offset in
     while !v < s_len && valid_identifier_char s.[!v] do
       (* TODO *)
       let cur_char = s.[!v] in
@@ -224,7 +227,7 @@ and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
     let added_length = !v - offset in
     let loc = added_length + loc in
     add_var_segment cxt loc 1 0;
-    check_and_transform loc s (added_length + offset) cxt)
+    check_and_transform loc s (added_length + offset) cxt
 
 and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
   let v = ref offset in
@@ -249,35 +252,27 @@ let rec handle_segments =
   let concat_ident : Longident.t = Ldot (Lident "Stdlib", "^") in
   let escaped_js_delimiter =
     (* syntax not allowed at the user level *)
-    let unescaped_js_delimiter = "js" in
-    Some unescaped_js_delimiter
+    Some "js"
   in
   let merge_loc (l : Location.t) (r : Location.t) =
     if l.loc_ghost then r
     else if r.loc_ghost then l
-    else
-      match (l, r) with
-      | { loc_start; _ }, { loc_end; _ } (* TODO: improve*) ->
-          { loc_start; loc_end; loc_ghost = false }
+    else { loc_start = l.loc_start; loc_end = r.loc_end; loc_ghost = false }
   in
-  let aux loc segment =
-    match segment with
-    | { start; finish; kind; content } -> (
-        match kind with
-        | String ->
-            let loc = update border start finish loc in
-            Exp.constant (Pconst_string (content, loc, escaped_js_delimiter))
-        | Var (soffset, foffset) ->
-            let loc =
-              {
-                loc with
-                loc_start =
-                  update_position (soffset + border) start loc.loc_start;
-                loc_end =
-                  update_position (foffset + border) finish loc.loc_start;
-              }
-            in
-            Exp.ident ~loc { loc; txt = Lident content })
+  let aux loc { start; finish; kind; content } =
+    match kind with
+    | String ->
+        let loc = update border start finish loc in
+        Exp.constant (Pconst_string (content, loc, escaped_js_delimiter))
+    | Var (soffset, foffset) ->
+        let loc =
+          {
+            loc with
+            loc_start = update_position (soffset + border) start loc.loc_start;
+            loc_end = update_position (foffset + border) finish loc.loc_start;
+          }
+        in
+        Exp.ident ~loc { loc; txt = Lident content }
   in
   let concat_exp a_loc x ~(lhs : expression) =
     let loc = merge_loc a_loc lhs.pexp_loc in
@@ -298,11 +293,10 @@ let transform =
     match String.equal delim unescaped_j_delimiter with
     | true ->
         let s_len = String.length s in
-        let buf = Buffer.create (s_len * 2) in
         let cxt =
           {
             segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
-            buf;
+            buf = Buffer.create (s_len * 2);
             s_len;
             segments = [];
             pos_lnum = 0;
@@ -330,11 +324,10 @@ module Private = struct
 
   let transform_test s =
     let s_len = String.length s in
-    let buf = Buffer.create (s_len * 2) in
     let cxt =
       {
         segment_start = { lnum = 0; offset = 0; byte_bol = 0 };
-        buf;
+        buf = Buffer.create (s_len * 2);
         s_len;
         segments = [];
         pos_lnum = 0;
