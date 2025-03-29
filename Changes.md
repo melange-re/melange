@@ -3,6 +3,9 @@ Unreleased
 
 - Support `Sys.opaque_identity` to turn off optimizations
   ([#1276](https://github.com/melange-re/melange/pull/1276))
+- Upgrade the Melange JS parser to [Flow
+  v0.266.0](https://github.com/facebook/flow/releases/tag/v0.266.0)
+  ([#1380](https://github.com/melange-re/melange/pull/1380))
 
 5.1.0-53 2025-03-23
 ---------------
