@@ -11226,25 +11226,6 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
-  const parse_or_aux = function (calc, v) {
-    const e = token(undefined);
-    if (/* tag */ typeof e === "number" || typeof e === "string") {
-      if (e === /* BARBAR */ 8) {
-        const calc$1 = calc && !v;
-        const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-        if (v) {
-          return true;
-        } else {
-          return b;
-        }
-      }
-      push(e);
-      return v;
-    } else {
-      push(e);
-      return v;
-    }
-  };
   const parse_and_aux = function (calc, v) {
     const e = token(undefined);
     if (/* tag */ typeof e === "number" || typeof e === "string") {
@@ -11405,6 +11386,25 @@ function directive_parse(token_with_comments, lexbuf) {
               _2: curr_loc
             });
       }
+    }
+  };
+  const parse_or_aux = function (calc, v) {
+    const e = token(undefined);
+    if (/* tag */ typeof e === "number" || typeof e === "string") {
+      if (e === /* BARBAR */ 8) {
+        const calc$1 = calc && !v;
+        const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+        if (v) {
+          return true;
+        } else {
+          return b;
+        }
+      }
+      push(e);
+      return v;
+    } else {
+      push(e);
+      return v;
     }
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
@@ -12987,10 +12987,6 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
   };
 }
 
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
-}
-
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
@@ -13045,6 +13041,10 @@ function string(lexbuf) {
         continue;
     }
   };
+}
+
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function at_bol(lexbuf) {
