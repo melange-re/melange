@@ -1,11 +1,13 @@
 { melange
 , lib
+, binaryen
 , buildDunePackage
 , cppo
 , menhir
 , nodejs
 , js_of_ocaml
 , js_of_ocaml-compiler
+, wasm_of_ocaml-compiler
 , reason
 , reason-react-ppx
 , melange-compiler-libs-vendor-dir
@@ -40,6 +42,19 @@ buildDunePackage {
   '';
 
   doCheck = true;
-  nativeBuildInputs = [ cppo menhir nodejs js_of_ocaml ];
-  propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
+  nativeBuildInputs = [
+    binaryen
+    cppo
+    menhir
+    nodejs
+    js_of_ocaml
+    wasm_of_ocaml-compiler
+  ];
+  propagatedBuildInputs = [
+    js_of_ocaml-compiler
+    wasm_of_ocaml-compiler
+    melange
+    reason
+    reason-react-ppx
+  ];
 }
