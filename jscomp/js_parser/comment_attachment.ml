@@ -539,6 +539,8 @@ let statement_add_comments
       DeclareModule { s with DeclareModule.comments = merge_comments comments }
     | DeclareModuleExports ({ DeclareModuleExports.comments; _ } as s) ->
       DeclareModuleExports { s with DeclareModuleExports.comments = merge_comments comments }
+    | DeclareNamespace ({ DeclareNamespace.comments; _ } as s) ->
+      DeclareNamespace { s with DeclareNamespace.comments = merge_comments comments }
     | DeclareTypeAlias ({ TypeAlias.comments; _ } as s) ->
       DeclareTypeAlias { s with TypeAlias.comments = merge_comments comments }
     | DeclareOpaqueType ({ OpaqueType.comments; _ } as s) ->
@@ -571,6 +573,8 @@ let statement_add_comments
       InterfaceDeclaration { s with Interface.comments = merge_comments comments }
     | Labeled ({ Labeled.comments; _ } as s) ->
       Labeled { s with Labeled.comments = merge_comments comments }
+    | Match ({ Match.comments; _ } as s) ->
+      Match { s with Match.comments = merge_comments comments }
     | Return ({ Return.comments; _ } as s) ->
       Return { s with Return.comments = merge_comments comments }
     | Switch ({ Switch.comments; _ } as s) ->
@@ -740,6 +744,16 @@ let object_pattern_property_comment_bounds loc property =
   let collector = new comment_bounds_collector ~loc in
   ignore (collector#pattern_object_p property);
   collect_without_trailing_line_comment collector
+
+let match_expression_case_comment_bounds (loc, case) =
+  let collector = new comment_bounds_collector ~loc in
+  ignore (collector#match_case ~on_case_body:collector#expression (loc, case));
+  collector#comment_bounds
+
+let match_statement_case_comment_bounds (loc, case) =
+  let collector = new comment_bounds_collector ~loc in
+  ignore (collector#match_case ~on_case_body:collector#statement (loc, case));
+  collector#comment_bounds
 
 let switch_case_comment_bounds (loc, case) =
   let collector = new comment_bounds_collector ~loc in

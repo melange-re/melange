@@ -5,75 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *)
 
-module Ast = Flow_ast
 open Token
 open Parser_common
 open Parser_env
 open Flow_ast
 open Comment_attachment
 
-module type DECLARATION = sig
-  val async : env -> bool * Loc.t Comment.t list
-
-  val generator : env -> bool * Loc.t Comment.t list
-
-  val variance : env -> parse_readonly:bool -> bool -> bool -> Loc.t Variance.t option
-
-  val function_params : await:bool -> yield:bool -> env -> (Loc.t, Loc.t) Ast.Function.Params.t
-
-  val function_body :
-    env ->
-    async:bool ->
-    generator:bool ->
-    expression:bool ->
-    simple_params:bool ->
-    (Loc.t, Loc.t) Function.body * bool
-
-  val check_unique_formal_parameters : env -> (Loc.t, Loc.t) Ast.Function.Params.t -> unit
-
-  val check_unique_component_formal_parameters :
-    env -> (Loc.t, Loc.t) Ast.Statement.ComponentDeclaration.Params.t -> unit
-
-  val strict_function_post_check :
-    env ->
-    contains_use_strict:bool ->
-    (Loc.t, Loc.t) Identifier.t option ->
-    (Loc.t, Loc.t) Ast.Function.Params.t ->
-    unit
-
-  val strict_component_post_check :
-    env ->
-    contains_use_strict:bool ->
-    (Loc.t, Loc.t) Identifier.t ->
-    (Loc.t, Loc.t) Ast.Statement.ComponentDeclaration.Params.t ->
-    unit
-
-  val let_ :
-    env ->
-    (Loc.t, Loc.t) Statement.VariableDeclaration.Declarator.t list
-    * Loc.t Ast.Comment.t list
-    * (Loc.t * Parse_error.t) list
-
-  val const :
-    env ->
-    (Loc.t, Loc.t) Statement.VariableDeclaration.Declarator.t list
-    * Loc.t Ast.Comment.t list
-    * (Loc.t * Parse_error.t) list
-
-  val var :
-    env ->
-    (Loc.t, Loc.t) Statement.VariableDeclaration.Declarator.t list
-    * Loc.t Ast.Comment.t list
-    * (Loc.t * Parse_error.t) list
-
-  val _function : env -> (Loc.t, Loc.t) Statement.t
-
-  val enum_declaration : ?leading:Loc.t Comment.t list -> env -> (Loc.t, Loc.t) Statement.t
-
-  val component : env -> (Loc.t, Loc.t) Statement.t
-end
-
-module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DECLARATION = struct
+module Declaration (Parse : Parser_common.PARSER) (Type : Parser_common.TYPE) :
+  Parser_common.DECLARATION = struct
   module Enum = Enum_parser.Enum (Parse)
 
   let check_param =
@@ -371,12 +310,22 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DE
   let _function =
     with_loc (fun env ->
         let (async, leading_async) = async env in
-        let (sig_loc, (generator, tparams, id, params, return, predicate, leading)) =
+        let (sig_loc, (generator, effect_, tparams, id, params, return, predicate, leading)) =
           with_loc
             (fun env ->
               let leading_function = Peek.comments env in
-              Expect.token env T_FUNCTION;
-              let (generator, leading_generator) = generator env in
+              let (effect_, (generator, leading_generator)) =
+                match Peek.token env with
+                | T_FUNCTION ->
+                  Eat.token env;
+                  (Function.Arbitrary, generator env)
+                | T_IDENTIFIER { raw = "hook"; _ } when not async ->
+                  Eat.token env;
+                  (Function.Hook, (false, []))
+                | t ->
+                  Expect.error env t;
+                  (Function.Arbitrary, generator env)
+              in
               let leading = List.concat [leading_async; leading_function; leading_generator] in
               let (tparams, id) =
                 match (in_export_default env, Peek.token env) with
@@ -423,7 +372,7 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DE
                 | None -> (return_annotation_remove_trailing env return, predicate)
                 | Some _ -> (return, predicate_remove_trailing env predicate)
               in
-              (generator, tparams, id, params, return, predicate, leading))
+              (generator, effect_, tparams, id, params, return, predicate, leading))
             env
         in
         let simple_params = is_simple_parameter_list params in
@@ -437,6 +386,7 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DE
             params;
             body;
             generator;
+            effect_;
             async;
             predicate;
             return;
@@ -567,6 +517,13 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DE
               let name = Statement.ComponentDeclaration.Param.Identifier (identifier_name env) in
               Expect.identifier env "as";
               (name, Parse.pattern env Parse_error.StrictParamName, false)
+            | (T_LCURLY, _) ->
+              error env Parse_error.InvalidComponentParamName;
+              let fake_name_loc = Peek.loc env in
+              let fallback_ident = (fake_name_loc, { Ast.Identifier.name = ""; comments = None }) in
+              let name = Statement.ComponentDeclaration.Param.Identifier fallback_ident in
+              let local = Parse.pattern env Parse_error.StrictParamName in
+              (name, local, false)
             | (_, _) ->
               let id = Parse.identifier_with_type env Parse_error.StrictParamName in
               (match id with
@@ -592,6 +549,7 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Type_parser.TYPE) : DE
         let rest =
           rest_param env t
           |> Option.map (fun (loc, id, comments) ->
+                 if Peek.token env = T_COMMA then Eat.token env;
                  (loc, { Statement.ComponentDeclaration.RestParam.argument = id; comments })
              )
         in

@@ -1,11 +1,44 @@
+[@@@ocaml.ppx.context
+  {
+    tool_name = "ppx_driver";
+    include_dirs = [];
+    hidden_include_dirs = [];
+    load_path = ([], []);
+    open_modules = [];
+    for_package = None;
+    debug = false;
+    use_threads = false;
+    use_vmthreads = false;
+    recursive_types = false;
+    principal = false;
+    transparent_modules = false;
+    unboxed_types = false;
+    unsafe_string = false;
+    cookies = [("library-name", "flow_parser")]
+  }]
 type position = {
   line: int ;
   column: int }[@@deriving (eq, show)]
-val equal_position : position -> position -> bool
+include
+  sig
+    [@@@ocaml.warning "-32"]
+    val equal_position : position -> position -> bool
+    val pp_position :
+      Format.formatter ->
+        position -> unit
+    val show_position : position -> string
+  end[@@ocaml.doc "@inline"][@@merlin.hide ]
 type t = {
   source: File_key.t option ;
   start: position ;
   _end: position }[@@deriving show]
+include
+  sig
+    [@@@ocaml.warning "-32"]
+    val pp :
+      Format.formatter -> t -> unit
+    val show : t -> string
+  end[@@ocaml.doc "@inline"][@@merlin.hide ]
 val none : t
 val is_none : t -> bool
 val is_none_ignore_source : t -> bool
@@ -25,6 +58,7 @@ val compare : t -> t -> int
 val equal : t -> t -> bool
 val debug_to_string : ?include_source:bool -> t -> string
 val to_string_no_source : t -> string
+val start_pos_to_string_for_vscode_loc_uri_fragment : t -> string
 val mk_loc : ?source:File_key.t -> (int * int) -> (int * int) -> t
 val source : t -> File_key.t option
 val cursor : File_key.t option -> int -> int -> t[@@ocaml.doc

@@ -6633,79 +6633,79 @@ let rec loop_id_continues lexbuf =
        then loop_id_continues lexbuf
        else (Sedlexing.backoff lexbuf 1; false)
    | _ -> assert false)
-let rec loop_jsx_id_continues lexbuf =
-  (let rec __sedlex_state_0 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_6 (Sedlexing.__private__next_int lexbuf)
+let rec loop_jsx_id_continues lexbuf : unit=
+  let rec __sedlex_state_0 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_6 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 1
+         | 1 -> 2
+         | 2 -> 0
+         | 3 -> __sedlex_state_4 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_4 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 2;
+         (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> 1
-          | 1 -> 2
-          | 2 -> 0
-          | 3 -> __sedlex_state_4 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_4 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 2;
-          (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_5 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_5 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_3 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_6 lexbuf
-          | 1 -> __sedlex_state_10 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_6 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_7 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_7 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_8 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_8 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> 0
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_10 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_11 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_11 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_5 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_11 lexbuf
-          | 1 -> 0
-          | _ -> Sedlexing.backtrack lexbuf) in
-   Sedlexing.start lexbuf;
-   (match __sedlex_state_0 lexbuf with
-    | 0 -> loop_jsx_id_continues lexbuf
-    | 1 -> ()
-    | 2 ->
-        let s = Sedlexing.current_code_point lexbuf in
-        if Js_id.is_valid_unicode_id s
-        then loop_jsx_id_continues lexbuf
-        else Sedlexing.backoff lexbuf 1
-    | _ -> assert false) : unit)
+          | 0 -> __sedlex_state_5 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_5 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_3 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_6 lexbuf
+         | 1 -> __sedlex_state_10 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_6 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_7 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_7 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_8 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_8 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 0
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_10 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_11 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_11 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_5 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_11 lexbuf
+         | 1 -> 0
+         | _ -> Sedlexing.backtrack lexbuf) in
+  Sedlexing.start lexbuf;
+  (match __sedlex_state_0 lexbuf with
+   | 0 -> loop_jsx_id_continues lexbuf
+   | 1 -> ()
+   | 2 ->
+       let s = Sedlexing.current_code_point lexbuf in
+       if Js_id.is_valid_unicode_id s
+       then loop_jsx_id_continues lexbuf
+       else Sedlexing.backoff lexbuf 1
+   | _ -> assert false)
 let pos_at_offset env offset =
   {
     Loc.line = (Lex_env.line env);
@@ -6736,9 +6736,9 @@ let loc_of_token env lex_token =
   | T_TEMPLATE_PART (loc, _, _, _, _) -> loc
   | T_REGEXP (loc, _, _) -> loc
   | _ -> loc_of_lexbuf env env.lex_lb
-let lex_error (env : Lex_env.t) loc err =
-  (let lex_errors_acc = (loc, err) :: ((env.lex_state).lex_errors_acc) in
-   { env with lex_state = { lex_errors_acc } } : Lex_env.t)
+let lex_error (env : Lex_env.t) loc err : Lex_env.t=
+  let lex_errors_acc = (loc, err) :: ((env.lex_state).lex_errors_acc) in
+  { env with lex_state = { lex_errors_acc } }
 let unexpected_error (env : Lex_env.t) (loc : Loc.t) value =
   lex_error env loc (Parse_error.Unexpected (quote_token_value value))
 let unexpected_error_w_suggest (env : Lex_env.t) (loc : Loc.t) value suggest
@@ -6759,16 +6759,15 @@ let bigint_strip_n raw =
     else raw in
   str
 let mk_comment (env : Lex_env.t) (start : Loc.position) (_end : Loc.position)
-  (buf : Buffer.t) (multiline : bool) =
-  (let open Flow_ast.Comment in
-     let loc = { Loc.source = (Lex_env.source env); start; _end } in
-     let text = Buffer.contents buf in
-     let kind = if multiline then Block else Line in
-     let on_newline =
-       let open Loc in
-         ((env.lex_last_loc)._end).Loc.line < (loc.start).Loc.line in
-     let c = { kind; text; on_newline } in (loc, c) : Loc.t
-                                                        Flow_ast.Comment.t)
+  (buf : Buffer.t) (multiline : bool) : Loc.t Flow_ast.Comment.t=
+  let open Flow_ast.Comment in
+    let loc = { Loc.source = (Lex_env.source env); start; _end } in
+    let text = Buffer.contents buf in
+    let kind = if multiline then Block else Line in
+    let on_newline =
+      let open Loc in
+        ((env.lex_last_loc)._end).Loc.line < (loc.start).Loc.line in
+    let c = { kind; text; on_newline } in (loc, c)
 let mk_num_singleton number_type (lexeme : int array) =
   let raw = Sedlexing.string_of_utf8 lexeme in
   let value =
@@ -6888,13 +6887,12 @@ let decode_identifier =
      | 2 -> (env, (Buffer.contents buf))
      | 3 -> (lexeme_to_buffer lexbuf buf; id_char env offset buf lexbuf)
      | _ -> failwith "unreachable id_char") in
-  fun env ->
-    fun raw ->
-      let offset = Sedlexing.lexeme_start env.lex_lb in
-      let lexbuf = Sedlexing.from_int_array raw in
-      let buf = Buffer.create (Array.length raw) in
-      id_char env offset buf lexbuf
-let recover env lexbuf ~f  =
+  fun env raw ->
+    let offset = Sedlexing.lexeme_start env.lex_lb in
+    let lexbuf = Sedlexing.from_int_array raw in
+    let buf = Buffer.create (Array.length raw) in
+    id_char env offset buf lexbuf
+let recover env lexbuf ~f =
   let env = illegal env (loc_of_lexbuf env lexbuf) in
   Sedlexing.rollback lexbuf; f env lexbuf
 type result =
@@ -7289,2662 +7287,2642 @@ let rec template_part env cooked raw lexbuf =
         Buffer.add_string cooked c;
         template_part env cooked raw lexbuf)
    | _ -> failwith "unreachable template_part")
-let token (env : Lex_env.t) lexbuf =
-  (let rec __sedlex_state_0 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_50 (Sedlexing.__private__next_int lexbuf)
+let token (env : Lex_env.t) lexbuf : result=
+  let rec __sedlex_state_0 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_50 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 98
+         | 1 -> 99
+         | 2 -> __sedlex_state_3 lexbuf
+         | 3 -> 0
+         | 4 -> __sedlex_state_6 lexbuf
+         | 5 -> __sedlex_state_8 lexbuf
+         | 6 -> 7
+         | 7 -> __sedlex_state_12 lexbuf
+         | 8 -> 97
+         | 9 -> __sedlex_state_15 lexbuf
+         | 10 -> __sedlex_state_17 lexbuf
+         | 11 -> 38
+         | 12 -> 39
+         | 13 -> __sedlex_state_23 lexbuf
+         | 14 -> __sedlex_state_28 lexbuf
+         | 15 -> 45
+         | 16 -> __sedlex_state_32 lexbuf
+         | 17 -> __sedlex_state_35 lexbuf
+         | 18 -> __sedlex_state_58 lexbuf
+         | 19 -> __sedlex_state_76 lexbuf
+         | 20 -> __sedlex_state_129 lexbuf
+         | 21 -> 46
+         | 22 -> 44
+         | 23 -> __sedlex_state_135 lexbuf
+         | 24 -> __sedlex_state_139 lexbuf
+         | 25 -> __sedlex_state_143 lexbuf
+         | 26 -> __sedlex_state_149 lexbuf
+         | 27 -> __sedlex_state_154 lexbuf
+         | 28 -> 40
+         | 29 -> __sedlex_state_177 lexbuf
+         | 30 -> 41
+         | 31 -> __sedlex_state_186 lexbuf
+         | 32 -> 8
+         | 33 -> 36
+         | 34 -> __sedlex_state_190 lexbuf
+         | 35 -> 37
+         | 36 -> 89
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_3 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 1;
+         (match __sedlex_partition_51 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> 98
-          | 1 -> 99
-          | 2 -> __sedlex_state_3 lexbuf
-          | 3 -> 0
-          | 4 -> __sedlex_state_6 lexbuf
-          | 5 -> __sedlex_state_8 lexbuf
-          | 6 -> 7
-          | 7 -> __sedlex_state_12 lexbuf
-          | 8 -> 97
-          | 9 -> __sedlex_state_15 lexbuf
-          | 10 -> __sedlex_state_17 lexbuf
-          | 11 -> 38
-          | 12 -> 39
-          | 13 -> __sedlex_state_23 lexbuf
-          | 14 -> __sedlex_state_28 lexbuf
-          | 15 -> 45
-          | 16 -> __sedlex_state_32 lexbuf
-          | 17 -> __sedlex_state_35 lexbuf
-          | 18 -> __sedlex_state_58 lexbuf
-          | 19 -> __sedlex_state_76 lexbuf
-          | 20 -> __sedlex_state_129 lexbuf
-          | 21 -> 46
-          | 22 -> 44
-          | 23 -> __sedlex_state_135 lexbuf
-          | 24 -> __sedlex_state_139 lexbuf
-          | 25 -> __sedlex_state_143 lexbuf
-          | 26 -> __sedlex_state_149 lexbuf
-          | 27 -> __sedlex_state_154 lexbuf
-          | 28 -> 40
-          | 29 -> __sedlex_state_177 lexbuf
-          | 30 -> 41
-          | 31 -> __sedlex_state_186 lexbuf
-          | 32 -> 8
-          | 33 -> 36
-          | 34 -> __sedlex_state_190 lexbuf
-          | 35 -> 37
-          | 36 -> 89
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_3 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 1;
-          (match __sedlex_partition_51 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_4 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_4 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 1;
-          (match __sedlex_partition_51 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_4 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_6 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 0;
-          (match __sedlex_partition_11 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 0
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_8 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 88;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_9 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_9 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 58;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 54
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_12 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 95;
-          (match __sedlex_partition_53 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 6
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_15 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 84;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 71
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_17 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 86;
-          (match __sedlex_partition_54 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_18 lexbuf
-           | 1 -> 72
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_18 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 51;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 76
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_23 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 82;
-          (match __sedlex_partition_55 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_24 lexbuf
-           | 1 -> 4
-           | 2 -> 69
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_24 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 83;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 70
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_28 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 80;
-          (match __sedlex_partition_56 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 59
-           | 1 -> 67
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_32 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 81;
-          (match __sedlex_partition_57 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 60
-           | 1 -> 68
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_35 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 43;
-          (match __sedlex_partition_47 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_36 lexbuf
-           | 1 -> __sedlex_state_38 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_36 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_58 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> __sedlex_state_4 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_4 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 1;
+         (match __sedlex_partition_51 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> 42
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_38 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_38 lexbuf
-           | 2 -> __sedlex_state_40 lexbuf
-           | 3 -> __sedlex_state_54 lexbuf
-           | 4 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_39 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 33;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_40 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 33;
-          (match __sedlex_partition_61 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_41 lexbuf
-           | 2 -> __sedlex_state_49 lexbuf
-           | 3 -> __sedlex_state_53 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_41 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_40 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> __sedlex_state_4 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_6 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 0;
+         (match __sedlex_partition_11 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_42 lexbuf
+          | 0 -> 0
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_8 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 88;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_9 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_9 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 58;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 54
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_12 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 95;
+         (match __sedlex_partition_53 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 6
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_15 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 84;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 71
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_17 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 86;
+         (match __sedlex_partition_54 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_18 lexbuf
+          | 1 -> 72
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_18 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 51;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 76
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_23 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 82;
+         (match __sedlex_partition_55 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_24 lexbuf
+          | 1 -> 4
+          | 2 -> 69
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_24 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 83;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 70
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_28 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 80;
+         (match __sedlex_partition_56 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 59
+          | 1 -> 67
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_32 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 81;
+         (match __sedlex_partition_57 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 60
+          | 1 -> 68
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_35 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 43;
+         (match __sedlex_partition_47 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_36 lexbuf
+          | 1 -> __sedlex_state_38 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_36 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_58 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 42
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_38 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_38 lexbuf
+          | 2 -> __sedlex_state_40 lexbuf
+          | 3 -> __sedlex_state_54 lexbuf
+          | 4 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_39 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 33;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_40 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 33;
+         (match __sedlex_partition_61 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_41 lexbuf
+          | 2 -> __sedlex_state_49 lexbuf
+          | 3 -> __sedlex_state_53 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_41 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_40 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_42 lexbuf
+         | 1 -> __sedlex_state_46 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_42 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 28;
+         (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_43 lexbuf
+          | 1 -> __sedlex_state_42 lexbuf
+          | 2 -> __sedlex_state_44 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_43 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 27;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_43 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_44 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 26;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_45 lexbuf
+          | 1 -> __sedlex_state_43 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_45 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 25;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_45 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_46 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 28;
+         (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_43 lexbuf
           | 1 -> __sedlex_state_46 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_42 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 28;
-          (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_43 lexbuf
-           | 1 -> __sedlex_state_42 lexbuf
-           | 2 -> __sedlex_state_44 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_43 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 27;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_43 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_44 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 26;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_45 lexbuf
-           | 1 -> __sedlex_state_43 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_45 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 25;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_45 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_46 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 28;
-          (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_43 lexbuf
-           | 1 -> __sedlex_state_46 lexbuf
-           | 2 -> __sedlex_state_47 lexbuf
-           | 3 -> __sedlex_state_44 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_47 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+          | 2 -> __sedlex_state_47 lexbuf
+          | 3 -> __sedlex_state_44 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_47 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_48 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_48 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 28;
+         (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_48 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_48 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 28;
-          (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_43 lexbuf
-           | 1 -> __sedlex_state_48 lexbuf
-           | 2 -> __sedlex_state_47 lexbuf
-           | 3 -> __sedlex_state_44 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_49 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 28;
-          (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_50 lexbuf
-           | 1 -> __sedlex_state_49 lexbuf
-           | 2 -> __sedlex_state_51 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_50 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 27;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_50 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_51 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 26;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_52 lexbuf
-           | 1 -> __sedlex_state_50 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_52 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 25;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_52 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_53 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 28;
-          (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_50 lexbuf
-           | 1 -> __sedlex_state_53 lexbuf
-           | 2 -> __sedlex_state_47 lexbuf
-           | 3 -> __sedlex_state_51 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_54 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> __sedlex_state_43 lexbuf
+          | 1 -> __sedlex_state_48 lexbuf
+          | 2 -> __sedlex_state_47 lexbuf
+          | 3 -> __sedlex_state_44 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_49 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 28;
+         (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_55 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_55 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_55 lexbuf
-           | 2 -> __sedlex_state_40 lexbuf
-           | 3 -> __sedlex_state_54 lexbuf
-           | 4 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_56 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 31;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_57 lexbuf
-           | 1 -> __sedlex_state_39 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_57 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 29;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_57 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_58 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 93;
-          (match __sedlex_partition_55 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_59 lexbuf
-           | 1 -> 5
-           | 2 -> 92
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_59 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 2;
-          (match __sedlex_partition_65 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_60 lexbuf
-           | 1 -> __sedlex_state_61 lexbuf
-           | 2 -> __sedlex_state_63 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_60 =
-     function
-     | lexbuf ->
+          | 0 -> __sedlex_state_50 lexbuf
+          | 1 -> __sedlex_state_49 lexbuf
+          | 2 -> __sedlex_state_51 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_50 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 27;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_50 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_51 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 26;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_52 lexbuf
+          | 1 -> __sedlex_state_50 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_52 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 25;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_52 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_53 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 28;
+         (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_50 lexbuf
+          | 1 -> __sedlex_state_53 lexbuf
+          | 2 -> __sedlex_state_47 lexbuf
+          | 3 -> __sedlex_state_51 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_54 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_55 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_55 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_55 lexbuf
+          | 2 -> __sedlex_state_40 lexbuf
+          | 3 -> __sedlex_state_54 lexbuf
+          | 4 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_56 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 31;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_57 lexbuf
+          | 1 -> __sedlex_state_39 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_57 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 29;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_57 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_58 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 93;
+         (match __sedlex_partition_55 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_59 lexbuf
+          | 1 -> 5
+          | 2 -> 92
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_59 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 2;
          (match __sedlex_partition_65 (Sedlexing.__private__next_int lexbuf)
           with
           | 0 -> __sedlex_state_60 lexbuf
           | 1 -> __sedlex_state_61 lexbuf
           | 2 -> __sedlex_state_63 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_61 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 3;
-          (match __sedlex_partition_66 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 3
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_63 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_67 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_64 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_64 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_65 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_65 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_69 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_66 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_66 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_70 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_67 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_67 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_71 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_68 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_68 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_72 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_69 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_69 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_73 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_70 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_70 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_67 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_71 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_71 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_72 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_72 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_74 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_73 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_73 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_60 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_65 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_60 lexbuf
+         | 1 -> __sedlex_state_61 lexbuf
+         | 2 -> __sedlex_state_63 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_61 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 3;
+         (match __sedlex_partition_66 (Sedlexing.__private__next_int lexbuf)
           with
           | 0 -> 3
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_76 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_76 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_77 lexbuf
-           | 2 -> __sedlex_state_81 lexbuf
-           | 3 -> __sedlex_state_93 lexbuf
-           | 4 -> __sedlex_state_97 lexbuf
-           | 5 -> __sedlex_state_40 lexbuf
-           | 6 -> __sedlex_state_107 lexbuf
-           | 7 -> __sedlex_state_117 lexbuf
-           | 8 -> __sedlex_state_127 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_77 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_77 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_78 lexbuf
-           | 2 -> __sedlex_state_40 lexbuf
-           | 3 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_78 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_78 lexbuf
-           | 2 -> __sedlex_state_40 lexbuf
-           | 3 -> __sedlex_state_79 lexbuf
-           | 4 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_79 =
-     function
-     | lexbuf ->
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_63 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_67 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_64 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_64 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_65 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_65 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_69 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_66 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_66 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_70 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_67 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_67 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_71 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_68 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_68 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_72 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_69 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_69 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_73 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_70 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_70 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_67 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_71 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_71 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_72 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_72 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_74 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_73 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_73 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 3
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_76 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_76 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_77 lexbuf
+          | 2 -> __sedlex_state_81 lexbuf
+          | 3 -> __sedlex_state_93 lexbuf
+          | 4 -> __sedlex_state_97 lexbuf
+          | 5 -> __sedlex_state_40 lexbuf
+          | 6 -> __sedlex_state_107 lexbuf
+          | 7 -> __sedlex_state_117 lexbuf
+          | 8 -> __sedlex_state_127 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_77 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_77 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_78 lexbuf
+          | 2 -> __sedlex_state_40 lexbuf
+          | 3 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_78 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_78 lexbuf
+          | 2 -> __sedlex_state_40 lexbuf
+          | 3 -> __sedlex_state_79 lexbuf
+          | 4 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_79 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_80 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_80 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_80 lexbuf
+          | 2 -> __sedlex_state_40 lexbuf
+          | 3 -> __sedlex_state_79 lexbuf
+          | 4 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_81 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 20;
+         (match __sedlex_partition_78 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_82 lexbuf
+          | 1 -> __sedlex_state_83 lexbuf
+          | 2 -> __sedlex_state_81 lexbuf
+          | 3 -> __sedlex_state_87 lexbuf
+          | 4 -> __sedlex_state_91 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_82 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 19;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_82 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_83 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_84 lexbuf
+          | 2 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_84 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_84 lexbuf
+          | 2 -> __sedlex_state_85 lexbuf
+          | 3 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_85 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_86 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_86 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_86 lexbuf
+          | 2 -> __sedlex_state_85 lexbuf
+          | 3 -> __sedlex_state_56 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_87 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 18;
+         (match __sedlex_partition_79 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_88 lexbuf
+          | 1 -> __sedlex_state_83 lexbuf
+          | 2 -> __sedlex_state_87 lexbuf
+          | 3 -> __sedlex_state_89 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_88 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_88 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_89 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_90 lexbuf
+          | 1 -> __sedlex_state_88 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_90 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_90 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_91 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 19;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_92 lexbuf
+          | 1 -> __sedlex_state_82 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_92 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 19;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_92 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_93 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 18;
+         (match __sedlex_partition_79 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_94 lexbuf
+          | 1 -> __sedlex_state_83 lexbuf
+          | 2 -> __sedlex_state_93 lexbuf
+          | 3 -> __sedlex_state_95 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_94 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_94 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_95 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_96 lexbuf
+          | 1 -> __sedlex_state_94 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_96 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 17;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_96 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_97 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 33;
+         (match __sedlex_partition_80 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_98 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_98 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 12;
+         (match __sedlex_partition_81 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_99 lexbuf
+          | 1 -> __sedlex_state_98 lexbuf
+          | 2 -> __sedlex_state_100 lexbuf
+          | 3 -> __sedlex_state_105 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_99 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 11;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_99 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_100 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_26 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_101 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_101 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 12;
+         (match __sedlex_partition_81 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_102 lexbuf
+          | 1 -> __sedlex_state_101 lexbuf
+          | 2 -> __sedlex_state_100 lexbuf
+          | 3 -> __sedlex_state_103 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_102 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 11;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_102 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_103 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 10;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_104 lexbuf
+          | 1 -> __sedlex_state_102 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_104 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 9;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_104 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_105 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 10;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_106 lexbuf
+          | 1 -> __sedlex_state_99 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_106 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 9;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_106 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_107 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 33;
+         (match __sedlex_partition_82 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_108 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_108 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 16;
+         (match __sedlex_partition_83 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_109 lexbuf
+          | 1 -> __sedlex_state_108 lexbuf
+          | 2 -> __sedlex_state_110 lexbuf
+          | 3 -> __sedlex_state_115 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_109 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 15;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_109 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_110 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_17 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_111 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_111 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 16;
+         (match __sedlex_partition_83 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_112 lexbuf
+          | 1 -> __sedlex_state_111 lexbuf
+          | 2 -> __sedlex_state_110 lexbuf
+          | 3 -> __sedlex_state_113 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_112 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 15;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_112 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_113 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 14;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_114 lexbuf
+          | 1 -> __sedlex_state_112 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_114 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 13;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_114 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_115 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 14;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_116 lexbuf
+          | 1 -> __sedlex_state_109 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_116 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 13;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_116 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_117 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 33;
+         (match __sedlex_partition_84 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_118 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_118 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 24;
+         (match __sedlex_partition_85 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_119 lexbuf
+          | 1 -> __sedlex_state_118 lexbuf
+          | 2 -> __sedlex_state_120 lexbuf
+          | 3 -> __sedlex_state_125 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_119 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 23;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_119 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_120 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_121 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_121 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 24;
+         (match __sedlex_partition_85 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_122 lexbuf
+          | 1 -> __sedlex_state_121 lexbuf
+          | 2 -> __sedlex_state_120 lexbuf
+          | 3 -> __sedlex_state_123 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_122 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 23;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_122 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_123 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 22;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_124 lexbuf
+          | 1 -> __sedlex_state_122 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_124 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 21;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_124 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_125 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 22;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_126 lexbuf
+          | 1 -> __sedlex_state_119 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_126 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 21;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_126 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_127 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 32;
+         (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_128 lexbuf
+          | 1 -> __sedlex_state_39 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_128 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 30;
+         (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_128 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_129 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_86 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_77 lexbuf
+          | 2 -> __sedlex_state_130 lexbuf
+          | 3 -> __sedlex_state_40 lexbuf
+          | 4 -> __sedlex_state_131 lexbuf
+          | 5 -> __sedlex_state_127 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_130 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_86 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_77 lexbuf
+          | 2 -> __sedlex_state_130 lexbuf
+          | 3 -> __sedlex_state_40 lexbuf
+          | 4 -> __sedlex_state_131 lexbuf
+          | 5 -> __sedlex_state_127 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_131 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_132 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_132 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 34;
+         (match __sedlex_partition_87 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_39 lexbuf
+          | 1 -> __sedlex_state_83 lexbuf
+          | 2 -> __sedlex_state_132 lexbuf
+          | 3 -> __sedlex_state_131 lexbuf
+          | 4 -> __sedlex_state_127 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_135 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 78;
+         (match __sedlex_partition_88 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_136 lexbuf
+          | 1 -> 55
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_136 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 62;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 61
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_139 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 90;
+         (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_140 lexbuf
+          | 1 -> 91
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_140 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 57;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 53
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_143 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 79;
+         (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 56
+          | 1 -> __sedlex_state_145 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_145 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 66;
+         (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 63
+          | 1 -> __sedlex_state_147 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_147 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 65;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> 64
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_149 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 50;
+         (match __sedlex_partition_90 (Sedlexing.__private__next_int lexbuf)
+          with
+          | 0 -> __sedlex_state_150 lexbuf
+          | 1 -> __sedlex_state_152 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_150 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 48;
          (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_80 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_80 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_59 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_80 lexbuf
-           | 2 -> __sedlex_state_40 lexbuf
-           | 3 -> __sedlex_state_79 lexbuf
-           | 4 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_81 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 20;
-          (match __sedlex_partition_78 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_82 lexbuf
-           | 1 -> __sedlex_state_83 lexbuf
-           | 2 -> __sedlex_state_81 lexbuf
-           | 3 -> __sedlex_state_87 lexbuf
-           | 4 -> __sedlex_state_91 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_82 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 19;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_82 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_83 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_62 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_84 lexbuf
-           | 2 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_84 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_84 lexbuf
-           | 2 -> __sedlex_state_85 lexbuf
-           | 3 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_85 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> 47
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_152 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 49;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_86 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_86 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_64 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_86 lexbuf
-           | 2 -> __sedlex_state_85 lexbuf
-           | 3 -> __sedlex_state_56 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_87 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 18;
-          (match __sedlex_partition_79 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_88 lexbuf
-           | 1 -> __sedlex_state_83 lexbuf
-           | 2 -> __sedlex_state_87 lexbuf
-           | 3 -> __sedlex_state_89 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_88 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_88 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_89 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_90 lexbuf
-           | 1 -> __sedlex_state_88 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_90 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_90 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_91 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 19;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_92 lexbuf
-           | 1 -> __sedlex_state_82 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_92 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 19;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_92 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_93 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 18;
-          (match __sedlex_partition_79 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_94 lexbuf
-           | 1 -> __sedlex_state_83 lexbuf
-           | 2 -> __sedlex_state_93 lexbuf
-           | 3 -> __sedlex_state_95 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_94 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_94 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_95 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_96 lexbuf
-           | 1 -> __sedlex_state_94 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_96 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 17;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_96 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_97 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 33;
-          (match __sedlex_partition_80 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_98 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_98 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 12;
-          (match __sedlex_partition_81 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_99 lexbuf
-           | 1 -> __sedlex_state_98 lexbuf
-           | 2 -> __sedlex_state_100 lexbuf
-           | 3 -> __sedlex_state_105 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_99 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 11;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_99 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_100 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_26 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> 75
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_154 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 94;
+         (match __sedlex_partition_91 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_101 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_101 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 12;
-          (match __sedlex_partition_81 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_102 lexbuf
-           | 1 -> __sedlex_state_101 lexbuf
-           | 2 -> __sedlex_state_100 lexbuf
-           | 3 -> __sedlex_state_103 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_102 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 11;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_102 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_103 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 10;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_104 lexbuf
-           | 1 -> __sedlex_state_102 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_104 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 9;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_104 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_105 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 10;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_106 lexbuf
-           | 1 -> __sedlex_state_99 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_106 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 9;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_106 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_107 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 33;
-          (match __sedlex_partition_82 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_108 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_108 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 16;
-          (match __sedlex_partition_83 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_109 lexbuf
-           | 1 -> __sedlex_state_108 lexbuf
-           | 2 -> __sedlex_state_110 lexbuf
-           | 3 -> __sedlex_state_115 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_109 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 15;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_109 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_110 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_17 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> __sedlex_state_155 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_155 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_92 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_156 lexbuf
+         | 1 -> __sedlex_state_169 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_156 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_93 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_157 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_157 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_94 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_158 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_158 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_72 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_159 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_159 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_73 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_160 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_160 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_95 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_161 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_161 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_162 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_162 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_163 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_163 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_164 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_164 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_98 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_165 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_165 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_166 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_166 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_167 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_167 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 35
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_169 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_170 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_170 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_171 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_171 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_172 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_172 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_98 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_173 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_173 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_174 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_174 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_175 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_175 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 35
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_177 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 96;
+         (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_111 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_111 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 16;
-          (match __sedlex_partition_83 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_112 lexbuf
-           | 1 -> __sedlex_state_111 lexbuf
-           | 2 -> __sedlex_state_110 lexbuf
-           | 3 -> __sedlex_state_113 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_112 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 15;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_112 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_113 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 14;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_114 lexbuf
-           | 1 -> __sedlex_state_112 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_114 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 13;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_114 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_115 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 14;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_116 lexbuf
-           | 1 -> __sedlex_state_109 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_116 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 13;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_116 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_117 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 33;
-          (match __sedlex_partition_84 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_118 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_118 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 24;
-          (match __sedlex_partition_85 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_119 lexbuf
-           | 1 -> __sedlex_state_118 lexbuf
-           | 2 -> __sedlex_state_120 lexbuf
-           | 3 -> __sedlex_state_125 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_119 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 23;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_119 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_120 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> __sedlex_state_178 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_178 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_3 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_179 lexbuf
+         | 1 -> __sedlex_state_183 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_179 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_180 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_180 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_181 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_181 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> 97
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_183 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_184 lexbuf
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_184 =
+    function
+    | lexbuf ->
+        (match __sedlex_partition_5 (Sedlexing.__private__next_int lexbuf)
+         with
+         | 0 -> __sedlex_state_184 lexbuf
+         | 1 -> 97
+         | _ -> Sedlexing.backtrack lexbuf)
+  and __sedlex_state_186 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 87;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_121 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_121 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 24;
-          (match __sedlex_partition_85 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_122 lexbuf
-           | 1 -> __sedlex_state_121 lexbuf
-           | 2 -> __sedlex_state_120 lexbuf
-           | 3 -> __sedlex_state_123 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_122 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 23;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_122 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_123 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 22;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_124 lexbuf
-           | 1 -> __sedlex_state_122 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_124 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 21;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_124 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_125 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 22;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_126 lexbuf
-           | 1 -> __sedlex_state_119 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_126 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 21;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_126 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_127 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 32;
-          (match __sedlex_partition_63 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_128 lexbuf
-           | 1 -> __sedlex_state_39 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_128 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 30;
-          (match __sedlex_partition_60 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_128 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_129 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_86 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_77 lexbuf
-           | 2 -> __sedlex_state_130 lexbuf
-           | 3 -> __sedlex_state_40 lexbuf
-           | 4 -> __sedlex_state_131 lexbuf
-           | 5 -> __sedlex_state_127 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_130 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_86 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_77 lexbuf
-           | 2 -> __sedlex_state_130 lexbuf
-           | 3 -> __sedlex_state_40 lexbuf
-           | 4 -> __sedlex_state_131 lexbuf
-           | 5 -> __sedlex_state_127 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_131 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> 74
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_190 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 85;
+         (match __sedlex_partition_99 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_132 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_132 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 34;
-          (match __sedlex_partition_87 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_39 lexbuf
-           | 1 -> __sedlex_state_83 lexbuf
-           | 2 -> __sedlex_state_132 lexbuf
-           | 3 -> __sedlex_state_131 lexbuf
-           | 4 -> __sedlex_state_127 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_135 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 78;
-          (match __sedlex_partition_88 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_136 lexbuf
-           | 1 -> 55
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_136 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 62;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 61
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_139 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 90;
-          (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_140 lexbuf
-           | 1 -> 91
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_140 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 57;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 53
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_143 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 79;
-          (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 56
-           | 1 -> __sedlex_state_145 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_145 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 66;
-          (match __sedlex_partition_89 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 63
-           | 1 -> __sedlex_state_147 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_147 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 65;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 64
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_149 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 50;
-          (match __sedlex_partition_90 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_150 lexbuf
-           | 1 -> __sedlex_state_152 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_150 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 48;
-          (match __sedlex_partition_33 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 47
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_152 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 49;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 75
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_154 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 94;
-          (match __sedlex_partition_91 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_155 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_155 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_92 (Sedlexing.__private__next_int lexbuf)
+          | 0 -> 73
+          | 1 -> __sedlex_state_192 lexbuf
+          | _ -> Sedlexing.backtrack lexbuf))
+  and __sedlex_state_192 =
+    function
+    | lexbuf ->
+        (Sedlexing.mark lexbuf 52;
+         (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
           with
-          | 0 -> __sedlex_state_156 lexbuf
-          | 1 -> __sedlex_state_169 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_156 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_93 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_157 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_157 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_94 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_158 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_158 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_72 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_159 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_159 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_73 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_160 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_160 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_95 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_161 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_161 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_162 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_162 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_163 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_163 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_164 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_164 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_98 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_165 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_165 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_166 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_166 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_167 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_167 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> 35
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_169 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_170 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_170 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_75 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_171 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_171 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_172 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_172 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_98 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_173 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_173 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_96 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_174 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_174 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_68 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_175 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_175 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_97 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> 35
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_177 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 96;
-          (match __sedlex_partition_2 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> __sedlex_state_178 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_178 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_3 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_179 lexbuf
-          | 1 -> __sedlex_state_183 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_179 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_180 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_180 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_181 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_181 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> 97
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_183 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_4 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_184 lexbuf
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_184 =
-     function
-     | lexbuf ->
-         (match __sedlex_partition_5 (Sedlexing.__private__next_int lexbuf)
-          with
-          | 0 -> __sedlex_state_184 lexbuf
-          | 1 -> 97
-          | _ -> Sedlexing.backtrack lexbuf)
-   and __sedlex_state_186 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 87;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 74
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_190 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 85;
-          (match __sedlex_partition_99 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 73
-           | 1 -> __sedlex_state_192 lexbuf
-           | _ -> Sedlexing.backtrack lexbuf))
-   and __sedlex_state_192 =
-     function
-     | lexbuf ->
-         (Sedlexing.mark lexbuf 52;
-          (match __sedlex_partition_52 (Sedlexing.__private__next_int lexbuf)
-           with
-           | 0 -> 77
-           | _ -> Sedlexing.backtrack lexbuf)) in
-   Sedlexing.start lexbuf;
-   (match __sedlex_state_0 lexbuf with
-    | 0 -> let env = new_line env lexbuf in Continue env
-    | 1 -> Continue env
-    | 2 ->
-        let start_pos = start_pos_of_lexbuf env lexbuf in
-        let buf = Buffer.create 127 in
-        let (env, end_pos) = comment env buf lexbuf in
-        Comment (env, (mk_comment env start_pos end_pos buf true))
-    | 3 ->
-        let pattern = lexeme lexbuf in
-        if not (is_comment_syntax_enabled env)
-        then
-          let start_pos = start_pos_of_lexbuf env lexbuf in
-          let buf = Buffer.create 127 in
-          (Buffer.add_string buf
-             (String.sub pattern 2 ((String.length pattern) - 2));
-           (let (env, end_pos) = comment env buf lexbuf in
-            Comment (env, (mk_comment env start_pos end_pos buf true))))
-        else
-          (let env =
-             if is_in_comment_syntax env
-             then
-               let loc = loc_of_lexbuf env lexbuf in
-               unexpected_error env loc pattern
-             else env in
-           let env = in_comment_syntax true env in
-           let len = Sedlexing.lexeme_length lexbuf in
-           if
-             ((Sedlexing.Utf8.sub_lexeme lexbuf (len - 1) 1) = ":") &&
-               ((Sedlexing.Utf8.sub_lexeme lexbuf (len - 2) 1) <> ":")
-           then Token (env, T_COLON)
-           else Continue env)
-    | 4 ->
-        if is_in_comment_syntax env
-        then let env = in_comment_syntax false env in Continue env
-        else
-          (Sedlexing.rollback lexbuf;
-           (let __sedlex_state_0 =
-              function
-              | lexbuf ->
-                  (match __sedlex_partition_23
-                           (Sedlexing.__private__next_int lexbuf)
-                   with
-                   | 0 -> 0
-                   | _ -> Sedlexing.backtrack lexbuf) in
-            Sedlexing.start lexbuf;
-            (match __sedlex_state_0 lexbuf with
-             | 0 -> Token (env, T_MULT)
-             | _ -> failwith "expected *")))
-    | 5 ->
-        let start_pos = start_pos_of_lexbuf env lexbuf in
-        let buf = Buffer.create 127 in
-        let (env, end_pos) = line_comment env buf lexbuf in
-        Comment (env, (mk_comment env start_pos end_pos buf false))
-    | 6 ->
-        if (Sedlexing.lexeme_start lexbuf) = 0
-        then
-          let start = start_pos_of_lexbuf env lexbuf in
-          let buf = Buffer.create 127 in
-          let (env, _end) = line_comment env buf lexbuf in
-          let loc = { Loc.source = (Lex_env.source env); start; _end } in
-          Token (env, (T_INTERPRETER (loc, (Buffer.contents buf))))
-        else Token (env, (T_ERROR "#!"))
-    | 7 ->
-        let quote = lexeme lexbuf in
-        let start = start_pos_of_lexbuf env lexbuf in
-        let buf = Buffer.create 127 in
-        let raw = Buffer.create 127 in
-        (Buffer.add_string raw quote;
-         (let octal = false in
-          let (env, _end, octal) =
-            string_quote env quote buf raw octal lexbuf in
-          let loc = { Loc.source = (Lex_env.source env); start; _end } in
-          Token
-            (env,
-              (T_STRING
-                 (loc, (Buffer.contents buf), (Buffer.contents raw), octal)))))
-    | 8 ->
-        let value = Buffer.create 127 in
-        let raw = Buffer.create 127 in
-        let start = start_pos_of_lexbuf env lexbuf in
-        let (env, is_tail) = template_part env value raw lexbuf in
-        let _end = end_pos_of_lexbuf env lexbuf in
-        let loc = { Loc.source = (Lex_env.source env); start; _end } in
-        Token
-          (env,
-            (T_TEMPLATE_PART
-               (loc, (Buffer.contents value), (Buffer.contents raw), true,
-                 is_tail)))
-    | 9 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_25
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_26
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_27
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_26
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_27
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_BINARY; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token bigint"))
-    | 10 ->
-        Token (env, (T_BIGINT { kind = BIG_BINARY; raw = (lexeme lexbuf) }))
-    | 11 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_25
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_26
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_28
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_3 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_26
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_28
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_5 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER { kind = BINARY; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token bignumber"))
-    | 12 -> Token (env, (T_NUMBER { kind = BINARY; raw = (lexeme lexbuf) }))
-    | 13 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_29
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_30
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_30
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_OCTAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token octbigint"))
-    | 14 ->
-        Token (env, (T_BIGINT { kind = BIG_OCTAL; raw = (lexeme lexbuf) }))
-    | 15 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_29
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_31
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_3 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_31
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_5 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER { kind = OCTAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token octnumber"))
-    | 16 -> Token (env, (T_NUMBER { kind = OCTAL; raw = (lexeme lexbuf) }))
-    | 17 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_32
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_33
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_2 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER
-                              {
-                                kind = LEGACY_NON_OCTAL;
-                                raw = (lexeme lexbuf)
-                              }))
-                   | _ -> failwith "unreachable token legacynonoctnumber"))
-    | 18 ->
-        Token
-          (env,
-            (T_NUMBER { kind = LEGACY_NON_OCTAL; raw = (lexeme lexbuf) }))
-    | 19 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_17
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_2 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER
-                              { kind = LEGACY_OCTAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token legacyoctnumber"))
-    | 20 ->
-        Token
-          (env, (T_NUMBER { kind = LEGACY_OCTAL; raw = (lexeme lexbuf) }))
-    | 21 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_34
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_4
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_35
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_4
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_35
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token hexbigint"))
-    | 22 ->
-        Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-    | 23 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_24
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_34
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_4
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_36
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_3 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_4
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_36
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_5 lexbuf
-                          | 1 -> __sedlex_state_4 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token hexnumber"))
-    | 24 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-    | 25 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_37
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_12 lexbuf
-                         | 2 -> __sedlex_state_17 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_10 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_39
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | 1 -> __sedlex_state_5 lexbuf
-                         | 2 -> __sedlex_state_7 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_40
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_7 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_41
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_7 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_7 lexbuf
-                         | 1 -> __sedlex_state_8 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_8 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_9 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_9 lexbuf
-                         | 1 -> __sedlex_state_8 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_10 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_11 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_11 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_11 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_10 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_12 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_43
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_13 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_13 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_44
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_14 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_14 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_14 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_15 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_15 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_16 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_16 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_16 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_15 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_17 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_45
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_13 lexbuf
-                         | 1 -> __sedlex_state_17 lexbuf
-                         | 2 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       let loc = loc_of_lexbuf env lexbuf in
-                       let env =
-                         lex_error env loc Parse_error.InvalidSciBigInt in
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token scibigint"))
-    | 26 ->
-        let loc = loc_of_lexbuf env lexbuf in
-        let env = lex_error env loc Parse_error.InvalidSciBigInt in
-        Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-    | 27 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_37
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_11 lexbuf
-                         | 2 -> __sedlex_state_16 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_39
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | 1 -> __sedlex_state_5 lexbuf
-                         | 2 -> __sedlex_state_6 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_40
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_6 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_33
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_5 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_6 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_46
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_6 lexbuf
-                          | 1 -> __sedlex_state_7 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_7 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_8 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_8 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_46
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_8 lexbuf
-                          | 1 -> __sedlex_state_7 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_9 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_10 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_10 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_10 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_11 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_43
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_12 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_12 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_44
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_13 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_13 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_13 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_14 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_14 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_15 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_15 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_38
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_15 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> __sedlex_state_14 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_16 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_45
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_12 lexbuf
-                         | 1 -> __sedlex_state_16 lexbuf
-                         | 2 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token scinumber"))
-    | 28 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-    | 29 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_37
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_6 lexbuf
-                         | 2 -> __sedlex_state_8 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_6 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_47
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_7 lexbuf
-                         | 1 -> __sedlex_state_6 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_7 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_41
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | 1 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_8 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_48
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_7 lexbuf
-                         | 1 -> __sedlex_state_8 lexbuf
-                         | 2 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_9 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_10 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_10 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_48
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_7 lexbuf
-                         | 1 -> __sedlex_state_10 lexbuf
-                         | 2 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       let loc = loc_of_lexbuf env lexbuf in
-                       let env =
-                         lex_error env loc Parse_error.InvalidFloatBigInt in
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token floatbigint"))
-    | 30 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_40
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_41
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_42
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | 2 -> 0
-                         | _ -> Sedlexing.backtrack lexbuf) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_BIGINT
-                              { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token wholebigint"))
-    | 31 ->
-        let loc = loc_of_lexbuf env lexbuf in
-        let env = lex_error env loc Parse_error.InvalidFloatBigInt in
-        Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-    | 32 ->
-        Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
-    | 33 ->
-        recover env lexbuf
-          ~f:(fun env ->
-                fun lexbuf ->
-                  let rec __sedlex_state_0 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_37
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_1 lexbuf
-                         | 1 -> __sedlex_state_5 lexbuf
-                         | 2 -> __sedlex_state_7 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_1 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_2 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_46
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_2 lexbuf
-                          | 1 -> __sedlex_state_3 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_3 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_4 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_46
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_4 lexbuf
-                          | 1 -> __sedlex_state_3 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_5 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_47
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_6 lexbuf
-                          | 1 -> __sedlex_state_5 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_6 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_33
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_2 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_7 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_48
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_6 lexbuf
-                          | 1 -> __sedlex_state_7 lexbuf
-                          | 2 -> __sedlex_state_8 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf))
-                  and __sedlex_state_8 =
-                    function
-                    | lexbuf ->
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_9 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)
-                  and __sedlex_state_9 =
-                    function
-                    | lexbuf ->
-                        (Sedlexing.mark lexbuf 0;
-                         (match __sedlex_partition_48
-                                  (Sedlexing.__private__next_int lexbuf)
-                          with
-                          | 0 -> __sedlex_state_6 lexbuf
-                          | 1 -> __sedlex_state_9 lexbuf
-                          | 2 -> __sedlex_state_8 lexbuf
-                          | _ -> Sedlexing.backtrack lexbuf)) in
-                  Sedlexing.start lexbuf;
-                  (match __sedlex_state_0 lexbuf with
-                   | 0 ->
-                       Token
-                         (env,
-                           (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-                   | _ -> failwith "unreachable token wholenumber"))
-    | 34 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
-    | 35 ->
-        let loc = loc_of_lexbuf env lexbuf in
-        let raw = lexeme lexbuf in
-        Token (env, (T_IDENTIFIER { loc; value = raw; raw }))
-    | 36 -> Token (env, T_LCURLY)
-    | 37 -> Token (env, T_RCURLY)
-    | 38 -> Token (env, T_LPAREN)
-    | 39 -> Token (env, T_RPAREN)
-    | 40 -> Token (env, T_LBRACKET)
-    | 41 -> Token (env, T_RBRACKET)
-    | 42 -> Token (env, T_ELLIPSIS)
-    | 43 -> Token (env, T_PERIOD)
-    | 44 -> Token (env, T_SEMICOLON)
-    | 45 -> Token (env, T_COMMA)
-    | 46 -> Token (env, T_COLON)
-    | 47 ->
-        (Sedlexing.rollback lexbuf;
-         (let __sedlex_state_0 =
-            function
-            | lexbuf ->
-                (match __sedlex_partition_49
-                         (Sedlexing.__private__next_int lexbuf)
-                 with
-                 | 0 -> 0
-                 | _ -> Sedlexing.backtrack lexbuf) in
-          Sedlexing.start lexbuf;
-          (match __sedlex_state_0 lexbuf with
-           | 0 -> Token (env, T_PLING)
-           | _ -> failwith "expected ?")))
-    | 48 -> Token (env, T_PLING_PERIOD)
-    | 49 -> Token (env, T_PLING_PLING)
-    | 50 -> Token (env, T_PLING)
-    | 51 -> Token (env, T_AND)
-    | 52 -> Token (env, T_OR)
-    | 53 -> Token (env, T_STRICT_EQUAL)
-    | 54 -> Token (env, T_STRICT_NOT_EQUAL)
-    | 55 -> Token (env, T_LESS_THAN_EQUAL)
-    | 56 -> Token (env, T_GREATER_THAN_EQUAL)
-    | 57 -> Token (env, T_EQUAL)
-    | 58 -> Token (env, T_NOT_EQUAL)
-    | 59 -> Token (env, T_INCR)
-    | 60 -> Token (env, T_DECR)
-    | 61 -> Token (env, T_LSHIFT_ASSIGN)
-    | 62 -> Token (env, T_LSHIFT)
-    | 63 -> Token (env, T_RSHIFT_ASSIGN)
-    | 64 -> Token (env, T_RSHIFT3_ASSIGN)
-    | 65 -> Token (env, T_RSHIFT3)
-    | 66 -> Token (env, T_RSHIFT)
-    | 67 -> Token (env, T_PLUS_ASSIGN)
-    | 68 -> Token (env, T_MINUS_ASSIGN)
-    | 69 -> Token (env, T_MULT_ASSIGN)
-    | 70 -> Token (env, T_EXP_ASSIGN)
-    | 71 -> Token (env, T_MOD_ASSIGN)
-    | 72 -> Token (env, T_BIT_AND_ASSIGN)
-    | 73 -> Token (env, T_BIT_OR_ASSIGN)
-    | 74 -> Token (env, T_BIT_XOR_ASSIGN)
-    | 75 -> Token (env, T_NULLISH_ASSIGN)
-    | 76 -> Token (env, T_AND_ASSIGN)
-    | 77 -> Token (env, T_OR_ASSIGN)
-    | 78 -> Token (env, T_LESS_THAN)
-    | 79 -> Token (env, T_GREATER_THAN)
-    | 80 -> Token (env, T_PLUS)
-    | 81 -> Token (env, T_MINUS)
-    | 82 -> Token (env, T_MULT)
-    | 83 -> Token (env, T_EXP)
-    | 84 -> Token (env, T_MOD)
-    | 85 -> Token (env, T_BIT_OR)
-    | 86 -> Token (env, T_BIT_AND)
-    | 87 -> Token (env, T_BIT_XOR)
-    | 88 -> Token (env, T_NOT)
-    | 89 -> Token (env, T_BIT_NOT)
-    | 90 -> Token (env, T_ASSIGN)
-    | 91 -> Token (env, T_ARROW)
-    | 92 -> Token (env, T_DIV_ASSIGN)
-    | 93 -> Token (env, T_DIV)
-    | 94 -> Token (env, T_AT)
-    | 95 -> Token (env, T_POUND)
-    | 96 -> let env = illegal env (loc_of_lexbuf env lexbuf) in Continue env
-    | 97 ->
-        let start_offset = Sedlexing.lexeme_start lexbuf in
-        ((loop_id_continues lexbuf) |> ignore;
-         (let end_offset = Sedlexing.lexeme_end lexbuf in
-          let loc = loc_of_offsets env start_offset end_offset in
-          Sedlexing.set_lexeme_start lexbuf start_offset;
-          (match lexeme lexbuf with
-           | "async" -> Token (env, T_ASYNC)
-           | "await" -> Token (env, T_AWAIT)
-           | "break" -> Token (env, T_BREAK)
-           | "case" -> Token (env, T_CASE)
-           | "catch" -> Token (env, T_CATCH)
-           | "class" -> Token (env, T_CLASS)
-           | "const" -> Token (env, T_CONST)
-           | "continue" -> Token (env, T_CONTINUE)
-           | "debugger" -> Token (env, T_DEBUGGER)
-           | "declare" -> Token (env, T_DECLARE)
-           | "default" -> Token (env, T_DEFAULT)
-           | "delete" -> Token (env, T_DELETE)
-           | "do" -> Token (env, T_DO)
-           | "else" -> Token (env, T_ELSE)
-           | "enum" -> Token (env, T_ENUM)
-           | "export" -> Token (env, T_EXPORT)
-           | "extends" -> Token (env, T_EXTENDS)
-           | "false" -> Token (env, T_FALSE)
-           | "finally" -> Token (env, T_FINALLY)
-           | "for" -> Token (env, T_FOR)
-           | "function" -> Token (env, T_FUNCTION)
-           | "if" -> Token (env, T_IF)
-           | "implements" -> Token (env, T_IMPLEMENTS)
-           | "import" -> Token (env, T_IMPORT)
-           | "in" -> Token (env, T_IN)
-           | "instanceof" -> Token (env, T_INSTANCEOF)
-           | "interface" -> Token (env, T_INTERFACE)
-           | "let" -> Token (env, T_LET)
-           | "new" -> Token (env, T_NEW)
-           | "null" -> Token (env, T_NULL)
-           | "of" -> Token (env, T_OF)
-           | "opaque" -> Token (env, T_OPAQUE)
-           | "package" -> Token (env, T_PACKAGE)
-           | "private" -> Token (env, T_PRIVATE)
-           | "protected" -> Token (env, T_PROTECTED)
-           | "public" -> Token (env, T_PUBLIC)
-           | "return" -> Token (env, T_RETURN)
-           | "static" -> Token (env, T_STATIC)
-           | "super" -> Token (env, T_SUPER)
-           | "switch" -> Token (env, T_SWITCH)
-           | "this" -> Token (env, T_THIS)
-           | "throw" -> Token (env, T_THROW)
-           | "true" -> Token (env, T_TRUE)
-           | "try" -> Token (env, T_TRY)
-           | "type" -> Token (env, T_TYPE)
-           | "typeof" -> Token (env, T_TYPEOF)
-           | "var" -> Token (env, T_VAR)
-           | "void" -> Token (env, T_VOID)
-           | "while" -> Token (env, T_WHILE)
-           | "with" -> Token (env, T_WITH)
-           | "yield" -> Token (env, T_YIELD)
-           | _ ->
-               let raw = Sedlexing.lexeme lexbuf in
-               let (nenv, value) = decode_identifier env raw in
-               Token
-                 (nenv,
-                   (T_IDENTIFIER
-                      { loc; value; raw = (Sedlexing.string_of_utf8 raw) })))))
-    | 98 ->
-        let env =
-          if is_in_comment_syntax env
-          then
-            let loc = loc_of_lexbuf env lexbuf in
-            lex_error env loc Parse_error.UnexpectedEOS
-          else env in
-        Token (env, T_EOF)
-    | 99 ->
-        let env = illegal env (loc_of_lexbuf env lexbuf) in
-        Token (env, (T_ERROR (lexeme lexbuf)))
-    | _ -> failwith "unreachable token") : result)
+          | 0 -> 77
+          | _ -> Sedlexing.backtrack lexbuf)) in
+  Sedlexing.start lexbuf;
+  (match __sedlex_state_0 lexbuf with
+   | 0 -> let env = new_line env lexbuf in Continue env
+   | 1 -> Continue env
+   | 2 ->
+       let start_pos = start_pos_of_lexbuf env lexbuf in
+       let buf = Buffer.create 127 in
+       let (env, end_pos) = comment env buf lexbuf in
+       Comment (env, (mk_comment env start_pos end_pos buf true))
+   | 3 ->
+       let pattern = lexeme lexbuf in
+       if not (is_comment_syntax_enabled env)
+       then
+         let start_pos = start_pos_of_lexbuf env lexbuf in
+         let buf = Buffer.create 127 in
+         (Buffer.add_string buf
+            (String.sub pattern 2 ((String.length pattern) - 2));
+          (let (env, end_pos) = comment env buf lexbuf in
+           Comment (env, (mk_comment env start_pos end_pos buf true))))
+       else
+         (let env =
+            if is_in_comment_syntax env
+            then
+              let loc = loc_of_lexbuf env lexbuf in
+              unexpected_error env loc pattern
+            else env in
+          let env = in_comment_syntax true env in
+          let len = Sedlexing.lexeme_length lexbuf in
+          if
+            ((Sedlexing.Utf8.sub_lexeme lexbuf (len - 1) 1) = ":") &&
+              ((Sedlexing.Utf8.sub_lexeme lexbuf (len - 2) 1) <> ":")
+          then Token (env, T_COLON)
+          else Continue env)
+   | 4 ->
+       if is_in_comment_syntax env
+       then let env = in_comment_syntax false env in Continue env
+       else
+         (Sedlexing.rollback lexbuf;
+          (let __sedlex_state_0 =
+             function
+             | lexbuf ->
+                 (match __sedlex_partition_23
+                          (Sedlexing.__private__next_int lexbuf)
+                  with
+                  | 0 -> 0
+                  | _ -> Sedlexing.backtrack lexbuf) in
+           Sedlexing.start lexbuf;
+           (match __sedlex_state_0 lexbuf with
+            | 0 -> Token (env, T_MULT)
+            | _ -> failwith "expected *")))
+   | 5 ->
+       let start_pos = start_pos_of_lexbuf env lexbuf in
+       let buf = Buffer.create 127 in
+       let (env, end_pos) = line_comment env buf lexbuf in
+       Comment (env, (mk_comment env start_pos end_pos buf false))
+   | 6 ->
+       if (Sedlexing.lexeme_start lexbuf) = 0
+       then
+         let start = start_pos_of_lexbuf env lexbuf in
+         let buf = Buffer.create 127 in
+         let (env, _end) = line_comment env buf lexbuf in
+         let loc = { Loc.source = (Lex_env.source env); start; _end } in
+         Token (env, (T_INTERPRETER (loc, (Buffer.contents buf))))
+       else Token (env, (T_ERROR "#!"))
+   | 7 ->
+       let quote = lexeme lexbuf in
+       let start = start_pos_of_lexbuf env lexbuf in
+       let buf = Buffer.create 127 in
+       let raw = Buffer.create 127 in
+       (Buffer.add_string raw quote;
+        (let octal = false in
+         let (env, _end, octal) = string_quote env quote buf raw octal lexbuf in
+         let loc = { Loc.source = (Lex_env.source env); start; _end } in
+         Token
+           (env,
+             (T_STRING
+                (loc, (Buffer.contents buf), (Buffer.contents raw), octal)))))
+   | 8 ->
+       let value = Buffer.create 127 in
+       let raw = Buffer.create 127 in
+       let start = start_pos_of_lexbuf env lexbuf in
+       let (env, is_tail) = template_part env value raw lexbuf in
+       let _end = end_pos_of_lexbuf env lexbuf in
+       let loc = { Loc.source = (Lex_env.source env); start; _end } in
+       Token
+         (env,
+           (T_TEMPLATE_PART
+              (loc, (Buffer.contents value), (Buffer.contents raw), true,
+                is_tail)))
+   | 9 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_25
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_27
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_27
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_BIGINT
+                           { kind = BIG_BINARY; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token bigint"))
+   | 10 ->
+       Token (env, (T_BIGINT { kind = BIG_BINARY; raw = (lexeme lexbuf) }))
+   | 11 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_25
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_28
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_28
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER { kind = BINARY; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token bignumber"))
+   | 12 -> Token (env, (T_NUMBER { kind = BINARY; raw = (lexeme lexbuf) }))
+   | 13 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_29
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_30
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_30
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_BIGINT { kind = BIG_OCTAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token octbigint"))
+   | 14 ->
+       Token (env, (T_BIGINT { kind = BIG_OCTAL; raw = (lexeme lexbuf) }))
+   | 15 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_29
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_31
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_31
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER { kind = OCTAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token octnumber"))
+   | 16 -> Token (env, (T_NUMBER { kind = OCTAL; raw = (lexeme lexbuf) }))
+   | 17 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_32
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_33
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER
+                           { kind = LEGACY_NON_OCTAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token legacynonoctnumber"))
+   | 18 ->
+       Token
+         (env, (T_NUMBER { kind = LEGACY_NON_OCTAL; raw = (lexeme lexbuf) }))
+   | 19 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_17
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER
+                           { kind = LEGACY_OCTAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token legacyoctnumber"))
+   | 20 ->
+       Token (env, (T_NUMBER { kind = LEGACY_OCTAL; raw = (lexeme lexbuf) }))
+   | 21 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_34
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_35
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_35
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_BIGINT
+                           { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token hexbigint"))
+   | 22 ->
+       Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+   | 23 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_34
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_36
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_36
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token hexnumber"))
+   | 24 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+   | 25 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_12 lexbuf
+                      | 2 -> __sedlex_state_17 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_39
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_11 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_11 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_11 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_12 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_43
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_13 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_44
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_14 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_14 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_14 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_15 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_16 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_16 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_16 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_17 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_45
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_17 lexbuf
+                      | 2 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let loc = loc_of_lexbuf env lexbuf in
+                    let env = lex_error env loc Parse_error.InvalidSciBigInt in
+                    Token
+                      (env,
+                        (T_BIGINT
+                           { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token scibigint"))
+   | 26 ->
+       let loc = loc_of_lexbuf env lexbuf in
+       let env = lex_error env loc Parse_error.InvalidSciBigInt in
+       Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+   | 27 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_11 lexbuf
+                      | 2 -> __sedlex_state_16 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_39
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_33
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_8 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_8 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_11 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_43
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_12 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_12 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_44
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_13 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_14 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_14 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_15 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_15 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_14 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_16 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_45
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_12 lexbuf
+                      | 1 -> __sedlex_state_16 lexbuf
+                      | 2 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token scinumber"))
+   | 28 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+   | 29 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | 2 -> __sedlex_state_8 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_47
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_48
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_48
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_10 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let loc = loc_of_lexbuf env lexbuf in
+                    let env =
+                      lex_error env loc Parse_error.InvalidFloatBigInt in
+                    Token
+                      (env,
+                        (T_BIGINT
+                           { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token floatbigint"))
+   | 30 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_BIGINT
+                           { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token wholebigint"))
+   | 31 ->
+       let loc = loc_of_lexbuf env lexbuf in
+       let env = lex_error env loc Parse_error.InvalidFloatBigInt in
+       Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+   | 32 ->
+       Token (env, (T_BIGINT { kind = BIG_NORMAL; raw = (lexeme lexbuf) }))
+   | 33 ->
+       recover env lexbuf
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | 1 -> __sedlex_state_3 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_4 lexbuf
+                       | 1 -> __sedlex_state_3 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_47
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_5 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_33
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_48
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | 2 -> __sedlex_state_8 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_48
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_9 lexbuf
+                       | 2 -> __sedlex_state_8 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    Token
+                      (env,
+                        (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+                | _ -> failwith "unreachable token wholenumber"))
+   | 34 -> Token (env, (T_NUMBER { kind = NORMAL; raw = (lexeme lexbuf) }))
+   | 35 ->
+       let loc = loc_of_lexbuf env lexbuf in
+       let raw = lexeme lexbuf in
+       Token (env, (T_IDENTIFIER { loc; value = raw; raw }))
+   | 36 -> Token (env, T_LCURLY)
+   | 37 -> Token (env, T_RCURLY)
+   | 38 -> Token (env, T_LPAREN)
+   | 39 -> Token (env, T_RPAREN)
+   | 40 -> Token (env, T_LBRACKET)
+   | 41 -> Token (env, T_RBRACKET)
+   | 42 -> Token (env, T_ELLIPSIS)
+   | 43 -> Token (env, T_PERIOD)
+   | 44 -> Token (env, T_SEMICOLON)
+   | 45 -> Token (env, T_COMMA)
+   | 46 -> Token (env, T_COLON)
+   | 47 ->
+       (Sedlexing.rollback lexbuf;
+        (let __sedlex_state_0 =
+           function
+           | lexbuf ->
+               (match __sedlex_partition_49
+                        (Sedlexing.__private__next_int lexbuf)
+                with
+                | 0 -> 0
+                | _ -> Sedlexing.backtrack lexbuf) in
+         Sedlexing.start lexbuf;
+         (match __sedlex_state_0 lexbuf with
+          | 0 -> Token (env, T_PLING)
+          | _ -> failwith "expected ?")))
+   | 48 -> Token (env, T_PLING_PERIOD)
+   | 49 -> Token (env, T_PLING_PLING)
+   | 50 -> Token (env, T_PLING)
+   | 51 -> Token (env, T_AND)
+   | 52 -> Token (env, T_OR)
+   | 53 -> Token (env, T_STRICT_EQUAL)
+   | 54 -> Token (env, T_STRICT_NOT_EQUAL)
+   | 55 -> Token (env, T_LESS_THAN_EQUAL)
+   | 56 -> Token (env, T_GREATER_THAN_EQUAL)
+   | 57 -> Token (env, T_EQUAL)
+   | 58 -> Token (env, T_NOT_EQUAL)
+   | 59 -> Token (env, T_INCR)
+   | 60 -> Token (env, T_DECR)
+   | 61 -> Token (env, T_LSHIFT_ASSIGN)
+   | 62 -> Token (env, T_LSHIFT)
+   | 63 -> Token (env, T_RSHIFT_ASSIGN)
+   | 64 -> Token (env, T_RSHIFT3_ASSIGN)
+   | 65 -> Token (env, T_RSHIFT3)
+   | 66 -> Token (env, T_RSHIFT)
+   | 67 -> Token (env, T_PLUS_ASSIGN)
+   | 68 -> Token (env, T_MINUS_ASSIGN)
+   | 69 -> Token (env, T_MULT_ASSIGN)
+   | 70 -> Token (env, T_EXP_ASSIGN)
+   | 71 -> Token (env, T_MOD_ASSIGN)
+   | 72 -> Token (env, T_BIT_AND_ASSIGN)
+   | 73 -> Token (env, T_BIT_OR_ASSIGN)
+   | 74 -> Token (env, T_BIT_XOR_ASSIGN)
+   | 75 -> Token (env, T_NULLISH_ASSIGN)
+   | 76 -> Token (env, T_AND_ASSIGN)
+   | 77 -> Token (env, T_OR_ASSIGN)
+   | 78 -> Token (env, T_LESS_THAN)
+   | 79 -> Token (env, T_GREATER_THAN)
+   | 80 -> Token (env, T_PLUS)
+   | 81 -> Token (env, T_MINUS)
+   | 82 -> Token (env, T_MULT)
+   | 83 -> Token (env, T_EXP)
+   | 84 -> Token (env, T_MOD)
+   | 85 -> Token (env, T_BIT_OR)
+   | 86 -> Token (env, T_BIT_AND)
+   | 87 -> Token (env, T_BIT_XOR)
+   | 88 -> Token (env, T_NOT)
+   | 89 -> Token (env, T_BIT_NOT)
+   | 90 -> Token (env, T_ASSIGN)
+   | 91 -> Token (env, T_ARROW)
+   | 92 -> Token (env, T_DIV_ASSIGN)
+   | 93 -> Token (env, T_DIV)
+   | 94 -> Token (env, T_AT)
+   | 95 -> Token (env, T_POUND)
+   | 96 -> let env = illegal env (loc_of_lexbuf env lexbuf) in Continue env
+   | 97 ->
+       let start_offset = Sedlexing.lexeme_start lexbuf in
+       ((loop_id_continues lexbuf) |> ignore;
+        (let end_offset = Sedlexing.lexeme_end lexbuf in
+         let loc = loc_of_offsets env start_offset end_offset in
+         Sedlexing.set_lexeme_start lexbuf start_offset;
+         (match lexeme lexbuf with
+          | "async" -> Token (env, T_ASYNC)
+          | "await" -> Token (env, T_AWAIT)
+          | "break" -> Token (env, T_BREAK)
+          | "case" -> Token (env, T_CASE)
+          | "catch" -> Token (env, T_CATCH)
+          | "class" -> Token (env, T_CLASS)
+          | "const" -> Token (env, T_CONST)
+          | "continue" -> Token (env, T_CONTINUE)
+          | "debugger" -> Token (env, T_DEBUGGER)
+          | "declare" -> Token (env, T_DECLARE)
+          | "default" -> Token (env, T_DEFAULT)
+          | "delete" -> Token (env, T_DELETE)
+          | "do" -> Token (env, T_DO)
+          | "else" -> Token (env, T_ELSE)
+          | "enum" -> Token (env, T_ENUM)
+          | "export" -> Token (env, T_EXPORT)
+          | "extends" -> Token (env, T_EXTENDS)
+          | "false" -> Token (env, T_FALSE)
+          | "finally" -> Token (env, T_FINALLY)
+          | "for" -> Token (env, T_FOR)
+          | "function" -> Token (env, T_FUNCTION)
+          | "if" -> Token (env, T_IF)
+          | "implements" -> Token (env, T_IMPLEMENTS)
+          | "import" -> Token (env, T_IMPORT)
+          | "in" -> Token (env, T_IN)
+          | "instanceof" -> Token (env, T_INSTANCEOF)
+          | "interface" -> Token (env, T_INTERFACE)
+          | "let" -> Token (env, T_LET)
+          | "match" -> Token (env, T_MATCH)
+          | "new" -> Token (env, T_NEW)
+          | "null" -> Token (env, T_NULL)
+          | "of" -> Token (env, T_OF)
+          | "opaque" -> Token (env, T_OPAQUE)
+          | "package" -> Token (env, T_PACKAGE)
+          | "private" -> Token (env, T_PRIVATE)
+          | "protected" -> Token (env, T_PROTECTED)
+          | "public" -> Token (env, T_PUBLIC)
+          | "return" -> Token (env, T_RETURN)
+          | "static" -> Token (env, T_STATIC)
+          | "super" -> Token (env, T_SUPER)
+          | "switch" -> Token (env, T_SWITCH)
+          | "this" -> Token (env, T_THIS)
+          | "throw" -> Token (env, T_THROW)
+          | "true" -> Token (env, T_TRUE)
+          | "try" -> Token (env, T_TRY)
+          | "type" -> Token (env, T_TYPE)
+          | "typeof" -> Token (env, T_TYPEOF)
+          | "var" -> Token (env, T_VAR)
+          | "void" -> Token (env, T_VOID)
+          | "while" -> Token (env, T_WHILE)
+          | "with" -> Token (env, T_WITH)
+          | "yield" -> Token (env, T_YIELD)
+          | _ ->
+              let raw = Sedlexing.lexeme lexbuf in
+              let (nenv, value) = decode_identifier env raw in
+              Token
+                (nenv,
+                  (T_IDENTIFIER
+                     { loc; value; raw = (Sedlexing.string_of_utf8 raw) })))))
+   | 98 ->
+       let env =
+         if is_in_comment_syntax env
+         then
+           let loc = loc_of_lexbuf env lexbuf in
+           lex_error env loc Parse_error.UnexpectedEOS
+         else env in
+       Token (env, T_EOF)
+   | 99 ->
+       let env = illegal env (loc_of_lexbuf env lexbuf) in
+       Token (env, (T_ERROR (lexeme lexbuf)))
+   | _ -> failwith "unreachable token")
 let rec regexp_class env buf lexbuf =
   let rec __sedlex_state_0 =
     function
@@ -12193,603 +12171,594 @@ let type_token env lexbuf =
                 (loc, (Buffer.contents buf), (Buffer.contents raw), octal)))))
    | 7 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_25
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_26
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_27
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_26
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_27
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_bignum_singleton BIG_BINARY num))
-                  | _ -> failwith "unreachable type_token bigbigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_25
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_27
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_27
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_bignum_singleton BIG_BINARY num))
+                | _ -> failwith "unreachable type_token bigbigint"))
    | 8 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_bignum_singleton BIG_BINARY num))
    | 9 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_25
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_26
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_28
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_26
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_28
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton BINARY num))
-                  | _ -> failwith "unreachable type_token binnumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_25
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_28
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_26
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_28
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton BINARY num))
+                | _ -> failwith "unreachable type_token binnumber"))
    | 10 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton BINARY num))
    | 11 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_29
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_17
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_30
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_17
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_30
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_bignum_singleton BIG_OCTAL num))
-                  | _ -> failwith "unreachable type_token octbigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_29
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_30
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_30
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_bignum_singleton BIG_OCTAL num))
+                | _ -> failwith "unreachable type_token octbigint"))
    | 12 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_bignum_singleton BIG_OCTAL num))
    | 13 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_29
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_17
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_31
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_17
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_31
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton OCTAL num))
-                  | _ -> failwith "unreachable type_token octnumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_29
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_31
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_31
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton OCTAL num))
+                | _ -> failwith "unreachable type_token octnumber"))
    | 14 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton OCTAL num))
    | 15 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_17
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_17
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton LEGACY_OCTAL num))
-                  | _ -> failwith "unreachable type_token legacyoctnumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_17
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_17
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton LEGACY_OCTAL num))
+                | _ -> failwith "unreachable type_token legacyoctnumber"))
    | 16 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton LEGACY_OCTAL num))
    | 17 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_34
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_4
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_35
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_4
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_35
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_bignum_singleton BIG_NORMAL num))
-                  | _ -> failwith "unreachable type_token hexbigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_34
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_35
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_35
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_bignum_singleton BIG_NORMAL num))
+                | _ -> failwith "unreachable type_token hexbigint"))
    | 18 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_bignum_singleton BIG_NORMAL num))
    | 19 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_24
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_34
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_4
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_36
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_3 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_4
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_36
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | 1 -> __sedlex_state_4 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton NORMAL num))
-                  | _ -> failwith "unreachable type_token hexnumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_24
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_34
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_36
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_3 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_4
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_36
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | 1 -> __sedlex_state_4 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton NORMAL num))
+                | _ -> failwith "unreachable type_token hexnumber"))
    | 20 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton NORMAL num))
    | 21 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_37
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> __sedlex_state_12 lexbuf
-                        | 2 -> __sedlex_state_17 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_10 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_39
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_4 lexbuf
-                        | 1 -> __sedlex_state_5 lexbuf
-                        | 2 -> __sedlex_state_7 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_40
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_7 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_41
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_7 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_7 lexbuf
-                        | 1 -> __sedlex_state_8 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_8 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_9 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_9 lexbuf
-                        | 1 -> __sedlex_state_8 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_10 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_11 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_11 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_11 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_10 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_12 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_43
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_13 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_13 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_44
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_14 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_14 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_14 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_15 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_15 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_16 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_16 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_16 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_15 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_17 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_45
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_13 lexbuf
-                        | 1 -> __sedlex_state_17 lexbuf
-                        | 2 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      let loc = loc_of_lexbuf env lexbuf in
-                      let env =
-                        lex_error env loc Parse_error.InvalidSciBigInt in
-                      Token (env, (mk_bignum_singleton BIG_NORMAL num))
-                  | _ -> failwith "unreachable type_token scibigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_12 lexbuf
+                      | 2 -> __sedlex_state_17 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_39
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_11 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_11 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_11 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_12 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_43
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_13 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_44
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_14 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_14 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_14 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_15 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_16 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_16 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_16 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_17 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_45
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_17 lexbuf
+                      | 2 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    let loc = loc_of_lexbuf env lexbuf in
+                    let env = lex_error env loc Parse_error.InvalidSciBigInt in
+                    Token (env, (mk_bignum_singleton BIG_NORMAL num))
+                | _ -> failwith "unreachable type_token scibigint"))
    | 22 ->
        let num = Sedlexing.lexeme lexbuf in
        let loc = loc_of_lexbuf env lexbuf in
@@ -12797,336 +12766,333 @@ let type_token env lexbuf =
        Token (env, (mk_bignum_singleton BIG_NORMAL num))
    | 23 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_37
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> __sedlex_state_11 lexbuf
-                        | 2 -> __sedlex_state_16 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_39
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_4 lexbuf
-                        | 1 -> __sedlex_state_5 lexbuf
-                        | 2 -> __sedlex_state_6 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_40
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_6 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_6 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_46
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_6 lexbuf
-                         | 1 -> __sedlex_state_7 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_7 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_8 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_8 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_46
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_8 lexbuf
-                         | 1 -> __sedlex_state_7 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_9 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_10 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_10 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_10 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_11 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_43
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_12 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_12 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_44
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_13 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_13 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_13 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_14 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_14 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_15 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_15 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_38
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_15 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> __sedlex_state_14 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_16 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_45
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_12 lexbuf
-                        | 1 -> __sedlex_state_16 lexbuf
-                        | 2 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton NORMAL num))
-                  | _ -> failwith "unreachable type_token scinumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_11 lexbuf
+                      | 2 -> __sedlex_state_16 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_39
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_33
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_5 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_8 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_8 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_11 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_43
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_12 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_12 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_44
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_13 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_13 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_14 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_14 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_15 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_15 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_38
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_15 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> __sedlex_state_14 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_16 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_45
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_12 lexbuf
+                      | 1 -> __sedlex_state_16 lexbuf
+                      | 2 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton NORMAL num))
+                | _ -> failwith "unreachable type_token scinumber"))
    | 24 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton NORMAL num))
    | 25 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_37
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> __sedlex_state_6 lexbuf
-                        | 2 -> __sedlex_state_8 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_4 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_4 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_6 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_47
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_7 lexbuf
-                        | 1 -> __sedlex_state_6 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_7 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_41
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | 1 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_8 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_48
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_7 lexbuf
-                        | 1 -> __sedlex_state_8 lexbuf
-                        | 2 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_9 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_10 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_10 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_48
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_7 lexbuf
-                        | 1 -> __sedlex_state_10 lexbuf
-                        | 2 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      let loc = loc_of_lexbuf env lexbuf in
-                      let env =
-                        lex_error env loc Parse_error.InvalidFloatBigInt in
-                      Token (env, (mk_bignum_singleton BIG_NORMAL num))
-                  | _ -> failwith "unreachable type_token floatbigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | 2 -> __sedlex_state_8 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_47
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_6 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_48
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_8 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_10 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_10 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_48
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_7 lexbuf
+                      | 1 -> __sedlex_state_10 lexbuf
+                      | 2 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    let loc = loc_of_lexbuf env lexbuf in
+                    let env =
+                      lex_error env loc Parse_error.InvalidFloatBigInt in
+                    Token (env, (mk_bignum_singleton BIG_NORMAL num))
+                | _ -> failwith "unreachable type_token floatbigint"))
    | 26 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_40
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> __sedlex_state_3 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_41
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_3 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_42
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_5 lexbuf
-                        | 1 -> __sedlex_state_4 lexbuf
-                        | 2 -> 0
-                        | _ -> Sedlexing.backtrack lexbuf) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_bignum_singleton BIG_NORMAL num))
-                  | _ -> failwith "unreachable type_token wholebigint"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_40
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_3 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_41
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_3 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_42
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_5 lexbuf
+                      | 1 -> __sedlex_state_4 lexbuf
+                      | 2 -> 0
+                      | _ -> Sedlexing.backtrack lexbuf) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_bignum_singleton BIG_NORMAL num))
+                | _ -> failwith "unreachable type_token wholebigint"))
    | 27 ->
        let num = Sedlexing.lexeme lexbuf in
        let loc = loc_of_lexbuf env lexbuf in
@@ -13137,109 +13103,108 @@ let type_token env lexbuf =
        Token (env, (mk_bignum_singleton BIG_NORMAL num))
    | 29 ->
        recover env lexbuf
-         ~f:(fun env ->
-               fun lexbuf ->
-                 let rec __sedlex_state_0 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_37
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_1 lexbuf
-                        | 1 -> __sedlex_state_5 lexbuf
-                        | 2 -> __sedlex_state_7 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_1 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_2 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_2 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_46
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_3 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_4 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_4 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_46
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_4 lexbuf
-                         | 1 -> __sedlex_state_3 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_5 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_47
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_6 lexbuf
-                         | 1 -> __sedlex_state_5 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_6 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_33
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_2 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_7 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_48
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_6 lexbuf
-                         | 1 -> __sedlex_state_7 lexbuf
-                         | 2 -> __sedlex_state_8 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf))
-                 and __sedlex_state_8 =
-                   function
-                   | lexbuf ->
-                       (match __sedlex_partition_33
-                                (Sedlexing.__private__next_int lexbuf)
-                        with
-                        | 0 -> __sedlex_state_9 lexbuf
-                        | _ -> Sedlexing.backtrack lexbuf)
-                 and __sedlex_state_9 =
-                   function
-                   | lexbuf ->
-                       (Sedlexing.mark lexbuf 0;
-                        (match __sedlex_partition_48
-                                 (Sedlexing.__private__next_int lexbuf)
-                         with
-                         | 0 -> __sedlex_state_6 lexbuf
-                         | 1 -> __sedlex_state_9 lexbuf
-                         | 2 -> __sedlex_state_8 lexbuf
-                         | _ -> Sedlexing.backtrack lexbuf)) in
-                 Sedlexing.start lexbuf;
-                 (match __sedlex_state_0 lexbuf with
-                  | 0 ->
-                      let num = Sedlexing.lexeme lexbuf in
-                      Token (env, (mk_num_singleton NORMAL num))
-                  | _ -> failwith "unreachable type_token wholenumber"))
+         ~f:(fun env lexbuf ->
+               let rec __sedlex_state_0 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_37
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_1 lexbuf
+                      | 1 -> __sedlex_state_5 lexbuf
+                      | 2 -> __sedlex_state_7 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_1 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_2 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_2 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | 1 -> __sedlex_state_3 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_3 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_4 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_4 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_46
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_4 lexbuf
+                       | 1 -> __sedlex_state_3 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_5 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_47
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_5 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_6 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_33
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_2 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_7 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_48
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_7 lexbuf
+                       | 2 -> __sedlex_state_8 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf))
+               and __sedlex_state_8 =
+                 function
+                 | lexbuf ->
+                     (match __sedlex_partition_33
+                              (Sedlexing.__private__next_int lexbuf)
+                      with
+                      | 0 -> __sedlex_state_9 lexbuf
+                      | _ -> Sedlexing.backtrack lexbuf)
+               and __sedlex_state_9 =
+                 function
+                 | lexbuf ->
+                     (Sedlexing.mark lexbuf 0;
+                      (match __sedlex_partition_48
+                               (Sedlexing.__private__next_int lexbuf)
+                       with
+                       | 0 -> __sedlex_state_6 lexbuf
+                       | 1 -> __sedlex_state_9 lexbuf
+                       | 2 -> __sedlex_state_8 lexbuf
+                       | _ -> Sedlexing.backtrack lexbuf)) in
+               Sedlexing.start lexbuf;
+               (match __sedlex_state_0 lexbuf with
+                | 0 ->
+                    let num = Sedlexing.lexeme lexbuf in
+                    Token (env, (mk_num_singleton NORMAL num))
+                | _ -> failwith "unreachable type_token wholenumber"))
    | 30 ->
        let num = Sedlexing.lexeme lexbuf in
        Token (env, (mk_num_singleton NORMAL num))
@@ -13290,6 +13255,7 @@ let type_token env lexbuf =
           | "bigint" -> Token (env, T_BIGINT_TYPE)
           | "bool" -> Token (env, (T_BOOLEAN_TYPE BOOL))
           | "boolean" -> Token (env, (T_BOOLEAN_TYPE BOOLEAN))
+          | "const" -> Token (env, T_CONST)
           | "empty" -> Token (env, T_EMPTY_TYPE)
           | "extends" -> Token (env, T_EXTENDS)
           | "false" -> Token (env, T_FALSE)
@@ -13303,6 +13269,7 @@ let type_token env lexbuf =
           | "infer" -> Token (env, T_INFER)
           | "is" -> Token (env, T_IS)
           | "asserts" -> Token (env, T_ASSERTS)
+          | "implies" -> Token (env, T_IMPLIES)
           | "static" -> Token (env, T_STATIC)
           | "string" -> Token (env, T_STRING_TYPE)
           | "symbol" -> Token (env, T_SYMBOL_TYPE)

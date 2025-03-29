@@ -31,6 +31,7 @@ type token_sink_result = {
 type parse_options = {
   components: bool; (* enable parsing of Flow component syntax *)
   enums: bool;  (** enable parsing of Flow enums *)
+  pattern_matching: bool;
   esproposal_decorators: bool;  (** enable parsing of decorators *)
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
@@ -39,6 +40,8 @@ type parse_options = {
 }
 
 val default_parse_options : parse_options
+
+val permissive_parse_options : parse_options
 
 type env
 
@@ -227,6 +230,8 @@ module Peek : sig
   val is_identifier_name : env -> bool
 
   val is_function : env -> bool
+
+  val is_hook : env -> bool
 
   val is_class : env -> bool
 

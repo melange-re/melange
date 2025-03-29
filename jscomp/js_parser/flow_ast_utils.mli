@@ -22,6 +22,10 @@ val fold_bindings_of_variable_declarations :
 
 val pattern_has_binding : ('m, 't) Flow_ast.Pattern.t -> bool
 
+val match_pattern_has_binding : ('m, 't) Flow_ast.MatchPattern.t -> bool
+
+val string_of_variable_kind : Flow_ast.Variable.kind -> string
+
 val partition_directives :
   (Loc.t, Loc.t) Flow_ast.Statement.t list ->
   (Loc.t, Loc.t) Flow_ast.Statement.t list * (Loc.t, Loc.t) Flow_ast.Statement.t list
@@ -31,17 +35,44 @@ val hoist_function_and_component_declarations :
 
 val is_call_to_invariant : ('a, 'b) Flow_ast.Expression.t -> bool
 
+val is_call_to_require : ('a, 'b) Flow_ast.Expression.t -> bool
+
 val is_call_to_is_array : ('a, 'b) Flow_ast.Expression.t -> bool
 
 val is_call_to_object_dot_freeze : ('a, 'b) Flow_ast.Expression.t -> bool
 
+val get_call_to_object_dot_freeze_arg :
+  ('a, 'b) Flow_ast.Expression.t ->
+  ('a, 'b) Flow_ast.Expression.CallTypeArgs.t option ->
+  ('a, 'b) Flow_ast.Expression.ArgList.t ->
+  ('b * ('a, 'b) Flow_ast.Expression.Object.t) option
+
 val is_call_to_object_static_method : ('a, 'b) Flow_ast.Expression.t -> bool
 
+val get_call_to_jest_module_mocking_fn :
+  ('loc, 'annot) Flow_ast.Expression.t ->
+  ('loc, 'annot) Flow_ast.Expression.ArgList.t ->
+  ('annot * 'annot * string) option
+
 val is_super_member_access : ('a, 'b) Flow_ast.Expression.Member.t -> bool
+
+(* Returns Ok () for such statement, and Error kind_of_statement otherwise. *)
+val acceptable_statement_in_declaration_context :
+  in_declare_namespace:bool -> ('a, 'b) Flow_ast.Statement.t' -> (unit, string) result
+
+val is_type_only_declaration_statement : ('a, 'b) Flow_ast.Statement.t -> bool
 
 val negate_number_literal : float * string -> float * string
 
 val negate_bigint_literal : int64 option * string -> int64 option * string
+
+val is_number_literal : ('a, 'b) Flow_ast.Expression.t' -> bool
+
+val extract_number_literal : ('a, 'b) Flow_ast.Expression.t' -> (float * string) option
+
+val is_bigint_literal : ('a, 'b) Flow_ast.Expression.t' -> bool
+
+val extract_bigint_literal : ('a, 'b) Flow_ast.Expression.t' -> (int64 option * string) option
 
 val loc_of_expression : ('a, 'a) Flow_ast.Expression.t -> 'a
 
@@ -107,12 +138,14 @@ module ExpressionSort : sig
     | JSXFragment
     | Literal
     | Logical
+    | Match
     | Member
     | MetaProperty
     | New
     | Object
     | OptionalCall
     | OptionalMember
+    | Satisfies
     | Sequence
     | Super
     | TaggedTemplate
@@ -140,4 +173,21 @@ val push_toplevel_type :
 
 val hook_function : ('a, 'b) Flow_ast.Function.t -> 'b option
 
-val hook_call : ('loc, 'loc) Flow_ast.Expression.Call.t -> bool
+val hook_call : ('a, 'b) Flow_ast.Expression.Call.t -> bool
+
+val hook_name : string -> bool
+
+val match_root_name : string
+
+val match_root_ident : 'loc -> ('loc, 'loc) Flow_ast.Identifier.t
+
+val expression_of_match_member_pattern :
+  visit_expression:(('loc, 'loc) Flow_ast.Expression.t -> unit) ->
+  ('loc, 'loc) Flow_ast.MatchPattern.MemberPattern.t ->
+  ('loc, 'loc) Flow_ast.Expression.t * ('loc, 'loc) Flow_ast.Identifier.t
+
+val get_inferred_type_guard_candidate :
+  ('l, 't) Flow_ast.Function.Params.t ->
+  ('l, 't) Flow_ast.Function.body ->
+  ('l, 't) Flow_ast.Function.ReturnAnnot.t ->
+  ('t * string) option
