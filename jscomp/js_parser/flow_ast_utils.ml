@@ -6,6 +6,8 @@
  *)
 
 open Flow_ast
+module E = Expression
+module I = Identifier
 
 type 'loc binding = 'loc * string
 
@@ -41,17 +43,17 @@ let rec fold_bindings_of_pattern =
   )
 
 let fold_bindings_of_variable_declarations f acc declarations =
-  let open Flow_ast.Statement.VariableDeclaration in
+  let open Statement.VariableDeclaration in
   List.fold_left
     (fun acc -> function
       | (_, { Declarator.id = pattern; _ }) ->
         let has_anno =
           (* Only the toplevel annotation in a pattern is meaningful *)
-          let open Flow_ast.Pattern in
+          let open Pattern in
           match pattern with
-          | (_, Array { Array.annot = Flow_ast.Type.Available _; _ })
-          | (_, Object { Object.annot = Flow_ast.Type.Available _; _ })
-          | (_, Identifier { Identifier.annot = Flow_ast.Type.Available _; _ }) ->
+          | (_, Array { Array.annot = Type.Available _; _ })
+          | (_, Object { Object.annot = Type.Available _; _ })
+          | (_, Identifier { Identifier.annot = Type.Available _; _ }) ->
             true
           | _ -> false
         in
@@ -82,8 +84,46 @@ let rec pattern_has_binding =
   | (_, Array { Array.elements; _ }) -> List.exists element elements
   | (_, Expression _) -> false
 
+let rec match_pattern_has_binding =
+  let open MatchPattern in
+  let property = function
+    | (_, ObjectPattern.Property.Valid { ObjectPattern.Property.pattern = p; _ }) ->
+      match_pattern_has_binding p
+    | (_, ObjectPattern.Property.InvalidShorthand _) -> false
+  in
+  let rest_has_binding = function
+    | Some (_, { RestPattern.argument = Some _; comments = _ }) -> true
+    | _ -> false
+  in
+  function
+  | (_, WildcardPattern _)
+  | (_, NumberPattern _)
+  | (_, BigIntPattern _)
+  | (_, StringPattern _)
+  | (_, BooleanPattern _)
+  | (_, NullPattern _)
+  | (_, UnaryPattern _)
+  | (_, IdentifierPattern _)
+  | (_, MemberPattern _) ->
+    false
+  | (_, BindingPattern _) -> true
+  | (_, ObjectPattern { ObjectPattern.properties; rest; comments = _ }) ->
+    rest_has_binding rest || List.exists property properties
+  | (_, ArrayPattern { ArrayPattern.elements; rest; comments = _ }) ->
+    rest_has_binding rest
+    || List.exists
+         (fun { ArrayPattern.Element.pattern; _ } -> match_pattern_has_binding pattern)
+         elements
+  | (_, OrPattern { OrPattern.patterns; _ }) -> List.exists match_pattern_has_binding patterns
+  | (_, AsPattern _) -> true
+
+let string_of_variable_kind = function
+  | Variable.Var -> "var"
+  | Variable.Let -> "let"
+  | Variable.Const -> "const"
+
 let partition_directives statements =
-  let open Flow_ast.Statement in
+  let open Statement in
   let rec helper directives = function
     | ((_, Expression { Expression.directive = Some _; _ }) as directive) :: rest ->
       helper (directive :: directives) rest
@@ -92,22 +132,19 @@ let partition_directives statements =
   helper [] statements
 
 let hoist_function_and_component_declarations stmts =
-  let open Flow_ast.Statement in
+  let open Statement in
   let (func_and_component_decs, other_stmts) =
     List.partition
       (function
         (* function f() {} / component F() {} *)
-        | (_, (FunctionDeclaration { Flow_ast.Function.id = Some _; _ } | ComponentDeclaration _))
+        | (_, (FunctionDeclaration { Function.id = Some _; _ } | ComponentDeclaration _))
         (* export function f() {} / export component F() {} *)
         | ( _,
             ExportNamedDeclaration
               {
                 ExportNamedDeclaration.declaration =
                   Some
-                    ( _,
-                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
-                      | ComponentDeclaration _ )
-                    );
+                    (_, (FunctionDeclaration { Function.id = Some _; _ } | ComponentDeclaration _));
                 _;
               }
           )
@@ -117,10 +154,7 @@ let hoist_function_and_component_declarations stmts =
               {
                 ExportDefaultDeclaration.declaration =
                   ExportDefaultDeclaration.Declaration
-                    ( _,
-                      ( FunctionDeclaration { Flow_ast.Function.id = Some _; _ }
-                      | ComponentDeclaration _ )
-                    );
+                    (_, (FunctionDeclaration { Function.id = Some _; _ } | ComponentDeclaration _));
                 _;
               }
           )
@@ -151,24 +185,71 @@ let negate_bigint_literal (value, raw) =
   | None -> (None, raw)
   | Some value -> (Some (Int64.neg value), negate_raw_lit raw)
 
+let is_number_literal node =
+  match node with
+  | Expression.NumberLiteral _
+  | Expression.Unary
+      {
+        Expression.Unary.operator = Expression.Unary.Minus;
+        argument = (_, Expression.NumberLiteral _);
+        comments = _;
+      } ->
+    true
+  | _ -> false
+
+let extract_number_literal node =
+  match node with
+  | Expression.NumberLiteral { NumberLiteral.value; raw; comments = _ } -> Some (value, raw)
+  | Expression.Unary
+      {
+        Expression.Unary.operator = Expression.Unary.Minus;
+        argument = (_, Expression.NumberLiteral { NumberLiteral.value; raw; _ });
+        comments = _;
+      } ->
+    Some (negate_number_literal (value, raw))
+  | _ -> None
+
+let is_bigint_literal node =
+  match node with
+  | Expression.BigIntLiteral _
+  | Expression.Unary
+      {
+        Expression.Unary.operator = Expression.Unary.Minus;
+        argument = (_, Expression.BigIntLiteral _);
+        comments = _;
+      } ->
+    true
+  | _ -> false
+
+let extract_bigint_literal node =
+  match node with
+  | Expression.BigIntLiteral { BigIntLiteral.value; raw; comments = _ } -> Some (value, raw)
+  | Expression.Unary
+      {
+        Expression.Unary.operator = Expression.Unary.Minus;
+        argument = (_, Expression.BigIntLiteral { BigIntLiteral.value; raw; comments = _ });
+        comments = _;
+      } ->
+    Some (negate_bigint_literal (value, raw))
+  | _ -> None
+
 let is_call_to_invariant callee =
   match callee with
   | (_, Expression.Identifier (_, { Identifier.name = "invariant"; _ })) -> true
   | _ -> false
 
+let is_call_to_require callee =
+  match callee with
+  | (_, Expression.Identifier (_, { Identifier.name = "require"; _ })) -> true
+  | _ -> false
+
 let is_call_to_is_array callee =
   match callee with
   | ( _,
-      Flow_ast.Expression.Member
+      E.Member
         {
-          Flow_ast.Expression.Member._object =
-            ( _,
-              Flow_ast.Expression.Identifier
-                (_, { Flow_ast.Identifier.name = "Array"; comments = _ })
-            );
-          property =
-            Flow_ast.Expression.Member.PropertyIdentifier
-              (_, { Flow_ast.Identifier.name = "isArray"; comments = _ });
+          E.Member._object = (_, E.Identifier (_, { I.name = "Array"; comments = _ }));
+          property = E.Member.PropertyIdentifier (_, { I.name = "isArray"; comments = _ });
           comments = _;
         }
     ) ->
@@ -178,42 +259,200 @@ let is_call_to_is_array callee =
 let is_call_to_object_dot_freeze callee =
   match callee with
   | ( _,
-      Flow_ast.Expression.Member
+      E.Member
         {
-          Flow_ast.Expression.Member._object =
-            ( _,
-              Flow_ast.Expression.Identifier
-                (_, { Flow_ast.Identifier.name = "Object"; comments = _ })
-            );
-          property =
-            Flow_ast.Expression.Member.PropertyIdentifier
-              (_, { Flow_ast.Identifier.name = "freeze"; comments = _ });
+          E.Member._object = (_, E.Identifier (_, { I.name = "Object"; comments = _ }));
+          property = E.Member.PropertyIdentifier (_, { I.name = "freeze"; comments = _ });
           comments = _;
         }
     ) ->
     true
   | _ -> false
+
+let get_call_to_object_dot_freeze_arg callee targs args =
+  match (targs, args) with
+  | (None, (_args_loc, { E.ArgList.arguments = [E.Expression (obj_loc, E.Object o)]; comments = _ }))
+    when is_call_to_object_dot_freeze callee ->
+    Some (obj_loc, o)
+  | _ -> None
 
 let is_call_to_object_static_method callee =
   match callee with
   | ( _,
-      Flow_ast.Expression.Member
+      E.Member
         {
-          Flow_ast.Expression.Member._object =
-            ( _,
-              Flow_ast.Expression.Identifier
-                (_, { Flow_ast.Identifier.name = "Object"; comments = _ })
-            );
-          property = Flow_ast.Expression.Member.PropertyIdentifier _;
+          E.Member._object = (_, E.Identifier (_, { I.name = "Object"; comments = _ }));
+          property = E.Member.PropertyIdentifier _;
           comments = _;
         }
     ) ->
     true
   | _ -> false
 
+let get_call_to_jest_module_mocking_fn callee arguments =
+  match (callee, arguments) with
+  | ( ( _,
+        E.Member
+          {
+            E.Member._object = (_, E.Identifier (jest_loc, { I.name = "jest"; comments = _ }));
+            property =
+              E.Member.PropertyIdentifier
+                ( _,
+                  (* See https://jestjs.io/docs/jest-object#mock-modules *)
+                  {
+                    I.name =
+                      ( "createMockFromModule" | "mock" | "unmock" | "deepUnmock" | "doMock"
+                      | "dontMock" | "setMock" | "requireActual" | "requireMock" );
+                    comments = _;
+                  }
+                );
+            _;
+          }
+      ),
+      ( _,
+        {
+          E.ArgList.arguments =
+            E.Expression
+              ( source_loc,
+                ( E.StringLiteral { StringLiteral.value = name; _ }
+                | E.TemplateLiteral
+                    {
+                      E.TemplateLiteral.quasis =
+                        [
+                          ( _,
+                            {
+                              E.TemplateLiteral.Element.value =
+                                { E.TemplateLiteral.Element.cooked = name; _ };
+                              _;
+                            }
+                          );
+                        ];
+                      _;
+                    } )
+              )
+            :: _;
+          comments = _;
+        }
+      )
+    ) ->
+    Some (jest_loc, source_loc, name)
+  | _ -> None
+
 let is_super_member_access = function
-  | { Flow_ast.Expression.Member._object = (_, Flow_ast.Expression.Super _); _ } -> true
+  | { E.Member._object = (_, E.Super _); _ } -> true
   | _ -> false
+
+let acceptable_statement_in_declaration_context ~in_declare_namespace =
+  let open Statement in
+  function
+  | Block _ -> Error "block"
+  | Break _ -> Error "break"
+  | ClassDeclaration _ -> Error "class declaration"
+  | ComponentDeclaration _ -> Error "component declaration"
+  | Continue _ -> Error "continue"
+  | Debugger _ -> Error "debugger"
+  | DoWhile _ -> Error "do while"
+  | ExportDefaultDeclaration _ -> Error "export default"
+  | ExportNamedDeclaration { ExportNamedDeclaration.export_kind = ExportValue; _ } ->
+    Error "value export"
+  | Expression _ -> Error "expression"
+  | For _ -> Error "for"
+  | ForIn _ -> Error "for in"
+  | ForOf _ -> Error "for of"
+  | FunctionDeclaration _ -> Error "function declaration"
+  | If _ -> Error "if"
+  | Labeled _ -> Error "labeled"
+  | Match _ -> Error "match"
+  | Return _ -> Error "return"
+  | Switch _ -> Error "switch"
+  | Throw _ -> Error "throw"
+  | Try _ -> Error "try"
+  | VariableDeclaration _ -> Error "variable declaration"
+  | While _ -> Error "while"
+  | With _ -> Error "with"
+  | ImportDeclaration _ ->
+    if in_declare_namespace then
+      Error "import declaration"
+    else
+      Ok ()
+  | DeclareModuleExports _ ->
+    if in_declare_namespace then
+      Error "declare module.exports"
+    else
+      Ok ()
+  | DeclareClass _
+  | DeclareComponent _
+  | DeclareEnum _
+  | DeclareExportDeclaration _
+  | DeclareFunction _
+  | DeclareInterface _
+  | DeclareModule _
+  | DeclareNamespace _
+  | DeclareOpaqueType _
+  | DeclareTypeAlias _
+  | DeclareVariable _
+  | Empty _
+  | EnumDeclaration _
+  | ExportNamedDeclaration { ExportNamedDeclaration.export_kind = ExportType; _ }
+  | InterfaceDeclaration _
+  | OpaqueType _
+  | TypeAlias _ ->
+    Ok ()
+
+let rec is_type_only_declaration_statement (_, stmt') =
+  let open Statement in
+  let is_type_only_declaration_statement' = function
+    | DeclareInterface _
+    | DeclareOpaqueType _
+    | DeclareTypeAlias _
+    | Empty _
+    | InterfaceDeclaration _
+    | OpaqueType _
+    | TypeAlias _ ->
+      true
+    | DeclareExportDeclaration
+        DeclareExportDeclaration.
+          { declaration = Some (NamedType _ | NamedOpaqueType _ | Interface _); _ } ->
+      true
+    | DeclareNamespace { DeclareNamespace.body = (_, { Block.body; _ }); _ } ->
+      List.for_all is_type_only_declaration_statement body
+    | ExportNamedDeclaration { ExportNamedDeclaration.export_kind; _ } -> export_kind = ExportType
+    | Block _
+    | Break _
+    | ClassDeclaration _
+    | ComponentDeclaration _
+    | Continue _
+    | Debugger _
+    | DoWhile _
+    | EnumDeclaration _
+    | ExportDefaultDeclaration _
+    | Expression _
+    | For _
+    | ForIn _
+    | ForOf _
+    | FunctionDeclaration _
+    | If _
+    | Labeled _
+    | Match _
+    | Return _
+    | Switch _
+    | Throw _
+    | Try _
+    | VariableDeclaration _
+    | While _
+    | With _
+    | ImportDeclaration _
+    | DeclareClass _
+    | DeclareComponent _
+    | DeclareEnum _
+    | DeclareExportDeclaration _
+    | DeclareFunction _
+    | DeclareModule _
+    | DeclareModuleExports _
+    | DeclareVariable _ ->
+      false
+  in
+  is_type_only_declaration_statement' stmt'
 
 let loc_of_statement = fst
 
@@ -274,7 +513,7 @@ let split_comments comments =
     (mk_comments_opt ~leading (), mk_comments_opt ~trailing ())
 
 let string_of_assignment_operator op =
-  let open Flow_ast.Expression.Assignment in
+  let open E.Assignment in
   match op with
   | PlusAssign -> "+="
   | MinusAssign -> "-="
@@ -293,7 +532,7 @@ let string_of_assignment_operator op =
   | OrAssign -> "||="
 
 let string_of_binary_operator op =
-  let open Flow_ast.Expression.Binary in
+  let open E.Binary in
   match op with
   | Equal -> "=="
   | NotEqual -> "!="
@@ -334,12 +573,14 @@ module ExpressionSort = struct
     | JSXFragment
     | Literal
     | Logical
+    | Match
     | Member
     | MetaProperty
     | New
     | Object
     | OptionalCall
     | OptionalMember
+    | Satisfies
     | Sequence
     | Super
     | TaggedTemplate
@@ -366,12 +607,14 @@ module ExpressionSort = struct
     | JSXFragment -> "JSX fragment"
     | Literal -> "literal"
     | Logical -> "logical expression"
+    | Match -> "match expression"
     | Member -> "member expression"
     | MetaProperty -> "metaproperty expression"
     | New -> "new expression"
     | Object -> "object"
     | OptionalCall -> "optional call expression"
     | OptionalMember -> "optional member expression"
+    | Satisfies -> "satisfies expression"
     | Sequence -> "sequence"
     | Super -> "`super` reference"
     | TaggedTemplate -> "tagged template expression"
@@ -384,14 +627,14 @@ module ExpressionSort = struct
 end
 
 let loc_of_annotation_or_hint =
-  let open Flow_ast.Type in
+  let open Type in
   function
   | Missing loc
   | Available (_, (loc, _)) ->
     loc
 
 let loc_of_return_annot =
-  let open Flow_ast.Function.ReturnAnnot in
+  let open Function.ReturnAnnot in
   function
   | Missing loc
   | Available (_, (loc, _))
@@ -403,7 +646,7 @@ let loc_of_return_annot =
  * identifier and member property type position as well. This is to ensure that
  * type-at-pos searcher will detect the updated type. *)
 let push_toplevel_type t exp =
-  let open Flow_ast.Expression in
+  let open E in
   let push_toplevel_identifier id =
     let ((id_loc, _), id) = id in
     ((id_loc, t), id)
@@ -426,29 +669,80 @@ let push_toplevel_type t exp =
   ((loc, t), e')
 
 let hook_name s =
-  let is_A_to_Z c = c >= 'A' && c <= 'Z' in
-  String.starts_with ~prefix:"use" s && (String.length s = 3 || is_A_to_Z s.[3])
+  let is_cap c = c = Char.uppercase_ascii c in
+  String.starts_with ~prefix:"use" s && (String.length s = 3 || is_cap s.[3])
 
-let hook_function { Flow_ast.Function.id; _ } =
+let hook_function { Function.id; _ } =
   match id with
-  | Some (loc, { Flow_ast.Identifier.name; _ }) when hook_name name -> Some loc
+  | Some (loc, { I.name; _ }) when hook_name name -> Some loc
   | _ -> None
 
-let hook_call { Flow_ast.Expression.Call.callee; _ } =
+let hook_call { E.Call.callee; _ } =
   (* A.B.C.useFoo() is a hook, A().useFoo() is not *)
-  let open Flow_ast.Expression in
+  let open E in
   let rec hook_callee top exp =
     match exp with
-    | (_, Identifier (_, { Flow_ast.Identifier.name; _ })) -> hook_name name || not top
-    | ( _,
-        Member
-          {
-            Member._object;
-            property = Member.PropertyIdentifier (_, { Flow_ast.Identifier.name; _ });
-            _;
-          }
-      ) ->
+    | (_, Identifier (_, { I.name; _ })) -> hook_name name || not top
+    | (_, Member { Member._object; property = Member.PropertyIdentifier (_, { I.name; _ }); _ }) ->
       (hook_name name || not top) && hook_callee false _object
     | _ -> false
   in
   hook_callee true callee
+
+(* Match *)
+let match_root_name = "<match_root>"
+
+let match_root_ident loc = (loc, { Identifier.name = match_root_name; comments = None })
+
+let expression_of_match_member_pattern ~visit_expression pattern =
+  let open MatchPattern in
+  let rec f (loc, { MemberPattern.base; property; comments }) =
+    let (_object, root_name) =
+      match base with
+      | MemberPattern.BaseIdentifier ((loc, _) as id) -> ((loc, Expression.Identifier id), id)
+      | MemberPattern.BaseMember mem -> f mem
+    in
+    let property =
+      match property with
+      | MemberPattern.PropertyIdentifier id -> Expression.Member.PropertyIdentifier id
+      | MemberPattern.PropertyString (loc, lit) ->
+        Expression.Member.PropertyExpression (loc, Expression.StringLiteral lit)
+      | MemberPattern.PropertyNumber (loc, lit) ->
+        Expression.Member.PropertyExpression (loc, Expression.NumberLiteral lit)
+      | MemberPattern.PropertyBigInt (loc, lit) ->
+        Expression.Member.PropertyExpression (loc, Expression.BigIntLiteral lit)
+    in
+    let exp = (loc, Expression.Member { Expression.Member._object; property; comments }) in
+    visit_expression exp;
+    (exp, root_name)
+  in
+  f pattern
+
+(* Type Guards *)
+let get_inferred_type_guard_candidate params body return =
+  match (body, return) with
+  | (Function.BodyExpression _, Function.ReturnAnnot.Missing _) -> begin
+    match params with
+    | ( _,
+        {
+          Function.Params.params =
+            [
+              ( _,
+                {
+                  Function.Param.argument =
+                    ( _,
+                      Pattern.Identifier
+                        { Pattern.Identifier.name = (loc, { Identifier.name; _ }); _ }
+                    );
+                  _;
+                }
+              );
+            ];
+          rest = None;
+          _;
+        }
+      ) ->
+      Some (loc, name)
+    | _ -> None
+  end
+  | _ -> None

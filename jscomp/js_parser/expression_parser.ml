@@ -5,39 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *)
 
-module Ast = Flow_ast
 open Token
 open Parser_env
 open Flow_ast
 open Parser_common
 open Comment_attachment
 
-module type EXPRESSION = sig
-  val assignment : env -> (Loc.t, Loc.t) Expression.t
-
-  val assignment_cover : env -> pattern_cover
-
-  val conditional : env -> (Loc.t, Loc.t) Expression.t
-
-  val is_assignable_lhs : (Loc.t, Loc.t) Expression.t -> bool
-
-  val left_hand_side : env -> (Loc.t, Loc.t) Expression.t
-
-  val number : env -> number_type -> string -> float
-
-  val bigint : env -> bigint_type -> string -> int64 option
-
-  val sequence :
-    env -> start_loc:Loc.t -> (Loc.t, Loc.t) Expression.t list -> (Loc.t, Loc.t) Expression.t
-
-  val call_type_args : env -> (Loc.t, Loc.t) Expression.CallTypeArgs.t option
-end
-
 module Expression
     (Parse : PARSER)
-    (Type : Type_parser.TYPE)
-    (Declaration : Declaration_parser.DECLARATION)
-    (Pattern_cover : Pattern_cover.COVER) : EXPRESSION = struct
+    (Type : Parser_common.TYPE)
+    (Declaration : Parser_common.DECLARATION)
+    (Pattern_cover : Parser_common.COVER) : Parser_common.EXPRESSION = struct
   type op_precedence =
     | Left_assoc of int
     | Right_assoc of int
@@ -88,6 +66,7 @@ module Expression
     | (_, Object _) ->
       true
     | (_, ArrowFunction _)
+    | (_, AsConstExpression _)
     | (_, AsExpression _)
     | (_, Assignment _)
     | (_, Binary _)
@@ -104,6 +83,7 @@ module Expression
     | (_, NumberLiteral _)
     | (_, BigIntLiteral _)
     | (_, RegExpLiteral _)
+    | (_, Match _)
     | (_, ModuleRefLiteral _)
     | (_, Logical _)
     | (_, New _)
@@ -115,7 +95,7 @@ module Expression
     | (_, TemplateLiteral _)
     | (_, This _)
     | (_, TypeCast _)
-    | (_, TSTypeCast _)
+    | (_, TSSatisfies _)
     | (_, Unary _)
     | (_, Update _)
     | (_, Yield _) ->
@@ -306,6 +286,7 @@ module Expression
       true
     | (_, Array _)
     | (_, ArrowFunction _)
+    | (_, AsConstExpression _)
     | (_, AsExpression _)
     | (_, Assignment _)
     | (_, Binary _)
@@ -324,6 +305,7 @@ module Expression
     | (_, RegExpLiteral _)
     | (_, ModuleRefLiteral _)
     | (_, Logical _)
+    | (_, Match _)
     | (_, New _)
     | (_, Object _)
     | (_, OptionalCall _)
@@ -334,7 +316,7 @@ module Expression
     | (_, TemplateLiteral _)
     | (_, This _)
     | (_, TypeCast _)
-    | (_, TSTypeCast _)
+    | (_, TSSatisfies _)
     | (_, Unary _)
     | (_, Update _)
     | (_, Yield _) ->
@@ -556,10 +538,10 @@ module Expression
                 let loc = Loc.btwn expr_loc annot_loc in
                 Cover_expr
                   ( loc,
-                    Expression.TSTypeCast
+                    Expression.TSSatisfies
                       {
-                        Expression.TSTypeCast.expression = expr;
-                        kind = Expression.TSTypeCast.Satisfies annot;
+                        Expression.TSSatisfies.expression = expr;
+                        annot = (annot_loc, annot);
                         comments = None;
                       }
                   )
@@ -568,12 +550,8 @@ module Expression
                 Eat.token env;
                 Cover_expr
                   ( loc,
-                    Expression.TSTypeCast
-                      {
-                        Expression.TSTypeCast.expression = expr;
-                        kind = Expression.TSTypeCast.AsConst;
-                        comments = None;
-                      }
+                    Expression.AsConstExpression
+                      { Expression.AsConstExpression.expression = expr; comments = None }
                   )
               ) else
                 let ((annot_loc, _) as annot) = Type._type env in
@@ -1210,6 +1188,7 @@ module Expression
             params;
             body;
             generator;
+            effect_ = Function.Arbitrary;
             async;
             predicate;
             return;
@@ -1298,7 +1277,8 @@ module Expression
           Expression.ModuleRefLiteral
             {
               Ast.ModuleRefLiteral.value;
-              require_out = loc;
+              require_loc = loc;
+              def_loc_opt = None;
               prefix_len;
               legacy_interop = false;
               raw;
@@ -1309,7 +1289,8 @@ module Expression
           Expression.ModuleRefLiteral
             {
               Ast.ModuleRefLiteral.value;
-              require_out = loc;
+              require_loc = loc;
+              def_loc_opt = None;
               prefix_len;
               legacy_interop = true;
               raw;
@@ -1350,6 +1331,37 @@ module Expression
       let (loc, template) = template_literal env part in
       Cover_expr (loc, Expression.TemplateLiteral template)
     | T_CLASS -> Cover_expr (Parse.class_expression env)
+    (* `match (` *)
+    | T_MATCH
+      when (parse_options env).pattern_matching
+           && (not (Peek.ith_is_line_terminator ~i:1 env))
+           && Peek.ith_token ~i:1 env = T_LPAREN ->
+      let leading = Peek.comments env in
+      let match_keyword_loc = Peek.loc env in
+      (* Consume `match` as an identifier, in case it's a call expression. *)
+      let id = Parse.identifier env in
+      (* Allows trailing comma. *)
+      let args = arguments env in
+      (* `match (<expr>) {` *)
+      if (not (Peek.is_line_terminator env)) && Peek.token env = T_LCURLY then
+        let arg = Parser_common.reparse_arguments_as_match_argument env args in
+        Cover_expr (match_expression ~match_keyword_loc ~leading ~arg env)
+      else
+        (* It's actually a call expression of the form `match(...)` *)
+        let callee = (match_keyword_loc, Expression.Identifier id) in
+        let (args_loc, _) = args in
+        let loc = Loc.btwn match_keyword_loc args_loc in
+        let comments = Flow_ast_utils.mk_comments_opt ~leading () in
+        let call =
+          Expression.Call { Expression.Call.callee; targs = None; arguments = args; comments }
+        in
+        (* Could have a chained call after this. *)
+        call_cover
+          ~allow_optional_chain:true
+          ~in_optional_chain:false
+          env
+          match_keyword_loc
+          (Cover_expr (loc, call))
     | T_IDENTIFIER { raw = "abstract"; _ } when Peek.ith_token ~i:1 env = T_CLASS ->
       Cover_expr (Parse.class_expression env)
     | _ when Peek.is_identifier env ->
@@ -1371,6 +1383,54 @@ module Expression
       Cover_expr (loc, Expression.NullLiteral comments)
 
   and primary env = as_expression env (primary_cover env)
+
+  and match_expression env ~match_keyword_loc ~leading ~arg =
+    let case env =
+      let leading = Peek.comments env in
+      let pattern = Parse.match_pattern env in
+      let guard =
+        if Eat.maybe env T_IF then (
+          Expect.token env T_LPAREN;
+          let test = Parse.expression env in
+          Expect.token env T_RPAREN;
+          Some test
+        ) else
+          None
+      in
+      (* Continue parsing colon until hermes-parser is also updated. *)
+      if not @@ Eat.maybe env T_COLON then Expect.token env T_ARROW;
+      let body = assignment env in
+      (match Peek.token env with
+      | T_EOF
+      | T_RCURLY ->
+        ()
+      | _ -> Expect.token env T_COMMA);
+      let trailing = Eat.trailing_comments env in
+      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
+      { Match.Case.pattern; body; guard; comments }
+    in
+    let rec case_list env acc =
+      match Peek.token env with
+      | T_EOF
+      | T_RCURLY ->
+        List.rev acc
+      | _ -> case_list env (with_loc case env :: acc)
+    in
+    with_loc
+      ~start_loc:match_keyword_loc
+      (fun env ->
+        Expect.token env T_LCURLY;
+        let cases = case_list env [] in
+        Expect.token env T_RCURLY;
+        let trailing = Eat.trailing_comments env in
+        Expression.Match
+          {
+            Match.arg;
+            cases;
+            match_keyword_loc;
+            comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing ();
+          })
+      env
 
   and template_literal =
     let rec template_parts env quasis expressions =
@@ -1489,6 +1549,10 @@ module Expression
         Array { e with Array.comments = merge_comments_with_internal comments }
       | ArrowFunction ({ Function.comments; _ } as e) ->
         ArrowFunction { e with Function.comments = merge_comments comments }
+      | AsExpression ({ AsExpression.comments; _ } as e) ->
+        AsExpression { e with AsExpression.comments = merge_comments comments }
+      | AsConstExpression ({ AsConstExpression.comments; _ } as e) ->
+        AsConstExpression { e with AsConstExpression.comments = merge_comments comments }
       | Assignment ({ Assignment.comments; _ } as e) ->
         Assignment { e with Assignment.comments = merge_comments comments }
       | Binary ({ Binary.comments; _ } as e) ->
@@ -1519,6 +1583,8 @@ module Expression
         BigIntLiteral { e with BigIntLiteral.comments = merge_comments comments }
       | RegExpLiteral ({ RegExpLiteral.comments; _ } as e) ->
         RegExpLiteral { e with RegExpLiteral.comments = merge_comments comments }
+      | Match ({ Match.comments; _ } as e) ->
+        Match { e with Match.comments = merge_comments comments }
       | ModuleRefLiteral ({ ModuleRefLiteral.comments; _ } as e) ->
         ModuleRefLiteral { e with ModuleRefLiteral.comments = merge_comments comments }
       | Logical ({ Logical.comments; _ } as e) ->
@@ -1551,6 +1617,8 @@ module Expression
       | TemplateLiteral ({ TemplateLiteral.comments; _ } as e) ->
         TemplateLiteral { e with TemplateLiteral.comments = merge_comments comments }
       | This { This.comments; _ } -> This { This.comments = merge_comments comments }
+      | TSSatisfies ({ TSSatisfies.comments; _ } as e) ->
+        TSSatisfies { e with TSSatisfies.comments = merge_comments comments }
       | TypeCast ({ TypeCast.comments; _ } as e) ->
         TypeCast { e with TypeCast.comments = merge_comments comments }
       | Unary ({ Unary.comments; _ } as e) ->
@@ -1559,8 +1627,6 @@ module Expression
         Update { e with Update.comments = merge_comments comments }
       | Yield ({ Yield.comments; _ } as e) ->
         Yield { e with Yield.comments = merge_comments comments }
-      (* TODO: Delete once all expressions support comment attachment *)
-      | _ -> expression
     )
 
   and array_initializer =
@@ -1653,7 +1719,7 @@ module Expression
     let filtered_flags = Buffer.create (String.length raw_flags) in
     String.iter
       (function
-        | ('d' | 'g' | 'i' | 'm' | 's' | 'u' | 'y') as c -> Buffer.add_char filtered_flags c
+        | ('d' | 'g' | 'i' | 'm' | 's' | 'u' | 'y' | 'v') as c -> Buffer.add_char filtered_flags c
         | _ -> ())
       raw_flags;
     let flags = Buffer.contents filtered_flags in
@@ -1809,6 +1875,7 @@ module Expression
               async;
               generator = false;
               (* arrow functions cannot be generators *)
+              effect_ = Function.Arbitrary;
               predicate;
               return;
               tparams;

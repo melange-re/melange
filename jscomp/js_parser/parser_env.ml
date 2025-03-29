@@ -126,6 +126,7 @@ type token_sink_result = {
 type parse_options = {
   components: bool; (* enable parsing of Flow component syntax *)
   enums: bool;  (** enable parsing of Flow enums *)
+  pattern_matching: bool;
   esproposal_decorators: bool;  (** enable parsing of decorators *)
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
@@ -137,7 +138,20 @@ let default_parse_options =
   {
     components = false;
     enums = false;
+    pattern_matching = false;
     esproposal_decorators = false;
+    types = true;
+    use_strict = false;
+    module_ref_prefix = None;
+    module_ref_prefix_LEGACY_INTEROP = None;
+  }
+
+let permissive_parse_options =
+  {
+    components = true;
+    enums = true;
+    pattern_matching = true;
+    esproposal_decorators = true;
     types = true;
     use_strict = false;
     module_ref_prefix = None;
@@ -647,6 +661,7 @@ let is_reserved_type str_val =
   | "bigint"
   | "bool"
   | "boolean"
+  | "const"
   | "empty"
   | "extends"
   | "false"
@@ -677,6 +692,7 @@ let token_is_reserved_type t =
   | T_ANY_TYPE
   | T_BIGINT_TYPE
   | T_BOOLEAN_TYPE _
+  | T_CONST
   | T_EMPTY_TYPE
   | T_EXTENDS
   | T_FALSE
@@ -758,6 +774,7 @@ let token_is_type_identifier env t =
     | T_INSTANCEOF
     | T_INTERFACE
     | T_LET
+    | T_MATCH
     | T_NEW
     | T_NULL
     | T_OF
@@ -788,6 +805,7 @@ let token_is_type_identifier env t =
     | T_INFER
     | T_IS
     | T_ASSERTS
+    | T_IMPLIES
     | T_VOID
     | T_RENDERS_QUESTION
     | T_RENDERS_STAR ->
@@ -964,6 +982,7 @@ module Peek = struct
     | T_ASYNC
     | T_AWAIT
     | T_ENUM
+    | T_MATCH
     | T_POUND
     | T_IDENTIFIER _
     | T_READONLY ->
@@ -987,6 +1006,14 @@ module Peek = struct
     || token env = T_ASYNC
        && ith_token ~i:1 env = T_FUNCTION
        && (loc env)._end.line = (ith_loc ~i:1 env).start.line
+
+  let is_hook env =
+    match token env with
+    | T_IDENTIFIER { raw = "hook"; _ } ->
+      (parse_options env).components
+      && ith_is_identifier ~i:1 env
+      && (loc env)._end.line = (ith_loc ~i:1 env).start.line
+    | _ -> false
 
   let is_class env =
     match token env with

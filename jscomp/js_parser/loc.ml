@@ -1,35 +1,84 @@
-[@@@ocaml.ppx.context
-  {
-    tool_name = "ppx_driver";
-    include_dirs = [];
-    load_path = [];
-    open_modules = [];
-    for_package = None;
-    debug = false;
-    use_threads = false;
-    use_vmthreads = false;
-    recursive_types = false;
-    principal = false;
-    transparent_modules = false;
-    unboxed_types = false;
-    unsafe_string = false;
-    cookies =
-      [("library-name", "flow_parser"); ("sedlex.regexps", ([%regexps ]))]
-  }]
 type position = {
   line: int ;
   column: int }[@@deriving (eq, show)]
-let rec equal_position : position -> position -> bool =
-  ((
-      fun lhs ->
-        fun rhs ->
-          ((fun (a : int) -> fun b -> a = b) lhs.line rhs.line) &&
-            ((fun (a : int) -> fun b -> a = b) lhs.column rhs.column))
-  [@ocaml.warning "-A"])[@@ocaml.warning "-39"]
+include
+  struct
+    let _ = fun (_ : position) -> ()
+    let rec equal_position :
+      position -> position -> bool =
+      ((
+          fun lhs rhs ->
+            ((fun (a : int) b -> a = b) lhs.line rhs.line) &&
+              ((fun (a : int) b -> a = b) lhs.column rhs.column))
+      [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
+    let _ = equal_position
+    let rec pp_position :
+      Format.formatter ->
+        position -> unit
+      =
+      ((
+          fun fmt x ->
+            Format.fprintf fmt "@[<2>{ ";
+            ((Format.fprintf fmt "@[%s =@ " "Loc.line";
+              (Format.fprintf fmt "%d") x.line;
+              Format.fprintf fmt "@]");
+             Format.fprintf fmt ";@ ";
+             Format.fprintf fmt "@[%s =@ " "column";
+             (Format.fprintf fmt "%d") x.column;
+             Format.fprintf fmt "@]");
+            Format.fprintf fmt "@ }@]")
+      [@ocaml.warning "-39"][@ocaml.warning "-A"])
+    and show_position : position -> string =
+      fun x -> Format.asprintf "%a" pp_position x
+    [@@ocaml.warning "-32"]
+    let _ = pp_position
+    and _ = show_position
+  end[@@ocaml.doc "@inline"][@@merlin.hide ]
 type t = {
   source: File_key.t option ;
   start: position ;
   _end: position }[@@deriving show]
+include
+  struct
+    let _ = fun (_ : t) -> ()
+    let rec pp :
+      Format.formatter -> t -> unit
+      =
+      ((let __2 = pp_position
+        and __1 = pp_position
+        and __0 = File_key.pp in
+        ((
+            fun fmt x ->
+              Format.fprintf fmt "@[<2>{ ";
+              (((Format.fprintf fmt "@[%s =@ "
+                   "Loc.source";
+                 ((function
+                   | None ->
+                       Format.pp_print_string fmt "None"
+                   | Some x ->
+                       (Format.pp_print_string fmt
+                          "(Some ";
+                        (__0 fmt) x;
+                        Format.pp_print_string fmt ")")))
+                   x.source;
+                 Format.fprintf fmt "@]");
+                Format.fprintf fmt ";@ ";
+                Format.fprintf fmt "@[%s =@ " "start";
+                (__1 fmt) x.start;
+                Format.fprintf fmt "@]");
+               Format.fprintf fmt ";@ ";
+               Format.fprintf fmt "@[%s =@ " "_end";
+               (__2 fmt) x._end;
+               Format.fprintf fmt "@]");
+              Format.fprintf fmt "@ }@]")
+          [@ocaml.warning "-A"]))
+      [@ocaml.warning "-39"])
+    and show : t -> string =
+      fun x -> Format.asprintf "%a" pp x[@@ocaml.warning
+                                                               "-32"]
+    let _ = pp
+    and _ = show
+  end[@@ocaml.doc "@inline"][@@merlin.hide ]
 let none =
   {
     source = None;
@@ -93,7 +142,7 @@ let compare loc1 loc2 =
   let k = File_key.compare_opt loc1.source loc2.source in
   if k = 0 then compare_ignore_source loc1 loc2 else k
 let equal loc1 loc2 = (compare loc1 loc2) = 0
-let debug_to_string ?(include_source= false)  loc =
+let debug_to_string ?(include_source= false) loc =
   let source =
     if include_source
     then
@@ -120,7 +169,12 @@ let to_string_no_source loc =
       if line != (loc._end).line
       then Printf.sprintf "%d:%d,%d:%d" line start (loc._end).line end_
       else Printf.sprintf "%d:%d-%d" line start end_
-let mk_loc ?source  (start_line, start_column) (end_line, end_column) =
+let start_pos_to_string_for_vscode_loc_uri_fragment loc =
+  let line = (loc.start).line in
+  let start = (loc.start).column + 1 in
+  let (line, start) = if line <= 0 then (0, 0) else (line, start) in
+  Printf.sprintf "#L%d,%d" line start
+let mk_loc ?source (start_line, start_column) (end_line, end_column) =
   {
     source;
     start = { line = start_line; column = start_column };

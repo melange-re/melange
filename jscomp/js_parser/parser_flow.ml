@@ -92,7 +92,15 @@ let check_for_duplicate_exports =
       (match specifiers with
       | ExportSpecifiers specifiers ->
         List.fold_left
-          (fun seen (_, { Statement.ExportNamedDeclaration.ExportSpecifier.local; exported }) ->
+          (fun seen
+               ( _,
+                 {
+                   Statement.ExportNamedDeclaration.ExportSpecifier.local;
+                   exported;
+                   from_remote = _;
+                   imported_name_def_loc = _;
+                 }
+               ) ->
             match exported with
             | Some exported -> record_export env seen exported
             | None -> record_export env seen local)
@@ -132,12 +140,12 @@ let check_for_duplicate_exports =
             | ClassDeclaration { Class.id = None; _ }
             | Continue _ | Debugger _ | DeclareClass _ | DeclareComponent _ | DeclareEnum _
             | DeclareExportDeclaration _ | DeclareFunction _ | DeclareInterface _ | DeclareModule _
-            | DeclareModuleExports _ | DeclareTypeAlias _ | DeclareOpaqueType _ | DeclareVariable _
-            | DoWhile _ | Empty _ | ExportDefaultDeclaration _ | ExportNamedDeclaration _
-            | Expression _ | For _ | ForIn _ | ForOf _
+            | DeclareModuleExports _ | DeclareNamespace _ | DeclareTypeAlias _ | DeclareOpaqueType _
+            | DeclareVariable _ | DoWhile _ | Empty _ | ExportDefaultDeclaration _
+            | ExportNamedDeclaration _ | Expression _ | For _ | ForIn _ | ForOf _
             | FunctionDeclaration { Function.id = None; _ }
-            | If _ | ImportDeclaration _ | Labeled _ | Return _ | Switch _ | Throw _ | Try _
-            | While _ | With _ ))
+            | If _ | ImportDeclaration _ | Labeled _ | Match _ | Return _ | Switch _ | Throw _
+            | Try _ | While _ | With _ ))
         ) ->
         (* these don't export names -- some are invalid, but the AST allows them *)
         seen)
@@ -155,11 +163,11 @@ let check_for_duplicate_exports =
         Statement.(
           ( Block _ | Break _ | ClassDeclaration _ | Continue _ | Debugger _ | DeclareClass _
           | DeclareComponent _ | DeclareEnum _ | DeclareExportDeclaration _ | DeclareFunction _
-          | DeclareInterface _ | DeclareModule _ | DeclareModuleExports _ | DeclareTypeAlias _
-          | DeclareOpaqueType _ | DeclareVariable _ | DoWhile _ | Empty _ | EnumDeclaration _
-          | Expression _ | For _ | ForIn _ | ForOf _ | FunctionDeclaration _
+          | DeclareInterface _ | DeclareModule _ | DeclareModuleExports _ | DeclareNamespace _
+          | DeclareTypeAlias _ | DeclareOpaqueType _ | DeclareVariable _ | DoWhile _ | Empty _
+          | EnumDeclaration _ | Expression _ | For _ | ForIn _ | ForOf _ | FunctionDeclaration _
           | ComponentDeclaration _ | If _ | ImportDeclaration _ | InterfaceDeclaration _ | Labeled _
-          | Return _ | Switch _ | Throw _ | Try _ | TypeAlias _ | OpaqueType _
+          | Match _ | Return _ | Switch _ | Throw _ | Try _ | TypeAlias _ | OpaqueType _
           | VariableDeclaration _ | While _ | With _ ))
       ) ->
       seen
@@ -170,10 +178,11 @@ module rec Parse : PARSER = struct
   module Type = Type_parser.Type (Parse)
   module Declaration = Declaration_parser.Declaration (Parse) (Type)
   module Pattern_cover = Pattern_cover.Cover (Parse)
+  module Match_pattern = Match_pattern_parser.Match_pattern (Parse)
   module Expression = Expression_parser.Expression (Parse) (Type) (Declaration) (Pattern_cover)
   module Object = Object_parser.Object (Parse) (Type) (Declaration) (Expression) (Pattern_cover)
   module Statement =
-    Statement_parser.Statement (Parse) (Type) (Declaration) (Object) (Pattern_cover)
+    Statement_parser.Statement (Parse) (Type) (Declaration) (Object) (Pattern_cover) (Expression)
   module Pattern = Pattern_parser.Pattern (Parse) (Type)
   module JSX = Jsx_parser.JSX (Parse) (Expression)
 
@@ -312,7 +321,7 @@ module rec Parse : PARSER = struct
        * statements... (see section 13) *)
     | T_LET -> let_ env
     | T_CONST -> const env
-    | _ when Peek.is_function env -> Declaration._function env
+    | _ when Peek.is_function env || Peek.is_hook env -> Declaration._function env
     | _ when Peek.is_class env -> class_declaration env decorators
     | T_INTERFACE -> interface env
     | T_DECLARE -> declare env
@@ -322,8 +331,9 @@ module rec Parse : PARSER = struct
     | _ when Peek.is_component env -> Declaration.component env
     | _ -> statement env
 
-  and statement env =
+  and statement ?(allow_sequence = true) env =
     let open Statement in
+    let expression = Statement.expression ~allow_sequence in
     match Peek.token env with
     | T_EOF ->
       error_unexpected ~expected:"the start of a statement" env;
@@ -339,6 +349,13 @@ module rec Parse : PARSER = struct
     | T_IF -> if_ env
     | T_RETURN -> return env
     | T_SWITCH -> switch env
+    | T_MATCH
+      when (parse_options env).pattern_matching
+           && (not (Peek.ith_is_line_terminator ~i:1 env))
+           && Peek.ith_token ~i:1 env = T_LPAREN ->
+      (match Try.to_parse env Statement.match_statement with
+      | Try.ParsedSuccessfully m -> m
+      | Try.FailedToParse -> expression env)
     | T_THROW -> throw env
     | T_TRY -> try_ env
     | T_WHILE -> while_ env
@@ -374,7 +391,7 @@ module rec Parse : PARSER = struct
     (* The rest of these patterns handle ExpressionStatement and its negative
        lookaheads, which prevent ambiguities.
        See https://tc39.github.io/ecma262/#sec-expression-statement *)
-    | _ when Peek.is_function env ->
+    | _ when Peek.is_function env || Peek.is_hook env ->
       let func = Declaration._function env in
       function_as_statement_error_at env (fst func);
       func
@@ -383,14 +400,14 @@ module rec Parse : PARSER = struct
          member expression, so it is banned. *)
       let loc = Loc.btwn (Peek.loc env) (Peek.ith_loc ~i:1 env) in
       error_at env (loc, Parse_error.AmbiguousLetBracket);
-      Statement.expression env
+      expression env
     (* recover as a member expression *)
     | _ when Peek.is_identifier env -> maybe_labeled env
     | _ when Peek.is_class env ->
       error_unexpected env;
       Eat.token env;
-      Statement.expression env
-    | _ -> Statement.expression env
+      expression env
+    | _ -> expression env
 
   and expression env =
     let start_loc = Peek.loc env in
@@ -497,6 +514,8 @@ module rec Parse : PARSER = struct
   and pattern = Pattern.pattern
 
   and pattern_from_expr = Pattern.from_expr
+
+  and match_pattern = Match_pattern.match_pattern
 end
 
 (*****************************************************************************)
@@ -574,3 +593,22 @@ let jsx_pragma_expression =
 let string_is_valid_identifier_name str =
   let lexbuf = Sedlexing.Utf8.from_string str in
   Flow_lexer.is_valid_identifier_name lexbuf
+
+(**
+ * Returns the string and location of the first identifier in [input] for which
+ * [predicate] holds.
+ *)
+let find_ident ~predicate input =
+  let env = init_env ~token_sink:None ~parse_options:None None input in
+  let rec loop token =
+    match token with
+    | T_EOF -> None
+    | _ ->
+      let loc = Peek.loc env in
+      (match token with
+      | T_IDENTIFIER { value = s; _ } when predicate s -> Some (loc, s)
+      | _ ->
+        Eat.token env;
+        loop (Peek.token env))
+  in
+  loop (Peek.token env)

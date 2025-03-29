@@ -148,7 +148,8 @@ Follow these steps to upgrade the vendored Flow parser within Melange:
 ```shell
 $ cp \
     ${FLOW_SRC}/src/parser/*.ml{,i} \
-    ${FLOW_SRC}/src/hack_forked/utils/third_party/flow_{set,map}.ml \
+    ${FLOW_SRC}/src/hack_forked/utils/collections/third-party/flow_{set,map}.ml \
+    ${FLOW_SRC}/src/third-party/sedlex/flow_sedlexing.ml{,i} \
     ${MELANGE_SRC}/jscomp/js_parser
 ```
 
@@ -159,6 +160,7 @@ $ cp \
 For `.ml` files:
 
 ```ocaml
+(* (executable (name x) (libraries compiler-libs.common)) *)
 let () =
   let ast = Pparse.read_ast Structure Sys.argv.(1) in
   Format.printf "%a" Pprintast.structure ast
@@ -167,6 +169,7 @@ let () =
 For `.mli` files:
 
 ```ocaml
+(* (executable (name x) (libraries compiler-libs.common)) *)
 let () =
   let ast = Pparse.read_ast Signature Sys.argv.(1) in
   Format.printf "%a" Pprintast.signature ast
