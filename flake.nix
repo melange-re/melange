@@ -21,16 +21,8 @@
                 src = super.fetchFromGitHub {
                   owner = "ocsigen";
                   repo = "js_of_ocaml";
-                  rev = "c76316cb4f07fc0b1ffc46805fd350d4be77e0dc";
-                  hash = "sha256-9aYCYQ+wt5INgm54COeUcbAAqUfpWruLh1TyRDy0Fp0=";
-                };
-              });
-              sedlex = osuper.sedlex.overrideAttrs (_: {
-                src = super.fetchFromGitHub {
-                  owner = "ocaml-community";
-                  repo = "sedlex";
-                  rev = "4dbaf572ed52281140be924a2c16fa4f287d88f0";
-                  hash = "sha256-pRZ/GRTpBIa8ZcKdmCo1pmAHR3tJrIfNqU4IreEhO7g=";
+                  rev = "afbfc00b56b3b2243bc77f0a3c4ccfd888efafd3";
+                  hash = "sha256-V0rXQcYXl1ZCkqJ3YITTriqGdLQPPDlHZ0Oiq6vfM3A=";
                 };
               });
               ppxlib = osuper.ppxlib.overrideAttrs (_: {
