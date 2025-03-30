@@ -65,12 +65,12 @@ let warn ~loc t =
 let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
   Polyvariant.Hash_set.create 16
 
-(* only mark non-ghost used mel attribute *)
 let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
+  (* only mark non-ghost used mel attribute *)
   if not x.loc.loc_ghost then Polyvariant.Hash_set.add used_attributes x
 
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
-    : unit =
+    =
   if
     (* XXX(anmonteiro): the `not loc.loc_ghost` expression is holding together
      e.g. the fact that we don't emit unused attribute warnings for
@@ -89,26 +89,22 @@ let warn_discarded_unused_attributes ?(has_mel_send = false)
         | _ -> true)
     else attrs
   in
-  if attrs <> [] then List.iter ~f:warn_unused_attribute attrs
+  List.iter ~f:warn_unused_attribute attrs
 
-let emit_external_warnings : Ast_traverse.iter =
-  object (_self)
-    inherit Ast_traverse.iter as super
-    method! attribute attr = warn_unused_attribute attr
+let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
+  let emit_external_warnings : Ast_traverse.iter =
+    object (_self)
+      inherit Ast_traverse.iter as super
+      method! attribute attr = warn_unused_attribute attr
 
-    method! label_declaration lbl =
-      List.iter
-        ~f:(fun attr ->
-          match attr with
-          | { attr_name = { txt = "mel.as"; _ }; _ } ->
-              mark_used_mel_attribute attr
-          | _ -> ())
-        lbl.pld_attributes;
-      super#label_declaration lbl
-  end
-
-let emit_external_warnings_on_structure stru =
-  emit_external_warnings#structure stru
-
-let emit_external_warnings_on_signature sigi =
-  emit_external_warnings#signature sigi
+      method! label_declaration lbl =
+        List.iter
+          ~f:(function
+            | { attr_name = { txt = "mel.as"; _ }; _ } as attr ->
+                mark_used_mel_attribute attr
+            | _ -> ())
+          lbl.pld_attributes;
+        super#label_declaration lbl
+    end
+  in
+  (emit_external_warnings#structure, emit_external_warnings#signature)
