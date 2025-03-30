@@ -87,10 +87,10 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
    _;
   } -> (
       match fst (Ast_attributes.process_attributes_rev ptyp_attributes) with
-      | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type loc self label args body
+      | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type ~loc self label args body
       | Meth_callback _ ->
-          Ast_typ_uncurry.to_method_callback_type loc self label args body
-      | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
+          Ast_typ_uncurry.to_method_callback_type ~loc self label args body
+      | Method _ -> Ast_typ_uncurry.to_method_type ~loc self label args body
       | Nothing -> super ty)
   | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc; _ } -> (
       let ( +> ) attr (typ : core_type) =
@@ -128,8 +128,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
                     Of.tag name ~attrs
-                      (Ast_typ_uncurry.to_method_type loc self Nolabel core_type
-                         [%type: unit])
+                      (Ast_typ_uncurry.to_method_type ~loc self Nolabel
+                         core_type [%type: unit])
                   in
                   let not_getter_setter ty =
                     let attrs, core_type =
@@ -169,7 +169,8 @@ let handle_class_type_fields =
           let ty =
             match ty.ptyp_desc with
             | Ptyp_arrow (label, args, body) ->
-                Ast_typ_uncurry.to_method_type ty.ptyp_loc self label args body
+                Ast_typ_uncurry.to_method_type ~loc:ty.ptyp_loc self label args
+                  body
             | Ptyp_poly
                 ( strs,
                   { ptyp_desc = Ptyp_arrow (label, args, body); ptyp_loc; _ } )
@@ -179,8 +180,8 @@ let handle_class_type_fields =
                   ptyp_desc =
                     Ptyp_poly
                       ( strs,
-                        Ast_typ_uncurry.to_method_type ptyp_loc self label args
-                          body );
+                        Ast_typ_uncurry.to_method_type ~loc:ptyp_loc self label
+                          args body );
                 }
             | _ -> self#core_type ty
           in
@@ -205,7 +206,7 @@ let handle_class_type_fields =
                 ( name,
                   private_flag,
                   virtual_flag,
-                  Ast_typ_uncurry.to_method_type loc self Nolabel ty
+                  Ast_typ_uncurry.to_method_type ~loc self Nolabel ty
                     [%type: unit] );
             pctf_attributes;
           }

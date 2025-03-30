@@ -23,46 +23,101 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-
-type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
-
-type uncurry_type_gen =
-  (Asttypes.arg_label -> core_type -> core_type -> core_type) cxt
-
 module Typ = Ast_helper.Typ
 
-let to_method_callback_type loc (mapper : Ast_traverse.map)
+let to_method_callback_type ~loc (mapper : Ast_traverse.map)
     (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
-  let first_arg = mapper#core_type first_arg in
+  let meth_type =
+    let first_arg = mapper#core_type first_arg in
+    let typ = mapper#core_type typ in
+    Typ.arrow ~loc label first_arg typ
+  in
+  let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
+  Typ.constr
+    {
+      txt = Ldot (Ast_literal.js_meth_callback, Format.sprintf "arity%d" arity);
+      loc;
+    }
+    [ meth_type ]
+
+let generate_method_type =
+  let self_type_lit = "self_type" in
+  fun loc (mapper : Ast_traverse.map) ?alias_type method_name params body :
+      core_type ->
+    let result = Typ.var ~loc method_name in
+    let self_type =
+      match alias_type with
+      | None -> Typ.var ~loc self_type_lit
+      | Some ty -> Typ.alias ~loc ty { loc; txt = self_type_lit }
+    in
+    match Ast_pat.arity_of_fun params body with
+    | 0 -> to_method_callback_type ~loc mapper Nolabel self_type result
+    | _n -> (
+        let tyvars =
+          List.mapi
+            ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+            (Ast_pat.labels_of_fun params body)
+        in
+        match tyvars with
+        | (label, x) :: rest ->
+            let method_rest =
+              List.fold_right
+                ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+                rest ~init:result
+            in
+            to_method_callback_type ~loc mapper Nolabel self_type
+              (Typ.arrow ~loc label x method_rest)
+        | _ -> assert false)
+
+let to_method_type ~loc ~kind (mapper : Ast_traverse.map)
+    (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   let typ = mapper#core_type typ in
-  let meth_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity meth_type in
-  match arity with
-  | Some n ->
+  let meth_type =
+    let first_arg = mapper#core_type first_arg in
+    Typ.arrow ~loc label first_arg typ
+  in
+  match Option.get (Ast_core_type.get_uncurry_arity meth_type) with
+  | 0 ->
       Typ.constr
         {
-          txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ string_of_int n);
+          txt =
+            Ldot
+              ( (match kind with
+                | `uncurry -> Ast_literal.js_fn
+                | `oo -> Ast_literal.js_meth),
+                "arity0" );
+          loc;
+        }
+        [ typ ]
+  | n ->
+      Typ.constr
+        {
+          txt =
+            Ldot
+              ( (match kind with
+                | `uncurry -> Ast_literal.js_fn
+                | `oo -> Ast_literal.js_meth),
+                "arity" ^ string_of_int n );
           loc;
         }
         [ meth_type ]
-  | None -> assert false
 
-let self_type_lit = "self_type"
+let to_uncurry_type ~loc mapper label first_arg typ =
+  to_method_type ~loc ~kind:`uncurry mapper label first_arg typ
 
-let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
-    params body : core_type =
+let to_method_type ~loc mapper label first_arg typ =
+  to_method_type ~loc ~kind:`oo mapper label first_arg typ
+
+let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body :
+    core_type =
   let result = Typ.var ~loc method_name in
-  let self_type =
-    match alias_type with
-    | None -> Typ.var ~loc self_type_lit
-    | Some ty -> Typ.alias ~loc ty { loc; txt = self_type_lit }
-  in
   match Ast_pat.arity_of_fun params body with
-  | 0 -> to_method_callback_type loc mapper Nolabel self_type result
-  | _n -> (
+  | 0 -> to_method_type ~loc mapper Nolabel [%type: unit] result
+  | _ -> (
       let tyvars =
         List.mapi
-          ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+          ~f:(fun i x ->
+            (x, Typ.var ~loc (Format.sprintf "%s%d" method_name i)))
           (Ast_pat.labels_of_fun params body)
       in
       match tyvars with
@@ -72,64 +127,5 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
               ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
               rest ~init:result
           in
-          to_method_callback_type loc mapper Nolabel self_type
-            (Typ.arrow ~loc label x method_rest)
+          to_method_type ~loc mapper label x method_rest
       | _ -> assert false)
-
-let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
-    (first_arg : core_type) (typ : core_type) =
-  let first_arg = mapper#core_type first_arg in
-  let typ = mapper#core_type typ in
-  let meth_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity meth_type in
-  match arity with
-  | Some 0 ->
-      Typ.constr { txt = Ldot (Ast_literal.js_meth, "arity0"); loc } [ typ ]
-  | Some n ->
-      Typ.constr
-        { txt = Ldot (Ast_literal.js_meth, "arity" ^ string_of_int n); loc }
-        [ meth_type ]
-  | None -> assert false
-
-let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body :
-    core_type =
-  let arity = Ast_pat.arity_of_fun params body in
-  let result = Typ.var ~loc method_name in
-  if arity = 0 then to_method_type loc mapper Nolabel [%type: unit] result
-  else
-    let tyvars =
-      List.mapi
-        ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
-        (Ast_pat.labels_of_fun params body)
-    in
-    match tyvars with
-    | (label, x) :: rest ->
-        let method_rest =
-          List.fold_right
-            ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
-            rest ~init:result
-        in
-        to_method_type loc mapper label x method_rest
-    | _ -> assert false
-
-let to_uncurry_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
-    (first_arg : core_type) (typ : core_type) =
-  (* no need to error for optional here,
-     since we can not make it
-     TODO: still error out for external?
-     Maybe no need to error on optional at all
-     it just does not make sense
-  *)
-  let first_arg = mapper#core_type first_arg in
-  let typ = mapper#core_type typ in
-
-  let fn_type = Typ.arrow ~loc label first_arg typ in
-  let arity = Ast_core_type.get_uncurry_arity fn_type in
-  match arity with
-  | Some 0 ->
-      Typ.constr { txt = Ldot (Ast_literal.js_fn, "arity0"); loc } [ typ ]
-  | Some n ->
-      Typ.constr
-        { txt = Ldot (Ast_literal.js_fn, "arity" ^ string_of_int n); loc }
-        [ fn_type ]
-  | None -> assert false

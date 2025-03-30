@@ -102,7 +102,7 @@ let ocaml_object_as_js_object =
                    val_name.txt
                    ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
                }
-               (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
+               (Ast_typ_uncurry.to_method_type ~loc mapper Nolabel result
                   [%type: unit]);
            ]
          else []) )
