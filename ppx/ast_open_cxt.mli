@@ -24,11 +24,10 @@
 
 open Import
 
-type whole
-type t = whole list
+type t
 
-val restore_exp : expression -> t -> expression
-val destruct : expression -> t -> expression * t
+val restore_exp : expression -> t list -> expression
+val destruct : expression -> expression * t list
 
 val destruct_open_tuple :
-  expression -> t -> (t * expression list * attributes) option
+  expression -> (t list * expression list * attributes) option

@@ -149,7 +149,7 @@ let app_exp_mapper e
                 pexp_attributes = e.pexp_attributes;
               }
           | _ -> (
-              match Ast_open_cxt.destruct f [] with
+              match Ast_open_cxt.destruct f with
               | ( { pexp_desc = Pexp_tuple xs; pexp_attributes = tuple_attrs; _ },
                   wholes ) ->
                   Ast_open_cxt.restore_exp
