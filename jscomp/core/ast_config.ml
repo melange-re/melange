@@ -40,11 +40,10 @@ let signature_config_table : action_table ref = ref String.Map.empty
 let add_signature k v =
   signature_config_table := String.Map.add !signature_config_table k v
 
-let rec iter_on_mel_config_stru (x : Parsetree.structure) =
-  match x with
+let rec iter_on_mel_config_stru = function
   | [] -> ()
   | {
-      pstr_desc =
+      Parsetree.pstr_desc =
         Pstr_attribute
           { attr_name = { txt = "mel.config"; loc }; attr_payload = payload; _ };
       _;
@@ -81,11 +80,10 @@ let rec iter_on_mel_config_stru (x : Parsetree.structure) =
   | { pstr_desc = Pstr_attribute _; _ } :: rest -> iter_on_mel_config_stru rest
   | _ :: _ -> ()
 
-let rec iter_on_mel_config_sigi (x : Parsetree.signature) =
-  match x with
+let rec iter_on_mel_config_sigi = function
   | [] -> ()
   | {
-      psig_desc =
+      Parsetree.psig_desc =
         Psig_attribute
           { attr_name = { txt = "mel.config"; loc }; attr_payload = payload; _ };
       _;

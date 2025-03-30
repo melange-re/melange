@@ -24,7 +24,9 @@
 
 open Import
 
-let check_constant ~loc kind (const : Parsetree.constant) =
+type constant_origin = Expr | Pattern
+
+let check_constant ~loc ~kind (const : Parsetree.constant) =
   match
 #if OCAML_VERSION >= (5, 3, 0)
     const.pconst_desc
@@ -33,26 +35,23 @@ let check_constant ~loc kind (const : Parsetree.constant) =
 #endif
   with
   | Pconst_string (_, _, Some s) -> (
+    if Melange_ffi.Utf8_string.is_unescaped s then (
       match kind with
-      | `expr ->
-          if Melange_ffi.Utf8_string.is_unescaped s then
-            Location.prerr_warning loc (Mel_uninterpreted_delimiters s)
-      | `pat ->
-          if Melange_ffi.Utf8_string.is_unescaped s then
-            Location.raise_errorf ~loc
-              "Unicode strings cannot currently be used in pattern matching")
+      | Expr -> Location.prerr_warning loc (Mel_uninterpreted_delimiters s)
+      | Pattern ->
+        Location.raise_errorf ~loc
+          "Unicode strings cannot currently be used in pattern matching"))
   | Pconst_integer (s, None) -> (
-      (* range check using int32
-         It is better to give a warning instead of error to avoid make people unhappy.
-         It also has restrictions in which platform bsc is running on since it will
-         affect int ranges
-      *)
-      try ignore (Int32.of_string s)
-      with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
+    (* range check using int32
+       It is better to give a warning instead of error to avoid make people unhappy.
+       It also has restrictions in which platform bsc is running on since it will
+       affect int ranges *)
+    try ignore (Int32.of_string s)
+    with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
   | Pconst_integer (_, Some 'n') ->
-      Location.raise_errorf ~loc
-        "`nativeint' is not currently supported in Melange. The `n' suffix \
-         cannot be used."
+    Location.raise_errorf ~loc
+      "`nativeint' is not currently supported in Melange. The `n' suffix \
+       cannot be used."
   | _ -> ()
 
 module Core_type = struct
@@ -116,7 +115,7 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
           | None -> ());
 
           match a.pexp_desc with
-          | Pexp_constant const -> check_constant ~loc:a.pexp_loc `expr const
+          | Pexp_constant const -> check_constant ~loc:a.pexp_loc ~kind:Expr const
           | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
             ->
               if
@@ -138,7 +137,7 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
       pat = (fun self (pat : Parsetree.pattern) ->
           match pat.ppat_desc with
           | Ppat_constant constant ->
-              check_constant ~loc:pat.ppat_loc `pat constant
+              check_constant ~loc:pat.ppat_loc ~kind:Pattern constant
           | Ppat_record ([], _) ->
               Location.raise_errorf ~loc:pat.ppat_loc
                 "Empty record pattern is not supported"

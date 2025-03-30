@@ -23,8 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-module Parser_flow = Js_parser.Parser_flow
-module Parser_env = Js_parser.Parser_env
 
 type t = Parsetree.payload
 type action = string Asttypes.loc * Parsetree.expression option
