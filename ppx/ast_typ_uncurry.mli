@@ -37,32 +37,41 @@ open Import
     and  [fn] requires (unit -> 'a) to encode arity zero
 *)
 
-type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
-
-type uncurry_type_gen =
-  (Asttypes.arg_label ->
+val to_uncurry_type :
+  loc:Ast_helper.loc ->
+  Ast_traverse.map ->
+  Asttypes.arg_label ->
   (* label for error checking *)
   core_type ->
   (* First arg *)
   core_type ->
   (* Tail *)
-  core_type)
-  cxt
+  core_type
+(** syntax : {[ int -> int -> int [@u]]} *)
 
-val to_uncurry_type : uncurry_type_gen
-(** syntax :
-    {[ int -> int -> int [@bs]]}
-*)
+val to_method_type :
+  loc:Ast_helper.loc ->
+  Ast_traverse.map ->
+  Asttypes.arg_label ->
+  (* label for error checking *)
+  core_type ->
+  (* First arg *)
+  core_type ->
+  (* Tail *)
+  core_type
+(** syntax {[ method : int -> int -> int ]} *)
 
-val to_method_type : uncurry_type_gen
-(** syntax
-    {[ method : int -> itn -> int ]}
-*)
-
-val to_method_callback_type : uncurry_type_gen
-(** syntax:
-    {[ 'obj -> int -> int [@mel.this] ]}
-*)
+val to_method_callback_type :
+  loc:Ast_helper.loc ->
+  Ast_traverse.map ->
+  Asttypes.arg_label ->
+  (* label for error checking *)
+  core_type ->
+  (* First arg *)
+  core_type ->
+  (* Tail *)
+  core_type
+(** syntax: {[ 'obj -> int -> int [@mel.this] ]} *)
 
 val generate_method_type :
   Location.t ->
