@@ -298,8 +298,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     Option.iter (fun bs_cross_module_opt ->
         Js_config.cross_module_inline := bs_cross_module_opt)
-      bs_cross_module_opt ;
-    if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
+      bs_cross_module_opt;
+    if bs_syntax_only then Js_config.syntax_only := true;
 
     Option.iter Js_packages_state.set_package_name bs_package_name;
     begin match mel_module_system, bs_package_output with
@@ -328,7 +328,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.as_pp := true;
       Js_config.syntax_only := true);
 
-    if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
+    if no_alias_deps then Clflags.transparent_modules := true;
     Option.iter
       (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
       bs_gentype;
