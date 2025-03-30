@@ -71,8 +71,10 @@ let to_method_callback =
            None,
            Pfunction_body result ))
   in
-  let arity = List.length rev_extra_args in
-  let arity_s = string_of_int arity in
+  let arity_s =
+    let arity = List.length rev_extra_args in
+    string_of_int arity
+  in
   Ast_helper.(
     Pexp_apply
       ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
@@ -85,7 +87,10 @@ let to_method_callback =
               (Typ.constr ~loc
                  {
                    loc;
-                   txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ arity_s);
+                   txt =
+                     Ldot
+                       ( Ast_literal.js_meth_callback,
+                         Format.sprintf "arity%s" arity_s );
                  }
                  [ Typ.any ~loc () ]) );
         ] ))

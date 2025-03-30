@@ -108,7 +108,9 @@ let optional_err ~loc (lbl : Asttypes.arg_label) =
   | _ -> ()
 
 let err_if_label ~loc (lbl : Asttypes.arg_label) =
-  if lbl <> Nolabel then err ~loc Misplaced_label_syntax
+  match lbl with
+  | Labelled _ | Optional _ -> err ~loc Misplaced_label_syntax
+  | Nolabel -> ()
 
 let err_large_arity ~loc arity =
   if arity > 22 then err ~loc Mel_uncurried_arity_too_large
