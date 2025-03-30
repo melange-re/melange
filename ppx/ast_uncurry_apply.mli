@@ -29,7 +29,7 @@ val js_property : Location.t -> expression -> string -> expression_desc
 (* TODO: the interface is not reusable, it depends on too much context *)
 (* syntax: {[f arg0 arg1 [@bs]]}*)
 val uncurry_fn_apply :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
   expression ->
   (Asttypes.arg_label * expression) list ->
@@ -37,7 +37,7 @@ val uncurry_fn_apply :
 
 (* syntax : {[f## arg0 arg1 ]}*)
 val method_apply :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
   expression ->
   string ->
@@ -46,7 +46,7 @@ val method_apply :
 
 (* syntax {[f#@ arg0 arg1 ]}*)
 val property_apply :
-  Location.t ->
+  loc:Location.t ->
   Ast_traverse.map ->
   expression ->
   string ->
