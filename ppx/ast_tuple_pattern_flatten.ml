@@ -51,7 +51,7 @@ let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
   let pvb_constraint = Option.map self#value_constraint vb.pvb_constraint in
   match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
   | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
-      match Ast_open_cxt.destruct_open_tuple pvb_expr [] with
+      match Ast_open_cxt.destruct_open_tuple pvb_expr with
       | Some (wholes, es, tuple_attributes)
         when List.for_all ~f:is_simple_pattern xs && same_length es xs ->
           Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
