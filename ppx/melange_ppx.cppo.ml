@@ -422,7 +422,7 @@ module Mapper = struct
             with
             | false, _ -> super#expression e
             | true, pexp_attributes ->
-                Ast_mel_open.convert_mel_error_function e.pexp_loc self
+                Ast_mel_open.convert_mel_error_function ~loc:e.pexp_loc self
                   pexp_attributes cases)
         | Pexp_function (args, _, Pfunction_body body) -> (
             match Ast_attributes.process_attributes_rev e.pexp_attributes with

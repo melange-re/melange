@@ -24,54 +24,52 @@
 
 open Import
 
-let isCamlExceptionOrOpenVariant : Longident.t =
-  Ldot (Ldot (Lident "Js", "Exn"), "isCamlExceptionOrOpenVariant")
-
-let obj_magic : Longident.t = Ldot (Lident "Obj", "magic")
-
-let rec checkCases (cases : case list) = List.iter ~f:check_case cases
-and check_case case = check_pat case.pc_lhs
-
-and check_pat pat =
-  match pat.ppat_desc with
-  | Ppat_construct _ -> ()
-  | Ppat_or (l, r) ->
-      check_pat l;
-      check_pat r
-  | _ ->
-      Location.raise_errorf ~loc:pat.ppat_loc
-        "Unsupported pattern. `[@mel.open]' requires patterns to be \
-         (exception) constructors"
-
-let convert_mel_error_function loc (self : Ast_traverse.map) attrs
-    (cases : case list) =
-  let open Ast_helper in
-  let txt = "match" in
-  let txt_expr = Exp.ident ~loc { txt = Lident txt; loc } in
-  let none = Exp.construct ~loc { txt = Ast_literal.predef_none; loc } None in
-  let () = checkCases cases in
-  let cases = self#cases cases in
-  Exp.fun_ ~attrs ~loc Nolabel None
-    (Pat.var ~loc { txt; loc })
-    (Exp.ifthenelse ~loc
-       [%expr
-         [%e Exp.ident ~loc { txt = isCamlExceptionOrOpenVariant; loc }]
-           [%e txt_expr]]
-       (Exp.match_ ~loc
-          (Exp.constraint_ ~loc
-             [%expr [%e Exp.ident ~loc { txt = obj_magic; loc }] [%e txt_expr]]
-             [%type: exn])
-          (List.map
-             ~f:(fun x ->
-               let pc_rhs = x.pc_rhs in
-               let loc = pc_rhs.pexp_loc in
-               {
-                 x with
-                 pc_rhs =
-                   Exp.construct ~loc
-                     { txt = Ast_literal.predef_some; loc }
-                     (Some pc_rhs);
-               })
-             cases
-          @ [ Exp.case (Pat.any ~loc ()) none ]))
-       (Some none))
+let convert_mel_error_function =
+  let isCamlExceptionOrOpenVariant : Longident.t =
+    Ldot (Ldot (Lident "Js", "Exn"), "isCamlExceptionOrOpenVariant")
+  in
+  let obj_magic : Longident.t = Ldot (Lident "Obj", "magic") in
+  let check_cases =
+    let rec check_pat pat =
+      match pat.ppat_desc with
+      | Ppat_construct _ -> ()
+      | Ppat_or (l, r) ->
+          check_pat l;
+          check_pat r
+      | _ ->
+          Location.raise_errorf ~loc:pat.ppat_loc
+            "Unsupported pattern. `[@mel.open]' requires patterns to be \
+             (exception) constructors"
+    in
+    fun cases -> List.iter cases ~f:(fun { pc_lhs; _ } -> check_pat pc_lhs)
+  in
+  fun ~loc (self : Ast_traverse.map) attrs (cases : case list) ->
+    let open Ast_helper in
+    let txt = "match" in
+    let txt_expr = Exp.ident ~loc { txt = Lident txt; loc } in
+    let none = Exp.construct ~loc { txt = Ast_literal.predef_none; loc } None in
+    check_cases cases;
+    Exp.fun_ ~attrs ~loc Nolabel None
+      (Pat.var ~loc { txt; loc })
+      (Exp.ifthenelse ~loc
+         [%expr
+           [%e Exp.ident ~loc { txt = isCamlExceptionOrOpenVariant; loc }]
+             [%e txt_expr]]
+         (Exp.match_ ~loc
+            (Exp.constraint_ ~loc
+               [%expr
+                 [%e Exp.ident ~loc { txt = obj_magic; loc }] [%e txt_expr]]
+               [%type: exn])
+            (List.map
+               ~f:(fun ({ pc_rhs; _ } as x) ->
+                 let loc = pc_rhs.pexp_loc in
+                 {
+                   x with
+                   pc_rhs =
+                     Exp.construct ~loc
+                       { txt = Ast_literal.predef_some; loc }
+                       (Some pc_rhs);
+                 })
+               (self#cases cases)
+            @ [ Exp.case (Pat.any ~loc ()) none ]))
+         (Some none))
