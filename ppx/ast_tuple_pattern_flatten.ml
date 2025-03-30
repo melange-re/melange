@@ -24,86 +24,86 @@
 
 open Import
 
-let rec is_simple_pattern p =
-  match p.ppat_desc with
-  | Ppat_any -> true
-  | Ppat_var _ -> true
-  | Ppat_constraint (p, _) -> is_simple_pattern p
-  | _ -> false
-
-let rec same_length xs ys =
-  match (xs, ys) with
-  | [], [] -> true
-  | _ :: xs, _ :: ys -> same_length xs ys
-  | _, _ -> false
-
 (*
   [let (a,b) = M.N.(c,d) ]
   =>
   [ let a = M.N.c
     and b = M.N.d ]
 *)
-let flatten_tuple_pattern_vb (self : Ast_traverse.map) (vb : value_binding)
-    (acc : value_binding list) : value_binding list =
-  let pvb_pat = self#pattern vb.pvb_pat in
-  let pvb_expr = self#expression vb.pvb_expr in
-  let pvb_attributes = self#attributes vb.pvb_attributes in
-  let pvb_constraint = Option.map self#value_constraint vb.pvb_constraint in
-  match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
-  | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
-      match Ast_open_cxt.destruct_open_tuple pvb_expr with
-      | Some (wholes, es, tuple_attributes)
-        when List.for_all ~f:is_simple_pattern xs && same_length es xs ->
-          Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
-          (* will be dropped*)
-          List.fold_right2
-            ~f:(fun pat exp acc ->
-              {
-                pvb_pat = pat;
-                pvb_expr = Ast_open_cxt.restore_exp exp wholes;
-                pvb_attributes;
-                pvb_loc = vb.pvb_loc;
-                pvb_constraint;
-              }
-              :: acc)
-            xs es ~init:acc
-      | _ ->
-          {
-            pvb_pat;
-            pvb_expr;
-            pvb_loc = vb.pvb_loc;
-            pvb_attributes;
-            pvb_constraint;
-          }
-          :: acc)
-  | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
-      List.map
-        ~f:(fun (lid, pat) ->
-          match lid.txt with
-          | Lident s ->
-              {
-                pvb_pat = pat;
-                pvb_expr =
-                  Ast_helper.Exp.ident ~loc:lid.loc
-                    { lid with txt = Ldot (id.txt, s) };
-                pvb_attributes = [];
-                pvb_loc = pat.ppat_loc;
-                pvb_constraint;
-              }
-          | _ ->
-              Location.raise_errorf ~loc:lid.loc
-                "Pattern matching on modules requires simple labels")
-        lid_pats
-      @ acc
-  | _ ->
-      {
-        pvb_pat;
-        pvb_expr;
-        pvb_loc = vb.pvb_loc;
-        pvb_attributes;
-        pvb_constraint;
-      }
-      :: acc
+let flatten_tuple_pattern_vb =
+  let rec is_simple_pattern p =
+    match p.ppat_desc with
+    | Ppat_any -> true
+    | Ppat_var _ -> true
+    | Ppat_constraint (p, _) -> is_simple_pattern p
+    | _ -> false
+  in
+  let rec same_length xs ys =
+    match (xs, ys) with
+    | [], [] -> true
+    | _ :: xs, _ :: ys -> same_length xs ys
+    | _, _ -> false
+  in
+  fun (self : Ast_traverse.map) (vb : value_binding) (acc : value_binding list)
+      : value_binding list ->
+    let pvb_pat = self#pattern vb.pvb_pat in
+    let pvb_expr = self#expression vb.pvb_expr in
+    let pvb_attributes = self#attributes vb.pvb_attributes in
+    let pvb_constraint = Option.map self#value_constraint vb.pvb_constraint in
+    match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
+    | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
+        match Ast_open_cxt.destruct_open_tuple pvb_expr with
+        | Some (wholes, es, tuple_attributes) when same_length es xs ->
+            Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
+            (* will be dropped*)
+            List.fold_right2
+              ~f:(fun pat exp acc ->
+                {
+                  pvb_pat = pat;
+                  pvb_expr = Ast_open_cxt.restore_exp exp wholes;
+                  pvb_attributes;
+                  pvb_loc = vb.pvb_loc;
+                  pvb_constraint;
+                }
+                :: acc)
+              xs es ~init:acc
+        | _ ->
+            {
+              pvb_pat;
+              pvb_expr;
+              pvb_loc = vb.pvb_loc;
+              pvb_attributes;
+              pvb_constraint;
+            }
+            :: acc)
+    | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
+        List.map
+          ~f:(fun (lid, pat) ->
+            match lid.txt with
+            | Lident s ->
+                {
+                  pvb_pat = pat;
+                  pvb_expr =
+                    Ast_helper.Exp.ident ~loc:lid.loc
+                      { lid with txt = Ldot (id.txt, s) };
+                  pvb_attributes = [];
+                  pvb_loc = pat.ppat_loc;
+                  pvb_constraint;
+                }
+            | _ ->
+                Location.raise_errorf ~loc:lid.loc
+                  "Pattern matching on modules requires simple labels")
+          lid_pats
+        @ acc
+    | _ ->
+        {
+          pvb_pat;
+          pvb_expr;
+          pvb_loc = vb.pvb_loc;
+          pvb_attributes;
+          pvb_constraint;
+        }
+        :: acc
 
 (* XXX(anmonteiro): this one is a little brittle. Because it might introduce
    new value bindings, it must be called at every AST node that has a
