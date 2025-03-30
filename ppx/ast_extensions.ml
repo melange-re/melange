@@ -57,7 +57,7 @@ let local_external_apply loc ~(pval_prim : string list) ~(pval_type : core_type)
                { txt = Ldot (Lident local_module_name, local_fun_name); loc };
            pexp_attributes = [];
            pexp_loc = loc;
-           pexp_loc_stack = [ loc ];
+           pexp_loc_stack = [];
          }
           : expression)
         (List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args)

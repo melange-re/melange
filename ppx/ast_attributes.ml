@@ -105,7 +105,7 @@ type attr_kind =
   | Method of attribute
 
 let process_attributes_rev attrs : attr_kind * attribute list =
-  List.fold_left
+  List.fold_left ~init:(Nothing, []) attrs
     ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
       | "u", (Nothing | Uncurry _) ->
@@ -114,7 +114,6 @@ let process_attributes_rev attrs : attr_kind * attribute list =
       | "mel.meth", (Nothing | Method _) -> (Method attr, acc)
       | ("u" | "mel.this"), _ -> Error.err ~loc Conflict_u_mel_this_mel_meth
       | _, _ -> (st, attr :: acc))
-    ~init:(Nothing, []) attrs
 
 let process_pexp_fun_attributes_rev attrs =
   List.fold_left

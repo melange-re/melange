@@ -35,7 +35,7 @@ let lift_option_type ({ ptyp_loc; _ } as ty) =
           },
           [ ty ] );
     ptyp_loc;
-    ptyp_loc_stack = [ ptyp_loc ];
+    ptyp_loc_stack = [];
     ptyp_attributes = [];
   }
 

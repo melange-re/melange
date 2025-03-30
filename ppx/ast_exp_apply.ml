@@ -104,8 +104,8 @@ let app_exp_mapper e
         e with
         pexp_desc =
           (if op = "##" then
-             Ast_uncurry_apply.method_apply loc self obj name args
-           else Ast_uncurry_apply.property_apply loc self obj name args);
+             Ast_uncurry_apply.method_apply ~loc self obj name args
+           else Ast_uncurry_apply.property_apply ~loc self obj name args);
       }
   | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
@@ -225,8 +225,8 @@ let app_exp_mapper e
                         fn1.pexp_attributes;
                       {
                         pexp_desc =
-                          Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn1
-                            ((Nolabel, a) :: args);
+                          Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc
+                            self fn1 ((Nolabel, a) :: args);
                         pexp_loc = e.pexp_loc;
                         pexp_loc_stack = e.pexp_loc_stack;
                         pexp_attributes = e.pexp_attributes @ other_attributes;
@@ -255,7 +255,7 @@ let app_exp_mapper e
               {
                 e with
                 pexp_desc =
-                  Ast_uncurry_apply.method_apply loc self obj name args;
+                  Ast_uncurry_apply.method_apply ~loc self obj name args;
               }
           | {
            pexp_desc =
@@ -312,7 +312,7 @@ let app_exp_mapper e
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_apply.method_apply loc self obj
+                    Ast_uncurry_apply.method_apply ~loc self obj
                       (name
                      ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
                       [ (Nolabel, arg) ];
@@ -335,6 +335,7 @@ let app_exp_mapper e
               {
                 e with
                 pexp_desc =
-                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                  Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc self fn
+                    args;
                 pexp_attributes;
               }))

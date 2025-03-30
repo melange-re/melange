@@ -25,14 +25,12 @@
 open Import
 
 let process_args ~loc self args ~init =
-  List.fold_left ~init
-    ~f:(fun acc param ->
+  List.fold_left ~init args ~f:(fun acc param ->
       match param with
       | { pparam_desc = Pparam_newtype _; _ } -> acc
       | { pparam_desc = Pparam_val (arg_label, _, arg); _ } ->
           Error.optional_err ~loc arg_label;
           (arg_label, self#pattern arg) :: acc)
-    args
 
 let rec aux ~loc self acc (body : expression) =
   match Ast_attributes.process_attributes_rev body.pexp_attributes with

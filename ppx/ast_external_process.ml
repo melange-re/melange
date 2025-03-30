@@ -413,7 +413,7 @@ let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
       {
         ptyp_desc = Ptyp_arrow (label, ty, acc);
         ptyp_loc = loc;
-        ptyp_loc_stack = [ loc ];
+        ptyp_loc_stack = [];
         ptyp_attributes = attrs;
       })
     new_arg_types_ty ~init:result
