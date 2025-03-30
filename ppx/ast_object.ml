@@ -69,7 +69,7 @@ let ocaml_object_as_js_object =
                 { txt = Ldot (Lident local_module_name, local_fun_name); loc };
             pexp_attributes = [];
             pexp_loc = loc;
-            pexp_loc_stack = [ loc ];
+            pexp_loc_stack = [];
           } )
   in
   fun loc (mapper : Ast_traverse.map) (self_pat : pattern)
@@ -312,7 +312,7 @@ let record_as_js_object =
                  { txt = Ldot (Lident local_module_name, local_fun_name); loc };
              pexp_attributes = [];
              pexp_loc = loc;
-             pexp_loc_stack = [ loc ];
+             pexp_loc_stack = [];
            }
             : expression)
           (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
