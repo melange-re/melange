@@ -24,14 +24,13 @@
 
 open Import
 
-type action = string Asttypes.loc * expression option
-
-val ident_or_record_as_config : payload -> (action list, string) result
+val ident_or_record_as_config :
+  payload -> ((string Asttypes.loc * expression option) list, string) result
 
 (** A utility module used when destructuring parsetree attributes, used for
     compiling FFI attributes and built-in ppx *)
 
-val assert_strings : Location.t -> payload -> label list
+val assert_strings : loc:Location.t -> payload -> label list
 val is_single_string : payload -> (string * string option) option
 val is_single_int : payload -> int option
 val as_ident : payload -> Longident.t loc option

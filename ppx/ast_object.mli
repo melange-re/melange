@@ -25,7 +25,11 @@
 open Import
 
 val ocaml_object_as_js_object :
-  location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc
+  loc:Location.t ->
+  Ast_traverse.map ->
+  pattern ->
+  class_field list ->
+  expression_desc
 
 val record_as_js_object :
   loc:Location.t ->
