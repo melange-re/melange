@@ -32,7 +32,7 @@ type response = {
 }
 
 val handle_attributes_as_string :
-  Location.t -> core_type -> attribute list -> string -> string -> response
+  loc:Location.t -> core_type -> attribute list -> string -> string -> response
 (**
   [handle_attributes_as_string
   loc pval_name.txt pval_type pval_attributes pval_prim]

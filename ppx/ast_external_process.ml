@@ -194,49 +194,47 @@ let get_opt_arg_type (ptyp : core_type) : External_arg_spec.attr =
    TODO: we should emit an warning if we bind
    two external files to the same module name
 *)
-type bundle_source =
-  [ `Nm_payload of string (* from payload [@@val "xx" ]*)
-  | `Nm_external of string lazy_t (* from "" in external *) ]
 
-let string_of_bundle_source (x : bundle_source) =
-  match x with `Nm_payload x | `Nm_external (lazy x) -> x
+module External_desc = struct
+  type kind = Val | Set_index | Get_index | Set | Get | Send
 
-type name_source = [ bundle_source | `Nm_na ]
+  let pp_kind fmt t =
+    let s =
+      match t with
+      | Val -> assert false
+      | Set_index -> "mel.set_index"
+      | Get_index -> "mel.get_index"
+      | Set -> "mel.set"
+      | Get -> "mel.get"
+      | Send -> "mel.get"
+    in
+    Format.pp_print_string fmt s
 
-type external_desc = {
-  external_module_name : External_ffi_types.external_module_name option;
-  module_as_val : External_ffi_types.external_module_name option;
-  val_send : name_source;
-  variadic : bool; (* mutable *)
-  scopes : string list;
-  set_index : bool; (* mutable *)
-  get_index : bool;
-  new_name : name_source;
-  call_name : name_source;
-  set_name : name_source;
-  get_name : name_source;
-  mk_obj : bool;
-  return_wrapper : External_ffi_types.return_wrapper;
-}
-
-let init_st =
-  {
-    external_module_name = None;
-    module_as_val = None;
-    val_send = `Nm_na;
-    variadic = false;
-    scopes = [];
-    set_index = false;
-    get_index = false;
-    new_name = `Nm_na;
-    call_name = `Nm_na;
-    set_name = `Nm_na;
-    get_name = `Nm_na;
-    mk_obj = false;
-    return_wrapper = Return_unset;
+  type desc = {
+    kind : kind;
+    external_module_name : External_ffi_types.external_module_name option;
+    module_as_val : External_ffi_types.external_module_name option;
+    variadic : bool; (* mutable *)
+    scopes : string list;
+    new_name : bool;
+    return_wrapper : External_ffi_types.return_wrapper;
   }
 
-let return_wrapper loc (txt : string) : External_ffi_types.return_wrapper =
+  type t = Obj of desc | External of desc
+
+  let init =
+    {
+      kind = Val;
+      external_module_name = None;
+      module_as_val = None;
+      variadic = false;
+      scopes = [];
+      new_name = false;
+      return_wrapper = Return_unset;
+    }
+end
+
+let return_wrapper ~loc (txt : string) : External_ffi_types.return_wrapper =
   match txt with
   | "undefined_to_opt" -> Return_undefined_to_opt
   | "null_to_opt" -> Return_null_to_opt
@@ -244,33 +242,48 @@ let return_wrapper loc (txt : string) : External_ffi_types.return_wrapper =
   | "identity" -> Return_identity
   | _ -> Error.err ~loc Not_supported_directive_in_mel_return
 
-exception Not_handled_external_attribute
-
 (* The processed attributes will be dropped *)
-let parse_external_attributes (prim_name_check : string)
-    (prim_name_or_pval_prim : bundle_source) (prim_attributes : attribute list)
-    : attribute list * external_desc =
-  (* shared by `[@@val]`, `[@@send]`,
+let parse_external_attributes =
+  (* : attribute list * external_desc *)
+  let exception Not_handled_external_attribute in
+  let check_name ~loc attr_name payload =
+    match payload with
+    | PStr [] -> ()
+    | _ -> (
+        match Ast_payload.is_single_string payload with
+        | Some _ ->
+            Location.raise_errorf ~loc
+              "`[%@%s]' doesn't expect an attribute payload" attr_name
+        | None -> Location.raise_errorf ~loc "Invalid payload")
+  in
+  let assign_kind ~loc (st : External_desc.desc) kind =
+    match st.kind with
+    | Val -> { st with kind }
+    | st_kind ->
+        Error.err ~loc
+          (Conflict_ffi_attribute
+             (Format.asprintf
+                "`[%@%a]' and `[%@%a]' can't be specified at the same time"
+                External_desc.pp_kind st_kind External_desc.pp_kind kind))
+  in
+  fun (prim_name_check : string) (prim_name_or_pval_prim : string Lazy.t)
+      (prim_attributes : attribute list) ->
+    (* shared by `[@@val]`, `[@@send]`,
      `[@@set]`, `[@@get]` , `[@@new]`
      `[@@mel.send.pipe]` does not use it
   *)
-  let name_from_payload_or_prim ~loc (payload : payload) : name_source =
-    match payload with
-    | PStr [] -> (prim_name_or_pval_prim :> name_source)
-    (* It is okay to have [@@val] without payload *)
-    | _ -> (
-        match Ast_payload.is_single_string payload with
-        | Some (val_name, _) -> `Nm_payload val_name
-        | None -> Location.raise_errorf ~loc "Invalid payload")
-  in
-
-  List.fold_left
-    ~f:(fun
-        (attrs, st)
-        ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
-      ->
-      (* TODO(anmonteiro): re-enable when we enable gentype *)
-      (*
+    let attrs, st, mk_obj =
+      List.fold_left
+        ~f:(fun
+            (attrs, st, mk_obj)
+            ({
+               attr_name = { txt; loc = _ };
+               attr_payload = payload;
+               attr_loc = loc;
+             } as attr)
+          ->
+          (* TODO(anmonteiro): re-enable when we enable gentype *)
+          (*
       if txt = Literals.gentype_import then
         let bundle =
           let input_name = !Ocaml_common.Location.input_name in
@@ -285,90 +298,100 @@ let parse_external_attributes (prim_name_check : string)
               Some { bundle; module_bind_name = Phint_nothing };
           } )
       else *)
-      let action () =
-        match txt with
-        | "mel.module" -> (
-            match Ast_payload.assert_strings loc payload with
-            | [ bundle ] ->
-                {
-                  st with
-                  external_module_name =
-                    Some { bundle; module_bind_name = Phint_nothing };
-                }
-            | [ bundle; bind_name ] ->
-                {
-                  st with
-                  external_module_name =
-                    Some { bundle; module_bind_name = Phint_name bind_name };
-                }
-            | [] ->
-                {
-                  st with
-                  module_as_val =
-                    Some
-                      {
-                        bundle =
-                          string_of_bundle_source
-                            (prim_name_or_pval_prim :> bundle_source);
-                        module_bind_name = Phint_nothing;
-                      };
-                }
-            | _ ->
-                Location.raise_errorf ~loc
-                  "`[%@mel.module ..]' expects, at most, a tuple of two \
-                   strings (module name, variable name)")
-        | "mel.scope" -> (
-            match Ast_payload.assert_strings loc payload with
-            | [] ->
-                Location.raise_errorf ~loc
-                  "`[%@mel.scope ..]' expects a tuple of strings in its payload"
-            (* We need err on empty scope, so we can tell the difference
+          try
+            let st, mk_obj =
+              match txt with
+              | "mel.module" -> (
+                  match Ast_payload.assert_strings ~loc payload with
+                  | [ bundle ] ->
+                      ( {
+                          st with
+                          External_desc.external_module_name =
+                            Some { bundle; module_bind_name = Phint_nothing };
+                        },
+                        mk_obj )
+                  | [ bundle; bind_name ] ->
+                      ( {
+                          st with
+                          external_module_name =
+                            Some
+                              {
+                                bundle;
+                                module_bind_name = Phint_name bind_name;
+                              };
+                        },
+                        mk_obj )
+                  | [] ->
+                      ( {
+                          st with
+                          module_as_val =
+                            Some
+                              {
+                                bundle = Lazy.force prim_name_or_pval_prim;
+                                module_bind_name = Phint_nothing;
+                              };
+                        },
+                        mk_obj )
+                  | _ ->
+                      Location.raise_errorf ~loc
+                        "`[%@mel.module ..]' expects, at most, a tuple of two \
+                         strings (module name, variable name)")
+              | "mel.scope" -> (
+                  match Ast_payload.assert_strings ~loc payload with
+                  | [] ->
+                      Location.raise_errorf ~loc
+                        "`[%@mel.scope ..]' expects a tuple of strings in its \
+                         payload"
+                  (* We need err on empty scope, so we can tell the difference
                between unset/set *)
-            | scopes -> { st with scopes })
-        | "mel.variadic" -> { st with variadic = true }
-        | "mel.send" ->
-            { st with val_send = name_from_payload_or_prim ~loc payload }
-        | "mel.send.pipe" ->
-            Location.raise_errorf ~loc
-              "`%s' has been removed. Use `@mel.send' with the `@mel.this` \
-               marker instead."
-              txt
-        | "mel.set" ->
-            { st with set_name = name_from_payload_or_prim ~loc payload }
-        | "mel.get" ->
-            { st with get_name = name_from_payload_or_prim ~loc payload }
-        | "mel.new" ->
-            { st with new_name = name_from_payload_or_prim ~loc payload }
-        | "mel.set_index" ->
-            if String.length prim_name_check <> 0 then
-              Location.raise_errorf ~loc
-                "`%@mel.set_index' requires its `external' payload to be the \
-                 empty string";
-            { st with set_index = true }
-        | "mel.get_index" ->
-            if String.length prim_name_check <> 0 then
-              Location.raise_errorf ~loc
-                "`%@mel.get_index' requires its `external' payload to be the \
-                 empty string";
-            { st with get_index = true }
-        | "mel.obj" -> { st with mk_obj = true }
-        | "mel.return" -> (
-            match Ast_payload.ident_or_record_as_config payload with
-            | Ok [ ({ txt; _ }, None) ] ->
-                { st with return_wrapper = return_wrapper loc txt }
-            | Ok _ -> Error.err ~loc Not_supported_directive_in_mel_return
-            | Error s -> Location.raise_errorf ~loc "%s" s)
-        | _ -> raise_notrace Not_handled_external_attribute
-      in
-      try (attrs, action ())
-      with Not_handled_external_attribute -> (attr :: attrs, st))
-    ~init:([], init_st) prim_attributes
-
-let has_mel_uncurry (attrs : attribute list) =
-  List.exists
-    ~f:(fun { attr_name = { txt; loc = _ }; _ } ->
-      match txt with "mel.uncurry" -> true | _ -> false)
-    attrs
+                  | scopes -> ({ st with scopes }, mk_obj))
+              | "mel.variadic" -> ({ st with variadic = true }, mk_obj)
+              | "mel.send" ->
+                  check_name ~loc txt payload;
+                  (assign_kind ~loc st Send, mk_obj)
+              | "mel.send.pipe" ->
+                  Location.raise_errorf ~loc
+                    "`%s' has been removed. Use `@mel.send' with the \
+                     `@mel.this` marker instead."
+                    txt
+              | "mel.set" ->
+                  check_name ~loc txt payload;
+                  (assign_kind ~loc st Set, mk_obj)
+              | "mel.get" ->
+                  check_name ~loc txt payload;
+                  (assign_kind ~loc st Get, mk_obj)
+              | "mel.new" ->
+                  check_name ~loc txt payload;
+                  ({ st with new_name = true }, mk_obj)
+              | "mel.set_index" ->
+                  if String.length prim_name_check <> 0 then
+                    Location.raise_errorf ~loc
+                      "`%@mel.set_index' requires its `external' payload to be \
+                       the empty string";
+                  (assign_kind ~loc st Set_index, mk_obj)
+              | "mel.get_index" ->
+                  if String.length prim_name_check <> 0 then
+                    Location.raise_errorf ~loc
+                      "`%@mel.get_index' requires its `external' payload to be \
+                       the empty string";
+                  (assign_kind ~loc st Get_index, mk_obj)
+              | "mel.obj" -> (st, true)
+              | "mel.return" -> (
+                  match Ast_payload.ident_or_record_as_config payload with
+                  | Ok [ ({ txt; _ }, None) ] ->
+                      ( { st with return_wrapper = return_wrapper ~loc txt },
+                        mk_obj )
+                  | Ok _ -> Error.err ~loc Not_supported_directive_in_mel_return
+                  | Error s -> Location.raise_errorf ~loc "%s" s)
+              | _ -> raise_notrace Not_handled_external_attribute
+            in
+            (attrs, st, mk_obj)
+          with Not_handled_external_attribute -> (attr :: attrs, st, mk_obj))
+        ~init:([], External_desc.init, false)
+        prim_attributes
+    in
+    ( attrs,
+      match mk_obj with true -> External_desc.Obj st | false -> External st )
 
 let is_user_option ty =
   match ty.ptyp_desc with
@@ -418,23 +441,17 @@ let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
       })
     new_arg_types_ty ~init:result
 
-let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
-    (arg_types_ty : param_type list) (result_type : core_type) :
-    core_type * External_ffi_types.t =
+let process_obj (loc : Location.t) (st : External_desc.desc)
+    (prim_name : string) (arg_types_ty : param_type list)
+    (result_type : core_type) : core_type * External_ffi_types.t =
   match st with
   | {
+   kind = Val;
    external_module_name = None;
    module_as_val = None;
-   val_send = `Nm_na;
    variadic = false;
-   new_name = `Nm_na;
-   call_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   get_index = false;
+   new_name = false;
    return_wrapper = Return_unset;
-   set_index = false;
-   mk_obj = _;
    scopes = [];
    _ (* wrapper does not work with @obj
     TODO: better error message *);
@@ -660,50 +677,38 @@ let mel_send_this_index arg_type_specs arg_types =
         arg_type_specs
       |> Option.get
 
-let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
-    (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
+let external_desc_of_non_obj ~loc (st : External_desc.desc)
+    (prim_name_or_pval_prim : string Lazy.t) (arg_type_specs_length : int)
     arg_types_ty
     (arg_type_specs :
       External_arg_spec.Arg_label.t External_arg_spec.param list) :
     External_ffi_types.external_spec =
   match st with
   | {
-   set_index = true;
+   kind = Set_index;
    external_module_name = None;
    module_as_val = None;
-   val_send = `Nm_na;
    variadic = false;
    scopes;
-   get_index = false;
-   new_name = `Nm_na;
-   call_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
+   new_name = false;
    return_wrapper = _;
-   mk_obj = _;
   } ->
       if arg_type_specs_length = 3 then Js_set_index { scopes }
       else
         Location.raise_errorf ~loc
           "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> 'key \
            -> 'value -> unit'"
-  | { set_index = true; _ } ->
+  | { kind = Set_index; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
            "Found an attribute that conflicts with `[@mel.set_index]'")
   | {
-   get_index = true;
+   kind = Get_index;
    external_module_name = None;
    module_as_val = None;
-   val_send = `Nm_na;
    variadic = false;
    scopes;
-   new_name = `Nm_na;
-   call_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   set_index = false;
-   mk_obj = _;
+   new_name = false;
    return_wrapper = _;
   } ->
       if arg_type_specs_length = 2 then Js_get_index { scopes }
@@ -711,62 +716,46 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Location.raise_errorf ~loc
           "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> 'key \
            -> 'value'"
-  | { get_index = true; _ } ->
+  | { kind = Get_index; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
            "Found an attribute that conflicts with `@mel.get_index'")
   | {
+   kind = Val;
    module_as_val = Some external_module_name;
-   get_index = false;
    new_name;
    external_module_name = None;
-   val_send = `Nm_na;
    scopes = [];
    (* module as var does not need scopes *)
    variadic;
-   call_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   set_index = false;
    return_wrapper = _;
-   mk_obj = _;
   } -> (
       match (arg_types_ty, new_name) with
-      | [], `Nm_na -> Js_module_as_var external_module_name
-      | _, `Nm_na -> Js_module_as_fn { variadic; external_module_name }
-      | _, `Nm_external _ -> Js_module_as_class external_module_name
-      | _, `Nm_payload _ ->
-          Location.raise_errorf ~loc
-            "`[%@mel.new]' doesn't expect an attribute payload")
-  | { module_as_val = Some _; get_index; val_send; _ } ->
+      | [], false -> Js_module_as_var external_module_name
+      | _, false -> Js_module_as_fn { variadic; external_module_name }
+      | _, true -> Js_module_as_class external_module_name)
+  | { module_as_val = Some _; kind = Send as kind; _ } ->
       let reason =
-        match (get_index, val_send) with
-        | true, _ ->
+        match kind with
+        | Get_index ->
             "`@mel.get_index' doesn't import from a module. `@mel.module' is \
              not necessary here."
-        | _, #bundle_source ->
+        | Send ->
             "`@mel.send' doesn't import from a module. `@mel.module` is not \
              necessary here."
         | _ -> "Found an attribute that conflicts with `@mel.module'."
       in
       Error.err ~loc (Conflict_ffi_attribute reason)
   | {
-   get_name = `Nm_na;
-   call_name = `Nm_na;
+   kind = Val;
    module_as_val = None;
-   set_index = false;
-   get_index = false;
-   val_send = `Nm_na;
-   new_name = `Nm_na;
-   set_name = `Nm_na;
+   new_name = false;
    external_module_name = None;
    variadic;
    scopes;
-   mk_obj = _;
-   (* mk_obj is always false *)
    return_wrapper = _;
   } ->
-      let name = string_of_bundle_source prim_name_or_pval_prim in
+      let name = Lazy.force prim_name_or_pval_prim in
       if arg_type_specs_length = 0 then
         (*
          {[
@@ -777,66 +766,29 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Js_var { name; external_module_name = None; scopes }
       else Js_call { variadic; name; external_module_name = None; scopes }
   | {
-   call_name = `Nm_external (lazy name) | `Nm_payload name;
-   variadic;
-   scopes;
-   external_module_name;
+   kind = Val;
    module_as_val = None;
-   val_send = `Nm_na;
-   set_index = false;
-   get_index = false;
-   new_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   mk_obj = _;
-   return_wrapper = _;
-  } ->
-      if arg_type_specs_length = 0 then
-        (*
-           {[
-             external ff : int -> int = "" [@@module "xx"]
-           ]}
-        *)
-        Js_var { name; external_module_name; scopes }
-        (*FIXME: variadic is not supported here *)
-      else Js_call { variadic; name; external_module_name; scopes }
-  | {
-   variadic;
-   scopes;
+   new_name = false;
    external_module_name = Some _ as external_module_name;
-   call_name = `Nm_na;
-   module_as_val = None;
-   val_send = `Nm_na;
-   set_index = false;
-   get_index = false;
-   new_name = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
-   mk_obj = _;
+   variadic;
+   scopes;
    return_wrapper = _;
   } ->
-      let name = string_of_bundle_source prim_name_or_pval_prim in
+      let name = Lazy.force prim_name_or_pval_prim in
       if arg_type_specs_length = 0 then
         (*
          {[
            external ff : int = "" [@@module "xx"]
-         ]}
-      *)
+         ]} *)
         Js_var { name; external_module_name; scopes }
       else Js_call { variadic; name; external_module_name; scopes }
   | {
-   val_send = `Nm_external (lazy name) | `Nm_payload name;
+   kind = Send;
    variadic;
    scopes;
-   call_name = `Nm_na;
    module_as_val = None;
-   set_index = false;
-   get_index = false;
    new_name;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
    external_module_name = None;
-   mk_obj = _;
    return_wrapper = _;
   } -> (
       (* PR #2162 - since when we assemble arguments the first argument in
@@ -848,105 +800,75 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
       | [ { arg_type = Arg_cst _; arg_label = _ } ], _ ->
           Location.raise_errorf ~loc
             "`[%@mel.send]`'s must have at least a non-constant argument"
-      | _, `Nm_payload _ ->
-          Location.raise_errorf ~loc
-            "`[%@mel.new]' doesn't expect an attribute payload"
-      | _ :: _, (`Nm_na | `Nm_external _) ->
+      | _ :: _, _ ->
           Js_send
             {
               variadic;
-              name;
+              name = Lazy.force prim_name_or_pval_prim;
               scopes;
               self_idx = mel_send_this_index arg_type_specs arg_types_ty;
-              new_ = not (new_name = `Nm_na);
+              new_ = new_name;
             })
-  | { val_send = #bundle_source; _ } ->
+  | { kind = Send; _ } ->
       Location.raise_errorf ~loc
         "Found an attribute that can't be used with `[%@mel.send]'"
   | {
-   new_name = `Nm_external (lazy name);
+   new_name = true;
    external_module_name;
-   call_name = `Nm_na;
    module_as_val = None;
-   set_index = false;
-   get_index = false;
-   val_send = `Nm_na;
-   set_name = `Nm_na;
-   get_name = `Nm_na;
+   kind = Val;
    variadic;
    scopes;
-   mk_obj = _;
    return_wrapper = _;
   } ->
-      Js_new { name; external_module_name; variadic; scopes }
-  | { new_name = #bundle_source; _ } ->
+      Js_new
+        {
+          name = Lazy.force prim_name_or_pval_prim;
+          external_module_name;
+          variadic;
+          scopes;
+        }
+  | { new_name = true; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
            "Found an attribute that can't be used with `@mel.new'")
   | {
-   set_name = `Nm_external (lazy name) | `Nm_payload name;
-   call_name = `Nm_na;
+   kind = Set;
    module_as_val = None;
-   set_index = false;
-   get_index = false;
-   val_send = `Nm_na;
-   new_name = `Nm_na;
-   get_name = `Nm_na;
+   new_name = false;
    external_module_name = None;
    variadic = false;
-   mk_obj = _;
    return_wrapper = _;
    scopes;
   } ->
-      if arg_type_specs_length = 2 then Js_set { name; scopes }
+      if arg_type_specs_length = 2 then
+        Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
       else
         Location.raise_errorf ~loc
           "`[%@mel.set]' requires a function of two arguments"
-  | { set_name = #bundle_source; _ } ->
-      Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `[%@mel.set]'"
+  | { kind = Set; _ } ->
+      Error.err ~loc
+        (Conflict_ffi_attribute
+           "Found an attribute that can't be used with `[@mel.set]'")
   | {
-   get_name = `Nm_external (lazy name) | `Nm_payload name;
-   call_name = `Nm_na;
+   kind = Get;
    module_as_val = None;
-   set_index = false;
-   get_index = false;
-   val_send = `Nm_na;
-   new_name = `Nm_na;
-   set_name = `Nm_na;
+   new_name = false;
    external_module_name = None;
    variadic = false;
-   mk_obj = _;
    return_wrapper = _;
    scopes;
   } ->
-      if arg_type_specs_length = 1 then Js_get { name; scopes }
+      if arg_type_specs_length = 1 then
+        Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
       else
         Location.raise_errorf ~loc
           "`[%@mel.get]' requires a function of only one argument"
-  | { get_name = #bundle_source; _ } ->
-      Location.raise_errorf ~loc
-        "Found an attribute that conflicts with `[%@mel.get]'"
-
-let list_of_arrow (ty : core_type) : core_type * param_type list =
-  let rec aux (ty : core_type) acc =
-    match ty.ptyp_desc with
-    | Ptyp_arrow (label, t1, t2) ->
-        aux t2
-          (({
-              label;
-              ty = t1;
-              attrs = ty.ptyp_attributes @ t1.ptyp_attributes;
-              loc = ty.ptyp_loc;
-            }
-             : param_type)
-          :: acc)
-    | Ptyp_poly (_, ty) ->
-        (* should not happen? *)
-        Error.err ~loc:ty.ptyp_loc Unhandled_poly_type
-    | _ -> (ty, List.rev acc)
-  in
-  aux ty []
+  | { kind = Get; _ } ->
+      Error.err ~loc
+        (Conflict_ffi_attribute
+           "Found an attribute that can't be used with `[@mel.get]'")
+  | { kind = Val; _ } -> assert false
 
 module From_attributes = struct
   type t = {
@@ -1015,9 +937,7 @@ module From_attributes = struct
                 "%S isn't a valid JavaScript identifier" txt)
           v
     in
-    fun ~loc ffi
-        (_arg_type_specs :
-          External_arg_spec.Arg_label.t External_arg_spec.param list) : bool ->
+    fun ~loc ffi : bool ->
       let xrelative = ref false in
       let upgrade bool = if not !xrelative then xrelative := bool in
       (match ffi with
@@ -1047,169 +967,198 @@ module From_attributes = struct
           Option.iter
             (fun name -> check_external_module_name ~loc name)
             external_module_name;
-
           valid_global_name ~loc name);
       !xrelative
 
   (* Note that the passed [type_annotation] is already processed by visitor pattern before*)
-  let parse ~(loc : Location.t) (type_annotation : core_type)
-      (prim_attributes : attribute list) ~(pval_name : string)
-      ~(prim_name : string) =
-    (* sanity check here
+  let parse =
+    let list_of_arrow (ty : core_type) : core_type * param_type list =
+      let rec aux (ty : core_type) acc =
+        match ty.ptyp_desc with
+        | Ptyp_arrow (label, t1, t2) ->
+            aux t2
+              (({
+                  label;
+                  ty = t1;
+                  attrs = ty.ptyp_attributes @ t1.ptyp_attributes;
+                  loc = ty.ptyp_loc;
+                }
+                 : param_type)
+              :: acc)
+        | Ptyp_poly (_, ty) ->
+            (* should not happen? *)
+            Error.err ~loc:ty.ptyp_loc Unhandled_poly_type
+        | _ -> (ty, List.rev acc)
+      in
+      aux ty []
+    in
+    let has_mel_uncurry (attrs : attribute list) =
+      List.exists
+        ~f:(fun { attr_name = { txt; loc = _ }; _ } ->
+          match txt with "mel.uncurry" -> true | _ -> false)
+        attrs
+    in
+    fun ~loc (type_annotation : core_type) (prim_attributes : attribute list)
+        ~(pval_name : string) ~(prim_name : string) ->
+      (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense *)
-    if has_mel_uncurry type_annotation.ptyp_attributes then
-      Location.raise_errorf ~loc
-        "`[%@mel.uncurry]' must not be applied to the entire annotation"
-    else
-      let prim_name_or_pval_name =
-        if String.length prim_name = 0 then
-          `Nm_external
-            (lazy
-              (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
-               pval_name))
-        else `Nm_external (lazy prim_name)
-        (* need check name *)
-      in
-      let result_type, arg_types_ty =
-        (* Note this assumes external type is syntactic (no abstraction)*)
-        list_of_arrow type_annotation
-      in
-      if has_mel_uncurry result_type.ptyp_attributes then
+      if has_mel_uncurry type_annotation.ptyp_attributes then
         Location.raise_errorf ~loc
-          "`[%@mel.uncurry]' cannot be applied to the return type"
+          "`[%@mel.uncurry]' must not be applied to the entire annotation"
       else
-        let unused_attrs, external_desc =
-          parse_external_attributes prim_name prim_name_or_pval_name
-            prim_attributes
+        let prim_name_or_pval_name =
+          (* TODO(anmonteiro): need check name *)
+          if String.length prim_name = 0 then
+            lazy
+              (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
+               pval_name)
+          else lazy prim_name
         in
-        if external_desc.mk_obj then
-          (* warn unused attributes here ? *)
-          let new_type, spec =
-            process_obj loc external_desc prim_name arg_types_ty result_type
-          in
-          {
-            pval_type = new_type;
-            ffi = spec;
-            pval_attributes = unused_attrs;
-            dont_inline_cross_module = false;
-          }
+        let result_type, arg_types_ty =
+          (* Note this assumes external type is syntactic (no abstraction)*)
+          list_of_arrow type_annotation
+        in
+        if has_mel_uncurry result_type.ptyp_attributes then
+          Location.raise_errorf ~loc
+            "`[%@mel.uncurry]' cannot be applied to the return type"
         else
-          let arg_type_specs, new_arg_types_ty, (arg_type_specs_length, _) =
-            let (init
-                  : External_arg_spec.Arg_label.t External_arg_spec.param list
-                    * param_type list
-                    * (int * bool)) =
-              ([], [], (0, false))
-            in
-            List.fold_right
-              ~f:(fun
-                  param_type
-                  (arg_type_specs, arg_types, (i, last_was_mel_this))
-                ->
-                let arg_label = param_type.label in
-                let ty = param_type.ty in
-                let is_variadic =
-                  (i = 0 || (i = 1 && last_was_mel_this))
-                  && external_desc.variadic
+          let unused_attrs, external_desc =
+            parse_external_attributes prim_name prim_name_or_pval_name
+              prim_attributes
+          in
+          match external_desc with
+          | Obj external_desc ->
+              (* warn unused attributes here ? *)
+              let new_type, spec =
+                process_obj loc external_desc prim_name arg_types_ty result_type
+              in
+              {
+                pval_type = new_type;
+                ffi = spec;
+                pval_attributes = unused_attrs;
+                dont_inline_cross_module = false;
+              }
+          | External external_desc ->
+              let arg_type_specs, new_arg_types_ty, (arg_type_specs_length, _) =
+                let (init
+                      : External_arg_spec.Arg_label.t External_arg_spec.param
+                        list
+                        * param_type list
+                        * (int * bool)) =
+                  ([], [], (0, false))
                 in
-                let is_mel_this_and_send =
-                  external_desc.val_send <> `Nm_na
-                  && List.exists
-                       ~f:(fun { attr_name = { txt; _ }; _ } ->
-                         txt = "mel.this")
-                       param_type.attrs
-                in
-                (if is_variadic && not is_mel_this_and_send then
-                   match arg_label with
-                   | Optional _ ->
-                       Location.raise_errorf ~loc
-                         "`[%@mel.variadic]' cannot be applied to an \
-                          optionally labelled argument"
-                   | Labelled _ | Nolabel -> (
-                       match ty.ptyp_desc with
-                       | Ptyp_any ->
-                           Location.raise_errorf
-                             "`[%@mel.variadic]' expects its last argument to \
-                              be an array"
-                       | _ -> (
-                           match spec_of_ptyp ~nolabel:true ty with
-                           | Nothing -> (
-                               match ty.ptyp_desc with
-                               | Ptyp_constr ({ txt = Lident "array"; _ }, [ _ ])
-                                 ->
-                                   ()
+                List.fold_right
+                  ~f:(fun
+                      param_type
+                      (arg_type_specs, arg_types, (i, last_was_mel_this))
+                    ->
+                    let arg_label = param_type.label in
+                    let ty = param_type.ty in
+                    let is_variadic =
+                      (i = 0 || (i = 1 && last_was_mel_this))
+                      && external_desc.variadic
+                    in
+                    let is_mel_this_and_send =
+                      external_desc.kind = Send
+                      && List.exists
+                           ~f:(fun { attr_name = { txt; _ }; _ } ->
+                             txt = "mel.this")
+                           param_type.attrs
+                    in
+                    (if is_variadic && not is_mel_this_and_send then
+                       match arg_label with
+                       | Optional _ ->
+                           Location.raise_errorf ~loc
+                             "`[%@mel.variadic]' cannot be applied to an \
+                              optionally labelled argument"
+                       | Labelled _ | Nolabel -> (
+                           match ty.ptyp_desc with
+                           | Ptyp_any ->
+                               Location.raise_errorf
+                                 "`[%@mel.variadic]' expects its last argument \
+                                  to be an array"
+                           | _ -> (
+                               match spec_of_ptyp ~nolabel:true ty with
+                               | Nothing -> (
+                                   match ty.ptyp_desc with
+                                   | Ptyp_constr
+                                       ({ txt = Lident "array"; _ }, [ _ ]) ->
+                                       ()
+                                   | _ ->
+                                       Location.raise_errorf ~loc
+                                         "`[%@mel.variadic]' expects its last \
+                                          argument to be an array")
                                | _ ->
                                    Location.raise_errorf ~loc
                                      "`[%@mel.variadic]' expects its last \
-                                      argument to be an array")
-                           | _ ->
-                               Location.raise_errorf ~loc
-                                 "`[%@mel.variadic]' expects its last argument \
-                                  to be an array")));
-                let ( (arg_label : External_arg_spec.Arg_label.t),
-                      arg_type,
-                      new_arg_types ) =
-                  match arg_label with
-                  | Optional _ -> (
-                      match get_opt_arg_type ty with
-                      | Poly_var _ ->
-                          (* ?x:([`x of int ] [@string]) does not make sense *)
-                          Location.raise_errorf ~loc:param_type.ty.ptyp_loc
-                            "`[%@mel.as ..]' must not be used with an \
-                             optionally labelled polymorphic variant"
-                      | arg_type ->
-                          (Arg_optional, arg_type, param_type :: arg_types))
-                  | Labelled _ -> (
-                      let arg_type =
-                        let has_mel_send = external_desc.val_send <> `Nm_na in
-                        refine_arg_type ~nolabel:false ~has_mel_send ty
-                      in
-                      ( Arg_label,
-                        arg_type,
-                        match arg_type with
-                        | Arg_cst _ -> arg_types
-                        | _ -> param_type :: arg_types ))
-                  | Nolabel -> (
-                      let arg_type =
-                        let has_mel_send = external_desc.val_send <> `Nm_na in
-                        refine_arg_type ~nolabel:true ~has_mel_send ty
-                      in
-                      ( Arg_empty,
-                        arg_type,
-                        match arg_type with
-                        | Arg_cst _ -> arg_types
-                        | _ -> param_type :: arg_types ))
-                in
-                ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
-                  new_arg_types,
-                  if arg_type = Ignore then (i, last_was_mel_this)
-                  else (i + 1, is_mel_this_and_send) ))
-              arg_types_ty ~init
-          in
-          let ffi =
-            external_desc_of_non_obj loc external_desc prim_name_or_pval_name
-              arg_type_specs_length arg_types_ty arg_type_specs
-          in
-          let relative = check_ffi ~loc ffi arg_type_specs in
-          (* result type can not be labeled *)
-          (* currently we don't process attributes of
+                                      argument to be an array")));
+                    let ( (arg_label : External_arg_spec.Arg_label.t),
+                          arg_type,
+                          new_arg_types ) =
+                      match arg_label with
+                      | Optional _ -> (
+                          match get_opt_arg_type ty with
+                          | Poly_var _ ->
+                              (* ?x:([`x of int ] [@string]) does not make sense *)
+                              Location.raise_errorf ~loc:param_type.ty.ptyp_loc
+                                "`[%@mel.as ..]' must not be used with an \
+                                 optionally labelled polymorphic variant"
+                          | arg_type ->
+                              (Arg_optional, arg_type, param_type :: arg_types))
+                      | Labelled _ -> (
+                          let arg_type =
+                            let has_mel_send = external_desc.kind = Send in
+                            refine_arg_type ~nolabel:false ~has_mel_send ty
+                          in
+                          ( Arg_label,
+                            arg_type,
+                            match arg_type with
+                            | Arg_cst _ -> arg_types
+                            | _ -> param_type :: arg_types ))
+                      | Nolabel -> (
+                          let arg_type =
+                            let has_mel_send = external_desc.kind = Send in
+                            refine_arg_type ~nolabel:true ~has_mel_send ty
+                          in
+                          ( Arg_empty,
+                            arg_type,
+                            match arg_type with
+                            | Arg_cst _ -> arg_types
+                            | _ -> param_type :: arg_types ))
+                    in
+                    ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
+                      new_arg_types,
+                      if arg_type = Ignore then (i, last_was_mel_this)
+                      else (i + 1, is_mel_this_and_send) ))
+                  arg_types_ty ~init
+              in
+              let ffi =
+                external_desc_of_non_obj ~loc external_desc
+                  prim_name_or_pval_name arg_type_specs_length arg_types_ty
+                  arg_type_specs
+              in
+              let relative = check_ffi ~loc ffi in
+              (* result type can not be labeled *)
+              (* currently we don't process attributes of
            return type, in the future we may *)
-          let return_wrapper =
-            (* TODO(anmonteiro): don't add the return wrapper for unit if this is
+              let return_wrapper =
+                (* TODO(anmonteiro): don't add the return wrapper for unit if this is
              uncurried? saves the brittle pattern matching in Lam_compile *)
-            check_return_wrapper loc external_desc.return_wrapper result_type
-          in
-          {
-            pval_type = mk_fn_type new_arg_types_ty result_type;
-            ffi = External_ffi_types.ffi_mel arg_type_specs return_wrapper ffi;
-            pval_attributes = unused_attrs;
-            dont_inline_cross_module = relative;
-          }
+                check_return_wrapper loc external_desc.return_wrapper
+                  result_type
+              in
+              {
+                pval_type = mk_fn_type new_arg_types_ty result_type;
+                ffi =
+                  External_ffi_types.ffi_mel arg_type_specs return_wrapper ffi;
+                pval_attributes = unused_attrs;
+                dont_inline_cross_module = relative;
+              }
 end
 
-let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
-    (attrs : attribute list) (pval_name : string) (prim_name : string) =
+let handle_attributes_as_string ~loc (typ : core_type) (attrs : attribute list)
+    (pval_name : string) (prim_name : string) =
   match typ.ptyp_desc with
   | Ptyp_constr
       ({ txt = Ldot (Ldot (Lident "Js", "Fn"), arity); loc }, [ fn_type ]) ->
@@ -1219,7 +1168,7 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
         pval_attributes;
         dont_inline_cross_module;
       } =
-        From_attributes.parse ~loc:pval_loc fn_type attrs ~pval_name ~prim_name
+        From_attributes.parse ~loc fn_type attrs ~pval_name ~prim_name
       in
 
       {
@@ -1238,7 +1187,7 @@ let handle_attributes_as_string (pval_loc : Location.t) (typ : core_type)
         pval_attributes;
         dont_inline_cross_module;
       } =
-        From_attributes.parse ~loc:pval_loc typ attrs ~pval_name ~prim_name
+        From_attributes.parse ~loc typ attrs ~pval_name ~prim_name
       in
       {
         pval_type;
