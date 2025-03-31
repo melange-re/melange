@@ -203,9 +203,9 @@ Demonstrate PPX error messages
   > external x : t = "x" [@@mel.module 1]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 24-34:
+  File "x.ml", line 2, characters 21-37:
   2 | external x : t = "x" [@@mel.module 1]
-                              ^^^^^^^^^^
+                           ^^^^^^^^^^^^^^^^
   Error: Expected a string or tuple of strings
   [1]
 
@@ -214,9 +214,9 @@ Demonstrate PPX error messages
   > external x : t = "x" [@@mel.module ("1","2","3")]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 24-34:
+  File "x.ml", line 2, characters 21-49:
   2 | external x : t = "x" [@@mel.module ("1","2","3")]
-                              ^^^^^^^^^^
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: `[@mel.module ..]' expects, at most, a tuple of two strings (module name, variable name)
   [1]
 
@@ -225,9 +225,9 @@ Demonstrate PPX error messages
   > external x : t = "x" [@@mel.scope]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 24-33:
+  File "x.ml", line 2, characters 21-34:
   2 | external x : t = "x" [@@mel.scope]
-                              ^^^^^^^^^
+                           ^^^^^^^^^^^^^
   Error: `[@mel.scope ..]' expects a tuple of strings in its payload
   [1]
 
@@ -236,9 +236,9 @@ Demonstrate PPX error messages
   > external set : 'a t -> string -> 'a -> unit = "payload" [@@mel.set_index]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 59-72:
+  File "x.ml", line 2, characters 56-73:
   2 | external set : 'a t -> string -> 'a -> unit = "payload" [@@mel.set_index]
-                                                                 ^^^^^^^^^^^^^
+                                                              ^^^^^^^^^^^^^^^^^
   Error: `@mel.set_index' requires its `external' payload to be the empty string
   [1]
 
@@ -247,9 +247,9 @@ Demonstrate PPX error messages
   > external get : 'a t -> string -> 'a = "payload" [@@mel.get_index]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 51-64:
+  File "x.ml", line 2, characters 48-65:
   2 | external get : 'a t -> string -> 'a = "payload" [@@mel.get_index]
-                                                         ^^^^^^^^^^^^^
+                                                      ^^^^^^^^^^^^^^^^^
   Error: `@mel.get_index' requires its `external' payload to be the empty string
   [1]
 
@@ -315,9 +315,9 @@ Demonstrate PPX error messages
   > [@@mel.new "payload"] [@@mel.module]
   > EOF
   $ dune build @melange
-  File "x.ml", lines 2-3, characters 0-36:
-  2 | external red : string -> t = "some-module"
+  File "x.ml", line 3, characters 0-21:
   3 | [@@mel.new "payload"] [@@mel.module]
+      ^^^^^^^^^^^^^^^^^^^^^
   Error: `[@mel.new]' doesn't expect an attribute payload
   [1]
 
@@ -346,9 +346,9 @@ Demonstrate PPX error messages
   > external get : t -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 0-68:
+  File "x.ml", line 2, characters 52-68:
   2 | external get : t -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                          ^^^^^^^^^^^^^^^^
   Error: `[@mel.new]' doesn't expect an attribute payload
   [1]
 
@@ -357,9 +357,9 @@ Demonstrate PPX error messages
   > external get : (t [@mel.this]) -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
   > EOF
   $ dune build @melange
-  File "x.ml", line 2, characters 0-82:
+  File "x.ml", line 2, characters 66-82:
   2 | external get : (t [@mel.this]) -> string = "some-fn" [@@mel.send] [@@mel.new "hi"]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                                        ^^^^^^^^^^^^^^^^
   Error: `[@mel.new]' doesn't expect an attribute payload
   [1]
 
