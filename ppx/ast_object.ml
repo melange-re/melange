@@ -37,7 +37,7 @@ let ffi_of_labels labels =
          :: arg_kinds))
 
 let ocaml_object_as_js_object =
-  let local_extern_cont_to_obj loc ~ffi ~pval_type ?(local_module_name = "J")
+  let local_extern_cont_to_obj ~loc ~ffi ~pval_type ?(local_module_name = "J")
       ?(local_fun_name = "unsafe_expr") (cb : expression -> 'a) :
       expression_desc =
     Pexp_letmodule
@@ -72,7 +72,7 @@ let ocaml_object_as_js_object =
             pexp_loc_stack = [];
           } )
   in
-  fun loc (mapper : Ast_traverse.map) (self_pat : pattern)
+  fun ~loc (mapper : Ast_traverse.map) (self_pat : pattern)
       (clfs : class_field list) ->
     (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
@@ -274,14 +274,14 @@ let ocaml_object_as_js_object =
             label_type acc)
         labels label_types ~init:public_obj_type
     in
-    local_extern_cont_to_obj loc ~ffi:(ffi_of_labels labels)
+    local_extern_cont_to_obj ~loc ~ffi:(ffi_of_labels labels)
       (fun e ->
         Exp.apply ~loc e
           (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
       ~pval_type
 
 let record_as_js_object =
-  let local_external_obj loc ~ffi ~pval_type ?(local_module_name = "J")
+  let local_external_obj ~loc ~ffi ~pval_type ?(local_module_name = "J")
       ?(local_fun_name = "unsafe_expr") args : expression_desc =
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
@@ -306,15 +306,8 @@ let record_as_js_object =
           pmod_attributes = [];
         },
         Exp.apply
-          ({
-             pexp_desc =
-               Pexp_ident
-                 { txt = Ldot (Lident local_module_name, local_fun_name); loc };
-             pexp_attributes = [];
-             pexp_loc = loc;
-             pexp_loc_stack = [];
-           }
-            : expression)
+          (Exp.ident ~loc
+             { loc; txt = Ldot (Lident local_module_name, local_fun_name) })
           (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
           ~loc )
   in
@@ -323,8 +316,7 @@ let record_as_js_object =
    {[
      '_x'_
    ]}
-   will be recognized as a invalid program
-*)
+   will be recognized as a invalid program *)
   let from_labels ~loc arity labels : core_type =
     let tyvars =
       List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
@@ -359,6 +351,6 @@ let record_as_js_object =
                 "`%%mel.obj' literals only support simple labels")
         label_exprs ~init:([], [], 0)
     in
-    local_external_obj loc ~ffi:(ffi_of_labels labels)
+    local_external_obj ~loc ~ffi:(ffi_of_labels labels)
       ~pval_type:(from_labels ~loc arity labels)
       args

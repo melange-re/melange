@@ -24,8 +24,7 @@
 
 open Import
 
-let is_unit p =
-  match p with
+let is_unit = function
   | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> true
   | _ -> false
 

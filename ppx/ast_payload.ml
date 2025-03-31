@@ -24,9 +24,9 @@
 
 open Import
 
-let is_single_string (x : payload) =
-  match x with
+let is_single_string =
   (* TODO also need detect empty phrase case *)
+  function
   | PStr
       [
         {
@@ -41,8 +41,7 @@ let is_single_string (x : payload) =
   | _ -> None
 
 (* TODO also need detect empty phrase case *)
-let is_single_int (x : payload) : int option =
-  match x with
+let is_single_int = function
   | PStr
       [
         {
@@ -55,15 +54,12 @@ let is_single_int (x : payload) : int option =
       Some (int_of_string name)
   | _ -> None
 
-let as_ident (x : payload) =
-  match x with
+let as_ident = function
   | PStr
       [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident; _ }, _); _ } ]
     ->
       Some ident
   | _ -> None
-
-type action = string Asttypes.loc * expression option
 
 (* None means punning is hit
     {[ { x } ]}
@@ -72,18 +68,21 @@ type action = string Asttypes.loc * expression option
 *)
 
 let ident_or_record_as_config =
+  let exception Local in
+  let base_error =
+    "Unsupported attribute payload. Expected a configuration record literal"
+  in
   let error more =
     let msg =
-      let base =
-        "Unsupported attribute payload. Expected a configuration record literal"
-      in
-      match more with "" -> base | s -> Format.sprintf "%s %s" base s
+      match more with
+      | "" -> base_error
+      | s -> Format.sprintf "%s %s" base_error s
     in
     Error msg
   in
-  fun (x : payload) :
-      ((string Location.loc * expression option) list, string) result ->
-    match x with
+  fun payload : ((string Location.loc * expression option) list, string) result
+    ->
+    match payload with
     | PStr
         [
           {
@@ -95,21 +94,16 @@ let ident_or_record_as_config =
         ] -> (
         match with_obj with
         | None -> (
-            let exception Local in
             try
               Ok
-                (List.map
-                   ~f:(fun u ->
-                     match u with
-                     | ( { txt = Lident name; loc },
-                         { pexp_desc = Pexp_ident { txt = Lident name2; _ }; _ }
-                       )
-                       when name2 = name ->
-                         ({ Asttypes.txt = name; loc }, None)
-                     | { txt = Lident name; loc }, y ->
-                         ({ Asttypes.txt = name; loc }, Some y)
-                     | _ -> raise Local)
-                   label_exprs)
+                (List.map label_exprs ~f:(function
+                  | ( { txt = Lident name; loc },
+                      { pexp_desc = Pexp_ident { txt = Lident name2; _ }; _ } )
+                    when name2 = name ->
+                      ({ Asttypes.txt = name; loc }, None)
+                  | { txt = Lident name; loc }, y ->
+                      ({ Asttypes.txt = name; loc }, Some y)
+                  | _ -> raise Local))
             with Local -> error "(qualified labels aren't supported)")
         | Some _ -> error "(`with' not supported)")
     | PStr
@@ -126,22 +120,16 @@ let ident_or_record_as_config =
     | PStr [] -> Ok []
     | _ -> error ""
 
-let assert_strings loc (x : payload) : string list =
-  let exception Not_str of Location.t in
-  match x with
+let assert_strings ~loc payload : string list =
+  match payload with
   | PStr
       [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_tuple strs; _ }, _); _ } ]
-    -> (
-      try
-        List.map
-          ~f:(fun e ->
-            match (e : expression) with
-            | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } ->
-                name
-            | { pexp_loc; _ } -> raise (Not_str pexp_loc))
-          strs
-      with Not_str loc ->
-        Location.raise_errorf ~loc "Expected a tuple of string literals")
+    ->
+      List.map strs ~f:(function
+        | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } -> name
+        | { pexp_loc; _ } ->
+            Location.raise_errorf ~loc:pexp_loc
+              "Expected a tuple of string literals")
   | PStr
       [
         {
@@ -156,8 +144,8 @@ let assert_strings loc (x : payload) : string list =
   | PSig _ | PStr _ | PTyp _ | PPat _ ->
       Location.raise_errorf ~loc "Expected a string or tuple of strings"
 
-let extract_mel_as_ident ~loc x =
-  match x with
+let extract_mel_as_ident ~loc payload =
+  match payload with
   | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ] -> (
       match pexp_desc with
       | Pexp_constant (Pconst_string (name, _, _))

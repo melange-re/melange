@@ -459,8 +459,8 @@ module Mapper = struct
                 {
                   e with
                   pexp_desc =
-                    Ast_object.ocaml_object_as_js_object e.pexp_loc self pcstr_self
-                      pcstr_fields;
+                    Ast_object.ocaml_object_as_js_object ~loc:e.pexp_loc self
+                      pcstr_self pcstr_fields;
                   pexp_attributes;
                 }
             | false, _ -> super#expression e)
