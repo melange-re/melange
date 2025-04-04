@@ -120,18 +120,18 @@ let values_of_export =
       ~init:String.Map.empty meta.exports
 
 (* ATTENTION: all runtime modules, if it is not hard required,
-   it should be okay to not reference it
-*)
+   it should be okay to not reference it *)
 let get_dependent_module_effect (maybe_pure : string option)
     (external_ids : Lam_module_ident.t list) =
-  if maybe_pure = None then
-    let non_pure_module =
-      List.find_opt
-        ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
-        external_ids
-    in
-    Option.map (fun x -> Lam_module_ident.name x) non_pure_module
-  else maybe_pure
+  match maybe_pure with
+  | None ->
+      let non_pure_module =
+        List.find_opt
+          ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
+          external_ids
+      in
+      Option.map (fun x -> Lam_module_ident.name x) non_pure_module
+  | Some _ -> maybe_pure
 
 (* Note that
    [lambda_exports] is

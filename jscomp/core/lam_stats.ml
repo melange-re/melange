@@ -40,21 +40,18 @@ open Import
 
 (* type alias_tbl =  Ident.t Ident.Hash.t *)
 
-type ident_tbl = Lam_id_kind.t Ident.Hash.t
-
 type t = {
   export_idents : Ident.Set.t;
-  exports : Ident.t list; (*It is kept since order matters? *)
-  ident_tbl : ident_tbl;
+  exports : Ident.t list; (* It is kept since order matters? *)
+  ident_tbl : Lam_id_kind.t Ident.Hash.t;
       (** we don't need count arities for all identifiers, for identifiers
-      for sure it's not a function, there is no need to count them
-  *)
+          for sure it's not a function, there is no need to count them *)
 }
 
 (* let pp_alias_tbl fmt (tbl : alias_tbl) =
    Ident.Hash.iter  tbl (fun k v -> pp fmt "@[%a -> %a@]@." Ident.print k Ident.print v) *)
 
-let pp_ident_tbl (ident_tbl : ident_tbl) =
+let pp_ident_tbl ident_tbl =
   Ident.Hash.to_list ident_tbl (fun k v ->
       Pp.box
         (Pp.concat
