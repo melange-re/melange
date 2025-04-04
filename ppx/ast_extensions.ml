@@ -25,43 +25,24 @@
 open Import
 open Ast_helper
 
-let local_external_apply loc ~(pval_prim : string list) ~(pval_type : core_type)
-    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
-    (args : expression list) : expression_desc =
-  Pexp_letmodule
-    ( { txt = Some local_module_name; loc },
-      {
-        pmod_desc =
-          Pmod_structure
-            [
-              {
-                pstr_desc =
-                  Pstr_primitive
-                    {
-                      pval_name = { txt = local_fun_name; loc };
-                      pval_type;
-                      pval_loc = loc;
-                      pval_prim;
-                      pval_attributes = [];
-                    };
-                pstr_loc = loc;
-              };
-            ];
-        pmod_loc = loc;
-        pmod_attributes = [];
-      },
-      Exp.apply
-        ({
-           pexp_desc =
-             Pexp_ident
-               { txt = Ldot (Lident local_module_name, local_fun_name); loc };
-           pexp_attributes = [];
-           pexp_loc = loc;
-           pexp_loc_stack = [];
-         }
-          : expression)
-        (List.map ~f:(fun x -> (Asttypes.Nolabel, x)) args)
-        ~loc )
+let local_external_apply =
+  let local_module_name = "J" in
+  let local_fun_name = "unsafe_expr" in
+  fun ~loc ~(pval_prim : string list) ~(pval_type : core_type)
+      (arg : expression) : expression_desc ->
+    Pexp_letmodule
+      ( { txt = Some local_module_name; loc },
+        Mod.structure ~loc
+          [
+            Str.primitive ~loc
+              (Val.mk ~loc ~prim:pval_prim
+                 { txt = local_fun_name; loc }
+                 pval_type);
+          ],
+        Exp.apply ~loc
+          (Exp.ident ~loc
+             { txt = Ldot (Lident local_module_name, local_fun_name); loc })
+          [ (Asttypes.Nolabel, arg) ] )
 
 (*
 {[
@@ -79,9 +60,9 @@ let handle_external loc (x : string) =
     {
       str_exp with
       pexp_desc =
-        local_external_apply loc ~pval_prim:[ "#raw_expr" ]
+        local_external_apply ~loc ~pval_prim:[ "#raw_expr" ]
           ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-          [ str_exp ];
+          str_exp;
     }
   in
   let empty =
@@ -102,9 +83,9 @@ let handle_external loc (x : string) =
 let handle_debugger loc payload =
   match payload with
   | PStr [] ->
-      local_external_apply loc ~pval_prim:[ "#debugger" ]
+      local_external_apply ~loc ~pval_prim:[ "#debugger" ]
         ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
-        [ [%expr ()] ]
+        [%expr ()]
   | _ -> Location.raise_errorf ~loc "`%%mel.debugger' doesn't take payload"
 
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
@@ -141,12 +122,12 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
                    Location.raise_errorf ~loc
                      "`%%mel.re' expects a valid JavaScript regular expression \
                       literal (`/regex/opt-flags')");
-            (match is_function with
-            | Some is_function -> (
+            Option.iter
+              (fun is_function ->
                 match Melange_ffi.Classify_function.classify_exp prog with
                 | Js_function { arity = _; _ } -> is_function := true
                 | _ -> ())
-            | None -> ());
+              is_function;
             errors
         | Raw_program ->
             snd (Js_parser.Parser_flow.parse_program false None str));
@@ -171,9 +152,9 @@ let handle_raw ~kind loc payload =
       {
         exp with
         pexp_desc =
-          local_external_apply loc ~pval_prim:[ "#raw_expr" ]
+          local_external_apply ~loc ~pval_prim:[ "#raw_expr" ]
             ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-            [ exp ];
+            exp;
         pexp_attributes =
           (if !is_function then
              Ast_attributes.internal_expansive :: exp.pexp_attributes
@@ -187,10 +168,8 @@ let handle_raw_structure loc payload =
         {
           exp with
           pexp_desc =
-            local_external_apply loc ~pval_prim:[ "#raw_stmt" ]
+            local_external_apply ~loc ~pval_prim:[ "#raw_stmt" ]
               ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-              [ exp ];
+              exp;
         }
   | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
-
-(* module Make = Ast_external_mk *)
