@@ -27,50 +27,36 @@ open Ast_helper
 
 let ffi_of_labels labels =
   Melange_ffi.External_ffi_types.ffi_obj_create
-    (List.fold_right labels ~init:[] ~f:(fun (p : string with_loc) arg_kinds ->
+    (List.fold_right labels ~init:[] ~f:(fun { txt; _ } arg_kinds ->
          {
            Melange_ffi.External_arg_spec.arg_type = Nothing;
            arg_label =
              Melange_ffi.External_arg_spec.Obj_label.obj
-               (Melange_ffi.Lam_methname.translate p.txt);
+               (Melange_ffi.Lam_methname.translate txt);
          }
          :: arg_kinds))
 
 let ocaml_object_as_js_object =
-  let local_extern_cont_to_obj ~loc ~ffi ~pval_type ?(local_module_name = "J")
-      ?(local_fun_name = "unsafe_expr") (cb : expression -> 'a) :
+  let local_module_name = "J" in
+  let local_fun_name = "unsafe_expr" in
+  let local_extern_cont_to_obj ~loc ~ffi ~pval_type (cb : expression -> 'a) :
       expression_desc =
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
-        {
-          pmod_desc =
-            Pmod_structure
-              [
-                {
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name = { txt = local_fun_name; loc };
-                        pval_type;
-                        pval_loc = loc;
-                        pval_prim = Ast_external.pval_prim_default;
-                        pval_attributes = [ Ast_attributes.mel_ffi ffi ];
-                      };
-                  pstr_loc = loc;
-                };
-              ];
-          pmod_loc = loc;
-          pmod_attributes = [];
-        },
+        Mod.structure ~loc
+          [
+            Str.primitive ~loc
+              {
+                pval_name = { txt = local_fun_name; loc };
+                pval_type;
+                pval_loc = loc;
+                pval_prim = Ast_external.pval_prim_default;
+                pval_attributes = [ Ast_attributes.mel_ffi ffi ];
+              };
+          ],
         cb
-          {
-            pexp_desc =
-              Pexp_ident
-                { txt = Ldot (Lident local_module_name, local_fun_name); loc };
-            pexp_attributes = [];
-            pexp_loc = loc;
-            pexp_loc_stack = [];
-          } )
+          (Exp.ident ~loc
+             { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
   in
   fun ~loc (mapper : Ast_traverse.map) (self_pat : pattern)
       (clfs : class_field list) ->
@@ -281,30 +267,22 @@ let ocaml_object_as_js_object =
       ~pval_type
 
 let record_as_js_object =
-  let local_external_obj ~loc ~ffi ~pval_type ?(local_module_name = "J")
-      ?(local_fun_name = "unsafe_expr") args : expression_desc =
+  let local_module_name = "J" in
+  let local_fun_name = "unsafe_expr" in
+  let local_external_obj ~loc ~ffi ~pval_type args : expression_desc =
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
-        {
-          pmod_desc =
-            Pmod_structure
-              [
-                {
-                  pstr_desc =
-                    Pstr_primitive
-                      {
-                        pval_name = { txt = local_fun_name; loc };
-                        pval_type;
-                        pval_loc = loc;
-                        pval_prim = [ ""; "" ];
-                        pval_attributes = [ Ast_attributes.mel_ffi ffi ];
-                      };
-                  pstr_loc = loc;
-                };
-              ];
-          pmod_loc = loc;
-          pmod_attributes = [];
-        },
+        Mod.structure ~loc
+          [
+            Str.primitive ~loc
+              {
+                pval_name = { txt = local_fun_name; loc };
+                pval_type;
+                pval_loc = loc;
+                pval_prim = [ ""; "" ];
+                pval_attributes = [ Ast_attributes.mel_ffi ffi ];
+              };
+          ],
         Exp.apply
           (Exp.ident ~loc
              { loc; txt = Ldot (Lident local_module_name, local_fun_name) })

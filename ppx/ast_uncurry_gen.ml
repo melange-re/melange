@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+open Ast_helper
 
 let process_args ~loc self args ~init =
   List.fold_left ~init args ~f:(fun acc param ->
@@ -62,38 +63,35 @@ let to_method_callback =
     aux ~loc self rev_args body
   in
   let body =
-    Ast_helper.Exp.mk ~loc
-      (Pexp_function
-         ( List.rev_map
-             ~f:(fun (label, p) ->
-               { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
-             rev_extra_args,
-           None,
-           Pfunction_body result ))
+    Ast_builder.Default.pexp_function ~loc
+      (List.rev_map
+         ~f:(fun (label, p) ->
+           { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
+         rev_extra_args)
+      None (Pfunction_body result)
   in
   let arity_s =
     let arity = List.length rev_extra_args in
     string_of_int arity
   in
-  Ast_helper.(
-    Pexp_apply
-      ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
-        [
-          ( Nolabel,
-            Exp.constraint_ ~loc
-              (Exp.record ~loc
-                 [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
-                 None)
-              (Typ.constr ~loc
-                 {
-                   loc;
-                   txt =
-                     Ldot
-                       ( Ast_literal.js_meth_callback,
-                         Format.sprintf "arity%s" arity_s );
-                 }
-                 [ Typ.any ~loc () ]) );
-        ] ))
+  Pexp_apply
+    ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
+      [
+        ( Nolabel,
+          Exp.constraint_ ~loc
+            (Exp.record ~loc
+               [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
+               None)
+            (Typ.constr ~loc
+               {
+                 loc;
+                 txt =
+                   Ldot
+                     ( Ast_literal.js_meth_callback,
+                       Format.sprintf "arity%s" arity_s );
+               }
+               [ Typ.any ~loc () ]) );
+      ] )
 
 let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
   let result, rev_extra_args =
@@ -108,14 +106,12 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
   in
   Error.err_large_arity ~loc arity;
   let body =
-    Ast_helper.Exp.mk ~loc
-      (Pexp_function
-         ( List.rev_map
-             ~f:(fun (label, p) ->
-               { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
-             rev_extra_args,
-           None,
-           Pfunction_body result ))
+    Ast_builder.Default.pexp_function ~loc
+      (List.rev_map
+         ~f:(fun (label, p) ->
+           { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
+         rev_extra_args)
+      None (Pfunction_body result)
   in
   Pexp_record
     ( [

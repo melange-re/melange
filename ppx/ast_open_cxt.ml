@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+open Ast_helper
 
 type t = {
   override_flag : override_flag;
@@ -80,10 +81,6 @@ let destruct_open_tuple =
 let restore_exp (xs : expression) (qualifiers : t list) =
   List.fold_left ~init:xs qualifiers
     ~f:(fun x { override_flag = override; ident = lid; loc; attributes } ->
-      {
-        pexp_desc =
-          Pexp_open (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident lid), x);
-        pexp_attributes = attributes;
-        pexp_loc = loc;
-        pexp_loc_stack = [];
-      })
+      Exp.open_ ~loc ~attrs:attributes
+        (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident lid))
+        x)
