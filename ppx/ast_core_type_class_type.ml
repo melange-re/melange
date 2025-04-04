@@ -54,18 +54,19 @@ let process_getter_setter ~not_getter_setter
             get ty name pctf_attributes :: acc
       in
       Ok
-        (if st.set = None then get_acc
-         else
-           set ty
-             ({
-                name with
-                txt =
-                  name.Asttypes.txt
-                  ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
-              }
-               : _ Asttypes.loc)
-             pctf_attributes
-           :: get_acc)
+        (match st.set with
+        | None -> get_acc
+        | Some _ ->
+            set ty
+              ({
+                 name with
+                 txt =
+                   name.Asttypes.txt
+                   ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+               }
+                : _ Asttypes.loc)
+              pctf_attributes
+            :: get_acc)
 
 (*
   Attributes are very hard to attribute
