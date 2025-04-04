@@ -24,8 +24,6 @@
 
 open Import
 
-type t = Parsetree.payload
-type action = string Asttypes.loc * Parsetree.expression option
 (* None means punning is hit
     {[ { x } ]}
     otherwise it comes with a payload
@@ -42,9 +40,9 @@ let ident_or_record_as_config =
     in
     Location.raise_errorf ~loc "%s" msg
   in
-  fun ~loc (x : t) ->
-    match x with
-    | PStr
+  fun ~loc payload ->
+    match payload with
+    | Parsetree.PStr
         [
           {
             pstr_desc =
@@ -57,8 +55,7 @@ let ident_or_record_as_config =
         | None -> (
             try
               List.map
-                ~f:(fun u ->
-                  match u with
+                ~f:(function
                   | ( { Location.txt = Longident.Lident name; loc },
                       {
                         Parsetree.pexp_desc =
@@ -96,11 +93,12 @@ let assert_bool_lit (e : Parsetree.expression) =
       Location.raise_errorf ~loc:e.pexp_loc
         "Expected a boolean literal (`true' or `false')"
 
-let table_dispatch table (action : action) =
+let table_dispatch table
+    (action : string Asttypes.loc * Parsetree.expression option) =
   match action with
   | { txt = name; loc }, y -> (
       match String.Map.find_exn table name with
       | fn -> Some (fn y)
-      | exception _ ->
+      | exception Not_found ->
           Location.prerr_warning loc (Mel_unused_attribute name);
           None)
