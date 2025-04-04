@@ -26,24 +26,24 @@ open Import
 
 type outcome = Eval_false | Eval_true | Eval_unknown
 
-let id_is_for_sure_true_in_boolean (tbl : Lam_stats.ident_tbl) id =
-  match Ident.Hash.find_opt tbl id with
-  | Some (ImmutableBlock _)
-  | Some (Normal_optional _)
-  | Some (MutableBlock _)
-  | Some (Constant (Const_block _ | Const_js_true)) ->
-      Eval_true
-  | Some (Constant (Const_int { i; _ })) ->
-      if i = 0l then Eval_false else Eval_true
-  | Some (Constant (Const_js_false | Const_js_null | Const_js_undefined)) ->
-      Eval_false
-  | Some
-      ( Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
-      | OptionalBlock (_, (Undefined | Null | Null_undefined)) )
-  | None ->
-      Eval_unknown
-
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
+  let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hash.t) id =
+    match Ident.Hash.find_opt tbl id with
+    | Some (ImmutableBlock _)
+    | Some (Normal_optional _)
+    | Some (MutableBlock _)
+    | Some (Constant (Const_block _ | Const_js_true)) ->
+        Eval_true
+    | Some (Constant (Const_int { i; _ })) ->
+        if i = 0l then Eval_false else Eval_true
+    | Some (Constant (Const_js_false | Const_js_null | Const_js_undefined)) ->
+        Eval_false
+    | Some
+        ( Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+        | OptionalBlock (_, (Undefined | Null | Null_undefined)) )
+    | None ->
+        Eval_unknown
+  in
   let rec simpl (lam : Lam.t) : Lam.t =
     match lam with
     | Lvar _ | Lmutvar _ -> lam
