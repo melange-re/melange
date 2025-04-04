@@ -24,8 +24,6 @@
 
 open Import
 
-type label = Types.label_description
-
 let find_mel_as_name =
   let find_mel_as_name (attr : Parsetree.attribute) =
     match attr.attr_name with
@@ -52,15 +50,6 @@ let find_mel_as_name =
     | _ -> None
   in
   fun attributes -> List.find_map ~f:find_mel_as_name attributes
-
-let find_with_default xs ~default =
-  match xs with
-  | [] -> default
-  | xs -> (
-      match find_mel_as_name xs with
-      | Some (String v) -> v
-      | Some (Int _) -> assert false
-      | None -> default)
 
 let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
@@ -91,37 +80,46 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
       Some { txt = s; loc }
   | _ -> None
 
-let fld_record (lbl : label) =
+let find_with_default xs ~default =
+  match xs with
+  | [] -> default
+  | xs -> (
+      match find_mel_as_name xs with
+      | Some (String v) -> v
+      | Some (Int _) -> assert false
+      | None -> default)
+
+let fld_record (lbl : Types.label_description) =
   Lambda.Fld_record
     {
       name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name;
       mutable_flag = lbl.Types.lbl_mut;
     }
 
-let fld_record_set (lbl : label) =
+let fld_record_set (lbl : Types.label_description) =
   Lambda.Fld_record_set
     (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
-let fld_record_inline (lbl : label) =
+let fld_record_inline (lbl : Types.label_description) =
   Lambda.Fld_record_inline
     { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
 
-let fld_record_inline_set (lbl : label) =
+let fld_record_inline_set (lbl : Types.label_description) =
   Lambda.Fld_record_inline_set
     (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
-let fld_record_extension (lbl : label) =
+let fld_record_extension (lbl : Types.label_description) =
   Lambda.Fld_record_extension
     { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
 
-let fld_record_extension_set (lbl : label) =
+let fld_record_extension_set (lbl : Types.label_description) =
   Lambda.Fld_record_extension_set
     (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
 
 let blk_record fields =
   let all_labels_info =
     Array.map
-      ~f:(fun ((lbl : label), _) ->
+      ~f:(fun (lbl, _) ->
         find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
@@ -130,7 +128,7 @@ let blk_record fields =
 let blk_record_ext ~is_exn fields =
   let all_labels_info =
     Array.map
-      ~f:(fun ((lbl : label), _) ->
+      ~f:(fun ((lbl : Types.label_description), _) ->
         find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in
@@ -139,7 +137,7 @@ let blk_record_ext ~is_exn fields =
 let blk_record_inlined fields name num_nonconst attrs =
   let fields =
     Array.map
-      ~f:(fun ((lbl : label), _) ->
+      ~f:(fun ((lbl : Types.label_description), _) ->
         find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
       fields
   in

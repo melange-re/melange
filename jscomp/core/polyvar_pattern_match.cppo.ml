@@ -72,6 +72,7 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
             Loc_unknown )
       in
       List.fold_left
+        ~init rest
         ~f:(fun acc (hash, name) ->
           Lambda.Lprim
             ( Psequor,
@@ -86,7 +87,6 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
                     Loc_unknown );
               ],
               Loc_unknown ))
-        ~init rest
   | _ -> assert false
 
 let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
@@ -96,11 +96,11 @@ let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
   in
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
-      List.fold_right
-        ~f:(fun (hash_names, act1) (acc : lam) ->
-          let predicate : lam = or_list arg hash_names in
-          Lifthenelse (predicate, act1, acc))
-        rest ~init:act
+    List.fold_right
+      ~f:(fun (hash_names, act1) (acc : lam) ->
+        let predicate : lam = or_list arg hash_names in
+        Lifthenelse (predicate, act1, acc))
+      rest ~init:act
   | [], None -> assert false
 
 let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)

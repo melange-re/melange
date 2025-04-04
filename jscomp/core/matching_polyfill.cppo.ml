@@ -24,11 +24,11 @@
 
 open Import
 
-let is_nullary_variant (x : Types.constructor_arguments) =
-  match x with Types.Cstr_tuple [] -> true | _ -> false
-
 let names_from_construct_pattern
     (pat : Patterns.Head.desc Typedtree.pattern_data) =
+  let is_nullary_variant (x : Types.constructor_arguments) =
+    match x with Types.Cstr_tuple [] -> true | _ -> false
+  in
   let names_from_type_variant (cstrs : Types.constructor_declaration list) =
     let get_cstr_name (cstr: Types.constructor_declaration) =
       Lam_constant_convert.modifier ~name:(Ident.name cstr.cd_id) cstr.cd_attributes
@@ -40,25 +40,24 @@ let names_from_construct_pattern
     in
     let consts, blocks =
       List.fold_left
+        ~init:([], []) cstrs
         ~f:(fun (consts, blocks)
                 (cstr : Types.constructor_declaration) ->
-          if is_nullary_variant cstr.cd_args then
-            (get_cstr_name cstr :: consts , blocks)
-          else
-            (consts , get_block cstr :: blocks))
-        ~init:([], []) cstrs
+            if is_nullary_variant cstr.cd_args then
+              (get_cstr_name cstr :: consts , blocks)
+            else
+              (consts , get_block cstr :: blocks))
     in
-    Some
-      {
-        Lambda.consts = Array.reverse_of_list consts;
-        blocks = Array.reverse_of_list blocks;
-      }
+    {
+      Lambda.consts = Array.reverse_of_list consts;
+      blocks = Array.reverse_of_list blocks;
+    }
   in
   let rec resolve_path n path =
     match Env.find_type path pat.pat_env with
     | exception Not_found -> None
     | { type_kind = Type_variant (cstrs, _repr); _ } ->
-        names_from_type_variant cstrs
+        Some (names_from_type_variant cstrs)
     | { type_kind =
 #if OCAML_VERSION >= (5,2,0)
           Type_abstract _

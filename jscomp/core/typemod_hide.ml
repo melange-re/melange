@@ -24,11 +24,11 @@
 
 open Import
 
-let should_hide (x : Typedtree.module_binding) =
-  match x.mb_attributes with
-  | [] -> false
-  | { attr_name = { txt = "internal.local"; _ }; _ } :: _ -> true
-  | _ :: rest ->
-      List.exists
-        ~f:(fun { Parsetree.attr_name = x; _ } -> x.txt = "internal.local")
-        rest
+let should_hide =
+  let rec inner attrs =
+    match attrs with
+    | [] -> false
+    | { Parsetree.attr_name = { txt = "internal.local"; _ }; _ } :: _ -> true
+    | _ :: rest -> inner rest
+  in
+  fun (x : Typedtree.module_binding) -> inner x.mb_attributes
