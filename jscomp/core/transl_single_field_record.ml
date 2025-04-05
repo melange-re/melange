@@ -26,15 +26,16 @@ open Import
 
 let wrap_single_field_record loc lbl_name (lambda : Lambda.lambda) :
     Lambda.lambda =
-  if lbl_name.[0] = 'I' then
-    let arity_s =
-      String.sub lbl_name ~pos:1 ~len:(String.length lbl_name - 1)
-    in
-    Lprim
-      ( Pccall
-          (Primitive.make ~name:"#fn_mk" ~alloc:true ~native_name:arity_s
-             ~native_repr_args:[ Same_as_ocaml_repr ]
-             ~native_repr_res:Same_as_ocaml_repr),
-        [ lambda ],
-        Debuginfo.Scoped_location.(of_location ~scopes:empty_scopes loc) )
-  else lambda
+  match lbl_name.[0] with
+  | 'I' ->
+      let arity_s =
+        String.sub lbl_name ~pos:1 ~len:(String.length lbl_name - 1)
+      in
+      Lprim
+        ( Pccall
+            (Primitive.make ~name:"#fn_mk" ~alloc:true ~native_name:arity_s
+               ~native_repr_args:[ Same_as_ocaml_repr ]
+               ~native_repr_res:Same_as_ocaml_repr),
+          [ lambda ],
+          Debuginfo.Scoped_location.(of_location ~scopes:empty_scopes loc) )
+  | _ -> lambda
