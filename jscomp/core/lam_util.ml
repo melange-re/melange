@@ -155,21 +155,22 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
        mutable fields are explicit, since wen can not inline an mutable block access
 *)
 
-let element_of_lambda (lam : Lam.t) : Lam_id_kind.element =
-  match lam with
-  | Lvar _ | Lconst _
-  | Lprim
-      {
-        primitive = Pfield (_, Fld_module _);
-        args = [ (Lglobal_module _ | Lvar _) ];
-        _;
-      } ->
-      SimpleForm lam
-  (* | Lfunction _  *)
-  | _ -> NA
-
-let kind_of_lambda_block (xs : Lam.t list) : Lam_id_kind.t =
-  ImmutableBlock (Array.of_list_map xs (fun x -> element_of_lambda x))
+let kind_of_lambda_block =
+  let element_of_lambda (lam : Lam.t) : Lam_id_kind.element =
+    match lam with
+    | Lvar _ | Lconst _
+    | Lprim
+        {
+          primitive = Pfield (_, Fld_module _);
+          args = [ (Lglobal_module _ | Lvar _) ];
+          _;
+        } ->
+        SimpleForm lam
+    (* | Lfunction _  *)
+    | _ -> NA
+  in
+  fun (xs : Lam.t list) ->
+    Lam_id_kind.ImmutableBlock (Array.of_list_map xs element_of_lambda)
 
 let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hash.t) : Lam.t =
   match Ident.Hash.find_opt tbl v with
@@ -186,18 +187,6 @@ let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hash.t) : Lam.t =
   | Some (Constant (Const_block (_, _, ls))) -> (
       match List.nth_opt ls i with None -> lam () | Some x -> Lam.const x)
   | Some _ | None -> lam ()
-
-(* TODO: check that if label belongs to a different
-    namesape
-*)
-let count = ref 0
-
-let generate_label ?(name = "") () =
-  incr count;
-  Printf.sprintf "%s_tailcall_%04d" name !count
-
-let is_function (lam : Lam.t) =
-  match lam with Lfunction _ -> true | _ -> false
 
 let not_function (lam : Lam.t) =
   match lam with Lfunction _ -> false | _ -> true
