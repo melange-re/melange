@@ -46,6 +46,7 @@
 *)
 
 open Import
+open Ast_helper
 
 module External = struct
   let rule =
@@ -142,11 +143,9 @@ module Private = struct
 
     let attrs : attributes =
       [
-        {
-          attr_name = { txt = "internal.local"; loc = Location.none };
-          attr_payload = PStr [];
-          attr_loc = Location.none;
-        };
+        Attr.mk
+          { txt = "internal.local"; loc = Location.none }
+          (PStr [])
       ]
   end
 
@@ -156,13 +155,9 @@ module Private = struct
       let last_loc = (List.hd stru).pstr_loc in
       let first_loc = (List.hd stru).pstr_loc in
       let loc = { first_loc with loc_end = last_loc.loc_end } in
-      Ast_helper.
-        [
-          Str.open_
-            (Opn.mk ~override:Override
-               (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
-        ]
-      |> List.hd
+      Str.open_
+        (Opn.mk ~override:Override
+           (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru))
     in
     let rule label =
       let extractor = Ast_pattern.__' in
@@ -186,7 +181,6 @@ module Debugger = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
         Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
       in
 
@@ -201,7 +195,6 @@ module Re = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
         Exp.constraint_ ~loc
           (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
           (Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } [])
@@ -218,7 +211,6 @@ module Time = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
         match payload with
         | PStr [ { pstr_desc = Pstr_eval (e, _); _ } ] ->
             let locString =
@@ -277,7 +269,6 @@ module Node = struct
                   (("__filename" | "__dirname" | "_module" | "require") as name);
               loc;
             } ->
-            let open Ast_helper in
             let exp = Ast_extensions.handle_external loc (strip name) in
             let typ =
               Ast_core_type.lift_option_type
@@ -386,16 +377,14 @@ module Mapper = struct
                       pcsig_fields
                   with
                   | Ok pcsig_fields ->
-                      Pcty_signature { pcsig_self; pcsig_fields }
+                    Pcty_signature { pcsig_self; pcsig_fields }
                   | Error (loc, s) ->
-                      let pcsig_self =
-                        [%type:
-                          [%ocaml.error
-                            [%e
-                              Ast_helper.Exp.constant
-                                (Pconst_string (s, loc, None))]]]
-                      in
-                      Pcty_signature { pcsig_self; pcsig_fields = [] }
+                    let pcsig_self =
+                      [%type:
+                        [%ocaml.error
+                          [%e Exp.constant (Pconst_string (s, loc, None))]]]
+                    in
+                    Pcty_signature { pcsig_self; pcsig_fields = [] }
                 in
                 { ctd with pcty_desc; pcty_attributes }
             | Pcty_open _ (* let open M in CT *) | Pcty_constr _
@@ -439,7 +428,7 @@ module Mapper = struct
                 [%expr
                   [%ocaml.error
                     [%e
-                      Ast_helper.Exp.constant
+                      Exp.constant
                         (Pconst_string
                            ( "%@meth is not supported in function expression",
                              loc,

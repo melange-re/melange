@@ -24,14 +24,17 @@
 
 open Import
 
-type t = Parsetree.payload
 (** A utility module used when destructuring parsetree attributes, used for
     compiling FFI attributes and built-in ppx *)
 
-type action = string Asttypes.loc * Parsetree.expression option
+val ident_or_record_as_config :
+  loc:Location.t ->
+  Parsetree.payload ->
+  (string Asttypes.loc * Parsetree.expression option) list
 
-val ident_or_record_as_config : loc:Location.t -> t -> action list
 val assert_bool_lit : Parsetree.expression -> bool
 
 val table_dispatch :
-  (Parsetree.expression option -> 'a) String.Map.t -> action -> 'a option
+  (Parsetree.expression option -> 'a) String.Map.t ->
+  string Asttypes.loc * Parsetree.expression option ->
+  'a option

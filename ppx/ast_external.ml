@@ -105,15 +105,6 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
                 (Mod.structure ~loc [ external_result ])
                 (Mty.signature ~loc
                    [
-                     {
-                       psig_desc =
-                         Psig_value
-                           {
-                             prim with
-                             pval_type;
-                             pval_prim = [];
-                             pval_attributes;
-                           };
-                       psig_loc = loc;
-                     };
+                     Sig.value ~loc
+                       { prim with pval_type; pval_prim = []; pval_attributes };
                    ])))
