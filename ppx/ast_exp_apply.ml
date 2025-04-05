@@ -68,51 +68,53 @@ let view_as_app fn (s : string list) : app_pattern option =
 
 let inner_ops = [ "##"; "#@" ]
 
-let rec exclude_with_val =
-  let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
-    match xs with
-    | [] -> []
-    | x :: xs -> if p x then exclude xs p else x :: exclude xs p
+let app_exp_mapper e =
+  let rec exclude_with_val =
+    let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
+      match xs with
+      | [] -> []
+      | x :: xs -> if p x then exclude xs p else x :: exclude xs p
+    in
+    fun l p ->
+      match l with
+      | [] -> None
+      | a0 :: xs -> (
+          if p a0 then Some (exclude xs p)
+          else
+            match xs with
+            | [] -> None
+            | a1 :: rest -> (
+                if p a1 then Some (a0 :: exclude rest p)
+                else
+                  match exclude_with_val rest p with
+                  | None -> None
+                  | Some rest -> Some (a0 :: a1 :: rest)))
   in
-  fun l p ->
-    match l with
-    | [] -> None
-    | a0 :: xs -> (
-        if p a0 then Some (exclude xs p)
-        else
-          match xs with
-          | [] -> None
-          | a1 :: rest -> (
-              if p a1 then Some (a0 :: exclude rest p)
-              else
-                match exclude_with_val rest p with
-                | None -> None
-                | Some rest -> Some (a0 :: a1 :: rest)))
-
-let app_exp_mapper e
-    ((self, super) : Ast_traverse.map * (expression -> expression)) fn args =
-  (* - (f##paint) 1 2
+  fun ((self, super) : Ast_traverse.map * (expression -> expression)) fn args ->
+    (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
-  match view_as_app fn inner_ops with
-  | Some
-      {
-        op;
-        loc;
-        args = [ obj; { pexp_desc = Pexp_ident { txt = Lident name; _ }; _ } ];
-      } ->
-      {
-        e with
-        pexp_desc =
-          (if op = "##" then
-             Ast_uncurry_apply.method_apply ~loc self obj name args
-           else Ast_uncurry_apply.property_apply ~loc self obj name args);
-      }
-  | Some { op; loc; _ } ->
-      Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
-  | None -> (
-      match view_as_app e Melange_ffi.External_ffi_types.Literals.infix_ops with
-      | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
-          (*
+    match view_as_app fn inner_ops with
+    | Some
+        {
+          op;
+          loc;
+          args = [ obj; { pexp_desc = Pexp_ident { txt = Lident name; _ }; _ } ];
+        } ->
+        {
+          e with
+          pexp_desc =
+            (if op = "##" then
+               Ast_uncurry_apply.method_apply ~loc self obj name args
+             else Ast_uncurry_apply.property_apply ~loc self obj name args);
+        }
+    | Some { op; loc; _ } ->
+        Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
+    | None -> (
+        match
+          view_as_app e Melange_ffi.External_ffi_types.Literals.infix_ops
+        with
+        | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
+            (*
         a |. f
         a |. f b c [@u]  --> f a b c [@u]
         a |. M.(f b c) --> M.f a M.b M.c
@@ -120,122 +122,121 @@ let app_exp_mapper e
         a |. M.Some
         a |. `Variant
         a |. (b |. f c [@u]) *)
-          let a = self#expression a_ in
-          let f = self#expression f_ in
-          match f.pexp_desc with
-          | Pexp_variant (label, None) ->
-              {
-                f with
-                pexp_desc = Pexp_variant (label, Some a);
-                pexp_loc = e.pexp_loc;
-              }
-          | Pexp_construct (ctor, None) ->
-              {
-                f with
-                pexp_desc = Pexp_construct (ctor, Some a);
-                pexp_loc = e.pexp_loc;
-              }
-          | Pexp_apply (fn1, args) ->
-              Mel_ast_invariant.warn_discarded_unused_attributes
-                fn1.pexp_attributes;
+            let a = self#expression a_ in
+            let f = self#expression f_ in
+            match f.pexp_desc with
+            | Pexp_variant (label, None) ->
+                {
+                  f with
+                  pexp_desc = Pexp_variant (label, Some a);
+                  pexp_loc = e.pexp_loc;
+                }
+            | Pexp_construct (ctor, None) ->
+                {
+                  f with
+                  pexp_desc = Pexp_construct (ctor, Some a);
+                  pexp_loc = e.pexp_loc;
+                }
+            | Pexp_apply (fn1, args) ->
+                Mel_ast_invariant.warn_discarded_unused_attributes
+                  fn1.pexp_attributes;
 
-              {
-                pexp_desc =
-                  Pexp_apply
-                    ( { fn1 with pexp_attributes = fn1.pexp_attributes },
-                      (Nolabel, a) :: args );
-                pexp_loc = e.pexp_loc;
-                pexp_loc_stack = e.pexp_loc_stack;
-                pexp_attributes = e.pexp_attributes;
-              }
-          | _ -> (
-              match Ast_open_cxt.destruct f with
-              | ( { pexp_desc = Pexp_tuple xs; pexp_attributes = tuple_attrs; _ },
-                  wholes ) ->
-                  Ast_open_cxt.restore_exp
-                    (bound a (fun bounded_obj_arg ->
-                         {
-                           pexp_desc =
-                             Pexp_tuple
-                               (List.map
-                                  ~f:(fun fn ->
-                                    match fn.pexp_desc with
-                                    | Pexp_construct (ctor, None) ->
-                                        {
-                                          fn with
-                                          pexp_desc =
-                                            Pexp_construct
-                                              (ctor, Some bounded_obj_arg);
-                                        }
-                                    | Pexp_apply (fn, args) ->
-                                        Mel_ast_invariant
-                                        .warn_discarded_unused_attributes
-                                          fn.pexp_attributes;
-                                        {
-                                          pexp_desc =
-                                            Pexp_apply
-                                              ( { fn with pexp_attributes = [] },
-                                                (Nolabel, bounded_obj_arg)
-                                                :: args );
-                                          pexp_attributes = [];
-                                          pexp_loc_stack = fn.pexp_loc_stack;
-                                          pexp_loc = fn.pexp_loc;
-                                        }
-                                    | _ ->
-                                        let loc = fn.pexp_loc in
-                                        [%expr [%e fn] [%e bounded_obj_arg]])
-                                  xs);
-                           pexp_attributes = tuple_attrs;
-                           pexp_loc = f.pexp_loc;
-                           pexp_loc_stack = f.pexp_loc_stack;
-                         }))
-                    wholes
-              | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
-                  (_ :: _ as wholes) ) ->
-                  let fn = Ast_open_cxt.restore_exp e wholes in
-                  let args =
-                    List.map
-                      ~f:(fun (lab, exp) ->
-                        (lab, Ast_open_cxt.restore_exp exp wholes))
-                      args
-                  in
-                  Mel_ast_invariant.warn_discarded_unused_attributes
-                    pexp_attributes;
-                  {
-                    pexp_desc = Pexp_apply (fn, (Nolabel, a) :: args);
-                    pexp_attributes;
-                    pexp_loc = loc;
-                    pexp_loc_stack = [];
-                  }
-              | _ -> (
-                  match
-                    ( exclude_with_val f_.pexp_attributes
-                        Ast_attributes.is_uncurried,
-                      f_.pexp_desc )
-                  with
-                  | Some other_attributes, Pexp_apply (fn1, args) ->
-                      (* a |. f b c [@u]
-                         Cannot process uncurried application early as the arity is wip *)
-                      let fn1 = self#expression fn1 in
-                      let args =
+                {
+                  e with
+                  pexp_desc =
+                    Pexp_apply
+                      ( { fn1 with pexp_attributes = fn1.pexp_attributes },
+                        (Nolabel, a) :: args );
+                }
+            | _ -> (
+                match Ast_open_cxt.destruct f with
+                | ( {
+                      pexp_desc = Pexp_tuple xs;
+                      pexp_attributes = tuple_attrs;
+                      _;
+                    },
+                    wholes ) ->
+                    Ast_open_cxt.restore_exp
+                      (bound a (fun bounded_obj_arg ->
+                           {
+                             f with
+                             pexp_desc =
+                               Pexp_tuple
+                                 (List.map
+                                    ~f:(fun fn ->
+                                      match fn.pexp_desc with
+                                      | Pexp_construct (ctor, None) ->
+                                          {
+                                            fn with
+                                            pexp_desc =
+                                              Pexp_construct
+                                                (ctor, Some bounded_obj_arg);
+                                          }
+                                      | Pexp_apply (fn, args) ->
+                                          Mel_ast_invariant
+                                          .warn_discarded_unused_attributes
+                                            fn.pexp_attributes;
+                                          {
+                                            pexp_desc =
+                                              Pexp_apply
+                                                ( {
+                                                    fn with
+                                                    pexp_attributes = [];
+                                                  },
+                                                  (Nolabel, bounded_obj_arg)
+                                                  :: args );
+                                            pexp_attributes = [];
+                                            pexp_loc_stack = fn.pexp_loc_stack;
+                                            pexp_loc = fn.pexp_loc;
+                                          }
+                                      | _ ->
+                                          let loc = fn.pexp_loc in
+                                          [%expr [%e fn] [%e bounded_obj_arg]])
+                                    xs);
+                             pexp_attributes = tuple_attrs;
+                           }))
+                      wholes
+                | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
+                    (_ :: _ as wholes) ) ->
+                    let fn = Ast_open_cxt.restore_exp e wholes in
+                    let args =
+                      List.map
+                        ~f:(fun (lab, exp) ->
+                          (lab, Ast_open_cxt.restore_exp exp wholes))
                         args
-                        |> List.map ~f:(fun (l, e) -> (l, self#expression e))
-                      in
-                      Mel_ast_invariant.warn_discarded_unused_attributes
-                        fn1.pexp_attributes;
-                      {
-                        pexp_desc =
-                          Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc
-                            self fn1 ((Nolabel, a) :: args);
-                        pexp_loc = e.pexp_loc;
-                        pexp_loc_stack = e.pexp_loc_stack;
-                        pexp_attributes = e.pexp_attributes @ other_attributes;
-                      }
-                  | _ ->
-                      Ast_helper.Exp.apply ~loc ~attrs:e.pexp_attributes f
-                        [ (Nolabel, a) ])))
-      | Some { op = "##"; loc; args = [ obj; rest ] } -> (
-          (* - obj##property
+                    in
+                    Mel_ast_invariant.warn_discarded_unused_attributes
+                      pexp_attributes;
+                    Exp.apply ~loc ~attrs:pexp_attributes fn
+                      ((Nolabel, a) :: args)
+                | _ -> (
+                    match
+                      ( exclude_with_val f_.pexp_attributes
+                          Ast_attributes.is_uncurried,
+                        f_.pexp_desc )
+                    with
+                    | Some other_attributes, Pexp_apply (fn1, args) ->
+                        (* a |. f b c [@u]
+                         Cannot process uncurried application early as the arity is wip *)
+                        let fn1 = self#expression fn1 in
+                        let args =
+                          args
+                          |> List.map ~f:(fun (l, e) -> (l, self#expression e))
+                        in
+                        Mel_ast_invariant.warn_discarded_unused_attributes
+                          fn1.pexp_attributes;
+                        {
+                          e with
+                          pexp_desc =
+                            Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc
+                              self fn1 ((Nolabel, a) :: args);
+                          pexp_attributes = e.pexp_attributes @ other_attributes;
+                        }
+                    | _ ->
+                        Ast_helper.Exp.apply ~loc ~attrs:e.pexp_attributes f
+                          [ (Nolabel, a) ])))
+        | Some { op = "##"; loc; args = [ obj; rest ] } -> (
+            (* - obj##property
              - obj#(method a b )
              we should warn when we discard attributes
              gpr#1063 foo##(bar##baz) we should rewrite (bar##baz)
@@ -243,41 +244,41 @@ let app_exp_mapper e
                  currently the pattern match is written in a top down style.
                  Another corner case: f##(g a b [@u])
           *)
-          match rest with
-          | {
-           pexp_desc =
-             Pexp_apply
-               ({ pexp_desc = Pexp_ident { txt = Lident name; _ }; _ }, args);
-           pexp_attributes = attrs;
-           _;
-          } ->
-              Mel_ast_invariant.warn_discarded_unused_attributes attrs;
-              {
-                e with
-                pexp_desc =
-                  Ast_uncurry_apply.method_apply ~loc self obj name args;
-              }
-          | {
-           pexp_desc =
-             ( Pexp_ident { txt = Lident name; _ }
-             | Pexp_constant (Pconst_string (name, _, None)) );
-           pexp_loc;
-           _;
-          } ->
-              (* f##paint  *)
-              sane_property_name_check pexp_loc name;
-              {
-                e with
-                pexp_desc =
-                  Ast_uncurry_apply.js_property loc (self#expression obj) name;
-              }
-          | _ ->
-              [%expr
-                [%ocaml.error
-                  [%e
-                    Exp.constant
-                      (Pconst_string ("invalid ## syntax", loc, None))]]])
-      (* we can not use [:=] for precedece cases
+            match rest with
+            | {
+             pexp_desc =
+               Pexp_apply
+                 ({ pexp_desc = Pexp_ident { txt = Lident name; _ }; _ }, args);
+             pexp_attributes = attrs;
+             _;
+            } ->
+                Mel_ast_invariant.warn_discarded_unused_attributes attrs;
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_apply.method_apply ~loc self obj name args;
+                }
+            | {
+             pexp_desc =
+               ( Pexp_ident { txt = Lident name; _ }
+               | Pexp_constant (Pconst_string (name, _, None)) );
+             pexp_loc;
+             _;
+            } ->
+                (* f##paint  *)
+                sane_property_name_check pexp_loc name;
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_apply.js_property loc (self#expression obj) name;
+                }
+            | _ ->
+                [%expr
+                  [%ocaml.error
+                    [%e
+                      Exp.constant
+                        (Pconst_string ("invalid ## syntax", loc, None))]]])
+        (* we can not use [:=] for precedece cases
          like {[i @@ x##length := 3 ]}
          is parsed as {[ (i @@ x##length) := 3]}
          since we allow user to create Js objects in OCaml, it can be of
@@ -290,52 +291,52 @@ let app_exp_mapper e
            end
          ]}
       *)
-      | Some { op = "#="; loc; args = [ obj; arg ] } -> (
-          match view_as_app obj [ "##" ] with
-          | Some
-              {
-                args =
-                  [
-                    obj;
-                    {
-                      pexp_desc =
-                        ( Pexp_ident { txt = Lident name; _ }
-                        | Pexp_constant (Pconst_string (name, _, None)) );
-                      pexp_loc;
-                      _;
-                    };
-                  ];
-                _;
-              } ->
-              sane_property_name_check pexp_loc name;
-              Exp.constraint_ ~loc
+        | Some { op = "#="; loc; args = [ obj; arg ] } -> (
+            match view_as_app obj [ "##" ] with
+            | Some
+                {
+                  args =
+                    [
+                      obj;
+                      {
+                        pexp_desc =
+                          ( Pexp_ident { txt = Lident name; _ }
+                          | Pexp_constant (Pconst_string (name, _, None)) );
+                        pexp_loc;
+                        _;
+                      };
+                    ];
+                  _;
+                } ->
+                sane_property_name_check pexp_loc name;
+                Exp.constraint_ ~loc
+                  {
+                    e with
+                    pexp_desc =
+                      Ast_uncurry_apply.method_apply ~loc self obj
+                        (name
+                       ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
+                        [ (Nolabel, arg) ];
+                  }
+                  [%type: unit]
+            | _ -> assert false)
+        | Some { op = "|."; loc; _ } ->
+            Location.raise_errorf ~loc
+              "invalid |. syntax, it can only be used as binary operator"
+        | Some { op = "##"; loc; _ } ->
+            Location.raise_errorf ~loc
+              "Js object ## expect syntax like obj##(paint (a,b)) "
+        | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
+        | None -> (
+            match
+              exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
+            with
+            | None -> super e
+            | Some pexp_attributes ->
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_apply.method_apply ~loc self obj
-                      (name
-                     ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
-                      [ (Nolabel, arg) ];
-                }
-                [%type: unit]
-          | _ -> assert false)
-      | Some { op = "|."; loc; _ } ->
-          Location.raise_errorf ~loc
-            "invalid |. syntax, it can only be used as binary operator"
-      | Some { op = "##"; loc; _ } ->
-          Location.raise_errorf ~loc
-            "Js object ## expect syntax like obj##(paint (a,b)) "
-      | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
-      | None -> (
-          match
-            exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
-          with
-          | None -> super e
-          | Some pexp_attributes ->
-              {
-                e with
-                pexp_desc =
-                  Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc self fn
-                    args;
-                pexp_attributes;
-              }))
+                    Ast_uncurry_apply.uncurry_fn_apply ~loc:e.pexp_loc self fn
+                      args;
+                  pexp_attributes;
+                }))
