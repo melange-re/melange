@@ -36,6 +36,7 @@ type t =
   | Invalid_underscore_type_in_external
   | Invalid_mel_string_type
   | Invalid_mel_int_type
+  | Invalid_mel_spread_type
   | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
   | Cannot_infer_arity_by_syntax
@@ -89,8 +90,9 @@ let pp_error fmt err =
     | Invalid_underscore_type_in_external ->
         "`_' is not allowed in an `external' declaration's (optionally) \
          labelled argument type"
-    | Invalid_mel_string_type -> "Invalid type for `@mel.string'"
-    | Invalid_mel_int_type -> "Invalid type for `@mel.int'"
+    | Invalid_mel_string_type -> "Invalid type for `[@mel.string]'"
+    | Invalid_mel_int_type -> "Invalid type for `[@mel.int]'"
+    | Invalid_mel_spread_type -> "Invalid type for `[@mel.spread]'"
     | Invalid_mel_unwrap_type ->
         "Invalid type for `@mel.unwrap'. Type must be an inline variant \
          (closed), and each constructor must have an argument."

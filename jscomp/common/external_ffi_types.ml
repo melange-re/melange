@@ -40,7 +40,7 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type arg_type = External_arg_spec.attr
+type arg_type = External_arg_spec.t
 (* TODO: information between [arg_type] and [arg_label] are duplicated,
    design a more compact representation so that it is also easy to seralize by
    hand *)

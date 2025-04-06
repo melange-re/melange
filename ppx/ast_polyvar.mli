@@ -31,7 +31,7 @@ val map_row_fields_into_ints :
   loc:Location.t ->
   (* allow `Foo [@mel.as "bar"] inside `@mel.unwrap` *)
   allow_no_payload:bool ->
-  Melange_ffi.External_arg_spec.attr
+  Melange_ffi.External_arg_spec.t
 (** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
@@ -39,4 +39,7 @@ val map_row_fields_into_strings :
   loc:Location.t ->
   (* allow `Foo [@mel.as "bar"] inside `@mel.unwrap` *)
   allow_no_payload:bool ->
-  Melange_ffi.External_arg_spec.attr
+  Melange_ffi.External_arg_spec.t
+
+val map_row_fields_into_spread :
+  row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t

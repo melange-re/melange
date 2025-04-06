@@ -102,7 +102,7 @@ and translate (x : Lam.Constant.t) : J.expression =
    match s with
    | Const_js_undefined -> E.optional_block (translate s) *)
 
-let translate_arg_cst (cst : Melange_ffi.External_arg_spec.cst) =
+let translate_arg_cst (cst : Melange_ffi.External_arg_spec.Arg_cst.t) =
   match cst with
   | Int i -> E.int (Int32.of_int i)
   | Str i -> E.str i

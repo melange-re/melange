@@ -46,18 +46,26 @@ val mel_set : attribute
 val internal_expansive : attribute
 val mel_return_undefined : attribute
 
-val iter_process_mel_string_int_unwrap_uncurry :
-  attribute list ->
-  [ `Nothing | `String | `Int | `Ignore | `Unwrap | `Uncurry of int option ]
+type param_modifier_kind =
+  | Nothing
+  | Spread
+  | Uncurry of int option (* uncurry arity *)
+  | Unwrap
+  | Ignore
+  | String
+  | Int
 
+type param_modifier = { kind : param_modifier_kind; loc : Location.t }
+
+val iter_process_mel_param_modifier : attribute list -> param_modifier
 val iter_process_mel_string_as : attribute list -> label option
 val iter_process_mel_int_as : attribute list -> int option
 val has_mel_optional : attribute list -> bool
 val has_inline_payload : attribute list -> attribute option
 val rs_externals : attribute list -> string list -> bool
 
-val iter_process_mel_string_or_int_as :
-  attribute list -> Melange_ffi.External_arg_spec.cst option
+val iter_process_mel_as_cst :
+  attribute list -> Melange_ffi.External_arg_spec.Arg_cst.t option
 
 val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute

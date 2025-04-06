@@ -37,7 +37,7 @@ type external_module_name = {
   module_bind_name : module_bind_name;
 }
 
-type arg_type = External_arg_spec.attr
+type arg_type = External_arg_spec.t
 type arg_label = External_arg_spec.Obj_label.t
 
 type external_spec =

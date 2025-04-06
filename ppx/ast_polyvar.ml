@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+module External_arg_spec = Melange_ffi.External_arg_spec
 
 let is_enum_polyvar =
   let is_enum row_fields =
@@ -43,8 +44,7 @@ let is_enum_polyvar =
 let map_row_fields_into_ints (row_fields : row_field list) ~loc
     ~allow_no_payload =
   let _, acc =
-    List.fold_left
-      ~f:(fun (i, acc) rtag ->
+    List.fold_left ~init:(0, []) row_fields ~f:(fun (i, acc) rtag ->
         match rtag.prf_desc with
         | Rtag ({ txt; _ }, true, []) ->
             let i =
@@ -52,55 +52,71 @@ let map_row_fields_into_ints (row_fields : row_field list) ~loc
                 (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
                 ~default:i
             in
-            (i + 1, (txt, i) :: acc)
+            (i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
         | Rtag ({ txt; _ }, _, _) when allow_no_payload ->
             let i =
               Option.value
                 (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
                 ~default:i
             in
-            (i + 1, (txt, i) :: acc)
+            (i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
         | _ -> Error.err ~loc Invalid_mel_int_type)
-      ~init:(0, []) row_fields
   in
-  Melange_ffi.External_arg_spec.Int (List.rev acc)
-
-let process_mel_as tag ~txt ~has_mel_as =
-  let name =
-    match Ast_attributes.iter_process_mel_string_as tag.prf_attributes with
-    | Some name ->
-        has_mel_as := true;
-        name
-    | None -> txt
-  in
-  (txt, name)
+  External_arg_spec.Int (List.rev acc)
 
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
-let map_row_fields_into_strings (row_fields : row_field list) ~loc
-    ~allow_no_payload =
-  let has_mel_as = ref false in
-  let case, result =
-    List.fold_right
-      ~f:(fun tag (nullary, acc) ->
-        match (nullary, tag.prf_desc) with
-        | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
-            (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
-        | `NonNull, Rtag ({ txt; _ }, true, []) when allow_no_payload ->
-            (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
-        | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
-            (`NonNull, process_mel_as tag ~txt ~has_mel_as :: acc)
-        | _ -> Error.err ~loc Invalid_mel_string_type)
-      row_fields ~init:(`Nothing, [])
+let map_row_fields_into_strings =
+  let process_mel_as tag ~txt ~has_mel_as =
+    let name =
+      match Ast_attributes.iter_process_mel_string_as tag.prf_attributes with
+      | Some name ->
+          has_mel_as := true;
+          name
+      | None -> txt
+    in
+    (txt, External_arg_spec.Arg_cst.Str name)
   in
-  match case with
-  | `Nothing -> Error.err ~loc Invalid_mel_string_type
-  | `Null | `NonNull -> (
-      let has_payload = case = `NonNull in
-      match (has_payload, !has_mel_as) with
-      | false, false ->
-          Mel_ast_invariant.warn ~loc Redundant_mel_string;
-          Melange_ffi.External_arg_spec.Nothing
-      | false, true -> Poly_var_string { descr = result }
-      | true, has_mel_as ->
-          Poly_var { descr = (if has_mel_as then Some result else None) })
+  fun (row_fields : row_field list) ~loc ~allow_no_payload ->
+    let has_mel_as = ref false in
+    let case, result =
+      List.fold_right
+        ~f:(fun tag (nullary, acc) ->
+          match (nullary, tag.prf_desc) with
+          | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
+              (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
+          | `NonNull, Rtag ({ txt; _ }, true, []) when allow_no_payload ->
+              (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
+          | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
+              (`NonNull, process_mel_as tag ~txt ~has_mel_as :: acc)
+          | _ -> Error.err ~loc Invalid_mel_string_type)
+        row_fields ~init:(`Nothing, [])
+    in
+    match case with
+    | `Nothing -> Error.err ~loc Invalid_mel_string_type
+    | `Null | `NonNull -> (
+        let has_payload = case = `NonNull in
+        match (has_payload, !has_mel_as) with
+        | false, false ->
+            Mel_ast_invariant.warn ~loc Redundant_mel_string;
+            External_arg_spec.Nothing
+        | false, true -> Poly_var { descr = result; has_payload = false }
+        | true, has_mel_as ->
+            Poly_var
+              {
+                descr = (if has_mel_as then result else []);
+                has_payload = true;
+              })
+
+let map_row_fields_into_spread (row_fields : row_field list) ~loc =
+  let result =
+    List.map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
+        match prf_desc with
+        | Rtag ({ txt; _ }, false, [ _ ]) ->
+            ( txt,
+              match Ast_attributes.iter_process_mel_as_cst prf_attributes with
+              | Some x -> x
+              | None -> Str txt )
+        | _ -> Error.err ~loc Invalid_mel_spread_type)
+  in
+  External_arg_spec.Poly_var { descr = result; has_payload = true }
