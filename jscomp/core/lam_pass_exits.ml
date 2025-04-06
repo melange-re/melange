@@ -21,43 +21,44 @@ open Import
         to inline directly since if it contains bounded variables it
         must be rebounded before inlining
 *)
-let rec no_list args = List.for_all ~f:no_bounded_variables args
 
-and no_list_snd : 'a. ('a * Lam.t) list -> bool =
- fun args -> List.for_all ~f:(fun (_, x) -> no_bounded_variables x) args
-
-and no_opt x = match x with None -> true | Some a -> no_bounded_variables a
-
-and no_bounded_variables (l : Lam.t) =
-  match l with
-  | Lvar _ | Lmutvar _ -> true
-  | Lconst _ -> true
-  | Lassign (_id, e) -> no_bounded_variables e
-  | Lapply { ap_func; ap_args; _ } ->
-      no_bounded_variables ap_func && no_list ap_args
-  | Lglobal_module _ -> true
-  | Lprim { args; primitive = _; _ } -> no_list args
-  | Lswitch (arg, sw) ->
-      no_bounded_variables arg && no_list_snd sw.sw_consts
-      && no_list_snd sw.sw_blocks && no_opt sw.sw_failaction
-  | Lstringswitch (arg, cases, default) ->
-      no_bounded_variables arg && no_list_snd cases && no_opt default
-  | Lstaticraise (_, args) -> no_list args
-  | Lifthenelse (e1, e2, e3) ->
-      no_bounded_variables e1 && no_bounded_variables e2
-      && no_bounded_variables e3
-  | Lsequence (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
-  | Lwhile (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
-  | Lsend (_k, met, obj, args, _) ->
-      no_bounded_variables met && no_bounded_variables obj && no_list args
-  | Lifused (_v, e) -> no_bounded_variables e
-  | Lstaticcatch (e1, (_, vars), e2) ->
-      vars = [] && no_bounded_variables e1 && no_bounded_variables e2
-  | Lfunction { body; params; _ } -> params = [] && no_bounded_variables body
-  | Lfor _ -> false
-  | Ltrywith _ -> false
-  | Llet _ | Lmutlet _ -> false
-  | Lletrec (decl, body) -> decl = [] && no_bounded_variables body
+let no_bounded_variables =
+  let rec no_list args = List.for_all ~f:no_bounded_variables args
+  and no_list_snd : 'a. ('a * Lam.t) list -> bool =
+   fun args -> List.for_all ~f:(fun (_, x) -> no_bounded_variables x) args
+  and no_opt x = match x with None -> true | Some a -> no_bounded_variables a
+  and no_bounded_variables (l : Lam.t) =
+    match l with
+    | Lvar _ | Lmutvar _ -> true
+    | Lconst _ -> true
+    | Lassign (_id, e) -> no_bounded_variables e
+    | Lapply { ap_func; ap_args; _ } ->
+        no_bounded_variables ap_func && no_list ap_args
+    | Lglobal_module _ -> true
+    | Lprim { args; primitive = _; _ } -> no_list args
+    | Lswitch (arg, sw) ->
+        no_bounded_variables arg && no_list_snd sw.sw_consts
+        && no_list_snd sw.sw_blocks && no_opt sw.sw_failaction
+    | Lstringswitch (arg, cases, default) ->
+        no_bounded_variables arg && no_list_snd cases && no_opt default
+    | Lstaticraise (_, args) -> no_list args
+    | Lifthenelse (e1, e2, e3) ->
+        no_bounded_variables e1 && no_bounded_variables e2
+        && no_bounded_variables e3
+    | Lsequence (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
+    | Lwhile (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
+    | Lsend (_k, met, obj, args, _) ->
+        no_bounded_variables met && no_bounded_variables obj && no_list args
+    | Lifused (_v, e) -> no_bounded_variables e
+    | Lstaticcatch (e1, (_, vars), e2) ->
+        vars = [] && no_bounded_variables e1 && no_bounded_variables e2
+    | Lfunction { body; params; _ } -> params = [] && no_bounded_variables body
+    | Lfor _ -> false
+    | Ltrywith _ -> false
+    | Llet _ | Lmutlet _ -> false
+    | Lletrec (decl, body) -> decl = [] && no_bounded_variables body
+  in
+  fun l -> no_bounded_variables l
 
 (*
    TODO:
@@ -83,12 +84,6 @@ and no_bounded_variables (l : Lam.t) =
    we should refresh
 *)
 type lam_subst = Id of Lam.t [@@unboxed]
-(* | Refresh of Lam.t *)
-
-type subst_tbl = (Ident.t list * lam_subst) Hash_int.t
-
-let to_lam x = match x with Id x -> x
-(* | Refresh x -> Lam_bounded_vars.refresh x  *)
 
 (*
    Simplify  ``catch body with (i ...) handler''
@@ -150,8 +145,12 @@ let to_lam x = match x with Id x -> x
        the j is not very indicative
 *)
 
-let subst_helper ~try_depth (subst : subst_tbl)
+let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
     (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
+  let to_lam x =
+    let (Id x) = x in
+    x
+  in
   let rec simplif (lam : Lam.t) =
     match lam with
     | Lstaticcatch (l1, (i, xs), l2) -> (
