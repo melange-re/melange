@@ -24,7 +24,9 @@
 
 (** type definitions for external argument *)
 
-type cst = Int of int | Str of string | Js_literal of string
+module Arg_cst = struct
+  type t = Int of int | Str of string | Js_literal of string
+end
 
 module Arg_label = struct
   type t = Arg_label | Arg_empty | Arg_optional
@@ -46,30 +48,23 @@ end
 (* it will be ignored , side effect will be recorded *)
 
 (* This type is used to give some meta info on each argument *)
-type attr =
-  | Poly_var_string of {
-      descr : (string * string) list;
-          (* introduced by attributes @string
-             and @as
-          *)
-    }
+type t =
   | Poly_var of {
-      descr : (string * string) list option;
-          (* introduced by attributes @string
-             and @as
-          *)
+      (* introduced by attributes `@mel.string`, `@mel.spread` *)
+      descr : (string * Arg_cst.t) list;
+      has_payload : bool;
     }
   (* `a does not have any value*)
-  | Int of (string * int) list (* ([`a | `b ] [@int])*)
-  | Arg_cst of cst (* Constant argument *)
+  | Int of (string * Arg_cst.t) list (* ([`a | `b ] [@int])*)
+  | Arg_cst of Arg_cst.t (* Constant argument *)
   | Fn_uncurry_arity of int (* annotated with [@uncurry ] or [@uncurry 2]*)
   (* maybe we can improve it as a combination of {!Asttypes.constant} and tuple *)
   | Extern_unit
   | Nothing
   | Ignore
-  | Unwrap of attr
+  | Unwrap of t
 
-type 'a param = { arg_type : attr; arg_label : 'a }
+type 'a param = { arg_type : t; arg_label : 'a }
 
 let empty_kind obj_arg_type =
   { arg_label = Obj_label.empty; arg_type = obj_arg_type }

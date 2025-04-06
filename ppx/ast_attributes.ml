@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+module External_arg_spec = Melange_ffi.External_arg_spec
 
 type st = { get : (bool * bool) option; set : [ `Get | `No_get ] option }
 
@@ -163,17 +164,19 @@ let mel_return_undefined =
         [];
     ]
 
-let iter_process_mel_string_or_int_as =
-  let rec inner attrs st =
+let iter_process_mel_as_cst =
+  let rec inner attrs (st : External_arg_spec.Arg_cst.t option) =
     match attrs with
     | ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) :: rest
       -> (
         match txt with
         | "mel.as" -> (
             match st with
+            | Some _ -> Error.err ~loc Duplicated_mel_as
             | None -> (
                 Mel_ast_invariant.mark_used_mel_attribute attr;
                 match Ast_payload.is_single_int payload with
+                | Some v -> inner rest (Some (Int v))
                 | None -> (
                     match payload with
                     | PStr
@@ -195,8 +198,7 @@ let iter_process_mel_string_or_int_as =
                         ] -> (
                         match dec with
                         | None ->
-                            inner rest
-                              (Some (Melange_ffi.External_arg_spec.Str s))
+                            inner rest (Some (External_arg_spec.Arg_cst.Str s))
                         | Some _ ->
                             (match
                                Melange_ffi.Classify_function.classify
@@ -212,43 +214,63 @@ let iter_process_mel_string_or_int_as =
                                   "`[@mel.as {json| ... |json}]' only supports \
                                    JavaScript literals");
                             inner rest (Some (Js_literal s)))
-                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
-                | Some v -> inner rest (Some (Int v)))
-            | Some _ -> Error.err ~loc Duplicated_mel_as)
+                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal))
+            )
         | _ -> inner rest st)
     | [] -> st
   in
   fun (attrs : attributes) -> inner attrs None
 
+type param_modifier_kind =
+  | Nothing
+  | Spread
+  | Uncurry of int option (* uncurry arity *)
+  | Unwrap
+  | Ignore
+  | String
+  | Int
+
+type param_modifier = { kind : param_modifier_kind; loc : Location.t }
+
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
-   inconsistency in arity *)
-let iter_process_mel_string_int_unwrap_uncurry =
+   inconsistency in arity.
+
+  Supported external param type modifiers:
+    - [@mel.unwrap] -> [ `A of int ] becomes `foo(42)`
+    - [@mel.uncurry] -> uncurries callbacks in externals
+    - [@mel.ignore] -> useful to combine with GADTs, e.g.
+      ('a kind [@mel.ignore ] -> 'a -> 'a)
+    - [@mel.spread] -> [ `A of int ] -> unit becomes `foo("a", 42)` -- supports
+      `@mel.as` -- previously [@mel.string]
+*)
+let iter_process_mel_param_modifier =
   let assign ({ attr_name = { loc; _ }; _ } as attr) st v =
     match st with
-    | `Nothing ->
+    | Nothing ->
         Mel_ast_invariant.mark_used_mel_attribute attr;
-        v
+        { kind = v; loc }
     | _ -> Error.err ~loc Conflict_attributes
   in
-  let rec inner attrs st =
+  let rec inner attrs { kind = st; loc } =
     match attrs with
     | ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr)
       :: rest ->
         let st' =
           match txt with
-          | "mel.string" -> assign attr st `String
-          | "mel.int" -> assign attr st `Int
-          | "mel.ignore" -> assign attr st `Ignore
-          | "mel.unwrap" -> assign attr st `Unwrap
+          | "mel.spread" -> assign attr st Spread
+          | "mel.string" -> assign attr st String
+          | "mel.int" -> assign attr st Int
+          | "mel.ignore" -> assign attr st Ignore
+          | "mel.unwrap" -> assign attr st Unwrap
           | "mel.uncurry" ->
-              assign attr st (`Uncurry (Ast_payload.is_single_int payload))
-          | _ -> st
+              assign attr st (Uncurry (Ast_payload.is_single_int payload))
+          | _ -> { kind = st; loc }
         in
         inner rest st'
-    | [] -> st
+    | [] -> { kind = st; loc }
   in
-  fun attrs -> inner attrs `Nothing
+  fun attrs -> inner attrs { kind = Nothing; loc = Location.none }
 
 let iter_process_mel_string_as =
   let rec inner attrs st =

@@ -60,7 +60,7 @@ The analog case with `@mel.int` fails to build
   File "x.ml", line 1, characters 16-31:
   1 | external foo : ([ `foo of int ][@mel.int]) -> string = "foo"
                       ^^^^^^^^^^^^^^^
-  Error: Invalid type for `@mel.int'
+  Error: Invalid type for `[@mel.int]'
   [2]
 
 This is wrong, just because there's `[@mel.as]` we shouldn't splice the payload in

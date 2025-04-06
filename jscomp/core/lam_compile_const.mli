@@ -25,4 +25,4 @@
 (** Compile lambda constant to JS *)
 
 val translate : Lam.Constant.t -> J.expression
-val translate_arg_cst : Melange_ffi.External_arg_spec.cst -> J.expression
+val translate_arg_cst : Melange_ffi.External_arg_spec.Arg_cst.t -> J.expression

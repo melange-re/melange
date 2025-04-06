@@ -36,6 +36,7 @@ type t =
   | Invalid_underscore_type_in_external
   | Invalid_mel_string_type
   | Invalid_mel_int_type
+  | Invalid_mel_spread_type
   | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
   | Cannot_infer_arity_by_syntax

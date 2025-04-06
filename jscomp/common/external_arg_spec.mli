@@ -22,20 +22,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type cst = Int of int | Str of string | Js_literal of string
+module Arg_cst : sig
+  type t = Int of int | Str of string | Js_literal of string
+end
 
-type attr =
-  | Poly_var_string of { descr : (string * string) list }
-  | Poly_var of { descr : (string * string) list option }
-  | Int of (string * int) list (* ([`a | `b ] [@mel.int])*)
-  | Arg_cst of cst
+type t =
+  | Poly_var of {
+      (* introduced by attributes `@mel.string`, `@mel.spread` *)
+      descr : (string * Arg_cst.t) list;
+      has_payload : bool;
+    }
+  | Int of (string * Arg_cst.t) list (* ([`a | `b ] [@int])*)
+  | Arg_cst of Arg_cst.t
   | Fn_uncurry_arity of int
       (** annotated with [@mel.uncurry ] or [@mel.uncurry 2]*)
   (* maybe we can improve it as a combination of {!Asttypes.constant} and tuple *)
   | Extern_unit
   | Nothing
   | Ignore
-  | Unwrap of attr
+  | Unwrap of t
 
 module Arg_label : sig
   type t = Arg_label | Arg_empty | Arg_optional
@@ -53,7 +58,7 @@ module Obj_label : sig
   val optional : for_sure_no_nested_option:bool -> string -> t
 end
 
-type 'a param = { arg_type : attr; arg_label : 'a }
+type 'a param = { arg_type : t; arg_label : 'a }
 
-val empty_kind : attr -> Obj_label.t param
+val empty_kind : t -> Obj_label.t param
 val dummy : Arg_label.t param

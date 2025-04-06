@@ -6,6 +6,8 @@ Unreleased
 - Upgrade the Melange JS parser to [Flow
   v0.266.0](https://github.com/facebook/flow/releases/tag/v0.266.0)
   ([#1380](https://github.com/melange-re/melange/pull/1380))
+- Add `[@mel.spread]` in `external`s to spread polymorphic variants with
+  payloads ([#1404](https://github.com/melange-re/melange/pull/1404))
 
 5.1.0-53 2025-03-23
 ---------------

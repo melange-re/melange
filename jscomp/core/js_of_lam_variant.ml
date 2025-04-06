@@ -29,11 +29,13 @@ module S = Js_stmt_make
 type arg_expression = Splice0 | Splice1 of E.t | Splice2 of E.t * E.t
 
 (* we need destruct [undefined] when input is optional *)
-let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
+let eval (arg : J.expression)
+    (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list) : E.t
+    =
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
-    | Str s -> E.str (List.assoc s dispatches)
+    | Str s -> Lam_compile_const.translate_arg_cst (List.assoc s dispatches)
     | _ ->
         E.of_block
           [
@@ -41,20 +43,20 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
               (List.map
                  ~f:(fun (i, r) ->
                    ( Lambda.String i,
-                     J.
-                       {
-                         switch_body = [ S.return_stmt (E.str r) ];
-                         should_break = false;
-                         (* FIXME: if true, still print break*)
-                         comment = None;
-                       } ))
+                     {
+                       J.switch_body =
+                         [
+                           S.return_stmt (Lam_compile_const.translate_arg_cst r);
+                         ];
+                       should_break = false;
+                       (* FIXME: if true, still print break*)
+                       comment = None;
+                     } ))
                  dispatches);
           ]
 
-(* invariant: optional is not allowed in this case *)
-(* arg is a polyvar *)
-let eval_as_event (arg : J.expression)
-    (dispatches : (string * string) list option) =
+let eval_descr (arg : J.expression)
+    (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list) =
   match arg.expression_desc with
   | Caml_block
       {
@@ -65,36 +67,36 @@ let eval_as_event (arg : J.expression)
     when Js_analyzer.no_side_effect_expression cb ->
       let v =
         match dispatches with
-        | Some dispatches -> List.assoc s dispatches
-        | None -> s
+        | [] -> Melange_ffi.External_arg_spec.Arg_cst.Str s
+        | dispatches -> (
+            match List.assoc_opt s dispatches with Some r -> r | None -> Str s)
       in
-      Splice2 (E.str v, cb)
-  | _ ->
-      Splice2
-        ( (match dispatches with
-          | Some dispatches ->
-              E.of_block
-                [
-                  S.string_switch
-                    (E.poly_var_tag_access arg)
-                    (List.map
-                       ~f:(fun (i, r) ->
-                         ( Lambda.String i,
-                           J.
-                             {
-                               switch_body = [ S.return_stmt (E.str r) ];
-                               should_break = false;
-                               (* FIXME: if true, still print break*)
-                               comment = None;
-                             } ))
-                       dispatches);
-                ]
-          | None -> E.poly_var_tag_access arg),
-          (* TODO: improve, one dispatch later,
-             the problem is that we can not create bindings
-             due to the
-          *)
-          E.poly_var_value_access arg )
+      Splice2 (Lam_compile_const.translate_arg_cst v, cb)
+  | _ -> (
+      match dispatches with
+      | [] -> Splice2 (E.poly_var_tag_access arg, E.poly_var_value_access arg)
+      | dispatches ->
+          let k =
+            E.of_block
+              [
+                S.string_switch
+                  (E.poly_var_tag_access arg)
+                  (List.map
+                     ~f:(fun (i, r) ->
+                       let r = Lam_compile_const.translate_arg_cst r in
+                       ( Lambda.String i,
+                         J.
+                           {
+                             switch_body = [ S.return_stmt r ];
+                             should_break = false;
+                             (* FIXME: if true, still print break*)
+                             comment = None;
+                           } ))
+                     dispatches);
+              ]
+          in
+          Splice2 (k, E.poly_var_value_access arg))
+
 (* FIXME:
    1. duplicated evaluation of expressions arg
       Solution: calcuate the arg once in the beginning
@@ -102,30 +104,6 @@ let eval_as_event (arg : J.expression)
      or always?
      a === 444? "a" : a==222? "b"
 *)
-
-(* we need destruct [undefined] when input is optional *)
-let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
-  if arg == E.undefined then E.undefined
-  else
-    match arg.expression_desc with
-    | Str i -> E.int (Int32.of_int (List.assoc i dispatches))
-    | _ ->
-        E.of_block
-          [
-            S.string_switch arg
-              (List.map
-                 ~f:(fun (i, r) ->
-                   ( Lambda.String i,
-                     J.
-                       {
-                         switch_body =
-                           [ S.return_stmt (E.int (Int32.of_int r)) ];
-                         should_break = false;
-                         (* FIXME: if true, still print break*)
-                         comment = None;
-                       } ))
-                 dispatches);
-          ]
 
 let eval_as_unwrap (arg : J.expression) : E.t =
   match arg.expression_desc with

@@ -76,26 +76,31 @@ let infer_mel_as ~loc row_fields ~allow_no_payload =
       Ast_polyvar.map_row_fields_into_ints row_fields ~loc ~allow_no_payload
 
 (* TODO: [nolabel] is only used once turn Nothing into Unit, refactor later *)
-let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
+let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
   let ptyp_desc = ptyp.ptyp_desc in
-  match
-    Ast_attributes.iter_process_mel_string_int_unwrap_uncurry
-      ptyp.ptyp_attributes
-  with
-  | `String -> (
+  let { Ast_attributes.kind = spec; loc = _loc } =
+    Ast_attributes.iter_process_mel_param_modifier ptyp.ptyp_attributes
+  in
+  match spec with
+  | Ignore -> Ignore
+  | String -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
           Ast_polyvar.map_row_fields_into_strings row_fields ~loc:ptyp.ptyp_loc
             ~allow_no_payload:false
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
-  | `Ignore -> Ignore
-  | `Int -> (
+  | Int -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
           Ast_polyvar.map_row_fields_into_ints row_fields ~loc:ptyp.ptyp_loc
             ~allow_no_payload:false
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_int_type)
-  | `Unwrap -> (
+  | Spread -> (
+      match ptyp_desc with
+      | Ptyp_variant (row_fields, Closed, None) ->
+          Ast_polyvar.map_row_fields_into_spread row_fields ~loc:ptyp.ptyp_loc
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
+  | Unwrap -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, _) when variant_unwrap row_fields ->
           (* Unwrap attribute can only be attached to things like
@@ -103,7 +108,7 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
           Unwrap
             (infer_mel_as ~loc:ptyp.ptyp_loc row_fields ~allow_no_payload:true)
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_unwrap_type)
-  | `Uncurry opt_arity -> (
+  | Uncurry opt_arity -> (
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
       match (opt_arity, real_arity) with
       | Some arity, None -> Fn_uncurry_arity arity
@@ -114,7 +119,7 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
             Error.err ~loc:ptyp.ptyp_loc
               (Inconsistent_arity { uncurry_attribute = arity; real = n })
           else Fn_uncurry_arity arity)
-  | `Nothing -> (
+  | Nothing -> (
       match ptyp_desc with
       | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
           if nolabel then Extern_unit else Nothing
@@ -124,12 +129,10 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
 
 (* is_optional = false *)
 let refine_arg_type ~(nolabel : bool) ~has_mel_send (ptyp : core_type) :
-    External_arg_spec.attr =
+    External_arg_spec.t =
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
-      match
-        Ast_attributes.iter_process_mel_string_or_int_as ptyp.ptyp_attributes
-      with
+      match Ast_attributes.iter_process_mel_as_cst ptyp.ptyp_attributes with
       | None -> spec_of_ptyp ~nolabel ptyp
       | Some cst ->
           (* (_[@as ])*)
@@ -141,12 +144,10 @@ let refine_arg_type ~(nolabel : bool) ~has_mel_send (ptyp : core_type) :
       spec_of_ptyp ~nolabel ptyp
 
 let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
-    External_arg_spec.attr =
+    External_arg_spec.t =
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
-      match
-        Ast_attributes.iter_process_mel_string_or_int_as ptyp.ptyp_attributes
-      with
+      match Ast_attributes.iter_process_mel_as_cst ptyp.ptyp_attributes with
       | None -> Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external
       | Some cst ->
           (* (_[@as ])*)
@@ -165,7 +166,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
       external f : hi:([ `hi | `lo ] [@string]) -> unit -> _ = "" [@@obj]
     ]}
     The result type would be [ hi:string ] *)
-let get_opt_arg_type (ptyp : core_type) : External_arg_spec.attr =
+let get_opt_arg_type (ptyp : core_type) : External_arg_spec.t =
   match ptyp.ptyp_desc with
   | Ptyp_any ->
       (* (_[@as ])*)
@@ -527,7 +528,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             { Asttypes.txt = name; loc }
                             [%type: int]
                           :: result_types )
-                    | Poly_var_string _ ->
+                    | Poly_var { has_payload = false; _ } ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label = External_arg_spec.Obj_label.obj s;
@@ -591,7 +592,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                                { txt = Ast_literal.js_undefined; loc }
                                [ [%type: int] ])
                           :: result_types )
-                    | Poly_var_string _ ->
+                    | Poly_var { has_payload = false; _ } ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label =
@@ -1092,7 +1093,7 @@ module From_attributes = struct
                       match arg_label with
                       | Optional _ -> (
                           match get_opt_arg_type ty with
-                          | Poly_var _ ->
+                          | Poly_var { has_payload = true; _ } ->
                               (* ?x:([`x of int ] [@string]) does not make sense *)
                               Location.raise_errorf ~loc:param_type.ty.ptyp_loc
                                 "`[%@mel.as ..]' must not be used with an \

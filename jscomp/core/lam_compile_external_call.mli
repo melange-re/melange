@@ -24,7 +24,7 @@
 
 val ocaml_to_js_eff :
   arg_label:Melange_ffi.External_arg_spec.Arg_label.t ->
-  arg_type:Melange_ffi.External_arg_spec.attr ->
+  arg_type:Melange_ffi.External_arg_spec.t ->
   J.expression ->
   Js_of_lam_variant.arg_expression * J.expression list
 (** Compile ocaml external function call to JS IR. *)
