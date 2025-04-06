@@ -24,10 +24,7 @@
 
 (** type definitions for external argument *)
 
-type cst =
-  | Arg_int_lit of int
-  | Arg_string_lit of string
-  | Arg_js_literal of string
+type cst = Int of int | Str of string | Js_literal of string
 
 module Arg_label = struct
   type t = Arg_label | Arg_empty | Arg_optional
@@ -73,10 +70,6 @@ type attr =
   | Unwrap of attr
 
 type 'a param = { arg_type : attr; arg_label : 'a }
-
-let cst_obj_literal s = Arg_js_literal s
-let cst_int i = Arg_int_lit i
-let cst_string s = Arg_string_lit s
 
 let empty_kind obj_arg_type =
   { arg_label = Obj_label.empty; arg_type = obj_arg_type }

@@ -104,6 +104,6 @@ and translate (x : Lam.Constant.t) : J.expression =
 
 let translate_arg_cst (cst : Melange_ffi.External_arg_spec.cst) =
   match cst with
-  | Arg_int_lit i -> E.int (Int32.of_int i)
-  | Arg_string_lit i -> E.str i
-  | Arg_js_literal s -> E.raw_js_code (Exp (Js_literal { comment = None })) s
+  | Int i -> E.int (Int32.of_int i)
+  | Str i -> E.str i
+  | Js_literal s -> E.raw_js_code (Exp (Js_literal { comment = None })) s

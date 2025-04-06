@@ -122,13 +122,6 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.attr =
           infer_mel_as ~loc:ptyp.ptyp_loc row_fields ~allow_no_payload:false
       | _ -> Nothing)
 
-let const_payload_cst = function
-  | Ast_attributes.Int i ->
-      (* This type is used in obj only to construct obj type*)
-      External_arg_spec.Arg_cst (External_arg_spec.cst_int i)
-  | Str i -> Arg_cst (External_arg_spec.cst_string i)
-  | Js_literal_str s -> Arg_cst (External_arg_spec.cst_obj_literal s)
-
 (* is_optional = false *)
 let refine_arg_type ~(nolabel : bool) ~has_mel_send (ptyp : core_type) :
     External_arg_spec.attr =
@@ -142,7 +135,7 @@ let refine_arg_type ~(nolabel : bool) ~has_mel_send (ptyp : core_type) :
           (* (_[@as ])*)
           Mel_ast_invariant.warn_discarded_unused_attributes ~has_mel_send
             ptyp.ptyp_attributes;
-          const_payload_cst cst)
+          External_arg_spec.Arg_cst cst)
   | _ ->
       (* ([`a|`b] [@string]) *)
       spec_of_ptyp ~nolabel ptyp
@@ -159,7 +152,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : core_type) :
           (* (_[@as ])*)
           Mel_ast_invariant.warn_discarded_unused_attributes
             ptyp.ptyp_attributes;
-          const_payload_cst cst)
+          External_arg_spec.Arg_cst cst)
   | _ ->
       (* ([`a|`b] [@string]) *)
       spec_of_ptyp ~nolabel ptyp

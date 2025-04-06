@@ -163,8 +163,6 @@ let mel_return_undefined =
         [];
     ]
 
-type as_const_payload = Int of int | Str of string | Js_literal_str of string
-
 let iter_process_mel_string_or_int_as =
   let rec inner attrs st =
     match attrs with
@@ -211,10 +209,9 @@ let iter_process_mel_string_or_int_as =
                                 Location.raise_errorf ~loc:pexp_loc
                                   "`[@mel.as {json| ... |json}]' only supports \
                                    JavaScript literals");
-                            inner rest (Some (Js_literal_str s)))
-                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
-                | Some v -> inner rest (Some (Int v)))
-            | Some _ -> Error.err ~loc Duplicated_mel_as)
+                            inner rest (Some (Js_literal s)))
+                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal))
+            )
         | _ -> inner rest st)
     | [] -> st
   in
