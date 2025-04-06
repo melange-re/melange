@@ -21,8 +21,8 @@
                 src = super.fetchFromGitHub {
                   owner = "ocsigen";
                   repo = "js_of_ocaml";
-                  rev = "afbfc00b56b3b2243bc77f0a3c4ccfd888efafd3";
-                  hash = "sha256-V0rXQcYXl1ZCkqJ3YITTriqGdLQPPDlHZ0Oiq6vfM3A=";
+                  rev = "a5152d33b8afecc08f1a16d28ae787b585221689";
+                  hash = "sha256-RU1doKBJr5DkGetWYNyR9MzzCR/QcYzjlJTyrc1n94Q=";
                 };
               });
               ppxlib = osuper.ppxlib.overrideAttrs (_: {
