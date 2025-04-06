@@ -123,18 +123,18 @@ let rec ocaml_to_js_eff ~(arg_label : External_arg_spec.Arg_label.t)
   | Ignore ->
       ( Splice0,
         if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
-  | Poly_var { descr; has_payload } ->
-      ( (if has_payload then Js_of_lam_variant.eval_descr arg descr
+  | Poly_var { descr; spread } ->
+      ( (if spread then Js_of_lam_variant.eval_descr arg descr
          else Splice1 (Js_of_lam_variant.eval arg descr)),
         [] )
   | Int dispatches -> (Splice1 (Js_of_lam_variant.eval arg dispatches), [])
   | Unwrap polyvar -> (
       match (polyvar, raw_arg.expression_desc) with
-      | (Poly_var { has_payload = false; _ } | Int _), Caml_block _ ->
+      | (Poly_var { spread = false; _ } | Int _), Caml_block _ ->
           Location.raise_errorf ?loc:raw_arg.loc
             "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
              without a payload."
-      | (Poly_var { has_payload = false; _ } | Int _), _ ->
+      | (Poly_var { spread = false; _ } | Int _), _ ->
           ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
       | Nothing, _ ->
           let single_arg =

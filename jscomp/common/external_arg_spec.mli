@@ -30,7 +30,7 @@ type t =
   | Poly_var of {
       (* introduced by attributes `@mel.string`, `@mel.spread` *)
       descr : (string * Arg_cst.t) list;
-      has_payload : bool;
+      spread : bool;
     }
   | Int of (string * Arg_cst.t) list (* ([`a | `b ] [@int])*)
   | Arg_cst of Arg_cst.t

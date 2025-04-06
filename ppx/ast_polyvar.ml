@@ -92,21 +92,14 @@ let map_row_fields_into_strings =
           | _ -> Error.err ~loc Invalid_mel_string_type)
         row_fields ~init:(`Nothing, [])
     in
-    match case with
-    | `Nothing -> Error.err ~loc Invalid_mel_string_type
-    | `Null | `NonNull -> (
-        let has_payload = case = `NonNull in
-        match (has_payload, !has_mel_as) with
-        | false, false ->
-            Mel_ast_invariant.warn ~loc Redundant_mel_string;
-            External_arg_spec.Nothing
-        | false, true -> Poly_var { descr = result; has_payload = false }
-        | true, has_mel_as ->
-            Poly_var
-              {
-                descr = (if has_mel_as then result else []);
-                has_payload = true;
-              })
+    match (case, !has_mel_as) with
+    | `Nothing, _ -> Error.err ~loc Invalid_mel_string_type
+    | `Null, false ->
+        Mel_ast_invariant.warn ~loc Redundant_mel_string;
+        External_arg_spec.Nothing
+    | `Null, true -> Poly_var { descr = result; spread = false }
+    | `NonNull, has_mel_as ->
+        Poly_var { descr = (if has_mel_as then result else []); spread = true }
 
 let map_row_fields_into_spread (row_fields : row_field list) ~loc =
   let result =
@@ -119,4 +112,4 @@ let map_row_fields_into_spread (row_fields : row_field list) ~loc =
               | None -> Str txt )
         | _ -> Error.err ~loc Invalid_mel_spread_type)
   in
-  External_arg_spec.Poly_var { descr = result; has_payload = true }
+  External_arg_spec.Poly_var { descr = result; spread = true }
