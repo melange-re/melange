@@ -22,10 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type cst = private
-  | Arg_int_lit of int
-  | Arg_string_lit of string
-  | Arg_js_literal of string
+type cst = Int of int | Str of string | Js_literal of string
 
 type attr =
   | Poly_var_string of { descr : (string * string) list }
@@ -58,8 +55,5 @@ end
 
 type 'a param = { arg_type : attr; arg_label : 'a }
 
-val cst_obj_literal : string -> cst
-val cst_int : int -> cst
-val cst_string : string -> cst
 val empty_kind : attr -> Obj_label.t param
 val dummy : Arg_label.t param

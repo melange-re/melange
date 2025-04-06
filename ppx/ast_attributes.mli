@@ -56,10 +56,8 @@ val has_mel_optional : attribute list -> bool
 val has_inline_payload : attribute list -> attribute option
 val rs_externals : attribute list -> string list -> bool
 
-type as_const_payload = Int of int | Str of string | Js_literal_str of string
-
 val iter_process_mel_string_or_int_as :
-  attribute list -> as_const_payload option
+  attribute list -> Melange_ffi.External_arg_spec.cst option
 
 val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute
