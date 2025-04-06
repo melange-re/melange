@@ -1023,7 +1023,7 @@ module Mapper = struct
 end
 
 module Derivers = struct
-  let abstract =
+  let _abstract =
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
@@ -1034,7 +1034,7 @@ module Derivers = struct
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
 
-  let record_constructor =
+  let _record_constructor =
     let args () = Deriving.Args.empty in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) ->
@@ -1045,7 +1045,7 @@ module Derivers = struct
     in
     Deriving.add ~str_type_decl ~sig_type_decl "jsProperties"
 
-  let record_getters_setters =
+  let _record_getters_setters =
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
@@ -1066,7 +1066,7 @@ module Derivers = struct
                 (Mty.signature ~loc (sig_ tdcls))));
       ]
 
-  let jsConverter =
+  let _jsConverter =
     let args () = Deriving.Args.(empty +> flag "newType") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt (_, tdcls) newType ->
@@ -1080,7 +1080,7 @@ module Derivers = struct
     in
     Deriving.add ~str_type_decl ~sig_type_decl "jsConverter"
 
-  let accessors =
+  let _accessors =
     let str_type_decl =
       Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt (_, tdcls) ->
           let loc = Expansion_context.Deriver.derived_item_loc ctxt in
