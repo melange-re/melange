@@ -87,7 +87,6 @@ type lam_subst = Id of Lam.t [@@unboxed]
 
 type subst_tbl = (Ident.t list * lam_subst) Hash_int.t
 
-let to_lam x = match x with Id x -> x
 (* | Refresh x -> Lam_bounded_vars.refresh x  *)
 
 (*
@@ -152,6 +151,10 @@ let to_lam x = match x with Id x -> x
 
 let subst_helper ~try_depth (subst : subst_tbl)
     (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
+  let to_lam x =
+    let (Id x) = x in
+    x
+  in
   let rec simplif (lam : Lam.t) =
     match lam with
     | Lstaticcatch (l1, (i, xs), l2) -> (
