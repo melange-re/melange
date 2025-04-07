@@ -60,8 +60,8 @@ let map_row_fields_into_ints =
     in
     match case with
     | `Nothing -> assert false
-    | `Null -> External_arg_spec.Poly_var { descr = result; spread = false }
-    | `NonNull -> Poly_var { descr = result; spread = true }
+    | `Null -> External_arg_spec.Int { descr = result; spread = false }
+    | `NonNull -> Int { descr = result; spread = true }
 
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
