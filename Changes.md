@@ -8,6 +8,9 @@ Unreleased
   ([#1380](https://github.com/melange-re/melange/pull/1380))
 - Add `[@mel.spread]` in `external`s to spread polymorphic variants with
   payloads ([#1404](https://github.com/melange-re/melange/pull/1404))
+- melange.ppx: improve the inference of `@mel.as` in polymorphic variant
+  arguments to `external`s, allow to mix ints and strings in the different
+  variant branches ([#1418](https://github.com/melange-re/melange/pull/1418))
 
 5.1.0-53 2025-03-23
 ---------------
