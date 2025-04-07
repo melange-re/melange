@@ -130,7 +130,7 @@ let rec ocaml_to_js_eff ~(arg_label : External_arg_spec.Arg_label.t)
   | Int dispatches -> (Splice1 (Js_of_lam_variant.eval arg dispatches), [])
   | Unwrap polyvar -> (
       match (polyvar, raw_arg.expression_desc) with
-      | (Poly_var { spread = false; _ } | Int _), Caml_block _ ->
+      | (Poly_var { spread = false; descr = _ :: _ } | Int _), Caml_block _ ->
           Location.raise_errorf ?loc:raw_arg.loc
             "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
              without a payload."
