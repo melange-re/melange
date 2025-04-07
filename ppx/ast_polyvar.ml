@@ -41,19 +41,11 @@ let is_enum_polyvar =
         Some row_fields
     | Some _ | None -> None
 
-let map_row_fields_into_ints (row_fields : row_field list) ~loc
-    ~allow_no_payload =
+let map_row_fields_into_ints (row_fields : row_field list) ~loc =
   let _, acc =
     List.fold_left ~init:(0, []) row_fields ~f:(fun (i, acc) rtag ->
         match rtag.prf_desc with
         | Rtag ({ txt; _ }, true, []) ->
-            let i =
-              Option.value
-                (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
-                ~default:i
-            in
-            (i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
-        | Rtag ({ txt; _ }, _, _) when allow_no_payload ->
             let i =
               Option.value
                 (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
@@ -77,15 +69,13 @@ let map_row_fields_into_strings =
     in
     (txt, External_arg_spec.Arg_cst.Str name)
   in
-  fun (row_fields : row_field list) ~loc ~allow_no_payload ->
+  fun (row_fields : row_field list) ~loc ->
     let has_mel_as = ref false in
     let case, result =
       List.fold_right
         ~f:(fun tag (nullary, acc) ->
           match (nullary, tag.prf_desc) with
           | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
-              (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
-          | `NonNull, Rtag ({ txt; _ }, true, []) when allow_no_payload ->
               (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
           | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
               (`NonNull, process_mel_as tag ~txt ~has_mel_as :: acc)
@@ -113,3 +103,21 @@ let map_row_fields_into_spread (row_fields : row_field list) ~loc =
         | _ -> Error.err ~loc Invalid_mel_spread_type)
   in
   External_arg_spec.Poly_var { descr = result; spread = true }
+
+let infer_mel_as ~loc row_fields =
+  let has_mel_as = ref false in
+  let result =
+    List.map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
+        match prf_desc with
+        | Rtag ({ txt; _ }, _, _) ->
+            ( txt,
+              match Ast_attributes.iter_process_mel_as_cst prf_attributes with
+              | Some x ->
+                  has_mel_as := true;
+                  x
+              | None -> Str txt )
+        | _ -> Error.err ~loc Invalid_mel_spread_type)
+  in
+  if !has_mel_as then
+    External_arg_spec.Poly_var { descr = result; spread = false }
+  else Nothing

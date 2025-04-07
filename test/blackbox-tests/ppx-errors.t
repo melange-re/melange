@@ -410,12 +410,3 @@ Demonstrate PPX error messages
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [1]
 
-  $ cat > x.ml <<EOF
-  > external join : ?foo:[ | \`foo of int [@mel.as "hi"] ] -> string = "join"
-  > EOF
-  $ dune build @melange
-  File "x.ml", line 1, characters 21-53:
-  1 | external join : ?foo:[ | `foo of int [@mel.as "hi"] ] -> string = "join"
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: `[@mel.as ..]' must not be used with an optionally labelled polymorphic variant
-  [1]

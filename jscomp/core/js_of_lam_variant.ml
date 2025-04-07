@@ -35,6 +35,32 @@ let eval (arg : J.expression)
   if arg == E.undefined then E.undefined
   else
     match arg.expression_desc with
+    | Caml_block
+        {
+          fields = { expression_desc = Str s; _ } :: payload;
+          tag_info = Blk_poly_var;
+          tag;
+          mutable_flag;
+        } ->
+        let v =
+          match dispatches with
+          | [] -> Melange_ffi.External_arg_spec.Arg_cst.Str s
+          | dispatches -> (
+              match List.assoc_opt s dispatches with
+              | Some r -> r
+              | None -> Str s)
+        in
+        {
+          arg with
+          expression_desc =
+            Caml_block
+              {
+                fields = Lam_compile_const.translate_arg_cst v :: payload;
+                tag_info = Blk_poly_var;
+                tag;
+                mutable_flag;
+              };
+        }
     | Str s -> Lam_compile_const.translate_arg_cst (List.assoc s dispatches)
     | _ ->
         E.of_block

@@ -27,19 +27,14 @@ open Import
 val is_enum_polyvar : type_declaration -> row_field list option
 
 val map_row_fields_into_ints :
-  row_field list ->
-  loc:Location.t ->
-  (* allow `Foo [@mel.as "bar"] inside `@mel.unwrap` *)
-  allow_no_payload:bool ->
-  Melange_ffi.External_arg_spec.t
+  row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t
 (** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
-  row_field list ->
-  loc:Location.t ->
-  (* allow `Foo [@mel.as "bar"] inside `@mel.unwrap` *)
-  allow_no_payload:bool ->
-  Melange_ffi.External_arg_spec.t
+  row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t
 
 val map_row_fields_into_spread :
   row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t
+
+val infer_mel_as :
+  loc:Location.t -> row_field list -> Melange_ffi.External_arg_spec.t
