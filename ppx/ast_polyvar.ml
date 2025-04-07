@@ -41,20 +41,27 @@ let is_enum_polyvar =
         Some row_fields
     | Some _ | None -> None
 
-let map_row_fields_into_ints (row_fields : row_field list) ~loc =
-  let _, acc =
-    List.fold_left ~init:(0, []) row_fields ~f:(fun (i, acc) rtag ->
-        match rtag.prf_desc with
-        | Rtag ({ txt; _ }, true, []) ->
-            let i =
-              Option.value
-                (Ast_attributes.iter_process_mel_int_as rtag.prf_attributes)
-                ~default:i
-            in
-            (i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
-        | _ -> Error.err ~loc Invalid_mel_int_type)
+let map_row_fields_into_ints =
+  let process_mel_as ~attrs i =
+    Option.value (Ast_attributes.iter_process_mel_int_as attrs) ~default:i
   in
-  External_arg_spec.Int (List.rev acc)
+  fun (row_fields : row_field list) ~loc ->
+    let case, _, result =
+      List.fold_left row_fields ~init:(`Nothing, 0, [])
+        ~f:(fun (nullary, i, acc) { prf_desc; prf_attributes; _ } ->
+          match (nullary, prf_desc) with
+          | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
+              let i = process_mel_as ~attrs:prf_attributes i in
+              (`Null, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
+          | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
+              let i = process_mel_as ~attrs:prf_attributes i in
+              (`NonNull, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
+          | _ -> Error.err ~loc Invalid_mel_int_type)
+    in
+    match case with
+    | `Nothing -> assert false
+    | `Null -> External_arg_spec.Poly_var { descr = result; spread = false }
+    | `NonNull -> Poly_var { descr = result; spread = true }
 
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
