@@ -528,7 +528,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             { Asttypes.txt = name; loc }
                             [%type: int]
                           :: result_types )
-                    | Poly_var { has_payload = false; _ } ->
+                    | Poly_var { spread = false; _ } ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label = External_arg_spec.Obj_label.obj s;
@@ -592,7 +592,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                                { txt = Ast_literal.js_undefined; loc }
                                [ [%type: int] ])
                           :: result_types )
-                    | Poly_var { has_payload = false; _ } ->
+                    | Poly_var { spread = false; _ } ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
                             arg_label =
@@ -1093,7 +1093,7 @@ module From_attributes = struct
                       match arg_label with
                       | Optional _ -> (
                           match get_opt_arg_type ty with
-                          | Poly_var { has_payload = true; _ } ->
+                          | Poly_var { spread = true; _ } ->
                               (* ?x:([`x of int ] [@string]) does not make sense *)
                               Location.raise_errorf ~loc:param_type.ty.ptyp_loc
                                 "`[%@mel.as ..]' must not be used with an \
