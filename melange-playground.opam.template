@@ -1,7 +1,7 @@
 pin-depends: [
-  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#a5152d33b8afecc08f1a16d28ae787b585221689" ]
-  [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#a5152d33b8afecc08f1a16d28ae787b585221689" ]
+  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#377f56f0ffe8e04761d68d863e051924aa527214" ]
+  [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#377f56f0ffe8e04761d68d863e051924aa527214" ]
   [ "reason.dev" "git+https://github.com/reasonml/reason.git#3.16.0" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#c97615d62311f32c2dbb1e5d159c06e147ca7545"]
+  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#6610b1a979e7c6336c996d519c195032c8a6637e"]
 ]
 
