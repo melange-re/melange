@@ -29,13 +29,14 @@ Dynamic `import()` with module aliases
   >   |> Js.Promise.then_ (fun (module The_import: The_sig) ->
   >     Js.log2 "the alias" The_import.x;
   >     Js.Promise.resolve ())
-  > let _ = foo ()
   > let bar () =
   >   Js.import With_alias.The_source.x
   >   |> Js.Promise.then_ (fun x ->
   >     Js.log2 "the aliased x" x;
   >     Js.Promise.resolve ())
-  > let _ = bar ()
+  > let (_: _ Js.Promise.t) =
+  >   bar ()
+  >   |> Js.Promise.then_ foo
   > EOF
 
   $ dune build @melange
@@ -52,8 +53,6 @@ Dynamic `import()` with module aliases
     });
   }
   
-  foo(undefined);
-  
   function bar(param) {
     return import("./source.js").then(function (m) {
       return m.x;
@@ -63,7 +62,7 @@ Dynamic `import()` with module aliases
     });
   }
   
-  bar(undefined);
+  bar(undefined).then(foo);
   
   module.exports = {
     foo,
@@ -72,5 +71,5 @@ Dynamic `import()` with module aliases
   /*  Not a pure module */
 
   $ node _build/default/out/x.js
-  the alias 2
   the aliased x 1
+  the alias 2
