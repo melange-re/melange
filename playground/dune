@@ -1,6 +1,6 @@
 (executable
  (name mel_playground)
- (modes js)
+ (modes js wasm)
  (libraries
   melangelib
   js_of_ocaml-compiler.runtime
