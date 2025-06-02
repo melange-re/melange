@@ -16,7 +16,7 @@
       forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_3.overrideScope (oself: osuper: {
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (oself: osuper: {
               js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
                 src = super.fetchFromGitHub {
                   owner = "ocsigen";
@@ -26,9 +26,11 @@
                 };
               });
               ppxlib = osuper.ppxlib.overrideAttrs (_: {
-                src = builtins.fetchurl {
-                  url = "https://github.com/ocaml-ppx/ppxlib/releases/download/0.36.0/ppxlib-0.36.0.tbz";
-                  sha256 = "0d54j19vi1khzmw0ffngs8xzjjq07n20q49h85hhhcf52k71pfjs";
+                src = super.fetchFromGitHub {
+                  owner = "ocaml-ppx";
+                  repo = "ppxlib";
+                  rev = "757f6c284b1fe748d5027eef3bbef924b6bbd7ce";
+                  hash = "sha256-6pJGlRknukWH0wr6GhMiQRs43dwx1EkvuW/05ZcEyh0=";
                 };
               });
               reason = osuper.reason.overrideAttrs (_: {

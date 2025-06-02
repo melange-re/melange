@@ -7,9 +7,19 @@
   (action
    (with-stdout-to
     %{targets}
+    (echo "value_rec_types\nnew_predef_types")))
+  (enabled_if
+   (>= %{ocaml_version} 5.4.0)))
+ (rule
+  (targets optional_5_2_modules.txt)
+  (action
+   (with-stdout-to
+    %{targets}
     (echo value_rec_types)))
   (enabled_if
-   (>= %{ocaml_version} 5.2.0)))
+   (and
+    (>= %{ocaml_version} 5.2.0)
+    (< %{ocaml_version} 5.4.0))))
  (rule
   (targets optional_5_2_modules.txt)
   (action
@@ -37,4 +47,4 @@
   (modules :standard \ melange_wrapper)
   (modules_without_implementation
    annot
-   (:include ../gen/optional_5_2_modules.txt))))
+   %{read-lines:../gen/optional_5_2_modules.txt})))

@@ -89,6 +89,10 @@ let find_with_default xs ~default =
       | Some (Int _) -> assert false
       | None -> default)
 
+#if OCAML_VERSION >= (5, 4, 0)
+module Types = Data_types
+#endif
+
 let fld_record (lbl : Types.label_description) =
   Lambda.Fld_record
     {

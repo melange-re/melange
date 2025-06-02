@@ -40,7 +40,7 @@ module StringSet = Set.Make (String)
 type names = { all : StringSet.t; excludes : StringSet.t }
 type t = { names : names; type_declarations : Parsetree.type_declaration list }
 
-let isSupported (def : Longident.t) names =
+let isSupported (def : Ppxlib.Longident.t) names =
   match def with
   | Lident def ->
       let { all = allNames; excludes } = names in

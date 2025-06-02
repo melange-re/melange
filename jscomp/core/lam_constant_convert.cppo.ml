@@ -119,7 +119,9 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Blk_extension { exn } ->
           let t : Lam.Tag_info.t = Blk_extension { exn } in
           Const_block (i, t, List.map ~f:convert_constant xs)
+#if OCAML_VERSION < (5,4,0)
       | Blk_lazy_general -> assert false
+#endif
       | Blk_na s ->
           let t : Lam.Tag_info.t = Blk_na s in
           Const_block (i, t, List.map ~f:convert_constant xs)

@@ -65,7 +65,7 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
   | Ptyp_constr ({ txt; _ }, _) ->
       failwith
         (Format.asprintf "unsupported high order type %s"
-           (txt |> Longident.flatten |> String.concat ~sep:"."))
+           (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:"."))
   | Ptyp_tuple xs ->
       let len = List.length xs in
       let args0 = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
@@ -159,7 +159,7 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
                   (List.mapi
                      ~f:(fun idx { Ast.pld_name; _ } ->
                        let { Asttypes.txt = name; loc } = pld_name in
-                       ( { pld_name with txt = Longident.Lident name },
+                       ( { pld_name with txt = Ppxlib.Longident.Lident name },
                          Ast_helper.Pat.var { txt = args.(idx); loc } ))
                      lbdcls)
                   Closed)))
@@ -188,7 +188,7 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
                       (List.mapi
                          ~f:(fun idx { Ast.pld_name; _ } ->
                            let { Asttypes.txt = name; loc } = pld_name in
-                           ( { pld_name with txt = Longident.Lident name },
+                           ( { pld_name with txt = Ppxlib.Longident.Lident name },
                              ident { txt = Lident args.(idx); loc } ))
                          lbdcls)
                       None)))
@@ -214,7 +214,7 @@ let mkBody (tdcl : Ast.type_declaration) allNames =
           (List.mapi
              ~f:(fun idx { Ast.pld_name; _ } ->
                let { Asttypes.txt = name; loc } = pld_name in
-               ( { pld_name with txt = Longident.Lident name },
+               ( { pld_name with txt = Ppxlib.Longident.Lident name },
                  Ast_helper.Pat.var { txt = args.(idx); loc } ))
              lbdcls)
           Closed
@@ -231,7 +231,7 @@ let mkBody (tdcl : Ast.type_declaration) allNames =
                (List.mapi
                   ~f:(fun idx { Ast.pld_name; _ } ->
                     let { Asttypes.txt = name; loc } = pld_name in
-                    ( { pld_name with txt = Longident.Lident name },
+                    ( { pld_name with txt = Ppxlib.Longident.Lident name },
                       ident { txt = Lident args.(idx); loc } ))
                   lbdcls)
                None))
@@ -278,7 +278,7 @@ let make type_declaration =
       Ast_helper.Exp.record
         (List.map
            ~f:(fun s ->
-             let lid = { Asttypes.txt = Longident.Lident s; loc } in
+             let lid = { Asttypes.txt = Ppxlib.Longident.Lident s; loc } in
              (lid, Ast_helper.Exp.ident lid))
            (StringSet.to_seq customNames |> List.of_seq))
         None
