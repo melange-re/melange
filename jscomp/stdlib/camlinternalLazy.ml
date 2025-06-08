@@ -94,3 +94,17 @@ let force_val (type a) (lzv : a lazy_t) : a =
   let lzv : _ concrete = castToConcrete lzv in
   if lzv.tag then lzv.value  else
     force_val_lazy_block (of_concrete lzv)
+
+(* If [lzv] is already forced, then [indirect lzv] is [lzv].
+   Otherwise it returns a fresh thunk that, when forced, will force [lzv].
+   This provides a way to copy/move [lzv] that works correctly even if
+   [lzv] is being forced concurrently.
+*)
+let indirect (lzv : 'arg lazy_t) =
+  (* Sys.opaque_identity: see [force_gen] comment above. *)
+  let lzv = Sys.opaque_identity lzv in
+  let x = Obj.repr lzv in
+  let t = Obj.tag x in
+  if t = Obj.lazy_tag || t = Obj.forcing_tag
+  then lazy (force_lazy_block lzv)
+  else lzv

@@ -126,7 +126,14 @@ let[@inline never] create_alarm f =
 module Memprof =
   struct
     type t
-    type allocation_source = Normal | Marshal | Custom
+
+    type allocation_source = Normal | Marshal | Custom | Map_file
+    let string_of_allocation_source = function
+      | Normal -> "Normal"
+      | Marshal -> "Marshal"
+      | Custom -> "Custom"
+      | Map_file -> "Map_file"
+
     type allocation =
       { n_samples : int;
         size : int;
@@ -163,3 +170,27 @@ module Memprof =
 
     external discard : t -> unit = "caml_memprof_discard"
   end
+
+
+
+type suspended_collection_work = int
+(* Note: we do not currently expose this type outside the module,
+   because it could plausibly change in the future. In particular,
+   currently the runtime only track major allocations during ramp-up
+   work, but there are other sources of GC pressure, such as custom
+   block allocation, that could be tracked as well and should probably
+   be tracked separately. This suggests that the type of suspended work
+   could become a record of integers instead of one integer.
+
+   On the other hand, it would be nice to let users, say, smooth out
+   suspended work by splitting it in N smaller parts to be ramped down
+   separately. This would be possible by exposing the type as int, or
+   possibly by defining a division/splitting function for the abstract
+   type.
+*)
+
+external ramp_up : (unit -> 'a) -> 'a * suspended_collection_work
+  = "caml_ml_gc_ramp_up"
+
+external ramp_down : suspended_collection_work -> unit
+  = "caml_ml_gc_ramp_down"

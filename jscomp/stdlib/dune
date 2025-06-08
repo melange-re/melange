@@ -44,12 +44,6 @@
   -9))
 
 (rule
- (deps either.cppo.ml)
- (target either.ml)
- (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
  (deps array.cppo.ml)
  (target array.ml)
  (action

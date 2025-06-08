@@ -80,10 +80,7 @@ let getenv_opt s =
     | None -> None
     | Some x -> getEnv x##env s
 #else
-let getenv_opt s =
-  (* TODO: expose a non-raising primitive directly. *)
-  try Some (getenv s)
-  with Not_found -> None
+external getenv_opt: string -> string option = "caml_sys_getenv_opt"
 #endif
 
 external command: string -> int = "caml_sys_system_command"
@@ -95,14 +92,23 @@ external rmdir: string -> unit = "caml_sys_rmdir"
 external getcwd: unit -> string = "caml_sys_getcwd"
 external readdir : string -> string array = "caml_sys_read_directory"
 
+#ifdef BS
+let io_buffer_size = 65536
+#else
+external io_buffer_size: unit -> int = "caml_sys_io_buffer_size"
+let io_buffer_size = io_buffer_size ()
+#endif
+
 let interactive = ref false
+
+type signal = int
 
 type signal_behavior =
     Signal_default
   | Signal_ignore
-  | Signal_handle of (int -> unit)
+  | Signal_handle of (signal -> unit)
 
-external signal : int -> signal_behavior -> signal_behavior
+external signal : signal -> signal_behavior -> signal_behavior
                 = "caml_install_signal_handler"
 
 let set_signal sig_num sig_beh = ignore(signal sig_num sig_beh)
@@ -135,6 +141,55 @@ let sigtrap = -25
 let sigurg = -26
 let sigxcpu = -27
 let sigxfsz = -28
+let sigio = -29
+let sigwinch = -30
+
+let signal_to_string s =
+  if s = sigabrt then "SIGABRT"
+  else if s = sigalrm then "SIGALRM"
+  else if s = sigfpe then "SIGFPE"
+  else if s = sighup then "SIGHUP"
+  else if s = sigill then "SIGILL"
+  else if s = sigint then "SIGINT"
+  else if s = sigkill then "SIGKILL"
+  else if s = sigpipe then "SIGPIPE"
+  else if s = sigquit then "SIGQUIT"
+  else if s = sigsegv then "SIGSEGV"
+  else if s = sigterm then "SIGTERM"
+  else if s = sigusr1 then "SIGUSR1"
+  else if s = sigusr2 then "SIGUSR2"
+  else if s = sigchld then "SIGCHLD"
+  else if s = sigcont then "SIGCONT"
+  else if s = sigstop then "SIGSTOP"
+  else if s = sigtstp then "SIGTSTP"
+  else if s = sigttin then "SIGTTIN"
+  else if s = sigttou then "SIGTTOU"
+  else if s = sigvtalrm then "SIGVTALRM"
+  else if s = sigprof then "SIGPROF"
+  else if s = sigbus then "SIGBUS"
+  else if s = sigpoll then "SIGPOLL"
+  else if s = sigsys then "SIGSYS"
+  else if s = sigtrap then "SIGTRAP"
+  else if s = sigurg then "SIGURG"
+  else if s = sigxcpu then "SIGXCPU"
+  else if s = sigxfsz then "SIGXFSZ"
+  else if s = sigio then "SIGIO"
+  else if s = sigwinch then "SIGWINCH"
+  else if s < sigwinch then invalid_arg "Sys.signal_to_string"
+  else "SIG(" ^ string_of_int s ^ ")"
+
+external rev_convert_signal_number: int -> int =
+  "caml_sys_rev_convert_signal_number"
+external convert_signal_number: int -> int =
+  "caml_sys_convert_signal_number"
+
+let signal_of_int i =
+  if i < 0 then invalid_arg "Sys.signal_of_int"
+  else rev_convert_signal_number i
+
+let signal_to_int i =
+  if i < sigwinch then invalid_arg "Sys.signal_to_int"
+  else convert_signal_number i
 
 exception Break
 

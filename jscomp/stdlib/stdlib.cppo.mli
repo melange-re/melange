@@ -119,16 +119,12 @@ exception Undefined_recursive_module of (string * int * int)
 (** {1 Comparisons} *)
 
 external ( = ) : 'a -> 'a -> bool = "%equal"
-(** [e1 = e2] tests for structural equality of [e1] and [e2].
-   Mutable structures (e.g. references and arrays) are equal
-   if and only if their current contents are structurally equal,
-   even if the two mutable objects are not the same physical object.
-   Equality between functional values raises [Invalid_argument].
-   Equality between cyclic data structures may not terminate.
-   Left-associative operator, see {!Ocaml_operators} for more information. *)
+(** Alias of {!Repr.equal}
+    Left-associative operator, see {!Ocaml_operators} for more information.
+*)
 
 external ( <> ) : 'a -> 'a -> bool = "%notequal"
-(** Negation of {!Stdlib.( = )}.
+(** Negation of {!Repr.equal}.
     Left-associative operator, see {!Ocaml_operators} for more information.
 *)
 
@@ -152,61 +148,34 @@ external ( >= ) : 'a -> 'a -> bool = "%greaterequal"
    the usual orderings over integers, characters, strings, byte sequences
    and floating-point numbers, and extend them to a
    total ordering over all types.
-   The ordering is compatible with [( = )]. As in the case
-   of [( = )], mutable structures are compared by contents.
+   The ordering is compatible with {!Repr.equal}. As in the case
+   of {!Repr.equal}, mutable structures are compared by contents.
    Comparison between functional values raises [Invalid_argument].
    Comparison between cyclic structures may not terminate.
    Left-associative operator, see {!Ocaml_operators} for more information.
 *)
 
 external compare : 'a -> 'a -> int = "%compare"
-(** [compare x y] returns [0] if [x] is equal to [y],
-   a negative integer if [x] is less than [y], and a positive integer
-   if [x] is greater than [y].  The ordering implemented by [compare]
-   is compatible with the comparison predicates [=], [<] and [>]
-   defined above,  with one difference on the treatment of the float value
-   {!Stdlib.nan}.  Namely, the comparison predicates treat [nan]
-   as different from any other float value, including itself;
-   while [compare] treats [nan] as equal to itself and less than any
-   other float value.  This treatment of [nan] ensures that [compare]
-   defines a total ordering relation.
-
-   [compare] applied to functional values may raise [Invalid_argument].
-   [compare] applied to cyclic structures may not terminate.
-
-   The [compare] function can be used as the comparison function
-   required by the {!Set.Make} and {!Map.Make} functors, as well as
-   the {!List.sort} and {!Array.sort} functions. *)
+(** Alias of {!Repr.compare}. *)
 
 #ifdef BS
 external min : 'a -> 'a -> 'a = "%bs_min"
 external max : 'a -> 'a -> 'a = "%bs_max"
 #else
 val min : 'a -> 'a -> 'a
-(** Return the smaller of the two arguments.
-    The result is unspecified if one of the arguments contains
-    the float value [nan]. *)
+(** Alias of {!Repr.min}. *)
 
 val max : 'a -> 'a -> 'a
-(** Return the greater of the two arguments.
-    The result is unspecified if one of the arguments contains
-    the float value [nan]. *)
+(** Alias of {!Repr.max}. *)
 #endif
 
 external ( == ) : 'a -> 'a -> bool = "%eq"
-(** [e1 == e2] tests for physical equality of [e1] and [e2].
-   On mutable types such as references, arrays, byte sequences, records with
-   mutable fields and objects with mutable instance variables,
-   [e1 == e2] is true if and only if physical modification of [e1]
-   also affects [e2].
-   On non-mutable types, the behavior of [( == )] is
-   implementation-dependent; however, it is guaranteed that
-   [e1 == e2] implies [compare e1 e2 = 0].
-   Left-associative operator,  see {!Ocaml_operators} for more information.
+(** Alias of {!Repr.phys_equal}.
+    Left-associative operator,  see {!Ocaml_operators} for more information.
 *)
 
 external ( != ) : 'a -> 'a -> bool = "%noteq"
-(** Negation of {!Stdlib.( == )}.
+(** Negation of {!Repr.phys_equal}.
     Left-associative operator,  see {!Ocaml_operators} for more information.
 *)
 
@@ -1556,6 +1525,7 @@ module Domain         = Domain
     "The Domain interface may change in incompatible ways in the future."
 ]
 module Dynarray       = Dynarray
+module Pqueue         = Pqueue
 module Effect         = Effect
 [@@alert "-unstable"]
 [@@alert unstable
@@ -1572,6 +1542,7 @@ module Format         = Format
 module Fun            = Fun
 module Gc             = Gc
 module Hashtbl        = Hashtbl
+module Iarray         = Iarray
 module In_channel     = In_channel
 module Int            = Int
 module Int32          = Int32
@@ -1592,12 +1563,14 @@ module Obj            = Obj
 module Oo             = Oo
 module Option         = Option
 module Out_channel    = Out_channel
+module Pair           = Pair
 module Parsing        = Parsing
 module Printexc       = Printexc
 module Printf         = Printf
 module Queue          = Queue
 module Random         = Random
 module Result         = Result
+module Repr           = Repr
 module Scanf          = Scanf
 #ifdef BS
 #else
