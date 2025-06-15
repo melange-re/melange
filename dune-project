@@ -38,7 +38,7 @@
   (ounit :with-test)
   (reason
    (and :dev :with-test))
-  (ppxlib (>= "0.36.0"))
+  (ppxlib :dev)
   (menhir
    (>= 20201214))
   (reason-react-ppx
