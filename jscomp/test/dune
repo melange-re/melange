@@ -16,7 +16,7 @@
  (preprocess
   (pps melange.ppx reason-react-ppx))
  (modules :standard \ mt es6_export es6_import es6_module_test)
- (melange.compile_flags -w -27-32+104 --mel-cross-module-opt))
+ (melange.compile_flags -w -27-32-34-35+104 --mel-cross-module-opt))
 
 (include_subdirs unqualified)
 
