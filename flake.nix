@@ -21,9 +21,10 @@
                 src = super.fetchFromGitHub {
                   owner = "ocsigen";
                   repo = "js_of_ocaml";
-                  rev = "377f56f0ffe8e04761d68d863e051924aa527214";
-                  hash = "sha256-HvxAr2EPmsdTf6pXyKlxZE0tdYauztj9VubcHI2z8uk=";
+                  rev = "ae754850c7c79ebed2349d24347967a1e3233a4f";
+                  hash = "sha256-gV5H/ghjT5ot9p1WAx+Tlecq+/h8fNcu9cPGkgm7iYw=";
                 };
+
               });
               ppxlib = osuper.ppxlib.overrideAttrs (_: {
                 src = super.fetchFromGitHub {
@@ -37,8 +38,8 @@
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
                   repo = "reason";
-                  rev = "0b2f1aa14f5722a07a63bedb608c381d218f24cf";
-                  hash = "sha256-rtFEhEdNwHgRFAk9S7xx9MKvn9/gtTrIcVZp6d45Fxk=";
+                  rev = "ead03610ff880ef52d98ca918d2976dbc46a1c22";
+                  hash = "sha256-gH0DLG52Y/mzT7ZysEZNVV3jMk53ocTrD93GYU2ORj8=";
                 };
                 patches = [ ];
                 doCheck = false;

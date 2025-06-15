@@ -291,7 +291,9 @@ let () =
           let main = {
             Location.loc
             ; txt =
-#if OCAML_VERSION >= (5,3,0)
+#if OCAML_VERSION >= (5,4,0)
+              message
+#elif OCAML_VERSION >= (5,3,0)
               Format_doc.Doc.msg "%s" message
 #else
               _msg_of_str message
@@ -303,7 +305,9 @@ let () =
               ~f:(fun (loc, sub_message) ->
                 { Location.loc
                 ; txt =
-#if OCAML_VERSION >= (5,3,0)
+#if OCAML_VERSION >= (5,4,0)
+              sub_message
+#elif OCAML_VERSION >= (5,3,0)
               Format_doc.Doc.msg "%s" sub_message
 #else
               _msg_of_str sub_message
