@@ -9,7 +9,7 @@ bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.13"}
   "ocaml"
-  "js_of_ocaml"
+  "js_of_ocaml" {dev}
   "reason" {dev}
   "melange" {= version}
   "reason-react-ppx"

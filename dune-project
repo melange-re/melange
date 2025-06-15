@@ -51,7 +51,7 @@
  (allow_empty)
  (depends
   ocaml
-  js_of_ocaml
+  (js_of_ocaml :dev)
   (reason :dev)
   (melange (= :version))
   reason-react-ppx))
