@@ -38,9 +38,9 @@
   - dep
   Hidden:
   - hidden
-  File "x.ml", line 2, characters 8-16:
+  File "x.ml", line 2, characters 8-14:
   2 | let y = Hidden.x ()
-              ^^^^^^^^
+              ^^^^^^
   Error: Unbound module Hidden
   [2]
 
