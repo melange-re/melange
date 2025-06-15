@@ -10,7 +10,7 @@ depends: [
   "dune" {>= "3.13"}
   "ocaml"
   "js_of_ocaml"
-  "reason" {>= "3.10.0"}
+  "reason" {dev}
   "melange" {= version}
   "reason-react-ppx"
   "odoc" {with-doc}
