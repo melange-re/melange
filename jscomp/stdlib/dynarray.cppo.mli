@@ -598,7 +598,11 @@ val reset : 'a t -> unit
     in the backing array at index [length a] or later.
 *)
 
+#if OCAML_VERSION >= (5,4,0)
 val unsafe_to_iarray : capacity:int -> ('a t -> unit) -> 'a iarray
+#else
+val unsafe_to_iarray : capacity:int -> ('a t -> unit) -> 'a array
+#endif
 (** [unsafe_to_iarray ~capacity f] calls [f] on a new empty dynarray with the
     given [capacity], then turns it into an immutable array without a copy,
     when possible, that is, if two conditions hold:

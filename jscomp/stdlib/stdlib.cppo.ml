@@ -749,7 +749,9 @@ module Format         = Format
 module Fun            = Fun
 module Gc             = Gc
 module Hashtbl        = Hashtbl
+#if OCAML_VERSION >= (5,4,0)
 module Iarray         = Iarray
+#endif
 module In_channel     = In_channel
 module Int            = Int
 module Int32          = Int32

@@ -1276,7 +1276,11 @@ let to_seq_rev_reentrant a =
   in
   aux (length a - 1)
 
+#if OCAML_VERSION >= (5,4,0)
 external unsafe_iarray_of_array : 'a array -> 'a iarray = "%opaque"
+#else
+external unsafe_iarray_of_array : 'a array -> 'a array = "%opaque"
+#endif
 
 let unsafe_to_iarray ~capacity (f : 'a t -> unit) =
   let a = create () in

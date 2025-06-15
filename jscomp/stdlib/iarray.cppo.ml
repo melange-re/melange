@@ -46,8 +46,13 @@ open! Stdlib
      4. Sorting is implemented in-place and this allows us to reuse it.
 *)
 
+#if OCAML_VERSION >= (5,4,0)
 (* An alias for the type of immutable arrays. *)
 type +'a t = 'a iarray
+#else
+type 'a iarray = 'a array
+type 'a t = 'a iarray
+#endif
 
 (* Array operations *)
 

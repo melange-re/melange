@@ -27,8 +27,13 @@ open! Stdlib
     @since 5.4
 *)
 
-type +'a t = 'a iarray
+#if OCAML_VERSION >= (5,4,0)
 (** An alias for the type of immutable arrays. *)
+type +'a t = 'a iarray
+#else
+type 'a iarray = 'a array
+type 'a t = 'a iarray
+#endif
 
 external length : 'a iarray -> int = "%array_length"
 (** Return the length (number of elements) of the given immutable array. *)

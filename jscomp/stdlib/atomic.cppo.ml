@@ -14,6 +14,8 @@
 
 include CamlinternalAtomic
 
+
+#if OCAML_VERSION >= (5,4,0)
 external ignore : 'a -> unit = "%ignore"
 
 module Loc = struct
@@ -31,6 +33,7 @@ module Loc = struct
   let decr t =
     ignore (fetch_and_add t (-1))
 end
+#endif
 
 (* type !'a t =
   { mutable contents: 'a [@atomic];

@@ -68,6 +68,7 @@ val incr : int t -> unit
 (** [decr r] atomically decrements the value of [r] by [1]. *)
 val decr : int t -> unit
 
+#if OCAML_VERSION >= (5,4,0)
 (** Atomic "locations", such as record fields. *)
 module Loc : sig
   (** This module exposes a dedicated type ['a Atomic.Loc.t] for
@@ -92,6 +93,7 @@ module Loc : sig
   val incr : int t -> unit
   val decr : int t -> unit
 end
+#endif
 
 (** {1:examples Examples}
 
