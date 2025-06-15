@@ -31,9 +31,9 @@ build: [
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
 pin-depends: [
-  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#377f56f0ffe8e04761d68d863e051924aa527214" ]
-  [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#377f56f0ffe8e04761d68d863e051924aa527214" ]
-  [ "reason.dev" "git+https://github.com/reasonml/reason.git#3.16.0" ]
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#6610b1a979e7c6336c996d519c195032c8a6637e"]
+  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#ae754850c7c79ebed2349d24347967a1e3233a4f" ]
+  [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml.git#ae754850c7c79ebed2349d24347967a1e3233a4f" ]
+  [ "reason.dev" "git+https://github.com/reasonml/reason.git#anmonteiro/5.4-support" ]
+  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#2c1f6648be3223991579f956c913805c12880cb3"]
 ]
 
