@@ -8,7 +8,7 @@ homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.13"}
-  "ocaml" {>= "5.3" & < "5.4"}
+  "ocaml" {>= "5.4" & < "5.5"}
   "cmdliner" {>= "1.1.0"}
   "dune-build-info"
   "cppo" {build}
@@ -36,6 +36,6 @@ build: [
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
 pin-depends: [
-  [ "reason.dev" "git+https://github.com/reasonml/reason.git#3.16.0" ]
+  [ "reason.dev" "git+https://github.com/reasonml/reason.git#anmonteiro/5.4-support" ]
   [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#6610b1a979e7c6336c996d519c195032c8a6637e"]
 ]
