@@ -26,14 +26,6 @@
                 };
 
               });
-              ppxlib = osuper.ppxlib.overrideAttrs (_: {
-                src = super.fetchFromGitHub {
-                  owner = "ocaml-ppx";
-                  repo = "ppxlib";
-                  rev = "757f6c284b1fe748d5027eef3bbef924b6bbd7ce";
-                  hash = "sha256-6pJGlRknukWH0wr6GhMiQRs43dwx1EkvuW/05ZcEyh0=";
-                };
-              });
               reason = osuper.reason.overrideAttrs (_: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
