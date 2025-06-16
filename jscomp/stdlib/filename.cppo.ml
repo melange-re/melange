@@ -161,8 +161,14 @@ module Win32 : SYSDEPS = struct
       None
 
 
+#ifdef BS
+  let temp_dir_name =
+    try Sys.getenv "TEMP" with Not_found -> "."
+#else
   external temp_dir_name: unit -> string = "caml_sys_temp_dir_name"
   let temp_dir_name = temp_dir_name ()
+#endif
+
   let quote s =
     let l = String.length s in
     let b = Buffer.create (l + 20) in

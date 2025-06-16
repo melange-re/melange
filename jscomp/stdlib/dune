@@ -170,6 +170,12 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
 
 (rule
+ (deps filename.cppo.ml)
+ (target filename.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
  (deps in_channel.cppo.ml)
  (target in_channel.ml)
  (action
