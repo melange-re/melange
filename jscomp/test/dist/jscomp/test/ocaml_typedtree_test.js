@@ -2176,7 +2176,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   const sub = subOpt !== undefined ? subOpt : /* [] */ 0;
   const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   let before = print_phanton_error_prefix;
-  const k = function (msg) {
+  let k = function (msg) {
     return {
       loc: loc,
       msg: msg,
@@ -11298,10 +11298,10 @@ function find_name$1(s, tbl) {
 
 function fold_name(f) {
   return function (param, param$1) {
-    const f$1 = function (k, param) {
+    let f$1 = function (k, param) {
       return Curry._2(f, k, param[0]);
     };
-    const f$2 = function (k) {
+    let f$2 = function (k) {
       return Curry._2(f$1, k.ident, k.data);
     };
     let _stack = /* [] */ 0;
@@ -12879,10 +12879,10 @@ function run_iter_cont(l) {
 
 function iter_types(f) {
   return function (param, param$1) {
-    const proj1 = function (env) {
+    let proj1 = function (env) {
       return env.types;
     };
-    const proj2 = function (sc) {
+    let proj2 = function (sc) {
       return sc.comp_types;
     };
     iter((function (id, param) {
@@ -25175,10 +25175,10 @@ function token$1(lexbuf) {
         switch (doc) {
           case /* SHARP */ 84 :
             if (at_bol(lexbuf)) {
-              const cont = function (lexbuf) {
+              let cont = function (lexbuf) {
                 return loop(lines, docs, lexbuf);
               };
-              const look_ahead = function (token) {
+              let look_ahead = function (token) {
                 sharp_look_ahead.contents = token;
                 return /* SHARP */ 84;
               };
@@ -42575,7 +42575,7 @@ function print_out_sig_item(ppf, param) {
               },
               _1: " =%a {%a@;<1 -2>}"
             }), print_private, td.otype_private, (function (param, param$1) {
-              const sep = function (ppf) {
+              let sep = function (ppf) {
                 Stdlib__Format.fprintf(ppf)({
                   TAG: /* Format */ 0,
                   _0: {
@@ -65328,7 +65328,7 @@ function partial_pred(lev, env, expected_ty, constrs, labels, p) {
 function check_partial$1(levOpt, env, expected_ty) {
   const lev = levOpt !== undefined ? levOpt : current_level.contents;
   return function (param, param$1) {
-    const pred = function (param, param$1, param$2) {
+    let pred = function (param, param$1, param$2) {
       return partial_pred(lev, env, expected_ty, param, param$1, param$2);
     };
     const first_check = check_partial(param, param$1);
@@ -70213,7 +70213,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
           
         });
       }
-      const callback = function (param) {
+      let callback = function (param) {
         const slot$1 = current_slot.contents;
         if (slot$1 !== undefined) {
           slot$1.contents = {
@@ -71350,7 +71350,7 @@ register_error_of_exn(function (err) {
             const name = kind$1 === "record" ? "field" : "constructor";
             let param$3 = param$1._2;
             let tpl = param$1._3;
-            const txt1 = function (ppf) {
+            let txt1 = function (ppf) {
               Curry._4(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */ 0,
                 _0: {
@@ -71393,7 +71393,7 @@ register_error_of_exn(function (err) {
                 _1: "The %s %a@ belongs to the %s type"
               }), name, longident, lid$2, kind$1);
             };
-            const txt2 = function (ppf) {
+            let txt2 = function (ppf) {
               Curry._4(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */ 0,
                 _0: {
@@ -71436,7 +71436,7 @@ register_error_of_exn(function (err) {
                 _1: "The %s %a@ belongs to one of the following %s types:"
               }), name, longident, lid$2, kind$1);
             };
-            const txt3 = function (ppf) {
+            let txt3 = function (ppf) {
               Curry._2(Stdlib__Format.fprintf(ppf)({
                 TAG: /* Format */ 0,
                 _0: {

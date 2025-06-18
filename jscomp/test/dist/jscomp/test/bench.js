@@ -7,7 +7,7 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function map(f, a) {
-  const f$1 = Curry.__1(f);
+  let f$1 = Curry.__1(f);
   const l = a.length;
   if (l === 0) {
     return [];
@@ -20,7 +20,7 @@ function map(f, a) {
 }
 
 function init(l, f) {
-  const f$1 = Curry.__1(f);
+  let f$1 = Curry.__1(f);
   if (l === 0) {
     return [];
   }
@@ -38,7 +38,7 @@ function init(l, f) {
 }
 
 function fold_left(f, x, a) {
-  const f$1 = Curry.__2(f);
+  let f$1 = Curry.__2(f);
   let r = x;
   for (let i = 0, i_finish = a.length; i < i_finish; ++i) {
     r = f$1(r, a[i]);

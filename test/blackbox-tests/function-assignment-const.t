@@ -24,7 +24,7 @@
   
   function f(x) {
     let _x = x;
-    const _k = function (x) {
+    let _k = function (x) {
       return x;
     };
     while (true) {
@@ -47,6 +47,4 @@
     f,
   }
   /*  Not a pure module */
-  $ node ./main.js 2>&1 | grep -i typeerror
-  TypeError: Assignment to constant variable.
 

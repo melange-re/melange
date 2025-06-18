@@ -1782,7 +1782,7 @@ function is_charset(_param) {
 
 function split(s, cm) {
   let _t = s;
-  const f = function (i, j) {
+  let f = function (i, j) {
     Caml_bytes.set(cm, i, /* '\001' */1);
     Caml_bytes.set(cm, j + 1 | 0, /* '\001' */1);
   };

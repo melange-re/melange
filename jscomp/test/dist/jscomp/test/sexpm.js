@@ -359,7 +359,7 @@ function to_chan(oc, t) {
 }
 
 function to_file_seq(filename, seq) {
-  const f = function (oc) {
+  let f = function (oc) {
     return Curry._1(seq, (function (t) {
       to_chan(oc, t);
       Caml_io.caml_ml_output_char(oc, /* '\n' */10);

@@ -1965,7 +1965,7 @@ function main(param) {
         partial_arg_0,
         0
       ];
-      const c = function (param) {
+      let c = function (param) {
         return block(partial_arg, param);
       };
       let stk = /* [] */ 0;

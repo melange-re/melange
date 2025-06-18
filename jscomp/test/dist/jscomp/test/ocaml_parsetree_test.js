@@ -1897,7 +1897,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   const sub = subOpt !== undefined ? subOpt : /* [] */ 0;
   const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   let before = print_phanton_error_prefix;
-  const k = function (msg) {
+  let k = function (msg) {
     return {
       loc: loc,
       msg: msg,
@@ -13108,10 +13108,10 @@ function token$1(lexbuf) {
         switch (doc) {
           case /* SHARP */ 84 :
             if (at_bol(lexbuf)) {
-              const cont = function (lexbuf) {
+              let cont = function (lexbuf) {
                 return loop(lines, docs, lexbuf);
               };
-              const look_ahead = function (token) {
+              let look_ahead = function (token) {
                 sharp_look_ahead.contents = token;
                 return /* SHARP */ 84;
               };

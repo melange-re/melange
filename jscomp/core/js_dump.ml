@@ -323,8 +323,8 @@ let is_var (b : J.expression) a =
 
 type fn_exp_state =
   | Is_return (* for sure no name *)
-  | Name_top of Ident.t
-  | Name_non_top of Ident.t
+  | Name_top of { name : Ident.t; property : Lam_group.let_kind }
+  | Name_non_top of { name : Ident.t; property : Lam_group.let_kind }
   | No_name of { single_arg : bool }
 (* true means for sure, false -- not sure *)
 
@@ -401,8 +401,8 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       let len = List.length l in
       (* length *)
       match fn_state with
-      | Name_top i | Name_non_top i ->
-          let cxt = pp_const_assign cxt i in
+      | Name_top { name = i; property } | Name_non_top { name = i; property } ->
+          let cxt = pp_assign ~property cxt i in
           let cxt = optimize len ~p:(arity = NA && len <= 8) cxt v in
           semi cxt;
           cxt
@@ -414,7 +414,8 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
         (* identifiers will be printed following*)
         match fn_state with
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
-        | Name_top id | Name_non_top id ->
+        | Name_top { name = id; property = _ }
+        | Name_non_top { name = id; property = _ } ->
             Ident.Set.add (Js_fun_env.get_unbounded env) id
       in
       (* the context will be continued after this function *)
@@ -462,13 +463,13 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
               string cxt L.function_;
               space cxt;
               param_body ())
-      | Name_non_top x ->
-          ignore (pp_const_assign inner_cxt x : cxt);
+      | Name_non_top { name = x; property } ->
+          ignore (pp_assign ~property inner_cxt x : cxt);
           string cxt L.function_;
           space cxt;
           param_body ();
           semi cxt
-      | Name_top x ->
+      | Name_top { name = x; property = _ } ->
           string cxt L.function_;
           space cxt;
           ignore (ident inner_cxt x : cxt);
@@ -961,7 +962,9 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
           match e.expression_desc with
           | Fun { method_ = is_method; params; body = b; env; return_unit } ->
               pp_function ~return_unit ~is_method cxt
-                ~fn_state:(if top then Name_top name else Name_non_top name)
+                ~fn_state:
+                  (if top then Name_top { name; property }
+                   else Name_non_top { name; property })
                 params b env
           | _ ->
               let cxt = pp_assign ~property cxt name in
