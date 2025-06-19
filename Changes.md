@@ -11,6 +11,8 @@ Unreleased
 - melange.ppx: improve the inference of `@mel.as` in polymorphic variant
   arguments to `external`s, allow to mix ints and strings in the different
   variant branches ([#1418](https://github.com/melange-re/melange/pull/1418))
+- Fix code generation bug when assigning functions to variables
+  ([#1429](https://github.com/melange-re/melange/pull/1429))
 
 5.1.0-53 2025-03-23
 ---------------
