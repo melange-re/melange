@@ -227,31 +227,6 @@ let exp_need_paren (e : J.expression) =
      else
        id) *)
 
-let pp_var_assign cxt id =
-  string cxt L.let_;
-  space cxt;
-  let acxt = ident cxt id in
-  space cxt;
-  string cxt L.eq;
-  space cxt;
-  acxt
-
-let pp_const_assign cxt id =
-  string cxt L.const;
-  space cxt;
-  let acxt = ident cxt id in
-  space cxt;
-  string cxt L.eq;
-  space cxt;
-  acxt
-
-let pp_var_assign_this cxt id =
-  let cxt = pp_var_assign cxt id in
-  string cxt L.this;
-  semi cxt;
-  newline cxt;
-  cxt
-
 let pp_var_declare cxt id =
   string cxt L.let_;
   space cxt;
@@ -344,10 +319,36 @@ let block_has_all_int_fields =
       !r
     with Local r -> r
 
-let pp_assign ~(property : Lam_group.let_kind) cxt name =
-  match property with
-  | Variable -> pp_var_assign cxt name
-  | Strict | Alias | StrictOpt -> pp_const_assign cxt name
+let pp_assign =
+  let pp_var_assign cxt id =
+    string cxt L.let_;
+    space cxt;
+    let acxt = ident cxt id in
+    space cxt;
+    string cxt L.eq;
+    space cxt;
+    acxt
+  in
+  let pp_const_assign cxt id =
+    string cxt L.const;
+    space cxt;
+    let acxt = ident cxt id in
+    space cxt;
+    string cxt L.eq;
+    space cxt;
+    acxt
+  in
+  fun ~property cxt name ->
+    match property with
+    | Lam_group.Variable -> pp_var_assign cxt name
+    | Strict | Alias | StrictOpt -> pp_const_assign cxt name
+
+let pp_var_assign_this cxt id =
+  let cxt = pp_assign ~property:Variable cxt id in
+  string cxt L.this;
+  semi cxt;
+  newline cxt;
+  cxt
 
 (* TODO: refactoring
    Note that {!pp_function} could print both statement and expression when [No_name] is given
@@ -1107,10 +1108,10 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                           (for_ident_expression, finish.expression_desc)
                         with
                         | Some ident_expression, (Number _ | Var _) ->
-                            let cxt = pp_var_assign cxt id in
+                            let cxt = pp_assign ~property:Variable cxt id in
                             (expression ~level:0 cxt ident_expression, None)
                         | Some ident_expression, _ ->
-                            let cxt = pp_var_assign cxt id in
+                            let cxt = pp_assign ~property:Variable cxt id in
                             let cxt =
                               expression ~level:1 cxt ident_expression
                             in
@@ -1125,7 +1126,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                         | None, (Number _ | Var _) -> (cxt, None)
                         | None, _ ->
                             let id = Ident.create (Ident.name id ^ "_finish") in
-                            let cxt = pp_var_assign cxt id in
+                            let cxt = pp_assign ~property:Variable cxt id in
                             (expression ~level:15 cxt finish, Some id)
                       in
                       semi cxt;
