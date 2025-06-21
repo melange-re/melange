@@ -44,7 +44,13 @@ let ref_protect r v body =
 let read_parse_and_extract (type t) (k : t Ml_binary.kind) (ast : t) :
     Set_string.t =
   Depend.free_structure_names := Set_string.empty;
-  ref_protect Clflags.transparent_modules false (fun _ ->
+  ref_protect
+#if OCAML_VERSION >= (5, 4, 0)
+    Clflags.no_alias_deps
+#else
+    Clflags.transparent_modules
+#endif
+    false (fun _ ->
       List.iter (* check *)
         ~f:(fun modname ->
           ignore @@ Depend.open_module bound_vars (Longident.Lident modname))

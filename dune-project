@@ -30,7 +30,7 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (and (>= "5.3") (< "5.4")))
+   (and (>= "5.4") (< "5.5")))
   (cmdliner
    (>= "1.1.0"))
   dune-build-info
@@ -38,7 +38,7 @@
   (ounit :with-test)
   (reason
    (and :dev :with-test))
-  (ppxlib (>= "0.36.0"))
+  (ppxlib :dev)
   (menhir
    (>= 20201214))
   (reason-react-ppx
@@ -51,9 +51,7 @@
  (allow_empty)
  (depends
   ocaml
-  js_of_ocaml
-  (reason
-   (>= "3.10.0"))
-  (melange
-   (= :version))
+  (js_of_ocaml :dev)
+  (reason :dev)
+  (melange (= :version))
   reason-react-ppx))

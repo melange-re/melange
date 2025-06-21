@@ -25,7 +25,9 @@
 open Import
 
 module Melange_ast_version =
-#if OCAML_VERSION >= (5, 3, 0)
+#if OCAML_VERSION >= (5, 4, 0)
+  Ppxlib_ast__.Versions.OCaml_504
+#elif OCAML_VERSION >= (5, 3, 0)
   Ppxlib_ast__.Versions.OCaml_503
 #elif OCAML_VERSION >= (5, 2, 0)
   Ppxlib_ast__.Versions.OCaml_502

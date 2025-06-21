@@ -16,6 +16,32 @@
   (>= %{ocaml_version} 5.2.0)))
 
 (rule
+ (targets meldep.ml)
+ (deps meldep.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
+ (targets lam_constant_convert.ml)
+ (deps lam_constant_convert.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets lambda_simplif.ml)
  (deps lambda_simplif.cppo.ml)
  (action
@@ -189,28 +215,42 @@
  (deps include_dirs.dev.ml include_dirs.release.ml)
  (action
   (copy# include_dirs.%{profile}.ml %{target}))
- (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+ (enabled_if
+  (or
+   (= %{profile} dev)
+   (= %{profile} release))))
 
 (rule
  (target include_dirs.ml)
  (deps include_dirs.dev.ml include_dirs.release.ml)
  (action
   (copy# include_dirs.release.ml %{target}))
- (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
+ (enabled_if
+  (not
+   (or
+    (= %{profile} dev)
+    (= %{profile} release)))))
 
 (rule
  (target js_pass_debug.ml)
  (deps js_pass_debug.dev.ml js_pass_debug.release.ml)
  (action
   (copy# js_pass_debug.%{profile}.ml %{target}))
- (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+ (enabled_if
+  (or
+   (= %{profile} dev)
+   (= %{profile} release))))
 
 (rule
  (target js_pass_debug.ml)
  (deps js_pass_debug.dev.ml js_pass_debug.release.ml)
  (action
   (copy# js_pass_debug.release.ml %{target}))
- (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
+ (enabled_if
+  (not
+   (or
+    (= %{profile} dev)
+    (= %{profile} release)))))
 
 (rule
  (targets lam_pass_lets_dce.ml)
@@ -223,14 +263,21 @@
  (deps lam_dump.dev.ml lam_dump.release.ml)
  (action
   (copy# lam_dump.%{profile}.ml %{target}))
- (enabled_if (or (= %{profile} dev) (= %{profile} release))))
+ (enabled_if
+  (or
+   (= %{profile} dev)
+   (= %{profile} release))))
 
 (rule
  (target lam_dump.ml)
  (deps lam_dump.dev.ml lam_dump.release.ml)
  (action
   (copy# lam_dump.release.ml %{target}))
- (enabled_if (not (or (= %{profile} dev) (= %{profile} release)))))
+ (enabled_if
+  (not
+   (or
+    (= %{profile} dev)
+    (= %{profile} release)))))
 
 (rule
  (targets lam_compile_main.ml)

@@ -328,7 +328,13 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.as_pp := true;
       Js_config.syntax_only := true);
 
-    if no_alias_deps then Clflags.transparent_modules := true;
+    if no_alias_deps then
+#if OCAML_VERSION >= (5, 4, 0)
+      Clflags.no_alias_deps := true
+#else
+      Clflags.transparent_modules := true
+#endif
+      ;
     Option.iter
       (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
       bs_gentype;

@@ -174,6 +174,27 @@ let convert_record_repr (x : Types.record_representation) :
   | Record_inlined { tag; name; num_nonconsts; attributes } ->
       Record_inlined { tag; name; num_nonconsts; attributes }
 
+let make_lazy_block tag ~args loc =
+  match args with
+  | [ ((Lam.Lvar _ | Lmutvar _ | Lconst _ | Lfunction _) as result) ] ->
+      let args = [ Lam.const Const_js_true; result ] in
+      Lam.prim
+        ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
+        ~args loc
+  | [ computation ] ->
+      let args =
+        [
+          Lam.const Const_js_false;
+          (* FIXME: arity 0 does not get proper supported*)
+          Lam.function_ ~arity:0 ~params:[] ~body:computation
+            ~attr:Lambda.default_function_attribute;
+        ]
+      in
+      Lam.prim
+        ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
+        ~args loc
+  | _ -> assert false
+
 let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   match p with
   | Pint_as_pointer
@@ -200,6 +221,9 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       (* we discard [Psetglobal] in the beginning*)
       drop_global_marker (List.hd args)
   (* prim ~primitive:(Psetglobal id) ~args loc *)
+#if OCAML_VERSION >= (5, 4, 0)
+  | Pmakelazyblock (_tag) -> make_lazy_block Config.lazy_tag ~args loc
+#endif
   | Pmakeblock (tag, info, mutable_flag, _block_shape) -> (
       match info with
       | Blk_some_not_nested -> Lam.prim ~primitive:Psome_not_nest ~args loc
@@ -257,26 +281,9 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
                   ]
                 loc
           | _ -> assert false)
-      | Blk_lazy_general -> (
-          match args with
-          | [ ((Lvar _ | Lmutvar _ | Lconst _ | Lfunction _) as result) ] ->
-              let args = [ Lam.const Const_js_true; result ] in
-              Lam.prim
-                ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-                ~args loc
-          | [ computation ] ->
-              let args =
-                [
-                  Lam.const Const_js_false;
-                  (* FIXME: arity 0 does not get proper supported*)
-                  Lam.function_ ~arity:0 ~params:[] ~body:computation
-                    ~attr:Lambda.default_function_attribute;
-                ]
-              in
-              Lam.prim
-                ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-                ~args loc
-          | _ -> assert false)
+#if OCAML_VERSION < (5, 4, 0)
+      | Blk_lazy_general -> make_lazy_block tag ~args loc
+#endif
       | Blk_na s ->
           let info : Lam.Tag_info.t = Blk_na s in
           Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc)
@@ -439,8 +446,14 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args loc
   | Pduparray _ -> assert false
 #if OCAML_VERSION >= (5, 1, 0)
-  | Prunstack | Pperform | Presume | Preperform | Patomic_exchange | Patomic_cas
+  | Prunstack | Pperform | Presume | Preperform
+#if OCAML_VERSION < (5, 4, 0)
+  | Patomic_exchange | Patomic_cas
   | Patomic_fetch_add | Pdls_get | Patomic_load _
+#else
+  | Patomic_load
+  | Pdls_get
+#endif
 #if OCAML_VERSION >= (5, 3, 0)
   | Ppoll
 #endif
