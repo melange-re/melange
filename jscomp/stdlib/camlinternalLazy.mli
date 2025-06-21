@@ -29,3 +29,5 @@ val force : 'a lazy_t -> 'a
 val force_val : 'a lazy_t -> 'a
 
 val is_val : 'a lazy_t -> bool
+
+val indirect : 'a lazy_t -> 'a lazy_t

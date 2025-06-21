@@ -4,7 +4,7 @@
 (*                                                                        *)
 (*                         The OCaml programmers                          *)
 (*                                                                        *)
-(*   Copyright 2022 Institut National de Recherche en Informatique et     *)
+(*   Copyright 2024 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)
 (*                                                                        *)
 (*   All rights reserved.  This file is distributed under the terms of    *)
@@ -13,29 +13,22 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(* Type equality witness *)
+type ('a, 'b) t = 'a * 'b
 
-type (_, _) eq = Equal: ('a, 'a) eq
+let make a b = (a, b)
+let fst (a, _) = a
+let snd (_, b) = b
+let swap (a, b) = (b, a)
 
-(* Type identifiers *)
+let fold f (a, b) = f a b
+let map f g (a, b) = (f a, g b)
+let iter f g (a, b) = f a; g b
+let map_fst f (a, b) = (f a, b)
+let map_snd g (a, b) = (a, g b)
 
-module Id = struct
-  type _ id = ..
-  module type ID = sig
-    type t
-    type _ id += Id : t id
-  end
-
-  type !'a t = (module ID with type t = 'a)
-
-  let make (type a) () : a t =
-    (module struct type t = a type _ id += Id : t id end)
-
-  let[@inline] uid (type a) ((module A) : a t) =
-    Obj.Extension_constructor.id [%extension_constructor A.Id]
-
-  let provably_equal
-      (type a b) ((module A) : a t) ((module B) : b t) : (a, b) eq option
-    =
-    match A.Id with B.Id -> Some Equal | _ -> None
-end
+let equal eqa eqb (a, b) (a', b')  =
+  eqa a a' && eqb b b'
+let compare cmpa cmpb (a, b) (a', b')  =
+   let c = cmpa a a' in
+   if c <> 0 then c
+   else cmpb b b'

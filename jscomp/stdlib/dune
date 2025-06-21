@@ -6,7 +6,7 @@
    (with-stdout-to
     %{target}.awk
     (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
-   (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awk -o %{target}.awk)
+   (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{target}.awk -o %{target}.awk)
    (with-stdout-to
     %{target}
     ;; Horrible hack: CPPO replaces [__LINE__] and [__FILE__], but Stdlib has
@@ -21,7 +21,7 @@
    (with-stdout-to
     %{target}.awki
     (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
-   (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awki -o %{target}.awki)
+   (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{target}.awki -o %{target}.awki)
    (with-stdout-to
     %{target}
     (run sed -e s/_\\_/__/g %{target}.awki)))))
@@ -44,16 +44,22 @@
   -9))
 
 (rule
- (deps either.cppo.ml)
- (target either.ml)
- (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
-
-(rule
  (deps array.cppo.ml)
  (target array.ml)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps atomic.cppo.ml)
+ (target atomic.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
+
+(rule
+ (deps atomic.cppo.mli)
+ (target atomic.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
 
 (rule
  (deps bool.cppo.ml)
@@ -136,6 +142,36 @@
 (rule
  (deps lexing.cppo.ml)
  (target lexing.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
+ (deps iarray.cppo.ml)
+ (target iarray.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
+
+(rule
+ (deps iarray.cppo.mli)
+ (target iarray.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
+
+(rule
+ (deps dynarray.cppo.ml)
+ (target dynarray.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
+
+(rule
+ (deps dynarray.cppo.mli)
+ (target dynarray.mli)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} -V OCAML:%{ocaml_version} %{deps} -o %{target})))
+
+(rule
+ (deps filename.cppo.ml)
+ (target filename.ml)
  (action
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 

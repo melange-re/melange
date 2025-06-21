@@ -323,8 +323,24 @@ val for_all : ('a -> bool) -> 'a t -> bool
 (** [for_all f a] is [true] if all elements of [a] satisfy [f].
     This includes the case where [a] is empty.
 
-    For example, if the elements of [a] are [x0], [x1], then
-    [exists f a] is [f x0 && f x1 && f x2].
+    For example, if the elements of [a] are [x0], [x1], [x2], then
+    [for_all f a] is [f x0 && f x1 && f x2].
+*)
+
+val exists2 : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+(** Same as {!exists}, but for a two-argument predicate.
+
+   @raise Invalid_argument if the two arrays have different lengths.
+
+   @since 5.4
+*)
+
+val for_all2 : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+(** Same as {!for_all}, but for a two-argument predicate.
+
+   @raise Invalid_argument if the two arrays have different lengths.
+
+   @since 5.4
 *)
 
 val mem : 'a -> 'a t -> bool
@@ -390,10 +406,9 @@ val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
 *)
 
 val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
-(** Provided the function [cmp] defines a preorder on elements,
-    [compare cmp a b] compares first [a] and [b] by their length,
-    and then, if equal, by their elements according to
-    the lexicographic preorder.
+(** [compare cmp a b] compares [a] and [b] according to the shortlex order,
+    that is, shorter arrays are smaller and equal-sized arrays are compared
+    in lexicographic order using [cmp] to compare elements.
 
     For more details on comparison functions, see {!Array.sort}.
 
@@ -582,6 +597,24 @@ val reset : 'a t -> unit
     particular, no user-provided values are "leaked" by being present
     in the backing array at index [length a] or later.
 *)
+
+#if OCAML_VERSION >= (5,4,0)
+val unsafe_to_iarray : capacity:int -> ('a t -> unit) -> 'a iarray
+#else
+val unsafe_to_iarray : capacity:int -> ('a t -> unit) -> 'a array
+#endif
+(** [unsafe_to_iarray ~capacity f] calls [f] on a new empty dynarray with the
+    given [capacity], then turns it into an immutable array without a copy,
+    when possible, that is, if two conditions hold:
+    - the array elements are not floats, and
+    - after [f] returned, the array's capacity is equal to its length.
+
+    Note that the [capacity] argument is only a hint. For example, nothing
+    prevents from calling {!val:fit_capacity} at the end of [f].
+
+    This function is unsafe because type safety may be broken by concurrent
+    writes to the dynarray from other domains, without proper synchronization,
+    before [f] returns. *)
 
 
 (** {1:examples Code examples}

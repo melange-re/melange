@@ -736,6 +736,7 @@ module Condition      = Condition
 module Digest         = Digest
 module Domain         = Domain
 module Dynarray       = Dynarray
+module Pqueue         = Pqueue
 module Effect         = Effect
 module Either         = Either
 #ifdef BS
@@ -748,6 +749,9 @@ module Format         = Format
 module Fun            = Fun
 module Gc             = Gc
 module Hashtbl        = Hashtbl
+#if OCAML_VERSION >= (5,4,0)
+module Iarray         = Iarray
+#endif
 module In_channel     = In_channel
 module Int            = Int
 module Int32          = Int32
@@ -768,12 +772,14 @@ module Obj            = Obj
 module Oo             = Oo
 module Option         = Option
 module Out_channel    = Out_channel
+module Pair           = Pair
 module Parsing        = Parsing
 module Printexc       = Printexc
 module Printf         = Printf
 module Queue          = Queue
 module Random         = Random
 module Result         = Result
+module Repr           = Repr
 module Scanf          = Scanf
 #ifdef BS
 #else

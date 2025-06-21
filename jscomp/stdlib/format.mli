@@ -45,7 +45,8 @@
 
    {b Warning}: Since {{!section:formatter}formatters} contain
    mutable state, it is not thread-safe to use the same formatter on multiple
-   domains in parallel without synchronization.
+   domains in parallel without synchronization. This may result in
+   [Invalid_argument] being raised or an unspecified behavior.
 
    If multiple domains write to the same output channel using the
    predefined formatters (as obtained by {!get_std_formatter} or
@@ -861,6 +862,7 @@ val get_formatter_output_functions :
 
 type formatter_out_functions = {
   out_string : string -> int -> int -> unit;
+  out_width: string -> pos:int -> len:int -> int; (** @since 5.4 *)
   out_flush : unit -> unit;
   out_newline : unit -> unit;
   out_spaces : int -> unit;
@@ -871,6 +873,13 @@ type formatter_out_functions = {
   It is called with a string [s], a start position [p], and a number of
   characters [n]; it is supposed to output characters [p] to [p + n - 1] of
   [s].
+- the [out_width] function informs the formatting engine of the width of the
+  substring as rendered on the output device. Explicit width information as
+  provided by [@<n>], {!pp_print_as} or {!pp_print_substring_as} takes priority
+  over this function. Moreover, the formatting engine evaluates the width of the
+  string arguments of {!pp_print_string} and substring arguments of
+  {!pp_print_substring} as a whole. Consequently, [out_width] can be used to
+  compute an approximative width for unicode substrings.
 - the [out_flush] function flushes the pretty-printer output device.
 - [out_newline] is called to open a new line when the pretty-printer splits
   the line.
@@ -885,6 +894,8 @@ type formatter_out_functions = {
   (e.g. {!Stdlib.output_string} and {!Stdlib.flush} for a
    {!Stdlib.out_channel} device, or [Buffer.add_substring] and
    {!Stdlib.ignore} for a [Buffer.t] output device),
+- field [out_width] is the number of unicode scalar values
+  (see {!utf_8_scalar_width}) in the substring.
 - field [out_newline] is equivalent to [out_string "\n" 0 1];
 - fields [out_spaces] and [out_indent] are equivalent to
   [out_string (String.make n ' ') 0 n].
@@ -903,9 +914,9 @@ val set_formatter_out_functions : formatter_out_functions -> unit
   lines opening (which can be connected to any other action needed by the
   application at hand).
 
-  Reasonable defaults for functions [out_spaces] and [out_newline] are
-  respectively [out_funs.out_string (String.make n ' ') 0 n] and
-  [out_funs.out_string "\n" 0 1].
+  Reasonable defaults for functions [out_spaces], [out_newline], and [out_width]
+  are respectively [out_funs.out_string (String.make n ' ') 0 n],
+  [out_funs.out_string "\n" 0 1] and {!utf_8_scalar_width}.
   @since 4.01
 *)
 
@@ -917,6 +928,18 @@ val get_formatter_out_functions : unit -> formatter_out_functions
   current setting and restore it afterwards.
   @since 4.01
 *)
+
+val utf_8_scalar_width: string -> pos:int -> len:int -> int
+(** [utf_8_scalar_width s ~pos ~len] is the number of unicode scalar values in
+    the substring [String.sub s pos len]. Invalid byte sequences are implictly
+    replaced by [U+FFFD] since this yields a better width approximation for
+    other ascii-based encoding scheme like ISO-8859-15. This is the default
+    [out_width] function since OCaml 5.4.
+    @since 5.4 *)
+
+val ascii_width: string -> pos:int -> len:int -> int
+(** [ascii_width s ~pos ~len] is [len].
+    @since 5.4 *)
 
 (** {1:tagsmeaning Redefining semantic tag operations} *)
 
@@ -1245,6 +1268,20 @@ val pp_print_text : formatter -> string -> unit
 
   @since 4.02
 *)
+
+val format_text: ('a,'b,'c,'d,'e,'f) format6 -> ('a,'b,'c,'d,'e,'f) format6
+(** [format_text fmt] replaces spaces and newlines in the format string literal
+    [fmt] with hint breaks or forced newlines:
+  - Blank lines (lines made only of spaces ([U+0020])) are replaced by ["\@n"].
+  - Sequences of spaces and a newline ([U+000A]) preceding a blank line are
+    replaced by ["\@n"]: blank lines remain blank lines in the output.
+  - Remaining sequences made of [k] spaces and newlines are replaced
+    by ["@;<0 k'>"] where [k' = max 1 k] is at least [1].
+  - Breaks can be avoided using non-breaking space characters ([U+00A0]).
+  - Lines can be forced by using ["@\n"]
+@since 5.4
+*)
+
 
 val pp_print_option :
   ?none:(formatter -> unit -> unit) ->
