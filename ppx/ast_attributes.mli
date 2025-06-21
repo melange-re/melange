@@ -69,6 +69,7 @@ val iter_process_mel_as_cst :
 
 val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute
+val unused_type_declaration : attribute
 val is_mel_as : attribute -> bool
 val has_mel_as_payload : attribute list -> attribute list * attribute option
 val mel_ffi : Melange_ffi.External_ffi_types.t -> attribute
