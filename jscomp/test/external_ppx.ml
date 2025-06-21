@@ -13,7 +13,7 @@ external make_config :  length:'a -> width:int -> unit = ""
 
 
 external opt_make :
-  length: int -> ?width:int -> (_ as 'event)  =
+  length: int -> ?width:int -> (_ as 'event [@ocaml.warning "-unused-type-declaration"])  =
   "" [@@mel.obj]
 
 

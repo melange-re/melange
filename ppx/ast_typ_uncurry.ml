@@ -48,7 +48,7 @@ let generate_method_type =
     let self_type =
       match alias_type with
       | None -> Typ.var ~loc self_type_lit
-      | Some ty -> Typ.alias ~loc ty { loc; txt = self_type_lit }
+      | Some ty -> Typ.alias ~attrs:[Ast_attributes.unused_type_declaration] ~loc ty { loc; txt = self_type_lit }
     in
     match Ast_pat.arity_of_fun params body with
     | 0 -> to_method_callback_type ~loc mapper Nolabel self_type result

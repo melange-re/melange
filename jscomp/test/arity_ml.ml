@@ -1,4 +1,4 @@
-[@@@warning "A-34-61-42-40-70"]
+[@@@warning "A-61-42-40-70"]
 let o = object [@u]
   method hi x y = x + y
 end

@@ -7,7 +7,7 @@
   > (* nested fun with uncurry, should generate 2 uncurried fn *)
   > let y = fun [@u] a b -> fun [@u] c -> a + b + c
   > 
-  > let[@warning "-34-61"] u : < say : (int -> int -> int[@mel.meth]) > Js.t =
+  > let[@warning "-61"] u : < say : (int -> int -> int[@mel.meth]) > Js.t =
   >   object
   >     method say x = fun y -> x + y
   >   end
