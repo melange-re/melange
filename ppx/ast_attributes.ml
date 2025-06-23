@@ -438,6 +438,7 @@ let ocaml_warning w =
    runtime *)
 let unboxable_type_in_prim_decl = ocaml_warning "-unboxable-type-in-prim-decl"
 let ignored_extra_argument = ocaml_warning "-ignored-extra-argument"
+let unused_type_declaration = ocaml_warning "-unused-type-declaration"
 
 let mel_ffi =
  fun (t : Melange_ffi.External_ffi_types.t) ->
