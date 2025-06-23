@@ -55,6 +55,8 @@ const is_empty = Stdlib__List.is_empty;
 
 const cons = Stdlib__List.cons;
 
+const singleton = Stdlib__List.singleton;
+
 const hd = Stdlib__List.hd;
 
 const tl = Stdlib__List.tl;
@@ -197,6 +199,7 @@ module.exports = {
   compare_length_with,
   is_empty,
   cons,
+  singleton,
   hd,
   tl,
   nth,

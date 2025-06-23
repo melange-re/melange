@@ -11,6 +11,7 @@ const List = {
   compare_length_with: Stdlib__List.compare_length_with,
   is_empty: Stdlib__List.is_empty,
   cons: Stdlib__List.cons,
+  singleton: Stdlib__List.singleton,
   hd: Stdlib__List.hd,
   tl: Stdlib__List.tl,
   nth: Stdlib__List.nth,

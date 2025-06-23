@@ -22,6 +22,8 @@ const XX = {
   blit: Stdlib__Array.blit,
   to_list: Stdlib__Array.to_list,
   of_list: Stdlib__Array.of_list,
+  equal: Stdlib__Array.equal,
+  compare: Stdlib__Array.compare,
   iter: Stdlib__Array.iter,
   iteri: Stdlib__Array.iteri,
   map: Stdlib__Array.map,
