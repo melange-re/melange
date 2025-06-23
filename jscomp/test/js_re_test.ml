@@ -6,7 +6,7 @@ let suites = Mt.[
       | Some result ->
         let defined = (Js.Re.captures result).(1) in
         let undefined = (Js.Re.captures result).(2) in
-        Eq((Js.Nullable.return "3", Js.Nullable.null), (defined, undefined))
+        Eq((Js.Nullable.return "3", Js.Nullable.undefined), (defined, undefined))
       | None -> Fail()
   );
 
