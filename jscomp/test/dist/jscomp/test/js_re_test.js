@@ -22,7 +22,7 @@ const suites_0 = [
       TAG: /* Eq */ 0,
       _0: [
         "3",
-        null
+        undefined
       ],
       _1: [
         defined,
