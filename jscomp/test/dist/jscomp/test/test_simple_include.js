@@ -45,6 +45,10 @@ const to_list = Stdlib__Array.to_list;
 
 const of_list = Stdlib__Array.of_list;
 
+const equal = Stdlib__Array.equal;
+
+const compare = Stdlib__Array.compare;
+
 const iter = Stdlib__Array.iter;
 
 const iteri = Stdlib__Array.iteri;
@@ -121,6 +125,8 @@ module.exports = {
   blit,
   to_list,
   of_list,
+  equal,
+  compare,
   iter,
   iteri,
   map,
