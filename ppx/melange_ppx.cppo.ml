@@ -1027,10 +1027,10 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive_abstract.derive_abstract_str ~light tdcls)
+          Ast_derive.Ast_derive_abstract.derive_abstract_str ~light tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive_abstract.derive_abstract_sig ~light tdcls)
+          Ast_derive.Ast_derive_abstract.derive_abstract_sig ~light tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "abstract"
 
@@ -1038,10 +1038,10 @@ module Derivers = struct
     let args () = Deriving.Args.empty in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) ->
-          Ast_derive_abstract.derive_js_constructor_str tdcls)
+          Ast_derive.Ast_derive_abstract.derive_js_constructor_str tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) ->
-          Ast_derive_abstract.derive_js_constructor_sig tdcls)
+          Ast_derive.Ast_derive_abstract.derive_js_constructor_sig tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "jsProperties"
 
@@ -1049,10 +1049,10 @@ module Derivers = struct
     let args () = Deriving.Args.(empty +> flag "light") in
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive_abstract.derive_getters_setters_str ~light tdcls)
+          Ast_derive.Ast_derive_abstract.derive_getters_setters_str ~light tdcls)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive_abstract.derive_getters_setters_sig ~light tdcls)
+          Ast_derive.Ast_derive_abstract.derive_getters_setters_sig ~light tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "getSet"
 
@@ -1071,12 +1071,12 @@ module Derivers = struct
     let str_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt (_, tdcls) newType ->
           let loc = Expansion_context.Deriver.derived_item_loc ctxt in
-          let str = Ast_derive_js_mapper.derive_structure ~newType
-          and sig_ = Ast_derive_js_mapper.derive_signature ~newType in
+          let str = Ast_derive.Ast_derive_js_mapper.derive_structure ~newType
+          and sig_ = Ast_derive.Ast_derive_js_mapper.derive_signature ~newType in
           gen_structure_signature loc tdcls ~str ~sig_)
     and sig_type_decl =
       Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) newType ->
-          Ast_derive_js_mapper.derive_signature ~newType tdcls)
+          Ast_derive.Ast_derive_js_mapper.derive_signature ~newType tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "jsConverter"
 
@@ -1084,12 +1084,12 @@ module Derivers = struct
     let str_type_decl =
       Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt (_, tdcls) ->
           let loc = Expansion_context.Deriver.derived_item_loc ctxt in
-          let str = Ast_derive_projector.derive_structure
-          and sig_ = Ast_derive_projector.derive_signature in
+          let str = Ast_derive.Ast_derive_projector.derive_structure
+          and sig_ = Ast_derive.Ast_derive_projector.derive_signature in
           gen_structure_signature loc tdcls ~str ~sig_)
     and sig_type_decl =
       Deriving.Generator.V2.make Deriving.Args.empty (fun ~ctxt:_ (_, tdcls) ->
-          Ast_derive_projector.derive_signature tdcls)
+          Ast_derive.Ast_derive_projector.derive_signature tdcls)
     in
     Deriving.add ~str_type_decl ~sig_type_decl "accessors"
 end

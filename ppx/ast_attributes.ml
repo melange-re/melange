@@ -317,11 +317,7 @@ let prims_to_be_encoded (attrs : string list) =
 let partition_by_mel_ffi_attribute =
   let rec inner attrs acc st =
     match attrs with
-    | ({
-         Parsetree.attr_name = { txt = "mel.internal.ffi"; loc };
-         attr_payload;
-         _;
-       } as x)
+    | ({ attr_name = { txt = "mel.internal.ffi"; loc }; attr_payload; _ } as x)
       :: rest -> (
         match st with
         | None -> (
