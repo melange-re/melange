@@ -7,12 +7,16 @@ Demonstrate dune produces JS files corresponding to the original file name
   a.cmi
   a.cmj
   a.cmt
+  a.impl.all-deps
+  a.impl.d
   a__.cmi
   a__.cmj
   a__.cmt
   a__Other.cmi
   a__Other.cmj
   a__Other.cmt
+  a__Other.impl.all-deps
+  a__Other.impl.d
 
   $ ls _build/default/libB/.b.objs/melange
   b.cmi

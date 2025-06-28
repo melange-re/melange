@@ -15,9 +15,13 @@ In this test case:
   node__Leaf.cmi
   node__Leaf.cmj
   node__Leaf.cmt
+  node__Leaf.impl.all-deps
+  node__Leaf.impl.d
   node__Other.cmi
   node__Other.cmj
   node__Other.cmt
+  node__Other.impl.all-deps
+  node__Other.impl.d
 
 Generated JS files are unmangled
 

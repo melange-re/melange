@@ -10,12 +10,16 @@ Showcase library name namespacing in dune
   leaf.cmi
   leaf.cmj
   leaf.cmt
+  leaf.impl.all-deps
+  leaf.impl.d
   leaf__.cmi
   leaf__.cmj
   leaf__.cmt
   leaf__Other.cmi
   leaf__Other.cmj
   leaf__Other.cmt
+  leaf__Other.impl.all-deps
+  leaf__Other.impl.d
 
   $ ls _build/default/parent/.parent.objs/melange
   parent.cmi
@@ -24,9 +28,13 @@ Showcase library name namespacing in dune
   parent__M_a.cmi
   parent__M_a.cmj
   parent__M_a.cmt
+  parent__M_a.impl.all-deps
+  parent__M_a.impl.d
   parent__M_b.cmi
   parent__M_b.cmj
   parent__M_b.cmt
+  parent__M_b.impl.all-deps
+  parent__M_b.impl.d
 
 Generated JS files are unmangled
 

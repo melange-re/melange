@@ -24,8 +24,6 @@ Shows when using the creation function
 
   $ dune build ./.x.objs/melange/x.cmj
   File "x.ml", line 1, characters 0-77:
-  1 | type chartDataItemType = { height : int; foo : string } [@@deriving abstract]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Alert deprecated: `@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' instead.
 
 Shows when using setters or accessors
@@ -39,7 +37,5 @@ Shows when using setters or accessors
 
   $ dune build ./.x.objs/melange/x.cmj
   File "x.ml", line 1, characters 0-77:
-  1 | type chartDataItemType = { height : int; foo : string } [@@deriving abstract]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Alert deprecated: `@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' instead.
 
