@@ -19,8 +19,6 @@ Make sure turning off warnings in toplevel attributes works
 
   $ dune build @melange
   File "x.ml", line 1, characters 4-5:
-  1 | let x = 1
-          ^
   Error (warning 32 [unused-value-declaration]): unused value x.
   [1]
 
@@ -50,8 +48,6 @@ Turning on works
 
   $ dune build @melange
   File "x.ml", line 4, characters 4-5:
-  4 | let y = 1
-          ^
   Error (warning 32 [unused-value-declaration]): unused value y.
   [1]
 

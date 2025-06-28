@@ -9,12 +9,16 @@ In this case, we create a library that shadows the `Node` module.
   node.cmi
   node.cmj
   node.cmt
+  node.impl.all-deps
+  node.impl.d
   node__.cmi
   node__.cmj
   node__.cmt
   node__Other.cmi
   node__Other.cmj
   node__Other.cmt
+  node__Other.impl.all-deps
+  node__Other.impl.d
 
 Generated JS files are unmangled
 

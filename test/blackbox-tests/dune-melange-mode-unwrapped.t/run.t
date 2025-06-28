@@ -10,9 +10,13 @@ files
   a.cmi
   a.cmj
   a.cmt
+  a.impl.all-deps
+  a.impl.d
   other.cmi
   other.cmj
   other.cmt
+  other.impl.all-deps
+  other.impl.d
 
   $ ls _build/default/libB/.b.objs/melange
   b.cmi
