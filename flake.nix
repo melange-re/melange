@@ -18,14 +18,12 @@
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (oself: osuper: {
               js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
-                src = super.fetchFromGitHub {
-                  owner = "ocsigen";
-                  repo = "js_of_ocaml";
-                  rev = "ae754850c7c79ebed2349d24347967a1e3233a4f";
-                  hash = "sha256-gV5H/ghjT5ot9p1WAx+Tlecq+/h8fNcu9cPGkgm7iYw=";
+                src = builtins.fetchurl {
+                  url = "https://github.com/ocsigen/js_of_ocaml/releases/download/6.1.0/js_of_ocaml-6.1.0.tbz";
+                  sha256 = "09qm8y42q1x8hd0vrka9dcn7q0qp98lzqqr5gjvimqzxhb1hqcrw";
                 };
-
               });
+
               reason = osuper.reason.overrideAttrs (o: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
