@@ -26,13 +26,15 @@ module Arg_cst : sig
   type t = Int of int | Str of string | Js_literal of string
 end
 
+type polyvar_descr = {
+  (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
+  descr : (string * Arg_cst.t) list;
+  spread : bool;
+}
+
 type t =
-  | Poly_var of {
-      (* introduced by attributes `@mel.string`, `@mel.spread` *)
-      descr : (string * Arg_cst.t) list;
-      spread : bool;
-    }
-  | Int of (string * Arg_cst.t) list (* ([`a | `b ] [@int])*)
+  | Poly_var of polyvar_descr
+  | Int of polyvar_descr
   | Arg_cst of Arg_cst.t
   | Fn_uncurry_arity of int
       (** annotated with [@mel.uncurry ] or [@mel.uncurry 2]*)

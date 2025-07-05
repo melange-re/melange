@@ -45,17 +45,19 @@ module Obj_label = struct
     Obj_optional { name; for_sure_no_nested_option }
 end
 
+type polyvar_descr = {
+  (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
+  descr : (string * Arg_cst.t) list;
+  spread : bool;
+}
+
 (* it will be ignored , side effect will be recorded *)
 
 (* This type is used to give some meta info on each argument *)
 type t =
-  | Poly_var of {
-      (* introduced by attributes `@mel.string`, `@mel.spread` *)
-      descr : (string * Arg_cst.t) list;
-      spread : bool;
-    }
+  | Poly_var of polyvar_descr
   (* `a does not have any value*)
-  | Int of (string * Arg_cst.t) list (* ([`a | `b ] [@int])*)
+  | Int of polyvar_descr (* ([`a | `b ] [@int])*)
   | Arg_cst of Arg_cst.t (* Constant argument *)
   | Fn_uncurry_arity of int (* annotated with [@uncurry ] or [@uncurry 2]*)
   (* maybe we can improve it as a combination of {!Asttypes.constant} and tuple *)
