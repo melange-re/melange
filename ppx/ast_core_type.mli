@@ -27,7 +27,6 @@ open Import
 val lift_option_type : core_type -> core_type
 val is_unit : core_type -> bool
 val to_js_type : loc:Location.t -> core_type -> core_type
-val make_obj : loc:Location.t -> object_field list -> core_type
 
 val get_uncurry_arity : core_type -> int option
 (** returns 0 when it can not tell arity from the syntax. [None] means not a

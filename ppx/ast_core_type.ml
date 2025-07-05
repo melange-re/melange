@@ -36,13 +36,11 @@ let is_unit ty =
   | _ -> false
 
 let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
-let make_obj ~loc xs = to_js_type ~loc (Typ.object_ ~loc xs Closed)
 
 (**
    {[ unit -> 'b ]} return arity 0
    {[ unit -> 'a1 -> a2']} arity 2
-   {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N
-*)
+   {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N *)
 let get_uncurry_arity =
   (* {[ 'a . 'a -> 'b ]}
      OCaml does not support such syntax yet
