@@ -44,8 +44,7 @@ let rec aux ~loc self acc (body : expression) =
 
 (* Handling `fun [@this]` used in `object [@u] end` *)
 let to_method_callback =
- fun ~loc (self : Ast_traverse.map) args body : expression_desc ->
-  let first_arg =
+  let first_arg args =
     match
       List.find_opt
         ~f:(function
@@ -53,45 +52,54 @@ let to_method_callback =
           | { pparam_desc = Pparam_newtype _; _ } -> false)
         args
     with
-    | Some { pparam_desc = Pparam_val (_, _, pat); _ } -> self#pattern pat
+    | Some { pparam_desc = Pparam_val (_, _, pat); _ } -> pat
     | Some { pparam_desc = Pparam_newtype _; _ } | None -> assert false
   in
-  if not (Ast_pat.is_single_variable_pattern_conservative first_arg) then
-    Error.err ~loc:first_arg.ppat_loc Mel_this_simple_pattern;
-  let result, rev_extra_args =
-    let rev_args = process_args ~loc self args ~init:[] in
-    aux ~loc self rev_args body
+  let rec is_single_variable_pattern_conservative p =
+    match p.ppat_desc with
+    | Ppat_any | Ppat_var _ -> true
+    | Ppat_alias (p, _) | Ppat_constraint (p, _) ->
+        is_single_variable_pattern_conservative p
+    | _ -> false
   in
-  let body =
-    Ast_builder.Default.pexp_function ~loc
-      (List.rev_map
-         ~f:(fun (label, p) ->
-           { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
-         rev_extra_args)
-      None (Pfunction_body result)
-  in
-  let arity_s =
-    let arity = List.length rev_extra_args in
-    string_of_int arity
-  in
-  Pexp_apply
-    ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
-      [
-        ( Nolabel,
-          Exp.constraint_ ~loc
-            (Exp.record ~loc
-               [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
-               None)
-            (Typ.constr ~loc
-               {
-                 loc;
-                 txt =
-                   Ldot
-                     ( Ast_literal.js_meth_callback,
-                       Format.sprintf "arity%s" arity_s );
-               }
-               [ Typ.any ~loc () ]) );
-      ] )
+  fun ~loc (self : Ast_traverse.map) args body ->
+    let first_arg = self#pattern (first_arg args) in
+    if not (is_single_variable_pattern_conservative first_arg) then
+      Error.err ~loc:first_arg.ppat_loc Mel_this_simple_pattern;
+    let body, rev_extra_args =
+      let result, rev_extra_args =
+        let rev_args = process_args ~loc self args ~init:[] in
+        aux ~loc self rev_args body
+      in
+      let body =
+        Ast_builder.Default.pexp_function ~loc
+          (List.rev_map
+             ~f:(fun (label, p) ->
+               { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
+             rev_extra_args)
+          None (Pfunction_body result)
+      in
+      (body, rev_extra_args)
+    in
+    let arity_s = string_of_int (List.length rev_extra_args) in
+    Pexp_apply
+      ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
+        [
+          ( Nolabel,
+            Exp.constraint_ ~loc
+              (Exp.record ~loc
+                 [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
+                 None)
+              (Typ.constr ~loc
+                 {
+                   loc;
+                   txt =
+                     Ldot
+                       ( Ast_literal.js_meth_callback,
+                         Format.sprintf "arity%s" arity_s );
+                 }
+                 [ Typ.any ~loc () ]) );
+        ] )
 
 let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
   let result, rev_extra_args =

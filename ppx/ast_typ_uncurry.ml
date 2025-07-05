@@ -42,13 +42,16 @@ let to_method_callback_type ~loc (mapper : Ast_traverse.map)
 
 let generate_method_type =
   let self_type_lit = "self_type" in
-  fun loc (mapper : Ast_traverse.map) ?alias_type method_name params body :
-      core_type ->
+  fun loc (mapper : Ast_traverse.map) ?alias_type method_name params body ->
     let result = Typ.var ~loc method_name in
     let self_type =
       match alias_type with
       | None -> Typ.var ~loc self_type_lit
-      | Some ty -> Typ.alias ~attrs:[Ast_attributes.unused_type_declaration] ~loc ty { loc; txt = self_type_lit }
+      | Some ty ->
+          Typ.alias
+            ~attrs:[ Ast_attributes.unused_type_declaration ]
+            ~loc ty
+            { loc; txt = self_type_lit }
     in
     match Ast_pat.arity_of_fun params body with
     | 0 -> to_method_callback_type ~loc mapper Nolabel self_type result
@@ -108,11 +111,11 @@ let to_uncurry_type ~loc mapper label first_arg typ =
 let to_method_type ~loc mapper label first_arg typ =
   to_method_type ~loc ~kind:`oo mapper label first_arg typ
 
-let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body :
-    core_type =
-  let result = Typ.var ~loc method_name in
+let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
   match Ast_pat.arity_of_fun params body with
-  | 0 -> to_method_type ~loc mapper Nolabel [%type: unit] result
+  | 0 ->
+      to_method_type ~loc mapper Nolabel [%type: unit]
+        (Typ.var ~loc method_name)
   | _ -> (
       let tyvars =
         List.mapi
@@ -123,9 +126,10 @@ let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body :
       match tyvars with
       | (label, x) :: rest ->
           let method_rest =
+            let init = Typ.var ~loc method_name in
             List.fold_right
               ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
-              rest ~init:result
+              rest ~init
           in
           to_method_type ~loc mapper label x method_rest
-      | _ -> assert false)
+      | [] -> assert false)

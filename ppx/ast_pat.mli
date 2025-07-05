@@ -31,4 +31,3 @@ val arity_of_fun : function_param list -> expression -> int
     expression [fun pat -> e]*)
 
 val labels_of_fun : function_param list -> expression -> Asttypes.arg_label list
-val is_single_variable_pattern_conservative : pattern -> bool

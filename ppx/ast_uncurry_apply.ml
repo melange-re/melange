@@ -55,11 +55,16 @@ let generic_apply =
           [ (Nolabel, e) ],
         Typ.any ~loc () )
   in
-  fun ~loc ~kind (self : Ast_traverse.map) obj args
-      (cb : loc:loc -> expression -> expression) ->
+  fun ~loc
+    ~kind
+    (self : Ast_traverse.map)
+    obj
+    args
+    ~(f : loc:loc -> expression -> expression)
+  ->
     let fn =
       let obj = self#expression obj in
-      cb ~loc obj
+      f ~loc obj
     in
     let args =
       let args =
@@ -77,8 +82,8 @@ let generic_apply =
           []
       | _ -> args
     in
-    match List.length args with
-    | 0 ->
+    match args with
+    | [] ->
         Pexp_apply
           ( Exp.ident
               {
@@ -89,8 +94,8 @@ let generic_apply =
                 loc;
               },
             [ (Nolabel, fn) ] )
-    | arity ->
-        let arity_s = string_of_int arity in
+    | args ->
+        let arity_s = string_of_int (List.length args) in
         opaque_full_apply ~loc
           (Exp.apply ~loc
              (Exp.apply ~loc
@@ -115,16 +120,16 @@ let generic_apply =
              args)
 
 let method_apply ~loc (self : Ast_traverse.map) obj name args =
-  let cb ~loc obj = Exp.mk ~loc (js_property loc obj name) in
-  generic_apply ~loc ~kind:`oo self obj args cb
+  let f ~loc obj = Exp.mk ~loc (js_property loc obj name) in
+  generic_apply ~loc ~kind:`oo self obj args ~f
 
 let generic_apply ~loc (self : Ast_traverse.map) obj args
-    (cb : loc:loc -> expression -> expression) =
-  generic_apply ~loc ~kind:`generic self obj args cb
+    ~(f : loc:loc -> expression -> expression) =
+  generic_apply ~loc ~kind:`generic self obj args ~f
 
 let uncurry_fn_apply ~loc self fn args =
-  generic_apply ~loc self fn args (fun ~loc:_ obj -> obj)
+  generic_apply ~loc self fn args ~f:(fun ~loc:_ obj -> obj)
 
 let property_apply ~loc self obj name args =
-  generic_apply ~loc self obj args (fun ~loc obj ->
+  generic_apply ~loc self obj args ~f:(fun ~loc obj ->
       Exp.mk ~loc (js_property loc obj name))
