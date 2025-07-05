@@ -15,6 +15,8 @@ Unreleased
   ([#1429](https://github.com/melange-re/melange/pull/1429))
 - Allow `@mel.int` polymorphic variants in `external`s to carry payload
   ([#1419](https://github.com/melange-re/melange/pull/1419))
+- support null variants @mel.as in mixed @mel.unwrap
+  ([#1442](https://github.com/melange-re/melange/pull/1442))
 
 5.1.0-53 2025-03-23
 ---------------
