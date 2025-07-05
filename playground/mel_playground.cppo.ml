@@ -394,7 +394,7 @@ let () =
                  ~impl:(fun
                      buf : Melange_OCaml_version.Ast.Parsetree.structure ->
                    From_ppxlib.copy_structure
-                     (Reason_toolchain.RE.implementation buf))
+                     (Reason.Reason_toolchain.RE.implementation buf))
                  (Js.to_string code)) );
          ("version", Js.string Melange_version.version);
          ( "parseRE",

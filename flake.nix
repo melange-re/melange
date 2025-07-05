@@ -26,13 +26,14 @@
                 };
 
               });
-              reason = osuper.reason.overrideAttrs (_: {
+              reason = osuper.reason.overrideAttrs (o: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
                   repo = "reason";
-                  rev = "ead03610ff880ef52d98ca918d2976dbc46a1c22";
-                  hash = "sha256-gH0DLG52Y/mzT7ZysEZNVV3jMk53ocTrD93GYU2ORj8=";
+                  rev = "dfb960412cbcd6b1770b1a7c215db1c8c877c2a6";
+                  hash = "sha256-ShbJnc2/KEfEuPYbfRGSgbm4knrsk3fzrrjlQZrGS5s=";
                 };
+                propagatedBuildInputs = o.propagatedBuildInputs ++ [ oself.cmdliner ];
                 patches = [ ];
                 doCheck = false;
               });

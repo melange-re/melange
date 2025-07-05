@@ -1,6 +1,6 @@
 module Js = Jsoo_runtime.Js
-module RE = Reason_toolchain.RE
-module ML = Reason_toolchain.ML
+module RE = Reason.Reason_toolchain.RE
+module ML = Reason.Reason_toolchain.ML
 
 let intToJsFloat i = Js.number_of_float (float_of_int i)
 
@@ -62,18 +62,18 @@ let parseWith =
           |]
   in
   fun (f :
-        Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list)
+        Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason.Reason_comment.t list)
       lexbuf ->
     (* you can't throw an Error here. jsoo parses the string and turns it into
        something else *)
     let throwAnything = Js.js_expr "function(a) {throw a}" in
     try f lexbuf
     with
-    | Reason_errors.Reason_error (err, loc) ->
+    | Reason.Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
       let error_buf = Buffer.create 256 in
       let error_fmt = Format.formatter_of_buffer error_buf in
-      Reason_errors.report_error ~loc error_fmt err;
+      Reason.Reason_errors.report_error ~loc error_fmt err;
       let jsError =
         Js.obj
           [|
