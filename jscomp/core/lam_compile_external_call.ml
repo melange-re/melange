@@ -101,59 +101,75 @@ let append_list x xs =
          }()) === undefined
     ]}
 
-     This would not work with [NonNullString]
-*)
-let rec ocaml_to_js_eff ~(arg_label : External_arg_spec.Arg_label.t)
-    ~(arg_type : External_arg_spec.t) (raw_arg : E.t) :
-    arg_expression * E.t list =
-  let arg =
-    match arg_label with
-    | Arg_optional ->
-        Js_of_lam_option.get_default_undefined_from_optional raw_arg
-    | Arg_label | Arg_empty -> raw_arg
+     This would not work with [NonNullString] *)
+let rec ocaml_to_js_eff =
+  let dispatch_has_field
+      (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list)
+      (fields : J.expression list) =
+    match fields with
+    | { expression_desc = Str s; _ } :: _ ->
+        List.exists dispatches ~f:(fun (dispatch, _) -> dispatch = s)
+    | _ -> false
   in
-  match arg_type with
-  | Arg_cst _ -> assert false
-  | Fn_uncurry_arity _ -> assert false
-  (* has to be preprocessed by {!Lam} module first *)
-  | Extern_unit ->
-      ( (if arg_label = Arg_empty then Splice0 else Splice1 E.unit),
-        if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
-      (* leave up later to decide *)
-  | Ignore ->
-      ( Splice0,
-        if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
-  | Poly_var { descr; spread } | Int { descr; spread } ->
-      ( (if spread then Js_of_lam_variant.eval_descr arg descr
-         else Splice1 (Js_of_lam_variant.eval arg descr)),
-        [] )
-  | Unwrap polyvar -> (
-      match (polyvar, raw_arg.expression_desc) with
-      | (Poly_var { descr = _; spread = false } | Int _), Caml_block _ ->
-          Location.raise_errorf ?loc:raw_arg.loc
-            "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
-             without a payload."
-      | (Poly_var { spread = false; _ } | Int _), _ ->
-          ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
-      | Nothing, _ ->
-          let single_arg =
-            match arg_label with
-            | Arg_optional ->
-                (*
-           If this is an optional arg (like `?arg`), we have to potentially do
-           2 levels of unwrapping:
-           - if ocaml arg is `None`, let js arg be `undefined` (no unwrapping)
-           - if ocaml arg is `Some x`, unwrap the arg to get the `x`, then
-             unwrap the `x` itself
-           - Here `Some x` is `x` due to the current encoding
-           Lets inline here since it depends on the runtime encoding
-        *)
-                Js_of_lam_option.option_unwrap raw_arg
-            | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
-          in
-          (Splice1 single_arg, [])
-      | _, _ -> assert false)
-  | Nothing -> (Splice1 arg, [])
+  let splice1_single_arg ~arg_label raw_arg =
+    let single_arg =
+      match arg_label with
+      | External_arg_spec.Arg_label.Arg_optional ->
+          (* If this is an optional arg (like `?arg`), we have to potentially
+             do 2 levels of unwrapping:
+               - if ocaml arg is `None`, let js arg be `undefined` (no
+                 unwrapping)
+               - if ocaml arg is `Some x`, unwrap the arg to get the `x`, then
+                 unwrap the `x` itself 
+                 - Here `Some x` is `x` due to the current encoding Lets inline
+                   here since it depends on the runtime encoding *)
+          Js_of_lam_option.option_unwrap raw_arg
+      | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
+    in
+    (Splice1 single_arg, [])
+  in
+  fun ~arg_label ~arg_type raw_arg ->
+    let arg =
+      match arg_label with
+      | External_arg_spec.Arg_label.Arg_optional ->
+          Js_of_lam_option.get_default_undefined_from_optional raw_arg
+      | Arg_label | Arg_empty -> raw_arg
+    in
+    match arg_type with
+    | External_arg_spec.Arg_cst _ | Fn_uncurry_arity _ -> assert false
+    (* has to be preprocessed by {!Lam} module first *)
+    | Extern_unit ->
+        let splice =
+          match arg_label with
+          | Arg_empty -> Splice0
+          | Arg_optional | Arg_label -> Splice1 E.unit
+        in
+        ( splice,
+          if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
+        (* leave up later to decide *)
+    | Ignore ->
+        ( Splice0,
+          if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
+    | Poly_var { descr; spread } | Int { descr; spread } ->
+        ( (if spread then Js_of_lam_variant.eval_descr arg descr
+           else Splice1 (Js_of_lam_variant.eval arg descr)),
+          [] )
+    | Unwrap polyvar -> (
+        match (polyvar, raw_arg.expression_desc) with
+        | Poly_var { descr; spread = false }, Caml_block { fields; _ } ->
+            if dispatch_has_field descr fields then
+              Location.raise_errorf ?loc:raw_arg.loc
+                "`[@mel.as ..]' can only be used with `[@mel.unwrap]' variants \
+                 without a payload."
+            else splice1_single_arg ~arg_label raw_arg
+        | Int _, _ ->
+            (* We don't support `@mel.int` with `@mel.unwrap` *)
+            assert false
+        | Poly_var { spread = false; _ }, _ ->
+            ocaml_to_js_eff ~arg_label ~arg_type:polyvar raw_arg
+        | Nothing, _ -> splice1_single_arg ~arg_label raw_arg
+        | _, _ -> assert false)
+    | Nothing -> (Splice1 arg, [])
 
 let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
@@ -304,9 +320,12 @@ let translate_ffi =
           ~info:{ arity = Full; call_info = Call_na }
           (E.dot self name) args
   in
-  fun (cxt : Lam_compile_context.t) arg_types
-      (ffi : External_ffi_types.external_spec) (args : J.expression list)
-      ~dynamic_import ->
+  fun (cxt : Lam_compile_context.t)
+    arg_types
+    (ffi : External_ffi_types.external_spec)
+    (args : J.expression list)
+    ~dynamic_import
+  ->
     match ffi with
     | Js_call
         { external_module_name = module_name; name = fn; variadic; scopes } -> (
