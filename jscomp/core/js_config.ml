@@ -36,12 +36,12 @@ let stdlib_paths =
         let dirs =
           String.split_on_char ~sep:Paths.path_sep value
           |> List.filter_map ~f:(function
-               | "" -> None
-               | dir ->
-                   Some
-                     (if Filename.is_relative dir then
-                        Filename.dirname (Lazy.force executable_name) // dir
-                      else dir))
+            | "" -> None
+            | dir ->
+                Some
+                  (if Filename.is_relative dir then
+                     Filename.dirname (Lazy.force executable_name) // dir
+                   else dir))
         in
 
         match List.exists ~f:(fun dir -> not (Sys.is_directory dir)) dirs with

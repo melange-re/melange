@@ -57,7 +57,7 @@ let updateU m key f =
   let cmp = m.cmp in
   { cmp; data = Dict.updateU ~cmp m.data key f }
 
-let update m key f = updateU m key (fun [@u] a -> f a)
+let update m key f = updateU m key (fun[@u] a -> f a)
 
 let split m x =
   let cmp = m.cmp in
@@ -68,7 +68,7 @@ let mergeU s1 s2 f =
   let cmp = s1.cmp in
   { cmp; data = Dict.mergeU ~cmp s1.data s2.data f }
 
-let merge s1 s2 f = mergeU s1 s2 (fun [@u] a b c -> f a b c)
+let merge s1 s2 f = mergeU s1 s2 (fun[@u] a b c -> f a b c)
 
 let make (type key idx) ~(id : (key, idx) id) =
   let module M = (val id) in
@@ -76,28 +76,28 @@ let make (type key idx) ~(id : (key, idx) id) =
 
 let isEmpty map = Dict.isEmpty map.data
 let findFirstByU m f = Dict.findFirstByU m.data f
-let findFirstBy m f = findFirstByU m (fun [@u] a b -> f a b)
+let findFirstBy m f = findFirstByU m (fun[@u] a b -> f a b)
 let forEachU m f = Dict.forEachU m.data f
-let forEach m f = forEachU m (fun [@u] a b -> f a b)
+let forEach m f = forEachU m (fun[@u] a b -> f a b)
 let reduceU m acc f = Dict.reduceU m.data acc f
-let reduce m acc f = reduceU m acc (fun [@u] a b c -> f a b c)
+let reduce m acc f = reduceU m acc (fun[@u] a b c -> f a b c)
 let everyU m f = Dict.everyU m.data f
-let every m f = everyU m (fun [@u] a b -> f a b)
+let every m f = everyU m (fun[@u] a b -> f a b)
 let someU m f = Dict.someU m.data f
-let some m f = someU m (fun [@u] a b -> f a b)
+let some m f = someU m (fun[@u] a b -> f a b)
 let keepU m f = { cmp = m.cmp; data = Dict.keepU m.data f }
-let keep m f = keepU m (fun [@u] a b -> f a b)
+let keep m f = keepU m (fun[@u] a b -> f a b)
 
 let partitionU m p =
   let cmp = m.cmp in
   let l, r = m.data |. Dict.partitionU p in
   ({ cmp; data = l }, { cmp; data = r })
 
-let partition m p = partitionU m (fun [@u] a b -> p a b)
+let partition m p = partitionU m (fun[@u] a b -> p a b)
 let mapU m f = { cmp = m.cmp; data = Dict.mapU m.data f }
-let map m f = mapU m (fun [@u] a -> f a)
+let map m f = mapU m (fun[@u] a -> f a)
 let mapWithKeyU m f = { cmp = m.cmp; data = Dict.mapWithKeyU m.data f }
-let mapWithKey m f = mapWithKeyU m (fun [@u] a b -> f a b)
+let mapWithKey m f = mapWithKeyU m (fun[@u] a b -> f a b)
 let size map = Dict.size map.data
 let toList map = Dict.toList map.data
 let toArray m = Dict.toArray m.data
@@ -118,9 +118,9 @@ let getExn map x = Dict.getExn ~cmp:map.cmp map.data x
 let has map x = Dict.has ~cmp:map.cmp map.data x
 let checkInvariantInternal m = Dict.checkInvariantInternal m.data
 let eqU m1 m2 veq = Dict.eqU ~kcmp:m1.cmp ~veq m1.data m2.data
-let eq m1 m2 veq = eqU m1 m2 (fun [@u] a b -> veq a b)
+let eq m1 m2 veq = eqU m1 m2 (fun[@u] a b -> veq a b)
 let cmpU m1 m2 vcmp = Dict.cmpU ~kcmp:m1.cmp ~vcmp m1.data m2.data
-let cmp m1 m2 vcmp = cmpU m1 m2 (fun [@u] a b -> vcmp a b)
+let cmp m1 m2 vcmp = cmpU m1 m2 (fun[@u] a b -> vcmp a b)
 let getData m = m.data
 
 let getId (type key identity) (m : (key, _, identity) t) : (key, identity) id =

@@ -80,7 +80,7 @@ let forEachU h f =
     do_bucket_iter ~f (A.getUnsafe d i)
   done
 
-let forEach h f = forEachU h (fun [@u] a b -> f a b)
+let forEach h f = forEachU h (fun[@u] a b -> f a b)
 
 let rec do_bucket_fold ~f b accu =
   match C.toOpt b with
@@ -95,17 +95,17 @@ let reduceU h init f =
   done;
   accu.contents
 
-let reduce h init f = reduceU h init (fun [@u] a b c -> f a b c)
+let reduce h init f = reduceU h init (fun[@u] a b c -> f a b c)
 
 let getMaxBucketLength h =
-  A.reduceU h.C.buckets 0 (fun [@u] m b ->
+  A.reduceU h.C.buckets 0 (fun[@u] m b ->
       let len = bucketLength 0 b in
       Stdlib.max m len)
 
 let getBucketHistogram h =
   let mbl = getMaxBucketLength h in
-  let histo = A.makeByU (mbl + 1) (fun [@u] _ -> 0) in
-  A.forEachU h.C.buckets (fun [@u] b ->
+  let histo = A.makeByU (mbl + 1) (fun[@u] _ -> 0) in
+  A.forEachU h.C.buckets (fun[@u] b ->
       let l = bucketLength 0 b in
       A.setUnsafe histo l (A.getUnsafe histo l + 1));
   histo
@@ -148,7 +148,7 @@ let keepMapInPlaceU h f =
     | Some v -> filterMapInplaceBucket f h i C.emptyOpt v
   done
 
-let keepMapInPlace h f = keepMapInPlaceU h (fun [@u] a b -> f a b)
+let keepMapInPlace h f = keepMapInPlaceU h (fun[@u] a b -> f a b)
 
 let rec fillArray i arr cell =
   A.setUnsafe arr i (cell.key, cell.value);
@@ -187,6 +187,6 @@ let linear h f =
   done;
   arr
 
-let keysToArray h = linear h (fun [@u] x -> x.key)
-let valuesToArray h = linear h (fun [@u] x -> x.value)
-let toArray h = linear h (fun [@u] x -> (x.key, x.value))
+let keysToArray h = linear h (fun[@u] x -> x.key)
+let valuesToArray h = linear h (fun[@u] x -> x.value)
+let toArray h = linear h (fun[@u] x -> (x.key, x.value))

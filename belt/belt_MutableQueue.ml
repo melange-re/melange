@@ -133,7 +133,7 @@ let rec copyMapAux qRes prev cell f =
 let mapU q f =
   copyMapAux { length = q.length; first = None; last = None } None q.first f
 
-let map q f = mapU q (fun [@u] a -> f a)
+let map q f = mapU q (fun[@u] a -> f a)
 let isEmpty q = q.length = 0
 let size q = q.length
 
@@ -145,7 +145,7 @@ let rec iterAux cell f =
       iterAux x.next f
 
 let forEachU q f = iterAux q.first f
-let forEach q f = forEachU q (fun [@u] a -> f a)
+let forEach q f = forEachU q (fun[@u] a -> f a)
 
 let rec foldAux f accu cell =
   match cell with
@@ -155,7 +155,7 @@ let rec foldAux f accu cell =
       foldAux f accu x.next
 
 let reduceU q accu f = foldAux f accu q.first
-let reduce q accu f = reduceU q accu (fun [@u] a b -> f a b)
+let reduce q accu f = reduceU q accu (fun[@u] a b -> f a b)
 
 let transfer q1 q2 =
   if q1.length > 0 then

@@ -225,8 +225,10 @@ let parse_external_attributes =
                 "`[%@%a]' and `[%@%a]' can't be specified at the same time"
                 External_desc.pp_kind st_kind External_desc.pp_kind kind))
   in
-  fun (prim_name_check : string) (prim_name_or_pval_prim : string Lazy.t)
-      (prim_attributes : attribute list) ->
+  fun (prim_name_check : string)
+    (prim_name_or_pval_prim : string Lazy.t)
+    (prim_attributes : attribute list)
+  ->
     (* shared by `[@@val]`, `[@@send]`,
      `[@@set]`, `[@@get]` , `[@@new]`
      `[@@mel.send.pipe]` does not use it
@@ -957,8 +959,12 @@ module From_attributes = struct
           match txt with "mel.uncurry" -> true | _ -> false)
         attrs
     in
-    fun ~loc (type_annotation : core_type) (prim_attributes : attribute list)
-        ~(pval_name : string) ~(prim_name : string) ->
+    fun ~loc
+      (type_annotation : core_type)
+      (prim_attributes : attribute list)
+      ~(pval_name : string)
+      ~(prim_name : string)
+    ->
       (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense *)

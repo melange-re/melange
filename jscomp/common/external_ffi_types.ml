@@ -169,7 +169,9 @@ let ffi_mel =
     | [] -> acc
   in
   fun (params : External_arg_spec.Arg_label.t External_arg_spec.param list)
-      return attr ->
+    return
+    attr
+  ->
     let n = ffi_mel_aux 0 params in
     if n < 0 then Ffi_mel (Params params, return, attr)
     else Ffi_mel (Param_number n, return, attr)

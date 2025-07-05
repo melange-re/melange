@@ -39,8 +39,11 @@ let values_of_export =
         param_map
     | _ -> Ident.Map.empty
   in
-  fun (meta : Lam_stats.t) (export_map : Lam.t Ident.Map.t) :
-      Js_cmj_format.cmj_value String.Map.t ->
+  fun (meta : Lam_stats.t)
+    (export_map : Lam.t Ident.Map.t)
+    :
+    Js_cmj_format.cmj_value String.Map.t
+  ->
     List.fold_left
       ~f:(fun acc x ->
         let arity : Js_cmj_format.arity =

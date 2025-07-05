@@ -30,12 +30,12 @@ let mapWithDefaultU opt default f =
   match opt with Ok x -> f x [@u] | Error _ -> default
 
 let mapWithDefault opt default f =
-  mapWithDefaultU opt default (fun [@u] x -> f x)
+  mapWithDefaultU opt default (fun[@u] x -> f x)
 
 let mapU opt f = match opt with Ok x -> Ok (f x [@u]) | Error y -> Error y
-let map opt f = mapU opt (fun [@u] x -> f x)
+let map opt f = mapU opt (fun[@u] x -> f x)
 let flatMapU opt f = match opt with Ok x -> f x [@u] | Error y -> Error y
-let flatMap opt f = flatMapU opt (fun [@u] x -> f x)
+let flatMap opt f = flatMapU opt (fun[@u] x -> f x)
 let getWithDefault opt default = match opt with Ok x -> x | Error _ -> default
 let isOk = function Ok _ -> true | Error _ -> false
 let isError = function Ok _ -> false | Error _ -> true
@@ -46,7 +46,7 @@ let eqU a b f =
   | Error _, Ok _ | Ok _, Error _ -> false
   | Error _, Error _ -> true
 
-let eq a b f = eqU a b (fun [@u] x y -> f x y)
+let eq a b f = eqU a b (fun[@u] x y -> f x y)
 
 let cmpU a b f =
   match (a, b) with
@@ -55,4 +55,4 @@ let cmpU a b f =
   | Ok _, Error _ -> 1
   | Error _, Error _ -> 0
 
-let cmp a b f = cmpU a b (fun [@u] x y -> f x y)
+let cmp a b f = cmpU a b (fun[@u] x y -> f x y)

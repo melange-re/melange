@@ -58,8 +58,11 @@ let ocaml_object_as_js_object =
           (Exp.ident ~loc
              { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
   in
-  fun ~loc (mapper : Ast_traverse.map) (self_pat : pattern)
-      (clfs : class_field list) ->
+  fun ~loc
+    (mapper : Ast_traverse.map)
+    (self_pat : pattern)
+    (clfs : class_field list)
+  ->
     (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
       OCaml does not allow duplicate instance variable and duplicate methods,
@@ -311,8 +314,11 @@ let record_as_js_object =
         Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
       labels tyvars ~init:result_type
   in
-  fun ~loc (label_exprs : (Longident.t Asttypes.loc * expression) list) :
-      expression_desc ->
+  fun ~loc
+    (label_exprs : (Longident.t Asttypes.loc * expression) list)
+    :
+    expression_desc
+  ->
     let labels, args, arity =
       List.fold_right
         ~f:(fun ({ txt; loc }, e) (labels, args, i) ->

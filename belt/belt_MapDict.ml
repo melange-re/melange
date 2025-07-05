@@ -113,7 +113,7 @@ let rec updateU (t : _ t) newK f ~cmp : _ t =
           let rr = updateU ~cmp r newK f in
           if r == rr then t else N.bal l k v rr
 
-let update t newK f ~cmp = updateU t newK (fun [@u] a -> f a) ~cmp
+let update t newK f ~cmp = updateU t newK (fun[@u] a -> f a) ~cmp
 
 (* unboxing API was not exported
    since the correct API is really awkard
@@ -199,8 +199,8 @@ let findFirstBy = N.findFirstBy
 let rec mergeU s1 s2 f ~cmp =
   match (s1, s2) with
   | None, None -> None
-  | Some _, None -> N.keepMapU s1 (fun [@u] k v -> (f k (Some v) None [@u]))
-  | None, Some _ -> N.keepMapU s2 (fun [@u] k v -> (f k None (Some v) [@u]))
+  | Some _, None -> N.keepMapU s1 (fun[@u] k v -> (f k (Some v) None [@u]))
+  | None, Some _ -> N.keepMapU s2 (fun[@u] k v -> (f k None (Some v) [@u]))
   | Some s1n, Some s2n ->
       if s1n.height >= s2n.height then
         let { N.left = l1; key = v1; value = d1; right = r1; _ } = s1n in
@@ -221,7 +221,7 @@ let rec mergeU s1 s2 f ~cmp =
         let newRight = mergeU ~cmp r1 r2 f in
         N.concatOrJoin newLeft v2 newD newRight
 
-let merge s1 s2 f ~cmp = mergeU s1 s2 (fun [@u] a b c -> f a b c) ~cmp
+let merge s1 s2 f ~cmp = mergeU s1 s2 (fun[@u] a b c -> f a b c) ~cmp
 
 let rec removeMany0 t xs i len ~cmp =
   if i < len then

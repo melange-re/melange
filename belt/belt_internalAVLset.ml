@@ -141,28 +141,28 @@ let rec forEachU n f =
       f n.value [@u];
       forEachU n.right f
 
-let forEach n f = forEachU n (fun [@u] a -> f a)
+let forEach n f = forEachU n (fun[@u] a -> f a)
 
 let rec reduceU s accu f =
   match s with
   | None -> accu
   | Some n -> reduceU n.right (f (reduceU n.left accu f) n.value [@u]) f
 
-let reduce s accu f = reduceU s accu (fun [@u] a b -> f a b)
+let reduce s accu f = reduceU s accu (fun[@u] a b -> f a b)
 
 let rec everyU n p =
   match n with
   | None -> true
   | Some n -> (p n.value [@u]) && n.left |. everyU p && n.right |. everyU p
 
-let every n p = everyU n (fun [@u] a -> p a)
+let every n p = everyU n (fun[@u] a -> p a)
 
 let rec someU n p =
   match n with
   | None -> false
   | Some n -> (p n.value [@u]) || someU n.left p || someU n.right p
 
-let some n p = someU n (fun [@u] a -> p a)
+let some n p = someU n (fun[@u] a -> p a)
 (* [addMinElement v n] and [addMaxElement v n]
    assume that the added v is *strictly*
    smaller (or bigger) than all the present elements in the tree.
@@ -218,7 +218,7 @@ let rec partitionSharedU n p =
       if pv then (joinShared lt value rt, concatShared lf rf)
       else (concatShared lt rt, joinShared lf value rf)
 
-let partitionShared n p = partitionSharedU n (fun [@u] a -> p a)
+let partitionShared n p = partitionSharedU n (fun[@u] a -> p a)
 
 let rec lengthNode n =
   let { left = l; right = r; _ } = n in
@@ -342,7 +342,7 @@ let rec keepSharedU n p =
         if l == newL && r == newR then Some n else joinShared newL v newR
       else concatShared newL newR
 
-let keepShared n p = keepSharedU n (fun [@u] a -> p a)
+let keepShared n p = keepSharedU n (fun[@u] a -> p a)
 (* ATT: functional methods in general can be shared with
     imperative methods, however, it does not apply when functional
     methods makes use of referential equality
@@ -357,7 +357,7 @@ let keepCopyU n p : _ t =
       let last = fillArrayWithFilter n 0 v p in
       fromSortedArrayAux v 0 last
 
-let keepCopy n p = keepCopyU n (fun [@u] x -> p x)
+let keepCopy n p = keepCopyU n (fun[@u] x -> p x)
 
 let partitionCopyU n p =
   match n with
@@ -372,7 +372,7 @@ let partitionCopyU n p =
       ( fromSortedArrayAux v 0 forwardLen,
         fromSortedArrayRevAux v backward (size - forwardLen) )
 
-let partitionCopy n p = partitionCopyU n (fun [@u] a -> p a)
+let partitionCopy n p = partitionCopyU n (fun[@u] a -> p a)
 
 let rec has (t : _ t) x ~cmp =
   match t with
@@ -534,7 +534,7 @@ let fromArray (xs : _ array) ~cmp =
   else
     let next =
       ref
-        (S.strictlySortedLengthU xs (fun [@u] x y ->
+        (S.strictlySortedLengthU xs (fun[@u] x y ->
              ((Belt_Id.getCmpInternal cmp) x y [@u]) < 0))
     in
     let result =

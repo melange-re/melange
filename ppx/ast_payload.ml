@@ -80,8 +80,10 @@ let ident_or_record_as_config =
     in
     Error msg
   in
-  fun payload : ((string Location.loc * expression option) list, string) result
-    ->
+  fun payload
+    :
+    ((string Location.loc * expression option) list, string) result
+  ->
     match payload with
     | PStr
         [
