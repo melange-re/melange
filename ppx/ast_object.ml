@@ -158,7 +158,8 @@ let ocaml_object_as_js_object =
         clfs ~init:([], [])
     in
     let internal_obj_type =
-      Ast_core_type.make_obj ~loc internal_label_attr_types
+      Ast_core_type.to_js_type ~loc
+        (Typ.object_ ~loc internal_label_attr_types Closed)
     in
     let public_obj_type =
       Ast_core_type.to_js_type ~loc
