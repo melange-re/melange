@@ -38,14 +38,12 @@ let flatten_tuple_pattern_vb =
     | Ppat_constraint (p, _) -> is_simple_pattern p
     | _ -> false
   in
-  let rec same_length xs ys =
-    match (xs, ys) with
-    | [], [] -> true
-    | _ :: xs, _ :: ys -> same_length xs ys
-    | _, _ -> false
-  in
-  fun (self : Ast_traverse.map) (vb : value_binding) (acc : value_binding list)
-      : value_binding list ->
+  fun (self : Ast_traverse.map)
+    (vb : value_binding)
+    (acc : value_binding list)
+    :
+    value_binding list
+  ->
     let pvb_pat = self#pattern vb.pvb_pat in
     let pvb_expr = self#expression vb.pvb_expr in
     let pvb_attributes = self#attributes vb.pvb_attributes in
@@ -53,7 +51,7 @@ let flatten_tuple_pattern_vb =
     match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
     | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
         match Ast_open_cxt.destruct_open_tuple pvb_expr with
-        | Some (wholes, es, tuple_attributes) when same_length es xs ->
+        | Some (wholes, es, tuple_attributes) when List.same_length es xs ->
             Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
             (* will be dropped*)
             List.fold_right2
