@@ -70,6 +70,7 @@ val cons : 'a -> 'a list -> 'a list
 
 val singleton: 'a -> 'a list
 (** [singleton x] returns the one-element list [[x]].
+
     @since 5.4 *)
 
 val hd : 'a list -> 'a
@@ -369,21 +370,22 @@ val filteri : f:(int -> 'a -> bool) -> 'a list -> 'a list
 
 val take : int -> 'a list -> 'a list
 (** [take n l] returns the prefix of [l] of length [n],
-    or a copy of [l] if [n > length l].
+    or a copy of [l] if [n > length l]. This is the empty
+    list if [n] is negative.
 
-    [n] must be nonnegative.
+    {b Warning.} In version 5.3 only, this function raises
+    [Invalid_argument] for negative [n] values.
 
-    @raise Invalid_argument if [n] is negative.
     @since 5.3
 *)
 
 val drop : int -> 'a list -> 'a list
 (** [drop n l] returns the suffix of [l] after [n] elements,
-    or [[]] if [n > length l].
+    or [[]] if [n > length l]. This is [l] if [n] is negative.
 
-    [n] must be nonnegative.
+    {b Warning.} In version 5.3 only, this function raises
+    [Invalid_argument] for negative [n] values.
 
-    @raise Invalid_argument if [n] is negative.
     @since 5.3
 *)
 
@@ -534,7 +536,9 @@ val fast_sort : cmp:('a -> 'a -> int) -> 'a list -> 'a list
 val sort_uniq : cmp:('a -> 'a -> int) -> 'a list -> 'a list
 (** Same as {!sort}, but also remove duplicates: if multiple elements
     compare equal, keep only the first.
+
     @since 4.02 (4.03 in ListLabels)
+
     @before 5.4 the element kept was not necessarily the first one.
  *)
 
