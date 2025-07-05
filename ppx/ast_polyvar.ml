@@ -49,14 +49,15 @@ let map_row_fields_into_ints =
     let case, _, result =
       List.fold_left row_fields ~init:(`Nothing, 0, [])
         ~f:(fun (nullary, i, acc) { prf_desc; prf_attributes; _ } ->
-          match (nullary, prf_desc) with
-          | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
-              let i = process_mel_as ~attrs:prf_attributes i in
-              (`Null, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
-          | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
-              let i = process_mel_as ~attrs:prf_attributes i in
-              (`NonNull, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc)
-          | _ -> Error.err ~loc Invalid_mel_int_type)
+          let nullary, txt =
+            match (nullary, prf_desc) with
+            | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) -> (`Null, txt)
+            | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
+                (`NonNull, txt)
+            | _ -> Error.err ~loc Invalid_mel_int_type
+          in
+          let i = process_mel_as ~attrs:prf_attributes i in
+          (nullary, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc))
     in
     match case with
     | `Nothing -> assert false
@@ -81,12 +82,14 @@ let map_row_fields_into_strings =
     let case, result =
       List.fold_right
         ~f:(fun tag (nullary, acc) ->
-          match (nullary, tag.prf_desc) with
-          | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
-              (`Null, process_mel_as tag ~txt ~has_mel_as :: acc)
-          | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
-              (`NonNull, process_mel_as tag ~txt ~has_mel_as :: acc)
-          | _ -> Error.err ~loc Invalid_mel_string_type)
+          let nullary, txt =
+            match (nullary, tag.prf_desc) with
+            | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) -> (`Null, txt)
+            | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
+                (`NonNull, txt)
+            | _ -> Error.err ~loc Invalid_mel_string_type
+          in
+          (nullary, process_mel_as tag ~txt ~has_mel_as :: acc))
         row_fields ~init:(`Nothing, [])
     in
     match (case, !has_mel_as) with
@@ -114,15 +117,14 @@ let map_row_fields_into_spread (row_fields : row_field list) ~loc =
 let infer_mel_as ~loc row_fields =
   let has_mel_as = ref false in
   let result =
-    List.map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
+    List.filter_map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
         match prf_desc with
-        | Rtag ({ txt; _ }, _, _) ->
-            ( txt,
-              match Ast_attributes.iter_process_mel_as_cst prf_attributes with
-              | Some x ->
-                  has_mel_as := true;
-                  x
-              | None -> Str txt )
+        | Rtag ({ txt; _ }, _, _) -> (
+            match Ast_attributes.iter_process_mel_as_cst prf_attributes with
+            | Some x ->
+                has_mel_as := true;
+                Some (txt, x)
+            | None -> None)
         | _ -> Error.err ~loc Invalid_mel_spread_type)
   in
   if !has_mel_as then
