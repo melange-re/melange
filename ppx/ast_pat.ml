@@ -81,10 +81,3 @@ let labels_of_fun =
       | _ -> List.rev base
   in
   fun params body -> labels_of_fun [] params body
-
-let rec is_single_variable_pattern_conservative p =
-  match p.ppat_desc with
-  | Ppat_any | Ppat_var _ -> true
-  | Ppat_alias (p, _) | Ppat_constraint (p, _) ->
-      is_single_variable_pattern_conservative p
-  | _ -> false
