@@ -33,8 +33,7 @@ open Import
 let flatten_tuple_pattern_vb =
   let rec is_simple_pattern p =
     match p.ppat_desc with
-    | Ppat_any -> true
-    | Ppat_var _ -> true
+    | Ppat_any | Ppat_var _ -> true
     | Ppat_constraint (p, _) -> is_simple_pattern p
     | _ -> false
   in

@@ -33,52 +33,46 @@ type t = {
 }
 
 let destruct =
-  let rec inner (e : expression) acc =
+  let rec inner e acc =
     match e.pexp_desc with
     | Pexp_open
-        ( {
-            popen_override = override_flag;
-            popen_expr = { pmod_desc = Pmod_ident lid; _ };
-            _;
-          },
+        ( { popen_override; popen_expr = { pmod_desc = Pmod_ident lid; _ }; _ },
           cont ) ->
-        inner cont
-          ({
-             override_flag;
-             ident = lid;
-             loc = e.pexp_loc;
-             attributes = e.pexp_attributes;
-           }
-          :: acc)
+        let info =
+          {
+            override_flag = popen_override;
+            ident = lid;
+            loc = e.pexp_loc;
+            attributes = e.pexp_attributes;
+          }
+        in
+        inner cont (info :: acc)
     | _ -> (e, acc)
   in
   fun e -> inner e []
 
 (** destruct {[ A.B.let open C in (a,b)]} *)
 let destruct_open_tuple =
-  let rec inner (e : expression) acc : (t list * expression list * _) option =
+  let rec inner e acc : (t list * expression list * _) option =
     match e.pexp_desc with
     | Pexp_open
-        ( {
-            popen_override = override_flag;
-            popen_expr = { pmod_desc = Pmod_ident lid; _ };
-            _;
-          },
+        ( { popen_override; popen_expr = { pmod_desc = Pmod_ident lid; _ }; _ },
           cont ) ->
-        inner cont
-          ({
-             override_flag;
-             ident = lid;
-             loc = e.pexp_loc;
-             attributes = e.pexp_attributes;
-           }
-          :: acc)
+        let info =
+          {
+            override_flag = popen_override;
+            ident = lid;
+            loc = e.pexp_loc;
+            attributes = e.pexp_attributes;
+          }
+        in
+        inner cont (info :: acc)
     | Pexp_tuple es -> Some (acc, es, e.pexp_attributes)
     | _ -> None
   in
   fun e -> inner e []
 
-let restore_exp (xs : expression) (qualifiers : t list) =
+let restore_exp xs (qualifiers : t list) =
   List.fold_left ~init:xs qualifiers
     ~f:(fun x { override_flag = override; ident = lid; loc; attributes } ->
       Exp.open_ ~loc ~attrs:attributes
