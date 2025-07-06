@@ -28,11 +28,16 @@ module S = Js_stmt_make
 
 type arg_expression = Splice0 | Splice1 of E.t | Splice2 of E.t * E.t
 
+let dispatch_with_default dispatches s =
+  match List.assoc_opt s dispatches with
+  | Some r -> Lam_compile_const.translate_arg_cst r
+  | None -> E.str s
+
 (* we need destruct [undefined] when input is optional *)
 let eval (arg : J.expression)
     (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list) : E.t
     =
-  if arg == E.undefined then E.undefined
+  if arg == E.undefined then arg
   else
     match arg.expression_desc with
     | Caml_block
@@ -42,20 +47,12 @@ let eval (arg : J.expression)
           tag;
           mutable_flag;
         } ->
-        let v =
-          match dispatches with
-          | [] -> Melange_ffi.External_arg_spec.Arg_cst.Str s
-          | dispatches -> (
-              match List.assoc_opt s dispatches with
-              | Some r -> r
-              | None -> Str s)
-        in
         {
           arg with
           expression_desc =
             Caml_block
               {
-                fields = Lam_compile_const.translate_arg_cst v :: payload;
+                fields = dispatch_with_default dispatches s :: payload;
                 tag_info = Blk_poly_var;
                 tag;
                 mutable_flag;
@@ -91,13 +88,7 @@ let eval_descr (arg : J.expression)
         _;
       }
     when Js_analyzer.no_side_effect_expression cb ->
-      let v =
-        match dispatches with
-        | [] -> Melange_ffi.External_arg_spec.Arg_cst.Str s
-        | dispatches -> (
-            match List.assoc_opt s dispatches with Some r -> r | None -> Str s)
-      in
-      Splice2 (Lam_compile_const.translate_arg_cst v, cb)
+      Splice2 (dispatch_with_default dispatches s, cb)
   | _ -> (
       match dispatches with
       | [] -> Splice2 (E.poly_var_tag_access arg, E.poly_var_value_access arg)
