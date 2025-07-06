@@ -25,7 +25,6 @@
 open Import
 
 val lift_option_type : core_type -> core_type
-val is_unit : core_type -> bool
 val to_js_type : loc:Location.t -> core_type -> core_type
 
 val get_uncurry_arity : core_type -> int option
