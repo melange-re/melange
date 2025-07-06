@@ -28,9 +28,7 @@ module U = Ast_derive_util
 
 let js_field o m =
   let loc = o.pexp_loc in
-  [%expr
-    [%e Exp.ident { txt = Lident "##"; loc = o.pexp_loc }]
-      [%e o] [%e Exp.ident m]]
+  [%expr [%e Exp.ident { txt = Lident "##"; loc }] [%e o] [%e Exp.ident m]]
 
 let noloc = Location.none
 
@@ -71,61 +69,65 @@ let add_key_value buf key value last =
   Buffer.add_string buf value;
   if last then Buffer.add_string buf "\"" else Buffer.add_string buf "\","
 
-let buildMap (row_fields : row_field list) =
-  let has_mel_as = ref false in
-  let data, revData =
-    let buf = Buffer.create 50 in
-    let revBuf = Buffer.create 50 in
-    Buffer.add_string buf "{";
-    Buffer.add_string revBuf "{";
-    let rec aux (row_fields : row_field list) =
-      match row_fields with
-      | [] -> ()
-      | tag :: rest ->
-          (match tag.prf_desc with
-          | Rtag ({ txt; _ }, _, []) ->
-              let name : string =
-                match
-                  Ast_attributes.iter_process_mel_string_as tag.prf_attributes
-                with
-                | Some name ->
-                    has_mel_as := true;
-                    name
-                | None -> txt
-              in
-              let last = rest = [] in
-              add_key_value buf txt name last;
-              add_key_value revBuf name txt last
-          | _ -> assert false (* checked by [is_enum_polyvar] *));
-          aux rest
-    in
-    aux row_fields;
-    Buffer.add_string buf "}";
-    Buffer.add_string revBuf "}";
-    (Buffer.contents buf, Buffer.contents revBuf)
+let buildMap =
+  let rec aux (row_fields : row_field list) buf revbuf has_mel_as =
+    match row_fields with
+    | [] -> ()
+    | tag :: rest ->
+        (match tag.prf_desc with
+        | Rtag ({ txt; _ }, _, []) ->
+            let name : string =
+              match
+                Ast_attributes.iter_process_mel_string_as tag.prf_attributes
+              with
+              | Some name ->
+                  has_mel_as := true;
+                  name
+              | None -> txt
+            in
+            let last = rest = [] in
+            add_key_value buf txt name last;
+            add_key_value revbuf name txt last
+        | _ -> assert false (* checked by [is_enum_polyvar] *));
+        aux rest buf revbuf has_mel_as
   in
-  (data, revData, !has_mel_as)
+  fun (row_fields : row_field list) ->
+    let has_mel_as = ref false in
+    let data, revData =
+      let buf = Buffer.create 50 in
+      let revbuf = Buffer.create 50 in
+      Buffer.add_string buf "{";
+      Buffer.add_string revbuf "{";
+      aux row_fields buf revbuf has_mel_as;
+      Buffer.add_string buf "}";
+      Buffer.add_string revbuf "}";
+      (Buffer.contents buf, Buffer.contents revbuf)
+    in
+    (data, revData, !has_mel_as)
 
 let ( ->~ ) a b =
   let loc = noloc in
   [%type: [%t a] -> [%t b]]
 
-let jsMapperRt = Longident.Lident "Js__Js_mapper_runtime"
-
-let raiseWhenNotFound x =
-  let loc = noloc in
-  [%expr
-    [%e
-      Exp.ident
-        { loc = noloc; txt = Longident.Ldot (jsMapperRt, "raiseWhenNotFound") }]
-      [%e x]]
+let raiseWhenNotFound =
+  let jsMapperRt = Longident.Lident "Js__Js_mapper_runtime" in
+  fun x ->
+    let loc = noloc in
+    [%expr
+      [%e
+        Exp.ident
+          {
+            loc = noloc;
+            txt = Longident.Ldot (jsMapperRt, "raiseWhenNotFound");
+          }]
+        [%e x]]
 
 let derivingName = "jsConverter"
 
-let single_non_rec_value name exp =
-  Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
-
 let derive_structure =
+  let single_non_rec_value name exp =
+    Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
+  in
   let handle_tdcl ~createType (tdcl : type_declaration) =
     let core_type = U.core_type_of_type_declaration tdcl in
     let name = tdcl.ptype_name.txt in

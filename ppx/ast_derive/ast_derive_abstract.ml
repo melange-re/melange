@@ -65,13 +65,13 @@ let derive_js_constructor =
   fun ?(is_deprecated = false) tdcl ->
     match tdcl.ptype_kind with
     | Ptype_record label_declarations -> (
-        let loc = tdcl.ptype_loc in
         let has_optional_field =
           List.exists
             ~f:(fun (x : label_declaration) ->
               Ast_attributes.has_mel_optional x.pld_attributes)
             label_declarations
         in
+        let loc = tdcl.ptype_loc in
         let makeType, labels =
           List.fold_right
             ~f:(fun
@@ -166,12 +166,11 @@ let derive_getters_setters =
             let prim = [ prim_as_name ] in
             let acc =
               if Ast_attributes.has_mel_optional pld_attributes then
-                let optional_type = pld_type in
                 Val.mk ~loc:pld_loc
                   (if light then pld_name
                    else { pld_name with txt = pld_name.txt ^ "Get" })
                   ~attrs:get_optional_attrs ~prim
-                  [%type: [%t core_type] -> [%t optional_type]]
+                  [%type: [%t core_type] -> [%t pld_type]]
                 :: acc
               else
                 Val.mk ~loc:pld_loc
@@ -179,7 +178,7 @@ let derive_getters_setters =
                    else { pld_name with txt = pld_name.txt ^ "Get" })
                   ~attrs:
                     (Ast_attributes.mel_ffi
-                       (* Not needed actually*)
+                       (* Not needed actually *)
                        (Melange_ffi.External_ffi_types.ffi_mel
                           [ Melange_ffi.External_arg_spec.dummy ]
                           Return_identity
@@ -192,12 +191,10 @@ let derive_getters_setters =
             match pld_mutable with
             | Mutable ->
                 let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
-                let setter_type =
-                  [%type: [%t core_type] -> [%t pld_type] -> unit]
-                in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
-                  ~attrs:set_attrs ~prim setter_type
+                  ~attrs:set_attrs ~prim
+                  [%type: [%t core_type] -> [%t pld_type] -> unit]
                 :: acc
             | Immutable -> acc)
           label_declarations ~init:[]
@@ -206,45 +203,45 @@ let derive_getters_setters =
         []
 
 let derive_js_constructor_str tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Str.primitive value_descriptions @ sts)
-    tdcls ~init:[]
+    tdcls
 
 let derive_js_constructor_sig tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
-    tdcls ~init:[]
+    tdcls
 
 let derive_getters_setters_str ~light tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters tdcl ~light in
       List.map ~f:Str.primitive value_descriptions @ sts)
-    tdcls ~init:[]
+    tdcls
 
 let derive_getters_setters_sig ~light tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
-    tdcls ~init:[]
+    tdcls
 
 let derive_abstract_str ~light tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
-      let value_descriptions = derive_getters_setters ~light tdcl in
+      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
+      and value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
-    tdcls ~init:[]
+    tdcls
 
 let derive_abstract_sig ~light tdcls =
-  List.fold_right
+  List.fold_right ~init:[]
     ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl in
-      let value_descriptions = derive_getters_setters ~light tdcl in
+      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
+      and value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value (cstr_descriptions @ value_descriptions) @ sts)
-    tdcls ~init:[]
+    tdcls
