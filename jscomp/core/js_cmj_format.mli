@@ -79,15 +79,16 @@ val make :
 val query_by_name : t -> string -> keyed_cmj_value
 val single_na : arity
 val from_file : string -> t
-val from_file_with_digest : string -> t * Digest.t
-val from_string : string -> t
 
 (*
    Note writing the file if its content is not changed
 *)
 val to_file : string -> t -> unit
 
-type path = string
-type cmj_load_info = { cmj_table : t (* ; package_path : path *) }
+type cmj_load_info = {
+  cmj_table : t;
+      (* TODO(anmonteiro): re-enable for es6-global support *)
+      (* package_path : path; *)
+}
 
 val load_unit : string -> cmj_load_info

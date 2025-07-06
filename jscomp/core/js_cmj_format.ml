@@ -41,10 +41,8 @@ type keyed_cmj_value = {
   persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
 }
 
-type keyed_cmj_values = keyed_cmj_value array
-
 type t = {
-  values : keyed_cmj_values;
+  values : keyed_cmj_value array;
   pure : bool;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
@@ -75,23 +73,15 @@ let from_file name : t =
   close_in ic;
   v
 
-let from_file_with_digest name : t * Digest.t =
-  let ic = open_in_bin name in
-  let digest = Digest.input ic in
-  let v : t = input_value ic in
-  close_in ic;
-  (v, digest)
-
-let digest_length = 16
-let from_string s : t = Marshal.from_string s digest_length
-
-let for_sure_not_changed (name : string) (header : string) =
-  if Sys.file_exists name then (
-    let ic = open_in_bin name in
-    let holder = really_input_string ic digest_length in
-    close_in ic;
-    holder = header)
-  else false
+let for_sure_not_changed =
+  let digest_length = 16 in
+  fun (name : string) (header : string) ->
+    if Sys.file_exists name then (
+      let ic = open_in_bin name in
+      let holder = really_input_string ic digest_length in
+      close_in ic;
+      holder = header)
+    else false
 
 (* This may cause some build system always rebuild
    maybe should not be turned on by default
@@ -142,7 +132,8 @@ let rec binarySearchAux arr lo hi (key : string) =
     if hiVal.name = key then get_result hiVal else not_found key
   else binarySearchAux arr mid hi key
 
-let binarySearch (sorted : keyed_cmj_values) (key : string) : keyed_cmj_value =
+let binarySearch (sorted : keyed_cmj_value array) (key : string) :
+    keyed_cmj_value =
   let len = Array.length sorted in
   if len = 0 then not_found key
   else
@@ -160,8 +151,6 @@ let binarySearch (sorted : keyed_cmj_values) (key : string) : keyed_cmj_value =
 let query_by_name (cmj_table : t) name : keyed_cmj_value =
   let values = cmj_table.values in
   binarySearch values name
-
-type path = string
 
 type cmj_load_info = {
   cmj_table : t;

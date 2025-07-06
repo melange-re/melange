@@ -28,8 +28,6 @@ open Import
 
 (* let meaningless_names  = ["*opt*"; "param";] *)
 
-let single_na = Js_cmj_format.single_na
-
 let values_of_export =
   let param_map = function
     | Lam.Lfunction { params; body; _ } ->
@@ -66,7 +64,7 @@ let values_of_export =
                   Submodule
                     (Array.of_list_map args (fun lam ->
                          Lam_arity_analysis.get_arity meta lam))
-              | Some _ | None -> single_na)
+              | Some _ | None -> Js_cmj_format.single_na)
         in
         let persistent_closed_lambda : (_ * _) option =
           match Ident.Map.find_opt export_map x with
