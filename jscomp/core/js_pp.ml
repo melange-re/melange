@@ -31,7 +31,7 @@ end
 
 let indent_length = Stdlib.String.length L.indent_str
 
-type kind = Channel of out_channel | Buffer of Buffer.t
+type kind = File_descr of Unix.file_descr | Buffer of Buffer.t
 
 type t = {
   kind : kind;
@@ -44,7 +44,7 @@ type t = {
 
 let output_string t s =
   (match t.kind with
-  | Channel chan -> output_string chan s
+  | File_descr fd -> Io.write fd s ~off:0 ~len:(String.length s)
   | Buffer buf -> Buffer.add_string buf s);
   let new_line, new_column =
     Stdlib.String.fold_left
@@ -57,18 +57,22 @@ let output_string t s =
 
 let output_char t c =
   (match t.kind with
-  | Channel chan -> output_char chan c
+  | File_descr fd -> Io.write fd (String.make 1 c) ~off:0 ~len:1
   | Buffer buf -> Buffer.add_char buf c);
   if c = '\n' then (
     t.line <- t.line + 1;
     t.column <- 0)
   else t.column <- t.column + 1
 
-let flush t = match t.kind with Channel chan -> flush chan | Buffer _ -> ()
+let flush t =
+  match t.kind with
+  | File_descr fd -> (
+      try Unix.fsync fd with Unix.Unix_error (Unix.EOPNOTSUPP, _, _) -> ())
+  | Buffer _ -> ()
 
-let from_channel chan =
+let from_fd fd =
   {
-    kind = Channel chan;
+    kind = File_descr fd;
     line = 0;
     column = 0;
     indent_level = 0;

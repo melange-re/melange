@@ -27,7 +27,7 @@ val dump_program :
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
   J.program ->
-  out_channel ->
+  Unix.file_descr ->
   unit
 (** only used for debugging purpose *)
 
@@ -36,7 +36,7 @@ val dump_deps_program :
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->
   J.deps_program ->
-  out_channel ->
+  Unix.file_descr ->
   unit
 
 val pp_deps_program :

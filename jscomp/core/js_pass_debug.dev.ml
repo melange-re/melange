@@ -32,17 +32,12 @@ let dump ~output_dir ~package_info ~output_info name (prog : J.program) =
       incr log_counter;
       Log.warn ~loc:(Loc.of_pos __POS__)
         (Pp.textf "[TIME] %s: %f" name (Sys.time () *. 1000.));
-      let oc =
-        let fn =
-          Filename.new_extension !Location.input_name
-            (Printf.sprintf ".%02d.%s.jsx" !log_counter name)
-        in
-        open_out_bin fn
+      let fn =
+        Filename.new_extension !Location.input_name
+          (Printf.sprintf ".%02d.%s.jsx" !log_counter name)
       in
-      Fun.protect
-        ~finally:(fun () -> close_out oc)
-        (fun () ->
+      Io.with_file_out_fd fn ~f:(fun fd ->
           Js_dump_program.dump_program ~output_dir ~package_info ~output_info
-            prog oc))
+            prog fd))
   in
   prog
