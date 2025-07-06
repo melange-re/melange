@@ -30,11 +30,6 @@ let lift_option_type ({ ptyp_loc; _ } as ty) =
     { txt = Lident "option" (* Ast_literal.predef_option *); loc = ptyp_loc }
     [ ty ]
 
-let is_unit ty =
-  match ty.ptyp_desc with
-  | Ptyp_constr ({ txt = Lident "unit"; _ }, []) -> true
-  | _ -> false
-
 let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
 
 (**
