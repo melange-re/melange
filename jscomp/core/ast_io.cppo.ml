@@ -109,7 +109,7 @@ let magic_length = String.length Astlib.Config.ast_impl_magic_number
 let read_magic ic =
   let buf = Bytes.create magic_length in
   let len = input ic buf 0 magic_length in
-  let s = Bytes.sub_string buf 0 len in
+  let s = Bytes.sub_string buf ~pos:0 ~len in
   if len = magic_length then Ok s else Error s
 
 let set_input_lexbuf () =

@@ -23,7 +23,7 @@ open Import
 *)
 let module_name =
   let capitalize_sub s len =
-    let sub = Bytes.sub (Bytes.unsafe_of_string s) 0 len in
+    let sub = Bytes.sub (Bytes.unsafe_of_string s) ~pos:0 ~len in
     if Bytes.length sub < 0 then invalid_arg "capitalize_sub"
     else (
       Bytes.set sub 0 (Char.uppercase_ascii (Bytes.get sub 0));
