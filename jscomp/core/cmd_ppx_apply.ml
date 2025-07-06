@@ -4,11 +4,12 @@ open Import
    which would encapsulate the "binary AST" protocol. *)
 
 let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
-  let oc = open_out_bin fn in
-  output_string oc (Ml_binary.magic_of_kind kind);
-  output_value oc (!Location.input_name : string);
-  output_value oc (ast : a);
-  close_out oc
+  Io.write_filev fn
+    [
+      Ml_binary.magic_of_kind kind;
+      Marshal.to_string (!Location.input_name : string) [];
+      Marshal.to_string (ast : a) [];
+    ]
 
 let temp_ppx_file () =
   Filename.temp_file "ppx" (Filename.basename !Location.input_name)

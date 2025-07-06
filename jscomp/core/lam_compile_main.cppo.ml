@@ -227,14 +227,12 @@ let compile
     if !Js_config.diagnose then
       let f =
         Filename.new_extension !Location.input_name  ".lambda" in
-        let chan = open_out_bin f in
-        Fun.protect
-          ~finally:(fun () -> close_out chan)
-          (fun () ->
-            let fmt = Format.formatter_of_out_channel chan in
-            Format.pp_print_list ~pp_sep:Format.pp_print_newline
-              Lam_group.pp_group fmt groups;
-            Format.pp_print_flush fmt ())
+        let buf = Buffer.create 65536 in
+        let fmt = Format.formatter_of_buffer buf in
+        Format.pp_print_list ~pp_sep:Format.pp_print_newline
+          Lam_group.pp_group fmt groups;
+        Format.pp_print_flush fmt ();
+        Io.write_file f (Buffer.contents buf)
 
   in
 #endif
