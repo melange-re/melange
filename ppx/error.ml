@@ -107,7 +107,7 @@ let err ~loc error = Location.raise_errorf ~loc "%a" pp_error error
 let optional_err ~loc (lbl : Asttypes.arg_label) =
   match lbl with
   | Optional _ -> err ~loc Optional_in_uncurried_mel_attribute
-  | _ -> ()
+  | Nolabel | Labelled _ -> ()
 
 let err_if_label ~loc (lbl : Asttypes.arg_label) =
   match lbl with

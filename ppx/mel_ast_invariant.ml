@@ -55,9 +55,10 @@ end
 
 let warn_raw =
   let module Location = Ocaml_common.Location in
+  let module Warnings = Ocaml_common.Warnings in
   fun ~loc ~kind message ->
     Location.prerr_alert loc
-      { Ocaml_common.Warnings.kind; message; def = Location.none; use = loc }
+      { Warnings.kind; message; def = Location.none; use = loc }
 
 let warn ~loc t =
   warn_raw ~loc ~kind:(Warnings.kind t) (Format.asprintf "%a" Warnings.pp t)
