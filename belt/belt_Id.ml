@@ -63,7 +63,7 @@ struct
   (* see https://github.com/rescript-lang/rescript-compiler/pull/2589/files/5ef875b7665ee08cfdc59af368fc52bac1fe9130#r173330825 *)
   let cmp =
     let cmp = M.cmp in
-    fun [@u] a b -> cmp a b
+    fun[@u] a b -> cmp a b
 end
 
 let comparableU (type key) ~cmp =
@@ -117,11 +117,11 @@ struct
 
   let hash =
     let hash = M.hash in
-    fun [@u] a -> hash a
+    fun[@u] a -> hash a
 
   let eq =
     let eq = M.eq in
-    fun [@u] a b -> eq a b
+    fun[@u] a b -> eq a b
 end
 
 let hashableU (type key) ~hash ~eq =

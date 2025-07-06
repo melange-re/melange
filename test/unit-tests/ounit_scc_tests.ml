@@ -243,10 +243,10 @@ let test (input : (string * string list) list) =
   let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
   input
   |> List.iter ~f:(fun (x, others) ->
-         let idx = Hashtbl.find tbl x in
-         others
-         |> List.iter ~f:(fun y ->
-                Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
+      let idx = Hashtbl.find tbl x in
+      others
+      |> List.iter ~f:(fun y ->
+          Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
   Scc.graph_check node_array
 
 let test2 (input : (string * string list) list) =
@@ -267,14 +267,14 @@ let test2 (input : (string * string list) list) =
   let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
   input
   |> List.iter ~f:(fun (x, others) ->
-         let idx = Hashtbl.find tbl x in
-         others
-         |> List.iter ~f:(fun y ->
-                Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
+      let idx = Hashtbl.find tbl x in
+      others
+      |> List.iter ~f:(fun y ->
+          Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
   let output = Scc.graph node_array in
   output
   |> Int_vec_vec.map_into_array (fun int_vec ->
-         Vec_int.map_into_array (fun i -> other_mapping.(i)) int_vec)
+      Vec_int.map_into_array (fun i -> other_mapping.(i)) int_vec)
 
 let suites =
   __FILE__

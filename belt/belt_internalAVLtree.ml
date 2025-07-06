@@ -173,7 +173,7 @@ let rec findFirstByU n p =
           let right = findFirstByU n.right p in
           if right <> None then right else None
 
-let findFirstBy n p = findFirstByU n (fun [@u] a b -> p a b)
+let findFirstBy n p = findFirstByU n (fun[@u] a b -> p a b)
 
 let rec forEachU n f =
   match n with
@@ -183,7 +183,7 @@ let rec forEachU n f =
       f n.key n.value [@u];
       forEachU n.right f
 
-let forEach n f = forEachU n (fun [@u] a b -> f a b)
+let forEach n f = forEachU n (fun[@u] a b -> f a b)
 
 let rec mapU n f =
   match n with
@@ -201,7 +201,7 @@ let rec mapU n f =
           height = n.height;
         }
 
-let map n f = mapU n (fun [@u] a -> f a)
+let map n f = mapU n (fun[@u] a -> f a)
 
 let rec mapWithKeyU n f =
   match n with
@@ -220,7 +220,7 @@ let rec mapWithKeyU n f =
           height = n.height;
         }
 
-let mapWithKey n f = mapWithKeyU n (fun [@u] a b -> f a b)
+let mapWithKey n f = mapWithKeyU n (fun[@u] a b -> f a b)
 
 let rec reduceU m accu f =
   match m with
@@ -229,21 +229,21 @@ let rec reduceU m accu f =
       let { left = l; key = v; value = d; right = r; _ } = n in
       reduceU r (f (reduceU l accu f) v d [@u]) f
 
-let reduce m accu f = reduceU m accu (fun [@u] a b c -> f a b c)
+let reduce m accu f = reduceU m accu (fun[@u] a b c -> f a b c)
 
 let rec everyU n p =
   match n with
   | None -> true
   | Some n -> (p n.key n.value [@u]) && everyU n.left p && everyU n.right p
 
-let every n p = everyU n (fun [@u] a b -> p a b)
+let every n p = everyU n (fun[@u] a b -> p a b)
 
 let rec someU n p =
   match n with
   | None -> false
   | Some n -> (p n.key n.value [@u]) || someU n.left p || someU n.right p
 
-let some n p = someU n (fun [@u] a b -> p a b)
+let some n p = someU n (fun[@u] a b -> p a b)
 (* Beware: those two functions assume that the added k is *strictly*
    smaller (or bigger) than all the present keys in the tree; it
    does not test for equality with the current min (or max) key.
@@ -303,7 +303,7 @@ let rec keepSharedU n p =
       let newRight = keepSharedU n.right p in
       if pvd then join newLeft v d newRight else concat newLeft newRight
 
-let keepShared n p = keepSharedU n (fun [@u] a b -> p a b)
+let keepShared n p = keepSharedU n (fun[@u] a b -> p a b)
 
 let rec keepMapU n p =
   match n with
@@ -318,7 +318,7 @@ let rec keepMapU n p =
       | None -> concat newLeft newRight
       | Some d -> join newLeft v d newRight)
 
-let keepMap n p = keepMapU n (fun [@u] a b -> p a b)
+let keepMap n p = keepMapU n (fun[@u] a b -> p a b)
 
 let rec partitionSharedU n p =
   match n with
@@ -332,7 +332,7 @@ let rec partitionSharedU n p =
       if pvd then (join lt key value rt, concat lf rf)
       else (concat lt rt, join lf key value rf)
 
-let partitionShared n p = partitionSharedU n (fun [@u] a b -> p a b)
+let partitionShared n p = partitionSharedU n (fun[@u] a b -> p a b)
 
 let rec lengthNode n =
   let { left = l; right = r; _ } = n in
@@ -555,14 +555,14 @@ let cmpU s1 s2 ~kcmp ~vcmp =
   else if len1 < len2 then -1
   else 1
 
-let cmp s1 s2 ~kcmp ~vcmp = cmpU s1 s2 ~kcmp ~vcmp:(fun [@u] a b -> vcmp a b)
+let cmp s1 s2 ~kcmp ~vcmp = cmpU s1 s2 ~kcmp ~vcmp:(fun[@u] a b -> vcmp a b)
 
 let eqU s1 s2 ~kcmp ~veq =
   let len1, len2 = (size s1, size s2) in
   if len1 = len2 then eqAux (stackAllLeft s1 []) (stackAllLeft s2 []) ~kcmp ~veq
   else false
 
-let eq s1 s2 ~kcmp ~veq = eqU s1 s2 ~kcmp ~veq:(fun [@u] a b -> veq a b)
+let eq s1 s2 ~kcmp ~veq = eqU s1 s2 ~kcmp ~veq:(fun[@u] a b -> veq a b)
 
 let rec get n x ~cmp =
   match n with
@@ -700,7 +700,7 @@ let fromArray (xs : _ array) ~cmp =
   else
     let next =
       ref
-        (S.strictlySortedLengthU xs (fun [@u] (x0, _) (y0, _) ->
+        (S.strictlySortedLengthU xs (fun[@u] (x0, _) (y0, _) ->
              ((Belt_Id.getCmpInternal cmp) x0 y0 [@u]) < 0))
     in
     let result =

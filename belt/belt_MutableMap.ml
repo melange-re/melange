@@ -111,7 +111,7 @@ let updateU t x f =
   let newRoot = updateDone oldRoot x f ~cmp:t.cmp in
   if newRoot != oldRoot then t.data <- newRoot
 
-let update t x f = updateU t x (fun [@u] a -> f a)
+let update t x f = updateU t x (fun[@u] a -> f a)
 
 let make (type key identity) ~(id : (key, identity) id) =
   let module M = (val id) in
@@ -128,13 +128,13 @@ let minUndefined m = N.minUndefined m.data
 let maximum m = N.maximum m.data
 let maxUndefined m = N.maxUndefined m.data
 let forEachU d f = N.forEachU d.data f
-let forEach d f = forEachU d (fun [@u] a b -> f a b)
+let forEach d f = forEachU d (fun[@u] a b -> f a b)
 let reduceU d acc cb = N.reduceU d.data acc cb
-let reduce d acc cb = reduceU d acc (fun [@u] a b c -> cb a b c)
+let reduce d acc cb = reduceU d acc (fun[@u] a b c -> cb a b c)
 let everyU d p = N.everyU d.data p
-let every d p = everyU d (fun [@u] a b -> p a b)
+let every d p = everyU d (fun[@u] a b -> p a b)
 let someU d p = N.someU d.data p
-let some d p = someU d (fun [@u] a b -> p a b)
+let some d p = someU d (fun[@u] a b -> p a b)
 let size d = N.size d.data
 let toList d = N.toList d.data
 let toArray d = N.toArray d.data
@@ -147,13 +147,13 @@ let valuesToArray d = N.valuesToArray d.data
 
 let checkInvariantInternal d = N.checkInvariantInternal d.data
 let cmpU m1 m2 cmp = N.cmpU ~kcmp:m1.cmp ~vcmp:cmp m1.data m2.data
-let cmp m1 m2 cmp = cmpU m1 m2 (fun [@u] a b -> cmp a b)
+let cmp m1 m2 cmp = cmpU m1 m2 (fun[@u] a b -> cmp a b)
 let eqU m1 m2 cmp = N.eqU ~kcmp:m1.cmp ~veq:cmp m1.data m2.data
-let eq m1 m2 cmp = eqU m1 m2 (fun [@u] a b -> cmp a b)
+let eq m1 m2 cmp = eqU m1 m2 (fun[@u] a b -> cmp a b)
 let mapU m f = { cmp = m.cmp; data = N.mapU m.data f }
-let map m f = mapU m (fun [@u] a -> f a)
+let map m f = mapU m (fun[@u] a -> f a)
 let mapWithKeyU m f = { cmp = m.cmp; data = N.mapWithKeyU m.data f }
-let mapWithKey m f = mapWithKeyU m (fun [@u] a b -> f a b)
+let mapWithKey m f = mapWithKeyU m (fun[@u] a b -> f a b)
 let get m x = N.get ~cmp:m.cmp m.data x
 let getUndefined m x = N.getUndefined ~cmp:m.cmp m.data x
 let getWithDefault m x def = N.getWithDefault ~cmp:m.cmp m.data x def

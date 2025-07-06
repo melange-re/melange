@@ -28,8 +28,13 @@ open Ast_helper
 let local_external_apply =
   let local_module_name = "J" in
   let local_fun_name = "unsafe_expr" in
-  fun ~loc ~(pval_prim : string list) ~(pval_type : core_type)
-      (arg : expression) : expression_desc ->
+  fun ~loc
+    ~(pval_prim : string list)
+    ~(pval_type : core_type)
+    (arg : expression)
+    :
+    expression_desc
+  ->
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
         Mod.structure ~loc

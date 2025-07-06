@@ -19,7 +19,7 @@ and mkBodyApply =
           (x, mkBodyApply0 ty allNames x))
         tys
       |> List.filter_map ~f:(fun (x, body) ->
-             Option.map (fun body -> (x, body)) body)
+          Option.map (fun body -> (x, body)) body)
     in
     collapse_body body
 

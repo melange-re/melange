@@ -81,7 +81,7 @@ let forEachU h f =
     doBucketIter ~f (A.getUnsafe d i)
   done
 
-let forEach h f = forEachU h (fun [@u] a -> f a)
+let forEach h f = forEachU h (fun[@u] a -> f a)
 
 let rec fillArray i arr cell =
   A.setUnsafe arr i cell.key;
@@ -114,17 +114,17 @@ let reduceU h init f =
   done;
   accu.contents
 
-let reduce h init f = reduceU h init (fun [@u] a b -> f a b)
+let reduce h init f = reduceU h init (fun[@u] a b -> f a b)
 
 let getMaxBucketLength h =
-  A.reduceU h.C.buckets 0 (fun [@u] m b ->
+  A.reduceU h.C.buckets 0 (fun[@u] m b ->
       let len = bucketLength 0 b in
       Stdlib.max m len)
 
 let getBucketHistogram h =
   let mbl = getMaxBucketLength h in
-  let histo = A.makeByU (mbl + 1) (fun [@u] _ -> 0) in
-  A.forEachU h.C.buckets (fun [@u] b ->
+  let histo = A.makeByU (mbl + 1) (fun[@u] _ -> 0) in
+  A.forEachU h.C.buckets (fun[@u] b ->
       let l = bucketLength 0 b in
       A.setUnsafe histo l (A.getUnsafe histo l + 1));
   histo

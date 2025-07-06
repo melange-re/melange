@@ -81,8 +81,11 @@ let inline_call =
                    (f a4 b4 c4 (fold_right3 arest brest crest ~init:acc ~f)))))
     | _, _, _ -> invalid_arg "fold_right3"
   in
-  fun (immutable_list : bool list) params (args : J.expression list)
-      processed_blocks ->
+  fun (immutable_list : bool list)
+    params
+    (args : J.expression list)
+    processed_blocks
+  ->
     let map, block =
       if immutable_list = [] then
         List.fold_right2

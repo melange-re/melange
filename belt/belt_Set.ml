@@ -81,22 +81,22 @@ let cmp m n =
 
 let eq m n = Dict.eq ~cmp:m.cmp m.data n.data
 let forEachU m f = Dict.forEachU m.data f
-let forEach m f = forEachU m (fun [@u] a -> f a)
+let forEach m f = forEachU m (fun[@u] a -> f a)
 let reduceU m acc f = Dict.reduceU m.data acc f
-let reduce m acc f = reduceU m acc (fun [@u] a b -> f a b)
+let reduce m acc f = reduceU m acc (fun[@u] a b -> f a b)
 let everyU m f = Dict.everyU m.data f
-let every m f = everyU m (fun [@u] a -> f a)
+let every m f = everyU m (fun[@u] a -> f a)
 let someU m f = Dict.someU m.data f
-let some m f = someU m (fun [@u] a -> f a)
+let some m f = someU m (fun[@u] a -> f a)
 let keepU m f = { cmp = m.cmp; data = Dict.keepU m.data f }
-let keep m f = keepU m (fun [@u] a -> f a)
+let keep m f = keepU m (fun[@u] a -> f a)
 
 let partitionU m f =
   let l, r = Dict.partitionU m.data f in
   let cmp = m.cmp in
   ({ data = l; cmp }, { data = r; cmp })
 
-let partition m f = partitionU m (fun [@u] a -> f a)
+let partition m f = partitionU m (fun[@u] a -> f a)
 let size m = Dict.size m.data
 let toList m = Dict.toList m.data
 let toArray m = Dict.toArray m.data

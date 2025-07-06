@@ -98,14 +98,14 @@ let makeByU l f =
     done;
     res
 
-let makeBy l f = makeByU l (fun [@u] a -> f a)
+let makeBy l f = makeByU l (fun[@u] a -> f a)
 
 let makeByAndShuffleU l f =
   let u = makeByU l f in
   shuffleInPlace u;
   u
 
-let makeByAndShuffle l f = makeByAndShuffleU l (fun [@u] a -> f a)
+let makeByAndShuffle l f = makeByAndShuffleU l (fun[@u] a -> f a)
 
 let range start finish =
   let cut = finish - start in
@@ -148,7 +148,7 @@ let zipByU xs ys f =
   done;
   s
 
-let zipBy xs ys f = zipByU xs ys (fun [@u] a b -> f a b)
+let zipBy xs ys f = zipByU xs ys (fun[@u] a b -> f a b)
 
 let concat a1 a2 =
   let l1 = length a1 in
@@ -252,7 +252,7 @@ let forEachU a f =
     (f a.!(i) [@u])
   done
 
-let forEach a f = forEachU a (fun [@u] a -> f a)
+let forEach a f = forEachU a (fun[@u] a -> f a)
 
 let mapU a f =
   let l = length a in
@@ -262,9 +262,9 @@ let mapU a f =
   done;
   r
 
-let map a f = mapU a (fun [@u] a -> f a)
+let map a f = mapU a (fun[@u] a -> f a)
 let flatMapU a f = concatMany (mapU a f)
-let flatMap a f = flatMapU a (fun [@u] a -> f a)
+let flatMap a f = flatMapU a (fun[@u] a -> f a)
 
 let getByU a p =
   let l = length a in
@@ -277,7 +277,7 @@ let getByU a p =
   done;
   r.contents
 
-let getBy a p = getByU a (fun [@u] a -> p a)
+let getBy a p = getByU a (fun[@u] a -> p a)
 
 let getIndexByU a p =
   let l = length a in
@@ -290,7 +290,7 @@ let getIndexByU a p =
   done;
   r.contents
 
-let getIndexBy a p = getIndexByU a (fun [@u] a -> p a)
+let getIndexBy a p = getIndexByU a (fun[@u] a -> p a)
 
 let keepU a f =
   let l = length a in
@@ -305,7 +305,7 @@ let keepU a f =
   truncateToLengthUnsafe r j.contents;
   r
 
-let keep a f = keepU a (fun [@u] a -> f a)
+let keep a f = keepU a (fun[@u] a -> f a)
 
 let keepWithIndexU a f =
   let l = length a in
@@ -320,7 +320,7 @@ let keepWithIndexU a f =
   truncateToLengthUnsafe r j.contents;
   r
 
-let keepWithIndex a f = keepWithIndexU a (fun [@u] a i -> f a i)
+let keepWithIndex a f = keepWithIndexU a (fun[@u] a i -> f a i)
 
 let keepMapU a f =
   let l = length a in
@@ -337,14 +337,14 @@ let keepMapU a f =
   truncateToLengthUnsafe r j.contents;
   r
 
-let keepMap a f = keepMapU a (fun [@u] a -> f a)
+let keepMap a f = keepMapU a (fun[@u] a -> f a)
 
 let forEachWithIndexU a f =
   for i = 0 to length a - 1 do
     (f i a.!(i) [@u])
   done
 
-let forEachWithIndex a f = forEachWithIndexU a (fun [@u] a b -> f a b)
+let forEachWithIndex a f = forEachWithIndexU a (fun[@u] a b -> f a b)
 
 let mapWithIndexU a f =
   let l = length a in
@@ -354,7 +354,7 @@ let mapWithIndexU a f =
   done;
   r
 
-let mapWithIndex a f = mapWithIndexU a (fun [@u] a b -> f a b)
+let mapWithIndex a f = mapWithIndexU a (fun[@u] a b -> f a b)
 
 let reduceU a x f =
   let r = ref x in
@@ -363,7 +363,7 @@ let reduceU a x f =
   done;
   r.contents
 
-let reduce a x f = reduceU a x (fun [@u] a b -> f a b)
+let reduce a x f = reduceU a x (fun[@u] a b -> f a b)
 
 let reduceReverseU a x f =
   let r = ref x in
@@ -372,7 +372,7 @@ let reduceReverseU a x f =
   done;
   r.contents
 
-let reduceReverse a x f = reduceReverseU a x (fun [@u] a b -> f a b)
+let reduceReverse a x f = reduceReverseU a x (fun[@u] a b -> f a b)
 
 let reduceReverse2U a b x f =
   let r = ref x in
@@ -382,7 +382,7 @@ let reduceReverse2U a b x f =
   done;
   r.contents
 
-let reduceReverse2 a b x f = reduceReverse2U a b x (fun [@u] a b c -> f a b c)
+let reduceReverse2 a b x f = reduceReverse2U a b x (fun[@u] a b c -> f a b c)
 
 let reduceWithIndexU a x f =
   let r = ref x in
@@ -391,7 +391,7 @@ let reduceWithIndexU a x f =
   done;
   r.contents
 
-let reduceWithIndex a x f = reduceWithIndexU a x (fun [@u] a b c -> f a b c)
+let reduceWithIndex a x f = reduceWithIndexU a x (fun[@u] a b c -> f a b c)
 
 let rec everyAux arr i b len =
   if i = len then true
@@ -407,13 +407,13 @@ let everyU arr b =
   let len = length arr in
   everyAux arr 0 b len
 
-let every arr f = everyU arr (fun [@u] b -> f b)
+let every arr f = everyU arr (fun[@u] b -> f b)
 
 let someU arr b =
   let len = length arr in
   someAux arr 0 b len
 
-let some arr f = someU arr (fun [@u] b -> f b)
+let some arr f = someU arr (fun[@u] b -> f b)
 
 let rec everyAux2 arr1 arr2 i b len =
   if i = len then true
@@ -426,16 +426,16 @@ let rec someAux2 arr1 arr2 i b len =
   else someAux2 arr1 arr2 (i + 1) b len
 
 let every2U a b p = everyAux2 a b 0 p (Stdlib.min (length a) (length b))
-let every2 a b p = every2U a b (fun [@u] a b -> p a b)
+let every2 a b p = every2U a b (fun[@u] a b -> p a b)
 let some2U a b p = someAux2 a b 0 p (Stdlib.min (length a) (length b))
-let some2 a b p = some2U a b (fun [@u] a b -> p a b)
+let some2 a b p = some2U a b (fun[@u] a b -> p a b)
 
 let eqU a b p =
   let lena = length a in
   let lenb = length b in
   if lena = lenb then everyAux2 a b 0 p lena else false
 
-let eq a b p = eqU a b (fun [@u] a b -> p a b)
+let eq a b p = eqU a b (fun[@u] a b -> p a b)
 
 let rec everyCmpAux2 arr1 arr2 i b len =
   if i = len then 0
@@ -450,7 +450,7 @@ let cmpU a b p =
   else if lena < lenb then -1
   else everyCmpAux2 a b 0 p lena
 
-let cmp a b p = cmpU a b (fun [@u] a b -> p a b)
+let cmp a b p = cmpU a b (fun[@u] a b -> p a b)
 
 let partitionU a f =
   let l = length a in
@@ -471,7 +471,7 @@ let partitionU a f =
   truncateToLengthUnsafe a2 j.contents;
   (a1, a2)
 
-let partition a f = partitionU a (fun [@u] x -> f x)
+let partition a f = partitionU a (fun[@u] x -> f x)
 
 let unzip a =
   let l = length a in
@@ -495,7 +495,7 @@ let joinWithU a sep toString =
       in
       aux 0 ""
 
-let joinWith a sep toString = joinWithU a sep (fun [@u] x -> toString x)
+let joinWith a sep toString = joinWithU a sep (fun[@u] x -> toString x)
 
 let initU n f =
   let v = makeUninitializedUnsafe n in
@@ -504,6 +504,6 @@ let initU n f =
   done;
   v
 
-let init n f = initU n (fun [@u] i -> f i)
+let init n f = initU n (fun[@u] i -> f i)
 
 external push : 'a t -> 'a -> unit = "push" [@@mel.send]

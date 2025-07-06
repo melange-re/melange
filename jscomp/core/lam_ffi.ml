@@ -76,8 +76,14 @@ let handle_mel_non_obj_ffi =
   fun (arg_types :
         Melange_ffi.External_arg_spec.Arg_label.t
         Melange_ffi.External_arg_spec.param
-        list) (result_type : Melange_ffi.External_ffi_types.return_wrapper) ffi
-      args loc prim_name ~dynamic_import ->
+        list)
+    (result_type : Melange_ffi.External_ffi_types.return_wrapper)
+    ffi
+    args
+    loc
+    prim_name
+    ~dynamic_import
+  ->
     if no_auto_uncurried_arg_types arg_types then
       result_wrap loc result_type
         (Lam.prim

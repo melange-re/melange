@@ -66,7 +66,7 @@ let rec iterAux (s : _ opt_cell) f =
       iterAux x.tail f
 
 let forEachU s f = iterAux s.root f
-let forEach s f = forEachU s (fun [@u] x -> f x)
+let forEach s f = forEachU s (fun[@u] x -> f x)
 
 let rec dynamicPopIterU s f =
   match s.root with
@@ -76,4 +76,4 @@ let rec dynamicPopIterU s f =
       dynamicPopIterU s f (* using root, [f] may change it*)
   | None -> ()
 
-let dynamicPopIter s f = dynamicPopIterU s (fun [@u] x -> f x)
+let dynamicPopIter s f = dynamicPopIterU s (fun[@u] x -> f x)
