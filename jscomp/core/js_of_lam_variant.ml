@@ -58,7 +58,7 @@ let eval (arg : J.expression)
                 mutable_flag;
               };
         }
-    | Str s -> Lam_compile_const.translate_arg_cst (List.assoc s dispatches)
+    | Str s -> dispatch_with_default dispatches s
     | _ ->
         E.of_block
           [
