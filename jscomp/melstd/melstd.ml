@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module Array = Array
+module Bytes = BytesLabels
 module Filename = Filename
 module Hash = Hash
 module Hash_gen = Hash_gen
