@@ -33,6 +33,7 @@ module Hash_set_gen = Hash_set_gen
 module Hash_set_ident_mask = Hash_set_ident_mask
 module Ident = Mel_ident
 module Int_vec_vec = Int_vec_vec
+module Io = Io
 module Js_suffix = Js_suffix
 module List = List
 module Loc = Loc
