@@ -137,3 +137,51 @@ let read_file =
                     "read_file: file is larger than Sys.max_string_length"
               | Error (`Unix (e, c, s)) -> raise (Unix.Unix_error (e, c, s)))
         else read_file_chan ~binary fn
+
+let default_out_perm = 0o666
+
+let open_out ?(binary = true) ?(perm = default_out_perm) fn =
+  let flags : Stdlib.open_flag list =
+    [
+      Open_wronly;
+      Open_creat;
+      Open_trunc;
+      (if binary then Open_binary else Open_text);
+    ]
+  in
+  Stdlib.open_out_gen flags perm fn
+
+let with_file_out ?binary ?perm p ~f =
+  protectx (open_out ?binary ?perm p) ~finally:close_out ~f
+
+let with_file_out_fd ?(perm = default_out_perm) fn ~f =
+  protectx
+    (Unix.openfile fn [ O_WRONLY; O_CLOEXEC; O_CREAT; O_TRUNC ] perm)
+    ~finally:Unix.close ~f
+
+let rec write fd str ~off ~len =
+  if len > 0 then
+    let written = Unix.single_write_substring fd str off len in
+    write fd str ~off:(off + written) ~len:(len - written)
+
+let write_file =
+  let write_file_fast ?(perm = default_out_perm) fn data =
+    with_file_out_fd ~perm fn ~f:(fun fd ->
+        write fd data ~off:0 ~len:(String.length data))
+  in
+  fun ?(binary = true) ?perm fn data ->
+    if binary then write_file_fast ?perm fn data
+    else with_file_out ~binary ?perm fn ~f:(fun oc -> output_string oc data)
+
+let write_filev =
+  let write_filev_fast ?(perm = default_out_perm) fn data =
+    with_file_out_fd ~perm fn ~f:(fun fd ->
+        List.iter
+          ~f:(fun chunk -> write fd chunk ~off:0 ~len:(String.length chunk))
+          data)
+  in
+  fun ?(binary = true) ?perm fn data ->
+    if binary then write_filev_fast ?perm fn data
+    else
+      with_file_out ~binary ?perm fn ~f:(fun oc ->
+          List.iter ~f:(output_string oc) data)

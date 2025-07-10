@@ -21,5 +21,12 @@
   SOFTWARE.
 *)
 
+(* Read *)
 val with_file_in_fd : string -> f:(Unix.file_descr -> 'a) -> 'a
 val read_file : ?binary:bool -> string -> string
+
+(* Write *)
+val with_file_out_fd : ?perm:int -> string -> f:(Unix.file_descr -> 'a) -> 'a
+val write : Unix.file_descr -> string -> off:int -> len:int -> unit
+val write_file : ?binary:bool -> ?perm:int -> string -> string -> unit
+val write_filev : ?binary:bool -> ?perm:int -> string -> string list -> unit
