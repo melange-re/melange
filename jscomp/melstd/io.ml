@@ -121,13 +121,19 @@ let read_file =
             | `Eof -> Error `Retry
             | `Ok -> Ok (Bytes.unsafe_to_string b))
   in
-  fun ?(binary = true) fn ->
-    if binary then
-      with_file_in_fd fn ~f:(fun fd ->
-          match read_all_fd fd with
-          | Ok s -> s
-          | Error `Retry -> read_file_chan ~binary fn
-          | Error `Too_big ->
-              failwith "read_file: file is larger than Sys.max_string_length"
-          | Error (`Unix (e, c, s)) -> raise (Unix.Unix_error (e, c, s)))
-    else read_file_chan ~binary fn
+  match Sys.backend_type with
+  | Other _ ->
+      (* use slow path for JSOO *)
+      fun ?(binary = true) fn -> read_file_chan ~binary fn
+  | Native | Bytecode ->
+      fun ?(binary = true) fn ->
+        if binary then
+          with_file_in_fd fn ~f:(fun fd ->
+              match read_all_fd fd with
+              | Ok s -> s
+              | Error `Retry -> read_file_chan ~binary fn
+              | Error `Too_big ->
+                  failwith
+                    "read_file: file is larger than Sys.max_string_length"
+              | Error (`Unix (e, c, s)) -> raise (Unix.Unix_error (e, c, s)))
+        else read_file_chan ~binary fn
