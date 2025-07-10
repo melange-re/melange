@@ -80,9 +80,7 @@ val query_by_name : t -> string -> keyed_cmj_value
 val single_na : arity
 val from_file : string -> t
 
-(*
-   Note writing the file if its content is not changed
-*)
+(* Note writing the file if its content is not changed *)
 val to_file : string -> t -> unit
 
 type cmj_load_info = {

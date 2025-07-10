@@ -113,17 +113,15 @@ let read_magic ic =
   if len = magic_length then Ok s else Error s
 
 let set_input_lexbuf () =
-  let set_input_lexbuf ic =
+  let set_input_lexbuf fn =
     (* set input lexbuf for error messages. *)
-    let source = In_channel.input_all ic in
+    let source = Io.read_file fn in
     let lexbuf = Lexing.from_string source in
     Location.input_lexbuf := Some lexbuf;
     Ocaml_common.Location.input_lexbuf := Some lexbuf;
     lexbuf
   in
-  begin match
-    In_channel.with_open_bin !Location.input_name set_input_lexbuf
-  with
+  begin match set_input_lexbuf !Location.input_name with
   | (_ : Lexing.lexbuf) -> ()
   | exception Sys_error _ -> ()
   end

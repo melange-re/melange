@@ -67,34 +67,34 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
 
 (* Serialization .. *)
 let from_file name : t =
-  let ic = open_in_bin name in
-  let _digest = Digest.input ic in
-  let v : t = input_value ic in
-  close_in ic;
-  v
-
-let for_sure_not_changed =
-  let digest_length = 16 in
-  fun (name : string) (header : string) ->
-    if Sys.file_exists name then (
-      let ic = open_in_bin name in
-      let holder = really_input_string ic digest_length in
-      close_in ic;
-      holder = header)
-    else false
+  let s = Io.read_file name in
+  let _digest = Digest.substring s 0 Marshal.header_size in
+  Marshal.from_string s Marshal.header_size
 
 (* This may cause some build system always rebuild
-   maybe should not be turned on by default
-*)
-let to_file name (v : t) =
-  let s = Marshal.to_string v [] in
-  let cur_digest = Digest.string s in
-  let header = cur_digest in
-  if not (for_sure_not_changed name header) then (
-    let oc = open_out_bin name in
-    output_string oc header;
-    output_string oc s;
-    close_out oc)
+   maybe should not be turned on by default *)
+let to_file =
+  let for_sure_not_changed name header =
+    match Sys.file_exists name with
+    | true ->
+        let holder =
+          Io.with_file_in_fd name ~f:(fun fd ->
+              let buf = Bytes.create Marshal.header_size in
+              let _len = Unix.read fd buf 0 Marshal.header_size in
+              Bytes.unsafe_to_string buf)
+        in
+        String.equal holder header
+    | false -> false
+  in
+  fun name (v : t) ->
+    let s = Marshal.to_string v [] in
+    let cur_digest = Digest.string s in
+    let header = cur_digest in
+    if not (for_sure_not_changed name header) then (
+      let oc = open_out_bin name in
+      output_string oc header;
+      output_string oc s;
+      close_out oc)
 
 let keyComp (a : string) b = String.Map.compare_key a b.name
 
@@ -146,8 +146,7 @@ let binarySearch (sorted : keyed_cmj_value array) (key : string) :
       if c2 > 0 then not_found key else binarySearchAux sorted 0 (len - 1) key
 
 (* FIXME: better error message when ocamldep
-   get self-cycle
-*)
+   gets self-cycle *)
 let query_by_name (cmj_table : t) name : keyed_cmj_value =
   let values = cmj_table.values in
   binarySearch values name
