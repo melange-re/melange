@@ -67,7 +67,8 @@ let output_char t c =
 let flush t =
   match t.kind with
   | File_descr fd -> (
-      try Unix.fsync fd with Unix.Unix_error (Unix.EOPNOTSUPP, _, _) -> ())
+      try Unix.fsync fd
+      with Unix.Unix_error ((Unix.EOPNOTSUPP | Unix.EINVAL), _, _) -> ())
   | Buffer _ -> ()
 
 let from_fd fd =
