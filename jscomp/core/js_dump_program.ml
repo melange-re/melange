@@ -70,7 +70,7 @@ let program ~output_dir ~package_info ~output_info f cxt (x : J.program) =
 
 let dump_program ~output_dir ~package_info ~output_info (x : J.program) oc =
   ignore
-    (program ~output_dir ~package_info ~output_info (P.from_channel oc)
+    (program ~output_dir ~package_info ~output_info (P.from_fd oc)
        Js_pp.Scope.empty x)
 
 let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
@@ -152,6 +152,5 @@ let pp_deps_program =
       P.flush f ()
 
 let dump_deps_program ~package_info ~output_info ~output_prefix x
-    (oc : out_channel) =
-  pp_deps_program ~package_info ~output_info ~output_prefix (P.from_channel oc)
-    x
+    (oc : Unix.file_descr) =
+  pp_deps_program ~package_info ~output_info ~output_prefix (P.from_fd oc) x

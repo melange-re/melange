@@ -326,16 +326,13 @@ let compile
 ;;
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
-  let oc = open_out_bin file in
-  Fun.protect
-    ~finally:(fun () -> close_out oc)
-    (fun () ->
-      Js_dump_program.dump_deps_program
-        ~package_info
-        ~output_info
-        ~output_prefix
-        lambda_output
-        oc)
+  Io.with_file_out_fd file ~f:(fun fd ->
+    Js_dump_program.dump_deps_program
+      ~package_info
+      ~output_info
+      ~output_prefix
+      lambda_output
+      fd)
 
 let lambda_as_module =
   let (//) = Paths.(//) in
@@ -349,7 +346,7 @@ let lambda_as_module =
         ~package_info
         ~output_info:Js_packages_info.default_output_info
         ~output_prefix
-        lambda_output stdout
+        lambda_output Unix.stdout
     | false, None ->
       raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
     | (_, Some _) ->
