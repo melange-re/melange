@@ -90,11 +90,8 @@ let to_file =
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
     let header = cur_digest in
-    if not (for_sure_not_changed name header) then (
-      let oc = open_out_bin name in
-      output_string oc header;
-      output_string oc s;
-      close_out oc)
+    if not (for_sure_not_changed name header) then
+      Io.write_filev name [ header; s ]
 
 let keyComp (a : string) b = String.Map.compare_key a b.name
 
