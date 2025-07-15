@@ -55,15 +55,6 @@ let output_string t s =
   t.line <- new_line;
   t.column <- new_column
 
-let output_char t c =
-  (match t.kind with
-  | File_descr fd -> Io.write fd (String.make 1 c) ~off:0 ~len:1
-  | Buffer buf -> Buffer.add_char buf c);
-  if c = '\n' then (
-    t.line <- t.line + 1;
-    t.column <- 0)
-  else t.column <- t.column + 1
-
 let flush t =
   match t.kind with
   | File_descr fd -> (
@@ -101,22 +92,22 @@ let string =
 
 let newline t =
   if not t.last_new_line then (
-    output_char t '\n';
+    output_string t "\n";
     for _ = 0 to t.indent_level - 1 do
       output_string t L.indent_str
     done;
     t.last_new_line <- true)
 
 let at_least_two_lines t =
-  if not t.last_new_line then output_char t '\n';
-  output_char t '\n';
+  if not t.last_new_line then output_string t "\n";
+  output_string t "\n";
   for _ = 0 to t.indent_level - 1 do
     output_string t L.indent_str
   done;
   t.last_new_line <- true
 
 let force_newline t =
-  output_char t '\n';
+  output_string t "\n";
   for _ = 0 to t.indent_level - 1 do
     output_string t L.indent_str
   done;
