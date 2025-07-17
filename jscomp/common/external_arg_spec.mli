@@ -55,7 +55,6 @@ module Obj_label : sig
     | Obj_optional of { name : string; for_sure_no_nested_option : bool }
         (** it will be ignored , side effect will be recorded *)
 
-  val empty : t
   val obj : string -> t
   val optional : for_sure_no_nested_option:bool -> string -> t
 end
