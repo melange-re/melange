@@ -27,6 +27,7 @@ open Import
 module L = struct
   let space = " "
   let indent_str = "  "
+  let newline = "\n"
 end
 
 let indent_length = Stdlib.String.length L.indent_str
@@ -92,22 +93,22 @@ let string =
 
 let newline t =
   if not t.last_new_line then (
-    output_string t "\n";
+    output_string t L.newline;
     for _ = 0 to t.indent_level - 1 do
       output_string t L.indent_str
     done;
     t.last_new_line <- true)
 
 let at_least_two_lines t =
-  if not t.last_new_line then output_string t "\n";
-  output_string t "\n";
+  if not t.last_new_line then output_string t L.newline;
+  output_string t L.newline;
   for _ = 0 to t.indent_level - 1 do
     output_string t L.indent_str
   done;
   t.last_new_line <- true
 
 let force_newline t =
-  output_string t "\n";
+  output_string t L.newline;
   for _ = 0 to t.indent_level - 1 do
     output_string t L.indent_str
   done;
