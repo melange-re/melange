@@ -25,15 +25,11 @@
 module Melange_ast_version : Ppxlib_ast.OCaml_version
 module Compiler_version = Ppxlib_ast.Compiler_version
 
-module type OCaml_version = Ppxlib_ast.OCaml_version
-
 module Intf_or_impl : sig
   type t = Intf of Parsetree.signature | Impl of Parsetree.structure
 end
 
-type input_version = (module OCaml_version)
-
-val fall_back_input_version : (module OCaml_version)
+type input_version = (module Ppxlib_ast.OCaml_version)
 
 type t = {
   input_name : string;
@@ -48,7 +44,6 @@ type read_error =
   | System_error of Ppxlib_ast.Location_error.t * input_version
 
 type input_source = Stdin | File of string
-(* | Channel of in_channel *)
 
 type input_kind =
   | Possibly_source of {
