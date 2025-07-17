@@ -38,7 +38,6 @@ module Obj_label = struct
     | Obj_empty
     | Obj_optional of { name : string; for_sure_no_nested_option : bool }
 
-  let empty = Obj_empty
   let obj name = Obj_label { name }
 
   let optional ~for_sure_no_nested_option name =
@@ -69,6 +68,6 @@ type t =
 type 'a param = { arg_type : t; arg_label : 'a }
 
 let empty_kind obj_arg_type =
-  { arg_label = Obj_label.empty; arg_type = obj_arg_type }
+  { arg_label = Obj_label.Obj_empty; arg_type = obj_arg_type }
 
 let dummy = { arg_type = Nothing; arg_label = Arg_label.Arg_empty }
