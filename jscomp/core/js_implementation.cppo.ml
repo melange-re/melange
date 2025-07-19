@@ -69,68 +69,70 @@ let output_prefix ?(f = Filename.remove_extension) name =
 
 let after_parsing_sig ppf fname ast =
   let outputprefix = output_prefix fname in
-  if !Js_config.modules then Meldep.output_deps_set !Location.input_name Mli ast;
-  if !Js_config.as_pp then (
-    output_string stdout Config.ast_intf_magic_number;
-    output_value stdout (!Location.input_name : string);
-    output_value stdout ast);
-  if !Js_config.syntax_only then Warnings.check_fatal ()
-  else
-    Lam_compile_env.reset ();
-    let initial_env = Initialization.Perfile.initial_env () in
+  if !Js_config.modules then Meldep.output_deps_set !Location.input_name Mli ast
+  else (
+    if !Js_config.as_pp then (
+      output_string stdout Config.ast_intf_magic_number;
+      output_value stdout (!Location.input_name : string);
+      output_value stdout ast);
+    if !Js_config.syntax_only then Warnings.check_fatal ()
+    else
+      Lam_compile_env.reset ();
+      let initial_env = Initialization.Perfile.initial_env () in
 #if OCAML_VERSION >= (5,3,0)
-    let unit_info =
-      Unit_info.make ~check_modname:false ~source_file:fname Intf outputprefix
-    in
-    Env.set_current_unit unit_info;
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname Intf outputprefix
+      in
+      Env.set_current_unit unit_info;
 #elif OCAML_VERSION >= (5,2,0)
-    let unit_info =
-      Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-    in
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+      in
 #endif
 #if OCAML_VERSION < (5,3,0)
-    let modulename = module_name outputprefix in
-    Env.set_unit_name modulename;
+      let modulename = module_name outputprefix in
+      Env.set_unit_name modulename;
 #endif
-    let tsg = Typemod.type_interface initial_env ast in
-    if !Clflags.dump_typedtree then
-      Format.fprintf ppf "%a@." Printtyped.interface tsg;
-    let sg = tsg.sig_type in
-    if !Clflags.print_types then
-      Printtyp.wrap_printing_env ~error:false initial_env (fun () ->
-          Format.fprintf Format.std_formatter "%a@."
-            (Printtyp.printed_signature !Location.input_name)
-            sg);
+      let tsg = Typemod.type_interface initial_env ast in
+      if !Clflags.dump_typedtree then
+        Format.fprintf ppf "%a@." Printtyped.interface tsg;
+      let sg = tsg.sig_type in
+      if !Clflags.print_types then
+        Printtyp.wrap_printing_env ~error:false initial_env (fun () ->
+            Format.fprintf Format.std_formatter "%a@."
+              (Printtyp.printed_signature !Location.input_name)
+              sg);
 #if OCAML_VERSION >= (5, 3, 0)
-    ignore (Includemod.signatures initial_env ~mark:true sg sg);
+      ignore (Includemod.signatures initial_env ~mark:true sg sg);
 #else
-    ignore (Includemod.signatures initial_env ~mark:Mark_both sg sg);
+      ignore (Includemod.signatures initial_env ~mark:Mark_both sg sg);
 #endif
-    Typecore.force_delayed_checks ();
-    Warnings.check_fatal ();
-    if not !Clflags.print_types then
-      let sg =
-        let alerts = Builtin_attributes.alerts_of_sig
+      Typecore.force_delayed_checks ();
+      Warnings.check_fatal ();
+      if not !Clflags.print_types then
+        let sg =
+          let alerts = Builtin_attributes.alerts_of_sig
 #if OCAML_VERSION >= (5,3,0)
- ~mark:true
+   ~mark:true
 #endif
-        ast in
-        Env.save_signature ~alerts tsg.Typedtree.sig_type
+          ast in
+          Env.save_signature ~alerts tsg.Typedtree.sig_type
 #if OCAML_VERSION >= (5,2,0)
-          (Unit_info.cmi unit_info)
+            (Unit_info.cmi unit_info)
 #else
-          modulename
-          (Artifact_extension.append_extension outputprefix Cmi)
+            modulename
+            (Artifact_extension.append_extension outputprefix Cmi)
 #endif
-      in
+        in
 #if OCAML_VERSION >= (5,2,0)
-      Typemod.save_signature unit_info tsg initial_env sg
+        Typemod.save_signature unit_info tsg initial_env sg
 #else
-      Typemod.save_signature modulename tsg outputprefix !Location.input_name
-        initial_env sg
+        Typemod.save_signature modulename tsg outputprefix !Location.input_name
+          initial_env sg
 #endif
-(* process_with_gentype *)
-(* (Artifact_extension.append_extension outputprefix Cmti) *)
+  (* process_with_gentype *)
+  (* (Artifact_extension.append_extension outputprefix Cmti) *)
+  )
 
 let interface ~parser ppf fname =
   Initialization.Perfile.init_path ();
@@ -174,59 +176,62 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
-  if !Js_config.modules then Meldep.output_deps_set !Location.input_name Ml ast;
-  if !Js_config.as_pp then (
-    output_string stdout Config.ast_impl_magic_number;
-    output_value stdout (!Location.input_name : string);
-    output_value stdout ast);
-  if !Js_config.syntax_only then Warnings.check_fatal ()
-  else
-    let modulename = module_name outputprefix in
-    Lam_compile_env.reset ();
-    let env = Initialization.Perfile.initial_env () in
+  if !Js_config.modules 
+  then Meldep.output_deps_set !Location.input_name Ml ast
+  else (
+    if !Js_config.as_pp then (
+      output_string stdout Config.ast_impl_magic_number;
+      output_value stdout (!Location.input_name : string);
+      output_value stdout ast);
+    if !Js_config.syntax_only then Warnings.check_fatal ()
+    else
+      let modulename = module_name outputprefix in
+      Lam_compile_env.reset ();
+      let env = Initialization.Perfile.initial_env () in
 #if OCAML_VERSION >= (5,3,0)
-    let unit_info =
-      Unit_info.make ~check_modname:false ~source_file:fname Impl outputprefix
-    in
-    Env.set_current_unit unit_info;
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname Impl outputprefix
+      in
+      Env.set_current_unit unit_info;
 #elif OCAML_VERSION >= (5,2,0)
-    let unit_info =
-      Unit_info.make ~check_modname:false ~source_file:fname outputprefix
-    in
+      let unit_info =
+        Unit_info.make ~check_modname:false ~source_file:fname outputprefix
+      in
 #endif
 #if OCAML_VERSION < (5,3,0)
-    Env.set_unit_name modulename;
+      Env.set_unit_name modulename;
 #endif
-    let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
+      let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
 #if OCAML_VERSION >= (5,2,0)
-      Typemod.type_implementation unit_info env ast
+        Typemod.type_implementation unit_info env ast
 #else
-      Typemod.type_implementation fname outputprefix modulename env ast
+        Typemod.type_implementation fname outputprefix modulename env ast
 #endif
-    in
-    let typedtree_coercion = (typedtree, coercion) in
-    print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
-      implementation;
-    if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
-    else
-      (* XXX(anmonteiro): important that we get package_info after
-         processing, as `[@@@config {flags = [| ... |]}]` could have added to
-         package specs. *)
-      let package_info = Js_packages_state.get_packages_info () in
-      let js_program =
-        let lambda =
-          let program =
-            Translmod.transl_implementation modulename typedtree_coercion
-          in
-          Lambda_simplif.simplify_lambda program.code
-          |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda
-        in
-
-        Lam_compile_main.compile ~package_info outputprefix lambda
       in
-      if not !Js_config.cmj_only then
-        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix
-(* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
+      let typedtree_coercion = (typedtree, coercion) in
+      print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
+        implementation;
+      if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
+      else
+        (* XXX(anmonteiro): important that we get package_info after
+           processing, as `[@@@config {flags = [| ... |]}]` could have added to
+           package specs. *)
+        let package_info = Js_packages_state.get_packages_info () in
+        let js_program =
+          let lambda =
+            let program =
+              Translmod.transl_implementation modulename typedtree_coercion
+            in
+            Lambda_simplif.simplify_lambda program.code
+            |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda
+          in
+
+          Lam_compile_main.compile ~package_info outputprefix lambda
+        in
+        if not !Js_config.cmj_only then
+          Lam_compile_main.lambda_as_module ~package_info js_program outputprefix
+  )
+  (* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
 
 let implementation ~parser ppf fname =
   Initialization.Perfile.init_path ();
