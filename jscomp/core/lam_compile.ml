@@ -1728,29 +1728,6 @@ and compile_prim (prim_info : Lam.prim_info)
           compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest loc)
       | ( Lprim
             {
-              primitive = Popaque;
-              args =
-                [
-                  Lsequence
-                    ( Lprim
-                        { primitive = Pjs_call _ as primitive; args = []; loc },
-                      l2 );
-                ];
-              _;
-            }
-        | Lsequence
-            (Lprim { primitive = Pjs_call _ as primitive; args = []; loc }, l2)
-          )
-        :: rest ->
-          let output_l1 =
-            compile_lambda
-              { lambda_cxt with continuation = EffectCall Not_tail }
-              (Lam.prim ~primitive ~args:rest loc)
-          in
-          let output_l2 = compile_lambda lambda_cxt l2 in
-          Js_output.append_output output_l1 output_l2
-      | ( Lprim
-            {
               primitive =
                 (Pnull_to_opt | Pnull_undefined_to_opt | Pundefined_to_opt) as
                 nu_prim;
