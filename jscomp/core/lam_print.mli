@@ -25,5 +25,3 @@
 val lambda : Format.formatter -> Lam.t -> unit
 val primitive : Format.formatter -> Lam_primitive.t -> unit
 val serialize : string -> Lam.t -> unit
-val lambda_to_string : Lam.t -> string
-val primitive_to_string : Lam_primitive.t -> string
