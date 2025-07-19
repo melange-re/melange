@@ -31,7 +31,7 @@ type t
 
 val make : ?immutable_mask:bool array -> int -> t
 val no_tailcall : t -> bool list
-val set_unbounded : t -> Ident.Set.t -> unit
 val mark_unused : t -> int -> unit
 val get_unused : t -> int -> bool
 val get_unbounded : t -> Ident.Set.t
+val set_unbounded : t -> Ident.Set.t -> unit
