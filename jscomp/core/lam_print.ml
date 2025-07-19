@@ -494,6 +494,3 @@ let serialize (filename : string) (lam : Lam.t) : unit =
   Format.pp_print_flush fmt ();
   Io.write_file filename (Buffer.contents buf);
   Format.set_margin old
-
-let lambda_to_string = Format.asprintf "%a" lambda
-let primitive_to_string = Format.asprintf "%a" primitive

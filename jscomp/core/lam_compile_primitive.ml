@@ -383,6 +383,6 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
      It is inlined, this should not appear here *)
     ->
       (*we dont use [throw] here, since [throw] is an statement  *)
-      let s = Lam_print.primitive_to_string prim in
+      let s = Format.asprintf "%a" Lam_print.primitive prim in
       Location.prerr_warning loc (Mel_unimplemented_primitive s);
       E.resolve_and_apply s args
