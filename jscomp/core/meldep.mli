@@ -22,7 +22,4 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Set_string = Depend.String.Set
-
-val read_parse_and_extract : 'a Ml_binary.kind -> 'a -> Set_string.t
 val output_deps_set : string -> 'a Ml_binary.kind -> 'a -> unit
