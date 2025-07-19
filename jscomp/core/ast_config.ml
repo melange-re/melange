@@ -27,10 +27,18 @@ open Import
 type action_table = (Parsetree.expression option -> unit) String.Map.t
 
 let structural_config_table : action_table ref =
+  let assert_bool_lit (e : Parsetree.expression) =
+    match e.pexp_desc with
+    | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
+    | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
+    | _ ->
+        Location.raise_errorf ~loc:e.pexp_loc
+          "Expected a boolean literal (`true' or `false')"
+  in
   ref
     (String.Map.singleton "no_export" (fun x ->
          Js_config.no_export :=
-           match x with Some e -> Ast_payload.assert_bool_lit e | None -> true))
+           match x with Some e -> assert_bool_lit e | None -> true))
 
 let add_structure k v =
   structural_config_table := String.Map.add !structural_config_table k v

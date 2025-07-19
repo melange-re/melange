@@ -85,14 +85,6 @@ let ident_or_record_as_config =
     | PStr [] -> []
     | _ -> error ~loc ""
 
-let assert_bool_lit (e : Parsetree.expression) =
-  match e.pexp_desc with
-  | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
-  | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
-  | _ ->
-      Location.raise_errorf ~loc:e.pexp_loc
-        "Expected a boolean literal (`true' or `false')"
-
 let table_dispatch table
     (action : string Asttypes.loc * Parsetree.expression option) =
   match action with
