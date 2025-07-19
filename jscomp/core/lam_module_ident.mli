@@ -28,7 +28,7 @@ open Import
 
 type t = J.module_id = private {
   id : Ident.t;
-  kind : Js_op.kind;
+  kind : J.kind;
   dynamic_import : bool;
 }
 
