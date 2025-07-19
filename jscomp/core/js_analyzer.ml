@@ -28,7 +28,7 @@ let same_vident (x : J.vident) (y : J.vident) =
   match (x, y) with
   | Id x0, Id y0 -> Ident.same x0 y0
   | Qualified (x, str_opt0), Qualified (y, str_opt1) ->
-      let same_kind (x : Js_op.kind) (y : Js_op.kind) =
+      let same_kind (x : J.kind) (y : J.kind) =
         match (x, y) with
         | Ml, Ml | Runtime, Runtime -> true
         | External { name = u; _ }, External { name = v; _ } ->

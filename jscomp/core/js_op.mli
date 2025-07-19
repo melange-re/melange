@@ -44,33 +44,8 @@ type binop =
   | Div
   | Mod
 
-type int_op =
-  | Bor
-  | Bxor
-  | Band
-  | Lsl
-  | Lsr
-  | Asr
-  | Plus
-  | Minus
-  | Mul
-  | Div
-  | Mod
-
-type level = Log | Info | Warn | Error
-type kind = Ml | Runtime | External of { name : string; default : bool }
-type property = Lam_group.let_kind = Strict | Alias | StrictOpt | Variable
-type 'a access = Getter | Setter
 type float_lit = { f : string } [@@unboxed]
-
-type number =
-  | Float of float_lit
-  | Int of { i : int32; c : char option }
-  | Uint of int32
-
 type mutable_flag = Mutable | Immutable | NA
-type direction_flag = Upto | Downto | Up
-type recursive_info = SingleRecursive | NonRecursie | NA
 
 type used_stats =
   | Dead_pure
@@ -87,15 +62,8 @@ type ident_info = {
   mutable used_stats : used_stats;
 }
 
-type exports = Ident.t list
-type tag_info = Lam.Tag_info.t
-type length_object = Array | String | Bytes | Function | Caml_block
-
 val op_prec : binop -> int * int * int
 val op_str : binop -> string
-val op_int_prec : int_op -> int * int * int
-val op_int_str : int_op -> string
-val str_of_used_stats : used_stats -> string
 val update_used_stats : ident_info -> used_stats -> unit
 val of_lam_mutable_flag : Asttypes.mutable_flag -> mutable_flag
 val is_cons : string -> bool

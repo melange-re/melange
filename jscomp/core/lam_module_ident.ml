@@ -25,11 +25,7 @@
 open Import
 
 module T = struct
-  type t = J.module_id = {
-    id : Ident.t;
-    kind : Js_op.kind;
-    dynamic_import : bool;
-  }
+  type t = J.module_id = { id : Ident.t; kind : J.kind; dynamic_import : bool }
 
   let equal (x : t) y =
     match x.kind with

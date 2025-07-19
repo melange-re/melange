@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Import
-
 (** Define some basic types used in JS IR *)
 
 type binop =
@@ -52,80 +50,8 @@ type binop =
   | Div
   | Mod
 
-(**
-note that we don't need raise [Div_by_zero] in ReScript
-
-{[
-let add x y = x + y  (* | 0 *)
-let minus x y = x - y (* | 0 *)
-let mul x y = x * y   (* caml_mul | Math.imul *)
-let div x y = x / y (* caml_div (x/y|0)*)
-let imod x y = x mod y  (* caml_mod (x%y) (zero_divide)*)
-
-let bor x y = x lor y   (* x  | y *)
-let bxor x y = x lxor y (* x ^ y *)
-let band x y = x land y (* x & y *)
-let ilnot  y  = lnot y (* let lnot x = x lxor (-1) *)
-let ilsl x y = x lsl y (* x << y*)
-let ilsr x y = x lsr y  (* x >>> y | 0 *)
-let iasr  x y = x asr y (* x >> y *)
-]}
-
-
-Note that js treat unsigned shift 0 bits in a special way
-   Unsigned shifts convert their left-hand side to Uint32,
-   signed shifts convert it to Int32.
-   Shifting by 0 digits returns the converted value.
-   {[
-    function ToUint32(x) {
-        return x >>> 0;
-    }
-    function ToInt32(x) {
-        return x >> 0;
-    }
-   ]}
-   So in Js, [-1 >>>0] will be the largest Uint32, while [-1>>0] will remain [-1]
-   and [-1 >>> 0 >> 0 ] will be [-1]
-*)
-type int_op =
-  | Bor
-  | Bxor
-  | Band
-  | Lsl
-  | Lsr
-  | Asr
-  | Plus
-  (* for [+], given two numbers
-     x + y | 0
-  *)
-  | Minus
-  (* x - y | 0 *)
-  | Mul
-  (* *)
-  | Div
-  (* x / y | 0 *)
-  | Mod
-(* x  % y *)
-
-(* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Bitwise_operators
-    {[
-    ~
-    ]}
-    ~0xff -> -256
-    design; make sure each operation type is consistent
-*)
-type level = Log | Info | Warn | Error
-type kind = Ml | Runtime | External of { name : string; default : bool }
-type property = Lam_group.let_kind = Strict | Alias | StrictOpt | Variable
-type 'a access = Getter | Setter
-
 (* literal char *)
 type float_lit = { f : string } [@@unboxed]
-
-type number =
-  | Float of float_lit
-  | Int of { i : int32; c : char option }
-  | Uint of int32
 
 (* becareful when constant folding +/-,
    since we treat it as js nativeint, bitwise operators:
@@ -134,15 +60,6 @@ type number =
 *)
 
 type mutable_flag = Mutable | Immutable | NA
-type direction_flag = Upto | Downto | Up
-
-(*
-     {[
-     let rec x = 1 :: y
-     and y = 1 :: x
-     ]}
-*)
-type recursive_info = SingleRecursive | NonRecursie | NA
 
 type used_stats =
   | Dead_pure
@@ -173,10 +90,6 @@ type ident_info = {
   mutable used_stats : used_stats;
 }
 
-type exports = Ident.t list
-type tag_info = Lam.Tag_info.t
-type length_object = Array | String | Bytes | Function | Caml_block
-
 (** TODO: define constant - for better constant folding  *)
 
 (* type constant =  *)
@@ -194,15 +107,6 @@ let op_prec (op : binop) =
   | And -> (4, 4, 4)
   | EqEqEq | NotEqEq -> (8, 8, 9)
   | Gt | Ge | Lt | Le (* | InstanceOf *) -> (9, 9, 10)
-  | Bor -> (5, 5, 5)
-  | Bxor -> (6, 6, 6)
-  | Band -> (7, 7, 7)
-  | Lsl | Lsr | Asr -> (10, 10, 11)
-  | Plus | Minus -> (11, 11, 12)
-  | Mul | Div | Mod -> (12, 12, 13)
-
-let op_int_prec (op : int_op) =
-  match op with
   | Bor -> (5, 5, 5)
   | Bxor -> (6, 6, 6)
   | Band -> (7, 7, 7)
@@ -233,31 +137,6 @@ let op_str (op : binop) =
   | Gt -> ">"
   | Ge -> ">="
 (* | InstanceOf -> "instanceof" *)
-
-let op_int_str (op : int_op) =
-  match op with
-  | Bor -> "|"
-  | Bxor -> "^"
-  | Band -> "&"
-  | Lsl -> "<<"
-  | Lsr -> ">>>"
-  | Asr -> ">>"
-  | Plus -> "+"
-  | Minus -> "-"
-  | Mul -> "*"
-  | Div -> "/"
-  | Mod -> "%"
-
-let str_of_used_stats x =
-  match (x : used_stats) with
-  | Dead_pure -> "Dead_pure"
-  | Dead_non_pure -> "Dead_non_pure"
-  | Exported -> "Exported"
-  | Once_pure -> "Once_pure"
-  | Used -> "Used"
-  | Scanning_pure -> "Scanning_pure"
-  | Scanning_non_pure -> "Scanning_non_pure"
-  | NA -> "NA"
 
 let update_used_stats (ident_info : ident_info) used_stats =
   match ident_info.used_stats with
