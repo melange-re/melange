@@ -75,6 +75,9 @@ let le = "<="
 let lt = "<"
 let ge = ">="
 let plus_plus = "++"
+let infinity = "Infinity"
+let minus_infinity = "-Infinity"
+let nan = "NaN"
 
 (*  FIXME: use (i = i + 1 | 0) instead  *)
 let minus_minus = "--"
