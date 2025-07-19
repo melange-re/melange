@@ -1104,7 +1104,7 @@ and compile_while (predicate : Lam.t) (body : Lam.t)
 *)
 
 and compile_for (id : J.for_ident) (start : Lam.t) (finish : Lam.t)
-    (direction : Js_op.direction_flag) (body : Lam.t)
+    (direction : J.for_direction) (body : Lam.t)
     (lambda_cxt : Lam_compile_context.t) =
   let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
   let block =
