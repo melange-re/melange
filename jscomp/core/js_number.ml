@@ -24,8 +24,6 @@
 
 open Import
 
-type t = float
-
 (* http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
    http://caml.inria.fr/pub/docs/manual-ocaml/lex.html
    {[
@@ -41,14 +39,16 @@ type t = float
    The Hex part is quite different
 *)
 
+module L = Js_dump_lit
+
 let to_string (v : float) =
-  if v = infinity then "Infinity"
-  else if v = neg_infinity then "-Infinity"
-  else if v <> v then "NaN"
+  if v = infinity then L.infinity
+  else if v = neg_infinity then L.minus_infinity
+  else if v <> v then L.nan
   else
     let vint =
       int_of_float v
-      (* TODO: check if 32-bits will loose some precision *)
+      (* TODO: check if 32-bits will lose some precision *)
     in
     if float_of_int vint = v then string_of_int vint
     else
@@ -58,39 +58,36 @@ let to_string (v : float) =
         let s2 = Printf.sprintf "%.15g" v in
         if v = float_of_string s2 then s2 else Printf.sprintf "%.18g" v
 
-let rec is_hex_format_aux (v : string) cur =
-  if v.[cur] = '-' || v.[cur] = '+' then is_hex_format_ox v (cur + 1)
-  else is_hex_format_ox v cur
+let is_hex_format =
+  let rec is_hex_format_aux v cur =
+    if v.[cur] = '-' || v.[cur] = '+' then is_hex_format_ox v (cur + 1)
+    else is_hex_format_ox v cur
+  and is_hex_format_ox v cur =
+    v.[cur] = '0' && (v.[cur + 1] = 'x' || v.[cur + 1] = 'X')
+  in
+  fun v -> try is_hex_format_aux v 0 with _ -> false
 
-and is_hex_format_ox v cur =
-  v.[cur] = '0' && (v.[cur + 1] = 'x' || v.[cur + 1] = 'X')
-
-let is_hex_format (v : string) = try is_hex_format_aux v 0 with _ -> false
-
-(*
-  call [to_string (float_of_string v)]
-  directly would loose some precision and lost some information
-  like '3.0' -> '3'
-
-*)
-let rec aux (v : string) (buf : Buffer.t) i len =
-  if i >= len then ()
-  else
-    let x = v.[i] in
-    if x = '_' then aux v buf (i + 1) len
-    else if x = '.' && i = len - 1 then ()
-    else (
-      Buffer.add_char buf x;
-      aux v buf (i + 1) len)
-
-let transform v len =
-  let buf = Buffer.create len in
-  let i = ref 0 in
-  while !i + 1 < len && v.[!i] = '0' && v.[!i + 1] <> '.' do
-    incr i
-  done;
-  aux v buf !i len;
-  Buffer.contents buf
+let transform =
+  (* calling [to_string (float_of_string v)] directly would lose some precision
+   and lose some information like '3.0' -> '3' *)
+  let rec aux (v : string) (buf : Buffer.t) i len =
+    if i >= len then ()
+    else
+      let x = v.[i] in
+      if x = '_' then aux v buf (i + 1) len
+      else if x = '.' && i = len - 1 then ()
+      else (
+        Buffer.add_char buf x;
+        aux v buf (i + 1) len)
+  in
+  fun v len ->
+    let buf = Buffer.create len in
+    let i = ref 0 in
+    while !i + 1 < len && v.[!i] = '0' && v.[!i + 1] <> '.' do
+      incr i
+    done;
+    aux v buf !i len;
+    Buffer.contents buf
 
 let caml_float_literal_to_js_string (float_str : string) : string =
   let len = String.length float_str in
