@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** The intemediate output when compiling lambda into JS IR *)
+(** The intermediate output when compiling lambda into JS IR *)
 
 (* Hongbo Should we rename this module js_of_lambda since it looks like it's
    containing that step
@@ -72,8 +72,7 @@ val output_of_expression :
 
 val output_of_block_and_expression :
   Lam_compile_context.continuation -> J.block -> J.expression -> t
-(** - needed for instrument [return] statement properly
-*)
+(** - needed for instrument [return] statement properly *)
 
 val concat : t list -> t
 
