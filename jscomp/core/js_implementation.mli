@@ -28,8 +28,8 @@ val interface :
   parser:(string -> Parsetree.signature) -> Format.formatter -> string -> unit
 (** This module defines a function to compile the program directly into [js]
     given [filename] and [outputprefix],
-    it will be useful if we don't care about bytecode output(generating js only).
- *)
+    it will be useful if we don't care about bytecode output(generating js
+    only). *)
 
 val implementation :
   parser:(string -> Parsetree.structure) -> Format.formatter -> string -> unit
