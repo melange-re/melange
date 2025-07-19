@@ -32,8 +32,6 @@ val ident_or_record_as_config :
   Parsetree.payload ->
   (string Asttypes.loc * Parsetree.expression option) list
 
-val assert_bool_lit : Parsetree.expression -> bool
-
 val table_dispatch :
   (Parsetree.expression option -> 'a) String.Map.t ->
   string Asttypes.loc * Parsetree.expression option ->
