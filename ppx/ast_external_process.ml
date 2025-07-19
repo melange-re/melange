@@ -362,22 +362,6 @@ let is_user_option ty =
       true
   | _ -> false
 
-let check_return_wrapper ~loc (wrapper : External_ffi_types.return_wrapper)
-    result_type =
-  match wrapper with
-  | Return_identity -> wrapper
-  | Return_unset -> (
-      match result_type.ptyp_desc with
-      | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
-          Return_replaced_with_unit
-      | _ -> wrapper)
-  | Return_undefined_to_opt | Return_null_to_opt | Return_null_undefined_to_opt
-    ->
-      if is_user_option result_type then wrapper
-      else Error.err ~loc Expect_opt_in_mel_return_to_opt
-  | Return_replaced_with_unit ->
-      assert false (* Not going to happen from user input*)
-
 type response = {
   pval_type : core_type;
   pval_prim : string list;
@@ -933,6 +917,22 @@ module From_attributes = struct
           valid_global_name ~loc name);
       !xrelative
 
+  let check_return_wrapper ~loc ~is_uncurried
+      (wrapper : External_ffi_types.return_wrapper) result_type =
+    match wrapper with
+    | Return_identity -> wrapper
+    | Return_unset -> (
+        match (is_uncurried, result_type.ptyp_desc) with
+        | false, Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
+            Return_replaced_with_unit
+        | _ -> wrapper)
+    | Return_undefined_to_opt | Return_null_to_opt
+    | Return_null_undefined_to_opt ->
+        if is_user_option result_type then wrapper
+        else Error.err ~loc Expect_opt_in_mel_return_to_opt
+    | Return_replaced_with_unit ->
+        assert false (* Not going to happen from user input*)
+
   (* Note that the passed [type_annotation] is already processed by visitor pattern before*)
   let parse =
     let list_of_arrow (ty : core_type) : core_type * param_type list =
@@ -962,10 +962,11 @@ module From_attributes = struct
         attrs
     in
     fun ~loc
+      ~is_uncurried
       (type_annotation : core_type)
       (prim_attributes : attribute list)
-      ~(pval_name : string)
-      ~(prim_name : string)
+      ~pval_name
+      ~prim_name
     ->
       (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
@@ -1107,13 +1108,11 @@ module From_attributes = struct
               in
               let relative = check_ffi ~loc ffi in
               (* result type can not be labeled *)
-              (* currently we don't process attributes of
-           return type, in the future we may *)
+              (* currently we don't process attributes of return type, in the
+                 future we may *)
               let return_wrapper =
-                (* TODO(anmonteiro): don't add the return wrapper for unit if this is
-             uncurried? saves the brittle pattern matching in Lam_compile *)
-                check_return_wrapper loc external_desc.return_wrapper
-                  result_type
+                check_return_wrapper ~loc ~is_uncurried
+                  external_desc.return_wrapper result_type
               in
               {
                 pval_type = mk_fn_type new_arg_types_ty result_type;
@@ -1126,39 +1125,34 @@ end
 
 let handle_attributes_as_string ~loc (typ : core_type) (attrs : attribute list)
     (pval_name : string) (prim_name : string) =
-  match typ.ptyp_desc with
-  | Ptyp_constr
-      ({ txt = Ldot (Ldot (Lident "Js", "Fn"), arity); loc }, [ fn_type ]) ->
-      let {
-        From_attributes.pval_type;
-        ffi;
-        pval_attributes;
-        dont_inline_cross_module;
-      } =
-        From_attributes.parse ~loc fn_type attrs ~pval_name ~prim_name
-      in
-
-      {
-        pval_type =
-          Ast_helper.Typ.constr
-            { txt = Ldot (Ast_literal.js_fn, arity); loc }
-            [ pval_type ];
-        pval_prim = [ prim_name; prim_name ];
-        pval_attributes = Ast_attributes.mel_ffi ffi :: pval_attributes;
-        dont_inline_cross_module;
-      }
-  | _ ->
-      let {
-        From_attributes.pval_type;
-        ffi;
-        pval_attributes;
-        dont_inline_cross_module;
-      } =
-        From_attributes.parse ~loc typ attrs ~pval_name ~prim_name
-      in
-      {
-        pval_type;
-        pval_prim = [ prim_name; prim_name ];
-        pval_attributes = Ast_attributes.mel_ffi ffi :: pval_attributes;
-        dont_inline_cross_module;
-      }
+  let typ, loc, wrapper =
+    match typ.ptyp_desc with
+    | Ptyp_constr
+        ({ txt = Ldot (Ldot (Lident "Js", "Fn"), arity); loc }, [ fn_type ]) ->
+        ( fn_type,
+          loc,
+          Some
+            (fun x ->
+              Ast_helper.Typ.constr
+                { txt = Ldot (Ast_literal.js_fn, arity); loc }
+                [ x ]) )
+    | _ -> (typ, loc, None)
+  in
+  let {
+    From_attributes.pval_type;
+    ffi;
+    pval_attributes;
+    dont_inline_cross_module;
+  } =
+    let is_uncurried = Option.is_some wrapper in
+    From_attributes.parse ~loc ~is_uncurried typ attrs ~pval_name ~prim_name
+  in
+  {
+    pval_type =
+      (match wrapper with
+      | Some wrapper_fn -> wrapper_fn pval_type
+      | None -> pval_type);
+    pval_prim = [ prim_name; prim_name ];
+    pval_attributes = Ast_attributes.mel_ffi ffi :: pval_attributes;
+    dont_inline_cross_module;
+  }
