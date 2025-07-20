@@ -54,20 +54,3 @@
  (action
   (run cppo -D TYPE_LOCAL_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
-(rule
- (targets hash_int.ml)
- (deps hash.cppo.ml)
- (action
-  (run cppo -D TYPE_INT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_ident.ml)
- (deps hash.cppo.ml)
- (action
-  (run cppo -D TYPE_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash.ml)
- (deps hash.cppo.ml)
- (action
-  (run cppo -D TYPE_FUNCTOR %{env:CPPO_FLAGS=} %{deps} -o %{targets})))

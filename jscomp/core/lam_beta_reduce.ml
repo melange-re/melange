@@ -24,6 +24,12 @@
 
 open Import
 
+let of_list2 ks vs =
+  let len = Stdlib.List.length ks in
+  let map = Ident.Hashtbl.create len in
+  List.iter2 ~f:(fun k v -> Ident.Hashtbl.add map k v) ks vs;
+  map
+
 (*
      A naive beta reduce would break the invariants of the optmization.
 
@@ -63,17 +69,17 @@ let propagate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
       in
       let new_body =
         Lam_bounded_vars.rewrite
-          (Ident.Hash.of_list2 (List.rev params) rev_new_params)
+          (of_list2 (List.rev params) rev_new_params)
           body
       in
       List.fold_right
         ~f:(fun (param, arg) l ->
           (match arg with
           | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-              Ident.Hash.replace meta.ident_tbl param
+              Ident.Hashtbl.replace meta.ident_tbl param
                 (Lam_util.kind_of_lambda_block args)
           | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-              Ident.Hash.replace meta.ident_tbl param (Normal_optional v)
+              Ident.Hashtbl.replace meta.ident_tbl param (Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
         rest_bindings ~init:new_body
@@ -107,17 +113,17 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
       in
       let new_body =
         Lam_bounded_vars.rewrite
-          (Ident.Hash.of_list2 (List.rev params) rev_new_params)
+          (of_list2 (List.rev params) rev_new_params)
           body
       in
       List.fold_right
         ~f:(fun (param, (arg : Lam.t)) l ->
           (match arg with
           | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-              Ident.Hash.replace meta.ident_tbl param
+              Ident.Hashtbl.replace meta.ident_tbl param
                 (Lam_util.kind_of_lambda_block args)
           | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-              Ident.Hash.replace meta.ident_tbl param (Normal_optional v)
+              Ident.Hashtbl.replace meta.ident_tbl param (Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
         rest_bindings ~init:new_body

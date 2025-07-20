@@ -120,10 +120,10 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
   *)
   match v_kind with
   | NA -> (
-      match Ident.Hash.find_opt meta.ident_tbl v with
+      match Ident.Hashtbl.find_opt meta.ident_tbl v with
       | None -> ()
-      | Some ident_info -> Ident.Hash.add meta.ident_tbl k ident_info)
-  | ident_info -> Ident.Hash.add meta.ident_tbl k ident_info
+      | Some ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info)
+  | ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info
 
 (* share -- it is safe to share most properties,
     for arity, we might be careful, only [Alias] can share,
@@ -172,8 +172,9 @@ let kind_of_lambda_block =
   fun (xs : Lam.t list) ->
     Lam_id_kind.ImmutableBlock (Array.of_list_map xs element_of_lambda)
 
-let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hash.t) : Lam.t =
-  match Ident.Hash.find_opt tbl v with
+let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hashtbl.t) : Lam.t
+    =
+  match Ident.Hashtbl.find_opt tbl v with
   | Some (Module g) ->
       Lam.prim
         ~primitive:(Pfield (i, info))

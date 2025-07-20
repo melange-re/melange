@@ -147,7 +147,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
             let newid = Ident.rename original_export_id in
             (let arity = Lam_arity_analysis.get_arity meta lam in
              if not (Lam_arity.first_arity_na arity) then
-               Ident.Hash.add meta.ident_tbl newid
+               Ident.Hashtbl.add meta.ident_tbl newid
                  (FunctionId
                     {
                       arity;

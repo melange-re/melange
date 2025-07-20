@@ -42,7 +42,7 @@ let key_index_by_ident (h : t) (key : Ident.t) =
   land (Stdlib.Array.length h.data - 1)
 
 let create initial_size =
-  let s = Hash_gen.power_2_above 8 initial_size in
+  let s = Hash_set_gen.power_2_above 8 initial_size in
   { size = 0; data = Stdlib.Array.make s Empty; mask_size = 0 }
 
 let iter_and_unmask h f =

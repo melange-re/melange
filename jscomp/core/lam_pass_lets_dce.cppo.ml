@@ -14,15 +14,15 @@
 open Import
 
 let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
-  let subst : Lam.t Ident.Hash.t = Ident.Hash.create 32 in
-  let string_table : string Ident.Hash.t = Ident.Hash.create 32 in
+  let subst : Lam.t Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
+  let string_table : string Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
   let used v = (count_var v).times > 0 in
   let rec simplif (lam : Lam.t) =
     match lam with
-    | Lvar v -> Ident.Hash.find_default subst v lam
+    | Lvar v -> Ident.Hashtbl.find_default subst v ~default:lam
     | Lmutvar _ -> lam
     | Llet ((Strict | Alias | StrictOpt), v, Lvar w, l2) ->
-        Ident.Hash.add subst v (simplif (Lam.var w));
+        Ident.Hashtbl.add subst v (simplif (Lam.var w));
         simplif l2
     | Llet
         ( (Strict as kind),
@@ -65,11 +65,11 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
            inlined, we can still record it and
            do constant folding independently
         *) ->
-            Ident.Hash.add subst v (simplif l1);
+            Ident.Hashtbl.add subst v (simplif l1);
             simplif l2
         | _, Lconst (Const_string { s; unicode = false }) ->
             (* only "" added for later inlining *)
-            Ident.Hash.add string_table v s;
+            Ident.Hashtbl.add string_table v s;
             Lam.let_ Alias v l1 (simplif l2)
             (* we need move [simplif l2] later, since adding Hash does have side effect *)
         | _ ->
@@ -119,7 +119,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
               let l1 = simplif l1 in
               match l1 with
               | Lconst (Const_string { s; unicode = false }) ->
-                  Ident.Hash.add string_table v s;
+                  Ident.Hashtbl.add string_table v s;
                   (* we need move [simplif lbody] later, since adding Hash does have side effect *)
                   Lam.let_ Alias v l1 (simplif lbody)
               | _ ->
@@ -137,7 +137,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
 
           match (kind, l1) with
           | Strict, Lconst (Const_string { s; unicode = false }) ->
-              Ident.Hash.add string_table v s;
+              Ident.Hashtbl.add string_table v s;
               Lam.let_ Alias v l1 (simplif l2)
           | _ ->
               Lam_util.refine_let
@@ -178,7 +178,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         let opt_l =
           match l' with
           | Lconst (Const_string { s = ls; unicode = false }) -> Some ls
-          | Lvar i -> Ident.Hash.find_opt string_table i
+          | Lvar i -> Ident.Hashtbl.find_opt string_table i
           | _ -> None
         in
         match opt_l with
@@ -187,7 +187,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
             let opt_r =
               match r' with
               | Lconst (Const_string { s = rs; unicode = false }) -> Some rs
-              | Lvar i -> Ident.Hash.find_opt string_table i
+              | Lvar i -> Ident.Hashtbl.find_opt string_table i
               | _ -> None
             in
             match opt_r with
@@ -206,7 +206,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         let opt_l =
           match l' with
           | Lconst (Const_string { s = ls; unicode = false }) -> Some ls
-          | Lvar i -> Ident.Hash.find_opt string_table i
+          | Lvar i -> Ident.Hashtbl.find_opt string_table i
           | _ -> None
         in
         match opt_l with
@@ -254,7 +254,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
 (* To transform let-bound references into variables *)
 let apply_lets occ lambda =
   let count_var v =
-    match Ident.Hash.find_opt occ v with
+    match Ident.Hashtbl.find_opt occ v with
     | None -> Lam_pass_count.dummy_info ()
     | Some v -> v
   in

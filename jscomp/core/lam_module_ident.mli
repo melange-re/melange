@@ -40,5 +40,5 @@ val of_runtime : Ident.t -> t
 val external_ :
   dynamic_import:bool -> Ident.t -> name:string -> default:bool -> t
 
-module Hash : Hash_gen.S with type key = t
+module Hashtbl : Hashtbl.S with type key = t
 module Hash_set : Hash_set_gen.S with type key = t

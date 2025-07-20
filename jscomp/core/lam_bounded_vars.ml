@@ -63,17 +63,17 @@ open Import
     2. number of invoked times
     3. arguments are const or not
 *)
-let rewrite (map : _ Ident.Hash.t) (lam : Lam.t) : Lam.t =
+let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
   let rebind i =
     let i' = Ident.rename i in
-    Ident.Hash.add map i (Lam.var i');
+    Ident.Hashtbl.add map i (Lam.var i');
     i'
   in
   (* order matters, especially for let bindings *)
   let rec option_map op = match op with None -> None | Some x -> Some (aux x)
   and aux (lam : Lam.t) : Lam.t =
     match lam with
-    | Lvar v | Lmutvar v -> Ident.Hash.find_default map v lam
+    | Lvar v | Lmutvar v -> Ident.Hashtbl.find_default map v ~default:lam
     | Llet (str, v, l1, l2) ->
         let v = rebind v in
         let l1 = aux l1 in

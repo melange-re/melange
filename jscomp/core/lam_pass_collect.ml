@@ -35,18 +35,18 @@ open Import
 *)
 let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     lambda =
-  Ident.Hash.add meta.ident_tbl k
+  Ident.Hashtbl.add meta.ident_tbl k
     (FunctionId { arity; lambda = Some (lambda, rec_flag) })
 
 (* see #3609
    we have to update since bounded function lambda
    may contain staled unbounded varaibles
 *)
-(* match Ident.Hash.find_opt  meta.ident_tbl k  with
+(* match Ident.Hashtbl.find_opt  meta.ident_tbl k  with
    | None -> (* FIXME: need do a sanity check of arity is NA or Determin(_,[],_) *)
 
    |  Some (FunctionId old)  ->
-     Ident.Hash.add meta.ident_tbl k
+     Ident.Hashtbl.add meta.ident_tbl k
        (FunctionId {arity; lambda = Some (lambda, rec_flag) })
      (* old.arity <- arity   *)
      (* due to we keep refining arity analysis after each round*)
@@ -60,14 +60,14 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
 let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
   let rec collect_bind rec_flag (ident : Ident.t) (lam : Lam.t) =
     match lam with
-    | Lconst v -> Ident.Hash.replace meta.ident_tbl ident (Constant v)
+    | Lconst v -> Ident.Hashtbl.replace meta.ident_tbl ident (Constant v)
     (* *)
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
-        Ident.Hash.replace meta.ident_tbl ident
+        Ident.Hashtbl.replace meta.ident_tbl ident
           (Lam_util.kind_of_lambda_block ls);
         List.iter ~f:collect ls
     | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-        Ident.Hash.replace meta.ident_tbl ident (Normal_optional v);
+        Ident.Hashtbl.replace meta.ident_tbl ident (Normal_optional v);
         collect v
     | Lprim
         {
@@ -76,15 +76,16 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
           args = _;
           _;
         } ->
-        Ident.Hash.replace meta.ident_tbl ident
+        Ident.Hashtbl.replace meta.ident_tbl ident
           (FunctionId { arity = Lam_arity.info [ arity ] false; lambda = None })
     | Lprim { primitive = Pnull_to_opt; args = [ (Lvar _ as l) ]; _ } ->
-        Ident.Hash.replace meta.ident_tbl ident (OptionalBlock (l, Null))
+        Ident.Hashtbl.replace meta.ident_tbl ident (OptionalBlock (l, Null))
     | Lprim { primitive = Pundefined_to_opt; args = [ (Lvar _ as l) ]; _ } ->
-        Ident.Hash.replace meta.ident_tbl ident (OptionalBlock (l, Undefined))
+        Ident.Hashtbl.replace meta.ident_tbl ident
+          (OptionalBlock (l, Undefined))
     | Lprim { primitive = Pnull_undefined_to_opt; args = [ (Lvar _ as l) ]; _ }
       ->
-        Ident.Hash.replace meta.ident_tbl ident
+        Ident.Hashtbl.replace meta.ident_tbl ident
           (OptionalBlock (l, Null_undefined))
     | Lglobal_module { id = v; _ } ->
         Lam_util.alias_ident_or_global meta ident v (Module v)
@@ -100,7 +101,9 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
             -- since collect would iter everywhere,
             so -- it would still iterate internally
         *)
-        List.iter ~f:(fun p -> Ident.Hash.add meta.ident_tbl p Parameter) params;
+        List.iter
+          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl p Parameter)
+          params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam;
         collect body
@@ -117,7 +120,9 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         List.iter ~f:collect ll
     | Lfunction { params; body = l; _ } ->
         (* functor ? *)
-        List.iter ~f:(fun p -> Ident.Hash.add meta.ident_tbl p Parameter) params;
+        List.iter
+          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl p Parameter)
+          params;
         collect l
     | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->
         collect_bind Lam_non_rec ident arg;

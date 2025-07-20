@@ -145,7 +145,7 @@ type lam_subst = Id of Lam.t [@@unboxed]
        the j is not very indicative
 *)
 
-let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
+let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
     (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
   let to_lam x =
     let (Id x) = x in
@@ -159,11 +159,11 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
         match (count, l2) with
         | 0, _ -> simplif l1
         | _, Lvar _ | _, Lconst _ (* when i >= 0  # 2316 *) ->
-            Hash_int.add subst i (xs, Id (simplif l2));
+            Int.Hashtbl.add subst i (xs, Id (simplif l2));
             simplif l1 (* l1 will inline *)
         | 1, _ when max_depth <= !try_depth ->
             assert (max_depth = !try_depth);
-            Hash_int.add subst i (xs, Id (simplif l2));
+            Int.Hashtbl.add subst i (xs, Id (simplif l2));
             simplif l1 (* l1 will inline *)
         | _ ->
             let l2 = simplif l2 in
@@ -178,16 +178,16 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
               || lam_size < 5
             in
             if ok_to_inline then (
-              Hash_int.add subst i (xs, Id l2);
+              Int.Hashtbl.add subst i (xs, Id l2);
               simplif l1)
             else Lam.staticcatch (simplif l1) (i, xs) l2)
     | Lstaticraise (i, []) -> (
-        match Hash_int.find_opt subst i with
+        match Int.Hashtbl.find_opt subst i with
         | Some (_, handler) -> to_lam handler
         | None -> lam)
     | Lstaticraise (i, ls) -> (
         let ls = List.map ~f:simplif ls in
-        match Hash_int.find_opt subst i with
+        match Int.Hashtbl.find_opt subst i with
         | Some (xs, handler) ->
             let handler = to_lam handler in
             let ys = List.map ~f:Ident.rename xs in
@@ -250,7 +250,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
 let simplify_exits (lam : Lam.t) =
   let try_depth = ref 0 in
   let exits = Lam_exit_count.count_helper ~try_depth lam in
-  subst_helper ~try_depth (Hash_int.create 17)
+  subst_helper ~try_depth (Int.Hashtbl.create 17)
     (Lam_exit_count.get_exit exits)
     lam
 

@@ -24,6 +24,6 @@
 
 open Import
 
-val rewrite : Lam.t Ident.Hash.t -> Lam.t -> Lam.t
+val rewrite : Lam.t Ident.Hashtbl.t -> Lam.t -> Lam.t
 (** [rewrite tbl lam]
     Given a [tbl] to rewrite all bounded variables in [lam] *)

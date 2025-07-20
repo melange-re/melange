@@ -31,7 +31,7 @@ val field_flatten_get :
   Ident.t ->
   int ->
   Lambda.field_dbg_info ->
-  Lam_id_kind.t Ident.Hash.t ->
+  Lam_id_kind.t Ident.Hashtbl.t ->
   Lam.t
 (** [field_flatten_get cb v i tbl]
     try to remove the indirection of [v.(i)] by inlining when [v]

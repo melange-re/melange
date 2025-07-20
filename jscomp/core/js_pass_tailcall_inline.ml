@@ -136,7 +136,7 @@ let inline_call =
 let super = Js_record_map.super
 
 let subst (export_set : Ident.Set.t)
-    (stats : J.variable_declaration Ident.Hash.t) =
+    (stats : J.variable_declaration Ident.Hashtbl.t) =
   {
     super with
     statement =
@@ -156,7 +156,7 @@ let subst (export_set : Ident.Set.t)
            does rely on this (otherwise, when you do beta-reduction you have to regenerate names)
         *)
         let v = super.variable_declaration self v in
-        Ident.Hash.add stats ident v;
+        Ident.Hashtbl.add stats ident v;
         (* see #278 before changes *)
         v);
     block =
@@ -173,7 +173,7 @@ let subst (export_set : Ident.Set.t)
             let is_export = Ident.Set.mem vd.ident export_set in
             if is_export then self.statement self st :: self.block self rest
             else
-              match Ident.Hash.find_opt stats vd.ident with
+              match Ident.Hashtbl.find_opt stats vd.ident with
               (* TODO: could be improved as [mem] *)
               | None ->
                   if Js_analyzer.no_side_effect_expression v then
@@ -193,7 +193,7 @@ let subst (export_set : Ident.Set.t)
             _;
           } as st);
         ] -> (
-            match Ident.Hash.find_opt stats id with
+            match Ident.Hashtbl.find_opt stats id with
             | Some
                 ({
                    value =
