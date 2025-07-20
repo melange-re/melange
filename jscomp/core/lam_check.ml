@@ -46,25 +46,25 @@ let check file lam =
     else Ident.Hash_set.add defined_variables id
   in
   (* TODO: replaced by a slow version of {!Lam_iter.inner_iter} *)
-  let rec check_list xs (cxt : Set_int.t) =
+  let rec check_list xs (cxt : Int.Set.t) =
     List.iter ~f:(fun x -> check_staticfails x cxt) xs
   and check_list_snd : 'a. ('a * Lam.t) list -> _ -> unit =
    fun xs cxt -> List.iter ~f:(fun (_, x) -> check_staticfails x cxt) xs
-  and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
+  and check_staticfails (l : Lam.t) (cxt : Int.Set.t) =
     match l with
     | Lvar _ | Lmutvar _ | Lconst _ | Lglobal_module _ -> ()
     | Lprim { args; _ } -> check_list args cxt
     | Lapply { ap_func; ap_args; _ } ->
         check_list (ap_func :: ap_args) cxt
         (* check invariant that staticfaill does not cross function/while/for loop*)
-    | Lfunction { body; params = _; _ } -> check_staticfails body Set_int.empty
+    | Lfunction { body; params = _; _ } -> check_staticfails body Int.Set.empty
     | Lwhile (e1, e2) ->
         check_staticfails e1 cxt;
-        check_staticfails e2 Set_int.empty
+        check_staticfails e2 Int.Set.empty
     | Lfor (_v, e1, e2, _dir, e3) ->
         check_staticfails e1 cxt;
         check_staticfails e2 cxt;
-        check_staticfails e3 Set_int.empty
+        check_staticfails e3 Int.Set.empty
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
         check_list [ arg; body ] cxt
     | Lletrec (decl, body) ->
@@ -80,10 +80,10 @@ let check file lam =
         check_list_snd cases cxt;
         Option.iter (fun x -> check_staticfails x cxt) default
     | Lstaticraise (i, args) ->
-        if Set_int.mem cxt i then check_list args cxt
+        if Int.Set.mem i cxt then check_list args cxt
         else failwith ("exit " ^ string_of_int i ^ " unbound")
     | Lstaticcatch (e1, (j, _vars), e2) ->
-        check_staticfails e1 (Set_int.add cxt j);
+        check_staticfails e1 (Int.Set.add j cxt);
         check_staticfails e2 cxt
     | Ltrywith (e1, _exn, e2) ->
         check_staticfails e1 cxt;
@@ -163,7 +163,7 @@ let check file lam =
     | Lifused (_v, e) -> iter e
   in
 
-  check_staticfails lam Set_int.empty;
+  check_staticfails lam Int.Set.empty;
   iter lam;
   assert !success;
   lam

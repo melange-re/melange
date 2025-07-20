@@ -59,14 +59,13 @@ let suites =
            let v =
              Vec_int.inplace_filter_with
                (fun x -> x mod 2 = 0)
-               ~cb_no:(fun a b -> Set_int.add b a)
-               Set_int.empty u
+               ~cb_no:Int.Set.add Int.Set.empty u
            in
            let even, odd =
              init_array |> Array.to_list
              |> List.partition ~f:(fun x -> x mod 2 = 0)
            in
-           OUnit.assert_equal (Set_int.elements v) odd;
+           OUnit.assert_equal (Int.Set.elements v) odd;
            u =~~ Array.of_list even );
          ( "filter" ^ __LOC__ >:: fun _ ->
            let v = Vec_int.of_array [| 1; 2; 3; 4; 5; 6 |] in

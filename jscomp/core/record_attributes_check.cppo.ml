@@ -159,19 +159,19 @@ let check_duplicated_labels =
     match lbls with
     | [] -> None
     | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
-        if String.Set.mem coll txt then Some pld_name
+        if String.Set.mem txt coll then Some pld_name
         else
-          let coll_with_lbl = String.Set.add coll txt in
+          let coll_with_lbl = String.Set.add txt coll in
           match List.find_map ~f:find_name_with_loc pld_attributes with
           | None -> check_duplicated_labels_aux rest coll_with_lbl
           | Some ({ txt = s; _ } as l) ->
               if
-                String.Set.mem coll s
+                String.Set.mem s coll
                 (* use coll to make check a bit looser
                    allow cases like [ x : int [@as "x"]] *)
               then Some l
               else
                 check_duplicated_labels_aux rest
-                  (String.Set.add coll_with_lbl s))
+                  (String.Set.add s coll_with_lbl))
   in
   fun lbls -> check_duplicated_labels_aux lbls String.Set.empty

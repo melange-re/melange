@@ -42,7 +42,7 @@ module Map : sig
   val find_default : default:'a -> key -> 'a t -> 'a
 end
 
-module Set = Set_ident
+module Set : Set.S with type elt = t
 module Hash = Hash_ident
 module Hash_set = Hash_set_ident
 

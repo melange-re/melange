@@ -206,7 +206,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                 let param_map =
                   Lam_closure.is_closed_with_map meta.export_idents params body
                 in
-                let is_export_id = Ident.Set.mem meta.export_idents v in
+                let is_export_id = Ident.Set.mem v meta.export_idents in
                 match (is_export_id, param_map) with
                 | false, (_, param_map) | true, (true, param_map) -> (
                     match rec_flag with

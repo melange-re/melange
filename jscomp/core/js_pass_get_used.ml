@@ -29,7 +29,7 @@ let add_use stats id = Ident.Hash.add_or_update stats id 1 ~update:succ
 let post_process_stats my_export_set
     (defined_idents : J.variable_declaration Ident.Hash.t) stats =
   Ident.Hash.iter defined_idents (fun ident v ->
-      if Ident.Set.mem my_export_set ident then
+      if Ident.Set.mem ident my_export_set then
         Js_op.update_used_stats v.ident_info Exported
       else
         let pure =

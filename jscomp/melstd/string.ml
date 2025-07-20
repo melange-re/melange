@@ -24,7 +24,7 @@
 
 include StdLabels.String
 module Map = Map.Make (Stdlib.String)
-module Set = Set_string
+module Set = Set.Make (Stdlib.String)
 module Hash_set = Hash_set_string
 
 (* {[ split " test_unsafe_obj_ffi_ppx.cmi" ~keep_empty:false ' ']} *)

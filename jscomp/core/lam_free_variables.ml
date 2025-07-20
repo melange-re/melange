@@ -31,34 +31,34 @@ let pass_free_variables (l : Lam.t) : Ident.Set.t =
    fun xs -> List.iter ~f:(fun (_, x) -> free x) xs
   and free (l : Lam.t) =
     match l with
-    | Lvar id | Lmutvar id -> fv := Ident.Set.add !fv id
+    | Lvar id | Lmutvar id -> fv := Ident.Set.add id !fv
     | Lassign (id, e) ->
         free e;
-        fv := Ident.Set.add !fv id
+        fv := Ident.Set.add id !fv
     | Lstaticcatch (e1, (_, vars), e2) ->
         free e1;
         free e2;
-        List.iter ~f:(fun id -> fv := Ident.Set.remove !fv id) vars
+        List.iter ~f:(fun id -> fv := Ident.Set.remove id !fv) vars
     | Ltrywith (e1, exn, e2) ->
         free e1;
         free e2;
-        fv := Ident.Set.remove !fv exn
+        fv := Ident.Set.remove exn !fv
     | Lfunction { body; params; _ } ->
         free body;
-        List.iter ~f:(fun param -> fv := Ident.Set.remove !fv param) params
+        List.iter ~f:(fun param -> fv := Ident.Set.remove param !fv) params
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
         free arg;
         free body;
-        fv := Ident.Set.remove !fv id
+        fv := Ident.Set.remove id !fv
     | Lletrec (decl, body) ->
         free body;
         free_list_snd decl;
-        List.iter ~f:(fun (id, _exp) -> fv := Ident.Set.remove !fv id) decl
+        List.iter ~f:(fun (id, _exp) -> fv := Ident.Set.remove id !fv) decl
     | Lfor (v, e1, e2, _dir, e3) ->
         free e1;
         free e2;
         free e3;
-        fv := Ident.Set.remove !fv v
+        fv := Ident.Set.remove v !fv
     | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         free ap_func;

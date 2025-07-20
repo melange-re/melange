@@ -47,6 +47,6 @@ module Map = struct
     match find k t with v -> v | exception Not_found -> default
 end
 
-module Set = Set_ident
+module Set = Set.Make (T)
 module Hash = Hash_ident
 module Hash_set = Hash_set_ident

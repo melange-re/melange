@@ -57,14 +57,17 @@ let free_variables (export_idents : Ident.Set.t) (params : stats Ident.Map.t)
     (lam : Lam.t) : stats Ident.Map.t =
   let fv = ref params in
   let local_set = ref export_idents in
-  let local_add k = local_set := Ident.Set.add !local_set k in
+  let local_add k = local_set := Ident.Set.add k !local_set in
   let local_add_list ks =
-    local_set := List.fold_left ~f:Ident.Set.add ~init:!local_set ks
+    local_set :=
+      List.fold_left
+        ~f:(fun acc item -> Ident.Set.add item acc)
+        ~init:!local_set ks
   in
   (* base don the envrionmet, recoring the use cases of arguments
      relies on [identifier] uniquely bound *)
   let used (cur_pos : position) (v : Ident.t) =
-    if not (Ident.Set.mem !local_set v) then fv := adjust !fv cur_pos v
+    if not (Ident.Set.mem v !local_set) then fv := adjust !fv cur_pos v
   in
 
   let rec iter (top : position) (lam : Lam.t) =
@@ -89,7 +92,7 @@ let free_variables (export_idents : Ident.Set.t) (params : stats Ident.Map.t)
     | Lletrec (decl, body) ->
         local_set :=
           List.fold_left
-            ~f:(fun acc (id, _) -> Ident.Set.add acc id)
+            ~f:(fun acc (id, _) -> Ident.Set.add id acc)
             ~init:!local_set decl;
         List.iter ~f:(fun (_, exp) -> iter sink_pos exp) decl;
         iter sink_pos body

@@ -934,7 +934,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Alias, Lvar u ->
         let new_u = Ident.Hash.find_default alias_tbl u u in
         Ident.Hash.add alias_tbl id new_u;
-        if Ident.Set.mem exports id then
+        if Ident.Set.mem id exports then
           Lam.let_ kind id (Lam.var new_u) (convert_aux body)
         else convert_aux body
     | _, _ -> (

@@ -45,7 +45,7 @@ type idents_stats = {
 }
 
 let add_defined_idents (x : idents_stats) ident =
-  x.defined_idents <- Ident.Set.add x.defined_idents ident
+  x.defined_idents <- Ident.Set.add ident x.defined_idents
 
 (* Assume that functions already calculated closure correctly
    Maybe in the future, we should add a dirty flag, to mark the calcuated
@@ -65,8 +65,8 @@ let free_variables (stats : idents_stats) =
         match st.value with None -> () | Some v -> self.expression self v);
     ident =
       (fun _ id ->
-        if not (Ident.Set.mem stats.defined_idents id) then
-          stats.used_idents <- Ident.Set.add stats.used_idents id);
+        if not (Ident.Set.mem id stats.defined_idents) then
+          stats.used_idents <- Ident.Set.add id stats.used_idents);
     expression =
       (fun self exp ->
         match exp.expression_desc with
