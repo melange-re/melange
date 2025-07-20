@@ -67,24 +67,6 @@
   (run cppo -D TYPE_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
- (targets map_string.ml)
- (deps map.cppo.ml)
- (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets map_int.ml)
- (deps map.cppo.ml)
- (action
-  (run cppo -D TYPE_INT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets map_ident.ml)
- (deps map.cppo.ml)
- (action
-  (run cppo -D TYPE_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
  (targets ordered_hash_map_local_ident.ml)
  (deps ordered_hash_map.cppo.ml)
  (action

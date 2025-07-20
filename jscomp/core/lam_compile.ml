@@ -376,13 +376,14 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
           *)
             ~return_unit ~immutable_mask:ret.immutable_mask
             (List.map
-               ~f:(fun x -> Ident.Map.find_default ret.new_params x x)
+               ~f:(fun x -> Ident.Map.find_default x ret.new_params ~default:x)
                params)
             [
               S.while_ E.true_
-                (Ident.Map.fold ret.new_params body_block
+                (Ident.Map.fold
                    (fun old new_param acc ->
-                     S.define_variable ~kind:Alias old (E.var new_param) :: acc));
+                     S.define_variable ~kind:Alias old (E.var new_param) :: acc)
+                   ret.new_params body_block);
             ]
         else
           (* TODO:  save computation of length several times *)
@@ -1541,19 +1542,23 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
                     (i + 1, assigns, new_params)
                 | _ ->
                     let new_param, m =
-                      match Ident.Map.find_opt ret.new_params param with
+                      match Ident.Map.find_opt param ret.new_params with
                       | None ->
                           ret.immutable_mask.(i) <- false;
                           let v = Ident.create ("_" ^ Ident.name param) in
-                          (v, Ident.Map.add new_params param v)
+                          (v, Ident.Map.add param v new_params)
                       | Some v -> (v, new_params)
                     in
                     (i + 1, (new_param, arg) :: assigns, m))
               ~init:(0, [], Ident.Map.empty) ret.params args
           in
           ret.new_params <-
-            Ident.Map.disjoint_merge_exn new_params ret.new_params (fun _ _ _ ->
-                assert false);
+            Ident.Map.merge
+              (fun _ v1 v2 ->
+                match (v1, v2) with
+                | Some v, None | None, Some v -> Some v
+                | Some _, Some _ | None, None -> assert false)
+              new_params ret.new_params;
           let block =
             List.map ~f:(fun (param, arg) -> S.assign param arg) assigned_params
             @ [ S.continue_ ]

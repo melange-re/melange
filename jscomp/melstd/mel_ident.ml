@@ -22,9 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-include Ident0
+module T = struct
+  include Ident0
 
-type t = Ident.t
+  type t = Ident.t
+end
+
+include T
 
 let name = Ident.name
 let same = Ident.same
@@ -36,7 +40,13 @@ let is_predef = Ident.is_predef
 let reinit = Ident.reinit
 let global = Ident.global
 
-module Map = Map_ident
+module Map = struct
+  include Map.Make (T)
+
+  let find_default ~default k t =
+    match find k t with v -> v | exception Not_found -> default
+end
+
 module Set = Set_ident
 module Hash = Hash_ident
 module Hash_set = Hash_set_ident

@@ -498,9 +498,9 @@ let rec rename_optional_parameters map params (body : Lam.t) =
                f)
             body
         in
-        (Ident.Map.add map opt new_id, Lam.function_ ~attr ~arity ~params ~body)
+        (Ident.Map.add opt new_id map, Lam.function_ ~attr ~arity ~params ~body)
       | _ ->
-        ( Ident.Map.add map opt new_id,
+        ( Ident.Map.add opt new_id map,
           Lam.let_ k id
             (Lam.if_
                (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
@@ -531,9 +531,9 @@ let rec rename_optional_parameters map params (body : Lam.t) =
              f)
           body
       in
-      (Ident.Map.add map opt new_id, Lam.function_ ~attr ~arity ~params ~body)
+      (Ident.Map.add opt new_id map, Lam.function_ ~attr ~arity ~params ~body)
     | _ ->
-      ( Ident.Map.add map opt new_id,
+      ( Ident.Map.add opt new_id map,
         Lam.let_ k id
           (Lam.if_
              (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
@@ -553,7 +553,7 @@ let rec rename_optional_parameters map params (body : Lam.t) =
          && Ident.same opt opt2 && List.mem opt ~set:params ->
       let map, rest = rename_optional_parameters map params rest in
       let new_id = Ident.create_local (Ident.name id ^ "Opt") in
-      ( Ident.Map.add map opt new_id,
+      ( Ident.Map.add opt new_id map,
         Lam.mutlet id
           (Lam.if_
              (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
@@ -584,7 +584,7 @@ let convert_lfunction_params_and_body params body =
     if Ident.Map.is_empty new_map then just_params
     else
       List.map
-        ~f:(fun x -> Ident.Map.find_default new_map x x)
+        ~f:(fun x -> Ident.Map.find_default x new_map ~default:x)
         just_params
   in
   params, body

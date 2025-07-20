@@ -61,7 +61,7 @@ type continuation =
       make sure all [Assign] are declared first, otherwise you are creating global variables
    *)
 
-type jmp_table = value Map_int.t
+type jmp_table = value Int.Map.t
 
 val continuation_is_return : continuation -> bool
 

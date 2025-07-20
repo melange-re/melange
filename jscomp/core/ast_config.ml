@@ -41,12 +41,12 @@ let structural_config_table : action_table ref =
            match x with Some e -> assert_bool_lit e | None -> true))
 
 let add_structure k v =
-  structural_config_table := String.Map.add !structural_config_table k v
+  structural_config_table := String.Map.add k v !structural_config_table
 
 let signature_config_table : action_table ref = ref String.Map.empty
 
 let add_signature k v =
-  signature_config_table := String.Map.add !signature_config_table k v
+  signature_config_table := String.Map.add k v !signature_config_table
 
 let rec iter_on_mel_config_stru = function
   | [] -> ()

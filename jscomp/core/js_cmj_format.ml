@@ -49,11 +49,23 @@ type t = {
   delayed_program : J.deps_program;
 }
 
+let to_sorted_array_with_f_seq ~(f : String.Map.key -> 'a -> 'b)
+    (m : 'a String.Map.t) : 'b array =
+  let len = String.Map.cardinal m in
+  let arr = Array.make len (Obj.magic 0) in
+  (* temporary placeholder *)
+  let i = ref 0 in
+  String.Map.to_seq m
+  |> Seq.iter (fun (k, v) ->
+      Array.unsafe_set arr !i (f k v);
+      incr i);
+  arr
+
 let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
     ~delayed_program : t =
   {
     values =
-      String.Map.to_sorted_array_with_f values (fun k v ->
+      to_sorted_array_with_f_seq values ~f:(fun k (v : cmj_value) ->
           {
             name = k;
             arity = v.arity;
@@ -93,7 +105,7 @@ let to_file =
     if not (for_sure_not_changed name header) then
       Io.write_filev name [ header; s ]
 
-let keyComp (a : string) b = String.Map.compare_key a b.name
+let keyComp (a : string) b = String.compare a b.name
 
 let not_found key =
   { name = key; arity = single_na; persistent_closed_lambda = None }

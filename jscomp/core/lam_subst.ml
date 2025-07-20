@@ -33,7 +33,7 @@ open Import
 let subst (s : Lam.t Ident.Map.t) lam =
   let rec subst_aux (x : Lam.t) : Lam.t =
     match x with
-    | Lvar id | Lmutvar id -> Ident.Map.find_default s id x
+    | Lvar id | Lmutvar id -> Ident.Map.find_default id s ~default:x
     | Lconst _ -> x
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply (subst_aux ap_func) (List.map ~f:subst_aux ap_args) ap_info

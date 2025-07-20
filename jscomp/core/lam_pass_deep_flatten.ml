@@ -36,7 +36,7 @@ let rec eliminate_tuple (id : Ident.t) (lam : Lam.t) acc =
         Lprim { primitive = Pfield (i, _); args = [ Lvar tuple ]; _ },
         e2 )
     when Ident.same tuple id ->
-      eliminate_tuple id e2 (Map_int.add acc i v)
+      eliminate_tuple id e2 (Int.Map.add i v acc)
       (* it is okay to have duplicates*)
   | _ -> if Lam_hit.hit_variable id lam then None else Some (acc, lam)
 (* [groups] are in reverse order *)
@@ -204,12 +204,12 @@ let deep_flatten =
         | ( ("match" | "include" | "param"),
             (Alias | Strict | StrictOpt),
             Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ) -> (
-            match eliminate_tuple id body Map_int.empty with
+            match eliminate_tuple id body Int.Map.empty with
             | Some (tuple_mapping, body) ->
                 flatten
                   (List.fold_left_with_offset args ~init:accux ~off:0
                      ~f:(fun arg acc i ->
-                       match Map_int.find_opt tuple_mapping i with
+                       match Int.Map.find_opt i tuple_mapping with
                        | None -> Lam_group.nop_cons arg acc
                        | Some key -> Lam_group.single kind key arg :: acc))
                   body
