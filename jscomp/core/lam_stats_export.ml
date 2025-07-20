@@ -57,7 +57,7 @@ let values_of_export =
                      | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam)
                    elems)
           | Some _ | None -> (
-              match Ident.Map.find_opt export_map x with
+              match Ident.Map.find_opt x export_map with
               | Some
                   (Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ })
                 ->
@@ -67,7 +67,7 @@ let values_of_export =
               | Some _ | None -> Js_cmj_format.single_na)
         in
         let persistent_closed_lambda : (_ * _) option =
-          match Ident.Map.find_opt export_map x with
+          match Ident.Map.find_opt x export_map with
           | Some
               (Lconst
                  ( Const_js_null | Const_js_undefined | Const_js_true
@@ -117,7 +117,7 @@ let values_of_export =
             let cmj_value : Js_cmj_format.cmj_value =
               { arity; persistent_closed_lambda }
             in
-            String.Map.add acc (Ident.name x) cmj_value)
+            String.Map.add (Ident.name x) cmj_value acc)
       ~init:String.Map.empty meta.exports
 
 (* ATTENTION: all runtime modules, if it is not hard required,

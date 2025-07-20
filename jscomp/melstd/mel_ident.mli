@@ -36,7 +36,12 @@ val is_predef : t -> bool
 val reinit : unit -> unit
 val global : t -> bool
 
-module Map = Map_ident
+module Map : sig
+  include Map.S with type key = t
+
+  val find_default : default:'a -> key -> 'a t -> 'a
+end
+
 module Set = Set_ident
 module Hash = Hash_ident
 module Hash_set = Hash_set_ident

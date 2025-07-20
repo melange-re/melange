@@ -29,15 +29,17 @@ type stats = Lam_var_stats.stats
 
 let adjust (fv : stats Ident.Map.t) (pos : position) (v : Ident.t) :
     stats Ident.Map.t =
-  Ident.Map.adjust fv v (fun v ->
+  Ident.Map.update v
+    (fun v ->
       let stat =
         match v with None -> Lam_var_stats.fresh_stats | Some v -> v
       in
-      Lam_var_stats.update stat pos)
+      Some (Lam_var_stats.update stat pos))
+    fv
 
 let param_map_of_list lst : stats Ident.Map.t =
   List.fold_left
-    ~f:(fun acc l -> Ident.Map.add acc l Lam_var_stats.fresh_stats)
+    ~f:(fun acc l -> Ident.Map.add l Lam_var_stats.fresh_stats acc)
     ~init:Ident.Map.empty lst
 
 (** Sanity check, remove all varaibles in [local_set] in the last pass *)
@@ -156,8 +158,9 @@ let free_variables (export_idents : Ident.Set.t) (params : stats Ident.Map.t)
 
 (** A bit conservative, it should be empty *)
 let is_closed lam =
-  Ident.Map.for_all (free_variables Ident.Set.empty Ident.Map.empty lam)
+  Ident.Map.for_all
     (fun k _ -> Ident.global k)
+    (free_variables Ident.Set.empty Ident.Map.empty lam)
 
 let is_closed_with_map (exports : Ident.Set.t) (params : Ident.t list)
     (body : Lam.t) : bool * stats Ident.Map.t =

@@ -193,7 +193,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Hash_int.t)
             let ys = List.map ~f:Ident.rename xs in
             let env =
               List.fold_right2
-                ~f:(fun x y t -> Ident.Map.add t x (Lam.var y))
+                ~f:(fun x y t -> Ident.Map.add x (Lam.var y) t)
                 xs ys ~init:Ident.Map.empty
             in
             List.fold_right2

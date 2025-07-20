@@ -198,28 +198,29 @@ let current_line t = t.line
 let current_column t = t.column
 
 module Scope = struct
-  type t = int Map_int.t String.Map.t
+  type t = int Int.Map.t String.Map.t
 
   (* -- "name" --> int map -- stamp --> index suffix *)
   let empty : t = String.Map.empty
 
   let rec print fmt v =
     Format.fprintf fmt "@[<v>{";
-    String.Map.iter v (fun k m ->
-        Format.fprintf fmt "%s: @[%a@],@ " k print_int_map m);
+    String.Map.iter
+      (fun k m -> Format.fprintf fmt "%s: @[%a@],@ " k print_int_map m)
+      v;
     Format.fprintf fmt "}@]"
 
   and print_int_map fmt m =
-    Map_int.iter m (fun k v -> Format.fprintf fmt "%d - %d" k v)
+    Int.Map.iter (fun k v -> Format.fprintf fmt "%d - %d" k v) m
 
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
-    match String.Map.find_opt cxt name with
-    | None -> (0, String.Map.add cxt name (Map_int.add Map_int.empty stamp 0))
+    match String.Map.find_opt name cxt with
+    | None -> (0, String.Map.add name (Int.Map.add stamp 0 Int.Map.empty) cxt)
     | Some imap -> (
-        match Map_int.find_opt imap stamp with
+        match Int.Map.find_opt stamp imap with
         | None ->
-            let v = Map_int.cardinal imap in
-            (v, String.Map.add cxt name (Map_int.add imap stamp v))
+            let v = Int.Map.cardinal imap in
+            (v, String.Map.add name (Int.Map.add stamp v imap) cxt)
         | Some i -> (i, cxt))
 
   (*
@@ -279,9 +280,9 @@ module Scope = struct
     Ident.Set.fold idents empty (fun id acc ->
         let name = Ident.name id in
         let mangled = Ident.convert name in
-        match String.Map.find_exn scope mangled with
+        match String.Map.find mangled scope with
         | exception Not_found -> assert false
         | imap ->
-            if String.Map.mem acc mangled then acc
-            else String.Map.add acc mangled imap)
+            if String.Map.mem mangled acc then acc
+            else String.Map.add mangled imap acc)
 end

@@ -89,7 +89,7 @@ let table_dispatch table
     (action : string Asttypes.loc * Parsetree.expression option) =
   match action with
   | { txt = name; loc }, y -> (
-      match String.Map.find_exn table name with
+      match String.Map.find name table with
       | fn -> Some (fn y)
       | exception Not_found ->
           Location.prerr_warning loc (Mel_unused_attribute name);
