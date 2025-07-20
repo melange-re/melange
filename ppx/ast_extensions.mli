@@ -24,10 +24,13 @@
 
 open Import
 
-val handle_external : Location.t -> string -> expression
-val handle_debugger : Location.t -> payload -> expression_desc
+val handle_external : loc:Location.t -> string -> expression
+val handle_debugger : loc:Location.t -> payload -> expression_desc
 
 val handle_raw :
-  kind:Melange_ffi.Js_raw_info.raw_kind -> Location.t -> payload -> expression
+  kind:Melange_ffi.Js_raw_info.raw_kind ->
+  loc:Location.t ->
+  payload ->
+  expression
 
-val handle_raw_structure : Location.t -> payload -> structure_item
+val handle_raw_structure : loc:Location.t -> payload -> structure_item

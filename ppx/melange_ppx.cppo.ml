@@ -55,7 +55,7 @@ module External = struct
       let handler ~ctxt:_ ident =
         match ident with
         | { txt = Lident x; loc } ->
-            Ast_extensions.handle_external loc x
+            Ast_extensions.handle_external ~loc x
             (* do we need support [%external gg.xx ]
 
                {[ Js.Undefined.to_opt (if Js.typeof x == "undefined" then x else Js.Undefined.empty ) ]}
@@ -75,7 +75,7 @@ module Raw = struct
       let rule label =
         let extractor = Ast_pattern.__' in
         let handler ~ctxt:_ { loc; txt = payload } =
-          Ast_extensions.handle_raw_structure loc payload
+          Ast_extensions.handle_raw_structure ~loc payload
         in
         let extender =
           Extension.V3.declare label Structure_item extractor handler
@@ -87,7 +87,7 @@ module Raw = struct
       let rule label =
         let extractor = Ast_pattern.__' in
         let handler ~ctxt:_ { loc; txt = payload } =
-          Ast_extensions.handle_raw ~kind:Raw_exp loc payload
+          Ast_extensions.handle_raw ~kind:Raw_exp ~loc payload
         in
         let extender =
           Extension.V3.declare label Expression extractor handler
@@ -181,7 +181,7 @@ module Debugger = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
+        Exp.mk ~loc (Ast_extensions.handle_debugger ~loc payload)
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
@@ -196,7 +196,7 @@ module Re = struct
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         Exp.constraint_ ~loc
-          (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
+          (Ast_extensions.handle_raw ~kind:Raw_re ~loc payload)
           (Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } [])
       in
 
@@ -269,7 +269,7 @@ module Node = struct
                   (("__filename" | "__dirname" | "_module" | "require") as name);
               loc;
             } ->
-            let exp = Ast_extensions.handle_external loc (strip name) in
+            let exp = Ast_extensions.handle_external ~loc (strip name) in
             let typ =
               Ast_core_type.lift_option_type
                 (if name = "_module" then
