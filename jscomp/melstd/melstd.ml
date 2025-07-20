@@ -48,5 +48,3 @@ module Scc = Scc
 module String = String
 module Vec = Vec
 module Vec_int = Vec_int
-module Set_int = Set_int
-module Set_gen = Set_gen

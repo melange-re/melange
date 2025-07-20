@@ -101,9 +101,9 @@ let init_state =
 let record_scope_pass =
   let super = Js_record_fold.super in
   let add_defined_ident (st : state) id =
-    { st with defined_idents = Ident.Set.add st.defined_idents id }
+    { st with defined_idents = Ident.Set.add id st.defined_idents }
   and add_used_ident (st : state) id =
-    { st with used_idents = Ident.Set.add st.used_idents id }
+    { st with used_idents = Ident.Set.add id st.used_idents }
   in
   {
     super with
@@ -129,7 +129,7 @@ let record_scope_pass =
             in
             (* mark unused params *)
             List.iteri params ~f:(fun i v ->
-                if not (Ident.Set.mem used_idents' v) then
+                if not (Ident.Set.mem v used_idents') then
                   Js_fun_env.mark_unused env i);
             let closured_idents' =
               (* pass param_set down *)
@@ -194,12 +194,12 @@ let record_scope_pass =
             })
         *)
         {
-          used_idents = Ident.Set.add state.used_idents x;
-          defined_idents = Ident.Set.add state.defined_idents x;
+          used_idents = Ident.Set.add x state.used_idents;
+          defined_idents = Ident.Set.add x state.defined_idents;
         });
     ident =
       (fun _ state x ->
-        if Ident.Set.mem state.defined_idents x then state
+        if Ident.Set.mem x state.defined_idents then state
         else add_used_ident state x);
   }
 

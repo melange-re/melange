@@ -267,17 +267,20 @@ module Scope = struct
     cxt
 
   let merge (cxt : t) (set : Ident.Set.t) =
-    Ident.Set.fold set cxt (fun ident acc ->
+    Ident.Set.fold
+      (fun ident acc ->
         snd
           (add_ident
              ~mangled:(Ident.convert (Ident.name ident))
              (Ident.stamp ident) acc))
+      set cxt
 
   (* Assume that all idents are already in [scope]
      so both [param/0] and [param/1] are in idents, we don't need
      update twice,  once is enough *)
   let sub_scope (scope : t) (idents : Ident.Set.t) : t =
-    Ident.Set.fold idents empty (fun id acc ->
+    Ident.Set.fold
+      (fun id acc ->
         let name = Ident.name id in
         let mangled = Ident.convert name in
         match String.Map.find mangled scope with
@@ -285,4 +288,5 @@ module Scope = struct
         | imap ->
             if String.Map.mem mangled acc then acc
             else String.Map.add mangled imap acc)
+      idents empty
 end

@@ -29,7 +29,7 @@ type t = Lam.t
 let hit_variables (fv : Ident.Set.t) (l : t) : bool =
   let rec hit_opt (x : t option) =
     match x with None -> false | Some a -> hit a
-  and hit_var (id : Ident.t) = Ident.Set.mem fv id
+  and hit_var (id : Ident.t) = Ident.Set.mem id fv
   and hit_list_snd : 'a. ('a * t) list -> bool =
    fun x -> List.exists ~f:(fun (_, x) -> hit x) x
   and hit_list xs = List.exists ~f:hit xs

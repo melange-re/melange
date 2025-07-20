@@ -106,7 +106,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         collect body
     | x ->
         collect x;
-        if Ident.Set.mem meta.export_idents ident then
+        if Ident.Set.mem ident meta.export_idents then
           annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta x) lam
   and collect (lam : Lam.t) =
     match lam with

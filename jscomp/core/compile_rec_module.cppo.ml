@@ -62,12 +62,12 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   | Lprim (Pmakeblock _, args, _) ->
       List.for_all
         ~f:(function
-          | Lambda.Lvar id -> Ident.Set.mem acc id
+          | Lambda.Lvar id -> Ident.Set.mem id acc
           | Lfunction _ | Lconst _ -> true
           | _ -> false)
         args
   | Llet (_, _, id, Lfunction _, cont) | Lmutlet (_, id, Lfunction _, cont) ->
-      is_function_or_const_block cont (Ident.Set.add acc id)
+      is_function_or_const_block cont (Ident.Set.add id acc)
   | Lletrec (bindings, cont) -> (
       let rec aux_bindings bindings acc =
         match bindings with
@@ -77,7 +77,7 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
 #else
         | (id, Lambda.Lfunction _) :: rest ->
 #endif
-            aux_bindings rest (Ident.Set.add acc id)
+            aux_bindings rest (Ident.Set.add id acc)
 #if OCAML_VERSION >= (5,2,0)
         | { id = _; _ } :: _ -> None
 #else
@@ -90,8 +90,8 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   | Llet (_, _, _, Lconst _, cont) | Lmutlet (_, _, Lconst _, cont) ->
       is_function_or_const_block cont acc
   | (Llet (_, _, id1, Lvar id2, cont) | Lmutlet (_, id1, Lvar id2, cont))
-    when Ident.Set.mem acc id2 ->
-      is_function_or_const_block cont (Ident.Set.add acc id1)
+    when Ident.Set.mem id2 acc ->
+      is_function_or_const_block cont (Ident.Set.add id1 acc)
   | _ -> false
 
 let is_strict_or_all_functions (xs : binding list) =

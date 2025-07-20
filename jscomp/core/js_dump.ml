@@ -417,7 +417,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
         | Is_return | No_name _ -> Js_fun_env.get_unbounded env
         | Name_top { name = id; property = _ }
         | Name_non_top { name = id; property = _ } ->
-            Ident.Set.add (Js_fun_env.get_unbounded env) id
+            Ident.Set.add id (Js_fun_env.get_unbounded env)
       in
       (* the context will be continued after this function *)
       let outer_cxt = merge_scope cxt set_env in

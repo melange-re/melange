@@ -32,7 +32,7 @@ let get_initial_exports count_non_variable_declaration_statement
       ~f:(fun acc (st : J.statement) ->
         match st.statement_desc with
         | Variable { ident; value; _ } -> (
-            if Ident.Set.mem acc ident then
+            if Ident.Set.mem ident acc then
               match value with
               | None -> acc
               | Some x ->
@@ -50,7 +50,7 @@ let get_initial_exports count_non_variable_declaration_statement
                     Ident.Set.(
                       union
                         (Js_analyzer.free_variables_of_expression x)
-                        (add acc ident)))
+                        (add ident acc)))
         | _ ->
             (* recalcuate again and again ... *)
             if
@@ -81,7 +81,7 @@ let shake_program (program : J.program) =
       ~f:(fun (st : J.statement) acc ->
         match st.statement_desc with
         | Variable { ident; value; _ } -> (
-            if Ident.Set.mem really_set ident then st :: acc
+            if Ident.Set.mem ident really_set then st :: acc
             else
               match value with
               | None -> acc

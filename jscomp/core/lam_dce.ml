@@ -35,7 +35,7 @@ let transitive_closure (initial_idents : Ident.t list)
           Format.ksprintf
             (fun s -> failwith (__LOC__ ^ s))
             "%s/%d not found" (Ident.name id) (Ident.stamp id)
-      | Some e -> Ident.Set.iter e dfs)
+      | Some e -> Ident.Set.iter dfs e)
   in
   List.iter ~f:dfs initial_idents;
   visited
@@ -66,8 +66,10 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
             if Lam_analysis.no_side_effects lam then acc
             else
               (* its free varaibles here will be defined above *)
-              Ident.Set.fold (Lam_free_variables.pass_free_variables lam) acc
-                (fun x acc -> x :: acc))
+              Ident.Set.fold
+                (fun x acc -> x :: acc)
+                (Lam_free_variables.pass_free_variables lam)
+                acc)
       ~init:export_idents rest
   in
   let visited = transitive_closure initial_idents ident_free_vars in

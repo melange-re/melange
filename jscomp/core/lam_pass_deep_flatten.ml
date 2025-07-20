@@ -232,7 +232,7 @@ let deep_flatten =
           match bind_args with
           | [] -> (List.rev groups, set)
           | (id, arg) :: rest ->
-              iter rest ((id, aux arg) :: groups) (Ident.Set.add set id)
+              iter rest ((id, aux arg) :: groups) (Ident.Set.add id set)
         in
         let groups, collections = iter bind_args [] Ident.Set.empty in
         (* Try to extract some value definitions from recursive values as [wrap],
