@@ -35,7 +35,7 @@ open Import
 
 type value = { mutable used : bool; lambda : Lam.t }
 
-let param_hash : _ Ident.Hash.t = Ident.Hash.create 20
+let param_hash : _ Ident.Hashtbl.t = Ident.Hashtbl.create 20
 
 (* optimize cases like
    (fun f (a,b){ g (a,b,1)} (e0, e1))
@@ -54,7 +54,7 @@ let param_hash : _ Ident.Hash.t = Ident.Hash.create 20
 let simple_beta_reduce params body args =
   let exception Not_simple_apply in
   let find_param_exn v opt =
-    match Ident.Hash.find_opt param_hash v with
+    match Ident.Hashtbl.find_opt param_hash v with
     | Some exp ->
         if exp.used then raise_notrace Not_simple_apply else exp.used <- true;
         exp.lambda
@@ -74,21 +74,23 @@ let simple_beta_reduce params body args =
       let () =
         List.iter2
           ~f:(fun p a ->
-            Ident.Hash.add param_hash p { lambda = a; used = false })
+            Ident.Hashtbl.add param_hash p { lambda = a; used = false })
           params args
       in
       try
         let new_args = aux_exn [] ap_args in
         let result =
-          Ident.Hash.fold param_hash (Lam.prim ~primitive ~args:new_args ap_loc)
+          Ident.Hashtbl.fold
             (fun _param stats acc ->
               let { lambda; used } = stats in
               if not used then Lam.seq lambda acc else acc)
+            param_hash
+            (Lam.prim ~primitive ~args:new_args ap_loc)
         in
-        Ident.Hash.clear param_hash;
+        Ident.Hashtbl.clear param_hash;
         Some result
       with Not_simple_apply ->
-        Ident.Hash.clear param_hash;
+        Ident.Hashtbl.clear param_hash;
         None)
   | Lapply
       {
@@ -102,7 +104,7 @@ let simple_beta_reduce params body args =
       let () =
         List.iter2
           ~f:(fun p a ->
-            Ident.Hash.add param_hash p { lambda = a; used = false })
+            Ident.Hashtbl.add param_hash p { lambda = a; used = false })
           params args
       in
       (*since we adde each param only once,
@@ -116,14 +118,16 @@ let simple_beta_reduce params body args =
           match f with Lvar fn_name -> find_param_exn fn_name f | _ -> f
         in
         let result =
-          Ident.Hash.fold param_hash (Lam.apply f new_args ap_info)
+          Ident.Hashtbl.fold
             (fun _param stat acc ->
               let { lambda; used } = stat in
               if not used then Lam.seq lambda acc else acc)
+            param_hash
+            (Lam.apply f new_args ap_info)
         in
-        Ident.Hash.clear param_hash;
+        Ident.Hashtbl.clear param_hash;
         Some result
       with Not_simple_apply ->
-        Ident.Hash.clear param_hash;
+        Ident.Hashtbl.clear param_hash;
         None)
   | _ -> None

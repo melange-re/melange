@@ -31,7 +31,7 @@ open Import
 type t = {
   export_idents : Ident.Set.t;
   exports : Ident.t list;
-  ident_tbl : Lam_id_kind.t Ident.Hash.t;
+  ident_tbl : Lam_id_kind.t Ident.Hashtbl.t;
       (** we don't need count arities for all identifiers, for identifiers
       for sure it's not a function, there is no need to count them
    *)

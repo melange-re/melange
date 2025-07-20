@@ -25,12 +25,12 @@
 open Import
 
 let transitive_closure (initial_idents : Ident.t list)
-    (ident_freevars : Ident.Set.t Ident.Hash.t) =
+    (ident_freevars : Ident.Set.t Ident.Hashtbl.t) =
   let visited = Ident.Hash_set.create 31 in
   let rec dfs (id : Ident.t) : unit =
     if not (Ident.Hash_set.mem visited id || Ident.is_js_or_global id) then (
       Ident.Hash_set.add visited id;
-      match Ident.Hash.find_opt ident_freevars id with
+      match Ident.Hashtbl.find_opt ident_freevars id with
       | None ->
           Format.ksprintf
             (fun s -> failwith (__LOC__ ^ s))
@@ -41,7 +41,7 @@ let transitive_closure (initial_idents : Ident.t list)
   visited
 
 let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
-  let ident_free_vars : _ Ident.Hash.t = Ident.Hash.create 17 in
+  let ident_free_vars : _ Ident.Hashtbl.t = Ident.Hashtbl.create 17 in
   (* calculate initial required idents,
      at the same time, populate dependency set [ident_free_vars]
   *)
@@ -50,7 +50,7 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
       ~f:(fun acc (x : Lam_group.t) ->
         match x with
         | Single (kind, id, lam) -> (
-            Ident.Hash.add ident_free_vars id
+            Ident.Hashtbl.add ident_free_vars id
               (Lam_free_variables.pass_free_variables lam);
             match kind with
             | Alias | StrictOpt -> acc
@@ -58,7 +58,7 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
         | Recursive bindings ->
             List.fold_left
               ~f:(fun acc (id, lam) ->
-                Ident.Hash.add ident_free_vars id
+                Ident.Hashtbl.add ident_free_vars id
                   (Lam_free_variables.pass_free_variables lam);
                 match lam with Lfunction _ -> acc | _ -> id :: acc)
               ~init:acc bindings

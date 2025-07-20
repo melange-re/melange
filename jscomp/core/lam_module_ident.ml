@@ -39,7 +39,7 @@ module T = struct
   (* #1556
      Note the main difference between [Ml] and [Runtime] is
      that we have more assumptions about [Runtime] module,
-     like its purity etc, and its name uniqueues, in the pattern match
+     like its purity etc, and its name uniqueness, in the pattern match
      {[
        {Runtime, "caml_int_compare"}
      ]}
@@ -59,7 +59,7 @@ module T = struct
         Hashtbl.hash (Ident.stamp x_id, Ident.name x_id)
 end
 
-module Hash = Hash.Make (T)
+module Hashtbl = Hashtbl.Make (T)
 module Hash_set = Hash_set.Make (T)
 include T
 

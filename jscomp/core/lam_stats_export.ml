@@ -45,7 +45,7 @@ let values_of_export =
     List.fold_left
       ~f:(fun acc x ->
         let arity : Js_cmj_format.arity =
-          match Ident.Hash.find_opt meta.ident_tbl x with
+          match Ident.Hashtbl.find_opt meta.ident_tbl x with
           | Some (FunctionId { arity; _ }) -> Single arity
           | Some (ImmutableBlock elems) ->
               (* FIXME: field name for dumping*)

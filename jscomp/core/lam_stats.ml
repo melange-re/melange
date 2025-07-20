@@ -43,7 +43,7 @@ open Import
 type t = {
   export_idents : Ident.Set.t;
   exports : Ident.t list; (* It is kept since order matters? *)
-  ident_tbl : Lam_id_kind.t Ident.Hash.t;
+  ident_tbl : Lam_id_kind.t Ident.Hashtbl.t;
       (** we don't need count arities for all identifiers, for identifiers
           for sure it's not a function, there is no need to count them *)
 }
@@ -51,16 +51,20 @@ type t = {
 (* let pp_alias_tbl fmt (tbl : alias_tbl) =
    Ident.Hash.iter  tbl (fun k v -> pp fmt "@[%a -> %a@]@." Ident.print k Ident.print v) *)
 
-let pp_ident_tbl ident_tbl =
-  Ident.Hash.to_list ident_tbl (fun k v ->
-      Pp.box
-        (Pp.concat
-           [
-             Pp.text (Format.asprintf "%a" Ident.print k);
-             Pp.text " -> ";
-             Pp.text (Format.asprintf "%a" Lam_id_kind.print v);
-           ]))
-  |> Pp.concat ~sep:Pp.newline
+let pp_ident_tbl =
+  let to_list h f =
+    Ident.Hashtbl.fold (fun k data acc -> f k data :: acc) h []
+  in
+  fun ident_tbl ->
+    to_list ident_tbl (fun k v ->
+        Pp.box
+          (Pp.concat
+             [
+               Pp.text (Format.asprintf "%a" Ident.print k);
+               Pp.text " -> ";
+               Pp.text (Format.asprintf "%a" Lam_id_kind.print v);
+             ]))
+    |> Pp.concat ~sep:Pp.newline
 
 let print (v : t) =
   Pp.concat ~sep:Pp.newline
@@ -83,7 +87,7 @@ let print (v : t) =
 
 let make ~export_idents ~export_ident_sets : t =
   {
-    ident_tbl = Ident.Hash.create 31;
+    ident_tbl = Ident.Hashtbl.create 31;
     exports = export_idents;
     export_idents = export_ident_sets;
   }

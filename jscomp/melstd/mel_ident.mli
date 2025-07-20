@@ -43,7 +43,13 @@ module Map : sig
 end
 
 module Set : Set.S with type elt = t
-module Hash = Hash_ident
+
+module Hashtbl : sig
+  include Hashtbl.S with type key = t
+
+  val find_default : 'a t -> key -> default:'a -> 'a
+end
+
 module Hash_set = Hash_set_ident
 
 val is_js : t -> bool

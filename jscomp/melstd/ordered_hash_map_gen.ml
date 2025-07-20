@@ -58,7 +58,7 @@ type ('a, 'b) t = {
 }
 
 let create initial_size =
-  let s = Hash_gen.power_2_above 16 initial_size in
+  let s = Hash_set_gen.power_2_above 16 initial_size in
   { initial_size = s; size = 0; data = Stdlib.Array.make s Empty }
 
 let clear h =

@@ -27,8 +27,8 @@ open Import
 type outcome = Eval_false | Eval_true | Eval_unknown
 
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
-  let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hash.t) id =
-    match Ident.Hash.find_opt tbl id with
+  let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t) id =
+    match Ident.Hashtbl.find_opt tbl id with
     | Some (ImmutableBlock _)
     | Some (Normal_optional _)
     | Some (MutableBlock _)
@@ -64,7 +64,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           args = [ (Lvar v as lvar) ];
           _;
         } as x -> (
-        match Ident.Hash.find_opt meta.ident_tbl v with
+        match Ident.Hashtbl.find_opt meta.ident_tbl v with
         | Some (OptionalBlock (l, _)) -> l
         | _ -> if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
@@ -74,7 +74,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
           l2,
           l3 ) -> (
-        match Ident.Hash.find_opt meta.ident_tbl id with
+        match Ident.Hashtbl.find_opt meta.ident_tbl id with
         | Some (ImmutableBlock _ | MutableBlock _ | Normal_optional _) ->
             simpl l2
         | Some (OptionalBlock (l, Null)) ->
@@ -147,7 +147,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                     ~f:(fun (arg : Lam.t) ->
                       match arg with
                       | Lvar p | Lmutvar p -> (
-                          match Ident.Hash.find_opt meta.ident_tbl p with
+                          match Ident.Hashtbl.find_opt meta.ident_tbl p with
                           | Some v -> v <> Parameter
                           | None -> true)
                       | _ -> true)
@@ -167,7 +167,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
         let ap_args = List.map ~f:simpl ap_args in
         let[@local] normal () = Lam.apply (simpl fn) ap_args ap_info in
-        match Ident.Hash.find_opt meta.ident_tbl v with
+        match Ident.Hashtbl.find_opt meta.ident_tbl v with
         | Some
             (FunctionId
                {
@@ -266,7 +266,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         let l =
           match l with
           | Lvar s | Lmutvar s -> (
-              match Ident.Hash.find_opt meta.ident_tbl s with
+              match Ident.Hashtbl.find_opt meta.ident_tbl s with
               | Some (Constant s) -> Lam.const s
               | Some _ | None -> simpl l)
           | _ -> simpl l

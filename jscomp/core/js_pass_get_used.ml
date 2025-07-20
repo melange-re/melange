@@ -24,11 +24,19 @@
 
 open Import
 
-let add_use stats id = Ident.Hash.add_or_update stats id 1 ~update:succ
+let add_use =
+  let add_or_update (h : 'a Ident.Hashtbl.t) (key : Ident.Hashtbl.key)
+      ~update:modf ~default =
+    match Ident.Hashtbl.find_opt h key with
+    | Some v -> Ident.Hashtbl.replace h key (modf v)
+    | None -> Ident.Hashtbl.add h key default
+  in
+  fun stats id -> add_or_update stats id ~update:succ ~default:1
 
 let post_process_stats my_export_set
-    (defined_idents : J.variable_declaration Ident.Hash.t) stats =
-  Ident.Hash.iter defined_idents (fun ident v ->
+    (defined_idents : J.variable_declaration Ident.Hashtbl.t) stats =
+  Ident.Hashtbl.iter
+    (fun ident (v : J.variable_declaration) ->
       if Ident.Set.mem ident my_export_set then
         Js_op.update_used_stats v.ident_info Exported
       else
@@ -37,14 +45,15 @@ let post_process_stats my_export_set
           | None -> false (* can not happen *)
           | Some x -> Js_analyzer.no_side_effect_expression x
         in
-        match Ident.Hash.find_opt stats ident with
+        match Ident.Hashtbl.find_opt stats ident with
         | None ->
             Js_op.update_used_stats v.ident_info
               (if pure then Dead_pure else Dead_non_pure)
         | Some num ->
             if num = 1 then
               Js_op.update_used_stats v.ident_info
-                (if pure then Once_pure else Used));
+                (if pure then Once_pure else Used))
+    defined_idents;
   defined_idents
 
 (* Update ident info use cases, it is a non pure function,
@@ -54,22 +63,22 @@ let post_process_stats my_export_set
 *)
 let super = Js_record_iter.super
 
-let count_collects (* collect used status*) (stats : int Ident.Hash.t)
+let count_collects (* collect used status*) (stats : int Ident.Hashtbl.t)
     (* collect all def sites *)
-      (defined_idents : J.variable_declaration Ident.Hash.t) =
+      (defined_idents : J.variable_declaration Ident.Hashtbl.t) =
   {
     super with
     variable_declaration =
       (fun self ({ ident; value; property = _; ident_info = _ } as v) ->
-        Ident.Hash.add defined_idents ident v;
+        Ident.Hashtbl.add defined_idents ident v;
         match value with None -> () | Some x -> self.expression self x);
     ident = (fun _ id -> add_use stats id);
   }
 
-let get_stats (program : J.program) : J.variable_declaration Ident.Hash.t =
-  let stats : int Ident.Hash.t = Ident.Hash.create 83 in
-  let defined_idents : J.variable_declaration Ident.Hash.t =
-    Ident.Hash.create 83
+let get_stats (program : J.program) : J.variable_declaration Ident.Hashtbl.t =
+  let stats : int Ident.Hashtbl.t = Ident.Hashtbl.create 83 in
+  let defined_idents : J.variable_declaration Ident.Hashtbl.t =
+    Ident.Hashtbl.create 83
   in
   let my_export_set = program.export_set in
   let obj = count_collects stats defined_idents in

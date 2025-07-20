@@ -29,12 +29,20 @@ type hash_names = (int * string) list
 type input = (int * (string * lam)) list
 type output = (hash_names * lam) list
 
-module Coll = Hash.Make (struct
-  type t = lam
+module Coll = struct 
+  include Hashtbl.Make (struct
+    type t = lam
 
-  let equal = Stdlib.( = )
-  let hash = Hashtbl.hash
-end)
+    let equal = Stdlib.( = )
+    let hash = Hashtbl.hash
+  end)
+
+  let add_or_update (h : 'a t) (key : key)
+      ~update:modf ~default =
+    match find_opt h key with
+    | Some v -> replace h key (modf v)
+    | None -> add h key default
+end
 
 type value = { stamp : int; hash_names_act : hash_names * lam }
 
@@ -50,11 +58,11 @@ let convert (xs : input) : output =
           Coll.add_or_update coll key
             ~update:(fun ({ hash_names_act = hash_names, act; _ } as acc) ->
               { acc with hash_names_act = ((hash, name) :: hash_names, act) })
-            { hash_names_act = ([ (hash, name) ], act); stamp = i })
+            ~default:{ hash_names_act = ([ (hash, name) ], act); stamp = i })
     xs;
   let result =
     let arr =
-      let result = Coll.to_list coll (fun _ value -> value) @ !os in
+      let result = Coll.fold  (fun _ value acc -> value :: acc) coll [] @ !os in
       Array.of_list result
     in
     Array.sort ~cmp:(fun x y -> compare x.stamp y.stamp) arr;

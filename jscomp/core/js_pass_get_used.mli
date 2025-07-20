@@ -24,4 +24,4 @@
 
 open Import
 
-val get_stats : J.program -> J.variable_declaration Ident.Hash.t
+val get_stats : J.program -> J.variable_declaration Ident.Hashtbl.t

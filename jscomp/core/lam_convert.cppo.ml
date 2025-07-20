@@ -591,8 +591,8 @@ let convert_lfunction_params_and_body params body =
 
 let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     Lam.t * Lam_module_ident.Hash_set.t =
-  let alias_tbl = Ident.Hash.create 64 in
-  let exit_map = Hash_int.create 0 in
+  let alias_tbl = Ident.Hashtbl.create 64 in
+  let exit_map = Int.Hashtbl.create 0 in
   let may_depends = Lam_module_ident.Hash_set.create 0 in
   let partition_by_mel_ffi_attribute attrs =
     let st = ref None in
@@ -788,8 +788,8 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           Lam.prim ~primitive ~args loc
   and convert_aux ?(dynamic_import=false) (lam : Lambda.lambda) : Lam.t =
     match lam with
-    | Lvar x -> Lam.var (Ident.Hash.find_default alias_tbl x x)
-    | Lmutvar x -> Lam.mutvar (Ident.Hash.find_default alias_tbl x x)
+    | Lvar x -> Lam.var (Ident.Hashtbl.find_default alias_tbl x ~default:x)
+    | Lmutvar x -> Lam.mutvar (Ident.Hashtbl.find_default alias_tbl x ~default:x)
     | Lconst x -> Lam.const (Lam_constant_convert.convert_constant x)
     | Lapply { ap_func = fn; ap_args = [ arg ]; ap_loc = loc; _ } ->
         let arg = convert_aux arg in
@@ -856,13 +856,21 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Lam.stringswitch (convert_aux e)
           (List.map_snd cases ~f:convert_aux)
           (Option.map convert_aux default)
-    | Lstaticraise (id, []) ->
-        Lam.staticraise (Hash_int.find_default exit_map id id) []
     | Lstaticraise (id, args) ->
+        let id =
+          match Int.Hashtbl.find exit_map id with
+          | id -> id
+          | exception Not_found -> id
+        in
         Lam.staticraise id (List.map ~f:convert_aux args)
     | Lstaticcatch (b, (i, []), Lstaticraise (j, [])) ->
+        let id =
+          match Int.Hashtbl.find exit_map j with
+          | id -> id
+          | exception Not_found -> j
+        in
         (* peep-hole [i] aliased to [j] *)
-        Hash_int.add exit_map i (Hash_int.find_default exit_map j j);
+        Int.Hashtbl.add exit_map i id;
         convert_aux b
     | Lstaticcatch (b, (i, ids), handler) ->
         Lam.staticcatch (convert_aux b)
@@ -932,8 +940,9 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     let e = convert_aux e in
     match (kind, e) with
     | Alias, Lvar u ->
-        let new_u = Ident.Hash.find_default alias_tbl u u in
-        Ident.Hash.add alias_tbl id new_u;
+        let new_u =
+          Ident.Hashtbl.find_default alias_tbl u ~default:u in
+        Ident.Hashtbl.add alias_tbl id new_u;
         if Ident.Set.mem id exports then
           Lam.let_ kind id (Lam.var new_u) (convert_aux body)
         else convert_aux body

@@ -31,16 +31,16 @@ type meta_info = Info of J.ident_info | Recursive
 let super = Js_record_iter.super
 
 let mark_dead_code (js : J.program) : J.program =
-  let ident_use_stats : meta_info Ident.Hash.t = Ident.Hash.create 17 in
+  let ident_use_stats : meta_info Ident.Hashtbl.t = Ident.Hashtbl.create 17 in
   let mark_dead =
     {
       super with
       ident =
         (fun _ ident ->
-          match Ident.Hash.find_opt ident_use_stats ident with
+          match Ident.Hashtbl.find_opt ident_use_stats ident with
           | None ->
               (* First time *)
-              Ident.Hash.add ident_use_stats ident Recursive
+              Ident.Hashtbl.add ident_use_stats ident Recursive
           (* recursive identifiers *)
           | Some Recursive -> ()
           | Some (Info x) -> Js_op.update_used_stats x Used);
@@ -67,10 +67,10 @@ let mark_dead_code (js : J.program) : J.program =
                 if Ident.Set.mem ident js.export_set then
                   Js_op.update_used_stats ident_info Exported
               in
-              match Ident.Hash.find_opt ident_use_stats ident with
+              match Ident.Hashtbl.find_opt ident_use_stats ident with
               | Some Recursive ->
                   Js_op.update_used_stats ident_info Used;
-                  Ident.Hash.replace ident_use_stats ident (Info ident_info)
+                  Ident.Hashtbl.replace ident_use_stats ident (Info ident_info)
               | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
@@ -79,19 +79,21 @@ let mark_dead_code (js : J.program) : J.program =
               (* assert false *)
               | None ->
                   (* First time *)
-                  Ident.Hash.add ident_use_stats ident (Info ident_info);
+                  Ident.Hashtbl.add ident_use_stats ident (Info ident_info);
                   Js_op.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
   mark_dead.program mark_dead js;
-  Ident.Hash.iter ident_use_stats (fun _id (info : meta_info) ->
+  Ident.Hashtbl.iter
+    (fun _id (info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
           Js_op.update_used_stats info Dead_pure
       | Info ({ used_stats = Scanning_non_pure } as info) ->
           Js_op.update_used_stats info Dead_non_pure
-      | _ -> ());
+      | _ -> ())
+    ident_use_stats;
   js
 
 (*
@@ -150,9 +152,9 @@ let mark_dead_code (js : J.program) : J.program =
 let super = Js_record_map.super
 
 let add_substitue substitution (ident : Ident.t) (e : J.expression) =
-  Ident.Hash.replace substitution ident e
+  Ident.Hashtbl.replace substitution ident e
 
-let subst_map (substitution : J.expression Ident.Hash.t) =
+let subst_map (substitution : J.expression Ident.Hashtbl.t) =
   {
     super with
     statement =
@@ -276,7 +278,7 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
         | Static_index
             { expr = { expression_desc = Var (Id id); _ }; pos = Some i; _ }
           -> (
-            match Ident.Hash.find_opt substitution id with
+            match Ident.Hashtbl.find_opt substitution id with
             | Some
                 {
                   expression_desc =
@@ -305,7 +307,7 @@ let subst_map (substitution : J.expression Ident.Hash.t) =
 *)
 
 let program (js : J.program) =
-  let obj = subst_map (Ident.Hash.create 32) in
+  let obj = subst_map (Ident.Hashtbl.create 32) in
   let js = obj.program obj js in
   mark_dead_code js
 (* |> mark_dead_code *)

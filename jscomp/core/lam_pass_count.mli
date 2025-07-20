@@ -23,8 +23,8 @@ type used_info = {
       *)
 }
 
-type occ_tbl = used_info Ident.Hash.t
+type t = used_info Ident.Hashtbl.t
 
 val dummy_info : unit -> used_info
-val collect_occurs : Lam.t -> occ_tbl
-val pp_occ_tbl : occ_tbl -> _ Pp.t
+val collect_occurs : Lam.t -> t
+val pp_occ_tbl : t -> _ Pp.t

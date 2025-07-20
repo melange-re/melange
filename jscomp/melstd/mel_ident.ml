@@ -25,6 +25,8 @@
 module T = struct
   include Ident0
 
+  let hash t = Hashtbl.hash (stamp t, Ident.name t)
+
   type t = Ident.t
 end
 
@@ -48,5 +50,12 @@ module Map = struct
 end
 
 module Set = Set.Make (T)
-module Hash = Hash_ident
+
+module Hashtbl = struct
+  include Hashtbl.Make (T)
+
+  let find_default t k ~default =
+    match find t k with v -> v | exception Not_found -> default
+end
+
 module Hash_set = Hash_set_ident
