@@ -57,7 +57,7 @@ let local_external_apply =
 
 ]}
 *)
-let handle_external loc (x : string) =
+let handle_external ~loc (x : string) =
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
@@ -85,7 +85,7 @@ let handle_external loc (x : string) =
       (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
        else [%e raw_exp])]
 
-let handle_debugger loc payload =
+let handle_debugger ~loc payload =
   match payload with
   | PStr [] ->
       local_external_apply ~loc ~pval_prim:[ "#debugger" ]
@@ -143,7 +143,7 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
         }
   | _ -> None
 
-let handle_raw ~kind loc payload =
+let handle_raw ~kind ~loc payload =
   let is_function = ref false in
   match raw_as_string_exp_exn ~kind ~is_function payload with
   | None ->
@@ -166,7 +166,7 @@ let handle_raw ~kind loc payload =
            else exp.pexp_attributes);
       }
 
-let handle_raw_structure loc payload =
+let handle_raw_structure ~loc payload =
   match raw_as_string_exp_exn ~kind:Raw_program payload with
   | Some exp ->
       Ast_helper.Str.eval

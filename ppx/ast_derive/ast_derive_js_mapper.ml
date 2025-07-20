@@ -211,11 +211,11 @@ let derive_structure =
                 eraseTypeStr;
                 unsafeIndexGet;
                 single_non_rec_value { loc; txt = map }
-                  (Ast_extensions.handle_raw ~kind:Raw_exp loc
+                  (Ast_extensions.handle_raw ~kind:Raw_exp ~loc
                      (PStr [ Str.eval (Exp.constant (Const.string data)) ]));
                 single_non_rec_value { loc; txt = revMap }
                   (if has_mel_as then
-                     Ast_extensions.handle_raw ~kind:Raw_exp loc
+                     Ast_extensions.handle_raw ~kind:Raw_exp ~loc
                        (PStr [ Str.eval (Exp.constant (Const.string revData)) ])
                    else expMap);
                 toJsBody
