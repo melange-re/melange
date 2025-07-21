@@ -92,4 +92,6 @@ val get_dependency_info_from_cmj :
     [extra] maybe removed if it is pure and not in [hard_dependencies]
 *)
 val populate_required_modules :
-  Lam_module_ident.Hash_set.t -> Lam_module_ident.Hash_set.t -> unit
+  extras:unit Lam_module_ident.Hashtbl.t ->
+  hard_dependencies:unit Lam_module_ident.Hashtbl.t ->
+  unit

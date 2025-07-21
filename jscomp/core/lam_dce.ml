@@ -26,10 +26,10 @@ open Import
 
 let transitive_closure (initial_idents : Ident.t list)
     (ident_freevars : Ident.Set.t Ident.Hashtbl.t) =
-  let visited = Ident.Hash_set.create 31 in
+  let visited = Ident.Hashtbl.create 31 in
   let rec dfs (id : Ident.t) : unit =
-    if not (Ident.Hash_set.mem visited id || Ident.is_js_or_global id) then (
-      Ident.Hash_set.add visited id;
+    if not (Ident.Hashtbl.mem visited id || Ident.is_js_or_global id) then (
+      Ident.Hashtbl.add visited id ();
       match Ident.Hashtbl.find_opt ident_freevars id with
       | None ->
           Format.ksprintf
@@ -77,13 +77,13 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
     ~f:(fun acc (x : Lam_group.t) ->
       match x with
       | Single (_, id, _) ->
-          if Ident.Hash_set.mem visited id then x :: acc else acc
+          if Ident.Hashtbl.mem visited id then x :: acc else acc
       | Nop _ -> x :: acc
       | Recursive bindings -> (
           let b =
             List.fold_right
               ~f:(fun ((id, _) as v) acc ->
-                if Ident.Hash_set.mem visited id then v :: acc else acc)
+                if Ident.Hashtbl.mem visited id then v :: acc else acc)
               bindings ~init:[]
           in
           match b with [] -> acc | _ -> Recursive b :: acc))

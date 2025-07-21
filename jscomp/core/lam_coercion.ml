@@ -89,12 +89,17 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
   let (original_exports : Ident.t list) = meta.exports in
   let (original_export_set : Ident.Set.t) = meta.export_idents in
   let len = List.length original_exports in
-  let tbl = String.Hash_set.create len in
+  let tbl = String.Hashtbl.create len in
   let ({ export_list; export_set; _ } as result) =
     List.fold_right2
       ~f:(fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
-        if not @@ String.Hash_set.check_add tbl original_name then
+        let already_present =
+          let already_present = String.Hashtbl.mem tbl original_name in
+          String.Hashtbl.replace tbl original_name ();
+          already_present
+        in
+        if already_present then
           Mel_exception.error (Mel_duplicate_exports original_name);
         match lam with
         | Lvar id | Lmutvar id ->

@@ -16,8 +16,6 @@ let suites =
          Ounit_array_tests.suites;
          Ounit_scc_tests.suites;
          Ounit_list_test.suites;
-         Ounit_hash_set_tests.suites;
-         Ounit_hashtbl_tests.suites;
          Ounit_string_tests.suites;
          Ounit_int_vec_tests.suites;
          Ounit_ident_mask_tests.suites;

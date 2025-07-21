@@ -119,8 +119,6 @@ let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
   let cmj_table = cmj_load_info.cmj_table in
   (cmj_table.package_spec, cmj_table.case)
 
-let add = Lam_module_ident.Hash_set.add
-
 (* Conservative interface *)
 let is_pure_module (oid : Lam_module_ident.t) =
   match oid.kind with
@@ -138,11 +136,15 @@ let is_pure_module (oid : Lam_module_ident.t) =
       | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table.pure
       | Some (External _) -> false)
 
-let populate_required_modules extras
-    (hard_dependencies : Lam_module_ident.Hash_set.t) =
+let populate_required_modules ~extras ~hard_dependencies =
   Lam_module_ident.Hashtbl.iter
-    (fun id _ -> if not (is_pure_module id) then add hard_dependencies id)
+    (fun id _ ->
+      if not (is_pure_module id) then
+        Lam_module_ident.Hashtbl.replace hard_dependencies id ())
     cached_tbl;
-  Lam_module_ident.Hash_set.iter extras (fun id : unit ->
-      if not (is_pure_module id) then add hard_dependencies id)
+  Lam_module_ident.Hashtbl.iter
+    (fun id () ->
+      if not (is_pure_module id) then
+        Lam_module_ident.Hashtbl.replace hard_dependencies id ())
+    extras
 (* Lam_module_ident.Hash_set.elements hard_dependencies *)

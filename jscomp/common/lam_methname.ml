@@ -61,8 +61,9 @@ open Import
 
 (* Copied from [ocaml/parsing/lexer.mll] *)
 let key_words =
-  String.Hash_set.of_array
-    [|
+  List.map
+    ~f:(fun x -> (x, ()))
+    [
       "and";
       "as";
       "assert";
@@ -120,7 +121,8 @@ let key_words =
       "lsl";
       "lsr";
       "asr";
-    |]
+    ]
+  |> List.to_seq |> String.Hashtbl.of_seq
 
 let double_underscore = "__"
 
@@ -142,7 +144,7 @@ let translate name =
       if
         name_len > 1
         && ((not (valid_start_char try_key_word.[0]))
-           || String.Hash_set.mem key_words try_key_word)
+           || String.Hashtbl.mem key_words try_key_word)
       then try_key_word
       else name
     else name

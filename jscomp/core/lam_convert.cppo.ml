@@ -465,7 +465,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
 
 (* Does not exist since we compile array in js backend unlike native backend *)
 
-let may_depend = Lam_module_ident.Hash_set.add
+let may_depend tbl k = Lam_module_ident.Hashtbl.replace tbl k ()
 
 let rec rename_optional_parameters map params (body : Lam.t) =
   match body with
@@ -590,10 +590,10 @@ let convert_lfunction_params_and_body params body =
   params, body
 
 let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
-    Lam.t * Lam_module_ident.Hash_set.t =
+    Lam.t * unit Lam_module_ident.Hashtbl.t =
   let alias_tbl = Ident.Hashtbl.create 64 in
   let exit_map = Int.Hashtbl.create 0 in
-  let may_depends = Lam_module_ident.Hash_set.create 0 in
+  let may_depends = Lam_module_ident.Hashtbl.create 0 in
   let partition_by_mel_ffi_attribute attrs =
     let st = ref None in
     let _ffi, rest =

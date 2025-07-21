@@ -60,7 +60,6 @@ module T = struct
 end
 
 module Hashtbl = Hashtbl.Make (T)
-module Hash_set = Hash_set.Make (T)
 include T
 
 let of_ml ~dynamic_import id = { id; kind = Ml; dynamic_import }
