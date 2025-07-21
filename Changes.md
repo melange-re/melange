@@ -19,6 +19,9 @@ Unreleased
   ([#1442](https://github.com/melange-re/melange/pull/1442))
 - `melc`: exit when `--modules` is passed instead of proceeding to compile
   ([#1478](https://github.com/melange-re/melange/pull/1478))
+- Optimize file reading / writing in Melange
+  ([#1457](https://github.com/melange-re/melange/pull/1457),
+  [#1459](https://github.com/melange-re/melange/pull/1459))
 
 5.1.0-53 2025-03-23
 ---------------
