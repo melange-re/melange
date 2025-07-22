@@ -197,24 +197,35 @@ let ocaml_object_as_js_object =
                       f with
                       pexp_desc =
                         (let f =
-                           let first_arg =
-                             match
-                               List.find_opt
-                                 ~f:(function
-                                   | { pparam_desc = Pparam_val _; _ } -> true
-                                   | { pparam_desc = Pparam_newtype _; _ } ->
-                                       false)
-                                 params
-                             with
-                             | Some { pparam_desc = Pparam_val (_, _, pat); _ }
-                               ->
-                                 pat
-                             | Some { pparam_desc = Pparam_newtype _; _ } | None
-                               ->
-                                 assert false
-                           in
-                           if Ast_pat.is_unit first_arg then e else f
+                           match
+                             List.find_opt
+                               ~f:(function
+                                 | { pparam_desc = Pparam_val _; _ } -> true
+                                 | { pparam_desc = Pparam_newtype _; _ } ->
+                                     false)
+                               params
+                           with
+                           | Some
+                               {
+                                 pparam_desc =
+                                   Pparam_val
+                                     ( _,
+                                       _,
+                                       {
+                                         ppat_desc =
+                                           Ppat_construct
+                                             ({ txt = Lident "()"; _ }, None);
+                                         _;
+                                       } );
+                                 _;
+                               } ->
+                               e
+                           | Some { pparam_desc = Pparam_val (_, _, _); _ } -> f
+                           | Some { pparam_desc = Pparam_newtype _; _ } | None
+                             ->
+                               assert false
                          in
+                         (* the first argument is `this` *)
                          Ast_uncurry_gen.to_method_callback ~loc mapper
                            [
                              {
@@ -222,8 +233,7 @@ let ocaml_object_as_js_object =
                                pparam_loc = x.pcf_loc;
                              };
                            ]
-                           f)
-                        (* the first argument is this *);
+                           f);
                     }
                     :: exprs,
                     true )
