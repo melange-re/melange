@@ -50,7 +50,6 @@ type t =
   | Mel_this_simple_pattern
   | Mel_uncurried_arity_too_large
 
-val pp_error : Format.formatter -> t -> unit
 val err : loc:Location.t -> t -> 'a
 val optional_err : loc:Location.t -> Asttypes.arg_label -> unit
 val err_if_label : loc:Location.t -> Asttypes.arg_label -> unit
