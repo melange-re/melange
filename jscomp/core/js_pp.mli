@@ -43,17 +43,14 @@ module Scope : sig
   type t
 
   val empty : t
-  val print : Format.formatter -> t -> unit
   val sub_scope : t -> Ident.Set.t -> t
   val merge : t -> Ident.Set.t -> t
   val str_of_ident : t -> Ident.t -> string * t
   val ident : t -> pp -> Ident.t -> t
 end
 
-val indent_length : int
 val string : t -> string -> unit
 val space : t -> unit
-val nspace : t -> int -> unit
 
 val group : t -> int -> (unit -> 'a) -> 'a
 (** [group] will record current indentation
@@ -62,11 +59,9 @@ val group : t -> int -> (unit -> 'a) -> 'a
 
 val vgroup : t -> int -> (unit -> 'a) -> 'a
 val paren : t -> (unit -> 'a) -> 'a
-val brace : t -> (unit -> 'a) -> 'a
 val paren_group : t -> int -> (unit -> 'a) -> 'a
 val cond_paren_group : t -> bool -> (unit -> 'a) -> 'a
 val paren_vgroup : t -> int -> (unit -> 'a) -> 'a
-val brace_group : t -> int -> (unit -> 'a) -> 'a
 val brace_vgroup : t -> int -> (unit -> 'a) -> 'a
 val bracket_group : t -> int -> (unit -> 'a) -> 'a
 val bracket_vgroup : t -> int -> (unit -> 'a) -> 'a
@@ -75,5 +70,3 @@ val at_least_two_lines : t -> unit
 val from_fd : Unix.file_descr -> t
 val from_buffer : Buffer.t -> t
 val flush : t -> unit -> unit
-val current_line : t -> int
-val current_column : t -> int

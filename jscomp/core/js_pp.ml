@@ -30,8 +30,6 @@ module L = struct
   let newline = "\n"
 end
 
-let indent_length = Stdlib.String.length L.indent_str
-
 type kind = File_descr of Unix.file_descr | Buffer of Buffer.t
 
 type t = {
@@ -115,7 +113,6 @@ let force_newline t =
   t.last_new_line <- true
 
 let space t = output_string t L.space
-let nspace t n = output_string t (Stdlib.String.make n ' ')
 
 let group t i action =
   if i = 0 then action ()
@@ -130,13 +127,6 @@ let paren t action =
   string t "(";
   let v = action () in
   string t ")";
-  v
-
-let brace fmt u =
-  string fmt "{";
-  (* break1 fmt ; *)
-  let v = u () in
-  string fmt "}";
   v
 
 let bracket fmt u =
@@ -188,30 +178,16 @@ let paren_group st n action = group st n (fun _ -> paren st action)
 let cond_paren_group st b action =
   if b then paren_group st 0 action else action ()
 
-let brace_group st n action = group st n (fun _ -> brace st action)
-
 (* let indent t n =
    t.indent_level <- t.indent_level + n *)
 
 let flush t () = flush t
-let current_line t = t.line
-let current_column t = t.column
 
 module Scope = struct
   type t = int Int.Map.t String.Map.t
 
   (* -- "name" --> int map -- stamp --> index suffix *)
   let empty : t = String.Map.empty
-
-  let rec print fmt v =
-    Format.fprintf fmt "@[<v>{";
-    String.Map.iter
-      (fun k m -> Format.fprintf fmt "%s: @[%a@],@ " k print_int_map m)
-      v;
-    Format.fprintf fmt "}@]"
-
-  and print_int_map fmt m =
-    Int.Map.iter (fun k v -> Format.fprintf fmt "%d - %d" k v) m
 
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
     match String.Map.find_opt name cxt with
