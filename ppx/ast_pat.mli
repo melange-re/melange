@@ -24,8 +24,6 @@
 
 open Import
 
-val is_unit : pattern -> bool
-
 val arity_of_fun : function_param list -> expression -> int
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e]*)

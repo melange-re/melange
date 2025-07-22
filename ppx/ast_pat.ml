@@ -24,10 +24,6 @@
 
 open Import
 
-let is_unit = function
-  | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> true
-  | _ -> false
-
 (** [arity_of_fun pat e] tells the arity of
     expression [fun pat -> e] *)
 let arity_of_fun =

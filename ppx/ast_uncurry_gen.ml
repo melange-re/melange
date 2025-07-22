@@ -107,10 +107,12 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
     aux ~loc self rev_args body
   in
   let arity =
-    let len = List.length rev_extra_args in
     match rev_extra_args with
-    | [ (_, p) ] -> if Ast_pat.is_unit p then 0 else len
-    | _ -> len
+    | [
+     (_, { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ });
+    ] ->
+        0
+    | _ -> List.length rev_extra_args
   in
   Error.err_large_arity ~loc arity;
   let body =
