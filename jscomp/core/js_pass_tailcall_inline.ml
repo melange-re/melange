@@ -173,13 +173,13 @@ let subst (export_set : Ident.Set.t)
             let is_export = Ident.Set.mem vd.ident export_set in
             if is_export then self.statement self st :: self.block self rest
             else
-              match Ident.Hashtbl.find_opt stats vd.ident with
+              match Ident.Hashtbl.find stats vd.ident with
               (* TODO: could be improved as [mem] *)
-              | None ->
+              | exception Not_found ->
                   if Js_analyzer.no_side_effect_expression v then
                     S.exp v :: self.block self rest
                   else self.block self rest
-              | Some _ -> self.statement self st :: self.block self rest)
+              | _ -> self.statement self st :: self.block self rest)
         | [
          ({
             statement_desc =
@@ -193,24 +193,23 @@ let subst (export_set : Ident.Set.t)
             _;
           } as st);
         ] -> (
-            match Ident.Hashtbl.find_opt stats id with
-            | Some
-                ({
-                   value =
-                     Some
-                       {
-                         expression_desc =
-                           Fun { method_ = false; params; body = block; env; _ };
-                         comment = _;
-                         _;
-                       };
-                   (*TODO: don't inline method tail call yet,
+            match Ident.Hashtbl.find stats id with
+            | {
+                value =
+                  Some
+                    {
+                      expression_desc =
+                        Fun { method_ = false; params; body = block; env; _ };
+                      comment = _;
+                      _;
+                    };
+                (*TODO: don't inline method tail call yet,
                      [this] semantics are weird
                    *)
-                   property = Alias | StrictOpt | Strict;
-                   ident_info = { used_stats = Once_pure };
-                   ident = _;
-                 } as v)
+                property = Alias | StrictOpt | Strict;
+                ident_info = { used_stats = Once_pure };
+                ident = _;
+              } as v
               when List.same_length params args ->
                 Js_op.update_used_stats v.ident_info Dead_pure;
                 let no_tailcall = Js_fun_env.no_tailcall env in
@@ -226,7 +225,7 @@ let subst (export_set : Ident.Set.t)
                 (* Mark a function as dead means it will never be scanned,
                    here we inline the function
                 *)
-            | None | Some _ -> [ self.statement self st ])
+            | _ | (exception Not_found) -> [ self.statement self st ])
         | [
          {
            statement_desc =

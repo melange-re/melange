@@ -37,13 +37,13 @@ let mark_dead_code (js : J.program) : J.program =
       super with
       ident =
         (fun _ ident ->
-          match Ident.Hashtbl.find_opt ident_use_stats ident with
-          | None ->
+          match Ident.Hashtbl.find ident_use_stats ident with
+          | exception Not_found ->
               (* First time *)
               Ident.Hashtbl.add ident_use_stats ident Recursive
           (* recursive identifiers *)
-          | Some Recursive -> ()
-          | Some (Info x) -> Js_op.update_used_stats x Used);
+          | Recursive -> ()
+          | Info x -> Js_op.update_used_stats x Used);
       variable_declaration =
         (fun self vd ->
           match vd.ident_info.used_stats with
@@ -67,17 +67,17 @@ let mark_dead_code (js : J.program) : J.program =
                 if Ident.Set.mem ident js.export_set then
                   Js_op.update_used_stats ident_info Exported
               in
-              match Ident.Hashtbl.find_opt ident_use_stats ident with
-              | Some Recursive ->
+              match Ident.Hashtbl.find ident_use_stats ident with
+              | Recursive ->
                   Js_op.update_used_stats ident_info Used;
                   Ident.Hashtbl.replace ident_use_stats ident (Info ident_info)
-              | Some (Info _) ->
+              | Info _ ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
                   *)
                   ()
               (* assert false *)
-              | None ->
+              | exception Not_found ->
                   (* First time *)
                   Ident.Hashtbl.add ident_use_stats ident (Info ident_info);
                   Js_op.update_used_stats ident_info
@@ -278,13 +278,12 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
         | Static_index
             { expr = { expression_desc = Var (Id id); _ }; pos = Some i; _ }
           -> (
-            match Ident.Hashtbl.find_opt substitution id with
-            | Some
-                {
-                  expression_desc =
-                    Caml_block { fields = ls; mutable_flag = Immutable; _ };
-                  _;
-                } -> (
+            match Ident.Hashtbl.find substitution id with
+            | {
+             expression_desc =
+               Caml_block { fields = ls; mutable_flag = Immutable; _ };
+             _;
+            } -> (
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
@@ -295,7 +294,7 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
                   } as x ->
                     x
                 | _ | (exception Failure _) -> super.expression self x)
-            | Some _ | None -> super.expression self x)
+            | _ | (exception Not_found) -> super.expression self x)
         | _ -> super.expression self x);
   }
 
