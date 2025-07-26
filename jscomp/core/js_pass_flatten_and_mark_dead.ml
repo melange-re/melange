@@ -288,14 +288,13 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
-                match List.nth_opt ls (Int32.to_int i) with
-                | Some
-                    ({
-                       expression_desc = J.Var _ | Number _ | Str _ | Undefined;
-                       _;
-                     } as x) ->
+                match List.nth ls (Int32.to_int i) with
+                | {
+                    expression_desc = J.Var _ | Number _ | Str _ | Undefined;
+                    _;
+                  } as x ->
                     x
-                | None | Some _ -> super.expression self x)
+                | _ | (exception Failure _) -> super.expression self x)
             | Some _ | None -> super.expression self x)
         | _ -> super.expression self x);
   }
