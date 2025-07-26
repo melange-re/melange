@@ -22,6 +22,8 @@ Unreleased
 - Optimize file reading / writing in Melange
   ([#1457](https://github.com/melange-re/melange/pull/1457),
   [#1459](https://github.com/melange-re/melange/pull/1459))
+- add `-cmi-file` for flag compatibility with upstream OCaml
+  ([#1488]((https://github.com/melange-re/melange/pull/1488)))
 
 5.1.0-53 2025-03-23
 ---------------
