@@ -57,5 +57,3 @@ module Hashtbl = struct
   let find_default t k ~default =
     match find t k with v -> v | exception Not_found -> default
 end
-
-module Hash_set = Hash_set_ident

@@ -278,13 +278,14 @@ let compile
       let external_module_ids : Lam_module_ident.t list =
         if !Js_config.all_module_aliases then []
         else
-          let hard_deps =
+          let hard_dependencies =
             Js_fold_basic.calculate_hard_dependencies program.block
           in
-          Lam_compile_env.populate_required_modules may_required_modules hard_deps;
+          Lam_compile_env.populate_required_modules
+            may_required_modules hard_dependencies;
           let module_ids =
             let arr =
-              Lam_module_ident.Hash_set.to_list hard_deps
+              Lam_module_ident.Hash_set.to_list hard_dependencies
               |> Array.of_list
             in
             Array.sort

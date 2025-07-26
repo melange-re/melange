@@ -13,30 +13,6 @@
    (run ./gen/build_reserved.exe %{deps} %{targets}))))
 
 (rule
- (targets hash_set_string.ml)
- (deps hash_set.cppo.ml)
- (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_set_ident.ml)
- (deps hash_set.cppo.ml)
- (action
-  (run cppo -D TYPE_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_set.ml)
- (deps hash_set.cppo.ml)
- (action
-  (run cppo -D TYPE_FUNCTOR %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_set_poly.ml)
- (deps hash_set.cppo.ml)
- (action
-  (run cppo -D TYPE_POLY %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
  (targets vec_int.ml)
  (deps vec.cppo.ml)
  (action

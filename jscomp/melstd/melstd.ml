@@ -25,8 +25,6 @@
 module Array = Array
 module Bytes = BytesLabels
 module Filename = Filename
-module Hash_set = Hash_set
-module Hash_set_gen = Hash_set_gen
 module Hash_set_ident_mask = Hash_set_ident_mask
 module Ident = Mel_ident
 module Int = Int
@@ -39,7 +37,6 @@ module Log = Log
 module Modulename = Modulename
 module Module_system = Module_system
 module Ordered_hash_map_local_ident = Ordered_hash_map_local_ident
-module Polyvariant = Polyvariant
 module Paths = Paths
 module Scc = Scc
 module String = String

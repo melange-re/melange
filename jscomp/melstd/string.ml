@@ -25,7 +25,7 @@
 include StdLabels.String
 module Map = Map.Make (Stdlib.String)
 module Set = Set.Make (Stdlib.String)
-module Hash_set = Hash_set_string
+module Hashtbl = Hashtbl.Make (Stdlib.String)
 
 (* {[ split " test_unsafe_obj_ffi_ppx.cmi" ~keep_empty:false ' ']} *)
 let split_by ?(keep_empty = false) is_delim str =

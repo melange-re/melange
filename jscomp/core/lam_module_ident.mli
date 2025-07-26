@@ -36,9 +36,19 @@ val id : t -> Ident.t
 val name : t -> string
 val of_ml : dynamic_import:bool -> Ident.t -> t
 val of_runtime : Ident.t -> t
+val hash : t -> int
 
 val external_ :
   dynamic_import:bool -> Ident.t -> name:string -> default:bool -> t
 
 module Hashtbl : Hashtbl.S with type key = t
-module Hash_set : Hash_set_gen.S with type key = t
+
+module Hash_set : sig
+  type t
+
+  val create : int -> t
+  val add : t -> J.module_id -> unit
+  val mem : t -> J.module_id -> bool
+  val iter : f:(J.module_id -> unit) -> t -> unit
+  val to_list : t -> J.module_id list
+end
