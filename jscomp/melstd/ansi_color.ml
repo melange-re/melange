@@ -264,12 +264,16 @@ end
 
 let supports_color isatty =
   let is_smart =
-    match Sys.getenv_opt "TERM" with Some "dumb" -> false | _ -> true
+    match Sys.getenv "TERM" with
+    | "dumb" -> false
+    | _ | (exception Not_found) -> true
   and clicolor =
-    match Sys.getenv_opt "CLICOLOR" with Some "0" -> false | _ -> true
+    match Sys.getenv "CLICOLOR" with
+    | "0" -> false
+    | _ | (exception Not_found) -> true
   and clicolor_force =
-    match Sys.getenv_opt "CLICOLOR_FORCE" with
-    | None | Some "0" -> false
+    match Sys.getenv "CLICOLOR_FORCE" with
+    | (exception Not_found) | "0" -> false
     | _ -> true
   in
   clicolor_force || (is_smart && clicolor && Lazy.force isatty)
@@ -328,11 +332,11 @@ let strip str =
 let index_from_any str start chars =
   let n = String.length str in
   let rec go i =
-    if i >= n then None
+    if i >= n then raise Not_found
     else
-      match List.find_opt ~f:(fun c -> Char.equal str.[i] c) chars with
-      | None -> go (i + 1)
-      | Some c -> Some (i, c)
+      match List.find ~f:(fun c -> Char.equal str.[i] c) chars with
+      | c -> (i, c)
+      | exception Not_found -> go (i + 1)
   in
   go start
 
@@ -405,8 +409,8 @@ let parse_line str styles =
         if seq_start >= len || str.[seq_start - 1] <> '[' then (styles, acc)
         else
           match index_from_any str seq_start [ 'm'; 'K' ] with
-          | None -> (styles, acc)
-          | Some (seq_end, 'm') ->
+          | exception Not_found -> (styles, acc)
+          | seq_end, 'm' ->
               let styles =
                 if seq_start = seq_end then
                   (* Some commands output "\027[m", which seems to be interpreted
@@ -418,7 +422,7 @@ let parse_line str styles =
                   |> parse_styles styles
               in
               loop styles (seq_end + 1) acc
-          | Some (seq_end, _) -> loop styles (seq_end + 1) acc)
+          | seq_end, _ -> loop styles (seq_end + 1) acc)
   in
   loop styles 0 Pp.nop
 
