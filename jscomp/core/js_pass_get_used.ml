@@ -27,9 +27,9 @@ open Import
 let add_use =
   let add_or_update (h : 'a Ident.Hashtbl.t) (key : Ident.Hashtbl.key)
       ~update:modf ~default =
-    match Ident.Hashtbl.find_opt h key with
-    | Some v -> Ident.Hashtbl.replace h key (modf v)
-    | None -> Ident.Hashtbl.add h key default
+    match Ident.Hashtbl.find h key with
+    | v -> Ident.Hashtbl.replace h key (modf v)
+    | exception Not_found -> Ident.Hashtbl.add h key default
   in
   fun stats id -> add_or_update stats id ~update:succ ~default:1
 
@@ -45,11 +45,11 @@ let post_process_stats my_export_set
           | None -> false (* can not happen *)
           | Some x -> Js_analyzer.no_side_effect_expression x
         in
-        match Ident.Hashtbl.find_opt stats ident with
-        | None ->
+        match Ident.Hashtbl.find stats ident with
+        | exception Not_found ->
             Js_op.update_used_stats v.ident_info
               (if pure then Dead_pure else Dead_non_pure)
-        | Some num ->
+        | num ->
             if num = 1 then
               Js_op.update_used_stats v.ident_info
                 (if pure then Once_pure else Used))

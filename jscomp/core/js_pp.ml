@@ -190,14 +190,15 @@ module Scope = struct
   let empty : t = String.Map.empty
 
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
-    match String.Map.find_opt name cxt with
-    | None -> (0, String.Map.add name (Int.Map.add stamp 0 Int.Map.empty) cxt)
-    | Some imap -> (
-        match Int.Map.find_opt stamp imap with
-        | None ->
+    match String.Map.find name cxt with
+    | exception Not_found ->
+        (0, String.Map.add name (Int.Map.add stamp 0 Int.Map.empty) cxt)
+    | imap -> (
+        match Int.Map.find stamp imap with
+        | exception Not_found ->
             let v = Int.Map.cardinal imap in
             (v, String.Map.add name (Int.Map.add stamp v imap) cxt)
-        | Some i -> (i, cxt))
+        | i -> (i, cxt))
 
   (*
    same as {!Js_dump.ident} except it generates a string instead of doing the printing
