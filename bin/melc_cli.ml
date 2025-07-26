@@ -61,6 +61,7 @@ type t = {
   impl : string option;
   intf : string option;
   intf_suffix : string option;
+  cmi_file : string option;
   g : bool;
   opaque : bool;
   preamble : string option;
@@ -377,6 +378,10 @@ module Internal = struct
     let doc = "*internal* <file> Suffix for interface files (default: .mli)" in
     Arg.(value & opt (some string) None & info [ "intf-suffix" ] ~doc)
 
+  let cmi_file =
+    let doc = "*internal* Use the <file> interface file to type-check" in
+    Arg.(value & opt (some string) None & info [ "cmi-file" ] ~doc)
+
   let g =
     let doc = "*internal* Save debugging information" in
     Arg.(value & flag & info [ "g" ] ~doc)
@@ -477,10 +482,11 @@ let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
-    dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
-    modules nolabels principal rectypes short_paths unsafe warn_help warn_error
-    bs_stop_after_cmj runtime filenames _c store_occurrences =
+    intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
+    dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
+    nopervasives modules nolabels principal rectypes short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime filenames _c
+    store_occurrences =
   {
     help;
     include_dirs;
@@ -518,6 +524,7 @@ let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
     impl;
     intf;
     intf_suffix;
+    cmi_file;
     g;
     opaque;
     preamble;
@@ -559,13 +566,14 @@ let cmd =
     $ Internal.bs_diagnose $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.intf_suffix $ Internal.g $ Internal.opaque $ preamble
-    $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
-    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
-    $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
-    $ Internal.nolabels $ Internal.principal $ Internal.rectypes
-    $ Internal.short_paths $ unsafe $ warn_help $ warn_error $ bs_stop_after_cmj
-    $ Internal.runtime $ filenames $ Compat.c $ store_occurrences)
+    $ Internal.intf_suffix $ Internal.cmi_file $ Internal.g $ Internal.opaque
+    $ preamble $ Internal.strict_sequence $ Internal.strict_formats
+    $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
+    $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
+    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
+    $ Internal.principal $ Internal.rectypes $ Internal.short_paths $ unsafe
+    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
+    $ Compat.c $ store_occurrences)
 
 let normalize_argv argv =
   let len = Array.length argv in

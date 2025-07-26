@@ -60,6 +60,7 @@ type t = {
   impl : string option;
   intf : string option;
   intf_suffix : string option;
+  cmi_file : string option;
   g : bool;
   opaque : bool;
   preamble : string option;
