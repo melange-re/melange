@@ -28,14 +28,16 @@ type exit = { mutable count : int; mutable max_depth : int }
 type collection = (int, exit) Hashtbl.t
 
 let get_exit exits i =
-  try Hashtbl.find exits i with Not_found -> { count = 0; max_depth = 0 }
+  match Hashtbl.find exits i with
+  | v -> v
+  | exception Not_found -> { count = 0; max_depth = 0 }
 
 let incr_exit exits i nb d =
-  match Hashtbl.find_opt exits i with
-  | Some r ->
+  match Hashtbl.find exits i with
+  | r ->
       r.count <- r.count + nb;
       r.max_depth <- max r.max_depth d
-  | None ->
+  | exception Not_found ->
       let r = { count = nb; max_depth = d } in
       Hashtbl.add exits i r
 

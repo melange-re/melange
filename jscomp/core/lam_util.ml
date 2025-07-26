@@ -120,9 +120,9 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
   *)
   match v_kind with
   | NA -> (
-      match Ident.Hashtbl.find_opt meta.ident_tbl v with
-      | None -> ()
-      | Some ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info)
+      match Ident.Hashtbl.find meta.ident_tbl v with
+      | exception Not_found -> ()
+      | ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info)
   | ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info
 
 (* share -- it is safe to share most properties,
@@ -174,22 +174,22 @@ let kind_of_lambda_block =
 
 let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hashtbl.t) : Lam.t
     =
-  match Ident.Hashtbl.find_opt tbl v with
-  | Some (Module g) ->
+  match Ident.Hashtbl.find tbl v with
+  | Module g ->
       Lam.prim
         ~primitive:(Pfield (i, info))
         ~args:[ Lam.global_module ~dynamic_import:false g ]
         Location.none
-  | Some (ImmutableBlock arr) -> (
+  | ImmutableBlock arr -> (
       match arr.(i) with
       | NA -> lam ()
       | SimpleForm l -> l
       | exception _ -> lam ())
-  | Some (Constant (Const_block (_, _, ls))) -> (
+  | Constant (Const_block (_, _, ls)) -> (
       match List.nth ls i with
       | exception Failure _ -> lam ()
       | x -> Lam.const x)
-  | Some _ | None -> lam ()
+  | _ | (exception Not_found) -> lam ()
 
 let not_function (lam : Lam.t) =
   match lam with Lfunction _ -> false | _ -> true

@@ -69,9 +69,9 @@ let collect_occurs lam : t =
 
   (* Current use count of a variable. *)
   let used v =
-    match Ident.Hashtbl.find_opt occ v with
-    | None -> false
-    | Some { times; _ } -> times > 0
+    match Ident.Hashtbl.find occ v with
+    | exception Not_found -> false
+    | { times; _ } -> times > 0
   in
 
   (* Entering a [let].  Returns updated [bv]. *)
@@ -83,34 +83,34 @@ let collect_occurs lam : t =
 
   (* Record a use of a variable *)
   let add_one_use bv ident =
-    match Ident.Map.find_opt ident bv with
-    | Some r -> r.times <- r.times + 1
-    | None -> (
+    match Ident.Map.find ident bv with
+    | r -> r.times <- r.times + 1
+    | exception Not_found -> (
         (* ident is not locally bound, therefore this is a use under a lambda
            or within a loop.  Increase use count by 2 -- enough so
            that single-use optimizations will not apply. *)
-        match Ident.Hashtbl.find_opt occ ident with
-        | Some r -> absorb_info r { times = 1; captured = true }
-        | None ->
+        match Ident.Hashtbl.find occ ident with
+        | r -> absorb_info r { times = 1; captured = true }
+        | exception Not_found ->
             (* Not a let-bound variable, ignore *)
             ())
   in
 
   let inherit_use bv ident bid =
     let n =
-      match Ident.Hashtbl.find_opt occ bid with
-      | None -> dummy_info ()
-      | Some v -> v
+      match Ident.Hashtbl.find occ bid with
+      | exception Not_found -> dummy_info ()
+      | v -> v
     in
-    match Ident.Map.find_opt ident bv with
-    | Some r -> absorb_info r n
-    | None -> (
+    match Ident.Map.find ident bv with
+    | r -> absorb_info r n
+    | exception Not_found -> (
         (* ident is not locally bound, therefore this is a use under a lambda
            or within a loop.  Increase use count by 2 -- enough so
            that single-use optimizations will not apply. *)
-        match Ident.Hashtbl.find_opt occ ident with
-        | Some r -> absorb_info r { n with captured = true }
-        | None ->
+        match Ident.Hashtbl.find occ ident with
+        | r -> absorb_info r { n with captured = true }
+        | exception Not_found ->
             (* Not a let-bound variable, ignore *)
             ())
   in
