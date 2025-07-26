@@ -45,9 +45,9 @@ let values_of_export =
     List.fold_left
       ~f:(fun acc x ->
         let arity : Js_cmj_format.arity =
-          match Ident.Hashtbl.find_opt meta.ident_tbl x with
-          | Some (FunctionId { arity; _ }) -> Single arity
-          | Some (ImmutableBlock elems) ->
+          match Ident.Hashtbl.find meta.ident_tbl x with
+          | FunctionId { arity; _ } -> Single arity
+          | ImmutableBlock elems ->
               (* FIXME: field name for dumping*)
               Submodule
                 (Array.map
@@ -56,26 +56,23 @@ let values_of_export =
                      | NA -> Lam_arity.na
                      | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam)
                    elems)
-          | Some _ | None -> (
-              match Ident.Map.find_opt x export_map with
-              | Some
-                  (Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ })
-                ->
+          | _ | (exception Not_found) -> (
+              match Ident.Map.find x export_map with
+              | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
                   Submodule
                     (Array.of_list_map args (fun lam ->
                          Lam_arity_analysis.get_arity meta lam))
-              | Some _ | None -> Js_cmj_format.single_na)
+              | _ | (exception Not_found) -> Js_cmj_format.single_na)
         in
         let persistent_closed_lambda : (_ * _) option =
-          match Ident.Map.find_opt x export_map with
-          | Some
-              (Lconst
-                 ( Const_js_null | Const_js_undefined | Const_js_true
-                 | Const_js_false ) as lambda) ->
+          match Ident.Map.find x export_map with
+          | Lconst
+              ( Const_js_null | Const_js_undefined | Const_js_true
+              | Const_js_false ) as lambda ->
               Some (lambda, Ident.Map.empty)
-          | None -> None
-          | Some _ when not !Js_config.cross_module_inline -> None
-          | Some lambda -> (
+          | exception Not_found -> None
+          | _ when not !Js_config.cross_module_inline -> None
+          | lambda -> (
               match
                 Lam_analysis.safe_to_inline lambda
                 (* when inlining a non function, we have to be very careful,
@@ -125,13 +122,14 @@ let values_of_export =
 let get_dependent_module_effect (maybe_pure : string option)
     (external_ids : Lam_module_ident.t list) =
   match maybe_pure with
-  | None ->
-      let non_pure_module =
-        List.find_opt
+  | None -> (
+      match
+        List.find
           ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
           external_ids
-      in
-      Option.map (fun x -> Lam_module_ident.name x) non_pure_module
+      with
+      | non_pure_module -> Some (Lam_module_ident.name non_pure_module)
+      | exception Not_found -> None)
   | Some _ -> maybe_pure
 
 (* Note that
