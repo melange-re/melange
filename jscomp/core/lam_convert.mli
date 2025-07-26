@@ -25,7 +25,7 @@
 open Import
 
 val convert :
-  Ident.Set.t -> Lambda.lambda -> Lam.t * unit Lam_module_ident.Hashtbl.t
+  Ident.Set.t -> Lambda.lambda -> Lam.t * Lam_module_ident.Hash_set.t
 (**
   [convert exports lam]
   it also collect [exit_map] and a collection of potential depended modules [may_depends]

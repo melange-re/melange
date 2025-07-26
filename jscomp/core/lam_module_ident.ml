@@ -60,6 +60,22 @@ module T = struct
 end
 
 module Hashtbl = Hashtbl.Make (T)
+
+(* use `(t, unit) Hashtbl.t` as a hash set, but because keeping the exact key
+   matters in this module (because of the ident stamp), `replace` is a no-op if
+   the key already exists *)
+module Hash_set = struct
+  include Hashtbl
+
+  type t = unit Hashtbl.t
+
+  let add t k =
+    match find t k with () -> () | exception Not_found -> replace t k ()
+
+  let to_list t = to_seq_keys t |> List.of_seq
+  let iter ~f t = iter (fun k _ -> f k) t
+end
+
 include T
 
 let of_ml ~dynamic_import id = { id; kind = Ml; dynamic_import }

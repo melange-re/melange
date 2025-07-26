@@ -282,11 +282,11 @@ let compile
             Js_fold_basic.calculate_hard_dependencies program.block
           in
           Lam_compile_env.populate_required_modules
-            ~extras:may_required_modules ~hard_dependencies;
+            may_required_modules hard_dependencies;
           let module_ids =
             let arr =
-              Lam_module_ident.Hashtbl.to_seq_keys hard_dependencies
-              |> Array.of_seq
+              Lam_module_ident.Hash_set.to_list hard_dependencies
+              |> Array.of_list
             in
             Array.sort
               ~cmp:(fun id1 id2 ->

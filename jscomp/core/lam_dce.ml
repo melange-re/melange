@@ -29,7 +29,7 @@ let transitive_closure (initial_idents : Ident.t list)
   let visited = Ident.Hashtbl.create 31 in
   let rec dfs (id : Ident.t) : unit =
     if not (Ident.Hashtbl.mem visited id || Ident.is_js_or_global id) then (
-      Ident.Hashtbl.add visited id ();
+      Ident.Hashtbl.replace visited id ();
       match Ident.Hashtbl.find_opt ident_freevars id with
       | None ->
           Format.ksprintf

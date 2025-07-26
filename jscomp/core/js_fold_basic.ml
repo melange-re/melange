@@ -22,8 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let add_lam_module_ident tbl k = Lam_module_ident.Hashtbl.replace tbl k ()
-let create = Lam_module_ident.Hashtbl.create
+let add_lam_module_ident = Lam_module_ident.Hash_set.add
+let create = Lam_module_ident.Hash_set.create
 let super = Js_record_iter.super
 
 let count_hard_dependencies hard_dependencies =

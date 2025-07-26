@@ -27,17 +27,15 @@ open Import
 type env_value =
   | Ml of { id : Ident.t; cmj_load_info : Js_cmj_format.cmj_load_info }
   | External of Ident.t
-      (** Also a js file, but this belong to third party
-    we never load runtime/*.cmj
-*)
+      (** Also a js file, but this belong to third party we never load
+          runtime/*.cmj *)
 
 (*
    refer: [Env.find_pers_struct]
    [ find_in_path_uncap !load_path (name ^ ".cmi")]
 *)
 
-(** It stores module => env_value mapping
-*)
+(** It stores module => env_value mapping *)
 let cached_tbl : env_value Lam_module_ident.Hashtbl.t =
   Lam_module_ident.Hashtbl.create 31
 
@@ -62,8 +60,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
         (match hint_name with
         | Phint_name hint_name -> String.capitalize_ascii hint_name
         (* make sure the module name is capitalized
-         TODO: maybe a warning if the user hint is not good
-      *)
+           TODO: maybe a warning if the user hint is not good *)
         | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
     in
     Lam_module_ident.external_ module_id ~dynamic_import ~name:module_name
@@ -73,7 +70,7 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
   | Ml { id; cmj_load_info = _ } | External id -> id
   | exception Not_found ->
       let module_id = lam_module_ident.id in
-      Lam_module_ident.Hashtbl.add cached_tbl lam_module_ident
+      Lam_module_ident.Hashtbl.replace cached_tbl lam_module_ident
         (External module_id);
       module_id
 
@@ -84,7 +81,7 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
     match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
     | None ->
         let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
-        Lam_module_ident.Hashtbl.add cached_tbl oid
+        Lam_module_ident.Hashtbl.replace cached_tbl oid
           (Ml { cmj_load_info; id = module_id });
         cmj_load_info.cmj_table
     | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table
@@ -103,8 +100,7 @@ let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     | Some (Ml { cmj_load_info; id = _ }) -> cmj_load_info
     | Some (External _) -> assert false
     (* called by {!Js_name_of_module_id.string_of_module_id}
-       can not be External
-    *)
+       can not be External *)
     | None -> (
         match module_id.kind with
         | Runtime | External _ -> assert false
@@ -112,7 +108,7 @@ let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
             let cmj_load_info =
               Js_cmj_format.load_unit (Lam_module_ident.name module_id)
             in
-            Lam_module_ident.Hashtbl.add cached_tbl module_id
+            Lam_module_ident.Hashtbl.replace cached_tbl module_id
               (Ml { cmj_load_info; id = module_id.id });
             cmj_load_info)
   in
@@ -129,22 +125,19 @@ let is_pure_module (oid : Lam_module_ident.t) =
       | None -> (
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
-              Lam_module_ident.Hashtbl.add cached_tbl oid
+              Lam_module_ident.Hashtbl.replace cached_tbl oid
                 (Ml { cmj_load_info; id = oid.id });
               cmj_load_info.cmj_table.pure
           | exception _ -> false)
       | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table.pure
       | Some (External _) -> false)
 
-let populate_required_modules ~extras ~hard_dependencies =
+let add = Lam_module_ident.Hash_set.add
+
+let populate_required_modules extras
+    (hard_dependencies : Lam_module_ident.Hash_set.t) =
   Lam_module_ident.Hashtbl.iter
-    (fun id _ ->
-      if not (is_pure_module id) then
-        Lam_module_ident.Hashtbl.replace hard_dependencies id ())
+    (fun id _ -> if not (is_pure_module id) then add hard_dependencies id)
     cached_tbl;
-  Lam_module_ident.Hashtbl.iter
-    (fun id () ->
-      if not (is_pure_module id) then
-        Lam_module_ident.Hashtbl.replace hard_dependencies id ())
-    extras
-(* Lam_module_ident.Hash_set.elements hard_dependencies *)
+  Lam_module_ident.Hash_set.iter extras ~f:(fun id ->
+      if not (is_pure_module id) then add hard_dependencies id)
