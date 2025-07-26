@@ -242,6 +242,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
+      cmi_file;
       g;
       opaque;
       preamble;
@@ -381,6 +382,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         ignore (eval s: _ Cmdliner.Term.ret ))
       bs_eval;
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
+    Option.iter (fun cmi_file -> Clflags.cmi_file := Some cmi_file) cmi_file;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
     Js_config.preamble := preamble;
