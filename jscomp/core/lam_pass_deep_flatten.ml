@@ -209,9 +209,9 @@ let deep_flatten =
                 flatten
                   (List.fold_left_with_offset args ~init:accux ~off:0
                      ~f:(fun arg acc i ->
-                       match Int.Map.find_opt i tuple_mapping with
-                       | None -> Lam_group.nop_cons arg acc
-                       | Some key -> Lam_group.single kind key arg :: acc))
+                       match Int.Map.find i tuple_mapping with
+                       | exception Not_found -> Lam_group.nop_cons arg acc
+                       | key -> Lam_group.single kind key arg :: acc))
                   body
             | None -> flatten (Single (kind, id, res) :: accux) body)
         | _ -> flatten (Single (kind, id, res) :: accux) body)
