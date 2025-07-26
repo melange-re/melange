@@ -186,7 +186,9 @@ let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hashtbl.t) : Lam.t
       | SimpleForm l -> l
       | exception _ -> lam ())
   | Some (Constant (Const_block (_, _, ls))) -> (
-      match List.nth_opt ls i with None -> lam () | Some x -> Lam.const x)
+      match List.nth ls i with
+      | exception Failure _ -> lam ()
+      | x -> Lam.const x)
   | Some _ | None -> lam ()
 
 let not_function (lam : Lam.t) =

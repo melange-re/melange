@@ -182,9 +182,9 @@ let module_access (e : t) (name : string) (pos : int32) =
   let name = Ident.convert name in
   match e.expression_desc with
   | Caml_block { fields = l; _ } when no_side_effect e -> (
-      match List.nth_opt l (Int32.to_int pos) with
-      | Some x -> x
-      | None ->
+      match List.nth l (Int32.to_int pos) with
+      | x -> x
+      | exception Failure _ ->
           make_expression
             (Static_index { expr = e; field = name; pos = Some pos }))
   | _ ->
@@ -336,10 +336,10 @@ let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   | Array { items = l; _ }, Number (Int { i; _ })
   (* Float i -- should not appear here *)
     when no_side_effect e0 -> (
-      match List.nth_opt l (Int32.to_int i) with
-      | None ->
+      match List.nth l (Int32.to_int i) with
+      | exception Failure _ ->
           make_expression ?loc ?comment (Array_index { expr = e0; index = e1 })
-      | Some x -> x (* FIX #3084*))
+      | x -> x (* FIX #3084 *))
   | _ -> make_expression ?loc ?comment (Array_index { expr = e0; index = e1 })
 
 let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
@@ -347,9 +347,9 @@ let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
   | Array { items = l; _ } (* Float i -- should not appear here *)
   | Caml_block { fields = l; _ }
     when no_side_effect e -> (
-      match List.nth_opt l (Int32.to_int pos) with
-      | Some x -> x
-      | None ->
+      match List.nth l (Int32.to_int pos) with
+      | x -> x
+      | exception Failure _ ->
           make_expression ?loc
             (Array_index { expr = e; index = int ?comment pos }))
   | _ ->
@@ -360,9 +360,9 @@ let record_access (e : t) (name : string) (pos : int32) =
   | Array { items = l; _ } (* Float i -- should not appear here *)
   | Caml_block { fields = l; _ }
     when no_side_effect e -> (
-      match List.nth_opt l (Int32.to_int pos) with
-      | Some x -> x
-      | None ->
+      match List.nth l (Int32.to_int pos) with
+      | x -> x
+      | exception Failure _ ->
           make_expression
             (Static_index { expr = e; field = name; pos = Some pos }))
   | _ ->
@@ -409,9 +409,9 @@ let extension_access (e : t) ?name (pos : int32) : t =
   | Array { items = l; _ } (* Float i -- should not appear here *)
   | Caml_block { fields = l; _ }
     when no_side_effect e -> (
-      match List.nth_opt l (Int32.to_int pos) with
-      | Some x -> x
-      | None ->
+      match List.nth l (Int32.to_int pos) with
+      | x -> x
+      | exception Failure _ ->
           let name =
             match name with Some n -> n | None -> "_" ^ Int32.to_string pos
           in
