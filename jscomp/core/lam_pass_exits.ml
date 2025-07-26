@@ -182,13 +182,13 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
               simplif l1)
             else Lam.staticcatch (simplif l1) (i, xs) l2)
     | Lstaticraise (i, []) -> (
-        match Int.Hashtbl.find_opt subst i with
-        | Some (_, handler) -> to_lam handler
-        | None -> lam)
+        match Int.Hashtbl.find subst i with
+        | _, handler -> to_lam handler
+        | exception Not_found -> lam)
     | Lstaticraise (i, ls) -> (
         let ls = List.map ~f:simplif ls in
-        match Int.Hashtbl.find_opt subst i with
-        | Some (xs, handler) ->
+        match Int.Hashtbl.find subst i with
+        | xs, handler ->
             let handler = to_lam handler in
             let ys = List.map ~f:Ident.rename xs in
             let env =
@@ -200,7 +200,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
               ~f:(fun y l r -> Lam.let_ Strict y l r)
               ys ls
               ~init:(Lam_subst.subst env handler)
-        | None -> Lam.staticraise i ls)
+        | exception Not_found -> Lam.staticraise i ls)
     | Lvar _ | Lmutvar _ | Lconst _ -> lam
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply (simplif ap_func) (List.map ~f:simplif ap_args) ap_info

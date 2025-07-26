@@ -28,20 +28,16 @@ type outcome = Eval_false | Eval_true | Eval_unknown
 
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
   let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t) id =
-    match Ident.Hashtbl.find_opt tbl id with
-    | Some (ImmutableBlock _)
-    | Some (Normal_optional _)
-    | Some (MutableBlock _)
-    | Some (Constant (Const_block _ | Const_js_true)) ->
+    match Ident.Hashtbl.find tbl id with
+    | ImmutableBlock _ | Normal_optional _ | MutableBlock _
+    | Constant (Const_block _ | Const_js_true) ->
         Eval_true
-    | Some (Constant (Const_int { i; _ })) ->
-        if i = 0l then Eval_false else Eval_true
-    | Some (Constant (Const_js_false | Const_js_null | Const_js_undefined)) ->
+    | Constant (Const_int { i; _ }) -> if i = 0l then Eval_false else Eval_true
+    | Constant (Const_js_false | Const_js_null | Const_js_undefined) ->
         Eval_false
-    | Some
-        ( Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
-        | OptionalBlock (_, (Undefined | Null | Null_undefined)) )
-    | None ->
+    | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+    | OptionalBlock (_, (Undefined | Null | Null_undefined))
+    | (exception Not_found) ->
         Eval_unknown
   in
   let rec simpl (lam : Lam.t) : Lam.t =
@@ -64,9 +60,10 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           args = [ (Lvar v as lvar) ];
           _;
         } as x -> (
-        match Ident.Hashtbl.find_opt meta.ident_tbl v with
-        | Some (OptionalBlock (l, _)) -> l
-        | _ -> if p = Pval_from_option_not_nest then lvar else x)
+        match Ident.Hashtbl.find meta.ident_tbl v with
+        | OptionalBlock (l, _) -> l
+        | _ | (exception Not_found) ->
+            if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
         Lam.prim ~primitive ~args:(List.map ~f:simpl args) loc
@@ -74,26 +71,25 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
           l2,
           l3 ) -> (
-        match Ident.Hashtbl.find_opt meta.ident_tbl id with
-        | Some (ImmutableBlock _ | MutableBlock _ | Normal_optional _) ->
-            simpl l2
-        | Some (OptionalBlock (l, Null)) ->
+        match Ident.Hashtbl.find meta.ident_tbl id with
+        | ImmutableBlock _ | MutableBlock _ | Normal_optional _ -> simpl l2
+        | OptionalBlock (l, Null) ->
             Lam.if_
               (Lam.not_ Location.none
                  (Lam.prim ~primitive:Pis_null ~args:[ l ] Location.none))
               (simpl l2) (simpl l3)
-        | Some (OptionalBlock (l, Undefined)) ->
+        | OptionalBlock (l, Undefined) ->
             Lam.if_
               (Lam.not_ Location.none
                  (Lam.prim ~primitive:Pis_undefined ~args:[ l ] Location.none))
               (simpl l2) (simpl l3)
-        | Some (OptionalBlock (l, Null_undefined)) ->
+        | OptionalBlock (l, Null_undefined) ->
             Lam.if_
               (Lam.not_ Location.none
                  (Lam.prim ~primitive:Pis_null_undefined ~args:[ l ]
                     Location.none))
               (simpl l2) (simpl l3)
-        | Some _ | None -> Lam.if_ l1 (simpl l2) (simpl l3))
+        | _ | (exception Not_found) -> Lam.if_ l1 (simpl l2) (simpl l3))
     (* could be the code path
        {[ match x with
          | h::hs ->
@@ -147,9 +143,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                     ~f:(fun (arg : Lam.t) ->
                       match arg with
                       | Lvar p | Lmutvar p -> (
-                          match Ident.Hashtbl.find_opt meta.ident_tbl p with
-                          | Some v -> v <> Parameter
-                          | None -> true)
+                          match Ident.Hashtbl.find meta.ident_tbl p with
+                          | v -> v <> Parameter
+                          | exception Not_found -> true)
                       | _ -> true)
                     args ->
             simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
@@ -167,17 +163,16 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
         let ap_args = List.map ~f:simpl ap_args in
         let[@local] normal () = Lam.apply (simpl fn) ap_args ap_info in
-        match Ident.Hashtbl.find_opt meta.ident_tbl v with
-        | Some
-            (FunctionId
-               {
-                 lambda =
-                   Some
-                     ( Lfunction
-                         ({ params; body; attr = { is_a_functor; _ }; _ } as m),
-                       rec_flag );
-                 _;
-               }) ->
+        match Ident.Hashtbl.find meta.ident_tbl v with
+        | FunctionId
+            {
+              lambda =
+                Some
+                  ( Lfunction
+                      ({ params; body; attr = { is_a_functor; _ }; _ } as m),
+                    rec_flag );
+              _;
+            } ->
             if List.same_length ap_args params (* && false *) then
               if
                 is_a_functor
@@ -228,7 +223,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                 | _ -> normal ()
               else normal ()
             else normal ()
-        | Some _ | None -> normal ())
+        | _ | (exception Not_found) -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->
         simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
@@ -266,9 +261,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         let l =
           match l with
           | Lvar s | Lmutvar s -> (
-              match Ident.Hashtbl.find_opt meta.ident_tbl s with
-              | Some (Constant s) -> Lam.const s
-              | Some _ | None -> simpl l)
+              match Ident.Hashtbl.find meta.ident_tbl s with
+              | Constant s -> Lam.const s
+              | _ | (exception Not_found) -> simpl l)
           | _ -> simpl l
         in
         Lam.stringswitch l (List.map_snd sw ~f:simpl) (Option.map simpl d)

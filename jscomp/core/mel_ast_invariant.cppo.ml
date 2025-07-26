@@ -106,13 +106,13 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
           | _ -> super.signature_item self sigi);
       expr = (fun self a ->
           (match
-             List.find_opt
+             List.find
                ~f:(fun { Parsetree.attr_name = { txt; _ }; _ } -> txt = "u")
                a.pexp_attributes
            with
-          | Some { attr_name = { loc; _ }; _ } ->
+          | { attr_name = { loc; _ }; _ } ->
               print_unprocessed_uncurried_alert ~loc
-          | None -> ());
+          | exception Not_found -> ());
 
           match a.pexp_desc with
           | Pexp_constant const -> check_constant ~loc:a.pexp_loc ~kind:Expr const

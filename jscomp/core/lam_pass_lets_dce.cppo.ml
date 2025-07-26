@@ -13,6 +13,12 @@
 
 open Import
 
+let find_string string_table lam =
+  match lam with
+  | Lam.Lconst (Const_string { s = ls; unicode = false }) -> ls
+  | Lvar i -> Ident.Hashtbl.find string_table i
+  | _ -> raise Not_found
+
 let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
   let subst : Lam.t Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
   let string_table : string Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
@@ -175,24 +181,12 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
     | Lprim { primitive = Pstringadd; args = [ l; r ]; loc } -> (
         let l' = simplif l in
         let r' = simplif r in
-        let opt_l =
-          match l' with
-          | Lconst (Const_string { s = ls; unicode = false }) -> Some ls
-          | Lvar i -> Ident.Hashtbl.find_opt string_table i
-          | _ -> None
-        in
-        match opt_l with
-        | None -> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
-        | Some l_s -> (
-            let opt_r =
-              match r' with
-              | Lconst (Const_string { s = rs; unicode = false }) -> Some rs
-              | Lvar i -> Ident.Hashtbl.find_opt string_table i
-              | _ -> None
-            in
-            match opt_r with
-            | None -> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
-            | Some r_s ->
+        match find_string string_table l' with
+        | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
+        | l_s -> (
+            match find_string string_table r' with
+            | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
+            | r_s ->
                 Lam.const (Const_string { s = l_s ^ r_s; unicode = false })))
     | Lprim
         {
@@ -203,15 +197,9 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         (* TODO: introudce new constant *)
         let l' = simplif l in
         let r' = simplif r in
-        let opt_l =
-          match l' with
-          | Lconst (Const_string { s = ls; unicode = false }) -> Some ls
-          | Lvar i -> Ident.Hashtbl.find_opt string_table i
-          | _ -> None
-        in
-        match opt_l with
-        | None -> Lam.prim ~primitive ~args:[ l'; r' ] loc
-        | Some l_s -> (
+        match find_string string_table l' with
+        | exception Not_found-> Lam.prim ~primitive ~args:[ l'; r' ] loc
+        | l_s -> (
             match r with
             | Lconst (Const_int { i; _ }) ->
                 let i = Int32.to_int i in
@@ -254,9 +242,9 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
 (* To transform let-bound references into variables *)
 let apply_lets occ lambda =
   let count_var v =
-    match Ident.Hashtbl.find_opt occ v with
-    | None -> Lam_pass_count.dummy_info ()
-    | Some v -> v
+    match Ident.Hashtbl.find occ v with
+    | exception Not_found -> Lam_pass_count.dummy_info ()
+    | v -> v
   in
   lets_helper count_var lambda
 

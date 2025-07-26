@@ -30,12 +30,12 @@ let transitive_closure (initial_idents : Ident.t list)
   let rec dfs (id : Ident.t) : unit =
     if not (Ident.Hashtbl.mem visited id || Ident.is_js_or_global id) then (
       Ident.Hashtbl.replace visited id ();
-      match Ident.Hashtbl.find_opt ident_freevars id with
-      | None ->
+      match Ident.Hashtbl.find ident_freevars id with
+      | exception Not_found ->
           Format.ksprintf
             (fun s -> failwith (__LOC__ ^ s))
             "%s/%d not found" (Ident.name id) (Ident.stamp id)
-      | Some e -> Ident.Set.iter dfs e)
+      | e -> Ident.Set.iter dfs e)
   in
   List.iter ~f:dfs initial_idents;
   visited

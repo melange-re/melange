@@ -39,9 +39,9 @@ module Coll = struct
 
   let add_or_update (h : 'a t) (key : key)
       ~update:modf ~default =
-    match find_opt h key with
-    | Some v -> replace h key (modf v)
-    | None -> add h key default
+    match find h key with
+    | v -> replace h key (modf v)
+    | exception Not_found -> add h key default
 end
 
 type value = { stamp : int; hash_names_act : hash_names * lam }
