@@ -46,14 +46,15 @@ let rec aux ~loc self acc (body : expression) =
 let to_method_callback =
   let first_arg args =
     match
-      List.find_opt
+      List.find
         ~f:(function
           | { pparam_desc = Pparam_val _; _ } -> true
           | { pparam_desc = Pparam_newtype _; _ } -> false)
         args
     with
-    | Some { pparam_desc = Pparam_val (_, _, pat); _ } -> pat
-    | Some { pparam_desc = Pparam_newtype _; _ } | None -> assert false
+    | { pparam_desc = Pparam_val (_, _, pat); _ } -> pat
+    | { pparam_desc = Pparam_newtype _; _ } | (exception Not_found) ->
+        assert false
   in
   let rec is_single_variable_pattern_conservative p =
     match p.ppat_desc with

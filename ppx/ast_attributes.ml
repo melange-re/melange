@@ -400,8 +400,7 @@ let has_mel_optional attrs : bool =
       | _ -> false)
     attrs
 
-let has_inline_payload =
- fun attrs ->
+let has_inline_payload attrs =
   List.find_opt
     ~f:(fun { attr_name = { txt; loc = _ }; _ } -> txt = "mel.inline")
     attrs

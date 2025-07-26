@@ -198,31 +198,30 @@ let ocaml_object_as_js_object =
                       pexp_desc =
                         (let f =
                            match
-                             List.find_opt
+                             List.find
                                ~f:(function
                                  | { pparam_desc = Pparam_val _; _ } -> true
                                  | { pparam_desc = Pparam_newtype _; _ } ->
                                      false)
                                params
                            with
-                           | Some
-                               {
-                                 pparam_desc =
-                                   Pparam_val
-                                     ( _,
-                                       _,
-                                       {
-                                         ppat_desc =
-                                           Ppat_construct
-                                             ({ txt = Lident "()"; _ }, None);
-                                         _;
-                                       } );
-                                 _;
-                               } ->
+                           | {
+                            pparam_desc =
+                              Pparam_val
+                                ( _,
+                                  _,
+                                  {
+                                    ppat_desc =
+                                      Ppat_construct
+                                        ({ txt = Lident "()"; _ }, None);
+                                    _;
+                                  } );
+                            _;
+                           } ->
                                e
-                           | Some { pparam_desc = Pparam_val (_, _, _); _ } -> f
-                           | Some { pparam_desc = Pparam_newtype _; _ } | None
-                             ->
+                           | { pparam_desc = Pparam_val (_, _, _); _ } -> f
+                           | { pparam_desc = Pparam_newtype _; _ }
+                           | (exception Not_found) ->
                                assert false
                          in
                          (* the first argument is `this` *)
