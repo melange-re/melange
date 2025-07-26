@@ -54,11 +54,11 @@ let param_hash : _ Ident.Hashtbl.t = Ident.Hashtbl.create 20
 let simple_beta_reduce params body args =
   let exception Not_simple_apply in
   let find_param_exn v opt =
-    match Ident.Hashtbl.find_opt param_hash v with
-    | Some exp ->
+    match Ident.Hashtbl.find param_hash v with
+    | exp ->
         if exp.used then raise_notrace Not_simple_apply else exp.used <- true;
         exp.lambda
-    | None -> opt
+    | exception Not_found -> opt
   in
   let rec aux_exn acc (us : Lam.t list) =
     match us with

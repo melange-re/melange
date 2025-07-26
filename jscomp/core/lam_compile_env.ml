@@ -44,24 +44,25 @@ let reset () =
   Translmod.reset ();
   Js_config.no_export := false;
   (* This is needed in the playground since one no_export can make it true
-     In the payground, it seems we need reset more states
-  *)
+     In the payground, it seems we need reset more states *)
   Lam_module_ident.Hashtbl.clear cached_tbl
 
 (** We should not provide "#moduleid" as output
     since when we print it in the end, it will
-    be escaped quite ugly
-*)
+    be escaped quite ugly *)
 let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
-    (module_name : string) ~default ~dynamic_import : Ident.t =
+    module_name ~default ~dynamic_import =
   let lam_module_ident : Lam_module_ident.t =
     let module_id =
-      Ident.create_local
-        (match hint_name with
-        | Phint_name hint_name -> String.capitalize_ascii hint_name
-        (* make sure the module name is capitalized
-           TODO: maybe a warning if the user hint is not good *)
-        | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name)
+      let local_name =
+        match hint_name with
+        | Phint_name hint_name ->
+            (* make sure the module name is capitalized
+               TODO: maybe a warning if the user hint is not good *)
+            String.capitalize_ascii hint_name
+        | Phint_nothing -> Modulename.js_id_name_of_hint_name module_name
+      in
+      Ident.create_local local_name
     in
     Lam_module_ident.external_ module_id ~dynamic_import ~name:module_name
       ~default
@@ -78,14 +79,14 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
     (name : string) : Js_cmj_format.keyed_cmj_value =
   let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
   let cmj_table =
-    match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
-    | None ->
+    match Lam_module_ident.Hashtbl.find cached_tbl oid with
+    | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table
+    | External _ -> assert false
+    | exception Not_found ->
         let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
         Lam_module_ident.Hashtbl.replace cached_tbl oid
           (Ml { cmj_load_info; id = module_id });
         cmj_load_info.cmj_table
-    | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table
-    | Some (External _) -> assert false
   in
   Js_cmj_format.query_by_name cmj_table name
 
@@ -96,12 +97,13 @@ let query_external_id_info ~dynamic_import module_id name =
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =
-    match Lam_module_ident.Hashtbl.find_opt cached_tbl module_id with
-    | Some (Ml { cmj_load_info; id = _ }) -> cmj_load_info
-    | Some (External _) -> assert false
-    (* called by {!Js_name_of_module_id.string_of_module_id}
-       can not be External *)
-    | None -> (
+    match Lam_module_ident.Hashtbl.find cached_tbl module_id with
+    | Ml { cmj_load_info; id = _ } -> cmj_load_info
+    | External _ ->
+        (* called by {!Js_name_of_module_id.string_of_module_id}.
+           cannot be External *)
+        assert false
+    | exception Not_found -> (
         match module_id.kind with
         | Runtime | External _ -> assert false
         | Ml ->
@@ -121,16 +123,16 @@ let is_pure_module (oid : Lam_module_ident.t) =
   | Runtime -> true
   | External _ -> false
   | Ml -> (
-      match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
-      | None -> (
+      match Lam_module_ident.Hashtbl.find cached_tbl oid with
+      | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table.pure
+      | External _ -> false
+      | exception Not_found -> (
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               Lam_module_ident.Hashtbl.replace cached_tbl oid
                 (Ml { cmj_load_info; id = oid.id });
               cmj_load_info.cmj_table.pure
-          | exception _ -> false)
-      | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table.pure
-      | Some (External _) -> false)
+          | exception _ -> false))
 
 let add = Lam_module_ident.Hash_set.add
 
