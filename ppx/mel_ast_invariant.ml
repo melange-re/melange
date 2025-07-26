@@ -63,12 +63,11 @@ let warn_raw =
 let warn ~loc t =
   warn_raw ~loc ~kind:(Warnings.kind t) (Format.asprintf "%a" Warnings.pp t)
 
-let used_attributes : string Asttypes.loc Polyvariant.Hash_set.t =
-  Polyvariant.Hash_set.create 16
+let used_attributes : (string Asttypes.loc, unit) Hashtbl.t = Hashtbl.create 16
 
 let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
   (* only mark non-ghost used mel attribute *)
-  if not x.loc.loc_ghost then Polyvariant.Hash_set.add used_attributes x
+  if not x.loc.loc_ghost then Hashtbl.replace used_attributes x ()
 
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     =
@@ -78,7 +77,7 @@ let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
      `mel.internal.ffi` *)
     Melange_ffi.External_ffi_attributes.is_mel_attribute txt
     && (not loc.loc_ghost)
-    && not (Polyvariant.Hash_set.mem used_attributes sloc)
+    && not (Hashtbl.mem used_attributes sloc)
   then warn ~loc (Unused_attribute txt)
 
 let warn_discarded_unused_attributes ?(has_mel_send = false)

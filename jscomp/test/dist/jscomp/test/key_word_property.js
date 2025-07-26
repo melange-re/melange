@@ -3,13 +3,13 @@
 
 const OmeEs6Module = require("./ome-es6-module").default;
 const OmeEs6Module$1 = require("./ome-es6-module");
-const SomeEs6Module = require("some-es6-module");
-const SomeEs6Module$1 = require("some-es6-module").default;
+const SomeEs6Module = require("some-es6-module").default;
+const SomeEs6Module$1 = require("some-es6-module");
 const Vscode = require("vscode");
 
-const $$default = SomeEs6Module$1;
+const $$default = SomeEs6Module;
 
-const default2 = SomeEs6Module.default2;
+const default2 = SomeEs6Module$1.default2;
 
 const oefault = OmeEs6Module;
 
