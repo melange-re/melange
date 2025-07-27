@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,12 +17,26 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-include Ordered_hash_map_gen.S with type key = Ident.t
-(** Hash algorithm only hash 
-    stamp, this makes sense when  all identifiers are local (no global)
-*)
+(** Hash algorithm only hash stamp, this makes sense when all identifiers are
+    local (no global) *)
+
+type 'value t
+
+val create : int -> 'value t
+val clear : 'value t -> unit
+val reset : 'value t -> unit
+val add : 'value t -> Ident.t -> 'value -> unit
+val mem : 'value t -> Ident.t -> bool
+val rank : 'value t -> Ident.t -> int (* -1 if not found*)
+val find_value : 'value t -> Ident.t -> 'value (* raise if not found*)
+val iter : 'value t -> (Ident.t -> 'value -> int -> unit) -> unit
+val fold : 'value t -> 'b -> (Ident.t -> 'value -> int -> 'b -> 'b) -> 'b
+val length : 'value t -> int
+val elements : 'value t -> Ident.t list
+val choose : 'value t -> Ident.t
+val to_sorted_array : 'value t -> Ident.t array

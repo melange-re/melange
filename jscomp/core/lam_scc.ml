@@ -70,23 +70,21 @@ type bindings = (Ident.t * Lam.t) list
 
 let preprocess_deps (groups : bindings) : _ * Ident.t array * Vec_int.t array =
   let len = List.length groups in
-  let domain : _ Ordered_hash_map_local_ident.t =
-    Ordered_hash_map_local_ident.create len
-  in
+  let domain : _ Ident.Ordered_hash_map.t = Ident.Ordered_hash_map.create len in
   let mask = Hash_set_ident_mask.create len in
   List.iter
     ~f:(fun (x, lam) ->
-      Ordered_hash_map_local_ident.add domain x lam;
+      Ident.Ordered_hash_map.add domain x lam;
       Hash_set_ident_mask.add_unmask mask x)
     groups;
-  let int_mapping = Ordered_hash_map_local_ident.to_sorted_array domain in
+  let int_mapping = Ident.Ordered_hash_map.to_sorted_array domain in
   let node_vec = Array.make (Array.length int_mapping) (Vec_int.empty ()) in
-  Ordered_hash_map_local_ident.iter domain (fun _id lam key_index ->
+  Ident.Ordered_hash_map.iter domain (fun _id lam key_index ->
       let base_key = node_vec.(key_index) in
       ignore (hit_mask mask lam);
       Hash_set_ident_mask.iter_and_unmask mask (fun ident hit ->
           if hit then
-            let key = Ordered_hash_map_local_ident.rank domain ident in
+            let key = Ident.Ordered_hash_map.rank domain ident in
             Vec_int.push base_key key));
   (domain, int_mapping, node_vec)
 
@@ -121,7 +119,7 @@ let scc_bindings (groups : bindings) : bindings list =
               Vec_int.map_into_list
                 (fun i ->
                   let id = int_mapping.(i) in
-                  let lam = Ordered_hash_map_local_ident.find_value domain id in
+                  let lam = Ident.Ordered_hash_map.find_value domain id in
                   (id, lam))
                 v
             in
@@ -146,13 +144,13 @@ let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
               Vec_int.map_into_list
                 (fun i ->
                   let id = int_mapping.(i) in
-                  let lam = Ordered_hash_map_local_ident.find_value domain id in
+                  let lam = Ident.Ordered_hash_map.find_value domain id in
                   (id, lam))
                 v
             in
             match bindings with
             | [ (id, lam) ] ->
-                let base_key = Ordered_hash_map_local_ident.rank domain id in
+                let base_key = Ident.Ordered_hash_map.rank domain id in
                 if Vec_int.mem base_key node_vec.(base_key) then
                   Lam.letrec bindings acc
                 else Lam.let_ Strict id lam acc

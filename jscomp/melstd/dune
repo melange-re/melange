@@ -24,9 +24,3 @@
  (action
   (run cppo -D TYPE_FUNCTOR %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
-(rule
- (targets ordered_hash_map_local_ident.ml)
- (deps ordered_hash_map.cppo.ml)
- (action
-  (run cppo -D TYPE_LOCAL_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-

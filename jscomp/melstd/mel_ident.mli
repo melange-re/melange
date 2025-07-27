@@ -50,6 +50,8 @@ module Hashtbl : sig
   val find_default : 'a t -> key -> default:'a -> 'a
 end
 
+module Ordered_hash_map = Ordered_hash_map_local_ident
+
 val is_js : t -> bool
 
 val create_js : string -> t
