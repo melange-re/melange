@@ -96,7 +96,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
         let original_name = Ident.name original_export_id in
         let already_present =
           let already_present = String.Hashtbl.mem tbl original_name in
-          String.Hashtbl.replace tbl original_name ();
+          String.Hashtbl.replace tbl ~key:original_name ~data:();
           already_present
         in
         if already_present then

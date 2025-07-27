@@ -159,11 +159,11 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
         match (count, l2) with
         | 0, _ -> simplif l1
         | _, Lvar _ | _, Lconst _ (* when i >= 0  # 2316 *) ->
-            Int.Hashtbl.add subst i (xs, Id (simplif l2));
+            Int.Hashtbl.add subst ~key:i ~data:(xs, Id (simplif l2));
             simplif l1 (* l1 will inline *)
         | 1, _ when max_depth <= !try_depth ->
             assert (max_depth = !try_depth);
-            Int.Hashtbl.add subst i (xs, Id (simplif l2));
+            Int.Hashtbl.add subst ~key:i ~data:(xs, Id (simplif l2));
             simplif l1 (* l1 will inline *)
         | _ ->
             let l2 = simplif l2 in
@@ -178,7 +178,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
               || lam_size < 5
             in
             if ok_to_inline then (
-              Int.Hashtbl.add subst i (xs, Id l2);
+              Int.Hashtbl.add subst ~key:i ~data:(xs, Id l2);
               simplif l1)
             else Lam.staticcatch (simplif l1) (i, xs) l2)
     | Lstaticraise (i, []) -> (
