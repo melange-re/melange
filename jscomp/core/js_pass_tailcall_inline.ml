@@ -91,7 +91,7 @@ let inline_call =
         List.fold_right2
           ~f:(fun param (arg : J.expression) (map, acc) ->
             match arg.expression_desc with
-            | Var (Id id) -> (Ident.Map.add param id map, acc)
+            | Var (Id id) -> (Ident.Map.add ~key:param ~data:id map, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
           params args
           ~init:(Ident.Map.empty, processed_blocks)
@@ -100,7 +100,7 @@ let inline_call =
           ~init:(Ident.Map.empty, processed_blocks)
           ~f:(fun param arg mask (map, acc) ->
             match (mask, arg.expression_desc) with
-            | true, Var (Id id) -> (Ident.Map.add param id map, acc)
+            | true, Var (Id id) -> (Ident.Map.add ~key:param ~data:id map, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
     in
     if Ident.Map.is_empty map then block

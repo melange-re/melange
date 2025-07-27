@@ -29,7 +29,7 @@ include module type of struct
   include StdLabels.String
 end
 
-module Map : Map.S with type key = string
+module Map : MoreLabels.Map.S with type key = string
 module Set : MoreLabels.Set.S with type elt = string
 module Hashtbl : Hashtbl.S with type key = string
 

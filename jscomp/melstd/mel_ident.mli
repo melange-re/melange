@@ -37,7 +37,7 @@ val reinit : unit -> unit
 val global : t -> bool
 
 module Map : sig
-  include Map.S with type key = t
+  include MoreLabels.Map.S with type key = t
 
   val find_default : default:'a -> key -> 'a t -> 'a
 end

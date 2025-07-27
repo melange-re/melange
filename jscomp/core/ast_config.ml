@@ -40,13 +40,13 @@ let structural_config_table : action_table ref =
          Js_config.no_export :=
            match x with Some e -> assert_bool_lit e | None -> true))
 
-let add_structure k v =
-  structural_config_table := String.Map.add k v !structural_config_table
+let add_structure key data =
+  structural_config_table := String.Map.add ~key ~data !structural_config_table
 
 let signature_config_table : action_table ref = ref String.Map.empty
 
-let add_signature k v =
-  signature_config_table := String.Map.add k v !signature_config_table
+let add_signature key data =
+  signature_config_table := String.Map.add ~key ~data !signature_config_table
 
 let rec iter_on_mel_config_stru = function
   | [] -> ()

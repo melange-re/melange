@@ -380,10 +380,9 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
                params)
             [
               S.while_ E.true_
-                (Ident.Map.fold
-                   (fun old new_param acc ->
-                     S.define_variable ~kind:Alias old (E.var new_param) :: acc)
-                   ret.new_params body_block);
+                (Ident.Map.fold ret.new_params ~init:body_block
+                   ~f:(fun ~key:old ~data:new_param acc ->
+                     S.define_variable ~kind:Alias old (E.var new_param) :: acc));
             ]
         else
           (* TODO:  save computation of length several times *)
@@ -666,10 +665,12 @@ and all_cases_as_value =
         ~f:(fun (i, lam) (acc, map) ->
           match get_cstr_name i with
           | Some ({ Lambda.as_modifier = Some as_value; _ } as cstr_name) ->
-              ((as_value, lam) :: acc, AsValueMap.add as_value cstr_name map)
+              ( (as_value, lam) :: acc,
+                AsValueMap.add ~key:as_value ~data:cstr_name map )
           | Some ({ as_modifier = None; _ } as cstr_name) ->
               let as_value = Lambda.Int i in
-              ((as_value, lam) :: acc, AsValueMap.add as_value cstr_name map)
+              ( (as_value, lam) :: acc,
+                AsValueMap.add ~key:as_value ~data:cstr_name map )
           | None -> raise Local)
         table ~init:([], AsValueMap.empty)
     with
@@ -1546,19 +1547,17 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
                       | None ->
                           ret.immutable_mask.(i) <- false;
                           let v = Ident.create ("_" ^ Ident.name param) in
-                          (v, Ident.Map.add param v new_params)
+                          (v, Ident.Map.add ~key:param ~data:v new_params)
                       | Some v -> (v, new_params)
                     in
                     (i + 1, (new_param, arg) :: assigns, m))
               ~init:(0, [], Ident.Map.empty) ret.params args
           in
           ret.new_params <-
-            Ident.Map.merge
-              (fun _ v1 v2 ->
+            Ident.Map.merge new_params ret.new_params ~f:(fun _ v1 v2 ->
                 match (v1, v2) with
                 | Some v, None | None, Some v -> Some v
-                | Some _, Some _ | None, None -> assert false)
-              new_params ret.new_params;
+                | Some _, Some _ | None, None -> assert false);
           let block =
             List.map ~f:(fun (param, arg) -> S.assign param arg) assigned_params
             @ [ S.continue_ ]

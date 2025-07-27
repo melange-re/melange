@@ -78,7 +78,7 @@ let collect_occurs lam : t =
   let bind_var bv ident =
     let r = dummy_info () in
     Ident.Hashtbl.add occ ident r;
-    Ident.Map.add ident r bv
+    Ident.Map.add ~key:ident ~data:r bv
   in
 
   (* Record a use of a variable *)

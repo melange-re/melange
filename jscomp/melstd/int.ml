@@ -23,6 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 include Stdlib.Int
-module Map = Map.Make (Stdlib.Int)
+module Map = MoreLabels.Map.Make (Stdlib.Int)
 module Set = MoreLabels.Set.Make (Stdlib.Int)
 module Hashtbl = Hashtbl.Make (Stdlib.Int)
