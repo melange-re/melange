@@ -30,7 +30,7 @@ include module type of struct
 end
 
 module Map : Map.S with type key = string
-module Set : Set.S with type elt = string
+module Set : MoreLabels.Set.S with type elt = string
 module Hashtbl : Hashtbl.S with type key = string
 
 val split_by : ?keep_empty:bool -> (char -> bool) -> string -> string list

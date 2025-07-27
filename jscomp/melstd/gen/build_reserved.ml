@@ -234,7 +234,8 @@ let main keyword_file output_name =
       let array =
         Ast_helper.(
           Exp.array
-            (SSet.fold (fun s acc -> Exp.constant (Const.string s) :: acc) ss []
+            (SSet.fold ss ~init:[] ~f:(fun s acc ->
+                 Exp.constant (Const.string s) :: acc)
             |>
             (* Binary search expects an alphabetically ordered array. *)
             List.rev))

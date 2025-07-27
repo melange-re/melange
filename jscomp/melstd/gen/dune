@@ -2,4 +2,5 @@
  (name build_reserved)
  (preprocess
   (pps ppxlib.metaquot))
+ (flags :standard -open StdLabels -open MoreLabels)
  (libraries ppxlib ppxlib.ast))
