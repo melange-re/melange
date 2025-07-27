@@ -39,7 +39,7 @@ type t = {
 
 let key_index_by_ident (h : t) (key : Ident.t) =
   Hashtbl.hash (Ident.name key, Mel_ident.stamp key)
-  land (Stdlib.Array.length h.data - 1)
+  land (Array.length h.data - 1)
 
 (** {[
      (power_2_above 16 63 = 64)
@@ -52,7 +52,7 @@ let rec power_2_above x n =
 
 let create initial_size =
   let s = power_2_above 8 initial_size in
-  { size = 0; data = Stdlib.Array.make s Empty; mask_size = 0 }
+  { size = 0; data = Array.make s Empty; mask_size = 0 }
 
 let iter_and_unmask h ~f =
   let rec iter_bucket buckets =
@@ -71,8 +71,8 @@ let iter_and_unmask h ~f =
         iter_bucket k.rest
   in
   let d = h.data in
-  for i = 0 to Stdlib.Array.length d - 1 do
-    iter_bucket (Stdlib.Array.unsafe_get d i)
+  for i = 0 to Array.length d - 1 do
+    iter_bucket (Array.unsafe_get d i)
   done
 
 let rec small_bucket_mem key lst =
@@ -93,35 +93,33 @@ let rec small_bucket_mem key lst =
 
 let resize indexfun h =
   let odata = h.data in
-  let osize = Stdlib.Array.length odata in
+  let osize = Array.length odata in
   let nsize = osize * 2 in
   if nsize < Sys.max_array_length then (
-    let ndata = Stdlib.Array.make nsize Empty in
+    let ndata = Array.make nsize Empty in
     h.data <- ndata;
     (* so that indexfun sees the new bucket count *)
     let rec insert_bucket = function
       | Empty -> ()
       | Cons { ident = key; mask; rest } ->
           let nidx = indexfun h key in
-          Stdlib.Array.unsafe_set ndata nidx
-            (Cons
-               { ident = key; mask; rest = Stdlib.Array.unsafe_get ndata nidx });
+          Array.unsafe_set ndata nidx
+            (Cons { ident = key; mask; rest = Array.unsafe_get ndata nidx });
           insert_bucket rest
     in
     for i = 0 to osize - 1 do
-      insert_bucket (Stdlib.Array.unsafe_get odata i)
+      insert_bucket (Array.unsafe_get odata i)
     done)
 
 let add_unmask (h : t) (key : Ident.t) =
   let i = key_index_by_ident h key in
   let h_data = h.data in
-  let old_bucket = Stdlib.Array.unsafe_get h_data i in
+  let old_bucket = Array.unsafe_get h_data i in
   if not (small_bucket_mem key old_bucket) then (
-    Stdlib.Array.unsafe_set h_data i
+    Array.unsafe_set h_data i
       (Cons { ident = key; mask = false; rest = old_bucket });
     h.size <- h.size + 1;
-    if h.size > Stdlib.Array.length h_data lsl 1 then
-      resize key_index_by_ident h)
+    if h.size > Array.length h_data lsl 1 then resize key_index_by_ident h)
 
 let rec small_bucket_mask key lst =
   match lst with
@@ -153,8 +151,6 @@ let rec small_bucket_mask key lst =
                   else small_bucket_mask key rst.rest))
 
 let mask_and_check_all_hit (h : t) (key : Ident.t) =
-  if
-    small_bucket_mask key
-      (Stdlib.Array.unsafe_get h.data (key_index_by_ident h key))
+  if small_bucket_mask key (Array.unsafe_get h.data (key_index_by_ident h key))
   then h.mask_size <- h.mask_size + 1;
   h.size = h.mask_size

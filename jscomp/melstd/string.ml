@@ -22,10 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-include StdLabels.String
-module Map = MoreLabels.Map.Make (Stdlib.String)
-module Set = MoreLabels.Set.Make (Stdlib.String)
-module Hashtbl = Hashtbl.Make (Stdlib.String)
+module T = StdLabels.String
+include T
+module Map = MoreLabels.Map.Make (T)
+module Set = MoreLabels.Set.Make (T)
+module Hashtbl = Hashtbl.Make (T)
 
 (* {[ split " test_unsafe_obj_ffi_ppx.cmi" ~keep_empty:false ' ']} *)
 let split_by ?(keep_empty = false) is_delim str =
