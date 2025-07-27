@@ -39,5 +39,4 @@ module Module_system = Module_system
 module Paths = Paths
 module Scc = Scc
 module String = String
-module Vec = Vec
 module Vec_int = Vec_int
