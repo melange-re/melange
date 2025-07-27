@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Filename = Stdlib.Filename
-
 let cwd = lazy (Sys.getcwd ())
 let path_sep = if Sys.win32 then ';' else ':'
 
@@ -62,19 +60,19 @@ let node_relative_path =
     | "." :: xs, ys -> go xs ys
     | xs, "." :: ys -> go xs ys
     | x :: xs, y :: ys when x = y -> go xs ys
-    | _, _ -> Stdlib.List.map (Fun.const Filename.parent_dir_name) dir2 @ dir1
+    | _, _ -> List.map ~f:(Fun.const Filename.parent_dir_name) dir2 @ dir1
   in
   fun ~from to_ ->
     let to_ = split_by_sep_per_os to_ in
     let from = split_by_sep_per_os from in
     match go to_ from with
-    | ".." :: _ as ys -> Stdlib.String.concat node_sep ys
-    | ys -> Stdlib.String.concat node_sep (Filename.current_dir_name :: ys)
+    | ".." :: _ as ys -> String.concat ~sep:node_sep ys
+    | ys -> String.concat ~sep:node_sep (Filename.current_dir_name :: ys)
 
 let node_rebase_file =
   let node_concat ~dir base =
     let buf =
-      Buffer.create Stdlib.String.(length dir + length node_sep + length base)
+      Buffer.create String.(length dir + length node_sep + length base)
     in
     Buffer.add_string buf dir;
     Buffer.add_string buf node_sep;
@@ -90,12 +88,10 @@ let node_rebase_file =
 
 let concat =
   let strip_trailing_slashes p =
-    let len = Stdlib.String.length p in
-    if Stdlib.String.unsafe_get p (len - 1) == '/' && len > 1 then (
+    let len = String.length p in
+    if String.unsafe_get p (len - 1) == '/' && len > 1 then (
       let idx = ref 0 in
-      while
-        Stdlib.String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0
-      do
+      while String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0 do
         incr idx
       done;
       Bytes.(
@@ -103,7 +99,7 @@ let concat =
     else p
   in
   fun dirname filename ->
-    if Stdlib.String.length filename = 0 then dirname
+    if String.length filename = 0 then dirname
     else if strip_trailing_slashes filename = Filename.current_dir_name then
       dirname
     else if strip_trailing_slashes dirname = Filename.current_dir_name then
@@ -142,7 +138,7 @@ let split_aux p =
     if dir = p then (dir, acc)
     else
       let new_path = Filename.basename p in
-      if Stdlib.String.equal new_path Filename.dir_sep then go dir acc
+      if String.equal new_path Filename.dir_sep then go dir acc
         (* We could do more path simplification here
            leave to [rel_normalized_absolute_path]
         *)
@@ -164,25 +160,25 @@ let rel_normalized_absolute_path ~from to_ =
     let rec go xss yss =
       match (xss, yss) with
       | x :: xs, y :: ys ->
-          if Stdlib.String.equal x y then go xs ys
+          if String.equal x y then go xs ys
           else if x = curd then go xs yss
           else if y = curd then go xss ys
           else
-            let start = Stdlib.List.fold_left merge_parent_segment pard xs in
-            Stdlib.List.fold_left (fun acc v -> acc // v) start yss
-      | [], [] -> Stdlib.String.empty
-      | [], y :: ys -> Stdlib.List.fold_left (fun acc x -> acc // x) y ys
+            let start = List.fold_left xs ~init:pard ~f:merge_parent_segment in
+            List.fold_left yss ~init:start ~f:(fun acc v -> acc // v)
+      | [], [] -> String.empty
+      | [], y :: ys -> List.fold_left ys ~init:y ~f:(fun acc x -> acc // x)
       | x :: xs, [] ->
           let start = if x = curd then "" else pard in
-          Stdlib.List.fold_left merge_parent_segment start xs
+          List.fold_left xs ~init:start ~f:merge_parent_segment
     in
     let v = go paths1 paths2 in
 
-    if Stdlib.String.length v = 0 then Filename.current_dir_name
+    if String.length v = 0 then Filename.current_dir_name
     else if
       v = curd || v = pard
-      || Stdlib.String.starts_with v ~prefix:(curd ^ Filename.dir_sep)
-      || Stdlib.String.starts_with v ~prefix:(pard ^ Filename.dir_sep)
+      || String.starts_with v ~prefix:(curd ^ Filename.dir_sep)
+      || String.starts_with v ~prefix:(pard ^ Filename.dir_sep)
     then v
     else if Filename.is_relative from then (curd ^ Filename.dir_sep) ^ v
     else v
@@ -214,9 +210,8 @@ let normalize_absolute_path x =
     match paths with
     | [] -> acc
     | x :: xs ->
-        if Stdlib.String.equal x curd then normalize_list acc xs
-        else if Stdlib.String.equal x pard then
-          normalize_list (drop_if_exist acc) xs
+        if String.equal x curd then normalize_list acc xs
+        else if String.equal x pard then normalize_list (drop_if_exist acc) xs
         else normalize_list (x :: acc) xs
   in
   let root, paths = split_aux x in

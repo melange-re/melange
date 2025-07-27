@@ -112,17 +112,17 @@ let[@inline] no_escape (c : char) =
 exception Not_normal_letter of int
 
 let name_mangle name =
-  let len = Stdlib.String.length name in
+  let len = String.length name in
   try
     for i = 0 to len - 1 do
-      if not (no_escape (Stdlib.String.unsafe_get name i)) then
+      if not (no_escape (String.unsafe_get name i)) then
         raise_notrace (Not_normal_letter i)
     done;
     name (* Normal letter *)
   with Not_normal_letter i ->
     let buffer = Buffer.create len in
     for j = 0 to len - 1 do
-      let c = Stdlib.String.unsafe_get name j in
+      let c = String.unsafe_get name j in
       if no_escape c then Buffer.add_char buffer c
       else Buffer.add_string buffer (convert ~op:(i = 0) c)
     done;
@@ -162,7 +162,7 @@ let make_unused () = create "_"
 *)
 let compare (x : Ident.t) (y : Ident.t) =
   let u = stamp x - stamp y in
-  if u = 0 then Stdlib.String.compare (Ident.name x) (Ident.name y) else u
+  if u = 0 then String.compare (Ident.name x) (Ident.name y) else u
 
 let equal (x : Ident.t) (y : Ident.t) =
   if stamp x <> 0 then stamp x = stamp y

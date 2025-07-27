@@ -112,7 +112,7 @@ let rec same_length xs ys =
   | _ :: _, [] | [], _ :: _ -> false
 
 let rec small_split_at n acc l =
-  if n <= 0 then (Stdlib.List.rev acc, l)
+  if n <= 0 then (rev acc, l)
   else
     match l with
     | x :: xs -> small_split_at (n - 1) (x :: acc) xs
@@ -123,7 +123,7 @@ let split_at l n = small_split_at n [] l
 let rec split_at_last_aux acc x =
   match x with
   | [] -> invalid_arg "List.split_at_last"
-  | [ x ] -> (Stdlib.List.rev acc, x)
+  | [ x ] -> (rev acc, x)
   | y0 :: ys -> split_at_last_aux (y0 :: acc) ys
 
 let split_at_last (x : 'a list) =
@@ -169,7 +169,7 @@ let stable_group =
         if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
     | _ :: _ -> assert false
   in
-  fun lst ~equal -> group equal lst |> Stdlib.List.rev
+  fun lst ~equal -> group equal lst |> rev
 
 let rec rev_iter l ~f =
   match l with

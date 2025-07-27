@@ -36,7 +36,7 @@ let reverse_range a i len =
 let reverse_of_list = function
   | [] -> [||]
   | hd :: tl as l ->
-      let len = Stdlib.List.length l in
+      let len = List.length l in
       let a = make len hd in
       let rec fill i = function
         | [] -> a
@@ -88,7 +88,7 @@ let of_list_map a f =
       let b2 = f a2 in
       let b3 = f a3 in
       let b4 = f a4 in
-      let len = Stdlib.List.length tl + 5 in
+      let len = List.length tl + 5 in
       let arr = make len b0 in
       unsafe_set arr 1 b1;
       unsafe_set arr 2 b2;

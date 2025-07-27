@@ -195,28 +195,28 @@ let binary_search =
       let rec binarySearchAux (arr : element array) (lo : int) (hi : int) key :
           bool =
         let mid = (lo + hi) / 2 in
-        let midVal = Stdlib.Array.unsafe_get arr mid in
+        let midVal = Array.unsafe_get arr mid in
         (* let c = cmp key midVal [@u] in  *)
         if key = midVal then true
         else if key < midVal then
           (*  a[lo] =< key < a[mid] <= a[hi] *)
-          if hi = mid then Stdlib.Array.unsafe_get arr lo = key
+          if hi = mid then Array.unsafe_get arr lo = key
           else binarySearchAux arr lo mid key
         else if
           (*  a[lo] =< a[mid] < key <= a[hi] *)
           lo = mid
-        then Stdlib.Array.unsafe_get arr hi = key
+        then Array.unsafe_get arr hi = key
         else binarySearchAux arr mid hi key
       in
       fun (sorted : element array) (key : element) ->
-        let len = Stdlib.Array.length sorted in
+        let len = Array.length sorted in
         if len = 0 then false
         else
-          let lo = Stdlib.Array.unsafe_get sorted 0 in
+          let lo = Array.unsafe_get sorted 0 in
           (* let c = cmp key lo [@u] in  *)
           if key < lo then false
           else
-            let hi = Stdlib.Array.unsafe_get sorted (len - 1) in
+            let hi = Array.unsafe_get sorted (len - 1) in
             (* let c2 = cmp key hi [@u]in  *)
             if key > hi then false else binarySearchAux sorted 0 (len - 1) key
 

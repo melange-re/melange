@@ -22,7 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-include Stdlib.Int
-module Map = MoreLabels.Map.Make (Stdlib.Int)
-module Set = MoreLabels.Set.Make (Stdlib.Int)
-module Hashtbl = MoreLabels.Hashtbl.Make (Stdlib.Int)
+module T = Stdlib.Int
+include T
+module Map = MoreLabels.Map.Make (T)
+module Set = MoreLabels.Set.Make (T)
+module Hashtbl = MoreLabels.Hashtbl.Make (T)

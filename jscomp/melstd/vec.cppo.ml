@@ -26,7 +26,7 @@ let [@inline] min (x :int) y = if x < y then x else y
 
 #if defined TYPE_FUNCTOR
 external unsafe_blit :
-    'a array -> int -> 'a array -> int -> int -> unit = "caml_array_blit"
+    src:'a array -> src_pos:int -> dst:'a array -> dst_pos:int -> len:int -> unit = "caml_array_blit"
 module Make ( Resize :  Vec_gen.ResizeType) = struct
   type elt = Resize.t
 
@@ -36,7 +36,7 @@ module Make ( Resize :  Vec_gen.ResizeType) = struct
 
 type elt = int
 let null = 0 (* can be optimized *)
-let unsafe_blit = Stdlib.Array.blit
+let unsafe_blit = Array.blit
 #else
 [%error "unknown type"]
 #endif
@@ -52,7 +52,7 @@ let length d = d.len
 
 let compact d =
   let d_arr = d.arr in
-  if d.len <> Stdlib.Array.length d_arr then
+  if d.len <> Array.length d_arr then
     begin
       let newarr = unsafe_sub d_arr 0 d.len in
       d.arr <- newarr
@@ -82,13 +82,13 @@ let reset d =
 *)
 let to_list d =
   let rec loop (d_arr : elt array) idx accum =
-    if idx < 0 then accum else loop d_arr (idx - 1) (Stdlib.Array.unsafe_get d_arr idx :: accum)
+    if idx < 0 then accum else loop d_arr (idx - 1) (Array.unsafe_get d_arr idx :: accum)
   in
   loop d.arr (d.len - 1) []
 
 let of_list lst =
-  let arr = Stdlib.Array.of_list lst in
-  { arr ; len = Stdlib.Array.length arr}
+  let arr = Array.of_list lst in
+  { arr ; len = Array.length arr}
 
 
 let to_array d =
@@ -96,17 +96,17 @@ let to_array d =
 
 let of_array src =
   {
-    len = Stdlib.Array.length src;
-    arr = Stdlib.Array.copy src;
-    (* okay to call {!Stdlib.Array.copy}*)
+    len = Array.length src;
+    arr = Array.copy src;
+    (* okay to call {!Array.copy}*)
   }
 let of_sub_array arr ~off ~len =
   {
     len = len ;
-    arr = Stdlib.Array.sub arr off len
+    arr = Array.sub arr ~pos:off ~len
   }
 let unsafe_internal_array v = v.arr
-(* we can not call {!Stdlib.Array.copy} *)
+(* we can not call {!Array.copy} *)
 let copy src =
   let len = src.len in
   {
@@ -121,7 +121,7 @@ let reverse_in_place src =
 
 
 
-(* {!Stdlib.Array.sub} is not enough for error checking, it
+(* {!Array.sub} is not enough for error checking, it
    may contain some garbage
  *)
 let sub (src : t) ~off:start ~len =
@@ -134,13 +134,13 @@ let sub (src : t) ~off:start ~len =
 let iter ~f d =
   let arr = d.arr in
   for i = 0 to d.len - 1 do
-    f (Stdlib.Array.unsafe_get arr i)
+    f (Array.unsafe_get arr i)
   done
 
 let iteri ~f d =
   let arr = d.arr in
   for i = 0 to d.len - 1 do
-    f i (Stdlib.Array.unsafe_get arr i)
+    f i (Array.unsafe_get arr i)
   done
 
 let iter_range ~from ~to_ ~f d =
@@ -148,7 +148,7 @@ let iter_range ~from ~to_ ~f d =
   else
     let d_arr = d.arr in
     for i = from to to_ do
-      f  (Stdlib.Array.unsafe_get d_arr i)
+      f  (Array.unsafe_get d_arr i)
     done
 
 let iteri_range ~from ~to_ ~f d =
@@ -156,7 +156,7 @@ let iteri_range ~from ~to_ ~f d =
   else
     let d_arr = d.arr in
     for i = from to to_ do
-      f i (Stdlib.Array.unsafe_get d_arr i)
+      f i (Array.unsafe_get d_arr i)
     done
 
 let map_into_array ~f src =
@@ -164,10 +164,10 @@ let map_into_array ~f src =
   let src_arr = src.arr in
   if src_len = 0 then [||]
   else
-    let first_one = f (Stdlib.Array.unsafe_get src_arr 0) in
-    let arr = Stdlib.Array.make  src_len  first_one in
+    let first_one = f (Array.unsafe_get src_arr 0) in
+    let arr = Array.make  src_len  first_one in
     for i = 1 to src_len - 1 do
-      Stdlib.Array.unsafe_set arr i (f (Stdlib.Array.unsafe_get src_arr i))
+      Array.unsafe_set arr i (f (Array.unsafe_get src_arr i))
     done;
     arr
 
@@ -178,7 +178,7 @@ let map_into_list ~f src =
   else
     let acc = ref [] in
     for i =  src_len - 1 downto 0 do
-      acc := f (Stdlib.Array.unsafe_get src_arr i) :: !acc
+      acc := f (Array.unsafe_get src_arr i) :: !acc
     done;
     !acc
 
@@ -187,9 +187,9 @@ let mapi ~f src =
   if len = 0 then { len ; arr = [| |] }
   else
     let src_arr = src.arr in
-    let arr = Stdlib.Array.make len (Stdlib.Array.unsafe_get src_arr 0) in
+    let arr = Array.make len (Array.unsafe_get src_arr 0) in
     for i = 1 to len - 1 do
-      Stdlib.Array.unsafe_set arr i (f i (Stdlib.Array.unsafe_get src_arr i))
+      Array.unsafe_set arr i (f i (Array.unsafe_get src_arr i))
     done;
     {
       len ;
@@ -199,14 +199,14 @@ let mapi ~f src =
 let fold_left ~f ~init:x a =
   let rec loop a_len (a_arr : elt array) idx x =
     if idx >= a_len then x else
-      loop a_len a_arr (idx + 1) (f x (Stdlib.Array.unsafe_get a_arr idx))
+      loop a_len a_arr (idx + 1) (f x (Array.unsafe_get a_arr idx))
   in
   loop a.len a.arr 0 x
 
 let fold_right ~f a ~init:x =
   let rec loop (a_arr : elt array) idx x =
     if idx < 0 then x
-    else loop a_arr (idx - 1) (f (Stdlib.Array.unsafe_get a_arr idx) x)
+    else loop a_arr (idx - 1) (f (Array.unsafe_get a_arr idx) x)
   in
   loop a.arr (a.len - 1) x
 
@@ -219,11 +219,11 @@ let filter ~f d =
   let d_arr = d.arr in
   let p = ref 0 in
   for i = 0 to d.len  - 1 do
-    let x = Stdlib.Array.unsafe_get d_arr i in
+    let x = Array.unsafe_get d_arr i in
     (* TODO: can be optimized for segments blit *)
     if f x  then
       begin
-        Stdlib.Array.unsafe_set new_d_arr !p x;
+        Array.unsafe_set new_d_arr !p x;
         incr p;
       end;
   done;
@@ -235,28 +235,28 @@ let equal ~f:eq x y : bool =
   else
     let rec aux x_arr y_arr i =
       if i < 0 then true else
-      if eq (Stdlib.Array.unsafe_get x_arr i) (Stdlib.Array.unsafe_get y_arr i) then
+      if eq (Array.unsafe_get x_arr i) (Array.unsafe_get y_arr i) then
         aux x_arr y_arr (i - 1)
       else false in
     aux x.arr y.arr (x.len - 1)
 
 let get d i =
   if i < 0 || i >= d.len then invalid_arg "Vec.get"
-  else Stdlib.Array.unsafe_get d.arr i
-let unsafe_get d i = Stdlib.Array.unsafe_get d.arr i
+  else Array.unsafe_get d.arr i
+let unsafe_get d i = Array.unsafe_get d.arr i
 let last d =
   if d.len <= 0 then invalid_arg   "Vec.last"
-  else Stdlib.Array.unsafe_get d.arr (d.len - 1)
+  else Array.unsafe_get d.arr (d.len - 1)
 
-let capacity d = Stdlib.Array.length d.arr
+let capacity d = Array.length d.arr
 
-(* Attention can not use {!Stdlib.Array.exists} since the bound is not the same *)
+(* Attention can not use {!Array.exists} since the bound is not the same *)
 let exists ~f:p d =
   let a = d.arr in
   let n = d.len in
   let rec loop i =
     if i = n then false
-    else if p (Stdlib.Array.unsafe_get a i) then true
+    else if p (Array.unsafe_get a i) then true
     else loop (succ i) in
   loop 0
 
@@ -275,10 +275,10 @@ let map ~f src =
   *)
   else
     let src_arr = src.arr in
-    let first = f (Stdlib.Array.unsafe_get src_arr 0 ) in
-    let arr = Stdlib.Array.make  src_len first in
+    let first = f (Array.unsafe_get src_arr 0 ) in
+    let arr = Array.make  src_len first in
     for i = 1 to src_len - 1 do
-      Stdlib.Array.unsafe_set arr i (f (Stdlib.Array.unsafe_get src_arr i))
+      Array.unsafe_set arr i (f (Array.unsafe_get src_arr i))
     done;
     {
       len = src_len;
@@ -290,9 +290,9 @@ let init len ~f =
   else if len = 0 then { len = 0 ; arr = [||] }
   else
     let first = f 0 in
-    let arr = Stdlib.Array.make len first in
+    let arr = Array.make len first in
     for i = 1 to len - 1 do
-      Stdlib.Array.unsafe_set arr i (f i)
+      Array.unsafe_set arr i (f i)
     done;
     {
 
@@ -305,23 +305,23 @@ let init len ~f =
     {
 
       len = 0;
-      arr = Stdlib.Array.make  initsize null ;
+      arr = Array.make  initsize null ;
     }
 
   let reserve (d : t ) s =
     let d_len = d.len in
     let d_arr = d.arr in
-    if s < d_len || s < Stdlib.Array.length d_arr then ()
+    if s < d_len || s < Array.length d_arr then ()
     else
       let new_capacity = min Sys.max_array_length s in
-      let new_d_arr = Stdlib.Array.make new_capacity null in
-       unsafe_blit d_arr 0 new_d_arr 0 d_len;
+      let new_d_arr = Array.make new_capacity null in
+       unsafe_blit ~src:d_arr ~src_pos:0 ~dst:new_d_arr ~dst_pos:0 ~len:d_len;
       d.arr <- new_d_arr
 
   let push (d : t) v  =
     let d_len = d.len in
     let d_arr = d.arr in
-    let d_arr_len = Stdlib.Array.length d_arr in
+    let d_arr_len = Array.length d_arr in
     if d_arr_len = 0 then
       begin
         d.len <- 1 ;
@@ -336,12 +336,12 @@ let init len ~f =
             let new_capacity = min Sys.max_array_length d_len * 2
             (* [d_len] can not be zero, so [*2] will enlarge   *)
             in
-            let new_d_arr = Stdlib.Array.make new_capacity null in
+            let new_d_arr = Array.make new_capacity null in
             d.arr <- new_d_arr;
-             unsafe_blit d_arr 0 new_d_arr 0 d_len ;
+             unsafe_blit ~src:d_arr ~src_pos:0 ~dst:new_d_arr ~dst_pos:0 ~len:d_len ;
           end;
         d.len <- d_len + 1;
-        Stdlib.Array.unsafe_set d.arr d_len v
+        Array.unsafe_set d.arr d_len v
       end
 
 (** delete element at offset [idx], will raise exception when have invalid input *)
@@ -349,13 +349,13 @@ let init len ~f =
     let d_len = d.len in
     if idx < 0 || idx >= d_len then invalid_arg "Vec.delete" ;
     let arr = d.arr in
-     unsafe_blit arr (idx + 1) arr idx  (d_len - idx - 1);
+     unsafe_blit ~src:arr ~src_pos:(idx + 1) ~dst:arr ~dst_pos:idx ~len:(d_len - idx - 1);
     let idx = d_len - 1 in
     d.len <- idx
 #ifdef TYPE_INT
 #else
     ;
-    Stdlib.Array.unsafe_set arr idx  null
+    Array.unsafe_set arr idx  null
 #endif
 
 (** pop the last element, a specialized version of [delete] *)
@@ -366,19 +366,19 @@ let init len ~f =
 #ifdef TYPE_INT
 #else
     ;
-    Stdlib.Array.unsafe_set d.arr idx null
+    Array.unsafe_set d.arr idx null
 #endif
 
 (** pop and return the last element *)
   let get_last_and_pop (d : t) =
     let idx  = d.len - 1  in
     if idx < 0 then invalid_arg "Vec.get_last_and_pop";
-    let last = Stdlib.Array.unsafe_get d.arr idx in
+    let last = Array.unsafe_get d.arr idx in
     d.len <- idx
 #ifdef TYPE_INT
 #else
     ;
-    Stdlib.Array.unsafe_set d.arr idx null
+    Array.unsafe_set d.arr idx null
 #endif
     ;
     last
@@ -388,13 +388,13 @@ let init len ~f =
     let d_len = d.len in
     if len < 0 || idx < 0 || idx + len > d_len then invalid_arg  "Vec.delete_range"  ;
     let arr = d.arr in
-     unsafe_blit arr (idx + len) arr idx (d_len  - idx - len);
+     unsafe_blit ~src:arr ~src_pos:(idx + len) ~dst:arr ~dst_pos:idx ~len:(d_len  - idx - len);
     d.len <- d_len - len
 #ifdef TYPE_INT
 #else
     ;
     for i = d_len - len to d_len - 1 do
-      Stdlib.Array.unsafe_set arr i null
+      Array.unsafe_set arr i null
     done
 #endif
 
@@ -404,12 +404,15 @@ let init len ~f =
     if len < 0 || idx < 0 || idx + len > d_len then invalid_arg  "Vec.get_and_delete_range"  ;
     let arr = d.arr in
     let value =  unsafe_sub arr idx len in
-     unsafe_blit arr (idx + len) arr idx (d_len  - idx - len);
+     unsafe_blit 
+       ~src:arr ~src_pos:(idx + len)
+       ~dst:arr ~dst_pos:idx 
+       ~len:(d_len  - idx - len);
     d.len <- d_len - len;
 #ifdef TYPE_INT
 #else
     for i = d_len - len to d_len - 1 do
-      Stdlib.Array.unsafe_set arr i null
+      Array.unsafe_set arr i null
     done;
 #endif
     {len = len ; arr = value}
@@ -421,7 +424,7 @@ let init len ~f =
 #ifdef TYPE_INT
 #else
     for i = 0 to d.len - 1 do
-      Stdlib.Array.unsafe_set d.arr i null
+      Array.unsafe_set d.arr i null
     done;
 #endif
     d.len <- 0
@@ -431,12 +434,12 @@ let init len ~f =
     let d_len = d.len in
     let p = ref 0 in
     for i = 0 to d_len - 1 do
-      let x = Stdlib.Array.unsafe_get d_arr i in
+      let x = Array.unsafe_get d_arr i in
       if f x then
         begin
           let curr_p = !p in
           (if curr_p <> i then
-             Stdlib.Array.unsafe_set d_arr curr_p x) ;
+             Array.unsafe_set d_arr curr_p x) ;
           incr p
         end
     done ;
@@ -454,12 +457,12 @@ let init len ~f =
     let d_len = d.len in
     let p = ref start in
     for i = start to d_len - 1 do
-      let x = Stdlib.Array.unsafe_get d_arr i in
+      let x = Array.unsafe_get d_arr i in
       if f x then
         begin
           let curr_p = !p in
           (if curr_p <> i then
-             Stdlib.Array.unsafe_set d_arr curr_p x) ;
+             Array.unsafe_set d_arr curr_p x) ;
           incr p
         end
     done ;
@@ -478,12 +481,12 @@ let init len ~f =
     let d_len = d.len in
     let acc = ref acc in
     for i = 0 to d_len - 1 do
-      let x = Stdlib.Array.unsafe_get d_arr i in
+      let x = Array.unsafe_get d_arr i in
       if f x then
         begin
           let curr_p = !p in
           (if curr_p <> i then
-             Stdlib.Array.unsafe_set d_arr curr_p x) ;
+             Array.unsafe_set d_arr curr_p x) ;
           incr p
         end
       else
@@ -502,7 +505,7 @@ let init len ~f =
 let mem =
   let rec unsafe_mem_aux arr i (key : int) bound =
     if i <= bound then
-      if Stdlib.Array.unsafe_get arr i = (key : int) then true
+      if Array.unsafe_get arr i = (key : int) then true
       else unsafe_mem_aux arr (i + 1) key bound
     else false
   in
