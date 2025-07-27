@@ -192,12 +192,18 @@ module Scope = struct
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
     match String.Map.find name cxt with
     | exception Not_found ->
-        (0, String.Map.add name (Int.Map.add stamp 0 Int.Map.empty) cxt)
+        ( 0,
+          String.Map.add ~key:name
+            ~data:(Int.Map.add ~key:stamp ~data:0 Int.Map.empty)
+            cxt )
     | imap -> (
         match Int.Map.find stamp imap with
         | exception Not_found ->
             let v = Int.Map.cardinal imap in
-            (v, String.Map.add name (Int.Map.add stamp v imap) cxt)
+            ( v,
+              String.Map.add ~key:name
+                ~data:(Int.Map.add ~key:stamp ~data:v imap)
+                cxt )
         | i -> (i, cxt))
 
   (*
@@ -261,5 +267,5 @@ module Scope = struct
         | exception Not_found -> assert false
         | imap ->
             if String.Map.mem mangled acc then acc
-            else String.Map.add mangled imap acc)
+            else String.Map.add ~key:mangled ~data:imap acc)
 end

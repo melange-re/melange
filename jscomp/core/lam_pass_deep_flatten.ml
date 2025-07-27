@@ -36,7 +36,7 @@ let rec eliminate_tuple (id : Ident.t) (lam : Lam.t) acc =
         Lprim { primitive = Pfield (i, _); args = [ Lvar tuple ]; _ },
         e2 )
     when Ident.same tuple id ->
-      eliminate_tuple id e2 (Int.Map.add i v acc)
+      eliminate_tuple id e2 (Int.Map.add ~key:i ~data:v acc)
       (* it is okay to have duplicates*)
   | _ -> if Lam_hit.hit_variable id lam then None else Some (acc, lam)
 (* [groups] are in reverse order *)

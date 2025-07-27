@@ -114,7 +114,7 @@ let values_of_export =
             let cmj_value : Js_cmj_format.cmj_value =
               { arity; persistent_closed_lambda }
             in
-            String.Map.add (Ident.name x) cmj_value acc)
+            String.Map.add ~key:(Ident.name x) ~data:cmj_value acc)
       ~init:String.Map.empty meta.exports
 
 (* ATTENTION: all runtime modules, if it is not hard required,

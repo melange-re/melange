@@ -43,7 +43,7 @@ let reinit = Ident.reinit
 let global = Ident.global
 
 module Map = struct
-  include Map.Make (T)
+  include MoreLabels.Map.Make (T)
 
   let find_default ~default k t =
     match find k t with v -> v | exception Not_found -> default

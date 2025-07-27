@@ -95,7 +95,7 @@ let add_jmps (m : jmp_table) (exit_id : Ident.t) (code_table : handler list) :
     List.fold_left_with_offset code_table ~init:(m, [])
       ~off:(HandlerMap.cardinal m + 1)
       ~f:(fun { label; handler; bindings } (acc, handlers) order_id ->
-        ( HandlerMap.add label { exit_id; bindings; order_id } acc,
+        ( HandlerMap.add ~key:label ~data:{ exit_id; bindings; order_id } acc,
           (order_id, handler) :: handlers ))
   in
   (map, List.rev handlers)
@@ -103,8 +103,8 @@ let add_jmps (m : jmp_table) (exit_id : Ident.t) (code_table : handler list) :
 let add_pseudo_jmp (m : jmp_table)
     (exit_id : Ident.t) (* TODO not needed, remove it later *)
     (code_table : handler) : jmp_table * Lam.t =
-  ( HandlerMap.add code_table.label
-      { exit_id; bindings = code_table.bindings; order_id = -1 }
+  ( HandlerMap.add ~key:code_table.label
+      ~data:{ exit_id; bindings = code_table.bindings; order_id = -1 }
       m,
     code_table.handler )
 
