@@ -35,8 +35,8 @@ open Import
 *)
 let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     lambda =
-  Ident.Hashtbl.add meta.ident_tbl k
-    (FunctionId { arity; lambda = Some (lambda, rec_flag) })
+  Ident.Hashtbl.add meta.ident_tbl ~key:k
+    ~data:(FunctionId { arity; lambda = Some (lambda, rec_flag) })
 
 (* see #3609
    we have to update since bounded function lambda
@@ -60,14 +60,16 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
 let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
   let rec collect_bind rec_flag (ident : Ident.t) (lam : Lam.t) =
     match lam with
-    | Lconst v -> Ident.Hashtbl.replace meta.ident_tbl ident (Constant v)
+    | Lconst v ->
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident ~data:(Constant v)
     (* *)
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
-        Ident.Hashtbl.replace meta.ident_tbl ident
-          (Lam_util.kind_of_lambda_block ls);
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:(Lam_util.kind_of_lambda_block ls);
         List.iter ~f:collect ls
     | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-        Ident.Hashtbl.replace meta.ident_tbl ident (Normal_optional v);
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:(Normal_optional v);
         collect v
     | Lprim
         {
@@ -76,17 +78,20 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
           args = _;
           _;
         } ->
-        Ident.Hashtbl.replace meta.ident_tbl ident
-          (FunctionId { arity = Lam_arity.info [ arity ] false; lambda = None })
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:
+            (FunctionId
+               { arity = Lam_arity.info [ arity ] false; lambda = None })
     | Lprim { primitive = Pnull_to_opt; args = [ (Lvar _ as l) ]; _ } ->
-        Ident.Hashtbl.replace meta.ident_tbl ident (OptionalBlock (l, Null))
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:(OptionalBlock (l, Null))
     | Lprim { primitive = Pundefined_to_opt; args = [ (Lvar _ as l) ]; _ } ->
-        Ident.Hashtbl.replace meta.ident_tbl ident
-          (OptionalBlock (l, Undefined))
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:(OptionalBlock (l, Undefined))
     | Lprim { primitive = Pnull_undefined_to_opt; args = [ (Lvar _ as l) ]; _ }
       ->
-        Ident.Hashtbl.replace meta.ident_tbl ident
-          (OptionalBlock (l, Null_undefined))
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+          ~data:(OptionalBlock (l, Null_undefined))
     | Lglobal_module { id = v; _ } ->
         Lam_util.alias_ident_or_global meta ident v (Module v)
     | Lvar v ->
@@ -102,7 +107,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
             so -- it would still iterate internally
         *)
         List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl p Parameter)
+          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
           params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam;
@@ -121,7 +126,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     | Lfunction { params; body = l; _ } ->
         (* functor ? *)
         List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl p Parameter)
+          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
           params;
         collect l
     | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->

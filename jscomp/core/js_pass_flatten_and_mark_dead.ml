@@ -40,7 +40,7 @@ let mark_dead_code (js : J.program) : J.program =
           match Ident.Hashtbl.find ident_use_stats ident with
           | exception Not_found ->
               (* First time *)
-              Ident.Hashtbl.add ident_use_stats ident Recursive
+              Ident.Hashtbl.add ident_use_stats ~key:ident ~data:Recursive
           (* recursive identifiers *)
           | Recursive -> ()
           | Info x -> Js_op.update_used_stats x Used);
@@ -70,7 +70,8 @@ let mark_dead_code (js : J.program) : J.program =
               match Ident.Hashtbl.find ident_use_stats ident with
               | Recursive ->
                   Js_op.update_used_stats ident_info Used;
-                  Ident.Hashtbl.replace ident_use_stats ident (Info ident_info)
+                  Ident.Hashtbl.replace ident_use_stats ~key:ident
+                    ~data:(Info ident_info)
               | Info _ ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
@@ -79,21 +80,21 @@ let mark_dead_code (js : J.program) : J.program =
               (* assert false *)
               | exception Not_found ->
                   (* First time *)
-                  Ident.Hashtbl.add ident_use_stats ident (Info ident_info);
+                  Ident.Hashtbl.add ident_use_stats ~key:ident
+                    ~data:(Info ident_info);
                   Js_op.update_used_stats ident_info
                     (if pure then Scanning_pure else Scanning_non_pure)));
     }
   in
   mark_dead.program mark_dead js;
-  Ident.Hashtbl.iter
-    (fun _id (info : meta_info) ->
+  Ident.Hashtbl.iter ident_use_stats
+    ~f:(fun ~key:_id ~data:(info : meta_info) ->
       match info with
       | Info ({ used_stats = Scanning_pure } as info) ->
           Js_op.update_used_stats info Dead_pure
       | Info ({ used_stats = Scanning_non_pure } as info) ->
           Js_op.update_used_stats info Dead_non_pure
-      | _ -> ())
-    ident_use_stats;
+      | _ -> ());
   js
 
 (*
@@ -152,7 +153,7 @@ let mark_dead_code (js : J.program) : J.program =
 let super = Js_record_map.super
 
 let add_substitue substitution (ident : Ident.t) (e : J.expression) =
-  Ident.Hashtbl.replace substitution ident e
+  Ident.Hashtbl.replace substitution ~key:ident ~data:e
 
 let subst_map (substitution : J.expression Ident.Hashtbl.t) =
   {

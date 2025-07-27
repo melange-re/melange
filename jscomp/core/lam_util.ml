@@ -122,8 +122,8 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
   | NA -> (
       match Ident.Hashtbl.find meta.ident_tbl v with
       | exception Not_found -> ()
-      | ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info)
-  | ident_info -> Ident.Hashtbl.add meta.ident_tbl k ident_info
+      | ident_info -> Ident.Hashtbl.add meta.ident_tbl ~key:k ~data:ident_info)
+  | ident_info -> Ident.Hashtbl.add meta.ident_tbl ~key:k ~data:ident_info
 
 (* share -- it is safe to share most properties,
     for arity, we might be careful, only [Alias] can share,

@@ -74,18 +74,18 @@ let simple_beta_reduce params body args =
       let () =
         List.iter2
           ~f:(fun p a ->
-            Ident.Hashtbl.add param_hash p { lambda = a; used = false })
+            Ident.Hashtbl.add param_hash ~key:p
+              ~data:{ lambda = a; used = false })
           params args
       in
       try
         let new_args = aux_exn [] ap_args in
         let result =
-          Ident.Hashtbl.fold
-            (fun _param stats acc ->
+          Ident.Hashtbl.fold param_hash
+            ~init:(Lam.prim ~primitive ~args:new_args ap_loc)
+            ~f:(fun ~key:_param ~data:stats acc ->
               let { lambda; used } = stats in
               if not used then Lam.seq lambda acc else acc)
-            param_hash
-            (Lam.prim ~primitive ~args:new_args ap_loc)
         in
         Ident.Hashtbl.clear param_hash;
         Some result
@@ -104,7 +104,8 @@ let simple_beta_reduce params body args =
       let () =
         List.iter2
           ~f:(fun p a ->
-            Ident.Hashtbl.add param_hash p { lambda = a; used = false })
+            Ident.Hashtbl.add param_hash ~key:p
+              ~data:{ lambda = a; used = false })
           params args
       in
       (*since we adde each param only once,
@@ -118,12 +119,10 @@ let simple_beta_reduce params body args =
           match f with Lvar fn_name -> find_param_exn fn_name f | _ -> f
         in
         let result =
-          Ident.Hashtbl.fold
-            (fun _param stat acc ->
+          Ident.Hashtbl.fold param_hash ~init:(Lam.apply f new_args ap_info)
+            ~f:(fun ~key:_param ~data:stat acc ->
               let { lambda; used } = stat in
               if not used then Lam.seq lambda acc else acc)
-            param_hash
-            (Lam.apply f new_args ap_info)
         in
         Ident.Hashtbl.clear param_hash;
         Some result

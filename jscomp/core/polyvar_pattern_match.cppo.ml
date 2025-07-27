@@ -40,8 +40,8 @@ module Coll = struct
   let add_or_update (h : 'a t) (key : key)
       ~update:modf ~default =
     match find h key with
-    | v -> replace h key (modf v)
-    | exception Not_found -> add h key default
+    | v -> replace h ~key ~data:(modf v)
+    | exception Not_found -> add h ~key ~data:default
 end
 
 type value = { stamp : int; hash_names_act : hash_names * lam }
@@ -62,7 +62,7 @@ let convert (xs : input) : output =
     xs;
   let result =
     let arr =
-      let result = Coll.fold  (fun _ value acc -> value :: acc) coll [] @ !os in
+      let result = Coll.fold coll ~init:[] ~f:(fun ~key:_ ~data:value acc -> value :: acc)  @ !os in
       Array.of_list result
     in
     Array.sort ~cmp:(fun x y -> compare x.stamp y.stamp) arr;

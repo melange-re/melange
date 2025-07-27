@@ -71,8 +71,8 @@ let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
   | Ml { id; cmj_load_info = _ } | External id -> id
   | exception Not_found ->
       let module_id = lam_module_ident.id in
-      Lam_module_ident.Hashtbl.replace cached_tbl lam_module_ident
-        (External module_id);
+      Lam_module_ident.Hashtbl.replace cached_tbl ~key:lam_module_ident
+        ~data:(External module_id);
       module_id
 
 let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
@@ -84,8 +84,8 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
     | External _ -> assert false
     | exception Not_found ->
         let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
-        Lam_module_ident.Hashtbl.replace cached_tbl oid
-          (Ml { cmj_load_info; id = module_id });
+        Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
+          ~data:(Ml { cmj_load_info; id = module_id });
         cmj_load_info.cmj_table
   in
   Js_cmj_format.query_by_name cmj_table name
@@ -110,8 +110,8 @@ let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
             let cmj_load_info =
               Js_cmj_format.load_unit (Lam_module_ident.name module_id)
             in
-            Lam_module_ident.Hashtbl.replace cached_tbl module_id
-              (Ml { cmj_load_info; id = module_id.id });
+            Lam_module_ident.Hashtbl.replace cached_tbl ~key:module_id
+              ~data:(Ml { cmj_load_info; id = module_id.id });
             cmj_load_info)
   in
   let cmj_table = cmj_load_info.cmj_table in
@@ -129,8 +129,8 @@ let is_pure_module (oid : Lam_module_ident.t) =
       | exception Not_found -> (
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
-              Lam_module_ident.Hashtbl.replace cached_tbl oid
-                (Ml { cmj_load_info; id = oid.id });
+              Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
+                ~data:(Ml { cmj_load_info; id = oid.id });
               cmj_load_info.cmj_table.pure
           | exception _ -> false))
 
@@ -138,8 +138,7 @@ let add = Lam_module_ident.Hash_set.add
 
 let populate_required_modules extras
     (hard_dependencies : Lam_module_ident.Hash_set.t) =
-  Lam_module_ident.Hashtbl.iter
-    (fun id _ -> if not (is_pure_module id) then add hard_dependencies id)
-    cached_tbl;
+  Lam_module_ident.Hashtbl.iter cached_tbl ~f:(fun ~key:id ~data:_ ->
+      if not (is_pure_module id) then add hard_dependencies id);
   Lam_module_ident.Hash_set.iter extras ~f:(fun id ->
       if not (is_pure_module id) then add hard_dependencies id)

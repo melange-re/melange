@@ -67,7 +67,7 @@ let used_attributes : (string Asttypes.loc, unit) Hashtbl.t = Hashtbl.create 16
 
 let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
   (* only mark non-ghost used mel attribute *)
-  if not x.loc.loc_ghost then Hashtbl.replace used_attributes x ()
+  if not x.loc.loc_ghost then Hashtbl.replace used_attributes ~key:x ~data:()
 
 let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
     =

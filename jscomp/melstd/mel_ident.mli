@@ -45,7 +45,7 @@ end
 module Set : MoreLabels.Set.S with type elt = t
 
 module Hashtbl : sig
-  include Hashtbl.S with type key = t
+  include MoreLabels.Hashtbl.S with type key = t
 
   val find_default : 'a t -> key -> default:'a -> 'a
 end

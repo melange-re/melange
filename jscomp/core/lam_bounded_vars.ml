@@ -66,7 +66,7 @@ open Import
 let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
   let rebind i =
     let i' = Ident.rename i in
-    Ident.Hashtbl.add map i (Lam.var i');
+    Ident.Hashtbl.add map ~key:i ~data:(Lam.var i');
     i'
   in
   (* order matters, especially for let bindings *)

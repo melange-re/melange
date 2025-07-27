@@ -28,7 +28,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
     | Lvar v -> Ident.Hashtbl.find_default subst v ~default:lam
     | Lmutvar _ -> lam
     | Llet ((Strict | Alias | StrictOpt), v, Lvar w, l2) ->
-        Ident.Hashtbl.add subst v (simplif (Lam.var w));
+        Ident.Hashtbl.add subst ~key:v ~data:(simplif (Lam.var w));
         simplif l2
     | Llet
         ( (Strict as kind),
@@ -71,11 +71,11 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
            inlined, we can still record it and
            do constant folding independently
         *) ->
-            Ident.Hashtbl.add subst v (simplif l1);
+            Ident.Hashtbl.add subst ~key:v ~data:(simplif l1);
             simplif l2
         | _, Lconst (Const_string { s; unicode = false }) ->
             (* only "" added for later inlining *)
-            Ident.Hashtbl.add string_table v s;
+            Ident.Hashtbl.add string_table ~key:v ~data:s;
             Lam.let_ Alias v l1 (simplif l2)
             (* we need move [simplif l2] later, since adding Hash does have side effect *)
         | _ ->
@@ -125,7 +125,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
               let l1 = simplif l1 in
               match l1 with
               | Lconst (Const_string { s; unicode = false }) ->
-                  Ident.Hashtbl.add string_table v s;
+                  Ident.Hashtbl.add string_table ~key:v ~data:s;
                   (* we need move [simplif lbody] later, since adding Hash does have side effect *)
                   Lam.let_ Alias v l1 (simplif lbody)
               | _ ->
@@ -143,7 +143,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
 
           match (kind, l1) with
           | Strict, Lconst (Const_string { s; unicode = false }) ->
-              Ident.Hashtbl.add string_table v s;
+              Ident.Hashtbl.add string_table ~key:v ~data:s;
               Lam.let_ Alias v l1 (simplif l2)
           | _ ->
               Lam_util.refine_let

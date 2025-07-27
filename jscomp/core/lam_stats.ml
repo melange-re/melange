@@ -53,7 +53,7 @@ type t = {
 
 let pp_ident_tbl =
   let to_list h f =
-    Ident.Hashtbl.fold (fun k data acc -> f k data :: acc) h []
+    Ident.Hashtbl.fold h ~init:[] ~f:(fun ~key:k ~data acc -> f k data :: acc)
   in
   fun ident_tbl ->
     to_list ident_tbl (fun k v ->

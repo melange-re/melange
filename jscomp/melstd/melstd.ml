@@ -26,6 +26,7 @@ module Array = Array
 module Bytes = BytesLabels
 module Filename = Filename
 module Hash_set_ident_mask = Hash_set_ident_mask
+module Hashtbl = MoreLabels.Hashtbl
 module Ident = Mel_ident
 module Int = Int
 module Int_vec_vec = Int_vec_vec
