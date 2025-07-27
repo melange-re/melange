@@ -1,7 +1,7 @@
 (library
  (name melstd)
  (package melange)
- (flags :standard -open StdLabels)
+ (flags :standard -open StdLabels -open MoreLabels)
  (libraries unix compiler-libs.common pp))
 
 (rule

@@ -870,7 +870,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           | exception Not_found -> j
         in
         (* peep-hole [i] aliased to [j] *)
-        Int.Hashtbl.add exit_map i id;
+        Int.Hashtbl.add exit_map ~key:i ~data:id;
         convert_aux b
     | Lstaticcatch (b, (i, ids), handler) ->
         Lam.staticcatch (convert_aux b)
