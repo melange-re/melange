@@ -57,3 +57,5 @@ module Hashtbl = struct
   let find_default t k ~default =
     match find t k with v -> v | exception Not_found -> default
 end
+
+module Ordered_hash_map = Ordered_hash_map_local_ident
