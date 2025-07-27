@@ -42,7 +42,7 @@ module Map : sig
   val find_default : default:'a -> key -> 'a t -> 'a
 end
 
-module Set : Set.S with type elt = t
+module Set : MoreLabels.Set.S with type elt = t
 
 module Hashtbl : sig
   include Hashtbl.S with type key = t

@@ -49,7 +49,7 @@ module Map = struct
     match find k t with v -> v | exception Not_found -> default
 end
 
-module Set = Set.Make (T)
+module Set = MoreLabels.Set.Make (T)
 
 module Hashtbl = struct
   include Hashtbl.Make (T)

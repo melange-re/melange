@@ -38,5 +38,6 @@ module Modulename = Modulename
 module Module_system = Module_system
 module Paths = Paths
 module Scc = Scc
+module Set = MoreLabels.Set
 module String = String
 module Vec_int = Vec_int

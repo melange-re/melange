@@ -24,5 +24,5 @@
 
 include Stdlib.Int
 module Map = Map.Make (Stdlib.Int)
-module Set = Set.Make (Stdlib.Int)
+module Set = MoreLabels.Set.Make (Stdlib.Int)
 module Hashtbl = Hashtbl.Make (Stdlib.Int)
