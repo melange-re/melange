@@ -1,11 +1,3 @@
-open Melstd
-
-module Int_array = Vec.Make (struct
-  type t = int
-
-  let null = 0
-end)
-
 let ( >::: ) = OUnit.( >::: )
 
 let suites =
