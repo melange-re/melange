@@ -273,8 +273,8 @@ let test2 (input : (string * string list) list) =
           Vec_int.push node_array.(idx) (Hashtbl.find tbl y)));
   let output = Scc.graph node_array in
   output
-  |> Int_vec_vec.map_into_array (fun int_vec ->
-      Vec_int.map_into_array (fun i -> other_mapping.(i)) int_vec)
+  |> Int_vec_vec.map_into_array ~f:(fun int_vec ->
+      Vec_int.map_into_array ~f:(fun i -> other_mapping.(i)) int_vec)
 
 let suites =
   __FILE__

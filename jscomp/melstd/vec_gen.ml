@@ -38,13 +38,13 @@ module type S = sig
   val singleton : elt -> t
   val empty : unit -> t
   val make : int -> t
-  val init : int -> (int -> elt) -> t
+  val init : int -> f:(int -> elt) -> t
   val is_empty : t -> bool
-  val of_sub_array : elt array -> int -> int -> t
+  val of_sub_array : elt array -> off:int -> len:int -> t
 
   val unsafe_internal_array : t -> elt array
-  (** Exposed for some APIs which only take array as input, 
-      when exposed   
+  (** Exposed for some APIs which only take array as input,
+      when exposed
   *)
 
   val reserve : t -> int -> unit
@@ -62,28 +62,28 @@ module type S = sig
   val of_array : elt array -> t
   val copy : t -> t
   val reverse_in_place : t -> unit
-  val iter : t -> (elt -> unit) -> unit
-  val iteri : t -> (int -> elt -> unit) -> unit
-  val iter_range : t -> from:int -> to_:int -> (elt -> unit) -> unit
-  val iteri_range : t -> from:int -> to_:int -> (int -> elt -> unit) -> unit
-  val map : (elt -> elt) -> t -> t
-  val mapi : (int -> elt -> elt) -> t -> t
-  val map_into_array : (elt -> 'f) -> t -> 'f array
-  val map_into_list : (elt -> 'f) -> t -> 'f list
-  val fold_left : ('f -> elt -> 'f) -> 'f -> t -> 'f
-  val fold_right : (elt -> 'g -> 'g) -> t -> 'g -> 'g
-  val filter : (elt -> bool) -> t -> t
-  val inplace_filter : (elt -> bool) -> t -> unit
+  val iter : f:(elt -> unit) -> t -> unit
+  val iteri : f:(int -> elt -> unit) -> t -> unit
+  val iter_range : from:int -> to_:int -> f:(elt -> unit) -> t -> unit
+  val iteri_range : from:int -> to_:int -> f:(int -> elt -> unit) -> t -> unit
+  val map : f:(elt -> elt) -> t -> t
+  val mapi : f:(int -> elt -> elt) -> t -> t
+  val map_into_array : f:(elt -> 'f) -> t -> 'f array
+  val map_into_list : f:(elt -> 'f) -> t -> 'f list
+  val fold_left : f:('f -> elt -> 'f) -> init:'f -> t -> 'f
+  val fold_right : f:(elt -> 'g -> 'g) -> t -> init:'g -> 'g
+  val filter : f:(elt -> bool) -> t -> t
+  val inplace_filter : f:(elt -> bool) -> t -> unit
 
   val inplace_filter_with :
-    (elt -> bool) -> cb_no:(elt -> 'a -> 'a) -> 'a -> t -> 'a
+    f:(elt -> bool) -> cb_no:(elt -> 'a -> 'a) -> init:'a -> t -> 'a
 
-  val inplace_filter_from : int -> (elt -> bool) -> t -> unit
-  val equal : (elt -> elt -> bool) -> t -> t -> bool
+  val inplace_filter_from : from:int -> f:(elt -> bool) -> t -> unit
+  val equal : f:(elt -> elt -> bool) -> t -> t -> bool
   val get : t -> int -> elt
   val unsafe_get : t -> int -> elt
   val last : t -> elt
   val capacity : t -> int
-  val exists : (elt -> bool) -> t -> bool
-  val sub : t -> int -> int -> t
+  val exists : f:(elt -> bool) -> t -> bool
+  val sub : t -> off:int -> len:int -> t
 end

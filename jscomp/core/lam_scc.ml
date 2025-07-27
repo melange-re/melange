@@ -113,18 +113,14 @@ let scc_bindings (groups : bindings) : bindings list =
       if Int_vec_vec.length clusters <= 1 then
         [ sort_single_binding_group groups ]
       else
-        Int_vec_vec.fold_right
-          (fun (v : Vec_int.t) acc ->
+        Int_vec_vec.fold_right clusters ~init:[] ~f:(fun (v : Vec_int.t) acc ->
             let bindings =
-              Vec_int.map_into_list
-                (fun i ->
+              Vec_int.map_into_list v ~f:(fun i ->
                   let id = int_mapping.(i) in
                   let lam = Ident.Ordered_hash_map.find_value domain id in
                   (id, lam))
-                v
             in
             sort_single_binding_group bindings :: acc)
-          clusters []
 
 (* single binding, it does not make sense to do scc,
    we can eliminate {[ let rec f x = x + x  ]}, but it happens rarely in real world
@@ -138,15 +134,13 @@ let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
       let clusters = Scc.graph node_vec in
       if Int_vec_vec.length clusters <= 1 then lam
       else
-        Int_vec_vec.fold_right
-          (fun (v : Vec_int.t) acc ->
+        Int_vec_vec.fold_right clusters ~init:body
+          ~f:(fun (v : Vec_int.t) acc ->
             let bindings =
-              Vec_int.map_into_list
-                (fun i ->
+              Vec_int.map_into_list v ~f:(fun i ->
                   let id = int_mapping.(i) in
                   let lam = Ident.Ordered_hash_map.find_value domain id in
                   (id, lam))
-                v
             in
             match bindings with
             | [ (id, lam) ] ->
@@ -155,4 +149,3 @@ let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
                   Lam.letrec bindings acc
                 else Lam.let_ Strict id lam acc
             | _ -> Lam.letrec bindings acc)
-          clusters body
