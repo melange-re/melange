@@ -54,7 +54,7 @@ let create initial_size =
   let s = power_2_above 8 initial_size in
   { size = 0; data = Stdlib.Array.make s Empty; mask_size = 0 }
 
-let iter_and_unmask h f =
+let iter_and_unmask h ~f =
   let rec iter_bucket buckets =
     match buckets with
     | Empty -> ()
