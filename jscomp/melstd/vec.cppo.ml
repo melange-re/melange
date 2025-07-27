@@ -100,7 +100,7 @@ let of_array src =
     arr = Stdlib.Array.copy src;
     (* okay to call {!Stdlib.Array.copy}*)
   }
-let of_sub_array arr off len =
+let of_sub_array arr ~off ~len =
   {
     len = len ;
     arr = Stdlib.Array.sub arr off len
@@ -124,26 +124,26 @@ let reverse_in_place src =
 (* {!Stdlib.Array.sub} is not enough for error checking, it
    may contain some garbage
  *)
-let sub (src : t) start len =
+let sub (src : t) ~off:start ~len =
   let src_len = src.len in
   if len < 0 || start > src_len - len then invalid_arg "Vec.sub"
   else
   { len ;
     arr = unsafe_sub src.arr start len }
 
-let iter d  f =
+let iter ~f d =
   let arr = d.arr in
   for i = 0 to d.len - 1 do
     f (Stdlib.Array.unsafe_get arr i)
   done
 
-let iteri d f =
+let iteri ~f d =
   let arr = d.arr in
   for i = 0 to d.len - 1 do
     f i (Stdlib.Array.unsafe_get arr i)
   done
 
-let iter_range d ~from ~to_ f =
+let iter_range ~from ~to_ ~f d =
   if from < 0 || to_ >= d.len then invalid_arg "Vec.iter_range"
   else
     let d_arr = d.arr in
@@ -151,7 +151,7 @@ let iter_range d ~from ~to_ f =
       f  (Stdlib.Array.unsafe_get d_arr i)
     done
 
-let iteri_range d ~from ~to_ f =
+let iteri_range ~from ~to_ ~f d =
   if from < 0 || to_ >= d.len then invalid_arg "Vec.iteri_range"
   else
     let d_arr = d.arr in
@@ -159,7 +159,7 @@ let iteri_range d ~from ~to_ f =
       f i (Stdlib.Array.unsafe_get d_arr i)
     done
 
-let map_into_array f src =
+let map_into_array ~f src =
   let src_len = src.len in
   let src_arr = src.arr in
   if src_len = 0 then [||]
@@ -170,7 +170,8 @@ let map_into_array f src =
       Stdlib.Array.unsafe_set arr i (f (Stdlib.Array.unsafe_get src_arr i))
     done;
     arr
-let map_into_list f src =
+
+let map_into_list ~f src =
   let src_len = src.len in
   let src_arr = src.arr in
   if src_len = 0 then []
@@ -181,7 +182,7 @@ let map_into_list f src =
     done;
     !acc
 
-let mapi f src =
+let mapi ~f src =
   let len = src.len in
   if len = 0 then { len ; arr = [| |] }
   else
@@ -195,14 +196,14 @@ let mapi f src =
       arr ;
     }
 
-let fold_left f x a =
+let fold_left ~f ~init:x a =
   let rec loop a_len (a_arr : elt array) idx x =
     if idx >= a_len then x else
       loop a_len a_arr (idx + 1) (f x (Stdlib.Array.unsafe_get a_arr idx))
   in
   loop a.len a.arr 0 x
 
-let fold_right f a x =
+let fold_right ~f a ~init:x =
   let rec loop (a_arr : elt array) idx x =
     if idx < 0 then x
     else loop a_arr (idx - 1) (f (Stdlib.Array.unsafe_get a_arr idx) x)
@@ -212,7 +213,7 @@ let fold_right f a x =
 (**
    [filter] and [inplace_filter]
 *)
-let filter f d =
+let filter ~f d =
   let new_d = copy d in
   let new_d_arr = new_d.arr in
   let d_arr = d.arr in
@@ -229,7 +230,7 @@ let filter f d =
   new_d.len <- !p;
   new_d
 
-let equal eq x y : bool =
+let equal ~f:eq x y : bool =
   if x.len <> y.len then false
   else
     let rec aux x_arr y_arr i =
@@ -250,7 +251,7 @@ let last d =
 let capacity d = Stdlib.Array.length d.arr
 
 (* Attention can not use {!Stdlib.Array.exists} since the bound is not the same *)
-let exists p d =
+let exists ~f:p d =
   let a = d.arr in
   let n = d.len in
   let rec loop i =
@@ -259,7 +260,7 @@ let exists p d =
     else loop (succ i) in
   loop 0
 
-let map f src =
+let map ~f src =
   let src_len = src.len in
   if src_len = 0 then { len = 0 ; arr = [||]}
   (* TODO: we may share the empty array
@@ -284,7 +285,7 @@ let map f src =
       arr = arr;
     }
 
-let init len f =
+let init len ~f =
   if len < 0 then invalid_arg  "Vec.init"
   else if len = 0 then { len = 0 ; arr = [||] }
   else
@@ -299,8 +300,6 @@ let init len f =
       arr
     }
 
-
-
   let make initsize : t =
     if initsize < 0 then invalid_arg  "Vec.make" ;
     {
@@ -308,8 +307,6 @@ let init len f =
       len = 0;
       arr = Stdlib.Array.make  initsize null ;
     }
-
-
 
   let reserve (d : t ) s =
     let d_len = d.len in
@@ -429,9 +426,7 @@ let init len f =
 #endif
     d.len <- 0
 
-
-
-  let inplace_filter f (d : t) : unit =
+  let inplace_filter ~f (d : t) : unit =
     let d_arr = d.arr in
     let d_len = d.len in
     let p = ref 0 in
@@ -453,7 +448,7 @@ let init len f =
     delete_range d last  (d_len - last)
 #endif
 
-  let inplace_filter_from start f (d : t) : unit =
+  let inplace_filter_from ~from:start ~f (d : t) : unit =
     if start < 0 then invalid_arg "Vec.inplace_filter_from";
     let d_arr = d.arr in
     let d_len = d.len in
@@ -477,7 +472,7 @@ let init len f =
 
 
 (** inplace filter the elements and accumulate the non-filtered elements *)
-  let inplace_filter_with  f ~cb_no acc (d : t)  =
+  let inplace_filter_with ~f ~cb_no ~init:acc (d : t)  =
     let d_arr = d.arr in
     let p = ref 0 in
     let d_len = d.len in

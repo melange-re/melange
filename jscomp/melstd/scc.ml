@@ -59,7 +59,7 @@ let graph e =
     lowlink_array.(v_data) <- new_index;
     on_stack_array.(v_data) <- true;
     let v = e.(v_data) in
-    Vec_int.iter v (fun w_data ->
+    Vec_int.iter v ~f:(fun w_data ->
         if Array.unsafe_get index_array w_data < 0 then (
           (* not processed *)
           scc w_data;
@@ -100,4 +100,5 @@ let graph e =
 let graph_check v =
   let v = graph v in
   ( Int_vec_vec.length v,
-    Int_vec_vec.fold_left (fun acc x -> Vec_int.length x :: acc) [] v )
+    Int_vec_vec.fold_left ~init:[] v ~f:(fun acc x -> Vec_int.length x :: acc)
+  )
