@@ -31,37 +31,6 @@ type t =
           1. approximation sound but not complete *)
   | Arity_na
 
-let equal (x : t) y =
-  match x with
-  | Arity_na -> y = Arity_na
-  | Arity_info (xs, a) -> (
-      match y with
-      | Arity_info (ys, b) ->
-          a = b && List.for_all2_no_exn xs ys ~f:(fun x y -> x = y)
-      | Arity_na -> false)
-
-let pp = Format.fprintf
-
-let print (fmt : Format.formatter) (x : t) =
-  match x with
-  | Arity_na -> pp fmt "?"
-  | Arity_info (ls, tail) ->
-      pp fmt "@[";
-      pp fmt "[";
-      Format.pp_print_list
-        ~pp_sep:(fun fmt () -> pp fmt ",")
-        (fun fmt x -> Format.pp_print_int fmt x)
-        fmt ls;
-      if tail then pp fmt "@ *";
-      pp fmt "]@]"
-
-let print_arities_tbl (fmt : Format.formatter)
-    (arities_tbl : (Ident.t, t ref) Hashtbl.t) =
-  Hashtbl.fold
-    (fun (i : Ident.t) (v : t ref) _ ->
-      pp fmt "@[%s -> %a@]@." (Ident.name i) print !v)
-    arities_tbl ()
-
 let merge (n : int) (x : t) : t =
   match x with
   | Arity_na -> Arity_info ([ n ], false)

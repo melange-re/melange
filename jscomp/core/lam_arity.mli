@@ -25,16 +25,13 @@
 type t = private
   | Arity_info of int list * bool
       (**
-      when the first argument is true, it is for sure 
-      the last one means it can take any params later, 
+      when the first argument is true, it is for sure
+      the last one means it can take any params later,
       for an exception: it is (Arity_info([], true))
-       approximation sound but not complete       
+       approximation sound but not complete
    *)
   | Arity_na
 
-val equal : t -> t -> bool
-val print : Format.formatter -> t -> unit
-val print_arities_tbl : Format.formatter -> (Ident.t, t ref) Hashtbl.t -> unit
 val merge : int -> t -> t
 val non_function_arity_info : t
 val raise_arity_info : t
