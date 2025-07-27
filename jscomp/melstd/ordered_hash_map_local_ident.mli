@@ -30,12 +30,12 @@ type 'value t
 val create : int -> 'value t
 val clear : 'value t -> unit
 val reset : 'value t -> unit
-val add : 'value t -> Ident.t -> 'value -> unit
+val add : 'value t -> key:Ident.t -> data:'value -> unit
 val mem : 'value t -> Ident.t -> bool
 val rank : 'value t -> Ident.t -> int (* -1 if not found*)
 val find_value : 'value t -> Ident.t -> 'value (* raise if not found*)
-val iter : 'value t -> (Ident.t -> 'value -> int -> unit) -> unit
-val fold : 'value t -> 'b -> (Ident.t -> 'value -> int -> 'b -> 'b) -> 'b
+val iter : 'value t -> f:(Ident.t -> 'value -> int -> unit) -> unit
+val fold : 'value t -> init:'b -> f:(Ident.t -> 'value -> int -> 'b -> 'b) -> 'b
 val length : 'value t -> int
 val elements : 'value t -> Ident.t list
 val choose : 'value t -> Ident.t

@@ -37,7 +37,7 @@ val mask_and_check_all_hit : t -> ident -> bool
 (** [check_mask h key] if [key] exists mask it otherwise nothing
     return true if all keys are masked otherwise false *)
 
-val iter_and_unmask : t -> (ident -> bool -> unit) -> unit
+val iter_and_unmask : t -> f:(ident -> bool -> unit) -> unit
 (** [iter_and_unmask f h] iterating the collection and mask all idents,
     dont consul the collection in function [f]
     TODO: what happens if an exception raised in the callback,

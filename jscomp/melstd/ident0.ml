@@ -138,7 +138,7 @@ let name_mangle name =
    otherwise do the name mangling to make sure ocaml identifier it is
    a valid js identifier
 *)
-let convert (name : string) =
+let convert name =
   if Js_reserved_map.is_reserved name then (
     let len = String.length name in
     let b = Bytes.create (2 + len) in
