@@ -39,7 +39,7 @@ let incr_exit exits i nb d =
       r.max_depth <- max r.max_depth d
   | exception Not_found ->
       let r = { count = nb; max_depth = d } in
-      Hashtbl.add exits i r
+      Hashtbl.add exits ~key:i ~data:r
 
 (**
   This function counts how each [exit] is used, it will affect how the following optimizations performed.

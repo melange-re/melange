@@ -29,7 +29,7 @@ let transitive_closure (initial_idents : Ident.t list)
   let visited = Ident.Hashtbl.create 31 in
   let rec dfs (id : Ident.t) : unit =
     if not (Ident.Hashtbl.mem visited id || Ident.is_js_or_global id) then (
-      Ident.Hashtbl.replace visited id ();
+      Ident.Hashtbl.replace visited ~key:id ~data:();
       match Ident.Hashtbl.find ident_freevars id with
       | exception Not_found ->
           Format.ksprintf
@@ -50,16 +50,16 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =
       ~f:(fun acc (x : Lam_group.t) ->
         match x with
         | Single (kind, id, lam) -> (
-            Ident.Hashtbl.add ident_free_vars id
-              (Lam_free_variables.pass_free_variables lam);
+            Ident.Hashtbl.add ident_free_vars ~key:id
+              ~data:(Lam_free_variables.pass_free_variables lam);
             match kind with
             | Alias | StrictOpt -> acc
             | Strict | Variable -> id :: acc)
         | Recursive bindings ->
             List.fold_left
               ~f:(fun acc (id, lam) ->
-                Ident.Hashtbl.add ident_free_vars id
-                  (Lam_free_variables.pass_free_variables lam);
+                Ident.Hashtbl.add ident_free_vars ~key:id
+                  ~data:(Lam_free_variables.pass_free_variables lam);
                 match lam with Lfunction _ -> acc | _ -> id :: acc)
               ~init:acc bindings
         | Nop lam ->

@@ -235,7 +235,7 @@ let test (input : (string * string list) list) =
   let idx = ref 0 in
   let add x =
     if not (Hashtbl.mem tbl x) then (
-      Hashtbl.add tbl x !idx;
+      Hashtbl.add tbl ~key:x ~data:!idx;
       incr idx)
   in
   input |> List.iter ~f:(fun (x, others) -> List.iter ~f:add (x :: others));
@@ -256,13 +256,13 @@ let test2 (input : (string * string list) list) =
   let idx = ref 0 in
   let add x =
     if not (Hashtbl.mem tbl x) then (
-      Hashtbl.add tbl x !idx;
+      Hashtbl.add tbl ~key:x ~data:!idx;
       incr idx)
   in
   input |> List.iter ~f:(fun (x, others) -> List.iter ~f:add (x :: others));
   let nodes_num = Hashtbl.length tbl in
   let other_mapping = Array.make nodes_num "" in
-  Hashtbl.iter (fun k v -> other_mapping.(v) <- k) tbl;
+  Hashtbl.iter ~f:(fun ~key:k ~data:v -> other_mapping.(v) <- k) tbl;
 
   let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
   input

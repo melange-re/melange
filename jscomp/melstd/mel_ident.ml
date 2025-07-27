@@ -52,7 +52,7 @@ end
 module Set = MoreLabels.Set.Make (T)
 
 module Hashtbl = struct
-  include Hashtbl.Make (T)
+  include MoreLabels.Hashtbl.Make (T)
 
   let find_default t k ~default =
     match find t k with v -> v | exception Not_found -> default

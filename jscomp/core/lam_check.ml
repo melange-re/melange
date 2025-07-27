@@ -43,7 +43,7 @@ let check file lam =
       Format.eprintf "[SANITY]:%s/%d bound twice in %s@." (Ident.name id)
         (Ident.stamp id) file;
       success := false)
-    else Ident.Hashtbl.replace defined_variables id ()
+    else Ident.Hashtbl.replace defined_variables ~key:id ~data:()
   in
   (* TODO: replaced by a slow version of {!Lam_iter.inner_iter} *)
   let rec check_list xs (cxt : Int.Set.t) =

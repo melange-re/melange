@@ -70,10 +70,12 @@ module Hash_set = struct
   type t = unit Hashtbl.t
 
   let add t k =
-    match find t k with () -> () | exception Not_found -> replace t k ()
+    match find t k with
+    | () -> ()
+    | exception Not_found -> replace t ~key:k ~data:()
 
   let to_list t = to_seq_keys t |> List.of_seq
-  let iter ~f t = iter (fun k _ -> f k) t
+  let iter ~f t = iter ~f:(fun ~key ~data:_ -> f key) t
 end
 
 include T

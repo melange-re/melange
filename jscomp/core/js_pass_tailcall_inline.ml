@@ -156,7 +156,7 @@ let subst (export_set : Ident.Set.t)
            does rely on this (otherwise, when you do beta-reduction you have to regenerate names)
         *)
         let v = super.variable_declaration self v in
-        Ident.Hashtbl.add stats ident v;
+        Ident.Hashtbl.add stats ~key:ident ~data:v;
         (* see #278 before changes *)
         v);
     block =

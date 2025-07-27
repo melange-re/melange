@@ -27,7 +27,7 @@ open Import
 let of_list2 ks vs =
   let len = Stdlib.List.length ks in
   let map = Ident.Hashtbl.create len in
-  List.iter2 ~f:(fun k v -> Ident.Hashtbl.add map k v) ks vs;
+  List.iter2 ~f:(fun k v -> Ident.Hashtbl.add map ~key:k ~data:v) ks vs;
   map
 
 (*
@@ -76,10 +76,11 @@ let propagate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
         ~f:(fun (param, arg) l ->
           (match arg with
           | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-              Ident.Hashtbl.replace meta.ident_tbl param
-                (Lam_util.kind_of_lambda_block args)
+              Ident.Hashtbl.replace meta.ident_tbl ~key:param
+                ~data:(Lam_util.kind_of_lambda_block args)
           | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-              Ident.Hashtbl.replace meta.ident_tbl param (Normal_optional v)
+              Ident.Hashtbl.replace meta.ident_tbl ~key:param
+                ~data:(Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
         rest_bindings ~init:new_body
@@ -120,10 +121,11 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
         ~f:(fun (param, (arg : Lam.t)) l ->
           (match arg with
           | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-              Ident.Hashtbl.replace meta.ident_tbl param
-                (Lam_util.kind_of_lambda_block args)
+              Ident.Hashtbl.replace meta.ident_tbl ~key:param
+                ~data:(Lam_util.kind_of_lambda_block args)
           | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
-              Ident.Hashtbl.replace meta.ident_tbl param (Normal_optional v)
+              Ident.Hashtbl.replace meta.ident_tbl ~key:param
+                ~data:(Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
         rest_bindings ~init:new_body

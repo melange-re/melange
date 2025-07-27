@@ -42,7 +42,7 @@ let pp_info (x : used_info) = Pp.textf "(<captured:%b>:%d)" x.captured x.times
 
 let pp_occ_tbl =
   let to_list h f =
-    Ident.Hashtbl.fold (fun k data acc -> f k data :: acc) h []
+    Ident.Hashtbl.fold h ~init:[] ~f:(fun ~key ~data acc -> f key data :: acc)
   in
   fun tbl ->
     to_list tbl (fun k v ->
@@ -77,7 +77,7 @@ let collect_occurs lam : t =
   (* Entering a [let].  Returns updated [bv]. *)
   let bind_var bv ident =
     let r = dummy_info () in
-    Ident.Hashtbl.add occ ident r;
+    Ident.Hashtbl.add occ ~key:ident ~data:r;
     Ident.Map.add ~key:ident ~data:r bv
   in
 
