@@ -40,5 +40,4 @@ module Ordered_hash_map_local_ident = Ordered_hash_map_local_ident
 module Paths = Paths
 module Scc = Scc
 module String = String
-module Vec = Vec
 module Vec_int = Vec_int
