@@ -116,22 +116,10 @@ module Style : sig
   (** Ansi escape sequence that set the terminal style to exactly these styles *)
 end
 
-val make_printer : bool Lazy.t -> Format.formatter -> Style.t list Pp.t -> unit
-
 val print : Style.t list Pp.t -> unit
 (** Print to [Format.std_formatter] *)
 
 val prerr : Style.t list Pp.t -> unit
 (** Print to [Format.err_formatter] *)
 
-val stdout_supports_color : bool Lazy.t
-(** Whether [stdout]/[stderr] support colors *)
-
 val stderr_supports_color : bool Lazy.t
-val output_is_a_tty : bool Lazy.t
-
-val strip : string -> string
-(** Filter out escape sequences in a string *)
-
-val parse : string -> Style.t list Pp.t
-(** Parse a string containing ANSI escape sequences *)
