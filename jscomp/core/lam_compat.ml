@@ -26,12 +26,6 @@ open Import
 
 type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
 
-let eq_boxed_integer (p : boxed_integer) (p1 : boxed_integer) =
-  match p with
-  | Pnativeint -> p1 = Pnativeint
-  | Pint32 -> p1 = Pint32
-  | Pint64 -> p1 = Pint64
-
 type integer_comparison = Lambda.integer_comparison =
   | Ceq
   | Cne
@@ -92,15 +86,6 @@ let cmp_int64 (cmp : integer_comparison) (a : int64) b : bool =
   | Clt -> a < b
   | Cge -> a >= b
 
-let cmp_nativeint (cmp : integer_comparison) (a : nativeint) b : bool =
-  match cmp with
-  | Ceq -> a = b
-  | Cne -> a <> b
-  | Cgt -> a > b
-  | Cle -> a <= b
-  | Clt -> a < b
-  | Cge -> a >= b
-
 let cmp_float (cmp : float_comparison) (a : float) b : bool =
   match cmp with
   | CFeq -> a = b
@@ -113,15 +98,6 @@ let cmp_float (cmp : float_comparison) (a : float) b : bool =
   | CFnle -> not (a <= b)
   | CFge -> a >= b
   | CFnge -> not (a >= b)
-
-let cmp_int (cmp : integer_comparison) (a : int) b : bool =
-  match cmp with
-  | Ceq -> a = b
-  | Cne -> a <> b
-  | Cgt -> a > b
-  | Cle -> a <= b
-  | Clt -> a < b
-  | Cge -> a >= b
 
 type compile_time_constant =
   | Big_endian
