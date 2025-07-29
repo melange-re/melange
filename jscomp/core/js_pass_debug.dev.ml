@@ -34,7 +34,7 @@ let dump ~output_dir ~package_info ~output_info name (prog : J.program) =
         (Pp.textf "[TIME] %s: %f" name (Sys.time () *. 1000.));
       let fn =
         Filename.new_extension !Location.input_name
-          (Printf.sprintf ".%02d.%s.jsx" !log_counter name)
+          ~ext:(Printf.sprintf ".%02d.%s.jsx" !log_counter name)
       in
       Io.with_file_out_fd fn ~f:(fun fd ->
           Js_dump_program.dump_program ~output_dir ~package_info ~output_info

@@ -60,7 +60,7 @@ let chop_all_extensions_maybe name =
   in
   search_dot (String.length name - 1) None
 
-let new_extension name (ext : string) =
+let new_extension name ~ext =
   let rec search_dot name i ext =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then name ^ ext
     else if String.unsafe_get name i = '.' then (

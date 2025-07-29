@@ -80,11 +80,11 @@ let suites =
               print_endline bench; *)
            OUnit.assert_bool __LOC__ (Buffer.contents buf = bench) );
          ( __LOC__ >:: fun _ ->
-           string_eq (Filename.new_extension "a.c" ".xx") "a.xx";
-           string_eq (Filename.new_extension "abb.c" ".xx") "abb.xx";
-           string_eq (Filename.new_extension ".c" ".xx") ".xx";
-           string_eq (Filename.new_extension "a/b" ".xx") "a/b.xx";
-           string_eq (Filename.new_extension "a/b." ".xx") "a/b.xx";
+           string_eq (Filename.new_extension "a.c" ~ext:".xx") "a.xx";
+           string_eq (Filename.new_extension "abb.c" ~ext:".xx") "abb.xx";
+           string_eq (Filename.new_extension ".c" ~ext:".xx") ".xx";
+           string_eq (Filename.new_extension "a/b" ~ext:".xx") "a/b.xx";
+           string_eq (Filename.new_extension "a/b." ~ext:".xx") "a/b.xx";
            string_eq (Filename.chop_all_extensions_maybe "a.b.x") "a";
            string_eq (Filename.chop_all_extensions_maybe "a.b") "a";
            string_eq (Filename.chop_all_extensions_maybe ".a.b.x") "";

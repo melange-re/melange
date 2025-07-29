@@ -29,5 +29,5 @@ end
 (* return an empty string if no extension found *)
 val get_extension_maybe : string -> string
 val get_all_extensions_maybe : string -> string option
-val new_extension : string -> string -> string
+val new_extension : string -> ext:string -> string
 val chop_all_extensions_maybe : string -> string
