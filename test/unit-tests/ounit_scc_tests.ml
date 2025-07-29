@@ -191,7 +191,7 @@ http://algs4.cs.princeton.edu/42digraph/KosarajuSharirSCC.java.html
 let handle_lines tiny_test_cases =
   match
     String.split_by
-      (function '\n' | '\r' -> true | _ -> false)
+      ~f:(function '\n' | '\r' -> true | _ -> false)
       tiny_test_cases
   with
   | nodes :: _edges :: rest ->
@@ -199,7 +199,7 @@ let handle_lines tiny_test_cases =
       let node_array = Array.init nodes_num ~f:(fun _ -> Vec_int.empty ()) in
       List.iter
         ~f:(fun x ->
-          match String.split x ' ' with
+          match String.split x ~sep:' ' with
           | [ a; b ] ->
               let a, b = (int_of_string a, int_of_string b) in
               Vec_int.push node_array.(a) b
@@ -216,7 +216,7 @@ let read_file file =
     match input_line in_chan with
     | exception End_of_file -> ()
     | x ->
-        (match String.split x ' ' with
+        (match String.split x ~sep:' ' with
         | [ a; b ] ->
             let a, b = (int_of_string a, int_of_string b) in
             Vec_int.push node_array.(a) b
