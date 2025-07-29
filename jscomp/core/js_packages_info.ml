@@ -163,7 +163,7 @@ let add_npm_package_path (t : t) ?module_name s =
         | Batch_compilation xs -> xs
       in
       let new_info =
-        match String.split ~keep_empty:true s ':' with
+        match String.split ~keep_empty:true s ~sep:':' with
         | [ path ] ->
             (* `--mel-package-output just/the/path/segment' means module system
                / js extension to come later; separate emission *)

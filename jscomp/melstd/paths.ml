@@ -52,8 +52,8 @@ let node_relative_path =
   let split_by_sep_per_os : string -> string list =
     if Sys.win32 || Sys.cygwin then fun x ->
       (* on Windows, we can still accept -mel-package-output lib/js *)
-      String.split_by (function '/' | '\\' -> true | _ -> false) x
-    else fun x -> String.split x '/'
+      String.split_by ~f:(function '/' | '\\' -> true | _ -> false) x
+    else fun x -> String.split x ~sep:'/'
   in
   let rec go (dir1 : string list) (dir2 : string list) =
     match (dir1, dir2) with

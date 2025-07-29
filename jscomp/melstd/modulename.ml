@@ -27,7 +27,7 @@ let good_hint_name module_name offset =
   len > offset
   && (function 'a' .. 'z' | 'A' .. 'Z' -> true | _ -> false)
        (String.unsafe_get module_name offset)
-  && String.for_all_from module_name (offset + 1) (function
+  && String.for_all_from module_name ~from:(offset + 1) ~f:(function
     | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' -> true
     | _ -> false)
 
@@ -67,7 +67,7 @@ let js_id_name_of_hint_name module_name =
   if i >= 0 then (
     let offset = succ i in
     if good_hint_name module_name offset then
-      String.capitalize_ascii (String.tail_from module_name offset)
+      String.capitalize_ascii (String.tail_from module_name ~from:offset)
     else
       let str_len = String.length module_name in
       let buf = Buffer.create str_len in

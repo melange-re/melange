@@ -21,20 +21,20 @@ let suites =
          ( __LOC__ >:: fun _ ->
            OUnit.assert_bool __LOC__
              (not
-                (String.for_all_from "xABc" 1 (function
+                (String.for_all_from "xABc" ~from:1 ~f:(function
                   | 'A' .. 'Z' -> true
                   | _ -> false)));
            OUnit.assert_bool __LOC__
-             (String.for_all_from "xABC" 1 (function
+             (String.for_all_from "xABC" ~from:1 ~f:(function
                | 'A' .. 'Z' -> true
                | _ -> false));
            OUnit.assert_bool __LOC__
-             (String.for_all_from "xABC" 1_000 (function
+             (String.for_all_from "xABC" ~from:1_000 ~f:(function
                | 'A' .. 'Z' -> true
                | _ -> false)) );
          ( __LOC__ >:: fun _ ->
-           String.tail_from "ghsogh" 1 =~ "hsogh";
-           String.tail_from "ghsogh" 0 =~ "ghsogh" );
+           String.tail_from "ghsogh" ~from:1 =~ "hsogh";
+           String.tail_from "ghsogh" ~from:0 =~ "ghsogh" );
          (* __LOC__ >:: begin fun _ ->
             String.digits_of_str "11_js" ~offset:0 2 =~ 11
             end; *)
@@ -90,7 +90,7 @@ let suites =
            string_eq (Filename.chop_all_extensions_maybe ".a.b.x") "";
            string_eq (Filename.chop_all_extensions_maybe "abx") "abx" );
          ( __LOC__ >:: fun _ ->
-           String.split "" ':' =~ [];
-           String.split "a:b:" ':' =~ [ "a"; "b" ];
-           String.split "a:b:" ':' ~keep_empty:true =~ [ "a"; "b"; "" ] );
+           String.split "" ~sep:':' =~ [];
+           String.split "a:b:" ~sep:':' =~ [ "a"; "b" ];
+           String.split "a:b:" ~sep:':' ~keep_empty:true =~ [ "a"; "b"; "" ] );
        ]
