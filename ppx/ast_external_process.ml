@@ -876,7 +876,7 @@ module From_attributes = struct
     in
     let valid_global_name ~loc txt =
       if not (valid_ident txt) then
-        let v = String.split_by ~keep_empty:true (fun x -> x = '.') txt in
+        let v = String.split_by ~keep_empty:true ~f:(fun x -> x = '.') txt in
         List.iter
           ~f:(fun s ->
             if not (valid_ident s) then

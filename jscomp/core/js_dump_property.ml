@@ -56,7 +56,7 @@ let obj_property_no_need_quot s =
   if len > 0 then
     match String.unsafe_get s 0 with
     | '$' | '_' | 'a' .. 'z' | 'A' .. 'Z' ->
-        String.for_all_from s 1 (function
+        String.for_all_from s ~from:1 ~f:(function
           | 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' -> true
           | _ -> false)
     | _ -> false

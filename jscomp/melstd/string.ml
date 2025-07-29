@@ -29,7 +29,7 @@ module Set = MoreLabels.Set.Make (T)
 module Hashtbl = Hashtbl.Make (T)
 
 (* {[ split " test_unsafe_obj_ffi_ppx.cmi" ~keep_empty:false ' ']} *)
-let split_by ?(keep_empty = false) is_delim str =
+let split_by ?(keep_empty = false) ~f:is_delim str =
   let len = length str in
   let rec loop acc last_pos pos =
     if pos = -1 then
@@ -45,10 +45,8 @@ let split_by ?(keep_empty = false) is_delim str =
   in
   loop [] len (len - 1)
 
-let split ?keep_empty str on =
-  match str with
-  | "" -> []
-  | str -> split_by ?keep_empty (fun x -> (x : char) = on) str
+let split ?keep_empty str ~sep:on =
+  match str with "" -> [] | str -> split_by ?keep_empty ~f:(Char.equal on) str
 
 let for_all_from =
   (* it is unsafe to expose such API as unsafe since
@@ -58,7 +56,7 @@ let for_all_from =
     || p (unsafe_get s start)
        && unsafe_for_all_range s ~start:(start + 1) ~finish p
   in
-  fun s start p ->
+  fun s ~from:start ~f:p ->
     let len = length s in
     if start < 0 then invalid_arg "String.for_all_from"
     else unsafe_for_all_range s ~start ~finish:(len - 1) p
@@ -83,12 +81,15 @@ let rfind =
       -1
     with Local_exit -> !i
 
-let tail_from s x =
+let tail_from s ~from:x =
   let len = length s in
   if x > len then invalid_arg ("String.tail_from " ^ s ^ " : " ^ string_of_int x)
   else sub s ~pos:x ~len:(len - x)
 
-let rec rindex_rec s i c =
-  if i < 0 then i else if unsafe_get s i = c then i else rindex_rec s (i - 1) c
-
-let rindex_neg s c = rindex_rec s (length s - 1) c
+let rindex_neg =
+  let rec rindex_rec s i c =
+    if i < 0 then i
+    else if unsafe_get s i = c then i
+    else rindex_rec s (i - 1) c
+  in
+  fun s c -> rindex_rec s (length s - 1) c

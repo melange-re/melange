@@ -33,25 +33,23 @@ module Map : MoreLabels.Map.S with type key = string
 module Set : MoreLabels.Set.S with type elt = string
 module Hashtbl : Hashtbl.S with type key = string
 
-val split_by : ?keep_empty:bool -> (char -> bool) -> string -> string list
+val split_by : ?keep_empty:bool -> f:(char -> bool) -> string -> string list
 (** default is false *)
 
-val split : ?keep_empty:bool -> string -> char -> string list
+val split : ?keep_empty:bool -> string -> sep:char -> string list
 (** default is false *)
 
-val for_all_from : string -> int -> (char -> bool) -> bool
+val for_all_from : string -> from:int -> f:(char -> bool) -> bool
 (**
   [for_all_from  s start p]
   if [start] is negative, it raises,
-  if [start] is too large, it returns true
-*)
+  if [start] is too large, it returns true *)
 
 val rfind : sub:string -> string -> int
 
-val tail_from : string -> int -> string
+val tail_from : string -> from:int -> string
 (** [tail_from s 1]
-  return a substring from offset 1 (inclusive)
-*)
+  return a substring from offset 1 (inclusive) *)
 
 val rindex_neg : string -> char -> int
 (** returns negative number if not found *)
