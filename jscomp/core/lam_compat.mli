@@ -80,12 +80,9 @@ type set_field_dbg_info = Lambda.set_field_dbg_info =
 
 val cmp_int32 : integer_comparison -> int32 -> int32 -> bool
 val cmp_int64 : integer_comparison -> int64 -> int64 -> bool
-val cmp_nativeint : integer_comparison -> nativeint -> nativeint -> bool
 val cmp_float : float_comparison -> float -> float -> bool
-val cmp_int : integer_comparison -> int -> int -> bool
 val eq_comparison : integer_comparison -> integer_comparison -> bool
 val eq_float_comparison : float_comparison -> float_comparison -> bool
-val eq_boxed_integer : boxed_integer -> boxed_integer -> bool
 
 val eq_compile_time_constant :
   compile_time_constant -> compile_time_constant -> bool
