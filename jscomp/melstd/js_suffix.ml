@@ -26,7 +26,7 @@ type t = string
 
 let to_string = Fun.id
 
-let of_string (x : string) : t =
+let of_string x =
   match String.length x with
   | 0 -> raise (Invalid_argument "File extension can not be empty")
   | length -> (
@@ -43,4 +43,4 @@ let of_string (x : string) : t =
             (Invalid_argument
                (Printf.sprintf "File extension %s must start with '.'" x)))
 
-let default : t = ".js"
+let default = ".js"
