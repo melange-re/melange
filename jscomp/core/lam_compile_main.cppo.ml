@@ -226,7 +226,7 @@ let compile
         ]);
     if !Js_config.diagnose then
       let f =
-        Filename.new_extension !Location.input_name  ".lambda" in
+        Filename.new_extension !Location.input_name ~ext:".lambda" in
         let buf = Buffer.create 65536 in
         let fmt = Format.formatter_of_buffer buf in
         Format.pp_print_list ~pp_sep:Format.pp_print_newline

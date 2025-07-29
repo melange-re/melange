@@ -34,5 +34,5 @@ let dump =
         (Pp.textf "[TIME:]%s: %f" ext (Sys.time () *. 1000.));
       Lam_print.serialize
         (Filename.new_extension !Location.input_name
-           (Printf.sprintf ".%02d%s.lam" !log_counter ext))
+           ~ext:(Printf.sprintf ".%02d%s.lam" !log_counter ext))
         lam)
