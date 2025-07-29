@@ -28,12 +28,4 @@ type t = Location.t = {
   loc_ghost : bool;
 }
 
-let of_pos (pos_fname, pos_lnum, cnum, enum) =
-  let start : Lexing.position =
-    { pos_fname; pos_lnum; pos_cnum = cnum; pos_bol = 0 }
-  in
-  {
-    Location.loc_start = start;
-    loc_end = { start with pos_cnum = enum };
-    loc_ghost = false;
-  }
+val of_pos : string * int * int * int -> t
