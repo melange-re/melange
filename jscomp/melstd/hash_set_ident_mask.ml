@@ -25,11 +25,9 @@
 (* A specialized datastructure for the SCC (Strongly Connected Components)
    algorithm *)
 
-type ident = Ident.t
-
 type bucket =
   | Empty
-  | Cons of { ident : ident; mutable mask : bool; rest : bucket }
+  | Cons of { ident : Ident.t; mutable mask : bool; rest : bucket }
 
 type t = {
   mutable size : int;
@@ -65,8 +63,7 @@ let iter_and_unmask h ~f =
           k.mask <- false;
           (* we can set [h.mask_size] to zero,
              however, it would result inconsistent state
-             once [f] throw
-          *)
+             once [f] throw *)
           h.mask_size <- h.mask_size - 1);
         iter_bucket k.rest
   in

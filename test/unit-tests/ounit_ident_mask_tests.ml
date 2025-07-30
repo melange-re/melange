@@ -21,7 +21,7 @@ let suites =
              (not @@ Hash_set_ident_mask.mask_and_check_all_hit set a);
            OUnit.assert_bool __LOC__
              (Hash_set_ident_mask.mask_and_check_all_hit set b);
-           Hash_set_ident_mask.iter_and_unmask set (fun id mask ->
+           Hash_set_ident_mask.iter_and_unmask set ~f:(fun id mask ->
                if Ident.name id = "a" then OUnit.assert_bool __LOC__ mask
                else if Ident.name id = "b" then OUnit.assert_bool __LOC__ mask
                else ());
@@ -46,7 +46,7 @@ let suites =
            done;
            OUnit.assert_bool __LOC__
              (Hash_set_ident_mask.mask_and_check_all_hit set idents.(len - 1));
-           Hash_set_ident_mask.iter_and_unmask set (fun _ _ -> ());
+           Hash_set_ident_mask.iter_and_unmask set ~f:(fun _ _ -> ());
            for i = 0 to len - 2 do
              OUnit.assert_bool __LOC__
                (not @@ Hash_set_ident_mask.mask_and_check_all_hit set idents.(i))
