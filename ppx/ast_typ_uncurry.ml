@@ -25,6 +25,60 @@
 open Import
 module Typ = Ast_helper.Typ
 
+(** [arity_of_fun pat e] tells the arity of
+    expression [fun pat -> e] *)
+let arity_of_fun =
+  let rec arity_of_fun =
+    let arity_aux params ~init =
+      (* FIXME error on optional *)
+      List.fold_left ~init
+        ~f:(fun acc param ->
+          match param with
+          | { pparam_desc = Pparam_newtype _; _ } -> acc
+          | {
+           pparam_desc =
+             Pparam_val
+               ( _,
+                 _,
+                 {
+                   ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None);
+                   _;
+                 } );
+           _;
+          }
+            when acc = 0 ->
+              acc
+          | { pparam_desc = Pparam_val (_, _, _); _ } -> acc + 1)
+        params
+    in
+    fun acc params body ->
+      let base = arity_aux params ~init:acc in
+      match body with
+      | { pexp_desc = Pexp_function (params', _, Pfunction_body body); _ } ->
+          arity_of_fun base params' body
+      | _ -> base
+  in
+  fun params body -> arity_of_fun 0 params body
+
+let labels_of_fun =
+  let rec labels_of_fun =
+    let lbls_aux params ~init =
+      List.fold_left ~init
+        ~f:(fun acc param ->
+          match param with
+          | { pparam_desc = Pparam_newtype _; _ } -> acc
+          | { pparam_desc = Pparam_val (l, _, _); _ } -> l :: acc)
+        params
+    in
+    fun acc params body ->
+      let base = lbls_aux params ~init:acc in
+      match body with
+      | { pexp_desc = Pexp_function (params', _, Pfunction_body body); _ } ->
+          labels_of_fun base params' body
+      | _ -> List.rev base
+  in
+  fun params body -> labels_of_fun [] params body
+
 let to_method_callback_type ~loc (mapper : Ast_traverse.map)
     (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   let meth_type =
@@ -53,13 +107,13 @@ let generate_method_type =
             ~loc ty
             { loc; txt = self_type_lit }
     in
-    match Ast_pat.arity_of_fun params body with
+    match arity_of_fun params body with
     | 0 -> to_method_callback_type ~loc mapper Nolabel self_type result
     | _n -> (
         let tyvars =
           List.mapi
             ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
-            (Ast_pat.labels_of_fun params body)
+            (labels_of_fun params body)
         in
         match tyvars with
         | (label, x) :: rest ->
@@ -112,7 +166,7 @@ let to_method_type ~loc mapper label first_arg typ =
   to_method_type ~loc ~kind:`oo mapper label first_arg typ
 
 let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
-  match Ast_pat.arity_of_fun params body with
+  match arity_of_fun params body with
   | 0 ->
       to_method_type ~loc mapper Nolabel [%type: unit]
         (Typ.var ~loc method_name)
@@ -121,7 +175,7 @@ let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
         List.mapi
           ~f:(fun i x ->
             (x, Typ.var ~loc (Format.sprintf "%s%d" method_name i)))
-          (Ast_pat.labels_of_fun params body)
+          (labels_of_fun params body)
       in
       match tyvars with
       | (label, x) :: rest ->
