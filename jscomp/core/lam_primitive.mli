@@ -24,8 +24,6 @@
 
 open Import
 
-type ident = Ident.t
-
 type record_representation =
   | Record_regular
   | Record_inlined of {
@@ -174,4 +172,4 @@ type t =
   | Pfield_computed (* Mostly used in object compilation *)
   | Psetfield_computed
 
-val eq_primitive_approx : t -> t -> bool
+val eq_approx : t -> t -> bool

@@ -24,8 +24,6 @@
 
 open Import
 
-type ident = Ident.t
-
 type record_representation =
   | Record_regular
   | Record_inlined of {
@@ -211,7 +209,7 @@ let eq_record_representation (p : record_representation)
       | _ -> false)
   | Record_extension -> p1 = Record_extension
 
-let eq_primitive_approx (lhs : t) (rhs : t) =
+let eq_approx (lhs : t) (rhs : t) =
   match lhs with
   | Pcreate_extension a -> (
       match rhs with Pcreate_extension b -> a = (b : string) | _ -> false)
