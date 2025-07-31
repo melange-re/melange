@@ -170,7 +170,7 @@ let kind_of_lambda_block =
     | _ -> NA
   in
   fun (xs : Lam.t list) ->
-    Lam_id_kind.ImmutableBlock (Array.of_list_map xs element_of_lambda)
+    Lam_id_kind.ImmutableBlock (Array.of_list_map xs ~f:element_of_lambda)
 
 let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hashtbl.t) : Lam.t
     =

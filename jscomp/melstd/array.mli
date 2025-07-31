@@ -26,9 +26,9 @@ include module type of struct
   include StdLabels.Array
 end
 
-val reverse_range : 'a array -> int -> int -> unit
+val reverse_range : 'a array -> off:int -> len:int -> unit
 (** Some utilities for {!Array} operations *)
 
 val reverse_of_list : 'a list -> 'a array
-val to_list_f : 'a array -> ('a -> 'b) -> 'b list
-val of_list_map : 'a list -> ('a -> 'b) -> 'b array
+val to_list_f : 'a array -> f:('a -> 'b) -> 'b list
+val of_list_map : 'a list -> f:('a -> 'b) -> 'b array

@@ -24,7 +24,7 @@
 
 include StdLabels.Array
 
-let reverse_range a i len =
+let reverse_range a ~off:i ~len =
   if len = 0 then ()
   else
     for k = 0 to (len - 1) / 2 do
@@ -46,15 +46,16 @@ let reverse_of_list = function
       in
       fill 0 tl
 
-let rec tolist_f_aux a f i res =
-  if i < 0 then res
-  else
-    let v = unsafe_get a i in
-    tolist_f_aux a f (i - 1) (f v :: res)
+let to_list_f =
+  let rec tolist_f_aux a ~f i res =
+    if i < 0 then res
+    else
+      let v = unsafe_get a i in
+      tolist_f_aux a ~f (i - 1) (f v :: res)
+  in
+  fun a ~f -> tolist_f_aux a ~f (length a - 1) []
 
-let to_list_f a f = tolist_f_aux a f (length a - 1) []
-
-let of_list_map a f =
+let of_list_map a ~f =
   match a with
   | [] -> [||]
   | [ a0 ] ->
@@ -82,22 +83,82 @@ let of_list_map a f =
       let b3 = f a3 in
       let b4 = f a4 in
       [| b0; b1; b2; b3; b4 |]
-  | a0 :: a1 :: a2 :: a3 :: a4 :: tl ->
+  | [ a0; a1; a2; a3; a4; a5 ] ->
       let b0 = f a0 in
       let b1 = f a1 in
       let b2 = f a2 in
       let b3 = f a3 in
       let b4 = f a4 in
-      let len = List.length tl + 5 in
+      let b5 = f a5 in
+      [| b0; b1; b2; b3; b4; b5 |]
+  | [ a0; a1; a2; a3; a4; a5; a6 ] ->
+      let b0 = f a0 in
+      let b1 = f a1 in
+      let b2 = f a2 in
+      let b3 = f a3 in
+      let b4 = f a4 in
+      let b5 = f a5 in
+      let b6 = f a6 in
+      [| b0; b1; b2; b3; b4; b5; b6 |]
+  | [ a0; a1; a2; a3; a4; a5; a6; a7 ] ->
+      let b0 = f a0 in
+      let b1 = f a1 in
+      let b2 = f a2 in
+      let b3 = f a3 in
+      let b4 = f a4 in
+      let b5 = f a5 in
+      let b6 = f a6 in
+      let b7 = f a7 in
+      [| b0; b1; b2; b3; b4; b5; b6; b7 |]
+  | [ a0; a1; a2; a3; a4; a5; a6; a7; a8 ] ->
+      let b0 = f a0 in
+      let b1 = f a1 in
+      let b2 = f a2 in
+      let b3 = f a3 in
+      let b4 = f a4 in
+      let b5 = f a5 in
+      let b6 = f a6 in
+      let b7 = f a7 in
+      let b8 = f a8 in
+      [| b0; b1; b2; b3; b4; b5; b6; b7; b8 |]
+  | [ a0; a1; a2; a3; a4; a5; a6; a7; a8; a9 ] ->
+      let b0 = f a0 in
+      let b1 = f a1 in
+      let b2 = f a2 in
+      let b3 = f a3 in
+      let b4 = f a4 in
+      let b5 = f a5 in
+      let b6 = f a6 in
+      let b7 = f a7 in
+      let b8 = f a8 in
+      let b9 = f a9 in
+      [| b0; b1; b2; b3; b4; b5; b6; b7; b8; b9 |]
+  | a0 :: a1 :: a2 :: a3 :: a4 :: a5 :: a6 :: a7 :: a8 :: a9 :: tl ->
+      let b0 = f a0 in
+      let b1 = f a1 in
+      let b2 = f a2 in
+      let b3 = f a3 in
+      let b4 = f a4 in
+      let b5 = f a5 in
+      let b6 = f a6 in
+      let b7 = f a7 in
+      let b8 = f a8 in
+      let b9 = f a9 in
+      let len = List.length tl + 10 in
       let arr = make len b0 in
       unsafe_set arr 1 b1;
       unsafe_set arr 2 b2;
       unsafe_set arr 3 b3;
       unsafe_set arr 4 b4;
+      unsafe_set arr 5 b5;
+      unsafe_set arr 6 b6;
+      unsafe_set arr 7 b7;
+      unsafe_set arr 8 b8;
+      unsafe_set arr 9 b9;
       let rec fill i = function
         | [] -> arr
         | hd :: tl ->
             unsafe_set arr i (f hd);
             fill (i + 1) tl
       in
-      fill 5 tl
+      fill 10 tl
