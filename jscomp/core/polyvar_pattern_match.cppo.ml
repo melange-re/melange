@@ -29,7 +29,7 @@ type hash_names = (int * string) list
 type input = (int * (string * lam)) list
 type output = (hash_names * lam) list
 
-module Coll = struct 
+module Coll = struct
   include Hashtbl.Make (struct
     type t = lam
 

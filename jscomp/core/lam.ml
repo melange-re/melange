@@ -405,7 +405,7 @@ let rec eq_approx (l1 : t) (l2 : t) =
   | Lprim info1 -> (
       match l2 with
       | Lprim info2 ->
-          Lam_primitive.eq_primitive_approx info1.primitive info2.primitive
+          Lam_primitive.eq_approx info1.primitive info2.primitive
           && eq_approx_list info1.args info2.args
       | _ -> false)
   | Lstringswitch (arg, patterns, default) -> (
