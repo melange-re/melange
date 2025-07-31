@@ -29,13 +29,15 @@ type st = { get : (bool * bool) option; set : [ `Get | `No_get ] option }
 val process_method_attributes_rev :
   attribute list -> (st * attribute list, Location.t * string) result
 
-type attr_kind =
-  | Nothing
-  | Meth_callback of attribute
-  | Uncurry of attribute
-  | Method of attribute
+module Kind : sig
+  type t =
+    | Nothing
+    | Meth_callback of attribute
+    | Uncurry of attribute
+    | Method of attribute
+end
 
-val process_attributes_rev : attribute list -> attr_kind * attribute list
+val process_attributes_rev : attribute list -> Kind.t * attribute list
 val process_pexp_fun_attributes_rev : attribute list -> bool * attribute list
 val process_uncurried : attribute list -> bool * attribute list
 val is_uncurried : attribute -> bool
@@ -46,18 +48,20 @@ val mel_set : attribute
 val internal_expansive : attribute
 val mel_return_undefined : attribute
 
-type param_modifier_kind =
-  | Nothing
-  | Spread
-  | Uncurry of int option (* uncurry arity *)
-  | Unwrap
-  | Ignore
-  | String
-  | Int
+module Param_modifier : sig
+  type kind =
+    | Nothing
+    | Spread
+    | Uncurry of int option (* uncurry arity *)
+    | Unwrap
+    | Ignore
+    | String
+    | Int
 
-type param_modifier = { kind : param_modifier_kind; loc : Location.t }
+  type t = { kind : kind; loc : Location.t }
+end
 
-val iter_process_mel_param_modifier : attribute list -> param_modifier
+val iter_process_mel_param_modifier : attribute list -> Param_modifier.t
 val iter_process_mel_string_as : attribute list -> label option
 val iter_process_mel_int_as : attribute list -> int option
 val has_mel_optional : attribute list -> bool
@@ -70,9 +74,5 @@ val iter_process_mel_as_cst :
 val unboxable_type_in_prim_decl : attribute
 val ignored_extra_argument : attribute
 val unused_type_declaration : attribute
-val is_mel_as : attribute -> bool
 val has_mel_as_payload : attribute list -> attribute list * attribute option
 val mel_ffi : Melange_ffi.External_ffi_types.t -> attribute
-
-val partition_by_mel_ffi_attribute :
-  attribute list -> string option * attribute list
