@@ -64,7 +64,7 @@ let output_deps_set name k ast =
   let set = read_parse_and_extract k ast in
   output_string stdout name;
   output_string stdout ": ";
-  Depend.String.Set.iter
+  Set_string.iter
     (fun s ->
       if s <> "" && s.[0] <> '*' then (
         output_string stdout s;
