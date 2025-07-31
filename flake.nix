@@ -19,11 +19,10 @@
             ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (oself: osuper: {
               js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
                 src = builtins.fetchurl {
-                  url = "https://github.com/ocsigen/js_of_ocaml/releases/download/6.1.0/js_of_ocaml-6.1.0.tbz";
-                  sha256 = "09qm8y42q1x8hd0vrka9dcn7q0qp98lzqqr5gjvimqzxhb1hqcrw";
+                  url = "https://github.com/ocsigen/js_of_ocaml/releases/download/6.2.0/js_of_ocaml-6.2.0.tbz";
+                  sha256 = "1nm5sa6xpzcbwf3rpkfg19d3c8f6x3h3wcw858sjl5qvimvl3ikw";
                 };
               });
-
               reason = osuper.reason.overrideAttrs (o: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
@@ -39,8 +38,8 @@
                 src = super.fetchFromGitHub {
                   owner = "reasonml";
                   repo = "reason-react";
-                  rev = "6610b1a979e7c6336c996d519c195032c8a6637e";
-                  hash = "sha256-zVl8hoFtjBres5TvFVP03OFxoxDyXMpkWnHVRevC3fg=";
+                  rev = "8454c63ee56afc7e7dce439eaff395aba0577d68";
+                  hash = "sha256-8Wkk6Aav1zk9me1UGz8D3z3bDdIc/MDt9E4YNS6zK1U=";
                 };
               });
               sedlex = osuper.sedlex.overrideAttrs (o: {
