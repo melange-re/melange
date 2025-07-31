@@ -60,7 +60,7 @@ let values_of_export =
               match Ident.Map.find x export_map with
               | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
                   Submodule
-                    (Array.of_list_map args (fun lam ->
+                    (Array.of_list_map args ~f:(fun lam ->
                          Lam_arity_analysis.get_arity meta lam))
               | _ | (exception Not_found) -> Js_cmj_format.single_na)
         in

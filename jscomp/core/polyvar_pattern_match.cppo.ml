@@ -66,7 +66,7 @@ let convert (xs : input) : output =
       Array.of_list result
     in
     Array.sort ~cmp:(fun x y -> compare x.stamp y.stamp) arr;
-    Array.to_list_f arr (fun x -> x.hash_names_act)
+    Array.to_list_f arr ~f:(fun x -> x.hash_names_act)
   in
   result
 
