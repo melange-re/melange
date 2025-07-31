@@ -32,7 +32,6 @@ type t = J.module_id = private {
   dynamic_import : bool;
 }
 
-val id : t -> Ident.t
 val name : t -> string
 val of_ml : dynamic_import:bool -> Ident.t -> t
 val of_runtime : Ident.t -> t

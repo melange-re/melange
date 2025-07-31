@@ -90,5 +90,3 @@ let name (x : t) : string =
   match x.kind with
   | Ml | Runtime -> Ident.name x.id
   | External { name = v; _ } -> v
-
-let id x = x.id

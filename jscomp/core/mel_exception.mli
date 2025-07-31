@@ -28,13 +28,7 @@ type error =
   | Mel_duplicate_exports of string (* gpr_974 *)
   | Missing_ml_dependency of string
   | Dependency_script_module_dependent_not of string
-(*
-TODO: In the futrue, we should refine dependency [bsb]
-should not rely on such exception, it should have its own exception handling
-*)
 
 exception Error of error
-
-(* val report_error : Format.formatter -> error -> unit *)
 
 val error : error -> 'a
