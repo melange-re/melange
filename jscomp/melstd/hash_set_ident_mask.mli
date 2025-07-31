@@ -22,23 +22,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type ident = Ident.t
 (** Based on [hash_set] specialized for mask operations  *)
 
 type t
 
 val create : int -> t
 
-(* add one ident
-   ident is unmaksed by default *)
-val add_unmask : t -> ident -> unit
+(* add one Ident.t
+   Ident.t is unmasked by default *)
+val add_unmask : t -> Ident.t -> unit
 
-val mask_and_check_all_hit : t -> ident -> bool
+val mask_and_check_all_hit : t -> Ident.t -> bool
 (** [check_mask h key] if [key] exists mask it otherwise nothing
     return true if all keys are masked otherwise false *)
 
-val iter_and_unmask : t -> f:(ident -> bool -> unit) -> unit
-(** [iter_and_unmask f h] iterating the collection and mask all idents,
-    dont consul the collection in function [f]
+val iter_and_unmask : t -> f:(Ident.t -> bool -> unit) -> unit
+(** [iter_and_unmask ~f h] iterates over the collection and masks all idents,
+    Warning: don't consult the collection in function [f], since its state will
+    not be consistent.
     TODO: what happens if an exception raised in the callback,
     would the hashtbl still be in consistent state? *)
