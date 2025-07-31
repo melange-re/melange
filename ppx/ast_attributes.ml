@@ -99,17 +99,19 @@ let process_method_attributes_rev attrs =
     Ok ret
   with Local (loc, s) -> Error (loc, s)
 
-type attr_kind =
-  | Nothing
-  | Meth_callback of attribute
-  | Uncurry of attribute
-  | Method of attribute
+module Kind = struct
+  type t =
+    | Nothing
+    | Meth_callback of attribute
+    | Uncurry of attribute
+    | Method of attribute
+end
 
-let process_attributes_rev attrs : attr_kind * attribute list =
-  List.fold_left ~init:(Nothing, []) attrs
+let process_attributes_rev attrs : Kind.t * attribute list =
+  List.fold_left ~init:(Kind.Nothing, []) attrs
     ~f:(fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
-      | "u", (Nothing | Uncurry _) ->
+      | "u", (Kind.Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
       | "mel.this", (Nothing | Meth_callback _) -> (Meth_callback attr, acc)
       | "mel.meth", (Nothing | Method _) -> (Method attr, acc)
@@ -221,16 +223,18 @@ let iter_process_mel_as_cst =
   in
   fun (attrs : attributes) -> inner attrs None
 
-type param_modifier_kind =
-  | Nothing
-  | Spread
-  | Uncurry of int option (* uncurry arity *)
-  | Unwrap
-  | Ignore
-  | String
-  | Int
+module Param_modifier = struct
+  type kind =
+    | Nothing
+    | Spread
+    | Uncurry of int option (* uncurry arity *)
+    | Unwrap
+    | Ignore
+    | String
+    | Int
 
-type param_modifier = { kind : param_modifier_kind; loc : Location.t }
+  type t = { kind : kind; loc : Location.t }
+end
 
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
@@ -247,12 +251,12 @@ type param_modifier = { kind : param_modifier_kind; loc : Location.t }
 let iter_process_mel_param_modifier =
   let assign ({ attr_name = { loc; _ }; _ } as attr) st v =
     match st with
-    | Nothing ->
+    | Param_modifier.Nothing ->
         Mel_ast_invariant.mark_used_mel_attribute attr;
-        { kind = v; loc }
+        { Param_modifier.kind = v; loc }
     | _ -> Error.err ~loc Conflict_attributes
   in
-  let rec inner attrs { kind = st; loc } =
+  let rec inner attrs { Param_modifier.kind = st; loc } =
     match attrs with
     | ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr)
       :: rest ->
@@ -268,9 +272,10 @@ let iter_process_mel_param_modifier =
           | _ -> { kind = st; loc }
         in
         inner rest st'
-    | [] -> { kind = st; loc }
+    | [] -> { Param_modifier.kind = st; loc }
   in
-  fun attrs -> inner attrs { kind = Nothing; loc = Location.none }
+  fun attrs ->
+    inner attrs { Param_modifier.kind = Nothing; loc = Location.none }
 
 let iter_process_mel_string_as =
   let rec inner attrs st =
@@ -405,18 +410,17 @@ let has_inline_payload attrs =
     ~f:(fun { attr_name = { txt; loc = _ }; _ } -> txt = "mel.inline")
     attrs
 
-let is_mel_as { attr_name = { txt; loc = _ }; _ } =
-  match txt with "mel.as" -> true | _ -> false
-
 let has_mel_as_payload attrs =
   List.fold_left
     ~f:(fun (attrs, found) attr ->
-      match (is_mel_as attr, found) with
-      | true, None -> (attrs, Some attr)
-      | false, Some _ | false, None -> (attr :: attrs, found)
-      | true, Some _ ->
-          Location.raise_errorf ~loc:attr.attr_loc
-            "Duplicate `%@mel.as' attribute found")
+      match attr.attr_name.txt with
+      | "mel.as" -> (
+          match found with
+          | Some _ ->
+              Location.raise_errorf ~loc:attr.attr_loc
+                "Duplicate `%@mel.as' attribute found"
+          | None -> (attrs, Some attr))
+      | _ -> (attr :: attrs, found))
     ~init:([], None) attrs
 
 let ocaml_warning w =

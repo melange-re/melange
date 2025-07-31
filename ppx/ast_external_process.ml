@@ -46,7 +46,7 @@ let variant_unwrap =
 (* TODO: [nolabel] is only used once turn Nothing into Unit, refactor later *)
 let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
   let ptyp_desc = ptyp.ptyp_desc in
-  let { Ast_attributes.kind = spec; loc = _loc } =
+  let { Ast_attributes.Param_modifier.kind = spec; loc = _loc } =
     Ast_attributes.iter_process_mel_param_modifier ptyp.ptyp_attributes
   in
   match spec with
