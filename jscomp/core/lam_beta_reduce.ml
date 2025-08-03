@@ -24,11 +24,7 @@
 
 open Import
 
-let of_list2 ks vs =
-  let len = Stdlib.List.length ks in
-  let map = Ident.Hashtbl.create len in
-  List.iter2 ~f:(fun k v -> Ident.Hashtbl.add map ~key:k ~data:v) ks vs;
-  map
+let of_list2 ks vs = List.combine ks vs |> List.to_seq |> Ident.Hashtbl.of_seq
 
 (*
      A naive beta reduce would break the invariants of the optmization.
