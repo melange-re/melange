@@ -56,6 +56,6 @@
  (promote (until-clean))
  (modules)
  (module_systems
-  (es6 mjs))
+  (esm mjs))
  (libraries melange melange_runtime_es6_tests)
  (compile_flags :standard --mel-cross-module-opt))

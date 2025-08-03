@@ -23,5 +23,4 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val js_id_name_of_hint_name : string -> string
-(** Given an JS bundle name, generate a meaningful
-  bounded module name *)
+(** Given an JS bundle name, generate a meaningful bounded module name *)

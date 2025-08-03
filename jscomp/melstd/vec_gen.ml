@@ -43,9 +43,7 @@ module type S = sig
   val of_sub_array : elt array -> off:int -> len:int -> t
 
   val unsafe_internal_array : t -> elt array
-  (** Exposed for some APIs which only take array as input,
-      when exposed
-  *)
+  (** Exposed for some APIs which only take array as input, when exposed *)
 
   val reserve : t -> int -> unit
   val push : t -> elt -> unit
