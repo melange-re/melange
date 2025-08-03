@@ -62,6 +62,7 @@ val make_js_object : t -> t
 val create_tmp : ?name:string -> unit -> t
 val make_unused : unit -> t
 val stamp : t -> int
+val hash : t -> int
 
 val convert : string -> string
 (** Invariant: if name is not converted, the reference should be equal *)

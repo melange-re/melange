@@ -54,9 +54,7 @@ module T = struct
     | External { name = x_kind; _ } ->
         (* The hash collision is rare? *)
         Hashtbl.hash x_kind
-    | Ml | Runtime ->
-        let x_id = x.id in
-        Hashtbl.hash (Ident.stamp x_id, Ident.name x_id)
+    | Ml | Runtime -> Ident.hash x.id
 end
 
 module Hashtbl = Hashtbl.Make (T)
