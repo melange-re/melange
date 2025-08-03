@@ -36,8 +36,7 @@ type t = {
 }
 
 let key_index_by_ident (h : t) (key : Ident.t) =
-  Hashtbl.hash (Ident.name key, Mel_ident.stamp key)
-  land (Array.length h.data - 1)
+  Mel_ident.hash key land (Array.length h.data - 1)
 
 (** {[
      (power_2_above 16 63 = 64)
