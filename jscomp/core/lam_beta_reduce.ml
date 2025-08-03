@@ -24,6 +24,112 @@
 
 open Import
 
+module Beta_reduce = struct
+  (* Principle: in ocaml, the apply order is not specified.
+   Rules:
+   1. each argument it is only used once, (avoid eval duplication)
+   2. it's actually used, if not (Lsequence)
+   3. no nested  compuation, other wise the evaluation order is tricky (make
+      sure eval order is correct) *)
+
+  type value = { mutable used : bool; lambda : Lam.t }
+
+  let param_hash : _ Ident.Hashtbl.t = Ident.Hashtbl.create 20
+
+  (* optimize cases like
+   (fun f (a,b){ g (a,b,1)} (e0, e1))
+   cases like
+   (fun f (a,b){ g (a,b,a)} (e0, e1)) needs avoids double eval
+
+     Note in a very special case we can avoid any allocation
+    {[
+      when Ext_list.for_all2_no_exn
+          (fun p a ->
+             match (a : Lam.t) with
+             | Lvar a -> Ident.same p a
+             | _ -> false ) params args'
+    ]} *)
+  let simple_beta_reduce params body args =
+    let exception Not_simple_apply in
+    let find_param_exn v opt =
+      match Ident.Hashtbl.find param_hash v with
+      | exp ->
+          if exp.used then raise_notrace Not_simple_apply else exp.used <- true;
+          exp.lambda
+      | exception Not_found -> opt
+    in
+    let rec aux_exn acc (us : Lam.t list) =
+      match us with
+      | [] -> List.rev acc
+      | (Lvar x as a) :: rest -> aux_exn (find_param_exn x a :: acc) rest
+      | (Lconst _ as u) :: rest -> aux_exn (u :: acc) rest
+      | _ :: _ -> raise_notrace Not_simple_apply
+    in
+    match (body : Lam.t) with
+    | Lprim { primitive; args = ap_args; loc = ap_loc }
+    (* There is no lambda in primitive *) -> (
+        (* catch a special case of primitives *)
+        let () =
+          List.iter2
+            ~f:(fun p a ->
+              Ident.Hashtbl.add param_hash ~key:p
+                ~data:{ lambda = a; used = false })
+            params args
+        in
+        try
+          let new_args = aux_exn [] ap_args in
+          let result =
+            Ident.Hashtbl.fold param_hash
+              ~init:(Lam.prim ~primitive ~args:new_args ap_loc)
+              ~f:(fun ~key:_param ~data:stats acc ->
+                let { lambda; used } = stats in
+                if not used then Lam.seq lambda acc else acc)
+          in
+          Ident.Hashtbl.clear param_hash;
+          Some result
+        with Not_simple_apply ->
+          Ident.Hashtbl.clear param_hash;
+          None)
+    | Lapply
+        {
+          ap_func =
+            ( Lvar _
+            | Lprim { primitive = Pfield _; args = [ Lglobal_module _ ]; _ } )
+            as f;
+          ap_args;
+          ap_info;
+        } -> (
+        let () =
+          List.iter2
+            ~f:(fun p a ->
+              Ident.Hashtbl.add param_hash ~key:p
+                ~data:{ lambda = a; used = false })
+            params args
+        in
+        (*since we adde each param only once,
+        iff it is removed once, no exception,
+        if it is removed twice there will be exception.
+        if it is never removed, we have it as rest keys
+      *)
+        try
+          let new_args = aux_exn [] ap_args in
+          let f =
+            match f with Lvar fn_name -> find_param_exn fn_name f | _ -> f
+          in
+          let result =
+            Ident.Hashtbl.fold param_hash ~init:(Lam.apply f new_args ap_info)
+              ~f:(fun ~key:_param ~data:stat acc ->
+                let { lambda; used } = stat in
+                if not used then Lam.seq lambda acc else acc)
+          in
+          Ident.Hashtbl.clear param_hash;
+          Some result
+        with Not_simple_apply ->
+          Ident.Hashtbl.clear param_hash;
+          None)
+    | _ -> None
+end
+
 let of_list2 ks vs = List.combine ks vs |> List.to_seq |> Ident.Hashtbl.of_seq
 
 (*
@@ -50,7 +156,7 @@ let of_list2 ks vs = List.combine ks vs |> List.to_seq |> Ident.Hashtbl.of_seq
 *)
 let propagate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
     (body : Lam.t) (args : Lam.t list) =
-  match Lam_beta_reduce_util.simple_beta_reduce params body args with
+  match Beta_reduce.simple_beta_reduce params body args with
   | Some x -> x
   | None ->
       let rest_bindings, rev_new_params =
@@ -83,7 +189,7 @@ let propagate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
 
 let propagate_beta_reduce_with_map (meta : Lam_stats.t)
     (map : Lam_var_stats.stats Ident.Map.t) params body args =
-  match Lam_beta_reduce_util.simple_beta_reduce params body args with
+  match Beta_reduce.simple_beta_reduce params body args with
   | Some x -> x
   | None ->
       let rest_bindings, rev_new_params =
@@ -127,7 +233,7 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
         rest_bindings ~init:new_body
 
 let no_names_beta_reduce params body args =
-  match Lam_beta_reduce_util.simple_beta_reduce params body args with
+  match Beta_reduce.simple_beta_reduce params body args with
   | Some x -> x
   | None ->
       List.fold_left2
