@@ -16,17 +16,9 @@ let () =
   Location.register_error_of_exn (function
     | Error err ->
 #if OCAML_VERSION >= (5, 3, 0)
-        let f (fmt : Format_doc.formatter) err =
-          let doc_f =
-            Format_doc.deprecated_printer (fun fmt ->
-                Format.fprintf fmt "%a" report_error err)
-          in
-          doc_f fmt
-        in
-        Some (Location.error_of_printer_file f err)
-#else
-        Some (Location.error_of_printer_file report_error err)
+        let report_error = Format_doc.deprecated report_error in
 #endif
+        Some (Location.error_of_printer_file report_error err)
     | _ -> None)
 
 let cannot_run comm = raise (Error (CannotRun comm))
