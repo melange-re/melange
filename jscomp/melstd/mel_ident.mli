@@ -26,6 +26,8 @@
 
 type t = Ident.t
 
+include Ident0_intf.S
+
 val name : t -> string
 val same : t -> t -> bool
 val create_local : string -> t
@@ -35,6 +37,7 @@ val print : Format.formatter -> t -> unit
 val is_predef : t -> bool
 val reinit : unit -> unit
 val global : t -> bool
+val hash : t -> int
 
 module Map : sig
   include MoreLabels.Map.S with type key = t
@@ -51,29 +54,3 @@ module Hashtbl : sig
 end
 
 module Ordered_hash_map = Ordered_hash_map_local_ident
-
-val is_js : t -> bool
-
-val create_js : string -> t
-(** create identifiers for predefined [js] global variables *)
-
-val create : string -> t
-val make_js_object : t -> t
-val create_tmp : ?name:string -> unit -> t
-val make_unused : unit -> t
-val stamp : t -> int
-val hash : t -> int
-
-val convert : string -> string
-(** Invariant: if name is not converted, the reference should be equal *)
-
-val is_js_or_global : t -> bool
-val compare : t -> t -> int
-val equal : t -> t -> bool
-
-module Mangled : sig
-  type t = Reserved of string | Mangled of string
-
-  val of_ident : Ident.t -> t
-  val to_string : t -> string
-end
