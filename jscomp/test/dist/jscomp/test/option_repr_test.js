@@ -66,7 +66,7 @@ function f4(x) {
 }
 
 function f5(a) {
-  return Caml_option.some(a) === undefined;
+  return false;
 }
 
 function f6(a) {

@@ -420,10 +420,7 @@ const suites = {
                                       return {
                                         TAG: /* Eq */ 0,
                                         _0: false,
-                                        _1: undefined === [
-                                          1,
-                                          30
-                                        ]
+                                        _1: false
                                       };
                                     })
                                   ],
@@ -434,10 +431,7 @@ const suites = {
                                         return {
                                           TAG: /* Eq */ 0,
                                           _0: false,
-                                          _1: [
-                                            1,
-                                            30
-                                          ] === undefined
+                                          _1: false
                                         };
                                       })
                                     ],
