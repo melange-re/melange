@@ -47,7 +47,7 @@ let args_either_function_or_const (args : Lam.t list) =
 
 let call_info_of_ap_status (ap_status : Lam.apply_status) : Js_call_info.t =
   match ap_status with
-  | App_infer_full -> { arity = Full; call_info = Call_ml }
+  | App_infer_full -> Js_call_info.ml_full_call
   | App_uncurry -> { arity = Full; call_info = Call_na }
   | App_na -> { arity = NA; call_info = Call_ml }
 
@@ -62,7 +62,7 @@ let rec apply_with_arity_aux (fn : J.expression) (arity : int list)
         if len >= x then
           let first_part, continue = List.split_at args x in
           apply_with_arity_aux
-            (E.call ~info:{ arity = Full; call_info = Call_ml } fn first_part)
+            (E.call ~info:Js_call_info.ml_full_call fn first_part)
             rest continue (len - x)
         else if
           (* GPR #1423 *)
@@ -75,9 +75,7 @@ let rec apply_with_arity_aux (fn : J.expression) (arity : int list)
             ~return_unit:false
             [
               S.return_stmt
-                (E.call
-                   ~info:{ arity = Full; call_info = Call_ml }
-                   fn
+                (E.call ~info:Js_call_info.ml_full_call fn
                    (List.append args @@ List.map ~f:E.var params));
             ]
         else E.call ~info:Js_call_info.dummy fn args
