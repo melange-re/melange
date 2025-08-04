@@ -35,17 +35,17 @@ function shouldBeNull(param) {
   return null;
 }
 
-b("File \"jscomp/test/equal_box_test.ml\", line 21, characters 4-11", 3 !== null);
+b("File \"jscomp/test/equal_box_test.ml\", line 21, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 22, characters 4-11", !Caml_obj.caml_equal_null(undefined, null));
 
 b("File \"jscomp/test/equal_box_test.ml\", line 23, characters 4-11", "3" !== null);
 
-b("File \"jscomp/test/equal_box_test.ml\", line 24, characters 4-11", /* '3' */51 !== null);
+b("File \"jscomp/test/equal_box_test.ml\", line 24, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 25, characters 4-11", !Caml_int64.equal_null(Caml_int64.zero, null));
 
-b("File \"jscomp/test/equal_box_test.ml\", line 26, characters 4-11", 0 !== null);
+b("File \"jscomp/test/equal_box_test.ml\", line 26, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 27, characters 4-11", true);
 
@@ -85,17 +85,17 @@ b("File \"jscomp/test/equal_box_test.ml\", line 46, characters 4-11", Caml_obj.c
 
 b("File \"jscomp/test/equal_box_test.ml\", line 47, characters 4-11", !Caml_obj.caml_equal_nullable(3, undefined));
 
-b("File \"jscomp/test/equal_box_test.ml\", line 52, characters 4-11", 3 !== undefined);
+b("File \"jscomp/test/equal_box_test.ml\", line 52, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 53, characters 4-11", Caml_obj.caml_equal_undefined(undefined, undefined));
 
 b("File \"jscomp/test/equal_box_test.ml\", line 54, characters 4-11", "3" !== undefined);
 
-b("File \"jscomp/test/equal_box_test.ml\", line 55, characters 4-11", /* '3' */51 !== undefined);
+b("File \"jscomp/test/equal_box_test.ml\", line 55, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 56, characters 4-11", !Caml_int64.equal_undefined(Caml_int64.zero, undefined));
 
-b("File \"jscomp/test/equal_box_test.ml\", line 57, characters 4-11", 0 !== undefined);
+b("File \"jscomp/test/equal_box_test.ml\", line 57, characters 4-11", true);
 
 b("File \"jscomp/test/equal_box_test.ml\", line 58, characters 4-11", true);
 

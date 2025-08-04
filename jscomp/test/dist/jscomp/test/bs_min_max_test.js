@@ -77,7 +77,7 @@ b("File \"jscomp/test/bs_min_max_test.ml\", line 35, characters 4-11", Caml_obj.
 
 b("File \"jscomp/test/bs_min_max_test.ml\", line 36, characters 4-11", Caml_obj.caml_lessequal(undefined, 5));
 
-b("File \"jscomp/test/bs_min_max_test.ml\", line 37, characters 4-11", undefined !== 5);
+b("File \"jscomp/test/bs_min_max_test.ml\", line 37, characters 4-11", true);
 
 b("File \"jscomp/test/bs_min_max_test.ml\", line 38, characters 4-11", undefined !== 5);
 

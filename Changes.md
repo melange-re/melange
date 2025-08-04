@@ -24,6 +24,8 @@ Unreleased
   [#1459](https://github.com/melange-re/melange/pull/1459))
 - add `-cmi-file` for flag compatibility with upstream OCaml
   ([#1488]((https://github.com/melange-re/melange/pull/1488)))
+- code generation: inline more binary operations
+  ([#1526](https://github.com/melange-re/melange/pull/1526))
 
 5.1.0-53 2025-03-23
 ---------------
