@@ -7,7 +7,7 @@
   >   match a with
   >   | Some true -> "it's true"
   >   | _ -> "it's false"
-  > let () = Js.log (foo false)
+  > let _ = Js.log (foo false)
   > EOF
 
   $ melc x.ml | tee x.js
@@ -16,10 +16,15 @@
   
   
   function foo(a) {
-    return "it's true";
+    const a$1 = a;
+    if (a$1) {
+      return "it's true";
+    } else {
+      return "it's false";
+    }
   }
   
-  console.log("it's true");
+  console.log("it's false");
   
   module.exports = {
     foo,
@@ -27,5 +32,15 @@
   /*  Not a pure module */
 
   $ node x.js
-  it's true
+  it's false
 
+$ cat > x.ml <<EOF
+> let foo a =
+>   let a = Some a in
+>   match a with
+>   | Some true -> "it's true"
+>   | _ -> "it's false"
+> EOF
+
+$ melc x.ml | tee x.js
+$ node x.js

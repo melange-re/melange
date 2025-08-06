@@ -14477,25 +14477,6 @@ function directive_parse(token_with_comments, lexbuf) {
       return v;
     }
   };
-  const parse_or_aux = function (calc, v) {
-    const e = token(undefined);
-    if (/* tag */ typeof e === "number" || typeof e === "string") {
-      if (e === /* BARBAR */ 8) {
-        const calc$1 = calc && !v;
-        const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-        if (v) {
-          return true;
-        } else {
-          return b;
-        }
-      }
-      push(e);
-      return v;
-    } else {
-      push(e);
-      return v;
-    }
-  };
   const parse_relation = function (calc) {
     const curr_token = token(undefined);
     const curr_loc = curr(lexbuf);
@@ -14637,6 +14618,25 @@ function directive_parse(token_with_comments, lexbuf) {
               _2: curr_loc
             });
       }
+    }
+  };
+  const parse_or_aux = function (calc, v) {
+    const e = token(undefined);
+    if (/* tag */ typeof e === "number" || typeof e === "string") {
+      if (e === /* BARBAR */ 8) {
+        const calc$1 = calc && !v;
+        const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+        if (v) {
+          return true;
+        } else {
+          return b;
+        }
+      }
+      push(e);
+      return v;
+    } else {
+      push(e);
+      return v;
     }
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
@@ -16105,6 +16105,10 @@ function string(lexbuf) {
   };
 }
 
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
@@ -16285,10 +16289,6 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         continue;
     }
   };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function skip_sharp_bang(lexbuf) {
