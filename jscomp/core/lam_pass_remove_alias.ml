@@ -57,11 +57,25 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
   | _ | (exception Not_found) -> f ()
 
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
-  let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t) id =
+  let rec id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t)
+      id =
     match Ident.Hashtbl.find tbl id with
-    | ImmutableBlock _ | Normal_optional _ | MutableBlock _
-    | Constant (Const_block _ | Const_js_true) ->
-        Eval_true
+    | Normal_optional
+        (Lam.Lprim
+           {
+             primitive = Psome_not_nest;
+             args = [ (Lvar id' | Lmutvar id') ];
+             _;
+           }) ->
+        id_is_for_sure_true_in_boolean tbl id'
+    | Normal_optional (Lvar id' | Lmutvar id') ->
+        id_is_for_sure_true_in_boolean tbl id'
+    | Normal_optional
+        (Lconst (Const_js_false | Const_js_null | Const_js_undefined)) ->
+        Outcome.Eval_false
+    | Normal_optional _ -> Outcome.Eval_true
+    | ImmutableBlock _ | MutableBlock _ -> Eval_true
+    | Constant (Const_block _ | Const_js_true) -> Eval_true
     | Constant (Const_int { i; _ }) -> if i = 0l then Eval_false else Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined) ->
         Eval_false
