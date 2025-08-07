@@ -72,8 +72,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         id_is_for_sure_true_in_boolean tbl id'
     | Normal_optional
         (Lconst (Const_js_false | Const_js_null | Const_js_undefined)) ->
-        Outcome.Eval_false
-    | Normal_optional _ -> Outcome.Eval_true
+        Eval_false
+    | Normal_optional _ -> Eval_true
     | ImmutableBlock _ | MutableBlock _ -> Eval_true
     | Constant (Const_block _ | Const_js_true) -> Eval_true
     | Constant (Const_int { i; _ }) -> if i = 0l then Eval_false else Eval_true
