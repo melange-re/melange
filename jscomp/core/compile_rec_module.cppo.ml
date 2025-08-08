@@ -1,3 +1,27 @@
+(* Copyright (C) 2022- Authors of Melange
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * In addition to the permissions granted to you by the LGPL, you may combine
+ * or link a "work that uses the Library" with a publicly distributed version
+ * of this file to produce a combined library or application, then distribute
+ * that combined work under the terms of your choosing, with no requirement
+ * to comply with the obligations normally placed on you by section 4 of the
+ * LGPL version 3 (or the corresponding section of a later version of the LGPL
+ * should you choose to use a later version).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
 open Import
 
 (* Utilities for compiling "module rec" definitions *)
@@ -19,88 +43,85 @@ let eval_rec_bindings_aux =
         args,
         loc )
   in
+  let rec bind_inits args acc =
+    match args with
+    | [] -> acc
+    | (_id, None, _rhs) :: rem -> bind_inits rem acc
+    | (Translmod.Ignore_loc _, _, _) :: rem -> bind_inits rem acc
+    | (Id id, Some (loc, shape), _rhs) :: rem ->
+        Lambda.Llet
+          ( Strict,
+            Pgenval,
+            id,
+            mel_init_mod [ loc; shape ] Loc_unknown,
+            bind_inits rem acc )
+  in
+  let rec bind_strict args acc =
+    match args with
+    | [] -> acc
+    | (Translmod.Id id, None, rhs) :: rem ->
+        Lambda.Llet (Strict, Pgenval, id, rhs, bind_strict rem acc)
+    | (_id, (None | Some _), _rhs) :: rem -> bind_strict rem acc
+  in
+  let rec patch_forwards args cont =
+    match args with
+    | [] -> cont
+    | (_id, None, _rhs) :: rem -> patch_forwards rem cont
+    | (Translmod.Ignore_loc _, _, _rhs) :: rem -> patch_forwards rem cont
+    | (Id id, Some (_loc, shape), rhs) :: rem ->
+        Lambda.Lsequence
+          ( mel_update_mod [ shape; Lvar id; rhs ] Loc_unknown,
+            patch_forwards rem cont)
+  in
   fun (bindings : binding list) cont ->
-    let rec bind_inits args acc =
-      match args with
-      | [] -> acc
-      | (_id, None, _rhs) :: rem -> bind_inits rem acc
-      | (Translmod.Ignore_loc _, _, _) :: rem -> bind_inits rem acc
-      | (Id id, Some (loc, shape), _rhs) :: rem ->
-          Lambda.Llet
-            ( Strict,
-              Pgenval,
-              id,
-              mel_init_mod [ loc; shape ] Loc_unknown,
-              bind_inits rem acc )
-    in
-    let rec bind_strict args acc =
-      match args with
-      | [] -> acc
-      | (Translmod.Id id, None, rhs) :: rem ->
-          Lambda.Llet (Strict, Pgenval, id, rhs, bind_strict rem acc)
-      | (_id, (None | Some _), _rhs) :: rem -> bind_strict rem acc
-    in
-    let rec patch_forwards args =
-      match args with
-      | [] -> cont
-      | (_id, None, _rhs) :: rem -> patch_forwards rem
-      | (Translmod.Ignore_loc _, _, _rhs) :: rem -> patch_forwards rem
-      | (Id id, Some (_loc, shape), rhs) :: rem ->
-          Lambda.Lsequence
-            ( mel_update_mod [ shape; Lvar id; rhs ] Loc_unknown,
-              patch_forwards rem )
-    in
-    bind_inits bindings (bind_strict bindings (patch_forwards bindings))
+    bind_inits bindings (bind_strict bindings (patch_forwards bindings cont))
 
 (* collect all function declarations
-    if the module creation is just a set of function declarations and consts,
-    it is good
-*)
-let rec is_function_or_const_block (lam : Lambda.lambda) acc =
-  match lam with
-  | Levent (lam, _) -> is_function_or_const_block lam acc
-  | Lprim (Pmakeblock _, args, _) ->
-      List.for_all
-        ~f:(function
-          | Lambda.Lvar id -> Ident.Set.mem id acc
-          | Lfunction _ | Lconst _ -> true
-          | _ -> false)
-        args
-  | Llet (_, _, id, Lfunction _, cont) | Lmutlet (_, id, Lfunction _, cont) ->
-      is_function_or_const_block cont (Ident.Set.add id acc)
-  | Lletrec (bindings, cont) -> (
-      let rec aux_bindings bindings acc =
-        match bindings with
-        | [] -> Some acc
+   if the module creation is just a set of function declarations and consts,
+   it is good *)
+let rec is_function_or_const_block =
+  let rec aux_bindings bindings acc =
+    match bindings with
+    | [] -> Some acc
 #if OCAML_VERSION >= (5,2,0)
-        | {Lambda.id; def = {attr={smuggled_lambda=false;_};_}} :: rest ->
+    | { Lambda.id; def = { attr = { smuggled_lambda = false; _ }; _ } } :: rest ->
 #else
-        | (id, Lambda.Lfunction _) :: rest ->
+    | (id, Lambda.Lfunction _) :: rest ->
 #endif
-            aux_bindings rest (Ident.Set.add id acc)
+      aux_bindings rest (Ident.Set.add id acc)
 #if OCAML_VERSION >= (5,2,0)
-        | { id = _; _ } :: _ -> None
+    | { id = _; def = _ } :: _ -> None
 #else
-        | (_, _) :: _ -> None
+    | (_, _) :: _ -> None
 #endif
-      in
-      match aux_bindings bindings acc with
-      | None -> false
-      | Some acc -> is_function_or_const_block cont acc)
-  | Llet (_, _, _, Lconst _, cont) | Lmutlet (_, _, Lconst _, cont) ->
-      is_function_or_const_block cont acc
-  | (Llet (_, _, id1, Lvar id2, cont) | Lmutlet (_, id1, Lvar id2, cont))
-    when Ident.Set.mem id2 acc ->
+  in
+  fun (lam : Lambda.lambda) acc ->
+    match lam with
+    | Levent (lam, _) -> is_function_or_const_block lam acc
+    | Lprim (Pmakeblock _, args, _) ->
+        List.for_all args ~f:(function
+            | Lambda.Lvar id -> Ident.Set.mem id acc
+            | Lfunction _ | Lconst _ -> true
+            | _ -> false)
+    | Llet (_, _, id, Lfunction _, cont) | Lmutlet (_, id, Lfunction _, cont) ->
+        is_function_or_const_block cont (Ident.Set.add id acc)
+    | Lletrec (bindings, cont) -> (
+        match aux_bindings bindings acc with
+        | None -> false
+        | Some acc -> is_function_or_const_block cont acc)
+    | Llet (_, _, _, Lconst _, cont) 
+    | Lmutlet (_, _, Lconst _, cont) ->
+        is_function_or_const_block cont acc
+    | (Llet (_, _, id1, Lvar id2, cont)
+    |  Lmutlet (_, id1, Lvar id2, cont)) when Ident.Set.mem id2 acc ->
       is_function_or_const_block cont (Ident.Set.add id1 acc)
-  | _ -> false
+    | _ -> false
 
 let is_strict_or_all_functions (xs : binding list) =
-  List.for_all
-    ~f:(fun (_, opt, rhs) ->
-      match opt with
-      | None -> true
-      | _ -> is_function_or_const_block rhs Ident.Set.empty)
-    xs
+  List.for_all xs ~f:(fun (_, opt, rhs) ->
+    match opt with
+    | None -> true
+    | _ -> is_function_or_const_block rhs Ident.Set.empty)
 
 (* Without such optimizations:
 
@@ -138,28 +159,22 @@ let is_strict_or_all_functions (xs : binding list) =
 let eval_rec_bindings (bindings : binding list) cont =
   if is_strict_or_all_functions bindings then
     Lambda.Lletrec
-      ( List.filter_map
-          ~f:(fun (binding : binding) ->
+      ( List.filter_map bindings ~f:(function
 #if OCAML_VERSION >= (5,2,0)
-            match binding with
-            | Id id, _, Lfunction def ->
+            | Translmod.Id id, _, Lambda.Lfunction def ->
               Some { Lambda.id; def}
             | Id id, _, rhs ->
               let def =
-                Lambda.lfunction'
-                  ~kind:Curried ~params:[] ~return:Pgenval
-                  ~body:rhs
+                Lambda.lfunction' ~loc:Loc_unknown ~kind:Curried
                   ~attr:{ Lambda.default_function_attribute with smuggled_lambda = true }
-                  ~loc:Loc_unknown
+                  ~params:[] ~body:rhs ~return:Pgenval
               in
               Some { Lambda.id; def}
-            | _ -> None)
 #else
-            match binding with Id id, _, rhs -> Some (id, rhs) | _ -> None)
+            | Translmod.Id id, _, rhs -> Some (id, rhs)
 #endif
-          bindings,
+            | _, _, _ -> None)
+          ,
         cont )
   else eval_rec_bindings_aux bindings cont
 
-let mangle_ident id =
-  Ident.Mangled.of_ident id |> Ident.Mangled.to_string
