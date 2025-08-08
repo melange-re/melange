@@ -26,6 +26,36 @@ open Import
 
 type outcome = Eval_false | Eval_true | Eval_unknown
 
+(** [field_flatten_get cb v i tbl]
+    try to remove the indirection of [v.(i)] by inlining when [v]
+    is a known block,
+    if not, it will call [cb ()].
+
+    Note due to different control flow, a constant block
+    may result in out-of bound access, in that case, we should
+    just ignore it. This does not mean our
+    optimization is wrong, it means we hit an unreachable branch.
+    for example
+    {{
+      let myShape = A 10 in
+      match myShape with
+      | A x -> x  (* only access field [0]*)
+      | B (x,y) -> x + y (* Here it will try to access field [1] *)
+    }} *)
+let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
+    ~(info : Lambda.field_dbg_info) : Lam.t =
+  match Ident.Hashtbl.find tbl v with
+  | Module g ->
+      Lam.prim
+        ~primitive:(Pfield (i, info))
+        ~args:[ Lam.global_module ~dynamic_import:false g ]
+        Location.none
+  | ImmutableBlock arr -> (
+      match arr.(i) with NA -> f () | SimpleForm l -> l | exception _ -> f ())
+  | Constant (Const_block (_, _, ls)) -> (
+      match List.nth ls i with exception Failure _ -> f () | x -> Lam.const x)
+  | _ | (exception Not_found) -> f ()
+
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
   let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t) id =
     match Ident.Hashtbl.find tbl id with
@@ -49,9 +79,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
            Main use case, we should detect inline all immutable block .. *)
         match simpl arg with
         | (Lvar v | Lmutvar v) as l ->
-            Lam_util.field_flatten_get
-              (fun _ -> Lam.prim ~primitive ~args:[ l ] loc)
-              v i info meta.ident_tbl
+            field_flatten_get meta.ident_tbl ~info
+              ~f:(fun () -> Lam.prim ~primitive ~args:[ l ] loc)
+              v i
         | l -> Lam.prim ~primitive ~args:[ l ] loc)
     | Lprim { primitive = Popaque; _ } -> lam
     | Lprim

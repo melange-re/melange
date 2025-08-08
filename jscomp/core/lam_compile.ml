@@ -229,19 +229,17 @@ let wrap_then import value =
    Another solution is that we add dependencies in the compiler
 
    -: we should not do functor application inlining in a
-      non-toplevel, it will explode code very quickly
-*)
+      non-toplevel, it will explode code very quickly *)
 let rec compile_external_field ~dynamic_import
-    (* Like [List.empty] *) (lamba_cxt : Lam_compile_context.t) (id : Ident.t)
-    name : Js_output.t =
+    (* Like [List.empty] *) (lamba_cxt : Lam_compile_context.t) id name =
   match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-  | Some { persistent_closed_lambda = Some (lam, _); _ }
-    when Lam_util.not_function lam ->
-      compile_lambda lamba_cxt lam
-  | Some _ | None ->
+  | Some { persistent_closed_lambda = Some (Lfunction _, _) | None; _ } | None
+    ->
       Js_output.output_of_expression lamba_cxt.continuation
         ~no_effects:no_effects_const
         (E.ml_var_dot ~dynamic_import id name)
+  | Some { persistent_closed_lambda = Some (lam, _); _ } ->
+      compile_lambda lamba_cxt lam
 
 (* TODO: how nested module call would behave,
    In the future, we should keep in track  of if

@@ -24,35 +24,7 @@
 
 open Import
 
-val kind_of_lambda_block : Lam.t list -> Lam_id_kind.t
-
-val field_flatten_get :
-  (unit -> Lam.t) ->
-  Ident.t ->
-  int ->
-  Lambda.field_dbg_info ->
-  Lam_id_kind.t Ident.Hashtbl.t ->
-  Lam.t
-(** [field_flatten_get cb v i tbl]
-    try to remove the indirection of [v.(i)] by inlining when [v]
-    is a known block,
-    if not, it will call [cb ()].
-
-    Note due to different control flow, a constant block
-    may result in out-of bound access, in that case, we should
-    just ignore it. This does not mean our
-    optimization is wrong, it means we hit an unreachable branch.
-    for example
-    {{
-      let myShape = A 10 in
-      match myShape with
-      | A x -> x  (* only access field [0]*)
-      | B (x,y) -> x + y (* Here it will try to access field [1] *)
-    }}
-*)
-
 val alias_ident_or_global :
   Lam_stats.t -> Ident.t -> Ident.t -> Lam_id_kind.t -> unit
 
 val refine_let : kind:Lam_group.let_kind -> Ident.t -> Lam.t -> Lam.t -> Lam.t
-val not_function : Lam.t -> bool

@@ -98,14 +98,12 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
           [0, f]
         ]}
           TODO: punish inliner to inline functions
-          into a block
-      *)
+          into a block *)
       Lam.let_ StrictOpt param arg l
   (* Not the case, the block itself can have side effects
       we can apply [no_side_effects] pass
       | Some Strict, Lprim(Pmakeblock (_,_,Immutable),_) ->
-        Llet(StrictOpt, param, arg, l)
-  *)
+        Llet(StrictOpt, param, arg, l) *)
   | Strict, _, _ when Lam_analysis.no_side_effects arg ->
       Lam.let_ StrictOpt param arg l
   | Variable, _, _ -> Lam.mutlet param arg l
@@ -136,75 +134,4 @@ let alias_ident_or_global (meta : Lam_stats.t) (k : Ident.t) (v : Ident.t)
     we should treat
     reference specially. or maybe we should track any
     mutable reference
-*)
-
-(* How we destruct the immutable block
-   depend on the block name itself,
-   good hints to do aggressive destructing
-   1. the variable is not exported
-      like [matched] -- these are blocks constructed temporary
-   2. how the variable is used
-      if it is guarateed to be
-   - non export
-   - and non escaped (there is no place it is used as a whole)
-      then we can always destruct it
-      if some fields are used in multiple places, we can create
-      a temporary field
-
-   3. It would be nice that when the block is mutable, its
-       mutable fields are explicit, since wen can not inline an mutable block access
-*)
-
-let kind_of_lambda_block =
-  let element_of_lambda (lam : Lam.t) : Lam_id_kind.element =
-    match lam with
-    | Lvar _ | Lconst _
-    | Lprim
-        {
-          primitive = Pfield (_, Fld_module _);
-          args = [ (Lglobal_module _ | Lvar _) ];
-          _;
-        } ->
-        SimpleForm lam
-    (* | Lfunction _  *)
-    | _ -> NA
-  in
-  fun (xs : Lam.t list) ->
-    Lam_id_kind.ImmutableBlock (Array.of_list_map xs ~f:element_of_lambda)
-
-let field_flatten_get lam v i info (tbl : Lam_id_kind.t Ident.Hashtbl.t) : Lam.t
-    =
-  match Ident.Hashtbl.find tbl v with
-  | Module g ->
-      Lam.prim
-        ~primitive:(Pfield (i, info))
-        ~args:[ Lam.global_module ~dynamic_import:false g ]
-        Location.none
-  | ImmutableBlock arr -> (
-      match arr.(i) with
-      | NA -> lam ()
-      | SimpleForm l -> l
-      | exception _ -> lam ())
-  | Constant (Const_block (_, _, ls)) -> (
-      match List.nth ls i with
-      | exception Failure _ -> lam ()
-      | x -> Lam.const x)
-  | _ | (exception Not_found) -> lam ()
-
-let not_function (lam : Lam.t) =
-  match lam with Lfunction _ -> false | _ -> true
-(*
-let is_var (lam : Lam.t) id =
-  match lam with
-  | Lvar id0 -> Ident.same id0 id
-  | _ -> false *)
-
-(* TODO: we need create
-   1. a smart [let] combinator, reusable beta-reduction
-   2. [lapply fn args info]
-   here [fn] should get the last tail
-   for example
-   {[
-     lapply (let a = 3 in let b = 4 in fun x y -> x + y) 2 3
-   ]}
 *)

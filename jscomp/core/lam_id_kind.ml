@@ -59,19 +59,53 @@ type t =
            we should consider [Lassign]
         *)
 
-let pp = Format.fprintf
+let print =
+  let pp = Format.fprintf in
+  fun fmt kind ->
+    match kind with
+    | ImmutableBlock arr -> pp fmt "Imm(%d)" (Array.length arr)
+    | Normal_optional _ -> pp fmt "Some"
+    | OptionalBlock (_, Null) -> pp fmt "?Null"
+    | OptionalBlock (_, Undefined) -> pp fmt "?Undefined"
+    | OptionalBlock (_, Null_undefined) -> pp fmt "?Nullable"
+    | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
+    | Constant _ -> pp fmt "Constant"
+    | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
+    | FunctionId _ -> pp fmt "FunctionID"
+    | Exception -> pp fmt "Exception"
+    | Parameter -> pp fmt "Parameter"
+    | NA -> pp fmt "NA"
 
-let print fmt (kind : t) =
-  match kind with
-  | ImmutableBlock arr -> pp fmt "Imm(%d)" (Array.length arr)
-  | Normal_optional _ -> pp fmt "Some"
-  | OptionalBlock (_, Null) -> pp fmt "?Null"
-  | OptionalBlock (_, Undefined) -> pp fmt "?Undefined"
-  | OptionalBlock (_, Null_undefined) -> pp fmt "?Nullable"
-  | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
-  | Constant _ -> pp fmt "Constant"
-  | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
-  | FunctionId _ -> pp fmt "FunctionID"
-  | Exception -> pp fmt "Exception"
-  | Parameter -> pp fmt "Parameter"
-  | NA -> pp fmt "NA"
+(* How we destruct the immutable block
+   depend on the block name itself,
+   good hints to do aggressive destructing
+   1. the variable is not exported
+      like [matched] -- these are blocks constructed temporary
+   2. how the variable is used
+      if it is guarateed to be
+   - non export
+   - and non escaped (there is no place it is used as a whole)
+      then we can always destruct it
+      if some fields are used in multiple places, we can create
+      a temporary field
+
+   3. It would be nice that when the block is mutable, its
+       mutable fields are explicit, since wen can not inline an mutable block access
+*)
+
+let of_lambda_block =
+  let element_of_lambda (lam : Lam.t) =
+    match lam with
+    | Lvar _ | Lconst _
+    | Lprim
+        {
+          primitive = Pfield (_, Fld_module _);
+          args = [ (Lglobal_module _ | Lvar _) ];
+          _;
+        } ->
+        SimpleForm lam
+    (* | Lfunction _  *)
+    | _ -> NA
+  in
+  fun (xs : Lam.t list) ->
+    ImmutableBlock (Array.of_list_map xs ~f:element_of_lambda)
