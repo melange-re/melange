@@ -67,3 +67,4 @@ type t =
         *)
 
 val print : Format.formatter -> t -> unit
+val of_lambda_block : Lam.t list -> t
