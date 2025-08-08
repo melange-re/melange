@@ -69,16 +69,24 @@ let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
   (* only mark non-ghost used mel attribute *)
   if not x.loc.loc_ghost then Hashtbl.replace used_attributes ~key:x ~data:()
 
-let warn_unused_attribute ({ attr_name = { txt; loc } as sloc; _ } : attribute)
-    =
-  if
-    (* XXX(anmonteiro): the `not loc.loc_ghost` expression is holding together
+let warn_unused_attribute =
+  let is_mel_attribute txt =
+    let len = String.length txt in
+    (len = 1 && String.unsafe_get txt 0 = 'u')
+    || len >= 5
+       && String.unsafe_get txt 0 = 'm'
+       && String.unsafe_get txt 1 = 'e'
+       && String.unsafe_get txt 2 = 'l'
+       && String.unsafe_get txt 3 = '.'
+  in
+  fun ({ attr_name = { txt; loc } as sloc; _ } : attribute) ->
+    if
+      (* XXX(anmonteiro): the `not loc.loc_ghost` expression is holding together
      e.g. the fact that we don't emit unused attribute warnings for
      `mel.internal.ffi` *)
-    Melange_ffi.External_ffi_attributes.is_mel_attribute txt
-    && (not loc.loc_ghost)
-    && not (Hashtbl.mem used_attributes sloc)
-  then warn ~loc (Unused_attribute txt)
+      is_mel_attribute txt && (not loc.loc_ghost)
+      && not (Hashtbl.mem used_attributes sloc)
+    then warn ~loc (Unused_attribute txt)
 
 let warn_discarded_unused_attributes ?(has_mel_send = false)
     (attrs : attributes) =
