@@ -65,7 +65,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     (* *)
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
-          ~data:(Lam_util.kind_of_lambda_block ls);
+          ~data:(Lam_id_kind.of_lambda_block ls);
         List.iter ~f:collect ls
     | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
