@@ -47,4 +47,6 @@ module type S = sig
     val of_ident : Ident.t -> t
     val to_string : t -> string
   end
+
+  val mangle : Ident.t -> string
 end
