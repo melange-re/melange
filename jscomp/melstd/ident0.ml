@@ -180,3 +180,7 @@ module Mangled = struct
 
   let to_string = function Reserved name | Mangled name -> name
 end
+
+let mangle t =
+  let mangled = Mangled.of_ident t in
+  Mangled.to_string mangled
