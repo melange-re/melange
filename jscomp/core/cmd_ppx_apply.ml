@@ -1,8 +1,5 @@
 open Import
 
-(* Note: some of the functions here should go to Ast_mapper instead,
-   which would encapsulate the "binary AST" protocol. *)
-
 let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
   Io.write_filev fn
     [
@@ -42,39 +39,26 @@ let rewrite kind ppxs ast =
   write_ast kind fn_in ast;
   let temp_files =
     List.fold_right
-      ~f:(fun ppx fns ->
-        match fns with
-        | [] -> assert false
-        | fn_in :: _ -> apply_rewriter fn_in ppx :: fns)
+      ~f:(fun ppx fns -> apply_rewriter (List.hd fns) ppx :: fns)
       ppxs ~init:[ fn_in ]
   in
-  match temp_files with
-  | last_fn :: _ ->
-      let out = read_ast kind last_fn in
-      List.iter ~f:Misc.remove_file temp_files;
-      out
-  | _ -> assert false
+  let out = read_ast kind (List.hd temp_files) in
+  List.iter ~f:Misc.remove_file temp_files;
+  out
 
-let apply_rewriters_str ?(restore = true) ~tool_name ast =
+let apply_rewriters ?(restore = true) ~tool_name (type a)
+    (kind : a Ml_binary.kind) (ast : a) : a =
   match !Clflags.all_ppx with
   | [] -> ast
-  | ppxs ->
-      ast
-      |> Ast_mapper.add_ppx_context_str ~tool_name
-      |> rewrite Ml ppxs
-      |> Ast_mapper.drop_ppx_context_str ~restore
-
-let apply_rewriters_sig ?(restore = true) ~tool_name ast =
-  match !Clflags.all_ppx with
-  | [] -> ast
-  | ppxs ->
-      ast
-      |> Ast_mapper.add_ppx_context_sig ~tool_name
-      |> rewrite Mli ppxs
-      |> Ast_mapper.drop_ppx_context_sig ~restore
-
-let apply_rewriters ?restore ~tool_name (type a) (kind : a Ml_binary.kind)
-    (ast : a) : a =
-  match kind with
-  | Ml_binary.Ml -> apply_rewriters_str ?restore ~tool_name ast
-  | Ml_binary.Mli -> apply_rewriters_sig ?restore ~tool_name ast
+  | ppxs -> (
+      match kind with
+      | Ml_binary.Ml ->
+          ast
+          |> Ast_mapper.add_ppx_context_str ~tool_name
+          |> rewrite Ml ppxs
+          |> Ast_mapper.drop_ppx_context_str ~restore
+      | Ml_binary.Mli ->
+          ast
+          |> Ast_mapper.add_ppx_context_sig ~tool_name
+          |> rewrite Mli ppxs
+          |> Ast_mapper.drop_ppx_context_sig ~restore)
