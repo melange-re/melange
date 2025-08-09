@@ -70,8 +70,7 @@ val external_var_field :
   default:bool ->
   t
 (** [external_var_field ~external_name ~dot id]
-  Used in FFI
-*)
+    Used in the FFI *)
 
 val external_var :
   ?loc:Location.t ->
@@ -125,9 +124,7 @@ val zero_float_lit : t
 (* val obj_int_tag_literal : t *)
 
 val is_out : ?comment:string -> t -> t -> t
-(** [is_out e range] is equivalent to [e > range or e <0]
-
-*)
+(** [is_out e range] is equivalent to [e > range or e <0] *)
 
 val dot : ?loc:Location.t -> ?comment:string -> t -> string -> t
 val module_access : t -> string -> int32 -> t
@@ -135,23 +132,12 @@ val array_length : ?loc:Location.t -> ?comment:string -> t -> t
 val string_length : ?loc:Location.t -> ?comment:string -> t -> t
 val bytes_length : ?loc:Location.t -> ?comment:string -> t -> t
 val function_length : ?loc:Location.t -> ?comment:string -> t -> t
-
-(* val char_of_int : ?loc:Location.t -> ?comment:string -> t -> t  *)
-
 val char_to_int : ?loc:Location.t -> ?comment:string -> t -> t
 
 val string_append : ?loc:Location.t -> ?comment:string -> t -> t -> t
 (**
    When in ES6 mode, we can use Symbol to guarantee its uniquess,
-   we can not tag [js] object, since it can be frozen
-*)
-
-(* val var_dot : ?comment:string -> Ident.t -> string -> t *)
-
-(* val bind_var_call : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t list -> t  *)
-
-(* val bind_call : ?loc:Location.t -> ?comment:string -> J.expression -> string -> J.expression list -> t *)
-(* val js_global_dot : ?loc:Location.t -> ?comment:string -> string -> string -> t *)
+   we can not tag [js] object, since it can be frozen *)
 
 val string_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val array_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
@@ -328,7 +314,7 @@ val raw_js_code :
 
 val nil : t
 val is_null : ?loc:Location.t -> ?comment:string -> t -> t
-val is_undef : ?loc:Location.t -> ?comment:string -> t -> t
+val is_undefined : ?loc:Location.t -> ?comment:string -> t -> t
 val for_sure_js_null_undefined : J.expression -> bool
 val is_null_undefined : ?loc:Location.t -> ?comment:string -> t -> t
 val resolve_and_apply : string -> t list -> t

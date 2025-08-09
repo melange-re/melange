@@ -81,7 +81,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pjs_function_length -> E.function_length (List.hd args)
   | Pcaml_obj_length -> E.obj_length (List.hd args)
   | Pis_null -> E.is_null (List.hd args)
-  | Pis_undefined -> E.is_undef (List.hd args)
+  | Pis_undefined -> E.is_undefined (List.hd args)
   | Pis_null_undefined -> E.is_null_undefined (List.hd args)
   | Pjs_typeof -> E.typeof (List.hd args)
   | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply | Pjs_fn_make _
