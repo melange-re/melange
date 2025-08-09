@@ -24,10 +24,10 @@
 
 open Import
 
-let caml_js_exceptions_id =
-  Ident.create_persistent Js_runtime_modules.caml_js_exceptions
-
 let check_additional_id =
+  let caml_js_exceptions_id =
+    Some (Ident.create_persistent Js_runtime_modules.caml_js_exceptions)
+  in
   let option_id = Some (Ident.create_persistent Js_runtime_modules.option)
   and curry_id = Some (Ident.create_persistent Js_runtime_modules.curry) in
   fun (x : J.expression) : Ident.t option ->
@@ -40,7 +40,7 @@ let check_additional_id =
             Blk_extension { exn = true } | Blk_record_ext { exn = true; _ };
           _;
         } ->
-        Some caml_js_exceptions_id
+        caml_js_exceptions_id
     | _ -> None
 
 let check_additional_statement_id =
