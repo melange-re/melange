@@ -25,43 +25,39 @@
 open Import
 open Js_parser
 
-let offset_pos ({ pos_lnum; pos_bol; pos_cnum; _ } as loc : Lexing.position)
-    ({ line; column } : Loc.position) first_line_offset : Lexing.position =
-  if line = 1 then { loc with pos_cnum = pos_cnum + column + first_line_offset }
-  else { loc with pos_lnum = pos_lnum + line - 1; pos_cnum = pos_bol + column }
+let flow_deli_offset = function
+  | None -> 1 (* length of '"' *)
+  | Some deli -> String.length deli + 2 (* length of "{|" *)
 
-let flow_deli_offset deli =
-  match deli with
-  | None -> 1 (* length of '"'*)
-  | Some deli -> String.length deli + 2
-(* length of "{|"*)
+let check_flow_errors =
+  let offset_pos ({ pos_lnum; pos_bol; pos_cnum; _ } as loc : Lexing.position)
+      ({ line; column } : Loc.position) first_line_offset =
+    match line with
+    | 1 -> { loc with pos_cnum = pos_cnum + column + first_line_offset }
+    | line ->
+        { loc with pos_lnum = pos_lnum + line - 1; pos_cnum = pos_bol + column }
+  in
+  (* Here, [loc] is the payload loc *)
+  fun ~(loc : Location.t) ~offset (errors : (Loc.t * Parse_error.t) list) ->
+    match errors with
+    | [] -> ()
+    | ({ start; _end; _ }, first_error) :: _ ->
+        let loc_start = loc.loc_start in
+        Location.prerr_warning
+          {
+            loc with
+            loc_start = offset_pos loc_start start offset;
+            loc_end = offset_pos loc_start _end offset;
+          }
+          (Mel_ffi_warning (Parse_error.PP.error first_error))
 
-(* Here the loc is  the payload loc *)
-let check_flow_errors ~(loc : Location.t) ~offset
-    (errors : (Loc.t * Parse_error.t) list) : unit =
-  match errors with
-  | [] -> ()
-  | ({ start; _end; _ }, first_error) :: _ ->
-      let loc_start = loc.loc_start in
-      Location.prerr_warning
-        {
-          loc with
-          loc_start = offset_pos loc_start start offset;
-          loc_end = offset_pos loc_start _end offset;
-        }
-        (Mel_ffi_warning (Parse_error.PP.error first_error))
-
-(* Makes the input parser expect EOF at the end. Use this to error on trailing
- * junk when parsing non-Program nodes. *)
-let with_eof parser env =
-  let ast = parser env in
-  Parser_env.Expect.token env T_EOF;
-  ast
-
-(*
-let parse_statement env fail =
-  Parser_flow.do_parse env (with_eof Parser_flow.Parse.statement_list_item) fail
-*)
-
-let parse_expression env fail =
-  Parser_flow.do_parse env (with_eof Parser_flow.Parse.expression) fail
+let parse_expression =
+  let with_eof parser env =
+    (* Makes the input parser expect EOF at the end. 
+       Use this to error on trailing junk when parsing non-Program nodes. *)
+    let ast = parser env in
+    Parser_env.Expect.token env T_EOF;
+    ast
+  in
+  let parse = with_eof Parser_flow.Parse.expression in
+  fun env fail -> Parser_flow.do_parse env parse fail
