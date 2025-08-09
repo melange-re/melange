@@ -28,8 +28,7 @@ open Import
     [hit_mask mask lambda] iters through the lambda
     set the bit of corresponding [id] if [id] is hit.
     As an optimization step if [mask_and_check_all_hit],
-    there is no need to iter such lambda any more
-*)
+    there is no need to iter such lambda any more *)
 let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
   let rec hit_opt (x : Lam.t option) =
     match x with None -> false | Some a -> hit a
@@ -88,20 +87,21 @@ let preprocess_deps groups : _ * Ident.t array * Vec_int.t array =
             Vec_int.push base_key key));
   (domain, int_mapping, node_vec)
 
-let is_function_bind (_, (x : Lam.t)) =
-  match x with Lfunction _ -> true | _ -> false
-
-let sort_single_binding_group group =
-  if List.for_all ~f:is_function_bind group then group
-  else
-    List.sort
-      ~cmp:(fun (_, lama) (_, lamb) ->
-        match ((lama : Lam.t), (lamb : Lam.t)) with
-        | Lfunction _, Lfunction _ -> 0
-        | Lfunction _, _ -> -1
-        | _, Lfunction _ -> 1
-        | _, _ -> 0)
-      group
+let sort_single_binding_group =
+  let is_function_bind (_, (x : Lam.t)) =
+    match x with Lfunction _ -> true | _ -> false
+  in
+  fun group ->
+    if List.for_all ~f:is_function_bind group then group
+    else
+      List.sort
+        ~cmp:(fun (_, lama) (_, lamb) ->
+          match ((lama : Lam.t), (lamb : Lam.t)) with
+          | Lfunction _, Lfunction _ -> 0
+          | Lfunction _, _ -> -1
+          | _, Lfunction _ -> 1
+          | _, _ -> 0)
+        group
 
 (** TODO: even for a singleton recursive function, tell whehter it is recursive or not ? *)
 let scc_bindings (groups : bindings) : bindings Nonempty_list.t =
@@ -134,8 +134,8 @@ let scc_bindings (groups : bindings) : bindings Nonempty_list.t =
         |> Nonempty_list.of_list_exn
 
 (* single binding, it does not make sense to do scc,
-   we can eliminate {[ let rec f x = x + x  ]}, but it happens rarely in real world
-*)
+   we can eliminate {[ let rec f x = x + x  ]}, but it happens rarely in real
+   world *)
 let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
   match groups with
   | [ (id, bind) ] ->

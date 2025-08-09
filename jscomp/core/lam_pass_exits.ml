@@ -26,7 +26,7 @@ let no_bounded_variables =
   let rec no_list args = List.for_all ~f:no_bounded_variables args
   and no_list_snd : 'a. ('a * Lam.t) list -> bool =
    fun args -> List.for_all ~f:(fun (_, x) -> no_bounded_variables x) args
-  and no_opt x = match x with None -> true | Some a -> no_bounded_variables a
+  and no_opt = function None -> true | Some a -> no_bounded_variables a
   and no_bounded_variables (l : Lam.t) =
     match l with
     | Lvar _ | Lmutvar _ -> true
