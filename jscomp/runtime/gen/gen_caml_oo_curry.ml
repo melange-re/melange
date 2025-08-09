@@ -36,13 +36,14 @@ let js label cacheid obj args =
 
 |}
 
-let list_init n fn = Array.to_list (Array.init n fn)
 let number = 8
 
 let generate_fun args_number =
-  let args_array = Array.init args_number (fun i -> Printf.sprintf "a%d" i) in
+  let args_array =
+    Array.init args_number ~f:(fun i -> Printf.sprintf "a%d" i)
+  in
   let args = Array.to_list args_array in
-  let args_string = String.concat " " args in
+  let args_string = String.concat ~sep:" " args in
   Printf.sprintf
     {|
 let js%d label cacheid %s =
@@ -53,7 +54,8 @@ let js%d label cacheid %s =
 let () =
   print_endline
   @@ Printf.sprintf "%s\n%s" prelude
-       (String.concat "\n" (list_init number (fun i -> generate_fun (i + 1))))
+       (String.concat ~sep:"\n"
+          (List.init ~len:number ~f:(fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml caml_oo_curry_gen.ml > ../jscomp/runtime/caml_oo_curry.ml" *)
