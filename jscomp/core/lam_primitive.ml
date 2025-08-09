@@ -194,8 +194,6 @@ let eq_set_field_dbg_info (x : Lam_compat.set_field_dbg_info)
   x = y
 (* save it to avoid conditional compilation, fix it later *)
 
-let eq_tag_info (x : Melange_ffi.Lam_tag_info.t) y = x = y
-
 let eq_record_representation (p : record_representation)
     (p1 : record_representation) =
   match p with
@@ -307,7 +305,7 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pmakeblock (i0, info0, flag0) -> (
       match rhs with
       | Pmakeblock (i1, info1, flag1) ->
-          i0 = i1 && flag0 = flag1 && eq_tag_info info0 info1
+          i0 = i1 && flag0 = flag1 && Melange_ffi.Lam_tag_info.equal info0 info1
       | _ -> false)
   | Pduprecord record_repesentation0 -> (
       match rhs with
