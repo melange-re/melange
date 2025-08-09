@@ -61,8 +61,7 @@ type t =
   | Const_some of t
   | Const_module_alias
 (* eventually we can remove it, since we know
-   [constant] is [undefined] or not
-*)
+   [constant] is [undefined] or not *)
 
 let rec eq_approx (x : t) (y : t) =
   match x with
