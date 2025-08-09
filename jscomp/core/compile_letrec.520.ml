@@ -24,27 +24,25 @@
 
 open Import
 
-let compile_letrec :
-    (Ident.t * Value_rec_types.recursive_binding_kind * Lambda.lambda) list ->
-    Lambda.lambda ->
-    Lambda.lambda =
- fun input_bindings body ->
+let compile_letrec
+    (input_bindings :
+      (Ident.t * Value_rec_types.recursive_binding_kind * Lambda.lambda) list)
+    body =
   let bindings =
     List.map input_bindings ~f:(fun (id, _kind, lambda) ->
-        match lambda with
-        | Lambda.Lfunction def -> { Lambda.id; def }
-        | _ ->
-            let def =
-              Lambda.lfunction' ~kind:Curried ~params:[] ~return:Pgenval
-                ~body:lambda
-                ~attr:
-                  {
-                    Lambda.default_function_attribute with
-                    smuggled_lambda = true;
-                  }
-                ~loc:Loc_unknown
-            in
-
-            { Lambda.id; def })
+        let def =
+          match lambda with
+          | Lambda.Lfunction def -> def
+          | _ ->
+              let attr =
+                {
+                  Lambda.default_function_attribute with
+                  smuggled_lambda = true;
+                }
+              in
+              Lambda.lfunction' ~loc:Loc_unknown ~kind:Curried ~attr ~params:[]
+                ~body:lambda ~return:Pgenval
+        in
+        { Lambda.id; def })
   in
   Lambda.Lletrec (bindings, body)
