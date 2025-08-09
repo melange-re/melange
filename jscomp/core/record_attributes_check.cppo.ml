@@ -24,32 +24,34 @@
 
 open Import
 
-let find_mel_as_name =
-  let find_mel_as_name (attr : Parsetree.attribute) =
-    match attr.attr_name with
-    | { txt = "mel.as"; loc = _ } -> (
-        match attr.attr_payload with
-        | PStr
-            [
-              {
-                pstr_desc = Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
-                _;
-              };
-            ] -> (
-            match
+let rec find_mel_as_name_exn: Parsetree.attributes -> Lambda.as_modifier = function
+  | { attr_name = { txt = "mel.as"; loc = _ }; attr_payload; _ } :: xs -> (
+      match attr_payload with
+      | PStr
+          [
+            {
+              pstr_desc = Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+              _;
+            };
+          ] -> (
+          match
 #if OCAML_VERSION >= (5, 3, 0)
-            const.pconst_desc
+          const.pconst_desc
 #else
-            const
+          const
 #endif
-            with
-            | Pconst_string (s, _, _) -> Some (Lambda.String s)
-            | Pconst_integer (s, None) -> Some (Int (int_of_string s))
-            | _ -> None)
-        | _ -> None)
-    | _ -> None
-  in
-  fun attributes -> List.find_map ~f:find_mel_as_name attributes
+          with
+          | Pconst_string (s, _, _) -> (Lambda.String s)
+          | Pconst_integer (s, None) -> (Int (int_of_string s))
+          | _ -> find_mel_as_name_exn xs)
+      | _ -> find_mel_as_name_exn xs)
+  | _ :: xs -> find_mel_as_name_exn xs
+  | [] -> raise_notrace Not_found
+
+let find_mel_as_name attributes =
+  match find_mel_as_name_exn attributes with
+  | name -> Some name
+  | exception Not_found -> None
 
 let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
@@ -84,10 +86,10 @@ let find_with_default xs ~default =
   match xs with
   | [] -> default
   | xs -> (
-      match find_mel_as_name xs with
-      | Some (String v) -> v
-      | Some (Int _) -> assert false
-      | None -> default)
+      match find_mel_as_name_exn xs with
+      | String v -> v
+      | Int _ -> assert false
+      | exception Not_found -> default)
 
 #if OCAML_VERSION >= (5, 4, 0)
 module Types = Data_types
@@ -97,7 +99,7 @@ let fld_record (lbl : Types.label_description) =
   Lambda.Fld_record
     {
       name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name;
-      mutable_flag = lbl.Types.lbl_mut;
+      mutable_flag = lbl.lbl_mut;
     }
 
 let fld_record_set (lbl : Types.label_description) =
@@ -157,9 +159,9 @@ let check_duplicated_labels =
   let rec check_duplicated_labels_aux (lbls : Parsetree.label_declaration list)
       (coll : String.Set.t) =
     match lbls with
-    | [] -> None
+    | [] -> raise_notrace Not_found
     | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
-        if String.Set.mem txt coll then Some pld_name
+        if String.Set.mem txt coll then pld_name
         else
           let coll_with_lbl = String.Set.add txt coll in
           match List.find_map ~f:find_name_with_loc pld_attributes with
@@ -169,9 +171,12 @@ let check_duplicated_labels =
                 String.Set.mem s coll
                 (* use coll to make check a bit looser
                    allow cases like [ x : int [@as "x"]] *)
-              then Some l
+              then l
               else
                 check_duplicated_labels_aux rest
                   (String.Set.add s coll_with_lbl))
   in
-  fun lbls -> check_duplicated_labels_aux lbls String.Set.empty
+  fun lbls -> 
+    match check_duplicated_labels_aux lbls String.Set.empty with
+    | l -> Some l
+    | exception Not_found -> None
