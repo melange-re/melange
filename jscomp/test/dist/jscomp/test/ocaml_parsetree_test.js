@@ -12768,6 +12768,10 @@ function token(lexbuf) {
   };
 }
 
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function string(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(2, -1);
   let ___ocaml_lex_state = 164;
@@ -12822,10 +12826,6 @@ function string(lexbuf) {
         continue;
     }
   };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {

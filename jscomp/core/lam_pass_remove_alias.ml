@@ -24,7 +24,18 @@
 
 open Import
 
-type outcome = Eval_false | Eval_true | Eval_unknown
+module Outcome = struct
+  type t = Eval_false | Eval_true | Eval_unknown
+
+  let[@ocaml.warning "-32"] pp fmt t =
+    let s =
+      match t with
+      | Eval_false -> "Eval_false"
+      | Eval_true -> "Eval_true"
+      | Eval_unknown -> "Eval_unknown"
+    in
+    Format.fprintf fmt "%s" s
+end
 
 (** [field_flatten_get cb v i tbl]
     try to remove the indirection of [v.(i)] by inlining when [v]
@@ -57,12 +68,27 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
   | _ | (exception Not_found) -> f ()
 
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
-  let id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t) id =
+  let rec id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t)
+      id =
     match Ident.Hashtbl.find tbl id with
-    | ImmutableBlock _ | Normal_optional _ | MutableBlock _
+    | Normal_optional
+        ( Lprim
+            {
+              loc = _;
+              primitive = Psome_not_nest;
+              args = [ (Lvar id' | Lmutvar id') ];
+            }
+        | Lvar id'
+        | Lmutvar id' ) ->
+        id_is_for_sure_true_in_boolean tbl id'
+    | Normal_optional
+        (Lconst (Const_js_false | Const_js_null | Const_js_undefined)) ->
+        Outcome.Eval_false
+    | Normal_optional _ | ImmutableBlock _ | MutableBlock _
     | Constant (Const_block _ | Const_js_true) ->
         Eval_true
-    | Constant (Const_int { i; _ }) -> if i = 0l then Eval_false else Eval_true
+    | Constant (Const_int { i = 0l; _ }) -> Eval_false
+    | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined) ->
         Eval_false
     | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA

@@ -4007,6 +4007,19 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       continue;
     };
   };
+  const branch$p = function (_left) {
+    while (true) {
+      const left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(Stdlib__List.rev(left));
+      }
+      _left = {
+        hd: piece(undefined),
+        tl: left
+      };
+      continue;
+    };
+  };
   const piece = function (param) {
     const r = atom(undefined);
     if (accept(/* '*' */42)) {
@@ -4038,19 +4051,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
     i.contents = i.contents - 1 | 0;
     return r;
-  };
-  const branch$p = function (_left) {
-    while (true) {
-      const left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(Stdlib__List.rev(left));
-      }
-      _left = {
-        hd: piece(undefined),
-        tl: left
-      };
-      continue;
-    };
   };
   const regexp$p = function (_left) {
     while (true) {

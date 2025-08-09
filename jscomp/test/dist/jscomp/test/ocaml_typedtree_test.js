@@ -13810,36 +13810,6 @@ function check_usage(loc, id, warn, tbl) {
   
 }
 
-function store_module(slot, id, path, md, env, renv) {
-  return {
-    values: env.values,
-    constrs: env.constrs,
-    labels: env.labels,
-    types: env.types,
-    modules: add$6("module", slot, id, [
-      path,
-      md
-    ], env.modules, renv.modules),
-    modtypes: env.modtypes,
-    components: add$6("module", slot, id, [
-      path,
-      components_of_module(env, identity, path, md.md_type)
-    ], env.components, renv.components),
-    classes: env.classes,
-    cltypes: env.cltypes,
-    functor_args: env.functor_args,
-    summary: {
-      TAG: /* Env_module */ 3,
-      _0: env.summary,
-      _1: id,
-      _2: md
-    },
-    local_constraints: env.local_constraints,
-    gadt_instances: env.gadt_instances,
-    flags: env.flags
-  };
-}
-
 function store_type_infos(slot, id, path, info, env, renv) {
   return {
     values: env.values,
@@ -13893,6 +13863,36 @@ function store_modtype(slot, id, path, info, env, renv) {
       _0: env.summary,
       _1: id,
       _2: info
+    },
+    local_constraints: env.local_constraints,
+    gadt_instances: env.gadt_instances,
+    flags: env.flags
+  };
+}
+
+function store_module(slot, id, path, md, env, renv) {
+  return {
+    values: env.values,
+    constrs: env.constrs,
+    labels: env.labels,
+    types: env.types,
+    modules: add$6("module", slot, id, [
+      path,
+      md
+    ], env.modules, renv.modules),
+    modtypes: env.modtypes,
+    components: add$6("module", slot, id, [
+      path,
+      components_of_module(env, identity, path, md.md_type)
+    ], env.components, renv.components),
+    classes: env.classes,
+    cltypes: env.cltypes,
+    functor_args: env.functor_args,
+    summary: {
+      TAG: /* Env_module */ 3,
+      _0: env.summary,
+      _1: id,
+      _2: md
     },
     local_constraints: env.local_constraints,
     gadt_instances: env.gadt_instances,
@@ -23288,25 +23288,6 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
-  const parse_and_aux = function (calc, v) {
-    const e = token(undefined);
-    if (/* tag */ typeof e === "number" || typeof e === "string") {
-      if (e === /* AMPERAMPER */ 0) {
-        const calc$1 = calc && v;
-        const b = parse_and_aux(calc$1, parse_relation(calc$1));
-        if (v) {
-          return b;
-        } else {
-          return false;
-        }
-      }
-      push(e);
-      return v;
-    } else {
-      push(e);
-      return v;
-    }
-  };
   const parse_relation = function (calc) {
     const curr_token = token(undefined);
     const curr_loc = curr(lexbuf);
@@ -23454,6 +23435,25 @@ function directive_parse(token_with_comments, lexbuf) {
               _2: curr_loc
             });
       }
+    }
+  };
+  const parse_and_aux = function (calc, v) {
+    const e = token(undefined);
+    if (/* tag */ typeof e === "number" || typeof e === "string") {
+      if (e === /* AMPERAMPER */ 0) {
+        const calc$1 = calc && v;
+        const b = parse_and_aux(calc$1, parse_relation(calc$1));
+        if (v) {
+          return b;
+        } else {
+          return false;
+        }
+      }
+      push(e);
+      return v;
+    } else {
+      push(e);
+      return v;
     }
   };
   const parse_or_aux = function (calc, v) {
@@ -26085,6 +26085,19 @@ function TypedtreeMap_MakeMap(funarg) {
       sig_loc: item$1.sig_loc
     });
   };
+  const map_type_extension = function (tyext) {
+    const tyext$1 = Curry._1(funarg.enter_type_extension, tyext);
+    const tyext_params = Stdlib__List.map(map_type_parameter, tyext$1.tyext_params);
+    const tyext_constructors = Stdlib__List.map(map_extension_constructor, tyext$1.tyext_constructors);
+    return Curry._1(funarg.leave_type_extension, {
+      tyext_path: tyext$1.tyext_path,
+      tyext_txt: tyext$1.tyext_txt,
+      tyext_params: tyext_params,
+      tyext_constructors: tyext_constructors,
+      tyext_private: tyext$1.tyext_private,
+      tyext_attributes: tyext$1.tyext_attributes
+    });
+  };
   const map_value_description = function (v) {
     const v$1 = Curry._1(funarg.enter_value_description, v);
     const val_desc = map_core_type(v$1.val_desc);
@@ -26098,91 +26111,21 @@ function TypedtreeMap_MakeMap(funarg) {
       val_attributes: v$1.val_attributes
     });
   };
-  const map_module_type = function (mty) {
-    const mty$1 = Curry._1(funarg.enter_module_type, mty);
-    const sg = mty$1.mty_desc;
-    let mty_desc;
-    switch (sg.TAG) {
-      case /* Tmty_signature */ 1 :
-        mty_desc = {
-          TAG: /* Tmty_signature */ 1,
-          _0: map_signature(sg._0)
-        };
-        break;
-      case /* Tmty_functor */ 2 :
-        mty_desc = {
-          TAG: /* Tmty_functor */ 2,
-          _0: sg._0,
-          _1: sg._1,
-          _2: may_map(map_module_type, sg._2),
-          _3: map_module_type(sg._3)
-        };
-        break;
-      case /* Tmty_with */ 3 :
-        mty_desc = {
-          TAG: /* Tmty_with */ 3,
-          _0: map_module_type(sg._0),
-          _1: Stdlib__List.map((function (param) {
-            return [
-              param[0],
-              param[1],
-              map_with_constraint(param[2])
-            ];
-          }), sg._1)
-        };
-        break;
-      case /* Tmty_typeof */ 4 :
-        mty_desc = {
-          TAG: /* Tmty_typeof */ 4,
-          _0: map_module_expr(sg._0)
-        };
-        break;
-      case /* Tmty_ident */ 0 :
-      case /* Tmty_alias */ 5 :
-        mty_desc = mty$1.mty_desc;
-        break;
-    }
-    return Curry._1(funarg.leave_module_type, {
-      mty_desc: mty_desc,
-      mty_type: mty$1.mty_type,
-      mty_env: mty$1.mty_env,
-      mty_loc: mty$1.mty_loc,
-      mty_attributes: mty$1.mty_attributes
+  const map_module_type_declaration = function (mtd) {
+    const mtd$1 = Curry._1(funarg.enter_module_type_declaration, mtd);
+    return Curry._1(funarg.leave_module_type_declaration, {
+      mtd_id: mtd$1.mtd_id,
+      mtd_name: mtd$1.mtd_name,
+      mtd_type: may_map(map_module_type, mtd$1.mtd_type),
+      mtd_attributes: mtd$1.mtd_attributes,
+      mtd_loc: mtd$1.mtd_loc
     });
   };
-  const map_extension_constructor = function (ext) {
-    const ext$1 = Curry._1(funarg.enter_extension_constructor, ext);
-    const match = ext$1.ext_kind;
-    let ext_kind;
-    if (match.TAG === /* Text_decl */ 0) {
-      const args = Stdlib__List.map(map_core_type, match._0);
-      const ret = may_map(map_core_type, match._1);
-      ext_kind = {
-        TAG: /* Text_decl */ 0,
-        _0: args,
-        _1: ret
-      };
-    } else {
-      ext_kind = {
-        TAG: /* Text_rebind */ 1,
-        _0: match._0,
-        _1: match._1
-      };
-    }
-    return Curry._1(funarg.leave_extension_constructor, {
-      ext_id: ext$1.ext_id,
-      ext_name: ext$1.ext_name,
-      ext_type: ext$1.ext_type,
-      ext_kind: ext_kind,
-      ext_loc: ext$1.ext_loc,
-      ext_attributes: ext$1.ext_attributes
-    });
-  };
-  const map_class_description = function (cd) {
-    const cd$1 = Curry._1(funarg.enter_class_description, cd);
+  const map_class_type_declaration = function (cd) {
+    const cd$1 = Curry._1(funarg.enter_class_type_declaration, cd);
     const ci_params = Stdlib__List.map(map_type_parameter, cd$1.ci_params);
     const ci_expr = map_class_type(cd$1.ci_expr);
-    return Curry._1(funarg.leave_class_description, {
+    return Curry._1(funarg.leave_class_type_declaration, {
       ci_virt: cd$1.ci_virt,
       ci_params: ci_params,
       ci_id_name: cd$1.ci_id_name,
@@ -26247,34 +26190,39 @@ function TypedtreeMap_MakeMap(funarg) {
       typ_attributes: decl$1.typ_attributes
     });
   };
-  const map_type_extension = function (tyext) {
-    const tyext$1 = Curry._1(funarg.enter_type_extension, tyext);
-    const tyext_params = Stdlib__List.map(map_type_parameter, tyext$1.tyext_params);
-    const tyext_constructors = Stdlib__List.map(map_extension_constructor, tyext$1.tyext_constructors);
-    return Curry._1(funarg.leave_type_extension, {
-      tyext_path: tyext$1.tyext_path,
-      tyext_txt: tyext$1.tyext_txt,
-      tyext_params: tyext_params,
-      tyext_constructors: tyext_constructors,
-      tyext_private: tyext$1.tyext_private,
-      tyext_attributes: tyext$1.tyext_attributes
+  const map_extension_constructor = function (ext) {
+    const ext$1 = Curry._1(funarg.enter_extension_constructor, ext);
+    const match = ext$1.ext_kind;
+    let ext_kind;
+    if (match.TAG === /* Text_decl */ 0) {
+      const args = Stdlib__List.map(map_core_type, match._0);
+      const ret = may_map(map_core_type, match._1);
+      ext_kind = {
+        TAG: /* Text_decl */ 0,
+        _0: args,
+        _1: ret
+      };
+    } else {
+      ext_kind = {
+        TAG: /* Text_rebind */ 1,
+        _0: match._0,
+        _1: match._1
+      };
+    }
+    return Curry._1(funarg.leave_extension_constructor, {
+      ext_id: ext$1.ext_id,
+      ext_name: ext$1.ext_name,
+      ext_type: ext$1.ext_type,
+      ext_kind: ext_kind,
+      ext_loc: ext$1.ext_loc,
+      ext_attributes: ext$1.ext_attributes
     });
   };
-  const map_module_type_declaration = function (mtd) {
-    const mtd$1 = Curry._1(funarg.enter_module_type_declaration, mtd);
-    return Curry._1(funarg.leave_module_type_declaration, {
-      mtd_id: mtd$1.mtd_id,
-      mtd_name: mtd$1.mtd_name,
-      mtd_type: may_map(map_module_type, mtd$1.mtd_type),
-      mtd_attributes: mtd$1.mtd_attributes,
-      mtd_loc: mtd$1.mtd_loc
-    });
-  };
-  const map_class_type_declaration = function (cd) {
-    const cd$1 = Curry._1(funarg.enter_class_type_declaration, cd);
+  const map_class_description = function (cd) {
+    const cd$1 = Curry._1(funarg.enter_class_description, cd);
     const ci_params = Stdlib__List.map(map_type_parameter, cd$1.ci_params);
     const ci_expr = map_class_type(cd$1.ci_expr);
-    return Curry._1(funarg.leave_class_type_declaration, {
+    return Curry._1(funarg.leave_class_description, {
       ci_virt: cd$1.ci_virt,
       ci_params: ci_params,
       ci_id_name: cd$1.ci_id_name,
@@ -26287,6 +26235,58 @@ function TypedtreeMap_MakeMap(funarg) {
       ci_type_decl: cd$1.ci_type_decl,
       ci_loc: cd$1.ci_loc,
       ci_attributes: cd$1.ci_attributes
+    });
+  };
+  const map_module_type = function (mty) {
+    const mty$1 = Curry._1(funarg.enter_module_type, mty);
+    const sg = mty$1.mty_desc;
+    let mty_desc;
+    switch (sg.TAG) {
+      case /* Tmty_signature */ 1 :
+        mty_desc = {
+          TAG: /* Tmty_signature */ 1,
+          _0: map_signature(sg._0)
+        };
+        break;
+      case /* Tmty_functor */ 2 :
+        mty_desc = {
+          TAG: /* Tmty_functor */ 2,
+          _0: sg._0,
+          _1: sg._1,
+          _2: may_map(map_module_type, sg._2),
+          _3: map_module_type(sg._3)
+        };
+        break;
+      case /* Tmty_with */ 3 :
+        mty_desc = {
+          TAG: /* Tmty_with */ 3,
+          _0: map_module_type(sg._0),
+          _1: Stdlib__List.map((function (param) {
+            return [
+              param[0],
+              param[1],
+              map_with_constraint(param[2])
+            ];
+          }), sg._1)
+        };
+        break;
+      case /* Tmty_typeof */ 4 :
+        mty_desc = {
+          TAG: /* Tmty_typeof */ 4,
+          _0: map_module_expr(sg._0)
+        };
+        break;
+      case /* Tmty_ident */ 0 :
+      case /* Tmty_alias */ 5 :
+        mty_desc = mty$1.mty_desc;
+        break;
+    }
+    return Curry._1(funarg.leave_module_type, {
+      mty_desc: mty_desc,
+      mty_type: mty$1.mty_type,
+      mty_env: mty$1.mty_env,
+      mty_loc: mty$1.mty_loc,
+      mty_attributes: mty$1.mty_attributes
     });
   };
   const map_binding = function (vb) {
@@ -26485,6 +26485,105 @@ function TypedtreeMap_MakeMap(funarg) {
       cl_type: cexpr$1.cl_type,
       cl_env: cexpr$1.cl_env,
       cl_attributes: cexpr$1.cl_attributes
+    });
+  };
+  const map_pattern = function (pat) {
+    const pat$1 = Curry._1(funarg.enter_pattern, pat);
+    const list = pat$1.pat_desc;
+    let pat_desc;
+    if (/* tag */ typeof list === "number" || typeof list === "string") {
+      pat_desc = pat$1.pat_desc;
+    } else {
+      switch (list.TAG) {
+        case /* Tpat_alias */ 1 :
+          const pat1 = map_pattern(list._0);
+          pat_desc = {
+            TAG: /* Tpat_alias */ 1,
+            _0: pat1,
+            _1: list._1,
+            _2: list._2
+          };
+          break;
+        case /* Tpat_tuple */ 3 :
+          pat_desc = {
+            TAG: /* Tpat_tuple */ 3,
+            _0: Stdlib__List.map(map_pattern, list._0)
+          };
+          break;
+        case /* Tpat_construct */ 4 :
+          pat_desc = {
+            TAG: /* Tpat_construct */ 4,
+            _0: list._0,
+            _1: list._1,
+            _2: Stdlib__List.map(map_pattern, list._2)
+          };
+          break;
+        case /* Tpat_variant */ 5 :
+          const pato = list._1;
+          const pato$1 = pato !== undefined ? map_pattern(pato) : pato;
+          pat_desc = {
+            TAG: /* Tpat_variant */ 5,
+            _0: list._0,
+            _1: pato$1,
+            _2: list._2
+          };
+          break;
+        case /* Tpat_record */ 6 :
+          pat_desc = {
+            TAG: /* Tpat_record */ 6,
+            _0: Stdlib__List.map((function (param) {
+              return [
+                param[0],
+                param[1],
+                map_pattern(param[2])
+              ];
+            }), list._0),
+            _1: list._1
+          };
+          break;
+        case /* Tpat_array */ 7 :
+          pat_desc = {
+            TAG: /* Tpat_array */ 7,
+            _0: Stdlib__List.map(map_pattern, list._0)
+          };
+          break;
+        case /* Tpat_or */ 8 :
+          pat_desc = {
+            TAG: /* Tpat_or */ 8,
+            _0: map_pattern(list._0),
+            _1: map_pattern(list._1),
+            _2: list._2
+          };
+          break;
+        case /* Tpat_lazy */ 9 :
+          pat_desc = {
+            TAG: /* Tpat_lazy */ 9,
+            _0: map_pattern(list._0)
+          };
+          break;
+        default:
+          pat_desc = pat$1.pat_desc;
+      }
+    }
+    const pat_extra = Stdlib__List.map(map_pat_extra, pat$1.pat_extra);
+    return Curry._1(funarg.leave_pattern, {
+      pat_desc: pat_desc,
+      pat_loc: pat$1.pat_loc,
+      pat_extra: pat_extra,
+      pat_type: pat$1.pat_type,
+      pat_env: pat$1.pat_env,
+      pat_attributes: pat$1.pat_attributes
+    });
+  };
+  const map_class_structure = function (cs) {
+    const cs$1 = Curry._1(funarg.enter_class_structure, cs);
+    const cstr_self = map_pattern(cs$1.cstr_self);
+    const cstr_fields = Stdlib__List.map(map_class_field, cs$1.cstr_fields);
+    return Curry._1(funarg.leave_class_structure, {
+      cstr_self: cstr_self,
+      cstr_fields: cstr_fields,
+      cstr_type: cs$1.cstr_type,
+      cstr_meths: cs$1.cstr_meths
     });
   };
   const map_expression = function (exp) {
@@ -26753,105 +26852,6 @@ function TypedtreeMap_MakeMap(funarg) {
       cltyp_attributes: ct$1.cltyp_attributes
     });
   };
-  const map_class_structure = function (cs) {
-    const cs$1 = Curry._1(funarg.enter_class_structure, cs);
-    const cstr_self = map_pattern(cs$1.cstr_self);
-    const cstr_fields = Stdlib__List.map(map_class_field, cs$1.cstr_fields);
-    return Curry._1(funarg.leave_class_structure, {
-      cstr_self: cstr_self,
-      cstr_fields: cstr_fields,
-      cstr_type: cs$1.cstr_type,
-      cstr_meths: cs$1.cstr_meths
-    });
-  };
-  const map_pattern = function (pat) {
-    const pat$1 = Curry._1(funarg.enter_pattern, pat);
-    const list = pat$1.pat_desc;
-    let pat_desc;
-    if (/* tag */ typeof list === "number" || typeof list === "string") {
-      pat_desc = pat$1.pat_desc;
-    } else {
-      switch (list.TAG) {
-        case /* Tpat_alias */ 1 :
-          const pat1 = map_pattern(list._0);
-          pat_desc = {
-            TAG: /* Tpat_alias */ 1,
-            _0: pat1,
-            _1: list._1,
-            _2: list._2
-          };
-          break;
-        case /* Tpat_tuple */ 3 :
-          pat_desc = {
-            TAG: /* Tpat_tuple */ 3,
-            _0: Stdlib__List.map(map_pattern, list._0)
-          };
-          break;
-        case /* Tpat_construct */ 4 :
-          pat_desc = {
-            TAG: /* Tpat_construct */ 4,
-            _0: list._0,
-            _1: list._1,
-            _2: Stdlib__List.map(map_pattern, list._2)
-          };
-          break;
-        case /* Tpat_variant */ 5 :
-          const pato = list._1;
-          const pato$1 = pato !== undefined ? map_pattern(pato) : pato;
-          pat_desc = {
-            TAG: /* Tpat_variant */ 5,
-            _0: list._0,
-            _1: pato$1,
-            _2: list._2
-          };
-          break;
-        case /* Tpat_record */ 6 :
-          pat_desc = {
-            TAG: /* Tpat_record */ 6,
-            _0: Stdlib__List.map((function (param) {
-              return [
-                param[0],
-                param[1],
-                map_pattern(param[2])
-              ];
-            }), list._0),
-            _1: list._1
-          };
-          break;
-        case /* Tpat_array */ 7 :
-          pat_desc = {
-            TAG: /* Tpat_array */ 7,
-            _0: Stdlib__List.map(map_pattern, list._0)
-          };
-          break;
-        case /* Tpat_or */ 8 :
-          pat_desc = {
-            TAG: /* Tpat_or */ 8,
-            _0: map_pattern(list._0),
-            _1: map_pattern(list._1),
-            _2: list._2
-          };
-          break;
-        case /* Tpat_lazy */ 9 :
-          pat_desc = {
-            TAG: /* Tpat_lazy */ 9,
-            _0: map_pattern(list._0)
-          };
-          break;
-        default:
-          pat_desc = pat$1.pat_desc;
-      }
-    }
-    const pat_extra = Stdlib__List.map(map_pat_extra, pat$1.pat_extra);
-    return Curry._1(funarg.leave_pattern, {
-      pat_desc: pat_desc,
-      pat_loc: pat$1.pat_loc,
-      pat_extra: pat_extra,
-      pat_type: pat$1.pat_type,
-      pat_env: pat$1.pat_env,
-      pat_attributes: pat$1.pat_attributes
-    });
-  };
   const map_class_type_field = function (ctf) {
     const ctf$1 = Curry._1(funarg.enter_class_type_field, ctf);
     const ct = ctf$1.ctf_desc;
@@ -26922,6 +26922,15 @@ function TypedtreeMap_MakeMap(funarg) {
       ];
     }
   };
+  const map_signature = function (sg) {
+    const sg$1 = Curry._1(funarg.enter_signature, sg);
+    const sig_items = Stdlib__List.map(map_signature_item, sg$1.sig_items);
+    return Curry._1(funarg.leave_signature, {
+      sig_items: sig_items,
+      sig_type: sg$1.sig_type,
+      sig_final_env: sg$1.sig_final_env
+    });
+  };
   const map_module_expr = function (mexpr) {
     const mexpr$1 = Curry._1(funarg.enter_module_expr, mexpr);
     const st = mexpr$1.mod_desc;
@@ -26990,15 +26999,6 @@ function TypedtreeMap_MakeMap(funarg) {
       mod_attributes: mexpr$1.mod_attributes
     });
   };
-  const map_signature = function (sg) {
-    const sg$1 = Curry._1(funarg.enter_signature, sg);
-    const sig_items = Stdlib__List.map(map_signature_item, sg$1.sig_items);
-    return Curry._1(funarg.leave_signature, {
-      sig_items: sig_items,
-      sig_type: sg$1.sig_type,
-      sig_final_env: sg$1.sig_final_env
-    });
-  };
   const map_with_constraint = function (cstr) {
     const cstr$1 = Curry._1(funarg.enter_with_constraint, cstr);
     let tmp;
@@ -27022,15 +27022,6 @@ function TypedtreeMap_MakeMap(funarg) {
     }
     return Curry._1(funarg.leave_with_constraint, tmp);
   };
-  const map_module_binding = function (x) {
-    return {
-      mb_id: x.mb_id,
-      mb_name: x.mb_name,
-      mb_expr: map_module_expr(x.mb_expr),
-      mb_attributes: x.mb_attributes,
-      mb_loc: x.mb_loc
-    };
-  };
   const map_class_declaration = function (cd) {
     const cd$1 = Curry._1(funarg.enter_class_declaration, cd);
     const ci_params = Stdlib__List.map(map_type_parameter, cd$1.ci_params);
@@ -27049,6 +27040,15 @@ function TypedtreeMap_MakeMap(funarg) {
       ci_loc: cd$1.ci_loc,
       ci_attributes: cd$1.ci_attributes
     });
+  };
+  const map_module_binding = function (x) {
+    return {
+      mb_id: x.mb_id,
+      mb_name: x.mb_name,
+      mb_expr: map_module_expr(x.mb_expr),
+      mb_attributes: x.mb_attributes,
+      mb_loc: x.mb_loc
+    };
   };
   const map_constructor_declaration = function (cd) {
     return {
@@ -27310,6 +27310,13 @@ function TypedtreeMap_MakeMap(funarg) {
       csig_type: cs$1.csig_type
     });
   };
+  const map_case = function (param) {
+    return {
+      c_lhs: map_pattern(param.c_lhs),
+      c_guard: may_map(map_expression, param.c_guard),
+      c_rhs: map_expression(param.c_rhs)
+    };
+  };
   const map_exp_extra = function (exp_extra) {
     const attrs = exp_extra[2];
     const loc = exp_extra[1];
@@ -27365,13 +27372,6 @@ function TypedtreeMap_MakeMap(funarg) {
       case /* Texp_newtype */ 4 :
         return exp_extra;
     }
-  };
-  const map_case = function (param) {
-    return {
-      c_lhs: map_pattern(param.c_lhs),
-      c_guard: may_map(map_expression, param.c_guard),
-      c_rhs: map_expression(param.c_rhs)
-    };
   };
   return {
     map_structure: map_structure,
@@ -33021,6 +33021,78 @@ function unify_list(env, tl1, tl2) {
   }), tl1, tl2);
 }
 
+function unify_fields(env, ty1, ty2) {
+  const match = flatten_fields(ty1);
+  const rest1 = match[1];
+  const match$1 = flatten_fields(ty2);
+  const rest2 = match$1[1];
+  const match$2 = associate_fields(match[0], match$1[0]);
+  const miss2 = match$2[2];
+  const miss1 = match$2[1];
+  const l1 = repr(ty1).level;
+  const l2 = repr(ty2).level;
+  const va = make_rowvar(l1 < l2 ? l1 : l2, Caml_obj.caml_equal(miss2, /* [] */ 0), rest1, Caml_obj.caml_equal(miss1, /* [] */ 0), rest2);
+  const d1 = rest1.desc;
+  const d2 = rest2.desc;
+  try {
+    unify(env, build_fields(l1)(miss1, va), rest2);
+    unify(env, rest1, build_fields(l2)(miss2, va));
+    return Stdlib__List.iter((function (param) {
+      const t2 = param[4];
+      const k2 = param[3];
+      const t1 = param[2];
+      const k1 = param[1];
+      const n = param[0];
+      unify_kind(k1, k2);
+      try {
+        if (trace_gadt_instances.contents) {
+          update_level(env.contents, va.level, t1);
+        }
+        return unify(env, t1, t2);
+      }
+      catch (raw_trace){
+        const trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+        if (trace.MEL_EXN_ID === Unify) {
+          const desc_3 = newty2(current_level.contents, /* Tnil */ 0);
+          const desc = {
+            TAG: /* Tfield */ 5,
+            _0: n,
+            _1: k1,
+            _2: t1,
+            _3: desc_3
+          };
+          const desc_3$1 = newty2(current_level.contents, /* Tnil */ 0);
+          const desc$1 = {
+            TAG: /* Tfield */ 5,
+            _0: n,
+            _1: k2,
+            _2: t2,
+            _3: desc_3$1
+          };
+          throw new Caml_js_exceptions.MelangeError(Unify, {
+              MEL_EXN_ID: Unify,
+              _1: {
+                hd: [
+                  newty2(current_level.contents, desc),
+                  newty2(current_level.contents, desc$1)
+                ],
+                tl: trace._1
+              }
+            });
+        }
+        throw trace;
+      }
+    }), match$2[0]);
+  }
+  catch (exn){
+    log_type(rest1);
+    rest1.desc = d1;
+    log_type(rest2);
+    rest2.desc = d2;
+    throw exn;
+  }
+}
+
 function unify_row(env, row1, row2) {
   const row1$1 = row_repr_aux(/* [] */ 0, row1);
   const row2$1 = row_repr_aux(/* [] */ 0, row2);
@@ -33481,76 +33553,41 @@ function unify_row(env, row1, row2) {
   }
 }
 
-function unify_fields(env, ty1, ty2) {
-  const match = flatten_fields(ty1);
-  const rest1 = match[1];
-  const match$1 = flatten_fields(ty2);
-  const rest2 = match$1[1];
-  const match$2 = associate_fields(match[0], match$1[0]);
-  const miss2 = match$2[2];
-  const miss1 = match$2[1];
-  const l1 = repr(ty1).level;
-  const l2 = repr(ty2).level;
-  const va = make_rowvar(l1 < l2 ? l1 : l2, Caml_obj.caml_equal(miss2, /* [] */ 0), rest1, Caml_obj.caml_equal(miss1, /* [] */ 0), rest2);
-  const d1 = rest1.desc;
-  const d2 = rest2.desc;
-  try {
-    unify(env, build_fields(l1)(miss1, va), rest2);
-    unify(env, rest1, build_fields(l2)(miss2, va));
-    return Stdlib__List.iter((function (param) {
-      const t2 = param[4];
-      const k2 = param[3];
-      const t1 = param[2];
-      const k1 = param[1];
-      const n = param[0];
-      unify_kind(k1, k2);
-      try {
-        if (trace_gadt_instances.contents) {
-          update_level(env.contents, va.level, t1);
-        }
-        return unify(env, t1, t2);
-      }
-      catch (raw_trace){
-        const trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-        if (trace.MEL_EXN_ID === Unify) {
-          const desc_3 = newty2(current_level.contents, /* Tnil */ 0);
-          const desc = {
-            TAG: /* Tfield */ 5,
-            _0: n,
-            _1: k1,
-            _2: t1,
-            _3: desc_3
-          };
-          const desc_3$1 = newty2(current_level.contents, /* Tnil */ 0);
-          const desc$1 = {
-            TAG: /* Tfield */ 5,
-            _0: n,
-            _1: k2,
-            _2: t2,
-            _3: desc_3$1
-          };
-          throw new Caml_js_exceptions.MelangeError(Unify, {
-              MEL_EXN_ID: Unify,
-              _1: {
-                hd: [
-                  newty2(current_level.contents, desc),
-                  newty2(current_level.contents, desc$1)
-                ],
-                tl: trace._1
-              }
-            });
-        }
-        throw trace;
-      }
-    }), match$2[0]);
+function unify_kind(k1, k2) {
+  const k1$1 = field_kind_repr(k1);
+  const k2$1 = field_kind_repr(k2);
+  if (k1$1 === k2$1) {
+    return;
   }
-  catch (exn){
-    log_type(rest1);
-    rest1.desc = d1;
-    log_type(rest2);
-    rest2.desc = d2;
-    throw exn;
+  if (/* tag */ typeof k1$1 === "number" || typeof k1$1 === "string") {
+    if (k1$1 === /* Fpresent */ 0) {
+      if (!/* tag */ (typeof k2$1 === "number" || typeof k2$1 === "string")) {
+        return set_kind(k2$1._0, k1$1);
+      }
+      if (k2$1 === /* Fpresent */ 0) {
+        return;
+      }
+      
+    }
+    
+  } else {
+    const r = k1$1._0;
+    if (!/* tag */ (typeof k2$1 === "number" || typeof k2$1 === "string")) {
+      return set_kind(r, k2$1);
+    }
+    if (k2$1 === /* Fpresent */ 0) {
+      return set_kind(r, k2$1);
+    }
+    
   }
+  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+      MEL_EXN_ID: "Assert_failure",
+      _1: [
+        "jscomp/test/ocaml_typedtree_test.ml",
+        32636,
+        37
+      ]
+    });
 }
 
 function make_rowvar(level, use1, rest1, use2, rest2) {
@@ -33623,43 +33660,6 @@ function make_rowvar(level, use1, rest1, use2, rest2) {
       _0: name
     });
   }
-}
-
-function unify_kind(k1, k2) {
-  const k1$1 = field_kind_repr(k1);
-  const k2$1 = field_kind_repr(k2);
-  if (k1$1 === k2$1) {
-    return;
-  }
-  if (/* tag */ typeof k1$1 === "number" || typeof k1$1 === "string") {
-    if (k1$1 === /* Fpresent */ 0) {
-      if (!/* tag */ (typeof k2$1 === "number" || typeof k2$1 === "string")) {
-        return set_kind(k2$1._0, k1$1);
-      }
-      if (k2$1 === /* Fpresent */ 0) {
-        return;
-      }
-      
-    }
-    
-  } else {
-    const r = k1$1._0;
-    if (!/* tag */ (typeof k2$1 === "number" || typeof k2$1 === "string")) {
-      return set_kind(r, k2$1);
-    }
-    if (k2$1 === /* Fpresent */ 0) {
-      return set_kind(r, k2$1);
-    }
-    
-  }
-  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-      MEL_EXN_ID: "Assert_failure",
-      _1: [
-        "jscomp/test/ocaml_typedtree_test.ml",
-        32636,
-        37
-      ]
-    });
 }
 
 function unify3(env, t1, t1$p, t2, t2$p) {

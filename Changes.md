@@ -26,6 +26,8 @@ Unreleased
   ([#1488]((https://github.com/melange-re/melange/pull/1488)))
 - code generation: inline more binary operations
   ([#1526](https://github.com/melange-re/melange/pull/1526))
+- melange: fix wrong optimization in code generation related to option
+  unnesting ([#1530](https://github.com/melange-re/melange/pull/1530))
 
 5.1.0-53 2025-03-23
 ---------------

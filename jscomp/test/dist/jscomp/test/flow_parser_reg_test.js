@@ -3431,160 +3431,6 @@ function comment(env, buf, lexbuf) {
   };
 }
 
-function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const env = _env;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        return [
-          env,
-          /* T_EOF */ 105
-        ];
-      case 1 :
-        Stdlib__Lexing.new_line(lexbuf);
-        ___ocaml_lex_state = 333;
-        continue;
-      case 2 :
-        unicode_fix_cols(lexbuf);
-        ___ocaml_lex_state = 333;
-        continue;
-      case 3 :
-        const start = from_lb(env.lex_source, lexbuf);
-        const buf = Stdlib__Buffer.create(127);
-        const match = line_comment(env, buf, lexbuf);
-        const env$1 = save_comment(match[0], start, match[1], buf, true);
-        ___ocaml_lex_state = 333;
-        _env = env$1;
-        continue;
-      case 4 :
-        const start$1 = from_lb(env.lex_source, lexbuf);
-        const buf$1 = Stdlib__Buffer.create(127);
-        const match$1 = comment(env, buf$1, lexbuf);
-        const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
-        ___ocaml_lex_state = 333;
-        _env = env$2;
-        continue;
-      case 5 :
-        return [
-          env,
-          /* T_LESS_THAN */ 89
-        ];
-      case 6 :
-        return [
-          env,
-          /* T_DIV */ 96
-        ];
-      case 7 :
-        return [
-          env,
-          /* T_GREATER_THAN */ 90
-        ];
-      case 8 :
-        return [
-          env,
-          /* T_LCURLY */ 1
-        ];
-      case 9 :
-        return [
-          env,
-          /* T_COLON */ 77
-        ];
-      case 10 :
-        return [
-          env,
-          /* T_PERIOD */ 9
-        ];
-      case 11 :
-        return [
-          env,
-          /* T_ASSIGN */ 75
-        ];
-      case 12 :
-        unicode_fix_cols(lexbuf);
-        return [
-          env,
-          /* T_JSX_IDENTIFIER */ 106
-        ];
-      case 13 :
-        const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-        const start$2 = from_lb(env.lex_source, lexbuf);
-        const buf$2 = Stdlib__Buffer.create(127);
-        const raw = Stdlib__Buffer.create(127);
-        Stdlib__Buffer.add_char(raw, quote);
-        const mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */ 0 : /* JSX_DOUBLE_QUOTED_TEXT */ 1;
-        const match$2 = jsx_text(env, mode, buf$2, raw, lexbuf);
-        Stdlib__Buffer.add_char(raw, quote);
-        const value = Stdlib__Buffer.contents(buf$2);
-        const raw$1 = Stdlib__Buffer.contents(raw);
-        return [
-          match$2[0],
-          {
-            TAG: /* T_JSX_TEXT */ 4,
-            _0: [
-              btwn(start$2, match$2[1]),
-              value,
-              raw$1
-            ]
-          }
-        ];
-      case 14 :
-        return [
-          env,
-          /* T_ERROR */ 104
-        ];
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function line_comment(env, buf, lexbuf) {
-  let ___ocaml_lex_state = 287;
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        return [
-          env,
-          from_lb(env.lex_source, lexbuf)
-        ];
-      case 1 :
-        const match = from_lb(env.lex_source, lexbuf);
-        const match$1 = match._end;
-        Stdlib__Lexing.new_line(lexbuf);
-        const _end_line = match$1.line;
-        const _end_column = match$1.column - 1 | 0;
-        const _end_offset = match$1.offset - 1 | 0;
-        const _end = {
-          line: _end_line,
-          column: _end_column,
-          offset: _end_offset
-        };
-        return [
-          env,
-          {
-            source: match.source,
-            start: match.start,
-            _end: _end
-          }
-        ];
-      case 2 :
-        const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-        Stdlib__Buffer.add_char(buf, c);
-        return line_comment(env, buf, lexbuf);
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
 function jsx_text(env, mode, buf, raw, lexbuf) {
   let ___ocaml_lex_state = 371;
   while (true) {
@@ -4449,6 +4295,160 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
   };
 }
 
+function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const env = _env;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        return [
+          env,
+          /* T_EOF */ 105
+        ];
+      case 1 :
+        Stdlib__Lexing.new_line(lexbuf);
+        ___ocaml_lex_state = 333;
+        continue;
+      case 2 :
+        unicode_fix_cols(lexbuf);
+        ___ocaml_lex_state = 333;
+        continue;
+      case 3 :
+        const start = from_lb(env.lex_source, lexbuf);
+        const buf = Stdlib__Buffer.create(127);
+        const match = line_comment(env, buf, lexbuf);
+        const env$1 = save_comment(match[0], start, match[1], buf, true);
+        ___ocaml_lex_state = 333;
+        _env = env$1;
+        continue;
+      case 4 :
+        const start$1 = from_lb(env.lex_source, lexbuf);
+        const buf$1 = Stdlib__Buffer.create(127);
+        const match$1 = comment(env, buf$1, lexbuf);
+        const env$2 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
+        ___ocaml_lex_state = 333;
+        _env = env$2;
+        continue;
+      case 5 :
+        return [
+          env,
+          /* T_LESS_THAN */ 89
+        ];
+      case 6 :
+        return [
+          env,
+          /* T_DIV */ 96
+        ];
+      case 7 :
+        return [
+          env,
+          /* T_GREATER_THAN */ 90
+        ];
+      case 8 :
+        return [
+          env,
+          /* T_LCURLY */ 1
+        ];
+      case 9 :
+        return [
+          env,
+          /* T_COLON */ 77
+        ];
+      case 10 :
+        return [
+          env,
+          /* T_PERIOD */ 9
+        ];
+      case 11 :
+        return [
+          env,
+          /* T_ASSIGN */ 75
+        ];
+      case 12 :
+        unicode_fix_cols(lexbuf);
+        return [
+          env,
+          /* T_JSX_IDENTIFIER */ 106
+        ];
+      case 13 :
+        const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+        const start$2 = from_lb(env.lex_source, lexbuf);
+        const buf$2 = Stdlib__Buffer.create(127);
+        const raw = Stdlib__Buffer.create(127);
+        Stdlib__Buffer.add_char(raw, quote);
+        const mode = quote === /* '\'' */39 ? /* JSX_SINGLE_QUOTED_TEXT */ 0 : /* JSX_DOUBLE_QUOTED_TEXT */ 1;
+        const match$2 = jsx_text(env, mode, buf$2, raw, lexbuf);
+        Stdlib__Buffer.add_char(raw, quote);
+        const value = Stdlib__Buffer.contents(buf$2);
+        const raw$1 = Stdlib__Buffer.contents(raw);
+        return [
+          match$2[0],
+          {
+            TAG: /* T_JSX_TEXT */ 4,
+            _0: [
+              btwn(start$2, match$2[1]),
+              value,
+              raw$1
+            ]
+          }
+        ];
+      case 14 :
+        return [
+          env,
+          /* T_ERROR */ 104
+        ];
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function line_comment(env, buf, lexbuf) {
+  let ___ocaml_lex_state = 287;
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        return [
+          env,
+          from_lb(env.lex_source, lexbuf)
+        ];
+      case 1 :
+        const match = from_lb(env.lex_source, lexbuf);
+        const match$1 = match._end;
+        Stdlib__Lexing.new_line(lexbuf);
+        const _end_line = match$1.line;
+        const _end_column = match$1.column - 1 | 0;
+        const _end_offset = match$1.offset - 1 | 0;
+        const _end = {
+          line: _end_line,
+          column: _end_column,
+          offset: _end_offset
+        };
+        return [
+          env,
+          {
+            source: match.source,
+            start: match.start,
+            _end: _end
+          }
+        ];
+      case 2 :
+        const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+        Stdlib__Buffer.add_char(buf, c);
+        return line_comment(env, buf, lexbuf);
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
 function regexp_class(env, buf, lexbuf) {
   let ___ocaml_lex_state = 326;
   while (true) {
@@ -4476,6 +4476,72 @@ function regexp_class(env, buf, lexbuf) {
     const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
     Stdlib__Buffer.add_string(buf, s);
     return regexp_class(env, buf, lexbuf);
+  };
+}
+
+function template_part(env, start, cooked, raw, literal, lexbuf) {
+  let ___ocaml_lex_state = 416;
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+          TAG: /* UnexpectedToken */ 1,
+          _0: "ILLEGAL"
+        });
+        return [
+          env$1,
+          btwn(start, from_lb(env$1.lex_source, lexbuf)),
+          true
+        ];
+      case 1 :
+        Stdlib__Buffer.add_char(literal, /* '`' */96);
+        return [
+          env,
+          btwn(start, from_lb(env.lex_source, lexbuf)),
+          true
+        ];
+      case 2 :
+        Stdlib__Buffer.add_string(literal, "${");
+        return [
+          env,
+          btwn(start, from_lb(env.lex_source, lexbuf)),
+          false
+        ];
+      case 3 :
+        Stdlib__Buffer.add_char(raw, /* '\\' */92);
+        Stdlib__Buffer.add_char(literal, /* '\\' */92);
+        const match = string_escape(env, cooked, lexbuf);
+        const str = Stdlib__Lexing.lexeme(lexbuf);
+        Stdlib__Buffer.add_string(raw, str);
+        Stdlib__Buffer.add_string(literal, str);
+        return template_part(match[0], start, cooked, raw, literal, lexbuf);
+      case 4 :
+        const lf = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
+        Stdlib__Buffer.add_string(raw, lf);
+        Stdlib__Buffer.add_string(literal, lf);
+        Stdlib__Buffer.add_string(cooked, "\n");
+        Stdlib__Lexing.new_line(lexbuf);
+        return template_part(env, start, cooked, raw, literal, lexbuf);
+      case 5 :
+        const lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+        Stdlib__Buffer.add_char(raw, lf$1);
+        Stdlib__Buffer.add_char(literal, lf$1);
+        Stdlib__Buffer.add_char(cooked, /* '\n' */10);
+        Stdlib__Lexing.new_line(lexbuf);
+        return template_part(env, start, cooked, raw, literal, lexbuf);
+      case 6 :
+        const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+        Stdlib__Buffer.add_char(raw, c);
+        Stdlib__Buffer.add_char(literal, c);
+        Stdlib__Buffer.add_char(cooked, c);
+        return template_part(env, start, cooked, raw, literal, lexbuf);
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
   };
 }
 
@@ -4641,72 +4707,6 @@ function string_escape(env, buf, lexbuf) {
           env,
           false
         ];
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function template_part(env, start, cooked, raw, literal, lexbuf) {
-  let ___ocaml_lex_state = 416;
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-          TAG: /* UnexpectedToken */ 1,
-          _0: "ILLEGAL"
-        });
-        return [
-          env$1,
-          btwn(start, from_lb(env$1.lex_source, lexbuf)),
-          true
-        ];
-      case 1 :
-        Stdlib__Buffer.add_char(literal, /* '`' */96);
-        return [
-          env,
-          btwn(start, from_lb(env.lex_source, lexbuf)),
-          true
-        ];
-      case 2 :
-        Stdlib__Buffer.add_string(literal, "${");
-        return [
-          env,
-          btwn(start, from_lb(env.lex_source, lexbuf)),
-          false
-        ];
-      case 3 :
-        Stdlib__Buffer.add_char(raw, /* '\\' */92);
-        Stdlib__Buffer.add_char(literal, /* '\\' */92);
-        const match = string_escape(env, cooked, lexbuf);
-        const str = Stdlib__Lexing.lexeme(lexbuf);
-        Stdlib__Buffer.add_string(raw, str);
-        Stdlib__Buffer.add_string(literal, str);
-        return template_part(match[0], start, cooked, raw, literal, lexbuf);
-      case 4 :
-        const lf = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
-        Stdlib__Buffer.add_string(raw, lf);
-        Stdlib__Buffer.add_string(literal, lf);
-        Stdlib__Buffer.add_string(cooked, "\n");
-        Stdlib__Lexing.new_line(lexbuf);
-        return template_part(env, start, cooked, raw, literal, lexbuf);
-      case 5 :
-        const lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-        Stdlib__Buffer.add_char(raw, lf$1);
-        Stdlib__Buffer.add_char(literal, lf$1);
-        Stdlib__Buffer.add_char(cooked, /* '\n' */10);
-        Stdlib__Lexing.new_line(lexbuf);
-        return template_part(env, start, cooked, raw, literal, lexbuf);
-      case 6 :
-        const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-        Stdlib__Buffer.add_char(raw, c);
-        Stdlib__Buffer.add_char(literal, c);
-        Stdlib__Buffer.add_char(cooked, c);
-        return template_part(env, start, cooked, raw, literal, lexbuf);
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -6915,12 +6915,6 @@ function union(env) {
   return Curry._2(union_with, env, left);
 }
 
-function intersection(env) {
-  maybe(env, /* T_BIT_AND */ 82);
-  const left = prefix(env);
-  return Curry._2(intersection_with, env, left);
-}
-
 function rev_nonempty_acc(acc) {
   let end_loc;
   if (acc) {
@@ -6953,6 +6947,12 @@ function rev_nonempty_acc(acc) {
     btwn(start_loc, end_loc),
     acc$1
   ];
+}
+
+function intersection(env) {
+  maybe(env, /* T_BIT_AND */ 82);
+  const left = prefix(env);
+  return Curry._2(intersection_with, env, left);
 }
 
 function prefix(env) {
@@ -7199,10 +7199,6 @@ function primary(env) {
   }
 }
 
-function generic(env) {
-  return Curry._2(raw_generic_with_identifier, env, Curry._2(Parse.identifier, undefined, env));
-}
-
 function primitive(param) {
   if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
     return;
@@ -7223,6 +7219,10 @@ function primitive(param) {
     default:
       return;
   }
+}
+
+function generic(env) {
+  return Curry._2(raw_generic_with_identifier, env, Curry._2(Parse.identifier, undefined, env));
 }
 
 function postfix(env) {
@@ -7479,6 +7479,30 @@ function union_with(env, left) {
   }
 }
 
+function types(env, _acc) {
+  while (true) {
+    const acc = _acc;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
+      switch (match) {
+        case /* T_RBRACKET */ 6 :
+        case /* T_EOF */ 105 :
+          return Stdlib__List.rev(acc);
+      }
+    }
+    const acc_0 = union(env);
+    const acc$1 = {
+      hd: acc_0,
+      tl: acc
+    };
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */ 6)) {
+      token$4(env, /* T_COMMA */ 8);
+    }
+    _acc = acc$1;
+    continue;
+  };
+}
+
 function methodish(env, start_loc) {
   const typeParameters = Curry._2(type_parameter_declaration, false, env);
   const match = function_param_list(env);
@@ -7730,30 +7754,6 @@ function _object(allow_staticOpt, env) {
       callProperties: match[2]
     }
   ];
-}
-
-function types(env, _acc) {
-  while (true) {
-    const acc = _acc;
-    const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
-      switch (match) {
-        case /* T_RBRACKET */ 6 :
-        case /* T_EOF */ 105 :
-          return Stdlib__List.rev(acc);
-      }
-    }
-    const acc_0 = union(env);
-    const acc$1 = {
-      hd: acc_0,
-      tl: acc
-    };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */ 6)) {
-      token$4(env, /* T_COMMA */ 8);
-    }
-    _acc = acc$1;
-    continue;
-  };
 }
 
 function identifier(env, _param) {
@@ -11586,6 +11586,75 @@ function declare(in_moduleOpt, env) {
   }
 }
 
+function export_specifiers_and_errs(env, _specifiers, _errs) {
+  while (true) {
+    const errs = _errs;
+    const specifiers = _specifiers;
+    const match = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (/* tag */ typeof match === "number" || typeof match === "string") {
+      switch (match) {
+        case /* T_RCURLY */ 2 :
+        case /* T_EOF */ 105 :
+          return [
+            Stdlib__List.rev(specifiers),
+            Stdlib__List.rev(errs)
+          ];
+      }
+    }
+    const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+    const id = match$1[0];
+    let match$2;
+    if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
+      contextual(env, "as");
+      const match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+      const name = match$3[0];
+      record_export(env, [
+        name[0],
+        extract_ident_name(name)
+      ]);
+      match$2 = [
+        name,
+        undefined,
+        name[0]
+      ];
+    } else {
+      const loc = id[0];
+      record_export(env, [
+        loc,
+        extract_ident_name(id)
+      ]);
+      match$2 = [
+        undefined,
+        match$1[1],
+        loc
+      ];
+    }
+    const err = match$2[1];
+    const loc$1 = btwn(id[0], match$2[2]);
+    const specifier_1 = {
+      id: id,
+      name: match$2[0]
+    };
+    const specifier = [
+      loc$1,
+      specifier_1
+    ];
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */ 8)) {
+      token$4(env, /* T_COMMA */ 8);
+    }
+    const errs$1 = err !== undefined ? ({
+        hd: err,
+        tl: errs
+      }) : errs;
+    _errs = errs$1;
+    _specifiers = {
+      hd: specifier,
+      tl: specifiers
+    };
+    continue;
+  };
+}
+
 function type_alias_helper(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   if (!env.parse_options.types) {
@@ -11662,73 +11731,19 @@ function export_source(env) {
   return ret;
 }
 
-function export_specifiers_and_errs(env, _specifiers, _errs) {
-  while (true) {
-    const errs = _errs;
-    const specifiers = _specifiers;
-    const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
-      switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
-          return [
-            Stdlib__List.rev(specifiers),
-            Stdlib__List.rev(errs)
-          ];
-      }
+function declare_var(env, start_loc) {
+  token$4(env, /* T_VAR */ 22);
+  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */ 27);
+  const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
+  const end_loc = loc !== undefined ? loc : id[0];
+  const loc$1 = btwn(start_loc, end_loc);
+  semicolon(env);
+  return [
+    loc$1,
+    {
+      id: id
     }
-    const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-    const id = match$1[0];
-    let match$2;
-    if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
-      contextual(env, "as");
-      const match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-      const name = match$3[0];
-      record_export(env, [
-        name[0],
-        extract_ident_name(name)
-      ]);
-      match$2 = [
-        name,
-        undefined,
-        name[0]
-      ];
-    } else {
-      const loc = id[0];
-      record_export(env, [
-        loc,
-        extract_ident_name(id)
-      ]);
-      match$2 = [
-        undefined,
-        match$1[1],
-        loc
-      ];
-    }
-    const err = match$2[1];
-    const loc$1 = btwn(id[0], match$2[2]);
-    const specifier_1 = {
-      id: id,
-      name: match$2[0]
-    };
-    const specifier = [
-      loc$1,
-      specifier_1
-    ];
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */ 8)) {
-      token$4(env, /* T_COMMA */ 8);
-    }
-    const errs$1 = err !== undefined ? ({
-        hd: err,
-        tl: errs
-      }) : errs;
-    _errs = errs$1;
-    _specifiers = {
-      hd: specifier,
-      tl: specifiers
-    };
-    continue;
-  };
+  ];
 }
 
 function declare_function(env, start_loc) {
@@ -11783,21 +11798,6 @@ function declare_function(env, start_loc) {
   ];
 }
 
-function declare_var(env, start_loc) {
-  token$4(env, /* T_VAR */ 22);
-  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */ 27);
-  const loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
-  const end_loc = loc !== undefined ? loc : id[0];
-  const loc$1 = btwn(start_loc, end_loc);
-  semicolon(env);
-  return [
-    loc$1,
-    {
-      id: id
-    }
-  ];
-}
-
 function type_alias(env) {
   if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
     return Curry._1(Parse.statement, env);
@@ -11807,31 +11807,6 @@ function type_alias(env) {
     match[0],
     {
       TAG: /* TypeAlias */ 7,
-      _0: match[1]
-    }
-  ];
-}
-
-function declare_var_statement(env, start_loc) {
-  const match = declare_var(env, start_loc);
-  return [
-    match[0],
-    {
-      TAG: /* DeclareVariable */ 22,
-      _0: match[1]
-    }
-  ];
-}
-
-function $$interface(env) {
-  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
-    return expression(env);
-  }
-  const match = Curry._1(interface_helper, env);
-  return [
-    match[0],
-    {
-      TAG: /* InterfaceDeclaration */ 21,
       _0: match[1]
     }
   ];
@@ -12136,6 +12111,31 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
       ];
   }
+}
+
+function $$interface(env) {
+  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
+    return expression(env);
+  }
+  const match = Curry._1(interface_helper, env);
+  return [
+    match[0],
+    {
+      TAG: /* InterfaceDeclaration */ 21,
+      _0: match[1]
+    }
+  ];
+}
+
+function declare_var_statement(env, start_loc) {
+  const match = declare_var(env, start_loc);
+  return [
+    match[0],
+    {
+      TAG: /* DeclareVariable */ 22,
+      _0: match[1]
+    }
+  ];
 }
 
 function extract_ident_name(param) {
@@ -15914,304 +15914,155 @@ function parse(content, options) {
           ]);
       }
     };
-    const _type = function (param) {
-      const t = param[1];
-      const loc = param[0];
-      if (/* tag */ typeof t === "number" || typeof t === "string") {
-        switch (t) {
-          case /* Any */ 0 :
-            return node("AnyTypeAnnotation", loc, []);
-          case /* Void */ 1 :
-            return node("VoidTypeAnnotation", loc, []);
-          case /* Null */ 2 :
-            return node("NullTypeAnnotation", loc, []);
-          case /* Number */ 3 :
-            return node("NumberTypeAnnotation", loc, []);
-          case /* String */ 4 :
-            return node("StringTypeAnnotation", loc, []);
-          case /* Boolean */ 5 :
-            return node("BooleanTypeAnnotation", loc, []);
-          case /* Exists */ 6 :
-            return node("ExistsTypeAnnotation", loc, []);
-        }
-      } else {
-        switch (t.TAG) {
-          case /* Nullable */ 0 :
-            let t$1 = t._0;
-            return node("NullableTypeAnnotation", loc, [[
-                "typeAnnotation",
-                _type(t$1)
-              ]]);
-          case /* Function */ 1 :
-            return function_type([
-              loc,
-              t._0
-            ]);
-          case /* Object */ 2 :
-            return object_type([
-              loc,
-              t._0
-            ]);
-          case /* Array */ 3 :
-            let t$2 = t._0;
-            return node("ArrayTypeAnnotation", loc, [[
-                "elementType",
-                _type(t$2)
-              ]]);
-          case /* Generic */ 4 :
-            let param$1 = [
-              loc,
-              t._0
+    const class_element = function (m) {
+      if (m.TAG === /* Method */ 0) {
+        let param = m._0;
+        const method_ = param[1];
+        const key = method_.key;
+        let match;
+        switch (key.TAG) {
+          case /* Literal */ 0 :
+            match = [
+              literal(key._0),
+              false
             ];
-            const g = param$1[1];
-            const id = g.id;
-            let id$1;
-            id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-            return node("GenericTypeAnnotation", param$1[0], [
-              [
-                "id",
-                id$1
-              ],
-              [
-                "typeParameters",
-                option(type_parameter_instantiation, g.typeParameters)
-              ]
-            ]);
-          case /* Union */ 5 :
-            let param$2 = [
-              loc,
-              t._0
-            ];
-            return node("UnionTypeAnnotation", param$2[0], [[
-                "types",
-                array_of_list(_type, param$2[1])
-              ]]);
-          case /* Intersection */ 6 :
-            let param$3 = [
-              loc,
-              t._0
-            ];
-            return node("IntersectionTypeAnnotation", param$3[0], [[
-                "types",
-                array_of_list(_type, param$3[1])
-              ]]);
-          case /* Typeof */ 7 :
-            let param$4 = [
-              loc,
-              t._0
-            ];
-            return node("TypeofTypeAnnotation", param$4[0], [[
-                "argument",
-                _type(param$4[1])
-              ]]);
-          case /* Tuple */ 8 :
-            let param$5 = [
-              loc,
-              t._0
-            ];
-            return node("TupleTypeAnnotation", param$5[0], [[
-                "types",
-                array_of_list(_type, param$5[1])
-              ]]);
-          case /* StringLiteral */ 9 :
-            let param$6 = [
-              loc,
-              t._0
-            ];
-            const s = param$6[1];
-            return node("StringLiteralTypeAnnotation", param$6[0], [
-              [
-                "value",
-                string(s.value)
-              ],
-              [
-                "raw",
-                string(s.raw)
-              ]
-            ]);
-          case /* NumberLiteral */ 10 :
-            let param$7 = [
-              loc,
-              t._0
-            ];
-            const s$1 = param$7[1];
-            return node("NumberLiteralTypeAnnotation", param$7[0], [
-              [
-                "value",
-                number$1(s$1.value)
-              ],
-              [
-                "raw",
-                string(s$1.raw)
-              ]
-            ]);
-          case /* BooleanLiteral */ 11 :
-            let param$8 = [
-              loc,
-              t._0
-            ];
-            const s$2 = param$8[1];
-            return node("BooleanLiteralTypeAnnotation", param$8[0], [
-              [
-                "value",
-                bool(s$2.value)
-              ],
-              [
-                "raw",
-                string(s$2.raw)
-              ]
-            ]);
-        }
-      }
-    };
-    const identifier = function (param) {
-      const id = param[1];
-      return node("Identifier", param[0], [
-        [
-          "name",
-          string(id.name)
-        ],
-        [
-          "typeAnnotation",
-          option(type_annotation, id.typeAnnotation)
-        ],
-        [
-          "optional",
-          bool(id.optional)
-        ]
-      ]);
-    };
-    const type_parameter_instantiation = function (param) {
-      return node("TypeParameterInstantiation", param[0], [[
-          "params",
-          array_of_list(_type, param[1].params)
-        ]]);
-    };
-    const type_annotation = function (param) {
-      return node("TypeAnnotation", param[0], [[
-          "typeAnnotation",
-          _type(param[1])
-        ]]);
-    };
-    const function_expression = function (param) {
-      const _function = param[1];
-      const b = _function.body;
-      let body;
-      body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
-      return node("FunctionExpression", param[0], [
-        [
-          "id",
-          option(identifier, _function.id)
-        ],
-        [
-          "params",
-          array_of_list(pattern, _function.params)
-        ],
-        [
-          "defaults",
-          array_of_list((function (param) {
-            return option(expression, param);
-          }), _function.defaults)
-        ],
-        [
-          "rest",
-          option(identifier, _function.rest)
-        ],
-        [
-          "body",
-          body
-        ],
-        [
-          "async",
-          bool(_function.async)
-        ],
-        [
-          "generator",
-          bool(_function.generator)
-        ],
-        [
-          "expression",
-          bool(_function.expression)
-        ],
-        [
-          "returnType",
-          option(type_annotation, _function.returnType)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_declaration, _function.typeParameters)
-        ]
-      ]);
-    };
-    const literal = function (param) {
-      const lit = param[1];
-      const raw = lit.raw;
-      const value = lit.value;
-      const loc = param[0];
-      let value_;
-      if (/* tag */ typeof value === "number" || typeof value === "string") {
-        value_ = $$null;
-      } else {
-        switch (value.TAG) {
-          case /* String */ 0 :
-            value_ = string(value._0);
             break;
-          case /* Boolean */ 1 :
-            value_ = bool(value._0);
+          case /* Identifier */ 1 :
+            match = [
+              identifier(key._0),
+              false
+            ];
             break;
-          case /* Number */ 2 :
-            value_ = number$1(value._0);
-            break;
-          case /* RegExp */ 3 :
-            const match = value._0;
-            value_ = regexp$1(loc, match.pattern, match.flags);
+          case /* Computed */ 2 :
+            match = [
+              expression(key._0),
+              true
+            ];
             break;
         }
-      }
-      let props;
-      let exit = 0;
-      if (/* tag */ typeof value === "number" || typeof value === "string" || value.TAG !== /* RegExp */ 3) {
-        exit = 1;
-      } else {
-        const match$1 = value._0;
-        const regex = obj([
+        let kind;
+        switch (method_.kind) {
+          case /* Constructor */ 0 :
+            kind = "constructor";
+            break;
+          case /* Method */ 1 :
+            kind = "method";
+            break;
+          case /* Get */ 2 :
+            kind = "get";
+            break;
+          case /* Set */ 3 :
+            kind = "set";
+            break;
+        }
+        return node("MethodDefinition", param[0], [
           [
-            "pattern",
-            string(match$1.pattern)
+            "key",
+            match[0]
           ],
           [
-            "flags",
-            string(match$1.flags)
+            "value",
+            function_expression(method_.value)
+          ],
+          [
+            "kind",
+            string(kind)
+          ],
+          [
+            "static",
+            bool(method_.static)
+          ],
+          [
+            "computed",
+            bool(match[1])
+          ],
+          [
+            "decorators",
+            array_of_list(expression, method_.decorators)
           ]
         ]);
-        props = [
+      } else {
+        let param$1 = m._0;
+        const prop = param$1[1];
+        const lit = prop.key;
+        let match$1;
+        switch (lit.TAG) {
+          case /* Literal */ 0 :
+            match$1 = [
+              literal(lit._0),
+              false
+            ];
+            break;
+          case /* Identifier */ 1 :
+            match$1 = [
+              identifier(lit._0),
+              false
+            ];
+            break;
+          case /* Computed */ 2 :
+            match$1 = [
+              expression(lit._0),
+              true
+            ];
+            break;
+        }
+        return node("ClassProperty", param$1[0], [
+          [
+            "key",
+            match$1[0]
+          ],
           [
             "value",
-            value_
+            option(expression, prop.value)
           ],
           [
-            "raw",
-            string(raw)
+            "typeAnnotation",
+            option(type_annotation, prop.typeAnnotation)
           ],
           [
-            "regex",
-            regex
+            "computed",
+            bool(match$1[1])
+          ],
+          [
+            "static",
+            bool(prop.static)
           ]
-        ];
+        ]);
       }
-      if (exit === 1) {
-        props = [
-          [
-            "value",
-            value_
-          ],
-          [
-            "raw",
-            string(raw)
-          ]
-        ];
-      }
-      return node("Literal", loc, props);
+    };
+    const type_param = function (param) {
+      const tp = param[1];
+      const variance = function (param) {
+        if (param === /* Plus */ 0) {
+          return string("plus");
+        } else {
+          return string("minus");
+        }
+      };
+      return node("TypeParameter", param[0], [
+        [
+          "name",
+          string(tp.name)
+        ],
+        [
+          "bound",
+          option(type_annotation, tp.bound)
+        ],
+        [
+          "variance",
+          option(variance, tp.variance)
+        ],
+        [
+          "default",
+          option(_type, tp.default)
+        ]
+      ]);
+    };
+    const block = function (param) {
+      return node("BlockStatement", param[0], [[
+          "body",
+          array_of_list(statement, param[1].body)
+        ]]);
     };
     const expression = function (param) {
       const arr = param[1];
@@ -16717,118 +16568,6 @@ function parse(content, options) {
           ]);
       }
     };
-    const variable_declarator = function (param) {
-      const declarator = param[1];
-      return node("VariableDeclarator", param[0], [
-        [
-          "id",
-          pattern(declarator.id)
-        ],
-        [
-          "init",
-          option(expression, declarator.init)
-        ]
-      ]);
-    };
-    const jsx_expression_container = function (param) {
-      const expr = param[1].expression;
-      let expression$1;
-      expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
-      return node("JSXExpressionContainer", param[0], [[
-          "expression",
-          expression$1
-        ]]);
-    };
-    const jsx_child = function (param) {
-      const element = param[1];
-      const loc = param[0];
-      switch (element.TAG) {
-        case /* Element */ 0 :
-          return jsx_element([
-            loc,
-            element._0
-          ]);
-        case /* ExpressionContainer */ 1 :
-          return jsx_expression_container([
-            loc,
-            element._0
-          ]);
-        case /* Text */ 2 :
-          let param$1 = [
-            loc,
-            element._0
-          ];
-          const text = param$1[1];
-          return node("JSXText", param$1[0], [
-            [
-              "value",
-              string(text.value)
-            ],
-            [
-              "raw",
-              string(text.raw)
-            ]
-          ]);
-      }
-    };
-    const jsx_closing = function (param) {
-      return node("JSXClosingElement", param[0], [[
-          "name",
-          jsx_name(param[1].name)
-        ]]);
-    };
-    const jsx_opening = function (param) {
-      const opening = param[1];
-      return node("JSXOpeningElement", param[0], [
-        [
-          "name",
-          jsx_name(opening.name)
-        ],
-        [
-          "attributes",
-          array_of_list(jsx_opening_attribute, opening.attributes)
-        ],
-        [
-          "selfClosing",
-          bool(opening.selfClosing)
-        ]
-      ]);
-    };
-    const jsx_name = function (id) {
-      switch (id.TAG) {
-        case /* Identifier */ 0 :
-          return jsx_identifier(id._0);
-        case /* NamespacedName */ 1 :
-          return jsx_namespaced_name(id._0);
-        case /* MemberExpression */ 2 :
-          return jsx_member_expression(id._0);
-      }
-    };
-    const jsx_opening_attribute = function (attribute) {
-      if (attribute.TAG === /* Attribute */ 0) {
-        let param = attribute._0;
-        const attribute$1 = param[1];
-        const id = attribute$1.name;
-        let name;
-        name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
-        return node("JSXAttribute", param[0], [
-          [
-            "name",
-            name
-          ],
-          [
-            "value",
-            option(jsx_attribute_value, attribute$1.value)
-          ]
-        ]);
-      } else {
-        let param$1 = attribute._0;
-        return node("JSXSpreadAttribute", param$1[0], [[
-            "argument",
-            expression(param$1[1].argument)
-          ]]);
-      }
-    };
     const pattern = function (param) {
       const obj = param[1];
       const loc = param[0];
@@ -16877,27 +16616,98 @@ function parse(content, options) {
           return expression(obj._0);
       }
     };
-    const block = function (param) {
-      return node("BlockStatement", param[0], [[
-          "body",
-          array_of_list(statement, param[1].body)
-        ]]);
-    };
-    const interface_extends = function (param) {
-      const g = param[1];
-      const id = g.id;
-      let id$1;
-      id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("InterfaceExtends", param[0], [
+    const identifier = function (param) {
+      const id = param[1];
+      return node("Identifier", param[0], [
         [
-          "id",
-          id$1
+          "name",
+          string(id.name)
         ],
         [
-          "typeParameters",
-          option(type_parameter_instantiation, g.typeParameters)
+          "typeAnnotation",
+          option(type_annotation, id.typeAnnotation)
+        ],
+        [
+          "optional",
+          bool(id.optional)
         ]
       ]);
+    };
+    const literal = function (param) {
+      const lit = param[1];
+      const raw = lit.raw;
+      const value = lit.value;
+      const loc = param[0];
+      let value_;
+      if (/* tag */ typeof value === "number" || typeof value === "string") {
+        value_ = $$null;
+      } else {
+        switch (value.TAG) {
+          case /* String */ 0 :
+            value_ = string(value._0);
+            break;
+          case /* Boolean */ 1 :
+            value_ = bool(value._0);
+            break;
+          case /* Number */ 2 :
+            value_ = number$1(value._0);
+            break;
+          case /* RegExp */ 3 :
+            const match = value._0;
+            value_ = regexp$1(loc, match.pattern, match.flags);
+            break;
+        }
+      }
+      let props;
+      let exit = 0;
+      if (/* tag */ typeof value === "number" || typeof value === "string" || value.TAG !== /* RegExp */ 3) {
+        exit = 1;
+      } else {
+        const match$1 = value._0;
+        const regex = obj([
+          [
+            "pattern",
+            string(match$1.pattern)
+          ],
+          [
+            "flags",
+            string(match$1.flags)
+          ]
+        ]);
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ],
+          [
+            "regex",
+            regex
+          ]
+        ];
+      }
+      if (exit === 1) {
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ]
+        ];
+      }
+      return node("Literal", loc, props);
+    };
+    const type_annotation = function (param) {
+      return node("TypeAnnotation", param[0], [[
+          "typeAnnotation",
+          _type(param[1])
+        ]]);
     };
     const object_type = function (param) {
       const o = param[1];
@@ -16916,10 +16726,362 @@ function parse(content, options) {
         ]
       ]);
     };
+    const interface_extends = function (param) {
+      const g = param[1];
+      const id = g.id;
+      let id$1;
+      id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("InterfaceExtends", param[0], [
+        [
+          "id",
+          id$1
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, g.typeParameters)
+        ]
+      ]);
+    };
     const type_parameter_declaration = function (param) {
       return node("TypeParameterDeclaration", param[0], [[
           "params",
           array_of_list(type_param, param[1].params)
+        ]]);
+    };
+    const jsx_expression_container = function (param) {
+      const expr = param[1].expression;
+      let expression$1;
+      expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
+      return node("JSXExpressionContainer", param[0], [[
+          "expression",
+          expression$1
+        ]]);
+    };
+    const type_parameter_instantiation = function (param) {
+      return node("TypeParameterInstantiation", param[0], [[
+          "params",
+          array_of_list(_type, param[1].params)
+        ]]);
+    };
+    const class_implements = function (param) {
+      const $$implements = param[1];
+      return node("ClassImplements", param[0], [
+        [
+          "id",
+          identifier($$implements.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, $$implements.typeParameters)
+        ]
+      ]);
+    };
+    const class_body = function (param) {
+      return node("ClassBody", param[0], [[
+          "body",
+          array_of_list(class_element, param[1].body)
+        ]]);
+    };
+    const jsx_name = function (id) {
+      switch (id.TAG) {
+        case /* Identifier */ 0 :
+          return jsx_identifier(id._0);
+        case /* NamespacedName */ 1 :
+          return jsx_namespaced_name(id._0);
+        case /* MemberExpression */ 2 :
+          return jsx_member_expression(id._0);
+      }
+    };
+    const jsx_opening_attribute = function (attribute) {
+      if (attribute.TAG === /* Attribute */ 0) {
+        let param = attribute._0;
+        const attribute$1 = param[1];
+        const id = attribute$1.name;
+        let name;
+        name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
+        return node("JSXAttribute", param[0], [
+          [
+            "name",
+            name
+          ],
+          [
+            "value",
+            option(jsx_attribute_value, attribute$1.value)
+          ]
+        ]);
+      } else {
+        let param$1 = attribute._0;
+        return node("JSXSpreadAttribute", param$1[0], [[
+            "argument",
+            expression(param$1[1].argument)
+          ]]);
+      }
+    };
+    const _type = function (param) {
+      const t = param[1];
+      const loc = param[0];
+      if (/* tag */ typeof t === "number" || typeof t === "string") {
+        switch (t) {
+          case /* Any */ 0 :
+            return node("AnyTypeAnnotation", loc, []);
+          case /* Void */ 1 :
+            return node("VoidTypeAnnotation", loc, []);
+          case /* Null */ 2 :
+            return node("NullTypeAnnotation", loc, []);
+          case /* Number */ 3 :
+            return node("NumberTypeAnnotation", loc, []);
+          case /* String */ 4 :
+            return node("StringTypeAnnotation", loc, []);
+          case /* Boolean */ 5 :
+            return node("BooleanTypeAnnotation", loc, []);
+          case /* Exists */ 6 :
+            return node("ExistsTypeAnnotation", loc, []);
+        }
+      } else {
+        switch (t.TAG) {
+          case /* Nullable */ 0 :
+            let t$1 = t._0;
+            return node("NullableTypeAnnotation", loc, [[
+                "typeAnnotation",
+                _type(t$1)
+              ]]);
+          case /* Function */ 1 :
+            return function_type([
+              loc,
+              t._0
+            ]);
+          case /* Object */ 2 :
+            return object_type([
+              loc,
+              t._0
+            ]);
+          case /* Array */ 3 :
+            let t$2 = t._0;
+            return node("ArrayTypeAnnotation", loc, [[
+                "elementType",
+                _type(t$2)
+              ]]);
+          case /* Generic */ 4 :
+            let param$1 = [
+              loc,
+              t._0
+            ];
+            const g = param$1[1];
+            const id = g.id;
+            let id$1;
+            id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+            return node("GenericTypeAnnotation", param$1[0], [
+              [
+                "id",
+                id$1
+              ],
+              [
+                "typeParameters",
+                option(type_parameter_instantiation, g.typeParameters)
+              ]
+            ]);
+          case /* Union */ 5 :
+            let param$2 = [
+              loc,
+              t._0
+            ];
+            return node("UnionTypeAnnotation", param$2[0], [[
+                "types",
+                array_of_list(_type, param$2[1])
+              ]]);
+          case /* Intersection */ 6 :
+            let param$3 = [
+              loc,
+              t._0
+            ];
+            return node("IntersectionTypeAnnotation", param$3[0], [[
+                "types",
+                array_of_list(_type, param$3[1])
+              ]]);
+          case /* Typeof */ 7 :
+            let param$4 = [
+              loc,
+              t._0
+            ];
+            return node("TypeofTypeAnnotation", param$4[0], [[
+                "argument",
+                _type(param$4[1])
+              ]]);
+          case /* Tuple */ 8 :
+            let param$5 = [
+              loc,
+              t._0
+            ];
+            return node("TupleTypeAnnotation", param$5[0], [[
+                "types",
+                array_of_list(_type, param$5[1])
+              ]]);
+          case /* StringLiteral */ 9 :
+            let param$6 = [
+              loc,
+              t._0
+            ];
+            const s = param$6[1];
+            return node("StringLiteralTypeAnnotation", param$6[0], [
+              [
+                "value",
+                string(s.value)
+              ],
+              [
+                "raw",
+                string(s.raw)
+              ]
+            ]);
+          case /* NumberLiteral */ 10 :
+            let param$7 = [
+              loc,
+              t._0
+            ];
+            const s$1 = param$7[1];
+            return node("NumberLiteralTypeAnnotation", param$7[0], [
+              [
+                "value",
+                number$1(s$1.value)
+              ],
+              [
+                "raw",
+                string(s$1.raw)
+              ]
+            ]);
+          case /* BooleanLiteral */ 11 :
+            let param$8 = [
+              loc,
+              t._0
+            ];
+            const s$2 = param$8[1];
+            return node("BooleanLiteralTypeAnnotation", param$8[0], [
+              [
+                "value",
+                bool(s$2.value)
+              ],
+              [
+                "raw",
+                string(s$2.raw)
+              ]
+            ]);
+        }
+      }
+    };
+    const jsx_element = function (param) {
+      const element = param[1];
+      return node("JSXElement", param[0], [
+        [
+          "openingElement",
+          jsx_opening(element.openingElement)
+        ],
+        [
+          "closingElement",
+          option(jsx_closing, element.closingElement)
+        ],
+        [
+          "children",
+          array_of_list(jsx_child, element.children)
+        ]
+      ]);
+    };
+    const jsx_identifier = function (param) {
+      return node("JSXIdentifier", param[0], [[
+          "name",
+          string(param[1].name)
+        ]]);
+    };
+    const jsx_attribute_value = function (param) {
+      if (param.TAG === /* Literal */ 0) {
+        return literal([
+          param._0,
+          param._1
+        ]);
+      } else {
+        return jsx_expression_container([
+          param._0,
+          param._1
+        ]);
+      }
+    };
+    const jsx_namespaced_name = function (param) {
+      const namespaced_name = param[1];
+      return node("JSXNamespacedName", param[0], [
+        [
+          "namespace",
+          jsx_identifier(namespaced_name.namespace)
+        ],
+        [
+          "name",
+          jsx_identifier(namespaced_name.name)
+        ]
+      ]);
+    };
+    const export_specifier = function (param) {
+      const specifier = param[1];
+      return node("ExportSpecifier", param[0], [
+        [
+          "id",
+          identifier(specifier.id)
+        ],
+        [
+          "name",
+          option(identifier, specifier.name)
+        ]
+      ]);
+    };
+    const jsx_child = function (param) {
+      const element = param[1];
+      const loc = param[0];
+      switch (element.TAG) {
+        case /* Element */ 0 :
+          return jsx_element([
+            loc,
+            element._0
+          ]);
+        case /* ExpressionContainer */ 1 :
+          return jsx_expression_container([
+            loc,
+            element._0
+          ]);
+        case /* Text */ 2 :
+          let param$1 = [
+            loc,
+            element._0
+          ];
+          const text = param$1[1];
+          return node("JSXText", param$1[0], [
+            [
+              "value",
+              string(text.value)
+            ],
+            [
+              "raw",
+              string(text.raw)
+            ]
+          ]);
+      }
+    };
+    const jsx_opening = function (param) {
+      const opening = param[1];
+      return node("JSXOpeningElement", param[0], [
+        [
+          "name",
+          jsx_name(opening.name)
+        ],
+        [
+          "attributes",
+          array_of_list(jsx_opening_attribute, opening.attributes)
+        ],
+        [
+          "selfClosing",
+          bool(opening.selfClosing)
+        ]
+      ]);
+    };
+    const jsx_closing = function (param) {
+      return node("JSXClosingElement", param[0], [[
+          "name",
+          jsx_name(param[1].name)
         ]]);
     };
     const generic_type_qualified_identifier = function (param) {
@@ -16955,140 +17117,26 @@ function parse(content, options) {
         ]
       ]);
     };
-    const class_element = function (m) {
-      if (m.TAG === /* Method */ 0) {
-        let param = m._0;
-        const method_ = param[1];
-        const key = method_.key;
-        let match;
-        switch (key.TAG) {
-          case /* Literal */ 0 :
-            match = [
-              literal(key._0),
-              false
-            ];
-            break;
-          case /* Identifier */ 1 :
-            match = [
-              identifier(key._0),
-              false
-            ];
-            break;
-          case /* Computed */ 2 :
-            match = [
-              expression(key._0),
-              true
-            ];
-            break;
-        }
-        let kind;
-        switch (method_.kind) {
-          case /* Constructor */ 0 :
-            kind = "constructor";
-            break;
-          case /* Method */ 1 :
-            kind = "method";
-            break;
-          case /* Get */ 2 :
-            kind = "get";
-            break;
-          case /* Set */ 3 :
-            kind = "set";
-            break;
-        }
-        return node("MethodDefinition", param[0], [
-          [
-            "key",
-            match[0]
-          ],
-          [
-            "value",
-            function_expression(method_.value)
-          ],
-          [
-            "kind",
-            string(kind)
-          ],
-          [
-            "static",
-            bool(method_.static)
-          ],
-          [
-            "computed",
-            bool(match[1])
-          ],
-          [
-            "decorators",
-            array_of_list(expression, method_.decorators)
-          ]
-        ]);
-      } else {
-        let param$1 = m._0;
-        const prop = param$1[1];
-        const lit = prop.key;
-        let match$1;
-        switch (lit.TAG) {
-          case /* Literal */ 0 :
-            match$1 = [
-              literal(lit._0),
-              false
-            ];
-            break;
-          case /* Identifier */ 1 :
-            match$1 = [
-              identifier(lit._0),
-              false
-            ];
-            break;
-          case /* Computed */ 2 :
-            match$1 = [
-              expression(lit._0),
-              true
-            ];
-            break;
-        }
-        return node("ClassProperty", param$1[0], [
-          [
-            "key",
-            match$1[0]
-          ],
-          [
-            "value",
-            option(expression, prop.value)
-          ],
-          [
-            "typeAnnotation",
-            option(type_annotation, prop.typeAnnotation)
-          ],
-          [
-            "computed",
-            bool(match$1[1])
-          ],
-          [
-            "static",
-            bool(prop.static)
-          ]
-        ]);
-      }
-    };
-    const jsx_namespaced_name = function (param) {
-      const namespaced_name = param[1];
-      return node("JSXNamespacedName", param[0], [
+    const function_type = function (param) {
+      const fn = param[1];
+      return node("FunctionTypeAnnotation", param[0], [
         [
-          "namespace",
-          jsx_identifier(namespaced_name.namespace)
+          "params",
+          array_of_list(function_type_param, fn.params)
         ],
         [
-          "name",
-          jsx_identifier(namespaced_name.name)
+          "returnType",
+          _type(fn.returnType)
+        ],
+        [
+          "rest",
+          option(function_type_param, fn.rest)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, fn.typeParameters)
         ]
       ]);
-    };
-    const jsx_identifier = function (param) {
-      return node("JSXIdentifier", param[0], [[
-          "name",
-          string(param[1].name)
-        ]]);
     };
     const jsx_member_expression = function (param) {
       const member_expression = param[1];
@@ -17106,63 +17154,16 @@ function parse(content, options) {
         ]
       ]);
     };
-    const type_param = function (param) {
-      const tp = param[1];
-      const variance = function (param) {
-        if (param === /* Plus */ 0) {
-          return string("plus");
-        } else {
-          return string("minus");
-        }
-      };
-      return node("TypeParameter", param[0], [
-        [
-          "name",
-          string(tp.name)
-        ],
-        [
-          "bound",
-          option(type_annotation, tp.bound)
-        ],
-        [
-          "variance",
-          option(variance, tp.variance)
-        ],
-        [
-          "default",
-          option(_type, tp.default)
-        ]
-      ]);
-    };
-    const class_body = function (param) {
-      return node("ClassBody", param[0], [[
-          "body",
-          array_of_list(class_element, param[1].body)
-        ]]);
-    };
-    const class_implements = function (param) {
-      const $$implements = param[1];
-      return node("ClassImplements", param[0], [
+    const variable_declarator = function (param) {
+      const declarator = param[1];
+      return node("VariableDeclarator", param[0], [
         [
           "id",
-          identifier($$implements.id)
+          pattern(declarator.id)
         ],
         [
-          "typeParameters",
-          option(type_parameter_instantiation, $$implements.typeParameters)
-        ]
-      ]);
-    };
-    const export_specifier = function (param) {
-      const specifier = param[1];
-      return node("ExportSpecifier", param[0], [
-        [
-          "id",
-          identifier(specifier.id)
-        ],
-        [
-          "name",
-          option(identifier, specifier.name)
+          "init",
+          option(expression, declarator.init)
         ]
       ]);
     };
@@ -17184,6 +17185,19 @@ function parse(content, options) {
         [
           "static",
           bool(indexer.static)
+        ]
+      ]);
+    };
+    const object_type_call_property = function (param) {
+      const callProperty = param[1];
+      return node("ObjectTypeCallProperty", param[0], [
+        [
+          "value",
+          function_type(callProperty.value)
+        ],
+        [
+          "static",
+          bool(callProperty.static)
         ]
       ]);
     };
@@ -17223,29 +17237,65 @@ function parse(content, options) {
         ]
       ]);
     };
-    const object_type_call_property = function (param) {
-      const callProperty = param[1];
-      return node("ObjectTypeCallProperty", param[0], [
+    const function_expression = function (param) {
+      const _function = param[1];
+      const b = _function.body;
+      let body;
+      body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
+      return node("FunctionExpression", param[0], [
         [
-          "value",
-          function_type(callProperty.value)
+          "id",
+          option(identifier, _function.id)
         ],
         [
-          "static",
-          bool(callProperty.static)
+          "params",
+          array_of_list(pattern, _function.params)
+        ],
+        [
+          "defaults",
+          array_of_list((function (param) {
+            return option(expression, param);
+          }), _function.defaults)
+        ],
+        [
+          "rest",
+          option(identifier, _function.rest)
+        ],
+        [
+          "body",
+          body
+        ],
+        [
+          "async",
+          bool(_function.async)
+        ],
+        [
+          "generator",
+          bool(_function.generator)
+        ],
+        [
+          "expression",
+          bool(_function.expression)
+        ],
+        [
+          "returnType",
+          option(type_annotation, _function.returnType)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, _function.typeParameters)
         ]
       ]);
     };
-    const template_literal = function (param) {
-      const value = param[1];
-      return node("TemplateLiteral", param[0], [
+    const let_assignment = function (assignment) {
+      return obj([
         [
-          "quasis",
-          array_of_list(template_element, value.quasis)
+          "id",
+          pattern(assignment.id)
         ],
         [
-          "expressions",
-          array_of_list(expression, value.expressions)
+          "init",
+          option(expression, assignment.init)
         ]
       ]);
     };
@@ -17321,45 +17371,6 @@ function parse(content, options) {
           expression(match$3[1].argument)
         ]]);
     };
-    const expression_or_spread = function (expr) {
-      if (expr.TAG === /* Expression */ 0) {
-        return expression(expr._0);
-      }
-      const match = expr._0;
-      return node("SpreadElement", match[0], [[
-          "argument",
-          expression(match[1].argument)
-        ]]);
-    };
-    const jsx_element = function (param) {
-      const element = param[1];
-      return node("JSXElement", param[0], [
-        [
-          "openingElement",
-          jsx_opening(element.openingElement)
-        ],
-        [
-          "closingElement",
-          option(jsx_closing, element.closingElement)
-        ],
-        [
-          "children",
-          array_of_list(jsx_child, element.children)
-        ]
-      ]);
-    };
-    const let_assignment = function (assignment) {
-      return obj([
-        [
-          "id",
-          pattern(assignment.id)
-        ],
-        [
-          "init",
-          option(expression, assignment.init)
-        ]
-      ]);
-    };
     const comprehension_block = function (param) {
       const b = param[1];
       return node("ComprehensionBlock", param[0], [
@@ -17377,6 +17388,35 @@ function parse(content, options) {
         ]
       ]);
     };
+    const template_literal = function (param) {
+      const value = param[1];
+      return node("TemplateLiteral", param[0], [
+        [
+          "quasis",
+          array_of_list(template_element, value.quasis)
+        ],
+        [
+          "expressions",
+          array_of_list(expression, value.expressions)
+        ]
+      ]);
+    };
+    const expression_or_spread = function (expr) {
+      if (expr.TAG === /* Expression */ 0) {
+        return expression(expr._0);
+      }
+      const match = expr._0;
+      return node("SpreadElement", match[0], [[
+          "argument",
+          expression(match[1].argument)
+        ]]);
+    };
+    const declare_variable = function (param) {
+      return node("DeclareVariable", param[0], [[
+          "id",
+          identifier(param[1].id)
+        ]]);
+    };
     const export_kind = function (param) {
       if (param === /* ExportType */ 0) {
         return "type";
@@ -17384,19 +17424,37 @@ function parse(content, options) {
         return "value";
       }
     };
-    const export_specifiers = function (param) {
-      if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */ 0) {
-          return array_of_list(export_specifier, param._0);
-        } else {
-          return array([node("ExportBatchSpecifier", param._0, [[
-                "name",
-                option(identifier, param._1)
-              ]])]);
-        }
-      } else {
-        return array([]);
+    const variable_declaration = function (param) {
+      const $$var = param[1];
+      const match = $$var.kind;
+      let kind;
+      switch (match) {
+        case /* Var */ 0 :
+          kind = "var";
+          break;
+        case /* Let */ 1 :
+          kind = "let";
+          break;
+        case /* Const */ 2 :
+          kind = "const";
+          break;
       }
+      return node("VariableDeclaration", param[0], [
+        [
+          "declarations",
+          array_of_list(variable_declarator, $$var.declarations)
+        ],
+        [
+          "kind",
+          string(kind)
+        ]
+      ]);
+    };
+    const declare_function = function (param) {
+      return node("DeclareFunction", param[0], [[
+          "id",
+          identifier(param[1].id)
+        ]]);
     };
     const type_alias = function (param) {
       const alias = param[1];
@@ -17415,22 +17473,19 @@ function parse(content, options) {
         ]
       ]);
     };
-    const $$catch = function (param) {
-      const c = param[1];
-      return node("CatchClause", param[0], [
-        [
-          "param",
-          pattern(c.param)
-        ],
-        [
-          "guard",
-          option(expression, c.guard)
-        ],
-        [
-          "body",
-          block(c.body)
-        ]
-      ]);
+    const export_specifiers = function (param) {
+      if (param !== undefined) {
+        if (param.TAG === /* ExportSpecifiers */ 0) {
+          return array_of_list(export_specifier, param._0);
+        } else {
+          return array([node("ExportBatchSpecifier", param._0, [[
+                "name",
+                option(identifier, param._1)
+              ]])]);
+        }
+      } else {
+        return array([]);
+      }
     };
     const declare_class = function (param) {
       const d = param[1];
@@ -17474,12 +17529,6 @@ function parse(content, options) {
         ]
       ]);
     };
-    const declare_function = function (param) {
-      return node("DeclareFunction", param[0], [[
-          "id",
-          identifier(param[1].id)
-        ]]);
-    };
     const $$case = function (param) {
       const c = param[1];
       return node("SwitchCase", param[0], [
@@ -17493,56 +17542,20 @@ function parse(content, options) {
         ]
       ]);
     };
-    const declare_variable = function (param) {
-      return node("DeclareVariable", param[0], [[
-          "id",
-          identifier(param[1].id)
-        ]]);
-    };
-    const variable_declaration = function (param) {
-      const $$var = param[1];
-      const match = $$var.kind;
-      let kind;
-      switch (match) {
-        case /* Var */ 0 :
-          kind = "var";
-          break;
-        case /* Let */ 1 :
-          kind = "let";
-          break;
-        case /* Const */ 2 :
-          kind = "const";
-          break;
-      }
-      return node("VariableDeclaration", param[0], [
+    const $$catch = function (param) {
+      const c = param[1];
+      return node("CatchClause", param[0], [
         [
-          "declarations",
-          array_of_list(variable_declarator, $$var.declarations)
+          "param",
+          pattern(c.param)
         ],
         [
-          "kind",
-          string(kind)
-        ]
-      ]);
-    };
-    const function_type = function (param) {
-      const fn = param[1];
-      return node("FunctionTypeAnnotation", param[0], [
-        [
-          "params",
-          array_of_list(function_type_param, fn.params)
+          "guard",
+          option(expression, c.guard)
         ],
         [
-          "returnType",
-          _type(fn.returnType)
-        ],
-        [
-          "rest",
-          option(function_type_param, fn.rest)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_declaration, fn.typeParameters)
+          "body",
+          block(c.body)
         ]
       ]);
     };
@@ -17583,19 +17596,6 @@ function parse(content, options) {
           "value",
           string(match[1])
         ]]);
-    };
-    const jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */ 0) {
-        return literal([
-          param._0,
-          param._1
-        ]);
-      } else {
-        return jsx_expression_container([
-          param._0,
-          param._1
-        ]);
-      }
     };
     const object_pattern_property = function (param) {
       if (param.TAG === /* Property */ 0) {
