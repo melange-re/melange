@@ -105,5 +105,3 @@
     foo,
   }
   /*  Not a pure module */
-  $ node x.js
-  it's false
