@@ -172,8 +172,7 @@ let no_side_effect_statement st =
          | Open_tag (Format (_, str)) -> str
          | Open_box (Format (_, str)) -> str
 
-   ]}
-*)
+   ]} *)
 let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
     ({ expression_desc = y0; _ } : J.expression) =
   match x0 with

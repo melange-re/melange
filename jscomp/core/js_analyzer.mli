@@ -26,14 +26,10 @@ open Import
 
 (** Analyzing utilities for [J] module *)
 
-(** for example, whether it has side effect or not.
-*)
+(** for example, whether it has side effect or not. *)
 
 val free_variables_of_statement : J.statement -> Ident.Set.t
 val free_variables_of_expression : J.finish_ident_expression -> Ident.Set.t
-
-(* val no_side_effect_expression_desc :
-   J.expression_desc -> bool *)
 
 val no_side_effect_expression : J.expression -> bool
 (** [no_side_effect] means this expression has no side effect,
