@@ -124,29 +124,26 @@ let key_words =
     ]
   |> List.to_seq |> String.Hashtbl.of_seq
 
-let double_underscore = "__"
-
-(*https://caml.inria.fr/pub/docs/manual-ocaml/lex.html
-  {[
-
-    label-name	::=	 lowercase-ident
-  ]}
-*)
-let valid_start_char x = match x with '_' | 'a' .. 'z' -> true | _ -> false
-
-let translate name =
-  assert (String.length name > 0);
-  let i = String.rfind ~sub:double_underscore name in
-  if i < 0 then
-    let name_len = String.length name in
-    if name.[0] = '_' then
-      let try_key_word = String.sub name ~pos:1 ~len:(name_len - 1) in
-      if
-        name_len > 1
-        && ((not (valid_start_char try_key_word.[0]))
-           || String.Hashtbl.mem key_words try_key_word)
-      then try_key_word
-      else name
-    else name
-  else if i = 0 then name
-  else String.sub name ~pos:0 ~len:i
+let translate =
+  let double_underscore = "__" in
+  (* https://caml.inria.fr/pub/docs/manual-ocaml/lex.html
+  {[ label-name	::=	 lowercase-ident ]} *)
+  let valid_start_char = function '_' | 'a' .. 'z' -> true | _ -> false in
+  fun name ->
+    assert (String.length name > 0);
+    match String.rfind ~sub:double_underscore name with
+    | 0 -> name
+    | i ->
+        if i < 0 then
+          match name.[0] with
+          | '_' ->
+              let name_len = String.length name in
+              let try_key_word = String.sub name ~pos:1 ~len:(name_len - 1) in
+              if
+                name_len > 1
+                && ((not (valid_start_char try_key_word.[0]))
+                   || String.Hashtbl.mem key_words try_key_word)
+              then try_key_word
+              else name
+          | _ -> name
+        else String.sub name ~pos:0 ~len:i
