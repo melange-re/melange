@@ -54,11 +54,10 @@ let add_defined_idents (x : idents_stats) ident =
    Note such shaking is done in the toplevel, so that it requires us to
    flatten the statement first
 *)
-let super = Js_record_iter.super
 
 let free_variables (stats : idents_stats) =
   {
-    super with
+    Js_record_iter.super with
     variable_declaration =
       (fun self st ->
         add_defined_idents stats st.ident;
@@ -77,7 +76,7 @@ let free_variables (stats : idents_stats) =
           ->
             stats.used_idents <-
               Ident.Set.union (Js_fun_env.get_unbounded env) stats.used_idents
-        | _ -> super.expression self exp);
+        | _ -> Js_record_iter.super.expression self exp);
   }
 
 let init = { used_idents = Ident.Set.empty; defined_idents = Ident.Set.empty }
@@ -139,29 +138,30 @@ and no_side_effect (x : J.expression) =
   no_side_effect_expression_desc x.expression_desc
 
 let no_side_effect_expression (x : J.expression) = no_side_effect x
-let super = Js_record_iter.super
 
-let no_side_effect_obj =
-  {
-    super with
-    statement =
-      (fun self s ->
-        match s.statement_desc with
-        | Throw _ | Debugger | Variable _ | Continue -> raise_notrace Not_found
-        | Exp e -> self.expression self e
-        | Int_switch _ | String_switch _ | ForRange _ | If _ | While _ | Block _
-        | Return _ | Try _ ->
-            super.statement self s);
-    expression =
-      (fun _ s ->
-        if not (no_side_effect_expression s) then raise_notrace Not_found);
-  }
-
-let no_side_effect_statement st =
-  try
-    no_side_effect_obj.statement no_side_effect_obj st;
-    true
-  with _ -> false
+let no_side_effect_statement =
+  let no_side_effect_obj =
+    {
+      Js_record_iter.super with
+      statement =
+        (fun self s ->
+          match s.statement_desc with
+          | Throw _ | Debugger | Variable _ | Continue ->
+              raise_notrace Not_found
+          | Exp e -> self.expression self e
+          | Int_switch _ | String_switch _ | ForRange _ | If _ | While _
+          | Block _ | Return _ | Try _ ->
+              Js_record_iter.super.statement self s);
+      expression =
+        (fun _ s ->
+          if not (no_side_effect_expression s) then raise_notrace Not_found);
+    }
+  in
+  fun st ->
+    try
+      no_side_effect_obj.statement no_side_effect_obj st;
+      true
+    with Not_found -> false
 
 (* TODO: generate [fold2]
    This make sense, for example:
