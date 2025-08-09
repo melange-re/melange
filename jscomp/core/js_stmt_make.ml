@@ -28,17 +28,14 @@ module E = Js_exp_make
 type t = J.statement
 
 let return_stmt ?comment e : t = { statement_desc = Return e; comment }
-let empty_stmt : t = { statement_desc = Block []; comment = None }
-
-(* let empty_block : J.block = [] *)
 let throw_stmt ?comment v : t = { statement_desc = Throw v; comment }
 
 (* avoid nested block *)
 let rec block ?comment (b : J.block) : t =
   match b with
+  | [] -> { statement_desc = Block []; comment = None }
   | [ { statement_desc = Block bs; _ } ] -> block bs
   | [ b ] -> b
-  | [] -> empty_stmt
   | _ -> { statement_desc = Block b; comment }
 
 (* It's a statement, we can discard some values *)
@@ -76,13 +73,6 @@ let define_variable ?comment ?ident_info ~kind (v : Ident.t)
           Variable { ident = v; value = Some exp; property; ident_info };
         comment;
       }
-
-(* let alias_variable ?comment  ~exp (v:Ident.t)  : t=
-   {statement_desc =
-      Variable {
-        ident = v; value = Some exp; property = Alias;
-        ident_info = {used_stats = NA }   };
-    comment} *)
 
 let int_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)

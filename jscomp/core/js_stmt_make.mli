@@ -28,28 +28,20 @@ open Import
 
 type t = J.statement
 
-(** empty statement, block of length 0 *)
-(* val empty_stmt :
-   t *)
-
 val throw_stmt : ?comment:string -> J.expression -> t
 
 val if_ :
   ?comment:string ->
   ?declaration:Lam_group.let_kind * Ident.t ->
   (* when it's not None, we also need make a variable declaration in the
-     begininnig, however, we can optmize such case
-  *)
+     begininnig, however, we can optmize such case *)
   ?else_:J.block ->
   J.expression ->
   J.block ->
   t
 
 val block : ?comment:string -> J.block -> t
-(**
-  turn a block into  a single statement,
-  avoid nested block
-*)
+(** turn a block into a single statement, avoid nested block *)
 
 val int_switch :
   ?comment:string ->
@@ -90,7 +82,6 @@ val declare_variable :
   t
 (** Just declaration without initialization *)
 
-(*** Declaration with initialization *)
 val define_variable :
   ?comment:string ->
   ?ident_info:J.ident_info ->
@@ -98,40 +89,9 @@ val define_variable :
   Ident.t ->
   J.expression ->
   t
-
-(** created an alias expression *)
-(* val alias_variable :
-   ?comment:string ->
-   exp:J.expression ->
-   Ident.t ->
-   t *)
+(** Declaration with initialization *)
 
 val assign : ?comment:string -> J.ident -> J.expression -> t
-
-(** Used in cases like
-  {[
-    let x = while true do
-      ...
-    done in ..
-  ]}
-*)
-(* val assign_unit :
-   ?comment:string  ->
-   J.ident ->
-   t *)
-
-(** used in cases like
-  {[
-    let x = while true do
-      ...
-    done in ..
-  ]}
-*)
-(* val declare_unit :
-   ?comment:string  ->
-   J.ident ->
-   t *)
-
 val while_ : ?comment:string -> J.expression -> J.block -> t
 
 val for_ :
