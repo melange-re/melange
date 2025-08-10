@@ -120,7 +120,7 @@ function unit_magic(param) {
   return 3;
 }
 
-const f_unit_magic = unit_magic(undefined);
+const f_unit_magic = unit_magic();
 
 function hh(xs) {
   return function (param) {

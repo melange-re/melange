@@ -3365,7 +3365,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     if (i.contents === l) {
       return;
     }
-    const d = get(undefined);
+    const d = get();
     if (d > 57 || d < 48) {
       i.contents = i.contents - 1 | 0;
       return;
@@ -3376,7 +3376,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         if (i.contents === l) {
           return i$1;
         }
-        const d$1 = get(undefined);
+        const d$1 = get();
         if (d$1 > 57 || d$1 < 48) {
           i.contents = i.contents - 1 | 0;
           return i$1;
@@ -3466,7 +3466,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             MEL_EXN_ID: Parse_error
           });
       }
-      const c = get(undefined);
+      const c = get();
       switch (c) {
         case 48 :
         case 49 :
@@ -3602,7 +3602,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             MEL_EXN_ID: Parse_error
           });
       }
-      const c$1 = get(undefined);
+      const c$1 = get();
       if (c$1 >= 64) {
         if (c$1 !== 92) {
           if (c$1 !== 123) {
@@ -3647,7 +3647,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
           MEL_EXN_ID: Parse_error
         });
     }
-    const c = get(undefined);
+    const c = get();
     if (c === /* '[' */91) {
       if (accept(/* '=' */61)) {
         throw new Caml_js_exceptions.MelangeError(Not_supported, {
@@ -3734,7 +3734,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             MEL_EXN_ID: Parse_error
           });
       }
-      const c$1 = get(undefined);
+      const c$1 = get();
       if (!accept(/* '.' */46)) {
         throw new Caml_js_exceptions.MelangeError(Not_supported, {
             MEL_EXN_ID: Not_supported
@@ -3756,7 +3756,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         VAL: c
       };
     }
-    const c$2 = get(undefined);
+    const c$2 = get();
     if (c$2 >= 58) {
       if (c$2 >= 123) {
         return {
@@ -3932,7 +3932,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       if (Caml_obj.caml_notequal(s, /* [] */ 0) && accept(/* ']' */93)) {
         return s;
       }
-      const match = $$char(undefined);
+      const match = $$char();
       if (match.NAME === "Char") {
         const c = match.VAL;
         if (accept(/* '-' */45)) {
@@ -3957,7 +3957,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               }
             };
           }
-          const match$1 = $$char(undefined);
+          const match$1 = $$char();
           if (match$1.NAME !== "Char") {
             return {
               hd: {
@@ -4014,14 +4014,14 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         return seq$2(Stdlib__List.rev(left));
       }
       _left = {
-        hd: piece(undefined),
+        hd: piece(),
         tl: left
       };
       continue;
     };
   };
   const piece = function (param) {
-    const r = atom(undefined);
+    const r = atom();
     if (accept(/* '*' */42)) {
       return greedy_mod(repn(r, 0, undefined));
     }
@@ -4034,9 +4034,9 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     if (!accept(/* '{' */123)) {
       return r;
     }
-    const i$1 = integer(undefined);
+    const i$1 = integer();
     if (i$1 !== undefined) {
-      const j = accept(/* ',' */44) ? integer(undefined) : i$1;
+      const j = accept(/* ',' */44) ? integer() : i$1;
       if (!accept(/* '}' */125)) {
         throw new Caml_js_exceptions.MelangeError(Parse_error, {
             MEL_EXN_ID: Parse_error

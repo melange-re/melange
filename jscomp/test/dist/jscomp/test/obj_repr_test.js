@@ -39,7 +39,7 @@ function obj_init(env) {
 
 CamlinternalOO.init_class($$class);
 
-const u = obj_init(undefined);
+const u = obj_init();
 
 module.exports = {
   u,

@@ -50,11 +50,11 @@ function u2(x) {
 
 const u3 = Caml_option.some(undefined);
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 31, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 31, characters 6-13", Caml_option.some(), Caml_option.some(undefined));
 
 eq("File \"jscomp/test/unit_undefined_test.ml\", line 32, characters 6-13", u1, Caml_option.some(undefined));
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 33, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 33, characters 6-13", Caml_option.some(), Caml_option.some(undefined));
 
 eq("File \"jscomp/test/unit_undefined_test.ml\", line 34, characters 6-13", u3, Caml_option.some(undefined));
 

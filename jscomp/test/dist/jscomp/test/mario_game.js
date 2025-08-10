@@ -839,7 +839,7 @@ function make$2(idOpt, dirOpt, spawnable, context, param) {
   const dir = dirOpt !== undefined ? dirOpt : /* Left */ 0;
   const spr = make(spawnable, dir, context);
   const params = make_type$2(spawnable);
-  const id$1 = id !== undefined ? id : new_id(undefined);
+  const id$1 = id !== undefined ? id : new_id();
   const obj = {
     params: params,
     pos: {
@@ -2211,7 +2211,7 @@ function translate_keys(param) {
 function run_update_collid(state, collid, all_collids) {
   if (collid.TAG === /* Player */ 0) {
     const o = collid._2;
-    const keys = translate_keys(undefined);
+    const keys = translate_keys();
     o.crouch = false;
     const match = update_player(o, keys, state.ctx);
     let player;
@@ -3245,7 +3245,7 @@ function generate(w, h, context) {
 }
 
 function init(param) {
-  Stdlib__Random.self_init(undefined);
+  Stdlib__Random.self_init();
 }
 
 const Procedural_generator = {
@@ -3258,7 +3258,7 @@ const loadCount = {
 };
 
 function load(param) {
-  Stdlib__Random.self_init(undefined);
+  Stdlib__Random.self_init();
   const canvas_id = "canvas";
   const el = document.getElementById(canvas_id);
   let canvas;
@@ -3290,7 +3290,7 @@ function load(param) {
   const context = canvas.getContext("2d");
   document.addEventListener("keydown", keydown, true);
   document.addEventListener("keyup", keyup, true);
-  Stdlib__Random.self_init(undefined);
+  Stdlib__Random.self_init();
   update_loop(canvas, generate(2400, 256, context), [
     2400,
     256
@@ -3301,7 +3301,7 @@ function load(param) {
 function inc_counter(param) {
   loadCount.contents = loadCount.contents + 1 | 0;
   if (loadCount.contents === 4) {
-    return load(undefined);
+    return load();
   }
   
 }
@@ -3312,7 +3312,7 @@ function preload(param) {
     const img = document.createElement("img");
     img.src = img_src$1;
     img.addEventListener("load", (function (ev) {
-      inc_counter(undefined);
+      inc_counter();
       return true;
     }), true);
   }), {
@@ -3331,7 +3331,7 @@ function preload(param) {
 }
 
 window.onload = (function (param) {
-  preload(undefined);
+  preload();
   return true;
 });
 

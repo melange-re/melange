@@ -41,7 +41,7 @@ Mt.from_pair_suites("Js_blob_test", {
 Mt.from_promise_suites("Js_blob_test", {
   hd: [
     "blob bytes",
-    blob_bytes(undefined)
+    blob_bytes()
   ],
   tl: /* [] */ 0
 });

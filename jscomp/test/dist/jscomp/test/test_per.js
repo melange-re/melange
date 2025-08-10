@@ -218,7 +218,7 @@ function open_out_bin(name) {
 }
 
 function flush_all(param) {
-  let _param = Caml_io.caml_ml_out_channels_list(undefined);
+  let _param = Caml_io.caml_ml_out_channels_list();
   while (true) {
     const param$1 = _param;
     if (!param$1) {

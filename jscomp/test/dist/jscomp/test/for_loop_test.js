@@ -254,7 +254,7 @@ const suites_1 = {
             return {
               TAG: /* Eq */ 0,
               _0: 84,
-              _1: for_7(undefined)
+              _1: for_7()
             };
           })
         ],
@@ -265,7 +265,7 @@ const suites_1 = {
               return {
                 TAG: /* Eq */ 0,
                 _0: 294,
-                _1: for_8(undefined)
+                _1: for_8()
               };
             })
           ],
@@ -285,7 +285,7 @@ const suites_1 = {
                       ],
                       5
                     ]],
-                  _1: for_9(undefined)
+                  _1: for_9()
                 };
               })
             ],

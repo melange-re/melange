@@ -60,7 +60,7 @@ function f2(param) {
   console.log(Stdlib.string_of_float(v));
 }
 
-f2(undefined);
+f2();
 
 const suites = {
   contents: /* [] */ 0
