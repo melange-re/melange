@@ -25,7 +25,7 @@ function f(param) {
   };
 }
 
-f(undefined);
+f();
 
 Stdlib__Array.iter((function (x) {
   Curry._1(x, undefined);

@@ -44,7 +44,7 @@ const s = {
 
 print_float(1.0);
 
-print_newline(undefined);
+print_newline();
 
 const b = Float_array.small_float_array(12);
 
@@ -53,9 +53,9 @@ const c = Float_array.longer_float_array(34);
 function print_array(a) {
   Stdlib__Array.iter((function (f) {
     print_float(f);
-    print_newline(undefined);
+    print_newline();
   }), a);
-  print_newline(undefined);
+  print_newline();
 }
 
 print_array(b[0]);

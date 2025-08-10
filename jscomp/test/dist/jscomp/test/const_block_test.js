@@ -35,7 +35,7 @@ function h(param) {
 }
 
 function g(param) {
-  f(undefined);
+  f();
   return {
     TAG: /* Eq */ 0,
     _0: [

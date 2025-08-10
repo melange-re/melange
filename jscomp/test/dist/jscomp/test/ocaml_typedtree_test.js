@@ -1556,16 +1556,16 @@ function curr(lexbuf) {
 
 function symbol_rloc(param) {
   return {
-    loc_start: Stdlib__Parsing.symbol_start_pos(undefined),
-    loc_end: Stdlib__Parsing.symbol_end_pos(undefined),
+    loc_start: Stdlib__Parsing.symbol_start_pos(),
+    loc_end: Stdlib__Parsing.symbol_end_pos(),
     loc_ghost: false
   };
 }
 
 function symbol_gloc(param) {
   return {
-    loc_start: Stdlib__Parsing.symbol_start_pos(undefined),
-    loc_end: Stdlib__Parsing.symbol_end_pos(undefined),
+    loc_start: Stdlib__Parsing.symbol_start_pos(),
+    loc_end: Stdlib__Parsing.symbol_end_pos(),
     loc_ghost: true
   };
 }
@@ -1828,7 +1828,7 @@ function highlight_locations(ppf, locs) {
 
 function show_filename(file) {
   if (absname.contents) {
-    const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), file) : file;
+    const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), file) : file;
     const aux = function (_s) {
       while (true) {
         const s = _s;
@@ -6512,7 +6512,7 @@ function backtrack(param) {
         _1: "Btype.backtrack"
       });
   } else {
-    cleanup_abbrev(undefined);
+    cleanup_abbrev();
     const backlog = rev_log(/* [] */ 0, change);
     Stdlib__List.iter(undo_change, backlog);
     changes.contents = /* Unchanged */ 0;
@@ -7914,14 +7914,14 @@ function get_post_extra_text(pos) {
 
 function symbol_docs(param) {
   return {
-    docs_pre: get_pre_docs(Stdlib__Parsing.symbol_start_pos(undefined)),
-    docs_post: get_post_docs(Stdlib__Parsing.symbol_end_pos(undefined))
+    docs_pre: get_pre_docs(Stdlib__Parsing.symbol_start_pos()),
+    docs_post: get_post_docs(Stdlib__Parsing.symbol_end_pos())
   };
 }
 
 function symbol_docs_lazy(param) {
-  const p1 = Stdlib__Parsing.symbol_start_pos(undefined);
-  const p2 = Stdlib__Parsing.symbol_end_pos(undefined);
+  const p1 = Stdlib__Parsing.symbol_start_pos();
+  const p2 = Stdlib__Parsing.symbol_end_pos();
   return {
     LAZY_DONE: false,
     VAL: (function () {
@@ -7934,8 +7934,8 @@ function symbol_docs_lazy(param) {
 }
 
 function mark_symbol_docs(param) {
-  mark_pre_docs(Stdlib__Parsing.symbol_start_pos(undefined));
-  mark_post_docs(Stdlib__Parsing.symbol_end_pos(undefined));
+  mark_pre_docs(Stdlib__Parsing.symbol_start_pos());
+  mark_post_docs(Stdlib__Parsing.symbol_end_pos());
 }
 
 function mark_rhs_docs(pos1, pos2) {
@@ -7944,7 +7944,7 @@ function mark_rhs_docs(pos1, pos2) {
 }
 
 function symbol_text_lazy(param) {
-  const pos = Stdlib__Parsing.symbol_start_pos(undefined);
+  const pos = Stdlib__Parsing.symbol_start_pos();
   return {
     LAZY_DONE: false,
     VAL: (function () {
@@ -10790,7 +10790,7 @@ function typexp(s, ty) {
 
 function type_expr(s, ty) {
   const ty$p = typexp(s, ty);
-  cleanup_types(undefined);
+  cleanup_types();
   return ty$p;
 }
 
@@ -10850,7 +10850,7 @@ function type_declaration(s, decl) {
     type_loc: decl_type_loc,
     type_attributes: decl_type_attributes
   };
-  cleanup_types(undefined);
+  cleanup_types();
   return decl$1;
 }
 
@@ -10916,7 +10916,7 @@ function class_declaration(s, decl) {
     cty_attributes: attrs(s, decl.cty_attributes)
   };
   if (!s.for_saving) {
-    cleanup_types(undefined);
+    cleanup_types();
   }
   return decl$1;
 }
@@ -10938,13 +10938,13 @@ function cltype_declaration(s, decl) {
     clty_loc: decl_clty_loc,
     clty_attributes: decl_clty_attributes
   };
-  cleanup_types(undefined);
+  cleanup_types();
   return decl$1;
 }
 
 function class_type$1(s, cty) {
   const cty$1 = class_type(s, cty);
-  cleanup_types(undefined);
+  cleanup_types();
   return cty$1;
 }
 
@@ -10980,7 +10980,7 @@ function extension_constructor(s, ext) {
     ext_loc: ext_ext_loc,
     ext_attributes: ext_ext_attributes
   };
-  cleanup_types(undefined);
+  cleanup_types();
   return ext$1;
 }
 
@@ -14733,8 +14733,8 @@ function imports(param) {
 }
 
 function save_signature(sg, modname, filename) {
-  let imports$1 = imports(undefined);
-  cleanup_abbrev(undefined);
+  let imports$1 = imports();
+  cleanup_abbrev();
   new_id$1.contents = -1;
   const sg$1 = signature$2(for_saving(identity), sg);
   const oc = Stdlib.open_out_bin(filename);
@@ -15459,7 +15459,7 @@ function close_enough(thresholdOpt, a, b) {
 function from_pair_suites(name, suites) {
   const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
-    if (is_mocha(undefined)) {
+    if (is_mocha()) {
       describe(name, (function () {
         return Stdlib__List.iter((function (param) {
           const code = param[1];
@@ -15593,7 +15593,7 @@ function from_pair_suites(name, suites) {
   
 }
 
-Promise.resolve(undefined);
+Promise.resolve();
 
 const $$Error$3 = /* @__PURE__ */ Caml_exceptions.create("Ocaml_typedtree_test.Syntaxerr.Error");
 
@@ -15783,47 +15783,47 @@ function ill_formed_ast(loc, s) {
 }
 
 function mktyp(d) {
-  return mk(symbol_rloc(undefined), undefined, d);
+  return mk(symbol_rloc(), undefined, d);
 }
 
 function mkpat(d) {
-  return mk$1(symbol_rloc(undefined), undefined, d);
+  return mk$1(symbol_rloc(), undefined, d);
 }
 
 function mkexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_rloc(undefined), undefined, d);
+  return Curry._3(Ast_helper_Exp.mk, symbol_rloc(), undefined, d);
 }
 
 function mkmty(d) {
-  return mk$3(symbol_rloc(undefined), undefined, d);
+  return mk$3(symbol_rloc(), undefined, d);
 }
 
 function mksig(d) {
-  return mk$5(symbol_rloc(undefined), d);
+  return mk$5(symbol_rloc(), d);
 }
 
 function mkmod(d) {
-  return mk$4(symbol_rloc(undefined), undefined, d);
+  return mk$4(symbol_rloc(), undefined, d);
 }
 
 function mkstr(d) {
-  return mk$6(symbol_rloc(undefined), d);
+  return mk$6(symbol_rloc(), d);
 }
 
 function mkclass(d) {
-  return mk$7(symbol_rloc(undefined), undefined, d);
+  return mk$7(symbol_rloc(), undefined, d);
 }
 
 function mkcty(d) {
-  return mk$8(symbol_rloc(undefined), undefined, d);
+  return mk$8(symbol_rloc(), undefined, d);
 }
 
 function mkctf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Ctf.mk, symbol_rloc(undefined), attrs, docs, d);
+  return Curry._4(Ast_helper_Ctf.mk, symbol_rloc(), attrs, docs, d);
 }
 
 function mkcf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Cf.mk, symbol_rloc(undefined), attrs, docs, d);
+  return Curry._4(Ast_helper_Cf.mk, symbol_rloc(), attrs, docs, d);
 }
 
 function mkoption(d) {
@@ -15858,7 +15858,7 @@ function mkoption(d) {
 function reloc_pat(x) {
   return {
     ppat_desc: x.ppat_desc,
-    ppat_loc: symbol_rloc(undefined),
+    ppat_loc: symbol_rloc(),
     ppat_attributes: x.ppat_attributes
   };
 }
@@ -15866,7 +15866,7 @@ function reloc_pat(x) {
 function reloc_exp(x) {
   return {
     pexp_desc: x.pexp_desc,
-    pexp_loc: symbol_rloc(undefined),
+    pexp_loc: symbol_rloc(),
     pexp_attributes: x.pexp_attributes
   };
 }
@@ -15896,15 +15896,15 @@ function mkpatvar(name, pos) {
 }
 
 function ghexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_gloc(undefined), undefined, d);
+  return Curry._3(Ast_helper_Exp.mk, symbol_gloc(), undefined, d);
 }
 
 function ghpat(d) {
-  return mk$1(symbol_gloc(undefined), undefined, d);
+  return mk$1(symbol_gloc(), undefined, d);
 }
 
 function ghtyp(d) {
-  return mk(symbol_gloc(undefined), undefined, d);
+  return mk(symbol_gloc(), undefined, d);
 }
 
 function mkinfix(arg1, name, arg2) {
@@ -16119,7 +16119,7 @@ function array_function(str, name) {
       },
       _1: fast.contents ? "unsafe_" + name : name
     },
-    loc: symbol_gloc(undefined)
+    loc: symbol_gloc()
   };
 }
 
@@ -16172,7 +16172,7 @@ function bigarray_function(str, name) {
       },
       _1: name
     },
-    loc: symbol_gloc(undefined)
+    loc: symbol_gloc()
   };
 }
 
@@ -16493,9 +16493,9 @@ function mklb(param, attrs) {
     lb_pattern: param[0],
     lb_expression: param[1],
     lb_attributes: attrs,
-    lb_docs: symbol_docs_lazy(undefined),
-    lb_text: symbol_text_lazy(undefined),
-    lb_loc: symbol_rloc(undefined)
+    lb_docs: symbol_docs_lazy(),
+    lb_text: symbol_text_lazy(),
+    lb_loc: symbol_rloc()
   };
 }
 
@@ -17078,7 +17078,7 @@ const yyact = [
         ],
         _1: /* [] */ 0
       };
-      return mk$6(symbol_gloc(undefined), d);
+      return mk$6(symbol_gloc(), d);
     } else {
       return str;
     }
@@ -17166,12 +17166,12 @@ const yyact = [
     return mkstr({
       TAG: /* Pstr_extension */ 14,
       _0: _1,
-      _1: add_docs_attrs(symbol_docs(undefined), _2)
+      _1: add_docs_attrs(symbol_docs(), _2)
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkstr({
       TAG: /* Pstr_attribute */ 13,
       _0: _1
@@ -17180,7 +17180,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+    return mk$16(symbol_rloc(), _3, symbol_docs(), _2);
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -17208,7 +17208,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+    return mk$14(symbol_rloc(), _4, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -17232,7 +17232,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$14(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _3,
       loc: rhs_loc(3)
     }, _4);
@@ -17241,7 +17241,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+    return mk$14(symbol_rloc(), _4, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -17426,12 +17426,12 @@ const yyact = [
     return mksig({
       TAG: /* Psig_extension */ 12,
       _0: _1,
-      _1: add_docs_attrs(symbol_docs(undefined), _2)
+      _1: add_docs_attrs(symbol_docs(), _2)
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mksig({
       TAG: /* Psig_attribute */ 11,
       _0: _1
@@ -17441,7 +17441,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$15(symbol_rloc(undefined), _4, symbol_docs(undefined), _2, {
+    return mk$15(symbol_rloc(), _4, symbol_docs(), _2, {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -17449,7 +17449,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+    return mk$16(symbol_rloc(), _3, symbol_docs(), _2);
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -17484,7 +17484,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _4, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -17493,7 +17493,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, alias$2(rhs_loc(4), undefined, {
@@ -17520,7 +17520,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _6, symbol_docs(), undefined, {
       txt: _3,
       loc: rhs_loc(3)
     }, _5);
@@ -17529,7 +17529,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+    return mk$12(symbol_rloc(), _5, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -17544,7 +17544,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$13(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, _4, {
+    return mk$13(symbol_rloc(), _5, symbol_docs(), undefined, _4, {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -17570,7 +17570,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, _2, _3, {
+    return mk$18(symbol_rloc(), _6, symbol_docs(), undefined, _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _5);
@@ -17581,7 +17581,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _6, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _5);
@@ -17801,7 +17801,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_5, symbol_docs(undefined), {
+    return mkcf(_5, symbol_docs(), {
       TAG: /* Pcf_inherit */ 0,
       _0: _2,
       _1: _3,
@@ -17811,7 +17811,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_val */ 1,
       _0: _2
     });
@@ -17819,7 +17819,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_method */ 2,
       _0: _2
     });
@@ -17827,7 +17827,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_constraint */ 3,
       _0: _2
     });
@@ -17835,7 +17835,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_initializer */ 4,
       _0: _2
     });
@@ -17843,14 +17843,14 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_2, symbol_docs(undefined), {
+    return mkcf(_2, symbol_docs(), {
       TAG: /* Pcf_extension */ 6,
       _0: _1
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkcf(undefined, undefined, {
       TAG: /* Pcf_attribute */ 5,
       _0: _1
@@ -18170,7 +18170,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_inherit */ 0,
       _0: _2
     });
@@ -18178,7 +18178,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_val */ 1,
       _0: _2
     });
@@ -18188,7 +18188,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_6, symbol_docs(undefined), {
+    return mkctf(_6, symbol_docs(), {
       TAG: /* Pctf_method */ 2,
       _0: [
         _3,
@@ -18201,7 +18201,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_constraint */ 3,
       _0: _2
     });
@@ -18209,14 +18209,14 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_2, symbol_docs(undefined), {
+    return mkctf(_2, symbol_docs(), {
       TAG: /* Pctf_extension */ 5,
       _0: _1
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkctf(undefined, undefined, {
       TAG: /* Pctf_attribute */ 4,
       _0: _1
@@ -18260,7 +18260,7 @@ const yyact = [
     return [
       _1,
       _3,
-      symbol_rloc(undefined)
+      symbol_rloc()
     ];
   }),
   (function (__caml_parser_env) {
@@ -18292,7 +18292,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), undefined, _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), undefined, _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -18303,7 +18303,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -18329,7 +18329,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _8, symbol_docs(undefined), undefined, _3, _4, {
+    return mk$18(symbol_rloc(), _8, symbol_docs(), undefined, _3, _4, {
       txt: _5,
       loc: rhs_loc(5)
     }, _7);
@@ -18340,7 +18340,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -18717,7 +18717,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
@@ -18731,7 +18731,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
@@ -19278,7 +19278,7 @@ const yyact = [
         TAG: /* Lident */ 0,
         _0: "()"
       },
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
     const d = {
       TAG: /* Pexp_construct */ 9,
@@ -19953,7 +19953,7 @@ const yyact = [
       lbs_rec: _3,
       lbs_extension: _2[0],
       lbs_attributes: _2[1],
-      lbs_loc: symbol_rloc(undefined)
+      lbs_loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -20253,7 +20253,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     Stdlib__Parsing.peek_val(__caml_parser_env, 2);
@@ -20271,7 +20271,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     Stdlib__Parsing.peek_val(__caml_parser_env, 3);
@@ -20582,7 +20582,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$11(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$11(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -20607,7 +20607,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$11(symbol_rloc(undefined), _7, symbol_docs(undefined), _6, {
+    return mk$11(symbol_rloc(), _7, symbol_docs(), _6, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -20634,7 +20634,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$19(symbol_rloc(undefined), add_nonrec(_2, _7, 2), symbol_docs(undefined), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
+    return mk$19(symbol_rloc(), add_nonrec(_2, _7, 2), symbol_docs(), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
       txt: _4,
       loc: rhs_loc(4)
     });
@@ -20645,7 +20645,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$19(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
+    return mk$19(symbol_rloc(), _6, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -20883,7 +20883,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return constructor(symbol_rloc(undefined), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    return constructor(symbol_rloc(), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _2[0], _2[1], {
       txt: _1,
       loc: rhs_loc(1)
     });
@@ -20892,7 +20892,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return constructor(symbol_rloc(undefined), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+    return constructor(symbol_rloc(), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -20905,7 +20905,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
+    return rebind(symbol_rloc(), Stdlib.$at(_5, _6), symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, {
@@ -20918,7 +20918,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
+    return decl(symbol_rloc(), Stdlib.$at(_4, _5), symbol_docs(), undefined, _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -20978,7 +20978,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return field$1(symbol_rloc(undefined), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _1, {
+    return field$1(symbol_rloc(), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _1, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -20990,8 +20990,8 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     const info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
-    const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
-    return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
+    const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos());
+    return field$1(symbol_rloc(), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -21006,7 +21006,7 @@ const yyact = [
     if (_2 !== /* Recursive */ 1) {
       not_expecting(2, "nonrec flag");
     }
-    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+    return mk$20(_8, symbol_docs(), _3, _6, {
       txt: _4,
       loc: rhs_loc(4)
     }, Stdlib__List.rev(_7));
@@ -21021,7 +21021,7 @@ const yyact = [
     if (_2 !== /* Recursive */ 1) {
       not_expecting(2, "nonrec flag");
     }
-    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+    return mk$20(_8, symbol_docs(), _3, _6, {
       txt: _4,
       loc: rhs_loc(4)
     }, Stdlib__List.rev(_7));
@@ -21096,7 +21096,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    return decl(symbol_rloc(), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _2[0], _2[1], {
       txt: _1,
       loc: rhs_loc(1)
     });
@@ -21105,7 +21105,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+    return decl(symbol_rloc(), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -21114,7 +21114,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+    return rebind(symbol_rloc(), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), {
       txt: _1,
       loc: rhs_loc(1)
     }, {
@@ -21126,7 +21126,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+    return rebind(symbol_rloc(), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), {
       txt: _2,
       loc: rhs_loc(2)
     }, {
@@ -21162,7 +21162,7 @@ const yyact = [
         txt: _3,
         loc: rhs_loc(3)
       },
-      _1: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
+      _1: mk$19(symbol_rloc(), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
         txt: rhs,
         loc: rhs_loc(3)
       })
@@ -21174,7 +21174,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       TAG: /* Pwith_typesubst */ 2,
-      _0: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
+      _0: mk$19(symbol_rloc(), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
         txt: _3,
         loc: rhs_loc(3)
       })
@@ -22139,7 +22139,7 @@ const yyact = [
         MEL_EXN_ID: $$Error$3,
         _1: {
           TAG: /* Applicative_path */ 3,
-          _0: symbol_rloc(undefined)
+          _0: symbol_rloc()
         }
       });
   }),
@@ -22522,7 +22522,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       txt: _1,
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -22530,7 +22530,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       txt: _1 + ("." + _3.txt),
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -23055,7 +23055,7 @@ function directive_parse(token_with_comments, lexbuf) {
     look_ahead.contents = e;
   };
   const token_op = function (calc, no, lhs) {
-    const op = token(undefined);
+    const op = token();
     let exit = 0;
     if (/* tag */ typeof op === "number" || typeof op === "string") {
       switch (op) {
@@ -23081,7 +23081,7 @@ function directive_parse(token_with_comments, lexbuf) {
             exit$1 = 2;
           } else {
             const curr_loc = curr(lexbuf);
-            const rhs = value_of_token(curr_loc, token(undefined));
+            const rhs = value_of_token(curr_loc, token());
             let exit$2 = 0;
             if (/* tag */ typeof rhs === "number" || typeof rhs === "string") {
               exit$2 = 3;
@@ -23279,7 +23279,7 @@ function directive_parse(token_with_comments, lexbuf) {
           });
       }
       const curr_loc$1 = curr(lexbuf);
-      const rhs$1 = value_of_token(curr_loc$1, token(undefined));
+      const rhs$1 = value_of_token(curr_loc$1, token());
       if (calc) {
         return Curry._2(f, lhs, assert_same_type(lexbuf, lhs, rhs$1));
       } else {
@@ -23289,7 +23289,7 @@ function directive_parse(token_with_comments, lexbuf) {
     
   };
   const parse_relation = function (calc) {
-    const curr_token = token(undefined);
+    const curr_token = token();
     const curr_loc = curr(lexbuf);
     if (/* tag */ typeof curr_token === "number" || typeof curr_token === "string") {
       switch (curr_token) {
@@ -23297,7 +23297,7 @@ function directive_parse(token_with_comments, lexbuf) {
           return false;
         case /* LPAREN */ 54 :
           const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
-          const match = token(undefined);
+          const match = token();
           if (/* tag */ typeof match === "number" || typeof match === "string") {
             if (match === /* RPAREN */ 81) {
               return v;
@@ -23368,7 +23368,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   _2: curr_loc
                 });
           }
-          const t = token(undefined);
+          const t = token();
           const loc = curr(lexbuf);
           if (/* tag */ typeof t === "number" || typeof t === "string") {
             throw new Caml_js_exceptions.MelangeError($$Error$4, {
@@ -23438,7 +23438,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const parse_and_aux = function (calc, v) {
-    const e = token(undefined);
+    const e = token();
     if (/* tag */ typeof e === "number" || typeof e === "string") {
       if (e === /* AMPERAMPER */ 0) {
         const calc$1 = calc && v;
@@ -23457,7 +23457,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const parse_or_aux = function (calc, v) {
-    const e = token(undefined);
+    const e = token();
     if (/* tag */ typeof e === "number" || typeof e === "string") {
       if (e === /* BARBAR */ 8) {
         const calc$1 = calc && !v;
@@ -23476,7 +23476,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
-  const match = token(undefined);
+  const match = token();
   if (/* tag */ typeof match === "number" || typeof match === "string") {
     if (match === /* THEN */ 88) {
       return v;
@@ -23929,10 +23929,10 @@ function with_comment_buffer(comment, lexbuf) {
     hd: start_loc,
     tl: /* [] */ 0
   };
-  reset_string_buffer(undefined);
+  reset_string_buffer();
   const end_loc = Curry._1(comment, lexbuf);
-  const s = get_stored_string(undefined);
-  reset_string_buffer(undefined);
+  const s = get_stored_string();
+  reset_string_buffer();
   const loc_loc_start = start_loc.loc_start;
   const loc_loc_end = end_loc.loc_end;
   const loc_loc_ghost = start_loc.loc_ghost;
@@ -24533,7 +24533,7 @@ function token(lexbuf) {
           throw exn$4;
         }
       case 19 :
-        reset_string_buffer(undefined);
+        reset_string_buffer();
         is_in_string.contents = true;
         const string_start = lexbuf.lex_start_p;
         string_start_loc.contents = curr(lexbuf);
@@ -24543,12 +24543,12 @@ function token(lexbuf) {
         return {
           TAG: /* STRING */ 16,
           _0: [
-            get_stored_string(undefined),
+            get_stored_string(),
             undefined
           ]
         };
       case 20 :
-        reset_string_buffer(undefined);
+        reset_string_buffer();
         const delim = Stdlib__Lexing.lexeme(lexbuf);
         const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
         is_in_string.contents = true;
@@ -24560,7 +24560,7 @@ function token(lexbuf) {
         return {
           TAG: /* STRING */ 16,
           _0: [
-            get_stored_string(undefined),
+            get_stored_string(),
             delim$1
           ]
         };
@@ -25543,11 +25543,11 @@ function maybe_skip_phrase(lexbuf) {
 
 function wrap$1(parsing_fun, lexbuf) {
   try {
-    init(undefined);
-    init$1(undefined);
+    init();
+    init$1();
     const ast = Curry._2(parsing_fun, token$1, lexbuf);
-    Stdlib__Parsing.clear_parser(undefined);
-    warn_bad_docstrings(undefined);
+    Stdlib__Parsing.clear_parser();
+    warn_bad_docstrings();
     return ast;
   }
   catch (raw_err){
@@ -27691,7 +27691,7 @@ function record_value_dependency(vd1, vd2) {
 
 function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg) {
   if (binary_annotations.contents && !print_types.contents) {
-    const imports$1 = imports(undefined);
+    const imports$1 = imports();
     const oc = Stdlib.open_out_bin(filename);
     let this_crc;
     if (sg !== undefined) {
@@ -27714,7 +27714,7 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
     const cmt_cmt_value_dependencies = value_deps.contents;
     const cmt_cmt_comments = Stdlib__List.rev(comment_list.contents);
     const cmt_cmt_args = Caml_sys.caml_sys_argv(0);
-    const cmt_cmt_builddir = Caml_sys.caml_sys_getcwd(undefined);
+    const cmt_cmt_builddir = Caml_sys.caml_sys_getcwd();
     const cmt_cmt_loadpath = load_path.contents;
     const cmt_cmt_initial_env = need_to_clear_env ? keep_only_summary(initial_env) : initial_env;
     const cmt_cmt_imports = Stdlib__List.sort(Caml_obj.caml_compare, imports$1);
@@ -27752,7 +27752,7 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
     }
     
   }
-  clear(undefined);
+  clear();
 }
 
 const Unify = /* @__PURE__ */ Caml_exceptions.create("Ocaml_typedtree_test.Ctype.Unify");
@@ -27947,7 +27947,7 @@ const trace_gadt_instances = {
 function check_trace_gadt_instances(env) {
   if (!trace_gadt_instances.contents && env.local_constraints) {
     trace_gadt_instances.contents = true;
-    cleanup_abbrev(undefined);
+    cleanup_abbrev();
     return true;
   } else {
     return false;
@@ -29850,13 +29850,13 @@ function instance(partial, env, sch) {
       partial
     ] : undefined;
   const ty = copy(env$1, partial$1, undefined, sch);
-  cleanup_types(undefined);
+  cleanup_types();
   return ty;
 }
 
 function instance_def(sch) {
   const ty = copy(undefined, undefined, undefined, sch);
-  cleanup_types(undefined);
+  cleanup_types();
   return ty;
 }
 
@@ -29865,7 +29865,7 @@ function instance_list(env, schl) {
   const tyl = Stdlib__List.map((function (t) {
     return copy(env$1, undefined, undefined, t);
   }), schl);
-  cleanup_types(undefined);
+  cleanup_types();
   return tyl;
 }
 
@@ -29970,7 +29970,7 @@ function instance_constructor(in_pattern, cstr) {
   }
   const ty_res = copy(undefined, undefined, undefined, cstr.cstr_res);
   const ty_args = Stdlib__List.map(simple_copy, cstr.cstr_args);
-  cleanup_types(undefined);
+  cleanup_types();
   return [
     ty_args,
     ty_res
@@ -29982,7 +29982,7 @@ function instance_parameterized_type(keep_names, sch_args, sch) {
     return copy(undefined, undefined, keep_names, t);
   }), sch_args);
   const ty = copy(undefined, undefined, undefined, sch);
-  cleanup_types(undefined);
+  cleanup_types();
   return [
     ty_args,
     ty
@@ -30039,7 +30039,7 @@ function instance_declaration(decl) {
     type_loc: decl_type_loc,
     type_attributes: decl_type_attributes
   };
-  cleanup_types(undefined);
+  cleanup_types();
   return decl$1;
 }
 
@@ -30086,7 +30086,7 @@ function instance_class(params, cty) {
   };
   const params$p = Stdlib__List.map(simple_copy, params);
   const cty$p = copy_class_type(cty);
-  cleanup_types(undefined);
+  cleanup_types();
   return [
     params$p,
     cty$p
@@ -30288,7 +30288,7 @@ function instance_poly(keep_namesOpt, fixed, univars, sch) {
   const ty = copy_sep(fixed, compute_univars(sch), /* [] */ 0, pairs, sch);
   Stdlib__List.iter(CamlinternalLazy.force, delayed_copy.contents);
   delayed_copy.contents = /* [] */ 0;
-  cleanup_types(undefined);
+  cleanup_types();
   return [
     vars,
     ty
@@ -30312,7 +30312,7 @@ function instance_label(fixed, lbl) {
       copy(undefined, undefined, undefined, lbl.lbl_arg)
     ];
   }
-  cleanup_types(undefined);
+  cleanup_types();
   return [
     match[0],
     match[1],
@@ -30394,7 +30394,7 @@ const previous_env = {
 
 function check_abbrev_env(env) {
   if (env !== previous_env.contents) {
-    cleanup_abbrev(undefined);
+    cleanup_abbrev();
     previous_env.contents = env;
     return;
   }
@@ -30539,7 +30539,7 @@ function expand_head_once(env, ty) {
 }
 
 function safe_abbrev(env, ty) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   try {
     expand_abbrev(env)(ty);
     return true;
@@ -30575,7 +30575,7 @@ function try_expand_once(env, ty) {
 }
 
 function try_expand_safe(env, ty) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   try {
     return try_expand_once(env, ty);
   }
@@ -30720,7 +30720,7 @@ function try_expand_head_opt(env, ty) {
 }
 
 function expand_head_opt(env, ty) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   try {
     return try_expand_head_opt(env, ty);
   }
@@ -31465,7 +31465,7 @@ function get_newtype_level(param) {
 }
 
 function reify(env, t) {
-  const newtype_level = get_newtype_level(undefined);
+  const newtype_level = get_newtype_level();
   const create_fresh_constr = function (lev, name) {
     const decl = new_declaration([
       newtype_level,
@@ -32548,9 +32548,9 @@ function add_gadt_equation(env, source, destination) {
     _0: source
   });
   const decl = new_declaration(source_lev, destination$1);
-  const newtype_level = get_newtype_level(undefined);
+  const newtype_level = get_newtype_level();
   env.contents = add_local_constraint(source, decl, newtype_level, env.contents);
-  cleanup_abbrev(undefined);
+  cleanup_abbrev();
 }
 
 const unify_eq_set = Curry._1(TypePairs.create, 11);
@@ -33884,7 +33884,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                         return unify(env, t1, t2);
                       } else {
                         return set_mode_pattern(false, false, (function (param) {
-                          const snap = snapshot(undefined);
+                          const snap = snapshot();
                           try {
                             return unify(env, t1, t2);
                           }
@@ -34046,7 +34046,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                 if (umode.contents === /* Expression */ 0) {
                   unify_row(env, row1, row2);
                 } else {
-                  const snap = snapshot(undefined);
+                  const snap = snapshot();
                   try {
                     unify_row(env, row1, row2);
                   }
@@ -35378,9 +35378,9 @@ function all_distinct_vars(env, vars) {
 }
 
 function matches(env, ty, ty$p) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   const vars = rigidify(ty);
-  cleanup_abbrev(undefined);
+  cleanup_abbrev();
   let ok;
   try {
     unify$2(env, ty, ty$p);
@@ -38148,7 +38148,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                       if (eq_package_path(env, p1, p2)) {
                         return Stdlib.$at(cstrs$p, cstrs);
                       }
-                      const snap = snapshot(undefined);
+                      const snap = snapshot();
                       try {
                         Stdlib__List.iter((function (param) {
                           unify$2(env, param[1], param[2]);
@@ -45212,7 +45212,7 @@ function path_size(id) {
 }
 
 function same_printing_env(env) {
-  const used_pers = used_persistent(undefined);
+  const used_pers = used_persistent();
   if (same_types(printing_old.contents, env)) {
     return Curry._2(equal$3, printing_pers.contents, used_pers);
   } else {
@@ -45226,7 +45226,7 @@ function set_printing_env(env) {
     return;
   }
   printing_old.contents = env;
-  printing_pers.contents = used_persistent(undefined);
+  printing_pers.contents = used_persistent();
   printing_map.contents = /* Empty */ 0;
   printing_depth.contents = 0;
   const partial_arg = iter_types(function (p, param) {
@@ -45372,7 +45372,7 @@ function best_type_path(p) {
       if (Caml_obj.caml_notequal(printing_cont.contents, /* [] */ 0)) {
         let tmp$1;
         try {
-          get_path(undefined);
+          get_path();
           tmp$1 = false;
         }
         catch (raw_exn){
@@ -45394,7 +45394,7 @@ function best_type_path(p) {
   };
   let p$p$p;
   try {
-    p$p$p = get_path(undefined);
+    p$p$p = get_path();
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -45483,7 +45483,7 @@ function name_of_type(t) {
       let name;
       let exit = 0;
       if (/* tag */ typeof match === "number" || typeof match === "string") {
-        name = new_name(undefined);
+        name = new_name();
       } else {
         switch (match.TAG) {
           case /* Tvar */ 0 :
@@ -45491,7 +45491,7 @@ function name_of_type(t) {
             exit = 1;
             break;
           default:
-            name = new_name(undefined);
+            name = new_name();
         }
       }
       if (exit === 1) {
@@ -45509,7 +45509,7 @@ function name_of_type(t) {
           };
           name = current_name.contents;
         } else {
-          name = new_name(undefined);
+          name = new_name();
         }
       }
       if (name !== "_") {
@@ -45741,14 +45741,14 @@ function mark_loops(ty) {
 
 function reset(param) {
   unique_names.contents = /* Empty */ 0;
-  reset_names(undefined);
+  reset_names();
   visited_objects.contents = /* [] */ 0;
   aliased.contents = /* [] */ 0;
   delayed.contents = /* [] */ 0;
 }
 
 function reset_and_mark_loops_list(tyl) {
-  reset(undefined);
+  reset();
   Stdlib__List.iter(mark_loops, tyl);
 }
 
@@ -46034,11 +46034,11 @@ function tree_of_typexp(sch, ty) {
     name_of_type(px);
     return {
       TAG: /* Otyp_alias */ 0,
-      _0: pr_typ(undefined),
+      _0: pr_typ(),
       _1: name_of_type(px)
     };
   } else {
-    return pr_typ(undefined);
+    return pr_typ();
   }
 }
 
@@ -46157,13 +46157,13 @@ function type_expr$1(ppf, ty) {
 }
 
 function type_scheme(ppf, ty) {
-  reset(undefined);
+  reset();
   mark_loops(ty);
   typexp$1(true, 0, ppf, ty);
 }
 
 function tree_of_type_scheme(ty) {
-  reset(undefined);
+  reset();
   mark_loops(ty);
   return tree_of_typexp(true, ty);
 }
@@ -46240,7 +46240,7 @@ function tree_of_label(l) {
 }
 
 function tree_of_type_decl(id, decl) {
-  reset(undefined);
+  reset();
   const params = filter_params(decl.type_params);
   const ty = decl.type_manifest;
   if (ty !== undefined) {
@@ -46423,7 +46423,7 @@ function type_declaration$1(id, ppf, decl) {
 }
 
 function tree_of_extension_constructor(id, ext, es) {
-  reset(undefined);
+  reset();
   const ty_name = name(undefined, ext.ext_type_path);
   const ty_params = filter_params(ext.ext_type_params);
   Stdlib__List.iter(add_alias, ty_params);
@@ -46718,7 +46718,7 @@ function tree_of_class_type(sch, params, _sign) {
 }
 
 function class_type$2(ppf, cty) {
-  reset(undefined);
+  reset();
   prepare_class_type(/* [] */ 0, cty);
   Curry._2(out_class_type.contents, ppf, tree_of_class_type(false, /* [] */ 0, cty));
 }
@@ -46747,7 +46747,7 @@ function class_variance(param) {
 
 function tree_of_class_declaration(id, cl, rs) {
   const params = filter_params(cl.cty_params);
-  reset(undefined);
+  reset();
   Stdlib__List.iter(add_alias, params);
   prepare_class_type(params, cl.cty_type);
   const sty = repr(signature_of_class_type(cl.cty_type).csig_self);
@@ -46774,7 +46774,7 @@ function class_declaration$1(id, ppf, cl) {
 
 function tree_of_cltype_declaration(id, cl, rs) {
   const params = Stdlib__List.map(repr, cl.clty_params);
-  reset(undefined);
+  reset();
   Stdlib__List.iter(add_alias, params);
   prepare_class_type(params, cl.clty_type);
   const sty = repr(signature_of_class_type(cl.clty_type).csig_self);
@@ -48758,7 +48758,7 @@ function trace_same_names(_param) {
 function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
   const unif = unifOpt !== undefined ? unifOpt : true;
   wrap_printing_env(env, (function (param) {
-    reset(undefined);
+    reset();
     trace_same_names(tr);
     const tr$1 = Stdlib__List.map((function (param) {
       return [
@@ -59992,13 +59992,13 @@ const used_variables = {
 };
 
 function reset_type_variables(param) {
-  reset_global_level(undefined);
+  reset_global_level();
   type_variables.contents = /* Empty */ 0;
 }
 
 function narrow(param) {
   return [
-    increase_global_level(undefined),
+    increase_global_level(),
     type_variables.contents
   ];
 }
@@ -60643,7 +60643,7 @@ function transl_type(env, policy, styp) {
         const exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
         if (exn$5.MEL_EXN_ID === Stdlib.Not_found) {
           if (principal.contents) {
-            begin_def(undefined);
+            begin_def();
           }
           const t$2 = newvar(validate_name(undefined), undefined);
           used_variables.contents = add$5(alias, [
@@ -60671,7 +60671,7 @@ function transl_type(env, policy, styp) {
             throw trace$4;
           }
           if (principal.contents) {
-            end_def(undefined);
+            end_def();
             generalize_structure$1(current_level.contents, t$2);
           }
           const t$3 = instance(undefined, env, t$2);
@@ -61054,7 +61054,7 @@ function transl_type(env, policy, styp) {
       }, ty$10);
     case /* Ptyp_poly */ 8 :
       const vars = name._0;
-      begin_def(undefined);
+      begin_def();
       const new_univars = Stdlib__List.map((function (name) {
         return [
           name,
@@ -61066,7 +61066,7 @@ function transl_type(env, policy, styp) {
       const cty$1 = transl_type(env, policy, name._1);
       const ty$11 = cty$1.ctyp_type;
       univars.contents = old_univars;
-      end_def(undefined);
+      end_def();
       iter_generalize$1({
         contents: /* [] */ 0
       }, ty$11);
@@ -61116,7 +61116,7 @@ function transl_type(env, policy, styp) {
         match$6[1]
       ]);
       const l$1 = match$7[0];
-      const z = narrow(undefined);
+      const z = narrow();
       const mty = Curry._2(transl_modtype.contents, env, match$7[1]);
       widen(z);
       const ptys = Stdlib__List.map((function (param) {
@@ -61253,7 +61253,7 @@ function globalize_used_variables(env, fixed) {
     const loc = param[1];
     const ty = param[0];
     const v = new_global_var(validate_name(undefined), undefined);
-    const snap = snapshot(undefined);
+    const snap = snapshot();
     let tmp;
     try {
       unify$2(env, v, ty);
@@ -61335,7 +61335,7 @@ function transl_simple_type(env, fixed, styp) {
   univars.contents = /* [] */ 0;
   used_variables.contents = /* Empty */ 0;
   const typ = transl_type(env, fixed ? /* Fixed */ 0 : /* Extensible */ 1, styp);
-  globalize_used_variables(env, fixed)(undefined);
+  globalize_used_variables(env, fixed)();
   const ty = typ.ctyp_type;
   make_fixed_univars(ty);
   unmark_type(ty);
@@ -61346,7 +61346,7 @@ function transl_simple_type_univars(env, styp) {
   univars.contents = /* [] */ 0;
   used_variables.contents = /* Empty */ 0;
   pre_univars.contents = /* [] */ 0;
-  begin_def(undefined);
+  begin_def();
   const typ = transl_type(env, /* Univars */ 2, styp);
   const new_variables = used_variables.contents;
   used_variables.contents = /* Empty */ 0;
@@ -61357,8 +61357,8 @@ function transl_simple_type_univars(env, styp) {
     }
     
   }), new_variables);
-  globalize_used_variables(env, false)(undefined);
-  end_def(undefined);
+  globalize_used_variables(env, false)();
+  end_def();
   iter_generalize$1({
     contents: /* [] */ 0
   }, typ.ctyp_type);
@@ -61408,10 +61408,10 @@ function transl_simple_type_delayed(env, styp) {
 }
 
 function transl_type_scheme(env, styp) {
-  reset_type_variables(undefined);
-  begin_def(undefined);
+  reset_type_variables();
+  begin_def();
   const typ = transl_simple_type(env, false, styp);
-  end_def(undefined);
+  end_def();
   iter_generalize$1({
     contents: /* [] */ 0
   }, typ.ctyp_type);
@@ -61891,7 +61891,7 @@ register_error_of_exn(function (err) {
         }));
       case /* Not_a_variant */ 11 :
         const ty$1 = param$1._0;
-        reset(undefined);
+        reset();
         mark_loops(ty$1);
         return Curry._2(Stdlib__Format.fprintf(param)({
           TAG: /* Format */ 0,
@@ -63838,10 +63838,10 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
             }
             
           } else {
-            warn_pr(undefined);
+            warn_pr();
           }
         } else {
-          warn_pr(undefined);
+          warn_pr();
         }
       }
       lbl = lbl$1;
@@ -63863,7 +63863,7 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
             _2: false
           });
           if (!pr) {
-            warn_pr(undefined);
+            warn_pr();
           }
           lbl = lbl$2;
         }
@@ -64411,10 +64411,10 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
             }
             
           } else {
-            warn_pr(undefined);
+            warn_pr();
           }
         } else {
-          warn_pr(undefined);
+          warn_pr();
         }
       }
       lbl = lbl$1;
@@ -64436,7 +64436,7 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
             _2: false
           });
           if (!pr) {
-            warn_pr(undefined);
+            warn_pr();
           }
           lbl = lbl$2;
         }
@@ -64587,9 +64587,9 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
     case /* Ppat_alias */ 1 :
       const name$2 = name._1;
       const q = type_pat$1(undefined, undefined)(name._0, expected_ty);
-      begin_def(undefined);
+      begin_def();
       const ty_var = build_as_type(env.contents, q);
-      end_def(undefined);
+      end_def();
       iter_generalize$1({
         contents: /* [] */ 0
       }, ty_var);
@@ -64829,7 +64829,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
       }
       const match$2 = instance_constructor([
         env,
-        get_newtype_level$1(undefined)
+        get_newtype_level$1()
       ], constr);
       const ty_res = match$2[1];
       if (constr.cstr_generalized && mode === /* Normal */ 0) {
@@ -64945,12 +64945,12 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
       const type_label_pat = function (param) {
         const label = param[1];
         const label_lid = param[0];
-        begin_def(undefined);
+        begin_def();
         const match = instance_label(false, label);
         const ty_arg = match[1];
         const vars = match[0];
         if (Caml_obj.caml_equal(vars, /* [] */ 0)) {
-          end_def(undefined);
+          end_def();
         }
         try {
           unify_pat_types(loc, env.contents, match[2], record_ty);
@@ -64973,7 +64973,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         }
         const arg = type_pat$1(undefined, undefined)(param[2], ty_arg);
         if (Caml_obj.caml_notequal(vars, /* [] */ 0)) {
-          end_def(undefined);
+          end_def();
           iter_generalize$1({
             contents: /* [] */ 0
           }, ty_arg);
@@ -65102,10 +65102,10 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
               });
           }
           if (match$6.TAG === /* Tpoly */ 10) {
-            begin_def(undefined);
+            begin_def();
             const match$7 = instance_poly(true, false, match$6._1, match$6._0);
             const ty$p = match$7[1];
-            end_def(undefined);
+            end_def();
             iter_generalize$1({
               contents: /* [] */ 0
             }, ty$p);
@@ -65144,11 +65144,11 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         }
       }
       if (exit$1 === 1) {
-        begin_def(undefined);
+        begin_def();
         const match$8 = transl_simple_type_delayed(env.contents, name._1);
         const cty$1 = match$8[0];
         const ty$2 = cty$1.ctyp_type;
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, ty$2);
         const ty$3 = instance(undefined, env.contents, ty$2);
         const expected_ty$p = instance(undefined, env.contents, ty$2);
@@ -65311,7 +65311,7 @@ function type_pat$1(allow_existentialsOpt, constrs, labels, levOpt, env, sp, exp
 }
 
 function partial_pred(lev, env, expected_ty, constrs, labels, p) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   try {
     reset_pattern(undefined, true);
     const typed_p = type_pat$1(true, Caml_option.some(constrs), Caml_option.some(labels), lev, {
@@ -65577,7 +65577,7 @@ function add_delayed_check(f) {
 }
 
 function force_delayed_checks(param) {
-  const snap = snapshot(undefined);
+  const snap = snapshot();
   const w_old = current.contents;
   Stdlib__List.iter((function (param) {
     current.contents = param[1];
@@ -66413,10 +66413,10 @@ function type_exp(env, sexp) {
 
 function type_expect(in_function, env, sexp, ty_expected) {
   const previous_saved_types = saved_types.contents;
-  warning_enter_scope(undefined);
+  warning_enter_scope();
   warning_attribute(sexp.pexp_attributes);
   const exp = type_expect_(in_function, env, sexp, ty_expected);
-  warning_leave_scope(undefined);
+  warning_leave_scope();
   saved_types.contents = {
     hd: {
       TAG: /* Partial_expression */ 2,
@@ -66769,17 +66769,17 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       if (Caml_obj.caml_equal(sargs, /* [] */ 0)) {
         ill_formed_ast(loc, "Function application with no argument.");
       }
-      begin_def(undefined);
+      begin_def();
       if (principal.contents) {
-        begin_def(undefined);
+        begin_def();
       }
       const funct = type_exp(env, lid._0);
       if (principal.contents) {
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, funct.exp_type);
       }
       const ty = instance(undefined, env, funct.exp_type);
-      end_def(undefined);
+      end_def();
       wrap_trace_gadt_instances(env, (function (param) {
         let _seen = /* [] */ 0;
         let _ty_fun = param;
@@ -66822,9 +66822,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           continue;
         };
       }), ty);
-      begin_def(undefined);
+      begin_def();
       const match$9 = type_application(env, funct, sargs);
-      end_def(undefined);
+      end_def();
       unify_var(env, newvar(undefined, undefined), funct.exp_type);
       return rue({
         exp_desc: {
@@ -66839,9 +66839,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         exp_attributes: sexp.pexp_attributes
       });
     case /* Pexp_match */ 6 :
-      begin_def(undefined);
+      begin_def();
       const arg = type_exp(env, lid._0);
-      end_def(undefined);
+      end_def();
       if (is_nonexpansive(arg)) {
         iter_generalize$1({
           contents: /* [] */ 0
@@ -67012,8 +67012,8 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       }
       const separate = principal.contents || env.local_constraints;
       if (separate) {
-        begin_def(undefined);
-        begin_def(undefined);
+        begin_def();
+        begin_def();
       }
       const match$15 = instance_constructor(undefined, constr);
       const ty_res = match$15[1];
@@ -67032,7 +67032,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         exp_attributes: attrs
       });
       if (separate) {
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, ty_res);
         unify_exp(env, {
           exp_desc: texp.exp_desc,
@@ -67042,7 +67042,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           exp_env: texp.exp_env,
           exp_attributes: texp.exp_attributes
         }, instance(undefined, env, ty_expected));
-        end_def(undefined);
+        end_def();
         Stdlib__List.iter(generalize_structure$2, ty_args);
         generalize_structure$1(current_level.contents, ty_res);
       }
@@ -67251,11 +67251,11 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       let opt_exp;
       if (opt_sexp !== undefined) {
         if (principal.contents) {
-          begin_def(undefined);
+          begin_def();
         }
         const exp = type_exp(env, opt_sexp);
         if (principal.contents) {
-          end_def(undefined);
+          end_def();
           generalize_structure$1(current_level.contents, exp.exp_type);
         }
         opt_exp = exp;
@@ -67291,9 +67291,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         if (op$1 !== undefined) {
           const p$p = op$1[1];
           const decl = find_type_full(p$p, env)[0];
-          begin_def(undefined);
+          begin_def();
           const ty$2 = newconstr(p$p, instance_list(env, decl.type_params));
-          end_def(undefined);
+          end_def();
           generalize_structure$1(current_level.contents, ty$2);
           match$22 = [
             ty$2,
@@ -67642,10 +67642,10 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         exp_attributes: sexp.pexp_attributes
       });
     case /* Pexp_constraint */ 19 :
-      begin_def(undefined);
+      begin_def();
       const cty = transl_simple_type(env, false, lid._1);
       const ty$4 = cty.ctyp_type;
-      end_def(undefined);
+      end_def();
       generalize_structure$1(current_level.contents, ty$4);
       const arg$3 = type_argument(env, lid._0, ty$4, instance(undefined, env, ty$4));
       const ty$p = instance(undefined, env, ty$4);
@@ -67673,7 +67673,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       const sarg$2 = lid._0;
       let match$29;
       if (sty !== undefined) {
-        begin_def(undefined);
+        begin_def();
         const match$30 = transl_simple_type_delayed(env, sty);
         const cty$1 = match$30[0];
         const match$31 = transl_simple_type_delayed(env, sty$p);
@@ -67702,7 +67702,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           }
           throw exn$2;
         }
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, ty$5);
         generalize_structure$1(current_level.contents, ty$p$1);
         match$29 = [
@@ -67716,9 +67716,9 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         const force = match$32[1];
         const cty$p$1 = match$32[0];
         const ty$p$2 = cty$p$1.ctyp_type;
-        begin_def(undefined);
+        begin_def();
         const arg$4 = type_exp(env, sarg$2);
-        end_def(undefined);
+        end_def();
         const tv = newvar(undefined, undefined);
         const gen = generalizable(tv.level, arg$4.exp_type);
         unify_var(env, tv, arg$4.exp_type);
@@ -67750,7 +67750,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           if (Caml_obj.caml_equal(free_variables$1(Caml_option.some(env), arg$4.exp_type), /* [] */ 0) && Caml_obj.caml_equal(free_variables$1(Caml_option.some(env), ty$p$2), /* [] */ 0)) {
             let tmp$3 = false;
             if (!gen) {
-              const snap = snapshot(undefined);
+              const snap = snapshot();
               const match$37 = enlarge_type(env, ty$p$2);
               let tmp$4;
               try {
@@ -67857,7 +67857,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       const met = lid._1;
       const e = lid._0;
       if (principal.contents) {
-        begin_def(undefined);
+        begin_def();
       }
       const obj = type_exp(env, e);
       try {
@@ -68028,7 +68028,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         }
         const typ$2 = match$40[2];
         if (principal.contents) {
-          end_def(undefined);
+          end_def();
           generalize_structure$1(current_level.contents, typ$2);
         }
         const ty$6 = repr(typ$2);
@@ -68332,16 +68332,16 @@ function type_expect_(in_function, env, sexp, ty_expected) {
     case /* Pexp_letmodule */ 25 :
       const name$2 = lid._0;
       const ty$9 = newvar(undefined, undefined);
-      begin_def(undefined);
+      begin_def();
       set_current_time(ty$9.level);
-      const context = narrow(undefined);
+      const context = narrow();
       const modl = Curry._2(type_module.contents, env, lid._1);
       const match$56 = enter_module(undefined, name$2.txt, modl.mod_type, env);
       const new_env = match$56[1];
       init_def(currentstamp.contents);
       widen(context);
       const body$4 = type_expect(undefined, new_env, lid._2, ty_expected);
-      end_def(undefined);
+      end_def();
       try {
         unify_var(new_env, ty$9, body$4.exp_type);
       }
@@ -68414,7 +68414,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       const sty$1 = lid._1;
       const sbody$1 = lid._0;
       if (principal.contents) {
-        begin_def(undefined);
+        begin_def();
       }
       let match$58;
       if (sty$1 !== undefined) {
@@ -68432,7 +68432,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       }
       const ty$11 = match$58[0];
       if (principal.contents) {
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, ty$11);
       }
       if (sty$1 !== undefined) {
@@ -68477,18 +68477,18 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         case /* Tpoly */ 10 :
           const ty$p$4 = match$59._0;
           if (match$59._1) {
-            begin_def(undefined);
+            begin_def();
             if (principal.contents) {
-              begin_def(undefined);
+              begin_def();
             }
             const match$60 = instance_poly(undefined, true, match$59._1, ty$p$4);
             const ty$p$p = match$60[1];
             if (principal.contents) {
-              end_def(undefined);
+              end_def();
               generalize_structure$1(current_level.contents, ty$p$p);
             }
             const exp$5 = type_expect(undefined, env, sbody$1, ty$p$p);
-            end_def(undefined);
+            end_def();
             check_univars(env, false, "method", exp$5, ty_expected, match$60[0]);
             exp$2 = {
               exp_desc: exp$5.exp_desc,
@@ -68555,7 +68555,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
     case /* Pexp_newtype */ 30 :
       const name$3 = lid._0;
       const ty$12 = newvar(undefined, undefined);
-      begin_def(undefined);
+      begin_def();
       const level = current_level.contents;
       const decl_type_newtype_level = [
         level,
@@ -68605,7 +68605,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
       };
       const ety = type_expr(identity, body$5.exp_type);
       replace(ety);
-      end_def(undefined);
+      end_def();
       return rue({
         exp_desc: body$5.exp_desc,
         exp_loc: loc,
@@ -68734,7 +68734,7 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
   const loc_fun = match[0];
   const separate = principal.contents || env.local_constraints;
   if (separate) {
-    begin_def(undefined);
+    begin_def();
   }
   let match$1;
   try {
@@ -68807,7 +68807,7 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
     ty_arg$1 = ty_arg;
   }
   if (separate) {
-    end_def(undefined);
+    end_def();
     generalize_structure$1(current_level.contents, ty_arg$1);
     generalize_structure$1(current_level.contents, ty_res);
   }
@@ -68850,11 +68850,11 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
 
 function type_label_access(env, loc, srecord, lid) {
   if (principal.contents) {
-    begin_def(undefined);
+    begin_def();
   }
   const record = type_exp(env, srecord);
   if (principal.contents) {
-    end_def(undefined);
+    end_def();
     generalize_structure$1(current_level.contents, record.exp_type);
   }
   const ty_exp = record.exp_type;
@@ -68901,18 +68901,18 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   const sarg = param[2];
   const label = param[1];
   const lid = param[0];
-  begin_def(undefined);
+  begin_def();
   const separate = principal.contents || env.local_constraints;
   if (separate) {
-    begin_def(undefined);
-    begin_def(undefined);
+    begin_def();
+    begin_def();
   }
   const match = instance_label(true, label);
   const ty_res = match[2];
   const ty_arg = match[1];
   const vars = match[0];
   if (separate) {
-    end_def(undefined);
+    end_def();
     generalize_structure$1(current_level.contents, ty_arg);
     generalize_structure$1(current_level.contents, ty_res);
   }
@@ -68937,7 +68937,7 @@ function type_label_exp(create, env, loc, ty_expected, param) {
   }
   const ty_arg$1 = instance_def(ty_arg);
   if (separate) {
-    end_def(undefined);
+    end_def();
     generalize_structure$1(current_level.contents, ty_arg$1);
   }
   if (label.lbl_private === /* Private */ 0) {
@@ -68963,9 +68963,9 @@ function type_label_exp(create, env, loc, ty_expected, param) {
         }
       });
   }
-  const snap = Caml_obj.caml_equal(vars, /* [] */ 0) ? undefined : Caml_option.some(snapshot(undefined));
+  const snap = Caml_obj.caml_equal(vars, /* [] */ 0) ? undefined : Caml_option.some(snapshot());
   const arg = type_argument(env, sarg, ty_arg$1, instance(undefined, env, ty_arg$1));
-  end_def(undefined);
+  end_def();
   let arg$1;
   try {
     check_univars(env, Caml_obj.caml_notequal(vars, /* [] */ 0), "field value", arg, label.lbl_arg, vars);
@@ -68977,9 +68977,9 @@ function type_label_exp(create, env, loc, ty_expected, param) {
     }
     try {
       may(backtrack, snap);
-      begin_def(undefined);
+      begin_def();
       const arg$2 = type_exp(env, sarg);
-      end_def(undefined);
+      end_def();
       generalize_expansive$1(env, arg$2.exp_type);
       unify_exp(env, arg$2, ty_arg$1);
       check_univars(env, false, "field value", arg$2, label.lbl_arg, vars);
@@ -69067,11 +69067,11 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
     const lv = match.level;
     if (is_inferred(sarg)) {
       if (principal.contents) {
-        begin_def(undefined);
+        begin_def();
       }
       const texp = type_exp(env, sarg);
       if (principal.contents) {
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, texp.exp_type);
       }
       const make_args = function (_args, _ty_fun) {
@@ -69768,9 +69768,9 @@ function type_application(env, funct, sargs) {
 
 function type_statement(env, sexp) {
   const loc = final_subexpression(sexp).pexp_loc;
-  begin_def(undefined);
+  begin_def();
   const exp = type_exp(env, sexp);
-  end_def(undefined);
+  end_def();
   if (strict_sequence.contents) {
     const expected_ty = instance_def(type_unit);
     unify_exp(env, exp, expected_ty);
@@ -69830,7 +69830,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
   const ty_res$1 = match[0];
   let match$1;
   if (has_gadts) {
-    begin_def(undefined);
+    begin_def();
     set_current_time(current_level.contents);
     const lev = currentstamp.contents;
     init_def(lev + 1000 | 0);
@@ -69846,7 +69846,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
   }
   const env$2 = match$1[1];
   const lev$1 = match$1[0];
-  begin_def(undefined);
+  begin_def();
   const ty_arg$p = newvar(undefined, undefined);
   const pattern_force = {
     contents: /* [] */ 0
@@ -69866,7 +69866,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
       loc = pc_rhs.pexp_loc;
     }
     if (principal.contents) {
-      begin_def(undefined);
+      begin_def();
     }
     const scope = {
       TAG: /* Idef */ 1,
@@ -69877,7 +69877,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
     const match = type_pattern(lev$1, env$2, param.pc_lhs, scope, ty_arg$2);
     const pat = match[0];
     pattern_force.contents = Stdlib.$at(match[2], pattern_force.contents);
-    const pat$1 = principal.contents ? (end_def(undefined), iter_pattern((function (param) {
+    const pat$1 = principal.contents ? (end_def(), iter_pattern((function (param) {
         generalize_structure$1(current_level.contents, param.pat_type);
       }), pat), {
         pat_desc: pat.pat_desc,
@@ -69918,7 +69918,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
   Stdlib__List.iter((function (pat) {
     unify_pat(env$2, pat, instance(undefined, env$2, ty_arg$1));
   }), patl);
-  end_def(undefined);
+  end_def();
   Stdlib__List.iter((function (param) {
     return iter_pattern((function (param) {
       iter_generalize$1({
@@ -69935,9 +69935,9 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
     const sexp = wrap_unpacks(param$1.pc_rhs, unpacks);
     let ty_res$p;
     if (principal.contents) {
-      begin_def(undefined);
+      begin_def();
       const ty = instance(true, env$2, ty_res$1);
-      end_def(undefined);
+      end_def();
       generalize_structure$1(current_level.contents, ty);
       ty_res$p = ty;
     } else {
@@ -70043,7 +70043,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
     };
   });
   if (has_gadts) {
-    end_def(undefined);
+    end_def();
     unify_exp_types(loc, env$2, instance(undefined, env$2, ty_res$1), newvar(undefined, undefined));
   }
   return [
@@ -70065,9 +70065,9 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
         _0: s
       };
     });
-  begin_def(undefined);
+  begin_def();
   if (principal.contents) {
-    begin_def(undefined);
+    begin_def();
   }
   let is_fake_let;
   if (spat_sexp_list) {
@@ -70159,7 +70159,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
     }
     
   }), pat_list);
-  const pat_list$1 = principal.contents ? (end_def(undefined), Stdlib__List.map((function (pat) {
+  const pat_list$1 = principal.contents ? (end_def(), Stdlib__List.map((function (pat) {
       iter_pattern((function (pat) {
         generalize_structure$1(current_level.contents, pat.pat_type);
       }), pat);
@@ -70272,18 +70272,18 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
     if (match.TAG !== /* Tpoly */ 10) {
       return type_expect(undefined, exp_env, sexp$1, pat.pat_type);
     }
-    begin_def(undefined);
+    begin_def();
     if (principal.contents) {
-      begin_def(undefined);
+      begin_def();
     }
     const match$1 = instance_poly(true, true, match._1, match._0);
     const ty$p = match$1[1];
     if (principal.contents) {
-      end_def(undefined);
+      end_def();
       generalize_structure$1(current_level.contents, ty$p);
     }
     const exp = type_expect(undefined, exp_env, sexp$1, ty$p);
-    end_def(undefined);
+    end_def();
     check_univars(env, true, "definition", exp, pat.pat_type, match$1[0]);
     return {
       exp_desc: exp.exp_desc,
@@ -70308,7 +70308,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
       tl: /* [] */ 0
     });
   }), pat_list$1, exp_list);
-  end_def(undefined);
+  end_def();
   Stdlib__List.iter2((function (pat, exp) {
     if (!is_nonexpansive(exp)) {
       return iter_pattern((function (pat) {
@@ -70341,7 +70341,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
 }
 
 function type_binding(env, rec_flag, spat_sexp_list, scope) {
-  reset_type_variables(undefined);
+  reset_type_variables();
   const match = type_let((function (s) {
     return {
       TAG: /* Unused_value_declaration */ 16,
@@ -70368,10 +70368,10 @@ function type_let$1(env, rec_flag, spat_sexp_list, scope) {
 }
 
 function type_expression(env, sexp) {
-  reset_type_variables(undefined);
-  begin_def(undefined);
+  reset_type_variables();
+  begin_def();
   const exp = type_exp(env, sexp);
-  end_def(undefined);
+  end_def();
   if (is_nonexpansive(exp)) {
     iter_generalize$1({
       contents: /* [] */ 0
@@ -70852,7 +70852,7 @@ register_error_of_exn(function (err) {
             }));
           case /* Apply_non_function */ 8 :
             const typ = param$1._0;
-            reset(undefined);
+            reset();
             mark_loops(typ);
             const match = repr(typ).desc;
             if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* Tarrow */ 1) {
@@ -71063,7 +71063,7 @@ register_error_of_exn(function (err) {
                 }), prefixed_label_name(l));
               }
             };
-            reset(undefined);
+            reset();
             mark_loops(ty);
             return Curry._4(Stdlib__Format.fprintf(param)({
               TAG: /* Format */ 0,
@@ -71231,7 +71231,7 @@ register_error_of_exn(function (err) {
             const p = param$1._3;
             const kind = param$1._2;
             const ty$1 = param$1._1;
-            reset(undefined);
+            reset();
             mark_loops(ty$1);
             Curry._3(Stdlib__Format.fprintf(param)({
               TAG: /* Format */ 0,
@@ -71467,7 +71467,7 @@ register_error_of_exn(function (err) {
             const tp0$p = param$3[1];
             const tp0 = param$3[0];
             return wrap_printing_env(env, (function (param$4) {
-              reset(undefined);
+              reset();
               Stdlib__List.iter((function (param) {
                 path_same_name(tp0, param[0]);
                 path_same_name(tp0$p, param[1]);
@@ -71642,7 +71642,7 @@ register_error_of_exn(function (err) {
             }), param$1._0);
           case /* Undefined_method */ 16 :
             const ty$2 = param$1._0;
-            reset(undefined);
+            reset();
             mark_loops(ty$2);
             return Curry._3(Stdlib__Format.fprintf(param)({
               TAG: /* Format */ 0,
@@ -71834,7 +71834,7 @@ register_error_of_exn(function (err) {
             let txt1$1 = "is not a subtype of";
             let tr2 = param$1._1;
             return wrap_printing_env(env, (function (param$4) {
-              reset(undefined);
+              reset();
               const tr1$1 = Stdlib__List.map(prepare_expansion, tr1);
               const tr2$1 = Stdlib__List.map(prepare_expansion, tr2);
               const partial_arg = Caml_obj.caml_equal(tr2$1, /* [] */ 0);
@@ -72029,7 +72029,7 @@ register_error_of_exn(function (err) {
             }
           case /* Too_many_arguments */ 26 :
             const ty$4 = param$1._1;
-            reset(undefined);
+            reset();
             mark_loops(ty$4);
             if (param$1._0) {
               Stdlib__Format.fprintf(param)({
@@ -72133,7 +72133,7 @@ register_error_of_exn(function (err) {
                 }), prefixed_label_name(l));
               }
             };
-            reset(undefined);
+            reset();
             mark_loops(ty$5);
             return Curry._3(Stdlib__Format.fprintf(param)({
               TAG: /* Format */ 0,
@@ -72209,7 +72209,7 @@ register_error_of_exn(function (err) {
             }), type_expr$1, ty$5, label_mark(param$1._0));
           case /* Scoping_let_module */ 28 :
             const ty$6 = param$1._1;
-            reset(undefined);
+            reset();
             mark_loops(ty$6);
             Curry._2(Stdlib__Format.fprintf(param)({
               TAG: /* Format */ 0,
@@ -72749,8 +72749,8 @@ function make_params(env, params) {
 
 function make_constructor(env, type_path, type_params, sargs, sret_type) {
   if (sret_type !== undefined) {
-    const z = narrow(undefined);
-    reset_type_variables(undefined);
+    const z = narrow();
+    reset_type_variables();
     const targs = Stdlib__List.map((function (param) {
       return transl_simple_type(env, false, param);
     }), sargs);
@@ -73173,7 +73173,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
       }
     }
     const exp_nodes$1 = match$1[1];
-    const snap = snapshot(undefined);
+    const snap = snapshot();
     if (match$1[0]) {
       return;
     }
@@ -73591,7 +73591,7 @@ function compute_variance_type(env, check, param, decl, tyl) {
         const visited$p = Curry._2(add$3, ty$1, visited.contents);
         visited.contents = visited$p;
         const v1 = get_variance(ty$1, tvl);
-        const snap = snapshot(undefined);
+        const snap = snapshot();
         const v2 = Curry._3(fold$3, (function (t, vt, v) {
           if (equal$5(env, false, {
               hd: ty$1,
@@ -74161,7 +74161,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
     return create(sdecl.ptype_name.txt);
   }), sdecl_list$1);
   init_def(currentstamp.contents);
-  begin_def(undefined);
+  begin_def();
   let temp_env;
   temp_env = rec_flag === /* Nonrecursive */ 0 ? env : Stdlib__List.fold_left2(enter_type$1, env, sdecl_list$1, id_list);
   const current_slot = {
@@ -74218,8 +74218,8 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
   const transl_declaration = function (name_sdecl, param) {
     current_slot.contents = param[1];
     let id = param[0];
-    reset_type_variables(undefined);
-    begin_def(undefined);
+    reset_type_variables();
+    begin_def();
     const tparams = make_params(temp_env, name_sdecl.ptype_params);
     const params = Stdlib__List.map((function (param) {
       return param[0].ctyp_type;
@@ -74445,7 +74445,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
         throw tr;
       }
     }), cstrs);
-    end_def(undefined);
+    end_def();
     if (is_fixed_type(name_sdecl)) {
       let match$3;
       try {
@@ -74540,7 +74540,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       }
     }), id_list, sdecl_list$1);
   }
-  end_def(undefined);
+  end_def();
   Stdlib__List.iter((function (param) {
     generalize_decl(param[1]);
   }), decls);
@@ -74994,8 +74994,8 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
 }
 
 function transl_type_extension(check_open, env, loc, styext) {
-  reset_type_variables(undefined);
-  begin_def(undefined);
+  reset_type_variables();
+  begin_def();
   const match = find_type(env, loc, styext.ptyext_path.txt);
   const type_decl = match[1];
   const type_path = match[0];
@@ -75100,7 +75100,7 @@ function transl_type_extension(check_open, env, loc, styext) {
   const constructors = Stdlib__List.map((function (param) {
     return transl_extension_constructor(env, check_open, type_path, partial_arg$1, type_params, partial_arg, param);
   }), styext.ptyext_constructors);
-  end_def(undefined);
+  end_def();
   Stdlib__List.iter(generalize, type_params);
   Stdlib__List.iter((function (ext) {
     Stdlib__List.iter(generalize, ext.ext_type.ext_args);
@@ -75148,10 +75148,10 @@ function transl_type_extension(check_open, env, loc, styext) {
 }
 
 function transl_exception(env, sext) {
-  reset_type_variables(undefined);
-  begin_def(undefined);
+  reset_type_variables();
+  begin_def();
   const ext = transl_extension_constructor(env, false, path_exn, /* [] */ 0, /* [] */ 0, /* Public */ 1, sext);
-  end_def(undefined);
+  end_def();
   Stdlib__List.iter(generalize, ext.ext_type.ext_args);
   may(generalize, ext.ext_type.ext_ret_type);
   const ty = closed_extension_constructor(ext.ext_type);
@@ -75286,8 +75286,8 @@ function transl_value_decl(env, loc, valdecl) {
 
 function transl_with_constraint(env, id, row_path, orig_decl, sdecl) {
   mark_type_used(env, id.name, orig_decl);
-  reset_type_variables(undefined);
-  begin_def(undefined);
+  reset_type_variables();
+  begin_def();
   const tparams = make_params(env, sdecl.ptype_params);
   const params = Stdlib__List.map((function (param) {
     return param[0].ctyp_type;
@@ -75410,7 +75410,7 @@ function transl_with_constraint(env, id, row_path, orig_decl, sdecl) {
     type_loc: decl_type_loc$1,
     type_attributes: decl_type_attributes$1
   };
-  end_def(undefined);
+  end_def();
   generalize_decl(decl$2);
   return {
     typ_id: id,
@@ -75437,7 +75437,7 @@ function abstract_type_decl(arity) {
       };
     }
   };
-  begin_def(undefined);
+  begin_def();
   const decl_type_params = make_params(arity);
   const decl_type_variance = replicate_list(Types_Variance.full, arity);
   const decl = {
@@ -75451,7 +75451,7 @@ function abstract_type_decl(arity) {
     type_loc: none,
     type_attributes: /* [] */ 0
   };
-  end_def(undefined);
+  end_def();
   generalize_decl(decl);
   return decl;
 }
@@ -75789,7 +75789,7 @@ function report_error$5(ppf, s) {
         }), s._0);
       case /* Cycle_in_def */ 3 :
         const ty = s._1;
-        reset(undefined);
+        reset();
         mark_loops(ty);
         return Curry._3(Stdlib__Format.fprintf(ppf)({
           TAG: /* Format */ 0,
@@ -75841,7 +75841,7 @@ function report_error$5(ppf, s) {
         }), s._0, type_expr$1, ty);
       case /* Definition_mismatch */ 4 :
         const ty$1 = s._0;
-        reset(undefined);
+        reset();
         mark_loops(ty$1);
         return Curry._6(Stdlib__Format.fprintf(ppf)({
           TAG: /* Format */ 0,
@@ -75923,7 +75923,7 @@ function report_error$5(ppf, s) {
       case /* Constraint_failed */ 5 :
         const ty$p = s._1;
         const ty$2 = s._0;
-        reset(undefined);
+        reset();
         mark_loops(ty$2);
         mark_loops(ty$p);
         return Curry._5(Stdlib__Format.fprintf(ppf)({
@@ -76079,7 +76079,7 @@ function report_error$5(ppf, s) {
       case /* Parameters_differ */ 8 :
         const ty$p$1 = s._2;
         const ty$3 = s._1;
-        reset(undefined);
+        reset();
         mark_loops(ty$3);
         mark_loops(ty$p$1);
         return Curry._5(Stdlib__Format.fprintf(ppf)({
@@ -77625,7 +77625,7 @@ function class_signature$1(env, param) {
     }
     throw exn;
   }
-  warning_enter_scope(undefined);
+  warning_enter_scope();
   const match = Stdlib__List.fold_left((function (param, param$1) {
     const inher = param[3];
     const concr_meths = param[2];
@@ -77779,7 +77779,7 @@ function class_signature$1(env, param) {
     /* Empty */ 0,
     /* [] */ 0
   ], param.pcsig_fields);
-  warning_leave_scope(undefined);
+  warning_leave_scope();
   const cty_csig_vars = match[1];
   const cty_csig_concr = match[2];
   const cty_csig_inher = match[3];
@@ -77996,7 +77996,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
       }
     }), get_methods(public_self));
   }
-  warning_enter_scope(undefined);
+  warning_enter_scope();
   const match$1 = Stdlib__List.fold_left((function (param, param$1) {
     const local_vals = param[8];
     const local_meths = param[7];
@@ -78131,12 +78131,12 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
         const lab = match$5[0];
         if (styp.TAG === /* Cfk_virtual */ 0) {
           if (principal.contents) {
-            begin_def(undefined);
+            begin_def();
           }
           const cty = transl_simple_type(val_env, false, styp._0);
           const ty = cty.ctyp_type;
           if (principal.contents) {
-            end_def(undefined);
+            end_def();
             generalize_structure$1(current_level.contents, ty);
           }
           const match$6 = enter_val(cl_num, vars, false, lab.txt, mut, /* Virtual */ 0, ty, val_env, met_env, par_env, loc);
@@ -78209,7 +78209,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             });
         }
         if (principal.contents) {
-          begin_def(undefined);
+          begin_def();
         }
         let exp;
         try {
@@ -78238,7 +78238,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
           throw exn;
         }
         if (principal.contents) {
-          end_def(undefined);
+          end_def();
           generalize_structure$1(current_level.contents, exp.exp_type);
         }
         const match$8 = enter_val(cl_num, vars, false, lab.txt, mut, /* Concrete */ 1, exp.exp_type, val_env, met_env, par_env, loc);
@@ -78438,10 +78438,10 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
               _2: ty$1,
               _3: /* Cok */ 0
             });
-            raise_nongen_level(undefined);
+            raise_nongen_level();
             vars.contents = vars_local;
             const texp = type_expect(undefined, met_env, meth_expr, meth_type);
-            end_def(undefined);
+            end_def();
             return mkcf({
               TAG: /* Tcf_method */ 2,
               _0: lab$1,
@@ -78502,7 +78502,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
         const field$1 = {
           LAZY_DONE: false,
           VAL: (function () {
-            raise_nongen_level(undefined);
+            raise_nongen_level();
             const desc_2 = instance_def(type_unit);
             const desc = {
               TAG: /* Tarrow */ 1,
@@ -78514,7 +78514,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             const meth_type = newty2(current_level.contents, desc);
             vars.contents = vars_local$1;
             const texp = type_expect(undefined, met_env, expr$3, meth_type);
-            end_def(undefined);
+            end_def();
             return mkcf({
               TAG: /* Tcf_initializer */ 4,
               _0: texp
@@ -78582,7 +78582,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
   ], param.pcstr_fields);
   const inher = match$1[6];
   const concr_meths = match$1[4];
-  warning_leave_scope(undefined);
+  warning_leave_scope();
   unify$2(val_env$1, self_type, newvar(undefined, undefined));
   const sign_csig_vars = Curry._2(Meths.map, (function (param) {
     return [
@@ -78896,13 +78896,13 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           continue;
         }
         if (principal.contents) {
-          begin_def(undefined);
+          begin_def();
         }
         const match$4 = type_class_arg_pattern(cl_num, val_env, met_env, l, cl_str._2);
         const val_env$p = match$4[2];
         const pat = match$4[0];
         if (principal.contents) {
-          end_def(undefined);
+          end_def();
           iter_pattern((function (param) {
             generalize_structure$1(current_level.contents, param.pat_type);
           }), pat);
@@ -78968,9 +78968,9 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           },
           tl: /* [] */ 0
         });
-        raise_nongen_level(undefined);
+        raise_nongen_level();
         const cl$1 = class_expr(cl_num, val_env$p, match$4[3], cl_str._3);
-        end_def(undefined);
+        end_def();
         if (is_optional(l) && not_function(cl$1.cl_type)) {
           prerr_warning(pat.pat_loc, /* Unerasable_optional_argument */ 8);
         }
@@ -78999,11 +78999,11 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           ill_formed_ast(scl.pcl_loc, "Function application with no argument.");
         }
         if (principal.contents) {
-          begin_def(undefined);
+          begin_def();
         }
         const cl$2 = class_expr(cl_num, val_env, met_env, cl_str._0);
         if (principal.contents) {
-          end_def(undefined);
+          end_def();
           generalize_class_type(generalize_structure$2, cl$2.cl_type);
         }
         const nonopt_labels = function (_ls, _ty_fun) {
@@ -79284,7 +79284,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             _0: id
           };
           const vd = find_value(path, val_env$1);
-          begin_def(undefined);
+          begin_def();
           const expr_exp_desc = {
             TAG: /* Texp_ident */ 0,
             _0: path,
@@ -79306,7 +79306,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             exp_env: val_env$1,
             exp_attributes: /* [] */ 0
           };
-          end_def(undefined);
+          end_def();
           iter_generalize$1({
             contents: /* [] */ 0
           }, expr_exp_type);
@@ -79354,14 +79354,14 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           cl_attributes: scl.pcl_attributes
         });
       case /* Pcl_constraint */ 5 :
-        begin_class_def(undefined);
-        const context = narrow(undefined);
+        begin_class_def();
+        const context = narrow();
         const cl$4 = class_expr(cl_num, val_env, met_env, cl_str._0);
         widen(context);
-        const context$1 = narrow(undefined);
+        const context$1 = narrow();
         const clty$1 = class_type$4(val_env, cl_str._1);
         widen(context$1);
-        end_def(undefined);
+        end_def();
         limited_generalize$1(row_variable(repr(signature_of_class_type(cl$4.cl_type).csig_self)), cl$4.cl_type);
         limited_generalize$1(row_variable(repr(signature_of_class_type(clty$1.cltyp_type).csig_self)), clty$1.cltyp_type);
         const error = class_types(val_env, cl$4.cl_type, clty$1.cltyp_type);
@@ -79523,7 +79523,7 @@ function type_classes(define_class, approx, kind, env, cls) {
     ];
   }), cls);
   init_def(currentstamp.contents);
-  begin_class_def(undefined);
+  begin_class_def();
   const match = Stdlib__List.fold_left((function (param, param$1) {
     const cl_id = param$1[4];
     const obj_id = param$1[3];
@@ -79602,8 +79602,8 @@ function type_classes(define_class, approx, kind, env, cls) {
     const ty_id = param[2];
     const id = param[1];
     const cl = param[0];
-    reset_type_variables(undefined);
-    begin_class_def(undefined);
+    reset_type_variables();
+    begin_class_def();
     const make_param = function (param) {
       const sty = param[0];
       try {
@@ -79653,7 +79653,7 @@ function type_classes(define_class, approx, kind, env, cls) {
       throw exn;
     }
     const typ = match[1];
-    end_def(undefined);
+    end_def();
     const sty = repr(signature_of_class_type(typ).csig_self);
     const match$1 = flatten_fields(object_fields(sty));
     Stdlib__List.iter((function (param) {
@@ -79968,7 +79968,7 @@ function type_classes(define_class, approx, kind, env, cls) {
     match[1]
   ]);
   const env$1 = match$1[1];
-  end_def(undefined);
+  end_def();
   const res = Stdlib__List.rev_map((function (param) {
     const expr = param[13];
     const cl_abbr = param[8];
@@ -80116,7 +80116,7 @@ function type_classes(define_class, approx, kind, env, cls) {
       const obj_ty = match$2[1];
       const cl_ty = match$2[0];
       try {
-        subtype(env$2, cl_ty, obj_ty)(undefined);
+        subtype(env$2, cl_ty, obj_ty)();
       }
       catch (raw_exn){
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -80492,7 +80492,7 @@ register_error_of_exn(function (err) {
           }), mark_label(param$1._0));
         case /* Pattern_type_clash */ 5 :
           const ty = param$1._0;
-          reset(undefined);
+          reset();
           mark_loops(ty);
           return Curry._3(Stdlib__Format.fprintf(param)({
             TAG: /* Format */ 0,
@@ -81199,7 +81199,7 @@ register_error_of_exn(function (err) {
               return print_common(ppf, "instance variable", param._0, param._1, param._2, param._3);
             }
           };
-          reset(undefined);
+          reset();
           return Curry._3(Stdlib__Format.fprintf(param)({
             TAG: /* Format */ 0,
             _0: {
@@ -83598,7 +83598,7 @@ function transl_signature(env, sg) {
     }
   };
   const previous_saved_types = saved_types.contents;
-  warning_enter_scope(undefined);
+  warning_enter_scope();
   const match = transl_sig(in_signature(env), sg);
   const sg_sig_items = match[0];
   const sg_sig_type = match[1];
@@ -83608,7 +83608,7 @@ function transl_signature(env, sg) {
     sig_type: sg_sig_type,
     sig_final_env: sg_sig_final_env
   };
-  warning_leave_scope(undefined);
+  warning_leave_scope();
   saved_types.contents = {
     hd: {
       TAG: /* Partial_signature */ 5,
@@ -84510,11 +84510,11 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
       return node$4;
     case /* Pmod_unpack */ 5 :
       if (principal.contents) {
-        begin_def(undefined);
+        begin_def();
       }
       const exp = type_exp(env, lid._0);
       if (principal.contents) {
-        end_def(undefined);
+        end_def();
         generalize_structure$1(current_level.contents, exp.exp_type);
       }
       const match$3 = expand_head(env, exp.exp_type);
@@ -85155,7 +85155,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
     }), sstr);
   }
   const previous_saved_types = saved_types.contents;
-  warning_enter_scope(undefined);
+  warning_enter_scope();
   const match = type_struct(env, sstr);
   const final_env = match[2];
   const sg = match[1];
@@ -85165,7 +85165,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
     str_type: sg,
     str_final_env: final_env
   };
-  warning_leave_scope(undefined);
+  warning_leave_scope();
   saved_types.contents = {
     hd: {
       TAG: /* Partial_structure */ 0,
@@ -85266,9 +85266,9 @@ function type_module_type_of(env, smod) {
 
 function type_package$1(env, m, p, nl, tl) {
   const lv = current_level.contents;
-  begin_def(undefined);
+  begin_def();
   set_current_time(lv);
-  const context = narrow(undefined);
+  const context = narrow();
   const modl = type_module$2(env, m);
   init_def(currentstamp.contents);
   widen(context);
@@ -85328,7 +85328,7 @@ function type_package$1(env, m, p, nl, tl) {
       }
     });
   }), nl);
-  end_def(undefined);
+  end_def();
   if (Caml_obj.caml_equal(nl, /* [] */ 0)) {
     return [
       wrap_constraint(env$1, modl, {
@@ -85381,7 +85381,7 @@ type_package.contents = type_package$1;
 type_module_type_of_fwd.contents = type_module_type_of;
 
 function type_implementation_more(sourcefile, outputprefix, modulename, initial_env, ast) {
-  clear(undefined);
+  clear();
   try {
     delayed_checks.contents = /* [] */ 0;
     required_globals.contents = /* [] */ 0;
@@ -85437,7 +85437,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
       }
       const dclsig = read_signature(modulename, intf_file);
       const coercion = compunit(initial_env, sourcefile, sg, intf_file, dclsig);
-      force_delayed_checks(undefined);
+      force_delayed_checks();
       save_cmt(outputprefix + ".cmt", modulename, {
         TAG: /* Implementation */ 1,
         _0: str
@@ -85488,7 +85488,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
     }), str.str_items);
     normalize_signature(finalenv)(simple_sg);
     const coercion$1 = compunit(initial_env, sourcefile, sg, "(inferred signature)", simple_sg);
-    force_delayed_checks(undefined);
+    force_delayed_checks();
     if (!dont_write_files.contents) {
       const sg$1 = save_signature(simple_sg, modulename, outputprefix + ".cmi");
       save_cmt(outputprefix + ".cmt", modulename, {

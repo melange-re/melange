@@ -39,7 +39,7 @@ eq("File \"jscomp/test/functor_app_test.ml\", line 23, characters 6-13", Curry._
 
 eq("File \"jscomp/test/functor_app_test.ml\", line 24, characters 6-13", Curry._2(Y1.h, 2, 3), 6);
 
-const v = Functor_def.$$return(undefined);
+const v = Functor_def.$$return();
 
 eq("File \"jscomp/test/functor_app_test.ml\", line 29, characters 6-13", v, 2);
 

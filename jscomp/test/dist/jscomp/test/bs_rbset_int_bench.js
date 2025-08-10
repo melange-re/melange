@@ -46,7 +46,7 @@ function bench(param) {
 
 console.time("bs_rbset_int_bench.ml 21");
 
-bench(undefined);
+bench();
 
 console.timeEnd("bs_rbset_int_bench.ml 21");
 

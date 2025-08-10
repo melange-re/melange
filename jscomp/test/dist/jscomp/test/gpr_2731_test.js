@@ -14,9 +14,9 @@ function g(param) {
   return 1;
 }
 
-const c = g(undefined);
+const c = g();
 
-const d = g(undefined);
+const d = g();
 
 module.exports = {
   f,

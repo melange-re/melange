@@ -25,7 +25,7 @@ function test(param) {
   should(Belt__Belt_MapInt.isEmpty(m));
 }
 
-test(undefined);
+test();
 
 module.exports = {
   should,

@@ -58,9 +58,9 @@ function make(foo) {
   };
 }
 
-const a_ = make(undefined)(undefined);
+const a_ = make(undefined)();
 
-const b_ = make(42)(undefined);
+const b_ = make(42)();
 
 eq("File \"jscomp/test/gpr_1409_test.ml\", line 30, characters 6-13", b_.foo, "42");
 

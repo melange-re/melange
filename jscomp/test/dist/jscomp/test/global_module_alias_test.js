@@ -110,7 +110,7 @@ function xx(param) {
   return Stdlib__List;
 }
 
-eq("File \"jscomp/test/global_module_alias_test.ml\", line 86, characters 5-12", g(undefined), 4);
+eq("File \"jscomp/test/global_module_alias_test.ml\", line 86, characters 5-12", g(), 4);
 
 v.contents = v.contents + 1 | 0;
 
@@ -131,7 +131,7 @@ eq("File \"jscomp/test/global_module_alias_test.ml\", line 92, characters 5-12",
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 93, characters 5-12", v.contents, 15);
 
-const H$1 = f(undefined);
+const H$1 = f();
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 95, characters 5-12", Curry._1(H$1.length, {
   hd: 1,

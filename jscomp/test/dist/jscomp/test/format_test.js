@@ -76,7 +76,7 @@ function u(param) {
 
 const M = {};
 
-eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
+eq("File \"jscomp/test/format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u()), "x"), "xx xyy");
 
 eq("File \"jscomp/test/format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf({
   TAG: /* Format */ 0,

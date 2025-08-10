@@ -31,7 +31,7 @@ function is_mocha(param) {
 
 function from_suites(name, suite) {
   const match = Stdlib__Array.to_list(Process.argv);
-  if (match && is_mocha(undefined)) {
+  if (match && is_mocha()) {
     describe(name, (function () {
       return Stdlib__List.iter((function (param) {
         const partial_arg = param[1];
@@ -98,7 +98,7 @@ function handleCode(spec) {
 function from_pair_suites(name, suites) {
   const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
-    if (is_mocha(undefined)) {
+    if (is_mocha()) {
       describe(name, (function () {
         return Stdlib__List.iter((function (param) {
           const code = param[1];
@@ -190,12 +190,12 @@ function from_pair_suites(name, suites) {
   
 }
 
-const val_unit = Promise.resolve(undefined);
+const val_unit = Promise.resolve();
 
 function from_promise_suites(name, suites) {
   const match = Stdlib__Array.to_list(Process.argv);
   if (match) {
-    if (is_mocha(undefined)) {
+    if (is_mocha()) {
       describe(name, (function () {
         return Stdlib__List.iter((function (param) {
           const code = param[1];

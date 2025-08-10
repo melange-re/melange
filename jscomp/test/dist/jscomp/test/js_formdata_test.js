@@ -70,12 +70,12 @@ Mt.from_pair_suites("Js_formdata_test", {
 Mt.from_promise_suites("Js_formdata_test", {
   hd: [
     "append blob",
-    form_data_append_blob(undefined)
+    form_data_append_blob()
   ],
   tl: {
     hd: [
       "append file",
-      form_data_append_file(undefined)
+      form_data_append_file()
     ],
     tl: /* [] */ 0
   }
