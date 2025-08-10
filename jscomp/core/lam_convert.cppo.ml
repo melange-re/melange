@@ -710,7 +710,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | _ when s = "#null" -> Lam.const Const_js_null
     | _ when s = "#os_type" ->
         Lam.prim ~primitive:(Pctconst Ostype) ~args:[ unit ] loc
-    | _ when s = "#undefined" -> Lam.const Const_js_undefined
+    | _ when s = "#undefined" -> Lam.const (Const_js_undefined { is_unit = false })
     | _ when s = "#init_mod" -> (
         let args = List.map ~f:convert_aux args in
         match args with

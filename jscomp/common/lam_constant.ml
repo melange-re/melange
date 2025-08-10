@@ -47,7 +47,7 @@ let modifier_of_pointer_info (x : pointer_info) : Lambda.as_modifier option =
 
 type t =
   | Const_js_null
-  | Const_js_undefined
+  | Const_js_undefined of { is_unit : bool }
   | Const_js_true
   | Const_js_false
   | Const_int of { i : int32; comment : pointer_info }
@@ -67,7 +67,8 @@ let rec eq_approx (x : t) (y : t) =
   match x with
   | Const_module_alias -> y = Const_module_alias
   | Const_js_null -> y = Const_js_null
-  | Const_js_undefined -> y = Const_js_undefined
+  | Const_js_undefined { is_unit = u1 } -> (
+      match y with Const_js_undefined { is_unit = u2 } -> u1 = u2 | _ -> false)
   | Const_js_true -> y = Const_js_true
   | Const_js_false -> y = Const_js_false
   | Const_int ix -> ( match y with Const_int iy -> ix.i = iy.i | _ -> false)
@@ -92,4 +93,4 @@ let rec eq_approx (x : t) (y : t) =
   | Const_some ix -> (
       match y with Const_some iy -> eq_approx ix iy | _ -> false)
 
-let lam_none : t = Const_js_undefined
+let lam_none : t = Const_js_undefined { is_unit = false }

@@ -254,7 +254,7 @@ and expression_desc =
   *)
   | Number of number
   | Object of property_map
-  | Undefined
+  | Undefined of { is_unit : bool }
   | Null
   | Module of module_id
 

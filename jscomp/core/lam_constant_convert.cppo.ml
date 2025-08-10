@@ -38,7 +38,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       ( Const_int 0,
         Pt_constructor { name = "()"; const = 1; non_const = 0; attributes = _ }
       ) ->
-      Const_js_undefined
+      Const_js_undefined { is_unit = true }
   | Const_base (Const_int i, p) -> (
       match p with
       | Pt_module_alias -> Const_module_alias

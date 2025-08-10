@@ -1823,7 +1823,7 @@ and compile_prim (prim_info : Lam.prim_info)
         match mod_ with
         | (( Lglobal_module _ | Lmutvar _ | Lvar _
            | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ) as mod_)
-        | Lsequence ((Lprim _ as mod_), Lconst Const_js_undefined) ->
+        | Lsequence ((Lprim _ as mod_), Lconst (Const_js_undefined _)) ->
             let args_block, args_expr =
               let new_cxt =
                 { lambda_cxt with continuation = NeedValue Not_tail }
@@ -1848,7 +1848,7 @@ and compile_prim (prim_info : Lam.prim_info)
               attr = { stub = true; _ };
               body =
                 ( (Lprim _ as body)
-                | Lsequence ((Lprim _ as body), Lconst Const_js_undefined) );
+                | Lsequence ((Lprim _ as body), Lconst (Const_js_undefined _)) );
               _;
             } ->
             let args_block, args_expr =

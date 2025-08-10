@@ -29,16 +29,20 @@ module E = Js_exp_make
 let rec is_some_none_aux (x : Lam.Constant.t) acc =
   match x with
   | Const_some v -> is_some_none_aux v (acc + 1)
-  | Const_module_alias | Const_js_undefined -> acc
+  | Const_module_alias | Const_js_undefined _ -> acc
   | _ -> -1
 
 let rec nested_some_none n none =
-  if n = 0 then none else nested_some_none (n - 1) (E.optional_block none)
+  match n with
+  | 0 -> none
+  | n -> nested_some_none (n - 1) (E.optional_block none)
 
 let rec translate_some (x : Lam.Constant.t) : J.expression =
   let depth = is_some_none_aux x 0 in
   if depth < 0 then E.optional_not_nest_block (translate x)
-  else nested_some_none depth (E.optional_block (translate Const_js_undefined))
+  else
+    nested_some_none depth
+      (E.optional_block (translate (Const_js_undefined { is_unit = false })))
 
 and translate (x : Lam.Constant.t) : J.expression =
   match x with
@@ -47,7 +51,8 @@ and translate (x : Lam.Constant.t) : J.expression =
   | Const_js_true -> E.bool true
   | Const_js_false -> E.bool false
   | Const_js_null -> E.nil
-  | Const_js_undefined -> E.undefined
+  | Const_js_undefined { is_unit = true } -> E.unit
+  | Const_js_undefined { is_unit = false } -> E.undefined
   | Const_int { i; comment = cstr_data } -> (
       let comment = Lam.Constant.comment_of_pointer_info cstr_data in
       match Lam.Constant.modifier_of_pointer_info cstr_data with

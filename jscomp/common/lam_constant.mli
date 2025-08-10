@@ -35,7 +35,7 @@ val comment_of_pointer_info : pointer_info -> string option
 
 type t =
   | Const_js_null
-  | Const_js_undefined
+  | Const_js_undefined of { is_unit : bool }
   | Const_js_true
   | Const_js_false
   | Const_int of { i : int32; comment : pointer_info }

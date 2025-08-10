@@ -120,7 +120,7 @@ let rec ocaml_to_js_eff =
                - if ocaml arg is `None`, let js arg be `undefined` (no
                  unwrapping)
                - if ocaml arg is `Some x`, unwrap the arg to get the `x`, then
-                 unwrap the `x` itself 
+                 unwrap the `x` itself
                  - Here `Some x` is `x` due to the current encoding Lets inline
                    here since it depends on the runtime encoding *)
           Js_of_lam_option.option_unwrap raw_arg
@@ -182,8 +182,7 @@ type exprs = E.t list
    otherwise, we should provide a good error message here,
    no compiler failure here
    Invariant : Array encoding
-   @return arguments and effect
-*)
+   @return arguments and effect *)
 let assemble_args_no_splice =
   let rec aux (labels : specs) (args : exprs) : exprs * exprs =
     match (labels, args) with
