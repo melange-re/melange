@@ -17,18 +17,10 @@
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (oself: osuper: {
-              js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
-                src = builtins.fetchurl {
-                  url = "https://github.com/ocsigen/js_of_ocaml/releases/download/6.2.0/js_of_ocaml-6.2.0.tbz";
-                  sha256 = "1nm5sa6xpzcbwf3rpkfg19d3c8f6x3h3wcw858sjl5qvimvl3ikw";
-                };
-              });
               reason = osuper.reason.overrideAttrs (o: {
-                src = super.fetchFromGitHub {
-                  owner = "reasonml";
-                  repo = "reason";
-                  rev = "dfb960412cbcd6b1770b1a7c215db1c8c877c2a6";
-                  hash = "sha256-ShbJnc2/KEfEuPYbfRGSgbm4knrsk3fzrrjlQZrGS5s=";
+                src = builtins.fetchurl {
+                  url = "https://github.com/reasonml/reason/releases/download/3.17.0/reason-3.17.0.tbz";
+                  sha256 = "1sx5z269sry2xbca3d9sw7mh9ag773k02r9cgrz5n8gxx6f83j42";
                 };
                 propagatedBuildInputs = o.propagatedBuildInputs ++ [ oself.cmdliner ];
                 patches = [ ];
