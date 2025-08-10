@@ -17,7 +17,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-const H = Gpr_3566_test.Test(undefined);
+const H = Gpr_3566_test.Test();
 
 eq("File \"jscomp/test/gpr_3566_drive_test.ml\", line 8, characters 5-12", H.b, true);
 

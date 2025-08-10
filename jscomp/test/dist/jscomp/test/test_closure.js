@@ -22,7 +22,7 @@ function f(param) {
   return arr;
 }
 
-const u = f(undefined);
+const u = f();
 
 Stdlib__Array.iter((function (x) {
   Curry._1(x, undefined);

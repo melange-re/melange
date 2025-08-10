@@ -27,7 +27,7 @@ const node_current = ".";
 const cwd = {
   LAZY_DONE: false,
   VAL: (function () {
-    return Caml_sys.caml_sys_getcwd(undefined);
+    return Caml_sys.caml_sys_getcwd();
   })
 };
 

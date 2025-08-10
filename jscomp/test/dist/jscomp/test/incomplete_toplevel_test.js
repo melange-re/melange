@@ -11,7 +11,7 @@ function f(param) {
   ];
 }
 
-const match = f(undefined);
+const match = f();
 
 const a = match[0];
 

@@ -27,7 +27,7 @@ function bench(param) {
   }
 }
 
-bench(undefined);
+bench();
 
 const count = 1000000;
 

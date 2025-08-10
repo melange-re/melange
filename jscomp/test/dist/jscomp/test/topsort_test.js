@@ -132,7 +132,7 @@ if (!Caml_obj.caml_equal(dfs1({
     });
 }
 
-Stdlib.print_newline(undefined);
+Stdlib.print_newline();
 
 if (!Caml_obj.caml_equal(dfs1({
     hd: "b",

@@ -73,7 +73,7 @@ function create(param) {
   return Curry._1(object_tables.key, undefined);
 }
 
-const cxt1 = create(undefined);
+const cxt1 = create();
 
 const tmp = Caml_oo_curry.js2(4846113, 1, cxt1, undefined);
 
@@ -81,7 +81,7 @@ const result = Caml_oo_curry.js2(5144726, 2, tmp, undefined);
 
 eq("File \"jscomp/test/gpr_2250_test.ml\", line 26, characters 5-12", result, 1);
 
-const cxt2 = create(undefined);
+const cxt2 = create();
 
 const tmp$1 = Caml_oo_curry.js2(4846113, 3, cxt2, undefined);
 

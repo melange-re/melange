@@ -30,7 +30,7 @@ const suites_0 = [
   (function (param) {
     return {
       TAG: /* Eq */ 0,
-      _0: f(undefined),
+      _0: f(),
       _1: [
         0,
         1,

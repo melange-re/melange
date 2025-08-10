@@ -129,9 +129,9 @@ function urlNotEqual(a, b) {
 
 function url(param) {
   return {
-    path: path(undefined),
-    hash: hash(undefined),
-    search: search(undefined)
+    path: path(),
+    hash: hash(),
+    search: search()
   };
 }
 
@@ -143,7 +143,7 @@ function watchUrl(callback) {
     };
   }
   const watcherID = function (param) {
-    Curry._1(callback, url(undefined));
+    Curry._1(callback, url());
   };
   $$window.addEventListener("popstate", watcherID);
   return watcherID;
@@ -163,7 +163,7 @@ function useUrl(serverUrl, param) {
     if (serverUrl !== undefined) {
       return serverUrl;
     } else {
-      return url(undefined);
+      return url();
     }
   });
   const setUrl = match[1];
@@ -174,7 +174,7 @@ function useUrl(serverUrl, param) {
         return url;
       }));
     });
-    const newUrl = url(undefined);
+    const newUrl = url();
     if (urlNotEqual(newUrl, url$1)) {
       Curry._1(setUrl, (function (param) {
         return newUrl;

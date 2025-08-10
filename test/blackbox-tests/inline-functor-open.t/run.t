@@ -38,7 +38,7 @@
     return Curry._1(open.$$return, 2);
   }
   
-  test3(undefined);
+  test3();
   
   module.exports = {
     test3,

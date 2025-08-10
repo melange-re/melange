@@ -24,7 +24,7 @@
     }
   }
   
-  x(undefined);
+  x();
   
   module.exports = {
     pure,

@@ -127,7 +127,7 @@ const s = Caml_bytes.caml_create_bytes(100);
 
 function getq(param) {
   const c = Curry._1(getch, undefined);
-  if (c !== 92 || peekch(undefined) !== /* 'n' */110) {
+  if (c !== 92 || peekch() !== /* 'n' */110) {
     return c;
   } else {
     Curry._1(getch, undefined);
@@ -148,7 +148,7 @@ function skip(_param) {
     const ch = Curry._1(getch, undefined);
     if (ch >= 14) {
       if (ch !== 32) {
-        if (ch !== 47 || peekch(undefined) !== /* '*' */42) {
+        if (ch !== 47 || peekch() !== /* '*' */42) {
           return ch;
         } else {
           let _param$1 = (Curry._1(getch, undefined), undefined);
@@ -158,7 +158,7 @@ function skip(_param) {
               _param$1 = undefined;
               continue;
             }
-            if (peekch(undefined) === /* '/' */47) {
+            if (peekch() === /* '/' */47) {
               return skip((Curry._1(getch, undefined), undefined));
             }
             _param$1 = undefined;
@@ -187,7 +187,7 @@ function skip(_param) {
 function next(param) {
   let c;
   try {
-    c = skip(undefined);
+    c = skip();
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -208,9 +208,9 @@ function next(param) {
     let _e = gpos.contents;
     while (true) {
       const e = _e;
-      const match = peekch(undefined);
+      const match = peekch();
       if (match !== 34) {
-        Caml_bytes.set(glo, e, getq(undefined));
+        Caml_bytes.set(glo, e, getq());
         _e = e + 1 | 0;
         continue;
       }
@@ -228,7 +228,7 @@ function next(param) {
       let _n = c - 48 | 0;
       while (true) {
         const n = _n;
-        const match$1 = peekch(undefined);
+        const match$1 = peekch();
         if (match$1 > 57 || match$1 < 48) {
           return {
             TAG: /* ILit */ 1,
@@ -241,7 +241,7 @@ function next(param) {
     }
     
   } else if (c === 39) {
-    const ch = getq(undefined);
+    const ch = getq();
     const qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
@@ -261,7 +261,7 @@ function next(param) {
       const ch$1 = _ch;
       const n$1 = _n$1;
       Caml_bytes.set(s, n$1, ch$1);
-      if (!isid(peekch(undefined))) {
+      if (!isid(peekch())) {
         return {
           TAG: /* Sym */ 3,
           _0: addsym(Stdlib__Bytes.to_string(Stdlib__Bytes.sub(s, 0, n$1 + 1 | 0)))
@@ -312,7 +312,7 @@ function next(param) {
         };
       }
       const lop = param$1.hd;
-      if (Caml_string.get(lop, 0) === c && Caml_string.get(lop, 1) === peekch(undefined)) {
+      if (Caml_string.get(lop, 0) === c && Caml_string.get(lop, 1) === peekch()) {
         Curry._1(getch, undefined);
         return {
           TAG: /* Op */ 0,
@@ -935,7 +935,7 @@ function unary(stk) {
       switch (o) {
         case "&" :
           unary(stk);
-          return patchlval(undefined);
+          return patchlval();
         case "(" :
           expr(stk);
           Curry._1(next$1, undefined);
@@ -1102,7 +1102,7 @@ function postfix(stk) {
           continue;
         };
       };
-      patchlval(undefined);
+      patchlval();
       push(0);
       emitargs(/* [] */ 0, {
         hd: 7,
@@ -1139,7 +1139,7 @@ function postfix(stk) {
     default:
       return Curry._1(unnext, op);
   }
-  patchlval(undefined);
+  patchlval();
   out(4753857);
   read(lval.contents[1]);
   out(Stdlib__List.assoc([
@@ -1195,7 +1195,7 @@ function expr(stk) {
     if (t._0 !== "=") {
       return Curry._1(unnext, t);
     }
-    patchlval(undefined);
+    patchlval();
     const ty = lval.contents[1];
     push(0);
     expr(stk);
@@ -1999,14 +1999,14 @@ function main(param) {
     default:
       const oc = Stdlib.open_out("a.out");
       inch.contents = Stdlib.open_in_bin(f);
-      top(undefined);
+      top();
       elfgen(oc);
       Caml_io.caml_ml_flush(oc);
       return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
   }
 }
 
-main(undefined);
+main();
 
 const base = 4194304;
 
