@@ -88,7 +88,7 @@ Test classes that close over an init variable from the outside scope
     ]);
   }
   
-  const f = fresh(undefined);
+  const f = fresh();
   
   const x = Caml_oo_curry.js1(291546447, 1, f);
   

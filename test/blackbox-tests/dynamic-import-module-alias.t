@@ -49,7 +49,7 @@ Dynamic `import()` with module aliases
   function foo(param) {
     return import("./with_alias.js").then(function (The_import) {
       console.log("the alias", The_import.x);
-      return Promise.resolve(undefined);
+      return Promise.resolve();
     });
   }
   
@@ -58,11 +58,11 @@ Dynamic `import()` with module aliases
       return m.x;
     }).then(function (x) {
       console.log("the aliased x", x);
-      return Promise.resolve(undefined);
+      return Promise.resolve();
     });
   }
   
-  bar(undefined).then(foo);
+  bar().then(foo);
   
   module.exports = {
     foo,
