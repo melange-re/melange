@@ -78,7 +78,7 @@ let var ?loc ?comment id : t = make_expression ?loc ?comment (Var (Id id))
     Invariant: it should not call an external module .. *)
 
 let js_global ?loc ?comment (v : string) = var ?loc ?comment (Ident.create_js v)
-let undefined : t = make_expression Undefined
+let undefined : t = make_expression (Undefined { is_unit = false })
 let nil : t = make_expression Null
 
 let call ?loc ?comment ~info e0 args : t =
@@ -205,7 +205,7 @@ let typeof ?loc ?comment (e : t) : t =
 let new_ ?loc ?comment e0 args : t =
   make_expression ?loc ?comment (New { expr = e0; args })
 
-let unit : t = make_expression Undefined
+let unit : t = make_expression (Undefined { is_unit = true })
 
 (* let math ?loc ?comment v args  : t =
    make_expression ?loc ?comment (Math(v,args)) *)
@@ -265,17 +265,17 @@ let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
 *)
 let rec seq ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
-  | ( ( Seq (a, { expression_desc = Number _ | Undefined; _ })
-      | Seq ({ expression_desc = Number _ | Undefined; _ }, a) ),
+  | ( ( Seq (a, { expression_desc = Number _ | Undefined _; _ })
+      | Seq ({ expression_desc = Number _ | Undefined _; _ }, a) ),
       _ ) ->
       seq ?comment a e1
-  | _, Seq ({ expression_desc = Number _ | Undefined; _ }, a) ->
+  | _, Seq ({ expression_desc = Number _ | Undefined _; _ }, a) ->
       (* Return value could not be changed*)
       seq ?comment e0 a
-  | _, Seq (a, ({ expression_desc = Number _ | Undefined; _ } as v)) ->
+  | _, Seq (a, ({ expression_desc = Number _ | Undefined _; _ } as v)) ->
       (* Return value could not be changed*)
       seq ?comment (seq e0 a) v
-  | (Number _ | Var _ | Undefined), _ -> e1
+  | (Number _ | Var _ | Undefined _), _ -> e1
   | _ -> make_expression ?loc ?comment (Seq (e0, e1))
 
 let fuse_to_seq x xs = if xs = [] then x else List.fold_left ~f:seq ~init:x xs
@@ -437,14 +437,14 @@ let string_index ?loc ?comment (e0 : t) (e1 : t) : t =
 
 let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
-  | ( (Null | Undefined),
+  | ( (Null | Undefined _),
       ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ) )
     when no_side_effect e1 ->
       false_ (* TODO: rename it as [caml_false] *)
   | ( ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ),
-      (Null | Undefined) )
+      (Null | Undefined _) )
     when no_side_effect e0 ->
       false_
   | Char_to_int a, Char_to_int b -> triple_equal ?comment a b
@@ -456,12 +456,12 @@ let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   | Char_of_int a, Char_of_int b | Optional_block (a, _), Optional_block (b, _)
     ->
       triple_equal ?comment a b
-  | Undefined, Optional_block _
-  | Optional_block _, Undefined
-  | Null, Undefined
-  | Undefined, Null ->
+  | Undefined _, Optional_block _
+  | Optional_block _, Undefined _
+  | Null, Undefined _
+  | Undefined _, Null ->
       false_
-  | Null, Null | Undefined, Undefined -> true_
+  | Null, Null | Undefined _, Undefined _ -> true_
   | _ ->
       make_expression ?loc ?comment
         (Bin { op = EqEqEq; expr1 = e0; expr2 = e1 })
@@ -684,7 +684,7 @@ let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
         {
           op = NotEqEq;
           expr1 = { expression_desc = Var i; _ };
-          expr2 = { expression_desc = Undefined; _ };
+          expr2 = { expression_desc = Undefined _; _ };
         },
       Bin
         {
@@ -733,7 +733,7 @@ let not (e : t) : t =
 
 let not_empty_branch (x : t) =
   match x.expression_desc with
-  | Number (Int { i = 0l; _ }) | Undefined -> false
+  | Number (Int { i = 0l; _ }) | Undefined _ -> false
   | _ -> true
 
 let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
@@ -766,8 +766,8 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
       econd (or_ pred (not pred1)) ifso ifso1
   | Js_not e, _, _ when not_empty_branch ifnot -> econd ?comment e ifnot ifso
   | ( _,
-      Seq (a, { expression_desc = Undefined; _ }),
-      Seq (b, { expression_desc = Undefined; _ }) ) ->
+      Seq (a, { expression_desc = Undefined _; _ }),
+      Seq (b, { expression_desc = Undefined _; _ }) ) ->
       seq (econd ?comment pred a b) undefined
   | _ ->
       if Js_analyzer.eq_expression ifso ifnot then
@@ -779,7 +779,7 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
 let rec float_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
   | Number (Int { i = i0; _ }), Number (Int { i = i1; _ }) -> bool (i0 = i1)
-  | Undefined, Undefined -> true_
+  | Undefined _, Undefined _ -> true_
   (* | (Bin(Bor,
           {expression_desc = Number(Int {i = 0l; _})},
           ({expression_desc = Caml_block_tag _; _} as a ))
@@ -1026,11 +1026,11 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
               info = call_info;
             };
       }
-  | Ceq, Optional_block _, Undefined | Ceq, Undefined, Optional_block _ ->
+  | Ceq, Optional_block _, Undefined _ | Ceq, Undefined _, Optional_block _ ->
       false_
   | Ceq, _, _ -> int_equal e0 e1
-  | Cne, Optional_block _, Undefined
-  | Cne, Undefined, Optional_block _
+  | Cne, Optional_block _, Undefined _
+  | Cne, Undefined _, Optional_block _
   | Cne, Caml_block _, Number _
   | Cne, Number _, Caml_block _ ->
       true_
@@ -1366,40 +1366,40 @@ let is_null ?loc ?comment (x : t) = triple_equal ?loc ?comment x nil
 let is_undef ?loc ?comment x = triple_equal ?loc ?comment x undefined
 
 let for_sure_js_null_undefined (x : t) =
-  match x.expression_desc with Null | Undefined -> true | _ -> false
+  match x.expression_desc with Null | Undefined _ -> true | _ -> false
 
 let is_null_undefined ?loc ?comment (x : t) : t =
   match x.expression_desc with
-  | Null | Undefined -> true_
+  | Null | Undefined _ -> true_
   | Number _ | Array _ | Caml_block _ -> false_
   | _ -> make_expression ?loc ?comment (Is_null_or_undefined x)
 
 let eq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
   match (a.expression_desc, b.expression_desc) with
-  | ( (Null | Undefined),
+  | ( (Null | Undefined _),
       ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ) ) ->
       false_
   | ( ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ),
-      (Null | Undefined) ) ->
+      (Null | Undefined _) ) ->
       false_
-  | Null, Undefined | Undefined, Null -> false_
-  | Null, Null | Undefined, Undefined -> true_
+  | Null, Undefined _ | Undefined _, Null -> false_
+  | Null, Null | Undefined _, Undefined _ -> true_
   | _ -> bin ?loc ?comment EqEqEq a b
 
 let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
   match (a.expression_desc, b.expression_desc) with
-  | ( (Null | Undefined),
+  | ( (Null | Undefined _),
       ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ) ) ->
       true_
   | ( ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ),
-      (Null | Undefined) ) ->
+      (Null | Undefined _) ) ->
       true_
-  | Null, Undefined | Undefined, Null -> true_
-  | Null, Null | Undefined, Undefined -> false_
+  | Null, Undefined _ | Undefined _, Null -> true_
+  | Null, Null | Undefined _, Undefined _ -> false_
   | _ -> bin ?loc ?comment NotEqEq a b
 
 (* TODO: in the future add a flag

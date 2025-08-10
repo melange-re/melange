@@ -36,15 +36,15 @@ type option_unwrap_time = Static_unwrapped | Runtime_maybe_unwrapped
 *)
 let none : J.expression = E.undefined
 
-let is_none_static (arg : J.expression_desc) = arg = Undefined
+let is_none_static = function J.Undefined _ -> true | _ -> false
 
 let is_not_none (e : J.expression) : J.expression =
-  let desc = e.expression_desc in
-  if is_none_static desc then E.false_
-  else
-    match desc with
-    | Optional_block _ -> E.true_
-    | _ -> E.not (E.triple_equal e none)
+  match is_none_static e.expression_desc with
+  | true -> E.false_
+  | false -> (
+      match e.expression_desc with
+      | Optional_block _ -> E.true_
+      | _ -> E.not (E.triple_equal e none))
 
 (**
   Invrariant:

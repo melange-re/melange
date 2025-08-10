@@ -205,8 +205,8 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
               List.fold_left
                 ~f:(fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
-                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined
-                    ->
+                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _
+                  | Undefined _ ->
                       (* TODO: check the optimization *)
                       (i + 1, x :: e, acc)
                   | _ ->
@@ -290,7 +290,7 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
                 *)
                 match List.nth ls (Int32.to_int i) with
                 | {
-                    expression_desc = J.Var _ | Number _ | Str _ | Undefined;
+                    expression_desc = J.Var _ | Number _ | Str _ | Undefined _;
                     _;
                   } as x ->
                     x

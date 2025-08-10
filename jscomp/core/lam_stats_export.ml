@@ -67,7 +67,7 @@ let values_of_export =
         let persistent_closed_lambda : (_ * _) option =
           match Ident.Map.find x export_map with
           | Lconst
-              ( Const_js_null | Const_js_undefined | Const_js_true
+              ( Const_js_null | Const_js_undefined _ | Const_js_true
               | Const_js_false ) as lambda ->
               Some (lambda, Ident.Map.empty)
           | exception Not_found -> None

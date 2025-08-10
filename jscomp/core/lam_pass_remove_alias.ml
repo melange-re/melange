@@ -82,14 +82,14 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | Lmutvar id' ) ->
         id_is_for_sure_true_in_boolean tbl id'
     | Normal_optional
-        (Lconst (Const_js_false | Const_js_null | Const_js_undefined)) ->
+        (Lconst (Const_js_false | Const_js_null | Const_js_undefined _)) ->
         Outcome.Eval_false
     | Normal_optional _ | ImmutableBlock _ | MutableBlock _
     | Constant (Const_block _ | Const_js_true) ->
         Eval_true
     | Constant (Const_int { i = 0l; _ }) -> Eval_false
     | Constant (Const_int { i = _; _ }) -> Eval_true
-    | Constant (Const_js_false | Const_js_null | Const_js_undefined) ->
+    | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->
         Eval_false
     | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
     | OptionalBlock (_, (Undefined | Null | Null_undefined))

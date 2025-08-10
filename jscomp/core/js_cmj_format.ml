@@ -114,7 +114,7 @@ let get_result midVal =
   match midVal.persistent_closed_lambda with
   | Some
       ( Lconst
-          (Const_js_null | Const_js_undefined | Const_js_true | Const_js_false),
+          (Const_js_null | Const_js_undefined _ | Const_js_true | Const_js_false),
         _ )
   | None ->
       midVal

@@ -466,7 +466,7 @@ let stringswitch (lam : t) cases default : t =
 
 let true_ : t = Lconst Const_js_true
 let false_ : t = Lconst Const_js_false
-let unit : t = Lconst Const_js_undefined
+let unit : t = Lconst (Const_js_undefined { is_unit = true })
 
 let rec seq (a : t) b : t =
   match a with
@@ -691,7 +691,8 @@ let rec eval_const_as_bool (v : Constant.t) : bool =
   | Const_int { i = x; _ } -> x <> 0l
   | Const_char x -> Char.code x <> 0
   | Const_int64 x -> x <> 0L
-  | Const_js_false | Const_js_null | Const_module_alias | Const_js_undefined ->
+  | Const_js_false | Const_js_null | Const_module_alias | Const_js_undefined _
+    ->
       false
   | Const_js_true | Const_string _ | Const_pointer _ | Const_float _
   | Const_block _ | Const_float_array _ ->

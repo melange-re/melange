@@ -55,7 +55,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with
       | [ e ] -> (
           match e.expression_desc with
-          | Var _ | Undefined | Null -> Js_of_lam_option.null_to_opt e
+          | Var _ | Undefined _ | Null -> Js_of_lam_option.null_to_opt e
           | _ ->
               E.runtime_call ~module_name:Js_runtime_modules.option
                 ~fn_name:"null_to_opt" args)
@@ -64,7 +64,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with
       | [ e ] -> (
           match e.expression_desc with
-          | Var _ | Undefined | Null -> Js_of_lam_option.undef_to_opt e
+          | Var _ | Undefined _ | Null -> Js_of_lam_option.undef_to_opt e
           | _ ->
               E.runtime_call ~module_name:Js_runtime_modules.option
                 ~fn_name:"undefined_to_opt" args)
@@ -73,7 +73,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with
       | [ e ] -> (
           match e.expression_desc with
-          | Var _ | Undefined | Null -> Js_of_lam_option.null_undef_to_opt e
+          | Var _ | Undefined _ | Null -> Js_of_lam_option.null_undef_to_opt e
           | _ ->
               E.runtime_call ~module_name:Js_runtime_modules.option
                 ~fn_name:"nullable_to_opt" args)

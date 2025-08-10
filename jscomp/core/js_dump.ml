@@ -213,7 +213,7 @@ let exp_need_paren (e : J.expression) =
   | Raw_js_code { code_info = Stmt _; _ }
   | Length _ | Call _ | Caml_block_tag _ | Seq _ | Static_index _ | Cond _
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
-  | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined | Null
+  | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined _ | Null
   | Str _ | Unicode _ | Module _ | Array _ | Optional_block _ | Caml_block _
   | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
@@ -542,7 +542,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Null ->
       string cxt L.null;
       cxt
-  | Undefined ->
+  | Undefined _ ->
       string cxt L.undefined;
       cxt
   | Var v -> vident cxt v
@@ -1178,7 +1178,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
           in
           semi cxt;
           cxt
-      | Undefined ->
+      | Undefined _ ->
           string cxt L.return;
           semi cxt;
           cxt
@@ -1288,7 +1288,7 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
             else_ =
               [
                 {
-                  statement_desc = Return { expression_desc = Undefined; _ };
+                  statement_desc = Return { expression_desc = Undefined _; _ };
                   _;
                 };
               ];
@@ -1297,11 +1297,12 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
             (statement ~top:false cxt
                { s with statement_desc = If { pred = bool; then_; else_ = [] } }
               : cxt)
-      | Return { expression_desc = Undefined; _ } -> ()
+      | Return { expression_desc = Undefined _; _ } -> ()
       | Return exp when return_unit ->
           ignore (statement ~top:false cxt (S.exp exp) : cxt)
       | _ -> ignore (statement ~top:false cxt s : cxt))
-  | [ s; { statement_desc = Return { expression_desc = Undefined; _ }; _ } ] ->
+  | [ s; { statement_desc = Return { expression_desc = Undefined _; _ }; _ } ]
+    ->
       ignore (statement ~top:false cxt s : cxt)
   | s :: r ->
       let cxt = statement ~top:false cxt s in
