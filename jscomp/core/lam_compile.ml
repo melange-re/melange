@@ -667,7 +667,7 @@ and all_cases_as_value =
               let as_value = Lambda.Int i in
               ( (as_value, lam) :: acc,
                 AsValueMap.add ~key:as_value ~data:cstr_name map )
-          | None -> raise Local)
+          | None -> raise_notrace Local)
         table ~init:([], AsValueMap.empty)
     with
     | table -> Some table

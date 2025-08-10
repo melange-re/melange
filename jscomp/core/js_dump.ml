@@ -314,7 +314,7 @@ let block_has_all_int_fields =
       for i = 0 to len - 1 do
         let k_eq_v = string_of_int i = Array.unsafe_get fields i in
         r := !r && k_eq_v;
-        if not !r then raise (Local false)
+        if not !r then raise_notrace (Local false)
       done;
       !r
     with Local r -> r

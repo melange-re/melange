@@ -7,7 +7,7 @@ let rec mkBodyApply0 ty allNames arg =
 and mkBodyApply =
   let collapse_body body =
     let rec collapse_body = function
-      | [] -> raise Not_found
+      | [] -> raise_notrace Not_found
       | [ x ] -> x
       | x :: xs -> Ast_helper.Exp.sequence x (collapse_body xs)
     in
