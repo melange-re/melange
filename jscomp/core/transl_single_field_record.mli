@@ -24,19 +24,5 @@
 
 open Import
 
-let wrap_single_field_record loc lbl_name (lambda : Lambda.lambda) =
-  match String.length lbl_name with
-  | 0 -> lambda
-  | len -> (
-      match String.unsafe_get lbl_name 0 with
-      | 'I' ->
-          let arity_s = String.sub lbl_name ~pos:1 ~len:(len - 1) in
-          Lambda.Lprim
-            ( Pccall
-                (Primitive.make ~name:"#fn_mk" ~alloc:true ~native_name:arity_s
-                   ~native_repr_args:[ Same_as_ocaml_repr ]
-                   ~native_repr_res:Same_as_ocaml_repr),
-              [ lambda ],
-              Debuginfo.Scoped_location.(of_location ~scopes:empty_scopes loc)
-            )
-      | _ -> lambda)
+val wrap_single_field_record :
+  Location.t -> string -> Lambda.lambda -> Lambda.lambda
