@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Creator utilities for the [J] module *)
 
 type t = J.expression
@@ -285,7 +287,7 @@ val make_block :
   t
 
 val seq : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val fuse_to_seq : t -> t list -> t
+val fuse_to_seq : t Nonempty_list.t -> t
 val obj : ?loc:Location.t -> ?comment:string -> J.property_map -> t
 val true_ : t
 val false_ : t

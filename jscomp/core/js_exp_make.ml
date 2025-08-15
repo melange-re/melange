@@ -278,7 +278,8 @@ let rec seq ?loc ?comment (e0 : t) (e1 : t) : t =
   | (Number _ | Var _ | Undefined _), _ -> e1
   | _ -> make_expression ?loc ?comment (Seq (e0, e1))
 
-let fuse_to_seq x xs = if xs = [] then x else List.fold_left ~f:seq ~init:x xs
+let fuse_to_seq (xs : t Nonempty_list.t) =
+  match xs with [ x ] -> x | x :: xs -> List.fold_left ~f:seq ~init:x xs
 
 (* let empty_string_literal : t =
    make_expression (Str (true,"")) *)

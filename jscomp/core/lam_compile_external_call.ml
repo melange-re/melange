@@ -207,7 +207,7 @@ let assemble_args_no_splice =
       | [] -> None
       | x :: xs ->
           (* FIXME: the order of effects? *)
-          Some (E.fuse_to_seq x xs) )
+          Some (E.fuse_to_seq (x :: xs)) )
 
 let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     exprs * E.t option * bool =
@@ -237,7 +237,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     | [] -> None
     | x :: xs ->
         (* FIXME: the order of effects? *)
-        Some (E.fuse_to_seq x xs)),
+        Some (E.fuse_to_seq (x :: xs))),
     !dynamic )
 
 let translate_scoped_module_val

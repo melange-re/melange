@@ -1,4 +1,4 @@
-(* Copyright (C) 2023- Authors of Melange
+(* Copyright (C) 2025- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,25 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Array = Array
-module Bytes = BytesLabels
-module Filename = Filename
-module Hash_set_ident_mask = Hash_set_ident_mask
-module Hashtbl = MoreLabels.Hashtbl
-module Ident = Mel_ident
-module Int = Int
-module Int_vec_vec = Int_vec_vec
-module Io = Io
-module Js_suffix = Js_suffix
-module List = List
-module Nonempty_list = Nonempty_list
-module Loc = Loc
-module Log = Log
-module Map = MoreLabels.Map
-module Modulename = Modulename
-module Module_system = Module_system
-module Paths = Paths
-module Scc = Scc
-module Set = MoreLabels.Set
-module String = String
-module Vec_int = Vec_int
+type 'a t = ( :: ) of 'a * 'a list
+
+val hd : 'a t -> 'a
+val tl : 'a t -> 'a list
+val of_list : 'a list -> 'a t option
+val to_list : 'a t -> 'a list
+val map : 'a t -> f:('a -> 'b) -> 'b t

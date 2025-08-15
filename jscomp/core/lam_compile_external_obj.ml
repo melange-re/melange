@@ -96,14 +96,14 @@ let assemble_obj_args
       ( [],
         match eff with
         | [] -> E.obj map
-        | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) )
+        | x :: xs -> E.seq (E.fuse_to_seq (x :: xs)) (E.obj map) )
   | _ ->
       let v = Ident.create_tmp () in
       let var_v = E.var v in
       ( S.define_variable ~kind:Variable v
           (match eff with
           | [] -> E.obj map
-          | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
+          | x :: xs -> E.seq (E.fuse_to_seq (x :: xs)) (E.obj map))
         :: List.concat_map
              ~f:(fun
                  ( (xlabel :
@@ -143,7 +143,8 @@ let assemble_obj_args
                                  (E.assign (E.dot var_v label)
                                     (match new_eff with
                                     | [] -> v
-                                    | x :: xs -> E.seq (E.fuse_to_seq x xs) v));
+                                    | x :: xs ->
+                                        E.seq (E.fuse_to_seq (x :: xs)) v));
                              ];
                          ]
                    | Splice0 | Splice2 _ -> assert false)
