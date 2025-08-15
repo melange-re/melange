@@ -17,7 +17,7 @@ let find_string string_table lam =
   match lam with
   | Lam.Lconst (Const_string { s = ls; unicode = false }) -> ls
   | Lvar i -> Ident.Hashtbl.find string_table i
-  | _ -> raise Not_found
+  | _ -> raise_notrace Not_found
 
 let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
   let subst : Lam.t Ident.Hashtbl.t = Ident.Hashtbl.create 32 in

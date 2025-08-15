@@ -66,7 +66,7 @@ let ident_or_record_as_config =
                       ({ Asttypes.txt = name; loc }, None)
                   | { txt = Lident name; loc }, y ->
                       ({ Asttypes.txt = name; loc }, Some y)
-                  | { loc; _ }, _ -> raise (Local loc))
+                  | { loc; _ }, _ -> raise_notrace (Local loc))
                 label_exprs
             with Local loc -> error ~loc "(qualified labels aren't supported)")
         | Some { pexp_loc; _ } ->
