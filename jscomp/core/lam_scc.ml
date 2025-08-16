@@ -66,9 +66,9 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
   in
   hit l
 
-type bindings = (Ident.t * Lam.t) list
+type bindings = (Ident.t * Lam.t) Nonempty_list.t
 
-let preprocess_deps (groups : bindings) : _ * Ident.t array * Vec_int.t array =
+let preprocess_deps groups : _ * Ident.t array * Vec_int.t array =
   let len = List.length groups in
   let domain : _ Ident.Ordered_hash_map.t = Ident.Ordered_hash_map.create len in
   let mask = Hash_set_ident_mask.create len in
@@ -91,7 +91,7 @@ let preprocess_deps (groups : bindings) : _ * Ident.t array * Vec_int.t array =
 let is_function_bind (_, (x : Lam.t)) =
   match x with Lfunction _ -> true | _ -> false
 
-let sort_single_binding_group (group : bindings) =
+let sort_single_binding_group group =
   if List.for_all ~f:is_function_bind group then group
   else
     List.sort
@@ -104,14 +104,23 @@ let sort_single_binding_group (group : bindings) =
       group
 
 (** TODO: even for a singleton recursive function, tell whehter it is recursive or not ? *)
-let scc_bindings (groups : bindings) : bindings list =
+let scc_bindings (groups : bindings) : bindings Nonempty_list.t =
   match groups with
-  | [ _ ] -> [ sort_single_binding_group groups ]
-  | _ ->
-      let domain, int_mapping, node_vec = preprocess_deps groups in
+  | [ _ ] ->
+      [
+        sort_single_binding_group (Nonempty_list.to_list groups)
+        |> Nonempty_list.of_list_exn;
+      ]
+  | _ :: _ ->
+      let domain, int_mapping, node_vec =
+        preprocess_deps (Nonempty_list.to_list groups)
+      in
       let clusters : Int_vec_vec.t = Scc.graph node_vec in
       if Int_vec_vec.length clusters <= 1 then
-        [ sort_single_binding_group groups ]
+        [
+          sort_single_binding_group (Nonempty_list.to_list groups)
+          |> Nonempty_list.of_list_exn;
+        ]
       else
         Int_vec_vec.fold_right clusters ~init:[] ~f:(fun (v : Vec_int.t) acc ->
             let bindings =
@@ -120,7 +129,9 @@ let scc_bindings (groups : bindings) : bindings list =
                   let lam = Ident.Ordered_hash_map.find_value domain id in
                   (id, lam))
             in
-            sort_single_binding_group bindings :: acc)
+            (sort_single_binding_group bindings |> Nonempty_list.of_list_exn)
+            :: acc)
+        |> Nonempty_list.of_list_exn
 
 (* single binding, it does not make sense to do scc,
    we can eliminate {[ let rec f x = x + x  ]}, but it happens rarely in real world
@@ -130,7 +141,9 @@ let scc (groups : bindings) (lam : Lam.t) (body : Lam.t) =
   | [ (id, bind) ] ->
       if Lam_hit.hit_variable id bind then lam else Lam.let_ Strict id bind body
   | _ ->
-      let domain, int_mapping, node_vec = preprocess_deps groups in
+      let domain, int_mapping, node_vec =
+        preprocess_deps (Nonempty_list.to_list groups)
+      in
       let clusters = Scc.graph node_vec in
       if Int_vec_vec.length clusters <= 1 then lam
       else

@@ -22,7 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type bindings = (Ident.t * Lam.t) list
+open Import
 
-val scc_bindings : bindings -> bindings list
+type bindings = (Ident.t * Lam.t) Nonempty_list.t
+
+val scc_bindings : bindings -> bindings Nonempty_list.t
 val scc : bindings -> Lam.t -> Lam.t -> Lam.t

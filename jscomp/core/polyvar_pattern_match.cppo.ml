@@ -104,11 +104,10 @@ let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
   in
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
-    List.fold_right
+    List.fold_right rest ~init:act
       ~f:(fun (hash_names, act1) (acc : lam) ->
         let predicate : lam = or_list arg hash_names in
         Lifthenelse (predicate, act1, acc))
-      rest ~init:act
   | [], None -> assert false
 
 let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
@@ -118,11 +117,10 @@ let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
   let int_lambda_list = convert int_lambda_list in
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
-      List.fold_right
+      List.fold_right rest ~init:act
         ~f:(fun (hash_names, act1) (acc : lam) ->
           let predicate = or_list arg hash_names in
           Lifthenelse (predicate, act1, acc))
-        rest ~init:act
   | [], None -> assert false
 
 let call_switcher_variant_constr (loc : Lambda.scoped_location)
