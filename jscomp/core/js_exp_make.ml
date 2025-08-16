@@ -51,13 +51,17 @@ let make_expression ?loc ?comment desc =
   (modulo return value)
   It will return None if  [x] is pure
  *)
-let rec remove_pure_sub_exp (x : t) : t option =
+let rec remove_pure_sub_exp (x : t) =
   match x.expression_desc with
   | Var _ | Str _ | Unicode _ | Number _ -> None (* Can be refined later *)
-  | Array_index { expr = a; index = b } ->
-      if is_pure_sub_exp a && is_pure_sub_exp b then None else Some x
+  | Array_index { expr = a; index = b } -> (
+      match (remove_pure_sub_exp a, remove_pure_sub_exp b) with
+      | None, None -> None
+      | _ -> Some x)
   | Array { items = xs; _ } ->
-      if List.for_all ~f:is_pure_sub_exp xs then None else Some x
+      if List.for_all ~f:(fun x -> Option.is_none (remove_pure_sub_exp x)) xs
+      then None
+      else Some x
   | Seq (a, b) -> (
       match (remove_pure_sub_exp a, remove_pure_sub_exp b) with
       | None, None -> None
@@ -66,8 +70,6 @@ let rec remove_pure_sub_exp (x : t) : t option =
       | None, (Some _ as v) -> v
       | (Some _ as u), None -> u)
   | _ -> Some x
-
-and is_pure_sub_exp (x : t) = remove_pure_sub_exp x = None
 
 (* let mk ?loc ?comment exp : t =
    {expression_desc = exp ; comment  } *)
@@ -162,10 +164,8 @@ let raw_js_code ?loc ?comment info s : t =
 let array ?loc ?comment mt es : t =
   make_expression ?loc ?comment (Array { items = es; mutable_flag = mt })
 
-let some_comment = None
-
 let optional_block e : J.expression =
-  make_expression ?comment:some_comment (Optional_block (e, false))
+  make_expression (Optional_block (e, false))
 
 let optional_not_nest_block e : J.expression =
   make_expression (Optional_block (e, true))
@@ -222,29 +222,22 @@ let unit : t = make_expression (Undefined { is_unit = true })
    TODO: optimize
 *)
 
-let ocaml_fun ?loc ?comment ?immutable_mask ~return_unit params block : t =
-  let len = List.length params in
+let fun_ ?loc ?comment ?immutable_mask ~method_ ~return_unit params block : t =
   make_expression ?loc ?comment
     (Fun
        {
-         method_ = false;
+         method_;
          params;
          body = block;
-         env = Js_fun_env.make ?immutable_mask len;
+         env = Js_fun_env.make ?immutable_mask (List.length params);
          return_unit;
        })
 
+let ocaml_fun ?loc ?comment ?immutable_mask ~return_unit params block : t =
+  fun_ ?loc ?comment ?immutable_mask ~return_unit params block ~method_:false
+
 let method_ ?loc ?comment ?immutable_mask ~return_unit params block : t =
-  let len = List.length params in
-  make_expression ?loc ?comment
-    (Fun
-       {
-         method_ = true;
-         params;
-         body = block;
-         env = Js_fun_env.make ?immutable_mask len;
-         return_unit;
-       })
+  fun_ ?loc ?comment ?immutable_mask ~return_unit params block ~method_:true
 
 (** ATTENTION: This is coupuled with {!Caml_obj.caml_update_dummy} *)
 let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
@@ -484,13 +477,12 @@ let assign ?loc ?comment e0 e1 : t = bin ?loc ?comment Eq e0 e1
 let assign_by_exp (e : t) index value : t =
   match e.expression_desc with
   | Array _
-  (*
-     Temporary block -- address not held
-     Optimize cases like this which is really
-     rare {[
+  (* Temporary block -- address not held
+     Optimize cases like this which is really rare
+     {[
       (ref x) :=  3
      ]}
-      *)
+  *)
   | Caml_block _
     when no_side_effect e && no_side_effect index ->
       value
@@ -522,12 +514,12 @@ let extension_assign (e : t) (pos : int32) name (value : t) =
   match e.expression_desc with
   | Array _
   (*
-           Temporary block -- address not held
-           Optimize cases like this which is really
-           rare {[
-                  (ref x) :=  3
-                ]}
-             *)
+     Temporary block -- address not held
+     Optimize cases like this which is really rare 
+     {[
+       (ref x) :=  3
+     ]}
+  *)
   | Caml_block _
     when no_side_effect e ->
       value
@@ -572,17 +564,6 @@ let function_length ?loc ?comment (e : t) : t =
   | _ ->
       make_expression ?loc ?comment
         (Length { expr = e; length_object = Function })
-
-(** no dependency introduced *)
-(* let js_global_dot ?loc ?comment (x : string)  (e1 : string) : t =
-     { expression_desc = Static_index (js_global x,  e1,None); comment}
-
-   let char_of_int ?loc ?comment (v : t) : t =
-     match v.expression_desc with
-     | Number (Int {i; _}) ->
-       str  (String.make 1(Char.chr (Int32.to_int i)))
-     | Char_to_int v -> v
-     | _ ->  make_expression ?loc ?comment (Char_of_int v) *)
 
 let char_to_int ?loc ?comment (v : t) : t =
   match v.expression_desc with
@@ -966,6 +947,18 @@ let int32_unsigned_to_int n =
   let i = Int32.to_int n in
   if i < 0 then i + 0x1_0000_0000 else i
 
+let js_comp cmp ?loc ?comment e0 e1 =
+  let jsop =
+    match cmp with
+    | Lam_compat.Ceq -> Js_op.EqEqEq (* comparison *)
+    | Cne -> NotEqEq
+    | Clt -> Lt
+    | Cgt -> Gt
+    | Cle -> Le
+    | Cge -> Ge
+  in
+  bin ?loc ?comment jsop e0 e1
+
 let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
     (e1 : t) =
   match (cmp, e0.expression_desc, e1.expression_desc) with
@@ -1035,7 +1028,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
   | Cne, Caml_block _, Number _
   | Cne, Number _, Caml_block _ ->
       true_
-  | _ -> bin ?loc ?comment (Lam_compile_util.jsop_of_comp cmp) e0 e1
+  | _ -> js_comp ?loc ?comment cmp e0 e1
 
 let bool_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
     (e1 : t) =
@@ -1054,22 +1047,30 @@ let bool_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
       match cmp with
       | Clt -> seq rest false_
       | Cge -> seq rest true_
-      | Cle | Cgt | Ceq | Cne ->
-          bin ?loc ?comment (Lam_compile_util.jsop_of_comp cmp) e0 e1)
+      | Cle | Cgt | Ceq | Cne -> js_comp ?loc ?comment cmp e0 e1)
   | rest, { expression_desc = Bool true; _ }
   | { expression_desc = Bool false; _ }, rest -> (
       match cmp with
       | Cle -> seq rest true_
       | Cgt -> seq rest false_
-      | Clt | Cge | Ceq | Cne ->
-          bin ?loc ?comment (Lam_compile_util.jsop_of_comp cmp) e0 e1)
-  | _, _ -> bin ?loc ?comment (Lam_compile_util.jsop_of_comp cmp) e0 e1
+      | Clt | Cge | Ceq | Cne -> js_comp ?loc ?comment cmp e0 e1)
+  | _, _ -> js_comp ?loc ?comment cmp e0 e1
 
 let float_comp cmp ?loc ?comment e0 e1 =
-  bin ?loc ?comment (Lam_compile_util.jsop_of_float_comp cmp) e0 e1
-
-let js_comp cmp ?loc ?comment e0 e1 =
-  bin ?loc ?comment (Lam_compile_util.jsop_of_comp cmp) e0 e1
+  let jsop =
+    match cmp with
+    | Lam_compat.CFeq -> Js_op.EqEqEq
+    | CFneq -> NotEqEq
+    | CFlt -> Lt
+    | CFnlt -> Ge
+    | CFgt -> Gt
+    | CFngt -> Le
+    | CFle -> Le
+    | CFnle -> Gt
+    | CFge -> Ge
+    | CFnge -> Lt
+  in
+  bin ?loc ?comment jsop e0 e1
 
 let rec int32_lsr ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
     J.expression =
@@ -1343,28 +1344,18 @@ let rec int32_band ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
 (*   make_expression ?loc ?comment (Int32_bin(op,e1, e2)) *)
 
 (* TODO -- alpha conversion
-    remember to add parens..
-*)
+    remember to add parens.. *)
 let of_block ?loc ?comment ?e block : t =
-  let return_unit = false in
   call ~info:Js_call_info.ml_full_call
-    (make_expression ?loc ?comment
-       (Fun
-          {
-            method_ = false;
-            params = [];
-            body =
-              (match e with
-              | None -> block
-              | Some e ->
-                  List.append block [ { J.statement_desc = Return e; comment } ]);
-            env = Js_fun_env.make 0;
-            return_unit;
-          }))
+    (fun_ ?loc ?comment ~method_:false ~return_unit:false []
+       (match e with
+       | None -> block
+       | Some e ->
+           List.append block [ { J.statement_desc = Return e; comment } ]))
     []
 
-let is_null ?loc ?comment (x : t) = triple_equal ?loc ?comment x nil
-let is_undef ?loc ?comment x = triple_equal ?loc ?comment x undefined
+let is_null ?loc ?comment x = triple_equal ?loc ?comment x nil
+let is_undefined ?loc ?comment x = triple_equal ?loc ?comment x undefined
 
 let for_sure_js_null_undefined (x : t) =
   match x.expression_desc with Null | Undefined _ -> true | _ -> false
@@ -1404,8 +1395,7 @@ let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
   | _ -> bin ?loc ?comment NotEqEq a b
 
 (* TODO: in the future add a flag
-   to set globalThis
-*)
+   to set globalThis *)
 let resolve_and_apply (s : string) (args : t list) : t =
   call ~info:Js_call_info.builtin_runtime_call
     (runtime_call ~module_name:Js_runtime_modules.external_polyfill
