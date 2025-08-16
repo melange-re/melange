@@ -495,13 +495,13 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
 and compile_recursive_lets_aux cxt (id_args : Lam_scc.bindings) : Js_output.t =
   (* #1716 *)
   let output_code, ids =
-    List.fold_right
+    let id_args = Nonempty_list.to_list id_args in
+    List.fold_right id_args ~init:(Js_output.dummy, [])
       ~f:(fun (ident, arg) (acc, ids) ->
         let code, declare_ids =
           compile_recursive_let ~all_bindings:id_args cxt ident arg
         in
         (Js_output.append_output code acc, List.append declare_ids ids))
-      id_args ~init:(Js_output.dummy, [])
   in
   match ids with
   | [] -> output_code
@@ -510,16 +510,13 @@ and compile_recursive_lets_aux cxt (id_args : Lam_scc.bindings) : Js_output.t =
 and compile_recursive_lets cxt id_args : Js_output.t =
   match id_args with
   | [] -> Js_output.dummy
-  | _ -> (
-      let id_args_group = Lam_scc.scc_bindings id_args in
-      match id_args_group with
-      | [] -> assert false
-      | first :: rest ->
-          let acc = compile_recursive_lets_aux cxt first in
-          List.fold_left
-            ~f:(fun acc x ->
-              Js_output.append_output acc (compile_recursive_lets_aux cxt x))
-            ~init:acc rest)
+  | x :: xs ->
+      let (first :: rest) = Lam_scc.scc_bindings (x :: xs) in
+      let acc = compile_recursive_lets_aux cxt first in
+      List.fold_left
+        ~f:(fun acc x ->
+          Js_output.append_output acc (compile_recursive_lets_aux cxt x))
+        ~init:acc rest
 
 and compile_general_cases :
     'a.

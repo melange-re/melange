@@ -836,7 +836,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
 #endif
         let body = convert_aux body in
         let lam = Lam.letrec bindings body in
-        Lam_scc.scc bindings lam body
+        Lam_scc.scc (Nonempty_list.of_list_exn bindings) lam body
     | Lprim (Pccall a, args, loc) ->
         convert_ccall ~dynamic_import a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
