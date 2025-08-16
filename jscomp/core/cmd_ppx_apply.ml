@@ -37,13 +37,13 @@ let read_ast (type a) (kind : a Ml_binary.kind) fn : a =
 let rewrite kind ppxs ast =
   let fn_in = temp_ppx_file () in
   write_ast kind fn_in ast;
-  let temp_files =
-    List.fold_right
-      ~f:(fun ppx fns -> apply_rewriter (List.hd fns) ppx :: fns)
-      ppxs ~init:[ fn_in ]
+  let (temp_file :: temp_files) =
+    List.fold_right ppxs ~init:[ fn_in ]
+      ~f:(fun ppx (fn_in :: fns : string Nonempty_list.t) ->
+        apply_rewriter fn_in ppx :: fns)
   in
-  let out = read_ast kind (List.hd temp_files) in
-  List.iter ~f:Misc.remove_file temp_files;
+  let out = read_ast kind temp_file in
+  List.iter ~f:Misc.remove_file (temp_file :: temp_files);
   out
 
 let apply_rewriters ?(restore = true) ~tool_name (type a)
