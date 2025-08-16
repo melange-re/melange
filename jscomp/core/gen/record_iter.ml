@@ -48,19 +48,9 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
             meth = Some code;
           })
   | Ptyp_constr ({ txt = Lident (("option" | "list") as list); _ }, [ base ]) ->
-      let inner = mkStructuralTy base allNames in
-      if inner == skip_obj then inner
-      else
-        let inner_code = Option.value inner.meth ~default:inner.eta in
-        let list = Ast_helper.Exp.ident { txt = Lident list; loc } in
-        {
-          eta = [%expr fun _self arg -> [%e list] [%e inner_code] _self arg];
-          beta =
-            (fun x ->
-              let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
-              [%expr [%e list] [%e inner_code] _self [%e x]]);
-          meth = None;
-        }
+      higher_order_constr list base allNames
+  | Ptyp_constr ({ txt = Ldot (Lident "Nonempty_list", "t"); _ }, [ base ]) ->
+      higher_order_constr "nonempty_list" base allNames
   | Ptyp_constr ({ txt; _ }, _) ->
       failwith
         (Format.asprintf "unsupported high order type %s"
@@ -88,6 +78,21 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
         meth = None;
       }
   | _ -> assert false
+
+and higher_order_constr list base allNames =
+  let inner = mkStructuralTy base allNames in
+  if inner == skip_obj then inner
+  else
+    let inner_code = Option.value inner.meth ~default:inner.eta in
+    let list = Ast_helper.Exp.ident { txt = Lident list; loc } in
+    {
+      eta = [%expr fun _self arg -> [%e list] [%e inner_code] _self arg];
+      beta =
+        (fun x ->
+          let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
+          [%expr [%e list] [%e inner_code] _self [%e x]]);
+      meth = None;
+    }
 
 let mkBranch (branch : Ast.constructor_declaration) allNames =
   match branch.pcd_args with
@@ -254,5 +259,9 @@ let make type_declaration =
       | [] -> ()
       | x :: xs ->
           sub self x;
-          list sub self xs]
+          list sub self xs
+
+    let nonempty_list sub self (x :: xs : _ Melstd.Nonempty_list.t) =
+      sub self x;
+      list sub self xs]
   @ output @ [ let_super ]
