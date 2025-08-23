@@ -3166,16 +3166,16 @@ function init(lexbuf, fname) {
 
 function symbol_rloc(param) {
   return {
-    loc_start: Stdlib__Parsing.symbol_start_pos(undefined),
-    loc_end: Stdlib__Parsing.symbol_end_pos(undefined),
+    loc_start: Stdlib__Parsing.symbol_start_pos(),
+    loc_end: Stdlib__Parsing.symbol_end_pos(),
     loc_ghost: false
   };
 }
 
 function symbol_gloc(param) {
   return {
-    loc_start: Stdlib__Parsing.symbol_start_pos(undefined),
-    loc_end: Stdlib__Parsing.symbol_end_pos(undefined),
+    loc_start: Stdlib__Parsing.symbol_start_pos(),
+    loc_end: Stdlib__Parsing.symbol_end_pos(),
     loc_ghost: true
   };
 }
@@ -3472,7 +3472,7 @@ function highlight_locations(ppf, locs) {
 }
 
 function absolute_path(s) {
-  const s$1 = Curry._1(Stdlib__Filename.is_relative, s) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(undefined), s) : s;
+  const s$1 = Curry._1(Stdlib__Filename.is_relative, s) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), s) : s;
   const aux = function (_s) {
     while (true) {
       const s = _s;
@@ -3801,7 +3801,7 @@ function prerr_warning(loc, w) {
 }
 
 function echo_eof(param) {
-  Stdlib__Format.print_newline(undefined);
+  Stdlib__Format.print_newline();
   num_loc_lines.contents = num_loc_lines.contents + 1 | 0;
 }
 
@@ -4641,14 +4641,14 @@ function get_post_extra_text(pos) {
 
 function symbol_docs(param) {
   return {
-    docs_pre: get_pre_docs(Stdlib__Parsing.symbol_start_pos(undefined)),
-    docs_post: get_post_docs(Stdlib__Parsing.symbol_end_pos(undefined))
+    docs_pre: get_pre_docs(Stdlib__Parsing.symbol_start_pos()),
+    docs_post: get_post_docs(Stdlib__Parsing.symbol_end_pos())
   };
 }
 
 function symbol_docs_lazy(param) {
-  const p1 = Stdlib__Parsing.symbol_start_pos(undefined);
-  const p2 = Stdlib__Parsing.symbol_end_pos(undefined);
+  const p1 = Stdlib__Parsing.symbol_start_pos();
+  const p2 = Stdlib__Parsing.symbol_end_pos();
   return {
     LAZY_DONE: false,
     VAL: (function () {
@@ -4682,8 +4682,8 @@ function rhs_docs_lazy(pos1, pos2) {
 }
 
 function mark_symbol_docs(param) {
-  mark_pre_docs(Stdlib__Parsing.symbol_start_pos(undefined));
-  mark_post_docs(Stdlib__Parsing.symbol_end_pos(undefined));
+  mark_pre_docs(Stdlib__Parsing.symbol_start_pos());
+  mark_post_docs(Stdlib__Parsing.symbol_end_pos());
 }
 
 function mark_rhs_docs(pos1, pos2) {
@@ -4692,7 +4692,7 @@ function mark_rhs_docs(pos1, pos2) {
 }
 
 function symbol_info(param) {
-  return get_info(Stdlib__Parsing.symbol_end_pos(undefined));
+  return get_info(Stdlib__Parsing.symbol_end_pos());
 }
 
 function rhs_info(pos) {
@@ -4700,11 +4700,11 @@ function rhs_info(pos) {
 }
 
 function symbol_text(param) {
-  return get_text(Stdlib__Parsing.symbol_start_pos(undefined));
+  return get_text(Stdlib__Parsing.symbol_start_pos());
 }
 
 function symbol_text_lazy(param) {
-  const pos = Stdlib__Parsing.symbol_start_pos(undefined);
+  const pos = Stdlib__Parsing.symbol_start_pos();
   return {
     LAZY_DONE: false,
     VAL: (function () {
@@ -4728,11 +4728,11 @@ function rhs_text_lazy(pos) {
 }
 
 function symbol_pre_extra_text(param) {
-  return get_pre_extra_text(Stdlib__Parsing.symbol_start_pos(undefined));
+  return get_pre_extra_text(Stdlib__Parsing.symbol_start_pos());
 }
 
 function symbol_post_extra_text(param) {
-  return get_post_extra_text(Stdlib__Parsing.symbol_end_pos(undefined));
+  return get_post_extra_text(Stdlib__Parsing.symbol_end_pos());
 }
 
 function rhs_pre_extra_text(pos) {
@@ -6786,47 +6786,47 @@ const Syntaxerr = {
 };
 
 function mktyp(d) {
-  return mk(symbol_rloc(undefined), undefined, d);
+  return mk(symbol_rloc(), undefined, d);
 }
 
 function mkpat(d) {
-  return mk$1(symbol_rloc(undefined), undefined, d);
+  return mk$1(symbol_rloc(), undefined, d);
 }
 
 function mkexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_rloc(undefined), undefined, d);
+  return Curry._3(Ast_helper_Exp.mk, symbol_rloc(), undefined, d);
 }
 
 function mkmty(d) {
-  return mk$3(symbol_rloc(undefined), undefined, d);
+  return mk$3(symbol_rloc(), undefined, d);
 }
 
 function mksig(d) {
-  return mk$5(symbol_rloc(undefined), d);
+  return mk$5(symbol_rloc(), d);
 }
 
 function mkmod(d) {
-  return mk$4(symbol_rloc(undefined), undefined, d);
+  return mk$4(symbol_rloc(), undefined, d);
 }
 
 function mkstr(d) {
-  return mk$6(symbol_rloc(undefined), d);
+  return mk$6(symbol_rloc(), d);
 }
 
 function mkclass(d) {
-  return mk$7(symbol_rloc(undefined), undefined, d);
+  return mk$7(symbol_rloc(), undefined, d);
 }
 
 function mkcty(d) {
-  return mk$8(symbol_rloc(undefined), undefined, d);
+  return mk$8(symbol_rloc(), undefined, d);
 }
 
 function mkctf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Ctf.mk, symbol_rloc(undefined), attrs, docs, d);
+  return Curry._4(Ast_helper_Ctf.mk, symbol_rloc(), attrs, docs, d);
 }
 
 function mkcf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Cf.mk, symbol_rloc(undefined), attrs, docs, d);
+  return Curry._4(Ast_helper_Cf.mk, symbol_rloc(), attrs, docs, d);
 }
 
 function mkoption(d) {
@@ -6861,7 +6861,7 @@ function mkoption(d) {
 function reloc_pat(x) {
   return {
     ppat_desc: x.ppat_desc,
-    ppat_loc: symbol_rloc(undefined),
+    ppat_loc: symbol_rloc(),
     ppat_attributes: x.ppat_attributes
   };
 }
@@ -6869,7 +6869,7 @@ function reloc_pat(x) {
 function reloc_exp(x) {
   return {
     pexp_desc: x.pexp_desc,
-    pexp_loc: symbol_rloc(undefined),
+    pexp_loc: symbol_rloc(),
     pexp_attributes: x.pexp_attributes
   };
 }
@@ -6899,15 +6899,15 @@ function mkpatvar(name, pos) {
 }
 
 function ghexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_gloc(undefined), undefined, d);
+  return Curry._3(Ast_helper_Exp.mk, symbol_gloc(), undefined, d);
 }
 
 function ghpat(d) {
-  return mk$1(symbol_gloc(undefined), undefined, d);
+  return mk$1(symbol_gloc(), undefined, d);
 }
 
 function ghtyp(d) {
-  return mk(symbol_gloc(undefined), undefined, d);
+  return mk(symbol_gloc(), undefined, d);
 }
 
 function mkinfix(arg1, name, arg2) {
@@ -7122,7 +7122,7 @@ function array_function(str, name) {
       },
       _1: fast.contents ? "unsafe_" + name : name
     },
-    loc: symbol_gloc(undefined)
+    loc: symbol_gloc()
   };
 }
 
@@ -7175,7 +7175,7 @@ function bigarray_function(str, name) {
       },
       _1: name
     },
-    loc: symbol_gloc(undefined)
+    loc: symbol_gloc()
   };
 }
 
@@ -7496,9 +7496,9 @@ function mklb(param, attrs) {
     lb_pattern: param[0],
     lb_expression: param[1],
     lb_attributes: attrs,
-    lb_docs: symbol_docs_lazy(undefined),
-    lb_text: symbol_text_lazy(undefined),
-    lb_loc: symbol_rloc(undefined)
+    lb_docs: symbol_docs_lazy(),
+    lb_text: symbol_text_lazy(),
+    lb_loc: symbol_rloc()
   };
 }
 
@@ -8081,7 +8081,7 @@ const yyact = [
         ],
         _1: /* [] */ 0
       };
-      return mk$6(symbol_gloc(undefined), d);
+      return mk$6(symbol_gloc(), d);
     } else {
       return str;
     }
@@ -8169,12 +8169,12 @@ const yyact = [
     return mkstr({
       TAG: /* Pstr_extension */ 14,
       _0: _1,
-      _1: add_docs_attrs(symbol_docs(undefined), _2)
+      _1: add_docs_attrs(symbol_docs(), _2)
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkstr({
       TAG: /* Pstr_attribute */ 13,
       _0: _1
@@ -8183,7 +8183,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+    return mk$16(symbol_rloc(), _3, symbol_docs(), _2);
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -8211,7 +8211,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+    return mk$14(symbol_rloc(), _4, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -8235,7 +8235,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$14(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _3,
       loc: rhs_loc(3)
     }, _4);
@@ -8244,7 +8244,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$14(symbol_rloc(undefined), _4, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+    return mk$14(symbol_rloc(), _4, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -8429,12 +8429,12 @@ const yyact = [
     return mksig({
       TAG: /* Psig_extension */ 12,
       _0: _1,
-      _1: add_docs_attrs(symbol_docs(undefined), _2)
+      _1: add_docs_attrs(symbol_docs(), _2)
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mksig({
       TAG: /* Psig_attribute */ 11,
       _0: _1
@@ -8444,7 +8444,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$15(symbol_rloc(undefined), _4, symbol_docs(undefined), _2, {
+    return mk$15(symbol_rloc(), _4, symbol_docs(), _2, {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -8452,7 +8452,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$16(symbol_rloc(undefined), _3, symbol_docs(undefined), _2);
+    return mk$16(symbol_rloc(), _3, symbol_docs(), _2);
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -8487,7 +8487,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _4, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _4, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _3);
@@ -8496,7 +8496,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, alias$2(rhs_loc(4), undefined, {
@@ -8523,7 +8523,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, {
+    return mk$12(symbol_rloc(), _6, symbol_docs(), undefined, {
       txt: _3,
       loc: rhs_loc(3)
     }, _5);
@@ -8532,7 +8532,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$12(symbol_rloc(undefined), _5, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), {
+    return mk$12(symbol_rloc(), _5, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -8547,7 +8547,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$13(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, _4, {
+    return mk$13(symbol_rloc(), _5, symbol_docs(), undefined, _4, {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -8573,7 +8573,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), undefined, _2, _3, {
+    return mk$18(symbol_rloc(), _6, symbol_docs(), undefined, _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _5);
@@ -8584,7 +8584,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _6, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _5);
@@ -8804,7 +8804,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_5, symbol_docs(undefined), {
+    return mkcf(_5, symbol_docs(), {
       TAG: /* Pcf_inherit */ 0,
       _0: _2,
       _1: _3,
@@ -8814,7 +8814,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_val */ 1,
       _0: _2
     });
@@ -8822,7 +8822,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_method */ 2,
       _0: _2
     });
@@ -8830,7 +8830,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_constraint */ 3,
       _0: _2
     });
@@ -8838,7 +8838,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_3, symbol_docs(undefined), {
+    return mkcf(_3, symbol_docs(), {
       TAG: /* Pcf_initializer */ 4,
       _0: _2
     });
@@ -8846,14 +8846,14 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkcf(_2, symbol_docs(undefined), {
+    return mkcf(_2, symbol_docs(), {
       TAG: /* Pcf_extension */ 6,
       _0: _1
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkcf(undefined, undefined, {
       TAG: /* Pcf_attribute */ 5,
       _0: _1
@@ -9173,7 +9173,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_inherit */ 0,
       _0: _2
     });
@@ -9181,7 +9181,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_val */ 1,
       _0: _2
     });
@@ -9191,7 +9191,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_6, symbol_docs(undefined), {
+    return mkctf(_6, symbol_docs(), {
       TAG: /* Pctf_method */ 2,
       _0: [
         _3,
@@ -9204,7 +9204,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_3, symbol_docs(undefined), {
+    return mkctf(_3, symbol_docs(), {
       TAG: /* Pctf_constraint */ 3,
       _0: _2
     });
@@ -9212,14 +9212,14 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mkctf(_2, symbol_docs(undefined), {
+    return mkctf(_2, symbol_docs(), {
       TAG: /* Pctf_extension */ 5,
       _0: _1
     });
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    mark_symbol_docs(undefined);
+    mark_symbol_docs();
     return mkctf(undefined, undefined, {
       TAG: /* Pctf_attribute */ 4,
       _0: _1
@@ -9263,7 +9263,7 @@ const yyact = [
     return [
       _1,
       _3,
-      symbol_rloc(undefined)
+      symbol_rloc()
     ];
   }),
   (function (__caml_parser_env) {
@@ -9295,7 +9295,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), undefined, _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), undefined, _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -9306,7 +9306,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -9332,7 +9332,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _8 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _8, symbol_docs(undefined), undefined, _3, _4, {
+    return mk$18(symbol_rloc(), _8, symbol_docs(), undefined, _3, _4, {
       txt: _5,
       loc: rhs_loc(5)
     }, _7);
@@ -9343,7 +9343,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$18(symbol_rloc(undefined), _7, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, _3, {
+    return mk$18(symbol_rloc(), _7, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, _3, {
       txt: _4,
       loc: rhs_loc(4)
     }, _6);
@@ -9720,7 +9720,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
@@ -9734,7 +9734,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
@@ -10281,7 +10281,7 @@ const yyact = [
         TAG: /* Lident */ 0,
         _0: "()"
       },
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
     const d = {
       TAG: /* Pexp_construct */ 9,
@@ -10956,7 +10956,7 @@ const yyact = [
       lbs_rec: _3,
       lbs_extension: _2[0],
       lbs_attributes: _2[1],
-      lbs_loc: symbol_rloc(undefined)
+      lbs_loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -11256,7 +11256,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     Stdlib__Parsing.peek_val(__caml_parser_env, 2);
@@ -11274,7 +11274,7 @@ const yyact = [
           tl: /* [] */ 0
         }
       }
-    }), symbol_rloc(undefined));
+    }), symbol_rloc());
   }),
   (function (__caml_parser_env) {
     Stdlib__Parsing.peek_val(__caml_parser_env, 3);
@@ -11585,7 +11585,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$11(symbol_rloc(undefined), _5, symbol_docs(undefined), undefined, {
+    return mk$11(symbol_rloc(), _5, symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -11610,7 +11610,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$11(symbol_rloc(undefined), _7, symbol_docs(undefined), _6, {
+    return mk$11(symbol_rloc(), _7, symbol_docs(), _6, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -11637,7 +11637,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$19(symbol_rloc(undefined), add_nonrec(_2, _7, 2), symbol_docs(undefined), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
+    return mk$19(symbol_rloc(), add_nonrec(_2, _7, 2), symbol_docs(), undefined, _3, Stdlib__List.rev(_6), _5[0], _5[1], _5[2], {
       txt: _4,
       loc: rhs_loc(4)
     });
@@ -11648,7 +11648,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return mk$19(symbol_rloc(undefined), _6, symbol_docs(undefined), get_text(Stdlib__Parsing.symbol_start_pos(undefined)), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
+    return mk$19(symbol_rloc(), _6, symbol_docs(), get_text(Stdlib__Parsing.symbol_start_pos()), _2, Stdlib__List.rev(_5), _4[0], _4[1], _4[2], {
       txt: _3,
       loc: rhs_loc(3)
     });
@@ -11886,7 +11886,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return constructor(symbol_rloc(undefined), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    return constructor(symbol_rloc(), _3, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _2[0], _2[1], {
       txt: _1,
       loc: rhs_loc(1)
     });
@@ -11895,7 +11895,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return constructor(symbol_rloc(undefined), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+    return constructor(symbol_rloc(), _4, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -11908,7 +11908,7 @@ const yyact = [
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
+    return rebind(symbol_rloc(), Stdlib.$at(_5, _6), symbol_docs(), undefined, {
       txt: _2,
       loc: rhs_loc(2)
     }, {
@@ -11921,7 +11921,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
+    return decl(symbol_rloc(), Stdlib.$at(_4, _5), symbol_docs(), undefined, _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -11981,7 +11981,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return field$1(symbol_rloc(undefined), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _1, {
+    return field$1(symbol_rloc(), _5, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _1, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -11993,8 +11993,8 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     const info_before_semi = get_info(Stdlib__Parsing.rhs_end_pos(5));
-    const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos(undefined));
-    return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
+    const info = info_before_semi !== undefined ? info_before_semi : get_info(Stdlib__Parsing.symbol_end_pos());
+    return field$1(symbol_rloc(), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
       txt: _2,
       loc: rhs_loc(2)
     }, _4);
@@ -12009,7 +12009,7 @@ const yyact = [
     if (_2 !== /* Recursive */ 1) {
       not_expecting(2, "nonrec flag");
     }
-    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+    return mk$20(_8, symbol_docs(), _3, _6, {
       txt: _4,
       loc: rhs_loc(4)
     }, Stdlib__List.rev(_7));
@@ -12024,7 +12024,7 @@ const yyact = [
     if (_2 !== /* Recursive */ 1) {
       not_expecting(2, "nonrec flag");
     }
-    return mk$20(_8, symbol_docs(undefined), _3, _6, {
+    return mk$20(_8, symbol_docs(), _3, _6, {
       txt: _4,
       loc: rhs_loc(4)
     }, Stdlib__List.rev(_7));
@@ -12099,7 +12099,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _2[0], _2[1], {
+    return decl(symbol_rloc(), _3, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _2[0], _2[1], {
       txt: _1,
       loc: rhs_loc(1)
     });
@@ -12108,7 +12108,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return decl(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), _3[0], _3[1], {
+    return decl(symbol_rloc(), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), _3[0], _3[1], {
       txt: _2,
       loc: rhs_loc(2)
     });
@@ -12117,7 +12117,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+    return rebind(symbol_rloc(), _4, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), {
       txt: _1,
       loc: rhs_loc(1)
     }, {
@@ -12129,7 +12129,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return rebind(symbol_rloc(undefined), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos(undefined))), {
+    return rebind(symbol_rloc(), _5, undefined, Caml_option.some(get_info(Stdlib__Parsing.symbol_end_pos())), {
       txt: _2,
       loc: rhs_loc(2)
     }, {
@@ -12165,7 +12165,7 @@ const yyact = [
         txt: _3,
         loc: rhs_loc(3)
       },
-      _1: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
+      _1: mk$19(symbol_rloc(), undefined, undefined, undefined, _2, Stdlib__List.rev(_6), undefined, _4, _5, {
         txt: rhs,
         loc: rhs_loc(3)
       })
@@ -12177,7 +12177,7 @@ const yyact = [
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       TAG: /* Pwith_typesubst */ 2,
-      _0: mk$19(symbol_rloc(undefined), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
+      _0: mk$19(symbol_rloc(), undefined, undefined, undefined, _2, undefined, undefined, undefined, _5, {
         txt: _3,
         loc: rhs_loc(3)
       })
@@ -13142,7 +13142,7 @@ const yyact = [
         MEL_EXN_ID: $$Error$1,
         _1: {
           TAG: /* Applicative_path */ 3,
-          _0: symbol_rloc(undefined)
+          _0: symbol_rloc()
         }
       });
   }),
@@ -13525,7 +13525,7 @@ const yyact = [
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       txt: _1,
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -13533,7 +13533,7 @@ const yyact = [
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return {
       txt: _1 + ("." + _3.txt),
-      loc: symbol_rloc(undefined)
+      loc: symbol_rloc()
     };
   }),
   (function (__caml_parser_env) {
@@ -14337,7 +14337,7 @@ function directive_parse(token_with_comments, lexbuf) {
     look_ahead.contents = e;
   };
   const token_op = function (calc, no, lhs) {
-    const op = token(undefined);
+    const op = token();
     let exit = 0;
     if (/* tag */ typeof op === "number" || typeof op === "string") {
       switch (op) {
@@ -14363,7 +14363,7 @@ function directive_parse(token_with_comments, lexbuf) {
             exit$1 = 2;
           } else {
             const curr_loc = curr(lexbuf);
-            const rhs = value_of_token(curr_loc, token(undefined));
+            const rhs = value_of_token(curr_loc, token());
             let exit$2 = 0;
             if (/* tag */ typeof rhs === "number" || typeof rhs === "string") {
               exit$2 = 3;
@@ -14449,7 +14449,7 @@ function directive_parse(token_with_comments, lexbuf) {
           });
       }
       const curr_loc$1 = curr(lexbuf);
-      const rhs$1 = value_of_token(curr_loc$1, token(undefined));
+      const rhs$1 = value_of_token(curr_loc$1, token());
       if (calc) {
         return Curry._2(f, lhs, assert_same_type(lexbuf, lhs, rhs$1));
       } else {
@@ -14459,7 +14459,7 @@ function directive_parse(token_with_comments, lexbuf) {
     
   };
   const parse_and_aux = function (calc, v) {
-    const e = token(undefined);
+    const e = token();
     if (/* tag */ typeof e === "number" || typeof e === "string") {
       if (e === /* AMPERAMPER */ 0) {
         const calc$1 = calc && v;
@@ -14478,7 +14478,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const parse_relation = function (calc) {
-    const curr_token = token(undefined);
+    const curr_token = token();
     const curr_loc = curr(lexbuf);
     if (/* tag */ typeof curr_token === "number" || typeof curr_token === "string") {
       switch (curr_token) {
@@ -14486,7 +14486,7 @@ function directive_parse(token_with_comments, lexbuf) {
           return false;
         case /* LPAREN */ 54 :
           const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
-          const match = token(undefined);
+          const match = token();
           if (/* tag */ typeof match === "number" || typeof match === "string") {
             if (match === /* RPAREN */ 81) {
               return v;
@@ -14551,7 +14551,7 @@ function directive_parse(token_with_comments, lexbuf) {
                   _2: curr_loc
                 });
           }
-          const t = token(undefined);
+          const t = token();
           const loc = curr(lexbuf);
           if (/* tag */ typeof t === "number" || typeof t === "string") {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -14621,7 +14621,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const parse_or_aux = function (calc, v) {
-    const e = token(undefined);
+    const e = token();
     if (/* tag */ typeof e === "number" || typeof e === "string") {
       if (e === /* BARBAR */ 8) {
         const calc$1 = calc && !v;
@@ -14640,7 +14640,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
-  const match = token(undefined);
+  const match = token();
   if (/* tag */ typeof match === "number" || typeof match === "string") {
     if (match === /* THEN */ 88) {
       return v;
@@ -15101,10 +15101,10 @@ function with_comment_buffer(comment, lexbuf) {
     hd: start_loc,
     tl: /* [] */ 0
   };
-  reset_string_buffer(undefined);
+  reset_string_buffer();
   const end_loc = Curry._1(comment, lexbuf);
-  const s = get_stored_string(undefined);
-  reset_string_buffer(undefined);
+  const s = get_stored_string();
+  reset_string_buffer();
   const loc_loc_start = start_loc.loc_start;
   const loc_loc_end = end_loc.loc_end;
   const loc_loc_ghost = start_loc.loc_ghost;
@@ -15709,7 +15709,7 @@ function token(lexbuf) {
           throw exn$4;
         }
       case 19 :
-        reset_string_buffer(undefined);
+        reset_string_buffer();
         is_in_string.contents = true;
         const string_start = lexbuf.lex_start_p;
         string_start_loc.contents = curr(lexbuf);
@@ -15719,12 +15719,12 @@ function token(lexbuf) {
         return {
           TAG: /* STRING */ 16,
           _0: [
-            get_stored_string(undefined),
+            get_stored_string(),
             undefined
           ]
         };
       case 20 :
-        reset_string_buffer(undefined);
+        reset_string_buffer();
         const delim = Stdlib__Lexing.lexeme(lexbuf);
         const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
         is_in_string.contents = true;
@@ -15736,7 +15736,7 @@ function token(lexbuf) {
         return {
           TAG: /* STRING */ 16,
           _0: [
-            get_stored_string(undefined),
+            get_stored_string(),
             delim$1
           ]
         };
@@ -16813,11 +16813,11 @@ function maybe_skip_phrase(lexbuf) {
 
 function wrap(parsing_fun, lexbuf) {
   try {
-    init$1(undefined);
-    init$2(undefined);
+    init$1();
+    init$2();
     const ast = Curry._2(parsing_fun, token$1, lexbuf);
-    Stdlib__Parsing.clear_parser(undefined);
-    warn_bad_docstrings(undefined);
+    Stdlib__Parsing.clear_parser();
+    warn_bad_docstrings();
     return ast;
   }
   catch (raw_err){

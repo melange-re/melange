@@ -25,7 +25,7 @@ const suites_0 = [
     return {
       TAG: /* Eq */ 0,
       _0: 10,
-      _1: test2(undefined)
+      _1: test2()
     };
   })
 ];

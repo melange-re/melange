@@ -62,7 +62,7 @@ const suites_0 = [
           tl: /* [] */ 0
         }
       },
-      _1: f(undefined)
+      _1: f()
     };
   })
 ];

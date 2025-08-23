@@ -39,7 +39,7 @@ function f(param) {
   ];
 }
 
-const match = f(undefined);
+const match = f();
 
 const a2 = match[2];
 

@@ -35,14 +35,14 @@ function approx(f) {
   };
 }
 
-Mt_global.collect_neq(id, suites, "File \"jscomp/test/random_test.ml\", line 12, characters 6-13", (Stdlib__Random.self_init(undefined), Stdlib__Random.$$int(10000)), (Stdlib__Random.self_init(undefined), Stdlib__Random.$$int(1000)));
+Mt_global.collect_neq(id, suites, "File \"jscomp/test/random_test.ml\", line 12, characters 6-13", (Stdlib__Random.self_init(), Stdlib__Random.$$int(10000)), (Stdlib__Random.self_init(), Stdlib__Random.$$int(1000)));
 
 Stdlib__Random.init(0);
 
 const v = Caml_array.make(10, false);
 
 for (let i = 0; i <= 9; ++i) {
-  Caml_array.set(v, i, Stdlib__Random.bool(undefined));
+  Caml_array.set(v, i, Stdlib__Random.bool());
 }
 
 Mt_global.collect_eq(id, suites, "File \"jscomp/test/random_test.ml\", line 26, characters 5-12", v, [
@@ -65,7 +65,7 @@ const h = Stdlib__Random.int64([
   3
 ]);
 
-const vv = Stdlib__Random.bits(undefined);
+const vv = Stdlib__Random.bits();
 
 const xx = Stdlib__Random.$$float(3.0);
 

@@ -73,7 +73,7 @@ function step1(param) {
   return Curry._1(object_tables.key, undefined);
 }
 
-const tmp = step1(undefined);
+const tmp = step1();
 
 const tmp$1 = Caml_oo_curry.js1(68057958, 1, tmp);
 

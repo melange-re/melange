@@ -12,7 +12,7 @@ function ff(param) {
   return "cool test hello worldnothello worldnothello";
 }
 
-const a23 = ff(undefined);
+const a23 = ff();
 
 const a15 = a10;
 

@@ -592,6 +592,10 @@ and expression_desc cxt ~(level : int) x : cxt =
                           pp_function ~return_unit ~is_method cxt
                             ~fn_state:(No_name { single_arg = true })
                             l b env
+                      | [
+                       { expression_desc = Undefined { is_unit = true }; _ };
+                      ] ->
+                          arguments cxt []
                       | _ -> arguments cxt el)
               | _, _ ->
                   let len = List.length el in

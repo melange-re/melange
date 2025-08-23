@@ -64,7 +64,7 @@ function r(param) {
   return x;
 }
 
-const match = r(undefined);
+const match = r();
 
 const v = Curry._1(match.VAL, undefined);
 

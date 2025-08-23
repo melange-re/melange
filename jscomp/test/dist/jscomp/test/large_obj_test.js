@@ -589,7 +589,7 @@ function obj_init(env) {
 
 CamlinternalOO.init_class($$class);
 
-const raw_object = obj_init(undefined);
+const raw_object = obj_init();
 
 if (Caml_oo_curry.js1(291536124, 1, raw_object) !== 34) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

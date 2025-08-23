@@ -71,7 +71,7 @@ function andThenTest(param) {
   });
 }
 
-const h = Promise.resolve(undefined);
+const h = Promise.resolve();
 
 function assertIsNotFound(x) {
   const match = Caml_exceptions.caml_is_extension(x) && x.MEL_EXN_ID === Stdlib.Not_found ? 0 : undefined;
@@ -259,35 +259,35 @@ function createPromiseFulfillTest(param) {
   }).catch(fail);
 }
 
-thenTest(undefined);
+thenTest();
 
-andThenTest(undefined);
+andThenTest();
 
-catchTest(undefined);
+catchTest();
 
-orResolvedTest(undefined);
+orResolvedTest();
 
-orRejectedTest(undefined);
+orRejectedTest();
 
-orElseResolvedTest(undefined);
+orElseResolvedTest();
 
-orElseRejectedResolveTest(undefined);
+orElseRejectedResolveTest();
 
-orElseRejectedRejectTest(undefined);
+orElseRejectedRejectTest();
 
-thenCatchChainResolvedTest(undefined);
+thenCatchChainResolvedTest();
 
-thenCatchChainRejectedTest(undefined);
+thenCatchChainRejectedTest();
 
-allResolvedTest(undefined);
+allResolvedTest();
 
-allRejectTest(undefined);
+allRejectTest();
 
-raceTest(undefined);
+raceTest();
 
-createPromiseRejectTest(undefined);
+createPromiseRejectTest();
 
-createPromiseFulfillTest(undefined);
+createPromiseFulfillTest();
 
 Promise.all([
   Promise.resolve(2),
@@ -300,7 +300,7 @@ Promise.all([
     2,
     3
   ]);
-  return Promise.resolve(undefined);
+  return Promise.resolve();
 });
 
 console.log(Stdlib__List.length(suites.contents));
