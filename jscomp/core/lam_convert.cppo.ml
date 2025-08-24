@@ -162,8 +162,6 @@ let rec drop_global_marker (lam : Lam.t) =
   | Lsequence (Lglobal_module _, rest) -> drop_global_marker rest
   | _ -> lam
 
-let unit = Lam.unit
-
 let convert_record_repr (x : Types.record_representation) :
     Lam_primitive.record_representation =
   match x with
@@ -206,7 +204,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pbytes_of_string -> Lam.prim ~primitive:Pbytes_of_string ~args loc
   | Pignore ->
       (* Pignore means return unit, it is not an nop *)
-      Lam.seq (List.hd args) unit
+      Lam.seq (List.hd args) Lam.unit
   | Pcompare_ints ->
       Lam.prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args loc
   | Pcompare_floats ->
@@ -709,7 +707,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Lam.prim ~primitive:Pdebugger ~args:[] loc
     | _ when s = "#null" -> Lam.const Const_js_null
     | _ when s = "#os_type" ->
-        Lam.prim ~primitive:(Pctconst Ostype) ~args:[ unit ] loc
+        Lam.prim ~primitive:(Pctconst Ostype) ~args:[ Lam.unit ] loc
     | _ when s = "#undefined" -> Lam.const (Const_js_undefined { is_unit = false })
     | _ when s = "#init_mod" -> (
         let args = List.map ~f:convert_aux args in
