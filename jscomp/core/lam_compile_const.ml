@@ -41,8 +41,7 @@ let rec translate_some (x : Lam.Constant.t) : J.expression =
   let depth = is_some_none_aux x 0 in
   if depth < 0 then E.optional_not_nest_block (translate x)
   else
-    nested_some_none depth
-      (E.optional_block (translate (Const_js_undefined { is_unit = false })))
+    nested_some_none depth (E.optional_block (translate Lam.Constant.lam_none))
 
 and translate (x : Lam.Constant.t) : J.expression =
   match x with
