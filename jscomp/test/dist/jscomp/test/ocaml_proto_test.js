@@ -955,7 +955,7 @@ const yyact = [
     Stdlib__Parsing.peek_val(__caml_parser_env, 3);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return $$import(Caml_option.some(undefined), _3);
+    return $$import(Caml_option.some(), _3);
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
@@ -2512,7 +2512,7 @@ function gen_decode_record(and_, param, sc) {
             let param$1 = rf_field_type._0;
             const pk = param$1[2];
             const field_type = param$1[0];
-            return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
+            return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(), pk, false), (function (sc) {
               line$1(sc, Curry._2(Stdlib__Printf.sprintf({
                 TAG: /* Format */ 0,
                 _0: {
@@ -2543,7 +2543,7 @@ function gen_decode_record(and_, param, sc) {
             let param$2 = rf_field_type._0;
             const pk$1 = param$2[2];
             const field_type$1 = param$2[0];
-            return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(undefined), pk$1, false), (function (sc) {
+            return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(), pk$1, false), (function (sc) {
               line$1(sc, Curry._2(Stdlib__Printf.sprintf({
                 TAG: /* Format */ 0,
                 _0: {
@@ -2606,7 +2606,7 @@ function gen_decode_record(and_, param, sc) {
                   }), rf_label, decode_field_f(field_type$2, pk$2)));
                 }));
               } else {
-                return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
+                return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(), pk$2, false), (function (sc) {
                   line$1(sc, Curry._3(Stdlib__Printf.sprintf({
                     TAG: /* Format */ 0,
                     _0: {
@@ -2675,7 +2675,7 @@ function gen_decode_record(and_, param, sc) {
                 line$1(sc, ") () d;");
               }));
             } else {
-              return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
+              return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(), pk$2, false), (function (sc) {
                 line$1(sc, Curry._2(Stdlib__Printf.sprintf({
                   TAG: /* Format */ 0,
                   _0: {
@@ -2818,7 +2818,7 @@ function gen_decode_record(and_, param, sc) {
               const pk = param.vc_payload_kind;
               const vc_field_type = param.vc_field_type;
               const vc_constructor = param.vc_constructor;
-              process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
+              process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(), pk, false), (function (sc) {
                 if (!/* tag */ (typeof vc_field_type === "number" || typeof vc_field_type === "string")) {
                   return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
                     TAG: /* Format */ 0,
@@ -5453,7 +5453,7 @@ function gen_struct$2(and_, t, scope) {
       const r$1 = r._0;
       gen_type_record(undefined, and_, r$1, scope);
       line$1(scope, "");
-      gen_type_record(Caml_option.some(undefined), Caml_option.some(undefined), r$1, scope);
+      gen_type_record(Caml_option.some(), Caml_option.some(), r$1, scope);
       break;
     case /* Variant */ 1 :
       gen_type_variant(and_, r._0, scope);
@@ -5686,7 +5686,7 @@ function gen_encode_record(and_, param, sc) {
             },
             _1: "v.%s"
           }), rf_label);
-          return gen_encode_field_type(Caml_option.some(undefined), sc, var_name, match[1], match[2], false, match[0]);
+          return gen_encode_field_type(Caml_option.some(), sc, var_name, match[1], match[2], false, match[0]);
         case /* Rft_optional */ 1 :
           const match$1 = rf_field_type._0;
           const pk = match$1[2];
@@ -5721,7 +5721,7 @@ function gen_encode_record(and_, param, sc) {
               _1: "| Some x -> ("
             }));
             scope(sc, (function (sc) {
-              gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number, pk, false, field_type);
+              gen_encode_field_type(Caml_option.some(), sc, "x", encoding_number, pk, false, field_type);
             }));
             line$1(sc, ")");
             line$1(sc, "| None -> ();");
@@ -5764,7 +5764,7 @@ function gen_encode_record(and_, param, sc) {
             } else {
               line$1(sc, "List.iter (fun x -> ");
               scope(sc, (function (sc) {
-                gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+                gen_encode_field_type(Caml_option.some(), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
               }));
               return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
                 TAG: /* Format */ 0,
@@ -5814,7 +5814,7 @@ function gen_encode_record(and_, param, sc) {
           } else {
             line$1(sc, "Pbrt.Repeated_field.iter (fun x -> ");
             scope(sc, (function (sc) {
-              gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
+              gen_encode_field_type(Caml_option.some(), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
             }));
             return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
               TAG: /* Format */ 0,
@@ -5895,7 +5895,7 @@ function gen_encode_record(and_, param, sc) {
                 }
               },
               _1: "let map_entry = (k, Pbrt.%s), (v, Pbrt.%s) in"
-            }), string_of_payload_kind(Caml_option.some(undefined), key_pk, false), string_of_payload_kind(Caml_option.some(undefined), value_pk, false)));
+            }), string_of_payload_kind(Caml_option.some(), key_pk, false), string_of_payload_kind(Caml_option.some(), value_pk, false)));
             line$1(sc, "Pbrt.Encoder.map_entry ~encode_key ~encode_value map_entry encoder");
           }));
           return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
@@ -5984,7 +5984,7 @@ function gen_encode_record(and_, param, sc) {
                 _1: "| %s x -> ("
               }), vc_constructor));
               scope(sc, (function (sc) {
-                gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
+                gen_encode_field_type(Caml_option.some(), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
               }));
               line$1(sc, ")");
             }), v_constructors);
@@ -6078,7 +6078,7 @@ function gen_encode_variant(and_, variant, sc) {
         _1: "| %s x -> ("
       }), vc_constructor));
       scope(sc, (function (sc) {
-        gen_encode_field_type(Caml_option.some(undefined), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
+        gen_encode_field_type(Caml_option.some(), sc, "x", vc_encoding_number, vc_payload_kind, false, field_type);
       }));
       line$1(sc, ")");
     }), v_constructors);
@@ -6848,7 +6848,7 @@ function gen_struct$4(and_, t, sc) {
     case /* Record */ 0 :
       const r$1 = r._0;
       tmp = [
-        (gen_default_record(undefined, and_, r$1, sc), line$1(sc, ""), gen_default_record(Caml_option.some(undefined), Caml_option.some(undefined), r$1, sc)),
+        (gen_default_record(undefined, and_, r$1, sc), line$1(sc, ""), gen_default_record(Caml_option.some(), Caml_option.some(), r$1, sc)),
         true
       ];
       break;
@@ -7637,7 +7637,7 @@ function compile(proto_definition) {
                 hd: message_name,
                 tl: /* [] */ 0
               });
-              const variant = variant_of_oneof(Caml_option.some(undefined), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$2);
+              const variant = variant_of_oneof(Caml_option.some(), outer_message_names, all_pbtt_msgs$1, file_options, file_name, field$2);
               const record_field_rf_label$1 = label_name_of_field_name(field$2.oneof_name);
               const record_field_rf_field_type = {
                 TAG: /* Rft_variant_field */ 4,
@@ -7814,7 +7814,7 @@ function compile(proto_definition) {
       }
       Stdlib__List.iter((function (types) {
         Stdlib__List.fold_left((function (first, type_) {
-          const has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
+          const has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(), type_, sc);
           line$1(sc, "");
           if (first) {
             return !has_encoded;
