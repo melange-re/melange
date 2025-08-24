@@ -20,7 +20,7 @@ function decodeUint8Array(b) {
 }
 
 function blob_bytes(param) {
-  const file = new File(["hello"].values(), "foo.txt", undefined);
+  const file = new File(["hello"].values(), "foo.txt");
   return file.bytes().then(function (b) {
     return Promise.resolve({
       TAG: /* Eq */ 0,

@@ -99,12 +99,12 @@ eq("File \"jscomp/test/ffi_js_test.ml\", line 45, characters 5-12", [
 ]);
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 46, characters 5-12", [
-  Object.keys(v_obj).indexOf("hi_x", undefined),
+  Object.keys(v_obj).indexOf("hi_x"),
   -1
 ]);
 
 eq("File \"jscomp/test/ffi_js_test.ml\", line 47, characters 5-12", [
-  Object.keys(v_obj).indexOf("hi", undefined),
+  Object.keys(v_obj).indexOf("hi"),
   0
 ]);
 

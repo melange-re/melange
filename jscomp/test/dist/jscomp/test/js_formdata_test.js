@@ -27,7 +27,7 @@ function form_data_not_found(param) {
 
 function form_data_append_blob(param) {
   const fd = new FormData();
-  const blob = new Blob(["hello"].values(), undefined);
+  const blob = new Blob(["hello"].values());
   fd.append("b", blob, "foo.txt");
   const got_blob = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_blob.text().then(function (x) {
@@ -41,7 +41,7 @@ function form_data_append_blob(param) {
 
 function form_data_append_file(param) {
   const fd = new FormData();
-  const file = new File(["hello"].values(), "foo.txt", undefined);
+  const file = new File(["hello"].values(), "foo.txt");
   fd.append("b", file, "foo.txt");
   const got_file = Stdlib__Option.get(Caml_option.null_to_opt(fd.get("b")));
   return got_file.text().then(function (x) {
