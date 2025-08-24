@@ -25,25 +25,9 @@
 open Import
 module E = Js_exp_make
 
-(** return [val < 0] if not nested [Some (Some (Some None))]*)
-let rec is_some_none_aux (x : Lam.Constant.t) acc =
-  match x with
-  | Const_some v -> is_some_none_aux v (acc + 1)
-  | Const_module_alias | Const_js_undefined _ -> acc
-  | _ -> -1
+type nest = Unnest | Nest of (int * Lam.Constant.t)
 
-let rec nested_some_none n none =
-  match n with
-  | 0 -> none
-  | n -> nested_some_none (n - 1) (E.optional_block none)
-
-let rec translate_some (x : Lam.Constant.t) : J.expression =
-  let depth = is_some_none_aux x 0 in
-  if depth < 0 then E.optional_not_nest_block (translate x)
-  else
-    nested_some_none depth (E.optional_block (translate Lam.Constant.lam_none))
-
-and translate (x : Lam.Constant.t) : J.expression =
+let rec translate (x : Lam.Constant.t) : J.expression =
   match x with
   | Const_module_alias -> E.undefined (*  TODO *)
   | Const_some s -> translate_some s
@@ -101,10 +85,23 @@ and translate (x : Lam.Constant.t) : J.expression =
 (* E.arr Mutable ~comment:"float array" *)
 (*   (Ext_list.map (fun x ->  E.float  x ) ars) *)
 
-(* and translate_optional s =
-   let  b =
-   match s with
-   | Const_js_undefined -> E.optional_block (translate s) *)
+and translate_some =
+  let rec is_some_none_aux (x : Lam.Constant.t) acc =
+    match x with
+    | Const_some v -> is_some_none_aux v (acc + 1)
+    | Const_module_alias | Const_js_undefined _ -> Nest (acc, x)
+    | _ -> Unnest
+  in
+  let rec nested_some_none n none =
+    match n with
+    | 0 -> none
+    | n -> nested_some_none (n - 1) (E.optional_block none)
+  in
+  fun (x : Lam.Constant.t) : J.expression ->
+    match is_some_none_aux x 0 with
+    | Unnest -> E.optional_not_nest_block (translate x)
+    | Nest (depth, lam) ->
+        nested_some_none depth (E.optional_block (translate lam))
 
 let translate_arg_cst (cst : Melange_ffi.External_arg_spec.Arg_cst.t) =
   match cst with

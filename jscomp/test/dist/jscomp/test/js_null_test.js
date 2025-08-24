@@ -22,7 +22,7 @@ const suites_1 = {
     (function (param) {
       return {
         TAG: /* Eq */ 0,
-        _0: Caml_option.some(undefined),
+        _0: Caml_option.some(),
         _1: Caml_option.some()
       };
     })

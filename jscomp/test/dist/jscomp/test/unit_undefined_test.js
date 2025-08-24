@@ -42,13 +42,13 @@ function u0(x) {
   return Caml_option.some(x);
 }
 
-const u1 = Caml_option.some(undefined);
+const u1 = Caml_option.some();
 
 function u2(x) {
   return Caml_option.some(x);
 }
 
-const u3 = Caml_option.some(undefined);
+const u3 = Caml_option.some();
 
 eq("File \"jscomp/test/unit_undefined_test.ml\", line 31, characters 6-13", Caml_option.some(), Caml_option.some(undefined));
 
