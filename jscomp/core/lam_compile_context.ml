@@ -80,8 +80,8 @@ let empty_handler_map = HandlerMap.empty
 
 type handler = { label : jbl_label; handler : Lam.t; bindings : Ident.t list }
 
-let no_static_raise_in_handler (x : handler) : bool =
-  not (Lam_exit_code.has_exit_code x.handler (fun _code -> true))
+let no_static_raise_in_handler (x : handler) =
+  not (Lam_exit_code.has_exit x.handler)
 
 (* always keep key id positive, specifically no [0] generated
    return a tuple
