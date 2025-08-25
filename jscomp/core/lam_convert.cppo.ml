@@ -668,22 +668,21 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Ffi_inline_const i -> Lam.const i
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
-    let s = p.prim_name in
-    match () with
-    | _ when s = "#is_not_none" ->
+    match p.prim_name with
+    | "#is_not_none" ->
         let args = List.map ~f:convert_aux args in
         Lam.prim ~primitive:Pis_not_none ~args ~loc
-    | _ when s = "#val_from_unnest_option" ->
+    | "#val_from_unnest_option" ->
         let args = List.map ~f:convert_aux args in
         let v = List.hd args in
         Lam.prim ~primitive:Pval_from_option_not_nest ~args:[ v ] ~loc
-    | _ when s = "#val_from_option" ->
+    | "#val_from_option" ->
         let args = List.map ~f:convert_aux args in
         Lam.prim ~primitive:Pval_from_option ~args ~loc
-    | _ when s = "#is_poly_var_const" ->
+    | "#is_poly_var_const" ->
         let args = List.map ~f:convert_aux args in
         Lam.prim ~primitive:Pis_poly_var_const ~args ~loc
-    | _ when s = "#raw_expr" -> (
+    | "#raw_expr" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
@@ -693,7 +692,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~primitive:(Praw_js_code { code; code_info = Exp kind })
               ~args:[] ~loc
         | _ -> assert false)
-    | _ when s = "#raw_stmt" -> (
+    | "#raw_stmt" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
@@ -702,26 +701,26 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
               ~args:[] ~loc
         | _ -> assert false)
-    | _ when s = "#debugger" ->
+    | "#debugger" ->
         (* ATT: Currently, the arity is one due to PPX *)
         Lam.prim ~primitive:Pdebugger ~args:[] ~loc
-    | _ when s = "#null" -> Lam.const Const_js_null
-    | _ when s = "#os_type" ->
+    | "#null" -> Lam.const Const_js_null
+    | "#os_type" ->
         Lam.prim ~primitive:(Pctconst Ostype) ~args:[ Lam.unit ] ~loc
-    | _ when s = "#undefined" -> Lam.const (Const_js_undefined { is_unit = false })
-    | _ when s = "#init_mod" -> (
+    | "#undefined" -> Lam.const (Const_js_undefined { is_unit = false })
+    | "#init_mod" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ _loc; Lconst (Const_block (0, _, [ Const_block (0, _, []) ])) ] ->
             Lam.unit
         | _ -> Lam.prim ~primitive:Pinit_mod ~args ~loc)
-    | _ when s = "#update_mod" -> (
+    | "#update_mod" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_block (0, _, [ Const_block (0, _, []) ])); _; _ ] ->
             Lam.unit
         | _ -> Lam.prim ~primitive:Pupdate_mod ~args ~loc)
-    | _ when s = "#extension_slot_eq" -> (
+    | "#extension_slot_eq" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ lhs; rhs ] ->
@@ -730,9 +729,17 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~args:[ lam_extension_id ~loc lhs; rhs ]
               ~loc
         | _ -> assert false)
+    | "#full_apply" -> 
+        let args = List.map ~f:convert_aux args in
+        (match args with
+        | [ Lapply { ap_func; ap_args; _ } ] ->
+            Lam.prim ~primitive:Pfull_apply ~args:(ap_func :: ap_args) ~loc
+            (* There may be some optimization opportunities here
+               for cases like `(fun [@u] a b -> a + b ) 1 2 [@u]` *)
+        | _ -> assert false)
     | _ ->
         let primitive : Lam_primitive.t =
-          match s with
+          match p.prim_name with
           | "#apply" -> Pjs_runtime_apply
           | "#apply1" | "#apply2" | "#apply3" | "#apply4" | "#apply5"
           | "#apply6" | "#apply7" | "#apply8" ->
@@ -759,7 +766,6 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           | "#unsafe_neq" -> Pjscomp Cne
           | "#typeof" -> Pjs_typeof
           | "#run" -> Pvoid_run
-          | "#full_apply" -> Pfull_apply
           | "#fn_mk" -> Pjs_fn_make (nat_of_string_exn p.prim_native_name)
           | "#fn_method" -> Pjs_fn_method
           | "#unsafe_downgrade" ->
@@ -768,22 +774,13 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               Location.raise_errorf ~loc
                 "@{<error>Error:@} internal error, using unrecognized \
                  primitive %s"
-                s
+                p.prim_name
         in
-        if primitive = Pfull_apply then
-          let args = List.map ~f:convert_aux args in
-          match args with
-          | [ Lapply { ap_func; ap_args; _ } ] ->
-              Lam.prim ~primitive ~args:(ap_func :: ap_args) ~loc
-              (* There may be some optimization opportunities here
-                 for cases like `(fun [@u] a b -> a + b ) 1 2 [@u]` *)
-          | _ -> assert false
-        else
-          let args =
-            let dynamic_import = primitive = Pimport in
-            List.map ~f:(convert_aux ~dynamic_import) args
-          in
-          Lam.prim ~primitive ~args ~loc
+        let args =
+          let dynamic_import = primitive = Pimport in
+          List.map ~f:(convert_aux ~dynamic_import) args
+        in
+        Lam.prim ~primitive ~args ~loc
   and convert_aux ?(dynamic_import=false) (lam : Lambda.lambda) : Lam.t =
     match lam with
     | Lvar x -> Lam.var (Ident.Hashtbl.find_default alias_tbl x ~default:x)
@@ -936,7 +933,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
       Lam.t =
     let e = convert_aux e in
-    match (kind, e) with
+    match kind, e with
     | Alias, Lvar u ->
         let new_u =
           Ident.Hashtbl.find_default alias_tbl u ~default:u in
