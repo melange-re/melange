@@ -88,7 +88,7 @@ const suites_1 = {
                   return {
                     TAG: /* Eq */ 0,
                     _0: "1.23456e+2",
-                    _1: (123.456).toExponential(undefined)
+                    _1: (123.456).toExponential()
                   };
                 })
               ],
@@ -99,7 +99,7 @@ const suites_1 = {
                     return {
                       TAG: /* Eq */ 0,
                       _0: "1.2e+21",
-                      _1: (1.2e21).toExponential(undefined)
+                      _1: (1.2e21).toExponential()
                     };
                   })
                 ],
@@ -167,7 +167,7 @@ const suites_1 = {
                                 return {
                                   TAG: /* Eq */ 0,
                                   _0: "123",
-                                  _1: (123.456).toFixed(undefined)
+                                  _1: (123.456).toFixed()
                                 };
                               })
                             ],
@@ -178,7 +178,7 @@ const suites_1 = {
                                   return {
                                     TAG: /* Eq */ 0,
                                     _0: "1.2e+21",
-                                    _1: (1.2e21).toFixed(undefined)
+                                    _1: (1.2e21).toFixed()
                                   };
                                 })
                               ],
@@ -246,7 +246,7 @@ const suites_1 = {
                                               return {
                                                 TAG: /* Eq */ 0,
                                                 _0: "123.456",
-                                                _1: (123.456).toPrecision(undefined)
+                                                _1: (123.456).toPrecision()
                                               };
                                             })
                                           ],
@@ -257,7 +257,7 @@ const suites_1 = {
                                                 return {
                                                   TAG: /* Eq */ 0,
                                                   _0: "1.2e+21",
-                                                  _1: (1.2e21).toPrecision(undefined)
+                                                  _1: (1.2e21).toPrecision()
                                                 };
                                               })
                                             ],
@@ -325,7 +325,7 @@ const suites_1 = {
                                                             return {
                                                               TAG: /* Eq */ 0,
                                                               _0: "1.23",
-                                                              _1: (1.23).toString(undefined)
+                                                              _1: (1.23).toString()
                                                             };
                                                           })
                                                         ],
@@ -336,7 +336,7 @@ const suites_1 = {
                                                               return {
                                                                 TAG: /* Eq */ 0,
                                                                 _0: "1.2e+21",
-                                                                _1: (1.2e21).toString(undefined)
+                                                                _1: (1.2e21).toString()
                                                               };
                                                             })
                                                           ],
