@@ -71,9 +71,9 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | Some x ->
             let arg = simpl arg in
             Lam_eta_conversion.unsafe_adjust_to_arity loc ~to_:len ~from:x arg
-        | None -> Lam.prim ~primitive ~args:[ simpl arg ] loc)
+        | None -> Lam.prim ~primitive ~args:[ simpl arg ] ~loc)
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:simpl args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:simpl args) ~loc
     | Lfunction { arity; params; body; attr } ->
         (* Lam_mk.lfunction kind params (simpl l) *)
         Lam.function_ ~arity ~params ~body:(simpl body) ~attr
