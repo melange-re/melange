@@ -184,28 +184,6 @@ let no_effects_const = lazy true
 
 type initialization = J.block
 
-let import_of_module module_ =
-  E.call
-    ~info:{ arity = Full; call_info = Call_na }
-    (E.js_global "import")
-    [ E.module_ module_ ]
-
-let wrap_then import value =
-  let arg = Ident.create "m" in
-  E.call
-    ~info:{ arity = Full; call_info = Call_na }
-    (E.dot import "then")
-    [
-      E.ocaml_fun ~return_unit:false
-        (* ~oneUnitArg:false *) [ arg ]
-        [
-          {
-            statement_desc = J.Return (E.dot (E.var arg) value);
-            comment = None;
-          };
-        ];
-    ]
-
 (* since it's only for alias, there is no arguments,
    we should not inline function definition here, even though
    it is very small
@@ -1881,12 +1859,8 @@ and compile_prim (prim_info : Lam.prim_info)
               "Invalid argument: unsupported argument to dynamic import. If \
                you believe this should be supported, please open an issue."
       in
-
-      let module_ = { module_id with J.dynamic_import = true } in
       let exp =
-        match module_value with
-        | Some value -> wrap_then (import_of_module module_) value
-        | None -> import_of_module module_
+        Lam_compile_dynamic_import.wrap_module_value module_id module_value
       in
       let args_code : J.block = List.concat args_block in
       Js_output.output_of_block_and_expression lambda_cxt.continuation args_code
