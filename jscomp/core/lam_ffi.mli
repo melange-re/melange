@@ -28,7 +28,7 @@ val handle_mel_non_obj_ffi :
   Melange_ffi.External_ffi_types.return_wrapper ->
   Melange_ffi.External_ffi_types.external_spec ->
   Lam.t list ->
-  Location.t ->
+  loc:Location.t ->
   string ->
   dynamic_import:bool ->
   Lam.t

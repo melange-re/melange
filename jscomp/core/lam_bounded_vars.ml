@@ -110,7 +110,7 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
     | Lconst _ -> lam
     | Lprim { primitive; args; loc } ->
         (* here it makes sure that global vars are not rebound *)
-        Lam.prim ~primitive ~args:(List.map ~f:aux args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:aux args) ~loc
     | Lglobal_module _ -> lam
     | Lapply { ap_func; ap_args; ap_info } ->
         let fn = aux ap_func in
@@ -159,11 +159,11 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let l2 = aux l2 in
         Lam.while_ l1 l2
     | Lassign (v, l) -> Lam.assign v (aux l)
-    | Lsend (u, m, o, ll, v) ->
+    | Lsend (u, m, o, ll, loc) ->
         let m = aux m in
         let o = aux o in
         let ll = List.map ~f:aux ll in
-        Lam.send u m o ll v
+        Lam.send u m o ll ~loc
     | Lifused (v, l) ->
         let l = aux l in
         Lam.ifused v l

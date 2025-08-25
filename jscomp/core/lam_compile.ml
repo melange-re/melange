@@ -1722,7 +1722,7 @@ and compile_prim (prim_info : Lam.prim_info)
               _;
             } )
         :: rest ->
-          compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest loc)
+          compile_lambda lambda_cxt (Lam.prim ~primitive ~args:rest ~loc)
       | ( Lprim
             {
               primitive =
@@ -1761,8 +1761,8 @@ and compile_prim (prim_info : Lam.prim_info)
         :: rest ->
           compile_lambda lambda_cxt
             (Lam.prim ~primitive:nu_prim
-               ~args:[ Lam.prim ~primitive ~args:rest loc ]
-               nu_loc)
+               ~args:[ Lam.prim ~primitive ~args:rest ~loc ]
+               ~loc:nu_loc)
       | fn :: rest ->
           compile_lambda lambda_cxt
             (Lam.apply fn rest

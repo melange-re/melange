@@ -111,8 +111,8 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Lalias-bound variables are never assigned, so don't increase
            v's refsimpl *)
         Lam.assign v (simpl l)
-    | Lsend (u, m, o, ll, v) ->
-        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) v
+    | Lsend (u, m, o, ll, loc) ->
+        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) ~loc
     | Lifused (v, e) -> Lam.ifused v (simpl e)
   in
 

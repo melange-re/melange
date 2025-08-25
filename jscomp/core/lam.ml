@@ -497,7 +497,7 @@ let try_ body id handler : t = Ltrywith (body, id, handler)
 let for_ v e1 e2 dir e3 : t = Lfor (v, e1, e2, dir, e3)
 let ifused v l : t = Lifused (v, l)
 let assign v l : t = Lassign (v, l)
-let send u m o ll v : t = Lsend (u, m, o, ll, v)
+let send u m o ll ~loc : t = Lsend (u, m, o, ll, loc)
 let staticcatch a b c : t = Lstaticcatch (a, b, c)
 let staticraise a b : t = Lstaticraise (a, b)
 
@@ -523,7 +523,7 @@ module Lift = struct
   let char b : t = Lconst (Const_char b)
 end
 
-let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
+let prim ~primitive:(prim : Lam_primitive.t) ~args ~loc : t =
   let default () : t = Lprim { primitive = prim; args; loc } in
   match args with
   | [ Lconst a ] -> (
@@ -655,11 +655,11 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
           )
       | _ -> default ())
 
-let not_ loc x : t =
+let not_ ~loc x : t =
   match x with
   | Lprim ({ primitive = Pintcomp Cne; _ } as prim) ->
       Lprim { prim with primitive = Pintcomp Ceq }
-  | _ -> prim ~primitive:Pnot ~args:[ x ] loc
+  | _ -> prim ~primitive:Pnot ~args:[ x ] ~loc
 
 let has_boolean_type (x : t) =
   match x with
@@ -711,7 +711,7 @@ let if_ (a : t) (b : t) (c : t) : t =
           if has_boolean_type a != None then a else Lifthenelse (a, b, c)
       | Lconst Const_js_false, Lconst Const_js_true -> (
           match has_boolean_type a with
-          | Some loc -> not_ loc a
+          | Some loc -> not_ ~loc a
           | None -> Lifthenelse (a, b, c))
       | Lprim { primitive = Praise; _ }, _ -> (
           match c with

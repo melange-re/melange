@@ -51,7 +51,7 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
          && (function Lam_primitive.Pmakeblock _ -> false | _ -> true)
               primitive
          (* don't inline inside a block *) ->
-      Lam.prim ~primitive ~args:[ arg ] loc
+      Lam.prim ~primitive ~args:[ arg ] ~loc
   (* we can not do this substitution when capttured *)
   (* | _, Lvar _, _ -> (\* let u = h in xxx*\) *)
   (*     (\* assert false *\) *)

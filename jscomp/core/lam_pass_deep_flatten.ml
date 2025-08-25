@@ -165,7 +165,7 @@ let deep_flatten =
              (Lam.let_ Alias id
                 (Lam.prim ~primitive
                    ~args:[ Lam.var newId ]
-                   Location.none (* FIXME*))
+                   ~loc:Location.none (* FIXME*))
                 body))
     | Lmutlet
         ( id,
@@ -184,7 +184,7 @@ let deep_flatten =
              (Lam.let_ Alias id
                 (Lam.prim ~primitive
                    ~args:[ Lam.var newId ]
-                   Location.none (* FIXME*))
+                   ~loc:Location.none (* FIXME*))
                 body))
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) -> (
         (*
@@ -289,7 +289,7 @@ let deep_flatten =
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
         let args = List.map ~f:aux args in
-        Lam.prim ~primitive ~args loc
+        Lam.prim ~primitive ~args ~loc
     | Lfunction { arity; params; body; attr } ->
         Lam.function_ ~arity ~params ~body:(aux body) ~attr
     | Lswitch
@@ -324,8 +324,8 @@ let deep_flatten =
         (* Lalias-bound variables are never assigned, so don't increase
            v's refaux *)
         Lam.assign v (aux l)
-    | Lsend (u, m, o, ll, v) ->
-        Lam.send u (aux m) (aux o) (List.map ~f:aux ll) v
+    | Lsend (u, m, o, ll, loc) ->
+        Lam.send u (aux m) (aux o) (List.map ~f:aux ll) ~loc
     | Lifused (v, l) -> Lam.ifused v (aux l)
   in
   fun (lam : Lam.t) : Lam.t -> aux lam

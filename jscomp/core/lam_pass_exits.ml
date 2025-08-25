@@ -213,7 +213,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
         let args = List.map ~f:simplif args in
-        Lam.prim ~primitive ~args loc
+        Lam.prim ~primitive ~args ~loc
     | Lswitch (l, sw) ->
         let new_l = simplif l in
         let new_consts = List.map_snd sw.sw_consts ~f:simplif in
@@ -242,7 +242,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
         Lam.for_ v (simplif l1) (simplif l2) dir (simplif l3)
     | Lassign (v, l) -> Lam.assign v (simplif l)
     | Lsend (k, m, o, ll, loc) ->
-        Lam.send k (simplif m) (simplif o) (List.map ~f:simplif ll) loc
+        Lam.send k (simplif m) (simplif o) (List.map ~f:simplif ll) ~loc
     | Lifused (v, l) -> Lam.ifused v (simplif l)
   in
   simplif lam

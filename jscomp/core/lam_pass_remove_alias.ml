@@ -60,7 +60,7 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
       Lam.prim
         ~primitive:(Pfield (i, info))
         ~args:[ Lam.global_module ~dynamic_import:false g ]
-        Location.none
+        ~loc:Location.none
   | ImmutableBlock arr -> (
       match arr.(i) with NA -> f () | SimpleForm l -> l | exception _ -> f ())
   | Constant (Const_block (_, _, ls)) -> (
@@ -106,9 +106,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         match simpl arg with
         | (Lvar v | Lmutvar v) as l ->
             field_flatten_get meta.ident_tbl ~info
-              ~f:(fun () -> Lam.prim ~primitive ~args:[ l ] loc)
+              ~f:(fun () -> Lam.prim ~primitive ~args:[ l ] ~loc)
               v i
-        | l -> Lam.prim ~primitive ~args:[ l ] loc)
+        | l -> Lam.prim ~primitive ~args:[ l ] ~loc)
     | Lprim { primitive = Popaque; _ } -> lam
     | Lprim
         {
@@ -122,7 +122,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:simpl args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:simpl args) ~loc
     | Lifthenelse
         ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
           l2,
@@ -131,19 +131,20 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | ImmutableBlock _ | MutableBlock _ | Normal_optional _ -> simpl l2
         | OptionalBlock (l, Null) ->
             Lam.if_
-              (Lam.not_ Location.none
-                 (Lam.prim ~primitive:Pis_null ~args:[ l ] Location.none))
+              (Lam.not_ ~loc:Location.none
+                 (Lam.prim ~primitive:Pis_null ~args:[ l ] ~loc:Location.none))
               (simpl l2) (simpl l3)
         | OptionalBlock (l, Undefined) ->
             Lam.if_
-              (Lam.not_ Location.none
-                 (Lam.prim ~primitive:Pis_undefined ~args:[ l ] Location.none))
+              (Lam.not_ ~loc:Location.none
+                 (Lam.prim ~primitive:Pis_undefined ~args:[ l ]
+                    ~loc:Location.none))
               (simpl l2) (simpl l3)
         | OptionalBlock (l, Null_undefined) ->
             Lam.if_
-              (Lam.not_ Location.none
+              (Lam.not_ ~loc:Location.none
                  (Lam.prim ~primitive:Pis_null_undefined ~args:[ l ]
-                    Location.none))
+                    ~loc:Location.none))
               (simpl l2) (simpl l3)
         | _ | (exception Not_found) -> Lam.if_ l1 (simpl l2) (simpl l3))
     (* could be the code path
@@ -334,8 +335,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Lalias-bound variables are never assigned, so don't increase
            v's refsimpl *)
         Lam.assign v (simpl l)
-    | Lsend (u, m, o, ll, v) ->
-        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) v
+    | Lsend (u, m, o, ll, loc) ->
+        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) ~loc
     | Lifused (v, l) -> Lam.ifused v (simpl l)
   in
   simpl lam

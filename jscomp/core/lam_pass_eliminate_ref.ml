@@ -58,7 +58,7 @@ let rec eliminate_ref id (lam : Lam.t) =
   | Lprim { primitive = Poffsetref delta; args = [ Lvar v ]; loc }
     when Ident.same v id ->
       Lam.assign id
-        (Lam.prim ~primitive:(Poffsetint delta) ~args:[ Lam.var id ] loc)
+        (Lam.prim ~primitive:(Poffsetint delta) ~args:[ Lam.var id ] ~loc)
   | Lconst _ -> lam
   | Lapply { ap_func = e1; ap_args = el; ap_info } ->
       Lam.apply (eliminate_ref id e1)
@@ -74,7 +74,7 @@ let rec eliminate_ref id (lam : Lam.t) =
         (eliminate_ref id e2)
   | Lglobal_module _ -> lam
   | Lprim { primitive; args; loc } ->
-      Lam.prim ~primitive ~args:(List.map ~f:(eliminate_ref id) args) loc
+      Lam.prim ~primitive ~args:(List.map ~f:(eliminate_ref id) args) ~loc
   | Lswitch (e, sw) ->
       Lam.switch (eliminate_ref id e)
         {
@@ -113,5 +113,5 @@ let rec eliminate_ref id (lam : Lam.t) =
   | Lsend (k, m, o, el, loc) ->
       Lam.send k (eliminate_ref id m) (eliminate_ref id o)
         (List.map ~f:(eliminate_ref id) el)
-        loc
+        ~loc
   | Lifused (v, e) -> Lam.ifused v (eliminate_ref id e)
