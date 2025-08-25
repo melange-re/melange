@@ -26,6 +26,6 @@ let rec has_exit_code lam ~exits =
   match lam with
   | Lam.Lfunction _ -> false (* static exit can not cross function boundary *)
   | Lstaticraise (p, _) when exits p -> true
-  | lam -> Lam_iter.inner_exists lam ~f:(has_exit_code ~exits)
+  | lam -> Lam_iter.inner_exists lam (has_exit_code ~exits)
 
 let has_exit lam = has_exit_code lam ~exits:(Fun.const true)
