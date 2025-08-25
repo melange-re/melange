@@ -44,8 +44,8 @@ end
 let transform_under_supply n ap_info fn args =
   let extra_args = List.init ~len:n ~f:(fun _ -> Ident.create_local L.param) in
   let extra_lambdas = List.map ~f:Lam.var extra_args in
-  match
-    List.fold_right
+  let args, bindings =
+    List.fold_right (fn :: args) ~init:([], [])
       ~f:(fun (lam : Lam.t) (acc, bind) ->
         match lam with
         | Lvar _ | Lmutvar _
@@ -59,8 +59,8 @@ let transform_under_supply n ap_info fn args =
         | _ ->
             let v = Ident.create_local L.partial_arg in
             (Lam.var v :: acc, (v, lam) :: bind))
-      (fn :: args) ~init:([], [])
-  with
+  in
+  match (Nonempty_list.of_list_exn args, bindings) with
   | fn :: args, [] ->
       (* More than no side effect in the [args],
          we try to avoid computation, so even if
@@ -82,7 +82,6 @@ let transform_under_supply n ap_info fn args =
       List.fold_left
         ~f:(fun lam (id, x) -> Lam.let_ Strict id x lam)
         ~init:rest bindings
-  | _, _ -> assert false
 
 (* Invariant: mk0 : (unit -> 'a0) -> 'a0 t
                 TODO: this case should be optimized,
