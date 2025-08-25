@@ -31,15 +31,15 @@ let lam_extension_id =
     in
     Pfield (0, caml_id_field_info)
   in
-  fun loc (head : Lam.t) ->
-    Lam.prim ~primitive:lam_caml_id ~args:[ head ] loc
+  fun ~loc (head : Lam.t) ->
+    Lam.prim ~primitive:lam_caml_id ~args:[ head ] ~loc
 
 let lazy_block_info : Lam.Tag_info.t =
   let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
   Blk_record [| lazy_done; lazy_val |]
 
 let unbox_extension info (args : Lam.t list) mutable_flag loc =
-  Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args loc
+  Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args ~loc
 
 (* A conservative approach to avoid packing exceptions
     for lambda expression like {[
@@ -177,7 +177,7 @@ let make_lazy_block tag ~args loc =
       let args = [ Lam.const Const_js_true; result ] in
       Lam.prim
         ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args loc
+        ~args ~loc
   | [ computation ] ->
       let args =
         [
@@ -189,12 +189,13 @@ let make_lazy_block tag ~args loc =
       in
       Lam.prim
         ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args loc
+        ~args ~loc
   | _ -> assert false
 
-  fun ~primitive:(p : Lambda.primitive) ~args loc : Lam.t ->
+let lam_prim =
+  fun ~primitive:p ~args ~loc ->
     match p with
-    | Pint_as_pointer
+    | Lambda.Pint_as_pointer
     (* | Pidentity -> List.singleton_exn args *)
     | Pccall _ ->
         assert false
@@ -847,7 +848,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           Lam.global_module ~dynamic_import id)
     | Lprim (primitive, args, loc) ->
         let args = List.map ~f:(convert_aux ~dynamic_import) args in
-        lam_prim ~primitive ~args (Debuginfo.Scoped_location.to_location loc)
+        lam_prim ~primitive ~args ~loc:(Debuginfo.Scoped_location.to_location loc)
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
