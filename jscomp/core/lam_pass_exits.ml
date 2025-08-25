@@ -147,10 +147,6 @@ type lam_subst = Id of Lam.t [@@unboxed]
 
 let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
     (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
-  let to_lam x =
-    let (Id x) = x in
-    x
-  in
   let rec simplif (lam : Lam.t) =
     match lam with
     | Lstaticcatch (l1, (i, xs), l2) -> (
@@ -183,13 +179,12 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
             else Lam.staticcatch (simplif l1) (i, xs) l2)
     | Lstaticraise (i, []) -> (
         match Int.Hashtbl.find subst i with
-        | _, handler -> to_lam handler
+        | _, Id handler -> handler
         | exception Not_found -> lam)
     | Lstaticraise (i, ls) -> (
         let ls = List.map ~f:simplif ls in
         match Int.Hashtbl.find subst i with
-        | xs, handler ->
-            let handler = to_lam handler in
+        | xs, Id handler ->
             let ys = List.map ~f:Ident.rename xs in
             let env =
               List.fold_right2
@@ -249,15 +244,14 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
 
 let simplify_exits (lam : Lam.t) =
   let try_depth = ref 0 in
-  let exits = Lam_exit_count.count_helper ~try_depth lam in
-  subst_helper ~try_depth (Int.Hashtbl.create 17)
-    (Lam_exit_count.get_exit exits)
-    lam
+  let exits =
+    Lam_exit_count.count_helper ~try_depth lam |> Lam_exit_count.get_exit
+  in
+  subst_helper ~try_depth (Int.Hashtbl.create 17) exits lam
 
 (* Compile-time beta-reduction of functions immediately applied:
       Lapply(Lfunction(Curried, params, body), args, loc) ->
         let paramN = argN in ... let param1 = arg1 in body
       Lapply(Lfunction(Tupled, params, body), [Lprim(Pmakeblock(args))], loc) ->
         let paramN = argN in ... let param1 = arg1 in body
-   Assumes |args| = |params|.
-*)
+   Assumes |args| = |params|. *)
