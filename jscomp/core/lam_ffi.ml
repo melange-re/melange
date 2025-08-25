@@ -39,38 +39,38 @@ let rec no_auto_uncurried_arg_types
   | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
   | _ :: xs -> no_auto_uncurried_arg_types xs
 
-let rec transform_uncurried_arg_type loc
+let rec transform_uncurried_arg_type ~loc
     (arg_types :
       Melange_ffi.External_arg_spec.Arg_label.t
       Melange_ffi.External_arg_spec.param
       list) (args : Lam.t list) =
   match (arg_types, args) with
   | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
-      let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
+      let o_arg_types, o_args = transform_uncurried_arg_type ~loc xs ys in
       ( { Melange_ffi.External_arg_spec.arg_type = Nothing; arg_label }
         :: o_arg_types,
-        Lam.prim ~primitive:(Pjs_fn_make n) ~args:[ y ] loc :: o_args )
+        Lam.prim ~primitive:(Pjs_fn_make n) ~args:[ y ] ~loc :: o_args )
   | x :: xs, y :: ys -> (
       match x with
       | { arg_type = Arg_cst _; _ } ->
-          let o_arg_types, o_args = transform_uncurried_arg_type loc xs args in
+          let o_arg_types, o_args = transform_uncurried_arg_type ~loc xs args in
           (x :: o_arg_types, o_args)
       | _ ->
-          let o_arg_types, o_args = transform_uncurried_arg_type loc xs ys in
+          let o_arg_types, o_args = transform_uncurried_arg_type ~loc xs ys in
           (x :: o_arg_types, y :: o_args))
   | ([], [] | _ :: _, [] | [], _ :: _) as ok -> ok
 
 let handle_mel_non_obj_ffi =
-  let result_wrap loc
+  let result_wrap ~loc
       (result_type : Melange_ffi.External_ffi_types.return_wrapper) result =
     match result_type with
     | Return_replaced_with_unit -> Lam.seq result Lam.unit
     | Return_null_to_opt ->
-        Lam.prim ~primitive:Pnull_to_opt ~args:[ result ] loc
+        Lam.prim ~primitive:Pnull_to_opt ~args:[ result ] ~loc
     | Return_null_undefined_to_opt ->
-        Lam.prim ~primitive:Pnull_undefined_to_opt ~args:[ result ] loc
+        Lam.prim ~primitive:Pnull_undefined_to_opt ~args:[ result ] ~loc
     | Return_undefined_to_opt ->
-        Lam.prim ~primitive:Pundefined_to_opt ~args:[ result ] loc
+        Lam.prim ~primitive:Pundefined_to_opt ~args:[ result ] ~loc
     | Return_unset | Return_identity -> result
   in
   fun (arg_types :
@@ -80,22 +80,22 @@ let handle_mel_non_obj_ffi =
     (result_type : Melange_ffi.External_ffi_types.return_wrapper)
     ffi
     args
-    loc
+    ~loc
     prim_name
     ~dynamic_import
   ->
     if no_auto_uncurried_arg_types arg_types then
-      result_wrap loc result_type
+      result_wrap ~loc result_type
         (Lam.prim
            ~primitive:(Pjs_call { prim_name; arg_types; ffi; dynamic_import })
-           ~args loc)
+           ~args ~loc)
     else
       let n_arg_types, n_args =
-        transform_uncurried_arg_type loc arg_types args
+        transform_uncurried_arg_type ~loc arg_types args
       in
-      result_wrap loc result_type
+      result_wrap ~loc result_type
         (Lam.prim
            ~primitive:
              (Pjs_call
                 { prim_name; arg_types = n_arg_types; ffi; dynamic_import })
-           ~args:n_args loc)
+           ~args:n_args ~loc)

@@ -31,15 +31,15 @@ let lam_extension_id =
     in
     Pfield (0, caml_id_field_info)
   in
-  fun loc (head : Lam.t) ->
-    Lam.prim ~primitive:lam_caml_id ~args:[ head ] loc
+  fun ~loc (head : Lam.t) ->
+    Lam.prim ~primitive:lam_caml_id ~args:[ head ] ~loc
 
 let lazy_block_info : Lam.Tag_info.t =
   let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
   Blk_record [| lazy_done; lazy_val |]
 
 let unbox_extension info (args : Lam.t list) mutable_flag loc =
-  Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args loc
+  Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args ~loc
 
 (* A conservative approach to avoid packing exceptions
     for lambda expression like {[
@@ -155,8 +155,7 @@ let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option 
 
 (* drop Lseq (List! ) etc
    see #3852, we drop all these required global modules
-   but added it back based on our own module analysis
-*)
+   but added it back based on our own module analysis *)
 let rec drop_global_marker (lam : Lam.t) =
   match lam with
   | Lsequence (Lglobal_module _, rest) -> drop_global_marker rest
@@ -178,7 +177,7 @@ let make_lazy_block tag ~args loc =
       let args = [ Lam.const Const_js_true; result ] in
       Lam.prim
         ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args loc
+        ~args ~loc
   | [ computation ] ->
       let args =
         [
@@ -190,275 +189,276 @@ let make_lazy_block tag ~args loc =
       in
       Lam.prim
         ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args loc
+        ~args ~loc
   | _ -> assert false
 
-let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
-  match p with
-  | Pint_as_pointer
-  (* | Pidentity -> List.singleton_exn args *)
-  | Pccall _ ->
-      assert false
-  | Pbytes_to_string (* handled very early *) ->
-      Lam.prim ~primitive:Pbytes_to_string ~args loc
-  | Pbytes_of_string -> Lam.prim ~primitive:Pbytes_of_string ~args loc
-  | Pignore ->
-      (* Pignore means return unit, it is not an nop *)
-      Lam.seq (List.hd args) Lam.unit
-  | Pcompare_ints ->
-      Lam.prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args loc
-  | Pcompare_floats ->
-      Lam.prim ~primitive:(Pccall { prim_name = "caml_float_compare" }) ~args loc
-  | Pcompare_bints Pnativeint -> assert false
-  | Pcompare_bints Pint32 ->
-      Lam.prim ~primitive:(Pccall { prim_name = "caml_int32_compare" }) ~args loc
-  | Pcompare_bints Pint64 ->
-      Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_compare" }) ~args loc
-  | Pgetglobal _ -> assert false
-  | Psetglobal _ ->
-      (* we discard [Psetglobal] in the beginning*)
-      drop_global_marker (List.hd args)
-  (* prim ~primitive:(Psetglobal id) ~args loc *)
-#if OCAML_VERSION >= (5, 4, 0)
-  | Pmakelazyblock (_tag) -> make_lazy_block Config.lazy_tag ~args loc
-#endif
-  | Pmakeblock (tag, info, mutable_flag, _block_shape) -> (
-      match info with
-      | Blk_some_not_nested -> Lam.prim ~primitive:Psome_not_nest ~args loc
-      | Blk_some -> Lam.prim ~primitive:Psome ~args loc
-      | Blk_constructor { name; num_nonconst; attributes } ->
-          let info : Lam.Tag_info.t =
-            Blk_constructor { name; num_nonconst; attributes }
-          in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_tuple ->
-          let info : Lam.Tag_info.t = Blk_tuple in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_extension { exn } ->
-          let info : Lam.Tag_info.t = Blk_extension { exn } in
-          unbox_extension info args mutable_flag loc
-      | Blk_record_ext { fields; exn } ->
-          let info : Lam.Tag_info.t = Blk_record_ext { fields; exn } in
-          unbox_extension info args mutable_flag loc
-      | Blk_extension_slot -> (
-          match args with
-          | [ Lconst (Const_string { s = name; _ }) ] ->
-              Lam.prim ~primitive:(Pcreate_extension name) ~args:[] loc
-          | _ -> assert false)
-      | Blk_class ->
-          let info : Lam.Tag_info.t = Blk_class in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_array ->
-          let info : Lam.Tag_info.t = Blk_array in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_record s ->
-          let info : Lam.Tag_info.t = Blk_record s in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_record_inlined { name; fields; num_nonconst; attributes } ->
-          let info : Lam.Tag_info.t =
-            Blk_record_inlined { name; fields; num_nonconst; attributes }
-          in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_module s ->
-          let info : Lam.Tag_info.t = Blk_module s in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_module_export _ ->
-          let info : Lam.Tag_info.t = Blk_module_export in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc
-      | Blk_poly_var s -> (
-          match args with
-          | [ _; value ] ->
-              let info : Lam.Tag_info.t = Blk_poly_var in
-              Lam.prim
-                ~primitive:(Pmakeblock (tag, info, mutable_flag))
-                ~args:
-                  [
-                    Lam.const
-                      (Const_string { s; unicode = false });
-                    value;
-                  ]
-                loc
-          | _ -> assert false)
-#if OCAML_VERSION < (5, 4, 0)
-      | Blk_lazy_general -> make_lazy_block tag ~args loc
-#endif
-      | Blk_na s ->
-          let info : Lam.Tag_info.t = Blk_na s in
-          Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc)
+let lam_prim =
+  fun ~primitive:p ~args ~loc ->
+    match p with
+    | Lambda.Pint_as_pointer
+    (* | Pidentity -> List.singleton_exn args *)
+    | Pccall _ ->
+        assert false
+    | Pbytes_to_string (* handled very early *) ->
+        Lam.prim ~primitive:Pbytes_to_string ~args ~loc
+    | Pbytes_of_string -> Lam.prim ~primitive:Pbytes_of_string ~args ~loc
+    | Pignore ->
+        (* Pignore means return unit, it is not an nop *)
+        Lam.seq (List.hd args) Lam.unit
+    | Pcompare_ints ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args ~loc
+    | Pcompare_floats ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_float_compare" }) ~args ~loc
+    | Pcompare_bints Pnativeint -> assert false
+    | Pcompare_bints Pint32 ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_int32_compare" }) ~args ~loc
+    | Pcompare_bints Pint64 ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_compare" }) ~args ~loc
+    | Pgetglobal _ -> assert false
+    | Psetglobal _ ->
+        (* we discard [Psetglobal] in the beginning*)
+        drop_global_marker (List.hd args)
+    (* prim ~primitive:(Psetglobal id) ~args loc *)
+  #if OCAML_VERSION >= (5, 4, 0)
+    | Pmakelazyblock (_tag) -> make_lazy_block Config.lazy_tag ~args loc
+  #endif
+    | Pmakeblock (tag, info, mutable_flag, _block_shape) -> (
+        match info with
+        | Blk_some_not_nested -> Lam.prim ~primitive:Psome_not_nest ~args ~loc
+        | Blk_some -> Lam.prim ~primitive:Psome ~args ~loc
+        | Blk_constructor { name; num_nonconst; attributes } ->
+            let info : Lam.Tag_info.t =
+              Blk_constructor { name; num_nonconst; attributes }
+            in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_tuple ->
+            let info : Lam.Tag_info.t = Blk_tuple in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_extension { exn } ->
+            let info : Lam.Tag_info.t = Blk_extension { exn } in
+            unbox_extension info args mutable_flag loc
+        | Blk_record_ext { fields; exn } ->
+            let info : Lam.Tag_info.t = Blk_record_ext { fields; exn } in
+            unbox_extension info args mutable_flag loc
+        | Blk_extension_slot -> (
+            match args with
+            | [ Lconst (Const_string { s = name; _ }) ] ->
+                Lam.prim ~primitive:(Pcreate_extension name) ~args:[] ~loc
+            | _ -> assert false)
+        | Blk_class ->
+            let info : Lam.Tag_info.t = Blk_class in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_array ->
+            let info : Lam.Tag_info.t = Blk_array in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_record s ->
+            let info : Lam.Tag_info.t = Blk_record s in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_record_inlined { name; fields; num_nonconst; attributes } ->
+            let info : Lam.Tag_info.t =
+              Blk_record_inlined { name; fields; num_nonconst; attributes }
+            in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_module s ->
+            let info : Lam.Tag_info.t = Blk_module s in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_module_export _ ->
+            let info : Lam.Tag_info.t = Blk_module_export in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc
+        | Blk_poly_var s -> (
+            match args with
+            | [ _; value ] ->
+                let info : Lam.Tag_info.t = Blk_poly_var in
+                Lam.prim
+                  ~primitive:(Pmakeblock (tag, info, mutable_flag))
+                  ~args:
+                    [
+                      Lam.const
+                        (Const_string { s; unicode = false });
+                      value;
+                    ]
+                  ~loc
+            | _ -> assert false)
+  #if OCAML_VERSION < (5, 4, 0)
+        | Blk_lazy_general -> make_lazy_block tag ~args loc
+  #endif
+        | Blk_na s ->
+            let info : Lam.Tag_info.t = Blk_na s in
+            Lam.prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args ~loc)
+  #if OCAML_VERSION >= (5, 1, 0)
+    | Pfield (id, _ptr, _mut, info) ->
+  #else
+    | Pfield (id, info) ->
+  #endif
+        Lam.prim ~primitive:(Pfield (id, info)) ~args ~loc
+    | Psetfield (id, _, _initialization_or_assignment, info) ->
+        Lam.prim ~primitive:(Psetfield (id, info)) ~args ~loc
+    | Psetfloatfield _ | Pfloatfield _ -> assert false
+    | Pduprecord (repr, _) ->
+        Lam.prim ~primitive:(Pduprecord (convert_record_repr repr)) ~args ~loc
+    | Praise _ -> Lam.prim ~primitive:Praise ~args ~loc
+    | Psequand -> Lam.prim ~primitive:Psequand ~args ~loc
+    | Psequor -> Lam.prim ~primitive:Psequor ~args ~loc
+    | Pnot -> Lam.prim ~primitive:Pnot ~args ~loc
+    | Pnegint -> Lam.prim ~primitive:Pnegint ~args ~loc
+    | Paddint -> Lam.prim ~primitive:Paddint ~args ~loc
+    | Psubint -> Lam.prim ~primitive:Psubint ~args ~loc
+    | Pmulint -> Lam.prim ~primitive:Pmulint ~args ~loc
+    | Pdivint _is_safe (*FIXME*) -> Lam.prim ~primitive:Pdivint ~args ~loc
+    | Pmodint _is_safe (*FIXME*) -> Lam.prim ~primitive:Pmodint ~args ~loc
+    | Pandint -> Lam.prim ~primitive:Pandint ~args ~loc
+    | Porint -> Lam.prim ~primitive:Porint ~args ~loc
+    | Pxorint -> Lam.prim ~primitive:Pxorint ~args ~loc
+    | Plslint -> Lam.prim ~primitive:Plslint ~args ~loc
+    | Plsrint -> Lam.prim ~primitive:Plsrint ~args ~loc
+    | Pasrint -> Lam.prim ~primitive:Pasrint ~args ~loc
+    | Pstringlength -> Lam.prim ~primitive:Pstringlength ~args ~loc
+    | Pstringrefu -> Lam.prim ~primitive:Pstringrefu ~args ~loc
+    | Pabsfloat -> assert false
+    | Pstringrefs -> Lam.prim ~primitive:Pstringrefs ~args ~loc
+    | Pbyteslength -> Lam.prim ~primitive:Pbyteslength ~args ~loc
+    | Pbytesrefu -> Lam.prim ~primitive:Pbytesrefu ~args ~loc
+    | Pbytessetu -> Lam.prim ~primitive:Pbytessetu ~args ~loc
+    | Pbytesrefs -> Lam.prim ~primitive:Pbytesrefs ~args ~loc
+    | Pbytessets -> Lam.prim ~primitive:Pbytessets ~args ~loc
+    | Pisint -> Lam.prim ~primitive:Pisint ~args ~loc
+    | Pisout -> (
+        match args with
+        | [ range; Lprim { primitive = Poffsetint i; args = [ x ]; _ } ] ->
+            Lam.prim ~primitive:(Pisout i) ~args:[ range; x ] ~loc
+        | _ -> Lam.prim ~primitive:(Pisout 0) ~args ~loc)
+    | Pintoffloat -> Lam.prim ~primitive:Pintoffloat ~args ~loc
+    | Pfloatofint -> Lam.prim ~primitive:Pfloatofint ~args ~loc
+    | Pnegfloat -> Lam.prim ~primitive:Pnegfloat ~args ~loc
+    | Paddfloat -> Lam.prim ~primitive:Paddfloat ~args ~loc
+    | Psubfloat -> Lam.prim ~primitive:Psubfloat ~args ~loc
+    | Pmulfloat -> Lam.prim ~primitive:Pmulfloat ~args ~loc
+    | Pdivfloat -> Lam.prim ~primitive:Pdivfloat ~args ~loc
+    | Pintcomp x -> Lam.prim ~primitive:(Pintcomp x) ~args ~loc
+    | Poffsetint x -> Lam.prim ~primitive:(Poffsetint x) ~args ~loc
+    | Poffsetref x -> Lam.prim ~primitive:(Poffsetref x) ~args ~loc
+    | Pfloatcomp x -> Lam.prim ~primitive:(Pfloatcomp x) ~args ~loc
+    | Pmakearray (_, _mutable_flag) (*FIXME*) ->
+        Lam.prim ~primitive:Pmakearray ~args ~loc
+    | Parraylength _ -> Lam.prim ~primitive:Parraylength ~args ~loc
+    | Parrayrefu _ -> Lam.prim ~primitive:Parrayrefu ~args ~loc
+    | Parraysetu _ -> Lam.prim ~primitive:Parraysetu ~args ~loc
+    | Parrayrefs _ -> Lam.prim ~primitive:Parrayrefs ~args ~loc
+    | Parraysets _ -> Lam.prim ~primitive:Parraysets ~args ~loc
+    | Pbintofint x -> (
+        match x with
+        | Pint32 | Pnativeint -> List.hd args
+        | Pint64 -> Lam.prim ~primitive:Pint64ofint ~args ~loc)
+    | Pintofbint x -> (
+        match x with
+        | Pint32 | Pnativeint -> List.hd args
+        | Pint64 -> Lam.prim ~primitive:Pintofint64 ~args ~loc)
+    | Pnegbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pnegint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pnegint64 ~args ~loc)
+    | Paddbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Paddint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Paddint64 ~args ~loc)
+    | Psubbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Psubint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Psubint64 ~args ~loc)
+    | Pmulbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pmulint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pmulint64 ~args ~loc)
+    | Pdivbint { size = x; is_safe = _ } (*FIXME*) -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pdivint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pdivint64 ~args ~loc)
+    | Pmodbint { size = x; is_safe = _ } (*FIXME*) -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pmodint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pmodint64 ~args ~loc)
+    | Pandbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pandint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pandint64 ~args ~loc)
+    | Porbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Porint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Porint64 ~args ~loc)
+    | Pxorbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pxorint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pxorint64 ~args ~loc)
+    | Plslbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Plslint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Plslint64 ~args ~loc)
+    | Plsrbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Plsrint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Plsrint64 ~args ~loc)
+    | Pasrbint x -> (
+        match x with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:Pasrint ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:Pasrint64 ~args ~loc)
+    | Pbigarraydim _ | Pbigstring_load_16 _ | Pbigstring_load_32 _
+    | Pbigstring_load_64 _ | Pbigstring_set_16 _ | Pbigstring_set_32 _
+    | Pbigstring_set_64 _ ->
+        Location.raise_errorf ~loc "unsupported primitive"
+    | Pbytes_load_16 b -> Lam.prim ~primitive:(Pbytes_load_16 b) ~args ~loc
+    | Pbytes_load_32 b -> Lam.prim ~primitive:(Pbytes_load_32 b) ~args ~loc
+    | Pbytes_load_64 b -> Lam.prim ~primitive:(Pbytes_load_64 b) ~args ~loc
+    | Pbytes_set_16 b -> Lam.prim ~primitive:(Pbytes_set_16 b) ~args ~loc
+    | Pbytes_set_32 b -> Lam.prim ~primitive:(Pbytes_set_32 b) ~args ~loc
+    | Pbytes_set_64 b -> Lam.prim ~primitive:(Pbytes_set_64 b) ~args ~loc
+    | Pstring_load_16 b -> Lam.prim ~primitive:(Pstring_load_16 b) ~args ~loc
+    | Pstring_load_32 b -> Lam.prim ~primitive:(Pstring_load_32 b) ~args ~loc
+    | Pstring_load_64 b -> Lam.prim ~primitive:(Pstring_load_64 b) ~args ~loc
+    | Pbigarrayref _ | Pbigarrayset _ ->
+        Location.raise_errorf ~loc "unsupported primitive"
+    | Pctconst x -> (
+        match x with
+        | Word_size | Int_size ->
+            Lam.const (Const_int { i = 32l; comment = None })
+        | Max_wosize ->
+            Lam.const (Const_int { i = 2147483647l; comment = Some "Max_wosize" })
+        | Big_endian -> Lam.prim ~primitive:(Pctconst Big_endian) ~args ~loc
+        | Ostype_unix -> Lam.prim ~primitive:(Pctconst Ostype_unix) ~args ~loc
+        | Ostype_win32 -> Lam.prim ~primitive:(Pctconst Ostype_win32) ~args ~loc
+        | Ostype_cygwin -> Lam.false_
+        | Backend_type -> Lam.prim ~primitive:(Pctconst Backend_type) ~args ~loc)
+    | Pcvtbint (a, b) -> (
+        match (a, b) with
+        | (Pnativeint | Pint32), (Pnativeint | Pint32) | Pint64, Pint64 ->
+            List.hd args
+        | Pint64, (Pnativeint | Pint32) -> Lam.prim ~primitive:Pintofint64 ~args ~loc
+        | (Pnativeint | Pint32), Pint64 -> Lam.prim ~primitive:Pint64ofint ~args ~loc)
+    | Pbintcomp (a, b) -> (
+        match a with
+        | Pnativeint | Pint32 -> Lam.prim ~primitive:(Pintcomp b) ~args ~loc
+        | Pint64 -> Lam.prim ~primitive:(Pint64comp b) ~args ~loc)
+    | Pfield_computed -> Lam.prim ~primitive:Pfield_computed ~args ~loc
+    | Popaque -> Lam.prim ~primitive:Popaque ~args ~loc
+    | Psetfield_computed _ -> Lam.prim ~primitive:Psetfield_computed ~args ~loc
+    | Pbbswap i -> Lam.prim ~primitive:(Pbbswap i) ~args ~loc
+    | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args ~loc
+    | Pduparray _ -> assert false
 #if OCAML_VERSION >= (5, 1, 0)
-  | Pfield (id, _ptr, _mut, info) ->
-#else
-  | Pfield (id, info) ->
-#endif
-      Lam.prim ~primitive:(Pfield (id, info)) ~args loc
-  | Psetfield (id, _, _initialization_or_assignment, info) ->
-      Lam.prim ~primitive:(Psetfield (id, info)) ~args loc
-  | Psetfloatfield _ | Pfloatfield _ -> assert false
-  | Pduprecord (repr, _) ->
-      Lam.prim ~primitive:(Pduprecord (convert_record_repr repr)) ~args loc
-  | Praise _ -> Lam.prim ~primitive:Praise ~args loc
-  | Psequand -> Lam.prim ~primitive:Psequand ~args loc
-  | Psequor -> Lam.prim ~primitive:Psequor ~args loc
-  | Pnot -> Lam.prim ~primitive:Pnot ~args loc
-  | Pnegint -> Lam.prim ~primitive:Pnegint ~args loc
-  | Paddint -> Lam.prim ~primitive:Paddint ~args loc
-  | Psubint -> Lam.prim ~primitive:Psubint ~args loc
-  | Pmulint -> Lam.prim ~primitive:Pmulint ~args loc
-  | Pdivint _is_safe (*FIXME*) -> Lam.prim ~primitive:Pdivint ~args loc
-  | Pmodint _is_safe (*FIXME*) -> Lam.prim ~primitive:Pmodint ~args loc
-  | Pandint -> Lam.prim ~primitive:Pandint ~args loc
-  | Porint -> Lam.prim ~primitive:Porint ~args loc
-  | Pxorint -> Lam.prim ~primitive:Pxorint ~args loc
-  | Plslint -> Lam.prim ~primitive:Plslint ~args loc
-  | Plsrint -> Lam.prim ~primitive:Plsrint ~args loc
-  | Pasrint -> Lam.prim ~primitive:Pasrint ~args loc
-  | Pstringlength -> Lam.prim ~primitive:Pstringlength ~args loc
-  | Pstringrefu -> Lam.prim ~primitive:Pstringrefu ~args loc
-  | Pabsfloat -> assert false
-  | Pstringrefs -> Lam.prim ~primitive:Pstringrefs ~args loc
-  | Pbyteslength -> Lam.prim ~primitive:Pbyteslength ~args loc
-  | Pbytesrefu -> Lam.prim ~primitive:Pbytesrefu ~args loc
-  | Pbytessetu -> Lam.prim ~primitive:Pbytessetu ~args loc
-  | Pbytesrefs -> Lam.prim ~primitive:Pbytesrefs ~args loc
-  | Pbytessets -> Lam.prim ~primitive:Pbytessets ~args loc
-  | Pisint -> Lam.prim ~primitive:Pisint ~args loc
-  | Pisout -> (
-      match args with
-      | [ range; Lprim { primitive = Poffsetint i; args = [ x ]; _ } ] ->
-          Lam.prim ~primitive:(Pisout i) ~args:[ range; x ] loc
-      | _ -> Lam.prim ~primitive:(Pisout 0) ~args loc)
-  | Pintoffloat -> Lam.prim ~primitive:Pintoffloat ~args loc
-  | Pfloatofint -> Lam.prim ~primitive:Pfloatofint ~args loc
-  | Pnegfloat -> Lam.prim ~primitive:Pnegfloat ~args loc
-  | Paddfloat -> Lam.prim ~primitive:Paddfloat ~args loc
-  | Psubfloat -> Lam.prim ~primitive:Psubfloat ~args loc
-  | Pmulfloat -> Lam.prim ~primitive:Pmulfloat ~args loc
-  | Pdivfloat -> Lam.prim ~primitive:Pdivfloat ~args loc
-  | Pintcomp x -> Lam.prim ~primitive:(Pintcomp x) ~args loc
-  | Poffsetint x -> Lam.prim ~primitive:(Poffsetint x) ~args loc
-  | Poffsetref x -> Lam.prim ~primitive:(Poffsetref x) ~args loc
-  | Pfloatcomp x -> Lam.prim ~primitive:(Pfloatcomp x) ~args loc
-  | Pmakearray (_, _mutable_flag) (*FIXME*) ->
-      Lam.prim ~primitive:Pmakearray ~args loc
-  | Parraylength _ -> Lam.prim ~primitive:Parraylength ~args loc
-  | Parrayrefu _ -> Lam.prim ~primitive:Parrayrefu ~args loc
-  | Parraysetu _ -> Lam.prim ~primitive:Parraysetu ~args loc
-  | Parrayrefs _ -> Lam.prim ~primitive:Parrayrefs ~args loc
-  | Parraysets _ -> Lam.prim ~primitive:Parraysets ~args loc
-  | Pbintofint x -> (
-      match x with
-      | Pint32 | Pnativeint -> List.hd args
-      | Pint64 -> Lam.prim ~primitive:Pint64ofint ~args loc)
-  | Pintofbint x -> (
-      match x with
-      | Pint32 | Pnativeint -> List.hd args
-      | Pint64 -> Lam.prim ~primitive:Pintofint64 ~args loc)
-  | Pnegbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pnegint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pnegint64 ~args loc)
-  | Paddbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Paddint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Paddint64 ~args loc)
-  | Psubbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Psubint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Psubint64 ~args loc)
-  | Pmulbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pmulint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pmulint64 ~args loc)
-  | Pdivbint { size = x; is_safe = _ } (*FIXME*) -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pdivint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pdivint64 ~args loc)
-  | Pmodbint { size = x; is_safe = _ } (*FIXME*) -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pmodint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pmodint64 ~args loc)
-  | Pandbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pandint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pandint64 ~args loc)
-  | Porbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Porint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Porint64 ~args loc)
-  | Pxorbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pxorint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pxorint64 ~args loc)
-  | Plslbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Plslint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Plslint64 ~args loc)
-  | Plsrbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Plsrint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Plsrint64 ~args loc)
-  | Pasrbint x -> (
-      match x with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:Pasrint ~args loc
-      | Pint64 -> Lam.prim ~primitive:Pasrint64 ~args loc)
-  | Pbigarraydim _ | Pbigstring_load_16 _ | Pbigstring_load_32 _
-  | Pbigstring_load_64 _ | Pbigstring_set_16 _ | Pbigstring_set_32 _
-  | Pbigstring_set_64 _ ->
-      Location.raise_errorf ~loc "unsupported primitive"
-  | Pbytes_load_16 b -> Lam.prim ~primitive:(Pbytes_load_16 b) ~args loc
-  | Pbytes_load_32 b -> Lam.prim ~primitive:(Pbytes_load_32 b) ~args loc
-  | Pbytes_load_64 b -> Lam.prim ~primitive:(Pbytes_load_64 b) ~args loc
-  | Pbytes_set_16 b -> Lam.prim ~primitive:(Pbytes_set_16 b) ~args loc
-  | Pbytes_set_32 b -> Lam.prim ~primitive:(Pbytes_set_32 b) ~args loc
-  | Pbytes_set_64 b -> Lam.prim ~primitive:(Pbytes_set_64 b) ~args loc
-  | Pstring_load_16 b -> Lam.prim ~primitive:(Pstring_load_16 b) ~args loc
-  | Pstring_load_32 b -> Lam.prim ~primitive:(Pstring_load_32 b) ~args loc
-  | Pstring_load_64 b -> Lam.prim ~primitive:(Pstring_load_64 b) ~args loc
-  | Pbigarrayref _ | Pbigarrayset _ ->
-      Location.raise_errorf ~loc "unsupported primitive"
-  | Pctconst x -> (
-      match x with
-      | Word_size | Int_size ->
-          Lam.const (Const_int { i = 32l; comment = None })
-      | Max_wosize ->
-          Lam.const (Const_int { i = 2147483647l; comment = Some "Max_wosize" })
-      | Big_endian -> Lam.prim ~primitive:(Pctconst Big_endian) ~args loc
-      | Ostype_unix -> Lam.prim ~primitive:(Pctconst Ostype_unix) ~args loc
-      | Ostype_win32 -> Lam.prim ~primitive:(Pctconst Ostype_win32) ~args loc
-      | Ostype_cygwin -> Lam.false_
-      | Backend_type -> Lam.prim ~primitive:(Pctconst Backend_type) ~args loc)
-  | Pcvtbint (a, b) -> (
-      match (a, b) with
-      | (Pnativeint | Pint32), (Pnativeint | Pint32) | Pint64, Pint64 ->
-          List.hd args
-      | Pint64, (Pnativeint | Pint32) -> Lam.prim ~primitive:Pintofint64 ~args loc
-      | (Pnativeint | Pint32), Pint64 -> Lam.prim ~primitive:Pint64ofint ~args loc)
-  | Pbintcomp (a, b) -> (
-      match a with
-      | Pnativeint | Pint32 -> Lam.prim ~primitive:(Pintcomp b) ~args loc
-      | Pint64 -> Lam.prim ~primitive:(Pint64comp b) ~args loc)
-  | Pfield_computed -> Lam.prim ~primitive:Pfield_computed ~args loc
-  | Popaque -> Lam.prim ~primitive:Popaque ~args loc
-  | Psetfield_computed _ -> Lam.prim ~primitive:Psetfield_computed ~args loc
-  | Pbbswap i -> Lam.prim ~primitive:(Pbbswap i) ~args loc
-  | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args loc
-  | Pduparray _ -> assert false
-#if OCAML_VERSION >= (5, 1, 0)
-  | Prunstack | Pperform | Presume | Preperform
+    | Prunstack | Pperform | Presume | Preperform
 #if OCAML_VERSION < (5, 4, 0)
-  | Patomic_exchange | Patomic_cas
-  | Patomic_fetch_add | Pdls_get | Patomic_load _
+    | Patomic_exchange | Patomic_cas
+    | Patomic_fetch_add | Pdls_get | Patomic_load _
 #else
-  | Patomic_load
-  | Pdls_get
+    | Patomic_load
+    | Pdls_get
 #endif
 #if OCAML_VERSION >= (5, 3, 0)
-  | Ppoll
+    | Ppoll
 #endif
-  ->
-      Location.raise_errorf ~loc
-        "OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not \
-         currently supported in Melange"
+    ->
+        Location.raise_errorf ~loc
+          "OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not \
+           currently supported in Melange"
 #endif
 
 (* Does not exist since we compile array in js backend unlike native backend *)
@@ -491,8 +491,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
         let body =
           Lam.let_ k id
             (Lam.if_
-               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] ~loc:p_loc)
+               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] ~loc:x_loc)
                f)
             body
         in
@@ -501,8 +501,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
         ( Ident.Map.add ~key:opt ~data:new_id map,
           Lam.let_ k id
             (Lam.if_
-               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+               (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] ~loc:p_loc)
+               (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] ~loc:x_loc)
                f)
             rest )
       end
@@ -524,8 +524,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
       let body =
         Lam.let_ k id
           (Lam.if_
-             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] ~loc:p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] ~loc:x_loc)
              f)
           body
       in
@@ -534,8 +534,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
       ( Ident.Map.add ~key:opt ~data:new_id map,
         Lam.let_ k id
           (Lam.if_
-             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] ~loc:p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] ~loc:x_loc)
              f)
           rest )
     end
@@ -554,8 +554,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
       ( Ident.Map.add ~key:opt ~data:new_id map,
         Lam.mutlet id
           (Lam.if_
-             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
-             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] ~loc:p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] ~loc:x_loc)
              f)
           rest )
   | _ -> (map, body)
@@ -645,10 +645,10 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           convert_js_primitive a_prim args loc
         else
           let args = List.map ~f:convert_aux args in
-          Lam.prim ~primitive:(Pccall { prim_name }) ~args loc
+          Lam.prim ~primitive:(Pccall { prim_name }) ~args ~loc
     | Ffi_obj_create labels ->
         let args = List.map ~f:convert_aux args in
-        Lam.prim ~primitive:(Pjs_object_create labels) ~args loc
+        Lam.prim ~primitive:(Pjs_object_create labels) ~args ~loc
     | Ffi_mel (arg_types, result_type, ffi) ->
         let arg_types =
           match arg_types with
@@ -662,7 +662,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           result_type
           ffi
           args
-          loc
+          ~loc
           prim_name
           ~dynamic_import
     | Ffi_inline_const i -> Lam.const i
@@ -672,17 +672,17 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     match () with
     | _ when s = "#is_not_none" ->
         let args = List.map ~f:convert_aux args in
-        Lam.prim ~primitive:Pis_not_none ~args loc
+        Lam.prim ~primitive:Pis_not_none ~args ~loc
     | _ when s = "#val_from_unnest_option" ->
         let args = List.map ~f:convert_aux args in
         let v = List.hd args in
-        Lam.prim ~primitive:Pval_from_option_not_nest ~args:[ v ] loc
+        Lam.prim ~primitive:Pval_from_option_not_nest ~args:[ v ] ~loc
     | _ when s = "#val_from_option" ->
         let args = List.map ~f:convert_aux args in
-        Lam.prim ~primitive:Pval_from_option ~args loc
+        Lam.prim ~primitive:Pval_from_option ~args ~loc
     | _ when s = "#is_poly_var_const" ->
         let args = List.map ~f:convert_aux args in
-        Lam.prim ~primitive:Pis_poly_var_const ~args loc
+        Lam.prim ~primitive:Pis_poly_var_const ~args ~loc
     | _ when s = "#raw_expr" -> (
         let args = List.map ~f:convert_aux args in
         match args with
@@ -691,7 +691,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             let kind = Melange_ffi.Classify_function.classify code in
             Lam.prim
               ~primitive:(Praw_js_code { code; code_info = Exp kind })
-              ~args:[] loc
+              ~args:[] ~loc
         | _ -> assert false)
     | _ when s = "#raw_stmt" -> (
         let args = List.map ~f:convert_aux args in
@@ -700,35 +700,35 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             let kind = Melange_ffi.Classify_function.classify_stmt code in
             Lam.prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
-              ~args:[] loc
+              ~args:[] ~loc
         | _ -> assert false)
     | _ when s = "#debugger" ->
         (* ATT: Currently, the arity is one due to PPX *)
-        Lam.prim ~primitive:Pdebugger ~args:[] loc
+        Lam.prim ~primitive:Pdebugger ~args:[] ~loc
     | _ when s = "#null" -> Lam.const Const_js_null
     | _ when s = "#os_type" ->
-        Lam.prim ~primitive:(Pctconst Ostype) ~args:[ Lam.unit ] loc
+        Lam.prim ~primitive:(Pctconst Ostype) ~args:[ Lam.unit ] ~loc
     | _ when s = "#undefined" -> Lam.const (Const_js_undefined { is_unit = false })
     | _ when s = "#init_mod" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ _loc; Lconst (Const_block (0, _, [ Const_block (0, _, []) ])) ] ->
             Lam.unit
-        | _ -> Lam.prim ~primitive:Pinit_mod ~args loc)
+        | _ -> Lam.prim ~primitive:Pinit_mod ~args ~loc)
     | _ when s = "#update_mod" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ Lconst (Const_block (0, _, [ Const_block (0, _, []) ])); _; _ ] ->
             Lam.unit
-        | _ -> Lam.prim ~primitive:Pupdate_mod ~args loc)
+        | _ -> Lam.prim ~primitive:Pupdate_mod ~args ~loc)
     | _ when s = "#extension_slot_eq" -> (
         let args = List.map ~f:convert_aux args in
         match args with
         | [ lhs; rhs ] ->
             Lam.prim
               ~primitive:(Pccall { prim_name = "caml_string_equal" })
-              ~args:[ lam_extension_id loc lhs; rhs ]
-              loc
+              ~args:[ lam_extension_id ~loc lhs; rhs ]
+              ~loc
         | _ -> assert false)
     | _ ->
         let primitive : Lam_primitive.t =
@@ -774,7 +774,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           let args = List.map ~f:convert_aux args in
           match args with
           | [ Lapply { ap_func; ap_args; _ } ] ->
-              Lam.prim ~primitive ~args:(ap_func :: ap_args) loc
+              Lam.prim ~primitive ~args:(ap_func :: ap_args) ~loc
               (* There may be some optimization opportunities here
                  for cases like `(fun [@u] a b -> a + b ) 1 2 [@u]` *)
           | _ -> assert false
@@ -783,7 +783,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             let dynamic_import = primitive = Pimport in
             List.map ~f:(convert_aux ~dynamic_import) args
           in
-          Lam.prim ~primitive ~args loc
+          Lam.prim ~primitive ~args ~loc
   and convert_aux ?(dynamic_import=false) (lam : Lambda.lambda) : Lam.t =
     match lam with
     | Lvar x -> Lam.var (Ident.Hashtbl.find_default alias_tbl x ~default:x)
@@ -848,7 +848,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           Lam.global_module ~dynamic_import id)
     | Lprim (primitive, args, loc) ->
         let args = List.map ~f:(convert_aux ~dynamic_import) args in
-        lam_prim ~primitive ~args (Debuginfo.Scoped_location.to_location loc)
+        lam_prim ~primitive ~args ~loc:(Debuginfo.Scoped_location.to_location loc)
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
@@ -881,7 +881,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           let newId = Ident.create_local ("raw_" ^ Ident.name id) in
           Lam.try_ body newId
             (Lam.let_ StrictOpt id
-               (Lam.prim ~primitive:Pwrap_exn ~args:[ Lam.var newId ] Location.none)
+               (Lam.prim ~primitive:Pwrap_exn ~args:[ Lam.var newId ] ~loc:Location.none)
                handler)
         else Lam.try_ body id handler
     | Lifthenelse (b, then_, else_) ->
@@ -917,7 +917,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
                   Lam.prim
                     ~primitive:
                       (Pjs_unsafe_downgrade { name = property; loc; setter })
-                    ~args loc
+                    ~args ~loc
                 in
                 match ls with
                 | [] -> lam
@@ -930,7 +930,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             | _ -> assert false)
         | b ->
             Lam.send kind a b ls
-              (Debuginfo.Scoped_location.to_location outer_loc))
+              ~loc:(Debuginfo.Scoped_location.to_location outer_loc))
     | Levent (e, _ev) -> convert_aux e
     | Lifused (v, e) -> Lam.ifused v (convert_aux e)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
@@ -1005,7 +1005,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         }
       when Ident.same param inner_arg ->
         Lam.prim ~primitive ~args:[ x ]
-          (Debuginfo.Scoped_location.to_location outer_loc)
+          ~loc:(Debuginfo.Scoped_location.to_location outer_loc)
     | Lapply
         {
           ap_func =
@@ -1017,7 +1017,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
       when List.for_all2_no_exn inner_args params ~f:lam_is_var
            && List.length_larger_than_n inner_args args 1 ->
         Lam.prim ~primitive ~args:(args @ [ x ])
-          (Debuginfo.Scoped_location.to_location outer_loc)
+          ~loc:(Debuginfo.Scoped_location.to_location outer_loc)
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply ap_func (ap_args @ [ x ])
           {
@@ -1050,7 +1050,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         | Some i ->
             Lam.prim ~primitive:Paddint
               ~args:[ e; Lam.const (Const_int { i; comment = None }) ]
-              Location.none
+              ~loc:Location.none
         | None ->
             Lam.switch e
               {

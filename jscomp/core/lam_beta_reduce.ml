@@ -80,7 +80,7 @@ module Beta_reduce = struct
           let new_args = aux_exn [] ap_args in
           let result =
             Ident.Hashtbl.fold param_hash
-              ~init:(Lam.prim ~primitive ~args:new_args ap_loc)
+              ~init:(Lam.prim ~primitive ~args:new_args ~loc:ap_loc)
               ~f:(fun ~key:_param ~data:stats acc ->
                 let { lambda; used } = stats in
                 if not used then Lam.seq lambda acc else acc)

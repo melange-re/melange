@@ -253,7 +253,7 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
           Lam_util.refine_let
             ~kind:(Lam_group.of_lam_kind kind)
             v
-            (Lam.prim ~primitive ~args:[ slinit ] loc)
+            (Lam.prim ~primitive ~args:[ slinit ] ~loc)
             slbody)
     | Llet (Alias, v, l1, l2) -> (
         (* For alias, [l1] is pure, we can always inline,
@@ -322,7 +322,7 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
                 Lam_util.refine_let
                   ~kind:(Lam_group.of_lam_kind kind)
                   v
-                  (Lam.prim ~primitive ~args:[ slinit ] loc)
+                  (Lam.prim ~primitive ~args:[ slinit ] ~loc)
                   slbody)
           | _ -> (
               let l1 = simplif l1 in
@@ -385,10 +385,10 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         let l' = simplif l in
         let r' = simplif r in
         match find_string string_table l' with
-        | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
+        | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] ~loc
         | l_s -> (
             match find_string string_table r' with
-            | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] loc
+            | exception Not_found-> Lam.prim ~primitive:Pstringadd ~args:[ l'; r' ] ~loc
             | r_s ->
                 Lam.const (Const_string { s = l_s ^ r_s; unicode = false })))
     | Lprim
@@ -401,18 +401,18 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         let l' = simplif l in
         let r' = simplif r in
         match find_string string_table l' with
-        | exception Not_found-> Lam.prim ~primitive ~args:[ l'; r' ] loc
+        | exception Not_found-> Lam.prim ~primitive ~args:[ l'; r' ] ~loc
         | l_s -> (
             match r with
             | Lconst (Const_int { i; _ }) ->
                 let i = Int32.to_int i in
                 if i < String.length l_s && i >= 0 then
                   Lam.const (Const_char l_s.[i])
-                else Lam.prim ~primitive ~args:[ l'; r' ] loc
-            | _ -> Lam.prim ~primitive ~args:[ l'; r' ] loc))
+                else Lam.prim ~primitive ~args:[ l'; r' ] ~loc
+            | _ -> Lam.prim ~primitive ~args:[ l'; r' ] ~loc))
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:simplif args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:simplif args) ~loc
     | Lswitch (l, sw) ->
         let new_l = simplif l
         and new_consts = List.map_snd sw.sw_consts ~f:simplif
@@ -438,7 +438,7 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         Lam.for_ v (simplif l1) (simplif l2) dir (simplif l3)
     | Lassign (v, l) -> Lam.assign v (simplif l)
     | Lsend (k, m, o, ll, loc) ->
-        Lam.send k (simplif m) (simplif o) (List.map ~f:simplif ll) loc
+        Lam.send k (simplif m) (simplif o) (List.map ~f:simplif ll) ~loc
   in
   simplif lam
 

@@ -131,7 +131,7 @@ val sequor : t -> t -> t
 val sequand : t -> t -> t
 (** convert [l && r] to [if l then r else false] *)
 
-val not_ : Location.t -> t -> t
+val not_ : loc:Location.t -> t -> t
 (** constant folding *)
 
 val seq : t -> t -> t
@@ -143,9 +143,9 @@ val while_ : t -> t -> t
 val try_ : t -> ident -> t -> t
 val ifused : ident -> t -> t
 val assign : ident -> t -> t
-val send : Lambda.meth_kind -> t -> t -> t list -> Location.t -> t
+val send : Lambda.meth_kind -> t -> t -> t list -> loc:Location.t -> t
 
-val prim : primitive:Lam_primitive.t -> args:t list -> Location.t -> t
+val prim : primitive:Lam_primitive.t -> args:t list -> loc:Location.t -> t
 (** constant folding *)
 
 val staticcatch : t -> int * ident list -> t -> t

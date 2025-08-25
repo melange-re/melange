@@ -45,7 +45,7 @@ let subst (s : Lam.t Ident.Map.t) lam =
     | Lletrec (decl, body) ->
         Lam.letrec (List.map ~f:subst_decl decl) (subst_aux body)
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:subst_aux args) loc
+        Lam.prim ~primitive ~args:(List.map ~f:subst_aux args) ~loc
     | Lglobal_module _ -> x
     | Lswitch (arg, sw) ->
         Lam.switch (subst_aux arg)
@@ -73,7 +73,7 @@ let subst (s : Lam.t Ident.Map.t) lam =
     | Lsend (k, met, obj, args, loc) ->
         Lam.send k (subst_aux met) (subst_aux obj)
           (List.map ~f:subst_aux args)
-          loc
+          ~loc
     | Lifused (v, e) -> Lam.ifused v (subst_aux e)
   and subst_decl (id, exp) = (id, subst_aux exp)
   and subst_case (key, case) = (key, subst_aux case)
