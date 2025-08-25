@@ -122,7 +122,7 @@ let rec flat_catches (acc : Lam_compile_context.handler list) (x : Lam.t) :
   | Lstaticcatch (l, (label, bindings), handler)
     when acc = []
          || not
-              (Lam_exit_code.has_exit_code handler (fun exit ->
+              (Lam_exit_code.has_exit_code handler ~exits:(fun exit ->
                    List.exists
                      ~f:(fun (x : Lam_compile_context.handler) ->
                        x.label = exit)
