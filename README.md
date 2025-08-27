@@ -113,7 +113,7 @@ Below is a quick comparison between Melange and other tools:
 | [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                               | Obtaining dependencies such as `dune` or `reason` |
 | [Dune](https://dune.build/)            | Build tool                                                     | Installed with e.g. `opam`         | Composable build tool for OCaml; supports composing custom rules to build any project |
 | [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with e.g. `opam`         | Alternative syntax to OCaml |
-| [Melange](https://melange.re)          | Compiler that emits Script                                     | OPAM (to install), Dune (to build) | Supports OCaml and Reason; derived from ReScript, focused on deeper integration with OCaml |
+| [Melange](https://melange.re)          | Compiler that emits JavaScript                                 | OPAM (to install), Dune (to build) | Supports OCaml and Reason; derived from ReScript, focused on deeper integration with OCaml |
 | [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                               | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
 
 ## Contributing
