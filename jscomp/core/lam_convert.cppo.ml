@@ -31,15 +31,7 @@ let lam_extension_id =
     in
     Pfield (0, caml_id_field_info)
   in
-  fun ~loc (head : Lam.t) ->
-    Lam.prim ~primitive:lam_caml_id ~args:[ head ] ~loc
-
-let lazy_block_info : Lam.Tag_info.t =
-  let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
-  Blk_record [| lazy_done; lazy_val |]
-
-let unbox_extension info (args : Lam.t list) mutable_flag loc =
-  Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args ~loc
+  fun ~loc (head : Lam.t) -> Lam.prim ~primitive:lam_caml_id ~args:[ head ] ~loc
 
 (* A conservative approach to avoid packing exceptions
     for lambda expression like {[
@@ -122,8 +114,7 @@ let lam_is_var (x : Lam.t) (y : Ident.t) =
   match x with Lvar y2 | Lmutvar y2 -> Ident.same y2 y | _ -> false
 
 (* Make sure no int range overflow happens
-    also we only check [int]
-*)
+    also we only check [int] *)
 let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option =
   match sw_consts with
   | (a, Lconst (Const_int { i = a0; comment = _ }))
@@ -151,48 +142,54 @@ let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option 
       else None
   | _ -> None
 
-(* type required_modules = Lam_module_ident.Hash_set.t *)
-
-(* drop Lseq (List! ) etc
-   see #3852, we drop all these required global modules
-   but added it back based on our own module analysis *)
-let rec drop_global_marker (lam : Lam.t) =
-  match lam with
-  | Lsequence (Lglobal_module _, rest) -> drop_global_marker rest
-  | _ -> lam
-
-let convert_record_repr (x : Types.record_representation) :
-    Lam_primitive.record_representation =
-  match x with
-  | Record_regular | Record_float -> Record_regular
-  | Record_extension _ -> Record_extension
-  | Record_unboxed _ ->
-      assert false (* see patches in {!Typedecl.get_unboxed_from_attributes}*)
-  | Record_inlined { tag; name; num_nonconsts; attributes } ->
-      Record_inlined { tag; name; num_nonconsts; attributes }
-
-let make_lazy_block tag ~args loc =
-  match args with
-  | [ ((Lam.Lvar _ | Lmutvar _ | Lconst _ | Lfunction _) as result) ] ->
-      let args = [ Lam.const Const_js_true; result ] in
-      Lam.prim
-        ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args ~loc
-  | [ computation ] ->
-      let args =
-        [
-          Lam.const Const_js_false;
-          (* FIXME: arity 0 does not get proper supported*)
-          Lam.function_ ~arity:0 ~params:[] ~body:computation
-            ~attr:Lambda.default_function_attribute;
-        ]
-      in
-      Lam.prim
-        ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
-        ~args ~loc
-  | _ -> assert false
-
 let lam_prim =
+  (* drop Lseq (List! ) etc
+     see #3852, we drop all these required global modules
+     but added it back based on our own module analysis *)
+  let rec drop_global_marker (lam : Lam.t) =
+    match lam with
+    | Lsequence (Lglobal_module _, rest) -> drop_global_marker rest
+    | _ -> lam
+  in
+  let make_lazy_block =
+    let lazy_block_info : Lam.Tag_info.t =
+      let lazy_done = "LAZY_DONE" and lazy_val = "VAL" in
+      Blk_record [| lazy_done; lazy_val |]
+    in
+    fun tag ~args loc ->
+      match args with
+      | [ ((Lam.Lvar _ | Lmutvar _ | Lconst _ | Lfunction _) as result) ] ->
+          let args = [ Lam.const Const_js_true; result ] in
+          Lam.prim
+            ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
+            ~args ~loc
+      | [ computation ] ->
+          let args =
+            [
+              Lam.const Const_js_false;
+              (* FIXME: arity 0 does not get proper supported*)
+              Lam.function_ ~arity:0 ~params:[] ~body:computation
+                ~attr:Lambda.default_function_attribute;
+            ]
+          in
+          Lam.prim
+            ~primitive:(Pmakeblock (tag, lazy_block_info, Mutable))
+            ~args ~loc
+      | _ -> assert false
+  in
+  let unbox_extension info (args : Lam.t list) mutable_flag loc =
+    Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args ~loc
+  in
+  let convert_record_repr (x : Types.record_representation) :
+      Lam_primitive.record_representation =
+    match x with
+    | Record_regular | Record_float -> Record_regular
+    | Record_extension _ -> Record_extension
+    | Record_unboxed _ ->
+        assert false (* see patches in {!Typedecl.get_unboxed_from_attributes}*)
+    | Record_inlined { tag; name; num_nonconsts; attributes } ->
+        Record_inlined { tag; name; num_nonconsts; attributes }
+  in
   fun ~primitive:p ~args ~loc ->
     match p with
     | Lambda.Pint_as_pointer
@@ -729,7 +726,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~args:[ lam_extension_id ~loc lhs; rhs ]
               ~loc
         | _ -> assert false)
-    | "#full_apply" -> 
+    | "#full_apply" ->
         let args = List.map ~f:convert_aux args in
         (match args with
         | [ Lapply { ap_func; ap_args; _ } ] ->
