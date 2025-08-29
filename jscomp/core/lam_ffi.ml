@@ -84,18 +84,19 @@ let handle_mel_non_obj_ffi =
     prim_name
     ~dynamic_import
   ->
-    if no_auto_uncurried_arg_types arg_types then
-      result_wrap ~loc result_type
-        (Lam.prim
-           ~primitive:(Pjs_call { prim_name; arg_types; ffi; dynamic_import })
-           ~args ~loc)
-    else
-      let n_arg_types, n_args =
-        transform_uncurried_arg_type ~loc arg_types args
-      in
-      result_wrap ~loc result_type
-        (Lam.prim
-           ~primitive:
-             (Pjs_call
-                { prim_name; arg_types = n_arg_types; ffi; dynamic_import })
-           ~args:n_args ~loc)
+    match no_auto_uncurried_arg_types arg_types with
+    | true ->
+        result_wrap ~loc result_type
+          (Lam.prim
+             ~primitive:(Pjs_call { prim_name; arg_types; ffi; dynamic_import })
+             ~args ~loc)
+    | false ->
+        let n_arg_types, n_args =
+          transform_uncurried_arg_type ~loc arg_types args
+        in
+        result_wrap ~loc result_type
+          (Lam.prim
+             ~primitive:
+               (Pjs_call
+                  { prim_name; arg_types = n_arg_types; ffi; dynamic_import })
+             ~args:n_args ~loc)
