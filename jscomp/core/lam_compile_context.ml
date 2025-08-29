@@ -23,9 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-
-type jbl_label = int
-
 module HandlerMap = Int.Map
 
 type value = { exit_id : Ident.t; bindings : Ident.t list; order_id : int }
@@ -53,12 +50,10 @@ type tail_type = Not_tail | Maybe_tail_is_return of maybe_tail
 (* have a mutable field to notifiy it's actually triggered *)
 (* anonoymous function does not have identifier *)
 
-type let_kind = Lam_group.let_kind
-
 type continuation =
   | EffectCall of tail_type
   | NeedValue of tail_type
-  | Declare of let_kind * J.ident (* bound value *)
+  | Declare of Lam_group.let_kind * J.ident (* bound value *)
   | Assign of J.ident
 (* when use [Assign], var is not needed, since it's already declared  *)
 
@@ -78,7 +73,7 @@ type t = {
 
 let empty_handler_map = HandlerMap.empty
 
-type handler = { label : jbl_label; handler : Lam.t; bindings : Ident.t list }
+type handler = { label : int; handler : Lam.t; bindings : Ident.t list }
 
 let no_static_raise_in_handler (x : handler) =
   not (Lam_exit_code.has_exit x.handler)
