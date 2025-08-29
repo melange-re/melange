@@ -70,14 +70,9 @@ let external_var
    | None -> None
 *)
 
-type arg_expression = Js_of_lam_variant.arg_expression =
-  | Splice0
-  | Splice1 of E.t
-  | Splice2 of E.t * E.t
-
 let append_list x xs =
   match x with
-  | Splice0 -> xs
+  | Js_of_lam_variant.Splice0 -> xs
   | Splice1 a -> a :: xs
   | Splice2 (a, b) -> a :: b :: xs
 
@@ -126,14 +121,14 @@ let rec ocaml_to_js_eff =
           Js_of_lam_option.option_unwrap raw_arg
       | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
     in
-    (Splice1 single_arg, [])
+    (Js_of_lam_variant.Splice1 single_arg, [])
   in
   fun ~arg_label ~arg_type raw_arg ->
     let arg =
       match arg_label with
-      | External_arg_spec.Arg_label.Arg_optional ->
+      | External_arg_spec.Arg_label.Arg_label | Arg_empty -> raw_arg
+      | Arg_optional ->
           Js_of_lam_option.get_default_undefined_from_optional raw_arg
-      | Arg_label | Arg_empty -> raw_arg
     in
     match arg_type with
     | External_arg_spec.Arg_cst _ | Fn_uncurry_arity _ -> assert false
@@ -141,7 +136,7 @@ let rec ocaml_to_js_eff =
     | Extern_unit ->
         let splice =
           match arg_label with
-          | Arg_empty -> Splice0
+          | Arg_empty -> Js_of_lam_variant.Splice0
           | Arg_optional | Arg_label -> Splice1 E.unit
         in
         ( splice,
@@ -171,7 +166,6 @@ let rec ocaml_to_js_eff =
         | _, _ -> assert false)
     | Nothing -> (Splice1 arg, [])
 
-let empty_pair = ([], [])
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
 type specs = External_arg_spec.Arg_label.t External_arg_spec.param list
@@ -188,7 +182,7 @@ let assemble_args_no_splice =
     match (labels, args) with
     | [], _ ->
         assert (args = []);
-        empty_pair
+        ([], [])
     | { arg_type = Arg_cst cst; _ } :: labels, args ->
         (* can not be Optional *)
         let accs, eff = aux labels args in
@@ -199,7 +193,6 @@ let assemble_args_no_splice =
         (append_list acc accs, List.append new_eff eff)
     | _ :: _, [] -> assert false
   in
-
   fun (args : exprs) (arg_types : specs) : (exprs * E.t option) ->
     let args, eff = aux arg_types args in
     ( args,
@@ -216,7 +209,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     match (labels, args) with
     | [], _ ->
         assert (args = []);
-        empty_pair
+        ([], [])
     | { arg_type = Arg_cst cst; _ } :: labels, args ->
         let accs, eff = aux labels args in
         (Lam_compile_const.translate_arg_cst cst :: accs, eff)
@@ -247,7 +240,7 @@ let translate_scoped_module_val
   | Some { bundle; module_bind_name } -> (
       match scopes with
       | [] ->
-          let default = fn = "default" in
+          let default = fn = Js_dump_lit.default in
           let id =
             Lam_compile_env.add_js_module module_bind_name bundle ~default
               ~dynamic_import
@@ -263,20 +256,30 @@ let translate_scoped_module_val
             Lam_compile_env.add_js_module module_bind_name bundle ~default
               ~dynamic_import
           in
-          let start =
+          let init =
             E.external_var_field ~dynamic_import ~external_name:bundle ~field:x
               ~default id
           in
-          List.fold_left ~f:E.dot ~init:start (List.append rest [ fn ]))
+          let expr = List.fold_left rest ~init ~f:E.dot in
+          E.dot expr fn)
   | None -> (
       (*  no [@@module], assume it's global *)
       match scopes with
       | [] -> E.js_global fn
       | x :: rest ->
-          let start = E.js_global x in
-          List.fold_left ~f:E.dot ~init:start (rest @ [ fn ]))
+          let expr =
+            let init = E.js_global x in
+            List.fold_left rest ~init ~f:E.dot
+          in
+          E.dot expr fn)
 
-let translate_ffi =
+let translate_ffi :
+    Lam_compile_context.t ->
+    External_arg_spec.Arg_label.t External_arg_spec.param list ->
+    External_ffi_types.external_spec ->
+    J.expression list ->
+    dynamic_import:bool ->
+    J.expression =
   let js_send_self_and_args =
     let rec aux ~self_idx args specs (acc_args, acc_specs, cur_idx) =
       match (args, specs) with
@@ -319,12 +322,7 @@ let translate_ffi =
           ~info:{ arity = Full; call_info = Call_na }
           (E.dot self name) args
   in
-  fun (cxt : Lam_compile_context.t)
-    arg_types
-    (ffi : External_ffi_types.external_spec)
-    (args : J.expression list)
-    ~dynamic_import
-  ->
+  fun cxt arg_types ffi args ~dynamic_import ->
     match ffi with
     | Js_call
         { external_module_name = module_name; name = fn; variadic; scopes } -> (
@@ -398,8 +396,6 @@ let translate_ffi =
             (E.new_ fn args)
     | Js_send { variadic; name; self_idx; scopes; new_ } -> (
         match variadic with
-        (* variadic should not happen *)
-        (* assert (js_splice = false) ;  *)
         | true ->
             let self, args, arg_types =
               js_send_self_and_args args arg_types ~self_idx
@@ -439,39 +435,36 @@ let translate_ffi =
            | Assign id -> cxt.continuation <- Assign (Ident.make_js_object id)
            | EffectCall _ | NeedValue _ -> ());
            E.new_ fn args)
-    | Js_get { name; scopes } -> (
+    | Js_get { name; scopes } ->
         let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
-        @@
-        match args with
-        | [ obj ] ->
-            let obj = translate_scoped_access scopes obj in
-            E.dot obj name
-        | _ -> assert false (* Note these assertion happens in call site *))
-    | Js_set { name; scopes } -> (
+          (match args with
+          | [ obj ] ->
+              let obj = translate_scoped_access scopes obj in
+              E.dot obj name
+          | _ -> assert false)
+        (* Note these assertion happens in call site *)
+    | Js_set { name; scopes } ->
         (* assert (js_splice = false) ;  *)
         let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
-        @@
-        match (args, arg_types) with
-        | [ obj; v ], _ ->
-            let obj = translate_scoped_access scopes obj in
-            E.assign (E.dot obj name) v
-        | _ -> assert false)
-    | Js_get_index { scopes } -> (
+          (match (args, arg_types) with
+          | [ obj; v ], _ ->
+              let obj = translate_scoped_access scopes obj in
+              E.assign (E.dot obj name) v
+          | _ -> assert false)
+    | Js_get_index { scopes } ->
         let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
-        @@
-        match args with
-        | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
-        | _ -> assert false)
-    | Js_set_index { scopes } -> (
+          (match args with
+          | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
+          | _ -> assert false)
+    | Js_set_index { scopes } ->
         let args, cur_eff = assemble_args_no_splice args arg_types in
         add_eff cur_eff
-        @@
-        match args with
-        | [ obj; v; value ] ->
-            E.assign
-              (E.array_index (translate_scoped_access scopes obj) v)
-              value
-        | _ -> assert false)
+          (match args with
+          | [ obj; v; value ] ->
+              E.assign
+                (E.array_index (translate_scoped_access scopes obj) v)
+                value
+          | _ -> assert false)
