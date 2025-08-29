@@ -24,14 +24,11 @@
 
 open Import
 
-(** Type definition to keep track of compilation state
-  *)
+(** Type definition to keep track of compilation state *)
 
-(** Some types are defined in this module to help avoiding generating unnecessary symbols
-    (generating too many symbols will make the output code unreadable)
-*)
-
-type jbl_label = int
+(** Some types are defined in this module to help avoiding generating
+    unnecessary symbols (generating too many symbols will make the output code
+    unreadable) *)
 
 type return_label = {
   id : Ident.t;
@@ -42,7 +39,6 @@ type return_label = {
 }
 
 type value = { exit_id : Ident.t; bindings : Ident.t list; order_id : int }
-type let_kind = Lam_group.let_kind
 type tail = { label : return_label option; in_staticcatch : bool }
 type maybe_tail = Tail_in_try | Tail_with_name of tail
 type tail_type = Not_tail | Maybe_tail_is_return of maybe_tail
@@ -55,11 +51,11 @@ type tail_type = Not_tail | Maybe_tail_is_return of maybe_tail
 type continuation =
   | EffectCall of tail_type
   | NeedValue of tail_type
-  | Declare of let_kind * J.ident (* bound value *)
+  | Declare of Lam_group.let_kind * J.ident (* bound value *)
   | Assign of J.ident
       (** when use [Assign], var is not needed, since it's already declared
-      make sure all [Assign] are declared first, otherwise you are creating global variables
-   *)
+          make sure all [Assign] are declared first, otherwise you are creating
+          global variables *)
 
 type jmp_table = value Int.Map.t
 
@@ -73,12 +69,12 @@ type t = {
 
 val empty_handler_map : jmp_table
 
-type handler = { label : jbl_label; handler : Lam.t; bindings : Ident.t list }
+type handler = { label : int; handler : Lam.t; bindings : Ident.t list }
 
 val no_static_raise_in_handler : handler -> bool
 
 val add_jmps :
-  jmp_table -> Ident.t -> handler list -> jmp_table * (jbl_label * Lam.t) list
+  jmp_table -> Ident.t -> handler list -> jmp_table * (int * Lam.t) list
 
 val add_pseudo_jmp : jmp_table -> Ident.t -> handler -> jmp_table * Lam.t
-val find_exn : t -> jbl_label -> value
+val find_exn : t -> int -> value
