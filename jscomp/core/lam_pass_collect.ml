@@ -103,7 +103,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     (* TODO record parameters ident ?, but it will be broken after inlining *)
       ->
         (* TODO could be optimized in one pass?
-            -- since collect would iter everywhere,
+            -- since collect meta would iter everywhere,
             so -- it would still iterate internally
         *)
         List.iter

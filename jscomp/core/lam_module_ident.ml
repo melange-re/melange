@@ -51,7 +51,7 @@ module T = struct
   *)
   let hash (x : t) =
     match x.kind with
-    | External { name = x_kind; _ } ->
+    | External { name = x_kind; default = _ } ->
         (* The hash collision is rare? *)
         Hashtbl.hash x_kind
     | Ml | Runtime -> Ident.hash x.id
@@ -87,4 +87,4 @@ let external_ ~dynamic_import id ~name ~default =
 let name (x : t) : string =
   match x.kind with
   | Ml | Runtime -> Ident.name x.id
-  | External { name = v; _ } -> v
+  | External { name = v; default = _ } -> v

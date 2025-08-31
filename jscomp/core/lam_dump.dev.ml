@@ -28,7 +28,6 @@ let dump =
   let log_counter = ref 0 in
   fun ext lam ->
     if !Js_config.diagnose then (
-      (* ATTENTION: easy to introduce a bug during refactoring when forgeting `begin` `end`*)
       incr log_counter;
       Log.warn ~loc:(Loc.of_pos __POS__)
         (Pp.textf "[TIME:]%s: %f" ext (Sys.time () *. 1000.));
