@@ -24,74 +24,80 @@
 
 open Import
 
-type t = Lam.t
-
-let hit_variables (fv : Ident.Set.t) (l : t) : bool =
-  let rec hit_opt (x : t option) =
-    match x with None -> false | Some a -> hit a
-  and hit_var (id : Ident.t) = Ident.Set.mem id fv
-  and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> List.exists ~f:(fun (_, x) -> hit x) x
-  and hit_list xs = List.exists ~f:hit xs
-  and hit (l : t) =
-    match (l : t) with
-    | Lvar id | Lmutvar id -> hit_var id
-    | Lassign (id, e) -> hit_var id || hit e
-    | Lstaticcatch (e1, (_, _vars), e2) -> hit e1 || hit e2
-    | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _; _ } -> hit body
-    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
-    | Lletrec (decl, body) -> hit body || hit_list_snd decl
-    | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
+let hit_variables =
+  let rec hit_opt fv (x : Lam.t option) =
+    match x with None -> false | Some a -> hit fv a
+  and hit_var fv (id : Ident.t) = Ident.Set.mem id fv
+  and hit_list_snd : 'a. Ident.Set.t -> ('a * Lam.t) list -> bool =
+   fun fv x -> List.exists ~f:(fun (_, x) -> hit fv x) x
+  and hit_list fv xs = List.exists ~f:(hit fv) xs
+  and hit fv l =
+    match l with
+    | Lam.Lvar id | Lmutvar id -> hit_var fv id
+    | Lassign (id, e) -> hit_var fv id || hit fv e
+    | Lstaticcatch (e1, (_, _vars), e2) -> hit fv e1 || hit fv e2
+    | Ltrywith (e1, _exn, e2) -> hit fv e1 || hit fv e2
+    | Lfunction { body; params = _; _ } -> hit fv body
+    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
+        hit fv arg || hit fv body
+    | Lletrec (decl, body) -> hit fv body || hit_list_snd fv decl
+    | Lfor (_v, e1, e2, _dir, e3) -> hit fv e1 || hit fv e2 || hit fv e3
     | Lconst _ -> false
-    | Lapply { ap_func; ap_args; _ } -> hit ap_func || hit_list ap_args
+    | Lapply { ap_func; ap_args; _ } -> hit fv ap_func || hit_list fv ap_args
     | Lglobal_module _ (* global persistent module, play safe *) -> false
-    | Lprim { args; _ } -> hit_list args
+    | Lprim { args; _ } -> hit_list fv args
     | Lswitch (arg, sw) ->
-        hit arg || hit_list_snd sw.sw_consts || hit_list_snd sw.sw_blocks
-        || hit_opt sw.sw_failaction
+        hit fv arg
+        || hit_list_snd fv sw.sw_consts
+        || hit_list_snd fv sw.sw_blocks
+        || hit_opt fv sw.sw_failaction
     | Lstringswitch (arg, cases, default) ->
-        hit arg || hit_list_snd cases || hit_opt default
-    | Lstaticraise (_, args) -> hit_list args
-    | Lifthenelse (e1, e2, e3) -> hit e1 || hit e2 || hit e3
-    | Lsequence (e1, e2) -> hit e1 || hit e2
-    | Lwhile (e1, e2) -> hit e1 || hit e2
-    | Lsend (_k, met, obj, args, _) -> hit met || hit obj || hit_list args
-    | Lifused (_v, e) -> hit e
+        hit fv arg || hit_list_snd fv cases || hit_opt fv default
+    | Lstaticraise (_, args) -> hit_list fv args
+    | Lifthenelse (e1, e2, e3) -> hit fv e1 || hit fv e2 || hit fv e3
+    | Lsequence (e1, e2) -> hit fv e1 || hit fv e2
+    | Lwhile (e1, e2) -> hit fv e1 || hit fv e2
+    | Lsend (_k, met, obj, args, _) ->
+        hit fv met || hit fv obj || hit_list fv args
+    | Lifused (_v, e) -> hit fv e
   in
-  hit l
+  fun (fv : Ident.Set.t) l -> hit fv l
 
-let hit_variable (fv : Ident.t) (l : t) : bool =
-  let rec hit_opt (x : t option) =
-    match x with None -> false | Some a -> hit a
-  and hit_var (id : Ident.t) = Ident.same id fv
-  and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> List.exists ~f:(fun (_, x) -> hit x) x
-  and hit_list xs = List.exists ~f:hit xs
-  and hit (l : t) =
-    match (l : t) with
-    | Lvar id | Lmutvar id -> hit_var id
-    | Lassign (id, e) -> hit_var id || hit e
-    | Lstaticcatch (e1, (_, _vars), e2) -> hit e1 || hit e2
-    | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _; _ } -> hit body
-    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
-    | Lletrec (decl, body) -> hit body || hit_list_snd decl
-    | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
+let hit_variable =
+  let rec hit_opt fv (x : Lam.t option) =
+    match x with None -> false | Some a -> hit fv a
+  and hit_var fv (id : Ident.t) = Ident.same id fv
+  and hit_list_snd : 'a. Ident.t -> ('a * Lam.t) list -> bool =
+   fun fv x -> List.exists ~f:(fun (_, x) -> hit fv x) x
+  and hit_list fv xs = List.exists ~f:(hit fv) xs
+  and hit fv (l : Lam.t) =
+    match l with
+    | Lvar id | Lmutvar id -> hit_var fv id
+    | Lassign (id, e) -> hit_var fv id || hit fv e
+    | Lstaticcatch (e1, (_, _vars), e2) -> hit fv e1 || hit fv e2
+    | Ltrywith (e1, _exn, e2) -> hit fv e1 || hit fv e2
+    | Lfunction { body; params = _; _ } -> hit fv body
+    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
+        hit fv arg || hit fv body
+    | Lletrec (decl, body) -> hit fv body || hit_list_snd fv decl
+    | Lfor (_v, e1, e2, _dir, e3) -> hit fv e1 || hit fv e2 || hit fv e3
     | Lconst _ -> false
-    | Lapply { ap_func; ap_args; _ } -> hit ap_func || hit_list ap_args
+    | Lapply { ap_func; ap_args; _ } -> hit fv ap_func || hit_list fv ap_args
     | Lglobal_module _ (* global persistent module, play safe *) -> false
-    | Lprim { args; _ } -> hit_list args
+    | Lprim { args; _ } -> hit_list fv args
     | Lswitch (arg, sw) ->
-        hit arg || hit_list_snd sw.sw_consts || hit_list_snd sw.sw_blocks
-        || hit_opt sw.sw_failaction
+        hit fv arg
+        || hit_list_snd fv sw.sw_consts
+        || hit_list_snd fv sw.sw_blocks
+        || hit_opt fv sw.sw_failaction
     | Lstringswitch (arg, cases, default) ->
-        hit arg || hit_list_snd cases || hit_opt default
-    | Lstaticraise (_, args) -> hit_list args
-    | Lifthenelse (e1, e2, e3) -> hit e1 || hit e2 || hit e3
-    | Lsequence (e1, e2) -> hit e1 || hit e2
-    | Lwhile (e1, e2) -> hit e1 || hit e2
-    | Lsend (_k, met, obj, args, _) -> hit met || hit obj || hit_list args
-    | Lifused (_v, e) -> hit e
+        hit fv arg || hit_list_snd fv cases || hit_opt fv default
+    | Lstaticraise (_, args) -> hit_list fv args
+    | Lifthenelse (e1, e2, e3) -> hit fv e1 || hit fv e2 || hit fv e3
+    | Lsequence (e1, e2) -> hit fv e1 || hit fv e2
+    | Lwhile (e1, e2) -> hit fv e1 || hit fv e2
+    | Lsend (_k, met, obj, args, _) ->
+        hit fv met || hit fv obj || hit_list fv args
+    | Lifused (_v, e) -> hit fv e
   in
-  hit l
+  fun (fv : Ident.t) (l : Lam.t) -> hit fv l

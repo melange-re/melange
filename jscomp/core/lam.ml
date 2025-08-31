@@ -661,8 +661,7 @@ let not_ ~loc x : t =
       Lprim { prim with primitive = Pintcomp Ceq }
   | _ -> prim ~primitive:Pnot ~args:[ x ] ~loc
 
-let has_boolean_type (x : t) =
-  match x with
+let has_boolean_type = function
   | Lprim
       {
         primitive =
