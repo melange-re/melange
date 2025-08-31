@@ -85,10 +85,10 @@ let assemble_obj_args
             match acc with
             | Splice2 _ | Splice0 -> assert false
             | Splice1 x -> ((label, x) :: accs, List.append new_eff eff, assign))
-          ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
-    | { arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, [] ->
+          ~not_sure:(fun () -> (accs, eff, (arg_kind, arg) :: assign))
+    | { arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, []
+    | [], _ :: _ ->
         assert false
-    | [], _ :: _ -> assert false
   in
   let map, eff, assignment = aux labels args in
   match assignment with

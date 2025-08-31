@@ -39,19 +39,16 @@ let to_lam_kind = function
 
 let of_lam_kind = function
   | Lam_compat.Strict -> Strict
-  | Lam_compat.Alias -> Alias
-  | Lam_compat.StrictOpt -> StrictOpt
+  | Alias -> Alias
+  | StrictOpt -> StrictOpt
 
 let single (kind : let_kind) id (body : Lam.t) =
   match (kind, body) with
   | (Strict | StrictOpt), (Lvar _ | Lconst _) -> Single (Alias, id, body)
-  (* | _, (Lmutvar _ | Lmutlet _) -> Single (Variable, id, body) *)
-  | _ -> Single (kind, id, body)
+  | _, _ -> Single (kind, id, body)
 
 let nop_cons (x : Lam.t) acc =
   match x with Lvar _ | Lconst _ | Lfunction _ -> acc | _ -> Nop x :: acc
-
-(* let pp = Format.fprintf *)
 
 let str_of_kind = function
   | Alias -> "a"

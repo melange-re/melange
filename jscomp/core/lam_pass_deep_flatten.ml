@@ -24,10 +24,6 @@
 
 open Import
 
-(* type eliminate =
-   |  Not_eliminatable
-   | *)
-
 let rec eliminate_tuple (id : Ident.t) (lam : Lam.t) acc =
   match lam with
   | Llet
@@ -37,7 +33,7 @@ let rec eliminate_tuple (id : Ident.t) (lam : Lam.t) acc =
         e2 )
     when Ident.same tuple id ->
       eliminate_tuple id e2 (Int.Map.add ~key:i ~data:v acc)
-      (* it is okay to have duplicates*)
+      (* it is okay to have duplicates *)
   | _ -> if Lam_hit.hit_variable id lam then None else Some (acc, lam)
 (* [groups] are in reverse order *)
 

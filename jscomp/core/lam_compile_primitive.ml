@@ -50,7 +50,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pjs_apply -> (
       match args with
       | fn :: rest -> E.call ~info:{ arity = Full; call_info = Call_na } fn rest
-      | _ -> assert false)
+      | [] -> assert false)
   | Pnull_to_opt -> (
       match args with
       | [ e ] -> (
@@ -100,10 +100,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       let arg = List.hd args in
       match arg.expression_desc with
       | Null | Object _ | Number _ | Caml_block _ | Array _ | Str _ ->
-          (* This makes sense when type info
-             is not available at the definition
-             site, and inline recovered it
-          *)
+          (* This makes sense when type info is not available at the definition
+             site, and inline recovered it *)
           E.optional_not_nest_block arg
       | _ -> E.optional_block arg)
   | Psome_not_nest -> E.optional_not_nest_block (List.hd args)
@@ -184,8 +182,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with [ e1; e2 ] -> E.float_comp cmp e1 e2 | _ -> assert false)
   | Pintcomp cmp -> (
       (* Global Builtin Exception is an int, like
-         [Not_found] or [Invalid_argument] ?
-      *)
+         [Not_found] or [Invalid_argument] ? *)
       match args with
       | [ e1; e2 ] -> E.int_comp cmp e1 e2
       | _ -> assert false)
