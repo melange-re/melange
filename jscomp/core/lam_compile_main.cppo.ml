@@ -24,9 +24,7 @@
 
 open Import
 
-let compile_group
-  (meta : Lam_stats.t)
-  (x : Lam_group.t) : Js_output.t =
+let compile_group (meta : Lam_stats.t) (x : Lam_group.t) : Js_output.t =
   match x with
   (*
         We need
@@ -52,54 +50,52 @@ let compile_group
     (* let lam = Optimizer.simplify_lets [] lam in  *)
     (* can not apply again, it's wrong USE it with care*)
     (* ([Js_stmt_make.comment (Gen_of_env.query_type id  env )], None)  ++ *)
-    Lam_compile.compile_lambda { continuation = Declare (kind, id);
-                                 jmp_table = Lam_compile_context.empty_handler_map;
-                                 meta
-                               } lam
+    Lam_compile.compile_lambda 
+      { continuation = Declare (kind, id)
+      ; jmp_table = Lam_compile_context.empty_handler_map
+      ; meta
+      }
+      lam
 
   | Recursive id_lams   ->
     Lam_compile.compile_recursive_lets
-      { continuation = EffectCall Not_tail;
-        jmp_table = Lam_compile_context.empty_handler_map;
-        meta
+      { continuation = EffectCall Not_tail
+      ; jmp_table = Lam_compile_context.empty_handler_map
+      ; meta
       }
       id_lams
   | Nop lam -> (* TODO: Side effect calls, log and see statistics *)
-    Lam_compile.compile_lambda {continuation = EffectCall Not_tail;
-                                jmp_table = Lam_compile_context.empty_handler_map;
-                                meta
-                               } lam
-
+    Lam_compile.compile_lambda 
+      { continuation = EffectCall Not_tail
+      ; jmp_table = Lam_compile_context.empty_handler_map
+      ; meta
+      }
+      lam
 ;;
 
 (* Also need analyze its dependency is pure or not *)
 let no_side_effects (rest : Lam_group.t list) : string option =
-  List.find_map ~f:(function
-    | Lam_group.Single(kind,id,body) ->
-      begin
-        match kind with
-        | Strict | Variable ->
-          if not @@ Lam_analysis.no_side_effects body
-          then Some  (Printf.sprintf "%s" (Ident.name id))
-          else None
-        | _ -> None
-      end
+  List.find_map rest ~f:(function
+    | Lam_group.Single (kind,id,body) ->
+      (match kind with
+      | Strict | Variable ->
+        if not @@ Lam_analysis.no_side_effects body
+        then Some (Printf.sprintf "%s" (Ident.name id))
+        else None
+      | StrictOpt | Alias -> None)
     | Recursive bindings ->
-      List.find_map ~f:(fun (id,lam) ->
+      List.find_map bindings ~f:(fun (id,lam) ->
         if not @@ Lam_analysis.no_side_effects lam
-        then Some (Printf.sprintf "%s" (Ident.name id) )
+        then Some (Printf.sprintf "%s" (Ident.name id))
         else None)
-        bindings
     | Nop lam ->
       if not @@ Lam_analysis.no_side_effects lam
       then
         (*  (Lam_util.string_of_lambda lam) *)
         Some ""
       else None (* TODO :*))
-    rest
 
-
-let _d  = fun  s lam ->
+let _d s lam =
 #ifndef MELANGE_RELEASE_BUILD
   Lam_dump.dump s lam;
   let loc = Loc.of_pos __POS__ in
@@ -109,13 +105,9 @@ let _d  = fun  s lam ->
 #endif
   lam
 
-(* Actually simplify_lets is kind of global optimization since it requires you to know whether
-    it's used or not
-*)
-let compile
-    ~package_info
-    (output_prefix : string)
-    (lam : Lambda.lambda) =
+(* Actually simplify_lets is kind of global optimization since it requires you
+   to know whether it's used or not *)
+let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
   let _j =
     Js_pass_debug.dump
       ~output_dir:(Filename.dirname output_prefix)
@@ -128,24 +120,19 @@ let compile
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
 #ifndef MELANGE_RELEASE_BUILD
-    List.iter
-      ~f:(fun id ->
-        Log.warn
-          ~loc:(Loc.of_pos __POS__)
-          (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)))
-      export_idents ;
+    List.iter export_idents ~f:(fun id ->
+      Log.warn
+        ~loc:(Loc.of_pos __POS__)
+        (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)));
 #endif
-    Lam_compile_env.reset () ;
+    Lam_compile_env.reset ();
   in
   let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
 
   let lam = _d "initial"  lam in
   let lam  = Lam_pass_deep_flatten.deep_flatten lam in
   let lam = _d  "flatten0" lam in
-  let meta  : Lam_stats.t =
-    Lam_stats.make
-      ~export_idents
-      ~export_ident_sets in
+  let meta: Lam_stats.t = Lam_stats.make ~export_idents ~export_ident_sets in
   let () = Lam_pass_collect.collect_info meta lam in
   let lam =
     let lam =
@@ -255,13 +242,11 @@ let compile
       (Pp.textf "[TIME:]Post-compile: %f"  (Sys.time () *. 1000.))
   in
 #endif
-  let meta_exports = meta.exports in
-  let export_set = Ident.Set.of_list meta_exports in
   let js : J.program =
-    {
-      exports = meta_exports ;
-      export_set;
-      block = body}
+    { exports = meta.exports
+    ; export_set = Ident.Set.of_list meta.exports
+    ; block = body
+    }
   in
   js
   |> _j "initial"
@@ -274,7 +259,7 @@ let compile
   |> Js_pass_scope.program
   |> Js_shake.shake_program
   |> _j "shake"
-  |> ( fun (program:  J.program) ->
+  |> (fun (program:  J.program) ->
       let external_module_ids : Lam_module_ident.t list =
         if !Js_config.all_module_aliases then []
         else
@@ -299,7 +284,8 @@ let compile
       Warnings.check_fatal();
       let effect_ =
         Lam_stats_export.get_dependent_module_effect
-          maybe_pure external_module_ids in
+          maybe_pure external_module_ids 
+      in
       let delayed_program = {
         J.program = program ;
         side_effect = effect_ ;
@@ -321,9 +307,10 @@ let compile
           (Lam_coercion.export_map coerced_input)
       in
       (if not !Clflags.dont_write_files then
-         Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
-      delayed_program
-    )
+         Js_cmj_format.to_file
+           (Artifact_extension.append_extension output_prefix Cmj) 
+           cmj);
+      delayed_program)
 ;;
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
@@ -357,14 +344,13 @@ let lambda_as_module =
       List.iter ~f:(fun (output_info : Js_packages_info.output_info) ->
         let basename = make_basename output_info.suffix in
         let target_file = Filename.dirname output_prefix // basename in
-        if not !Clflags.dont_write_files then begin
+        if not !Clflags.dont_write_files then
           write_to_file
             ~package_info
             ~output_info
             ~output_prefix
             lambda_output
-            target_file
-        end)
+            target_file)
         (Js_packages_state.get_output_info ())
 
 (* We can use {!Env.current_unit = "Pervasives"} to tell if it is some specific module,
