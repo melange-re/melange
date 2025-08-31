@@ -57,8 +57,9 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     function definition,
     alias propgation - and toplevel identifiers, this needs to be exported
 *)
-let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
-  let rec collect_bind rec_flag (ident : Ident.t) (lam : Lam.t) =
+let collect_info =
+  let rec collect_bind (meta : Lam_stats.t) rec_flag (ident : Ident.t)
+      (lam : Lam.t) =
     match lam with
     | Lconst v ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident ~data:(Constant v)
@@ -66,11 +67,11 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
           ~data:(Lam_id_kind.of_lambda_block ls);
-        List.iter ~f:collect ls
+        List.iter ~f:(collect meta) ls
     | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
           ~data:(Normal_optional v);
-        collect v
+        collect meta v
     | Lprim
         {
           primitive =
@@ -111,75 +112,75 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
           params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam;
-        collect body
+        collect meta body
     | x ->
-        collect x;
+        collect meta x;
         if Ident.Set.mem ident meta.export_idents then
           annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta x) lam
-  and collect (lam : Lam.t) =
+  and collect meta (lam : Lam.t) =
     match lam with
     | Lconst _ -> ()
     | Lvar _ | Lmutvar _ -> ()
     | Lapply { ap_func = l1; ap_args = ll; _ } ->
-        collect l1;
-        List.iter ~f:collect ll
+        collect meta l1;
+        List.iter ~f:(collect meta) ll
     | Lfunction { params; body = l; _ } ->
         (* functor ? *)
         List.iter
           ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
           params;
-        collect l
+        collect meta l
     | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->
-        collect_bind Lam_non_rec ident arg;
-        collect body
+        collect_bind meta Lam_non_rec ident arg;
+        collect meta body
     | Lletrec (bindings, body) ->
         (match bindings with
-        | [ (ident, arg) ] -> collect_bind Lam_self_rec ident arg
+        | [ (ident, arg) ] -> collect_bind meta Lam_self_rec ident arg
         | _ ->
             List.iter
-              ~f:(fun (ident, arg) -> collect_bind Lam_rec ident arg)
+              ~f:(fun (ident, arg) -> collect_bind meta Lam_rec ident arg)
               bindings);
-        collect body
+        collect meta body
     | Lglobal_module _ -> ()
-    | Lprim { args; _ } -> List.iter ~f:collect args
+    | Lprim { args; _ } -> List.iter ~f:(collect meta) args
     | Lswitch (l, { sw_failaction; sw_consts; sw_blocks; _ }) ->
-        collect l;
-        List.iter ~f:(fun (_, x) -> collect x) sw_consts;
-        List.iter ~f:(fun (_, x) -> collect x) sw_blocks;
-        Option.iter collect sw_failaction
+        collect meta l;
+        List.iter ~f:(fun (_, x) -> collect meta x) sw_consts;
+        List.iter ~f:(fun (_, x) -> collect meta x) sw_blocks;
+        Option.iter (collect meta) sw_failaction
     | Lstringswitch (l, sw, d) ->
-        collect l;
-        List.iter ~f:(fun (_, x) -> collect x) sw;
-        Option.iter collect d
-    | Lstaticraise (_code, ls) -> List.iter ~f:collect ls
+        collect meta l;
+        List.iter ~f:(fun (_, x) -> collect meta x) sw;
+        Option.iter (collect meta) d
+    | Lstaticraise (_code, ls) -> List.iter ~f:(collect meta) ls
     | Lstaticcatch (l1, (_, _), l2) ->
-        collect l1;
-        collect l2
+        collect meta l1;
+        collect meta l2
     | Ltrywith (l1, _, l2) ->
-        collect l1;
-        collect l2
+        collect meta l1;
+        collect meta l2
     | Lifthenelse (l1, l2, l3) ->
-        collect l1;
-        collect l2;
-        collect l3
+        collect meta l1;
+        collect meta l2;
+        collect meta l3
     | Lsequence (l1, l2) ->
-        collect l1;
-        collect l2
+        collect meta l1;
+        collect meta l2
     | Lwhile (l1, l2) ->
-        collect l1;
-        collect l2
+        collect meta l1;
+        collect meta l2
     | Lfor (_, l1, l2, _dir, l3) ->
-        collect l1;
-        collect l2;
-        collect l3
+        collect meta l1;
+        collect meta l2;
+        collect meta l3
     | Lassign (_v, l) ->
         (* Lalias-bound variables are never assigned, so don't increase
-           v's refcollect *)
-        collect l
+           v's refcollect meta *)
+        collect meta l
     | Lsend (_, m, o, ll, _) ->
-        collect m;
-        collect o;
-        List.iter ~f:collect ll
-    | Lifused (_v, e) -> collect e
+        collect meta m;
+        collect meta o;
+        List.iter ~f:(collect meta) ll
+    | Lifused (_v, e) -> collect meta e
   in
-  collect lam
+  fun (meta : Lam_stats.t) (lam : Lam.t) -> collect meta lam
