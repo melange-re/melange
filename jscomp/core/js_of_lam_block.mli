@@ -31,11 +31,11 @@ val make_block :
   J.expression list ->
   J.expression
 
-val field : Lam_compat.field_dbg_info -> J.expression -> int32 -> J.expression
+val field : Lam_compat.Field_dbg_info.t -> J.expression -> int32 -> J.expression
 val field_by_exp : J.expression -> J.expression -> J.expression
 
 val set_field :
-  Lam_compat.set_field_dbg_info ->
+  Lam_compat.Set_field_dbg_info.t ->
   J.expression ->
   int32 ->
   J.expression ->

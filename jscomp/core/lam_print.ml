@@ -91,7 +91,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pmakeblock (tag, _, Immutable) -> fprintf ppf "makeblock %i" tag
   | Pmakeblock (tag, _, Mutable) -> fprintf ppf "makemutable %i" tag
   | Pfield (n, field_info) -> (
-      match Lam_compat.str_of_field_info field_info with
+      match Lam_compat.Field_dbg_info.to_string field_info with
       | None -> fprintf ppf "field %i" n
       | Some s -> fprintf ppf "field %s/%i" s n)
   | Pfield_computed -> fprintf ppf "field_computed"

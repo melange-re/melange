@@ -547,13 +547,14 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args ~loc : t =
   | [ Lconst a; Lconst b ] -> (
       match (prim, a, b) with
       | Pint64comp cmp, Const_int64 a, Const_int64 b ->
-          Lift.bool (Lam_compat.cmp_int64 cmp a b)
+          Lift.bool (Lam_compat.Integer_comparison.cmp_int64 cmp a b)
       | Pintcomp cmp, Const_int a, Const_int b ->
-          Lift.bool (Lam_compat.cmp_int32 cmp a.i b.i)
+          Lift.bool (Lam_compat.Integer_comparison.cmp_int32 cmp a.i b.i)
       | Pfloatcomp cmp, Const_float a, Const_float b ->
           (* FIXME: could raise? *)
           Lift.bool
-            (Lam_compat.cmp_float cmp (float_of_string a) (float_of_string b))
+            (Lam_compat.Float_comparison.cmp_float cmp (float_of_string a)
+               (float_of_string b))
       | Pintcomp ((Ceq | Cne) as op), Const_pointer a, Const_pointer b ->
           Lift.bool
             (match op with

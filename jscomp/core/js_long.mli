@@ -29,7 +29,7 @@ type int64_call = J.expression list -> J.expression
 val of_const : int64 -> J.expression
 val to_int32 : int64_call
 val of_int32 : int64_call
-val comp : Lam_compat.integer_comparison -> int64_call
+val comp : Lam_compat.Integer_comparison.t -> int64_call
 val neg : int64_call
 val add : int64_call
 val sub : int64_call

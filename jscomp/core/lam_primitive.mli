@@ -84,10 +84,10 @@ type t =
   | Psubfloat
   | Pmulfloat
   | Pdivfloat
-  | Pintcomp of Lam_compat.integer_comparison
-  | Pfloatcomp of Lam_compat.float_comparison
-  | Pjscomp of Lam_compat.integer_comparison
-  | Pint64comp of Lam_compat.integer_comparison
+  | Pintcomp of Lam_compat.Integer_comparison.t
+  | Pfloatcomp of Lam_compat.Float_comparison.t
+  | Pjscomp of Lam_compat.Integer_comparison.t
+  | Pint64comp of Lam_compat.Integer_comparison.t
   | Pjs_apply (*[f;arg0;arg1; arg2; ... argN]*)
   | Pjs_runtime_apply (* [f; [...]] *)
   | Pstringlength
@@ -136,7 +136,7 @@ type t =
   | Plsrint64
   | Pasrint64
   (* Compile time constants *)
-  | Pctconst of Lam_compat.compile_time_constant
+  | Pctconst of Lam_compat.Compile_time_constant.t
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
   (* Inhibition of optimisation *)

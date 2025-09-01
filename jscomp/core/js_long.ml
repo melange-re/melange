@@ -55,7 +55,7 @@ let of_int32 (args : J.expression list) =
       of_const (Int64.of_int32 i)
   | _ -> int64_call "of_int32" args
 
-let comp (cmp : Lam_compat.integer_comparison) args =
+let comp (cmp : Lam_compat.Integer_comparison.t) args =
   E.runtime_call ~module_name:Js_runtime_modules.caml_primitive
     ~fn_name:
       (match cmp with
