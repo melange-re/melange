@@ -26,9 +26,19 @@
   > EOF
 
   $ melc x.ml
-  File "x.ml", line 22, characters 40-41:
-  22 | let cast x = x |> Bad.inj |> (fun x -> (x :> _ M.t)) |> Bad.prj;;
-                                               ^
-  Error: This expression cannot be coerced to type 'a M.t; it has type 
-         'a Bad.t but is here used with type 'b M.t
+  File "x.ml", lines 17-21, characters 6-3:
+  17 | ......struct
+  18 |   type 'a t = 'a priv
+  19 |   let inj = Fun.id
+  20 |   let prj = Fun.id
+  21 | end
+  Error: Signature mismatch:
+         ...
+         Type declarations do not match:
+           type 'a t = 'a priv
+         is not included in
+           type +-'a t = private int
+         Their variances do not agree.
+         File "x.ml", line 14, characters 2-27: Expected declaration
+         File "x.ml", line 18, characters 2-21: Actual declaration
   [2]
