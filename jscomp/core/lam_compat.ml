@@ -24,124 +24,174 @@
 
 open Import
 
-type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
-
-type integer_comparison = Lambda.integer_comparison =
-  | Ceq
-  | Cne
-  | Clt
-  | Cgt
-  | Cle
-  | Cge
-
-type float_comparison = Lambda.float_comparison =
-  | CFeq
-  | CFneq
-  | CFlt
-  | CFnlt
-  | CFgt
-  | CFngt
-  | CFle
-  | CFnle
-  | CFge
-  | CFnge
-
-let eq_comparison (p : integer_comparison) (p1 : integer_comparison) =
-  match p with
-  | Cge -> p1 = Cge
-  | Cgt -> p1 = Cgt
-  | Cle -> p1 = Cle
-  | Clt -> p1 = Clt
-  | Ceq -> p1 = Ceq
-  | Cne -> p1 = Cne
-
-let eq_float_comparison (p : float_comparison) (p1 : float_comparison) =
-  match p with
-  | CFeq -> p1 = CFeq
-  | CFneq -> p1 = CFneq
-  | CFlt -> p1 = CFlt
-  | CFnlt -> p1 = CFnlt
-  | CFgt -> p1 = CFgt
-  | CFngt -> p1 = CFngt
-  | CFle -> p1 = CFle
-  | CFnle -> p1 = CFnle
-  | CFge -> p1 = CFge
-  | CFnge -> p1 = CFnge
-
-let cmp_int32 (cmp : integer_comparison) (a : int32) b : bool =
-  match cmp with
-  | Ceq -> a = b
-  | Cne -> a <> b
-  | Cgt -> a > b
-  | Cle -> a <= b
-  | Clt -> a < b
-  | Cge -> a >= b
-
-let cmp_int64 (cmp : integer_comparison) (a : int64) b : bool =
-  match cmp with
-  | Ceq -> a = b
-  | Cne -> a <> b
-  | Cgt -> a > b
-  | Cle -> a <= b
-  | Clt -> a < b
-  | Cge -> a >= b
-
-let cmp_float (cmp : float_comparison) (a : float) b : bool =
-  match cmp with
-  | CFeq -> a = b
-  | CFneq -> a <> b
-  | CFlt -> a < b
-  | CFnlt -> not (a < b)
-  | CFgt -> a > b
-  | CFngt -> not (a > b)
-  | CFle -> a <= b
-  | CFnle -> not (a <= b)
-  | CFge -> a >= b
-  | CFnge -> not (a >= b)
-
-type compile_time_constant =
-  | Big_endian
-  | Ostype_unix
-  | Ostype_win32
-  | Ostype
-  | Backend_type
-
-(** relies on the fact that [compile_time_constant] is enum type *)
-let eq_compile_time_constant (p : compile_time_constant)
-    (p1 : compile_time_constant) =
-  p = p1
-
 type let_kind = Lambda.let_kind = Strict | Alias | StrictOpt
 type meth_kind = Lambda.meth_kind = Self | Public of string option | Cached
+type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
 
-type field_dbg_info = Lambda.field_dbg_info =
-  | Fld_na of string
-  | Fld_record of { name : string; mutable_flag : Asttypes.mutable_flag }
-  | Fld_module of { name : string }
-  | Fld_record_inline of { name : string }
-  | Fld_record_extension of { name : string }
-  | Fld_tuple
-  | Fld_poly_var_tag
-  | Fld_poly_var_content
-  | Fld_extension
-  | Fld_variant
-  | Fld_cons
-  | Fld_array
+module Integer_comparison = struct
+  type t = Lambda.integer_comparison = Ceq | Cne | Clt | Cgt | Cle | Cge
 
-let str_of_field_info (x : field_dbg_info) : string option =
-  match x with
-  | Fld_na s -> if s = "" then None else Some s
-  | Fld_array | Fld_extension | Fld_variant | Fld_cons | Fld_poly_var_tag
-  | Fld_poly_var_content | Fld_tuple ->
-      None
-  | Fld_record { name; _ }
-  | Fld_module { name; _ }
-  | Fld_record_inline { name }
-  | Fld_record_extension { name } ->
-      Some name
+  let equal (p1 : t) (p2 : t) =
+    match (p1, p2) with
+    | Cge, Cge -> true
+    | Cgt, Cgt -> true
+    | Cle, Cle -> true
+    | Clt, Clt -> true
+    | Ceq, Ceq -> true
+    | Cne, Cne -> true
+    | _, _ -> false
 
-type set_field_dbg_info = Lambda.set_field_dbg_info =
-  | Fld_set_na
-  | Fld_record_set of string
-  | Fld_record_inline_set of string
-  | Fld_record_extension_set of string
+  let cmp_int32 (cmp : t) (a : int32) b : bool =
+    match cmp with
+    | Ceq -> a = b
+    | Cne -> a <> b
+    | Cgt -> a > b
+    | Cle -> a <= b
+    | Clt -> a < b
+    | Cge -> a >= b
+
+  let cmp_int64 (cmp : t) (a : int64) b : bool =
+    match cmp with
+    | Ceq -> a = b
+    | Cne -> a <> b
+    | Cgt -> a > b
+    | Cle -> a <= b
+    | Clt -> a < b
+    | Cge -> a >= b
+end
+
+module Float_comparison = struct
+  type t = Lambda.float_comparison =
+    | CFeq
+    | CFneq
+    | CFlt
+    | CFnlt
+    | CFgt
+    | CFngt
+    | CFle
+    | CFnle
+    | CFge
+    | CFnge
+
+  let equal (p1 : t) (p2 : t) =
+    match (p1, p2) with
+    | CFeq, CFeq -> true
+    | CFneq, CFneq -> true
+    | CFlt, CFlt -> true
+    | CFnlt, CFnlt -> true
+    | CFgt, CFgt -> true
+    | CFngt, CFngt -> true
+    | CFle, CFle -> true
+    | CFnle, CFnle -> true
+    | CFge, CFge -> true
+    | CFnge, CFnge -> true
+    | _, _ -> false
+
+  let cmp_float (cmp : t) (a : float) b : bool =
+    match cmp with
+    | CFeq -> a = b
+    | CFneq -> a <> b
+    | CFlt -> a < b
+    | CFnlt -> not (a < b)
+    | CFgt -> a > b
+    | CFngt -> not (a > b)
+    | CFle -> a <= b
+    | CFnle -> not (a <= b)
+    | CFge -> a >= b
+    | CFnge -> not (a >= b)
+end
+
+module Compile_time_constant = struct
+  type t = Big_endian | Ostype_unix | Ostype_win32 | Ostype | Backend_type
+
+  let equal p1 p2 =
+    match (p1, p2) with
+    | Big_endian, Big_endian -> true
+    | Ostype_unix, Ostype_unix -> true
+    | Ostype_win32, Ostype_win32 -> true
+    | Ostype, Ostype -> true
+    | Backend_type, Backend_type -> true
+    | _, _ -> false
+end
+
+module Field_dbg_info = struct
+  type t = Lambda.field_dbg_info =
+    | Fld_na of string
+    | Fld_record of { name : string; mutable_flag : Asttypes.mutable_flag }
+    | Fld_module of { name : string }
+    | Fld_record_inline of { name : string }
+    | Fld_record_extension of { name : string }
+    | Fld_tuple
+    | Fld_poly_var_tag
+    | Fld_poly_var_content
+    | Fld_extension
+    | Fld_variant
+    | Fld_cons
+    | Fld_array
+
+  let equal (x : t) (y : t) =
+    match x with
+    | Fld_na s1 -> (
+        match y with Fld_na s2 -> String.equal s1 s2 | _ -> false)
+    | Fld_record { name = name1; mutable_flag = m1 } -> (
+        match y with
+        | Fld_record { name = name2; mutable_flag = m2 } ->
+            String.equal name1 name2 && m1 = m2
+        | _ -> false)
+    | Fld_module { name = name1 } -> (
+        match y with
+        | Fld_module { name = name2 } -> String.equal name1 name2
+        | _ -> false)
+    | Fld_record_inline { name = name1 } -> (
+        match y with
+        | Fld_record_inline { name = name2 } -> String.equal name1 name2
+        | _ -> false)
+    | Fld_record_extension { name = name1 } -> (
+        match y with
+        | Fld_record_extension { name = name2 } -> String.equal name1 name2
+        | _ -> false)
+    | Fld_tuple -> ( match y with Fld_tuple -> true | _ -> false)
+    | Fld_poly_var_tag -> (
+        match y with Fld_poly_var_tag -> true | _ -> false)
+    | Fld_poly_var_content -> (
+        match y with Fld_poly_var_content -> true | _ -> false)
+    | Fld_extension -> ( match y with Fld_extension -> true | _ -> false)
+    | Fld_variant -> ( match y with Fld_variant -> true | _ -> false)
+    | Fld_cons -> ( match y with Fld_cons -> true | _ -> false)
+    | Fld_array -> ( match y with Fld_array -> true | _ -> false)
+
+  let to_string (x : t) : string option =
+    match x with
+    | Fld_na "" -> None
+    | Fld_na s -> Some s
+    | Fld_array | Fld_extension | Fld_variant | Fld_cons | Fld_poly_var_tag
+    | Fld_poly_var_content | Fld_tuple ->
+        None
+    | Fld_record { name; _ }
+    | Fld_module { name; _ }
+    | Fld_record_inline { name }
+    | Fld_record_extension { name } ->
+        Some name
+end
+
+module Set_field_dbg_info = struct
+  type t = Lambda.set_field_dbg_info =
+    | Fld_set_na
+    | Fld_record_set of string
+    | Fld_record_inline_set of string
+    | Fld_record_extension_set of string
+
+  let equal (x : t) (y : t) =
+    match x with
+    | Fld_set_na -> ( match y with Fld_set_na -> true | _ -> false)
+    | Fld_record_set s1 -> (
+        match y with Fld_record_set s2 -> String.equal s1 s2 | _ -> false)
+    | Fld_record_inline_set s1 -> (
+        match y with
+        | Fld_record_inline_set s2 -> String.equal s1 s2
+        | _ -> false)
+    | Fld_record_extension_set s1 -> (
+        match y with
+        | Fld_record_extension_set s2 -> String.equal s1 s2
+        | _ -> false)
+end

@@ -211,7 +211,7 @@ val float_notequal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_mod : ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val int_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -219,7 +219,7 @@ val int_comp :
   t
 
 val bool_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -230,7 +230,7 @@ val string_comp :
   Js_op.binop -> ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val float_comp :
-  Lam_compat.float_comparison ->
+  Lam_compat.Float_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -238,7 +238,7 @@ val float_comp :
   t
 
 val js_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->

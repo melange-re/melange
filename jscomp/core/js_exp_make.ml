@@ -933,7 +933,7 @@ let obj_length ?loc ?comment e : t =
     (make_expression ?loc ?comment
        (Length { expr = e; length_object = Caml_block }))
 
-let compare_int_aux (cmp : Lam_compat.integer_comparison) (l : int) r =
+let compare_int_aux (cmp : Lam_compat.Integer_comparison.t) (l : int) r =
   match cmp with
   | Ceq -> l = r
   | Cne -> l <> r
@@ -950,7 +950,7 @@ let int32_unsigned_to_int n =
 let js_comp cmp ?loc ?comment e0 e1 =
   let jsop =
     match cmp with
-    | Lam_compat.Ceq -> Js_op.EqEqEq (* comparison *)
+    | Lam_compat.Integer_comparison.Ceq -> Js_op.EqEqEq (* comparison *)
     | Cne -> NotEqEq
     | Clt -> Lt
     | Cgt -> Gt
@@ -959,7 +959,7 @@ let js_comp cmp ?loc ?comment e0 e1 =
   in
   bin ?loc ?comment jsop e0 e1
 
-let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
+let rec int_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
     (e1 : t) =
   match (cmp, e0.expression_desc, e1.expression_desc) with
   | _, Number ((Int _ | Uint _) as l), Number ((Int _ | Uint _) as r) ->
@@ -1030,7 +1030,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
       true_
   | _ -> js_comp ?loc ?comment cmp e0 e1
 
-let bool_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
+let bool_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
     (e1 : t) =
   match (e0, e1) with
   | { expression_desc = Bool l; _ }, { expression_desc = Bool r; _ } ->
@@ -1059,7 +1059,7 @@ let bool_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
 let float_comp cmp ?loc ?comment e0 e1 =
   let jsop =
     match cmp with
-    | Lam_compat.CFeq -> Js_op.EqEqEq
+    | Lam_compat.Float_comparison.CFeq -> Js_op.EqEqEq
     | CFneq -> NotEqEq
     | CFlt -> Lt
     | CFnlt -> Ge

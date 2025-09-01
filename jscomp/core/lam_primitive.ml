@@ -41,8 +41,8 @@ type t =
   | Pbytes_of_string
   (* Operations on heap blocks *)
   | Pmakeblock of int * Melange_ffi.Lam_tag_info.t * Asttypes.mutable_flag
-  | Pfield of int * Lam_compat.field_dbg_info
-  | Psetfield of int * Lam_compat.set_field_dbg_info
+  | Pfield of int * Lam_compat.Field_dbg_info.t
+  | Psetfield of int * Lam_compat.Set_field_dbg_info.t
   (* could have field info at least for record *)
   | Pduprecord of record_representation
   (* Force lazy values *)
@@ -91,10 +91,10 @@ type t =
   | Psubfloat
   | Pmulfloat
   | Pdivfloat
-  | Pintcomp of Lam_compat.integer_comparison
-  | Pfloatcomp of Lam_compat.float_comparison
-  | Pjscomp of Lam_compat.integer_comparison
-  | Pint64comp of Lam_compat.integer_comparison
+  | Pintcomp of Lam_compat.Integer_comparison.t
+  | Pfloatcomp of Lam_compat.Float_comparison.t
+  | Pjscomp of Lam_compat.Integer_comparison.t
+  | Pint64comp of Lam_compat.Integer_comparison.t
   | Pjs_apply (*[f;arg0;arg1; arg2; ... argN]*)
   | Pjs_runtime_apply (* [f; [...]] *)
   (* String operations *)
@@ -144,7 +144,7 @@ type t =
   | Pasrint64
   (* Compile time constants *)
   | Pctconst of
-      Lam_compat.compile_time_constant (* Integer to external pointer *)
+      Lam_compat.Compile_time_constant.t (* Integer to external pointer *)
   | Pbswap16
   | Pbbswap of Lam_compat.boxed_integer
   (* Inhibition of optimisation *)
@@ -183,16 +183,6 @@ type t =
   | Psome_not_nest
   | Pfield_computed (* Mostly used in object compilation *)
   | Psetfield_computed
-
-let eq_field_dbg_info (x : Lam_compat.field_dbg_info)
-    (y : Lam_compat.field_dbg_info) =
-  x = y
-(* save it to avoid conditional compilation, fix it later *)
-
-let eq_set_field_dbg_info (x : Lam_compat.set_field_dbg_info)
-    (y : Lam_compat.set_field_dbg_info) =
-  x = y
-(* save it to avoid conditional compilation, fix it later *)
 
 let eq_record_representation (p : record_representation)
     (p1 : record_representation) =
@@ -296,11 +286,13 @@ let eq_approx (lhs : t) (rhs : t) =
       match rhs with Pccall { prim_name = n1 } -> n0 = n1 | _ -> false)
   | Pfield (n0, info0) -> (
       match rhs with
-      | Pfield (n1, info1) -> n0 = n1 && eq_field_dbg_info info0 info1
+      | Pfield (n1, info1) ->
+          n0 = n1 && Lam_compat.Field_dbg_info.equal info0 info1
       | _ -> false)
   | Psetfield (i0, info0) -> (
       match rhs with
-      | Psetfield (i1, info1) -> i0 = i1 && eq_set_field_dbg_info info0 info1
+      | Psetfield (i1, info1) ->
+          i0 = i1 && Lam_compat.Set_field_dbg_info.equal info0 info1
       | _ -> false)
   | Pmakeblock (i0, info0, flag0) -> (
       match rhs with
@@ -325,16 +317,18 @@ let eq_approx (lhs : t) (rhs : t) =
       | _ -> false)
   | Pintcomp comparison -> (
       match rhs with
-      | Pintcomp comparison1 -> Lam_compat.eq_comparison comparison comparison1
+      | Pintcomp comparison1 ->
+          Lam_compat.Integer_comparison.equal comparison comparison1
       | _ -> false)
   | Pfloatcomp comparison -> (
       match rhs with
       | Pfloatcomp comparison1 ->
-          Lam_compat.eq_float_comparison comparison comparison1
+          Lam_compat.Float_comparison.equal comparison comparison1
       | _ -> false)
   | Pjscomp comparison -> (
       match rhs with
-      | Pjscomp comparison1 -> Lam_compat.eq_comparison comparison comparison1
+      | Pjscomp comparison1 ->
+          Lam_compat.Integer_comparison.equal comparison comparison1
       | _ -> false)
   | Poffsetint i0 -> ( match rhs with Poffsetint i1 -> i0 = i1 | _ -> false)
   | Poffsetref i0 -> ( match rhs with Poffsetref i1 -> i0 = i1 | _ -> false)
@@ -361,12 +355,12 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pint64comp comparison -> (
       match rhs with
       | Pint64comp comparison1 ->
-          Lam_compat.eq_comparison comparison comparison1
+          Lam_compat.Integer_comparison.equal comparison comparison1
       | _ -> false)
   | Pctconst compile_time_constant -> (
       match rhs with
       | Pctconst compile_time_constant1 ->
-          Lam_compat.eq_compile_time_constant compile_time_constant
+          Lam_compat.Compile_time_constant.equal compile_time_constant
             compile_time_constant1
       | _ -> false)
   | Pbswap16 -> rhs = Pbswap16
