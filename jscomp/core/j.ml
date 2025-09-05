@@ -34,7 +34,7 @@ open Import
 *)
 
 type mutable_flag = Js_op.mutable_flag
-type binop = Js_op.binop
+type binop = Js_op.Binop.t
 
 (*
 note that we don't need raise [Div_by_zero] in Melange

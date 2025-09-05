@@ -227,7 +227,7 @@ val bool_comp :
   t
 
 val string_comp :
-  Js_op.binop -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+  Js_op.Binop.t -> ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val float_comp :
   Lam_compat.Float_comparison.t ->
