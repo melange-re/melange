@@ -24,17 +24,42 @@
 
 open Import
 
-type record_representation =
-  | Record_regular
-  | Record_inlined of {
-      tag : int;
-      name : string;
-      num_nonconsts : int;
-      attributes : Parsetree.attributes;
-    }
-    (* Inlined record *)
-  | Record_extension
-(* Inlined record under extension *)
+module Record_representation = struct
+  type t =
+    | Record_regular
+    | Record_inlined of {
+        tag : int;
+        name : string;
+        num_nonconsts : int;
+        attributes : Parsetree.attributes;
+      }
+      (* Inlined record *)
+    | Record_extension
+  (* Inlined record under extension *)
+
+  let equal p0 p1 =
+    match (p0, p1) with
+    | Record_regular, Record_regular -> true
+    | ( Record_inlined
+          {
+            tag = tag0;
+            name = name0;
+            num_nonconsts = nonconsts0;
+            attributes = attrs0;
+          },
+        Record_inlined
+          {
+            tag = tag1;
+            name = name1;
+            num_nonconsts = nonconsts1;
+            attributes = attrs1;
+          } ) ->
+        Int.equal tag0 tag1 && String.equal name0 name1
+        && Int.equal nonconsts0 nonconsts1
+        && attrs0 = attrs1
+    | Record_extension, Record_extension -> true
+    | _, _ -> false
+end
 
 type t =
   | Pbytes_to_string
@@ -44,7 +69,7 @@ type t =
   | Pfield of int * Lam_compat.Field_dbg_info.t
   | Psetfield of int * Lam_compat.Set_field_dbg_info.t
   (* could have field info at least for record *)
-  | Pduprecord of record_representation
+  | Pduprecord of Record_representation.t
   (* Force lazy values *)
   | Plazyforce
   (* External call *)
@@ -184,19 +209,6 @@ type t =
   | Pfield_computed (* Mostly used in object compilation *)
   | Psetfield_computed
 
-let eq_record_representation (p : record_representation)
-    (p1 : record_representation) =
-  match p with
-  | Record_regular -> p1 = Record_regular
-  | Record_inlined { tag; name; num_nonconsts; attributes } -> (
-      match p1 with
-      | Record_inlined rhs ->
-          tag = rhs.tag && name = rhs.name
-          && num_nonconsts = rhs.num_nonconsts
-          && attributes = rhs.attributes
-      | _ -> false)
-  | Record_extension -> p1 = Record_extension
-
 let eq_approx (lhs : t) (rhs : t) =
   match lhs with
   | Pcreate_extension a -> (
@@ -302,7 +314,8 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pduprecord record_repesentation0 -> (
       match rhs with
       | Pduprecord record_repesentation1 ->
-          eq_record_representation record_repesentation0 record_repesentation1
+          Record_representation.equal record_repesentation0
+            record_repesentation1
       | _ -> false)
   | Pjs_call { prim_name; arg_types; ffi; dynamic_import } -> (
       match rhs with
