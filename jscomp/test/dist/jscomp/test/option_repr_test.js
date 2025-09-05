@@ -135,7 +135,7 @@ b("File \"jscomp/test/option_repr_test.ml\", line 97, characters 4-11", Caml_obj
 
 b("File \"jscomp/test/option_repr_test.ml\", line 98, characters 4-11", Caml_obj.caml_greaterthan(Caml_option.some(undefined), undefined));
 
-console.log(6, undefined);
+console.log(6);
 
 function ltx(a, b) {
   if (Caml_obj.caml_lessthan(a, b)) {

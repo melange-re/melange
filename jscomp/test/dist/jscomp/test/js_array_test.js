@@ -60,7 +60,7 @@ const suites_1 = {
               3,
               4,
               5
-            ].copyWithin(-2, undefined, undefined)
+            ].copyWithin(-2)
           };
         })
       ],
@@ -83,7 +83,7 @@ const suites_1 = {
                 3,
                 4,
                 5
-              ].copyWithin(0, 3, undefined)
+              ].copyWithin(0, 3)
             };
           })
         ],
@@ -125,7 +125,7 @@ const suites_1 = {
                     1,
                     2,
                     3
-                  ].fill(4, undefined, undefined)
+                  ].fill(4)
                 };
               })
             ],
@@ -144,7 +144,7 @@ const suites_1 = {
                       1,
                       2,
                       3
-                    ].fill(4, 1, undefined)
+                    ].fill(4, 1)
                   };
                 })
               ],
@@ -525,7 +525,7 @@ const suites_1 = {
                                                               1,
                                                               2,
                                                               3
-                                                            ].indexOf(2, undefined)
+                                                            ].indexOf(2)
                                                           };
                                                         })
                                                       ],
@@ -666,7 +666,7 @@ const suites_1 = {
                                                                               3,
                                                                               4,
                                                                               5
-                                                                            ].slice(2, undefined)
+                                                                            ].slice(2)
                                                                           };
                                                                         })
                                                                       ],
