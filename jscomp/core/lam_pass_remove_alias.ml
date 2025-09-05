@@ -67,7 +67,7 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
       match List.nth ls i with exception Failure _ -> f () | x -> Lam.const x)
   | _ | (exception Not_found) -> f ()
 
-let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
+let simplify_alias =
   let rec id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t)
       id =
     match Ident.Hashtbl.find tbl id with
@@ -96,14 +96,14 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | (exception Not_found) ->
         Eval_unknown
   in
-  let rec simpl (lam : Lam.t) : Lam.t =
+  let rec simpl (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     match lam with
     | Lvar _ | Lmutvar _ -> lam
     | Lprim { primitive = Pfield (i, info) as primitive; args = [ arg ]; loc }
       -> (
         (* ATTENTION:
            Main use case, we should detect inline all immutable block .. *)
-        match simpl arg with
+        match simpl meta arg with
         | (Lvar v | Lmutvar v) as l ->
             field_flatten_get meta.ident_tbl ~info
               ~f:(fun () -> Lam.prim ~primitive ~args:[ l ] ~loc)
@@ -122,31 +122,32 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:simpl args) ~loc
+        Lam.prim ~primitive ~args:(List.map ~f:(simpl meta) args) ~loc
     | Lifthenelse
         ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
           l2,
           l3 ) -> (
         match Ident.Hashtbl.find meta.ident_tbl id with
-        | ImmutableBlock _ | MutableBlock _ | Normal_optional _ -> simpl l2
+        | ImmutableBlock _ | MutableBlock _ | Normal_optional _ -> simpl meta l2
         | OptionalBlock (l, Null) ->
             Lam.if_
               (Lam.not_ ~loc:Location.none
                  (Lam.prim ~primitive:Pis_null ~args:[ l ] ~loc:Location.none))
-              (simpl l2) (simpl l3)
+              (simpl meta l2) (simpl meta l3)
         | OptionalBlock (l, Undefined) ->
             Lam.if_
               (Lam.not_ ~loc:Location.none
                  (Lam.prim ~primitive:Pis_undefined ~args:[ l ]
                     ~loc:Location.none))
-              (simpl l2) (simpl l3)
+              (simpl meta l2) (simpl meta l3)
         | OptionalBlock (l, Null_undefined) ->
             Lam.if_
               (Lam.not_ ~loc:Location.none
                  (Lam.prim ~primitive:Pis_null_undefined ~args:[ l ]
                     ~loc:Location.none))
-              (simpl l2) (simpl l3)
-        | _ | (exception Not_found) -> Lam.if_ l1 (simpl l2) (simpl l3))
+              (simpl meta l2) (simpl meta l3)
+        | _ | (exception Not_found) ->
+            Lam.if_ l1 (simpl meta l2) (simpl meta l3))
     (* could be the code path
        {[ match x with
          | h::hs ->
@@ -156,16 +157,17 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         match l1 with
         | Lvar id | Lmutvar id -> (
             match id_is_for_sure_true_in_boolean meta.ident_tbl id with
-            | Eval_true -> simpl l2
-            | Eval_false -> simpl l3
-            | Eval_unknown -> Lam.if_ (simpl l1) (simpl l2) (simpl l3))
-        | _ -> Lam.if_ (simpl l1) (simpl l2) (simpl l3))
+            | Eval_true -> simpl meta l2
+            | Eval_false -> simpl meta l3
+            | Eval_unknown ->
+                Lam.if_ (simpl meta l1) (simpl meta l2) (simpl meta l3))
+        | _ -> Lam.if_ (simpl meta l1) (simpl meta l2) (simpl meta l3))
     | Lconst _ -> lam
-    | Llet (str, v, l1, l2) -> Lam.let_ str v (simpl l1) (simpl l2)
-    | Lmutlet (v, l1, l2) -> Lam.mutlet v (simpl l1) (simpl l2)
+    | Llet (str, v, l1, l2) -> Lam.let_ str v (simpl meta l1) (simpl meta l2)
+    | Lmutlet (v, l1, l2) -> Lam.mutlet v (simpl meta l1) (simpl meta l2)
     | Lletrec (bindings, body) ->
-        let bindings = List.map_snd bindings ~f:simpl in
-        Lam.letrec bindings (simpl body)
+        let bindings = List.map_snd bindings ~f:(simpl meta) in
+        Lam.letrec bindings (simpl meta body)
     (* complicated
            1. inline this function
            2. ...
@@ -205,9 +207,10 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                           | exception Not_found -> true)
                       | _ -> true)
                     args ->
-            simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
-        | Some _ | None -> Lam.apply (simpl l1) (List.map ~f:simpl args) ap_info
-        )
+            simpl meta
+              (Lam_beta_reduce.propagate_beta_reduce meta params body args)
+        | Some _ | None ->
+            Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
@@ -218,8 +221,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Check info for always inlining *)
 
         (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
-        let ap_args = List.map ~f:simpl ap_args in
-        let[@local] normal () = Lam.apply (simpl fn) ap_args ap_info in
+        let ap_args = List.map ~f:(simpl meta) ap_args in
+        let[@local] normal () = Lam.apply (simpl meta fn) ap_args ap_info in
         match Ident.Hashtbl.find meta.ident_tbl v with
         | FunctionId
             {
@@ -242,7 +245,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                 (* Check: recursive applying may result in non-termination *)
 
                 (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
-                simpl
+                simpl meta
                   (Lam_beta_reduce.propagate_beta_reduce meta params body
                      ap_args)
               else if
@@ -274,7 +277,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                           (*avoid nontermination, e.g, `g(g)`*)
                         then normal ()
                         else
-                          simpl
+                          simpl meta
                             (Lam_beta_reduce.propagate_beta_reduce_with_map meta
                                param_map params body ap_args))
                 | _ -> normal ()
@@ -283,7 +286,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | _ | (exception Not_found) -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->
-        simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args)
+        simpl meta (Lam_beta_reduce.propagate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)
         (*          args = [Lprim {primitive = Pmakeblock _; args; _}]; _} *)
         (*   (\* TODO: keep track of this parameter in ocaml trunk, *)
@@ -292,9 +295,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (*   when  List.same_length params args -> *)
         (*   simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args) *)
     | Lapply { ap_func = l1; ap_args = ll; ap_info } ->
-        Lam.apply (simpl l1) (List.map ~f:simpl ll) ap_info
+        Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) ll) ap_info
     | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(simpl body) ~attr
+        Lam.function_ ~arity ~params ~body:(simpl meta body) ~attr
     | Lswitch
         ( l,
           {
@@ -305,13 +308,13 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             sw_consts_full;
             sw_names;
           } ) ->
-        Lam.switch (simpl l)
+        Lam.switch (simpl meta l)
           {
-            sw_consts = List.map_snd sw_consts ~f:simpl;
-            sw_blocks = List.map_snd sw_blocks ~f:simpl;
+            sw_consts = List.map_snd sw_consts ~f:(simpl meta);
+            sw_blocks = List.map_snd sw_blocks ~f:(simpl meta);
             sw_consts_full;
             sw_blocks_full;
-            sw_failaction = Option.map simpl sw_failaction;
+            sw_failaction = Option.map (simpl meta) sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
@@ -320,23 +323,28 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           | Lvar s | Lmutvar s -> (
               match Ident.Hashtbl.find meta.ident_tbl s with
               | Constant s -> Lam.const s
-              | _ | (exception Not_found) -> simpl l)
-          | _ -> simpl l
+              | _ | (exception Not_found) -> simpl meta l)
+          | _ -> simpl meta l
         in
-        Lam.stringswitch l (List.map_snd sw ~f:simpl) (Option.map simpl d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simpl ls)
-    | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
-    | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)
-    | Lsequence (l1, l2) -> Lam.seq (simpl l1) (simpl l2)
-    | Lwhile (l1, l2) -> Lam.while_ (simpl l1) (simpl l2)
+        Lam.stringswitch l
+          (List.map_snd sw ~f:(simpl meta))
+          (Option.map (simpl meta) d)
+    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:(simpl meta) ls)
+    | Lstaticcatch (l1, ids, l2) ->
+        Lam.staticcatch (simpl meta l1) ids (simpl meta l2)
+    | Ltrywith (l1, v, l2) -> Lam.try_ (simpl meta l1) v (simpl meta l2)
+    | Lsequence (l1, l2) -> Lam.seq (simpl meta l1) (simpl meta l2)
+    | Lwhile (l1, l2) -> Lam.while_ (simpl meta l1) (simpl meta l2)
     | Lfor (flag, l1, l2, dir, l3) ->
-        Lam.for_ flag (simpl l1) (simpl l2) dir (simpl l3)
+        Lam.for_ flag (simpl meta l1) (simpl meta l2) dir (simpl meta l3)
     | Lassign (v, l) ->
         (* Lalias-bound variables are never assigned, so don't increase
            v's refsimpl *)
-        Lam.assign v (simpl l)
+        Lam.assign v (simpl meta l)
     | Lsend (u, m, o, ll, loc) ->
-        Lam.send u (simpl m) (simpl o) (List.map ~f:simpl ll) ~loc
-    | Lifused (v, l) -> Lam.ifused v (simpl l)
+        Lam.send u (simpl meta m) (simpl meta o)
+          (List.map ~f:(simpl meta) ll)
+          ~loc
+    | Lifused (v, l) -> Lam.ifused v (simpl meta l)
   in
-  simpl lam
+  fun meta lam -> simpl meta lam
