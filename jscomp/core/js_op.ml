@@ -24,31 +24,95 @@
 
 (** Define some basic types used in JS IR *)
 
-type binop =
-  | Eq
-    (* actually assignment ..
+module Binop = struct
+  type t =
+    | Eq
+      (* actually assignment ..
        TODO: move it into statement, so that all expressions
        are side efffect free (except function calls)
     *)
-  | Or
-  | And
-  | EqEqEq
-  | NotEqEq (* | InstanceOf *)
-  | Lt
-  | Le
-  | Gt
-  | Ge
-  | Bor
-  | Bxor
-  | Band
-  | Lsl
-  | Lsr
-  | Asr
-  | Plus
-  | Minus
-  | Mul
-  | Div
-  | Mod
+    | Or
+    | And
+    | EqEqEq
+    | NotEqEq (* | InstanceOf *)
+    | Lt
+    | Le
+    | Gt
+    | Ge
+    | Bor
+    | Bxor
+    | Band
+    | Lsl
+    | Lsr
+    | Asr
+    | Plus
+    | Minus
+    | Mul
+    | Div
+    | Mod
+
+  let equal t1 t2 =
+    match (t1, t2) with
+    | Eq, Eq -> true
+    | Or, Or -> true
+    | And, And -> true
+    | EqEqEq, EqEqEq -> true
+    | NotEqEq, NotEqEq -> true
+    | Lt, Lt -> true
+    | Le, Le -> true
+    | Gt, Gt -> true
+    | Ge, Ge -> true
+    | Bor, Bor -> true
+    | Bxor, Bxor -> true
+    | Band, Band -> true
+    | Lsl, Lsl -> true
+    | Lsr, Lsr -> true
+    | Asr, Asr -> true
+    | Plus, Plus -> true
+    | Minus, Minus -> true
+    | Mul, Mul -> true
+    | Div, Div -> true
+    | Mod, Mod -> true
+    | _ -> false
+
+  let prec (op : t) =
+    match op with
+    | Eq -> (1, 13, 1)
+    | Or -> (3, 3, 3)
+    | And -> (4, 4, 4)
+    | EqEqEq | NotEqEq -> (8, 8, 9)
+    | Gt | Ge | Lt | Le (* | InstanceOf *) -> (9, 9, 10)
+    | Bor -> (5, 5, 5)
+    | Bxor -> (6, 6, 6)
+    | Band -> (7, 7, 7)
+    | Lsl | Lsr | Asr -> (10, 10, 11)
+    | Plus | Minus -> (11, 11, 12)
+    | Mul | Div | Mod -> (12, 12, 13)
+
+  let to_string op =
+    match op with
+    | Bor -> "|"
+    | Bxor -> "^"
+    | Band -> "&"
+    | Lsl -> "<<"
+    | Lsr -> ">>>"
+    | Asr -> ">>"
+    | Plus -> "+"
+    | Minus -> "-"
+    | Mul -> "*"
+    | Div -> "/"
+    | Mod -> "%"
+    | Eq -> "="
+    | Or -> "||"
+    | And -> "&&"
+    | EqEqEq -> "==="
+    | NotEqEq -> "!=="
+    | Lt -> "<"
+    | Le -> "<="
+    | Gt -> ">"
+    | Ge -> ">="
+  (* | InstanceOf -> "instanceof" *)
+end
 
 (* literal char *)
 type float_lit = { f : string } [@@unboxed]
@@ -99,44 +163,6 @@ type ident_info = {
 (* Refer https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
    for precedence
 *)
-
-let op_prec (op : binop) =
-  match op with
-  | Eq -> (1, 13, 1)
-  | Or -> (3, 3, 3)
-  | And -> (4, 4, 4)
-  | EqEqEq | NotEqEq -> (8, 8, 9)
-  | Gt | Ge | Lt | Le (* | InstanceOf *) -> (9, 9, 10)
-  | Bor -> (5, 5, 5)
-  | Bxor -> (6, 6, 6)
-  | Band -> (7, 7, 7)
-  | Lsl | Lsr | Asr -> (10, 10, 11)
-  | Plus | Minus -> (11, 11, 12)
-  | Mul | Div | Mod -> (12, 12, 13)
-
-let op_str (op : binop) =
-  match op with
-  | Bor -> "|"
-  | Bxor -> "^"
-  | Band -> "&"
-  | Lsl -> "<<"
-  | Lsr -> ">>>"
-  | Asr -> ">>"
-  | Plus -> "+"
-  | Minus -> "-"
-  | Mul -> "*"
-  | Div -> "/"
-  | Mod -> "%"
-  | Eq -> "="
-  | Or -> "||"
-  | And -> "&&"
-  | EqEqEq -> "==="
-  | NotEqEq -> "!=="
-  | Lt -> "<"
-  | Le -> "<="
-  | Gt -> ">"
-  | Ge -> ">="
-(* | InstanceOf -> "instanceof" *)
 
 let update_used_stats (ident_info : ident_info) used_stats =
   match ident_info.used_stats with

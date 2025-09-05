@@ -950,7 +950,7 @@ let int32_unsigned_to_int n =
 let js_comp cmp ?loc ?comment e0 e1 =
   let jsop =
     match cmp with
-    | Lam_compat.Integer_comparison.Ceq -> Js_op.EqEqEq (* comparison *)
+    | Lam_compat.Integer_comparison.Ceq -> Js_op.Binop.EqEqEq (* comparison *)
     | Cne -> NotEqEq
     | Clt -> Lt
     | Cgt -> Gt
@@ -1059,7 +1059,7 @@ let bool_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
 let float_comp cmp ?loc ?comment e0 e1 =
   let jsop =
     match cmp with
-    | Lam_compat.Float_comparison.CFeq -> Js_op.EqEqEq
+    | Lam_compat.Float_comparison.CFeq -> Js_op.Binop.EqEqEq
     | CFneq -> NotEqEq
     | CFlt -> Lt
     | CFnlt -> Ge

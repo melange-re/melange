@@ -22,27 +22,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type binop =
-  | Eq
-  | Or
-  | And
-  | EqEqEq
-  | NotEqEq (* | InstanceOf *)
-  | Lt
-  | Le
-  | Gt
-  | Ge
-  | Bor
-  | Bxor
-  | Band
-  | Lsl
-  | Lsr
-  | Asr
-  | Plus
-  | Minus
-  | Mul
-  | Div
-  | Mod
+module Binop : sig
+  type t =
+    | Eq
+      (* actually assignment ..
+       TODO: move it into statement, so that all expressions
+       are side efffect free (except function calls)
+    *)
+    | Or
+    | And
+    | EqEqEq
+    | NotEqEq (* | InstanceOf *)
+    | Lt
+    | Le
+    | Gt
+    | Ge
+    | Bor
+    | Bxor
+    | Band
+    | Lsl
+    | Lsr
+    | Asr
+    | Plus
+    | Minus
+    | Mul
+    | Div
+    | Mod
+
+  val equal : t -> t -> bool
+  val prec : t -> int * int * int
+  val to_string : t -> string
+end
 
 type float_lit = { f : string } [@@unboxed]
 type mutable_flag = Mutable | Immutable | NA
@@ -62,8 +72,6 @@ type ident_info = {
   mutable used_stats : used_stats;
 }
 
-val op_prec : binop -> int * int * int
-val op_str : binop -> string
 val update_used_stats : ident_info -> used_stats -> unit
 val of_lam_mutable_flag : Asttypes.mutable_flag -> mutable_flag
 val is_cons : string -> bool
