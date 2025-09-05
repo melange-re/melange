@@ -175,70 +175,63 @@ let no_side_effect_statement =
    ]} *)
 let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
     ({ expression_desc = y0; _ } : J.expression) =
-  match x0 with
-  | Null -> y0 = Null
-  | Undefined { is_unit = u1 } -> (
-      match y0 with Undefined { is_unit = u2 } -> u1 = u2 | _ -> false)
-  | Number (Int { i; _ }) -> (
-      match y0 with Number (Int { i = j; _ }) -> i = j | _ -> false)
-  | Number (Float _) ->
+  match (x0, y0) with
+  | Null, Null -> true
+  | Undefined { is_unit = u1 }, Undefined { is_unit = u2 } -> Bool.equal u1 u2
+  | Number (Int { i; _ }), Number (Int { i = j; _ }) -> Int32.equal i j
+  | Number (Float _), Number (Float _) ->
       false
       (* begin match y0 with
            | Number (Float j) ->
              false (* conservative *)
            | _ -> false
          end *)
-  | String_index { expr = a0; index = a1 } -> (
-      match y0 with
-      | String_index { expr = b0; index = b1 } ->
-          eq_expression a0 b0 && eq_expression a1 b1
-      | _ -> false)
-  | Array_index { expr = a0; index = a1 } -> (
-      match y0 with
-      | Array_index { expr = b0; index = b1 } ->
-          eq_expression a0 b0 && eq_expression a1 b1
-      | _ -> false)
-  | Call { expr = a0; args = args00; _ } -> (
-      match y0 with
-      | Call { expr = b0; args = args10; _ } ->
-          eq_expression a0 b0 && eq_expression_list args00 args10
-      | _ -> false)
-  | Var x -> ( match y0 with Var y -> same_vident x y | _ -> false)
-  | Bin { op = op0; expr1 = a0; expr2 = b0 } -> (
-      match y0 with
-      | Bin { op = op1; expr1 = a1; expr2 = b1 } ->
-          op0 = op1 && eq_expression a0 a1 && eq_expression b0 b1
-      | _ -> false)
-  | Str a0 -> ( match y0 with Str a1 -> a0 = a1 | _ -> false)
-  | Unicode s0 -> ( match y0 with Unicode s1 -> s0 = s1 | _ -> false)
-  | Module { id = id0; dynamic_import = d0; _ } -> (
-      match y0 with
-      | Module { id = id1; dynamic_import = d1; _ } ->
-          Ident.same id0 id1 && d0 = d1
-      | _ -> false)
-  | Static_index { expr = e0; field = p0; pos = off0 } -> (
-      match y0 with
-      | Static_index { expr = e1; field = p1; pos = off1 } ->
-          p0 = p1 && eq_expression e0 e1 && off0 = off1 (* could be relaxed *)
-      | _ -> false)
-  | Seq (a0, b0) -> (
-      match y0 with
-      | Seq (a1, b1) -> eq_expression a0 a1 && eq_expression b0 b1
-      | _ -> false)
-  | Bool a0 -> ( match y0 with Bool b0 -> a0 = b0 | _ -> false)
-  | Optional_block (a0, b0) -> (
-      match y0 with
-      | Optional_block (a1, b1) -> b0 = b1 && eq_expression a0 a1
-      | _ -> false)
-  | Caml_block { fields = ls0; mutable_flag = flag0; tag = tag0; _ } -> (
-      match y0 with
-      | Caml_block { fields = ls1; mutable_flag = flag1; tag = tag1; _ } ->
-          eq_expression_list ls0 ls1 && flag0 = flag1 && eq_expression tag0 tag1
-      | _ -> false)
-  | Length _ | Char_of_int _ | Char_to_int _ | Is_null_or_undefined _
-  | String_append _ | Typeof _ | Js_not _ | Cond _ | FlatCall _ | New _ | Fun _
-  | Raw_js_code _ | Array _ | Caml_block_tag _ | Object _
-  | Number (Uint _) ->
+  | ( String_index { expr = a0; index = a1 },
+      String_index { expr = b0; index = b1 } ) ->
+      eq_expression a0 b0 && eq_expression a1 b1
+  | Array_index { expr = a0; index = a1 }, Array_index { expr = b0; index = b1 }
+    ->
+      eq_expression a0 b0 && eq_expression a1 b1
+  | Call { expr = a0; args = args00; _ }, Call { expr = b0; args = args10; _ }
+    ->
+      eq_expression a0 b0 && eq_expression_list args00 args10
+  | Var x, Var y -> same_vident x y
+  | ( Bin { op = op0; expr1 = a0; expr2 = b0 },
+      Bin { op = op1; expr1 = a1; expr2 = b1 } ) ->
+      op0 = op1 && eq_expression a0 a1 && eq_expression b0 b1
+  | Str a0, Str a1 -> String.equal a0 a1
+  | Unicode s0, Unicode s1 -> String.equal s0 s1
+  | ( Module { id = id0; dynamic_import = d0; _ },
+      Module { id = id1; dynamic_import = d1; _ } ) ->
+      Ident.same id0 id1 && Bool.equal d0 d1
+  | ( Static_index { expr = e0; field = p0; pos = off0 },
+      Static_index { expr = e1; field = p1; pos = off1 } ) ->
+      String.equal p0 p1 && eq_expression e0 e1
+      && Option.equal Int32.equal off0 off1 (* could be relaxed *)
+  | Seq (a0, b0), Seq (a1, b1) -> eq_expression a0 a1 && eq_expression b0 b1
+  | Bool a0, Bool b0 -> Bool.equal a0 b0
+  | Optional_block (a0, b0), Optional_block (a1, b1) ->
+      Bool.equal b0 b1 && eq_expression a0 a1
+  | ( Caml_block { fields = ls0; mutable_flag = flag0; tag = tag0; _ },
+      Caml_block { fields = ls1; mutable_flag = flag1; tag = tag1; _ } ) ->
+      eq_expression_list ls0 ls1 && flag0 = flag1 && eq_expression tag0 tag1
+  | Length _, _
+  | Char_of_int _, _
+  | Char_to_int _, _
+  | Is_null_or_undefined _, _
+  | String_append _, _
+  | Typeof _, _
+  | Js_not _, _
+  | Cond _, _
+  | FlatCall _, _
+  | New _, _
+  | Fun _, _
+  | Raw_js_code _, _
+  | Array _, _
+  | Caml_block_tag _, _
+  | Object _, _
+  | Number (Uint _), _
+  | _, _ ->
       false
 
 and eq_expression_list xs ys = List.for_all2_no_exn xs ys ~f:eq_expression
@@ -248,13 +241,21 @@ and eq_block (xs : J.block) (ys : J.block) =
 
 and eq_statement ({ statement_desc = x0; _ } : J.statement)
     ({ statement_desc = y0; _ } : J.statement) =
-  match x0 with
-  | Exp a -> ( match y0 with Exp b -> eq_expression a b | _ -> false)
-  | Return a -> ( match y0 with Return b -> eq_expression a b | _ -> false)
-  | Debugger -> y0 = Debugger
-  | Block xs0 -> ( match y0 with Block ys0 -> eq_block xs0 ys0 | _ -> false)
-  | Variable _ | If _ | While _ | ForRange _ | Continue | Int_switch _
-  | String_switch _ | Throw _ | Try _ ->
+  match (x0, y0) with
+  | Exp a, Exp b -> eq_expression a b
+  | Return a, Return b -> eq_expression a b
+  | Debugger, Debugger -> true
+  | Block xs0, Block ys0 -> eq_block xs0 ys0
+  | Variable _, _
+  | If _, _
+  | While _, _
+  | ForRange _, _
+  | Continue, _
+  | Int_switch _, _
+  | String_switch _, _
+  | Throw _, _
+  | Try _, _
+  | _, _ ->
       false
 
 let rev_flatten_seq (x : J.expression) =
