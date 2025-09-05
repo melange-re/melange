@@ -181,7 +181,7 @@ let lam_prim =
     Lam.prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args ~loc
   in
   let convert_record_repr (x : Types.record_representation) :
-      Lam_primitive.record_representation =
+      Lam_primitive.Record_representation.t =
     match x with
     | Record_regular | Record_float -> Record_regular
     | Record_extension _ -> Record_extension

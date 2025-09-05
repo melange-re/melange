@@ -39,7 +39,7 @@ let rec struct_const ppf (cst : Lam.Constant.t) =
       let floats ppf fl = List.iter ~f:(fun f -> fprintf ppf "@ %s" f) fl in
       fprintf ppf "@[<1>[|@[%s%a@]|]@]" f1 floats fl
 
-let record_rep ppf (r : Lam_primitive.record_representation) =
+let record_rep ppf (r : Lam_primitive.Record_representation.t) =
   match r with
   | Record_regular -> fprintf ppf "regular"
   | Record_inlined { tag = i; _ } -> fprintf ppf "inlined %d" i

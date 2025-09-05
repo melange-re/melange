@@ -24,17 +24,21 @@
 
 open Import
 
-type record_representation =
-  | Record_regular
-  | Record_inlined of {
-      tag : int;
-      name : string;
-      num_nonconsts : int;
-      attributes : Parsetree.attributes;
-    }
-    (* Inlined record *)
-  | Record_extension
-(* Inlined record under extension *)
+module Record_representation : sig
+  type t =
+    | Record_regular
+    | Record_inlined of {
+        tag : int;
+        name : string;
+        num_nonconsts : int;
+        attributes : Parsetree.attributes;
+      }
+      (* Inlined record *)
+    | Record_extension
+  (* Inlined record under extension *)
+
+  val equal : t -> t -> bool
+end
 
 type t =
   | Pbytes_to_string
@@ -42,7 +46,7 @@ type t =
   | Pmakeblock of int * Melange_ffi.Lam_tag_info.t * Asttypes.mutable_flag
   | Pfield of int * Lambda.field_dbg_info
   | Psetfield of int * Lambda.set_field_dbg_info
-  | Pduprecord of record_representation
+  | Pduprecord of Record_representation.t
   | Plazyforce
   | Pccall of { prim_name : string }
   | Pjs_call of {
