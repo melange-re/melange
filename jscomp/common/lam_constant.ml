@@ -64,33 +64,26 @@ type t =
    [constant] is [undefined] or not *)
 
 let rec eq_approx (x : t) (y : t) =
-  match x with
-  | Const_module_alias -> y = Const_module_alias
-  | Const_js_null -> y = Const_js_null
-  | Const_js_undefined { is_unit = u1 } -> (
-      match y with Const_js_undefined { is_unit = u2 } -> u1 = u2 | _ -> false)
-  | Const_js_true -> y = Const_js_true
-  | Const_js_false -> y = Const_js_false
-  | Const_int ix -> ( match y with Const_int iy -> ix.i = iy.i | _ -> false)
-  | Const_char ix -> ( match y with Const_char iy -> ix = iy | _ -> false)
-  | Const_string { s = sx; unicode = ux } -> (
-      match y with
-      | Const_string { s = sy; unicode = uy } -> sx = sy && ux = uy
-      | _ -> false)
-  | Const_float ix -> ( match y with Const_float iy -> ix = iy | _ -> false)
-  | Const_int64 ix -> ( match y with Const_int64 iy -> ix = iy | _ -> false)
-  | Const_pointer ix -> (
-      match y with Const_pointer iy -> ix = iy | _ -> false)
-  | Const_block (ix, _, ixs) -> (
-      match y with
-      | Const_block (iy, _, iys) ->
-          ix = iy && List.for_all2_no_exn ixs iys ~f:eq_approx
-      | _ -> false)
-  | Const_float_array ixs -> (
-      match y with
-      | Const_float_array iys -> List.for_all2_no_exn ixs iys ~f:String.equal
-      | _ -> false)
-  | Const_some ix -> (
-      match y with Const_some iy -> eq_approx ix iy | _ -> false)
+  match (x, y) with
+  | Const_module_alias, Const_module_alias -> true
+  | Const_js_null, Const_js_null -> true
+  | Const_js_undefined { is_unit = u1 }, Const_js_undefined { is_unit = u2 } ->
+      Bool.equal u1 u2
+  | Const_js_true, Const_js_true -> true
+  | Const_js_false, Const_js_false -> true
+  | Const_int ix, Const_int iy -> Int32.equal ix.i iy.i
+  | Const_char ix, Const_char iy -> Char.equal ix iy
+  | Const_string { s = sx; unicode = ux }, Const_string { s = sy; unicode = uy }
+    ->
+      String.equal sx sy && Bool.equal ux uy
+  | Const_float ix, Const_float iy -> String.equal ix iy
+  | Const_int64 ix, Const_int64 iy -> Int64.equal ix iy
+  | Const_pointer ix, Const_pointer iy -> String.equal ix iy
+  | Const_block (ix, _, ixs), Const_block (iy, _, iys) ->
+      Int.equal ix iy && List.for_all2_no_exn ixs iys ~f:eq_approx
+  | Const_float_array ixs, Const_float_array iys ->
+      List.for_all2_no_exn ~f:String.equal ixs iys
+  | Const_some ix, Const_some iy -> eq_approx ix iy
+  | _, _ -> false
 
 let lam_none : t = Const_js_undefined { is_unit = false }
