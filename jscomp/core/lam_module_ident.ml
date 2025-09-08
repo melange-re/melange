@@ -32,7 +32,7 @@ module T = struct
     | External { name = x_kind; default = x_default } -> (
         match y.kind with
         | External { name = y_kind; default = y_default } ->
-            x_kind = (y_kind : string) && x_default = y_default
+            String.equal x_kind y_kind && Bool.equal x_default y_default
         | _ -> false)
     | Ml | Runtime -> Ident.equal x.id y.id
 
