@@ -171,6 +171,43 @@ let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 type specs = External_arg_spec.Arg_label.t External_arg_spec.param list
 type exprs = E.t list
 
+module Trailing_undefined = struct
+  type t = Trailing | Trailing_empty | None
+
+  let strip =
+    let rec has_undefined_trailing_args arg_types args =
+      match (arg_types, args) with
+      | ( [ External_arg_spec.{ arg_label = Arg_label.Arg_optional; _ } ],
+          [ { J.expression_desc = Undefined { is_unit = false }; _ } ] ) ->
+          Trailing
+      | ( [ { arg_label = Arg_optional; _ }; { arg_label = Arg_empty; _ } ],
+          [ { expression_desc = Undefined { is_unit = false }; _ } ] ) ->
+          (* NOTE(anmonteiro: this is the case where the trailing `unit` argument
+           is ignored, e.g. `external foo: int -> unit -> unit` => `foo(42)` *)
+          Trailing_empty
+      | _ :: arg_types, _ :: args -> has_undefined_trailing_args arg_types args
+      | _, _ -> None
+    in
+    let rec strip_undefined_trailing_args arg_types args =
+      match (arg_types, args) with
+      | ( External_arg_spec.{ arg_label = Arg_label.Arg_optional; _ }
+          :: arg_types,
+          { J.expression_desc = Undefined { is_unit = false }; _ } :: args ) ->
+          strip_undefined_trailing_args arg_types args
+      | _ -> args
+    in
+    fun (arg_types : specs) (args : exprs) ->
+      match has_undefined_trailing_args arg_types args with
+      | Trailing ->
+          strip_undefined_trailing_args (List.rev arg_types) (List.rev args)
+          |> List.rev
+      | Trailing_empty ->
+          let[@ocaml.warning "-8"] (empty :: tl) = List.rev arg_types in
+          assert (empty.arg_label = Arg_empty);
+          strip_undefined_trailing_args tl (List.rev args) |> List.rev
+      | None -> args
+end
+
 (* TODO: fix splice,
    we need a static guarantee that it is static array construct
    otherwise, we should provide a good error message here,
@@ -195,6 +232,7 @@ let assemble_args_no_splice =
   in
   fun (args : exprs) (arg_types : specs) : (exprs * E.t option) ->
     let args, eff = aux arg_types args in
+    let args = Trailing_undefined.strip arg_types args in
     ( args,
       match eff with
       | [] -> None

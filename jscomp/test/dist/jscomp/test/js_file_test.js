@@ -15,7 +15,7 @@ function make_with_options(param) {
 }
 
 function file_size(param) {
-  const file = new File(["hello"].values(), "foo.txt", undefined);
+  const file = new File(["hello"].values(), "foo.txt");
   return {
     TAG: /* Eq */ 0,
     _0: file.size,
@@ -24,7 +24,7 @@ function file_size(param) {
 }
 
 function file_type(param) {
-  const file = new File(["hello"].values(), "foo.txt", undefined);
+  const file = new File(["hello"].values(), "foo.txt");
   return {
     TAG: /* Eq */ 0,
     _0: file.type,
