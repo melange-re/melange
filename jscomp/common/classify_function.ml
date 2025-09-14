@@ -120,5 +120,4 @@ let classify_stmt (prog : string) : Js_raw_info.stmt =
   | _loc, { statements = []; _ } -> Js_stmt_comment
   | _ -> Js_stmt_unknown
 (* we can also analyze throw
-   x.x pure access
-*)
+   x.x pure access *)

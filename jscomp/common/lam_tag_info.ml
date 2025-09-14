@@ -56,11 +56,11 @@ let equal (x : t) y =
   | Blk_poly_var -> ( match y with Blk_poly_var -> true | _ -> false)
   | Blk_record arr1 -> (
       match y with
-      | Blk_record arr2 -> Array.equal String.equal arr1 arr2
+      | Blk_record arr2 -> Array.equal ~eq:String.equal arr1 arr2
       | _ -> false)
   | Blk_module xs1 -> (
       match y with
-      | Blk_module xs2 -> List.equal String.equal xs1 xs2
+      | Blk_module xs2 -> List.equal ~eq:String.equal xs1 xs2
       | _ -> false)
   | Blk_extension { exn = e1 } -> (
       match y with Blk_extension { exn = e2 } -> e1 = e2 | _ -> false)
@@ -68,7 +68,7 @@ let equal (x : t) y =
   | Blk_record_ext { fields = fs1; exn = e1 } -> (
       match y with
       | Blk_record_ext { fields = fs2; exn = e2 } ->
-          Array.equal String.equal fs1 fs2 && e1 = e2
+          Array.equal ~eq:String.equal fs1 fs2 && Bool.equal e1 e2
       | _ -> false)
   | Blk_record_inlined
       { name = n1; num_nonconst = nc1; fields = fs1; attributes = attrs1 } -> (
@@ -77,14 +77,14 @@ let equal (x : t) y =
           { name = n2; num_nonconst = nc2; fields = fs2; attributes = attrs2 }
         ->
           n1 = n2 && nc1 = nc2
-          && Array.equal String.equal fs1 fs2
-          && List.equal ( = ) attrs1 attrs2
+          && Array.equal ~eq:String.equal fs1 fs2
+          && List.equal ~eq:( = ) attrs1 attrs2
       | _ -> false)
   | Blk_constructor { name = n1; num_nonconst = nc1; attributes = attrs1 } -> (
       match y with
       | Blk_constructor { name = n2; num_nonconst = nc2; attributes = attrs2 }
         ->
-          n1 = n2 && nc1 = nc2 && List.equal ( = ) attrs1 attrs2
+          n1 = n2 && nc1 = nc2 && List.equal ~eq:( = ) attrs1 attrs2
       | _ -> false)
   | Blk_class -> ( match y with Blk_class -> true | _ -> false)
   | Blk_module_export -> (
