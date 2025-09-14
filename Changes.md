@@ -34,7 +34,7 @@ Unreleased
   JavaScript, e.g. those that are optionally labeled don't become explicitly
   `undefined` in the JavaScript output
   ([#1564](https://github.com/melange-re/melange/pull/1564))
-- runtime: consolidate functions in `Js.Date` to account for the recent
+- BREAKING(runtime): consolidate functions in `Js.Date` to account for the recent
   improvement in code generation related to omitting trailing undefined
   arguments ([#1597](https://github.com/melange-re/melange/pull/1597))
 
