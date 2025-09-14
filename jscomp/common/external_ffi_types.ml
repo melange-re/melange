@@ -31,58 +31,162 @@ module Literals = struct
   let infix_ops = [ "|."; setter_suffix; "##" ]
 end
 
-type module_bind_name =
-  | Phint_name of string (* explicit hint name *)
-  | Phint_nothing
+module Module_bind_name = struct
+  type t =
+    | Phint_name of string
+    (* explicit hint name *)
+    | Phint_nothing
 
-type external_module_name = {
-  bundle : string;
-  module_bind_name : module_bind_name;
-}
+  let equal t1 t2 =
+    match (t1, t2) with
+    | Phint_name n1, Phint_name n2 -> String.equal n1 n2
+    | Phint_nothing, Phint_nothing -> true
+    | Phint_name _, Phint_nothing | Phint_nothing, Phint_name _ -> false
+end
+
+module External_module_name = struct
+  type t = { bundle : string; module_bind_name : Module_bind_name.t }
+
+  let equal t1 t2 =
+    String.equal t1.bundle t2.bundle
+    && Module_bind_name.equal t1.module_bind_name t2.module_bind_name
+end
 
 type arg_type = External_arg_spec.t
 (* TODO: information between [arg_type] and [arg_label] are duplicated,
    design a more compact representation so that it is also easy to seralize by
    hand *)
 
-type arg_label = External_arg_spec.Obj_label.t
+module External_spec = struct
+  type t =
+    | Js_var of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        scopes : string list;
+      }
+    | Js_module_as_var of External_module_name.t
+    | Js_module_as_fn of {
+        external_module_name : External_module_name.t;
+        variadic : bool;
+      }
+    | Js_module_as_class of External_module_name.t
+    | Js_call of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        variadic : bool;
+        scopes : string list;
+      }
+    | Js_send of {
+        name : string;
+        variadic : bool;
+        self_idx : int;
+        new_ : bool;
+        scopes : string list;
+      }
+      (* we know it is a js send, but what will happen if you pass an ocaml object *)
+    | Js_new of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        variadic : bool;
+        scopes : string list;
+      }
+    | Js_set of { name : string; scopes : string list }
+    | Js_get of { name : string; scopes : string list }
+    | Js_get_index of { scopes : string list }
+    | Js_set_index of { scopes : string list }
 
-type external_spec =
-  | Js_var of {
-      name : string;
-      external_module_name : external_module_name option;
-      scopes : string list;
-    }
-  | Js_module_as_var of external_module_name
-  | Js_module_as_fn of {
-      external_module_name : external_module_name;
-      variadic : bool;
-    }
-  | Js_module_as_class of external_module_name
-  | Js_call of {
-      name : string;
-      external_module_name : external_module_name option;
-      variadic : bool;
-      scopes : string list;
-    }
-  | Js_send of {
-      name : string;
-      variadic : bool;
-      self_idx : int;
-      new_ : bool;
-      scopes : string list;
-    }
-    (* we know it is a js send, but what will happen if you pass an ocaml object *)
-  | Js_new of {
-      name : string;
-      external_module_name : external_module_name option;
-      variadic : bool;
-      scopes : string list;
-    }
-  | Js_set of { name : string; scopes : string list }
-  | Js_get of { name : string; scopes : string list }
-  | Js_get_index of { scopes : string list }
-  | Js_set_index of { scopes : string list }
+  let equal t1 t2 =
+    match t1 with
+    | Js_var { name = n1; external_module_name = mn1; scopes = ss1 } -> (
+        match t2 with
+        | Js_var { name = n2; external_module_name = mn2; scopes = ss2 } ->
+            String.equal n1 n2
+            && Option.equal External_module_name.equal mn1 mn2
+            && List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_module_as_var mn1 -> (
+        match t2 with
+        | Js_module_as_var mn2 -> External_module_name.equal mn1 mn2
+        | _ -> false)
+    | Js_module_as_fn { external_module_name = mn1; variadic = v1 } -> (
+        match t2 with
+        | Js_module_as_fn { external_module_name = mn2; variadic = v2 } ->
+            External_module_name.equal mn1 mn2 && Bool.equal v1 v2
+        | _ -> false)
+    | Js_module_as_class mn1 -> (
+        match t2 with
+        | Js_module_as_class mn2 -> External_module_name.equal mn1 mn2
+        | _ -> false)
+    | Js_call
+        { name = n1; external_module_name = mn1; variadic = v1; scopes = ss1 }
+      -> (
+        match t2 with
+        | Js_call
+            {
+              name = n2;
+              external_module_name = mn2;
+              variadic = v2;
+              scopes = ss2;
+            } ->
+            String.equal n1 n2
+            && Option.equal External_module_name.equal mn1 mn2
+            && Bool.equal v1 v2
+            && List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_send
+        { name = n1; variadic = v1; self_idx = i1; new_ = new1; scopes = ss1 }
+      -> (
+        match t2 with
+        | Js_send
+            {
+              name = n2;
+              variadic = v2;
+              self_idx = i2;
+              new_ = new2;
+              scopes = ss2;
+            } ->
+            String.equal n1 n2 && Bool.equal v1 v2 && Int.equal i1 i2
+            && Bool.equal new1 new2
+            && List.equal ~eq:String.equal ss1 ss2
+        | _ ->
+            false
+            (* we know it is a js send, but what will happen if you pass an ocaml object *)
+        )
+    | Js_new
+        { name = n1; external_module_name = mn1; variadic = v1; scopes = ss1 }
+      -> (
+        match t2 with
+        | Js_new
+            {
+              name = n2;
+              external_module_name = mn2;
+              variadic = v2;
+              scopes = ss2;
+            } ->
+            String.equal n1 n2
+            && Option.equal External_module_name.equal mn1 mn2
+            && Bool.equal v1 v2
+            && List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_set { name = n1; scopes = ss1 } -> (
+        match t2 with
+        | Js_set { name = n2; scopes = ss2 } ->
+            String.equal n1 n2 && List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_get { name = n1; scopes = ss1 } -> (
+        match t2 with
+        | Js_get { name = n2; scopes = ss2 } ->
+            String.equal n1 n2 && List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_get_index { scopes = ss1 } -> (
+        match t2 with
+        | Js_get_index { scopes = ss2 } -> List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+    | Js_set_index { scopes = ss1 } -> (
+        match t2 with
+        | Js_set_index { scopes = ss2 } -> List.equal ~eq:String.equal ss1 ss2
+        | _ -> false)
+end
 
 type return_wrapper =
   | Return_unset
@@ -93,15 +197,16 @@ type return_wrapper =
   | Return_replaced_with_unit
 
 type params =
-  | Params of External_arg_spec.Arg_label.t External_arg_spec.param list
+  | Params of External_arg_spec.Arg_label.t External_arg_spec.Param.t list
   | Param_number of int
 
 type t =
-  | Ffi_mel of params * return_wrapper * external_spec
+  | Ffi_mel of params * return_wrapper * External_spec.t
       (**  [Ffi_mel(args,return,attr) ]
        [return] means return value is unit or not,
         [true] means is [unit] *)
-  | Ffi_obj_create of External_arg_spec.Obj_label.t External_arg_spec.param list
+  | Ffi_obj_create of
+      External_arg_spec.Obj_label.t External_arg_spec.Param.t list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
 (* When it's normal, it is handled as normal c functional ffi call *)
@@ -159,7 +264,7 @@ let inline_float_primitive i = Ffi_inline_const (Const_float i)
 
 let ffi_mel =
   let rec ffi_mel_aux acc
-      (params : External_arg_spec.Arg_label.t External_arg_spec.param list) =
+      (params : External_arg_spec.Arg_label.t External_arg_spec.Param.t list) =
     match params with
     | { arg_type = Nothing; arg_label = Arg_empty }
         (* same as External_arg_spec.dummy*)
@@ -168,7 +273,7 @@ let ffi_mel =
     | _ :: _ -> -1
     | [] -> acc
   in
-  fun (params : External_arg_spec.Arg_label.t External_arg_spec.param list)
+  fun (params : External_arg_spec.Arg_label.t External_arg_spec.Param.t list)
     return
     attr
   ->

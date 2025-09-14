@@ -50,8 +50,9 @@ let reset () =
 (** We should not provide "#moduleid" as output
     since when we print it in the end, it will
     be escaped quite ugly *)
-let add_js_module (hint_name : Melange_ffi.External_ffi_types.module_bind_name)
-    module_name ~default ~dynamic_import =
+let add_js_module
+    (hint_name : Melange_ffi.External_ffi_types.Module_bind_name.t) module_name
+    ~default ~dynamic_import =
   let lam_module_ident : Lam_module_ident.t =
     let module_id =
       let local_name =

@@ -27,55 +27,63 @@ module Literals : sig
   val infix_ops : string list
 end
 
-type module_bind_name =
-  | Phint_name of string
-  (* explicit hint name *)
-  | Phint_nothing
+module Module_bind_name : sig
+  type t =
+    | Phint_name of string
+    (* explicit hint name *)
+    | Phint_nothing
 
-type external_module_name = {
-  bundle : string;
-  module_bind_name : module_bind_name;
-}
+  val equal : t -> t -> bool
+end
+
+module External_module_name : sig
+  type t = { bundle : string; module_bind_name : Module_bind_name.t }
+
+  val equal : t -> t -> bool
+end
 
 type arg_type = External_arg_spec.t
-type arg_label = External_arg_spec.Obj_label.t
 
-type external_spec =
-  | Js_var of {
-      name : string;
-      external_module_name : external_module_name option;
-      scopes : string list;
-    }
-  | Js_module_as_var of external_module_name
-  | Js_module_as_fn of {
-      external_module_name : external_module_name;
-      variadic : bool;
-    }
-  | Js_module_as_class of external_module_name
-  | Js_call of {
-      name : string;
-      external_module_name : external_module_name option;
-      variadic : bool;
-      scopes : string list;
-    }
-  | Js_send of {
-      name : string;
-      variadic : bool;
-      self_idx : int;
-      new_ : bool;
-      scopes : string list;
-    }
-    (* we know it is a js send, but what will happen if you pass an ocaml objct *)
-  | Js_new of {
-      name : string;
-      external_module_name : external_module_name option;
-      variadic : bool;
-      scopes : string list;
-    }
-  | Js_set of { name : string; scopes : string list }
-  | Js_get of { name : string; scopes : string list }
-  | Js_get_index of { scopes : string list }
-  | Js_set_index of { scopes : string list }
+module External_spec : sig
+  type t =
+    | Js_var of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        scopes : string list;
+      }
+    | Js_module_as_var of External_module_name.t
+    | Js_module_as_fn of {
+        external_module_name : External_module_name.t;
+        variadic : bool;
+      }
+    | Js_module_as_class of External_module_name.t
+    | Js_call of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        variadic : bool;
+        scopes : string list;
+      }
+    | Js_send of {
+        name : string;
+        variadic : bool;
+        self_idx : int;
+        new_ : bool;
+        scopes : string list;
+      }
+      (* we know it is a js send, but what will happen if you pass an ocaml objct *)
+    | Js_new of {
+        name : string;
+        external_module_name : External_module_name.t option;
+        variadic : bool;
+        scopes : string list;
+      }
+    | Js_set of { name : string; scopes : string list }
+    | Js_get of { name : string; scopes : string list }
+    | Js_get_index of { scopes : string list }
+    | Js_set_index of { scopes : string list }
+
+  val equal : t -> t -> bool
+end
 
 type return_wrapper =
   | Return_unset
@@ -86,12 +94,13 @@ type return_wrapper =
   | Return_replaced_with_unit
 
 type params =
-  | Params of External_arg_spec.Arg_label.t External_arg_spec.param list
+  | Params of External_arg_spec.Arg_label.t External_arg_spec.Param.t list
   | Param_number of int
 
 type t = private
-  | Ffi_mel of params * return_wrapper * external_spec
-  | Ffi_obj_create of External_arg_spec.Obj_label.t External_arg_spec.param list
+  | Ffi_mel of params * return_wrapper * External_spec.t
+  | Ffi_obj_create of
+      External_arg_spec.Obj_label.t External_arg_spec.Param.t list
   | Ffi_inline_const of Lam_constant.t
   | Ffi_normal
 (* Ffi_normal represents a C functional ffi call *)
@@ -108,10 +117,10 @@ val inline_int64_primitive : int64 -> t
 val inline_float_primitive : string -> t
 
 val ffi_mel :
-  External_arg_spec.Arg_label.t External_arg_spec.param list ->
+  External_arg_spec.Arg_label.t External_arg_spec.Param.t list ->
   return_wrapper ->
-  external_spec ->
+  External_spec.t ->
   t
 
 val ffi_obj_create :
-  External_arg_spec.Obj_label.t External_arg_spec.param list -> t
+  External_arg_spec.Obj_label.t External_arg_spec.Param.t list -> t

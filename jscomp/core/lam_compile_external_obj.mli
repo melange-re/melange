@@ -31,7 +31,8 @@
  *)
 
 val assemble_obj_args :
-  Melange_ffi.External_arg_spec.Obj_label.t Melange_ffi.External_arg_spec.param
+  Melange_ffi.External_arg_spec.Obj_label.t
+  Melange_ffi.External_arg_spec.Param.t
   list ->
   J.expression list ->
   J.block * J.expression

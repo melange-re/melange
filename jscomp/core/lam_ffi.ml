@@ -32,7 +32,7 @@
 let rec no_auto_uncurried_arg_types
     (xs :
       Melange_ffi.External_arg_spec.Arg_label.t
-      Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Param.t
       list) =
   match xs with
   | [] -> true
@@ -42,12 +42,12 @@ let rec no_auto_uncurried_arg_types
 let rec transform_uncurried_arg_type ~loc
     (arg_types :
       Melange_ffi.External_arg_spec.Arg_label.t
-      Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Param.t
       list) (args : Lam.t list) =
   match (arg_types, args) with
   | { arg_type = Fn_uncurry_arity n; arg_label } :: xs, y :: ys ->
       let o_arg_types, o_args = transform_uncurried_arg_type ~loc xs ys in
-      ( { Melange_ffi.External_arg_spec.arg_type = Nothing; arg_label }
+      ( { Melange_ffi.External_arg_spec.Param.arg_type = Nothing; arg_label }
         :: o_arg_types,
         Lam.prim ~primitive:(Pjs_fn_make n) ~args:[ y ] ~loc :: o_args )
   | x :: xs, y :: ys -> (
@@ -75,7 +75,7 @@ let handle_mel_non_obj_ffi =
   in
   fun (arg_types :
         Melange_ffi.External_arg_spec.Arg_label.t
-        Melange_ffi.External_arg_spec.param
+        Melange_ffi.External_arg_spec.Param.t
         list)
     (result_type : Melange_ffi.External_ffi_types.return_wrapper)
     ffi

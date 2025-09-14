@@ -78,14 +78,14 @@ type t =
       prim_name : string;
       arg_types :
         Melange_ffi.External_arg_spec.Arg_label.t
-        Melange_ffi.External_arg_spec.param
+        Melange_ffi.External_arg_spec.Param.t
         list;
-      ffi : Melange_ffi.External_ffi_types.external_spec;
+      ffi : Melange_ffi.External_ffi_types.External_spec.t;
       dynamic_import : bool;
     }
   | Pjs_object_create of
       Melange_ffi.External_arg_spec.Obj_label.t
-      Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Param.t
       list
   (* Exceptions *)
   | Praise
@@ -171,7 +171,7 @@ type t =
   | Pctconst of
       Lam_compat.Compile_time_constant.t (* Integer to external pointer *)
   | Pbswap16
-  | Pbbswap of Lam_compat.boxed_integer
+  | Pbbswap of Lam_compat.Boxed_integer.t
   (* Inhibition of optimisation *)
   | Popaque
   (* JS specific *)
@@ -255,23 +255,23 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pbytesrefs -> rhs = Pbytesrefs
   | Pbytessets -> rhs = Pbytessets
   | Pstring_load_16 b1 -> (
-      match rhs with Pstring_load_16 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pstring_load_16 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pstring_load_32 b1 -> (
-      match rhs with Pstring_load_32 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pstring_load_32 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pstring_load_64 b1 -> (
-      match rhs with Pstring_load_64 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pstring_load_64 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_load_16 b1 -> (
-      match rhs with Pbytes_load_16 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_load_16 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_load_32 b1 -> (
-      match rhs with Pbytes_load_32 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_load_32 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_load_64 b1 -> (
-      match rhs with Pbytes_load_64 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_load_64 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_set_16 b1 -> (
-      match rhs with Pbytes_set_16 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_set_16 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_set_32 b1 -> (
-      match rhs with Pbytes_set_32 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_set_32 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pbytes_set_64 b1 -> (
-      match rhs with Pbytes_set_64 b2 -> b1 = b2 | _ -> false)
+      match rhs with Pbytes_set_64 b2 -> Bool.equal b1 b2 | _ -> false)
   | Pundefined_to_opt -> rhs = Pundefined_to_opt
   | Pnull_to_opt -> rhs = Pnull_to_opt
   | Pnull_undefined_to_opt -> rhs = Pnull_undefined_to_opt
@@ -295,21 +295,24 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pcaml_obj_length -> rhs = Pcaml_obj_length
   (* | Pcaml_obj_set_length -> rhs = Pcaml_obj_set_length *)
   | Pccall { prim_name = n0 } -> (
-      match rhs with Pccall { prim_name = n1 } -> n0 = n1 | _ -> false)
+      match rhs with
+      | Pccall { prim_name = n1 } -> String.equal n0 n1
+      | _ -> false)
   | Pfield (n0, info0) -> (
       match rhs with
       | Pfield (n1, info1) ->
-          n0 = n1 && Lam_compat.Field_dbg_info.equal info0 info1
+          Int.equal n0 n1 && Lam_compat.Field_dbg_info.equal info0 info1
       | _ -> false)
   | Psetfield (i0, info0) -> (
       match rhs with
       | Psetfield (i1, info1) ->
-          i0 = i1 && Lam_compat.Set_field_dbg_info.equal info0 info1
+          Int.equal i0 i1 && Lam_compat.Set_field_dbg_info.equal info0 info1
       | _ -> false)
   | Pmakeblock (i0, info0, flag0) -> (
       match rhs with
       | Pmakeblock (i1, info1, flag1) ->
-          i0 = i1 && flag0 = flag1 && Melange_ffi.Lam_tag_info.equal info0 info1
+          Int.equal i0 i1 && flag0 = flag1
+          && Melange_ffi.Lam_tag_info.equal info0 info1
       | _ -> false)
   | Pduprecord record_repesentation0 -> (
       match rhs with
@@ -320,13 +323,23 @@ let eq_approx (lhs : t) (rhs : t) =
   | Pjs_call { prim_name; arg_types; ffi; dynamic_import } -> (
       match rhs with
       | Pjs_call rhs ->
-          prim_name = rhs.prim_name && arg_types = rhs.arg_types
-          && ffi = rhs.ffi
-          && dynamic_import = rhs.dynamic_import
+          String.equal prim_name rhs.prim_name
+          && List.equal
+               ~eq:
+                 (Melange_ffi.External_arg_spec.Param.equal
+                    ~eq:Melange_ffi.External_arg_spec.Arg_label.equal)
+               arg_types rhs.arg_types
+          && Melange_ffi.External_ffi_types.External_spec.equal ffi rhs.ffi
+          && Bool.equal dynamic_import rhs.dynamic_import
       | _ -> false)
   | Pjs_object_create obj_create -> (
       match rhs with
-      | Pjs_object_create obj_create1 -> obj_create = obj_create1
+      | Pjs_object_create obj_create1 ->
+          List.equal
+            ~eq:
+              (Melange_ffi.External_arg_spec.Param.equal
+                 ~eq:Melange_ffi.External_arg_spec.Obj_label.equal)
+            obj_create obj_create1
       | _ -> false)
   | Pintcomp comparison -> (
       match rhs with
@@ -343,8 +356,10 @@ let eq_approx (lhs : t) (rhs : t) =
       | Pjscomp comparison1 ->
           Lam_compat.Integer_comparison.equal comparison comparison1
       | _ -> false)
-  | Poffsetint i0 -> ( match rhs with Poffsetint i1 -> i0 = i1 | _ -> false)
-  | Poffsetref i0 -> ( match rhs with Poffsetref i1 -> i0 = i1 | _ -> false)
+  | Poffsetint i0 -> (
+      match rhs with Poffsetint i1 -> Int.equal i0 i1 | _ -> false)
+  | Poffsetref i0 -> (
+      match rhs with Poffsetref i1 -> Int.equal i0 i1 | _ -> false)
   | Pmakearray -> rhs = Pmakearray
   | Parraylength -> rhs = Parraylength
   | Parrayrefu -> rhs = Parrayrefu
@@ -377,13 +392,18 @@ let eq_approx (lhs : t) (rhs : t) =
             compile_time_constant1
       | _ -> false)
   | Pbswap16 -> rhs = Pbswap16
-  | Pbbswap i1 -> ( match rhs with Pbbswap i2 -> i1 = i2 | _ -> false)
+  | Pbbswap i1 -> (
+      match rhs with
+      | Pbbswap i2 -> Lam_compat.Boxed_integer.equal i1 i2
+      | _ -> false)
   | Popaque -> ( match rhs with Popaque -> true | _ -> false)
   | Pjs_unsafe_downgrade { name; loc = _; setter } -> (
       match rhs with
-      | Pjs_unsafe_downgrade rhs -> name = rhs.name && setter = rhs.setter
+      | Pjs_unsafe_downgrade rhs ->
+          String.equal name rhs.name && Bool.equal setter rhs.setter
       | _ -> false)
-  | Pjs_fn_make i -> ( match rhs with Pjs_fn_make i1 -> i = i1 | _ -> false)
+  | Pjs_fn_make i -> (
+      match rhs with Pjs_fn_make i1 -> Int.equal i i1 | _ -> false)
   | Pvoid_run -> rhs = Pvoid_run
   | Pfull_apply -> rhs = Pfull_apply
   | Pjs_fn_method -> rhs = Pjs_fn_method

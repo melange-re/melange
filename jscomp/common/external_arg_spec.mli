@@ -24,17 +24,23 @@
 
 module Arg_cst : sig
   type t = Int of int | Str of string | Js_literal of string
+
+  val equal : t -> t -> bool
 end
 
-type polyvar_descr = {
-  (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
-  descr : (string * Arg_cst.t) list;
-  spread : bool;
-}
+module Polyvar_descr : sig
+  type t = {
+    (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
+    descr : (string * Arg_cst.t) list;
+    spread : bool;
+  }
+
+  val equal : t -> t -> bool
+end
 
 type t =
-  | Poly_var of polyvar_descr
-  | Int of polyvar_descr
+  | Poly_var of Polyvar_descr.t
+  | Int of Polyvar_descr.t
   | Arg_cst of Arg_cst.t
   | Fn_uncurry_arity of int
       (** annotated with [@mel.uncurry ] or [@mel.uncurry 2]*)
@@ -46,6 +52,8 @@ type t =
 
 module Arg_label : sig
   type t = Arg_label | Arg_empty | Arg_optional
+
+  val equal : t -> t -> bool
 end
 
 module Obj_label : sig
@@ -55,11 +63,16 @@ module Obj_label : sig
     | Obj_optional of { name : string; for_sure_no_nested_option : bool }
         (** it will be ignored , side effect will be recorded *)
 
+  val equal : t -> t -> bool
   val obj : string -> t
   val optional : for_sure_no_nested_option:bool -> string -> t
 end
 
-type 'a param = { arg_type : t; arg_label : 'a }
+module Param : sig
+  type nonrec 'a t = { arg_type : t; arg_label : 'a }
 
-val empty_kind : t -> Obj_label.t param
-val dummy : Arg_label.t param
+  val equal : eq:('a -> 'a -> bool) -> 'a t -> 'a t -> bool
+end
+
+val empty_kind : t -> Obj_label.t Param.t
+val dummy : Arg_label.t Param.t
