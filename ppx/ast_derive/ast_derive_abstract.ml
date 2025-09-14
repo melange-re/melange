@@ -57,7 +57,7 @@ let derive_js_constructor =
              else Melange_ffi.External_arg_spec.Obj_label.obj label_name
            in
            {
-             Melange_ffi.External_arg_spec.arg_type = Nothing;
+             Melange_ffi.External_arg_spec.Param.arg_type = Nothing;
              arg_label = obj_arg_label;
            }
            :: arg_kinds))
