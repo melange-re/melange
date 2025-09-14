@@ -30,62 +30,29 @@ external valueOf : t -> float = "valueOf"
 [@@mel.send]
 (** returns the primitive value of this date, equivalent to getTime *)
 
-external make : unit -> t = "Date"
-[@@mel.new]
-(** returns a date representing the current time *)
-
 external fromFloat : float -> t = "Date" [@@mel.new]
 external fromString : string -> t = "Date" [@@mel.new]
-external makeWithYM : year:float -> month:float -> t = "Date" [@@mel.new]
 
-external makeWithYMD : year:float -> month:float -> date:float -> t = "Date"
-[@@mel.new]
-
-external makeWithYMDH :
-  year:float -> month:float -> date:float -> hours:float -> t = "Date"
-[@@mel.new]
-
-external makeWithYMDHM :
-  year:float -> month:float -> date:float -> hours:float -> minutes:float -> t
-  = "Date"
-[@@mel.new]
-
-external makeWithYMDHMS :
-  year:float ->
-  month:float ->
-  date:float ->
-  hours:float ->
-  minutes:float ->
-  seconds:float ->
+external make :
+  ?year:float ->
+  ?month:float ->
+  ?date:float ->
+  ?hours:float ->
+  ?minutes:float ->
+  ?seconds:float ->
+  unit ->
   t = "Date"
 [@@mel.new]
+(** [make ()] returns a date representing the current time. *)
 
-external utcWithYM : year:float -> month:float -> float = "UTC"
-[@@mel.scope "Date"]
-
-external utcWithYMD : year:float -> month:float -> date:float -> float = "UTC"
-[@@mel.scope "Date"]
-
-external utcWithYMDH :
-  year:float -> month:float -> date:float -> hours:float -> float = "UTC"
-[@@mel.scope "Date"]
-
-external utcWithYMDHM :
+external utc :
   year:float ->
-  month:float ->
-  date:float ->
-  hours:float ->
-  minutes:float ->
-  float = "UTC"
-[@@mel.scope "Date"]
-
-external utcWithYMDHMS :
-  year:float ->
-  month:float ->
-  date:float ->
-  hours:float ->
-  minutes:float ->
-  seconds:float ->
+  ?month:float ->
+  ?date:float ->
+  ?hours:float ->
+  ?minutes:float ->
+  ?seconds:float ->
+  unit ->
   float = "UTC"
 [@@mel.scope "Date"]
 
@@ -144,35 +111,16 @@ external getUTCSeconds : t -> float = "getUTCSeconds" [@@mel.send]
 external setDate : date:float -> (t[@mel.this]) -> float = "setDate"
 [@@mel.send]
 
-external setFullYear : year:float -> (t[@mel.this]) -> float = "setFullYear"
-[@@mel.send]
-
-external setFullYearM : year:float -> month:float -> (t[@mel.this]) -> float
+external setFullYear :
+  year:float -> ?month:float -> ?date:float -> (t[@mel.this]) -> float
   = "setFullYear"
 [@@mel.send]
 
-external setFullYearMD :
-  year:float -> month:float -> date:float -> (t[@mel.this]) -> float
-  = "setFullYear"
-[@@mel.send]
-
-external setHours : hours:float -> (t[@mel.this]) -> float = "setHours"
-[@@mel.send]
-
-external setHoursM : hours:float -> minutes:float -> (t[@mel.this]) -> float
-  = "setHours"
-[@@mel.send]
-
-external setHoursMS :
-  hours:float -> minutes:float -> seconds:float -> (t[@mel.this]) -> float
-  = "setHours"
-[@@mel.send]
-
-external setHoursMSMs :
+external setHours :
   hours:float ->
-  minutes:float ->
-  seconds:float ->
-  milliseconds:float ->
+  ?minutes:float ->
+  ?seconds:float ->
+  ?milliseconds:float ->
   (t[@mel.this]) ->
   float = "setHours"
 [@@mel.send]
@@ -181,33 +129,20 @@ external setMilliseconds : milliseconds:float -> (t[@mel.this]) -> float
   = "setMilliseconds"
 [@@mel.send]
 
-external setMinutes : minutes:float -> (t[@mel.this]) -> float = "setMinutes"
-[@@mel.send]
-
-external setMinutesS : minutes:float -> seconds:float -> (t[@mel.this]) -> float
-  = "setMinutes"
-[@@mel.send]
-
-external setMinutesSMs :
+external setMinutes :
   minutes:float ->
-  seconds:float ->
-  milliseconds:float ->
+  ?seconds:float ->
+  ?milliseconds:float ->
   (t[@mel.this]) ->
   float = "setMinutes"
 [@@mel.send]
 
-external setMonth : month:float -> (t[@mel.this]) -> float = "setMonth"
-[@@mel.send]
-
-external setMonthD : month:float -> date:float -> (t[@mel.this]) -> float
+external setMonth : month:float -> ?date:float -> (t[@mel.this]) -> float
   = "setMonth"
 [@@mel.send]
 
-external setSeconds : seconds:float -> (t[@mel.this]) -> float = "setSeconds"
-[@@mel.send]
-
-external setSecondsMs :
-  seconds:float -> milliseconds:float -> (t[@mel.this]) -> float = "setSeconds"
+external setSeconds :
+  seconds:float -> ?milliseconds:float -> (t[@mel.this]) -> float = "setSeconds"
 [@@mel.send]
 
 external setTime : time:float -> (t[@mel.this]) -> float = "setTime"
@@ -216,36 +151,16 @@ external setTime : time:float -> (t[@mel.this]) -> float = "setTime"
 external setUTCDate : date:float -> (t[@mel.this]) -> float = "setUTCDate"
 [@@mel.send]
 
-external setUTCFullYear : year:float -> (t[@mel.this]) -> float
+external setUTCFullYear :
+  year:float -> ?month:float -> ?date:float -> (t[@mel.this]) -> float
   = "setUTCFullYear"
 [@@mel.send]
 
-external setUTCFullYearM : year:float -> month:float -> (t[@mel.this]) -> float
-  = "setUTCFullYear"
-[@@mel.send]
-
-external setUTCFullYearMD :
-  year:float -> month:float -> date:float -> (t[@mel.this]) -> float
-  = "setUTCFullYear"
-[@@mel.send]
-
-external setUTCHours : hours:float -> (t[@mel.this]) -> float = "setUTCHours"
-[@@mel.send]
-
-external setUTCHoursM : hours:float -> minutes:float -> (t[@mel.this]) -> float
-  = "setUTCHours"
-[@@mel.send]
-
-external setUTCHoursMS :
-  hours:float -> minutes:float -> seconds:float -> (t[@mel.this]) -> float
-  = "setUTCHours"
-[@@mel.send]
-
-external setUTCHoursMSMs :
+external setUTCHours :
   hours:float ->
-  minutes:float ->
-  seconds:float ->
-  milliseconds:float ->
+  ?minutes:float ->
+  ?seconds:float ->
+  ?milliseconds:float ->
   (t[@mel.this]) ->
   float = "setUTCHours"
 [@@mel.send]
@@ -254,35 +169,20 @@ external setUTCMilliseconds : milliseconds:float -> (t[@mel.this]) -> float
   = "setUTCMilliseconds"
 [@@mel.send]
 
-external setUTCMinutes : minutes:float -> (t[@mel.this]) -> float
-  = "setUTCMinutes"
-[@@mel.send]
-
-external setUTCMinutesS :
-  minutes:float -> seconds:float -> (t[@mel.this]) -> float = "setUTCMinutes"
-[@@mel.send]
-
-external setUTCMinutesSMs :
+external setUTCMinutes :
   minutes:float ->
-  seconds:float ->
-  milliseconds:float ->
+  ?seconds:float ->
+  ?milliseconds:float ->
   (t[@mel.this]) ->
   float = "setUTCMinutes"
 [@@mel.send]
 
-external setUTCMonth : month:float -> (t[@mel.this]) -> float = "setUTCMonth"
-[@@mel.send]
-
-external setUTCMonthD : month:float -> date:float -> (t[@mel.this]) -> float
+external setUTCMonth : month:float -> ?date:float -> (t[@mel.this]) -> float
   = "setUTCMonth"
 [@@mel.send]
 
-external setUTCSeconds : seconds:float -> (t[@mel.this]) -> float
-  = "setUTCSeconds"
-[@@mel.send]
-
-external setUTCSecondsMs :
-  seconds:float -> milliseconds:float -> (t[@mel.this]) -> float
+external setUTCSeconds :
+  seconds:float -> ?milliseconds:float -> (t[@mel.this]) -> float
   = "setUTCSeconds"
 [@@mel.send]
 
