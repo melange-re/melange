@@ -9,7 +9,7 @@ const suites_0 = [
     return {
       TAG: /* Eq */ 0,
       _0: "1.23456e+5",
-      _1: (123456).toExponential(undefined)
+      _1: (123456).toExponential()
     };
   })
 ];
@@ -78,7 +78,7 @@ const suites_1 = {
                 return {
                   TAG: /* Eq */ 0,
                   _0: "123456",
-                  _1: (123456).toPrecision(undefined)
+                  _1: (123456).toPrecision()
                 };
               })
             ],
@@ -146,7 +146,7 @@ const suites_1 = {
                             return {
                               TAG: /* Eq */ 0,
                               _0: "123",
-                              _1: (123).toString(undefined)
+                              _1: (123).toString()
                             };
                           })
                         ],

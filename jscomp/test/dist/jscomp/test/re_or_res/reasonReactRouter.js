@@ -24,10 +24,10 @@ function path(param) {
     case "/" :
       return /* [] */ 0;
     default:
-      const raw$1 = raw.slice(1, undefined);
+      const raw$1 = raw.slice(1);
       const match = raw$1[raw$1.length - 1 | 0];
       const raw$2 = match === "/" ? raw$1.slice(0, -1) : raw$1;
-      let a = raw$2.split("/", undefined);
+      let a = raw$2.split("/");
       let _i = a.length - 1 | 0;
       let _res = /* [] */ 0;
       while (true) {
@@ -57,7 +57,7 @@ function hash(param) {
     case "#" :
       return "";
     default:
-      return raw.slice(1, undefined);
+      return raw.slice(1);
   }
 }
 
@@ -72,7 +72,7 @@ function search(param) {
     case "?" :
       return "";
     default:
-      return raw.slice(1, undefined);
+      return raw.slice(1);
   }
 }
 

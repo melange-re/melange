@@ -28,7 +28,7 @@ function eq(loc, x, y) {
   };
 }
 
-eq("File \"jscomp/test/bs_string_test.ml\", line 11, characters 5-12", "ghso ghso g".split(" ", undefined).reduce((function (x, y) {
+eq("File \"jscomp/test/bs_string_test.ml\", line 11, characters 5-12", "ghso ghso g".split(" ").reduce((function (x, y) {
   return x + ("-" + y);
 }), ""), "-ghso-ghso-g");
 

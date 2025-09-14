@@ -65,7 +65,7 @@ const suites_1 = {
           return {
             TAG: /* Eq */ 0,
             _0: 3,
-            _1: new ArrayBuffer(5).slice(2, undefined).byteLength
+            _1: new ArrayBuffer(5).slice(2).byteLength
           };
         })
       ],
@@ -122,7 +122,7 @@ const suites_1 = {
                         3,
                         4,
                         5
-                      ]).buffer, 2, undefined)
+                      ]).buffer, 2)
                 };
               })
             ],
@@ -258,7 +258,7 @@ const suites_1 = {
                                   3,
                                   4,
                                   5
-                                ]).copyWithin(-2, undefined, undefined)
+                                ]).copyWithin(-2)
                             };
                           })
                         ],
@@ -281,7 +281,7 @@ const suites_1 = {
                                     3,
                                     4,
                                     5
-                                  ]).copyWithin(0, 3, undefined)
+                                  ]).copyWithin(0, 3)
                               };
                             })
                           ],
@@ -323,7 +323,7 @@ const suites_1 = {
                                         1,
                                         2,
                                         3
-                                      ]).fill(4, undefined, undefined)
+                                      ]).fill(4)
                                   };
                                 })
                               ],
@@ -342,7 +342,7 @@ const suites_1 = {
                                           1,
                                           2,
                                           3
-                                        ]).fill(4, 1, undefined)
+                                        ]).fill(4, 1)
                                     };
                                   })
                                 ],
@@ -450,7 +450,7 @@ const suites_1 = {
                                                       1,
                                                       2,
                                                       3
-                                                    ]).indexOf(2, undefined)
+                                                    ]).indexOf(2)
                                                 };
                                               })
                                             ],
@@ -481,7 +481,7 @@ const suites_1 = {
                                                           1,
                                                           2,
                                                           3
-                                                        ]).join(undefined)
+                                                        ]).join()
                                                     };
                                                   })
                                                 ],
@@ -591,7 +591,7 @@ const suites_1 = {
                                                                       3,
                                                                       4,
                                                                       5
-                                                                    ]).slice(2, undefined)
+                                                                    ]).slice(2)
                                                                 };
                                                               })
                                                             ],
@@ -632,7 +632,7 @@ const suites_1 = {
                                                                           3,
                                                                           4,
                                                                           5
-                                                                        ]).subarray(2, undefined)
+                                                                        ]).subarray(2)
                                                                     };
                                                                   })
                                                                 ],
@@ -1043,7 +1043,7 @@ const suites_1 = {
                                                                                                                   return {
                                                                                                                     TAG: /* Eq */ 0,
                                                                                                                     _0: 32,
-                                                                                                                    _1: new Int8Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                    _1: new Int8Array(new ArrayBuffer(32)).byteLength
                                                                                                                   };
                                                                                                                 })
                                                                                                               ],
@@ -1055,7 +1055,7 @@ const suites_1 = {
                                                                                                                     return {
                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                       _0: 24,
-                                                                                                                      _1: new Int8Array(buffer, 8, undefined).byteLength
+                                                                                                                      _1: new Int8Array(buffer, 8).byteLength
                                                                                                                     };
                                                                                                                   })
                                                                                                                 ],
@@ -1134,7 +1134,7 @@ const suites_1 = {
                                                                                                                                 return {
                                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                                   _0: 32,
-                                                                                                                                  _1: new Uint8Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                  _1: new Uint8Array(new ArrayBuffer(32)).byteLength
                                                                                                                                 };
                                                                                                                               })
                                                                                                                             ],
@@ -1146,7 +1146,7 @@ const suites_1 = {
                                                                                                                                   return {
                                                                                                                                     TAG: /* Eq */ 0,
                                                                                                                                     _0: 24,
-                                                                                                                                    _1: new Uint8Array(buffer, 8, undefined).byteLength
+                                                                                                                                    _1: new Uint8Array(buffer, 8).byteLength
                                                                                                                                   };
                                                                                                                                 })
                                                                                                                               ],
@@ -1225,7 +1225,7 @@ const suites_1 = {
                                                                                                                                               return {
                                                                                                                                                 TAG: /* Eq */ 0,
                                                                                                                                                 _0: 32,
-                                                                                                                                                _1: new Uint8ClampedArray(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                _1: new Uint8ClampedArray(new ArrayBuffer(32)).byteLength
                                                                                                                                               };
                                                                                                                                             })
                                                                                                                                           ],
@@ -1237,7 +1237,7 @@ const suites_1 = {
                                                                                                                                                 return {
                                                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                                                   _0: 24,
-                                                                                                                                                  _1: new Uint8ClampedArray(buffer, 8, undefined).byteLength
+                                                                                                                                                  _1: new Uint8ClampedArray(buffer, 8).byteLength
                                                                                                                                                 };
                                                                                                                                               })
                                                                                                                                             ],
@@ -1316,7 +1316,7 @@ const suites_1 = {
                                                                                                                                                             return {
                                                                                                                                                               TAG: /* Eq */ 0,
                                                                                                                                                               _0: 32,
-                                                                                                                                                              _1: new Int16Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                              _1: new Int16Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                             };
                                                                                                                                                           })
                                                                                                                                                         ],
@@ -1328,7 +1328,7 @@ const suites_1 = {
                                                                                                                                                               return {
                                                                                                                                                                 TAG: /* Eq */ 0,
                                                                                                                                                                 _0: 24,
-                                                                                                                                                                _1: new Int16Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                _1: new Int16Array(buffer, 8).byteLength
                                                                                                                                                               };
                                                                                                                                                             })
                                                                                                                                                           ],
@@ -1407,7 +1407,7 @@ const suites_1 = {
                                                                                                                                                                           return {
                                                                                                                                                                             TAG: /* Eq */ 0,
                                                                                                                                                                             _0: 32,
-                                                                                                                                                                            _1: new Uint16Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                            _1: new Uint16Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                                           };
                                                                                                                                                                         })
                                                                                                                                                                       ],
@@ -1419,7 +1419,7 @@ const suites_1 = {
                                                                                                                                                                             return {
                                                                                                                                                                               TAG: /* Eq */ 0,
                                                                                                                                                                               _0: 24,
-                                                                                                                                                                              _1: new Uint16Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                              _1: new Uint16Array(buffer, 8).byteLength
                                                                                                                                                                             };
                                                                                                                                                                           })
                                                                                                                                                                         ],
@@ -1500,7 +1500,7 @@ const suites_1 = {
                                                                                                                                                                                         return {
                                                                                                                                                                                           TAG: /* Eq */ 0,
                                                                                                                                                                                           _0: 32,
-                                                                                                                                                                                          _1: new Int32Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                                          _1: new Int32Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                                                         };
                                                                                                                                                                                       })
                                                                                                                                                                                     ],
@@ -1512,7 +1512,7 @@ const suites_1 = {
                                                                                                                                                                                           return {
                                                                                                                                                                                             TAG: /* Eq */ 0,
                                                                                                                                                                                             _0: 24,
-                                                                                                                                                                                            _1: new Int32Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                                            _1: new Int32Array(buffer, 8).byteLength
                                                                                                                                                                                           };
                                                                                                                                                                                         })
                                                                                                                                                                                       ],
@@ -1593,7 +1593,7 @@ const suites_1 = {
                                                                                                                                                                                                       return {
                                                                                                                                                                                                         TAG: /* Eq */ 0,
                                                                                                                                                                                                         _0: 32,
-                                                                                                                                                                                                        _1: new Uint32Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                                                        _1: new Uint32Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                                                                       };
                                                                                                                                                                                                     })
                                                                                                                                                                                                   ],
@@ -1605,7 +1605,7 @@ const suites_1 = {
                                                                                                                                                                                                         return {
                                                                                                                                                                                                           TAG: /* Eq */ 0,
                                                                                                                                                                                                           _0: 24,
-                                                                                                                                                                                                          _1: new Uint32Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                                                          _1: new Uint32Array(buffer, 8).byteLength
                                                                                                                                                                                                         };
                                                                                                                                                                                                       })
                                                                                                                                                                                                     ],
@@ -1684,7 +1684,7 @@ const suites_1 = {
                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                                                                                                                       _0: 32,
-                                                                                                                                                                                                                      _1: new Float32Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                                                                      _1: new Float32Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                                                                                     };
                                                                                                                                                                                                                   })
                                                                                                                                                                                                                 ],
@@ -1696,7 +1696,7 @@ const suites_1 = {
                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                         TAG: /* Eq */ 0,
                                                                                                                                                                                                                         _0: 24,
-                                                                                                                                                                                                                        _1: new Float32Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                                                                        _1: new Float32Array(buffer, 8).byteLength
                                                                                                                                                                                                                       };
                                                                                                                                                                                                                     })
                                                                                                                                                                                                                   ],
@@ -1775,7 +1775,7 @@ const suites_1 = {
                                                                                                                                                                                                                                   return {
                                                                                                                                                                                                                                     TAG: /* Eq */ 0,
                                                                                                                                                                                                                                     _0: 32,
-                                                                                                                                                                                                                                    _1: new Float64Array(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                                                                                    _1: new Float64Array(new ArrayBuffer(32)).byteLength
                                                                                                                                                                                                                                   };
                                                                                                                                                                                                                                 })
                                                                                                                                                                                                                               ],
@@ -1787,7 +1787,7 @@ const suites_1 = {
                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                                                                                                                                       _0: 24,
-                                                                                                                                                                                                                                      _1: new Float64Array(buffer, 8, undefined).byteLength
+                                                                                                                                                                                                                                      _1: new Float64Array(buffer, 8).byteLength
                                                                                                                                                                                                                                     };
                                                                                                                                                                                                                                   })
                                                                                                                                                                                                                                 ],
@@ -1851,7 +1851,7 @@ const suites_1 = {
                                                                                                                                                                                                                                               return {
                                                                                                                                                                                                                                                 TAG: /* Eq */ 0,
                                                                                                                                                                                                                                                 _0: 32,
-                                                                                                                                                                                                                                                _1: new DataView(new ArrayBuffer(32), undefined, undefined).byteLength
+                                                                                                                                                                                                                                                _1: new DataView(new ArrayBuffer(32)).byteLength
                                                                                                                                                                                                                                               };
                                                                                                                                                                                                                                             })
                                                                                                                                                                                                                                           ],
@@ -1863,7 +1863,7 @@ const suites_1 = {
                                                                                                                                                                                                                                                 return {
                                                                                                                                                                                                                                                   TAG: /* Eq */ 0,
                                                                                                                                                                                                                                                   _0: 24,
-                                                                                                                                                                                                                                                  _1: new DataView(buffer, 8, undefined).byteLength
+                                                                                                                                                                                                                                                  _1: new DataView(buffer, 8).byteLength
                                                                                                                                                                                                                                                 };
                                                                                                                                                                                                                                               })
                                                                                                                                                                                                                                             ],
@@ -1887,7 +1887,7 @@ const suites_1 = {
                                                                                                                                                                                                                                                     return {
                                                                                                                                                                                                                                                       TAG: /* Eq */ 0,
                                                                                                                                                                                                                                                       _0: buffer,
-                                                                                                                                                                                                                                                      _1: new DataView(buffer, undefined, undefined).buffer
+                                                                                                                                                                                                                                                      _1: new DataView(buffer).buffer
                                                                                                                                                                                                                                                     };
                                                                                                                                                                                                                                                   })
                                                                                                                                                                                                                                                 ],
@@ -1899,7 +1899,7 @@ const suites_1 = {
                                                                                                                                                                                                                                                       return {
                                                                                                                                                                                                                                                         TAG: /* Eq */ 0,
                                                                                                                                                                                                                                                         _0: 8,
-                                                                                                                                                                                                                                                        _1: new DataView(buffer, 8, undefined).byteOffset
+                                                                                                                                                                                                                                                        _1: new DataView(buffer, 8).byteOffset
                                                                                                                                                                                                                                                       };
                                                                                                                                                                                                                                                     })
                                                                                                                                                                                                                                                   ],
