@@ -171,8 +171,8 @@ module External_desc = struct
 
   type desc = {
     kind : kind;
-    external_module_name : External_ffi_types.external_module_name option;
-    module_as_val : External_ffi_types.external_module_name option;
+    external_module_name : External_ffi_types.External_module_name.t option;
+    module_as_val : External_ffi_types.External_module_name.t option;
     variadic : bool; (* mutable *)
     scopes : string list;
     new_name : bool;
@@ -620,7 +620,8 @@ let mel_send_this_index arg_type_specs arg_types =
       (* find the first non-constant argument *)
       find_index
         ~f:(function
-          | { External_arg_spec.arg_type = Arg_cst _; _ } -> false | _ -> true)
+          | { External_arg_spec.Param.arg_type = Arg_cst _; _ } -> false
+          | _ -> true)
         arg_type_specs
       |> Option.get
 
@@ -628,8 +629,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
     (prim_name_or_pval_prim : string Lazy.t) (arg_type_specs_length : int)
     arg_types_ty
     (arg_type_specs :
-      External_arg_spec.Arg_label.t External_arg_spec.param list) :
-    External_ffi_types.external_spec =
+      External_arg_spec.Arg_label.t External_arg_spec.Param.t list) :
+    External_ffi_types.External_spec.t =
   match st with
   | {
    kind = Set_index;
@@ -866,7 +867,7 @@ module From_attributes = struct
     in
     let check_external_module_name ~loc x =
       match x with
-      | { External_ffi_types.bundle = ""; _ }
+      | { External_ffi_types.External_module_name.bundle = ""; _ }
       | { module_bind_name = Phint_name ""; _ } ->
           Location.raise_errorf ~loc "`@mel.module' name cannot be empty"
       | _ -> ()
@@ -888,10 +889,11 @@ module From_attributes = struct
       let xrelative = ref false in
       let upgrade bool = if not !xrelative then xrelative := bool in
       (match ffi with
-      | External_ffi_types.Js_var { name; external_module_name; _ } ->
+      | External_ffi_types.External_spec.Js_var
+          { name; external_module_name; _ } ->
           upgrade (is_package_relative_path name);
           Option.iter
-            (fun (name : External_ffi_types.external_module_name) ->
+            (fun (name : External_ffi_types.External_module_name.t) ->
               upgrade (is_package_relative_path name.bundle))
             external_module_name;
           valid_global_name ~loc name
@@ -908,7 +910,7 @@ module From_attributes = struct
       | Js_call { external_module_name; name; variadic = _; scopes = _ } ->
           Option.iter
             (fun (external_module_name :
-                   External_ffi_types.external_module_name) ->
+                   External_ffi_types.External_module_name.t) ->
               upgrade (is_package_relative_path external_module_name.bundle))
             external_module_name;
           Option.iter
@@ -1010,7 +1012,7 @@ module From_attributes = struct
           | External external_desc ->
               let arg_type_specs, new_arg_types_ty, (arg_type_specs_length, _) =
                 let (init
-                      : External_arg_spec.Arg_label.t External_arg_spec.param
+                      : External_arg_spec.Arg_label.t External_arg_spec.Param.t
                         list
                         * param_type list
                         * (int * bool)) =
@@ -1095,7 +1097,8 @@ module From_attributes = struct
                             | Arg_cst _ -> arg_types
                             | _ -> param_type :: arg_types ))
                     in
-                    ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
+                    ( { External_arg_spec.Param.arg_label; arg_type }
+                      :: arg_type_specs,
                       new_arg_types,
                       if arg_type = Ignore then (i, last_was_mel_this)
                       else (i + 1, is_mel_this_and_send) ))

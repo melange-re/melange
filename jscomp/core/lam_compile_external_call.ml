@@ -54,7 +54,7 @@ let splice_obj_fn_apply obj name args =
    bundle *)
 
 let external_var
-    ({ bundle; module_bind_name } : External_ffi_types.external_module_name)
+    ({ bundle; module_bind_name } : External_ffi_types.External_module_name.t)
     ~dynamic_import =
   let id =
     Lam_compile_env.add_js_module module_bind_name bundle ~default:false
@@ -168,7 +168,7 @@ let rec ocaml_to_js_eff =
 
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
-type specs = External_arg_spec.Arg_label.t External_arg_spec.param list
+type specs = External_arg_spec.Arg_label.t External_arg_spec.Param.t list
 type exprs = E.t list
 
 module Trailing_undefined = struct
@@ -177,7 +177,7 @@ module Trailing_undefined = struct
   let strip =
     let rec has_undefined_trailing_args arg_types args =
       match (arg_types, args) with
-      | ( [ External_arg_spec.{ arg_label = Arg_label.Arg_optional; _ } ],
+      | ( [ External_arg_spec.{ Param.arg_label = Arg_label.Arg_optional; _ } ],
           [ { J.expression_desc = Undefined { is_unit = false }; _ } ] ) ->
           Trailing
       | ( [ { arg_label = Arg_optional; _ }; { arg_label = Arg_empty; _ } ],
@@ -190,7 +190,7 @@ module Trailing_undefined = struct
     in
     let rec strip_undefined_trailing_args arg_types args =
       match (arg_types, args) with
-      | ( External_arg_spec.{ arg_label = Arg_label.Arg_optional; _ }
+      | ( External_arg_spec.{ Param.arg_label = Arg_label.Arg_optional; _ }
           :: arg_types,
           { J.expression_desc = Undefined { is_unit = false }; _ } :: args ) ->
           strip_undefined_trailing_args arg_types args
@@ -272,8 +272,8 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     !dynamic )
 
 let translate_scoped_module_val
-    (module_name : External_ffi_types.external_module_name option) (fn : string)
-    (scopes : string list) ~dynamic_import =
+    (module_name : External_ffi_types.External_module_name.t option)
+    (fn : string) (scopes : string list) ~dynamic_import =
   match module_name with
   | Some { bundle; module_bind_name } -> (
       match scopes with
@@ -313,8 +313,8 @@ let translate_scoped_module_val
 
 let translate_ffi :
     Lam_compile_context.t ->
-    External_arg_spec.Arg_label.t External_arg_spec.param list ->
-    External_ffi_types.external_spec ->
+    External_arg_spec.Arg_label.t External_arg_spec.Param.t list ->
+    External_ffi_types.External_spec.t ->
     J.expression list ->
     dynamic_import:bool ->
     J.expression =
@@ -325,8 +325,8 @@ let translate_ffi :
       | ( args,
           (* constant args get elided from the `external type` but not the arg
              specs. *)
-          ({ External_arg_spec.arg_type = Arg_cst cst; _ } as spec) :: specs )
-        ->
+          ({ External_arg_spec.Param.arg_type = Arg_cst cst; _ } as spec)
+          :: specs ) ->
           if self_idx = cur_idx then
             ( Lam_compile_const.translate_arg_cst cst,
               List.rev_append acc_args args,

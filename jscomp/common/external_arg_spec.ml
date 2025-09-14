@@ -26,10 +26,24 @@
 
 module Arg_cst = struct
   type t = Int of int | Str of string | Js_literal of string
+
+  let equal t1 t2 =
+    match (t1, t2) with
+    | Int i1, Int i2 -> Int.equal i1 i2
+    | Str s1, Str s2 -> String.equal s1 s2
+    | Js_literal s1, Js_literal s2 -> String.equal s1 s2
+    | _, _ -> false
 end
 
 module Arg_label = struct
   type t = Arg_label | Arg_empty | Arg_optional
+
+  let equal t1 t2 =
+    match (t1, t2) with
+    | Arg_label, Arg_label -> true
+    | Arg_empty, Arg_empty -> true
+    | Arg_optional, Arg_optional -> true
+    | _, _ -> false
 end
 
 module Obj_label = struct
@@ -38,25 +52,43 @@ module Obj_label = struct
     | Obj_empty
     | Obj_optional of { name : string; for_sure_no_nested_option : bool }
 
+  let equal t1 t2 =
+    match (t1, t2) with
+    | Obj_label { name = n1 }, Obj_label { name = n2 } -> String.equal n1 n2
+    | Obj_empty, Obj_empty -> true
+    | ( Obj_optional { name = n1; for_sure_no_nested_option = b1 },
+        Obj_optional { name = n2; for_sure_no_nested_option = b2 } ) ->
+        String.equal n1 n2 && Bool.equal b1 b2
+    | _, _ -> false
+
   let obj name = Obj_label { name }
 
   let optional ~for_sure_no_nested_option name =
     Obj_optional { name; for_sure_no_nested_option }
 end
 
-type polyvar_descr = {
-  (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
-  descr : (string * Arg_cst.t) list;
-  spread : bool;
-}
+module Polyvar_descr = struct
+  type t = {
+    (* introduced by attributes `@mel.string`, `@mel.int`, `@mel.spread` *)
+    descr : (string * Arg_cst.t) list;
+    spread : bool;
+  }
+
+  let equal t1 t2 =
+    List.equal
+      ~eq:(fun (s1, cst1) (s2, cst2) ->
+        String.equal s1 s2 && Arg_cst.equal cst1 cst2)
+      t1.descr t2.descr
+    && Bool.equal t1.spread t2.spread
+end
 
 (* it will be ignored , side effect will be recorded *)
 
 (* This type is used to give some meta info on each argument *)
 type t =
-  | Poly_var of polyvar_descr
+  | Poly_var of Polyvar_descr.t
   (* `a does not have any value*)
-  | Int of polyvar_descr (* ([`a | `b ] [@int])*)
+  | Int of Polyvar_descr.t (* ([`a | `b ] [@int])*)
   | Arg_cst of Arg_cst.t (* Constant argument *)
   | Fn_uncurry_arity of int (* annotated with [@uncurry ] or [@uncurry 2]*)
   (* maybe we can improve it as a combination of {!Asttypes.constant} and tuple *)
@@ -65,9 +97,26 @@ type t =
   | Ignore
   | Unwrap of t
 
-type 'a param = { arg_type : t; arg_label : 'a }
+let rec equal t1 t2 =
+  match (t1, t2) with
+  | Poly_var p1, Poly_var p2 -> Polyvar_descr.equal p1 p2
+  | Int p1, Int p2 -> Polyvar_descr.equal p1 p2
+  | Arg_cst cst1, Arg_cst cst2 -> Arg_cst.equal cst1 cst2
+  | Fn_uncurry_arity i1, Fn_uncurry_arity i2 -> Int.equal i1 i2
+  | Extern_unit, Extern_unit -> true
+  | Nothing, Nothing -> true
+  | Ignore, Ignore -> true
+  | Unwrap t1, Unwrap t2 -> equal t1 t2
+  | _, _ -> false
+
+module Param = struct
+  type nonrec 'a t = { arg_type : t; arg_label : 'a }
+
+  let equal ~eq t1 t2 =
+    equal t1.arg_type t2.arg_type && eq t1.arg_label t2.arg_label
+end
 
 let empty_kind obj_arg_type =
-  { arg_label = Obj_label.Obj_empty; arg_type = obj_arg_type }
+  { Param.arg_label = Obj_label.Obj_empty; arg_type = obj_arg_type }
 
-let dummy = { arg_type = Nothing; arg_label = Arg_label.Arg_empty }
+let dummy = { Param.arg_type = Nothing; arg_label = Arg_label.Arg_empty }

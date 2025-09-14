@@ -26,7 +26,12 @@ open Import
 
 type let_kind = Lambda.let_kind = Strict | Alias | StrictOpt
 type meth_kind = Lambda.meth_kind = Self | Public of string option | Cached
-type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
+
+module Boxed_integer : sig
+  type t = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
+
+  val equal : t -> t -> bool
+end
 
 module Integer_comparison : sig
   type t = Lambda.integer_comparison = Ceq | Cne | Clt | Cgt | Cle | Cge

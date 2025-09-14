@@ -31,9 +31,10 @@ val ocaml_to_js_eff :
 
 val translate_ffi :
   Lam_compile_context.t ->
-  Melange_ffi.External_arg_spec.Arg_label.t Melange_ffi.External_arg_spec.param
+  Melange_ffi.External_arg_spec.Arg_label.t
+  Melange_ffi.External_arg_spec.Param.t
   list ->
-  Melange_ffi.External_ffi_types.external_spec ->
+  Melange_ffi.External_ffi_types.External_spec.t ->
   J.expression list ->
   dynamic_import:bool ->
   J.expression

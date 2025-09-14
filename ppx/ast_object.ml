@@ -29,7 +29,7 @@ let ffi_of_labels labels =
   Melange_ffi.External_ffi_types.ffi_obj_create
     (List.fold_right labels ~init:[] ~f:(fun { txt; _ } arg_kinds ->
          {
-           Melange_ffi.External_arg_spec.arg_type = Nothing;
+           Melange_ffi.External_arg_spec.Param.arg_type = Nothing;
            arg_label =
              Melange_ffi.External_arg_spec.Obj_label.obj
                (Melange_ffi.Lam_methname.translate txt);

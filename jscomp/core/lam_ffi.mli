@@ -23,10 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val handle_mel_non_obj_ffi :
-  Melange_ffi.External_arg_spec.Arg_label.t Melange_ffi.External_arg_spec.param
+  Melange_ffi.External_arg_spec.Arg_label.t
+  Melange_ffi.External_arg_spec.Param.t
   list ->
   Melange_ffi.External_ffi_types.return_wrapper ->
-  Melange_ffi.External_ffi_types.external_spec ->
+  Melange_ffi.External_ffi_types.External_spec.t ->
   Lam.t list ->
   loc:Location.t ->
   string ->

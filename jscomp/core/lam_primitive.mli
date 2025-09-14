@@ -54,14 +54,14 @@ type t =
       prim_name : string;
       arg_types :
         Melange_ffi.External_arg_spec.Arg_label.t
-        Melange_ffi.External_arg_spec.param
+        Melange_ffi.External_arg_spec.Param.t
         list;
-      ffi : Melange_ffi.External_ffi_types.external_spec;
+      ffi : Melange_ffi.External_ffi_types.External_spec.t;
       dynamic_import : bool;
     }
   | Pjs_object_create of
       Melange_ffi.External_arg_spec.Obj_label.t
-      Melange_ffi.External_arg_spec.param
+      Melange_ffi.External_arg_spec.Param.t
       list
   | Praise
   | Psequand
@@ -142,7 +142,7 @@ type t =
   (* Compile time constants *)
   | Pctconst of Lam_compat.Compile_time_constant.t
   | Pbswap16
-  | Pbbswap of Lam_compat.boxed_integer
+  | Pbbswap of Lam_compat.Boxed_integer.t
   (* Inhibition of optimisation *)
   | Popaque
   (* Integer to external pointer *)
