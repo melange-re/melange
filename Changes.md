@@ -30,6 +30,10 @@ Unreleased
   ([#1530](https://github.com/melange-re/melange/pull/1530))
 - code generation: omit undefined argument on foo () unit application
   ([#1538](https://github.com/melange-re/melange/pull/1538))
+- code generation: omit undefined trailing arguments when generating
+  JavaScript, e.g. those that are optionally labeled don't become explicitly
+  `undefined` in the JavaScript output
+  ([#1564](https://github.com/melange-re/melange/pull/1564))
 
 5.1.0-53 2025-03-23
 ---------------
