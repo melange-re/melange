@@ -25,7 +25,7 @@
 (** Used in loop, huge punishment *)
 let loop_use = 100
 
-type stats = {
+type t = {
   top : bool;
   (* all appearances are in the top,  substitution is fine
      whether it is pure or not
@@ -39,12 +39,13 @@ type stats = {
   times : int;
 }
 
-let fresh_stats : stats = { top = true; times = 0 }
-let sink_stats : stats = { top = false; times = loop_use }
+let fresh_stats = { top = true; times = 0 }
+let sink_stats = { top = false; times = loop_use }
 
 (* let stats top times = {top; times} *)
-let top_and_used_zero_or_one x =
-  match x with { top = true; times = 0 | 1 } -> true | _ -> false
+let top_and_used_zero_or_one = function
+  | { top = true; times = 0 | 1 } -> true
+  | _ -> false
 
 type position =
   | Begin (* top = true ; loop = false *)
@@ -52,16 +53,16 @@ type position =
   | Sink
 (* loop = true *)
 
-let update (v : stats) (pos : position) : stats =
+let update v (pos : position) =
   match pos with
   | Begin -> { v with times = v.times + 1 }
   | Not_begin -> { top = false; times = v.times + 1 }
   | Sink -> sink_stats
 
-let sink : position = Sink
-let fresh_env : position = Begin
-
 (* no side effect, if argument has no side effect and used only once we can simply do the replacement *)
 let new_position_after_lam lam (env : position) : position =
   if (not (env = Begin)) || Lam_analysis.no_side_effects lam then env
   else Not_begin
+
+let sink = Sink
+let fresh_env = Begin

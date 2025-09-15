@@ -188,7 +188,7 @@ let propagate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
         rest_bindings ~init:new_body
 
 let propagate_beta_reduce_with_map (meta : Lam_stats.t)
-    (map : Lam_var_stats.stats Ident.Map.t) params body args =
+    (map : Lam_var_stats.t Ident.Map.t) params body args =
   match Beta_reduce.simple_beta_reduce params body args with
   | Some x -> x
   | None ->

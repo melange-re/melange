@@ -22,10 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type stats
+type t
 
-val fresh_stats : stats
-val top_and_used_zero_or_one : stats -> bool
+val fresh_stats : t
+val top_and_used_zero_or_one : t -> bool
 
 type position
 
@@ -33,6 +33,6 @@ val sink : position
 val fresh_env : position
 val new_position_after_lam : Lam.t -> position -> position
 
-val update : stats -> position -> stats
+val update : t -> position -> t
 (** The variable used stats update depend
     on the position of the variable*)

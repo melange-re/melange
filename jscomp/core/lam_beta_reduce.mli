@@ -49,7 +49,7 @@ val propagate_beta_reduce :
 
 val propagate_beta_reduce_with_map :
   Lam_stats.t ->
-  Lam_var_stats.stats Ident.Map.t ->
+  Lam_var_stats.t Ident.Map.t ->
   Ident.t list ->
   Lam.t ->
   Lam.t list ->
