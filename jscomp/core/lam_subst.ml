@@ -30,53 +30,59 @@ open Import
    Assumes that the image of the substitution is out of reach
    of the bound variables of the lambda-term (no capture). *)
 
-let subst (s : Lam.t Ident.Map.t) lam =
-  let rec subst_aux (x : Lam.t) : Lam.t =
+let subst =
+  let rec subst_aux (s : Lam.t Ident.Map.t) (x : Lam.t) : Lam.t =
     match x with
     | Lvar id | Lmutvar id -> Ident.Map.find_default id s ~default:x
     | Lconst _ -> x
     | Lapply { ap_func; ap_args; ap_info } ->
-        Lam.apply (subst_aux ap_func) (List.map ~f:subst_aux ap_args) ap_info
+        Lam.apply (subst_aux s ap_func)
+          (List.map ~f:(subst_aux s) ap_args)
+          ap_info
     | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(subst_aux body) ~attr
+        Lam.function_ ~arity ~params ~body:(subst_aux s body) ~attr
     | Llet (str, id, arg, body) ->
-        Lam.let_ str id (subst_aux arg) (subst_aux body)
-    | Lmutlet (id, arg, body) -> Lam.mutlet id (subst_aux arg) (subst_aux body)
+        Lam.let_ str id (subst_aux s arg) (subst_aux s body)
+    | Lmutlet (id, arg, body) ->
+        Lam.mutlet id (subst_aux s arg) (subst_aux s body)
     | Lletrec (decl, body) ->
-        Lam.letrec (List.map ~f:subst_decl decl) (subst_aux body)
+        Lam.letrec (List.map ~f:(subst_decl s) decl) (subst_aux s body)
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:subst_aux args) ~loc
+        Lam.prim ~primitive ~args:(List.map ~f:(subst_aux s) args) ~loc
     | Lglobal_module _ -> x
     | Lswitch (arg, sw) ->
-        Lam.switch (subst_aux arg)
+        Lam.switch (subst_aux s arg)
           {
             sw with
-            sw_consts = List.map ~f:subst_case sw.sw_consts;
-            sw_blocks = List.map ~f:subst_case sw.sw_blocks;
-            sw_failaction = subst_opt sw.sw_failaction;
+            sw_consts = List.map ~f:(subst_case s) sw.sw_consts;
+            sw_blocks = List.map ~f:(subst_case s) sw.sw_blocks;
+            sw_failaction = subst_opt s sw.sw_failaction;
           }
     | Lstringswitch (arg, cases, default) ->
-        Lam.stringswitch (subst_aux arg)
-          (List.map ~f:subst_strcase cases)
-          (subst_opt default)
-    | Lstaticraise (i, args) -> Lam.staticraise i (List.map ~f:subst_aux args)
+        Lam.stringswitch (subst_aux s arg)
+          (List.map ~f:(subst_strcase s) cases)
+          (subst_opt s default)
+    | Lstaticraise (i, args) ->
+        Lam.staticraise i (List.map ~f:(subst_aux s) args)
     | Lstaticcatch (e1, io, e2) ->
-        Lam.staticcatch (subst_aux e1) io (subst_aux e2)
-    | Ltrywith (e1, exn, e2) -> Lam.try_ (subst_aux e1) exn (subst_aux e2)
+        Lam.staticcatch (subst_aux s e1) io (subst_aux s e2)
+    | Ltrywith (e1, exn, e2) -> Lam.try_ (subst_aux s e1) exn (subst_aux s e2)
     | Lifthenelse (e1, e2, e3) ->
-        Lam.if_ (subst_aux e1) (subst_aux e2) (subst_aux e3)
-    | Lsequence (e1, e2) -> Lam.seq (subst_aux e1) (subst_aux e2)
-    | Lwhile (e1, e2) -> Lam.while_ (subst_aux e1) (subst_aux e2)
+        Lam.if_ (subst_aux s e1) (subst_aux s e2) (subst_aux s e3)
+    | Lsequence (e1, e2) -> Lam.seq (subst_aux s e1) (subst_aux s e2)
+    | Lwhile (e1, e2) -> Lam.while_ (subst_aux s e1) (subst_aux s e2)
     | Lfor (v, e1, e2, dir, e3) ->
-        Lam.for_ v (subst_aux e1) (subst_aux e2) dir (subst_aux e3)
-    | Lassign (id, e) -> Lam.assign id (subst_aux e)
+        Lam.for_ v (subst_aux s e1) (subst_aux s e2) dir (subst_aux s e3)
+    | Lassign (id, e) -> Lam.assign id (subst_aux s e)
     | Lsend (k, met, obj, args, loc) ->
-        Lam.send k (subst_aux met) (subst_aux obj)
-          (List.map ~f:subst_aux args)
+        Lam.send k (subst_aux s met) (subst_aux s obj)
+          (List.map ~f:(subst_aux s) args)
           ~loc
-    | Lifused (v, e) -> Lam.ifused v (subst_aux e)
-  and subst_decl (id, exp) = (id, subst_aux exp)
-  and subst_case (key, case) = (key, subst_aux case)
-  and subst_strcase (key, case) = (key, subst_aux case)
-  and subst_opt = function None -> None | Some e -> Some (subst_aux e) in
-  subst_aux lam
+    | Lifused (v, e) -> Lam.ifused v (subst_aux s e)
+  and subst_decl s (id, exp) = (id, subst_aux s exp)
+  and subst_case s (key, case) = (key, subst_aux s case)
+  and subst_strcase s (key, case) = (key, subst_aux s case)
+  and subst_opt s o =
+    match o with None -> None | Some e -> Some (subst_aux s e)
+  in
+  fun (s : Lam.t Ident.Map.t) lam -> subst_aux s lam
