@@ -25,17 +25,16 @@
 open Import
 
 type position = Lam_var_stats.position
-type stats = Lam_var_stats.stats
 
-let adjust (fv : stats Ident.Map.t) (pos : position) (v : Ident.t) :
-    stats Ident.Map.t =
+let adjust (fv : Lam_var_stats.t Ident.Map.t) (pos : position) (v : Ident.t) :
+    Lam_var_stats.t Ident.Map.t =
   Ident.Map.update fv ~key:v ~f:(fun v ->
       let stat =
         match v with None -> Lam_var_stats.fresh_stats | Some v -> v
       in
       Some (Lam_var_stats.update stat pos))
 
-let param_map_of_list lst : stats Ident.Map.t =
+let param_map_of_list lst : Lam_var_stats.t Ident.Map.t =
   List.fold_left
     ~f:(fun acc l -> Ident.Map.add ~key:l ~data:Lam_var_stats.fresh_stats acc)
     ~init:Ident.Map.empty lst
@@ -51,8 +50,9 @@ let sink_pos = Lam_var_stats.sink
 
    An enriched version of [free_varaibles] in {!Lam_free_variables}
 *)
-let free_variables (export_idents : Ident.Set.t) (params : stats Ident.Map.t)
-    (lam : Lam.t) : stats Ident.Map.t =
+let free_variables (export_idents : Ident.Set.t)
+    (params : Lam_var_stats.t Ident.Map.t) (lam : Lam.t) :
+    Lam_var_stats.t Ident.Map.t =
   let fv = ref params in
   let local_set = ref export_idents in
   let local_add k = local_set := Ident.Set.add k !local_set in
@@ -163,7 +163,7 @@ let is_closed lam =
     ~f:(fun k _ -> Ident.global k)
 
 let is_closed_with_map (exports : Ident.Set.t) (params : Ident.t list)
-    (body : Lam.t) : bool * stats Ident.Map.t =
+    (body : Lam.t) : bool * Lam_var_stats.t Ident.Map.t =
   let param_map = free_variables exports (param_map_of_list params) body in
   let old_count = List.length params in
   let new_count = Ident.Map.cardinal param_map in

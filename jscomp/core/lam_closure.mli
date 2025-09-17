@@ -32,11 +32,11 @@ open Import
 val is_closed : Lam.t -> bool
 
 val is_closed_with_map :
-  Ident.Set.t -> Ident.t list -> Lam.t -> bool * Lam_var_stats.stats Ident.Map.t
+  Ident.Set.t -> Ident.t list -> Lam.t -> bool * Lam_var_stats.t Ident.Map.t
 (** The output is mostly used in betat reduction *)
 
 val free_variables :
   Ident.Set.t ->
-  Lam_var_stats.stats Ident.Map.t ->
+  Lam_var_stats.t Ident.Map.t ->
   Lam.t ->
-  Lam_var_stats.stats Ident.Map.t
+  Lam_var_stats.t Ident.Map.t

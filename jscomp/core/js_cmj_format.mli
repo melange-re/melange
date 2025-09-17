@@ -50,14 +50,14 @@ type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
 type cmj_value = {
   arity : arity;
-  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (* Either constant or closed functor *)
 }
 
 type keyed_cmj_value = {
   name : string;
   arity : arity;
-  persistent_closed_lambda : (Lam.t * Lam_var_stats.stats Ident.Map.t) option;
+  persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
 }
 
 type t = {
