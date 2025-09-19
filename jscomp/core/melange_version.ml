@@ -22,10 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* let git_version = Git_commit.version *)
-let git_short_version = Git_commit.short_version
-
 let version =
   match Build_info.V1.version () with
-  | None -> Format.asprintf "n/a (%s)" git_short_version
+  | None -> Format.asprintf "n/a (%s)" Git_commit.short_version
   | Some v -> Build_info.V1.Version.to_string v
