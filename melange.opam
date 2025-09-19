@@ -36,7 +36,5 @@ build: [
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
 pin-depends: [
-  [ "reason.dev" "git+https://github.com/reasonml/reason.git" ]
   [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#2c1f6648be3223991579f956c913805c12880cb3"]
-  [ "ppxlib.dev" "git+https://github.com/ocaml-ppx/ppxlib.git#757f6c284b1fe748d5027eef3bbef924b6bbd7ce" ]
 ]
