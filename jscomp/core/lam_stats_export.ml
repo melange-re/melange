@@ -42,20 +42,16 @@ let values_of_export =
     :
     Js_cmj_format.cmj_value String.Map.t
   ->
-    List.fold_left
-      ~f:(fun acc x ->
-        let arity : Js_cmj_format.arity =
+    List.fold_left meta.exports ~init:String.Map.empty ~f:(fun acc x ->
+        let arity =
           match Ident.Hashtbl.find meta.ident_tbl x with
-          | FunctionId { arity; _ } -> Single arity
+          | FunctionId { arity; _ } -> Js_cmj_format.Single arity
           | ImmutableBlock elems ->
-              (* FIXME: field name for dumping*)
+              (* FIXME: field name for dumping *)
               Submodule
-                (Array.map
-                   ~f:(fun (x : Lam_id_kind.element) ->
-                     match x with
-                     | NA -> Lam_arity.na
-                     | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam)
-                   elems)
+                (Array.map elems ~f:(function
+                  | Lam_id_kind.Element.NA -> Lam_arity.na
+                  | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
           | _ | (exception Not_found) -> (
               match Ident.Map.find x export_map with
               | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
@@ -64,7 +60,7 @@ let values_of_export =
                          Lam_arity_analysis.get_arity meta lam))
               | _ | (exception Not_found) -> Js_cmj_format.single_na)
         in
-        let persistent_closed_lambda : (_ * _) option =
+        let persistent_closed_lambda =
           match Ident.Map.find x export_map with
           | Lconst
               ( Const_js_null | Const_js_undefined _ | Const_js_true
@@ -108,14 +104,12 @@ let values_of_export =
                       else None))
         in
         match (arity, persistent_closed_lambda) with
-        | Single Arity_na, (None | Some (Lconst Const_module_alias, _)) -> acc
-        | Submodule [||], None -> acc
-        | _ ->
-            let cmj_value : Js_cmj_format.cmj_value =
-              { arity; persistent_closed_lambda }
-            in
-            String.Map.add ~key:(Ident.name x) ~data:cmj_value acc)
-      ~init:String.Map.empty meta.exports
+        | Single Arity_na, (None | Some (Lconst Const_module_alias, _))
+        | Submodule [||], None ->
+            acc
+        | _, _ ->
+            String.Map.add acc ~key:(Ident.name x)
+              ~data:{ Js_cmj_format.arity; persistent_closed_lambda })
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it *)
@@ -124,9 +118,8 @@ let get_dependent_module_effect (maybe_pure : string option)
   match maybe_pure with
   | None -> (
       match
-        List.find
-          ~f:(fun id -> not (Lam_compile_env.is_pure_module id))
-          external_ids
+        List.find external_ids ~f:(fun id ->
+            not (Lam_compile_env.is_pure_module id))
       with
       | non_pure_module -> Some (Lam_module_ident.name non_pure_module)
       | exception Not_found -> None)

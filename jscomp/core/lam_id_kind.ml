@@ -33,14 +33,29 @@ type rec_flag = Lam_rec | Lam_non_rec | Lam_self_rec
    recursive function
 *)
 
-type element = NA | SimpleForm of Lam.t
+module Element = struct
+  type t = NA | SimpleForm of Lam.t
+
+  let of_lambda = function
+    | ( Lam.Lvar _ | Lconst _
+      | Lprim
+          {
+            primitive = Pfield (_, Fld_module _);
+            args = [ (Lglobal_module _ | Lvar _) ];
+            _;
+          } ) as lam ->
+        SimpleForm lam
+    (* | Lfunction _  *)
+    | _ -> NA
+end
+
 type boxed_nullable = Undefined | Null | Null_undefined
 
 type t =
   | Normal_optional of Lam.t (* Some [x] *)
   | OptionalBlock of Lam.t * boxed_nullable
-  | ImmutableBlock of element array
-  | MutableBlock of element array
+  | ImmutableBlock of Element.t array
+  | MutableBlock of Element.t array
   | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
   | FunctionId of {
@@ -56,25 +71,7 @@ type t =
   | NA
       (** Not such information is associated with an identifier, it is immutable,
            if you only associate a property to an identifier
-           we should consider [Lassign]
-        *)
-
-let print =
-  let pp = Format.fprintf in
-  fun fmt kind ->
-    match kind with
-    | ImmutableBlock arr -> pp fmt "Imm(%d)" (Array.length arr)
-    | Normal_optional _ -> pp fmt "Some"
-    | OptionalBlock (_, Null) -> pp fmt "?Null"
-    | OptionalBlock (_, Undefined) -> pp fmt "?Undefined"
-    | OptionalBlock (_, Null_undefined) -> pp fmt "?Nullable"
-    | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
-    | Constant _ -> pp fmt "Constant"
-    | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
-    | FunctionId _ -> pp fmt "FunctionID"
-    | Exception -> pp fmt "Exception"
-    | Parameter -> pp fmt "Parameter"
-    | NA -> pp fmt "NA"
+           we should consider [Lassign] *)
 
 (* How we destruct the immutable block
    depend on the block name itself,
@@ -93,19 +90,22 @@ let print =
        mutable fields are explicit, since wen can not inline an mutable block access
 *)
 
-let of_lambda_block =
-  let element_of_lambda (lam : Lam.t) =
-    match lam with
-    | Lvar _ | Lconst _
-    | Lprim
-        {
-          primitive = Pfield (_, Fld_module _);
-          args = [ (Lglobal_module _ | Lvar _) ];
-          _;
-        } ->
-        SimpleForm lam
-    (* | Lfunction _  *)
-    | _ -> NA
-  in
-  fun (xs : Lam.t list) ->
-    ImmutableBlock (Array.of_list_map xs ~f:element_of_lambda)
+let of_lambda_block (xs : Lam.t list) =
+  ImmutableBlock (Array.of_list_map xs ~f:Element.of_lambda)
+
+let print =
+  let pp = Format.fprintf in
+  fun fmt kind ->
+    match kind with
+    | ImmutableBlock arr -> pp fmt "Imm(%d)" (Array.length arr)
+    | Normal_optional _ -> pp fmt "Some"
+    | OptionalBlock (_, Null) -> pp fmt "?Null"
+    | OptionalBlock (_, Undefined) -> pp fmt "?Undefined"
+    | OptionalBlock (_, Null_undefined) -> pp fmt "?Nullable"
+    | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
+    | Constant _ -> pp fmt "Constant"
+    | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
+    | FunctionId _ -> pp fmt "FunctionID"
+    | Exception -> pp fmt "Exception"
+    | Parameter -> pp fmt "Parameter"
+    | NA -> pp fmt "NA"
