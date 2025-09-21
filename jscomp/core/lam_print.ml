@@ -226,14 +226,6 @@ let kind = function
 let to_print_kind (k : Lam_compat.let_kind) : print_kind =
   match k with Alias -> Alias | Strict -> Strict | StrictOpt -> StrictOpt
 
-let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
-  match lam with
-  | Llet (str3, id3, arg3, body3) ->
-      aux ((to_print_kind str3, id3, arg3) :: acc) body3
-  | Lletrec (bind_args, body) ->
-      aux (List.map ~f:(fun (id, l) -> (Recursive, id, l)) bind_args @ acc) body
-  | e -> (acc, e)
-
 (* type left_var =
    {
      kind : print_kind ;
@@ -244,8 +236,18 @@ let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
    | Id of left_var *)
 (* | Nop *)
 
-let flatten (lam : Lam.t) : (print_kind * Ident.t * Lam.t) list * Lam.t =
-  match lam with
+let flatten : Lam.t -> (print_kind * Ident.t * Lam.t) list * Lam.t =
+  let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
+    match lam with
+    | Llet (str3, id3, arg3, body3) ->
+        aux ((to_print_kind str3, id3, arg3) :: acc) body3
+    | Lletrec (bind_args, body) ->
+        aux
+          (List.map ~f:(fun (id, l) -> (Recursive, id, l)) bind_args @ acc)
+          body
+    | e -> (acc, e)
+  in
+  function
   | Llet (str, id, arg, body) -> aux [ (to_print_kind str, id, arg) ] body
   | Lmutlet (id, arg, body) -> aux [ (to_print_kind Strict, id, arg) ] body
   | Lletrec (bind_args, body) ->
