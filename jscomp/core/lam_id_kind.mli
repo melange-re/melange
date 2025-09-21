@@ -31,7 +31,10 @@ type rec_flag =
   | Lam_self_rec
 (* not inlining in this case *)
 
-type element = NA | SimpleForm of Lam.t
+module Element : sig
+  type t = NA | SimpleForm of Lam.t
+end
+
 type boxed_nullable = Undefined | Null | Null_undefined
 
 (**
@@ -49,8 +52,8 @@ type boxed_nullable = Undefined | Null | Null_undefined
 type t =
   | Normal_optional of Lam.t
   | OptionalBlock of Lam.t * boxed_nullable
-  | ImmutableBlock of element array
-  | MutableBlock of element array
+  | ImmutableBlock of Element.t array
+  | MutableBlock of Element.t array
   | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
   | FunctionId of {
