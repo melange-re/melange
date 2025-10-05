@@ -88,7 +88,7 @@ module Internal = struct
   open Meth
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
 
-  external run : 'a arity0 -> 'a = "#run" "0"
+  external run : 'a arity0 -> 'a = "#run"
   (*
     x##meth a b -->
     fullApppy (
