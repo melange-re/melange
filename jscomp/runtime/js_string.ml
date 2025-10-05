@@ -35,7 +35,8 @@ external make : 'a -> t = "String"
 ]}
 *)
 
-external fromCharCode : int -> t = "String.fromCharCode"
+external fromCharCode : int -> t = "fromCharCode"
+[@@mel.scope "String"]
 (** [fromCharCode n]
   creates a string containing the character corresponding to that number; {i n} ranges from 0 to 65535. If out of range, the lower 16 bits of the value are used. Thus, [fromCharCode 0x1F63A] gives the same result as [fromCharCode 0xF63A].
 
@@ -47,8 +48,8 @@ external fromCharCode : int -> t = "String.fromCharCode"
 ]}
 *)
 
-external fromCharCodeMany : int array -> t = "String.fromCharCode"
-[@@mel.variadic]
+external fromCharCodeMany : int array -> t = "fromCharCode"
+[@@mel.scope "String"] [@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given numbers, using the same rules as [fromCharCode].
 
 {[
@@ -56,7 +57,8 @@ external fromCharCodeMany : int array -> t = "String.fromCharCode"
 ]}
 *)
 
-external fromCodePoint : int -> t = "String.fromCodePoint"
+external fromCodePoint : int -> t = "fromCodePoint"
+[@@mel.scope "String"]
 (** [fromCodePoint n]
   creates a string containing the character corresponding to that numeric code point. If the number is not a valid code point, {b raises} [RangeError]. Thus, [fromCodePoint 0x1F63A] will produce a correct value, unlike [fromCharCode 0x1F63A], and [fromCodePoint -5] will raise a [RangeError].
 
@@ -68,8 +70,8 @@ external fromCodePoint : int -> t = "String.fromCodePoint"
 ]}
 *)
 
-external fromCodePointMany : int array -> t = "String.fromCodePoint"
-[@@mel.variadic]
+external fromCodePointMany : int array -> t = "fromCodePoint"
+[@@mel.scope "String"] [@@mel.variadic]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given code point numbers, using the same rules as [fromCodePoint].
 
 {[
