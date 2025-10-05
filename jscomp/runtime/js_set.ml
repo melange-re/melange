@@ -28,7 +28,7 @@ type 'a t
 
 external make : unit -> 'a t = "Set" [@@mel.new]
 external fromArray : 'a array -> 'a t = "Set" [@@mel.new]
-external toArray : 'a t -> 'a array = "Array.from"
+external toArray : 'a t -> 'a array = "from" [@@mel.scope "Array"]
 external size : 'a t -> int = "size" [@@mel.get]
 external add : value:'a -> ('a t[@mel.this]) -> 'a t = "add" [@@mel.send]
 external clear : 'a t -> unit = "clear" [@@mel.send]
