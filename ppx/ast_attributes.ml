@@ -27,77 +27,78 @@ module External_arg_spec = Melange_ffi.External_arg_spec
 
 type st = { get : (bool * bool) option; set : [ `Get | `No_get ] option }
 
-let assert_bool_lit (e : expression) =
-  match e.pexp_desc with
-  | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
-  | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
-  | _ ->
-      Location.raise_errorf ~loc:e.pexp_loc
-        "expected this expression to be a boolean literal (`true` or `false`)"
-
-let process_method_attributes_rev attrs =
+let process_method_attributes_rev =
   let exception Local of Location.t * string in
-  try
-    let ret =
-      List.fold_left
-        ~f:(fun
-            (st, acc)
-            ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr)
-          ->
-          match txt with
-          | "mel.get" ->
-              let result =
-                match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local (loc, s))
-                | Ok config ->
-                    List.fold_left
-                      ~f:(fun (null, undefined) ({ txt; loc }, opt_expr) ->
-                        match txt with
-                        | "null" ->
-                            ( (match opt_expr with
-                              | None -> true
-                              | Some e -> assert_bool_lit e),
-                              undefined )
-                        | "undefined" ->
-                            ( null,
+  let assert_bool_lit (e : expression) =
+    match e.pexp_desc with
+    | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
+    | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
+    | _ ->
+        Location.raise_errorf ~loc:e.pexp_loc
+          "expected this expression to be a boolean literal (`true` or `false`)"
+  in
+  fun attrs ->
+    try
+      let ret =
+        List.fold_left attrs
+          ~init:({ get = None; set = None }, [])
+          ~f:(fun (st, acc) attr ->
+            let { attr_name = { txt; loc }; attr_payload = payload; _ } =
+              attr
+            in
+            match txt with
+            | "mel.get" ->
+                let result =
+                  match Ast_payload.ident_or_record_as_config payload with
+                  | Error s -> raise (Local (loc, s))
+                  | Ok config ->
+                      List.fold_left config ~init:(false, false)
+                        ~f:(fun (null, undefined) ({ txt; loc }, opt_expr) ->
+                          match txt with
+                          | "null" ->
+                              ( (match opt_expr with
+                                | None -> true
+                                | Some e -> assert_bool_lit e),
+                                undefined )
+                          | "undefined" ->
+                              ( null,
+                                match opt_expr with
+                                | None -> true
+                                | Some e -> assert_bool_lit e )
+                          | "nullable" -> (
                               match opt_expr with
-                              | None -> true
-                              | Some e -> assert_bool_lit e )
-                        | "nullable" -> (
-                            match opt_expr with
-                            | None -> (true, true)
-                            | Some e ->
-                                let v = assert_bool_lit e in
-                                (v, v))
-                        | _ -> Error.err ~loc Unsupported_predicates)
-                      ~init:(false, false) config
-              in
-              ({ st with get = Some result }, acc)
-          | "mel.set" ->
-              let result =
-                match Ast_payload.ident_or_record_as_config payload with
-                | Error s -> raise (Local (loc, s))
-                | Ok config ->
-                    List.fold_left
-                      ~f:(fun _st ({ txt; loc }, opt_expr) ->
-                        (*FIXME*)
-                        if txt = "no_get" then
-                          match opt_expr with
-                          | None -> `No_get
-                          | Some e ->
-                              if assert_bool_lit e then `No_get else `Get
-                        else Error.err ~loc Unsupported_predicates)
-                      ~init:`Get config
-              in
-              (* properties -- void
+                              | None -> (true, true)
+                              | Some e ->
+                                  let v = assert_bool_lit e in
+                                  (v, v))
+                          | _ -> Error.err ~loc Unsupported_predicates)
+                in
+                ({ st with get = Some result }, acc)
+            | "mel.set" ->
+                let result =
+                  match Ast_payload.ident_or_record_as_config payload with
+                  | Error s -> raise (Local (loc, s))
+                  | Ok config ->
+                      List.fold_left config ~init:`Get
+                        ~f:(fun _st ({ txt; loc }, opt_expr) ->
+                          (*FIXME*)
+                          match txt with
+                          | "no_get" -> (
+                              match opt_expr with
+                              | None -> `No_get
+                              | Some e -> (
+                                  match assert_bool_lit e with
+                                  | true -> `No_get
+                                  | false -> `Get))
+                          | _ -> Error.err ~loc Unsupported_predicates)
+                in
+                (* properties -- void
                     [@@set{only}] *)
-              ({ st with set = Some result }, acc)
-          | _ -> (st, attr :: acc))
-        ~init:({ get = None; set = None }, [])
-        attrs
-    in
-    Ok ret
-  with Local (loc, s) -> Error (loc, s)
+                ({ st with set = Some result }, acc)
+            | _ -> (st, attr :: acc))
+      in
+      Ok ret
+    with Local (loc, s) -> Error (loc, s)
 
 module Kind = struct
   type t =
@@ -119,19 +120,16 @@ let process_attributes_rev attrs : Kind.t * attribute list =
       | _, _ -> (st, attr :: acc))
 
 let process_pexp_fun_attributes_rev attrs =
-  List.fold_left
+  List.fold_left ~init:(false, []) attrs
     ~f:(fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
       match txt with "mel.open" -> (true, acc) | _ -> (st, attr :: acc))
-    ~init:(false, []) attrs
 
 let process_uncurried attrs =
-  List.fold_left
+  List.fold_left ~init:(false, []) attrs
     ~f:(fun (st, acc) ({ attr_name = { txt; _ }; _ } as attr) ->
       match (txt, st) with "u", _ -> (true, acc) | _, _ -> (st, attr :: acc))
-    ~init:(false, []) attrs
 
-let is_uncurried attr =
-  match attr with
+let is_uncurried = function
   | { attr_name = { Location.txt = "u"; _ }; _ } -> true
   | _ -> false
 
@@ -246,8 +244,7 @@ end
     - [@mel.ignore] -> useful to combine with GADTs, e.g.
       ('a kind [@mel.ignore ] -> 'a -> 'a)
     - [@mel.spread] -> [ `A of int ] -> unit becomes `foo("a", 42)` -- supports
-      `@mel.as` -- previously [@mel.string]
-*)
+      `@mel.as` -- previously [@mel.string] *)
 let iter_process_mel_param_modifier =
   let assign ({ attr_name = { loc; _ }; _ } as attr) st v =
     match st with
