@@ -26,7 +26,7 @@ open Import
 open Ast_helper
 
 type t = {
-  override_flag : override_flag;
+  override : override_flag;
   ident : Longident.t Asttypes.loc;
   loc : location;
   attributes : attributes;
@@ -34,19 +34,21 @@ type t = {
 
 let destruct =
   let rec inner e acc =
-    match e.pexp_desc with
-    | Pexp_open
-        ( { popen_override; popen_expr = { pmod_desc = Pmod_ident lid; _ }; _ },
-          cont ) ->
-        let info =
-          {
-            override_flag = popen_override;
-            ident = lid;
-            loc = e.pexp_loc;
-            attributes = e.pexp_attributes;
-          }
-        in
-        inner cont (info :: acc)
+    match e with
+    | {
+     pexp_desc =
+       Pexp_open
+         ( {
+             popen_override = override;
+             popen_expr = { pmod_desc = Pmod_ident ident; _ };
+             _;
+           },
+           cont );
+     pexp_attributes = attributes;
+     pexp_loc = loc;
+     _;
+    } ->
+        inner cont ({ override; ident; loc; attributes } :: acc)
     | _ -> (e, acc)
   in
   fun e -> inner e []
@@ -54,27 +56,30 @@ let destruct =
 (** destruct {[ A.B.let open C in (a,b)]} *)
 let destruct_open_tuple =
   let rec inner e acc : (t list * expression list * _) option =
-    match e.pexp_desc with
-    | Pexp_open
-        ( { popen_override; popen_expr = { pmod_desc = Pmod_ident lid; _ }; _ },
-          cont ) ->
-        let info =
-          {
-            override_flag = popen_override;
-            ident = lid;
-            loc = e.pexp_loc;
-            attributes = e.pexp_attributes;
-          }
-        in
-        inner cont (info :: acc)
-    | Pexp_tuple es -> Some (acc, es, e.pexp_attributes)
+    match e with
+    | {
+     pexp_desc =
+       Pexp_open
+         ( {
+             popen_override = override;
+             popen_expr = { pmod_desc = Pmod_ident ident; _ };
+             _;
+           },
+           cont );
+     pexp_loc = loc;
+     pexp_attributes = attributes;
+     _;
+    } ->
+        inner cont ({ override; ident; loc; attributes } :: acc)
+    | { pexp_desc = Pexp_tuple es; pexp_attributes; _ } ->
+        Some (acc, es, pexp_attributes)
     | _ -> None
   in
   fun e -> inner e []
 
-let restore_exp xs (qualifiers : t list) =
-  List.fold_left ~init:xs qualifiers
-    ~f:(fun x { override_flag = override; ident = lid; loc; attributes } ->
+let restore_exp xs qualifiers =
+  List.fold_left qualifiers ~init:xs
+    ~f:(fun x { override; ident; loc; attributes } ->
       Exp.open_ ~loc ~attrs:attributes
-        (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident lid))
+        (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident ident))
         x)
