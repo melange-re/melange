@@ -67,7 +67,9 @@ let used_attributes : (string Asttypes.loc, unit) Hashtbl.t = Hashtbl.create 16
 
 let mark_used_mel_attribute ({ attr_name = x; _ } : attribute) =
   (* only mark non-ghost used mel attribute *)
-  if not x.loc.loc_ghost then Hashtbl.replace used_attributes ~key:x ~data:()
+  match x.loc.loc_ghost with
+  | false -> Hashtbl.replace used_attributes ~key:x ~data:()
+  | true -> ()
 
 let warn_unused_attribute =
   let is_mel_attribute txt =
@@ -88,14 +90,13 @@ let warn_unused_attribute =
       && not (Hashtbl.mem used_attributes sloc)
     then warn ~loc (Unused_attribute txt)
 
-let warn_discarded_unused_attributes ?(has_mel_send = false)
-    (attrs : attributes) =
+let warn_discarded_unused_attributes ?(has_mel_send = false) attrs =
   let attrs =
-    if has_mel_send then
-      List.filter attrs ~f:(function
-        | { attr_name = { txt = "mel.this"; _ }; _ } -> false
-        | _ -> true)
-    else attrs
+    match has_mel_send with
+    | true ->
+        List.filter attrs ~f:(fun { attr_name = { txt; _ }; _ } ->
+            not (String.equal txt "mel.this"))
+    | false -> attrs
   in
   List.iter ~f:warn_unused_attribute attrs
 
