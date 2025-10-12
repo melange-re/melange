@@ -100,9 +100,9 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
       signature_item = (fun self sigi ->
           match sigi.psig_desc with
           | Psig_value { pval_attributes; pval_loc; _ } ->
-              if has_mel_attributes pval_attributes then
-                print_unprocessed_alert ~loc:pval_loc
-              else super.signature_item self sigi
+              (match has_mel_attributes pval_attributes with
+              | true -> print_unprocessed_alert ~loc:pval_loc
+              | false -> super.signature_item self sigi)
           | _ -> super.signature_item self sigi);
       expr = (fun self a ->
           (match
@@ -131,9 +131,9 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
                 "The `%%identity' primitive type must take a single argument ('a \
                  -> 'b)"
           | { pval_attributes; pval_loc; _ } ->
-              if has_mel_attributes pval_attributes then
-                print_unprocessed_alert ~loc:pval_loc
-              else super.value_description self v);
+              (match has_mel_attributes pval_attributes with
+              | true -> print_unprocessed_alert ~loc:pval_loc
+              | false -> super.value_description self v));
       pat = (fun self (pat : Parsetree.pattern) ->
           match pat.ppat_desc with
           | Ppat_constant constant ->
