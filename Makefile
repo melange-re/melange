@@ -29,7 +29,7 @@ test:
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
-	opam switch create . 5.3.0~beta2 -y --no-install
+	opam switch create . 5.4.0 -y --no-install
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
