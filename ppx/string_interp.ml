@@ -184,50 +184,51 @@ let add_str_segment cxt loc =
   cxt.segment_start <- next_loc
 
 let rec check_and_transform loc s byte_offset ({ s_len; buf; _ } as cxt) =
-  if byte_offset = s_len then add_str_segment cxt loc
-  else
-    let current_char = s.[byte_offset] in
-    match Melange_ffi.Utf8_string.classify current_char with
-    | Single 92 (* '\\' *) ->
-        let loc = loc + 1 in
-        let offset = byte_offset + 1 in
-        if offset >= s_len then pos_error cxt ~loc Unterminated_backslash
-        else Buffer.add_char buf '\\';
-        let cur_char = s.[offset] in
-        Buffer.add_char buf cur_char;
-        check_and_transform (loc + 1) s (offset + 1) cxt
-    | Single 36 ->
-        (* $ *)
-        add_str_segment cxt loc;
-        let offset = byte_offset + 1 in
-        if offset >= s_len then pos_error ~loc cxt Unterminated_variable
-        else
+  match Int.equal byte_offset s_len with
+  | true -> add_str_segment cxt loc
+  | false -> (
+      let current_char = s.[byte_offset] in
+      match Melange_ffi.Utf8_string.classify current_char with
+      | Single 92 (* '\\' *) ->
+          let loc = loc + 1 in
+          let offset = byte_offset + 1 in
+          if offset >= s_len then pos_error cxt ~loc Unterminated_backslash
+          else Buffer.add_char buf '\\';
           let cur_char = s.[offset] in
-          if cur_char = '(' then expect_var_paren (loc + 2) s (offset + 1) cxt
-          else expect_simple_var (loc + 1) s offset cxt
-    | Single _ | Leading _ | Cont _ ->
-        Buffer.add_char buf current_char;
-        check_and_transform (loc + 1) s (byte_offset + 1) cxt
-    | Invalid -> pos_error ~loc cxt Invalid_code_point
+          Buffer.add_char buf cur_char;
+          check_and_transform (loc + 1) s (offset + 1) cxt
+      | Single 36 ->
+          (* $ *)
+          add_str_segment cxt loc;
+          let offset = byte_offset + 1 in
+          if offset >= s_len then pos_error ~loc cxt Unterminated_variable
+          else
+            let cur_char = s.[offset] in
+            if cur_char = '(' then expect_var_paren (loc + 2) s (offset + 1) cxt
+            else expect_simple_var (loc + 1) s offset cxt
+      | Single _ | Leading _ | Cont _ ->
+          Buffer.add_char buf current_char;
+          check_and_transform (loc + 1) s (byte_offset + 1) cxt
+      | Invalid -> pos_error ~loc cxt Invalid_code_point)
 
 (* Lets keep identifier simple, so that we could generating a function easier
    in the future for example
    let f = [%fn{| $x + $y = $x_add_y |}] *)
 and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
-  if not (offset < s_len && valid_lead_identifier_char s.[offset]) then
-    pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
-  else
-    let v = ref offset in
-    while !v < s_len && valid_identifier_char s.[!v] do
-      (* TODO *)
-      let cur_char = s.[!v] in
-      Buffer.add_char buf cur_char;
-      incr v
-    done;
-    let added_length = !v - offset in
-    let loc = added_length + loc in
-    add_var_segment cxt loc 1 0;
-    check_and_transform loc s (added_length + offset) cxt
+  match offset < s_len && valid_lead_identifier_char s.[offset] with
+  | false -> pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
+  | true ->
+      let v = ref offset in
+      while !v < s_len && valid_identifier_char s.[!v] do
+        (* TODO *)
+        let cur_char = s.[!v] in
+        Buffer.add_char buf cur_char;
+        incr v
+      done;
+      let added_length = !v - offset in
+      let loc = added_length + loc in
+      add_var_segment cxt loc 1 0;
+      check_and_transform loc s (added_length + offset) cxt
 
 and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
   let v = ref offset in
@@ -238,10 +239,11 @@ and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
   done;
   let added_length = !v - offset in
   let loc = added_length + 1 + loc in
-  if !v < s_len && s.[!v] = ')' then (
-    add_var_segment cxt loc 2 (-1);
-    check_and_transform loc s (added_length + 1 + offset) cxt)
-  else pos_error cxt ~loc Unmatched_paren
+  match !v < s_len && s.[!v] = ')' with
+  | true ->
+      add_var_segment cxt loc 2 (-1);
+      check_and_transform loc s (added_length + 1 + offset) cxt
+  | false -> pos_error cxt ~loc Unmatched_paren
 
 (* TODO: Allow identifers x.A.y *)
 
