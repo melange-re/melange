@@ -39,8 +39,7 @@ let ffi_of_labels labels =
 let ocaml_object_as_js_object =
   let local_module_name = "J" in
   let local_fun_name = "unsafe_expr" in
-  let local_extern_cont_to_obj ~loc ~ffi ~pval_type (cb : expression -> 'a) :
-      expression_desc =
+  let local_extern_cont_to_obj ~loc ~ffi ~pval_type (cb : expression -> 'a) =
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
         Mod.structure ~loc
@@ -57,6 +56,27 @@ let ocaml_object_as_js_object =
         cb
           (Exp.ident ~loc
              { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
+  in
+  let generate_val_method_pair ~loc (mapper : Ast_traverse.map) ~mutable_
+      (val_name : string Asttypes.loc) =
+    let result = Typ.var ~loc val_name.txt in
+    let base =
+      match mutable_ with
+      | Mutable ->
+          [
+            Of.tag
+              {
+                val_name with
+                txt =
+                  val_name.txt
+                  ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+              }
+              (Ast_typ_uncurry.to_method_type ~loc mapper Nolabel result
+                 [%type: unit]);
+          ]
+      | Immutable -> []
+    in
+    (result, Of.tag val_name result :: base)
   in
   fun ~loc
     (mapper : Ast_traverse.map)
@@ -75,27 +95,6 @@ let ocaml_object_as_js_object =
         end
       ]} should not compile with a meaningful error message
   *)
-    let generate_val_method_pair loc (mapper : Ast_traverse.map)
-        (val_name : string Asttypes.loc) is_mutable =
-      let result = Typ.var ~loc val_name.txt in
-
-      ( result,
-        Of.tag val_name result
-        ::
-        (if is_mutable then
-           [
-             Of.tag
-               {
-                 val_name with
-                 txt =
-                   val_name.txt
-                   ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
-               }
-               (Ast_typ_uncurry.to_method_type ~loc mapper Nolabel result
-                  [%type: unit]);
-           ]
-         else []) )
-    in
 
     (* Note mapper is only for API compatible
      * TODO: we should check label name to avoid conflict
@@ -123,15 +122,16 @@ let ocaml_object_as_js_object =
                   assert false
               | Pexp_poly
                   ( { pexp_desc = Pexp_function (args, _, Pfunction_body e); _ },
-                    None ) ->
+                    None ) -> (
                   let method_type =
                     Ast_typ_uncurry.generate_arg_type ~loc:x.pcf_loc mapper
                       label.txt args e
                   in
                   ( Of.tag label method_type :: label_attr_types,
-                    if public_flag = Public then
-                      Of.tag label method_type :: public_label_attr_types
-                    else public_label_attr_types )
+                    match public_flag with
+                    | Public ->
+                        Of.tag label method_type :: public_label_attr_types
+                    | Private -> public_label_attr_types ))
               | Pexp_poly (_, Some _) ->
                   Location.raise_errorf ~loc
                     "polymorphic type annotation not supported yet"
@@ -141,10 +141,9 @@ let ocaml_object_as_js_object =
                      one argument"
               | _ ->
                   Location.raise_errorf ~loc "Unsupported syntax in js object")
-          | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, _)) ->
+          | Pcf_val (label, mutable_, Cfk_concrete (Fresh, _)) ->
               let _, label_attr =
-                generate_val_method_pair x.pcf_loc mapper label
-                  (mutable_flag = Mutable)
+                generate_val_method_pair ~loc:x.pcf_loc mapper label ~mutable_
               in
               (List.append label_attr label_attr_types, public_label_attr_types)
           | Pcf_val (_, _, Cfk_concrete (Override, _)) ->
@@ -185,7 +184,9 @@ let ocaml_object_as_js_object =
                      } as f),
                     None ) ->
                   let alias_type =
-                    if aliased then None else Some internal_obj_type
+                    match aliased with
+                    | true -> None
+                    | false -> Some internal_obj_type
                   in
                   let label_type =
                     Ast_typ_uncurry.generate_method_type ?alias_type x.pcf_loc
@@ -244,10 +245,9 @@ let ocaml_object_as_js_object =
                     "Unsupported syntax, expect syntax like `method x () = x ` "
               | _ ->
                   Location.raise_errorf ~loc "Unsupported syntax in js object")
-          | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, val_exp)) ->
+          | Pcf_val (label, mutable_, Cfk_concrete (Fresh, val_exp)) ->
               let label_type, _ =
-                generate_val_method_pair x.pcf_loc mapper label
-                  (mutable_flag = Mutable)
+                generate_val_method_pair ~loc:x.pcf_loc mapper label ~mutable_
               in
               ( label :: labels,
                 label_type :: label_types,
