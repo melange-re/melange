@@ -68,21 +68,27 @@ let maybeSay (maybeMessage: string Js.undefined) =
 val fromOption : 'a option -> 'a t
 (** Maps ['a option] to ['a Js.undefined]
 
-{%html:
-<table>
-<tr> <td>Some a <td>-> <td>return a
-<tr> <td>None <td>-> <td>empty
-</table>
-%}
+{table
+  {tr
+    {td Some a}
+    {td ->}
+    {td return a}}
+  {tr
+    {td None}
+    {td ->}
+    {td empty}}}
 *)
 
 external toOption : 'a t -> 'a option = "#undefined_to_opt"
 (** Maps ['a Js.undefined] to ['a option]
 
-{%html:
-<table>
-<tr> <td>return a <td>-> <td>Some a
-<tr> <td>empty <td>-> <td>None
-</table>
-%}
+{table
+  {tr
+    {td return a}
+    {td ->}
+    {td Some a}}
+  {tr
+    {td empty}
+    {td ->}
+    {td None}}}
 *)

@@ -65,21 +65,23 @@ let maybeSay (maybeMessage: string Js.null) =
 val fromOption : 'a option -> 'a t
 (** Maps ['a option] to ['a Js.null]
 
-{%html:
-<table>
-<tr> <td>Some a <td>-> <td>return a
-<tr> <td>None <td>-> <td>empty
-</table>
-%}
+{table
+  {tr
+    {th Some a}
+    {th return a}}
+  {tr
+    {td None}
+    {td empty}}}
 *)
 
 external toOption : 'a t -> 'a option = "#null_to_opt"
 (** Maps ['a Js.null] to ['a option]
 
-{%html:
-<table>
-<tr> <td>return a <td>-> <td>Some a
-<tr> <td>empty <td>-> <td>None
-</table>
-%}
+{table
+  {tr
+    {th return a}
+    {th Some a}}
+  {tr
+    {td empty}
+    {td None}}}
 *)
