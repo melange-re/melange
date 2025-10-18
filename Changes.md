@@ -37,6 +37,15 @@ Unreleased
 - BREAKING(runtime): consolidate functions in `Js.Date` to account for the recent
   improvement in code generation related to omitting trailing undefined
   arguments ([#1597](https://github.com/melange-re/melange/pull/1597))
+- BREAKING(ppx): Remove `[@@deriving abstract]` in favor of:
+    - `[@@deriving jsProperties]` derives a JS object creation function that
+      can generate a JS object with optional keys (when using `[@mel.optiona]`)
+    - `[@@deriving getSet]` derives getter / setter functions for the JS object
+       derived by the underlying record.
+    - `[@@deriving abstract]` had been deprecated since Melange 5 (in
+      [#979](https://github.com/melange-re/melange/pull/979)), and has now been
+      removed in [#1624](https://github.com/melange-re/melange/pull/1624)
+
 
 5.1.0-53 2025-03-23
 ---------------
