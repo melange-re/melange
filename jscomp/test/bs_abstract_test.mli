@@ -1,20 +1,19 @@
-type 'a linked_list = private
-  {
-    hd : 'a ;
-mutable tl : 'a linked_list Js.null
-  }
-  [@@deriving abstract]
+type 'a linked_list = private {
+  hd : 'a ;
+  mutable tl : 'a linked_list Js.null
+} [@@deriving jsProperties, getSet]
 
 
 
-  type t = int -> int -> bool [@u]
-  and x = private {
-    k : t;
-    y : string
-  } [@@deriving abstract]
+type t = int -> int -> bool [@u]
+and x = private {
+  k : t;
+  y : string
+} [@@deriving jsProperties, getSet]
 
 
-  val f :  x
+val f :  x
+
 type u
   val uf : u -> int
   val uf1 : u -> int -> int

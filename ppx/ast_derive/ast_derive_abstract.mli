@@ -24,8 +24,6 @@
 
 open Import
 
-val derive_abstract_str : light:bool -> type_declaration list -> structure
-val derive_abstract_sig : light:bool -> type_declaration list -> signature
 val derive_js_constructor_str : type_declaration list -> structure
 val derive_js_constructor_sig : type_declaration list -> signature
 
