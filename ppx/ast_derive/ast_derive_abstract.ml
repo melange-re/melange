@@ -27,13 +27,15 @@ open Ast_helper
 
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_mel_optional attrs in
-  if is_optional then
-    match pld_type.ptyp_desc with
-    | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
-    | _ ->
-        Location.raise_errorf ~loc:pld_type.ptyp_loc
-          "`[@mel.optional]' must appear on an option literal type (`_ option')"
-  else pld_type
+  match is_optional with
+  | true -> (
+      match pld_type.ptyp_desc with
+      | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
+      | _ ->
+          Location.raise_errorf ~loc:pld_type.ptyp_loc
+            "`[@mel.optional]' must appear on an option literal type (`_ \
+             option')")
+  | false -> pld_type
 
 let derive_js_constructor =
   let do_alert_deprecated ~loc =
@@ -51,10 +53,11 @@ let derive_js_constructor =
          ~f:(fun ((is_option, p) : bool * string Asttypes.loc) arg_kinds ->
            let obj_arg_label =
              let label_name = Melange_ffi.Lam_methname.translate p.txt in
-             if is_option then
-               Melange_ffi.External_arg_spec.Obj_label.optional
-                 ~for_sure_no_nested_option:false label_name
-             else Melange_ffi.External_arg_spec.Obj_label.obj label_name
+             match is_option with
+             | true ->
+                 Melange_ffi.External_arg_spec.Obj_label.optional
+                   ~for_sure_no_nested_option:false label_name
+             | false -> Melange_ffi.External_arg_spec.Obj_label.obj label_name
            in
            {
              Melange_ffi.External_arg_spec.Param.arg_type = Nothing;
@@ -95,10 +98,14 @@ let derive_js_constructor =
                 Ast_attributes.has_mel_optional pld_attributes
               in
               let maker =
-                if is_optional then
-                  let pld_type = get_pld_type ~attrs:pld_attributes pld_type in
-                  Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker
-                else Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker
+                match is_optional with
+                | true ->
+                    let pld_type =
+                      get_pld_type ~attrs:pld_attributes pld_type
+                    in
+                    Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker
+                | false ->
+                    Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker
               in
               (maker, (is_optional, newLabel) :: labels))
             label_declarations
@@ -165,28 +172,28 @@ let derive_getters_setters =
             in
             let prim = [ prim_as_name ] in
             let acc =
-              if Ast_attributes.has_mel_optional pld_attributes then
-                Val.mk ~loc:pld_loc
-                  (if light then pld_name
-                   else { pld_name with txt = pld_name.txt ^ "Get" })
-                  ~attrs:get_optional_attrs ~prim
-                  [%type: [%t core_type] -> [%t pld_type]]
-                :: acc
-              else
-                Val.mk ~loc:pld_loc
-                  (if light then pld_name
-                   else { pld_name with txt = pld_name.txt ^ "Get" })
-                  ~attrs:
-                    (Ast_attributes.mel_ffi
-                       (* Not needed actually *)
-                       (Melange_ffi.External_ffi_types.ffi_mel
-                          [ Melange_ffi.External_arg_spec.dummy ]
-                          Return_identity
-                          (Js_get { name = prim_as_name; scopes = [] }))
-                    :: get_attrs)
-                  ~prim:Ast_external.pval_prim_default
-                  [%type: [%t core_type] -> [%t pld_type]]
-                :: acc
+              let name =
+                if light then pld_name
+                else { pld_name with txt = pld_name.txt ^ "Get" }
+              in
+              match Ast_attributes.has_mel_optional pld_attributes with
+              | true ->
+                  Val.mk ~loc:pld_loc name ~attrs:get_optional_attrs ~prim
+                    [%type: [%t core_type] -> [%t pld_type]]
+                  :: acc
+              | false ->
+                  Val.mk ~loc:pld_loc name
+                    ~attrs:
+                      (Ast_attributes.mel_ffi
+                         (* Not needed actually *)
+                         (Melange_ffi.External_ffi_types.ffi_mel
+                            [ Melange_ffi.External_arg_spec.dummy ]
+                            Return_identity
+                            (Js_get { name = prim_as_name; scopes = [] }))
+                      :: get_attrs)
+                    ~prim:Ast_external.pval_prim_default
+                    [%type: [%t core_type] -> [%t pld_type]]
+                  :: acc
             in
             match pld_mutable with
             | Mutable ->
@@ -203,45 +210,33 @@ let derive_getters_setters =
         []
 
 let derive_js_constructor_str tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Str.primitive value_descriptions @ sts)
-    tdcls
 
 let derive_js_constructor_sig tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
-    tdcls
 
 let derive_getters_setters_str ~light tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters tdcl ~light in
       List.map ~f:Str.primitive value_descriptions @ sts)
-    tdcls
 
 let derive_getters_setters_sig ~light tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
-    tdcls
 
 let derive_abstract_str ~light tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
       and value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
-    tdcls
 
 let derive_abstract_sig ~light tdcls =
-  List.fold_right ~init:[]
-    ~f:(fun tdcl sts ->
+  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
       and value_descriptions = derive_getters_setters ~light tdcl in
-      List.map ~f:Sig.value (cstr_descriptions @ value_descriptions) @ sts)
-    tdcls
+      List.map (cstr_descriptions @ value_descriptions) ~f:Sig.value @ sts)
