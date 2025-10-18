@@ -1023,17 +1023,6 @@ module Mapper = struct
 end
 
 module Derivers = struct
-  let _abstract =
-    let args () = Deriving.Args.(empty +> flag "light") in
-    let str_type_decl =
-      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive.Ast_derive_abstract.derive_abstract_str ~light tdcls)
-    and sig_type_decl =
-      Deriving.Generator.V2.make (args ()) (fun ~ctxt:_ (_, tdcls) light ->
-          Ast_derive.Ast_derive_abstract.derive_abstract_sig ~light tdcls)
-    in
-    Deriving.add ~str_type_decl ~sig_type_decl "abstract"
-
   let _record_constructor =
     let args () = Deriving.Args.empty in
     let str_type_decl =

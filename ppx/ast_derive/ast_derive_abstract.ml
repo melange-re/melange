@@ -38,11 +38,6 @@ let get_pld_type pld_type ~attrs =
   | false -> pld_type
 
 let derive_js_constructor =
-  let do_alert_deprecated ~loc =
-    Mel_ast_invariant.warn_raw ~loc ~kind:"deprecated"
-      "`@@deriving abstract' deprecated. Use `@@deriving jsProperties, getSet' \
-       instead."
-  in
   let ffi_of_option_labels labels ~ends_with_unit =
     Melange_ffi.External_ffi_types.ffi_obj_create
       (List.fold_right labels
@@ -65,7 +60,7 @@ let derive_js_constructor =
            }
            :: arg_kinds))
   in
-  fun ?(is_deprecated = false) tdcl ->
+  fun tdcl ->
     match tdcl.ptype_kind with
     | Ptype_record label_declarations -> (
         let has_optional_field =
@@ -120,7 +115,6 @@ let derive_js_constructor =
         match tdcl.ptype_private with
         | Private -> []
         | Public ->
-            if is_deprecated then do_alert_deprecated ~loc;
             [
               Val.mk ~loc
                 { loc; txt = tdcl.ptype_name.txt }
@@ -228,15 +222,3 @@ let derive_getters_setters_sig ~light tdcls =
   List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters ~light tdcl in
       List.map ~f:Sig.value value_descriptions @ sts)
-
-let derive_abstract_str ~light tdcls =
-  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
-      and value_descriptions = derive_getters_setters ~light tdcl in
-      List.map ~f:Str.primitive (cstr_descriptions @ value_descriptions) @ sts)
-
-let derive_abstract_sig ~light tdcls =
-  List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
-      let cstr_descriptions = derive_js_constructor ~is_deprecated:true tdcl
-      and value_descriptions = derive_getters_setters ~light tdcl in
-      List.map (cstr_descriptions @ value_descriptions) ~f:Sig.value @ sts)
