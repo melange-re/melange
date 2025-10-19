@@ -45,6 +45,8 @@ Unreleased
     - `[@@deriving abstract]` had been deprecated since Melange 5 (in
       [#979](https://github.com/melange-re/melange/pull/979)), and has now been
       removed in [#1624](https://github.com/melange-re/melange/pull/1624)
+- runtime: support more functions in `Stdlib.Float`
+  ([#1625](https://github.com/melange-re/melange/pull/1625))
 
 
 5.1.0-53 2025-03-23
