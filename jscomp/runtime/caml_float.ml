@@ -94,6 +94,14 @@ let caml_copysign_float (x : float) (y : float) : float =
   let y = if y = 0. then 1. /. y else y in
   if y < 0. then -.x else x
 
+let caml_signbit_float =
+  let infinity = 0x1p2047 in
+  let neg_infinity = -0x1p2047 in
+  fun (x : float) ->
+    if x == 0. && 1. /. x == neg_infinity then true
+    else if x == 0. && 1. /. x == infinity then false
+    else x < 0.
+
 (* http://www.johndcook.com/blog/cpp_expm1/ *)
 let caml_expm1_float : float -> float = function
   | x ->

@@ -95,14 +95,10 @@ external erf : float -> float = "caml_erf_float" "caml_erf"
   [@@unboxed] [@@noalloc]
 external erfc : float -> float = "caml_erfc_float" "caml_erfc"
   [@@unboxed] [@@noalloc]
-external trunc : float -> float = "caml_trunc_float" "caml_trunc"
-  [@@unboxed] [@@noalloc]
-external round : float -> float = "caml_round_float" "caml_round"
-  [@@unboxed] [@@noalloc]
-external ceil : float -> float = "caml_ceil_float" "ceil"
-  [@@unboxed] [@@noalloc]
-external floor : float -> float = "caml_floor_float" "floor"
-[@@unboxed] [@@noalloc]
+external trunc : float -> float = "trunc" [@@mel.scope "Math"]
+external round : float -> float =  "round" [@@mel.scope "Math"]
+external ceil : float -> float =  "ceil" [@@mel.scope "Math"]
+external floor : float -> float =  "floor" [@@mel.scope "Math"]
 #else
 external pow : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]

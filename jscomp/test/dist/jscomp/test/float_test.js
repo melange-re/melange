@@ -337,9 +337,39 @@ Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 
 
 Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 114, characters 5-12", Caml_obj.caml_greaterequal(NaN, 4.2), false);
 
-Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 115, characters 5-12", true || 1 >= 0 && -1 < 0 ? -1 : 1, -1);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 115, characters 5-12", true || !Caml_float.caml_signbit_float(1) && Caml_float.caml_signbit_float(-1) ? -1 : 1, -1);
 
-Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 116, characters 5-12", false || -1 >= 0 && 1 < 0 ? 1 : -1, -1);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 116, characters 5-12", false || !Caml_float.caml_signbit_float(-1) && Caml_float.caml_signbit_float(1) ? 1 : -1, -1);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 117, characters 5-12", - 1, -1);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 118, characters 5-12", 1.2 + 1.2, 2.4);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 119, characters 5-12", 1.2 * 2, 2.4);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 120, characters 5-12", 2.4 / 2, 1.2);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 121, characters 5-12", 2.4 % 1.2, 0);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 122, characters 5-12", 1.2 * 2 + 1, 3.4);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 123, characters 5-12", Caml_float.caml_copysign_float(1.2, -1), -1.2);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 124, characters 5-12", Caml_float.caml_signbit_float(-1), true);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 125, characters 5-12", Caml_float.caml_signbit_float(-0), true);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 126, characters 5-12", Caml_float.caml_signbit_float(Stdlib__Float.nan), false);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 127, characters 5-12", Math.floor(1.2), 1.0);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 128, characters 5-12", Math.ceil(1.2), 2.0);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 129, characters 5-12", Math.round(1.2), 1.0);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 130, characters 5-12", Math.round(1.6), 2.0);
+
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/float_test.ml\", line 131, characters 5-12", Math.trunc(1.6), 1.0);
 
 const match$4 = Caml_float.caml_modf_float(32.3);
 
