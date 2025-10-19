@@ -1,8 +1,8 @@
 type explicit_type =
-  | Boolean 
-  | Number 
-  | String 
-  | Symbol 
+  | Boolean
+  | Number
+  | String
+  | Symbol
   | BigInt [@@deriving ord]
 include
   struct

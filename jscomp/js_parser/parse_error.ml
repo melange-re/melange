@@ -1,184 +1,184 @@
 type t =
-  | AccessorDataProperty 
-  | AccessorGetSet 
-  | AdjacentJSXElements 
-  | AmbiguousLetBracket 
-  | AsyncFunctionAsStatement 
-  | AwaitAsIdentifierReference 
-  | AwaitInAsyncFormalParameters 
-  | ComputedShorthandProperty 
-  | ConstructorCannotBeAccessor 
-  | ConstructorCannotBeAsync 
-  | ConstructorCannotBeGenerator 
-  | DeclareAsync 
-  | DeclareClassElement 
-  | DeclareClassFieldInitializer 
-  | DeclareOpaqueTypeInitializer 
-  | DuplicateConstructor 
-  | DuplicateExport of string 
-  | DuplicatePrivateFields of string 
-  | ElementAfterRestElement 
+  | AccessorDataProperty
+  | AccessorGetSet
+  | AdjacentJSXElements
+  | AmbiguousLetBracket
+  | AsyncFunctionAsStatement
+  | AwaitAsIdentifierReference
+  | AwaitInAsyncFormalParameters
+  | ComputedShorthandProperty
+  | ConstructorCannotBeAccessor
+  | ConstructorCannotBeAsync
+  | ConstructorCannotBeGenerator
+  | DeclareAsync
+  | DeclareClassElement
+  | DeclareClassFieldInitializer
+  | DeclareOpaqueTypeInitializer
+  | DuplicateConstructor
+  | DuplicateExport of string
+  | DuplicatePrivateFields of string
+  | ElementAfterRestElement
   | EnumBigIntMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string } 
+  member_name: string }
   | EnumBooleanMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string } 
+  member_name: string }
   | EnumDuplicateMemberName of {
   enum_name: string ;
-  member_name: string } 
+  member_name: string }
   | EnumInconsistentMemberValues of {
-  enum_name: string } 
+  enum_name: string }
   | EnumInvalidEllipsis of {
-  trailing_comma: bool } 
+  trailing_comma: bool }
   | EnumInvalidExplicitType of
   {
   enum_name: string ;
-  supplied_type: string option } 
-  | EnumInvalidExport 
+  supplied_type: string option }
+  | EnumInvalidExport
   | EnumInvalidInitializerSeparator of {
-  member_name: string } 
+  member_name: string }
   | EnumInvalidMemberInitializer of
   {
   enum_name: string ;
   explicit_type: Enum_common.explicit_type option ;
-  member_name: string } 
+  member_name: string }
   | EnumInvalidMemberName of {
   enum_name: string ;
-  member_name: string } 
-  | EnumInvalidMemberSeparator 
+  member_name: string }
+  | EnumInvalidMemberSeparator
   | EnumNumberMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string } 
+  member_name: string }
   | EnumStringMemberInconsistentlyInitialized of {
-  enum_name: string } 
-  | EnumInvalidConstPrefix 
-  | ExpectedJSXClosingTag of string 
-  | ExpectedPatternFoundExpression 
-  | ExportSpecifierMissingComma 
+  enum_name: string }
+  | EnumInvalidConstPrefix
+  | ExpectedJSXClosingTag of string
+  | ExpectedPatternFoundExpression
+  | ExportSpecifierMissingComma
   | FunctionAsStatement of {
-  in_strict_mode: bool } 
-  | GeneratorFunctionAsStatement 
-  | GetterArity 
-  | GetterMayNotHaveThisParam 
+  in_strict_mode: bool }
+  | GeneratorFunctionAsStatement
+  | GetterArity
+  | GetterMayNotHaveThisParam
   | IllegalBreak of {
-  in_match_statement: bool } 
-  | IllegalContinue 
-  | IllegalReturn 
-  | IllegalUnicodeEscape 
-  | ImportSpecifierMissingComma 
-  | ImportTypeShorthandOnlyInPureImport 
-  | InexactInsideExact 
-  | InexactInsideNonObject 
+  in_match_statement: bool }
+  | IllegalContinue
+  | IllegalReturn
+  | IllegalUnicodeEscape
+  | ImportSpecifierMissingComma
+  | ImportTypeShorthandOnlyInPureImport
+  | InexactInsideExact
+  | InexactInsideNonObject
   | InvalidClassMemberName of
   {
   name: string ;
   static: bool ;
   method_: bool ;
-  private_: bool } 
-  | InvalidComponentParamName 
+  private_: bool }
+  | InvalidComponentParamName
   | InvalidComponentRenderAnnotation of {
-  has_nested_render: bool } 
+  has_nested_render: bool }
   | InvalidComponentStringParameterBinding of {
   optional: bool ;
-  name: string } 
-  | InvalidFloatBigInt 
+  name: string }
+  | InvalidFloatBigInt
   | InvalidIndexedAccess of {
-  has_bracket: bool } 
-  | InvalidJSXAttributeValue 
-  | InvalidLHSInAssignment 
-  | InvalidLHSInExponentiation 
-  | InvalidLHSInForIn 
-  | InvalidLHSInForOf 
-  | InvalidOptionalIndexedAccess 
-  | InvalidRegExp 
-  | InvalidRegExpFlags of string 
-  | InvalidSciBigInt 
-  | InvalidTupleOptionalSpread 
-  | InvalidTupleVariance 
-  | InvalidTypeof 
-  | JSXAttributeValueEmptyExpression 
-  | LiteralShorthandProperty 
-  | MalformedUnicode 
-  | MatchNonLastRest of [ `Object  | `Array ] 
-  | MatchEmptyArgument 
-  | MatchSpreadArgument 
-  | MatchExpressionAwait 
-  | MatchExpressionYield 
-  | MethodInDestructuring 
-  | MissingJSXClosingTag of string 
-  | MissingTypeParam 
-  | MissingTypeParamDefault 
-  | MultipleDefaultsInSwitch 
-  | NewlineAfterThrow 
-  | NewlineBeforeArrow 
-  | NoCatchOrFinally 
-  | NoUninitializedConst 
-  | NoUninitializedDestructuring 
-  | NullishCoalescingUnexpectedLogical of string 
-  | OptionalChainNew 
-  | OptionalChainTemplate 
-  | ParameterAfterRestParameter 
-  | PrivateDelete 
-  | PrivateNotInClass 
-  | PropertyAfterRestElement 
-  | Redeclaration of string * string 
-  | SetterArity 
-  | SetterMayNotHaveThisParam 
-  | StrictCatchVariable 
-  | StrictDelete 
-  | StrictDuplicateProperty 
-  | StrictFunctionName 
-  | StrictLHSAssignment 
-  | StrictLHSPostfix 
-  | StrictLHSPrefix 
-  | StrictModeWith 
-  | StrictNonOctalLiteral 
-  | StrictOctalLiteral 
-  | StrictParamDupe 
-  | StrictParamName 
-  | StrictParamNotSimple 
-  | StrictReservedWord 
-  | StrictVarName 
-  | SuperPrivate 
-  | TSAbstractClass 
-  | TSClassVisibility of [ `Public  | `Private  | `Protected ] 
-  | TSTemplateLiteralType 
-  | ThisParamAnnotationRequired 
-  | ThisParamBannedInArrowFunctions 
-  | ThisParamBannedInConstructor 
-  | ThisParamMayNotBeOptional 
-  | ThisParamMustBeFirst 
-  | TrailingCommaAfterRestElement 
-  | UnboundPrivate of string 
-  | Unexpected of string 
-  | UnexpectedEOS 
-  | UnexpectedExplicitInexactInObject 
-  | UnexpectedOpaqueTypeAlias 
-  | UnexpectedProto 
-  | UnexpectedReserved 
-  | UnexpectedReservedType 
-  | UnexpectedSpreadType 
-  | UnexpectedStatic 
-  | UnexpectedSuper 
-  | UnexpectedSuperCall 
-  | UnexpectedTokenWithSuggestion of string * string 
-  | UnexpectedTypeAlias 
-  | UnexpectedTypeAnnotation 
-  | UnexpectedTypeDeclaration 
-  | UnexpectedTypeExport 
-  | UnexpectedTypeImport 
-  | UnexpectedTypeInterface 
-  | UnexpectedVariance 
-  | UnexpectedWithExpected of string * string 
-  | UnknownLabel of string 
-  | UnsupportedDecorator 
-  | UnterminatedRegExp 
-  | WhitespaceInPrivateName 
-  | YieldAsIdentifierReference 
+  has_bracket: bool }
+  | InvalidJSXAttributeValue
+  | InvalidLHSInAssignment
+  | InvalidLHSInExponentiation
+  | InvalidLHSInForIn
+  | InvalidLHSInForOf
+  | InvalidOptionalIndexedAccess
+  | InvalidRegExp
+  | InvalidRegExpFlags of string
+  | InvalidSciBigInt
+  | InvalidTupleOptionalSpread
+  | InvalidTupleVariance
+  | InvalidTypeof
+  | JSXAttributeValueEmptyExpression
+  | LiteralShorthandProperty
+  | MalformedUnicode
+  | MatchNonLastRest of [ `Object  | `Array ]
+  | MatchEmptyArgument
+  | MatchSpreadArgument
+  | MatchExpressionAwait
+  | MatchExpressionYield
+  | MethodInDestructuring
+  | MissingJSXClosingTag of string
+  | MissingTypeParam
+  | MissingTypeParamDefault
+  | MultipleDefaultsInSwitch
+  | NewlineAfterThrow
+  | NewlineBeforeArrow
+  | NoCatchOrFinally
+  | NoUninitializedConst
+  | NoUninitializedDestructuring
+  | NullishCoalescingUnexpectedLogical of string
+  | OptionalChainNew
+  | OptionalChainTemplate
+  | ParameterAfterRestParameter
+  | PrivateDelete
+  | PrivateNotInClass
+  | PropertyAfterRestElement
+  | Redeclaration of string * string
+  | SetterArity
+  | SetterMayNotHaveThisParam
+  | StrictCatchVariable
+  | StrictDelete
+  | StrictDuplicateProperty
+  | StrictFunctionName
+  | StrictLHSAssignment
+  | StrictLHSPostfix
+  | StrictLHSPrefix
+  | StrictModeWith
+  | StrictNonOctalLiteral
+  | StrictOctalLiteral
+  | StrictParamDupe
+  | StrictParamName
+  | StrictParamNotSimple
+  | StrictReservedWord
+  | StrictVarName
+  | SuperPrivate
+  | TSAbstractClass
+  | TSClassVisibility of [ `Public  | `Private  | `Protected ]
+  | TSTemplateLiteralType
+  | ThisParamAnnotationRequired
+  | ThisParamBannedInArrowFunctions
+  | ThisParamBannedInConstructor
+  | ThisParamMayNotBeOptional
+  | ThisParamMustBeFirst
+  | TrailingCommaAfterRestElement
+  | UnboundPrivate of string
+  | Unexpected of string
+  | UnexpectedEOS
+  | UnexpectedExplicitInexactInObject
+  | UnexpectedOpaqueTypeAlias
+  | UnexpectedProto
+  | UnexpectedReserved
+  | UnexpectedReservedType
+  | UnexpectedSpreadType
+  | UnexpectedStatic
+  | UnexpectedSuper
+  | UnexpectedSuperCall
+  | UnexpectedTokenWithSuggestion of string * string
+  | UnexpectedTypeAlias
+  | UnexpectedTypeAnnotation
+  | UnexpectedTypeDeclaration
+  | UnexpectedTypeExport
+  | UnexpectedTypeImport
+  | UnexpectedTypeInterface
+  | UnexpectedVariance
+  | UnexpectedWithExpected of string * string
+  | UnknownLabel of string
+  | UnsupportedDecorator
+  | UnterminatedRegExp
+  | WhitespaceInPrivateName
+  | YieldAsIdentifierReference
   | YieldInFormalParameters [@@deriving ord]
 include
   struct
