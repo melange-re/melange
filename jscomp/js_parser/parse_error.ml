@@ -1,696 +1,710 @@
 type t =
-  | AccessorDataProperty
-  | AccessorGetSet
-  | AdjacentJSXElements
-  | AmbiguousLetBracket
-  | AsyncFunctionAsStatement
-  | AwaitAsIdentifierReference
-  | AwaitInAsyncFormalParameters
-  | ComputedShorthandProperty
-  | ConstructorCannotBeAccessor
-  | ConstructorCannotBeAsync
-  | ConstructorCannotBeGenerator
-  | DeclareAsync
-  | DeclareClassElement
-  | DeclareClassFieldInitializer
-  | DeclareOpaqueTypeInitializer
-  | DuplicateConstructor
-  | DuplicateExport of string
-  | DuplicatePrivateFields of string
-  | ElementAfterRestElement
+  | AccessorDataProperty 
+  | AccessorGetSet 
+  | AdjacentJSXElements 
+  | AmbiguousLetBracket 
+  | AsyncFunctionAsStatement 
+  | AwaitAsIdentifierReference 
+  | AwaitInAsyncFormalParameters 
+  | ComputedShorthandProperty 
+  | ConstructorCannotBeAccessor 
+  | ConstructorCannotBeAsync 
+  | ConstructorCannotBeGenerator 
+  | DeclareAsync 
+  | DeclareClassElement 
+  | DeclareClassFieldInitializer 
+  | DeclareOpaqueTypeInitializer 
+  | DuplicateConstructor 
+  | DuplicateExport of string 
+  | DuplicatePrivateFields of string 
+  | ElementAfterRestElement 
   | EnumBigIntMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string }
+  member_name: string } 
   | EnumBooleanMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string }
+  member_name: string } 
   | EnumDuplicateMemberName of {
   enum_name: string ;
-  member_name: string }
+  member_name: string } 
   | EnumInconsistentMemberValues of {
-  enum_name: string }
+  enum_name: string } 
   | EnumInvalidEllipsis of {
-  trailing_comma: bool }
+  trailing_comma: bool } 
   | EnumInvalidExplicitType of
   {
   enum_name: string ;
-  supplied_type: string option }
-  | EnumInvalidExport
+  supplied_type: string option } 
+  | EnumInvalidExport 
   | EnumInvalidInitializerSeparator of {
-  member_name: string }
+  member_name: string } 
   | EnumInvalidMemberInitializer of
   {
   enum_name: string ;
   explicit_type: Enum_common.explicit_type option ;
-  member_name: string }
+  member_name: string } 
   | EnumInvalidMemberName of {
   enum_name: string ;
-  member_name: string }
-  | EnumInvalidMemberSeparator
+  member_name: string } 
+  | EnumInvalidMemberSeparator 
   | EnumNumberMemberNotInitialized of
   {
   enum_name: string ;
-  member_name: string }
+  member_name: string } 
   | EnumStringMemberInconsistentlyInitialized of {
-  enum_name: string }
-  | EnumInvalidConstPrefix
-  | ExpectedJSXClosingTag of string
-  | ExpectedPatternFoundExpression
-  | ExportSpecifierMissingComma
+  enum_name: string } 
+  | EnumInvalidConstPrefix 
+  | ExpectedJSXClosingTag of string 
+  | ExpectedPatternFoundExpression 
+  | ExportSpecifierMissingComma 
   | FunctionAsStatement of {
-  in_strict_mode: bool }
-  | GeneratorFunctionAsStatement
-  | GetterArity
-  | GetterMayNotHaveThisParam
-  | IllegalBreak
-  | IllegalContinue
-  | IllegalReturn
-  | IllegalUnicodeEscape
-  | ImportSpecifierMissingComma
-  | ImportTypeShorthandOnlyInPureImport
-  | InexactInsideExact
-  | InexactInsideNonObject
+  in_strict_mode: bool } 
+  | GeneratorFunctionAsStatement 
+  | GetterArity 
+  | GetterMayNotHaveThisParam 
+  | IllegalBreak of {
+  in_match_statement: bool } 
+  | IllegalContinue 
+  | IllegalReturn 
+  | IllegalUnicodeEscape 
+  | ImportSpecifierMissingComma 
+  | ImportTypeShorthandOnlyInPureImport 
+  | InexactInsideExact 
+  | InexactInsideNonObject 
   | InvalidClassMemberName of
   {
   name: string ;
   static: bool ;
   method_: bool ;
-  private_: bool }
-  | InvalidComponentParamName
+  private_: bool } 
+  | InvalidComponentParamName 
   | InvalidComponentRenderAnnotation of {
-  has_nested_render: bool }
+  has_nested_render: bool } 
   | InvalidComponentStringParameterBinding of {
   optional: bool ;
-  name: string }
-  | InvalidFloatBigInt
+  name: string } 
+  | InvalidFloatBigInt 
   | InvalidIndexedAccess of {
-  has_bracket: bool }
-  | InvalidJSXAttributeValue
-  | InvalidLHSInAssignment
-  | InvalidLHSInExponentiation
-  | InvalidLHSInForIn
-  | InvalidLHSInForOf
-  | InvalidOptionalIndexedAccess
-  | InvalidRegExp
-  | InvalidRegExpFlags of string
-  | InvalidSciBigInt
-  | InvalidTupleOptionalSpread
-  | InvalidTupleVariance
-  | InvalidTypeof
-  | JSXAttributeValueEmptyExpression
-  | LiteralShorthandProperty
-  | MalformedUnicode
-  | MatchNonLastRest of [ `Object  | `Array ]
-  | MatchEmptyArgument
-  | MatchSpreadArgument
-  | MethodInDestructuring
-  | MissingJSXClosingTag of string
-  | MissingTypeParam
-  | MissingTypeParamDefault
-  | MultipleDefaultsInSwitch
-  | NewlineAfterThrow
-  | NewlineBeforeArrow
-  | NoCatchOrFinally
-  | NoUninitializedConst
-  | NoUninitializedDestructuring
-  | NullishCoalescingUnexpectedLogical of string
-  | OptionalChainNew
-  | OptionalChainTemplate
-  | ParameterAfterRestParameter
-  | PrivateDelete
-  | PrivateNotInClass
-  | PropertyAfterRestElement
-  | Redeclaration of string * string
-  | SetterArity
-  | SetterMayNotHaveThisParam
-  | StrictCatchVariable
-  | StrictDelete
-  | StrictDuplicateProperty
-  | StrictFunctionName
-  | StrictLHSAssignment
-  | StrictLHSPostfix
-  | StrictLHSPrefix
-  | StrictModeWith
-  | StrictNonOctalLiteral
-  | StrictOctalLiteral
-  | StrictParamDupe
-  | StrictParamName
-  | StrictParamNotSimple
-  | StrictReservedWord
-  | StrictVarName
-  | SuperPrivate
-  | TSAbstractClass
-  | TSClassVisibility of [ `Public  | `Private  | `Protected ]
-  | TSTemplateLiteralType
-  | ThisParamAnnotationRequired
-  | ThisParamBannedInArrowFunctions
-  | ThisParamBannedInConstructor
-  | ThisParamMayNotBeOptional
-  | ThisParamMustBeFirst
-  | TrailingCommaAfterRestElement
-  | UnboundPrivate of string
-  | Unexpected of string
-  | UnexpectedEOS
-  | UnexpectedExplicitInexactInObject
-  | UnexpectedOpaqueTypeAlias
-  | UnexpectedProto
-  | UnexpectedReserved
-  | UnexpectedReservedType
-  | UnexpectedSpreadType
-  | UnexpectedStatic
-  | UnexpectedSuper
-  | UnexpectedSuperCall
-  | UnexpectedTokenWithSuggestion of string * string
-  | UnexpectedTypeAlias
-  | UnexpectedTypeAnnotation
-  | UnexpectedTypeDeclaration
-  | UnexpectedTypeExport
-  | UnexpectedTypeImport
-  | UnexpectedTypeInterface
-  | UnexpectedVariance
-  | UnexpectedWithExpected of string * string
-  | UnknownLabel of string
-  | UnsupportedDecorator
-  | UnterminatedRegExp
-  | WhitespaceInPrivateName
-  | YieldAsIdentifierReference
+  has_bracket: bool } 
+  | InvalidJSXAttributeValue 
+  | InvalidLHSInAssignment 
+  | InvalidLHSInExponentiation 
+  | InvalidLHSInForIn 
+  | InvalidLHSInForOf 
+  | InvalidOptionalIndexedAccess 
+  | InvalidRegExp 
+  | InvalidRegExpFlags of string 
+  | InvalidSciBigInt 
+  | InvalidTupleOptionalSpread 
+  | InvalidTupleVariance 
+  | InvalidTypeof 
+  | JSXAttributeValueEmptyExpression 
+  | LiteralShorthandProperty 
+  | MalformedUnicode 
+  | MatchNonLastRest of [ `Object  | `Array ] 
+  | MatchEmptyArgument 
+  | MatchSpreadArgument 
+  | MatchExpressionAwait 
+  | MatchExpressionYield 
+  | MethodInDestructuring 
+  | MissingJSXClosingTag of string 
+  | MissingTypeParam 
+  | MissingTypeParamDefault 
+  | MultipleDefaultsInSwitch 
+  | NewlineAfterThrow 
+  | NewlineBeforeArrow 
+  | NoCatchOrFinally 
+  | NoUninitializedConst 
+  | NoUninitializedDestructuring 
+  | NullishCoalescingUnexpectedLogical of string 
+  | OptionalChainNew 
+  | OptionalChainTemplate 
+  | ParameterAfterRestParameter 
+  | PrivateDelete 
+  | PrivateNotInClass 
+  | PropertyAfterRestElement 
+  | Redeclaration of string * string 
+  | SetterArity 
+  | SetterMayNotHaveThisParam 
+  | StrictCatchVariable 
+  | StrictDelete 
+  | StrictDuplicateProperty 
+  | StrictFunctionName 
+  | StrictLHSAssignment 
+  | StrictLHSPostfix 
+  | StrictLHSPrefix 
+  | StrictModeWith 
+  | StrictNonOctalLiteral 
+  | StrictOctalLiteral 
+  | StrictParamDupe 
+  | StrictParamName 
+  | StrictParamNotSimple 
+  | StrictReservedWord 
+  | StrictVarName 
+  | SuperPrivate 
+  | TSAbstractClass 
+  | TSClassVisibility of [ `Public  | `Private  | `Protected ] 
+  | TSTemplateLiteralType 
+  | ThisParamAnnotationRequired 
+  | ThisParamBannedInArrowFunctions 
+  | ThisParamBannedInConstructor 
+  | ThisParamMayNotBeOptional 
+  | ThisParamMustBeFirst 
+  | TrailingCommaAfterRestElement 
+  | UnboundPrivate of string 
+  | Unexpected of string 
+  | UnexpectedEOS 
+  | UnexpectedExplicitInexactInObject 
+  | UnexpectedOpaqueTypeAlias 
+  | UnexpectedProto 
+  | UnexpectedReserved 
+  | UnexpectedReservedType 
+  | UnexpectedSpreadType 
+  | UnexpectedStatic 
+  | UnexpectedSuper 
+  | UnexpectedSuperCall 
+  | UnexpectedTokenWithSuggestion of string * string 
+  | UnexpectedTypeAlias 
+  | UnexpectedTypeAnnotation 
+  | UnexpectedTypeDeclaration 
+  | UnexpectedTypeExport 
+  | UnexpectedTypeImport 
+  | UnexpectedTypeInterface 
+  | UnexpectedVariance 
+  | UnexpectedWithExpected of string * string 
+  | UnknownLabel of string 
+  | UnsupportedDecorator 
+  | UnterminatedRegExp 
+  | WhitespaceInPrivateName 
+  | YieldAsIdentifierReference 
   | YieldInFormalParameters [@@deriving ord]
-let rec compare : t -> t -> int =
-  let __42 () (a : string) b = Stdlib.compare a b
-  and __41 () (a : string) b = Stdlib.compare a b
-  and __40 () (a : string) b = Stdlib.compare a b
-  and __39 () (a : string) b = Stdlib.compare a b
-  and __38 () (a : string) b = Stdlib.compare a b
-  and __37 () (a : string) b = Stdlib.compare a b
-  and __36 () (a : string) b = Stdlib.compare a b
-  and __35 () (a : string) b = Stdlib.compare a b
-  and __34 () (a : string) b = Stdlib.compare a b
-  and __33 () (a : string) b = Stdlib.compare a b
-  and __32 () (a : string) b = Stdlib.compare a b
-  and __31 () (a : string) b = Stdlib.compare a b
-  and __30 () (a : bool) b = Stdlib.compare a b
-  and __29 () (a : string) b = Stdlib.compare a b
-  and __28 () (a : bool) b = Stdlib.compare a b
-  and __27 () (a : bool) b = Stdlib.compare a b
-  and __26 () (a : bool) b = Stdlib.compare a b
-  and __25 () (a : bool) b = Stdlib.compare a b
-  and __24 () (a : bool) b = Stdlib.compare a b
-  and __23 () (a : string) b = Stdlib.compare a b
-  and __22 () (a : bool) b = Stdlib.compare a b
-  and __21 () (a : string) b = Stdlib.compare a b
-  and __20 () (a : string) b = Stdlib.compare a b
-  and __19 () (a : string) b = Stdlib.compare a b
-  and __18 () (a : string) b = Stdlib.compare a b
-  and __17 () (a : string) b = Stdlib.compare a b
-  and __16 () (a : string) b = Stdlib.compare a b
-  and __15 () (a : string) b = Stdlib.compare a b
-  and __14 = Enum_common.compare_explicit_type
-  and __13 () (a : string) b = Stdlib.compare a b
-  and __12 () (a : string) b = Stdlib.compare a b
-  and __11 () (a : string) b = Stdlib.compare a b
-  and __10 () (a : string) b = Stdlib.compare a b
-  and __9 () (a : bool) b = Stdlib.compare a b
-  and __8 () (a : string) b = Stdlib.compare a b
-  and __7 () (a : string) b = Stdlib.compare a b
-  and __6 () (a : string) b = Stdlib.compare a b
-  and __5 () (a : string) b = Stdlib.compare a b
-  and __4 () (a : string) b = Stdlib.compare a b
-  and __3 () (a : string) b = Stdlib.compare a b
-  and __2 () (a : string) b = Stdlib.compare a b
-  and __1 () (a : string) b = Stdlib.compare a b
-  and __0 () (a : string) b = Stdlib.compare a b in
-  ((
-      fun lhs rhs ->
-        match (lhs, rhs) with
-        | (AccessorDataProperty, AccessorDataProperty) -> 0
-        | (AccessorGetSet, AccessorGetSet) -> 0
-        | (AdjacentJSXElements, AdjacentJSXElements) -> 0
-        | (AmbiguousLetBracket, AmbiguousLetBracket) -> 0
-        | (AsyncFunctionAsStatement, AsyncFunctionAsStatement) -> 0
-        | (AwaitAsIdentifierReference, AwaitAsIdentifierReference) -> 0
-        | (AwaitInAsyncFormalParameters, AwaitInAsyncFormalParameters)
-            -> 0
-        | (ComputedShorthandProperty, ComputedShorthandProperty) -> 0
-        | (ConstructorCannotBeAccessor, ConstructorCannotBeAccessor) ->
-            0
-        | (ConstructorCannotBeAsync, ConstructorCannotBeAsync) -> 0
-        | (ConstructorCannotBeGenerator, ConstructorCannotBeGenerator)
-            -> 0
-        | (DeclareAsync, DeclareAsync) -> 0
-        | (DeclareClassElement, DeclareClassElement) -> 0
-        | (DeclareClassFieldInitializer, DeclareClassFieldInitializer)
-            -> 0
-        | (DeclareOpaqueTypeInitializer, DeclareOpaqueTypeInitializer)
-            -> 0
-        | (DuplicateConstructor, DuplicateConstructor) -> 0
-        | (DuplicateExport lhs0, DuplicateExport rhs0) ->
-            (__0 ()) lhs0 rhs0
-        | (DuplicatePrivateFields lhs0, DuplicatePrivateFields rhs0) ->
-            (__1 ()) lhs0 rhs0
-        | (ElementAfterRestElement, ElementAfterRestElement) -> 0
-        | (EnumBigIntMemberNotInitialized
-           { enum_name = lhsenum_name; member_name = lhsmember_name },
-           EnumBigIntMemberNotInitialized
-           { enum_name = rhsenum_name; member_name = rhsmember_name })
-            ->
-            (match (__2 ()) lhsenum_name rhsenum_name with
-             | 0 -> (__3 ()) lhsmember_name rhsmember_name
-             | x -> x)
-        | (EnumBooleanMemberNotInitialized
-           { enum_name = lhsenum_name; member_name = lhsmember_name },
-           EnumBooleanMemberNotInitialized
-           { enum_name = rhsenum_name; member_name = rhsmember_name })
-            ->
-            (match (__4 ()) lhsenum_name rhsenum_name with
-             | 0 -> (__5 ()) lhsmember_name rhsmember_name
-             | x -> x)
-        | (EnumDuplicateMemberName
-           { enum_name = lhsenum_name; member_name = lhsmember_name },
-           EnumDuplicateMemberName
-           { enum_name = rhsenum_name; member_name = rhsmember_name })
-            ->
-            (match (__6 ()) lhsenum_name rhsenum_name with
-             | 0 -> (__7 ()) lhsmember_name rhsmember_name
-             | x -> x)
-        | (EnumInconsistentMemberValues { enum_name = lhsenum_name },
-           EnumInconsistentMemberValues { enum_name = rhsenum_name })
-            -> (__8 ()) lhsenum_name rhsenum_name
-        | (EnumInvalidEllipsis { trailing_comma = lhstrailing_comma },
-           EnumInvalidEllipsis { trailing_comma = rhstrailing_comma })
-            -> (__9 ()) lhstrailing_comma rhstrailing_comma
-        | (EnumInvalidExplicitType
-           { enum_name = lhsenum_name; supplied_type = lhssupplied_type
-             },
-           EnumInvalidExplicitType
-           { enum_name = rhsenum_name; supplied_type = rhssupplied_type
-             })
-            ->
-            (match (__10 ()) lhsenum_name rhsenum_name with
-             | 0 ->
-                 ((fun x y ->
-                     match (x, y) with
-                     | (None, None) -> 0
-                     | (Some a, Some b) -> (__11 ()) a b
-                     | (None, Some _) -> (-1)
-                     | (Some _, None) -> 1)) lhssupplied_type
-                   rhssupplied_type
-             | x -> x)
-        | (EnumInvalidExport, EnumInvalidExport) -> 0
-        | (EnumInvalidInitializerSeparator
-           { member_name = lhsmember_name },
-           EnumInvalidInitializerSeparator
-           { member_name = rhsmember_name }) ->
-            (__12 ()) lhsmember_name rhsmember_name
-        | (EnumInvalidMemberInitializer
-           { enum_name = lhsenum_name;
-             explicit_type = lhsexplicit_type;
-             member_name = lhsmember_name },
-           EnumInvalidMemberInitializer
-           { enum_name = rhsenum_name;
-             explicit_type = rhsexplicit_type;
-             member_name = rhsmember_name })
-            ->
-            (match (__13 ()) lhsenum_name rhsenum_name with
-             | 0 ->
-                 (match (fun x y ->
+include
+  struct
+    let _ = fun (_ : t) -> ()
+    let rec compare : t -> t -> int =
+      ((let __43 () (a : string) b = Stdlib.compare a b
+        and __42 () (a : string) b = Stdlib.compare a b
+        and __41 () (a : string) b = Stdlib.compare a b
+        and __40 () (a : string) b = Stdlib.compare a b
+        and __39 () (a : string) b = Stdlib.compare a b
+        and __38 () (a : string) b = Stdlib.compare a b
+        and __37 () (a : string) b = Stdlib.compare a b
+        and __36 () (a : string) b = Stdlib.compare a b
+        and __35 () (a : string) b = Stdlib.compare a b
+        and __34 () (a : string) b = Stdlib.compare a b
+        and __33 () (a : string) b = Stdlib.compare a b
+        and __32 () (a : string) b = Stdlib.compare a b
+        and __31 () (a : bool) b = Stdlib.compare a b
+        and __30 () (a : string) b = Stdlib.compare a b
+        and __29 () (a : bool) b = Stdlib.compare a b
+        and __28 () (a : bool) b = Stdlib.compare a b
+        and __27 () (a : bool) b = Stdlib.compare a b
+        and __26 () (a : bool) b = Stdlib.compare a b
+        and __25 () (a : bool) b = Stdlib.compare a b
+        and __24 () (a : string) b = Stdlib.compare a b
+        and __23 () (a : bool) b = Stdlib.compare a b
+        and __22 () (a : bool) b = Stdlib.compare a b
+        and __21 () (a : string) b = Stdlib.compare a b
+        and __20 () (a : string) b = Stdlib.compare a b
+        and __19 () (a : string) b = Stdlib.compare a b
+        and __18 () (a : string) b = Stdlib.compare a b
+        and __17 () (a : string) b = Stdlib.compare a b
+        and __16 () (a : string) b = Stdlib.compare a b
+        and __15 () (a : string) b = Stdlib.compare a b
+        and __14 = Enum_common.compare_explicit_type
+        and __13 () (a : string) b = Stdlib.compare a b
+        and __12 () (a : string) b = Stdlib.compare a b
+        and __11 () (a : string) b = Stdlib.compare a b
+        and __10 () (a : string) b = Stdlib.compare a b
+        and __9 () (a : bool) b = Stdlib.compare a b
+        and __8 () (a : string) b = Stdlib.compare a b
+        and __7 () (a : string) b = Stdlib.compare a b
+        and __6 () (a : string) b = Stdlib.compare a b
+        and __5 () (a : string) b = Stdlib.compare a b
+        and __4 () (a : string) b = Stdlib.compare a b
+        and __3 () (a : string) b = Stdlib.compare a b
+        and __2 () (a : string) b = Stdlib.compare a b
+        and __1 () (a : string) b = Stdlib.compare a b
+        and __0 () (a : string) b = Stdlib.compare a b in
+        ((            fun lhs rhs ->
+              match (lhs, rhs) with
+              | (AccessorDataProperty, AccessorDataProperty) -> 0
+              | (AccessorGetSet, AccessorGetSet) -> 0
+              | (AdjacentJSXElements, AdjacentJSXElements) -> 0
+              | (AmbiguousLetBracket, AmbiguousLetBracket) -> 0
+              | (AsyncFunctionAsStatement, AsyncFunctionAsStatement) -> 0
+              | (AwaitAsIdentifierReference, AwaitAsIdentifierReference) -> 0
+              | (AwaitInAsyncFormalParameters, AwaitInAsyncFormalParameters)
+                  -> 0
+              | (ComputedShorthandProperty, ComputedShorthandProperty) -> 0
+              | (ConstructorCannotBeAccessor, ConstructorCannotBeAccessor) ->
+                  0
+              | (ConstructorCannotBeAsync, ConstructorCannotBeAsync) -> 0
+              | (ConstructorCannotBeGenerator, ConstructorCannotBeGenerator)
+                  -> 0
+              | (DeclareAsync, DeclareAsync) -> 0
+              | (DeclareClassElement, DeclareClassElement) -> 0
+              | (DeclareClassFieldInitializer, DeclareClassFieldInitializer)
+                  -> 0
+              | (DeclareOpaqueTypeInitializer, DeclareOpaqueTypeInitializer)
+                  -> 0
+              | (DuplicateConstructor, DuplicateConstructor) -> 0
+              | (DuplicateExport lhs0, DuplicateExport rhs0) ->
+                  (__0 ()) lhs0 rhs0
+              | (DuplicatePrivateFields lhs0, DuplicatePrivateFields rhs0) ->
+                  (__1 ()) lhs0 rhs0
+              | (ElementAfterRestElement, ElementAfterRestElement) -> 0
+              | (EnumBigIntMemberNotInitialized
+                 { enum_name = lhsenum_name; member_name = lhsmember_name },
+                 EnumBigIntMemberNotInitialized
+                 { enum_name = rhsenum_name; member_name = rhsmember_name })
+                  ->
+                  (match (__2 ()) lhsenum_name rhsenum_name with
+                   | 0 -> (__3 ()) lhsmember_name rhsmember_name
+                   | x -> x)
+              | (EnumBooleanMemberNotInitialized
+                 { enum_name = lhsenum_name; member_name = lhsmember_name },
+                 EnumBooleanMemberNotInitialized
+                 { enum_name = rhsenum_name; member_name = rhsmember_name })
+                  ->
+                  (match (__4 ()) lhsenum_name rhsenum_name with
+                   | 0 -> (__5 ()) lhsmember_name rhsmember_name
+                   | x -> x)
+              | (EnumDuplicateMemberName
+                 { enum_name = lhsenum_name; member_name = lhsmember_name },
+                 EnumDuplicateMemberName
+                 { enum_name = rhsenum_name; member_name = rhsmember_name })
+                  ->
+                  (match (__6 ()) lhsenum_name rhsenum_name with
+                   | 0 -> (__7 ()) lhsmember_name rhsmember_name
+                   | x -> x)
+              | (EnumInconsistentMemberValues { enum_name = lhsenum_name },
+                 EnumInconsistentMemberValues { enum_name = rhsenum_name })
+                  -> (__8 ()) lhsenum_name rhsenum_name
+              | (EnumInvalidEllipsis { trailing_comma = lhstrailing_comma },
+                 EnumInvalidEllipsis { trailing_comma = rhstrailing_comma })
+                  -> (__9 ()) lhstrailing_comma rhstrailing_comma
+              | (EnumInvalidExplicitType
+                 { enum_name = lhsenum_name; supplied_type = lhssupplied_type
+                   },
+                 EnumInvalidExplicitType
+                 { enum_name = rhsenum_name; supplied_type = rhssupplied_type
+                   })
+                  ->
+                  (match (__10 ()) lhsenum_name rhsenum_name with
+                   | 0 ->
+                       ((fun x y ->
                            match (x, y) with
                            | (None, None) -> 0
-                           | (Some a, Some b) -> __14 a b
+                           | (Some a, Some b) -> (__11 ()) a b
                            | (None, Some _) -> (-1)
-                           | (Some _, None) -> 1) lhsexplicit_type
-                          rhsexplicit_type
-                  with
-                  | 0 -> (__15 ()) lhsmember_name rhsmember_name
-                  | x -> x)
-             | x -> x)
-        | (EnumInvalidMemberName
-           { enum_name = lhsenum_name; member_name = lhsmember_name },
-           EnumInvalidMemberName
-           { enum_name = rhsenum_name; member_name = rhsmember_name })
-            ->
-            (match (__16 ()) lhsenum_name rhsenum_name with
-             | 0 -> (__17 ()) lhsmember_name rhsmember_name
-             | x -> x)
-        | (EnumInvalidMemberSeparator, EnumInvalidMemberSeparator) -> 0
-        | (EnumNumberMemberNotInitialized
-           { enum_name = lhsenum_name; member_name = lhsmember_name },
-           EnumNumberMemberNotInitialized
-           { enum_name = rhsenum_name; member_name = rhsmember_name })
-            ->
-            (match (__18 ()) lhsenum_name rhsenum_name with
-             | 0 -> (__19 ()) lhsmember_name rhsmember_name
-             | x -> x)
-        | (EnumStringMemberInconsistentlyInitialized
-           { enum_name = lhsenum_name },
-           EnumStringMemberInconsistentlyInitialized
-           { enum_name = rhsenum_name }) ->
-            (__20 ()) lhsenum_name rhsenum_name
-        | (EnumInvalidConstPrefix, EnumInvalidConstPrefix) -> 0
-        | (ExpectedJSXClosingTag lhs0, ExpectedJSXClosingTag rhs0) ->
-            (__21 ()) lhs0 rhs0
-        | (ExpectedPatternFoundExpression,
-           ExpectedPatternFoundExpression) -> 0
-        | (ExportSpecifierMissingComma, ExportSpecifierMissingComma) ->
-            0
-        | (FunctionAsStatement { in_strict_mode = lhsin_strict_mode },
-           FunctionAsStatement { in_strict_mode = rhsin_strict_mode })
-            -> (__22 ()) lhsin_strict_mode rhsin_strict_mode
-        | (GeneratorFunctionAsStatement, GeneratorFunctionAsStatement)
-            -> 0
-        | (GetterArity, GetterArity) -> 0
-        | (GetterMayNotHaveThisParam, GetterMayNotHaveThisParam) -> 0
-        | (IllegalBreak, IllegalBreak) -> 0
-        | (IllegalContinue, IllegalContinue) -> 0
-        | (IllegalReturn, IllegalReturn) -> 0
-        | (IllegalUnicodeEscape, IllegalUnicodeEscape) -> 0
-        | (ImportSpecifierMissingComma, ImportSpecifierMissingComma) ->
-            0
-        | (ImportTypeShorthandOnlyInPureImport,
-           ImportTypeShorthandOnlyInPureImport) -> 0
-        | (InexactInsideExact, InexactInsideExact) -> 0
-        | (InexactInsideNonObject, InexactInsideNonObject) -> 0
-        | (InvalidClassMemberName
-           { name = lhsname; static = lhsstatic; method_ = lhsmethod_;
-             private_ = lhsprivate_ },
-           InvalidClassMemberName
-           { name = rhsname; static = rhsstatic; method_ = rhsmethod_;
-             private_ = rhsprivate_ })
-            ->
-            (match (__23 ()) lhsname rhsname with
-             | 0 ->
-                 (match (__24 ()) lhsstatic rhsstatic with
-                  | 0 ->
-                      (match (__25 ()) lhsmethod_ rhsmethod_ with
-                       | 0 -> (__26 ()) lhsprivate_ rhsprivate_
-                       | x -> x)
-                  | x -> x)
-             | x -> x)
-        | (InvalidComponentParamName, InvalidComponentParamName) -> 0
-        | (InvalidComponentRenderAnnotation
-           { has_nested_render = lhshas_nested_render },
-           InvalidComponentRenderAnnotation
-           { has_nested_render = rhshas_nested_render }) ->
-            (__27 ()) lhshas_nested_render rhshas_nested_render
-        | (InvalidComponentStringParameterBinding
-           { optional = lhsoptional; name = lhsname },
-           InvalidComponentStringParameterBinding
-           { optional = rhsoptional; name = rhsname }) ->
-            (match (__28 ()) lhsoptional rhsoptional with
-             | 0 -> (__29 ()) lhsname rhsname
-             | x -> x)
-        | (InvalidFloatBigInt, InvalidFloatBigInt) -> 0
-        | (InvalidIndexedAccess { has_bracket = lhshas_bracket },
-           InvalidIndexedAccess { has_bracket = rhshas_bracket }) ->
-            (__30 ()) lhshas_bracket rhshas_bracket
-        | (InvalidJSXAttributeValue, InvalidJSXAttributeValue) -> 0
-        | (InvalidLHSInAssignment, InvalidLHSInAssignment) -> 0
-        | (InvalidLHSInExponentiation, InvalidLHSInExponentiation) -> 0
-        | (InvalidLHSInForIn, InvalidLHSInForIn) -> 0
-        | (InvalidLHSInForOf, InvalidLHSInForOf) -> 0
-        | (InvalidOptionalIndexedAccess, InvalidOptionalIndexedAccess)
-            -> 0
-        | (InvalidRegExp, InvalidRegExp) -> 0
-        | (InvalidRegExpFlags lhs0, InvalidRegExpFlags rhs0) ->
-            (__31 ()) lhs0 rhs0
-        | (InvalidSciBigInt, InvalidSciBigInt) -> 0
-        | (InvalidTupleOptionalSpread, InvalidTupleOptionalSpread) -> 0
-        | (InvalidTupleVariance, InvalidTupleVariance) -> 0
-        | (InvalidTypeof, InvalidTypeof) -> 0
-        | (JSXAttributeValueEmptyExpression,
-           JSXAttributeValueEmptyExpression) -> 0
-        | (LiteralShorthandProperty, LiteralShorthandProperty) -> 0
-        | (MalformedUnicode, MalformedUnicode) -> 0
-        | (MatchNonLastRest lhs0, MatchNonLastRest rhs0) ->
-            ((fun lhs rhs ->
-                match (lhs, rhs) with
-                | (`Object, `Object) -> 0
-                | (`Array, `Array) -> 0
-                | _ ->
-                    let to_int = function | `Object -> 0 | `Array -> 1 in
-                    Stdlib.compare (to_int lhs)
-                      (to_int rhs))) lhs0 rhs0
-        | (MatchEmptyArgument, MatchEmptyArgument) -> 0
-        | (MatchSpreadArgument, MatchSpreadArgument) -> 0
-        | (MethodInDestructuring, MethodInDestructuring) -> 0
-        | (MissingJSXClosingTag lhs0, MissingJSXClosingTag rhs0) ->
-            (__32 ()) lhs0 rhs0
-        | (MissingTypeParam, MissingTypeParam) -> 0
-        | (MissingTypeParamDefault, MissingTypeParamDefault) -> 0
-        | (MultipleDefaultsInSwitch, MultipleDefaultsInSwitch) -> 0
-        | (NewlineAfterThrow, NewlineAfterThrow) -> 0
-        | (NewlineBeforeArrow, NewlineBeforeArrow) -> 0
-        | (NoCatchOrFinally, NoCatchOrFinally) -> 0
-        | (NoUninitializedConst, NoUninitializedConst) -> 0
-        | (NoUninitializedDestructuring, NoUninitializedDestructuring)
-            -> 0
-        | (NullishCoalescingUnexpectedLogical lhs0,
-           NullishCoalescingUnexpectedLogical rhs0) ->
-            (__33 ()) lhs0 rhs0
-        | (OptionalChainNew, OptionalChainNew) -> 0
-        | (OptionalChainTemplate, OptionalChainTemplate) -> 0
-        | (ParameterAfterRestParameter, ParameterAfterRestParameter) ->
-            0
-        | (PrivateDelete, PrivateDelete) -> 0
-        | (PrivateNotInClass, PrivateNotInClass) -> 0
-        | (PropertyAfterRestElement, PropertyAfterRestElement) -> 0
-        | (Redeclaration (lhs0, lhs1), Redeclaration (rhs0, rhs1)) ->
-            (match (__34 ()) lhs0 rhs0 with
-             | 0 -> (__35 ()) lhs1 rhs1
-             | x -> x)
-        | (SetterArity, SetterArity) -> 0
-        | (SetterMayNotHaveThisParam, SetterMayNotHaveThisParam) -> 0
-        | (StrictCatchVariable, StrictCatchVariable) -> 0
-        | (StrictDelete, StrictDelete) -> 0
-        | (StrictDuplicateProperty, StrictDuplicateProperty) -> 0
-        | (StrictFunctionName, StrictFunctionName) -> 0
-        | (StrictLHSAssignment, StrictLHSAssignment) -> 0
-        | (StrictLHSPostfix, StrictLHSPostfix) -> 0
-        | (StrictLHSPrefix, StrictLHSPrefix) -> 0
-        | (StrictModeWith, StrictModeWith) -> 0
-        | (StrictNonOctalLiteral, StrictNonOctalLiteral) -> 0
-        | (StrictOctalLiteral, StrictOctalLiteral) -> 0
-        | (StrictParamDupe, StrictParamDupe) -> 0
-        | (StrictParamName, StrictParamName) -> 0
-        | (StrictParamNotSimple, StrictParamNotSimple) -> 0
-        | (StrictReservedWord, StrictReservedWord) -> 0
-        | (StrictVarName, StrictVarName) -> 0
-        | (SuperPrivate, SuperPrivate) -> 0
-        | (TSAbstractClass, TSAbstractClass) -> 0
-        | (TSClassVisibility lhs0, TSClassVisibility rhs0) ->
-            ((fun lhs rhs ->
-                match (lhs, rhs) with
-                | (`Public, `Public) -> 0
-                | (`Private, `Private) -> 0
-                | (`Protected, `Protected) -> 0
-                | _ ->
-                    let to_int =
-                      function
-                      | `Public -> 0
-                      | `Private -> 1
-                      | `Protected -> 2 in
-                    Stdlib.compare (to_int lhs)
-                      (to_int rhs))) lhs0 rhs0
-        | (TSTemplateLiteralType, TSTemplateLiteralType) -> 0
-        | (ThisParamAnnotationRequired, ThisParamAnnotationRequired) ->
-            0
-        | (ThisParamBannedInArrowFunctions,
-           ThisParamBannedInArrowFunctions) -> 0
-        | (ThisParamBannedInConstructor, ThisParamBannedInConstructor)
-            -> 0
-        | (ThisParamMayNotBeOptional, ThisParamMayNotBeOptional) -> 0
-        | (ThisParamMustBeFirst, ThisParamMustBeFirst) -> 0
-        | (TrailingCommaAfterRestElement,
-           TrailingCommaAfterRestElement) -> 0
-        | (UnboundPrivate lhs0, UnboundPrivate rhs0) ->
-            (__36 ()) lhs0 rhs0
-        | (Unexpected lhs0, Unexpected rhs0) -> (__37 ()) lhs0 rhs0
-        | (UnexpectedEOS, UnexpectedEOS) -> 0
-        | (UnexpectedExplicitInexactInObject,
-           UnexpectedExplicitInexactInObject) -> 0
-        | (UnexpectedOpaqueTypeAlias, UnexpectedOpaqueTypeAlias) -> 0
-        | (UnexpectedProto, UnexpectedProto) -> 0
-        | (UnexpectedReserved, UnexpectedReserved) -> 0
-        | (UnexpectedReservedType, UnexpectedReservedType) -> 0
-        | (UnexpectedSpreadType, UnexpectedSpreadType) -> 0
-        | (UnexpectedStatic, UnexpectedStatic) -> 0
-        | (UnexpectedSuper, UnexpectedSuper) -> 0
-        | (UnexpectedSuperCall, UnexpectedSuperCall) -> 0
-        | (UnexpectedTokenWithSuggestion (lhs0, lhs1),
-           UnexpectedTokenWithSuggestion (rhs0, rhs1)) ->
-            (match (__38 ()) lhs0 rhs0 with
-             | 0 -> (__39 ()) lhs1 rhs1
-             | x -> x)
-        | (UnexpectedTypeAlias, UnexpectedTypeAlias) -> 0
-        | (UnexpectedTypeAnnotation, UnexpectedTypeAnnotation) -> 0
-        | (UnexpectedTypeDeclaration, UnexpectedTypeDeclaration) -> 0
-        | (UnexpectedTypeExport, UnexpectedTypeExport) -> 0
-        | (UnexpectedTypeImport, UnexpectedTypeImport) -> 0
-        | (UnexpectedTypeInterface, UnexpectedTypeInterface) -> 0
-        | (UnexpectedVariance, UnexpectedVariance) -> 0
-        | (UnexpectedWithExpected (lhs0, lhs1), UnexpectedWithExpected
-           (rhs0, rhs1)) ->
-            (match (__40 ()) lhs0 rhs0 with
-             | 0 -> (__41 ()) lhs1 rhs1
-             | x -> x)
-        | (UnknownLabel lhs0, UnknownLabel rhs0) -> (__42 ()) lhs0 rhs0
-        | (UnsupportedDecorator, UnsupportedDecorator) -> 0
-        | (UnterminatedRegExp, UnterminatedRegExp) -> 0
-        | (WhitespaceInPrivateName, WhitespaceInPrivateName) -> 0
-        | (YieldAsIdentifierReference, YieldAsIdentifierReference) -> 0
-        | (YieldInFormalParameters, YieldInFormalParameters) -> 0
-        | _ ->
-            let to_int =
-              function
-              | AccessorDataProperty -> 0
-              | AccessorGetSet -> 1
-              | AdjacentJSXElements -> 2
-              | AmbiguousLetBracket -> 3
-              | AsyncFunctionAsStatement -> 4
-              | AwaitAsIdentifierReference -> 5
-              | AwaitInAsyncFormalParameters -> 6
-              | ComputedShorthandProperty -> 7
-              | ConstructorCannotBeAccessor -> 8
-              | ConstructorCannotBeAsync -> 9
-              | ConstructorCannotBeGenerator -> 10
-              | DeclareAsync -> 11
-              | DeclareClassElement -> 12
-              | DeclareClassFieldInitializer -> 13
-              | DeclareOpaqueTypeInitializer -> 14
-              | DuplicateConstructor -> 15
-              | DuplicateExport _ -> 16
-              | DuplicatePrivateFields _ -> 17
-              | ElementAfterRestElement -> 18
-              | EnumBigIntMemberNotInitialized _ -> 19
-              | EnumBooleanMemberNotInitialized _ -> 20
-              | EnumDuplicateMemberName _ -> 21
-              | EnumInconsistentMemberValues _ -> 22
-              | EnumInvalidEllipsis _ -> 23
-              | EnumInvalidExplicitType _ -> 24
-              | EnumInvalidExport -> 25
-              | EnumInvalidInitializerSeparator _ -> 26
-              | EnumInvalidMemberInitializer _ -> 27
-              | EnumInvalidMemberName _ -> 28
-              | EnumInvalidMemberSeparator -> 29
-              | EnumNumberMemberNotInitialized _ -> 30
-              | EnumStringMemberInconsistentlyInitialized _ -> 31
-              | EnumInvalidConstPrefix -> 32
-              | ExpectedJSXClosingTag _ -> 33
-              | ExpectedPatternFoundExpression -> 34
-              | ExportSpecifierMissingComma -> 35
-              | FunctionAsStatement _ -> 36
-              | GeneratorFunctionAsStatement -> 37
-              | GetterArity -> 38
-              | GetterMayNotHaveThisParam -> 39
-              | IllegalBreak -> 40
-              | IllegalContinue -> 41
-              | IllegalReturn -> 42
-              | IllegalUnicodeEscape -> 43
-              | ImportSpecifierMissingComma -> 44
-              | ImportTypeShorthandOnlyInPureImport -> 45
-              | InexactInsideExact -> 46
-              | InexactInsideNonObject -> 47
-              | InvalidClassMemberName _ -> 48
-              | InvalidComponentParamName -> 49
-              | InvalidComponentRenderAnnotation _ -> 50
-              | InvalidComponentStringParameterBinding _ -> 51
-              | InvalidFloatBigInt -> 52
-              | InvalidIndexedAccess _ -> 53
-              | InvalidJSXAttributeValue -> 54
-              | InvalidLHSInAssignment -> 55
-              | InvalidLHSInExponentiation -> 56
-              | InvalidLHSInForIn -> 57
-              | InvalidLHSInForOf -> 58
-              | InvalidOptionalIndexedAccess -> 59
-              | InvalidRegExp -> 60
-              | InvalidRegExpFlags _ -> 61
-              | InvalidSciBigInt -> 62
-              | InvalidTupleOptionalSpread -> 63
-              | InvalidTupleVariance -> 64
-              | InvalidTypeof -> 65
-              | JSXAttributeValueEmptyExpression -> 66
-              | LiteralShorthandProperty -> 67
-              | MalformedUnicode -> 68
-              | MatchNonLastRest _ -> 69
-              | MatchEmptyArgument -> 70
-              | MatchSpreadArgument -> 71
-              | MethodInDestructuring -> 72
-              | MissingJSXClosingTag _ -> 73
-              | MissingTypeParam -> 74
-              | MissingTypeParamDefault -> 75
-              | MultipleDefaultsInSwitch -> 76
-              | NewlineAfterThrow -> 77
-              | NewlineBeforeArrow -> 78
-              | NoCatchOrFinally -> 79
-              | NoUninitializedConst -> 80
-              | NoUninitializedDestructuring -> 81
-              | NullishCoalescingUnexpectedLogical _ -> 82
-              | OptionalChainNew -> 83
-              | OptionalChainTemplate -> 84
-              | ParameterAfterRestParameter -> 85
-              | PrivateDelete -> 86
-              | PrivateNotInClass -> 87
-              | PropertyAfterRestElement -> 88
-              | Redeclaration _ -> 89
-              | SetterArity -> 90
-              | SetterMayNotHaveThisParam -> 91
-              | StrictCatchVariable -> 92
-              | StrictDelete -> 93
-              | StrictDuplicateProperty -> 94
-              | StrictFunctionName -> 95
-              | StrictLHSAssignment -> 96
-              | StrictLHSPostfix -> 97
-              | StrictLHSPrefix -> 98
-              | StrictModeWith -> 99
-              | StrictNonOctalLiteral -> 100
-              | StrictOctalLiteral -> 101
-              | StrictParamDupe -> 102
-              | StrictParamName -> 103
-              | StrictParamNotSimple -> 104
-              | StrictReservedWord -> 105
-              | StrictVarName -> 106
-              | SuperPrivate -> 107
-              | TSAbstractClass -> 108
-              | TSClassVisibility _ -> 109
-              | TSTemplateLiteralType -> 110
-              | ThisParamAnnotationRequired -> 111
-              | ThisParamBannedInArrowFunctions -> 112
-              | ThisParamBannedInConstructor -> 113
-              | ThisParamMayNotBeOptional -> 114
-              | ThisParamMustBeFirst -> 115
-              | TrailingCommaAfterRestElement -> 116
-              | UnboundPrivate _ -> 117
-              | Unexpected _ -> 118
-              | UnexpectedEOS -> 119
-              | UnexpectedExplicitInexactInObject -> 120
-              | UnexpectedOpaqueTypeAlias -> 121
-              | UnexpectedProto -> 122
-              | UnexpectedReserved -> 123
-              | UnexpectedReservedType -> 124
-              | UnexpectedSpreadType -> 125
-              | UnexpectedStatic -> 126
-              | UnexpectedSuper -> 127
-              | UnexpectedSuperCall -> 128
-              | UnexpectedTokenWithSuggestion _ -> 129
-              | UnexpectedTypeAlias -> 130
-              | UnexpectedTypeAnnotation -> 131
-              | UnexpectedTypeDeclaration -> 132
-              | UnexpectedTypeExport -> 133
-              | UnexpectedTypeImport -> 134
-              | UnexpectedTypeInterface -> 135
-              | UnexpectedVariance -> 136
-              | UnexpectedWithExpected _ -> 137
-              | UnknownLabel _ -> 138
-              | UnsupportedDecorator -> 139
-              | UnterminatedRegExp -> 140
-              | WhitespaceInPrivateName -> 141
-              | YieldAsIdentifierReference -> 142
-              | YieldInFormalParameters -> 143 in
-            Stdlib.compare (to_int lhs) (to_int rhs))
-    [@ocaml.warning "-A"]
-    [@ocaml.warning "-39"])[@@ocaml.warning "-39"]
-exception Error of (Loc.t * t) * (Loc.t * t) list
+                           | (Some _, None) -> 1)) lhssupplied_type
+                         rhssupplied_type
+                   | x -> x)
+              | (EnumInvalidExport, EnumInvalidExport) -> 0
+              | (EnumInvalidInitializerSeparator
+                 { member_name = lhsmember_name },
+                 EnumInvalidInitializerSeparator
+                 { member_name = rhsmember_name }) ->
+                  (__12 ()) lhsmember_name rhsmember_name
+              | (EnumInvalidMemberInitializer
+                 { enum_name = lhsenum_name;
+                   explicit_type = lhsexplicit_type;
+                   member_name = lhsmember_name },
+                 EnumInvalidMemberInitializer
+                 { enum_name = rhsenum_name;
+                   explicit_type = rhsexplicit_type;
+                   member_name = rhsmember_name })
+                  ->
+                  (match (__13 ()) lhsenum_name rhsenum_name with
+                   | 0 ->
+                       (match (fun x y ->
+                                 match (x, y) with
+                                 | (None, None) -> 0
+                                 | (Some a, Some b) -> __14 a b
+                                 | (None, Some _) -> (-1)
+                                 | (Some _, None) -> 1) lhsexplicit_type
+                                rhsexplicit_type
+                        with
+                        | 0 -> (__15 ()) lhsmember_name rhsmember_name
+                        | x -> x)
+                   | x -> x)
+              | (EnumInvalidMemberName
+                 { enum_name = lhsenum_name; member_name = lhsmember_name },
+                 EnumInvalidMemberName
+                 { enum_name = rhsenum_name; member_name = rhsmember_name })
+                  ->
+                  (match (__16 ()) lhsenum_name rhsenum_name with
+                   | 0 -> (__17 ()) lhsmember_name rhsmember_name
+                   | x -> x)
+              | (EnumInvalidMemberSeparator, EnumInvalidMemberSeparator) -> 0
+              | (EnumNumberMemberNotInitialized
+                 { enum_name = lhsenum_name; member_name = lhsmember_name },
+                 EnumNumberMemberNotInitialized
+                 { enum_name = rhsenum_name; member_name = rhsmember_name })
+                  ->
+                  (match (__18 ()) lhsenum_name rhsenum_name with
+                   | 0 -> (__19 ()) lhsmember_name rhsmember_name
+                   | x -> x)
+              | (EnumStringMemberInconsistentlyInitialized
+                 { enum_name = lhsenum_name },
+                 EnumStringMemberInconsistentlyInitialized
+                 { enum_name = rhsenum_name }) ->
+                  (__20 ()) lhsenum_name rhsenum_name
+              | (EnumInvalidConstPrefix, EnumInvalidConstPrefix) -> 0
+              | (ExpectedJSXClosingTag lhs0, ExpectedJSXClosingTag rhs0) ->
+                  (__21 ()) lhs0 rhs0
+              | (ExpectedPatternFoundExpression,
+                 ExpectedPatternFoundExpression) -> 0
+              | (ExportSpecifierMissingComma, ExportSpecifierMissingComma) ->
+                  0
+              | (FunctionAsStatement { in_strict_mode = lhsin_strict_mode },
+                 FunctionAsStatement { in_strict_mode = rhsin_strict_mode })
+                  -> (__22 ()) lhsin_strict_mode rhsin_strict_mode
+              | (GeneratorFunctionAsStatement, GeneratorFunctionAsStatement)
+                  -> 0
+              | (GetterArity, GetterArity) -> 0
+              | (GetterMayNotHaveThisParam, GetterMayNotHaveThisParam) -> 0
+              | (IllegalBreak { in_match_statement = lhsin_match_statement },
+                 IllegalBreak { in_match_statement = rhsin_match_statement })
+                  -> (__23 ()) lhsin_match_statement rhsin_match_statement
+              | (IllegalContinue, IllegalContinue) -> 0
+              | (IllegalReturn, IllegalReturn) -> 0
+              | (IllegalUnicodeEscape, IllegalUnicodeEscape) -> 0
+              | (ImportSpecifierMissingComma, ImportSpecifierMissingComma) ->
+                  0
+              | (ImportTypeShorthandOnlyInPureImport,
+                 ImportTypeShorthandOnlyInPureImport) -> 0
+              | (InexactInsideExact, InexactInsideExact) -> 0
+              | (InexactInsideNonObject, InexactInsideNonObject) -> 0
+              | (InvalidClassMemberName
+                 { name = lhsname; static = lhsstatic; method_ = lhsmethod_;
+                   private_ = lhsprivate_ },
+                 InvalidClassMemberName
+                 { name = rhsname; static = rhsstatic; method_ = rhsmethod_;
+                   private_ = rhsprivate_ })
+                  ->
+                  (match (__24 ()) lhsname rhsname with
+                   | 0 ->
+                       (match (__25 ()) lhsstatic rhsstatic with
+                        | 0 ->
+                            (match (__26 ()) lhsmethod_ rhsmethod_ with
+                             | 0 -> (__27 ()) lhsprivate_ rhsprivate_
+                             | x -> x)
+                        | x -> x)
+                   | x -> x)
+              | (InvalidComponentParamName, InvalidComponentParamName) -> 0
+              | (InvalidComponentRenderAnnotation
+                 { has_nested_render = lhshas_nested_render },
+                 InvalidComponentRenderAnnotation
+                 { has_nested_render = rhshas_nested_render }) ->
+                  (__28 ()) lhshas_nested_render rhshas_nested_render
+              | (InvalidComponentStringParameterBinding
+                 { optional = lhsoptional; name = lhsname },
+                 InvalidComponentStringParameterBinding
+                 { optional = rhsoptional; name = rhsname }) ->
+                  (match (__29 ()) lhsoptional rhsoptional with
+                   | 0 -> (__30 ()) lhsname rhsname
+                   | x -> x)
+              | (InvalidFloatBigInt, InvalidFloatBigInt) -> 0
+              | (InvalidIndexedAccess { has_bracket = lhshas_bracket },
+                 InvalidIndexedAccess { has_bracket = rhshas_bracket }) ->
+                  (__31 ()) lhshas_bracket rhshas_bracket
+              | (InvalidJSXAttributeValue, InvalidJSXAttributeValue) -> 0
+              | (InvalidLHSInAssignment, InvalidLHSInAssignment) -> 0
+              | (InvalidLHSInExponentiation, InvalidLHSInExponentiation) -> 0
+              | (InvalidLHSInForIn, InvalidLHSInForIn) -> 0
+              | (InvalidLHSInForOf, InvalidLHSInForOf) -> 0
+              | (InvalidOptionalIndexedAccess, InvalidOptionalIndexedAccess)
+                  -> 0
+              | (InvalidRegExp, InvalidRegExp) -> 0
+              | (InvalidRegExpFlags lhs0, InvalidRegExpFlags rhs0) ->
+                  (__32 ()) lhs0 rhs0
+              | (InvalidSciBigInt, InvalidSciBigInt) -> 0
+              | (InvalidTupleOptionalSpread, InvalidTupleOptionalSpread) -> 0
+              | (InvalidTupleVariance, InvalidTupleVariance) -> 0
+              | (InvalidTypeof, InvalidTypeof) -> 0
+              | (JSXAttributeValueEmptyExpression,
+                 JSXAttributeValueEmptyExpression) -> 0
+              | (LiteralShorthandProperty, LiteralShorthandProperty) -> 0
+              | (MalformedUnicode, MalformedUnicode) -> 0
+              | (MatchNonLastRest lhs0, MatchNonLastRest rhs0) ->
+                  ((fun lhs rhs ->
+                      match (lhs, rhs) with
+                      | (`Object, `Object) -> 0
+                      | (`Array, `Array) -> 0
+                      | _ ->
+                          let to_int = function | `Object -> 0 | `Array -> 1 in
+                          Stdlib.compare (to_int lhs)
+                            (to_int rhs))) lhs0 rhs0
+              | (MatchEmptyArgument, MatchEmptyArgument) -> 0
+              | (MatchSpreadArgument, MatchSpreadArgument) -> 0
+              | (MatchExpressionAwait, MatchExpressionAwait) -> 0
+              | (MatchExpressionYield, MatchExpressionYield) -> 0
+              | (MethodInDestructuring, MethodInDestructuring) -> 0
+              | (MissingJSXClosingTag lhs0, MissingJSXClosingTag rhs0) ->
+                  (__33 ()) lhs0 rhs0
+              | (MissingTypeParam, MissingTypeParam) -> 0
+              | (MissingTypeParamDefault, MissingTypeParamDefault) -> 0
+              | (MultipleDefaultsInSwitch, MultipleDefaultsInSwitch) -> 0
+              | (NewlineAfterThrow, NewlineAfterThrow) -> 0
+              | (NewlineBeforeArrow, NewlineBeforeArrow) -> 0
+              | (NoCatchOrFinally, NoCatchOrFinally) -> 0
+              | (NoUninitializedConst, NoUninitializedConst) -> 0
+              | (NoUninitializedDestructuring, NoUninitializedDestructuring)
+                  -> 0
+              | (NullishCoalescingUnexpectedLogical lhs0,
+                 NullishCoalescingUnexpectedLogical rhs0) ->
+                  (__34 ()) lhs0 rhs0
+              | (OptionalChainNew, OptionalChainNew) -> 0
+              | (OptionalChainTemplate, OptionalChainTemplate) -> 0
+              | (ParameterAfterRestParameter, ParameterAfterRestParameter) ->
+                  0
+              | (PrivateDelete, PrivateDelete) -> 0
+              | (PrivateNotInClass, PrivateNotInClass) -> 0
+              | (PropertyAfterRestElement, PropertyAfterRestElement) -> 0
+              | (Redeclaration (lhs0, lhs1), Redeclaration (rhs0, rhs1)) ->
+                  (match (__35 ()) lhs0 rhs0 with
+                   | 0 -> (__36 ()) lhs1 rhs1
+                   | x -> x)
+              | (SetterArity, SetterArity) -> 0
+              | (SetterMayNotHaveThisParam, SetterMayNotHaveThisParam) -> 0
+              | (StrictCatchVariable, StrictCatchVariable) -> 0
+              | (StrictDelete, StrictDelete) -> 0
+              | (StrictDuplicateProperty, StrictDuplicateProperty) -> 0
+              | (StrictFunctionName, StrictFunctionName) -> 0
+              | (StrictLHSAssignment, StrictLHSAssignment) -> 0
+              | (StrictLHSPostfix, StrictLHSPostfix) -> 0
+              | (StrictLHSPrefix, StrictLHSPrefix) -> 0
+              | (StrictModeWith, StrictModeWith) -> 0
+              | (StrictNonOctalLiteral, StrictNonOctalLiteral) -> 0
+              | (StrictOctalLiteral, StrictOctalLiteral) -> 0
+              | (StrictParamDupe, StrictParamDupe) -> 0
+              | (StrictParamName, StrictParamName) -> 0
+              | (StrictParamNotSimple, StrictParamNotSimple) -> 0
+              | (StrictReservedWord, StrictReservedWord) -> 0
+              | (StrictVarName, StrictVarName) -> 0
+              | (SuperPrivate, SuperPrivate) -> 0
+              | (TSAbstractClass, TSAbstractClass) -> 0
+              | (TSClassVisibility lhs0, TSClassVisibility rhs0) ->
+                  ((fun lhs rhs ->
+                      match (lhs, rhs) with
+                      | (`Public, `Public) -> 0
+                      | (`Private, `Private) -> 0
+                      | (`Protected, `Protected) -> 0
+                      | _ ->
+                          let to_int =
+                            function
+                            | `Public -> 0
+                            | `Private -> 1
+                            | `Protected -> 2 in
+                          Stdlib.compare (to_int lhs)
+                            (to_int rhs))) lhs0 rhs0
+              | (TSTemplateLiteralType, TSTemplateLiteralType) -> 0
+              | (ThisParamAnnotationRequired, ThisParamAnnotationRequired) ->
+                  0
+              | (ThisParamBannedInArrowFunctions,
+                 ThisParamBannedInArrowFunctions) -> 0
+              | (ThisParamBannedInConstructor, ThisParamBannedInConstructor)
+                  -> 0
+              | (ThisParamMayNotBeOptional, ThisParamMayNotBeOptional) -> 0
+              | (ThisParamMustBeFirst, ThisParamMustBeFirst) -> 0
+              | (TrailingCommaAfterRestElement,
+                 TrailingCommaAfterRestElement) -> 0
+              | (UnboundPrivate lhs0, UnboundPrivate rhs0) ->
+                  (__37 ()) lhs0 rhs0
+              | (Unexpected lhs0, Unexpected rhs0) -> (__38 ()) lhs0 rhs0
+              | (UnexpectedEOS, UnexpectedEOS) -> 0
+              | (UnexpectedExplicitInexactInObject,
+                 UnexpectedExplicitInexactInObject) -> 0
+              | (UnexpectedOpaqueTypeAlias, UnexpectedOpaqueTypeAlias) -> 0
+              | (UnexpectedProto, UnexpectedProto) -> 0
+              | (UnexpectedReserved, UnexpectedReserved) -> 0
+              | (UnexpectedReservedType, UnexpectedReservedType) -> 0
+              | (UnexpectedSpreadType, UnexpectedSpreadType) -> 0
+              | (UnexpectedStatic, UnexpectedStatic) -> 0
+              | (UnexpectedSuper, UnexpectedSuper) -> 0
+              | (UnexpectedSuperCall, UnexpectedSuperCall) -> 0
+              | (UnexpectedTokenWithSuggestion (lhs0, lhs1),
+                 UnexpectedTokenWithSuggestion (rhs0, rhs1)) ->
+                  (match (__39 ()) lhs0 rhs0 with
+                   | 0 -> (__40 ()) lhs1 rhs1
+                   | x -> x)
+              | (UnexpectedTypeAlias, UnexpectedTypeAlias) -> 0
+              | (UnexpectedTypeAnnotation, UnexpectedTypeAnnotation) -> 0
+              | (UnexpectedTypeDeclaration, UnexpectedTypeDeclaration) -> 0
+              | (UnexpectedTypeExport, UnexpectedTypeExport) -> 0
+              | (UnexpectedTypeImport, UnexpectedTypeImport) -> 0
+              | (UnexpectedTypeInterface, UnexpectedTypeInterface) -> 0
+              | (UnexpectedVariance, UnexpectedVariance) -> 0
+              | (UnexpectedWithExpected (lhs0, lhs1), UnexpectedWithExpected
+                 (rhs0, rhs1)) ->
+                  (match (__41 ()) lhs0 rhs0 with
+                   | 0 -> (__42 ()) lhs1 rhs1
+                   | x -> x)
+              | (UnknownLabel lhs0, UnknownLabel rhs0) -> (__43 ()) lhs0 rhs0
+              | (UnsupportedDecorator, UnsupportedDecorator) -> 0
+              | (UnterminatedRegExp, UnterminatedRegExp) -> 0
+              | (WhitespaceInPrivateName, WhitespaceInPrivateName) -> 0
+              | (YieldAsIdentifierReference, YieldAsIdentifierReference) -> 0
+              | (YieldInFormalParameters, YieldInFormalParameters) -> 0
+              | _ ->
+                  let to_int =
+                    function
+                    | AccessorDataProperty -> 0
+                    | AccessorGetSet -> 1
+                    | AdjacentJSXElements -> 2
+                    | AmbiguousLetBracket -> 3
+                    | AsyncFunctionAsStatement -> 4
+                    | AwaitAsIdentifierReference -> 5
+                    | AwaitInAsyncFormalParameters -> 6
+                    | ComputedShorthandProperty -> 7
+                    | ConstructorCannotBeAccessor -> 8
+                    | ConstructorCannotBeAsync -> 9
+                    | ConstructorCannotBeGenerator -> 10
+                    | DeclareAsync -> 11
+                    | DeclareClassElement -> 12
+                    | DeclareClassFieldInitializer -> 13
+                    | DeclareOpaqueTypeInitializer -> 14
+                    | DuplicateConstructor -> 15
+                    | DuplicateExport _ -> 16
+                    | DuplicatePrivateFields _ -> 17
+                    | ElementAfterRestElement -> 18
+                    | EnumBigIntMemberNotInitialized _ -> 19
+                    | EnumBooleanMemberNotInitialized _ -> 20
+                    | EnumDuplicateMemberName _ -> 21
+                    | EnumInconsistentMemberValues _ -> 22
+                    | EnumInvalidEllipsis _ -> 23
+                    | EnumInvalidExplicitType _ -> 24
+                    | EnumInvalidExport -> 25
+                    | EnumInvalidInitializerSeparator _ -> 26
+                    | EnumInvalidMemberInitializer _ -> 27
+                    | EnumInvalidMemberName _ -> 28
+                    | EnumInvalidMemberSeparator -> 29
+                    | EnumNumberMemberNotInitialized _ -> 30
+                    | EnumStringMemberInconsistentlyInitialized _ -> 31
+                    | EnumInvalidConstPrefix -> 32
+                    | ExpectedJSXClosingTag _ -> 33
+                    | ExpectedPatternFoundExpression -> 34
+                    | ExportSpecifierMissingComma -> 35
+                    | FunctionAsStatement _ -> 36
+                    | GeneratorFunctionAsStatement -> 37
+                    | GetterArity -> 38
+                    | GetterMayNotHaveThisParam -> 39
+                    | IllegalBreak _ -> 40
+                    | IllegalContinue -> 41
+                    | IllegalReturn -> 42
+                    | IllegalUnicodeEscape -> 43
+                    | ImportSpecifierMissingComma -> 44
+                    | ImportTypeShorthandOnlyInPureImport -> 45
+                    | InexactInsideExact -> 46
+                    | InexactInsideNonObject -> 47
+                    | InvalidClassMemberName _ -> 48
+                    | InvalidComponentParamName -> 49
+                    | InvalidComponentRenderAnnotation _ -> 50
+                    | InvalidComponentStringParameterBinding _ -> 51
+                    | InvalidFloatBigInt -> 52
+                    | InvalidIndexedAccess _ -> 53
+                    | InvalidJSXAttributeValue -> 54
+                    | InvalidLHSInAssignment -> 55
+                    | InvalidLHSInExponentiation -> 56
+                    | InvalidLHSInForIn -> 57
+                    | InvalidLHSInForOf -> 58
+                    | InvalidOptionalIndexedAccess -> 59
+                    | InvalidRegExp -> 60
+                    | InvalidRegExpFlags _ -> 61
+                    | InvalidSciBigInt -> 62
+                    | InvalidTupleOptionalSpread -> 63
+                    | InvalidTupleVariance -> 64
+                    | InvalidTypeof -> 65
+                    | JSXAttributeValueEmptyExpression -> 66
+                    | LiteralShorthandProperty -> 67
+                    | MalformedUnicode -> 68
+                    | MatchNonLastRest _ -> 69
+                    | MatchEmptyArgument -> 70
+                    | MatchSpreadArgument -> 71
+                    | MatchExpressionAwait -> 72
+                    | MatchExpressionYield -> 73
+                    | MethodInDestructuring -> 74
+                    | MissingJSXClosingTag _ -> 75
+                    | MissingTypeParam -> 76
+                    | MissingTypeParamDefault -> 77
+                    | MultipleDefaultsInSwitch -> 78
+                    | NewlineAfterThrow -> 79
+                    | NewlineBeforeArrow -> 80
+                    | NoCatchOrFinally -> 81
+                    | NoUninitializedConst -> 82
+                    | NoUninitializedDestructuring -> 83
+                    | NullishCoalescingUnexpectedLogical _ -> 84
+                    | OptionalChainNew -> 85
+                    | OptionalChainTemplate -> 86
+                    | ParameterAfterRestParameter -> 87
+                    | PrivateDelete -> 88
+                    | PrivateNotInClass -> 89
+                    | PropertyAfterRestElement -> 90
+                    | Redeclaration _ -> 91
+                    | SetterArity -> 92
+                    | SetterMayNotHaveThisParam -> 93
+                    | StrictCatchVariable -> 94
+                    | StrictDelete -> 95
+                    | StrictDuplicateProperty -> 96
+                    | StrictFunctionName -> 97
+                    | StrictLHSAssignment -> 98
+                    | StrictLHSPostfix -> 99
+                    | StrictLHSPrefix -> 100
+                    | StrictModeWith -> 101
+                    | StrictNonOctalLiteral -> 102
+                    | StrictOctalLiteral -> 103
+                    | StrictParamDupe -> 104
+                    | StrictParamName -> 105
+                    | StrictParamNotSimple -> 106
+                    | StrictReservedWord -> 107
+                    | StrictVarName -> 108
+                    | SuperPrivate -> 109
+                    | TSAbstractClass -> 110
+                    | TSClassVisibility _ -> 111
+                    | TSTemplateLiteralType -> 112
+                    | ThisParamAnnotationRequired -> 113
+                    | ThisParamBannedInArrowFunctions -> 114
+                    | ThisParamBannedInConstructor -> 115
+                    | ThisParamMayNotBeOptional -> 116
+                    | ThisParamMustBeFirst -> 117
+                    | TrailingCommaAfterRestElement -> 118
+                    | UnboundPrivate _ -> 119
+                    | Unexpected _ -> 120
+                    | UnexpectedEOS -> 121
+                    | UnexpectedExplicitInexactInObject -> 122
+                    | UnexpectedOpaqueTypeAlias -> 123
+                    | UnexpectedProto -> 124
+                    | UnexpectedReserved -> 125
+                    | UnexpectedReservedType -> 126
+                    | UnexpectedSpreadType -> 127
+                    | UnexpectedStatic -> 128
+                    | UnexpectedSuper -> 129
+                    | UnexpectedSuperCall -> 130
+                    | UnexpectedTokenWithSuggestion _ -> 131
+                    | UnexpectedTypeAlias -> 132
+                    | UnexpectedTypeAnnotation -> 133
+                    | UnexpectedTypeDeclaration -> 134
+                    | UnexpectedTypeExport -> 135
+                    | UnexpectedTypeImport -> 136
+                    | UnexpectedTypeInterface -> 137
+                    | UnexpectedVariance -> 138
+                    | UnexpectedWithExpected _ -> 139
+                    | UnknownLabel _ -> 140
+                    | UnsupportedDecorator -> 141
+                    | UnterminatedRegExp -> 142
+                    | WhitespaceInPrivateName -> 143
+                    | YieldAsIdentifierReference -> 144
+                    | YieldInFormalParameters -> 145 in
+                  Stdlib.compare (to_int lhs) (to_int rhs))
+          [@ocaml.warning "-A"]))
+      [@ocaml.warning "-39"])[@@ocaml.warning "-39"]
+    let _ = compare
+  end[@@ocaml.doc "@inline"][@@merlin.hide ]
+exception Error of (Loc.t * t) * (Loc.t * t) list 
 let error loc e = raise (Error ((loc, e), []))
 module PP =
   struct
@@ -829,7 +843,13 @@ module PP =
       | GetterArity -> "Getter should have zero parameters"
       | GetterMayNotHaveThisParam ->
           "A getter cannot have a `this` parameter."
-      | IllegalBreak -> "Illegal break statement"
+      | IllegalBreak { in_match_statement } ->
+          let extra =
+            if in_match_statement
+            then
+              " `break` statements are not required in `match` statements, as unlike `switch` statements, `match` statement cases do not fall-through by default."
+            else "" in
+          Printf.sprintf "Illegal break statement.%s" extra
       | IllegalContinue -> "Illegal continue statement"
       | IllegalReturn -> "Illegal return statement"
       | IllegalUnicodeEscape -> "Illegal Unicode escape"
@@ -901,6 +921,10 @@ module PP =
       | MatchEmptyArgument -> "`match` argument must not be empty"
       | MatchSpreadArgument ->
           "`match` argument cannot contain spread elements"
+      | MatchExpressionAwait ->
+          "`await` is not yet supported in `match` expressions"
+      | MatchExpressionYield ->
+          "`yield` is not yet supported in `match` expressions"
       | MethodInDestructuring -> "Object pattern can't contain methods"
       | MissingJSXClosingTag name ->
           Printf.sprintf "JSX element %s has no corresponding closing tag."

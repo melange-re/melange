@@ -1,5 +1,3 @@
-[@@@ocaml.warning "-32-37"]
-
 type t =
   | T_NUMBER of {
   kind: number_type ;
@@ -199,8 +197,7 @@ include
         and __2 = Loc.equal
         and __1 = equal_bigint_type
         and __0 = equal_number_type in
-        ((
-            fun lhs rhs ->
+        ((            fun lhs rhs ->
               match (lhs, rhs) with
               | (T_NUMBER { kind = lhskind; raw = lhsraw }, T_NUMBER
                  { kind = rhskind; raw = rhsraw }) ->
@@ -415,8 +412,7 @@ include
       [@ocaml.warning "-39"])[@@ocaml.warning "-39"]
     and equal_bool_or_boolean :
       bool_or_boolean -> bool_or_boolean -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (BOOL, BOOL) -> true
             | (BOOLEAN, BOOLEAN) -> true
@@ -424,8 +420,7 @@ include
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
     and equal_number_type :
       number_type -> number_type -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (BINARY, BINARY) -> true
             | (LEGACY_OCTAL, LEGACY_OCTAL) -> true
@@ -436,8 +431,7 @@ include
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
     and equal_bigint_type :
       bigint_type -> bigint_type -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (BIG_BINARY, BIG_BINARY) -> true
             | (BIG_OCTAL, BIG_OCTAL) -> true

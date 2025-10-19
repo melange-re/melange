@@ -1,3 +1,22 @@
+[@@@ocaml.ppx.context
+  {
+    tool_name = "ppx_driver";
+    include_dirs = [];
+    hidden_include_dirs = [];
+    load_path = ([], []);
+    open_modules = [];
+    for_package = None;
+    debug = false;
+    use_threads = false;
+    use_vmthreads = false;
+    recursive_types = false;
+    principal = false;
+    transparent_modules = false;
+    unboxed_types = false;
+    unsafe_string = false;
+    cookies =
+      [("library-name", "flow_parser"); ("sedlex.regexps", ([%regexps ]))]
+  }]
 type position = {
   line: int ;
   column: int }[@@deriving (eq, show)]
@@ -6,8 +25,7 @@ include
     let _ = fun (_ : position) -> ()
     let rec equal_position :
       position -> position -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             ((fun (a : int) b -> a = b) lhs.line rhs.line) &&
               ((fun (a : int) b -> a = b) lhs.column rhs.column))
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
@@ -16,8 +34,7 @@ include
       Format.formatter ->
         position -> unit
       =
-      ((
-          fun fmt x ->
+      ((          fun fmt x ->
             Format.fprintf fmt "@[<2>{ ";
             ((Format.fprintf fmt "@[%s =@ " "Loc.line";
               (Format.fprintf fmt "%d") x.line;
@@ -47,8 +64,7 @@ include
       ((let __2 = pp_position
         and __1 = pp_position
         and __0 = File_key.pp in
-        ((
-            fun fmt x ->
+        ((            fun fmt x ->
               Format.fprintf fmt "@[<2>{ ";
               (((Format.fprintf fmt "@[%s =@ "
                    "Loc.source";
@@ -186,3 +202,4 @@ let cursor source line column =
                                                                  " Produces a zero-width Loc.t, where start = end "]
 let start_loc loc = { loc with _end = (loc.start) }
 let end_loc loc = { loc with start = (loc._end) }
+let update_source f loc = { loc with source = (f loc.source) }

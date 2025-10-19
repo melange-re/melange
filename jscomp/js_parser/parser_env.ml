@@ -131,31 +131,31 @@ type parse_options = {
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
   module_ref_prefix: string option;
-  module_ref_prefix_LEGACY_INTEROP: string option;
+  assert_operator: bool;
 }
 
 let default_parse_options =
   {
     components = false;
     enums = false;
+    assert_operator = false;
     pattern_matching = false;
     esproposal_decorators = false;
     types = true;
     use_strict = false;
     module_ref_prefix = None;
-    module_ref_prefix_LEGACY_INTEROP = None;
   }
 
 let permissive_parse_options =
   {
     components = true;
     enums = true;
+    assert_operator = false;
     pattern_matching = true;
     esproposal_decorators = true;
     types = true;
     use_strict = false;
     module_ref_prefix = None;
-    module_ref_prefix_LEGACY_INTEROP = None;
   }
 
 type allowed_super =
@@ -175,6 +175,8 @@ type env = {
   in_switch: bool;
   in_formal_parameters: bool;
   in_function: bool;
+  in_match_expression: bool;
+  in_match_statement: bool;
   no_in: bool;
   no_call: bool;
   no_let: bool;
@@ -231,6 +233,8 @@ let init_env ?(token_sink = None) ?(parse_options = None) source content =
     in_switch = false;
     in_formal_parameters = false;
     in_function = false;
+    in_match_expression = false;
+    in_match_statement = false;
     no_in = false;
     no_call = false;
     no_let = false;
@@ -272,6 +276,10 @@ let in_switch env = env.in_switch
 let in_formal_parameters env = env.in_formal_parameters
 
 let in_function env = env.in_function
+
+let in_match_expression env = env.in_match_expression
+
+let in_match_statement env = env.in_match_statement
 
 let allow_yield env = env.allow_yield
 
@@ -382,6 +390,18 @@ let with_in_function in_function env =
     env
   else
     { env with in_function }
+
+let with_in_match_expression in_match_expression env =
+  if in_match_expression = env.in_match_expression then
+    env
+  else
+    { env with in_match_expression }
+
+let with_in_match_statement in_match_statement env =
+  if in_match_statement = env.in_match_statement then
+    env
+  else
+    { env with in_match_statement }
 
 let with_allow_yield allow_yield env =
   if allow_yield = env.allow_yield then
@@ -494,6 +514,8 @@ let enter_function env ~async ~generator ~simple_params =
     in_function = true;
     in_loop = false;
     in_switch = false;
+    in_match_expression = false;
+    in_match_statement = false;
     in_export = false;
     in_export_default = false;
     labels = SSet.empty;
@@ -1091,10 +1113,17 @@ module Eat = struct
     (match !(env.token_sink) with
     | None -> ()
     | Some token_sink ->
+      let token_loc = Peek.loc env in
+      let token = Peek.token env in
+      let token_loc =
+        match token with
+        | Token.T_INTERPRETER (loc, _) -> loc
+        | _ -> token_loc
+      in
       token_sink
         {
-          token_loc = Peek.loc env;
-          token = Peek.token env;
+          token_loc;
+          token;
           (*
            * The lex mode is useful because it gives context to some
            * context-sensitive tokens.

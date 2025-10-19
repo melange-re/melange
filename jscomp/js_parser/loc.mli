@@ -47,3 +47,4 @@ val cursor : File_key.t option -> int -> int -> t[@@ocaml.doc
                                                    " Produces a zero-width Loc.t, where start = end "]
 val start_loc : t -> t
 val end_loc : t -> t
+val update_source : (File_key.t option -> File_key.t option) -> t -> t

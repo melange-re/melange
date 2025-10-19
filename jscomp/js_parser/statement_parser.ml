@@ -150,7 +150,7 @@ module Statement
         env
     in
     if label = None && not (in_loop env || in_switch env) then
-      error_at env (loc, Parse_error.IllegalBreak);
+      error_at env (loc, Parse_error.IllegalBreak { in_match_statement = in_match_statement env });
     let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
     (loc, Statement.Break { Statement.Break.label; comments })
 
@@ -524,15 +524,16 @@ module Statement
   and switch =
     let case ~seen_default env =
       let leading = Peek.comments env in
-      let (test, trailing) =
+      let (test, trailing, case_loc_opt) =
         match Peek.token env with
         | T_DEFAULT ->
           if seen_default then error env Parse_error.MultipleDefaultsInSwitch;
           Expect.token env T_DEFAULT;
-          (None, Eat.trailing_comments env)
+          (None, Eat.trailing_comments env, None)
         | _ ->
+          let case_loc = Peek.loc env in
           Expect.token env T_CASE;
-          (Some (Parse.expression env), [])
+          (Some (Parse.expression env), [], Some case_loc)
       in
       let seen_default = seen_default || test = None in
       Expect.token env T_COLON;
@@ -547,7 +548,16 @@ module Statement
       in
       let consequent = Parse.statement_list ~term_fn (env |> with_in_switch true) in
       let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
-      let case = { Statement.Switch.Case.test; consequent; comments } in
+      let case_test_loc =
+        match (case_loc_opt, test) with
+        | (_, None)
+        | (None, _) ->
+          None
+        | (Some case_loc, Some (expr_loc, _)) -> Some (Loc.btwn case_loc expr_loc)
+      in
+      let case =
+        { Statement.Switch.Case.test; Statement.Switch.Case.case_test_loc; consequent; comments }
+      in
       (case, seen_default)
     in
     let rec case_list env (seen_default, acc) =
@@ -583,6 +593,15 @@ module Statement
     let open Match in
     let case env =
       let leading = Peek.comments env in
+      let case_match_root_loc = Peek.loc env |> Loc.start_loc in
+      let invalid_prefix_case =
+        if Peek.token env = T_CASE then (
+          let loc = Peek.loc env in
+          Eat.token env;
+          Some loc
+        ) else
+          None
+      in
       let pattern = Parse.match_pattern env in
       let guard =
         if Eat.maybe env T_IF then (
@@ -593,17 +612,28 @@ module Statement
         ) else
           None
       in
-      (* Continue parsing colon until hermes-parser is also updated. *)
-      if not @@ Eat.maybe env T_COLON then Expect.token env T_ARROW;
-      let body = Parse.statement ~allow_sequence:false env in
-      (match Peek.token env with
-      | T_EOF
-      | T_RCURLY ->
-        ()
-      | _ -> ignore @@ Eat.maybe env T_COMMA);
+      let invalid_infix_colon =
+        if Peek.token env = T_COLON then (
+          let loc = Peek.loc env in
+          Eat.token env;
+          Some loc
+        ) else (
+          Expect.token env T_ARROW;
+          None
+        )
+      in
+      let body = Parse.statement ~allow_sequence:false (env |> with_in_match_statement true) in
+      ignore @@ Eat.maybe env T_COMMA;
       let trailing = Eat.trailing_comments env in
       let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
-      { Case.pattern; body; guard; comments }
+      let invalid_syntax =
+        {
+          Case.InvalidSyntax.invalid_prefix_case;
+          invalid_infix_colon;
+          invalid_suffix_semicolon = None;
+        }
+      in
+      { Case.pattern; body; guard; comments; invalid_syntax; case_match_root_loc }
     in
     let rec case_list env acc =
       match Peek.token env with
@@ -949,14 +979,46 @@ module Statement
         id
     in
     let tparams = Type.type_params env in
-    let supertype =
-      match Peek.token env with
-      | T_COLON ->
-        Expect.token env T_COLON;
-        Some (Type._type env)
-      | _ -> None
+    let expect_opt_super_or_extends token =
+      (* super and extends are treated like identifiers in type parsing context.
+       * We need to switch back to normal mode in order to correctly identify them. *)
+      Eat.push_lex_mode env Lex_mode.NORMAL;
+      let consumed =
+        if Peek.token env = token then (
+          Expect.token env token;
+          true
+        ) else
+          false
+      in
+      Eat.pop_lex_mode env;
+      consumed
     in
-    let impltype =
+    let lower_bound =
+      if expect_opt_super_or_extends T_SUPER then
+        (* Do not accept conditional type in this position. Otherwise, the sequence
+         * `opaque type A super B extends C = D` will fail because `B extends C` are parsed
+         * together as conditional type. *)
+        Some (Type.union env)
+      else
+        None
+    in
+    let upper_bound =
+      if expect_opt_super_or_extends T_EXTENDS then
+        Some (Type._type env)
+      else
+        None
+    in
+    let legacy_upper_bound =
+      if Option.is_some upper_bound || Option.is_some lower_bound then
+        None
+      else
+        match Peek.token env with
+        | T_COLON ->
+          Expect.token env T_COLON;
+          Some (Type._type env)
+        | _ -> None
+    in
+    let impl_type =
       if declare then
         match Peek.token env with
         | T_ASSIGN ->
@@ -973,44 +1035,83 @@ module Statement
       )
     in
     Eat.pop_lex_mode env;
-    let (trailing, id, tparams, supertype, impltype) =
-      match (semicolon env, tparams, supertype, impltype) with
+    let (trailing, id, tparams, lower_bound, upper_bound, legacy_upper_bound, impl_type) =
+      match (semicolon env, tparams, lower_bound, upper_bound, legacy_upper_bound, impl_type) with
       (* opaque type Foo = Bar; *)
-      | (Explicit comments, _, _, _) -> (comments, id, tparams, supertype, impltype)
+      | (Explicit comments, _, _, _, _, _) ->
+        (comments, id, tparams, lower_bound, upper_bound, legacy_upper_bound, impl_type)
       (* opaque type Foo = Bar *)
-      | (Implicit { remove_trailing; _ }, _, _, Some impl) ->
+      | (Implicit { remove_trailing; _ }, _, _, _, _, Some impl) ->
         ( [],
           id,
           tparams,
-          supertype,
+          lower_bound,
+          upper_bound,
+          legacy_upper_bound,
           Some (remove_trailing impl (fun remover impl -> remover#type_ impl))
         )
-      (* opaque type Foo: Super *)
-      | (Implicit { remove_trailing; _ }, _, Some super, None) ->
+      (* opaque type Foo: U *)
+      | (Implicit { remove_trailing; _ }, _, _, Some upper_bound, _, None) ->
         ( [],
           id,
           tparams,
-          Some (remove_trailing super (fun remover super -> remover#type_ super)),
+          lower_bound,
+          Some (remove_trailing upper_bound (fun remover t -> remover#type_ t)),
+          legacy_upper_bound,
+          None
+        )
+      | (Implicit { remove_trailing; _ }, _, _, _, Some legacy_upper_bound, None) ->
+        ( [],
+          id,
+          tparams,
+          lower_bound,
+          upper_bound,
+          Some (remove_trailing legacy_upper_bound (fun remover t -> remover#type_ t)),
+          None
+        )
+      (* opaque type Foo super Super *)
+      | (Implicit { remove_trailing; _ }, _, Some lower_bound, None, None, None) ->
+        ( [],
+          id,
+          tparams,
+          Some (remove_trailing lower_bound (fun remover t -> remover#type_ t)),
+          upper_bound,
+          legacy_upper_bound,
           None
         )
       (* opaque type Foo<T> *)
-      | (Implicit { remove_trailing; _ }, Some tparams, None, None) ->
+      | (Implicit { remove_trailing; _ }, Some tparams, None, None, None, None) ->
         ( [],
           id,
-          Some (remove_trailing tparams (fun remover tparams -> remover#type_params tparams)),
+          Some
+            (remove_trailing tparams (fun remover tparams ->
+                 remover#type_params ~kind:Flow_ast_mapper.OpaqueTypeTP tparams
+             )
+            ),
+          None,
+          None,
           None,
           None
         )
       (* declare opaque type Foo *)
-      | (Implicit { remove_trailing; _ }, None, None, None) ->
-        ([], remove_trailing id (fun remover id -> remover#identifier id), None, None, None)
+      | (Implicit { remove_trailing; _ }, None, None, None, None, None) ->
+        ( [],
+          remove_trailing id (fun remover id -> remover#identifier id),
+          None,
+          None,
+          None,
+          None,
+          None
+        )
     in
 
     {
       Statement.OpaqueType.id;
       tparams;
-      impltype;
-      supertype;
+      impl_type;
+      lower_bound;
+      upper_bound;
+      legacy_upper_bound;
       comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing ();
     }
 
@@ -1046,7 +1147,7 @@ module Statement
       if Peek.token env = T_EXTENDS then
         tparams
       else
-        type_params_remove_trailing env tparams
+        type_params_remove_trailing env ~kind:Flow_ast_mapper.InterfaceTP tparams
     in
     let (extends, body) = Type.interface_helper env in
     let { remove_trailing; _ } = statement_end_trailing_comments env in
@@ -1106,7 +1207,7 @@ module Statement
       let tparams =
         let tparams = Type.type_params env in
         match Peek.token env with
-        | T_LCURLY -> type_params_remove_trailing env tparams
+        | T_LCURLY -> type_params_remove_trailing env ~kind:Flow_ast_mapper.DeclareClassTP tparams
         | _ -> tparams
       in
       let extends =
@@ -1163,7 +1264,9 @@ module Statement
         (* Components should have at least the same strictness as functions *)
         (Parse.identifier ~restricted_error:Parse_error.StrictFunctionName env)
     in
-    let tparams = type_params_remove_trailing env (Type.type_params env) in
+    let tparams =
+      type_params_remove_trailing env ~kind:Flow_ast_mapper.DeclareComponentTP (Type.type_params env)
+    in
     let params = Type.component_param_list env in
     let (params, renders) =
       if Peek.is_renders_ident env then
@@ -1227,7 +1330,12 @@ module Statement
     let annot =
       with_loc
         (fun env ->
-          let tparams = type_params_remove_trailing env (Type.type_params env) in
+          let tparams =
+            type_params_remove_trailing
+              env
+              ~kind:Flow_ast_mapper.DeclareFunctionTP
+              (Type.type_params env)
+          in
           let params = Type.function_param_list env in
           Expect.token env T_COLON;
           Eat.push_lex_mode env Lex_mode.TYPE;

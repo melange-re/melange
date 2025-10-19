@@ -1,7 +1,26 @@
+[@@@ocaml.ppx.context
+  {
+    tool_name = "ppx_driver";
+    include_dirs = [];
+    hidden_include_dirs = [];
+    load_path = ([], []);
+    open_modules = [];
+    for_package = None;
+    debug = false;
+    use_threads = false;
+    use_vmthreads = false;
+    recursive_types = false;
+    principal = false;
+    transparent_modules = false;
+    unboxed_types = false;
+    unsafe_string = false;
+    cookies =
+      [("library-name", "flow_parser"); ("sedlex.regexps", ([%regexps ]))]
+  }]
 type t =
-  | LibFile of string
-  | SourceFile of string
-  | JsonFile of string
+  | LibFile of string 
+  | SourceFile of string 
+  | JsonFile of string 
   | ResourceFile of string [@@deriving (show, eq)]
 include
   struct
@@ -9,8 +28,7 @@ include
     let rec pp :
       Format.formatter -> t -> unit
       =
-      ((
-          fun fmt ->
+      ((          fun fmt ->
             function
             | LibFile a0 ->
                 (Format.fprintf fmt
@@ -39,8 +57,7 @@ include
     let _ = pp
     and _ = show
     let rec equal : t -> t -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (LibFile lhs0, LibFile rhs0) ->
                 ((fun (a : string) b -> a = b)) lhs0 rhs0
