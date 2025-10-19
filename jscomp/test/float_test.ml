@@ -114,6 +114,21 @@ let () =
   eq __LOC__ (generic_greaterequal Js.Float._NaN 4.2) false;
   eq __LOC__ (Float.min (-. 1.) 1.) (-1.);
   eq __LOC__ (Float.min 1. (-. 1.)) (-1.);
+  eq __LOC__ (Float.neg 1.) (-1.);
+  eq __LOC__ (Float.add 1.2 1.2) 2.4;
+  eq __LOC__ (Float.mul 1.2 2.) 2.4;
+  eq __LOC__ (Float.div 2.4 2.) 1.2;
+  eq __LOC__ (Float.rem 2.4 1.2) 0.;
+  eq __LOC__ (Float.fma 1.2 2. 1.) 3.4;
+  eq __LOC__ (Float.copy_sign 1.2 (-1.)) (-1.2);
+  eq __LOC__ (Float.sign_bit (-1.)) true;
+  eq __LOC__ (Float.sign_bit (-0.)) true;
+  eq __LOC__ (Float.sign_bit Float.nan) false;
+  eq __LOC__ (Float.floor 1.2) 1.0;
+  eq __LOC__ (Float.ceil 1.2) 2.0;
+  eq __LOC__ (Float.round 1.2) 1.0;
+  eq __LOC__ (Float.round 1.6) 2.0;
+  eq __LOC__ (Float.trunc 1.6) 1.0;
 ;;
 
 

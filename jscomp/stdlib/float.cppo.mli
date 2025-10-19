@@ -440,15 +440,23 @@ external erfc : float -> float = "caml_erfc_float" "caml_erfc"
     @since 4.13
 *)
 
+#ifdef BS
+external trunc : float -> float = "trunc" [@@mel.scope "Math"]
+#else
 external trunc : float -> float = "caml_trunc_float" "caml_trunc"
                                     [@@unboxed] [@@noalloc]
+#endif
 (** [trunc x] rounds [x] to the nearest integer whose absolute value is
    less than or equal to [x].
 
    @since 4.08 *)
 
+#ifdef BS
+external round : float -> float =  "round"  [@@mel.scope "Math"]
+#else
 external round : float -> float = "caml_round_float" "caml_round"
                                     [@@unboxed] [@@noalloc]
+#endif
 (** [round x] rounds [x] to the nearest integer with ties (fractional
    values of 0.5) rounded away from zero, regardless of the current
    rounding direction.  If [x] is an integer, [+0.], [-0.], [nan], or
@@ -459,14 +467,22 @@ external round : float -> float = "caml_round_float" "caml_round"
 
    @since 4.08 *)
 
+#ifdef BS
+external ceil : float -> float =  "ceil"  [@@mel.scope "Math"]
+#else
 external ceil : float -> float = "caml_ceil_float" "ceil"
 [@@unboxed] [@@noalloc]
+#endif
 (** Round above to an integer value.
     [ceil f] returns the least integer value greater than or equal to [f].
     The result is returned as a float. *)
 
+#ifdef BS
+external floor : float -> float =  "floor"  [@@mel.scope "Math"]
+#else
 external floor : float -> float = "caml_floor_float" "floor"
 [@@unboxed] [@@noalloc]
+#endif
 (** Round below to an integer value.
     [floor f] returns the greatest integer value less than or
     equal to [f].
