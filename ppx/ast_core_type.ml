@@ -46,14 +46,18 @@ let get_uncurry_arity =
     | Ptyp_poly (_, ty) -> get_uncurry_arity_aux ty acc
     | _ -> acc
   in
-  fun ty ->
-    match ty.ptyp_desc with
-    | Ptyp_arrow
-        ( Nolabel,
-          { ptyp_desc = Ptyp_constr ({ txt = Lident "unit"; _ }, []); _ },
-          rest ) -> (
-        match rest with
-        | { ptyp_desc = Ptyp_arrow _; _ } -> Some (get_uncurry_arity_aux rest 1)
-        | _ -> Some 0)
-    | Ptyp_arrow (_, _, rest) -> Some (get_uncurry_arity_aux rest 1)
-    | _ -> None
+  function
+  | {
+      ptyp_desc =
+        Ptyp_arrow
+          ( Nolabel,
+            { ptyp_desc = Ptyp_constr ({ txt = Lident "unit"; _ }, []); _ },
+            rest );
+      _;
+    } -> (
+      match rest with
+      | { ptyp_desc = Ptyp_arrow _; _ } -> Some (get_uncurry_arity_aux rest 1)
+      | _ -> Some 0)
+  | { ptyp_desc = Ptyp_arrow (_, _, rest); _ } ->
+      Some (get_uncurry_arity_aux rest 1)
+  | _ -> None
