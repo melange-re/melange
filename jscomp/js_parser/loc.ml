@@ -6,8 +6,7 @@ include
     let _ = fun (_ : position) -> ()
     let rec equal_position :
       position -> position -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             ((fun (a : int) b -> a = b) lhs.line rhs.line) &&
               ((fun (a : int) b -> a = b) lhs.column rhs.column))
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
@@ -16,8 +15,7 @@ include
       Format.formatter ->
         position -> unit
       =
-      ((
-          fun fmt x ->
+      ((          fun fmt x ->
             Format.fprintf fmt "@[<2>{ ";
             ((Format.fprintf fmt "@[%s =@ " "Loc.line";
               (Format.fprintf fmt "%d") x.line;
@@ -47,8 +45,7 @@ include
       ((let __2 = pp_position
         and __1 = pp_position
         and __0 = File_key.pp in
-        ((
-            fun fmt x ->
+        ((            fun fmt x ->
               Format.fprintf fmt "@[<2>{ ";
               (((Format.fprintf fmt "@[%s =@ "
                    "Loc.source";
@@ -186,3 +183,4 @@ let cursor source line column =
                                                                  " Produces a zero-width Loc.t, where start = end "]
 let start_loc loc = { loc with _end = (loc.start) }
 let end_loc loc = { loc with start = (loc._end) }
+let update_source f loc = { loc with source = (f loc.source) }

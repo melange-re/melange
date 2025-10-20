@@ -9,8 +9,7 @@ include
     let rec pp :
       Format.formatter -> t -> unit
       =
-      ((
-          fun fmt ->
+      ((          fun fmt ->
             function
             | LibFile a0 ->
                 (Format.fprintf fmt
@@ -39,8 +38,7 @@ include
     let _ = pp
     and _ = show
     let rec equal : t -> t -> bool =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (LibFile lhs0, LibFile rhs0) ->
                 ((fun (a : string) b -> a = b)) lhs0 rhs0

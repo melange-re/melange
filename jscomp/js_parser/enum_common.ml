@@ -9,8 +9,7 @@ include
     let _ = fun (_ : explicit_type) -> ()
     let rec compare_explicit_type :
       explicit_type -> explicit_type -> int =
-      ((
-          fun lhs rhs ->
+      ((          fun lhs rhs ->
             match (lhs, rhs) with
             | (Boolean, Boolean) -> 0
             | (Number, Number) -> 0

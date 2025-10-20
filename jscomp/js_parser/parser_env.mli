@@ -36,7 +36,7 @@ type parse_options = {
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
   module_ref_prefix: string option;
-  module_ref_prefix_LEGACY_INTEROP: string option;
+  assert_operator: bool;
 }
 
 val default_parse_options : parse_options
@@ -80,6 +80,10 @@ val in_switch : env -> bool
 val in_formal_parameters : env -> bool
 
 val in_function : env -> bool
+
+val in_match_expression : env -> bool
+
+val in_match_statement : env -> bool
 
 val allow_yield : env -> bool
 
@@ -147,6 +151,10 @@ val with_strict : bool -> env -> env
 val with_in_formal_parameters : bool -> env -> env
 
 val with_in_function : bool -> env -> env
+
+val with_in_match_expression : bool -> env -> env
+
+val with_in_match_statement : bool -> env -> env
 
 val with_allow_yield : bool -> env -> env
 

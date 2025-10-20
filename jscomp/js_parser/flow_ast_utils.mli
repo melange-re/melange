@@ -49,6 +49,8 @@ val get_call_to_object_dot_freeze_arg :
 
 val is_call_to_object_static_method : ('a, 'b) Flow_ast.Expression.t -> bool
 
+val is_module_dot_exports : ('a, 'b) Flow_ast.Expression.t -> bool
+
 val get_call_to_jest_module_mocking_fn :
   ('loc, 'annot) Flow_ast.Expression.t ->
   ('loc, 'annot) Flow_ast.Expression.ArgList.t ->
@@ -191,3 +193,16 @@ val get_inferred_type_guard_candidate :
   ('l, 't) Flow_ast.Function.body ->
   ('l, 't) Flow_ast.Function.ReturnAnnot.t ->
   ('t * string) option
+
+val unwrap_nonnull_lhs_expr :
+  'loc 'tloc.
+  ('loc, 'loc) Flow_ast.Expression.t ->
+  ('loc, 'loc) Flow_ast.Expression.t
+  * bool
+  * (('loc, 'tloc) Flow_ast.Expression.t ->
+    filter_nullish:('loc -> 'tloc) ->
+    ('loc, 'tloc) Flow_ast.Expression.t
+    )
+
+val unwrap_nonnull_lhs :
+  'loc 'tloc. ('loc, 'tloc) Flow_ast.Pattern.t -> ('loc, 'tloc) Flow_ast.Pattern.t * bool

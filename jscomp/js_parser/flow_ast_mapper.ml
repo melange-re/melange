@@ -78,6 +78,21 @@ let map_list_multiple map lst =
   else
     lst
 
+type type_params_context =
+  | ClassTP
+  | FunctionTP
+  | DeclareFunctionTP
+  | DeclareClassTP
+  | DeclareComponentTP
+  | TypeAliasTP
+  | InterfaceTP
+  | OpaqueTypeTP
+  | ComponentDeclarationTP
+  | ComponentTypeTP
+  | FunctionTypeTP
+  | InferTP
+  | ObjectMappedTypeTP
+
 class ['loc] mapper =
   object (this)
     method program (program : ('loc, 'loc) Ast.Program.t) =
@@ -423,7 +438,7 @@ class ['loc] mapper =
       let open Ast.Class in
       let { id; body; tparams; extends; implements; class_decorators; comments } = cls in
       let id' = map_opt this#class_identifier id in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:ClassTP) tparams in
       let body' = this#class_body body in
       let extends' = map_opt (map_loc this#class_extends) extends in
       let implements' = map_opt this#class_implements implements in
@@ -492,6 +507,8 @@ class ['loc] mapper =
         id_loc this#class_property loc prop elem (fun prop -> Property (loc, prop))
       | PrivateField (loc, field) ->
         id_loc this#class_private_field loc field elem (fun field -> PrivateField (loc, field))
+      | StaticBlock (loc, block) ->
+        id_loc this#class_static_block loc block elem (fun block -> StaticBlock (loc, block))
 
     method class_implements (implements : ('loc, 'loc) Ast.Class.Implements.t) =
       let open Ast.Class.Implements in
@@ -595,6 +612,16 @@ class ['loc] mapper =
           comments = comments';
         }
 
+    method class_static_block _loc (block : ('loc, 'loc) Ast.Class.StaticBlock.t') =
+      let open Ast.Class.StaticBlock in
+      let { body; comments } = block in
+      let body' = this#statement_list body in
+      let comments' = this#syntax_opt comments in
+      if body == body' && comments == comments' then
+        block
+      else
+        { body = body'; comments = comments' }
+
     method default_opt (default : ('loc, 'loc) Ast.Expression.t option) =
       map_opt this#expression default
 
@@ -603,7 +630,7 @@ class ['loc] mapper =
       let open Ast.Statement.ComponentDeclaration in
       let { id = ident; tparams; params; body; renders; comments; sig_loc } = component in
       let ident' = this#component_identifier ident in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:ComponentDeclarationTP) tparams in
       let params' = this#component_params params in
       let body' = this#component_body body in
       let renders' = this#component_renders_annotation renders in
@@ -657,8 +684,9 @@ class ['loc] mapper =
         (param_name : ('loc, 'loc) Ast.Statement.ComponentDeclaration.Param.param_name) =
       let open Ast.Statement.ComponentDeclaration.Param in
       match param_name with
-      | Identifier ident -> Identifier (this#identifier ident)
-      | StringLiteral (str_loc, str) -> StringLiteral (str_loc, this#string_literal str_loc str)
+      | Identifier ident -> id this#identifier ident param_name (fun x -> Identifier x)
+      | StringLiteral (loc, str) ->
+        id_loc this#string_literal loc str param_name (fun x -> StringLiteral (loc, x))
 
     method component_param_pattern (expr : ('loc, 'loc) Ast.Pattern.t) =
       this#binding_pattern ~kind:Ast.Variable.Let expr
@@ -718,7 +746,7 @@ class ['loc] mapper =
       let open Ast.Statement.DeclareClass in
       let { id = ident; tparams; body; extends; mixins; implements; comments } = decl in
       let id' = this#class_identifier ident in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:DeclareClassTP) tparams in
       let body' = map_loc this#object_type body in
       let extends' = map_opt (map_loc this#generic_type) extends in
       let mixins' = map_list (map_loc this#generic_type) mixins in
@@ -749,7 +777,7 @@ class ['loc] mapper =
       let open Ast.Statement.DeclareComponent in
       let { id = ident; tparams; params; renders; comments } = decl in
       let ident' = this#component_identifier ident in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:DeclareComponentTP) tparams in
       let params' = this#component_type_params params in
       let renders' = this#component_renders_annotation renders in
       let comments' = this#syntax_opt comments in
@@ -773,7 +801,7 @@ class ['loc] mapper =
     method component_type _loc (t : ('loc, 'loc) Ast.Type.Component.t) =
       let open Ast.Type.Component in
       let { tparams; params; renders; comments } = t in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:ComponentTypeTP) tparams in
       let params' = this#component_type_params params in
       let renders' = this#component_renders_annotation renders in
       let comments' = this#syntax_opt comments in
@@ -1361,7 +1389,7 @@ class ['loc] mapper =
       } =
         ft
       in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:FunctionTypeTP) tparams in
       let this_' = map_opt this#function_this_param_type this_ in
       let ps' = map_list this#function_param_type ps in
       let rpo' = map_opt this#function_rest_param_type rpo in
@@ -1476,7 +1504,7 @@ class ['loc] mapper =
     method object_mapped_type_property (mt : ('loc, 'loc) Ast.Type.Object.MappedType.t) =
       let open Ast.Type.Object.MappedType in
       let (loc, { key_tparam; prop_type; source_type; variance; comments; optional }) = mt in
-      let key_tparam' = this#type_param key_tparam in
+      let key_tparam' = this#type_param ~kind:ObjectMappedTypeTP key_tparam in
       let prop_type' = this#type_ prop_type in
       let source_type' = this#type_ source_type in
       let variance' = this#variance_opt variance in
@@ -1579,17 +1607,17 @@ class ['loc] mapper =
       else
         (loc, { arguments = arguments'; comments = comments' })
 
-    method type_params (tparams : ('loc, 'loc) Ast.Type.TypeParams.t) =
+    method type_params ~kind (tparams : ('loc, 'loc) Ast.Type.TypeParams.t) =
       let open Ast.Type.TypeParams in
       let (loc, { params = tps; comments }) = tparams in
-      let tps' = map_list this#type_param tps in
+      let tps' = map_list (this#type_param ~kind) tps in
       let comments' = this#syntax_opt comments in
       if tps' == tps && comments' == comments then
         tparams
       else
         (loc, { params = tps'; comments = comments' })
 
-    method type_param (tparam : ('loc, 'loc) Ast.Type.TypeParam.t) =
+    method type_param ~kind:_ (tparam : ('loc, 'loc) Ast.Type.TypeParam.t) =
       let open Ast.Type.TypeParam in
       let (loc, { name; bound; bound_kind; variance; default; const }) = tparam in
       let bound' = this#type_annotation_hint bound in
@@ -1697,12 +1725,12 @@ class ['loc] mapper =
 
     method module_ref_literal _loc (lit : ('loc, 'loc) Ast.ModuleRefLiteral.t) =
       let open Ast.ModuleRefLiteral in
-      let { value; require_loc; def_loc_opt; prefix_len; legacy_interop; raw; comments } = lit in
+      let { value; require_loc; def_loc_opt; prefix_len; raw; comments } = lit in
       let comments' = this#syntax_opt comments in
       if comments == comments' then
         lit
       else
-        { value; require_loc; def_loc_opt; prefix_len; legacy_interop; raw; comments }
+        { value; require_loc; def_loc_opt; prefix_len; raw; comments }
 
     method nullable_type (t : ('loc, 'loc) Ast.Type.Nullable.t) =
       let open Ast.Type.Nullable in
@@ -1742,7 +1770,7 @@ class ['loc] mapper =
     method infer_type (t : ('loc, 'loc) Ast.Type.Infer.t) =
       let open Ast.Type.Infer in
       let { tparam; comments } = t in
-      let tparam' = this#type_param tparam in
+      let tparam' = this#type_param ~kind:InferTP tparam in
       let comments' = this#syntax_opt comments in
       if tparam == tparam' && comments == comments' then
         t
@@ -1992,7 +2020,7 @@ class ['loc] mapper =
         expr
       in
       let ident' = map_opt this#function_identifier ident in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:FunctionTP) tparams in
       let params' = this#function_params params in
       let return' = this#function_return_annotation return in
       let body' = this#function_body_any body in
@@ -2098,7 +2126,7 @@ class ['loc] mapper =
       let open Ast.Statement.Interface in
       let { id = ident; tparams; extends; body; comments } = interface in
       let id' = this#binding_type_identifier ident in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:InterfaceTP) tparams in
       let extends' = map_list (map_loc this#generic_type) extends in
       let body' = map_loc this#object_type body in
       let comments' = this#syntax_opt comments in
@@ -2557,7 +2585,7 @@ class ['loc] mapper =
           ('loc, 'loc, 'B) Ast.Match.Case.t =
       fun ~on_case_body case ->
         let open Ast.Match.Case in
-        let (loc, { pattern; body; guard; comments }) = case in
+        let (loc, { pattern; body; guard; comments; invalid_syntax; case_match_root_loc }) = case in
         let pattern' = this#match_pattern pattern in
         let body' = on_case_body body in
         let guard' = map_opt this#expression guard in
@@ -2565,7 +2593,16 @@ class ['loc] mapper =
         if pattern == pattern' && body == body' && guard == guard' && comments == comments' then
           case
         else
-          (loc, { pattern = pattern'; body = body'; guard = guard'; comments = comments' })
+          ( loc,
+            {
+              pattern = pattern';
+              body = body';
+              guard = guard';
+              comments = comments';
+              invalid_syntax;
+              case_match_root_loc;
+            }
+          )
 
     method match_expression loc (x : ('loc, 'loc) Ast.Expression.match_expression) =
       this#match_ loc ~on_case_body:this#expression x
@@ -2576,7 +2613,8 @@ class ['loc] mapper =
     method match_pattern (pattern : ('loc, 'loc) Ast.MatchPattern.t) =
       let open Ast.MatchPattern in
       match pattern with
-      | (loc, WildcardPattern x) -> id this#syntax_opt x pattern (fun x -> (loc, WildcardPattern x))
+      | (loc, WildcardPattern x) ->
+        id this#match_wildcard_pattern x pattern (fun x -> (loc, WildcardPattern x))
       | (loc, StringPattern x) ->
         id_loc this#string_literal loc x pattern (fun x -> (loc, StringPattern x))
       | (loc, BooleanPattern x) ->
@@ -2766,6 +2804,15 @@ class ['loc] mapper =
       | Identifier ident ->
         id (this#pattern_identifier ~kind:Ast.Variable.Const) ident target (fun x -> Identifier x)
 
+    method match_wildcard_pattern (wildcard_pattern : 'loc Ast.MatchPattern.WildcardPattern.t) =
+      let open Ast.MatchPattern.WildcardPattern in
+      let { comments; invalid_syntax_default_keyword } = wildcard_pattern in
+      let comments' = this#syntax_opt comments in
+      if comments == comments' then
+        wildcard_pattern
+      else
+        { comments = comments'; invalid_syntax_default_keyword }
+
     method member _loc (expr : ('loc, 'loc) Ast.Expression.Member.t) =
       let open Ast.Expression.Member in
       let { _object; property; comments } = expr in
@@ -2928,18 +2975,23 @@ class ['loc] mapper =
 
     method opaque_type _loc (otype : ('loc, 'loc) Ast.Statement.OpaqueType.t) =
       let open Ast.Statement.OpaqueType in
-      let { id; tparams; impltype; supertype; comments } = otype in
+      let { id; tparams; impl_type; lower_bound; upper_bound; legacy_upper_bound; comments } =
+        otype
+      in
       let id' = this#binding_type_identifier id in
-      let tparams' = map_opt this#type_params tparams in
-      let impltype' = map_opt this#type_ impltype in
-      let supertype' = map_opt this#type_ supertype in
+      let tparams' = map_opt (this#type_params ~kind:OpaqueTypeTP) tparams in
+      let impl_type' = map_opt this#type_ impl_type in
+      let legacy_upper_bound' = map_opt this#type_ legacy_upper_bound in
+      let lower_bound' = map_opt this#type_ lower_bound in
+      let upper_bound' = map_opt this#type_ upper_bound in
       let comments' = this#syntax_opt comments in
       if
         id == id'
-        && impltype == impltype'
+        && impl_type == impl_type'
         && tparams == tparams'
-        && impltype == impltype'
-        && supertype == supertype'
+        && lower_bound == lower_bound'
+        && upper_bound == upper_bound'
+        && legacy_upper_bound == legacy_upper_bound'
         && comments == comments'
       then
         otype
@@ -2947,8 +2999,10 @@ class ['loc] mapper =
         {
           id = id';
           tparams = tparams';
-          impltype = impltype';
-          supertype = supertype';
+          impl_type = impl_type';
+          lower_bound = lower_bound';
+          upper_bound = upper_bound';
+          legacy_upper_bound = legacy_upper_bound';
           comments = comments';
         }
 
@@ -3272,14 +3326,14 @@ class ['loc] mapper =
 
     method switch_case (case : ('loc, 'loc) Ast.Statement.Switch.Case.t) =
       let open Ast.Statement.Switch.Case in
-      let (loc, { test; consequent; comments }) = case in
+      let (loc, { test; case_test_loc; consequent; comments }) = case in
       let test' = map_opt this#expression test in
       let consequent' = this#statement_list consequent in
       let comments' = this#syntax_opt comments in
       if test == test' && consequent == consequent' && comments == comments' then
         case
       else
-        (loc, { test = test'; consequent = consequent'; comments = comments' })
+        (loc, { test = test'; case_test_loc; consequent = consequent'; comments = comments' })
 
     method tagged_template _loc (expr : ('loc, 'loc) Ast.Expression.TaggedTemplate.t) =
       let open Ast.Expression.TaggedTemplate in
@@ -3437,7 +3491,7 @@ class ['loc] mapper =
       let open Ast.Statement.TypeAlias in
       let { id; tparams; right; comments } = stuff in
       let id' = this#binding_type_identifier id in
-      let tparams' = map_opt this#type_params tparams in
+      let tparams' = map_opt (this#type_params ~kind:TypeAliasTP) tparams in
       let right' = this#type_ right in
       let comments' = this#syntax_opt comments in
       if id == id' && right == right' && tparams == tparams' && comments == comments' then
