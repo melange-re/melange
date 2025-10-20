@@ -335,7 +335,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_md5_string" | "caml_md5_bytes" -> call Js_runtime_modules.md5
   | "caml_hash_mix_string" | "caml_hash_mix_int" | "caml_hash_final_mix" ->
       call Js_runtime_modules.hash_primitive
-  | "caml_hash" -> call Js_runtime_modules.hash
+  | "caml_hash" | "caml_string_hash" -> call Js_runtime_modules.hash
   | "caml_ml_open_descriptor_in" when args_const_unbox_approx_int_zero args ->
       E.runtime_ref Js_runtime_modules.io "stdin"
   | "caml_ml_open_descriptor_out" when args_const_unbox_approx_int_one args ->

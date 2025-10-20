@@ -86,5 +86,6 @@ let string_of_chars  x = String.concat "" @@ List.map string_of_char  x
   "find_2", (fun _ -> Eq( 6, Ext_string_test.find "_index__js" ~sub:"__"));
   "find_3", (fun _ -> Eq( -1, Ext_string_test.find "_index_js" ~sub:"__"));
   "of_char", (fun _ -> Eq( string_of_char '0', String.make 1 '0'));
-  "of_chars", (fun _ -> Eq( string_of_chars ['0' ;'1'; '2'], "012"))
+  "of_chars", (fun _ -> Eq( string_of_chars ['0' ;'1'; '2'], "012"));
+  "hash", (fun _ -> Eq( String.hash "hello", 840920576))
 ]
