@@ -23,4 +23,4 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val caml_hash : int -> 'a -> int -> Obj.t -> int
-(** *)
+val caml_string_hash : int -> string -> int

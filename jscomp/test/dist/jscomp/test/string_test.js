@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_bytes = require("melange.js/caml_bytes.js");
+const Caml_hash = require("melange.js/caml_hash.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Ext_string_test = require("./ext_string_test.js");
 const Mt = require("./mt.js");
@@ -360,7 +361,19 @@ Mt.from_pair_suites("String_test", {
                                         };
                                       })
                                     ],
-                                    tl: /* [] */ 0
+                                    tl: {
+                                      hd: [
+                                        "hash",
+                                        (function (param) {
+                                          return {
+                                            TAG: /* Eq */ 0,
+                                            _0: Caml_hash.caml_string_hash(0, "hello"),
+                                            _1: 840920576
+                                          };
+                                        })
+                                      ],
+                                      tl: /* [] */ 0
+                                    }
                                   }
                                 }
                               }

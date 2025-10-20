@@ -137,3 +137,8 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
       (*tag*)
     done;
     caml_hash_final_mix hash.contents
+
+let caml_string_hash (seed : int) (s : string) : int =
+  let h = caml_hash_mix_string seed s in
+  let h = caml_hash_final_mix h in
+  h land 0x3FFFFFFF
