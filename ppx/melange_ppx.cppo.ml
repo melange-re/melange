@@ -214,8 +214,9 @@ module Time = struct
         match payload with
         | PStr [ { pstr_desc = Pstr_eval (e, _); _ } ] ->
             let locString =
-              if loc.loc_ghost then "GHOST LOC"
-              else
+              match loc.loc_ghost with
+              | true -> "GHOST LOC"
+              | false ->
                 let loc_start = loc.loc_start in
                 let file, lnum, __ =
                   ( loc_start.pos_fname,
@@ -272,15 +273,16 @@ module Node = struct
             let exp = Ast_extensions.handle_external ~loc (strip name) in
             let typ =
               Ast_core_type.lift_option_type
-                (if name = "_module" then
+                (match name with
+                | "_module" ->
                    Typ.constr ~loc
                      { txt = Ldot (Lident "Node", "node_module"); loc }
                      []
-                 else if name = "require" then
+                | "require" ->
                    Typ.constr ~loc
                      { txt = Ldot (Lident "Node", "node_require"); loc }
                      []
-                 else [%type: string])
+                | _ -> [%type: string])
             in
             Exp.constraint_ ~loc exp typ
         | Some _ | None -> (
@@ -546,9 +548,9 @@ module Mapper = struct
       method! structure_item str =
         match str.pstr_desc with
         | Pstr_primitive prim ->
-            if Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
-            then Ast_external.handleExternalInStru self prim str
-            else
+            (match Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim with
+            | true -> Ast_external.handleExternalInStru self prim str
+            | false ->
               super#structure_item
                 {
                   str with
@@ -560,7 +562,7 @@ module Mapper = struct
                           Ast_attributes.unboxable_type_in_prim_decl
                           :: prim.pval_attributes;
                       };
-                }
+                })
         | Pstr_value
             ( Nonrecursive,
               [
@@ -825,10 +827,10 @@ module Mapper = struct
               | None -> value_desc_orig
             in
             let pval_attributes = self#attributes attrs in
-            if Ast_attributes.rs_externals pval_attributes pval_prim then
-              Ast_external.handleExternalInSig self value_desc sigi
-            else
-              match Ast_attributes.has_inline_payload pval_attributes with
+            match Ast_attributes.rs_externals pval_attributes pval_prim with
+            | true -> Ast_external.handleExternalInSig self value_desc sigi
+            | false ->
+              (match Ast_attributes.has_inline_payload pval_attributes with
               | Some
                   ({
                      attr_payload =
@@ -980,7 +982,7 @@ module Mapper = struct
                               Ast_attributes.unboxable_type_in_prim_decl
                               :: pval_attributes;
                           };
-                    })
+                    }))
         | Psig_attribute
             ({
                attr_name =
