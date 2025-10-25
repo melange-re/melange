@@ -626,8 +626,7 @@ let mel_send_this_index arg_type_specs arg_types =
       |> Option.get
 
 let external_desc_of_non_obj ~loc (st : External_desc.desc)
-    (prim_name_or_pval_prim : string Lazy.t) (arg_type_specs_length : int)
-    arg_types_ty
+    (prim_name_or_pval_prim : string Lazy.t) arg_type_specs_length arg_types_ty
     (arg_type_specs :
       External_arg_spec.Arg_label.t External_arg_spec.Param.t list) :
     External_ffi_types.External_spec.t =
@@ -640,12 +639,13 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    scopes;
    new_name = false;
    return_wrapper = _;
-  } ->
-      if arg_type_specs_length = 3 then Js_set_index { scopes }
-      else
-        Location.raise_errorf ~loc
-          "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> 'key \
-           -> 'value -> unit'"
+  } -> (
+      match arg_type_specs_length with
+      | 3 -> Js_set_index { scopes }
+      | _ ->
+          Location.raise_errorf ~loc
+            "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> \
+             'key -> 'value -> unit'")
   | { kind = Set_index; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
@@ -658,12 +658,13 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    scopes;
    new_name = false;
    return_wrapper = _;
-  } ->
-      if arg_type_specs_length = 2 then Js_get_index { scopes }
-      else
-        Location.raise_errorf ~loc
-          "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> 'key \
-           -> 'value'"
+  } -> (
+      match arg_type_specs_length with
+      | 2 -> Js_get_index { scopes }
+      | _ ->
+          Location.raise_errorf ~loc
+            "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> \
+             'key -> 'value'")
   | { kind = Get_index; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
@@ -702,17 +703,14 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    variadic;
    scopes;
    return_wrapper = _;
-  } ->
+  } -> (
       let name = Lazy.force prim_name_or_pval_prim in
-      if arg_type_specs_length = 0 then
-        (*
-         {[
-           external ff : int -> int [@bs] = "" [@@module "xx"]
-         ]}
-         FIXME: variadic is not supported here
-      *)
-        Js_var { name; external_module_name = None; scopes }
-      else Js_call { variadic; name; external_module_name = None; scopes }
+      match arg_type_specs_length with
+      | 0 ->
+          (* {[ external ff : int -> int [@bs] = "" [@@module "xx"] ]}
+             FIXME: variadic is not supported here *)
+          Js_var { name; external_module_name = None; scopes }
+      | _ -> Js_call { variadic; name; external_module_name = None; scopes })
   | {
    kind = Val;
    module_as_val = None;
@@ -721,15 +719,13 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    variadic;
    scopes;
    return_wrapper = _;
-  } ->
+  } -> (
       let name = Lazy.force prim_name_or_pval_prim in
-      if arg_type_specs_length = 0 then
-        (*
-         {[
-           external ff : int = "" [@@module "xx"]
-         ]} *)
-        Js_var { name; external_module_name; scopes }
-      else Js_call { variadic; name; external_module_name; scopes }
+      match arg_type_specs_length with
+      | 0 ->
+          (* {[ external ff : int = "" [@@module "xx"] ]} *)
+          Js_var { name; external_module_name; scopes }
+      | _ -> Js_call { variadic; name; external_module_name; scopes })
   | {
    kind = Send;
    variadic;
@@ -788,12 +784,12 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    variadic = false;
    return_wrapper = _;
    scopes;
-  } ->
-      if arg_type_specs_length = 2 then
-        Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
-      else
-        Location.raise_errorf ~loc
-          "`[%@mel.set]' requires a function of two arguments"
+  } -> (
+      match arg_type_specs_length with
+      | 2 -> Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
+      | _ ->
+          Location.raise_errorf ~loc
+            "`[%@mel.set]' requires a function of two arguments")
   | { kind = Set; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
@@ -806,12 +802,12 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    variadic = false;
    return_wrapper = _;
    scopes;
-  } ->
-      if arg_type_specs_length = 1 then
-        Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
-      else
-        Location.raise_errorf ~loc
-          "`[%@mel.get]' requires a function of only one argument"
+  } -> (
+      match arg_type_specs_length with
+      | 1 -> Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
+      | _ ->
+          Location.raise_errorf ~loc
+            "`[%@mel.get]' requires a function of only one argument")
   | { kind = Get; _ } ->
       Error.err ~loc
         (Conflict_ffi_attribute
@@ -877,7 +873,7 @@ module From_attributes = struct
     in
     let valid_global_name ~loc txt =
       if not (valid_ident txt) then
-        let v = String.split_by ~keep_empty:true ~f:(fun x -> x = '.') txt in
+        let v = String.split_by txt ~keep_empty:true ~f:(Char.equal '.') in
         List.iter
           ~f:(fun s ->
             if not (valid_ident s) then
@@ -979,11 +975,12 @@ module From_attributes = struct
       else
         let prim_name_or_pval_name =
           (* TODO(anmonteiro): need check name *)
-          if String.length prim_name = 0 then
-            lazy
-              (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
-               pval_name)
-          else lazy prim_name
+          match String.length prim_name with
+          | 0 ->
+              lazy
+                (Mel_ast_invariant.warn ~loc (Fragile_external pval_name);
+                 pval_name)
+          | _ -> lazy prim_name
         in
         let result_type, arg_types_ty =
           (* Note this assumes external type is syntactic (no abstraction)*)
@@ -1100,8 +1097,9 @@ module From_attributes = struct
                     ( { External_arg_spec.Param.arg_label; arg_type }
                       :: arg_type_specs,
                       new_arg_types,
-                      if arg_type = Ignore then (i, last_was_mel_this)
-                      else (i + 1, is_mel_this_and_send) ))
+                      match arg_type with
+                      | Ignore -> (i, last_was_mel_this)
+                      | _ -> (i + 1, is_mel_this_and_send) ))
                   arg_types_ty ~init
               in
               let ffi =
