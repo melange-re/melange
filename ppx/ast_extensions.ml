@@ -32,8 +32,6 @@ let local_external_apply =
     ~(pval_prim : string list)
     ~(pval_type : core_type)
     (arg : expression)
-    :
-    expression_desc
   ->
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
@@ -57,7 +55,7 @@ let local_external_apply =
 
 ]}
 *)
-let handle_external ~loc (x : string) =
+let handle_external ~loc x =
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
