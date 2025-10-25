@@ -30,20 +30,15 @@ type pointer_info =
   | Pt_assertfalse
   | Some of string
 
-let comment_of_pointer_info (x : pointer_info) : string option =
-  match x with
-  | Some name -> Some name
+let comment_of_pointer_info = function
+  | Some name -> Option.Some name
   | Pt_constructor { name = { Lambda.name; _ }; _ } -> Some name
   | Pt_assertfalse -> Some "assert_false"
   | None -> None
 
-let modifier_of_pointer_info (x : pointer_info) : Lambda.as_modifier option =
-  match x with
-  | Pt_constructor { name = { as_modifier = Some modifier; _ }; _ } ->
-      Some modifier
-  | Pt_constructor { name = { as_modifier = None; _ }; _ }
-  | Pt_assertfalse | Some _ | None ->
-      None
+let modifier_of_pointer_info = function
+  | Pt_constructor { name = { as_modifier; _ }; _ } -> as_modifier
+  | Pt_assertfalse | Some _ | None -> None
 
 type t =
   | Const_js_null
@@ -60,10 +55,8 @@ type t =
   | Const_float_array of string list
   | Const_some of t
   | Const_module_alias
-(* eventually we can remove it, since we know
-   [constant] is [undefined] or not *)
 
-let rec eq_approx (x : t) (y : t) =
+let rec eq_approx x y =
   match (x, y) with
   | Const_module_alias, Const_module_alias -> true
   | Const_js_null, Const_js_null -> true
