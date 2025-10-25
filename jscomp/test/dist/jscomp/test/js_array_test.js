@@ -1080,7 +1080,371 @@ const suites_1 = {
                                                                                                                       };
                                                                                                                     })
                                                                                                                   ],
-                                                                                                                  tl: /* [] */ 0
+                                                                                                                  tl: {
+                                                                                                                    hd: [
+                                                                                                                      "flat",
+                                                                                                                      (function (param) {
+                                                                                                                        return {
+                                                                                                                          TAG: /* Eq */ 0,
+                                                                                                                          _0: [
+                                                                                                                            1,
+                                                                                                                            2,
+                                                                                                                            3,
+                                                                                                                            4
+                                                                                                                          ],
+                                                                                                                          _1: [
+                                                                                                                            [
+                                                                                                                              1,
+                                                                                                                              2
+                                                                                                                            ],
+                                                                                                                            [
+                                                                                                                              3,
+                                                                                                                              4
+                                                                                                                            ]
+                                                                                                                          ].flat()
+                                                                                                                        };
+                                                                                                                      })
+                                                                                                                    ],
+                                                                                                                    tl: {
+                                                                                                                      hd: [
+                                                                                                                        "at",
+                                                                                                                        (function (param) {
+                                                                                                                          return {
+                                                                                                                            TAG: /* Eq */ 0,
+                                                                                                                            _0: 1,
+                                                                                                                            _1: Caml_option.undefined_to_opt([
+                                                                                                                              1,
+                                                                                                                              2,
+                                                                                                                              3
+                                                                                                                            ].at(0))
+                                                                                                                          };
+                                                                                                                        })
+                                                                                                                      ],
+                                                                                                                      tl: {
+                                                                                                                        hd: [
+                                                                                                                          "at - negative index",
+                                                                                                                          (function (param) {
+                                                                                                                            return {
+                                                                                                                              TAG: /* Eq */ 0,
+                                                                                                                              _0: 2,
+                                                                                                                              _1: Caml_option.undefined_to_opt([
+                                                                                                                                1,
+                                                                                                                                2,
+                                                                                                                                3
+                                                                                                                              ].at(-2))
+                                                                                                                            };
+                                                                                                                          })
+                                                                                                                        ],
+                                                                                                                        tl: {
+                                                                                                                          hd: [
+                                                                                                                            "at - missing",
+                                                                                                                            (function (param) {
+                                                                                                                              return {
+                                                                                                                                TAG: /* Eq */ 0,
+                                                                                                                                _0: undefined,
+                                                                                                                                _1: Caml_option.undefined_to_opt([
+                                                                                                                                  1,
+                                                                                                                                  2,
+                                                                                                                                  3
+                                                                                                                                ].at(99))
+                                                                                                                              };
+                                                                                                                            })
+                                                                                                                          ],
+                                                                                                                          tl: {
+                                                                                                                            hd: [
+                                                                                                                              "findLast",
+                                                                                                                              (function (param) {
+                                                                                                                                return {
+                                                                                                                                  TAG: /* Eq */ 0,
+                                                                                                                                  _0: 4,
+                                                                                                                                  _1: Caml_option.undefined_to_opt([
+                                                                                                                                    1,
+                                                                                                                                    2,
+                                                                                                                                    3,
+                                                                                                                                    4
+                                                                                                                                  ].findLast(function (n) {
+                                                                                                                                    return n % 2 === 0;
+                                                                                                                                  }))
+                                                                                                                                };
+                                                                                                                              })
+                                                                                                                            ],
+                                                                                                                            tl: {
+                                                                                                                              hd: [
+                                                                                                                                "findLast - no match",
+                                                                                                                                (function (param) {
+                                                                                                                                  return {
+                                                                                                                                    TAG: /* Eq */ 0,
+                                                                                                                                    _0: undefined,
+                                                                                                                                    _1: Caml_option.undefined_to_opt([
+                                                                                                                                      1,
+                                                                                                                                      2,
+                                                                                                                                      3,
+                                                                                                                                      4
+                                                                                                                                    ].findLast(function (n) {
+                                                                                                                                      return n % 2 === 5;
+                                                                                                                                    }))
+                                                                                                                                  };
+                                                                                                                                })
+                                                                                                                              ],
+                                                                                                                              tl: {
+                                                                                                                                hd: [
+                                                                                                                                  "findLasti",
+                                                                                                                                  (function (param) {
+                                                                                                                                    return {
+                                                                                                                                      TAG: /* Eq */ 0,
+                                                                                                                                      _0: 3,
+                                                                                                                                      _1: Caml_option.undefined_to_opt([
+                                                                                                                                        1,
+                                                                                                                                        2,
+                                                                                                                                        3,
+                                                                                                                                        4
+                                                                                                                                      ].findLast(function (param, i) {
+                                                                                                                                        return i % 2 === 0;
+                                                                                                                                      }))
+                                                                                                                                    };
+                                                                                                                                  })
+                                                                                                                                ],
+                                                                                                                                tl: {
+                                                                                                                                  hd: [
+                                                                                                                                    "findLasti - no match",
+                                                                                                                                    (function (param) {
+                                                                                                                                      return {
+                                                                                                                                        TAG: /* Eq */ 0,
+                                                                                                                                        _0: undefined,
+                                                                                                                                        _1: Caml_option.undefined_to_opt([
+                                                                                                                                          1,
+                                                                                                                                          2,
+                                                                                                                                          3,
+                                                                                                                                          4
+                                                                                                                                        ].findLast(function (param, i) {
+                                                                                                                                          return i % 2 === 5;
+                                                                                                                                        }))
+                                                                                                                                      };
+                                                                                                                                    })
+                                                                                                                                  ],
+                                                                                                                                  tl: {
+                                                                                                                                    hd: [
+                                                                                                                                      "findLastIndex",
+                                                                                                                                      (function (param) {
+                                                                                                                                        return {
+                                                                                                                                          TAG: /* Eq */ 0,
+                                                                                                                                          _0: 3,
+                                                                                                                                          _1: [
+                                                                                                                                            1,
+                                                                                                                                            2,
+                                                                                                                                            3,
+                                                                                                                                            4
+                                                                                                                                          ].findLastIndex(function (n) {
+                                                                                                                                            return n % 2 === 0;
+                                                                                                                                          })
+                                                                                                                                        };
+                                                                                                                                      })
+                                                                                                                                    ],
+                                                                                                                                    tl: {
+                                                                                                                                      hd: [
+                                                                                                                                        "findLastIndexi",
+                                                                                                                                        (function (param) {
+                                                                                                                                          return {
+                                                                                                                                            TAG: /* Eq */ 0,
+                                                                                                                                            _0: 2,
+                                                                                                                                            _1: [
+                                                                                                                                              1,
+                                                                                                                                              2,
+                                                                                                                                              3,
+                                                                                                                                              4
+                                                                                                                                            ].findLastIndex(function (param, i) {
+                                                                                                                                              return i % 2 === 0;
+                                                                                                                                            })
+                                                                                                                                          };
+                                                                                                                                        })
+                                                                                                                                      ],
+                                                                                                                                      tl: {
+                                                                                                                                        hd: [
+                                                                                                                                          "toReversed",
+                                                                                                                                          (function (param) {
+                                                                                                                                            const arr = [
+                                                                                                                                              1,
+                                                                                                                                              2,
+                                                                                                                                              3,
+                                                                                                                                              4
+                                                                                                                                            ];
+                                                                                                                                            const new_arr = arr.toReversed();
+                                                                                                                                            return {
+                                                                                                                                              TAG: /* Eq */ 0,
+                                                                                                                                              _0: [
+                                                                                                                                                arr,
+                                                                                                                                                [
+                                                                                                                                                  4,
+                                                                                                                                                  3,
+                                                                                                                                                  2,
+                                                                                                                                                  1
+                                                                                                                                                ]
+                                                                                                                                              ],
+                                                                                                                                              _1: [
+                                                                                                                                                arr,
+                                                                                                                                                new_arr
+                                                                                                                                              ]
+                                                                                                                                            };
+                                                                                                                                          })
+                                                                                                                                        ],
+                                                                                                                                        tl: {
+                                                                                                                                          hd: [
+                                                                                                                                            "toSorted",
+                                                                                                                                            (function (param) {
+                                                                                                                                              const arr = [
+                                                                                                                                                3,
+                                                                                                                                                1,
+                                                                                                                                                2
+                                                                                                                                              ];
+                                                                                                                                              const new_arr = arr.toSorted();
+                                                                                                                                              return {
+                                                                                                                                                TAG: /* Eq */ 0,
+                                                                                                                                                _0: [
+                                                                                                                                                  arr,
+                                                                                                                                                  [
+                                                                                                                                                    1,
+                                                                                                                                                    2,
+                                                                                                                                                    3
+                                                                                                                                                  ]
+                                                                                                                                                ],
+                                                                                                                                                _1: [
+                                                                                                                                                  arr,
+                                                                                                                                                  new_arr
+                                                                                                                                                ]
+                                                                                                                                              };
+                                                                                                                                            })
+                                                                                                                                          ],
+                                                                                                                                          tl: {
+                                                                                                                                            hd: [
+                                                                                                                                              "toSortedWith",
+                                                                                                                                              (function (param) {
+                                                                                                                                                const arr = [
+                                                                                                                                                  3,
+                                                                                                                                                  1,
+                                                                                                                                                  2
+                                                                                                                                                ];
+                                                                                                                                                const new_arr = arr.toSorted(function (a, b) {
+                                                                                                                                                  return b - a | 0;
+                                                                                                                                                });
+                                                                                                                                                return {
+                                                                                                                                                  TAG: /* Eq */ 0,
+                                                                                                                                                  _0: [
+                                                                                                                                                    arr,
+                                                                                                                                                    [
+                                                                                                                                                      3,
+                                                                                                                                                      2,
+                                                                                                                                                      1
+                                                                                                                                                    ]
+                                                                                                                                                  ],
+                                                                                                                                                  _1: [
+                                                                                                                                                    arr,
+                                                                                                                                                    new_arr
+                                                                                                                                                  ]
+                                                                                                                                                };
+                                                                                                                                              })
+                                                                                                                                            ],
+                                                                                                                                            tl: {
+                                                                                                                                              hd: [
+                                                                                                                                                "toSpliced",
+                                                                                                                                                (function (param) {
+                                                                                                                                                  const arr = [
+                                                                                                                                                    1,
+                                                                                                                                                    2,
+                                                                                                                                                    3,
+                                                                                                                                                    4
+                                                                                                                                                  ];
+                                                                                                                                                  const new_arr = arr.toSpliced(2, 0, 5);
+                                                                                                                                                  return {
+                                                                                                                                                    TAG: /* Eq */ 0,
+                                                                                                                                                    _0: [
+                                                                                                                                                      arr,
+                                                                                                                                                      [
+                                                                                                                                                        1,
+                                                                                                                                                        2,
+                                                                                                                                                        5,
+                                                                                                                                                        3,
+                                                                                                                                                        4
+                                                                                                                                                      ]
+                                                                                                                                                    ],
+                                                                                                                                                    _1: [
+                                                                                                                                                      arr,
+                                                                                                                                                      new_arr
+                                                                                                                                                    ]
+                                                                                                                                                  };
+                                                                                                                                                })
+                                                                                                                                              ],
+                                                                                                                                              tl: {
+                                                                                                                                                hd: [
+                                                                                                                                                  "removeFrom",
+                                                                                                                                                  (function (param) {
+                                                                                                                                                    const arr = [
+                                                                                                                                                      1,
+                                                                                                                                                      2,
+                                                                                                                                                      3,
+                                                                                                                                                      4
+                                                                                                                                                    ];
+                                                                                                                                                    const new_arr = arr.toSpliced(2);
+                                                                                                                                                    return {
+                                                                                                                                                      TAG: /* Eq */ 0,
+                                                                                                                                                      _0: [
+                                                                                                                                                        arr,
+                                                                                                                                                        [
+                                                                                                                                                          1,
+                                                                                                                                                          2
+                                                                                                                                                        ]
+                                                                                                                                                      ],
+                                                                                                                                                      _1: [
+                                                                                                                                                        arr,
+                                                                                                                                                        new_arr
+                                                                                                                                                      ]
+                                                                                                                                                    };
+                                                                                                                                                  })
+                                                                                                                                                ],
+                                                                                                                                                tl: {
+                                                                                                                                                  hd: [
+                                                                                                                                                    "removeCount",
+                                                                                                                                                    (function (param) {
+                                                                                                                                                      const arr = [
+                                                                                                                                                        1,
+                                                                                                                                                        2,
+                                                                                                                                                        3,
+                                                                                                                                                        4
+                                                                                                                                                      ];
+                                                                                                                                                      const new_arr = arr.toSpliced(2, 1);
+                                                                                                                                                      return {
+                                                                                                                                                        TAG: /* Eq */ 0,
+                                                                                                                                                        _0: [
+                                                                                                                                                          arr,
+                                                                                                                                                          [
+                                                                                                                                                            1,
+                                                                                                                                                            2,
+                                                                                                                                                            4
+                                                                                                                                                          ]
+                                                                                                                                                        ],
+                                                                                                                                                        _1: [
+                                                                                                                                                          arr,
+                                                                                                                                                          new_arr
+                                                                                                                                                        ]
+                                                                                                                                                      };
+                                                                                                                                                    })
+                                                                                                                                                  ],
+                                                                                                                                                  tl: /* [] */ 0
+                                                                                                                                                }
+                                                                                                                                              }
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
                                                                                                                 }
                                                                                                               }
                                                                                                             }
