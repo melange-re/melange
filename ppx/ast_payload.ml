@@ -96,17 +96,18 @@ let ident_or_record_as_config =
         ] -> (
         match with_obj with
         | None -> (
-            try
-              Ok
-                (List.map label_exprs ~f:(function
-                  | ( { txt = Lident name; loc },
-                      { pexp_desc = Pexp_ident { txt = Lident name2; _ }; _ } )
-                    when name2 = name ->
-                      ({ Asttypes.txt = name; loc }, None)
-                  | { txt = Lident name; loc }, y ->
-                      ({ Asttypes.txt = name; loc }, Some y)
-                  | _ -> raise Local))
-            with Local -> error "(qualified labels aren't supported)")
+            match
+              List.map label_exprs ~f:(function
+                | ( { txt = Lident name; loc },
+                    { pexp_desc = Pexp_ident { txt = Lident name2; _ }; _ } )
+                  when String.equal name2 name ->
+                    ({ Asttypes.txt = name; loc }, None)
+                | { txt = Lident name; loc }, y ->
+                    ({ Asttypes.txt = name; loc }, Some y)
+                | _ -> raise Local)
+            with
+            | r -> Ok r
+            | exception Local -> error "(qualified labels aren't supported)")
         | Some _ -> error "(`with' not supported)")
     | PStr
         [
