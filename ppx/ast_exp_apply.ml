@@ -25,28 +25,22 @@
 open Import
 open Ast_helper
 
-let rec no_need_bound exp =
-  match exp.pexp_desc with
-  | Pexp_ident { txt = Lident _; _ } -> true
-  | Pexp_constraint (e, _) -> no_need_bound e
-  | _ -> false
-
-let ocaml_obj_id = "__ocaml_internal_obj"
-
-let bound e (cb : expression -> _) =
-  if no_need_bound e then cb e
-  else
-    let loc = e.pexp_loc in
-    Exp.let_ ~loc Nonrecursive
-      [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
-      (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
-
-let check_and_discard (args : (arg_label * expression) list) =
-  List.map
-    ~f:(fun (label, x) ->
-      Error.err_if_label ~loc:x.pexp_loc label;
-      x)
-    args
+let bound =
+  let ocaml_obj_id = "__ocaml_internal_obj" in
+  let rec needs_bound exp =
+    match exp.pexp_desc with
+    | Pexp_ident { txt = Lident _; _ } -> false
+    | Pexp_constraint (e, _) -> needs_bound e
+    | _ -> true
+  in
+  fun e ~f:(cb : expression -> expression) ->
+    match needs_bound e with
+    | false -> cb e
+    | true ->
+        let loc = e.pexp_loc in
+        Exp.let_ ~loc Nonrecursive
+          [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
+          (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
 type app_pattern = {
   op : string;
@@ -54,21 +48,22 @@ type app_pattern = {
   args : expression list;
 }
 
-let sane_property_name_check loc s =
-  if String.contains s '#' then
-    Location.raise_errorf ~loc
-      "property name (`%s') cannot contain special character `#'" s
-
-let view_as_app fn (s : string list) : app_pattern option =
-  match fn.pexp_desc with
-  | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
-    when List.mem op ~set:s ->
-      Some { op; loc = fn.pexp_loc; args = check_and_discard args }
-  | _ -> None
+let view_as_app =
+  let check_and_discard (args : (arg_label * expression) list) =
+    List.map args ~f:(fun (label, x) ->
+        Error.err_if_label ~loc:x.pexp_loc label;
+        x)
+  in
+  fun fn (s : string list) ->
+    match fn.pexp_desc with
+    | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
+      when List.mem op ~set:s ->
+        Some { op; loc = fn.pexp_loc; args = check_and_discard args }
+    | _ -> None
 
 let inner_ops = [ "##"; "#@" ]
 
-let app_exp_mapper e =
+let app_exp_mapper =
   let rec exclude_with_val =
     let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
       match xs with
@@ -90,7 +85,16 @@ let app_exp_mapper e =
                   | None -> None
                   | Some rest -> Some (a0 :: a1 :: rest)))
   in
-  fun ((self, super) : Ast_traverse.map * (expression -> expression)) fn args ->
+  let sane_property_name_check loc s =
+    if String.contains s '#' then
+      Location.raise_errorf ~loc
+        "property name (`%s') cannot contain special character `#'" s
+  in
+  fun e
+    ((self, super) : Ast_traverse.map * (expression -> expression))
+    fn
+    args
+  ->
     (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
     match view_as_app fn inner_ops with
@@ -157,7 +161,7 @@ let app_exp_mapper e =
                     },
                     wholes ) ->
                     Ast_open_cxt.restore_exp
-                      (bound a (fun bounded_obj_arg ->
+                      (bound a ~f:(fun bounded_obj_arg ->
                            {
                              f with
                              pexp_desc =
