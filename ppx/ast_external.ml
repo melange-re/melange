@@ -72,7 +72,7 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
   | _ :: _ :: _ -> [%stri [%%ocaml.error [%e single_string_payload_error ~loc]]]
-  | [ v ] ->
+  | [ v ] -> (
       let {
         Ast_external_process.pval_type;
         pval_prim;
@@ -96,15 +96,21 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
               };
         }
       in
-      if not dont_inline_cross_module then external_result
-      else
-        let open Ast_helper in
-        Str.include_ ~loc
-          (Incl.mk ~loc
-             (Mod.constraint_ ~loc
-                (Mod.structure ~loc [ external_result ])
-                (Mty.signature ~loc
-                   [
-                     Sig.value ~loc
-                       { prim with pval_type; pval_prim = []; pval_attributes };
-                   ])))
+      match dont_inline_cross_module with
+      | false -> external_result
+      | true ->
+          let open Ast_helper in
+          Str.include_ ~loc
+            (Incl.mk ~loc
+               (Mod.constraint_ ~loc
+                  (Mod.structure ~loc [ external_result ])
+                  (Mty.signature ~loc
+                     [
+                       Sig.value ~loc
+                         {
+                           prim with
+                           pval_type;
+                           pval_prim = [];
+                           pval_attributes;
+                         };
+                     ]))))
