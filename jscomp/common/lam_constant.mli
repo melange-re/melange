@@ -30,8 +30,8 @@ type pointer_info =
   | Pt_assertfalse
   | Some of string
 
-val modifier_of_pointer_info : pointer_info -> Lambda.as_modifier option
 val comment_of_pointer_info : pointer_info -> string option
+val modifier_of_pointer_info : pointer_info -> Lambda.as_modifier option
 
 type t =
   | Const_js_null
