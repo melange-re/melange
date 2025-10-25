@@ -31,9 +31,9 @@ let process_getter_setter ~not_getter_setter
     ~(get : core_type -> _ -> attributes -> _) ~set loc name
     (attrs : attribute list) (ty : core_type) (acc : _ list) =
   match Ast_attributes.process_method_attributes_rev attrs with
-  | Error s -> Error s
-  | Ok ({ get = None; set = None }, _) -> Ok (not_getter_setter ty :: acc)
-  | Ok (st, pctf_attributes) ->
+  | Error (loc, s) -> raise (Local (loc, s))
+  | Ok ({ get = None; set = None }, _) -> not_getter_setter ty :: acc
+  | Ok (st, pctf_attributes) -> (
       let get_acc =
         match st.set with
         | Some `No_get -> acc
@@ -53,20 +53,19 @@ let process_getter_setter ~not_getter_setter
             in
             get ty name pctf_attributes :: acc
       in
-      Ok
-        (match st.set with
-        | None -> get_acc
-        | Some _ ->
-            set ty
-              ({
-                 name with
-                 txt =
-                   name.Asttypes.txt
-                   ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
-               }
-                : _ Asttypes.loc)
-              pctf_attributes
-            :: get_acc)
+      match st.set with
+      | None -> get_acc
+      | Some _ ->
+          set ty
+            ({
+               name with
+               txt =
+                 name.Asttypes.txt
+                 ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+             }
+              : _ Asttypes.loc)
+            pctf_attributes
+          :: get_acc)
 
 (*
   Attributes are very hard to attribute
@@ -103,7 +102,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
             ~f:(fun meth_ acc ->
               match meth_.pof_desc with
               | Oinherit _ -> meth_ :: acc
-              | Otag (label, core_type) -> (
+              | Otag (label, core_type) ->
                   let get ty name attrs =
                     let attrs, core_type =
                       match Ast_attributes.process_attributes_rev attrs with
@@ -145,12 +144,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                     in
                     Of.tag label ~attrs (self#core_type core_type)
                   in
-                  match
-                    process_getter_setter ~not_getter_setter ~get ~set loc label
-                      meth_.pof_attributes core_type acc
-                  with
-                  | Ok x -> x
-                  | Error (loc, s) -> raise (Local (loc, s))))
+                  process_getter_setter ~not_getter_setter ~get ~set loc label
+                    meth_.pof_attributes core_type acc)
             methods ~init:[]
         in
         { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
@@ -165,7 +160,7 @@ let handle_class_type_fields =
         Ast_traverse.map * (class_type_field -> class_type_field))
       ({ pctf_loc = loc; _ } as ctf : class_type_field) acc =
     match ctf.pctf_desc with
-    | Pctf_method (name, private_flag, virtual_flag, ty) -> (
+    | Pctf_method (name, private_flag, virtual_flag, ty) ->
         let not_getter_setter (ty : core_type) =
           let ty =
             match ty.ptyp_desc with
@@ -212,12 +207,8 @@ let handle_class_type_fields =
             pctf_attributes;
           }
         in
-        match
-          process_getter_setter ~not_getter_setter ~get ~set loc name
-            ctf.pctf_attributes ty acc
-        with
-        | Ok ctfs -> ctfs
-        | Error (loc, s) -> raise (Local (loc, s)))
+        process_getter_setter ~not_getter_setter ~get ~set loc name
+          ctf.pctf_attributes ty acc
     | Pctf_inherit _ | Pctf_val _ | Pctf_constraint _ | Pctf_attribute _
     | Pctf_extension _ ->
         super ctf :: acc
