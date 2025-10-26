@@ -315,13 +315,11 @@ let false_ : t = make_expression (Bool false)
 let bool v = if v then true_ else false_
 
 let as_value ?comment modifier =
-  {
-    (match modifier with
-    | Lambda.String s -> str s (* ~delim:DStarJ *)
-    | Int i -> small_int i)
-    with
-    comment;
-  }
+  match modifier with
+  | Lambda.String s -> str ?comment s
+  | Int i ->
+      let exp = small_int i in
+      { exp with comment }
 
 let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
