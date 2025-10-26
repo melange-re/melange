@@ -1,6 +1,15 @@
 Test an edge of recursive modules with an inner component that is mangled
 
   $ . ./setup.sh
+  $ cat > dune-project <<EOF
+  > (lang dune 3.13)
+  > (using melange 0.1)
+  > EOF
+
+  $ cat > dune <<EOF
+  > (melange.emit
+  >  (target out))
+  > EOF
 
 `Date` gets mangled to `$$Date` in generated JS
 
@@ -17,7 +26,7 @@ Test an edge of recursive modules with an inner component that is mangled
   > let () = Js.log (X.Date.wow ())
   > EOF
 
-  $ melc x.ml > x.js
-  $ node ./x.js
+  $ dune b @melange
+  $ node _build/default/out/x.js
   string
 
