@@ -1,20 +1,6 @@
 Tests for deriving dynamicKeys
 
   $ . ./setup.sh
-
-  $ cat > dune-project <<EOF
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
-
-  $ cat > dune <<EOF
-  > (library
-  >  (modes melange)
-  >  (name x)
-  >  (preprocess
-  >   (pps melange.ppx)))
-  > EOF
-
   $ cat > x.ml <<EOF
   > type chartDataItemType = { height : int; foo : string }
   > [@@deriving jsProperties]
@@ -22,7 +8,7 @@ Tests for deriving dynamicKeys
   > let t = chartDataItemType ~height:2 ~foo:"bar"
   > EOF
 
-  $ dune build ./.x.objs/melange/x.cmj
+  $ melc -ppx melppx x.ml -o x.cmj
 
   $ cat > x.ml <<EOF
   > type chartDataItemType = { height : int; foo : string }
@@ -32,5 +18,5 @@ Tests for deriving dynamicKeys
   > let u = heightGet t
   > EOF
 
-  $ dune build ./.x.objs/melange/x.cmj
+  $ melc -ppx melppx x.ml -o x.cmj
 
