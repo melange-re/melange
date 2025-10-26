@@ -10,22 +10,7 @@ Demonstrate a bug with uncurrying
   >   (foo [||] [@u])
   > EOF
 
-  $ cat > dune-project <<EOF
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
-
-  $ cat > dune <<EOF
-  > (melange.emit
-  >  (target melange)
-  >  (alias mel)
-  >  (modules main)
-  >  (preprocess (pps melange.ppx))
-  >  (emit_stdlib false)
-  >  (module_systems commonjs))
-  > EOF
-
-  $ dune build @mel
+  $ melc -ppx melppx main.ml > main.js
 
 If one line is removed, then it works (wat)
 
@@ -37,4 +22,4 @@ If one line is removed, then it works (wat)
   >   (foo [||] [@u])
   > EOF
 
-  $ dune build @mel
+  $ melc -ppx melppx main.ml > main.js
