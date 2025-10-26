@@ -637,14 +637,13 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt L.fromCharcode;
           paren_group cxt 1 (fun () -> arguments cxt [ e ]))
   | Unicode s ->
+      (* TODO: when utf8, '\\' won't be escaped which is definitely not what we
+         want *)
       string cxt "\"";
       string cxt s;
       string cxt "\"";
       cxt
   | Str s ->
-      (*TODO --
-         when utf8-> it will not escape '\\' which is definitely not we want
-      *)
       Js_dump_string.pp_string cxt.pp s;
       cxt
   | Module module_id ->
