@@ -53,19 +53,33 @@ external fill : value:'a -> ?start:int -> ?end_:int -> ('a t[@mel.this]) -> 'a t
 [@@mel.send]
 (* ES2015 *)
 
+external flat : ('a t t[@mel.this]) -> 'a t = "flat" [@@mel.send]
+(* ES2019 *)
+
 external pop : 'a t -> 'a option = "pop"
 [@@mel.send] [@@mel.return undefined_to_opt]
-(** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push *)
+(** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop *)
 
 external push : value:'a -> ('a t[@mel.this]) -> int = "push" [@@mel.send]
 
 external pushMany : values:'a array -> ('a t[@mel.this]) -> int = "push"
 [@@mel.send] [@@mel.variadic]
 
+external toReversed : 'a t -> 'a t = "toReversed" [@@mel.send]
+(** returns a new array with the elements in reversed order. (ES2023) *)
+
 external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
 
 external shift : 'a t -> 'a option = "shift"
 [@@mel.send] [@@mel.return undefined_to_opt]
+
+external toSorted : 'a t -> 'a t = "toSorted" [@@mel.send]
+(** returns a new array with the elements sorted in ascending order. (ES2023) *)
+
+external toSortedWith :
+  f:(('a -> 'a -> int)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t = "toSorted"
+[@@mel.send]
+(** returns a new array with the elements sorted in ascending order. (ES2023) *)
 
 external sortInPlace : 'a t -> 'a t = "sort" [@@mel.send]
 
@@ -77,13 +91,33 @@ external spliceInPlace :
   start:int -> remove:int -> add:'a array -> ('a t[@mel.this]) -> 'a t
   = "splice"
 [@@mel.send] [@@mel.variadic]
+(** changes the contents of the given array by removing or replacing existing elements and/or adding new elements in place.
+    returns a new array containing the removed elements.
+*)
+
+external toSpliced :
+  start:int -> remove:int -> add:'a array -> ('a t[@mel.this]) -> 'a t
+  = "toSpliced"
+[@@mel.send] [@@mel.variadic]
+(** returns a new array with some elements removed and/or replaced at a given index. (ES2023) *)
 
 external removeFromInPlace : start:int -> ('a t[@mel.this]) -> 'a t = "splice"
 [@@mel.send]
+(** removes all elements from the given array starting at the [start] index and returns the removed elements. *)
+
+external removeFrom : start:int -> ('a t[@mel.this]) -> 'a t = "toSpliced"
+[@@mel.send]
+(** returns a new array with elements removed starting at the [start] index. (ES2023) *)
 
 external removeCountInPlace :
   start:int -> count:int -> ('a t[@mel.this]) -> 'a t = "splice"
 [@@mel.send]
+(** removes [count] elements from the given array starting at the [start] index and returns the removed elements. *)
+
+external removeCount :
+  start:int -> count:int -> ('a t[@mel.this]) -> 'a t = "toSpliced"
+[@@mel.send]
+(** returns a new array with [count] elements removed starting at the [start] index. (ES2023) *)
 
 external unshift : value:'a -> ('a t[@mel.this]) -> int = "unshift" [@@mel.send]
 
@@ -103,6 +137,11 @@ external includes : value:'a -> ('a t[@mel.this]) -> bool = "includes"
 external join : ?sep:string -> ('a t[@mel.this]) -> string = "join" [@@mel.send]
 
 (** Accessor functions *)
+
+external at : index:int -> ('a t[@mel.this]) -> 'a option
+  = "at"
+[@@mel.send] [@@mel.return { undefined_to_opt }]
+(** ES2022 *)
 
 external indexOf : value:'a -> ?start:int -> ('a t[@mel.this]) -> int
   = "indexOf"
@@ -154,6 +193,17 @@ external findi :
 [@@mel.send] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
+external findLast : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
+  = "findLast"
+[@@mel.send] [@@mel.return { undefined_to_opt }]
+(* ES2015 *)
+
+external findLasti :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
+  = "findLast"
+[@@mel.send] [@@mel.return { undefined_to_opt }]
+(* ES2015 *)
+
 external findIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
   = "findIndex"
 [@@mel.send]
@@ -162,6 +212,17 @@ external findIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
 external findIndexi :
   f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
   = "findIndex"
+[@@mel.send]
+(* ES2015 *)
+
+external findLastIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
+  = "findLastIndex"
+[@@mel.send]
+(* ES2015 *)
+
+external findLastIndexi :
+  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
+  = "findLastIndex"
 [@@mel.send]
 (* ES2015 *)
 

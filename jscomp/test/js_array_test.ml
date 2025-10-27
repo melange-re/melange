@@ -281,6 +281,82 @@ let suites = Mt.[
          [| "a"; "b"; "c" |] |. Js.Array.values |. Js.Array.from)
     );
     *)
+
+
+    (* es2019 *)
+    "flat", (fun _ ->
+      Eq([| 1; 2; 3; 4 |],
+         [| [| 1; 2 |]; [| 3; 4 |] |] |> Js.Array.flat )
+    );
+
+    (* es2022 *)
+    "at", (fun _ ->
+      Eq(Some 1, [| 1; 2; 3 |] |. Js.Array.at ~index:0)
+    );
+    "at - negative index", (fun _ ->
+      Eq(Some 2, [| 1; 2; 3 |] |. Js.Array.at ~index:(-2))
+    );
+    "at - missing", (fun _ ->
+      Eq(None, [| 1; 2; 3 |] |. Js.Array.at ~index:99)
+    );
+
+    (* es2023 *)
+    "findLast", (fun _ ->
+      Eq(Some 4, [| 1; 2; 3; 4 |] |. Js.Array.findLast ~f:((fun n -> n mod 2 = 0) ))
+    );
+    "findLast - no match", (fun _ ->
+      Eq(None, [| 1; 2; 3; 4 |] |. Js.Array.findLast ~f:((fun n -> n mod 2 = 5) ))
+    );
+    "findLasti", (fun _ ->
+      Eq(Some 3, [| 1; 2; 3; 4 |] |. Js.Array.findLasti ~f:((fun _ i -> i mod 2 = 0) ))
+    );
+    "findLasti - no match", (fun _ ->
+      Eq(None, [| 1; 2; 3; 4 |] |. Js.Array.findLasti ~f:((fun _ i -> i mod 2 = 5) ))
+    );
+
+    "findLastIndex", (fun _ ->
+      Eq(3, [| 1; 2; 3; 4 |] |. Js.Array.findLastIndex ~f:((fun n -> n mod 2 = 0) ))
+    );
+    "findLastIndexi", (fun _ ->
+      Eq(2, [| 1; 2; 3; 4 |] |. Js.Array.findLastIndexi ~f:((fun _ i -> i mod 2 = 0) ))
+    );
+
+    "toReversed", (fun _ ->
+      let arr = [| 1; 2; 3; 4 |] in
+      let new_arr = arr |> Js.Array.toReversed in
+      Eq((arr, [| 4; 3; 2; 1 |]), (arr, new_arr))
+    );
+
+    "toSorted", (fun _ ->
+      let arr = [| 3; 1; 2 |] in
+      let new_arr = arr |> Js.Array.toSorted in
+      Eq((arr, [| 1; 2; 3 |]), (arr, new_arr))
+    );
+    "toSortedWith", (fun _ ->
+      let arr = [| 3; 1; 2 |] in
+      let new_arr = arr |> Js.Array.toSortedWith ~f:(fun a b -> b - a) in
+      Eq((arr, [| 3; 2; 1 |]), (arr, new_arr))
+    );
+
+
+    "toSpliced", (fun _ ->
+      let arr = [| 1; 2; 3; 4 |] in
+      let new_arr = arr |> Js.Array.toSpliced ~start:2 ~remove:0 ~add:[| 5 |] in
+
+      Eq((arr, [| 1; 2; 5; 3; 4 |]), (arr, new_arr))
+    );
+    "removeFrom", (fun _ ->
+      let arr = [| 1; 2; 3; 4 |] in
+      let new_arr = arr |. Js.Array.removeFrom ~start:2 in
+
+      Eq((arr, [| 1; 2 |]), (arr, new_arr))
+    );
+    "removeCount", (fun _ ->
+      let arr = [| 1; 2; 3; 4 |] in
+      let new_arr = arr |> Js.Array.removeCount ~start:2 ~count:1 in
+
+      Eq((arr, [| 1; 2; 4; |]), (arr, new_arr))
+    );
 ]
 
 ;; Mt.from_pair_suites __MODULE__ suites
