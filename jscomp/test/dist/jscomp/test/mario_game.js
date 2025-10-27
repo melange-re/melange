@@ -1575,7 +1575,7 @@ function update(vpt, ctr) {
   };
 }
 
-const Viewport = {
+const $$Viewport = {
   make: make$3,
   calc_viewport_point: calc_viewport_point,
   in_viewport: in_viewport,
@@ -3352,7 +3352,7 @@ module.exports = {
   Particle,
   $$Object,
   Draw,
-  Viewport,
+  $$Viewport,
   Director,
   Procedural_generator,
   Main,
