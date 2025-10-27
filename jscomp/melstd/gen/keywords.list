@@ -10,6 +10,7 @@ AnimationPlaybackEvent
 AnimationTimeline
 Array
 ArrayBuffer
+AsyncDisposableStack
 Atomics
 Attr
 Audio
@@ -52,7 +53,11 @@ CSSConditionRule
 CSSContainerRule
 CSSCounterStyleRule
 CSSFontFaceRule
+CSSFontFeatureValuesRule
 CSSFontPaletteValuesRule
+CSSFunctionDeclarations
+CSSFunctionDescriptors
+CSSFunctionRule
 CSSGroupingRule
 CSSImageValue
 CSSImportRule
@@ -118,6 +123,7 @@ CharacterData
 ClipboardEvent
 CloseEvent
 CloseWatcher
+CommandEvent
 Comment
 CompositionEvent
 CompressionStream
@@ -153,6 +159,7 @@ Date
 DecompressionStream
 DelayNode
 DelegatedInkTrailPresenter
+DisposableStack
 Document
 DocumentFragment
 DocumentPictureInPictureEvent
@@ -180,6 +187,7 @@ File
 FileList
 FileReader
 FinalizationRegistry
+Float16Array
 Float32Array
 Float64Array
 FocusEvent
@@ -257,6 +265,7 @@ HTMLProgressElement
 HTMLQuoteElement
 HTMLScriptElement
 HTMLSelectElement
+HTMLSelectedContentElement
 HTMLSlotElement
 HTMLSourceElement
 HTMLSpanElement
@@ -288,6 +297,7 @@ IDBIndex
 IDBKeyRange
 IDBObjectStore
 IDBOpenDBRequest
+IDBRecord
 IDBRequest
 IDBTransaction
 IDBVersionChangeEvent
@@ -308,6 +318,7 @@ InputEvent
 Int16Array
 Int32Array
 Int8Array
+IntegrityViolationReportBody
 IntersectionObserver
 IntersectionObserverEntry
 Intl
@@ -363,6 +374,7 @@ NavigationActivation
 NavigationCurrentEntryChangeEvent
 NavigationDestination
 NavigationHistoryEntry
+NavigationPrecommitController
 NavigationTransition
 Navigator
 NavigatorUAData
@@ -376,6 +388,7 @@ NotRestoredReasons
 Notification
 Number
 Object
+Observable
 OfflineAudioCompletionEvent
 OfflineAudioContext
 OffscreenCanvas
@@ -426,6 +439,7 @@ Proxy
 PushManager
 PushSubscription
 PushSubscriptionOptions
+QuotaExceededError
 RTCCertificate
 RTCDTMFSender
 RTCDTMFToneChangeEvent
@@ -442,6 +456,7 @@ RTCPeerConnection
 RTCPeerConnectionIceErrorEvent
 RTCPeerConnectionIceEvent
 RTCRtpReceiver
+RTCRtpScriptTransform
 RTCRtpSender
 RTCRtpTransceiver
 RTCSctpTransport
@@ -577,11 +592,21 @@ Selection
 Set
 ShadowRoot
 SharedStorage
+SharedStorageAppendMethod
+SharedStorageClearMethod
+SharedStorageDeleteMethod
+SharedStorageModifierMethod
+SharedStorageSetMethod
 SharedStorageWorklet
 SharedWorker
 SnapEvent
 SourceBuffer
 SourceBufferList
+SpeechGrammar
+SpeechGrammarList
+SpeechRecognition
+SpeechRecognitionErrorEvent
+SpeechRecognitionEvent
 SpeechSynthesis
 SpeechSynthesisErrorEvent
 SpeechSynthesisEvent
@@ -597,6 +622,8 @@ StylePropertyMapReadOnly
 StyleSheet
 StyleSheetList
 SubmitEvent
+Subscriber
+SuppressedError
 Symbol
 SyncManager
 SyntaxError
@@ -652,6 +679,7 @@ VideoPlaybackQuality
 ViewTimeline
 ViewTransition
 ViewTransitionTypeSet
+Viewport
 VirtualKeyboardGeometryChangeEvent
 VisibilityStateEntry
 VisualViewport
