@@ -53,7 +53,7 @@ let check_flow_errors =
 
 let parse_expression =
   let with_eof parser env =
-    (* Makes the input parser expect EOF at the end. 
+    (* Makes the input parser expect EOF at the end.
        Use this to error on trailing junk when parsing non-Program nodes. *)
     let ast = parser env in
     Parser_env.Expect.token env T_EOF;

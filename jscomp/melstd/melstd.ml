@@ -39,6 +39,7 @@ module Log = Log
 module Map = MoreLabels.Map
 module Modulename = Modulename
 module Module_system = Module_system
+module Option = Option
 module Paths = Paths
 module Scc = Scc
 module Set = MoreLabels.Set

@@ -286,23 +286,19 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     let _hidden_include_dirs = hidden_include_dirs in
 #endif
 
-    List.iter ~f:Warnings.parse_alert_option alerts;
+    List.iter alerts ~f:Warnings.parse_alert_option;
+    List.iter warnings ~f:(Melc_warnings.parse_warnings ~warn_error:false);
 
-    List.iter warnings ~f:(fun w ->
-      Melc_warnings.parse_warnings ~warn_error:false w);
-
-    Option.iter
-      (fun output_name -> Clflags.output_name := Some output_name)
-      output_name ;
+    Option.iter output_name
+      ~f:(fun output_name -> Clflags.output_name := Some output_name);
     Clflags.all_ppx := !Clflags.all_ppx @ ppx;
     Clflags.open_modules := !Clflags.open_modules @ open_modules;
 
-    Option.iter (fun bs_cross_module_opt ->
-        Js_config.cross_module_inline := bs_cross_module_opt)
-      bs_cross_module_opt;
+    Option.iter bs_cross_module_opt ~f:(fun bs_cross_module_opt ->
+        Js_config.cross_module_inline := bs_cross_module_opt);
     if bs_syntax_only then Js_config.syntax_only := true;
 
-    Option.iter Js_packages_state.set_package_name bs_package_name;
+    Option.iter ~f:Js_packages_state.set_package_name bs_package_name;
     begin match mel_module_system, bs_package_output with
     | None, [] -> ()
     | Some mel_module_system, [] ->
@@ -336,13 +332,12 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Clflags.transparent_modules := true
 #endif
       ;
-    Option.iter
-      (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
-      bs_gentype;
+    Option.iter bs_gentype
+      ~f:(fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
     if unboxed_types then Clflags.unboxed_types := unboxed_types;
     if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
     if nostdlib then Js_config.no_stdlib := nostdlib;
-    Option.iter set_color_option color;
+    Option.iter ~f:set_color_option color;
 
     if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
     if bs_no_version_header then
@@ -353,7 +348,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Log.set_level Verbose;
       Clflags.verbose := verbose
     end;
-    Option.iter (fun keep_locs -> Clflags.keep_locs := keep_locs) keep_locs;
+    Option.iter ~f:(fun keep_locs -> Clflags.keep_locs := keep_locs) keep_locs;
     if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
     if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
     if noassert then Clflags.noassert := noassert;
@@ -363,9 +358,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if drawlambda then Clflags.dump_rawlambda := drawlambda;
     if dsource then Clflags.dump_source := dsource;
     if version then print_version_string ();
-    Option.iter (fun pp -> Clflags.preprocessor := Some pp) pp;
+    Option.iter ~f:(fun pp -> Clflags.preprocessor := Some pp) pp;
     if absname then Clflags.absname := absname;
-    Option.iter (fun bin_annot ->  Clflags.binary_annotations := bin_annot) bin_annot;
+    Option.iter ~f:(fun bin_annot ->  Clflags.binary_annotations := bin_annot) bin_annot;
     if i then Clflags.print_types := i;
     if nopervasives then Clflags.nopervasives := nopervasives;
     if modules then Js_config.modules := modules;
@@ -378,11 +373,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
-    Option.iter (fun s ->
-        ignore (eval s: _ Cmdliner.Term.ret ))
-      bs_eval;
-    Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
-    Option.iter (fun cmi_file -> Clflags.cmi_file := Some cmi_file) cmi_file;
+    Option.iter bs_eval ~f:(fun s -> ignore (eval s: _ Cmdliner.Term.ret));
+    Option.iter intf_suffix ~f:(fun suffix -> Config.interface_suffix := suffix);
+    Option.iter cmi_file ~f:(fun cmi_file -> Clflags.cmi_file := Some cmi_file);
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
     Js_config.preamble := preamble;
@@ -392,8 +385,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if _store_occurrences then Clflags.store_occurrences := _store_occurrences;
 #endif
 
-    Option.iter impl impl_source_file ;
-    Option.iter intf intf_source_file ;
+    Option.iter ~f:impl impl_source_file;
+    Option.iter ~f:intf intf_source_file;
     anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->

@@ -93,12 +93,12 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             sw_blocks = List.map_snd sw_blocks ~f:simpl;
             sw_consts_full;
             sw_blocks_full;
-            sw_failaction = Option.map simpl sw_failaction;
+            sw_failaction = Option.map ~f:simpl sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
         Lam.stringswitch (simpl l) (List.map_snd sw ~f:simpl)
-          (Option.map simpl d)
+          (Option.map ~f:simpl d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simpl ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)

@@ -176,7 +176,7 @@ let check_duplicated_labels =
                 check_duplicated_labels_aux rest
                   (String.Set.add s coll_with_lbl))
   in
-  fun lbls -> 
+  fun lbls ->
     match check_duplicated_labels_aux lbls String.Set.empty with
     | l -> Some l
     | exception Not_found -> None

@@ -181,7 +181,7 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
   | Some _ | None ->
       let arity =
         ident_info
-        |> Option.map (fun (t : Js_cmj_format.keyed_cmj_value) -> t.arity)
+        |> Option.map ~f:(fun (t : Js_cmj_format.keyed_cmj_value) -> t.arity)
         |> Option.value ~default:Js_cmj_format.single_na
       in
       let args_code, args =
@@ -727,7 +727,7 @@ and compile_string_cases ~get_cstr_name cxt switch_exp table default =
   compile_general_cases ~get_cstr_name
     (fun as_value ->
       let comment =
-        get_cstr_name as_value |> Option.map (fun x -> x.Lambda.name)
+        Option.map (get_cstr_name as_value) ~f:(fun x -> x.Lambda.name)
       in
       E.as_value ?comment as_value)
     E.string_equal cxt

@@ -74,11 +74,11 @@ let check file lam =
         check_staticfails arg cxt;
         check_list_snd sw.sw_consts cxt;
         check_list_snd sw.sw_blocks cxt;
-        Option.iter (fun x -> check_staticfails x cxt) sw.sw_failaction
+        Option.iter ~f:(fun x -> check_staticfails x cxt) sw.sw_failaction
     | Lstringswitch (arg, cases, default) ->
         check_staticfails arg cxt;
         check_list_snd cases cxt;
-        Option.iter (fun x -> check_staticfails x cxt) default
+        Option.iter ~f:(fun x -> check_staticfails x cxt) default
     | Lstaticraise (i, args) ->
         if Int.Set.mem i cxt then check_list args cxt
         else failwith ("exit " ^ string_of_int i ^ " unbound")
@@ -121,14 +121,14 @@ let check file lam =
         iter arg;
         iter_list_snd sw.sw_consts;
         iter_list_snd sw.sw_blocks;
-        Option.iter iter sw.sw_failaction;
+        Option.iter ~f:iter sw.sw_failaction;
         assert (
           not
             (sw.sw_failaction <> None && sw.sw_consts_full && sw.sw_blocks_full))
     | Lstringswitch (arg, cases, default) ->
         iter arg;
         iter_list_snd cases;
-        Option.iter iter default
+        Option.iter ~f:iter default
     | Lstaticraise (_i, args) -> iter_list args
     | Lstaticcatch (e1, (_, vars), e2) ->
         iter e1;

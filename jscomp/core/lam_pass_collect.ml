@@ -147,11 +147,11 @@ let collect_info =
         collect meta l;
         List.iter ~f:(fun (_, x) -> collect meta x) sw_consts;
         List.iter ~f:(fun (_, x) -> collect meta x) sw_blocks;
-        Option.iter (collect meta) sw_failaction
+        Option.iter ~f:(collect meta) sw_failaction
     | Lstringswitch (l, sw, d) ->
         collect meta l;
         List.iter ~f:(fun (_, x) -> collect meta x) sw;
-        Option.iter (collect meta) d
+        Option.iter ~f:(collect meta) d
     | Lstaticraise (_code, ls) -> List.iter ~f:(collect meta) ls
     | Lstaticcatch (l1, (_, _), l2) ->
         collect meta l1;

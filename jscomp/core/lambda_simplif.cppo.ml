@@ -69,11 +69,11 @@ let rec emit_tail_infos is_tail lambda =
       emit_tail_infos false lam;
       list_emit_tail_infos_fun snd is_tail sw.sw_consts;
       list_emit_tail_infos_fun snd is_tail sw.sw_blocks;
-      Option.iter (emit_tail_infos is_tail) sw.sw_failaction
+      Option.iter ~f:(emit_tail_infos is_tail) sw.sw_failaction
   | Lstringswitch (lam, sw, d, _) ->
       emit_tail_infos false lam;
       List.iter ~f:(fun (_, lam) -> emit_tail_infos is_tail lam) sw;
-      Option.iter (emit_tail_infos is_tail) d
+      Option.iter ~f:(emit_tail_infos is_tail) d
   | Lstaticraise (_, l) -> list_emit_tail_infos false l
   | Lstaticcatch (body, _, handler) ->
       emit_tail_infos is_tail body;

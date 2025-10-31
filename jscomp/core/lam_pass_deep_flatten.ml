@@ -304,11 +304,11 @@ let deep_flatten =
             sw_blocks = List.map_snd sw_blocks ~f:aux;
             sw_consts_full;
             sw_blocks_full;
-            sw_failaction = Option.map aux sw_failaction;
+            sw_failaction = Option.map ~f:aux sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
-        Lam.stringswitch (aux l) (List.map_snd sw ~f:aux) (Option.map aux d)
+        Lam.stringswitch (aux l) (List.map_snd sw ~f:aux) (Option.map ~f:aux d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (aux l1) ids (aux l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (aux l1) v (aux l2)
