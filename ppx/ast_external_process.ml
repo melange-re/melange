@@ -889,7 +889,7 @@ module From_attributes = struct
           { name; external_module_name; _ } ->
           upgrade (is_package_relative_path name);
           Option.iter
-            (fun (name : External_ffi_types.External_module_name.t) ->
+            ~f:(fun (name : External_ffi_types.External_module_name.t) ->
               upgrade (is_package_relative_path name.bundle))
             external_module_name;
           valid_global_name ~loc name
@@ -905,12 +905,13 @@ module From_attributes = struct
       | Js_new { external_module_name; name; _ }
       | Js_call { external_module_name; name; variadic = _; scopes = _ } ->
           Option.iter
-            (fun (external_module_name :
-                   External_ffi_types.External_module_name.t) ->
-              upgrade (is_package_relative_path external_module_name.bundle))
+            ~f:(fun
+                (external_module_name :
+                  External_ffi_types.External_module_name.t)
+              -> upgrade (is_package_relative_path external_module_name.bundle))
             external_module_name;
           Option.iter
-            (fun name -> check_external_module_name ~loc name)
+            ~f:(fun name -> check_external_module_name ~loc name)
             external_module_name;
           valid_global_name ~loc name);
       !xrelative

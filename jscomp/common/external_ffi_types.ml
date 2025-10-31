@@ -101,7 +101,7 @@ module External_spec = struct
         match t2 with
         | Js_var { name = n2; external_module_name = mn2; scopes = ss2 } ->
             String.equal n1 n2
-            && Option.equal External_module_name.equal mn1 mn2
+            && Option.equal ~eq:External_module_name.equal mn1 mn2
             && List.equal ~eq:String.equal ss1 ss2
         | _ -> false)
     | Js_module_as_var mn1 -> (
@@ -129,7 +129,7 @@ module External_spec = struct
               scopes = ss2;
             } ->
             String.equal n1 n2
-            && Option.equal External_module_name.equal mn1 mn2
+            && Option.equal ~eq:External_module_name.equal mn1 mn2
             && Bool.equal v1 v2
             && List.equal ~eq:String.equal ss1 ss2
         | _ -> false)
@@ -164,7 +164,7 @@ module External_spec = struct
               scopes = ss2;
             } ->
             String.equal n1 n2
-            && Option.equal External_module_name.equal mn1 mn2
+            && Option.equal ~eq:External_module_name.equal mn1 mn2
             && Bool.equal v1 v2
             && List.equal ~eq:String.equal ss1 ss2
         | _ -> false)

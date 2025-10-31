@@ -122,7 +122,7 @@ let pp_deps_program =
     (program : J.deps_program)
   ->
     Option.iter
-      (fun preamble ->
+      ~f:(fun preamble ->
         P.string f preamble;
         P.newline f)
       program.preamble;
