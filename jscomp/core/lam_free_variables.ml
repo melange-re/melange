@@ -71,11 +71,11 @@ let pass_free_variables =
         free fv arg;
         free_list_snd fv sw.sw_consts;
         free_list_snd fv sw.sw_blocks;
-        Option.iter (free fv) sw.sw_failaction
+        Option.iter ~f:(free fv) sw.sw_failaction
     | Lstringswitch (arg, cases, default) ->
         free fv arg;
         free_list_snd fv cases;
-        Option.iter (free fv) default
+        Option.iter ~f:(free fv) default
     | Lstaticraise (_, args) -> free_list fv args
     | Lifthenelse (e1, e2, e3) ->
         free fv e1;

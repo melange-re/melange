@@ -77,7 +77,6 @@ let handle_external ~loc x =
     Exp.ident { loc; txt = Ldot (Lident "Js", "undefinedToOption") }
   in
   let typeof = Exp.ident { loc; txt = Ldot (Lident "Js", "typeof") } in
-
   [%expr
     [%e undefined_typeof]
       (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]

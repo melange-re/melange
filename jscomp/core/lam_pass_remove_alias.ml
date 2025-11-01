@@ -314,7 +314,7 @@ let simplify_alias =
             sw_blocks = List.map_snd sw_blocks ~f:(simpl meta);
             sw_consts_full;
             sw_blocks_full;
-            sw_failaction = Option.map (simpl meta) sw_failaction;
+            sw_failaction = Option.map ~f:(simpl meta) sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
@@ -328,7 +328,7 @@ let simplify_alias =
         in
         Lam.stringswitch l
           (List.map_snd sw ~f:(simpl meta))
-          (Option.map (simpl meta) d)
+          (Option.map ~f:(simpl meta) d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:(simpl meta) ls)
     | Lstaticcatch (l1, ids, l2) ->
         Lam.staticcatch (simpl meta l1) ids (simpl meta l2)

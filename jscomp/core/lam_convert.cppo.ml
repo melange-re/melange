@@ -847,7 +847,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
           (List.map_snd cases ~f:convert_aux)
-          (Option.map convert_aux default)
+          (Option.map ~f:convert_aux default)
     | Lstaticraise (id, args) ->
         let id =
           match Int.Hashtbl.find exit_map id with
@@ -1062,7 +1062,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             sw_consts = List.map_snd s.sw_consts ~f:convert_aux;
             sw_blocks_full = List.length_ge s.sw_blocks s.sw_numblocks;
             sw_blocks = List.map_snd s.sw_blocks ~f:convert_aux;
-            sw_failaction = Option.map convert_aux s.sw_failaction;
+            sw_failaction = Option.map ~f:convert_aux s.sw_failaction;
             sw_names = s.sw_names;
           }
   in

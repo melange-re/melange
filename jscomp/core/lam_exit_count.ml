@@ -76,7 +76,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
     | Lstringswitch (l, sw, d) ->
         count l;
         List.iter ~f:(fun (_, x) -> count x) sw;
-        Option.iter count d
+        Option.iter ~f:count d
     | Lglobal_module _ | Lvar _ | Lmutvar _ | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         count ap_func;

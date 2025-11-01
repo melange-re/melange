@@ -46,7 +46,9 @@ let flatten_tuple_pattern_vb =
     let pvb_pat = self#pattern vb.pvb_pat in
     let pvb_expr = self#expression vb.pvb_expr in
     let pvb_attributes = self#attributes vb.pvb_attributes in
-    let pvb_constraint = Option.map self#value_constraint vb.pvb_constraint in
+    let pvb_constraint =
+      Option.map ~f:self#value_constraint vb.pvb_constraint
+    in
     match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
     | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
         match Ast_open_cxt.destruct_open_tuple pvb_expr with
