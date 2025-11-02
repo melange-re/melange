@@ -138,7 +138,7 @@ let bracket fmt u =
 let brace_vgroup st n action =
   string st "{";
   let v =
-    vgroup st n (fun _ ->
+    vgroup st n (fun () ->
         newline st;
         let v = action () in
         v)
@@ -150,7 +150,7 @@ let brace_vgroup st n action =
 let bracket_vgroup st n action =
   string st "[";
   let v =
-    vgroup st n (fun _ ->
+    vgroup st n (fun () ->
         newline st;
         let v = action () in
         v)
@@ -159,12 +159,12 @@ let bracket_vgroup st n action =
   string st "]";
   v
 
-let bracket_group st n action = group st n (fun _ -> bracket st action)
+let bracket_group st n action = group st n (fun () -> bracket st action)
 
 let paren_vgroup st n action =
   string st "(";
   let v =
-    group st n (fun _ ->
+    group st n (fun () ->
         newline st;
         let v = action () in
         v)
@@ -173,7 +173,7 @@ let paren_vgroup st n action =
   string st ")";
   v
 
-let paren_group st n action = group st n (fun _ -> paren st action)
+let paren_group st n action = group st n (fun () -> paren st action)
 
 let cond_paren_group st b action =
   if b then paren_group st 0 action else action ()

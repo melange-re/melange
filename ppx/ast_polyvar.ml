@@ -27,19 +27,19 @@ module External_arg_spec = Melange_ffi.External_arg_spec
 
 let is_enum_polyvar =
   let is_enum row_fields =
-    List.for_all
-      ~f:(fun (x : row_field) ->
-        match x.prf_desc with
-        | Rtag (_, true, []) -> true
-        | Rtag _ | Rinherit _ -> false)
-      row_fields
+    List.for_all row_fields ~f:(function
+      | { prf_desc = Rtag (_, true, []); _ } -> true
+      | { prf_desc = Rtag _ | Rinherit _; _ } -> false)
   in
-  fun (ty : type_declaration) ->
-    match ty.ptype_manifest with
-    | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
-      when is_enum row_fields ->
-        Some row_fields
-    | Some _ | None -> None
+  function
+  | {
+      ptype_manifest =
+        Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ };
+      _;
+    }
+    when is_enum row_fields ->
+      Some row_fields
+  | { ptype_manifest = Some _ | None; _ } -> None
 
 let map_row_fields_into_ints =
   let process_mel_as ~attrs i =
@@ -103,30 +103,28 @@ let map_row_fields_into_strings =
 
 let map_row_fields_into_spread (row_fields : row_field list) ~loc =
   let result =
-    List.map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
-        match prf_desc with
-        | Rtag ({ txt; _ }, false, [ _ ]) ->
-            ( txt,
-              match Ast_attributes.iter_process_mel_as_cst prf_attributes with
-              | Some x -> x
-              | None -> Str txt )
-        | _ -> Error.err ~loc Invalid_mel_spread_type)
+    List.map row_fields ~f:(function
+      | { prf_desc = Rtag ({ txt; _ }, false, [ _ ]); prf_attributes; _ } ->
+          ( txt,
+            match Ast_attributes.iter_process_mel_as_cst prf_attributes with
+            | Some x -> x
+            | None -> Str txt )
+      | _ -> Error.err ~loc Invalid_mel_spread_type)
   in
   External_arg_spec.Poly_var { descr = result; spread = true }
 
 let infer_mel_as ~loc row_fields =
   let has_mel_as = ref false in
   let result =
-    List.filter_map row_fields ~f:(fun { prf_desc; prf_attributes; _ } ->
-        match prf_desc with
-        | Rtag ({ txt; _ }, _, _) -> (
-            match Ast_attributes.iter_process_mel_as_cst prf_attributes with
-            | Some x ->
-                has_mel_as := true;
-                Some (txt, x)
-            | None -> None)
-        | _ -> Error.err ~loc Invalid_mel_spread_type)
+    List.filter_map row_fields ~f:(function
+      | { prf_desc = Rtag ({ txt; _ }, _, _); prf_attributes; _ } -> (
+          match Ast_attributes.iter_process_mel_as_cst prf_attributes with
+          | Some x ->
+              has_mel_as := true;
+              Some (txt, x)
+          | None -> None)
+      | _ -> Error.err ~loc Invalid_mel_spread_type)
   in
-  if !has_mel_as then
-    External_arg_spec.Poly_var { descr = result; spread = false }
-  else Nothing
+  match !has_mel_as with
+  | true -> External_arg_spec.Poly_var { descr = result; spread = false }
+  | false -> Nothing

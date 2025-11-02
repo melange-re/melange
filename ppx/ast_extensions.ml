@@ -32,8 +32,6 @@ let local_external_apply =
     ~(pval_prim : string list)
     ~(pval_type : core_type)
     (arg : expression)
-    :
-    expression_desc
   ->
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
@@ -57,7 +55,7 @@ let local_external_apply =
 
 ]}
 *)
-let handle_external ~loc (x : string) =
+let handle_external ~loc x =
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
@@ -79,7 +77,6 @@ let handle_external ~loc (x : string) =
     Exp.ident { loc; txt = Ldot (Lident "Js", "undefinedToOption") }
   in
   let typeof = Exp.ident { loc; txt = Ldot (Lident "Js", "typeof") } in
-
   [%expr
     [%e undefined_typeof]
       (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
@@ -128,7 +125,7 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
                      "`%%mel.re' expects a valid JavaScript regular expression \
                       literal (`/regex/opt-flags')");
             Option.iter
-              (fun is_function ->
+              ~f:(fun is_function ->
                 match Melange_ffi.Classify_function.classify_exp prog with
                 | Js_function { arity = _; _ } -> is_function := true
                 | _ -> ())

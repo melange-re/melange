@@ -36,7 +36,7 @@ let same_vident (x : J.vident) (y : J.vident) =
         | _, _ -> false
       in
       Ident.same x.id y.id && same_kind x.kind y.kind
-      && Option.equal String.equal str_opt0 str_opt1
+      && Option.equal ~eq:String.equal str_opt0 str_opt1
   | Id _, Qualified _ | Qualified _, Id _ -> false
 
 type idents_stats = {
@@ -207,7 +207,7 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | ( Static_index { expr = e0; field = p0; pos = off0 },
       Static_index { expr = e1; field = p1; pos = off1 } ) ->
       String.equal p0 p1 && eq_expression e0 e1
-      && Option.equal Int32.equal off0 off1 (* could be relaxed *)
+      && Option.equal ~eq:Int32.equal off0 off1 (* could be relaxed *)
   | Seq (a0, b0), Seq (a1, b1) -> eq_expression a0 a1 && eq_expression b0 b1
   | Bool a0, Bool b0 -> Bool.equal a0 b0
   | Optional_block (a0, b0), Optional_block (a1, b1) ->

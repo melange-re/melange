@@ -1,10 +1,5 @@
 
   $ . ./setup.sh
-  $ cat >dune-project <<EOF
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
-
   $ cat > main.ml <<EOF
   > let f x =
   >   let rec aux x k =

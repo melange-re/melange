@@ -1,18 +1,6 @@
 Showcase how to use `[@mel.meth]`
 
   $ . ./setup.sh
-  $ cat > dune-project <<EOF
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
-  $ cat > dune <<EOF
-  > (melange.emit
-  >  (target melange)
-  >  (alias mel)
-  >  (emit_stdlib false)
-  >  (preprocess (pps melange.ppx)))
-  > EOF
-
   $ cat > main.ml <<EOF
   > let props : < foo : int -> string -> unit > Js.t =
   >   [%mel.raw
@@ -25,13 +13,14 @@ Showcase how to use `[@mel.meth]`
   > let x = props##foo 123 "abc"
   > EOF
 
-  $ dune build @mel
+  $ melc -ppx melppx main.ml
   File "main.ml", line 9, characters 8-18:
   9 | let x = props##foo 123 "abc"
               ^^^^^^^^^^
   Error: This method call has type int -> string -> unit
-         but an expression was expected of type ('a [@mel.meth])
-  [1]
+         but an expression was expected of type
+           ('a [@mel.meth]) = ('a [@mel.meth])
+  [2]
 
 Methods in ( < .. > Js.t) need a `[@mel.meth]` annotation
 
@@ -47,7 +36,7 @@ Methods in ( < .. > Js.t) need a `[@mel.meth]` annotation
   > let x = props##foo 123 "abc"
   > EOF
 
-  $ dune build @mel
-  $ node _build/default/melange/main.js
+  $ melc -ppx melppx main.ml > main.js
+  $ node ./main.js
   a: 123
   b: abc

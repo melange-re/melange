@@ -179,9 +179,9 @@ let rec iter_lst cxt ls element inter =
       iter_lst acxt r element inter
 
 let raw_snippet_exp_simple_enough (s : string) =
-  String.for_all
-    ~f:(function 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
-    s
+  String.for_all s ~f:(function
+    | 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true
+    | _ -> false)
 (* Parentheses are required when the expression
    starts syntactically with "{" or "function"
    TODO:  be more conservative, since Google Closure will handle
@@ -193,8 +193,7 @@ let raw_snippet_exp_simple_enough (s : string) =
    IIE does not apply (will be inlined?)
 *)
 
-(* e = function(x){...}(x);  is good
-*)
+(* e = function(x){...}(x);  is good *)
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
   (* | Caml_uninitialized_obj _  *)
@@ -407,9 +406,10 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
           let cxt = optimize len ~p:(arity = NA && len <= 8) cxt v in
           semi cxt;
           cxt
-      | Is_return | No_name _ ->
-          if fn_state = Is_return then return_sp cxt;
-          optimize len ~p:(arity = NA && len <= 8) cxt v)
+      | Is_return ->
+          return_sp cxt;
+          optimize len ~p:(arity = NA && len <= 8) cxt v
+      | No_name _ -> optimize len ~p:(arity = NA && len <= 8) cxt v)
   | _ ->
       let set_env =
         (* identifiers will be printed following*)
@@ -637,14 +637,13 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt L.fromCharcode;
           paren_group cxt 1 (fun () -> arguments cxt [ e ]))
   | Unicode s ->
+      (* TODO: when utf8, '\\' won't be escaped which is definitely not what we
+         want *)
       string cxt "\"";
       string cxt s;
       string cxt "\"";
       cxt
   | Str s ->
-      (*TODO --
-         when utf8-> it will not escape '\\' which is definitely not we want
-      *)
       Js_dump_string.pp_string cxt.pp s;
       cxt
   | Module module_id ->
@@ -669,12 +668,13 @@ and expression_desc cxt ~(level : int) x : cxt =
             newline cxt;
             string cxt L.rparen);
           cxt
-      | Stmt stmt_info ->
-          if stmt_info = Js_stmt_comment then string cxt s
-          else (
-            newline cxt;
-            string cxt s;
-            newline cxt);
+      | Stmt Js_stmt_comment ->
+          string cxt s;
+          cxt
+      | Stmt Js_stmt_unknown ->
+          newline cxt;
+          string cxt s;
+          newline cxt;
           cxt)
   | Number v ->
       let s =
@@ -913,11 +913,13 @@ and expression_desc cxt ~(level : int) x : cxt =
          ]}
       *)
       cond_paren_group cxt (level > 1) (fun () ->
-          if lst = [] then (
-            string cxt "{}";
-            cxt)
-          else
-            brace_vgroup cxt 1 (fun () -> property_name_and_value_list cxt lst))
+          match lst with
+          | [] ->
+              string cxt "{}";
+              cxt
+          | _ :: _ ->
+              brace_vgroup cxt 1 (fun () ->
+                  property_name_and_value_list cxt lst))
 
 and property_name_and_value_list cxt (l : J.property_map) =
   iter_lst cxt l
@@ -949,8 +951,10 @@ and arguments cxt (l : E.t list) : cxt =
 and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
   (* TODO: print [const/var] for different backends  *)
   match variable with
-  | { ident = i; value = None; ident_info; _ } ->
-      if ident_info.used_stats = Dead_pure then cxt else pp_var_declare cxt i
+  | { ident = i; value = None; ident_info; _ } -> (
+      match ident_info.used_stats with
+      | Dead_pure -> cxt
+      | _ -> pp_var_declare cxt i)
   | {
    ident = name;
    value = Some e;

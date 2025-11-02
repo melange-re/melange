@@ -73,7 +73,7 @@ let property_access f s =
     P.string f L.dot;
     P.string f s)
   else
-    P.bracket_group f 1 (fun _ ->
+    P.bracket_group f 1 (fun () ->
         (* avoid cases like
            "0123", "123_456"
         *)

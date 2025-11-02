@@ -417,7 +417,7 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         let new_l = simplif l
         and new_consts = List.map_snd sw.sw_consts ~f:simplif
         and new_blocks = List.map_snd sw.sw_blocks ~f:simplif
-        and new_fail = Option.map simplif sw.sw_failaction in
+        and new_fail = Option.map ~f:simplif sw.sw_failaction in
         Lam.switch new_l
           {
             sw with
@@ -427,7 +427,7 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
           }
     | Lstringswitch (l, sw, d) ->
         Lam.stringswitch (simplif l) (List.map_snd sw ~f:simplif)
-          (Option.map simplif d)
+          (Option.map ~f:simplif d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:simplif ls)
     | Lstaticcatch (l1, (i, args), l2) ->
         Lam.staticcatch (simplif l1) (i, args) (simplif l2)

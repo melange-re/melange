@@ -53,6 +53,8 @@ Unreleased
 - runtime: add more functions to `Js.Array` module
   ([#1635](https://github.com/melange-re/melange/pull/1635))
 
+- core: update reserved keywords list to account for new browser additions
+  ([#1644](https://github.com/melange-re/melange/pull/1644))
 
 5.1.0-53 2025-03-23
 ---------------

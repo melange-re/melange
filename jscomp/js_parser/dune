@@ -1,4 +1,3 @@
 (library
  (name js_parser)
- (public_name melange.js_parser)
- (flags :standard -w -69))
+ (public_name melange.js_parser))

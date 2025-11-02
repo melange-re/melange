@@ -213,7 +213,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
         let new_l = simplif l in
         let new_consts = List.map_snd sw.sw_consts ~f:simplif in
         let new_blocks = List.map_snd sw.sw_blocks ~f:simplif in
-        let new_fail = Option.map simplif sw.sw_failaction in
+        let new_fail = Option.map ~f:simplif sw.sw_failaction in
         Lam.switch new_l
           {
             sw with
@@ -224,7 +224,7 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
     | Lstringswitch (l, sw, d) ->
         Lam.stringswitch (simplif l)
           (List.map_snd sw ~f:simplif)
-          (Option.map simplif d)
+          (Option.map ~f:simplif d)
     | Ltrywith (l1, v, l2) ->
         incr try_depth;
         let l1 = simplif l1 in
