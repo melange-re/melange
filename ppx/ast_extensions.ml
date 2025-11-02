@@ -125,7 +125,7 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
                      "`%%mel.re' expects a valid JavaScript regular expression \
                       literal (`/regex/opt-flags')");
             Option.iter
-              (fun is_function ->
+              ~f:(fun is_function ->
                 match Melange_ffi.Classify_function.classify_exp prog with
                 | Js_function { arity = _; _ } -> is_function := true
                 | _ -> ())
