@@ -50,6 +50,9 @@ Unreleased
 - Upgrade the Melange JS parser to [Flow
   v0.288.0](https://github.com/facebook/flow/releases/tag/v0.288.0)
   ([#1627](https://github.com/melange-re/melange/pull/1627))
+- runtime: add more functions to `Js.Array` module
+  ([#1635](https://github.com/melange-re/melange/pull/1635))
+
 - core: update reserved keywords list to account for new browser additions
   ([#1644](https://github.com/melange-re/melange/pull/1644))
 
