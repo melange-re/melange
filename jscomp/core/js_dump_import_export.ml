@@ -70,17 +70,17 @@ let module_exports =
         P.space f;
         P.string f L.eq;
         P.space f;
-        P.brace_vgroup f 1 (fun _ ->
+        P.brace_vgroup f 1 (fun () ->
             rev_iter_inter reversed_list
               (fun (s, export) ->
-                P.group f 0 (fun _ ->
+                P.group f 0 (fun () ->
                     if not @@ String.equal export s then (
                       P.string f s;
                       P.string f L.colon;
                       P.space f);
                     P.string f export;
                     P.string f L.comma))
-              (fun _ -> P.newline f));
+              (fun () -> P.newline f));
         outer_cxt
 
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
@@ -96,10 +96,10 @@ let es6_export =
         P.at_least_two_lines f;
         P.string f L.export;
         P.space f;
-        P.brace_vgroup f 1 (fun _ ->
+        P.brace_vgroup f 1 (fun () ->
             rev_iter_inter reversed_list
               (fun (s, export) ->
-                P.group f 0 (fun _ ->
+                P.group f 0 (fun () ->
                     P.string f export;
                     if not @@ String.equal export s then (
                       P.space f;
@@ -107,7 +107,7 @@ let es6_export =
                       P.space f;
                       P.string f s);
                     P.string f L.comma))
-              (fun _ -> P.newline f));
+              (fun () -> P.newline f));
         outer_cxt
 
 type module_ = { id : Ident.t; path : string; default : bool }
@@ -131,7 +131,7 @@ let requires cxt f modules =
       P.string f L.eq;
       P.space f;
       P.string f L.require;
-      P.paren_group f 0 (fun _ -> Js_dump_string.pp_string f file);
+      P.paren_group f 0 (fun () -> Js_dump_string.pp_string f file);
       if default then (
         P.string f L.dot;
         P.string f L.default);
