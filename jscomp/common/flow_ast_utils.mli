@@ -22,16 +22,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val flow_deli_offset : string option -> int
-
-val check_flow_errors :
-  loc:Location.t ->
-  offset:int ->
-  (Js_parser.Loc.t * Js_parser.Parse_error.t) list ->
-  unit
+type check_errors =
+  | Dont_check
+  | Check of { loc : Location.t; delimiter : string option }
 
 val parse_expression :
-  Js_parser.Parser_env.env ->
-  bool ->
-  (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t
-  * (Js_parser.Loc.t * Js_parser.Parse_error.t) list
+  check_errors:check_errors ->
+  string ->
+  ( (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t',
+    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t'
+    * Js_parser.Parse_error.t )
+  result
+
+val parse_program :
+  check_errors:check_errors ->
+  string ->
+  ( (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Program.t',
+    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Program.t'
+    * Js_parser.Parse_error.t )
+  result

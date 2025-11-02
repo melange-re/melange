@@ -202,14 +202,12 @@ let iter_process_mel_as_cst =
                         | Some _ ->
                             (match
                                Melange_ffi.Classify_function.classify
-                                 ~check:
-                                   ( pexp_loc,
-                                     Melange_ffi.Flow_ast_utils.flow_deli_offset
-                                       dec )
+                                 ~check_errors:
+                                   (Check { loc = pexp_loc; delimiter = dec })
                                  s
                              with
                             | Js_literal _ -> ()
-                            | _ ->
+                            | Js_function _ | Js_exp_unknown ->
                                 Location.raise_errorf ~loc:pexp_loc
                                   "`[@mel.as {json| ... |json}]' only supports \
                                    JavaScript literals");

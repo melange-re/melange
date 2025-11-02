@@ -690,8 +690,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~args:[] ~loc
         | _ -> assert false)
     | "#raw_stmt" -> (
-        let args = List.map ~f:convert_aux args in
-        match args with
+        match List.map ~f:convert_aux args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
             let kind = Melange_ffi.Classify_function.classify_stmt code in
             Lam.prim
