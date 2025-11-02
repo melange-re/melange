@@ -93,14 +93,13 @@ let handle_debugger ~loc payload =
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
     ?is_function (x : payload) =
   match x with
-  (* TODO also need detect empty phrase case *)
   | PStr
       [
         {
           pstr_desc =
             Pstr_eval
               ( ({
-                   pexp_desc = Pexp_constant (Pconst_string (str, _, deli));
+                   pexp_desc = Pexp_constant (Pconst_string (str, _, delimiter));
                    pexp_loc = loc;
                    _;
                  } as e),
@@ -108,31 +107,40 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
           _;
         };
       ] ->
-      Melange_ffi.Flow_ast_utils.check_flow_errors ~loc
-        ~offset:(Melange_ffi.Flow_ast_utils.flow_deli_offset deli)
-        (match kind with
+      let () =
+        let check_errors =
+          Melange_ffi.Flow_ast_utils.Check { loc; delimiter }
+        in
+        match kind with
         | Raw_re | Raw_exp ->
-            let (_loc, prog), errors =
-              Melange_ffi.Flow_ast_utils.parse_expression
-                (Js_parser.Parser_env.init_env None str)
-                false
+            let prog =
+              match
+                Melange_ffi.Flow_ast_utils.parse_expression ~check_errors str
+              with
+              | Ok prog ->
+                  (match (kind, prog) with
+                  | Raw_re, RegExpLiteral _ -> ()
+                  | Raw_re, _ ->
+                      Location.raise_errorf ~loc
+                        "`%%mel.re' expects a valid JavaScript regular \
+                         expression literal (`/regex/opt-flags')"
+                  | _, _ -> ());
+                  prog
+              | Error (prog, _errors) -> prog
             in
-            (if kind = Raw_re then
-               match prog with
-               | RegExpLiteral _ -> ()
-               | _ ->
-                   Location.raise_errorf ~loc
-                     "`%%mel.re' expects a valid JavaScript regular expression \
-                      literal (`/regex/opt-flags')");
             Option.iter
               ~f:(fun is_function ->
                 match Melange_ffi.Classify_function.classify_exp prog with
                 | Js_function { arity = _; _ } -> is_function := true
                 | _ -> ())
-              is_function;
-            errors
+              is_function
         | Raw_program ->
-            snd (Js_parser.Parser_flow.parse_program false None str));
+            let _ : _ result =
+              Melange_ffi.Flow_ast_utils.parse_program ~check_errors:Dont_check
+                str
+            in
+            ()
+      in
       Some
         {
           e with

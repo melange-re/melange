@@ -22,7 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val classify : ?check:Location.t * int -> string -> Js_raw_info.exp
+val classify :
+  ?check_errors:Flow_ast_utils.check_errors -> string -> Js_raw_info.exp
 
 val classify_exp :
   (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t' ->

@@ -23,8 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
-module Parser_flow = Js_parser.Parser_flow
-module Parser_env = Js_parser.Parser_env
 module Flow_ast = Js_parser.Flow_ast
 
 let classify_exp =
@@ -92,25 +90,17 @@ let classify_exp =
       | true -> Js_literal { comment = None }
       | false -> Js_exp_unknown)
 
-(** It seems we do the parse twice
-    - in parsing
-    - in code generation *)
-let classify ?(check : (Location.t * int) option) (prog : string) :
-    Js_raw_info.exp =
-  let (_, prog), errors =
-    Flow_ast_utils.parse_expression (Parser_env.init_env None prog) false
-  in
-  match (check, errors) with
-  | Some (loc, offset), _ :: _ ->
-      Flow_ast_utils.check_flow_errors ~loc ~offset errors;
-      Js_exp_unknown
-  | Some _, [] | None, [] -> classify_exp prog
-  | None, _ :: _ -> Js_exp_unknown
+(* It seems we do the parse twice
+   - in parsing
+   - in code generation *)
+let classify ?(check_errors = Flow_ast_utils.Dont_check) prog =
+  match Flow_ast_utils.parse_expression ~check_errors prog with
+  | Ok prog -> classify_exp prog
+  | Error (_prog, _) -> Js_exp_unknown
 
 let classify_stmt (prog : string) : Js_raw_info.stmt =
-  let result = Parser_flow.parse_program false None prog in
-  match fst result with
-  | _loc, { statements = []; _ } -> Js_stmt_comment
-  | _ -> Js_stmt_unknown
+  match Flow_ast_utils.parse_program ~check_errors:Dont_check prog with
+  | Ok { statements = []; _ } -> Js_stmt_comment
+  | Ok _ | Error _ -> Js_stmt_unknown
 (* we can also analyze throw
    x.x pure access *)

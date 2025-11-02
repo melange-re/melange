@@ -40,7 +40,7 @@ let check_flow_errors =
   (* Here, [loc] is the payload loc *)
   fun ~(loc : Location.t) ~offset (errors : (Loc.t * Parse_error.t) list) ->
     match errors with
-    | [] -> ()
+    | [] -> None
     | ({ start; _end; _ }, first_error) :: _ ->
         let loc_start = loc.loc_start in
         Location.prerr_warning
@@ -49,7 +49,31 @@ let check_flow_errors =
             loc_start = offset_pos loc_start start offset;
             loc_end = offset_pos loc_start _end offset;
           }
-          (Mel_ffi_warning (Parse_error.PP.error first_error))
+          (Mel_ffi_warning (Parse_error.PP.error first_error));
+        Some first_error
+
+type check_errors =
+  | Dont_check
+  | Check of { loc : Location.t; delimiter : string option }
+
+let parse_generic : type a.
+    parser:(Parser_env.env -> 'x * a) ->
+    check_errors:check_errors ->
+    string ->
+    (a, a * Parse_error.t) result =
+ fun ~parser ~check_errors str ->
+  let env = Parser_env.init_env None str in
+  (* match Parser_env.Peek.token env with *)
+  (* | Token.T_EOF -> Error Parse_error.UnexpectedEOS *)
+  (* | _ -> *)
+  let (_, prog), errors = Parser_flow.do_parse env parser false in
+  match check_errors with
+  | Dont_check -> Ok prog
+  | Check { loc; delimiter } -> (
+      let offset = flow_deli_offset delimiter in
+      match check_flow_errors ~loc ~offset errors with
+      | Some e -> Error (prog, e)
+      | None -> Ok prog)
 
 let parse_expression =
   let with_eof parser env =
@@ -60,4 +84,8 @@ let parse_expression =
     ast
   in
   let parse = with_eof Parser_flow.Parse.expression in
-  fun env fail -> Parser_flow.do_parse env parse fail
+  fun ~check_errors str -> parse_generic ~parser:parse ~check_errors str
+
+let parse_program ~check_errors str =
+  let parser = Parser_flow.Parse.program in
+  parse_generic ~parser ~check_errors str
