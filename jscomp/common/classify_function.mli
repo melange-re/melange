@@ -23,10 +23,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val classify :
-  ?check_errors:Flow_ast_utils.check_errors -> string -> Js_raw_info.exp
+  ?check_errors:Flow_ast_utils.check_errors ->
+  loc:Location.t ->
+  string ->
+  Js_raw_info.exp
 
 val classify_exp :
   (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t' ->
   Js_raw_info.exp
 
-val classify_stmt : string -> Js_raw_info.stmt
+val classify_stmt : loc:Location.t -> string -> Js_raw_info.stmt

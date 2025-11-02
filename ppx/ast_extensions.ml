@@ -108,26 +108,24 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
         };
       ] ->
       let () =
-        let check_errors =
-          Melange_ffi.Flow_ast_utils.Check { loc; delimiter }
-        in
+        let check_errors = Melange_ffi.Flow_ast_utils.Check { delimiter } in
         match kind with
         | Raw_re | Raw_exp ->
             let prog =
               match
-                Melange_ffi.Flow_ast_utils.parse_expression ~check_errors str
+                Melange_ffi.Flow_ast_utils.parse_expression ~loc ~check_errors
+                  str
               with
-              | Ok prog ->
-                  (match (kind, prog) with
-                  | Raw_re, RegExpLiteral _ -> ()
-                  | Raw_re, _ ->
-                      Location.raise_errorf ~loc
-                        "`%%mel.re' expects a valid JavaScript regular \
-                         expression literal (`/regex/opt-flags')"
-                  | _, _ -> ());
-                  prog
-              | Error (prog, _errors) -> prog
+              | Ok prog -> prog
+              | Error { prog; error = _ } -> prog
             in
+            (match (kind, prog) with
+            | Raw_re, RegExpLiteral _ -> ()
+            | Raw_re, _ ->
+                Location.raise_errorf ~loc
+                  "`%%mel.re' expects a valid JavaScript regular expression \
+                   literal (`/regex/opt-flags')"
+            | _, _ -> ());
             Option.iter
               ~f:(fun is_function ->
                 match Melange_ffi.Classify_function.classify_exp prog with
@@ -136,8 +134,7 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
               is_function
         | Raw_program ->
             let _ : _ result =
-              Melange_ffi.Flow_ast_utils.parse_program ~check_errors:Dont_check
-                str
+              Melange_ffi.Flow_ast_utils.parse_program ~loc ~check_errors str
             in
             ()
       in

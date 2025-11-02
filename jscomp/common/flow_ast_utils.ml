@@ -52,27 +52,27 @@ let check_flow_errors =
           (Mel_ffi_warning (Parse_error.PP.error first_error));
         Some first_error
 
-type check_errors =
-  | Dont_check
-  | Check of { loc : Location.t; delimiter : string option }
+type check_errors = Dont_check | Check of { delimiter : string option }
+type 'a error = { prog : 'a; error : Js_parser.Parse_error.t }
 
 let parse_generic : type a.
+    loc:Location.t ->
+    ?env:Parser_env.env ->
     parser:(Parser_env.env -> 'x * a) ->
     check_errors:check_errors ->
     string ->
-    (a, a * Parse_error.t) result =
- fun ~parser ~check_errors str ->
-  let env = Parser_env.init_env None str in
-  (* match Parser_env.Peek.token env with *)
-  (* | Token.T_EOF -> Error Parse_error.UnexpectedEOS *)
-  (* | _ -> *)
+    (a, a error) result =
+ fun ~loc ?env ~parser ~check_errors str ->
+  let env =
+    match env with None -> Parser_env.init_env None str | Some env -> env
+  in
   let (_, prog), errors = Parser_flow.do_parse env parser false in
   match check_errors with
   | Dont_check -> Ok prog
-  | Check { loc; delimiter } -> (
+  | Check { delimiter } -> (
       let offset = flow_deli_offset delimiter in
       match check_flow_errors ~loc ~offset errors with
-      | Some e -> Error (prog, e)
+      | Some error -> Error { prog; error }
       | None -> Ok prog)
 
 let parse_expression =
@@ -84,8 +84,14 @@ let parse_expression =
     ast
   in
   let parse = with_eof Parser_flow.Parse.expression in
-  fun ~check_errors str -> parse_generic ~parser:parse ~check_errors str
+  fun ~loc ~check_errors str ->
+    let env = Parser_env.init_env None str in
+    match Parser_env.Peek.token env with
+    | Token.T_EOF ->
+        Location.raise_errorf ~loc
+          "Invalid `%%raw' expression: empty expressions aren't supported"
+    | _ -> parse_generic ~loc ~env ~parser:parse ~check_errors str
 
-let parse_program ~check_errors str =
+let parse_program ~loc ~check_errors str =
   let parser = Parser_flow.Parse.program in
-  parse_generic ~parser ~check_errors str
+  parse_generic ~loc ~parser ~check_errors str
