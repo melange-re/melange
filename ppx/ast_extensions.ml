@@ -112,13 +112,13 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
         ~offset:(Melange_ffi.Flow_ast_utils.flow_deli_offset deli)
         (match kind with
         | Raw_re | Raw_exp ->
-            let ((_loc, e) as prog), errors =
+            let (_loc, prog), errors =
               Melange_ffi.Flow_ast_utils.parse_expression
                 (Js_parser.Parser_env.init_env None str)
                 false
             in
             (if kind = Raw_re then
-               match e with
+               match prog with
                | RegExpLiteral _ -> ()
                | _ ->
                    Location.raise_errorf ~loc

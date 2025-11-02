@@ -25,7 +25,7 @@
 val classify : ?check:Location.t * int -> string -> Js_raw_info.exp
 
 val classify_exp :
-  (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t ->
+  (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t' ->
   Js_raw_info.exp
 
 val classify_stmt : string -> Js_raw_info.stmt
