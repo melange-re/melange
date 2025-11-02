@@ -1,9 +1,9 @@
 
   $ . ./setup.sh
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   >   external mk : int ->
   > (
-  >   [\`a|\`b]
+  >   [`a|`b]
   >    [@mel.string]
   > ) = "mk"
   > EOF
@@ -19,7 +19,7 @@
   /* This output is empty. Its source's type definitions, externals and/or unused code got optimized away. */
 
 
-  $ cat > x.mli <<EOF
+  $ cat > x.mli <<'EOF'
   >   [@@@mel.config { flags = [|"-unboxed-types"|] }]
   > EOF
   $ melc -ppx melppx x.mli

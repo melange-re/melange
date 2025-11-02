@@ -2,11 +2,11 @@ Test that `@mel.as` can generate empty strings
 
   $ . ./setup.sh
 
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > type t = A [@mel.as ""]
-  > external foo: [ \`Foo [@mel.as ""] ] -> unit = "someFn"
+  > external foo: [ `Foo [@mel.as ""] ] -> unit = "someFn"
   > let t = A
-  > let () = foo \`Foo
+  > let () = foo `Foo
   > EOF
 
   $ melc -ppx melppx x.ml

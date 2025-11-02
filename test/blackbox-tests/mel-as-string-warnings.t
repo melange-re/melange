@@ -2,7 +2,7 @@
 
 This external triggers the `redundant` alert
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo ][@mel.string]) -> string = "foo"
   > let _ = foo `foo
   > EOF
@@ -21,7 +21,7 @@ This external triggers the `redundant` alert
 
 But this does not
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo [@mel.as "bar"] ][@mel.string]) -> unit = "foo"
   > let _ = foo `foo
   > EOF
@@ -36,7 +36,7 @@ But this does not
 
 This case doesn't warn, but it probably should
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo of string ][@mel.string]) -> string = "foo"
   > let _ = foo (`foo "bar")
   > EOF
@@ -51,7 +51,7 @@ This case doesn't warn, but it probably should
 
 The analog case with `@mel.int` fails to build
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo of int ][@mel.int]) -> string = "foo"
   > let _ = foo (`foo 2)
   > EOF
@@ -66,7 +66,7 @@ The analog case with `@mel.int` fails to build
 
 This is wrong, just because there's `[@mel.as]` we shouldn't splice the payload in
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo of int [@mel.as "bar"]]) -> string = "foo"
   > let _ = foo (`foo 2)
   > EOF
@@ -81,7 +81,7 @@ This is wrong, just because there's `[@mel.as]` we shouldn't splice the payload 
   });
   /*  Not a pure module */
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > external foo : ([ `foo [@mel.as "bar"]][@mel.unwrap]) -> string = "foo"
   > let _ = foo `foo
   > EOF

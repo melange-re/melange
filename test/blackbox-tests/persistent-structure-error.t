@@ -8,16 +8,16 @@ The issue seems to happen due to a combination of two things:
 
   $ mkdir inner outer
 
-  $ cat > inner/inner.ml <<\EOF
+  $ cat > inner/inner.ml <<'EOF'
   > type error = A
   > EOF
 
-  $ cat > outer/outer.ml <<\EOF
+  $ cat > outer/outer.ml <<'EOF'
   > type error = Inner.error = | A
   > exception Exn of Inner.error
   > EOF
 
-  $ cat > main.ml <<\EOF
+  $ cat > main.ml <<'EOF'
   > let f x =
   >   match x with
   >   | e -> e
