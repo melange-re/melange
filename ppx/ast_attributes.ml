@@ -202,8 +202,8 @@ let iter_process_mel_as_cst =
                         | Some _ ->
                             (match
                                Melange_ffi.Classify_function.classify
-                                 ~check_errors:
-                                   (Check { loc = pexp_loc; delimiter = dec })
+                                 ~loc:pexp_loc
+                                 ~check_errors:(Check { delimiter = dec })
                                  s
                              with
                             | Js_literal _ -> ()

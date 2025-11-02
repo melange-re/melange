@@ -684,7 +684,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         match args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
             (* js parsing here *)
-            let kind = Melange_ffi.Classify_function.classify code in
+            let kind = Melange_ffi.Classify_function.classify ~loc code in
             Lam.prim
               ~primitive:(Praw_js_code { code; code_info = Exp kind })
               ~args:[] ~loc
@@ -692,7 +692,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | "#raw_stmt" -> (
         match List.map ~f:convert_aux args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
-            let kind = Melange_ffi.Classify_function.classify_stmt code in
+            let kind = Melange_ffi.Classify_function.classify_stmt ~loc code in
             Lam.prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
               ~args:[] ~loc

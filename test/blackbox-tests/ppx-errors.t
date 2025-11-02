@@ -104,6 +104,10 @@ Demonstrate PPX error messages
   > let () = [%mel.re "just a string"]
   > EOF
   $ melc -ppx melppx x.ml
+  File "x.ml", line 1, characters 24-25:
+  1 | let () = [%mel.re "just a string"]
+                              ^
+  Warning 103 [melange-ffi-warning]: FFI warning: Unexpected identifier, expected the end of input
   File "x.ml", line 1, characters 18-33:
   1 | let () = [%mel.re "just a string"]
                         ^^^^^^^^^^^^^^^

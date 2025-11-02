@@ -52,9 +52,10 @@ Unreleased
   ([#1627](https://github.com/melange-re/melange/pull/1627))
 - runtime: add more functions to `Js.Array` module
   ([#1635](https://github.com/melange-re/melange/pull/1635))
-
 - core: update reserved keywords list to account for new browser additions
   ([#1644](https://github.com/melange-re/melange/pull/1644))
+- ppx: disallow empty `%raw` expressions, which would cause syntax errors in
+  code generation ([#1651](https://github.com/melange-re/melange/pull/1651))
 
 5.1.0-53 2025-03-23
 ---------------

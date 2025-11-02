@@ -93,13 +93,13 @@ let classify_exp =
 (* It seems we do the parse twice
    - in parsing
    - in code generation *)
-let classify ?(check_errors = Flow_ast_utils.Dont_check) prog =
-  match Flow_ast_utils.parse_expression ~check_errors prog with
+let classify ?(check_errors = Flow_ast_utils.Dont_check) ~loc str =
+  match Flow_ast_utils.parse_expression ~loc ~check_errors str with
+  | Error _ -> Js_raw_info.Js_exp_unknown
   | Ok prog -> classify_exp prog
-  | Error (_prog, _) -> Js_exp_unknown
 
-let classify_stmt (prog : string) : Js_raw_info.stmt =
-  match Flow_ast_utils.parse_program ~check_errors:Dont_check prog with
+let classify_stmt ~loc (prog : string) : Js_raw_info.stmt =
+  match Flow_ast_utils.parse_program ~loc ~check_errors:Dont_check prog with
   | Ok { statements = []; _ } -> Js_stmt_comment
   | Ok _ | Error _ -> Js_stmt_unknown
 (* we can also analyze throw

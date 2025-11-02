@@ -22,22 +22,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type check_errors =
-  | Dont_check
-  | Check of { loc : Location.t; delimiter : string option }
+(* val check_flow_errors :
+  loc:Location.t ->
+  offset:int ->
+  (Js_parser.Loc.t * Js_parser.Parse_error.t) list ->
+  Js_parser.Parse_error.t option *)
+
+type check_errors = Dont_check | Check of { delimiter : string option }
+type 'a error = { prog : 'a; error : Js_parser.Parse_error.t }
 
 val parse_expression :
+  loc:Location.t ->
   check_errors:check_errors ->
   string ->
   ( (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t',
-    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t'
-    * Js_parser.Parse_error.t )
+    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t' error
+  )
   result
 
 val parse_program :
+  loc:Location.t ->
   check_errors:check_errors ->
   string ->
   ( (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Program.t',
-    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Program.t'
-    * Js_parser.Parse_error.t )
+    (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Program.t' error )
   result
