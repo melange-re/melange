@@ -97,7 +97,6 @@ let classify_exp =
     | _, _ ->
         if is_obj_literal prog then Js_literal { comment = None }
         else Js_exp_unknown
-    | exception _ -> Js_exp_unknown
 
 (** It seems we do the parse twice
     - in parsing
