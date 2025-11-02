@@ -54,8 +54,7 @@ val space : t -> unit
 
 val group : t -> int -> (unit -> 'a) -> 'a
 (** [group] will record current indentation
-    and indent futher
- *)
+    and indent futher *)
 
 val vgroup : t -> int -> (unit -> 'a) -> 'a
 val paren : t -> (unit -> 'a) -> 'a
