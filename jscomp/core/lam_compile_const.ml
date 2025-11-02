@@ -40,8 +40,7 @@ let rec translate (x : Lam.Constant.t) : J.expression =
       let comment = Lam.Constant.comment_of_pointer_info cstr_data in
       match Lam.Constant.modifier_of_pointer_info cstr_data with
       | None -> E.int i ?comment
-      | Some (Int i) -> E.int (Int32.of_int i) ?comment
-      | Some (String s) -> E.unicode ?comment s)
+      | Some modifier -> E.as_value ?comment modifier)
   | Const_char i -> Js_of_lam_string.const_char i
   (* E.float (Int32.to_string i) *)
   | Const_int64 i ->
