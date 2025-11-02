@@ -1,7 +1,7 @@
 
   $ . ./setup.sh
-  $ cat > x.ml <<EOF
-  > external mk : int -> ([ \`a | \`b ][@mel.string]) = ""
+  $ cat > x.ml <<'EOF'
+  > external mk : int -> ([ `a | `b ][@mel.string]) = ""
   > EOF
 
 Alerts enabled

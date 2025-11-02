@@ -2,7 +2,7 @@ Test the attribute @mel.as in external with @mel.set
 
   $ . ./setup.sh
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > type document
   > 
   > external document : document = "document"
@@ -28,7 +28,7 @@ Test the attribute @mel.as in external with @mel.set
   document.transitionTimingFunction = "ease-in";
   /*  Not a pure module */
 
-  $ cat > x.ml <<\EOF
+  $ cat > x.ml <<'EOF'
   > type document
   > 
   > external document : document = "document"

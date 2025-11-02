@@ -1,14 +1,14 @@
 Test `@mel.as` in `@mel.obj` and `%mel.obj`
 
   $ . ./setup.sh
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > external func :
   >   foo:(string [@mel.as "bar"]) ->
-  >   ?polyParam1:([ \`Str of string | \`Int of int ][@mel.as "poly-param1"]) ->
-  >   ?polyParam2:([ \`Str of string | \`Int of int ][@mel.unwrap][@mel.as "poly-param2"]) ->
+  >   ?polyParam1:([ `Str of string | `Int of int ][@mel.as "poly-param1"]) ->
+  >   ?polyParam2:([ `Str of string | `Int of int ][@mel.unwrap][@mel.as "poly-param2"]) ->
   >   unit -> _ = ""
   > [@@mel.obj]
-  > let x = func ~foo:"x" ~polyParam1:(\`Str "hello") ~polyParam2:(\`Int 5) ()
+  > let x = func ~foo:"x" ~polyParam1:(`Str "hello") ~polyParam2:(`Int 5) ()
   > (* wildcard [@mel.as] constants still work *)
   > external ff : lo:(_ [@mel.as 3]) -> hi:int -> _ Js.t = "" [@@mel.obj]
   > let y: < > Js.t = ff ~hi:42
@@ -39,7 +39,7 @@ Test `@mel.as` in `@mel.obj` and `%mel.obj`
   /* No side effect */
 
 
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > let x =
   >   [%mel.obj
   >     {

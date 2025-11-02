@@ -44,9 +44,9 @@
 Show that `{j| ... |j}` with interpolation doesn't work because string
 concatenation isn't a literal
 
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > let x = "xx"
-  > let () = Js.log (Format.sprintf {j|你 \$(x) %s|j} "xx")
+  > let () = Js.log (Format.sprintf {j|你 $(x) %s|j} "xx")
   > EOF
   $ dune build @mel
   File "x.ml", line 1:

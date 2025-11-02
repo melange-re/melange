@@ -1,8 +1,8 @@
 
   $ . ./setup.sh
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > external err :
-  >   hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
+  >   hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   >   unit -> _ = "" [@@mel.obj]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
@@ -13,9 +13,9 @@
          carrying payloads
   [2]
 
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > external err :
-  >   ?hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
+  >   ?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   >   unit -> _ = "" [@@mel.obj]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
@@ -26,9 +26,9 @@
          variants carrying payloads
   [2]
 
-  $ cat > x.ml <<EOF
+  $ cat > x.ml <<'EOF'
   > external err :
-  >   ?hi_should_error:([\`a of int | \`b of string ] [@mel.string]) ->
+  >   ?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
   >   unit -> unit = "err"
   > EOF
   $ melc -ppx melppx x.ml
