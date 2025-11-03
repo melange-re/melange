@@ -31,7 +31,14 @@ type error =
   | Unmatched_paren
   | Invalid_syntax_of_var of string
 
-type kind = String | Var of int * int
+type content =
+  | String of string
+  | Var of {
+      lident : Longident.t;
+      content : string;
+      loffset : int;
+      roffset : int;
+    }
 
 (* Note the position is about code point *)
 type pos = {
@@ -47,7 +54,9 @@ val transform :
   loc:Location.t -> delim:string -> expression -> string -> expression
 
 module Private : sig
-  type segment = { start : pos; finish : pos; kind : kind; content : string }
+  type segment = { start : pos; finish : pos; content : content }
 
   val transform_test : string -> segment list
 end
+
+
