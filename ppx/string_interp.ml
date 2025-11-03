@@ -31,7 +31,15 @@ type error =
   | Unmatched_paren
   | Invalid_syntax_of_var of string
 
-type kind = String | Var of int * int
+type content =
+  | String of string
+  | Var of {
+      lident : Longident.t;
+      content : string;
+      loffset : int;
+      roffset : int;
+    }
+
 (* [Var (loffset, roffset)]
    For parens it used to be (2,-1)
    for non-parens it used to be (1,0) *)
@@ -44,7 +52,7 @@ type pos = {
       (* Note it actually needs to be in sync with OCaml's lexing semantics *)
 }
 
-type segment = { start : pos; finish : pos; kind : kind; content : string }
+type segment = { start : pos; finish : pos; content : content }
 
 type cxt = {
   mutable segment_start : pos;
@@ -58,43 +66,34 @@ type cxt = {
 
 exception Error of pos * pos * error
 
-let pp_error fmt err =
-  Format.pp_print_string fmt
-  @@
-  match err with
-  | Invalid_code_point -> "Invalid code point"
-  | Unterminated_backslash -> "\\ ended unexpectedly"
-  | Unterminated_variable -> "$ unterminated"
-  | Unmatched_paren -> "Unmatched paren"
-  | Invalid_syntax_of_var s ->
-      "`" ^ s ^ "' is not a valid syntax of interpolated identifer"
+let pp_error =
+  let to_string = function
+    | Invalid_code_point -> "Invalid code point"
+    | Unterminated_backslash -> "\\ ended unexpectedly"
+    | Unterminated_variable -> "$ unterminated"
+    | Unmatched_paren -> "Unmatched paren"
+    | Invalid_syntax_of_var s ->
+        "`" ^ s ^ "' is not a valid syntax of interpolated identifer"
+  in
+  fun fmt err -> Format.pp_print_string fmt (to_string err)
 
 let valid_lead_identifier_char = function
   | 'a' .. 'z' | '_' -> true
   | _ -> false
 
 let valid_identifier_char = function
-  | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '\'' -> true
+  | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '\'' | '.' -> true
   | _ -> false
 
 (* Invariant: [valid_lead_identifier] has to be [valid_identifier] *)
-let valid_identifier =
-  let for_all_from =
-    let rec unsafe_for_all_range s ~start ~finish p =
-      start > finish
-      || p (String.unsafe_get s start)
-         && unsafe_for_all_range s ~start:(start + 1) ~finish p
-    in
-    fun s start p ->
-      let len = String.length s in
-      if start < 0 then invalid_arg "for_all_from"
-      else unsafe_for_all_range s ~start ~finish:(len - 1) p
-  in
-  fun s ->
-    let s_len = String.length s in
-    if s_len = 0 then false
-    else
-      valid_lead_identifier_char s.[0] && for_all_from s 1 valid_identifier_char
+let valid_identifier s =
+  match String.length (String.trim s) with
+  | 0 -> None
+  | _n -> (
+      match String.for_all s ~f:valid_identifier_char with
+      | true -> (
+          match Longident.parse s with li -> Some li | exception _ -> None)
+      | false -> None)
 
 (* FIXME: multiple line offset
    if there is no line offset. Note {|{j||} border will never trigger a new
@@ -130,24 +129,23 @@ let pos_error cxt ~loc error =
          },
          error ))
 
-let add_var_segment cxt loc loffset roffset =
+let add_var_segment cxt ~loc ~loffset ~roffset =
   let content = Buffer.contents cxt.buf in
   Buffer.clear cxt.buf;
   let next_loc =
     { lnum = cxt.pos_lnum; offset = loc - cxt.pos_bol; byte_bol = cxt.byte_bol }
   in
   match valid_identifier content with
-  | true ->
+  | Some lident ->
       cxt.segments <-
         {
           start = cxt.segment_start;
           finish = next_loc;
-          kind = Var (loffset, roffset);
-          content;
+          content = Var { content; loffset; roffset; lident };
         }
         :: cxt.segments;
       cxt.segment_start <- next_loc
-  | false ->
+  | None ->
       let cxt =
         match String.trim content with
         | "" ->
@@ -179,7 +177,7 @@ let add_str_segment cxt loc =
     { lnum = cxt.pos_lnum; offset = loc - cxt.pos_bol; byte_bol = cxt.byte_bol }
   in
   cxt.segments <-
-    { start = cxt.segment_start; finish = next_loc; kind = String; content }
+    { start = cxt.segment_start; finish = next_loc; content = String content }
     :: cxt.segments;
   cxt.segment_start <- next_loc
 
@@ -227,7 +225,7 @@ and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
       done;
       let added_length = !v - offset in
       let loc = added_length + loc in
-      add_var_segment cxt loc 1 0;
+      add_var_segment cxt ~loc ~loffset:1 ~roffset:0;
       check_and_transform loc s (added_length + offset) cxt
 
 and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
@@ -241,7 +239,7 @@ and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
   let loc = added_length + 1 + loc in
   match !v < s_len && s.[!v] = ')' with
   | true ->
-      add_var_segment cxt loc 2 (-1);
+      add_var_segment cxt ~loc ~loffset:2 ~roffset:(-1);
       check_and_transform loc s (added_length + 1 + offset) cxt
   | false -> pos_error cxt ~loc Unmatched_paren
 
@@ -261,12 +259,12 @@ let rec handle_segments =
     else if r.loc_ghost then l
     else { loc_start = l.loc_start; loc_end = r.loc_end; loc_ghost = false }
   in
-  let aux loc { start; finish; kind; content } =
-    match kind with
-    | String ->
+  let aux loc { start; finish; content } =
+    match content with
+    | String content ->
         let loc = update border start finish loc in
         Exp.constant (Pconst_string (content, loc, escaped_js_delimiter))
-    | Var (soffset, foffset) ->
+    | Var { loffset = soffset; roffset = foffset; content = _; lident } ->
         let loc =
           {
             loc with
@@ -274,7 +272,7 @@ let rec handle_segments =
             loc_end = update_position (foffset + border) finish loc.loc_start;
           }
         in
-        Exp.ident ~loc { loc; txt = Lident content }
+        Exp.ident ~loc { loc; txt = lident }
   in
   let concat_exp a_loc x ~(lhs : expression) =
     let loc = merge_loc a_loc lhs.pexp_loc in
@@ -286,7 +284,7 @@ let rec handle_segments =
     match rev_segments with
     | [] -> Exp.constant (Pconst_string ("", loc, escaped_js_delimiter))
     | [ segment ] -> aux loc segment (* string literal *)
-    | { content = ""; _ } :: rest -> handle_segments loc rest
+    | { content = String ""; _ } :: rest -> handle_segments loc rest
     | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
 
 let transform =
@@ -320,8 +318,7 @@ module Private = struct
   type nonrec segment = segment = {
     start : pos;
     finish : pos;
-    kind : kind;
-    content : string;
+    content : content;
   }
 
   let transform_test s =
