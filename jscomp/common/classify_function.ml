@@ -94,13 +94,20 @@ let classify_exp =
    - in parsing
    - in code generation *)
 let classify ?(check_errors = Flow_ast_utils.Dont_check) ~loc str =
-  match Flow_ast_utils.parse_expression ~loc ~check_errors str with
-  | Error _ -> Js_raw_info.Js_exp_unknown
-  | Ok prog -> classify_exp prog
+  let { Flow_ast_utils.prog; error } =
+    Flow_ast_utils.parse_expression ~loc ~check_errors str
+  in
+  match (check_errors, error) with
+  | Check _, Some _ -> Js_raw_info.Js_exp_unknown
+  | Check _, None | Dont_check, None -> classify_exp prog
+  | Dont_check, Some _ -> Js_exp_unknown
 
 let classify_stmt ~loc (prog : string) : Js_raw_info.stmt =
-  match Flow_ast_utils.parse_program ~loc ~check_errors:Dont_check prog with
-  | Ok { statements = []; _ } -> Js_stmt_comment
-  | Ok _ | Error _ -> Js_stmt_unknown
+  let { Flow_ast_utils.prog; error = _ } =
+    Flow_ast_utils.parse_program ~loc ~check_errors:Dont_check prog
+  in
+  match prog with
+  | { statements = []; _ } -> Js_stmt_comment
+  | _ -> Js_stmt_unknown
 (* we can also analyze throw
    x.x pure access *)
