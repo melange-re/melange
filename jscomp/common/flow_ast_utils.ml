@@ -25,10 +25,6 @@
 open Import
 open Js_parser
 
-let flow_deli_offset = function
-  | None -> 1 (* length of '"' *)
-  | Some deli -> String.length deli + 2 (* length of "{|" *)
-
 let check_flow_errors =
   let offset_pos ({ pos_lnum; pos_bol; pos_cnum; _ } as loc : Lexing.position)
       ({ line; column } : Loc.position) first_line_offset =
@@ -53,7 +49,7 @@ let check_flow_errors =
         Some first_error
 
 type check_errors = Dont_check | Check of { delimiter : string option }
-type 'a error = { prog : 'a; error : Js_parser.Parse_error.t }
+type 'a parse_result = { prog : 'a; error : Js_parser.Parse_error.t option }
 
 let parse_generic : type a.
     loc:Location.t ->
@@ -61,19 +57,22 @@ let parse_generic : type a.
     parser:(Parser_env.env -> 'x * a) ->
     check_errors:check_errors ->
     string ->
-    (a, a error) result =
- fun ~loc ?env ~parser ~check_errors str ->
-  let env =
-    match env with None -> Parser_env.init_env None str | Some env -> env
+    a parse_result =
+  let flow_deli_offset = function
+    | None -> 1 (* length of '"' *)
+    | Some deli -> String.length deli + 2 (* length of "{|" *)
   in
-  let (_, prog), errors = Parser_flow.do_parse env parser false in
-  match check_errors with
-  | Dont_check -> Ok prog
-  | Check { delimiter } -> (
-      let offset = flow_deli_offset delimiter in
-      match check_flow_errors ~loc ~offset errors with
-      | Some error -> Error { prog; error }
-      | None -> Ok prog)
+  fun ~loc ?env ~parser ~check_errors str ->
+    let env =
+      match env with None -> Parser_env.init_env None str | Some env -> env
+    in
+    let (_, prog), errors = Parser_flow.do_parse env parser false in
+    match check_errors with
+    | Dont_check -> { prog; error = None }
+    | Check { delimiter } ->
+        let offset = flow_deli_offset delimiter in
+        let error = check_flow_errors ~loc ~offset errors in
+        { prog; error }
 
 let parse_expression =
   let with_eof parser env =

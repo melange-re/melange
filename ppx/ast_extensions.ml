@@ -111,13 +111,8 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
         let check_errors = Melange_ffi.Flow_ast_utils.Check { delimiter } in
         match kind with
         | Raw_re | Raw_exp ->
-            let prog =
-              match
-                Melange_ffi.Flow_ast_utils.parse_expression ~loc ~check_errors
-                  str
-              with
-              | Ok prog -> prog
-              | Error { prog; error = _ } -> prog
+            let { Melange_ffi.Flow_ast_utils.prog; error = _ } =
+              Melange_ffi.Flow_ast_utils.parse_expression ~loc ~check_errors str
             in
             (match (kind, prog) with
             | Raw_re, RegExpLiteral _ -> ()
@@ -133,7 +128,7 @@ let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
                 | _ -> ())
               is_function
         | Raw_program ->
-            let _ : _ result =
+            let { Melange_ffi.Flow_ast_utils.prog = _; error = _ } =
               Melange_ffi.Flow_ast_utils.parse_program ~loc ~check_errors str
             in
             ()
