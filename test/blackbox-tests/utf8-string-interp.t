@@ -44,3 +44,63 @@ Test edge cases on unicode string interpolation
                      ^
   Error: The value y has type int but an expression was expected of type string
   [2]
+
+  $ cat > x.ml <<'EOF'
+  > module M = struct
+  >   let world = "world"
+  > end
+  > let x = {j|Hello, $(M.world)|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 4, characters 8-31:
+  4 | let x = {j|Hello, $(M.world)|j}
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
+  
+  File "x.ml", line 4, characters 21-31:
+  4 | let x = {j|Hello, $(M.world)|j}
+                           ^^^^^^^^^^
+  Error: `M.world' is not a valid syntax of interpolated identifer
+  [2]
+
+This error is not super great, because `valid_lead_identifier_char` doesn't
+take uppercase variables into account
+
+  $ cat > x.ml <<'EOF'
+  > module M = struct
+  >   let world = "world"
+  > end
+  > let x = {j|Hello, $M.world|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 4, characters 8-29:
+  4 | let x = {j|Hello, $M.world|j}
+              ^^^^^^^^^^^^^^^^^^^^^
+  Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
+  
+  File "x.ml", line 4, characters 21-22:
+  4 | let x = {j|Hello, $M.world|j}
+                           ^
+  Error: `' is not a valid syntax of interpolated identifer
+  [2]
+
+record field access not yet supported
+
+  $ cat > x.ml <<'EOF'
+  > module X = struct
+  >   type t = { x:  int }
+  > end
+  > let t = { X.x = 2 }
+  > let x = {j|Hello, $(t.x)|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 5, characters 8-27:
+  5 | let x = {j|Hello, $(t.x)|j}
+              ^^^^^^^^^^^^^^^^^^^
+  Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
+  
+  File "x.ml", line 5, characters 21-27:
+  5 | let x = {j|Hello, $(t.x)|j}
+                           ^^^^^^
+  Error: `t.x' is not a valid syntax of interpolated identifer
+  [2]
