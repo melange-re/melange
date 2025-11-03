@@ -56,6 +56,8 @@ Unreleased
   ([#1644](https://github.com/melange-re/melange/pull/1644))
 - ppx: disallow empty `%raw` expressions, which would cause syntax errors in
   code generation ([#1651](https://github.com/melange-re/melange/pull/1651))
+- ppx: support all valid `Longident`s in string interpolation
+  ([#1653](https://github.com/melange-re/melange/pull/1653))
 
 5.1.0-53 2025-03-23
 ---------------
