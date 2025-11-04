@@ -1,30 +1,38 @@
 //@ts-check
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-const puppeteer = require('puppeteer');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import puppeteer from 'puppeteer';
 
-const jscompDir = path.join(__dirname, '..', 'jscomp', 'melstd', 'gen');
+const jscompDir = path.join(import.meta.dirname, '..', 'jscomp', 'melstd', 'gen');
 const keywordsFile = path.join(jscompDir, 'keywords.list');
-const reservedMap = path.join(jscompDir, 'ext', 'js_reserved_map.ml');
 
-(async function () {
+async function getBrowserKeywords() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   /**
    * @type string[]
    */
   const result = await page.evaluate(`Object.getOwnPropertyNames(window)`);
+  await browser.close();
+  return result;
+}
 
-  fs.writeFileSync(
+async function dumpReservedKeywords() {
+  const currentContent = await fs.readFile('jscomp/melstd/gen/keywords.list', 'utf8');
+  const currentKeywords = new Set(currentContent.split('\n'));
+  const browserKeywords = await getBrowserKeywords();
+  const newKeywords = new Set(browserKeywords.filter((x) => /^[A-Z]/.test(x)));
+  const mergedKeywords = new Set([...currentKeywords, ...newKeywords]);
+
+  await fs.writeFile(
     keywordsFile,
-    result
-      .filter((x) => /^[A-Z]/.test(x))
-      .sort()
-      .join('\n'),
+    [...mergedKeywords].sort().join('\n'),
     'utf8',
   );
   console.log(`Wrote ${keywordsFile}`);
-  await browser.close();
+}
+
+(async function() {
+  await dumpReservedKeywords();
 })();
