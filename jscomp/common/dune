@@ -1,7 +1,6 @@
 (library
  (name melange_ffi)
  (package melange)
- (flags :standard -open StdLabels -open MoreLabels)
  (libraries melstd melange_compiler_libs js_parser))
 
 (rule
