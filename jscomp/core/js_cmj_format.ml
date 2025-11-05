@@ -78,10 +78,12 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
   }
 
 (* Serialization .. *)
+let marshal_header_size = 16
+
 let from_file name : t =
   let s = Io.read_file name in
-  let _digest = Digest.substring s 0 Marshal.header_size in
-  Marshal.from_string s Marshal.header_size
+  let _digest = Digest.substring s 0 marshal_header_size in
+  Marshal.from_string s marshal_header_size
 
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
@@ -91,8 +93,8 @@ let to_file =
     | true ->
         let holder =
           Io.with_file_in_fd name ~f:(fun fd ->
-              let buf = Bytes.create Marshal.header_size in
-              let _len = Unix.read fd buf 0 Marshal.header_size in
+              let buf = Bytes.create marshal_header_size in
+              let _len = Unix.read fd buf 0 marshal_header_size in
               Bytes.unsafe_to_string buf)
         in
         String.equal holder header
