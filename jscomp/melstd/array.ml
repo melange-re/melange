@@ -24,6 +24,17 @@
 
 include StdLabels.Array
 
+(* only added in 5.4 *)
+let equal ~eq a b =
+  if length a <> length b then false
+  else
+    let i = ref 0 in
+    let len = length a in
+    while !i < len && eq (unsafe_get a !i) (unsafe_get b !i) do
+      incr i
+    done;
+    !i = len
+
 let reverse_range a ~off:i ~len =
   if len = 0 then ()
   else

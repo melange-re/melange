@@ -24,6 +24,10 @@
 
 open Import
 
+#if OCAML_VERSION >= (5, 4, 0)
+module Types := Data_types
+#endif
+
 val find_mel_as_name : Parsetree.attribute list -> Lambda.as_modifier option
 
 val check_mel_attributes_inclusion :
@@ -35,25 +39,25 @@ val check_mel_attributes_inclusion :
 val check_duplicated_labels :
   Parsetree.label_declaration list -> string Location.loc option
 
-val fld_record : Data_types.label_description -> Lambda.field_dbg_info
-val fld_record_set : Data_types.label_description -> Lambda.set_field_dbg_info
-val fld_record_inline : Data_types.label_description -> Lambda.field_dbg_info
+val fld_record : Types.label_description -> Lambda.field_dbg_info
+val fld_record_set : Types.label_description -> Lambda.set_field_dbg_info
+val fld_record_inline : Types.label_description -> Lambda.field_dbg_info
 
 val fld_record_inline_set :
-  Data_types.label_description -> Lambda.set_field_dbg_info
+  Types.label_description -> Lambda.set_field_dbg_info
 
-val fld_record_extension : Data_types.label_description -> Lambda.field_dbg_info
+val fld_record_extension : Types.label_description -> Lambda.field_dbg_info
 
 val fld_record_extension_set :
-  Data_types.label_description -> Lambda.set_field_dbg_info
+  Types.label_description -> Lambda.set_field_dbg_info
 
-val blk_record : (Data_types.label_description * 'a) array -> Lambda.tag_info
+val blk_record : (Types.label_description * 'a) array -> Lambda.tag_info
 
 val blk_record_ext :
-  is_exn:bool -> (Data_types.label_description * 'a) array -> Lambda.tag_info
+  is_exn:bool -> (Types.label_description * 'a) array -> Lambda.tag_info
 
 val blk_record_inlined :
-  (Data_types.label_description * 'a) array ->
+  (Types.label_description * 'a) array ->
   string ->
   int ->
   Parsetree.attributes ->

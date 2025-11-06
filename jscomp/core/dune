@@ -107,6 +107,19 @@
    %{targets})))
 
 (rule
+ (targets record_attributes_check.mli)
+ (deps record_attributes_check.cppo.mli)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
+(rule
  (targets mel_ast_invariant.ml)
  (deps mel_ast_invariant.cppo.ml)
  (action

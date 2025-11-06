@@ -242,7 +242,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
-      cmi_file;
+      cmi_file = _cmi_file;
       g;
       opaque;
       preamble;
@@ -375,7 +375,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     Option.iter bs_eval ~f:(fun s -> ignore (eval s: _ Cmdliner.Term.ret));
     Option.iter intf_suffix ~f:(fun suffix -> Config.interface_suffix := suffix);
-    Option.iter cmi_file ~f:(fun cmi_file -> Clflags.cmi_file := Some cmi_file);
+#if OCAML_VERSION >= (5,0,0)
+    Option.iter _cmi_file ~f:(fun cmi_file -> Clflags.cmi_file := Some cmi_file);
+#endif
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
     Js_config.preamble := preamble;

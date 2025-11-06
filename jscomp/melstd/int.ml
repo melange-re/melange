@@ -22,7 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module T = Stdlib.Int
+module T = struct
+  let hash = Hashtbl.hash
+
+  include Stdlib.Int
+end
+
 include T
 module Map = MoreLabels.Map.Make (T)
 module Set = MoreLabels.Set.Make (T)

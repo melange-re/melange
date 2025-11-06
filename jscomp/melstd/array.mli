@@ -26,6 +26,8 @@ include module type of struct
   include StdLabels.Array
 end
 
+val equal : eq:('a -> 'a -> bool) -> 'a array -> 'a array -> bool
+
 val reverse_range : 'a array -> off:int -> len:int -> unit
 (** Some utilities for {!Array} operations *)
 
