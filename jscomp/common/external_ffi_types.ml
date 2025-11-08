@@ -222,8 +222,7 @@ let from_string =
    https://github.com/ocaml/merlin/commit/b094c937c3a360eb61054f7652081b88e4f3612f
 *)
   let is_mel_primitive s =
-    (* TODO(anmonteiro): check this, header_size changed to 16 in 5.1 *)
-    String.length s >= 20
+    String.length s >= 16
     (* Marshal.header_size*) && String.unsafe_get s 0 = '\132'
     && String.unsafe_get s 1 = '\149'
   in
