@@ -20,7 +20,8 @@ function is_mocha(param) {
   if (!match$1) {
     return false;
   }
-  const exec = Path.basename(match$1.hd);
+  const mocha = match$1.hd;
+  const exec = Path.basename(mocha, Path.extname(mocha));
   if (exec === "mocha") {
     return true;
   } else {
