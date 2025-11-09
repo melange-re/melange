@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module T = struct
-  let hash = Hashtbl.hash
+  let[@ocaml.warning "-32"] hash = Hashtbl.hash
 
   include StdLabels.String
 end
