@@ -28,7 +28,7 @@ let assert_fail = fun msg -> fail () () (Js.Undefined.return msg) ""
 let is_mocha () =
   match Array.to_list Node.Process.process##argv with
   | _node :: mocha ::  _ ->
-    let exec = Node.Path.basename mocha in
+    let exec = Node.Path.basename_ext mocha (Node.Path.extname mocha) in
     exec = "mocha" || exec = "_mocha"
   | _ -> false
 (* assert -- raises an AssertionError which mocha handls better
