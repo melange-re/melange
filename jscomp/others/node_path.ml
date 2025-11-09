@@ -25,6 +25,7 @@
 (** Node Path API *)
 
 external basename : string -> string = "basename" [@@mel.module "path"]
+external extname : string -> string = "extname" [@@mel.module "path"]
 
 external basename_ext : string -> string -> string = "basename"
 [@@mel.module "path"]
