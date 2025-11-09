@@ -16,6 +16,7 @@
       },
       "original": {
         "owner": "melange-re",
+        "ref": "5.4",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
@@ -25,11 +26,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1762644424,
-        "narHash": "sha256-WiBUA/6E/bwflafHBHBngG45k/oinpask252UqZXKEM=",
+        "lastModified": 1762665585,
+        "narHash": "sha256-tiuFpOLNYn2kkyIxubbnCw/1RCcj9EJ2fzUmwXz5uWY=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "ab27cbf225d8a791f383598c012e9e6890247209",
+        "rev": "74bdb7b72ddae5a7c48b01ae6c90229b9b966148",
         "type": "github"
       },
       "original": {
