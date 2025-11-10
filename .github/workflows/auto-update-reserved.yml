@@ -51,7 +51,7 @@ jobs:
         if: steps.commit-changes.outputs.changes_made == 'true'
         run: |
           # Check if there's already an open PR for the auto-update branch
-          PR_COUNT=$(gh pr list --base master --head auto-update-reserved-keywords --state open --json number | jq length)
+          PR_COUNT=$(gh pr list --base main --head auto-update-reserved-keywords --state open --json number | jq length)
           echo "pr_exists=$([[ $PR_COUNT -gt 0 ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,5 +64,5 @@ jobs:
           commit-message: "Auto-update transcription API schemas"
           title: "Auto-update reserved keywords list"
           branch: auto-update-reserved-keywords
-          base: master
+          base: main
           delete-branch: true
