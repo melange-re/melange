@@ -30,8 +30,6 @@ jobs:
 
           # Check if there are any changes
           if [[ -n $(git status --porcelain) ]]; then
-            git add jscomp/melstd/gen/keywords.list
-            git commit -m "Auto-update reserved keywords list"
             echo "changes_made=true" >> $GITHUB_OUTPUT
           else
             echo "changes_made=false" >> $GITHUB_OUTPUT
@@ -61,7 +59,9 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Auto-update transcription API schemas"
+          add-paths: |
+            jscomp/melstd/gen/keywords.list
+          commit-message: "Auto-update reserved keywords list"
           title: "Auto-update reserved keywords list"
           branch: auto-update-reserved-keywords
           base: main
