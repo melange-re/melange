@@ -8,7 +8,10 @@ const jscompDir = path.join(import.meta.dirname, '..', 'jscomp', 'melstd', 'gen'
 const keywordsFile = path.join(jscompDir, 'keywords.list');
 
 async function getBrowserKeywords() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   /**
    * @type string[]
