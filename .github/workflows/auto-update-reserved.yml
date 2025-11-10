@@ -30,6 +30,8 @@ jobs:
 
           # Check if there are any changes
           if [[ -n $(git status --porcelain) ]]; then
+            git add jscomp/melstd/gen/keywords.list
+            git commit -m "Auto-update reserved keywords list"
             echo "changes_made=true" >> $GITHUB_OUTPUT
           else
             echo "changes_made=false" >> $GITHUB_OUTPUT
