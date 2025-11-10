@@ -22,12 +22,6 @@ jobs:
       - run: npm i puppeteer
       - name: "Update reserved keywords"
         run: node scripts/build_reserved.js
-        # id: update-sources
-
-      - name: Commit updated flake
-        env:
-          GITHUB_JOB: ${{ env.GITHUB_JOB }}
-          GITHUB_RUN_ID: ${{ env.GITHUB_RUN_ID }}
       - name: Check for changes and commit
         id: commit-changes
         run: |
