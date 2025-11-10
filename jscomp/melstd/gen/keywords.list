@@ -319,6 +319,7 @@ Int16Array
 Int32Array
 Int8Array
 IntegrityViolationReportBody
+InterestEvent
 IntersectionObserver
 IntersectionObserverEntry
 Intl
