@@ -12,13 +12,22 @@ on:
   schedule:
     # Every 14 days at midnight
     - cron: "0 0 */14 * *"
+concurrency:
+  group: auto-update-reserved
+  cancel-in-progress: false
 
 jobs:
   update-sources:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          filter: blob:none
       - uses: actions/setup-node@v6
+       with:
+          node-version: 24
+          cache: npm
       - run: npm i puppeteer
       - name: "Update reserved keywords"
         run: node scripts/build_reserved.js
@@ -40,11 +49,22 @@ jobs:
       - name: Push changes to auto-update branch
         if: steps.commit-changes.outputs.changes_made == 'true'
         run: |
-          # Fetch latest remote branch information
-          git fetch origin auto-update-reserved-keywords:auto-update-reserved-keywords || true
-          # Create or switch to the auto-update branch
-          git checkout -B auto-update-reserved-keywords
-          git push origin auto-update-reserved-keywords --force-with-lease
+          set -euo pipefail
+          BR=auto-update-reserved-keywords
+
+          # Read remote tip without downloading objects
+          REMOTE_OID="$(git ls-remote --heads origin "refs/heads/$BR" | awk '{print $1}')"
+
+          # Push current HEAD to the branch; use an explicit lease if the branch exists
+          if [ -z "$REMOTE_OID" ]; then
+            # Branch doesn't exist remotely yet
+            git push origin HEAD:refs/heads/$BR
+          else
+            # Enforce "force-with-lease" without fetching
+            git push \
+              --force-with-lease=refs/heads/$BR:$REMOTE_OID \
+              origin HEAD:refs/heads/$BR
+          fi
 
       - name: Check if PR already exists
         id: check-pr
