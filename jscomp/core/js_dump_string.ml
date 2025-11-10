@@ -25,33 +25,30 @@
 open Import
 module P = Js_pp
 
-(** Avoid to allocate single char string too many times*)
-let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i))
-
-let array_conv =
-  [|
-    "0";
-    "1";
-    "2";
-    "3";
-    "4";
-    "5";
-    "6";
-    "7";
-    "8";
-    "9";
-    "a";
-    "b";
-    "c";
-    "d";
-    "e";
-    "f";
-  |]
-
 (* https://mathiasbynens.be/notes/javascript-escapes *)
-let ( +> ) = Buffer.add_string
-
-let escape_to_buffer f (* ?(utf=false)*) s =
+let escape_to_buffer =
+  let ( +> ) = Buffer.add_string in
+  let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i)) in
+  let array_conv =
+    [|
+      "0";
+      "1";
+      "2";
+      "3";
+      "4";
+      "5";
+      "6";
+      "7";
+      "8";
+      "9";
+      "a";
+      "b";
+      "c";
+      "d";
+      "e";
+      "f";
+    |]
+  in
   let pp_raw_string f (* ?(utf=false)*) s =
     let l = String.length s in
     for i = 0 to l - 1 do
@@ -90,9 +87,10 @@ let escape_to_buffer f (* ?(utf=false)*) s =
       | _ -> f +> Array.unsafe_get array_str1 (Char.code c)
     done
   in
-  f +> "\"";
-  pp_raw_string f (*~utf*) s;
-  f +> "\""
+  fun f (* ?(utf=false)*) s ->
+    f +> "\"";
+    pp_raw_string f (*~utf*) s;
+    f +> "\""
 
 let escape_to_string s =
   let buf = Buffer.create (String.length s * 2) in
@@ -100,6 +98,7 @@ let escape_to_string s =
   Buffer.contents buf
 
 let pp_string f s = P.string f (escape_to_string s)
+
 (* let _best_string_quote s =
    let simple = ref 0 in
    let double = ref 0 in
