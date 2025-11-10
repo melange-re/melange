@@ -27,7 +27,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
       - run: npm i puppeteer
       - name: "Update reserved keywords"
         run: node scripts/build_reserved.js
