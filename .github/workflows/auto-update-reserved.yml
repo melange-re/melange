@@ -1,0 +1,74 @@
+name: Auto-update reserved keywords
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - 'scripts/build_reserved.js'
+      - '.github/workflows/auto-update-reserved.yml'
+  schedule:
+    # Every 14 days at midnight
+    - cron: "0 0 */14 * *"
+
+jobs:
+  update-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+      - run: npm i puppeteer
+      - name: "Update reserved keywords"
+        run: node scripts/build_reserved.js
+        # id: update-sources
+
+      - name: Commit updated flake
+        env:
+          GITHUB_JOB: ${{ env.GITHUB_JOB }}
+          GITHUB_RUN_ID: ${{ env.GITHUB_RUN_ID }}
+      - name: Check for changes and commit
+        id: commit-changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are any changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add jscomp/melstd/gen/keywords.list
+            git commit -m "Auto-update reserved keywords list"
+            echo "changes_made=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes_made=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Push changes to auto-update branch
+        if: steps.commit-changes.outputs.changes_made == 'true'
+        run: |
+          # Fetch latest remote branch information
+          git fetch origin auto-update-reserved-keywords:auto-update-reserved-keywords || true
+          # Create or switch to the auto-update branch
+          git checkout -B auto-update-reserved-keywords
+          git push origin auto-update-reserved-keywords --force-with-lease
+
+      - name: Check if PR already exists
+        id: check-pr
+        if: steps.commit-changes.outputs.changes_made == 'true'
+        run: |
+          # Check if there's already an open PR for the auto-update branch
+          PR_COUNT=$(gh pr list --base master --head auto-update-reserved-keywords --state open --json number | jq length)
+          echo "pr_exists=$([[ $PR_COUNT -gt 0 ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: steps.commit-changes.outputs.changes_made == 'true' && steps.check-pr.outputs.pr_exists == 'false'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Auto-update transcription API schemas"
+          title: "Auto-update reserved keywords list"
+          branch: auto-update-reserved-keywords
+          base: master
+          delete-branch: true
