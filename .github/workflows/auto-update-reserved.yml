@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 1
           filter: blob:none
       - uses: actions/setup-node@v6
-       with:
+        with:
           node-version: 24
           cache: npm
       - run: npm i puppeteer
