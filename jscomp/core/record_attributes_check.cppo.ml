@@ -30,19 +30,26 @@ let rec find_mel_as_name_exn: Parsetree.attributes -> Lambda.as_modifier = funct
       | PStr
           [
             {
-              pstr_desc = Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
+              pstr_desc = Pstr_eval (exp, _);
               _;
             };
           ] -> (
-          match
-#if OCAML_VERSION >= (5, 3, 0)
-          const.pconst_desc
-#else
-          const
-#endif
-          with
-          | Pconst_string (s, _, _) -> (Lambda.String s)
-          | Pconst_integer (s, None) -> (Int (int_of_string s))
+          match exp.pexp_desc with
+          | Pexp_constant const -> (
+            match
+  #if OCAML_VERSION >= (5, 3, 0)
+            const.pconst_desc
+  #else
+            const
+  #endif
+            with
+            | Pconst_string (s, _, _) -> Lambda.String s
+            | Pconst_integer (s, None) -> Int (int_of_string s)
+            | _ -> find_mel_as_name_exn xs)
+          | Pexp_ident { loc = _; txt = Lident "null" } -> Null
+          | Pexp_ident { loc = _; txt = Lident "undefined" } -> Undefined
+          | Pexp_construct ({ loc = _; txt = Lident "false" }, _) -> Bool false
+          | Pexp_construct ({ loc = _; txt = Lident "true" }, _) -> Bool true
           | _ -> find_mel_as_name_exn xs)
       | _ -> find_mel_as_name_exn xs)
   | _ :: xs -> find_mel_as_name_exn xs
@@ -88,7 +95,7 @@ let find_with_default xs ~default =
   | xs -> (
       match find_mel_as_name_exn xs with
       | String v -> v
-      | Int _ -> assert false
+      | Int _ | Bool _ | Null | Undefined -> assert false
       | exception Not_found -> default)
 
 #if OCAML_VERSION >= (5, 4, 0)

@@ -141,7 +141,7 @@ let string_switch ?(comment : string option)
             ~f:(fun (switch_case, (x : J.case_clause)) ->
               match switch_case with
               | Lambda.String s -> if s = txt then Some x.switch_body else None
-              | Int _ -> None)
+              | Bool _ | Null | Undefined | Int _ -> None)
             clauses
         with
         | Some case -> case

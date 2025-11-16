@@ -29,6 +29,7 @@ module Types := Data_types
 #endif
 
 val find_mel_as_name : Parsetree.attribute list -> Lambda.as_modifier option
+val find_mel_as_name_exn : Parsetree.attribute list -> Lambda.as_modifier
 
 val check_mel_attributes_inclusion :
   Parsetree.attributes ->

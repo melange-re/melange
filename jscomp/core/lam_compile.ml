@@ -27,14 +27,28 @@ module E = Js_exp_make
 module S = Js_stmt_make
 
 module AsValue = struct
-  type t = Lambda.as_modifier = String of string | Int of int
+  type t = Lambda.as_modifier =
+    | Int of int
+    | String of string
+    | Bool of bool
+    | Null
+    | Undefined
 
-  let compare a b =
-    match (a, b) with
-    | String s1, String s2 -> String.compare s1 s2
-    | Int i1, Int i2 -> Int.compare i1 i2
-    | Int _, String _ -> -1
-    | String _, Int _ -> 1
+  let compare =
+    let tag = function
+      | Int _ -> 0
+      | String _ -> 1
+      | Bool _ -> 2
+      | Null -> 3
+      | Undefined -> 4
+    in
+    fun a b ->
+      match (a, b) with
+      | Int i1, Int i2 -> Int.compare i1 i2
+      | String s1, String s2 -> String.compare s1 s2
+      | Bool b1, Bool b2 -> Bool.compare b1 b2
+      | Null, Null | Undefined, Undefined -> 0
+      | _, _ -> Int.compare (tag a) (tag b)
 end
 
 module AsValueMap = Map.Make (AsValue)
@@ -635,6 +649,18 @@ and compile_switch =
         Array.find_map ~f:(fun { Lambda.tag_name; _ } -> tag_name) blocks
         |> Option.value ~default:Js_dump_lit.tag
   in
+  let has_null_undefined_other (sw_names : Lambda.switch_names option) =
+    let null, undefined, other = (ref false, ref false, ref false) in
+    (match sw_names with
+    | None -> ()
+    | Some { Lambda.consts; _ } ->
+        Array.iter consts ~f:(fun { Lambda.as_modifier; _ } ->
+            match as_modifier with
+            | Some Undefined -> undefined := true
+            | Some Null -> null := true
+            | _ -> other := true));
+    (!null, !undefined, !other)
+  in
   fun (switch_arg : Lam.t)
     (sw : Lam.lambda_switch)
     (lambda_cxt : Lam_compile_context.t)
@@ -690,7 +716,9 @@ and compile_switch =
       else
         (* [e] will be used twice  *)
         let dispatch e =
-          S.if_ (E.is_tag e)
+          S.if_
+            (E.is_tag e
+               ~has_null_undefined_other:(has_null_undefined_other sw_names))
             (compile_cases cxt e sw_consts sw_num_default
                ~get_cstr_name:get_const_name)
             (* default still needed, could simplified*)

@@ -784,8 +784,9 @@ module Mapper = struct
                                   };
                                 ] -> (
                                 match pexp_desc with
-                                | Pexp_constant
-                                    (Pconst_string _ | Pconst_integer _) ->
+                                | Pexp_construct ({ loc = _; txt = Lident ("true" | "false") }, None)
+                                | Pexp_ident { loc = _; txt = Lident ("null" | "undefined") }
+                                | Pexp_constant (Pconst_string _ | Pconst_integer _) ->
                                     Mel_ast_invariant.mark_used_mel_attribute
                                       attr
                                 | _ -> ())
