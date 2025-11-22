@@ -114,8 +114,9 @@ let error ~loc error = raise (Error (loc, error))
    does not*)
 
 let rec check_and_transform loc buf s byte_offset s_len =
-  if byte_offset = s_len then ()
-  else
+  match Int.equal byte_offset s_len with
+  | true -> ()
+  | false ->
     let current_char = s.[byte_offset] in
     match classify current_char with
     | Single 92 (* '\\' *) ->
@@ -144,46 +145,45 @@ let rec check_and_transform loc buf s byte_offset s_len =
 
 (* we share the same escape sequence with js *)
 and escape_code loc buf s offset s_len =
-  if offset >= s_len then error ~loc Unterminated_backslash
-  else Buffer.add_char buf '\\';
+  if offset >= s_len then error ~loc Unterminated_backslash;
   let cur_char = s.[offset] in
+  Buffer.add_char buf '\\';
+  Buffer.add_char buf cur_char;
   match cur_char with
   | '\\' | 'b' | 't' | 'n' | 'v' | 'f' | 'r' | '0' | '$' ->
-      Buffer.add_char buf cur_char;
       check_and_transform (loc + 1) buf s (offset + 1) s_len
   | 'u' ->
-      Buffer.add_char buf cur_char;
       unicode (loc + 1) buf s (offset + 1) s_len
   | 'x' ->
-      Buffer.add_char buf cur_char;
       two_hex (loc + 1) buf s (offset + 1) s_len
   | _ ->
       (* Regular characters, like `a` in `\a`,
        * are valid escape sequences *)
-      Buffer.add_char buf cur_char;
       check_and_transform (loc + 1) buf s (offset + 1) s_len
 
 and two_hex loc buf s offset s_len =
   if offset + 1 >= s_len then error ~loc Invalid_hex_escape;
   let a, b = (s.[offset], s.[offset + 1]) in
-  if valid_hex a && valid_hex b then (
+  match (valid_hex a, valid_hex b) with
+  | true, true ->
     Buffer.add_char buf a;
     Buffer.add_char buf b;
-    check_and_transform (loc + 2) buf s (offset + 2) s_len)
-  else error ~loc Invalid_hex_escape
+    check_and_transform (loc + 2) buf s (offset + 2) s_len
+  | false, _ | _, false -> error ~loc Invalid_hex_escape
 
 and unicode loc buf s offset s_len =
   if offset + 3 >= s_len then error ~loc Invalid_unicode_escape;
   let a0, a1, a2, a3 =
     (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
   in
-  if valid_hex a0 && valid_hex a1 && valid_hex a2 && valid_hex a3 then (
+  match valid_hex a0, valid_hex a1, valid_hex a2, valid_hex a3 with
+  | true, true, true, true ->
     Buffer.add_char buf a0;
     Buffer.add_char buf a1;
     Buffer.add_char buf a2;
     Buffer.add_char buf a3;
-    check_and_transform (loc + 4) buf s (offset + 4) s_len)
-  else error ~loc Invalid_unicode_escape
+    check_and_transform (loc + 4) buf s (offset + 4) s_len
+  | _, _, _, _ -> error ~loc Invalid_unicode_escape
 
 (* http://www.2ality.com/2015/01/es6-strings.html
    console.log('\uD83D\uDE80'); (* ES6*)
@@ -206,11 +206,11 @@ let transform ~loc s =
 
 (* TODO: Allow identifers x.A.y *)
 
-let escaped_j_delimiter =
-  (* syntax not allowed at the user level *)
-  Some escaped_j_delimiter
-
 let transform =
+  let escaped_j_delimiter =
+    (* syntax not allowed at the user level *)
+    Some escaped_j_delimiter
+  in
   let transform (e : Parsetree.expression) s ~loc ~delim =
     match String.equal delim unescaped_js_delimiter with
     | true ->
