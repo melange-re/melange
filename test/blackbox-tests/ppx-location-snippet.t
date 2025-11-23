@@ -18,14 +18,8 @@ Test that the location snippet appears in a ppx-processed compilation error
 
   $ export DUNE_SANDBOX=symlink
   $ dune build @melange
-  File "dune", lines 1-4, characters 0-81:
-  1 | (melange.emit
-  2 |  (target out)
-  3 |  (emit_stdlib false)
-  4 |  (preprocess (pps melange.ppx)))
-  melc: internal error, uncaught exception:
-        Unix.Unix_error(Unix.ENOENT, "open", "foo.ml")
-        
+  File "foo.ml", line 1, characters 7-11:
+  Error: Unbound type constructor nope
   [1]
 
   $ export DUNE_SANDBOX=none
