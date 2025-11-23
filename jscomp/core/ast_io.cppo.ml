@@ -123,6 +123,7 @@ let set_input_lexbuf () =
   in
   begin match set_input_lexbuf !Location.input_name with
   | (_ : Lexing.lexbuf) -> ()
+  | exception Unix.Unix_error (Unix.ENOENT, _, _)
   | exception Sys_error _ -> ()
   end
 
