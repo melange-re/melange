@@ -6,6 +6,7 @@ _opam
 .vscode
 
 node_modules
+!jscomp/test/dist/node_modules
 lib/melange
 lib/es6
 lib/js
