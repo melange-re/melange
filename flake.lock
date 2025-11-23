@@ -16,7 +16,6 @@
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/mel-as-bool-null-undefined",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
