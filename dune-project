@@ -1,4 +1,6 @@
-(lang dune 3.13)
+(lang dune 3.18)
+
+(maintenance_intent "(latest)")
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 
