@@ -131,6 +131,11 @@ npm install puppeteer
 node scripts/build_reserved.js
 ```
 
+Since
+[melange-re/melange#1665](https://github.com/melange-re/melange/pull/1665),
+this is now done periodically and automatically. The
+[workflow](https://github.com/melange-re/melange/actions/workflows/auto-update-reserved.yml) may also be triggered manually.
+
 ## Upgrading the Flow JS parser
 
 Melange vendors a copy of Facebook's Flow parser. It's used, among other
