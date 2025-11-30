@@ -6,6 +6,7 @@
 , yarn
 , cacert
 , curl
+, ocaml-ng
 , ocamlPackages
 , git
 , python3
@@ -18,22 +19,22 @@ let
 in
 
 mkShell {
-  inputsFrom = lib.attrValues derivations;
+  inputsFrom = [ packages.melange ];
   nativeBuildInputs = with ocamlPackages; [
     ocamlformat
     utop
-    ocaml-lsp
+    # ocaml-lsp
     merlin
     python3
     nodejs
     yarn
     nodePackages.mocha
-    js_of_ocaml-compiler
+    # js_of_ocaml-compiler
   ] ++ lib.optionals release-mode ([
     cacert
     curl
-    ocamlPackages.dune-release
-    ocamlPackages.odoc
+    ocaml-ng.ocamlPackages_5_4.dune-release
+    # ocamlPackages.odoc
     git
   ]);
   shellHook = ''
