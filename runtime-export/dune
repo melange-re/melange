@@ -17,6 +17,7 @@
  (target
   (dir packages))
  (deps
+  (env_var MELANGE_RUNTIME_VERSION)
   (alias npm)
   (:pkg_json_template package.json)
   (:readme_template README.md)
