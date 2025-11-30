@@ -51,7 +51,7 @@ buildDunePackage {
     # x86_64-darwin?
     !(stdenv.isDarwin && stdenv.isx86_64);
   nativeCheckInputs = [ tree nodejs reason jq merlin ];
-  checkInputs = [ ounit2 ];
+  checkInputs = [ alcotest ounit2 ];
   DUNE_CACHE = "disabled";
 
   nativeBuildInputs = [ menhir cppo git makeWrapper ];
