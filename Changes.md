@@ -1,4 +1,4 @@
-6.0.1-14 2025-11-29
+6.0.1-53 2025-11-29
 ---------------
 
 - fix(core): catch file not found error when finding location snippet
@@ -7,7 +7,7 @@
       [#1457](https://github.com/melange-re/melange/pull/1457) that broke
       builds in the Dune sandbox.
 
-6.0.0-14 2025-11-08
+6.0.0-53 2025-11-08
 ---------------
 
 - Support `Sys.opaque_identity` to turn off optimizations
