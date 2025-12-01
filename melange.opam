@@ -14,7 +14,7 @@ depends: [
   "cppo" {build}
   "ounit" {with-test}
   "reason" {dev & with-test}
-  "ppxlib" {dev}
+  "ppxlib" {>= "0.36"}
   "menhir" {>= "20201214"}
   "reason-react-ppx" {with-test & post}
   "merlin" {with-test}
