@@ -43,9 +43,9 @@ let read_file =
     let rec eagerly_input_acc ic s ~pos ~len acc =
       if len <= 0 then acc
       else
-        let r = input ic s pos len in
-        if r = 0 then acc
-        else eagerly_input_acc ic s ~pos:(pos + r) ~len:(len - r) (acc + r)
+        match input ic s pos len with
+        | 0 -> acc
+        | r -> eagerly_input_acc ic s ~pos:(pos + r) ~len:(len - r) (acc + r)
     in
     let eagerly_input_string ic len =
       let buf = Bytes.create len in
@@ -102,11 +102,12 @@ let read_file =
   in
   let read_all_fd =
     let rec read fd buf pos left =
-      if left = 0 then `Ok
-      else
-        match Unix.read fd buf pos left with
-        | 0 -> `Eof
-        | n -> read fd buf (pos + n) (left - n)
+      match left with
+      | 0 -> `Ok
+      | left -> (
+          match Unix.read fd buf pos left with
+          | 0 -> `Eof
+          | n -> read fd buf (pos + n) (left - n))
     in
     fun fd ->
       match Unix.fstat fd with

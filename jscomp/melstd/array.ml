@@ -36,13 +36,14 @@ let equal ~eq a b =
     !i = len
 
 let reverse_range a ~off:i ~len =
-  if len = 0 then ()
-  else
-    for k = 0 to (len - 1) / 2 do
-      let t = unsafe_get a (i + k) in
-      unsafe_set a (i + k) (unsafe_get a (i + len - 1 - k));
-      unsafe_set a (i + len - 1 - k) t
-    done
+  match len with
+  | 0 -> ()
+  | len ->
+      for k = 0 to (len - 1) / 2 do
+        let t = unsafe_get a (i + k) in
+        unsafe_set a (i + k) (unsafe_get a (i + len - 1 - k));
+        unsafe_set a (i + len - 1 - k) t
+      done
 
 let reverse_of_list = function
   | [] -> [||]
