@@ -161,12 +161,14 @@ let make_unused () = create "_"
    flags are not relevant here
 *)
 let compare (x : Ident.t) (y : Ident.t) =
-  let u = stamp x - stamp y in
-  if u = 0 then String.compare (Ident.name x) (Ident.name y) else u
+  match stamp x - stamp y with
+  | 0 -> String.compare (Ident.name x) (Ident.name y)
+  | u -> u
 
 let equal (x : Ident.t) (y : Ident.t) =
-  if stamp x <> 0 then stamp x = stamp y
-  else stamp y = 0 && Ident.name x = Ident.name y
+  match stamp x with
+  | 0 -> Int.equal (stamp y) 0 && String.equal (Ident.name x) (Ident.name y)
+  | u -> Int.equal u (stamp y)
 
 module Mangled = struct
   type t = Reserved of string | Mangled of string

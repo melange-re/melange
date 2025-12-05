@@ -80,16 +80,16 @@ let node_rebase_file =
     Buffer.contents buf
   in
   fun ~from ~to_ file ->
-    node_concat
-      ~dir:
-        (if from = to_ then Filename.current_dir_name
-         else node_relative_path ~from to_)
-      file
+    let dir =
+      if String.equal from to_ then Filename.current_dir_name
+      else node_relative_path ~from to_
+    in
+    node_concat ~dir file
 
 let concat =
   let strip_trailing_slashes p =
     let len = String.length p in
-    if String.unsafe_get p (len - 1) == '/' && len > 1 then (
+    if Char.equal (String.unsafe_get p (len - 1)) '/' && len > 1 then (
       let idx = ref 0 in
       while String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0 do
         incr idx
@@ -99,13 +99,16 @@ let concat =
     else p
   in
   fun dirname filename ->
-    if String.length filename = 0 then dirname
-    else if strip_trailing_slashes filename = Filename.current_dir_name then
-      dirname
-    else if strip_trailing_slashes dirname = Filename.current_dir_name then
-      filename
-    else if strip_trailing_slashes filename = Filename.current_dir_name then
-      filename
+    if Int.equal (String.length filename) 0 then dirname
+    else if
+      String.equal (strip_trailing_slashes filename) Filename.current_dir_name
+    then dirname
+    else if
+      String.equal (strip_trailing_slashes dirname) Filename.current_dir_name
+    then filename
+    else if
+      String.equal (strip_trailing_slashes filename) Filename.current_dir_name
+    then filename
     else Filename.concat dirname filename
 
 let ( // ) = concat
@@ -135,7 +138,7 @@ let ( // ) = concat
 let split_aux p =
   let rec go p acc =
     let dir = Filename.dirname p in
-    if dir = p then (dir, acc)
+    if String.equal dir p then (dir, acc)
     else
       let new_path = Filename.basename p in
       if String.equal new_path Filename.dir_sep then go dir acc
@@ -151,7 +154,7 @@ let pard = Filename.parent_dir_name
 
 let rel_normalized_absolute_path ~from to_ =
   let merge_parent_segment acc segment =
-    if segment = curd then acc else acc // pard
+    if String.equal segment curd then acc else acc // pard
   in
   let root1, paths1 = split_aux from in
   let root2, paths2 = split_aux to_ in
@@ -161,20 +164,20 @@ let rel_normalized_absolute_path ~from to_ =
       match (xss, yss) with
       | x :: xs, y :: ys ->
           if String.equal x y then go xs ys
-          else if x = curd then go xs yss
-          else if y = curd then go xss ys
+          else if String.equal x curd then go xs yss
+          else if String.equal y curd then go xss ys
           else
             let start = List.fold_left xs ~init:pard ~f:merge_parent_segment in
             List.fold_left yss ~init:start ~f:(fun acc v -> acc // v)
       | [], [] -> String.empty
       | [], y :: ys -> List.fold_left ys ~init:y ~f:(fun acc x -> acc // x)
       | x :: xs, [] ->
-          let start = if x = curd then "" else pard in
+          let start = if String.equal x curd then "" else pard in
           List.fold_left xs ~init:start ~f:merge_parent_segment
     in
     let v = go paths1 paths2 in
 
-    if String.length v = 0 then Filename.current_dir_name
+    if Int.equal (String.length v) 0 then Filename.current_dir_name
     else if
       v = curd || v = pard
       || String.starts_with v ~prefix:(curd ^ Filename.dir_sep)

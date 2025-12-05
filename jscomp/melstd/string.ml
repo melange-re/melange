@@ -37,8 +37,8 @@ module Hashtbl = Hashtbl.Make (T)
 let split_by ?(keep_empty = false) ~f:is_delim str =
   let len = length str in
   let rec loop acc last_pos pos =
-    if pos = -1 then
-      if last_pos = 0 && not keep_empty then acc
+    if Int.equal pos (-1) then
+      if Int.equal last_pos 0 && not keep_empty then acc
       else sub str ~pos:0 ~len:last_pos :: acc
     else if is_delim (get str pos) then
       let new_len = last_pos - pos - 1 in
@@ -68,8 +68,9 @@ let for_all_from =
 
 let unsafe_is_sub ~sub i s j ~len =
   let rec check k =
-    if k = len then true
-    else unsafe_get sub (i + k) = unsafe_get s (j + k) && check (k + 1)
+    match Int.equal k len with
+    | true -> true
+    | false -> unsafe_get sub (i + k) = unsafe_get s (j + k) && check (k + 1)
   in
   j + len <= length s && check 0
 
@@ -94,7 +95,7 @@ let tail_from s ~from:x =
 let rindex_neg =
   let rec rindex_rec s i c =
     if i < 0 then i
-    else if unsafe_get s i = c then i
+    else if Char.equal (unsafe_get s i) c then i
     else rindex_rec s (i - 1) c
   in
   fun s c -> rindex_rec s (length s - 1) c

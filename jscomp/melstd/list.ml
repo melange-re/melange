@@ -343,7 +343,7 @@ let rec length_compare l n =
   else
     match l with
     | _ :: xs -> length_compare xs (n - 1)
-    | [] -> if n = 0 then `Eq else `Lt
+    | [] -> ( match n with 0 -> `Eq | _ -> `Lt)
 
 let rec length_ge l n =
   if n > 0 then match l with _ :: tl -> length_ge tl (n - 1) | [] -> false
