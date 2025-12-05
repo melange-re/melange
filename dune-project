@@ -37,7 +37,7 @@
    (>= "1.1.0"))
   dune-build-info
   (cppo :build)
-  (ounit :with-test)
+  (alcotest :with-test)
   (reason
    (and :dev :with-test))
   (ppxlib (>= "0.36"))

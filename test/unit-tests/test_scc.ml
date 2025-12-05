@@ -1,8 +1,3 @@
-open Melstd
-
-let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) = OUnit.assert_equal
-
 let tiny_test_cases =
   {|
 13
@@ -229,8 +224,7 @@ let read_file file =
 (* 25 *)
 
 let test (input : (string * string list) list) =
-  (* string -> int mapping
-  *)
+  (* string -> int mapping *)
   let tbl = Hashtbl.create 32 in
   let idx = ref 0 in
   let add x =
@@ -250,8 +244,7 @@ let test (input : (string * string list) list) =
   Scc.graph_check node_array
 
 let test2 (input : (string * string list) list) =
-  (* string -> int mapping
-  *)
+  (* string -> int mapping *)
   let tbl = Hashtbl.create 32 in
   let idx = ref 0 in
   let add x =
@@ -276,127 +269,104 @@ let test2 (input : (string * string list) list) =
   |> Int_vec_vec.map_into_array ~f:(fun int_vec ->
       Vec_int.map_into_array ~f:(fun i -> other_mapping.(i)) int_vec)
 
-let suites =
-  __FILE__
-  >::: [
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (fst @@ Scc.graph_check (handle_lines tiny_test_cases))
-             5 );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (fst @@ Scc.graph_check (handle_lines medium_test_cases))
-             10 );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", []);
-                ])
-             (3, [ 1; 2; 1 ]) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", []);
-                  ("e", []);
-                ])
-             (4, [ 1; 1; 2; 1 ])
-         (* {[
-              a -> b
-              a -> c
-              b -> c
-              b -> d
-              c -> b
-              d
-              e
-              ]}
-              {[
-              [d ; e ; [b;c] [a] ]
-              ]}
-           *)
-         );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", [ "e" ]);
-                  ("e", []);
-                ])
-             (4, [ 1; 2; 1; 1 ]) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", [ "e" ]);
-                  ("e", [ "c" ]);
-                ])
-             (2, [ 1; 4 ]) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", [ "e" ]);
-                  ("e", [ "a" ]);
-                ])
-             (1, [ 5 ]) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("a", [ "b" ]); ("b", [ "c" ]); ("c", []); ("d", []); ("e", []);
-                ])
-             (5, [ 1; 1; 1; 1; 1 ]) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test
-                [
-                  ("1", [ "0" ]);
-                  ("0", [ "2" ]);
-                  ("2", [ "1" ]);
-                  ("0", [ "3" ]);
-                  ("3", [ "4" ]);
-                ])
-             (3, [ 3; 1; 1 ]) );
-         (* http://algs4.cs.princeton.edu/42digraph/largeDG.txt *)
-         (* __LOC__ >:: begin fun _ -> *)
-         (*   OUnit.assert_equal (read_file "largeDG.txt") 25 *)
-         (* end *)
-         (* ; *)
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test2
-                [
-                  ("a", [ "b"; "c" ]);
-                  ("b", [ "c"; "d" ]);
-                  ("c", [ "b" ]);
-                  ("d", []);
-                ])
-             [| [| "d" |]; [| "b"; "c" |]; [| "a" |] |] );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (test2
-                [
-                  ("a", [ "b" ]);
-                  ("b", [ "c" ]);
-                  ("c", [ "d" ]);
-                  ("d", [ "e" ]);
-                  ("e", []);
-                ])
-             [| [| "e" |]; [| "d" |]; [| "c" |]; [| "b" |]; [| "a" |] |] );
-       ]
+let test_graph_check () =
+  Alcotest.(check int)
+    __LOC__
+    (fst @@ Scc.graph_check (handle_lines tiny_test_cases))
+    5;
+  Alcotest.(check int)
+    __LOC__
+    (fst @@ Scc.graph_check (handle_lines medium_test_cases))
+    10
+
+let test_scc_graph_check () =
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [ ("a", [ "b"; "c" ]); ("b", [ "c"; "d" ]); ("c", [ "b" ]); ("d", []) ])
+    (3, [ 1; 2; 1 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [
+         ("a", [ "b"; "c" ]);
+         ("b", [ "c"; "d" ]);
+         ("c", [ "b" ]);
+         ("d", []);
+         ("e", []);
+       ])
+    (4, [ 1; 1; 2; 1 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [
+         ("a", [ "b"; "c" ]);
+         ("b", [ "c"; "d" ]);
+         ("c", [ "b" ]);
+         ("d", [ "e" ]);
+         ("e", []);
+       ])
+    (4, [ 1; 2; 1; 1 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [
+         ("a", [ "b"; "c" ]);
+         ("b", [ "c"; "d" ]);
+         ("c", [ "b" ]);
+         ("d", [ "e" ]);
+         ("e", [ "c" ]);
+       ])
+    (2, [ 1; 4 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [
+         ("a", [ "b"; "c" ]);
+         ("b", [ "c"; "d" ]);
+         ("c", [ "b" ]);
+         ("d", [ "e" ]);
+         ("e", [ "a" ]);
+       ])
+    (1, [ 5 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test [ ("a", [ "b" ]); ("b", [ "c" ]); ("c", []); ("d", []); ("e", []) ])
+    (5, [ 1; 1; 1; 1; 1 ]);
+  Alcotest.(check (pair int (list int)))
+    __LOC__
+    (test
+       [
+         ("1", [ "0" ]);
+         ("0", [ "2" ]);
+         ("2", [ "1" ]);
+         ("0", [ "3" ]);
+         ("3", [ "4" ]);
+       ])
+    (3, [ 3; 1; 1 ])
+
+let test_scc_graph_check_2 () =
+  Alcotest.(check (array (array string)))
+    __LOC__
+    (test2
+       [ ("a", [ "b"; "c" ]); ("b", [ "c"; "d" ]); ("c", [ "b" ]); ("d", []) ])
+    [| [| "d" |]; [| "b"; "c" |]; [| "a" |] |];
+
+  Alcotest.(check (array (array string)))
+    __LOC__
+    (test2
+       [
+         ("a", [ "b" ]);
+         ("b", [ "c" ]);
+         ("c", [ "d" ]);
+         ("d", [ "e" ]);
+         ("e", []);
+       ])
+    [| [| "e" |]; [| "d" |]; [| "c" |]; [| "b" |]; [| "a" |] |]
+
+let suite =
+  [
+    ("graph check", `Quick, test_graph_check);
+    ("scc graph check", `Quick, test_scc_graph_check);
+    ("scc graph check 2", `Quick, test_scc_graph_check_2);
+  ]
