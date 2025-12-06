@@ -229,13 +229,18 @@ let normalize_absolute_path x =
 let absolute_path =
   let rec aux s =
     let base, dir = (Filename.basename s, Filename.dirname s) in
-    if dir = s then dir
-    else if base = Filename.current_dir_name then aux dir
-    else if base = Filename.parent_dir_name then Filename.dirname (aux dir)
+    if String.equal dir s then dir
+    else if String.equal base Filename.current_dir_name then aux dir
+    else if String.equal base Filename.parent_dir_name then
+      Filename.dirname (aux dir)
     else aux dir // base
   in
   fun cwd s ->
-    let s = if Filename.is_relative s then Lazy.force cwd // s else s in
+    let s =
+      match Filename.is_relative s with
+      | true -> Lazy.force cwd // s
+      | false -> s
+    in
     (* Now simplify . and .. components *)
     aux s
 

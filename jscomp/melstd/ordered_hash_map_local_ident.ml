@@ -88,12 +88,13 @@ let choose h =
   aux h.data 0 (Array.length h.data)
 
 let to_sorted_array h =
-  if h.size = 0 then [||]
-  else
-    let v = choose h in
-    let arr = Array.make h.size v in
-    iter h ~f:(fun k _ i -> Array.unsafe_set arr i k);
-    arr
+  match h.size with
+  | 0 -> [||]
+  | size ->
+      let v = choose h in
+      let arr = Array.make size v in
+      iter h ~f:(fun k _ i -> Array.unsafe_set arr i k);
+      arr
 
 let fold h ~init ~f =
   let rec do_bucket b accu =

@@ -26,12 +26,15 @@ type t = CommonJS | ESM | ESM_global
 
 let default = CommonJS
 
-(* ocamlopt could not optimize such simple case..*)
 let compatible ~dep t =
-  match t with
-  | CommonJS -> dep = CommonJS
-  | ESM -> dep = ESM
-  | ESM_global -> dep = ESM_global || dep = ESM
+  match (t, dep) with
+  | CommonJS, CommonJS -> true
+  | CommonJS, (ESM | ESM_global) -> false
+  | ESM, ESM -> true
+  | ESM, (CommonJS | ESM_global) -> false
+  | ESM_global, (ESM_global | ESM) -> true
+  | ESM_global, CommonJS -> false
+
 (* As a dependency Leaf Node, it is the same either [global] or [not] *)
 
 let runtime_package_path =

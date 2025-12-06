@@ -160,41 +160,38 @@ let iteri_range ~from ~to_ ~f d =
     done
 
 let map_into_array ~f src =
-  let src_len = src.len in
-  let src_arr = src.arr in
-  if src_len = 0 then [||]
-  else
+  match src.len with
+  | 0 -> [||]
+  | src_len ->
+    let src_arr = src.arr in
     let first_one = f (Array.unsafe_get src_arr 0) in
-    let arr = Array.make  src_len  first_one in
+    let arr = Array.make src_len  first_one in
     for i = 1 to src_len - 1 do
       Array.unsafe_set arr i (f (Array.unsafe_get src_arr i))
     done;
     arr
 
 let map_into_list ~f src =
-  let src_len = src.len in
-  let src_arr = src.arr in
-  if src_len = 0 then []
-  else
+  match src.len with
+  | 0 -> []
+  | src_len ->
+    let src_arr = src.arr in
     let acc = ref [] in
-    for i =  src_len - 1 downto 0 do
+    for i = src_len - 1 downto 0 do
       acc := f (Array.unsafe_get src_arr i) :: !acc
     done;
     !acc
 
 let mapi ~f src =
-  let len = src.len in
-  if len = 0 then { len ; arr = [| |] }
-  else
+  match src.len with
+  | 0 -> { len = 0; arr = [||] }
+  | len ->
     let src_arr = src.arr in
     let arr = Array.make len (Array.unsafe_get src_arr 0) in
     for i = 1 to len - 1 do
       Array.unsafe_set arr i (f i (Array.unsafe_get src_arr i))
     done;
-    {
-      len ;
-      arr ;
-    }
+    { len; arr }
 
 let fold_left ~f ~init:x a =
   let rec loop a_len (a_arr : elt array) idx x =
@@ -255,58 +252,50 @@ let exists ~f:p d =
   let a = d.arr in
   let n = d.len in
   let rec loop i =
-    if i = n then false
+    if Int.equal i n then false
     else if p (Array.unsafe_get a i) then true
     else loop (succ i) in
   loop 0
 
+
+(* TODO: we may share the empty array
+   but sharing mutable state is very challenging,
+   the tricky part is to avoid mutating the immutable array,
+   here it looks fine --
+   invariant: whenever [.arr] mutated, make sure  it is not an empty array
+   Actually no: since starting from an empty array
+   {[
+     push v (* the address of v should not be changed *)
+   ]}
+*)
 let map ~f src =
-  let src_len = src.len in
-  if src_len = 0 then { len = 0 ; arr = [||]}
-  (* TODO: we may share the empty array
-     but sharing mutable state is very challenging,
-     the tricky part is to avoid mutating the immutable array,
-     here it looks fine --
-     invariant: whenever [.arr] mutated, make sure  it is not an empty array
-     Actually no: since starting from an empty array
-     {[
-       push v (* the address of v should not be changed *)
-     ]}
-  *)
-  else
+  match src.len with
+  | 0 -> { len = 0; arr = [||] }
+  | src_len ->
     let src_arr = src.arr in
     let first = f (Array.unsafe_get src_arr 0 ) in
-    let arr = Array.make  src_len first in
+    let arr = Array.make src_len first in
     for i = 1 to src_len - 1 do
       Array.unsafe_set arr i (f (Array.unsafe_get src_arr i))
     done;
-    {
-      len = src_len;
-      arr = arr;
-    }
+    { len = src_len; arr = arr }
 
 let init len ~f =
   if len < 0 then invalid_arg  "Vec.init"
-  else if len = 0 then { len = 0 ; arr = [||] }
   else
-    let first = f 0 in
-    let arr = Array.make len first in
-    for i = 1 to len - 1 do
-      Array.unsafe_set arr i (f i)
-    done;
-    {
-
-      len ;
-      arr
-    }
+    match len with
+    | 0 -> { len = 0; arr = [||] }
+    | len ->
+      let first = f 0 in
+      let arr = Array.make len first in
+      for i = 1 to len - 1 do
+        Array.unsafe_set arr i (f i)
+      done;
+      { len; arr }
 
   let make initsize : t =
     if initsize < 0 then invalid_arg  "Vec.make" ;
-    {
-
-      len = 0;
-      arr = Array.make  initsize null ;
-    }
+    { len = 0; arr = Array.make initsize null }
 
   let reserve (d : t ) s =
     let d_len = d.len in
@@ -319,30 +308,25 @@ let init len ~f =
       d.arr <- new_d_arr
 
   let push (d : t) v  =
-    let d_len = d.len in
     let d_arr = d.arr in
-    let d_arr_len = Array.length d_arr in
-    if d_arr_len = 0 then
-      begin
+    match Array.length d_arr with
+    | 0 ->
         d.len <- 1 ;
         d.arr <- [| v |]
-      end
-    else
-      begin
-        if d_len = d_arr_len then
-          begin
-            if d_len >= Sys.max_array_length then
-              failwith "exceeds max_array_length";
-            let new_capacity = min Sys.max_array_length d_len * 2
-            (* [d_len] can not be zero, so [*2] will enlarge   *)
-            in
-            let new_d_arr = Array.make new_capacity null in
-            d.arr <- new_d_arr;
-             unsafe_blit ~src:d_arr ~src_pos:0 ~dst:new_d_arr ~dst_pos:0 ~len:d_len ;
-          end;
-        d.len <- d_len + 1;
-        Array.unsafe_set d.arr d_len v
-      end
+    | d_arr_len ->
+      let d_len = d.len in
+      if Int.equal d_len d_arr_len then begin
+        if d_len >= Sys.max_array_length then
+          failwith "exceeds max_array_length";
+        let new_capacity = min Sys.max_array_length d_len * 2
+        (* [d_len] can not be zero, so [*2] will enlarge   *)
+        in
+        let new_d_arr = Array.make new_capacity null in
+        d.arr <- new_d_arr;
+         unsafe_blit ~src:d_arr ~src_pos:0 ~dst:new_d_arr ~dst_pos:0 ~len:d_len ;
+      end;
+      d.len <- d_len + 1;
+      Array.unsafe_set d.arr d_len v
 
 (** delete element at offset [idx], will raise exception when have invalid input *)
   let delete (d : t) idx =
