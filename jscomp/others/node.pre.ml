@@ -56,9 +56,9 @@ type _ string_buffer_kind =
 
 (** We expect a good inliner will eliminate such boxing in the future *)
 let test (type t) (x : string_buffer) : t string_buffer_kind * t =
-  if Js.typeof x = "string" then
-    ((Obj.magic String : t string_buffer_kind), (Obj.magic x : t))
-  else ((Obj.magic Buffer : t string_buffer_kind), (Obj.magic x : t))
+  match Js.typeof x with
+  | "string" -> ((Obj.magic String : t string_buffer_kind), (Obj.magic x : t))
+  | _ -> ((Obj.magic Buffer : t string_buffer_kind), (Obj.magic x : t))
 
 (*MODULE_ALIASES*)
 module Path = Node_path

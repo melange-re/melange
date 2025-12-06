@@ -345,7 +345,7 @@ let[@inline] int_compare (x : int) y =
 
 let compare self other =
   let v = int_compare self.hi other.hi in
-  if v = 0 then int_compare self.lo other.lo else v
+  match v with 0 -> int_compare self.lo other.lo | _ -> v
 
 let of_int32 (lo : int) = mk ~lo ~hi:(if lo < 0 then -1 else 0)
 let to_int32 x = x.lo lor 0 (* signed integer *)
