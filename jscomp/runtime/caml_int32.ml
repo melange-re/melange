@@ -23,7 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let div (x : int) (y : int) =
-  if y = 0 then raise Division_by_zero else Caml_nativeint_extern.div x y
+  match y with
+  | 0 -> raise Division_by_zero
+  | y -> Caml_nativeint_extern.div x y
 
 let mod_ (x : int) (y : int) =
-  if y = 0 then raise Division_by_zero else Caml_nativeint_extern.rem x y
+  match y with
+  | 0 -> raise Division_by_zero
+  | y -> Caml_nativeint_extern.rem x y
