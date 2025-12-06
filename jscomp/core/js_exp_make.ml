@@ -28,6 +28,7 @@ module L = struct
   let js_type_number = "number"
   let js_type_string = "string"
   let js_type_object = "object"
+  let js_type_function = "function"
   let js_type_boolean = "boolean"
   let create = "create" (* {!Caml_exceptions.create}*)
   let imul = "imul" (* signed int32 mul *)
@@ -832,10 +833,16 @@ let is_tag ?(has_null_undefined_other = (false, false, false)) (e : t) : t =
       bin EqEqEq e undefined
   | true, true, true | true, false, true ->
       (* (null + undefined + other) || (null + other) *)
-      or_ (bin EqEqEq e nil) (bin NotEqEq (typeof e) (str "object"))
+      or_ (bin EqEqEq e nil)
+        (and_
+           (bin NotEqEq (typeof e) (str L.js_type_object))
+           (bin NotEqEq (typeof e) (str L.js_type_function)))
   | false, _, _ ->
       (* (undefined + other) || other *)
-      bin NotEqEq (typeof e) (str "object")
+      (* bin NotEqEq (typeof e) (str L.js_type_object) *)
+      and_
+        (bin NotEqEq (typeof e) (str L.js_type_object))
+        (bin NotEqEq (typeof e) (str L.js_type_function))
 
 let is_type_string ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "string")
