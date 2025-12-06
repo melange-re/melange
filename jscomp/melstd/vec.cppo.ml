@@ -505,7 +505,7 @@ let init len ~f =
 let mem =
   let rec unsafe_mem_aux arr i (key : int) bound =
     if i <= bound then
-      if Array.unsafe_get arr i = (key : int) then true
+      if Int.equal (Array.unsafe_get arr i) key then true
       else unsafe_mem_aux arr (i + 1) key bound
     else false
   in

@@ -33,7 +33,7 @@ let get_extension_maybe name =
   let name_len = String.length name in
   let rec search_dot name i name_len =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then ""
-    else if String.unsafe_get name i = '.' then
+    else if Char.equal (String.unsafe_get name i) '.' then
       String.sub name ~pos:i ~len:(name_len - i)
     else search_dot name (i - 1) name_len
   in
@@ -42,20 +42,21 @@ let get_extension_maybe name =
 let get_all_extensions_maybe name =
   let rec search_dot name i current name_len =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then current
-    else if String.unsafe_get name i = '.' then
+    else if Char.equal (String.unsafe_get name i) '.' then
       search_dot name (i - 1) i name_len
     else search_dot name (i - 1) current name_len
   in
   let name_len = String.length name in
   let first_dot = search_dot name (name_len - 1) (name_len - 1) name_len in
-  if first_dot = name_len - 1 then None
+  if Int.equal first_dot (name_len - 1) then None
   else Some (String.sub name ~pos:first_dot ~len:(name_len - first_dot))
 
 let chop_all_extensions_maybe name =
   let rec search_dot i last =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then
       match last with None -> name | Some i -> String.sub name ~pos:0 ~len:i
-    else if String.unsafe_get name i = '.' then search_dot (i - 1) (Some i)
+    else if Char.equal (String.unsafe_get name i) '.' then
+      search_dot (i - 1) (Some i)
     else search_dot (i - 1) last
   in
   search_dot (String.length name - 1) None
@@ -63,7 +64,7 @@ let chop_all_extensions_maybe name =
 let new_extension name ~ext =
   let rec search_dot name i ext =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then name ^ ext
-    else if String.unsafe_get name i = '.' then (
+    else if Char.equal (String.unsafe_get name i) '.' then (
       let ext_len = String.length ext in
       let buf = Bytes.create (i + ext_len) in
       Bytes.blit_string ~src:name ~src_pos:0 ~dst:buf ~dst_pos:0 ~len:i;

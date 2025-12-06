@@ -50,7 +50,7 @@ let read_file =
     let eagerly_input_string ic len =
       let buf = Bytes.create len in
       let r = eagerly_input_acc ic buf ~pos:0 ~len 0 in
-      if r = len then Bytes.unsafe_to_string buf
+      if Int.equal r len then Bytes.unsafe_to_string buf
       else Bytes.sub_string buf ~pos:0 ~len:r
     in
     (* We use 65536 because that is the size of OCaml's IO buffers. *)
@@ -112,7 +112,7 @@ let read_file =
       match Unix.fstat fd with
       | exception Unix.Unix_error (e, x, y) -> Error (`Unix (e, x, y))
       | { Unix.st_size; _ } -> (
-          if st_size = 0 then Ok ""
+          if Int.equal st_size 0 then Ok ""
           else if st_size > Sys.max_string_length then Error `Too_big
           else
             let b = Bytes.create st_size in

@@ -79,4 +79,4 @@ let js_id_name_of_hint_name module_name =
     let str_len = String.length module_name in
     let buf = Buffer.create str_len in
     collect_start buf module_name 0 str_len;
-    if Buffer.length buf = 0 then module_name else Buffer.contents buf
+    match Buffer.length buf with 0 -> module_name | _ -> Buffer.contents buf
