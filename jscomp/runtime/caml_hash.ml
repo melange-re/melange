@@ -130,13 +130,14 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
             }
             return size
           }|}]
-               obj (fun[@u] v -> push_back queue v)
-            [@u])
-          in
-          hash.contents <- caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
-      (*tag*)
-    done;
-    caml_hash_final_mix hash.contents
+                   obj (fun[@u] v -> push_back queue v)
+                [@u])
+              in
+              hash.contents <-
+                caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
+        (*tag*)
+      done;
+      caml_hash_final_mix hash.contents
 
 let caml_string_hash (seed : int) (s : string) : int =
   let h = caml_hash_mix_string seed s in
