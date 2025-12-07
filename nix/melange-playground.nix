@@ -2,7 +2,6 @@
 , lib
 , buildDunePackage
 , cppo
-, menhir
 , nodejs
 , js_of_ocaml
 , js_of_ocaml-compiler
@@ -21,8 +20,6 @@ buildDunePackage {
     fs.toSource {
       root = ./..;
       fileset = fs.unions [
-        ../belt
-        ../bin
         ../dune-project
         ../dune
         (fs.difference ../jscomp ../jscomp/test)
@@ -40,6 +37,6 @@ buildDunePackage {
   '';
 
   doCheck = true;
-  nativeBuildInputs = [ cppo menhir nodejs js_of_ocaml ];
+  nativeBuildInputs = [ cppo nodejs js_of_ocaml ];
   propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
 }
