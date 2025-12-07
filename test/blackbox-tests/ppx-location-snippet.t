@@ -19,6 +19,8 @@ Test that the location snippet appears in a ppx-processed compilation error
   $ export DUNE_SANDBOX=symlink
   $ dune build @melange
   File "foo.ml", line 1, characters 7-11:
+  1 | let x: nope = addOne 2
+             ^^^^
   Error: Unbound type constructor nope
   [1]
 

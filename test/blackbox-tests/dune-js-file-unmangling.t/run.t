@@ -33,10 +33,8 @@ Generated JS files are unmangled
   $ tree --noreport _build/default/dist/leaf
   _build/default/dist/leaf
   |-- leaf.js
-  |-- leaf__.js
   `-- other.js
   $ tree --noreport _build/default/dist/parent
   _build/default/dist/parent
   |-- m_a.js
-  |-- m_b.js
-  `-- parent.js
+  `-- m_b.js
