@@ -1,5 +1,6 @@
 (library
  (name melangelib)
+ (flags :standard -warn-error -58)
  (libraries
   melstd
   melange_compiler_libs
