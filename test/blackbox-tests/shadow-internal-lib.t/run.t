@@ -24,5 +24,4 @@ Generated JS files are unmangled
   $ tree --noreport _build/default/dist/node
   _build/default/dist/node
   |-- leaf.js
-  |-- node.js
   `-- other.js

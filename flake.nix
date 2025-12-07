@@ -16,7 +16,31 @@
       forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
         let
           pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_4;
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (oself: osuper: {
+              top-closure = oself.buildDunePackage {
+                pname = "top-closure";
+                inherit (oself.dune_3) src version;
+              };
+              fs-io = oself.buildDunePackage {
+                pname = "fs-io";
+                inherit (oself.dune_3) src version;
+              };
+              stdune = osuper.stdune.overrideAttrs (o: {
+                propagatedBuildInputs = o.propagatedBuildInputs ++ [
+                  oself.fs-io
+                  oself.top-closure
+                ];
+              });
+
+              dune_3 = osuper.dune_3.overrideAttrs (_: {
+                src = super.fetchFromGitHub {
+                  owner = "ocaml";
+                  repo = "dune";
+                  rev = "3.21.0_alpha0";
+                  hash = "sha256-1uEJIU83zyxApeh1LG8w/+UP2/dGdb/r3V5rMWtZOdc=";
+                };
+              });
+            });
           });
         in
         f pkgs);
