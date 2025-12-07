@@ -29,7 +29,6 @@ buildDunePackage {
         (fs.difference ../jscomp ../jscomp/test)
         ../melange.opam
         ../ppx
-        ../scripts
         ../test
         ../vendor
       ];
