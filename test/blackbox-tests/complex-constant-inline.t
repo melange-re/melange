@@ -30,7 +30,7 @@
     message = "b";
   } else {
     let tmp = 12345;
-    message = typeof tmp !== "object" || tmp.TAG === /* Vacations */ 0 ? "a" : "b";
+    message = typeof tmp !== "object" && typeof tmp !== "function" || tmp.TAG === /* Vacations */ 0 ? "a" : "b";
   }
   
   const Test1 = {
