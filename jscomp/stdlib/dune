@@ -49,6 +49,7 @@
  (preprocess
   (pps melange.ppx))
  (libraries melange.js)
+ (flags :standard -warn-error -106)
  (stdlib
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
   (internal_modules Camlinternal*))
