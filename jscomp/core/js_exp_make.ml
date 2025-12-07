@@ -28,6 +28,7 @@ module L = struct
   let js_type_number = "number"
   let js_type_string = "string"
   let js_type_object = "object"
+  let js_type_function = "function"
   let js_type_boolean = "boolean"
   let create = "create" (* {!Caml_exceptions.create}*)
   let imul = "imul" (* signed int32 mul *)
@@ -320,6 +321,11 @@ let as_value ?comment modifier =
   | Int i ->
       let exp = small_int i in
       { exp with comment }
+  | Bool b ->
+      let exp = bool b in
+      { exp with comment }
+  | Null -> { nil with comment }
+  | Undefined -> { undefined with comment }
 
 let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
@@ -814,12 +820,29 @@ let string_equal ?loc ?comment (e0 : t) (e1 : t) : t =
 let is_type_number ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "number")
 
-(* XXX(anmonteiro): this needs to change if we ever allow `[@mel.as ..]`
-   payloads to have types other than string or number *)
-let is_tag (e : t) : t =
-  or_ ~comment:"tag"
-    (string_equal (typeof e) (str "number"))
-    (string_equal (typeof e) (str "string"))
+let is_tag ?(has_null_undefined_other = (false, false, false)) (e : t) : t =
+  match has_null_undefined_other with
+  | true, false, false ->
+      (* null *)
+      bin EqEqEq e nil
+  | true, true, false ->
+      (* null + undefined *)
+      or_ (bin EqEqEq e nil) (bin EqEqEq e undefined)
+  | false, true, false ->
+      (* undefined *)
+      bin EqEqEq e undefined
+  | true, true, true | true, false, true ->
+      (* (null + undefined + other) || (null + other) *)
+      or_ (bin EqEqEq e nil)
+        (and_
+           (bin NotEqEq (typeof e) (str L.js_type_object))
+           (bin NotEqEq (typeof e) (str L.js_type_function)))
+  | false, _, _ ->
+      (* (undefined + other) || other *)
+      (* bin NotEqEq (typeof e) (str L.js_type_object) *)
+      and_
+        (bin NotEqEq (typeof e) (str L.js_type_object))
+        (bin NotEqEq (typeof e) (str L.js_type_function))
 
 let is_type_string ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "string")
