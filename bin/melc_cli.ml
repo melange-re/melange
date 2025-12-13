@@ -84,7 +84,6 @@ type t = {
   short_paths : bool;
   unsafe : bool;
   warn_help : bool;
-  help : bool;
   warn_error : string list;
   bs_stop_after_cmj : bool;
   runtime : string option;
@@ -461,13 +460,6 @@ let store_occurrences =
   in
   Arg.(value & flag & info [ "bin-annot-occurrences" ] ~doc)
 
-let help =
-  let doc =
-    "Show this help. The format is pager or plain whenever the TERM env var is \
-     dumb or undefined."
-  in
-  Arg.(value & flag & info [ "h" ] ~doc)
-
 module Compat = struct
   (* The args in this module are accepted by the CLI but ignored. They exist
    * for compatibility with OCaml compilation. *)
@@ -476,7 +468,7 @@ module Compat = struct
   let c = Arg.(value & flag & info [ "c" ] ~doc)
 end
 
-let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
+let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     open_modules bs_package_output mel_module_system bs_syntax_only
     bs_package_name bs_module_name as_ppx as_pp no_alias_deps bs_gentype
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
@@ -488,7 +480,6 @@ let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
     warn_help warn_error bs_stop_after_cmj runtime filenames _c
     store_occurrences =
   {
-    help;
     include_dirs;
     hidden_include_dirs;
     alerts;
@@ -556,7 +547,7 @@ let parse help include_dirs hidden_include_dirs alerts warnings output_name ppx
 
 let cmd =
   Term.(
-    const parse $ help $ include_dirs $ hidden_include_dirs $ alerts $ warnings
+    const parse $ include_dirs $ hidden_include_dirs $ alerts $ warnings
     $ output_name $ ppx $ open_modules $ Internal.bs_package_output
     $ Internal.mel_module_system $ bs_syntax_only $ bs_package_name
     $ bs_module_name $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
