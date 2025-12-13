@@ -83,7 +83,6 @@ type t = {
   short_paths : bool;
   unsafe : bool;
   warn_help : bool;
-  help : bool;
   warn_error : string list;
   bs_stop_after_cmj : bool;
   runtime : string option;
