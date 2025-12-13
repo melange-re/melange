@@ -269,12 +269,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_stop_after_cmj;
       runtime = _;
       filenames;
-      help;
       store_occurrences = _store_occurrences
     } ->
   let open Melangelib in
-  if help then `Help (`Auto, None)
-  else begin try
+  try
     Clflags.include_dirs :=
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
@@ -401,7 +399,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         Location.report_exception ppf x;
         exit 2
       end
-  end
 
 
 let melc_cmd =
