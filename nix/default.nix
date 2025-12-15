@@ -1,13 +1,14 @@
-{ stdenv
-, ocamlPackages
-, jq
-, lib
-, git
-, tree
-, makeWrapper
-, nodejs
-, melange-compiler-libs-vendor-dir
-, doCheck ? true
+{
+  stdenv,
+  ocamlPackages,
+  jq,
+  lib,
+  git,
+  tree,
+  makeWrapper,
+  nodejs,
+  melange-compiler-libs-vendor-dir,
+  doCheck ? true,
 }:
 
 with ocamlPackages;
@@ -18,7 +19,9 @@ buildDunePackage {
   duneVersion = "3";
 
   src =
-    let fs = lib.fileset; in
+    let
+      fs = lib.fileset;
+    in
     fs.toSource {
       root = ./..;
       fileset = fs.unions [
@@ -45,15 +48,28 @@ buildDunePackage {
       --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange"
   '';
 
-  doCheck = doCheck &&
-    # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
-    # x86_64-darwin?
-    !(stdenv.isDarwin && stdenv.isx86_64);
-  nativeCheckInputs = [ tree nodejs reason jq merlin ];
+  doCheck =
+    doCheck
+    &&
+      # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
+      # x86_64-darwin?
+      !(stdenv.isDarwin && stdenv.isx86_64);
+  nativeCheckInputs = [
+    tree
+    nodejs
+    reason
+    jq
+    merlin
+  ];
   checkInputs = [ alcotest ];
   DUNE_CACHE = "disabled";
 
-  nativeBuildInputs = [ menhir cppo git makeWrapper ];
+  nativeBuildInputs = [
+    menhir
+    cppo
+    git
+    makeWrapper
+  ];
   propagatedBuildInputs = [
     dune-build-info
     cmdliner
