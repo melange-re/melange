@@ -8,6 +8,7 @@ AnimationEffect
 AnimationEvent
 AnimationPlaybackEvent
 AnimationTimeline
+AnimationTrigger
 Array
 ArrayBuffer
 AsyncDisposableStack
