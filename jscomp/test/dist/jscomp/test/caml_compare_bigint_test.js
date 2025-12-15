@@ -3,7 +3,7 @@
 
 const Caml_obj = require("melange.js/caml_obj.js");
 const Mt = require("./mt.js");
-const Stdlib = require("melange/stdlib.js");
+const Stdlib__List = require("melange/list.js");
 
 function isLessThan(title, small, big) {
   return {
@@ -423,14 +423,22 @@ function isEqual(title, num1, num2) {
 
 const five = BigInt("5");
 
-const suites = Stdlib.$at(isLessThan("123 and 555555", BigInt("123"), BigInt("555555")), Stdlib.$at(isEqual("98765 and 98765", BigInt("98765"), BigInt("98765")), isEqual("same instance", five, five)));
+const suites = Stdlib__List.concat({
+  hd: isLessThan("123 and 555555", BigInt("123"), BigInt("555555")),
+  tl: {
+    hd: isEqual("98765 and 98765", BigInt("98765"), BigInt("98765")),
+    tl: {
+      hd: isEqual("same instance", five, five),
+      tl: /* [] */ 0
+    }
+  }
+});
 
 Mt.from_pair_suites("jscomp/test/caml_compare_bigint_test.ml", suites);
 
 module.exports = {
   isLessThan,
   isEqual,
-  five,
   suites,
 }
 /* five Not a pure module */

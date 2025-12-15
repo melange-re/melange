@@ -1,4 +1,3 @@
-external bigint : string -> float = "BigInt"
 let isLessThan title small big =
   [
     ("compare: " ^ title, fun _ -> Mt.Eq (true, compare big small > 0));
@@ -41,12 +40,14 @@ let isEqual title num1 num2 =
     ("== operator: " ^ title, fun _ -> Mt.Eq (true, num2 == num1));
   ]
 
-let five = bigint "5"
-
-(** Not comparing floats and Bigint; not sure this is correct since works in JavaScript*)
+(* Not comparing floats and Bigint; not sure this is correct since works in
+   JavaScript *)
 let suites : Mt.pair_suites =
-  isLessThan "123 and 555555" (bigint "123") (bigint "555555")
-  @ isEqual "98765 and 98765" (bigint "98765") (bigint "98765")
-  @ isEqual "same instance" five five
+  let five = Js.Bigint.make "5" in
+  List.concat [
+    isLessThan "123 and 555555" (Js.Bigint.make "123") (Js.Bigint.make "555555");
+    isEqual "98765 and 98765" (Js.Bigint.make "98765") (Js.Bigint.make "98765");
+    isEqual "same instance" five five;
+  ]
 
 let () = Mt.from_pair_suites __FILE__ suites
