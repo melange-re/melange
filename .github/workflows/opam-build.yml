@@ -51,7 +51,7 @@ jobs:
 
       - name: Restore OPAM cache
         id: opam-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             ~/.opam
@@ -88,7 +88,7 @@ jobs:
           node ./_build/default/src/node/src/Hello.mjs
 
       - name: Save OPAM cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         if: steps.opam-cache.outputs.cache-hit != 'true'
         with:
           path: |
