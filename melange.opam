@@ -13,7 +13,7 @@ depends: [
   "dune-build-info"
   "cppo" {build}
   "alcotest" {with-test}
-  "reason" {dev & with-test}
+  "reason" {with-test}
   "ppxlib" {>= "0.36"}
   "menhir" {>= "20201214"}
   "reason-react-ppx" {with-test & post}
@@ -37,5 +37,5 @@ build: [
 dev-repo: "git+https://github.com/melange-re/melange.git"
 x-maintenance-intent: ["(latest)"]
 pin-depends: [
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#2c1f6648be3223991579f956c913805c12880cb3"]
+  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#8f49cb937cdafcc4e2d83a2edcca66aa24bf8e20"]
 ]
