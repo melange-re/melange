@@ -56,7 +56,7 @@ external toLocaleString :
   [toLocaleString bigint] returns a string with a language-sensitive
   representation of this BigInt. *)
 
-external toString : t -> string = "toLocaleString"
+external toString : t -> string = "toString"
 [@@mel.send]
 (**
   [toString bigint] returns a string representing the specified BigInt value.
