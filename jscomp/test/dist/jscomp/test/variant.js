@@ -8,7 +8,7 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function foo(n) {
-  if (typeof n !== "object" && typeof n !== "function") {
+  if (/* tag */ typeof n !== "object" && typeof n !== "function") {
     if (n === /* A1 */ 0) {
       return 1;
     } else {
@@ -27,7 +27,7 @@ function foo(n) {
 }
 
 function fooA1(param) {
-  if (typeof param !== "object" && typeof param !== "function" && param === /* A1 */ 0) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function" && param === /* A1 */ 0) {
     return 1;
   } else {
     return 42;
@@ -35,7 +35,7 @@ function fooA1(param) {
 }
 
 function fooC(param) {
-  if (typeof param !== "object" && typeof param !== "function" || param.TAG !== /* C */ 1) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function" || param.TAG !== /* C */ 1) {
     return 42;
   } else {
     return param._0 + param._1 | 0;

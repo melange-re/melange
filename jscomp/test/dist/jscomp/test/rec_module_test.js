@@ -100,7 +100,7 @@ const AAA = {
 };
 
 function height(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -109,9 +109,9 @@ function height(param) {
 
 function create(l, v, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
     l: l,
@@ -123,11 +123,11 @@ function create(l, v, r) {
 
 function bal(l, v, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -139,7 +139,7 @@ function bal(l, v, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
     }
-    if (!(typeof lr !== "object" && typeof lr !== "function")) {
+    if (!/* tag */ (typeof lr !== "object" && typeof lr !== "function")) {
       return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -156,7 +156,7 @@ function bal(l, v, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal"
@@ -168,7 +168,7 @@ function bal(l, v, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
   }
-  if (!(typeof rl !== "object" && typeof rl !== "function")) {
+  if (!/* tag */ (typeof rl !== "object" && typeof rl !== "function")) {
     return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -178,7 +178,7 @@ function bal(l, v, r) {
 }
 
 function add(x, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -221,7 +221,7 @@ function singleton(x) {
 }
 
 function add_min_element(x, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return singleton(x);
   } else {
     return bal(add_min_element(x, param.l), param.v, param.r);
@@ -229,7 +229,7 @@ function add_min_element(x, param) {
 }
 
 function add_max_element(x, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return singleton(x);
   } else {
     return bal(param.l, param.v, add_max_element(x, param.r));
@@ -237,11 +237,11 @@ function add_max_element(x, param) {
 }
 
 function join(l, v, r) {
-  if (typeof l !== "object" && typeof l !== "function") {
+  if (/* tag */ typeof l !== "object" && typeof l !== "function") {
     return add_min_element(v, r);
   }
   const lh = l.h;
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     return add_max_element(v, l);
   }
   const rh = r.h;
@@ -257,13 +257,13 @@ function join(l, v, r) {
 function min_elt(_param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
     const l = param.l;
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       return param.v;
     }
     _param = l;
@@ -274,11 +274,11 @@ function min_elt(_param) {
 function min_elt_opt(_param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     const l = param.l;
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       return Caml_option.some(param.v);
     }
     _param = l;
@@ -289,13 +289,13 @@ function min_elt_opt(_param) {
 function max_elt(_param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
     let tmp = param.r;
-    if (typeof tmp !== "object" && typeof tmp !== "function") {
+    if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
       return param.v;
     }
     _param = param.r;
@@ -306,11 +306,11 @@ function max_elt(_param) {
 function max_elt_opt(_param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     let tmp = param.r;
-    if (typeof tmp !== "object" && typeof tmp !== "function") {
+    if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
       return Caml_option.some(param.v);
     }
     _param = param.r;
@@ -319,14 +319,14 @@ function max_elt_opt(_param) {
 }
 
 function remove_min_elt(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.remove_min_elt"
       });
   }
   const l = param.l;
-  if (typeof l !== "object" && typeof l !== "function") {
+  if (/* tag */ typeof l !== "object" && typeof l !== "function") {
     return param.r;
   } else {
     return bal(remove_min_elt(l), param.v, param.r);
@@ -334,9 +334,9 @@ function remove_min_elt(param) {
 }
 
 function concat(t1, t2) {
-  if (typeof t1 !== "object" && typeof t1 !== "function") {
+  if (/* tag */ typeof t1 !== "object" && typeof t1 !== "function") {
     return t2;
-  } else if (typeof t2 !== "object" && typeof t2 !== "function") {
+  } else if (/* tag */ typeof t2 !== "object" && typeof t2 !== "function") {
     return t1;
   } else {
     return join(t1, min_elt(t2), remove_min_elt(t2));
@@ -344,7 +344,7 @@ function concat(t1, t2) {
 }
 
 function split(x, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return [
       /* Empty */ 0,
       false,
@@ -379,7 +379,7 @@ function split(x, param) {
 }
 
 function is_empty(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return true;
   } else {
     return false;
@@ -389,7 +389,7 @@ function is_empty(param) {
 function mem(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const c = Curry._2(AAA.compare, x, param.v);
@@ -402,7 +402,7 @@ function mem(x, _param) {
 }
 
 function remove(x, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return /* Empty */ 0;
   }
   const r = t.r;
@@ -410,9 +410,9 @@ function remove(x, t) {
   const l = t.l;
   const c = Curry._2(AAA.compare, x, v);
   if (c === 0) {
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       return r;
-    } else if (typeof r !== "object" && typeof r !== "function") {
+    } else if (/* tag */ typeof r !== "object" && typeof r !== "function") {
       return l;
     } else {
       return bal(l, min_elt(r), remove_min_elt(r));
@@ -435,12 +435,12 @@ function remove(x, t) {
 }
 
 function union(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return s2;
   }
   const h1 = s1.h;
   const v1 = s1.v;
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return s1;
   }
   const h2 = s2.h;
@@ -460,10 +460,10 @@ function union(s1, s2) {
 }
 
 function inter(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return /* Empty */ 0;
   }
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return /* Empty */ 0;
   }
   const r1 = s1.r;
@@ -479,7 +479,7 @@ function inter(s1, s2) {
 }
 
 function split_bis(x, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return {
       TAG: /* NotFound */ 0,
       _0: /* Empty */ 0,
@@ -497,7 +497,7 @@ function split_bis(x, param) {
   }
   if (c < 0) {
     const match = split_bis(x, l);
-    if (typeof match !== "object" && typeof match !== "function") {
+    if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       return /* Found */ 0;
     }
     const rl = match._1;
@@ -510,7 +510,7 @@ function split_bis(x, param) {
     };
   }
   const match$1 = split_bis(x, r);
-  if (typeof match$1 !== "object" && typeof match$1 !== "function") {
+  if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
     return /* Found */ 0;
   } else {
     return {
@@ -525,17 +525,17 @@ function disjoint(_s1, _s2) {
   while (true) {
     const s2 = _s2;
     const s1 = _s1;
-    if (typeof s1 !== "object" && typeof s1 !== "function") {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
       return true;
     }
-    if (typeof s2 !== "object" && typeof s2 !== "function") {
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
       return true;
     }
     if (s1 === s2) {
       return false;
     }
     const match = split_bis(s1.v, s2);
-    if (typeof match !== "object" && typeof match !== "function") {
+    if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       return false;
     }
     if (!disjoint(s1.l, match._0)) {
@@ -548,10 +548,10 @@ function disjoint(_s1, _s2) {
 }
 
 function diff(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return /* Empty */ 0;
   }
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return s1;
   }
   const r1 = s1.r;
@@ -570,7 +570,7 @@ function cons_enum(_s, _e) {
   while (true) {
     const e = _e;
     const s = _s;
-    if (typeof s !== "object" && typeof s !== "function") {
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
       return e;
     }
     _e = {
@@ -590,14 +590,14 @@ function compare$1(s1, s2) {
   while (true) {
     const e2 = _e2;
     const e1 = _e1;
-    if (typeof e1 !== "object" && typeof e1 !== "function") {
-      if (typeof e2 !== "object" && typeof e2 !== "function") {
+    if (/* tag */ typeof e1 !== "object" && typeof e1 !== "function") {
+      if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
         return 0;
       } else {
         return -1;
       }
     }
-    if (typeof e2 !== "object" && typeof e2 !== "function") {
+    if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
     const c = Curry._2(AAA.compare, e1._0, e2._0);
@@ -618,13 +618,13 @@ function subset(_s1, _s2) {
   while (true) {
     const s2 = _s2;
     const s1 = _s1;
-    if (typeof s1 !== "object" && typeof s1 !== "function") {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
       return true;
     }
     const r1 = s1.r;
     const v1 = s1.v;
     const l1 = s1.l;
-    if (typeof s2 !== "object" && typeof s2 !== "function") {
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
       return false;
     }
     const r2 = s2.r;
@@ -668,7 +668,7 @@ function subset(_s1, _s2) {
 function iter(f, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     iter(f, param.l);
@@ -682,7 +682,7 @@ function fold(f, _s, _accu) {
   while (true) {
     const accu = _accu;
     const s = _s;
-    if (typeof s !== "object" && typeof s !== "function") {
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
       return accu;
     }
     _accu = Curry._2(f, s.v, fold(f, s.l, accu));
@@ -694,7 +694,7 @@ function fold(f, _s, _accu) {
 function for_all(p, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return true;
     }
     if (!Curry._1(p, param.v)) {
@@ -711,7 +711,7 @@ function for_all(p, _param) {
 function exists(p, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     if (Curry._1(p, param.v)) {
@@ -726,7 +726,7 @@ function exists(p, _param) {
 }
 
 function filter(p, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return /* Empty */ 0;
   }
   const r = t.r;
@@ -747,7 +747,7 @@ function filter(p, t) {
 }
 
 function partition(p, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return [
       /* Empty */ 0,
       /* Empty */ 0
@@ -775,7 +775,7 @@ function partition(p, param) {
 }
 
 function cardinal(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return (cardinal(param.l) + 1 | 0) + cardinal(param.r) | 0;
@@ -786,7 +786,7 @@ function elements_aux(_accu, _param) {
   while (true) {
     const param = _param;
     const accu = _accu;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return accu;
     }
     _param = param.l;
@@ -805,7 +805,7 @@ function elements(s) {
 function find(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -823,7 +823,7 @@ function find(x, _param) {
 function find_first(f, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -835,7 +835,7 @@ function find_first(f, _param) {
       while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
-        if (typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return v0;
         }
         const v$1 = param$1.v;
@@ -856,7 +856,7 @@ function find_first(f, _param) {
 function find_first_opt(f, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     const v = param.v;
@@ -866,7 +866,7 @@ function find_first_opt(f, _param) {
       while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
-        if (typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
@@ -887,7 +887,7 @@ function find_first_opt(f, _param) {
 function find_last(f, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -899,7 +899,7 @@ function find_last(f, _param) {
       while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
-        if (typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return v0;
         }
         const v$1 = param$1.v;
@@ -920,7 +920,7 @@ function find_last(f, _param) {
 function find_last_opt(f, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     const v = param.v;
@@ -930,7 +930,7 @@ function find_last_opt(f, _param) {
       while (true) {
         const param$1 = _param$1;
         const v0 = _v0;
-        if (typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
@@ -951,7 +951,7 @@ function find_last_opt(f, _param) {
 function find_opt(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
     const v = param.v;
@@ -973,7 +973,7 @@ function try_join(l, v, r) {
 }
 
 function map(f, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return /* Empty */ 0;
   }
   const r = t.r;
@@ -990,7 +990,7 @@ function map(f, t) {
 }
 
 function filter_map(f, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return /* Empty */ 0;
   }
   const r = t.r;
@@ -1000,9 +1000,9 @@ function filter_map(f, t) {
   const v$p = Curry._1(f, v);
   const r$p = filter_map(f, r);
   if (v$p === undefined) {
-    if (typeof l$p !== "object" && typeof l$p !== "function") {
+    if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
       return r$p;
-    } else if (typeof r$p !== "object" && typeof r$p !== "function") {
+    } else if (/* tag */ typeof r$p !== "object" && typeof r$p !== "function") {
       return l$p;
     } else {
       return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
@@ -1159,7 +1159,7 @@ function of_seq(i) {
 }
 
 function seq_of_enum_(c, param) {
-  if (typeof c !== "object" && typeof c !== "function") {
+  if (/* tag */ typeof c !== "object" && typeof c !== "function") {
     return /* Nil */ 0;
   }
   const partial_arg = cons_enum(c._1, c._2);
@@ -1183,7 +1183,7 @@ function snoc_enum(_s, _e) {
   while (true) {
     const e = _e;
     const s = _s;
-    if (typeof s !== "object" && typeof s !== "function") {
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
       return e;
     }
     _e = {
@@ -1198,7 +1198,7 @@ function snoc_enum(_s, _e) {
 }
 
 function rev_seq_of_enum_(c, param) {
-  if (typeof c !== "object" && typeof c !== "function") {
+  if (/* tag */ typeof c !== "object" && typeof c !== "function") {
     return /* Nil */ 0;
   }
   const partial_arg = snoc_enum(c._1, c._2);
@@ -1223,7 +1223,7 @@ function to_seq_from(low, s) {
     while (true) {
       const c = _c;
       const s = _s;
-      if (typeof s !== "object" && typeof s !== "function") {
+      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
         return c;
       }
       const r = s.r;

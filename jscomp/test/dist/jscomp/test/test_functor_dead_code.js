@@ -4,7 +4,7 @@
 const Curry = require("melange.js/curry.js");
 
 function is_empty(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return true;
   } else {
     return false;

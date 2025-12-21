@@ -21,7 +21,7 @@ function cons(x, y) {
 }
 
 function map(f, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return /* Nil */ 0;
   } else {
     return {

@@ -375,7 +375,7 @@ function string_of_programmatic_error(e) {
 const Compilation_error = /* @__PURE__ */ Caml_exceptions.create("Ocaml_proto_test.Exception.Compilation_error");
 
 function prepare_error(e) {
-  if (typeof e !== "object" && typeof e !== "function") {
+  if (/* tag */ typeof e !== "object" && typeof e !== "function") {
     return Stdlib__Printf.sprintf({
       TAG: /* Format */ 0,
       _0: {
@@ -723,7 +723,7 @@ function prepare_error(e) {
 function add_loc(loc, exn) {
   if (exn.MEL_EXN_ID === Compilation_error) {
     let tmp = exn._1;
-    if (!(typeof tmp !== "object" && typeof tmp !== "function")) {
+    if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
       switch (tmp.TAG) {
         case /* Invalid_import_qualifier */ 5 :
         case /* Missing_semicolon_for_enum_value */ 9 :
@@ -1716,21 +1716,21 @@ function lexer(lexbuf) {
         return /* COMMA */ 24;
       case 11 :
         const match = __ocaml_lex_comment_rec(/* [] */ 0, lexbuf, 41);
-        if (typeof match !== "object" && typeof match !== "function") {
+        if (/* tag */ typeof match !== "object" && typeof match !== "function") {
           return /* EOF */ 25;
         }
         ___ocaml_lex_state = 0;
         continue;
       case 12 :
         const match$1 = __ocaml_lex_multi_line_comment_rec(/* [] */ 0, lexbuf, 47);
-        if (typeof match$1 !== "object" && typeof match$1 !== "function") {
+        if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
           return /* EOF */ 25;
         }
         ___ocaml_lex_state = 0;
         continue;
       case 13 :
         const s = __ocaml_lex_string_rec(/* [] */ 0, lexbuf, 55);
-        if (typeof s !== "object" && typeof s !== "function") {
+        if (/* tag */ typeof s !== "object" && typeof s !== "function") {
           return /* EOF */ 25;
         } else {
           return {
@@ -1867,7 +1867,7 @@ function string_of_basic_type(param) {
 }
 
 function string_of_field_type(bt) {
-  if (typeof bt !== "object" && typeof bt !== "function") {
+  if (/* tag */ typeof bt !== "object" && typeof bt !== "function") {
     return "unit";
   } else if (bt.TAG === /* Ft_basic_type */ 0) {
     return string_of_basic_type(bt._0);
@@ -2018,7 +2018,7 @@ function function_name_of_user_defined(prefix, param) {
 
 function string_of_payload_kind(capitalize, payload_kind, packed) {
   let s;
-  if (typeof payload_kind !== "object" && typeof payload_kind !== "function") {
+  if (/* tag */ typeof payload_kind !== "object" && typeof payload_kind !== "function") {
     switch (payload_kind) {
       case /* Pk_bits32 */ 0 :
         s = packed ? "bytes" : "bits32";
@@ -2120,7 +2120,7 @@ function runtime_function(param) {
   const match = param[0];
   if (match === "Decode") {
     const match$1 = param[1];
-    if (typeof match$1 !== "object" && typeof match$1 !== "function") {
+    if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
       switch (match$1) {
         case /* Pk_bits32 */ 0 :
           switch (param[2]) {
@@ -2196,7 +2196,7 @@ function runtime_function(param) {
     }
   } else if (match === "Encode") {
     const match$2 = param[1];
-    if (typeof match$2 !== "object" && typeof match$2 !== "function") {
+    if (/* tag */ typeof match$2 !== "object" && typeof match$2 !== "function") {
       switch (match$2) {
         case /* Pk_bits32 */ 0 :
           switch (param[2]) {
@@ -2287,7 +2287,7 @@ function decode_basic_type(bt, pk) {
 }
 
 function decode_field_f(field_type, pk) {
-  if (typeof field_type !== "object" && typeof field_type !== "function") {
+  if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
     return "Pbrt.Decoder.empty_nested d";
   }
   if (field_type.TAG === /* Ft_basic_type */ 0) {
@@ -2819,7 +2819,7 @@ function gen_decode_record(and_, param, sc) {
               const vc_field_type = param.vc_field_type;
               const vc_constructor = param.vc_constructor;
               process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(), pk, false), (function (sc) {
-                if (!(typeof vc_field_type !== "object" && typeof vc_field_type !== "function")) {
+                if (!/* tag */ (typeof vc_field_type !== "object" && typeof vc_field_type !== "function")) {
                   return line$1(sc, Curry._3(Stdlib__Printf.sprintf({
                     TAG: /* Format */ 0,
                     _0: {
@@ -2967,7 +2967,7 @@ function gen_decode_variant(and_, param, sc) {
           const vc_encoding_number = ctor.vc_encoding_number;
           const vc_field_type = ctor.vc_field_type;
           const vc_constructor = ctor.vc_constructor;
-          if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+          if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
             return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
               TAG: /* Format */ 0,
               _0: {
@@ -3265,7 +3265,7 @@ function endline(s) {
 }
 
 function gen_pp_field(field_type) {
-  if (!(typeof field_type !== "object" && typeof field_type !== "function") && field_type.TAG !== /* Ft_basic_type */ 0) {
+  if (!/* tag */ (typeof field_type !== "object" && typeof field_type !== "function") && field_type.TAG !== /* Ft_basic_type */ 0) {
     return function_name_of_user_defined("pp", field_type._0);
   }
   return Curry._1(Stdlib__Printf.sprintf({
@@ -3633,7 +3633,7 @@ function gen_pp_variant(and_, param, sc) {
     Stdlib__List.iter((function (param) {
       const vc_field_type = param.vc_field_type;
       const vc_constructor = param.vc_constructor;
-      if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+      if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
         return line$1(sc, Curry._2(Stdlib__Printf.sprintf({
           TAG: /* Format */ 0,
           _0: {
@@ -3879,7 +3879,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -3901,11 +3901,11 @@ function create(l, x, d, r) {
 
 function bal(l, x, d, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -3918,7 +3918,7 @@ function bal(l, x, d, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, ld, create(lr, x, d, r));
     }
-    if (!(typeof lr !== "object" && typeof lr !== "function")) {
+    if (!/* tag */ (typeof lr !== "object" && typeof lr !== "function")) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -3936,7 +3936,7 @@ function bal(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal"
@@ -3949,7 +3949,7 @@ function bal(l, x, d, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, x, d, rl), rv, rd, rr);
   }
-  if (!(typeof rl !== "object" && typeof rl !== "function")) {
+  if (!/* tag */ (typeof rl !== "object" && typeof rl !== "function")) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -3959,7 +3959,7 @@ function bal(l, x, d, r) {
 }
 
 function add(x, data, m) {
-  if (typeof m !== "object" && typeof m !== "function") {
+  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -4007,7 +4007,7 @@ function add(x, data, m) {
 function find(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -4022,7 +4022,7 @@ function find(x, _param) {
 }
 
 function map$1(f, param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return /* Empty */ 0;
   }
   const l$p = map$1(f, param.l);
@@ -4042,7 +4042,7 @@ function fold(f, _m, _accu) {
   while (true) {
     const accu = _accu;
     const m = _m;
-    if (typeof m !== "object" && typeof m !== "function") {
+    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
       return accu;
     }
     _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
@@ -4537,7 +4537,7 @@ function compile_default_p2(all_types, field) {
     return;
   }
   let exit = 0;
-  if (typeof field_type$1 !== "object" && typeof field_type$1 !== "function") {
+  if (/* tag */ typeof field_type$1 !== "object" && typeof field_type$1 !== "function") {
     switch (field_type$1) {
       case /* Field_type_double */ 0 :
       case /* Field_type_float */ 1 :
@@ -4950,8 +4950,8 @@ function compile_message_p2(types, param, message) {
       },
       _1: "[pbtt] field_name: %s\n"
     }), field_name);
-    if (typeof field_type !== "object" && typeof field_type !== "function") {
-      if (typeof field_type !== "object" && typeof field_type !== "function") {
+    if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
+      if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
         switch (field_type) {
           case /* Field_type_double */ 0 :
             return /* Field_type_double */ 0;
@@ -5185,7 +5185,7 @@ function node_of_proto_type(param) {
     switch (param.TAG) {
       case /* Message_field */ 0 :
         const field_type = param._0.field_type;
-        if (typeof field_type !== "object" && typeof field_type !== "function") {
+        if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
           return /* [] */ 0;
         } else {
           return {
@@ -5196,7 +5196,7 @@ function node_of_proto_type(param) {
       case /* Message_oneof_field */ 1 :
         return Stdlib__List.flatten(Stdlib__List.map((function (param) {
           const field_type = param.field_type;
-          if (typeof field_type !== "object" && typeof field_type !== "function") {
+          if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
             return /* [] */ 0;
           } else {
             return {
@@ -5207,7 +5207,7 @@ function node_of_proto_type(param) {
         }), param._0.oneof_fields));
       case /* Message_map_field */ 2 :
         const map_value_type = param._0.map_value_type;
-        if (typeof map_value_type !== "object" && typeof map_value_type !== "function") {
+        if (/* tag */ typeof map_value_type !== "object" && typeof map_value_type !== "function") {
           return /* [] */ 0;
         } else {
           return {
@@ -5359,7 +5359,7 @@ function gen_type_variant(and_, variant, sc) {
     Stdlib__List.iter((function (param) {
       const vc_field_type = param.vc_field_type;
       const vc_constructor = param.vc_constructor;
-      if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+      if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
         return line$1(sc, Curry._1(Stdlib__Printf.sprintf({
           TAG: /* Format */ 0,
           _0: {
@@ -5534,7 +5534,7 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
     }
     
   };
-  if (typeof field_type !== "object" && typeof field_type !== "function") {
+  if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
     encode_key(sc);
     return line$1(sc, "Pbrt.Encoder.empty_nested encoder;");
   }
@@ -5941,7 +5941,7 @@ function gen_encode_record(and_, param, sc) {
               const vc_encoding_number = param.vc_encoding_number;
               const vc_field_type = param.vc_field_type;
               const vc_constructor = param.vc_constructor;
-              if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+              if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
                 line$1(sc, Curry._1(Stdlib__Printf.sprintf({
                   TAG: /* Format */ 0,
                   _0: {
@@ -6035,7 +6035,7 @@ function gen_encode_variant(and_, variant, sc) {
       const vc_encoding_number = param.vc_encoding_number;
       const vc_field_type = param.vc_field_type;
       const vc_constructor = param.vc_constructor;
-      if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+      if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
         line$1(sc, Curry._1(Stdlib__Printf.sprintf({
           TAG: /* Format */ 0,
           _0: {
@@ -6282,7 +6282,7 @@ const Codegen_encode = {
 };
 
 function default_value_of_field_type(field_name, field_type, field_default) {
-  if (typeof field_type !== "object" && typeof field_type !== "function") {
+  if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
     return "()";
   } else if (field_type.TAG === /* Ft_basic_type */ 0) {
     let basic_type = field_type._0;
@@ -6489,7 +6489,7 @@ function record_field_default_info(record_field) {
         const match$3 = v_constructors.hd;
         const vc_field_type = match$3.vc_field_type;
         const vc_constructor = match$3.vc_constructor;
-        default_value = typeof vc_field_type !== "object" && typeof vc_field_type !== "function" ? vc_constructor : Curry._2(Stdlib__Printf.sprintf({
+        default_value = /* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function" ? vc_constructor : Curry._2(Stdlib__Printf.sprintf({
             TAG: /* Format */ 0,
             _0: {
               TAG: /* String */ 2,
@@ -6702,7 +6702,7 @@ function gen_default_variant(and_, param, sc) {
     const vc_field_type = match.vc_field_type;
     const vc_constructor = match.vc_constructor;
     const decl = let_decl_of_and(and_);
-    if (typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
+    if (/* tag */ typeof vc_field_type !== "object" && typeof vc_field_type !== "function") {
       return line$1(sc, Curry._4(Stdlib__Printf.sprintf({
         TAG: /* Format */ 0,
         _0: {
@@ -7197,7 +7197,7 @@ function type_name(message_scope, name) {
 }
 
 function encoding_info_of_field_type(all_types, field_type) {
-  if (typeof field_type !== "object" && typeof field_type !== "function") {
+  if (/* tag */ typeof field_type !== "object" && typeof field_type !== "function") {
     switch (field_type) {
       case /* Field_type_sint32 */ 6 :
       case /* Field_type_sint64 */ 7 :
@@ -7282,7 +7282,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
       TAG: /* Ft_basic_type */ 0,
       _0: /* Bt_int64 */ 4
     });
-  if (!(typeof field_type !== "object" && typeof field_type !== "function")) {
+  if (!/* tag */ (typeof field_type !== "object" && typeof field_type !== "function")) {
     let i = field_type._0;
     const module_ = module_of_file_name(file_name);
     let t;
@@ -7415,7 +7415,7 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
     const match = encoding_of_field(all_types, field);
     const vc_constructor = constructor_name(field_name(field));
     let tmp;
-    tmp = typeof field_type$1 !== "object" && typeof field_type$1 !== "function" ? /* Vct_nullary */ 0 : ({
+    tmp = /* tag */ typeof field_type$1 !== "object" && typeof field_type$1 !== "function" ? /* Vct_nullary */ 0 : ({
         TAG: /* Vct_non_nullary_constructor */ 0,
         _0: field_type$1
       });
@@ -7688,7 +7688,7 @@ function compile(proto_definition) {
               }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
               const key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
               let key_type$1;
-              if (typeof key_type !== "object" && typeof key_type !== "function") {
+              if (/* tag */ typeof key_type !== "object" && typeof key_type !== "function") {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                     MEL_EXN_ID: "Failure",
                     _1: "Only Basic Types are supported for map keys"

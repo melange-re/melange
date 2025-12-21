@@ -10,7 +10,7 @@ const Stdlib__List = require("melange/list.js");
 const Stdlib__String = require("melange/string.js");
 
 function split(x, tree) {
-  if (typeof tree !== "object" && typeof tree !== "function") {
+  if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
     return [
       /* Empty */ 0,
       false,
@@ -45,7 +45,7 @@ function split(x, tree) {
 }
 
 function add(x, tree) {
-  if (typeof tree !== "object" && typeof tree !== "function") {
+  if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: /* Empty */ 0,
@@ -68,12 +68,12 @@ function add(x, tree) {
 }
 
 function union(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return s2;
   }
   const h1 = s1._3;
   const v1 = s1._1;
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return s1;
   }
   const h2 = s2._3;
@@ -93,10 +93,10 @@ function union(s1, s2) {
 }
 
 function inter(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return /* Empty */ 0;
   }
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return /* Empty */ 0;
   }
   const r1 = s1._2;
@@ -112,10 +112,10 @@ function inter(s1, s2) {
 }
 
 function diff(s1, s2) {
-  if (typeof s1 !== "object" && typeof s1 !== "function") {
+  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
     return /* Empty */ 0;
   }
-  if (typeof s2 !== "object" && typeof s2 !== "function") {
+  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
     return s1;
   }
   const r1 = s1._2;
@@ -133,7 +133,7 @@ function diff(s1, s2) {
 function mem(x, _tree) {
   while (true) {
     const tree = _tree;
-    if (typeof tree !== "object" && typeof tree !== "function") {
+    if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
       return false;
     }
     const c = Caml.caml_string_compare(x, tree._1);
@@ -146,7 +146,7 @@ function mem(x, _tree) {
 }
 
 function remove(x, tree) {
-  if (typeof tree !== "object" && typeof tree !== "function") {
+  if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
     return /* Empty */ 0;
   }
   const r = tree._2;
@@ -174,13 +174,13 @@ function subset(_s1, _s2) {
   while (true) {
     const s2 = _s2;
     const s1 = _s1;
-    if (typeof s1 !== "object" && typeof s1 !== "function") {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
       return true;
     }
     const r1 = s1._2;
     const v1 = s1._1;
     const l1 = s1._0;
-    if (typeof s2 !== "object" && typeof s2 !== "function") {
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
       return false;
     }
     const r2 = s2._2;
@@ -224,7 +224,7 @@ function subset(_s1, _s2) {
 function find(x, _tree) {
   while (true) {
     const tree = _tree;
-    if (typeof tree !== "object" && typeof tree !== "function") {
+    if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });

@@ -63,7 +63,7 @@ const v = JSON.parse(" { \"x\" : [1, 2, 3 ] } ");
 
 add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (function (param) {
   const ty = Js__Js_json.classify(v);
-  if (typeof ty !== "object" && typeof ty !== "function") {
+  if (/* tag */ typeof ty !== "object" && typeof ty !== "function") {
     return {
       TAG: /* Ok */ 4,
       _0: false
@@ -83,7 +83,7 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
     };
   }
   const ty2 = Js__Js_json.classify(Caml_option.valFromOption(v$1));
-  if (typeof ty2 !== "object" && typeof ty2 !== "function") {
+  if (/* tag */ typeof ty2 !== "object" && typeof ty2 !== "function") {
     return {
       TAG: /* Ok */ 4,
       _0: false
@@ -97,7 +97,7 @@ add_test("File \"jscomp/test/js_json_test.ml\", line 24, characters 11-18", (fun
   }
   ty2._0.forEach(function (x) {
     const ty3 = Js__Js_json.classify(x);
-    if (typeof ty3 !== "object" && typeof ty3 !== "function") {
+    if (/* tag */ typeof ty3 !== "object" && typeof ty3 !== "function") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -131,7 +131,7 @@ const json = JSON.parse(JSON.stringify(null));
 
 const ty = Js__Js_json.classify(json);
 
-if (typeof ty !== "object" && typeof ty !== "function") {
+if (/* tag */ typeof ty !== "object" && typeof ty !== "function") {
   if (ty === /* JSONNull */ 2) {
     add_test("File \"jscomp/test/js_json_test.ml\", line 55, characters 24-31", (function (param) {
       return {
@@ -162,7 +162,7 @@ const json$1 = JSON.parse(JSON.stringify("test string"));
 
 const ty$1 = Js__Js_json.classify(json$1);
 
-if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
   add_test("File \"jscomp/test/js_json_test.ml\", line 66, characters 16-23", (function (param) {
     return {
       TAG: /* Ok */ 4,
@@ -186,7 +186,7 @@ const ty$2 = Js__Js_json.classify(json$2);
 
 let exit = 0;
 
-if (typeof ty$2 !== "object" && typeof ty$2 !== "function" || ty$2.TAG !== /* JSONNumber */ 1) {
+if (/* tag */ typeof ty$2 !== "object" && typeof ty$2 !== "function" || ty$2.TAG !== /* JSONNumber */ 1) {
   exit = 1;
 } else {
   eq("File \"jscomp/test/js_json_test.ml\", line 75, characters 25-32", ty$2._0, 1.23456789);
@@ -207,7 +207,7 @@ const ty$3 = Js__Js_json.classify(json$3);
 
 let exit$1 = 0;
 
-if (typeof ty$3 !== "object" && typeof ty$3 !== "function" || ty$3.TAG !== /* JSONNumber */ 1) {
+if (/* tag */ typeof ty$3 !== "object" && typeof ty$3 !== "function" || ty$3.TAG !== /* JSONNumber */ 1) {
   exit$1 = 1;
 } else {
   eq("File \"jscomp/test/js_json_test.ml\", line 85, characters 25-32", ty$3._0 | 0, -1347440721);
@@ -225,7 +225,7 @@ if (exit$1 === 1) {
 function test(v) {
   const json = JSON.parse(JSON.stringify(v));
   const ty = Js__Js_json.classify(json);
-  if (!(typeof ty !== "object" && typeof ty !== "function")) {
+  if (!/* tag */ (typeof ty !== "object" && typeof ty !== "function")) {
     return add_test("File \"jscomp/test/js_json_test.ml\", line 97, characters 18-25", (function (param) {
       return {
         TAG: /* Ok */ 4,
@@ -276,7 +276,7 @@ const json$4 = JSON.parse(JSON.stringify(dict));
 
 const ty$4 = Js__Js_json.classify(json$4);
 
-if (typeof ty$4 !== "object" && typeof ty$4 !== "function") {
+if (/* tag */ typeof ty$4 !== "object" && typeof ty$4 !== "function") {
   add_test("File \"jscomp/test/js_json_test.ml\", line 135, characters 16-23", (function (param) {
     return {
       TAG: /* Ok */ 4,
@@ -286,7 +286,7 @@ if (typeof ty$4 !== "object" && typeof ty$4 !== "function") {
 } else if (ty$4.TAG === /* JSONObject */ 2) {
   const x = ty$4._0;
   const ta = Js__Js_json.classify(option_get(Js__Js_dict.get(x, "a")));
-  if (typeof ta !== "object" && typeof ta !== "function") {
+  if (/* tag */ typeof ta !== "object" && typeof ta !== "function") {
     add_test("File \"jscomp/test/js_json_test.ml\", line 133, characters 18-25", (function (param) {
       return {
         TAG: /* Ok */ 4,
@@ -303,7 +303,7 @@ if (typeof ty$4 !== "object" && typeof ty$4 !== "function") {
       }));
     } else {
       const ty$5 = Js__Js_json.classify(option_get(Js__Js_dict.get(x, "b")));
-      if (typeof ty$5 !== "object" && typeof ty$5 !== "function") {
+      if (/* tag */ typeof ty$5 !== "object" && typeof ty$5 !== "function") {
         add_test("File \"jscomp/test/js_json_test.ml\", line 131, characters 22-29", (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -347,7 +347,7 @@ if (typeof ty$4 !== "object" && typeof ty$4 !== "function") {
 
 function eq_at_i(loc, json, i, kind, expected) {
   const ty = Js__Js_json.classify(json);
-  if (typeof ty !== "object" && typeof ty !== "function") {
+  if (/* tag */ typeof ty !== "object" && typeof ty !== "function") {
     return add_test(loc, (function (param) {
       return {
         TAG: /* Ok */ 4,
@@ -366,7 +366,7 @@ function eq_at_i(loc, json, i, kind, expected) {
   const ty$1 = Js__Js_json.classify(Caml_array.get(ty._0, i));
   switch (kind) {
     case /* String */ 0 :
-      if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+      if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -384,7 +384,7 @@ function eq_at_i(loc, json, i, kind, expected) {
         }));
       }
     case /* Number */ 1 :
-      if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+      if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -402,7 +402,7 @@ function eq_at_i(loc, json, i, kind, expected) {
         }));
       }
     case /* Object */ 2 :
-      if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+      if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -420,7 +420,7 @@ function eq_at_i(loc, json, i, kind, expected) {
         }));
       }
     case /* Array */ 3 :
-      if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+      if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -438,7 +438,7 @@ function eq_at_i(loc, json, i, kind, expected) {
         }));
       }
     case /* Boolean */ 4 :
-      if (!(typeof ty$1 !== "object" && typeof ty$1 !== "function")) {
+      if (!/* tag */ (typeof ty$1 !== "object" && typeof ty$1 !== "function")) {
         return add_test(loc, (function (param) {
           return {
             TAG: /* Ok */ 4,
@@ -460,7 +460,7 @@ function eq_at_i(loc, json, i, kind, expected) {
           }));
       }
     case /* Null */ 5 :
-      if (typeof ty$1 !== "object" && typeof ty$1 !== "function") {
+      if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         if (ty$1 === /* JSONNull */ 2) {
           return add_test(loc, (function (param) {
             return {
@@ -573,7 +573,7 @@ const json$10 = JSON.parse(JSON.stringify(a$3));
 
 const ty$6 = Js__Js_json.classify(json$10);
 
-if (typeof ty$6 !== "object" && typeof ty$6 !== "function") {
+if (/* tag */ typeof ty$6 !== "object" && typeof ty$6 !== "function") {
   add_test("File \"jscomp/test/js_json_test.ml\", line 283, characters 16-23", (function (param) {
     return {
       TAG: /* Ok */ 4,
@@ -582,7 +582,7 @@ if (typeof ty$6 !== "object" && typeof ty$6 !== "function") {
   }));
 } else if (ty$6.TAG === /* JSONArray */ 3) {
   const ty$7 = Js__Js_json.classify(Caml_array.get(ty$6._0, 1));
-  if (typeof ty$7 !== "object" && typeof ty$7 !== "function") {
+  if (/* tag */ typeof ty$7 !== "object" && typeof ty$7 !== "function") {
     add_test("File \"jscomp/test/js_json_test.ml\", line 281, characters 18-25", (function (param) {
       return {
         TAG: /* Ok */ 4,
@@ -591,7 +591,7 @@ if (typeof ty$6 !== "object" && typeof ty$6 !== "function") {
     }));
   } else if (ty$7.TAG === /* JSONObject */ 2) {
     const ty$8 = Js__Js_json.classify(option_get(Js__Js_dict.get(ty$7._0, "a")));
-    if (typeof ty$8 !== "object" && typeof ty$8 !== "function") {
+    if (/* tag */ typeof ty$8 !== "object" && typeof ty$8 !== "function") {
       add_test("File \"jscomp/test/js_json_test.ml\", line 279, characters 20-27", (function (param) {
         return {
           TAG: /* Ok */ 4,

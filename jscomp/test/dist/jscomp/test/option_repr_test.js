@@ -32,7 +32,7 @@ function f0(x) {
 }
 
 function f1(u) {
-  if (typeof u !== "object" && typeof u !== "function") {
+  if (/* tag */ typeof u !== "object" && typeof u !== "function") {
     return 1;
   } else {
     return 0;

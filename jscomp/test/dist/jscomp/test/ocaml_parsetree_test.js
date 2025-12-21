@@ -108,7 +108,7 @@ function ansi_of_color(param) {
 }
 
 function code_of_style(c) {
-  if (!(typeof c !== "object" && typeof c !== "function")) {
+  if (!/* tag */ (typeof c !== "object" && typeof c !== "function")) {
     if (c.TAG === /* FG */ 0) {
       return "3" + ansi_of_color(c._0);
     } else {
@@ -329,7 +329,7 @@ const Misc_Color = {
 };
 
 function number(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* Comment_start */ 0 :
         return 1;
@@ -809,7 +809,7 @@ parse_options(false, "+a-4-6-7-9-27-29-32..39-41..42-44-45-48-50-102");
 parse_options(true, "-a");
 
 function message(s) {
-  if (typeof s !== "object" && typeof s !== "function") {
+  if (/* tag */ typeof s !== "object" && typeof s !== "function") {
     switch (s) {
       case /* Comment_start */ 0 :
         return "this is the start of a comment.";
@@ -1491,7 +1491,7 @@ function highlight_dumb(ppf, lb, loc) {
 function highlight_locations(ppf, locs) {
   while (true) {
     const num_lines = status.contents;
-    if (typeof num_lines !== "object" && typeof num_lines !== "function") {
+    if (/* tag */ typeof num_lines !== "object" && typeof num_lines !== "function") {
       if (num_lines === /* Uninitialised */ 0) {
         status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib.stdout);
         continue;
@@ -4170,7 +4170,7 @@ function varify_constructors(var_names, t) {
   const loop = function (t) {
     const x = t.ptyp_desc;
     let desc;
-    if (typeof x !== "object" && typeof x !== "function") {
+    if (/* tag */ typeof x !== "object" && typeof x !== "function") {
       desc = /* Ptyp_any */ 0;
     } else {
       switch (x.TAG) {
@@ -4965,7 +4965,7 @@ const yyact = [
     if (bindings) {
       const lb = bindings.hd;
       let tmp = lb.lb_pattern.ppat_desc;
-      if (typeof tmp !== "object" && typeof tmp !== "function" && !bindings.tl) {
+      if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function" && !bindings.tl) {
         const exp = wrap_exp_attrs(lb.lb_expression, [
           undefined,
           lbs.lbs_attributes
@@ -10658,7 +10658,7 @@ function implementation(lexfun, lexbuf) {
 }
 
 function type_of_directive(x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     return /* Dir_type_null */ 4;
   }
   switch (x.TAG) {
@@ -10816,7 +10816,7 @@ function defined(str) {
       return false;
     }
   }
-  if (typeof val !== "object" && typeof val !== "function") {
+  if (/* tag */ typeof val !== "object" && typeof val !== "function") {
     return false;
   } else {
     return true;
@@ -10882,7 +10882,7 @@ function query(loc, str) {
       throw exn;
     }
   }
-  if (typeof v !== "object" && typeof v !== "function") {
+  if (/* tag */ typeof v !== "object" && typeof v !== "function") {
     return {
       TAG: /* Dir_bool */ 0,
       _0: false
@@ -10893,7 +10893,7 @@ function query(loc, str) {
 }
 
 function value_of_token(loc, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     switch (t) {
       case /* FALSE */ 29 :
         return {
@@ -10954,7 +10954,7 @@ function directive_parse(token_with_comments, lexbuf) {
     let _param;
     while (true) {
       const t = Curry._1(token_with_comments, lexbuf);
-      if (typeof t !== "object" && typeof t !== "function") {
+      if (/* tag */ typeof t !== "object" && typeof t !== "function") {
         switch (t) {
           case /* EOF */ 25 :
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
@@ -10996,7 +10996,7 @@ function directive_parse(token_with_comments, lexbuf) {
   const token_op = function (calc, no, lhs) {
     const op = token();
     let exit = 0;
-    if (typeof op !== "object" && typeof op !== "function") {
+    if (/* tag */ typeof op !== "object" && typeof op !== "function") {
       switch (op) {
         case /* EQUAL */ 26 :
         case /* GREATER */ 34 :
@@ -11016,13 +11016,13 @@ function directive_parse(token_with_comments, lexbuf) {
             return true;
           }
           let exit$1 = 0;
-          if (typeof lhs !== "object" && typeof lhs !== "function" || lhs.TAG !== /* Dir_string */ 3) {
+          if (/* tag */ typeof lhs !== "object" && typeof lhs !== "function" || lhs.TAG !== /* Dir_string */ 3) {
             exit$1 = 2;
           } else {
             const curr_loc = curr(lexbuf);
             const rhs = value_of_token(curr_loc, token());
             let exit$2 = 0;
-            if (typeof rhs !== "object" && typeof rhs !== "function") {
+            if (/* tag */ typeof rhs !== "object" && typeof rhs !== "function") {
               exit$2 = 3;
             } else {
               if (rhs.TAG === /* Dir_string */ 3) {
@@ -11179,7 +11179,7 @@ function directive_parse(token_with_comments, lexbuf) {
     if (exit === 1) {
       let f;
       let exit$4 = 0;
-      if (typeof op !== "object" && typeof op !== "function") {
+      if (/* tag */ typeof op !== "object" && typeof op !== "function") {
         switch (op) {
           case /* EQUAL */ 26 :
             f = Caml_obj.caml_equal;
@@ -11230,14 +11230,14 @@ function directive_parse(token_with_comments, lexbuf) {
   const parse_relation = function (calc) {
     const curr_token = token();
     const curr_loc = curr(lexbuf);
-    if (typeof curr_token !== "object" && typeof curr_token !== "function") {
+    if (/* tag */ typeof curr_token !== "object" && typeof curr_token !== "function") {
       switch (curr_token) {
         case /* FALSE */ 29 :
           return false;
         case /* LPAREN */ 54 :
           const v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
           const match = token();
-          if (typeof match !== "object" && typeof match !== "function") {
+          if (/* tag */ typeof match !== "object" && typeof match !== "function") {
             if (match === /* RPAREN */ 81) {
               return v;
             }
@@ -11303,7 +11303,7 @@ function directive_parse(token_with_comments, lexbuf) {
           }
           const t = token();
           const loc = curr(lexbuf);
-          if (typeof t !== "object" && typeof t !== "function") {
+          if (/* tag */ typeof t !== "object" && typeof t !== "function") {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: /* Unexpected_token_in_conditional */ 4,
@@ -11347,7 +11347,7 @@ function directive_parse(token_with_comments, lexbuf) {
           const value_v = query(curr_loc, curr_token._0);
           return token_op(calc, (function (e) {
             push(e);
-            if (!(typeof value_v !== "object" && typeof value_v !== "function") && value_v.TAG === /* Dir_bool */ 0) {
+            if (!/* tag */ (typeof value_v !== "object" && typeof value_v !== "function") && value_v.TAG === /* Dir_bool */ 0) {
               return value_v._0;
             }
             const ty = type_of_directive(value_v);
@@ -11372,7 +11372,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   const parse_and_aux = function (calc, v) {
     const e = token();
-    if (typeof e !== "object" && typeof e !== "function") {
+    if (/* tag */ typeof e !== "object" && typeof e !== "function") {
       if (e === /* AMPERAMPER */ 0) {
         const calc$1 = calc && v;
         const b = parse_and_aux(calc$1, parse_relation(calc$1));
@@ -11391,7 +11391,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   const parse_or_aux = function (calc, v) {
     const e = token();
-    if (typeof e !== "object" && typeof e !== "function") {
+    if (/* tag */ typeof e !== "object" && typeof e !== "function") {
       if (e === /* BARBAR */ 8) {
         const calc$1 = calc && !v;
         const b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
@@ -11410,7 +11410,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   const v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   const match = token();
-  if (typeof match !== "object" && typeof match !== "function") {
+  if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     if (match === /* THEN */ 88) {
       return v;
     }
@@ -11429,7 +11429,7 @@ function directive_parse(token_with_comments, lexbuf) {
 }
 
 function is_elif(i) {
-  if (typeof i !== "object" && typeof i !== "function" || !(i.TAG === /* LIDENT */ 11 && i._0 === "elif")) {
+  if (/* tag */ typeof i !== "object" && typeof i !== "function" || !(i.TAG === /* LIDENT */ 11 && i._0 === "elif")) {
     return false;
   } else {
     return true;
@@ -12040,7 +12040,7 @@ function add_docstring_comment(ds) {
 }
 
 function report_error(ppf, c) {
-  if (typeof c !== "object" && typeof c !== "function") {
+  if (/* tag */ typeof c !== "object" && typeof c !== "function") {
     switch (c) {
       case /* Unterminated_string */ 0 :
         return Stdlib__Format.fprintf(ppf)({
@@ -12850,7 +12850,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           if (exn.MEL_EXN_ID === $$Error$2) {
             let tmp = exn._1;
-            if (typeof tmp !== "object" && typeof tmp !== "function") {
+            if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
               if (tmp === /* Unterminated_string */ 0) {
                 const match$1 = comment_start_loc.contents;
                 if (match$1) {
@@ -12900,7 +12900,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
           if (exn$1.MEL_EXN_ID === $$Error$2) {
             let tmp$1 = exn$1._1;
-            if (typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+            if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
               if (tmp$1 === /* Unterminated_string */ 0) {
                 const match$2 = comment_start_loc.contents;
                 if (match$2) {
@@ -13065,7 +13065,7 @@ function token_with_comments(lexbuf) {
 function token$1(lexbuf) {
   const post_pos = lexbuf.lex_curr_p;
   const attach = function (lines, docs, pre_pos) {
-    if (typeof docs !== "object" && typeof docs !== "function") {
+    if (/* tag */ typeof docs !== "object" && typeof docs !== "function") {
       return;
     }
     if (docs.TAG === /* After */ 0) {
@@ -13105,7 +13105,7 @@ function token$1(lexbuf) {
       const docs = _docs;
       const lines = _lines;
       const doc = token_with_comments(lexbuf);
-      if (typeof doc !== "object" && typeof doc !== "function") {
+      if (/* tag */ typeof doc !== "object" && typeof doc !== "function") {
         switch (doc) {
           case /* SHARP */ 84 :
             if (at_bol(lexbuf)) {
@@ -13118,7 +13118,7 @@ function token$1(lexbuf) {
               };
               const if_then_else$1 = if_then_else.contents;
               const match = token_with_comments(lexbuf);
-              if (typeof match !== "object" && typeof match !== "function") {
+              if (/* tag */ typeof match !== "object" && typeof match !== "function") {
                 switch (match) {
                   case /* ELSE */ 23 :
                     switch (if_then_else$1) {
@@ -13172,7 +13172,7 @@ function token$1(lexbuf) {
                             }
                             if (Caml_obj.caml_equal(token, /* SHARP */ 84) && at_bol(lexbuf)) {
                               const token$1 = token_with_comments(lexbuf);
-                              if (typeof token$1 !== "object" && typeof token$1 !== "function") {
+                              if (/* tag */ typeof token$1 !== "object" && typeof token$1 !== "function") {
                                 switch (token$1) {
                                   case /* ELSE */ 23 :
                                     if_then_else.contents = /* Dir_if_false */ 1;
@@ -13237,7 +13237,7 @@ function token$1(lexbuf) {
                     }
                     if (Caml_obj.caml_equal(token$2, /* SHARP */ 84) && at_bol(lexbuf)) {
                       const token$3 = token_with_comments(lexbuf);
-                      if (typeof token$3 !== "object" && typeof token$3 !== "function") {
+                      if (/* tag */ typeof token$3 !== "object" && typeof token$3 !== "function") {
                         switch (token$3) {
                           case /* ELSE */ 23 :
                             if (else_seen) {
@@ -13315,7 +13315,7 @@ function token$1(lexbuf) {
             const doc$1 = doc._0;
             add_docstring_comment(doc$1);
             let docs$p;
-            if (typeof docs !== "object" && typeof docs !== "function") {
+            if (/* tag */ typeof docs !== "object" && typeof docs !== "function") {
               switch (lines) {
                 case /* NoLine */ 0 :
                 case /* NewLine */ 1 :
@@ -13429,7 +13429,7 @@ function skip_phrase(lexbuf) {
   while (true) {
     try {
       const match = token$1(lexbuf);
-      if (!(typeof match !== "object" && typeof match !== "function")) {
+      if (!/* tag */ (typeof match !== "object" && typeof match !== "function")) {
         return skip_phrase(lexbuf);
       }
       switch (match) {
@@ -13444,7 +13444,7 @@ function skip_phrase(lexbuf) {
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === $$Error$2) {
         let tmp = exn._1;
-        if (typeof tmp !== "object" && typeof tmp !== "function") {
+        if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
           if (tmp === /* Unterminated_string */ 0) {
             continue;
           }
@@ -13487,7 +13487,7 @@ function wrap(parsing_fun, lexbuf) {
     const err = Caml_js_exceptions.internalToOCamlException(raw_err);
     if (err.MEL_EXN_ID === $$Error$2) {
       let tmp = err._1;
-      if (typeof tmp !== "object" && typeof tmp !== "function") {
+      if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
         throw err;
       }
       if (tmp.TAG === /* Illegal_character */ 0) {
@@ -13560,7 +13560,7 @@ if (match) {
       const match$3 = match$2.hd;
       const match$4 = match$3.pvb_pat;
       const match$5 = match$4.ppat_desc;
-      if (typeof match$5 !== "object" && typeof match$5 !== "function" || match$5.TAG !== /* Ppat_var */ 0) {
+      if (/* tag */ typeof match$5 !== "object" && typeof match$5 !== "function" || match$5.TAG !== /* Ppat_var */ 0) {
         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
       } else {
         const match$6 = match$5._0;
@@ -13580,7 +13580,7 @@ if (match) {
                   if (match$14.TAG === /* Pexp_fun */ 4 && match$14._0 === "" && match$14._1 === undefined) {
                     const match$15 = match$14._2;
                     const match$16 = match$15.ppat_desc;
-                    if (typeof match$16 !== "object" && typeof match$16 !== "function" || match$16.TAG !== /* Ppat_var */ 0) {
+                    if (/* tag */ typeof match$16 !== "object" && typeof match$16 !== "function" || match$16.TAG !== /* Ppat_var */ 0) {
                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                     } else {
                       const match$17 = match$16._0;
