@@ -100,7 +100,7 @@ Test `@mel.as` in variant constructors
   
   
   function f(s) {
-    if (!(s === null || typeof s !== "object" && typeof s !== "function")) {
+    if (!/* tag */ (s === null || typeof s !== "object" && typeof s !== "function")) {
       if (s.TAG === /* Null_has_payload */ null) {
         return s._0;
       } else {
