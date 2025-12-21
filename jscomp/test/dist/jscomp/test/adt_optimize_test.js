@@ -53,7 +53,7 @@ function f4(param) {
 }
 
 function f5(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* A */ 0 :
         return 1;
@@ -74,7 +74,7 @@ function f5(param) {
 }
 
 function f6(param) {
-  if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
+  if (!(typeof param !== "object" && typeof param !== "function")) {
     return 1;
   }
   switch (param) {
@@ -87,7 +87,7 @@ function f6(param) {
 }
 
 function f7(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* A */ 0 :
         return 1;
@@ -109,7 +109,7 @@ function f7(param) {
 }
 
 function f8(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* T60 */ 0 :
       case /* T61 */ 1 :
@@ -129,7 +129,7 @@ function f8(param) {
 }
 
 function f9(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     if (param === /* T63 */ 3) {
       return 3;
     } else {
@@ -147,7 +147,7 @@ function f9(param) {
 }
 
 function f10(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* T60 */ 0 :
         return 0;
@@ -171,7 +171,7 @@ function f10(param) {
 }
 
 function f11(x) {
-  if (/* tag */ typeof x === "number" || typeof x === "string") {
+  if (typeof x !== "object" && typeof x !== "function") {
     return 2;
   }
   if (x.TAG === /* D */ 0) {

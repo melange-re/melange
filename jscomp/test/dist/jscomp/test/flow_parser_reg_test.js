@@ -85,7 +85,7 @@ function btwn_exclusive(loc1, loc2) {
 }
 
 function string_of_filename(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return "(global)";
   } else {
     return param._0;
@@ -93,7 +93,7 @@ function string_of_filename(param) {
 }
 
 function order_of_filename(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 1;
   }
   switch (param.TAG) {
@@ -150,7 +150,7 @@ function compare(loc1, loc2) {
 const $$Error = /* @__PURE__ */ Caml_exceptions.create("Flow_parser_reg_test.Parse_error.Error");
 
 function error(str) {
-  if (/* tag */ typeof str === "number" || typeof str === "string") {
+  if (typeof str !== "object" && typeof str !== "function") {
     switch (str) {
       case /* UnexpectedNumber */ 0 :
         return "Unexpected number";
@@ -1690,7 +1690,7 @@ Caml_module.update_mod({
 }, Class, Class);
 
 function token_to_string(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     switch (param) {
       case /* T_IDENTIFIER */ 0 :
         return "T_IDENTIFIER";
@@ -2012,7 +2012,7 @@ function get_result_and_clear_state(param) {
   const env = match[0];
   let match$1;
   let exit = 0;
-  if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
+  if (typeof lex_token !== "object" && typeof lex_token !== "function") {
     exit = 2;
   } else {
     switch (lex_token.TAG) {
@@ -5446,7 +5446,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -5455,9 +5455,9 @@ function height(param) {
 
 function create(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
     l: l,
@@ -5469,11 +5469,11 @@ function create(l, v, r) {
 
 function bal(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -5485,7 +5485,7 @@ function bal(l, v, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
     }
-    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
+    if (!(typeof lr !== "object" && typeof lr !== "function")) {
       return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -5502,7 +5502,7 @@ function bal(l, v, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal"
@@ -5514,7 +5514,7 @@ function bal(l, v, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
   }
-  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
+  if (!(typeof rl !== "object" && typeof rl !== "function")) {
     return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -5524,7 +5524,7 @@ function bal(l, v, r) {
 }
 
 function add(x, t) {
-  if (/* tag */ typeof t === "number" || typeof t === "string") {
+  if (typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -5559,7 +5559,7 @@ function add(x, t) {
 function mem(x, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -5693,7 +5693,7 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
   const token_sink = token_sinkOpt !== undefined ? Caml_option.valFromOption(token_sinkOpt) : undefined;
   const parse_options = parse_optionsOpt !== undefined ? Caml_option.valFromOption(parse_optionsOpt) : undefined;
   const lb = Stdlib__Lexing.from_string(undefined, content);
-  if (source !== undefined && !/* tag */ (typeof source === "number" || typeof source === "string")) {
+  if (source !== undefined && !(typeof source !== "object" && typeof source !== "function")) {
     const init = lb.lex_curr_p;
     lb.lex_curr_p = {
       pos_fname: source._0,
@@ -5993,7 +5993,7 @@ function is_line_terminator(env) {
 
 function is_implicit_semicolon(env) {
   const match = token$2(undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return is_line_terminator(env);
   }
   switch (match) {
@@ -6022,7 +6022,7 @@ function is_identifier(iOpt, env) {
   if (is_strict_reserved(name) || is_restricted(name) || is_future_reserved(name)) {
     return true;
   }
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return false;
   }
   switch (match) {
@@ -6053,7 +6053,7 @@ function is_function(iOpt, env) {
 function is_class(iOpt, env) {
   const i = iOpt !== undefined ? iOpt : 0;
   const match = token$2(i, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return false;
   }
   switch (match) {
@@ -6075,7 +6075,7 @@ function error$1(env, e) {
 
 function get_unexpected_error(param) {
   let tmp = param[0];
-  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+  if (typeof tmp !== "object" && typeof tmp !== "function") {
     switch (tmp) {
       case /* T_IDENTIFIER */ 0 :
         return /* UnexpectedIdentifier */ 2;
@@ -6339,7 +6339,7 @@ const funarg$1 = {
 };
 
 function height$1(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -6348,9 +6348,9 @@ function height$1(param) {
 
 function create$2(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
     l: l,
@@ -6362,11 +6362,11 @@ function create$2(l, v, r) {
 
 function bal$1(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -6378,7 +6378,7 @@ function bal$1(l, v, r) {
     if (height$1(ll) >= height$1(lr)) {
       return create$2(ll, lv, create$2(lr, v, r));
     }
-    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
+    if (!(typeof lr !== "object" && typeof lr !== "function")) {
       return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6395,7 +6395,7 @@ function bal$1(l, v, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal"
@@ -6407,7 +6407,7 @@ function bal$1(l, v, r) {
   if (height$1(rr) >= height$1(rl)) {
     return create$2(create$2(l, v, rl), rv, rr);
   }
-  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
+  if (!(typeof rl !== "object" && typeof rl !== "function")) {
     return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6417,7 +6417,7 @@ function bal$1(l, v, r) {
 }
 
 function add$1(x, t) {
-  if (/* tag */ typeof t === "number" || typeof t === "string") {
+  if (typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -6452,7 +6452,7 @@ function add$1(x, t) {
 function mem$1(x, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const c = Curry._2(funarg$1.compare, x, param.v);
@@ -6469,7 +6469,7 @@ const funarg$2 = {
 };
 
 function height$2(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -6491,11 +6491,11 @@ function create$3(l, x, d, r) {
 
 function bal$2(l, x, d, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -6508,7 +6508,7 @@ function bal$2(l, x, d, r) {
     if (height$2(ll) >= height$2(lr)) {
       return create$3(ll, lv, ld, create$3(lr, x, d, r));
     }
-    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
+    if (!(typeof lr !== "object" && typeof lr !== "function")) {
       return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6526,7 +6526,7 @@ function bal$2(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal"
@@ -6539,7 +6539,7 @@ function bal$2(l, x, d, r) {
   if (height$2(rr) >= height$2(rl)) {
     return create$3(create$3(l, x, d, rl), rv, rd, rr);
   }
-  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
+  if (!(typeof rl !== "object" && typeof rl !== "function")) {
     return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6549,7 +6549,7 @@ function bal$2(l, x, d, r) {
 }
 
 function add$2(x, data, m) {
-  if (/* tag */ typeof m === "number" || typeof m === "string") {
+  if (typeof m !== "object" && typeof m !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -6597,7 +6597,7 @@ function add$2(x, data, m) {
 function find(x, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -6625,7 +6625,7 @@ const funarg$3 = {
 };
 
 function height$3(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -6634,9 +6634,9 @@ function height$3(param) {
 
 function create$4(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
     l: l,
@@ -6648,11 +6648,11 @@ function create$4(l, v, r) {
 
 function bal$3(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l.h;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r.h;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -6664,7 +6664,7 @@ function bal$3(l, v, r) {
     if (height$3(ll) >= height$3(lr)) {
       return create$4(ll, lv, create$4(lr, v, r));
     }
-    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
+    if (!(typeof lr !== "object" && typeof lr !== "function")) {
       return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6681,7 +6681,7 @@ function bal$3(l, v, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal"
@@ -6693,7 +6693,7 @@ function bal$3(l, v, r) {
   if (height$3(rr) >= height$3(rl)) {
     return create$4(create$4(l, v, rl), rv, rr);
   }
-  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
+  if (!(typeof rl !== "object" && typeof rl !== "function")) {
     return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -6703,7 +6703,7 @@ function bal$3(l, v, r) {
 }
 
 function add$3(x, t) {
-  if (/* tag */ typeof t === "number" || typeof t === "string") {
+  if (typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -6738,7 +6738,7 @@ function add$3(x, t) {
 function mem$2(x, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const c = Curry._2(funarg$3.compare, x, param.v);
@@ -6957,7 +6957,7 @@ function intersection(env) {
 
 function prefix(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return postfix(env);
   }
   if (match !== /* T_PLING */ 76) {
@@ -7012,7 +7012,7 @@ function primary(env) {
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+  if (typeof token$5 !== "object" && typeof token$5 !== "function") {
     switch (token$5) {
       case /* T_IDENTIFIER */ 0 :
         const match = generic(env);
@@ -7200,7 +7200,7 @@ function primary(env) {
 }
 
 function primitive(param) {
-  if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
+  if (!(typeof param !== "object" && typeof param !== "function")) {
     return;
   }
   switch (param) {
@@ -7235,7 +7235,7 @@ function param_list_or_type(env) {
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
   let exit = 0;
-  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+  if (typeof token$5 !== "object" && typeof token$5 !== "function") {
     switch (token$5) {
       case /* T_IDENTIFIER */ 0 :
         ret = function_param_or_generic_type(env);
@@ -7267,7 +7267,7 @@ function param_list_or_type(env) {
     if (match !== undefined) {
       const match$1 = Curry._2(Parser_env_Peek.token, 1, env);
       let exit$1 = 0;
-      if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+      if (typeof match$1 !== "object" && typeof match$1 !== "function") {
         switch (match$1) {
           case /* T_PLING */ 76 :
           case /* T_COLON */ 77 :
@@ -7331,7 +7331,7 @@ function function_param_or_generic_type(env) {
   const id = Curry._2(Parse.identifier, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_PLING */ 76 :
       case /* T_COLON */ 77 :
@@ -7381,7 +7381,7 @@ function function_param_list_without_parens(env) {
       const acc = _acc;
       const t = Curry._2(Parser_env_Peek.token, undefined, env);
       let exit = 0;
-      if (/* tag */ typeof t === "number" || typeof t === "string") {
+      if (typeof t !== "object" && typeof t !== "function") {
         switch (t) {
           case /* T_RPAREN */ 4 :
           case /* T_ELLIPSIS */ 11 :
@@ -7426,7 +7426,7 @@ function intersection_with(env, left) {
     while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_AND */ 82) {
+      if (typeof match !== "object" && typeof match !== "function" && match === /* T_BIT_AND */ 82) {
         token$4(env, /* T_BIT_AND */ 82);
         _acc = {
           hd: prefix(env),
@@ -7457,7 +7457,7 @@ function union_with(env, left) {
     while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_BIT_OR */ 80) {
+      if (typeof match !== "object" && typeof match !== "function" && match === /* T_BIT_OR */ 80) {
         token$4(env, /* T_BIT_OR */ 80);
         _acc = {
           hd: intersection(env),
@@ -7483,7 +7483,7 @@ function types(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RBRACKET */ 6 :
         case /* T_EOF */ 105 :
@@ -7594,7 +7594,7 @@ function indexer_property(env, start_loc, $$static) {
 
 function semicolon$1(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return error_unexpected(env);
   }
   switch (match) {
@@ -7618,7 +7618,7 @@ function properties(allow_static, env, _param) {
     const $$static = allow_static && maybe(env, /* T_STATIC */ 40);
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_LBRACKET */ 5 :
           const indexer = indexer_property(env, start_loc, $$static);
@@ -7651,7 +7651,7 @@ function properties(allow_static, env, _param) {
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
         let match$2;
         let exit$1 = 0;
-        if ($$static && /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */ 77) {
+        if ($$static && typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_COLON */ 77) {
           strict_error_at(env, [
             start_loc,
             /* StrictReservedWord */ 39
@@ -7691,7 +7691,7 @@ function properties(allow_static, env, _param) {
         const $$static$1 = match$2[0];
         const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
         let property$1;
-        if (/* tag */ typeof match$3 === "number" || typeof match$3 === "string") {
+        if (typeof match$3 !== "object" && typeof match$3 !== "function") {
           switch (match$3) {
             case /* T_LPAREN */ 3 :
             case /* T_LESS_THAN */ 89 :
@@ -7817,7 +7817,7 @@ function params(env, allow_default, _require_default, _acc) {
     const require_default = _require_default;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let variance;
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_PLUS */ 94 :
           token$3(env);
@@ -7840,7 +7840,7 @@ function params(env, allow_default, _require_default, _acc) {
     let match$3;
     if (allow_default) {
       let exit = 0;
-      if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */ 75) {
+      if (typeof match$2 !== "object" && typeof match$2 !== "function" && match$2 === /* T_ASSIGN */ 75) {
         token$3(env);
         match$3 = [
           union(env),
@@ -7883,7 +7883,7 @@ function params(env, allow_default, _require_default, _acc) {
       tl: acc
     };
     const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
+    if (typeof match$4 !== "object" && typeof match$4 !== "function") {
       switch (match$4) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
@@ -7924,7 +7924,7 @@ function params$1(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_GREATER_THAN */ 90 :
         case /* T_EOF */ 105 :
@@ -7992,7 +7992,7 @@ function annotation(env) {
 
 function annotation_opt(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COLON */ 77) {
+  if (typeof match !== "object" && typeof match !== "function" && match === /* T_COLON */ 77) {
     return annotation(env);
   }
   
@@ -8171,7 +8171,7 @@ function param_list(env, _param) {
     const params = param$2[0];
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */ typeof t === "number" || typeof t === "string") {
+    if (typeof t !== "object" && typeof t !== "function") {
       switch (t) {
         case /* T_RPAREN */ 4 :
         case /* T_ELLIPSIS */ 11 :
@@ -8285,7 +8285,7 @@ function _function(env) {
   const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$2;
   let exit = 0;
-  if (match && /* tag */ (typeof match$1 === "number" || typeof match$1 === "string")) {
+  if (match && typeof match$1 !== "object" && typeof match$1 !== "function") {
     switch (match$1) {
       case /* T_LPAREN */ 3 :
         match$2 = [
@@ -8472,7 +8472,7 @@ function variable(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_VAR */ 22 :
         match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
@@ -8512,7 +8512,7 @@ function is_tighter(a, b) {
 
 function is_lhs(param) {
   let tmp = param[1];
-  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+  if (typeof tmp !== "object" && typeof tmp !== "function") {
     return false;
   }
   switch (tmp.TAG) {
@@ -8526,7 +8526,7 @@ function is_lhs(param) {
 
 function is_assignable_lhs(param) {
   let tmp = param[1];
-  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+  if (typeof tmp !== "object" && typeof tmp !== "function") {
     return false;
   }
   switch (tmp.TAG) {
@@ -8543,7 +8543,7 @@ function is_assignable_lhs(param) {
 function assignment_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let op;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_RSHIFT3_ASSIGN */ 63 :
         op = /* RShift3Assign */ 9;
@@ -8623,7 +8623,7 @@ function conditional(env) {
 
 function peek_unary_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return;
   }
   switch (match) {
@@ -8661,7 +8661,7 @@ function unary(env) {
     const loc = btwn(begin_loc, argument[0]);
     if (op === /* Delete */ 6) {
       let tmp = argument[1];
-      if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* Identifier */ 18) {
+      if (!(typeof tmp !== "object" && typeof tmp !== "function") && tmp.TAG === /* Identifier */ 18) {
         strict_error_at(env, [
           loc,
           /* StrictDelete */ 32
@@ -8683,7 +8683,7 @@ function unary(env) {
   }
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let op$1;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_INCR */ 102 :
         op$1 = /* Increment */ 0;
@@ -8704,7 +8704,7 @@ function unary(env) {
     }
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let op$2;
-    if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+    if (typeof match$1 !== "object" && typeof match$1 !== "function") {
       switch (match$1) {
         case /* T_INCR */ 102 :
           op$2 = /* Increment */ 0;
@@ -8728,7 +8728,7 @@ function unary(env) {
       ]);
     }
     const match$2 = argument$1[1];
-    if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2.TAG === /* Identifier */ 18) {
+    if (!(typeof match$2 !== "object" && typeof match$2 !== "function") && match$2.TAG === /* Identifier */ 18) {
       if (is_restricted(match$2._0[1].name)) {
         strict_error(env, /* StrictLHSPostfix */ 37);
       }
@@ -8757,7 +8757,7 @@ function unary(env) {
     ]);
   }
   const match$3 = argument$2[1];
-  if (!/* tag */ (typeof match$3 === "number" || typeof match$3 === "string") && match$3.TAG === /* Identifier */ 18) {
+  if (!(typeof match$3 !== "object" && typeof match$3 !== "function") && match$3.TAG === /* Identifier */ 18) {
     if (is_restricted(match$3._0[1].name)) {
       strict_error(env, /* StrictLHSPrefix */ 38);
     }
@@ -8780,7 +8780,7 @@ function left_hand_side(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let expr;
   let exit = 0;
-  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
+  if (typeof match !== "object" && typeof match !== "function" && match === /* T_NEW */ 42) {
     expr = _new(env, (function (new_expr, _args) {
       return new_expr;
     }));
@@ -8792,7 +8792,7 @@ function left_hand_side(env) {
   }
   const expr$1 = member(env, expr);
   const part = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ typeof part === "number" || typeof part === "string") {
+  if (typeof part !== "object" && typeof part !== "function") {
     if (part === /* T_LPAREN */ 3) {
       return call(env, expr$1);
     } else {
@@ -8809,7 +8809,7 @@ function call(env, _left) {
   while (true) {
     const left = _left;
     const part = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof part === "number" || typeof part === "string")) {
+    if (!(typeof part !== "object" && typeof part !== "function")) {
       if (part.TAG === /* T_TEMPLATE_PART */ 2) {
         return tagged_template(env, left, part._0);
       } else {
@@ -8883,7 +8883,7 @@ function _new(env, _finish_fn) {
   while (true) {
     const finish_fn = _finish_fn;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_NEW */ 42) {
+    if (typeof match !== "object" && typeof match !== "function" && match === /* T_NEW */ 42) {
       const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_NEW */ 42);
       const finish_fn$p = function (callee, args) {
@@ -8916,17 +8916,17 @@ function _new(env, _finish_fn) {
     const callee = member(with_no_call(true, env), expr);
     const part = Curry._2(Parser_env_Peek.token, undefined, env);
     let callee$1;
-    callee$1 = /* tag */ typeof part === "number" || typeof part === "string" || part.TAG !== /* T_TEMPLATE_PART */ 2 ? callee : tagged_template(env, callee, part._0);
+    callee$1 = typeof part !== "object" && typeof part !== "function" || part.TAG !== /* T_TEMPLATE_PART */ 2 ? callee : tagged_template(env, callee, part._0);
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let args;
-    args = /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LPAREN */ 3 ? Curry._1($$arguments, env) : undefined;
+    args = typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_LPAREN */ 3 ? Curry._1($$arguments, env) : undefined;
     return Curry._2(finish_fn, callee$1, args);
   };
 }
 
 function member(env, left) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return left;
   }
   switch (match) {
@@ -8986,7 +8986,7 @@ function _function$1(env) {
   } else {
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let id;
-    id = /* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_LESS_THAN */ 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
+    id = typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_LESS_THAN */ 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
     match = [
       id,
       Curry._1(type_parameter_declaration$1, env)
@@ -9063,7 +9063,7 @@ function primary$1(env) {
   const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof number_type === "number" || typeof number_type === "string") {
+  if (typeof number_type !== "object" && typeof number_type !== "function") {
     switch (number_type) {
       case /* T_LCURLY */ 1 :
         const match = Curry._1(Parse.object_initializer, env);
@@ -9079,7 +9079,7 @@ function primary$1(env) {
         const expression = Curry._1(assignment, env);
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
         let ret;
-        if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+        if (typeof match$1 !== "object" && typeof match$1 !== "function") {
           switch (match$1) {
             case /* T_COMMA */ 8 :
               ret = sequence(env, {
@@ -9176,7 +9176,7 @@ function primary$1(env) {
         const loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
         const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
         let match$5;
-        if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
+        if (typeof match$4 !== "object" && typeof match$4 !== "function") {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -9385,7 +9385,7 @@ function sequence(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
+    if (typeof match !== "object" && typeof match !== "function" && match === /* T_COMMA */ 8) {
       token$4(env, /* T_COMMA */ 8);
       const expr = Curry._1(assignment, env);
       _acc = {
@@ -9414,7 +9414,7 @@ function identifier_or_reserved_keyword(env) {
   const lex_value = Curry._2(Parser_env_Peek.value, undefined, env);
   const lex_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
+  if (typeof lex_token !== "object" && typeof lex_token !== "function") {
     switch (lex_token) {
       case /* T_IDENTIFIER */ 0 :
       case /* T_DECLARE */ 58 :
@@ -9433,7 +9433,7 @@ function identifier_or_reserved_keyword(env) {
     case 1 :
       let err;
       let exit$1 = 0;
-      if (/* tag */ typeof lex_token === "number" || typeof lex_token === "string") {
+      if (typeof lex_token !== "object" && typeof lex_token !== "function") {
         switch (lex_token) {
           case /* T_FUNCTION */ 13 :
           case /* T_IF */ 14 :
@@ -9538,7 +9538,7 @@ function assignment_but_not_arrow_function(env) {
     ]);
   }
   const match = expr[1];
-  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* Identifier */ 18) {
+  if (!(typeof match !== "object" && typeof match !== "function") && match.TAG === /* Identifier */ 18) {
     if (is_restricted(match._0[1].name)) {
       strict_error_at(env, [
         expr[0],
@@ -9573,7 +9573,7 @@ function try_assignment_but_not_arrow_function(env) {
   const env$1 = with_error_callback(error_callback, env);
   const ret = assignment_but_not_arrow_function(env$1);
   const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_ARROW */ 10 :
       case /* T_COLON */ 77 :
@@ -9591,7 +9591,7 @@ function try_assignment_but_not_arrow_function(env) {
       });
   }
   const match$1 = ret[1];
-  if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+  if (typeof match$1 !== "object" && typeof match$1 !== "function") {
     return ret;
   }
   if (match$1.TAG !== /* Identifier */ 18) {
@@ -9612,7 +9612,7 @@ function assignment(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   const match$1 = Curry._2(Parser_env_Peek.is_identifier, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_YIELD */ 56 :
         if (env.allow_yield) {
@@ -9659,11 +9659,11 @@ function assignment(env) {
     return assignment_but_not_arrow_function(env);
   }
   const expr = Curry._2(Parser_env_Try.to_parse, env, try_assignment_but_not_arrow_function);
-  if (!/* tag */ (typeof expr === "number" || typeof expr === "string")) {
+  if (!(typeof expr !== "object" && typeof expr !== "function")) {
     return expr._0;
   }
   const expr$1 = Curry._2(Parser_env_Try.to_parse, env, try_arrow_function);
-  if (/* tag */ typeof expr$1 === "number" || typeof expr$1 === "string") {
+  if (typeof expr$1 !== "object" && typeof expr$1 !== "function") {
     return assignment_but_not_arrow_function(env);
   } else {
     return expr$1._0;
@@ -9689,7 +9689,7 @@ function logical_and(env, _left, _lloc) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return [
         lloc,
         left
@@ -9715,7 +9715,7 @@ function logical_or(env, _left, _lloc) {
     const lloc = _lloc;
     const left = _left;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return [
         lloc,
         left
@@ -9746,7 +9746,7 @@ function logical(env) {
 function binary_op(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let ret;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_IN */ 15 :
         ret = env.no_in ? undefined : [
@@ -10023,7 +10023,7 @@ function binary(env) {
     const right_loc = btwn(start_loc, end_loc);
     if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LESS_THAN */ 89)) {
       let tmp = right[1];
-      if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string") && tmp.TAG === /* JSXElement */ 22) {
+      if (!(typeof tmp !== "object" && typeof tmp !== "function") && tmp.TAG === /* JSXElement */ 22) {
         error$1(env, /* AdjacentJSXElements */ 46);
       }
       
@@ -10065,7 +10065,7 @@ function binary(env) {
 
 function argument(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return {
       TAG: /* Expression */ 0,
       _0: Curry._1(assignment, env)
@@ -10096,7 +10096,7 @@ function arguments$p(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RPAREN */ 4 :
         case /* T_EOF */ 105 :
@@ -10138,11 +10138,11 @@ function template_parts(env, _quasis, _expressions) {
       tl: expressions
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_RCURLY */ 2) {
+    if (typeof match !== "object" && typeof match !== "function" && match === /* T_RCURLY */ 2) {
       push_lex_mode(env, /* TEMPLATE */ 4);
       const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let match$2;
-      if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+      if (typeof match$1 !== "object" && typeof match$1 !== "function") {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
             _1: [
@@ -10267,7 +10267,7 @@ function elements(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_COMMA */ 8 :
           token$4(env, /* T_COMMA */ 8);
@@ -10330,7 +10330,7 @@ function array_initializer(env) {
 }
 
 function error_callback$1(param, param$1) {
-  if (/* tag */ typeof param$1 === "number" || typeof param$1 === "string") {
+  if (typeof param$1 !== "object" && typeof param$1 !== "function") {
     switch (param$1) {
       case /* StrictParamName */ 28 :
       case /* NewlineBeforeArrow */ 44 :
@@ -10397,7 +10397,7 @@ function try_arrow_function(env) {
     let generator = false;
     const env = with_in_function(true, param);
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_LCURLY */ 1) {
+    if (typeof match !== "object" && typeof match !== "function" && match === /* T_LCURLY */ 1) {
       const match$1 = function_body(env, async, generator);
       return [
         match$1[1],
@@ -10446,7 +10446,7 @@ function decorator_list_helper(env, _decorators) {
   while (true) {
     const decorators = _decorators;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return decorators;
     }
     if (match !== /* T_AT */ 12) {
@@ -10471,7 +10471,7 @@ function decorator_list(env) {
 
 function key(env) {
   const number_type = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ typeof number_type === "number" || typeof number_type === "string") {
+  if (typeof number_type !== "object" && typeof number_type !== "function") {
     if (number_type === /* T_LBRACKET */ 5) {
       const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
       token$4(env, /* T_LBRACKET */ 5);
@@ -10668,7 +10668,7 @@ function property$1(env) {
           case "get" :
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$1 = 0;
-            if (/* tag */ typeof match$2 === "number" || typeof match$2 === "string") {
+            if (typeof match$2 !== "object" && typeof match$2 !== "function") {
               switch (match$2) {
                 case /* T_LPAREN */ 3 :
                 case /* T_COLON */ 77 :
@@ -10688,7 +10688,7 @@ function property$1(env) {
           case "set" :
             const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$2 = 0;
-            if (/* tag */ typeof match$3 === "number" || typeof match$3 === "string") {
+            if (typeof match$3 !== "object" && typeof match$3 !== "function") {
               switch (match$3) {
                 case /* T_LPAREN */ 3 :
                 case /* T_COLON */ 77 :
@@ -10776,7 +10776,7 @@ function init(env, start_loc, key, async, generator) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_RCURLY */ 2 :
       case /* T_COMMA */ 8 :
@@ -10916,7 +10916,7 @@ function check_property(env, prop_map, prop) {
     switch (match$1.TAG) {
       case /* Literal */ 0 :
         const s = match$1._0[1].value;
-        if (/* tag */ typeof s === "number" || typeof s === "string") {
+        if (typeof s !== "object" && typeof s !== "function") {
           key = "null";
         } else {
           switch (s.TAG) {
@@ -11021,7 +11021,7 @@ function properties$1(env, _param) {
     const param = _param;
     const acc = param[1];
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
@@ -11080,7 +11080,7 @@ function class_implements(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return Stdlib__List.rev(acc$1);
     }
     if (match !== /* T_COMMA */ 8) {
@@ -11131,7 +11131,7 @@ function set$1(env, start_loc, decorators, $$static) {
 function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_SEMICOLON */ 7 :
       case /* T_ASSIGN */ 75 :
@@ -11204,7 +11204,7 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   switch (key.TAG) {
     case /* Literal */ 0 :
       const match$4 = key._0[1].value;
-      kind = /* tag */ typeof match$4 === "number" || typeof match$4 === "string" || !(match$4.TAG === /* String */ 0 && match$4._0 === "constructor") ? /* Method */ 1 : /* Constructor */ 0;
+      kind = typeof match$4 !== "object" && typeof match$4 !== "function" || !(match$4.TAG === /* String */ 0 && match$4._0 === "constructor") ? /* Method */ 1 : /* Constructor */ 0;
       break;
     case /* Identifier */ 1 :
       kind = key._0[1].name === "constructor" ? /* Constructor */ 0 : /* Method */ 1;
@@ -11243,7 +11243,7 @@ function class_element(env) {
           case "get" :
             const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit = 0;
-            if (!/* tag */ (typeof match$1 === "number" || typeof match$1 === "string")) {
+            if (!(typeof match$1 !== "object" && typeof match$1 !== "function")) {
               return get$1(env, start_loc, decorators, $$static);
             }
             switch (match$1) {
@@ -11264,7 +11264,7 @@ function class_element(env) {
           case "set" :
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$1 = 0;
-            if (!/* tag */ (typeof match$2 === "number" || typeof match$2 === "string")) {
+            if (!(typeof match$2 !== "object" && typeof match$2 !== "function")) {
               return set$1(env, start_loc, decorators, $$static);
             }
             switch (match$2) {
@@ -11296,7 +11296,7 @@ function elements$1(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_SEMICOLON */ 7 :
           token$4(env, /* T_SEMICOLON */ 7);
@@ -11398,7 +11398,7 @@ function class_expression(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   let match$1;
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_LCURLY */ 1 :
       case /* T_EXTENDS */ 39 :
@@ -11449,7 +11449,7 @@ function declare(in_moduleOpt, env) {
   }
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, 1, env);
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_IDENTIFIER */ 0 :
         if (Curry._2(Parser_env_Peek.value, 1, env) === "module") {
@@ -11473,7 +11473,7 @@ function declare(in_moduleOpt, env) {
           } else {
             const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
             let id;
-            if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string" || match$1.TAG !== /* T_STRING */ 1) {
+            if (typeof match$1 !== "object" && typeof match$1 !== "function" || match$1.TAG !== /* T_STRING */ 1) {
               id = {
                 TAG: /* Identifier */ 0,
                 _0: Curry._2(Parse.identifier, undefined, env)
@@ -11591,7 +11591,7 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
     const errs = _errs;
     const specifiers = _specifiers;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
@@ -11683,7 +11683,7 @@ function type_alias_helper(env) {
 function export_source(env) {
   contextual(env, "from");
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */ 1) {
+  if (!(typeof match !== "object" && typeof match !== "function") && match.TAG === /* T_STRING */ 1) {
     const match$1 = match._0;
     const octal = match$1[3];
     const raw = match$1[2];
@@ -11834,14 +11834,14 @@ function declare_export_declaration(allow_export_typeOpt, env) {
   token$4(env$1, /* T_EXPORT */ 47);
   const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
   let exit = 0;
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_DEFAULT */ 34 :
         token$4(env$1, /* T_DEFAULT */ 34);
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let match$2;
         let exit$1 = 0;
-        if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+        if (typeof match$1 !== "object" && typeof match$1 !== "function") {
           switch (match$1) {
             case /* T_FUNCTION */ 13 :
               const fn = declare_function(env$1, start_loc);
@@ -11989,7 +11989,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
   switch (exit) {
     case 1 :
       const match$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
-      if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string") {
+      if (typeof match$5 !== "object" && typeof match$5 !== "function") {
         switch (match$5) {
           case /* T_INTERFACE */ 51 :
             error$1(env$1, /* DeclareExportInterface */ 53);
@@ -12031,7 +12031,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
       const token$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
       let match$7;
       let exit$2 = 0;
-      if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+      if (typeof token$5 !== "object" && typeof token$5 !== "function") {
         switch (token$5) {
           case /* T_FUNCTION */ 13 :
             const fn$1 = declare_function(env$1, start_loc);
@@ -12079,7 +12079,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           });
       }
       if (exit$2 === 3) {
-        if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+        if (typeof token$5 !== "object" && typeof token$5 !== "function") {
           switch (token$5) {
             case /* T_CONST */ 25 :
               error$1(env$1, /* DeclareExportConst */ 51);
@@ -12167,7 +12167,7 @@ function supers(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return Stdlib__List.rev(acc$1);
     }
     if (match !== /* T_COMMA */ 8) {
@@ -12209,7 +12209,7 @@ function supers$1(env, _acc) {
       tl: acc
     };
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return Stdlib__List.rev(acc$1);
     }
     if (match !== /* T_COMMA */ 8) {
@@ -12249,7 +12249,7 @@ function module_items(env, _module_kind, _acc) {
     const acc = _acc;
     const module_kind = _module_kind;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
@@ -12265,7 +12265,7 @@ function module_items(env, _module_kind, _acc) {
     let module_kind$1;
     if (module_kind !== undefined) {
       if (module_kind.TAG === /* CommonJS */ 0) {
-        if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string") {
+        if (typeof stmt$1 !== "object" && typeof stmt$1 !== "function") {
           module_kind$1 = module_kind;
         } else {
           switch (stmt$1.TAG) {
@@ -12292,13 +12292,13 @@ function module_items(env, _module_kind, _acc) {
               module_kind$1 = module_kind;
           }
         }
-      } else if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string" || stmt$1.TAG !== /* DeclareModuleExports */ 26) {
+      } else if (typeof stmt$1 !== "object" && typeof stmt$1 !== "function" || stmt$1.TAG !== /* DeclareModuleExports */ 26) {
         module_kind$1 = module_kind;
       } else {
         error$1(env, /* AmbiguousDeclareModuleKind */ 61);
         module_kind$1 = module_kind;
       }
-    } else if (/* tag */ typeof stmt$1 === "number" || typeof stmt$1 === "string") {
+    } else if (typeof stmt$1 !== "object" && typeof stmt$1 !== "function") {
       module_kind$1 = module_kind;
     } else {
       switch (stmt$1.TAG) {
@@ -12446,7 +12446,7 @@ function case_list(env, _param) {
     const acc = param[1];
     const seen_default = param[0];
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
@@ -12456,7 +12456,7 @@ function case_list(env, _param) {
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let test;
-    if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_DEFAULT */ 34) {
+    if (typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_DEFAULT */ 34) {
       if (seen_default) {
         error$1(env, /* MultipleDefaultsInSwitch */ 19);
       }
@@ -12470,7 +12470,7 @@ function case_list(env, _param) {
     const end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
     token$4(env, /* T_COLON */ 77);
     const term_fn = function (param) {
-      if (!/* tag */ (typeof param === "number" || typeof param === "string")) {
+      if (!(typeof param !== "object" && typeof param !== "function")) {
         return false;
       }
       switch (param) {
@@ -12523,7 +12523,7 @@ function var_or_const(env) {
 function source(env) {
   contextual(env, "from");
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string") && match.TAG === /* T_STRING */ 1) {
+  if (!(typeof match !== "object" && typeof match !== "function") && match.TAG === /* T_STRING */ 1) {
     const match$1 = match._0;
     const octal = match$1[3];
     const raw = match$1[2];
@@ -12575,7 +12575,7 @@ function specifier_list(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_RCURLY */ 2 :
         case /* T_EOF */ 105 :
@@ -12622,7 +12622,7 @@ function specifier_list(env, _acc) {
 function named_or_namespace_specifier(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_MULT */ 97) {
+  if (typeof match !== "object" && typeof match !== "function" && match === /* T_MULT */ 97) {
     token$4(env, /* T_MULT */ 97);
     contextual(env, "as");
     const id = Curry._2(Parse.identifier, undefined, env);
@@ -12646,7 +12646,7 @@ function named_or_namespace_specifier(env) {
 function from_expr(env, param) {
   const expr = param[1];
   const loc = param[0];
-  if (!/* tag */ (typeof expr === "number" || typeof expr === "string")) {
+  if (!(typeof expr !== "object" && typeof expr !== "function")) {
     switch (expr.TAG) {
       case /* Array */ 0 :
         let param$1 = [
@@ -12834,7 +12834,7 @@ function _object$2(restricted_error) {
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let prop;
     let exit = 0;
-    if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_COLON */ 77) {
+    if (typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_COLON */ 77) {
       token$4(env, /* T_COLON */ 77);
       prop = [
         pattern$1(env, restricted_error),
@@ -12874,7 +12874,7 @@ function _object$2(restricted_error) {
     const pattern$3 = prop[0];
     const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
     let pattern$4;
-    if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_ASSIGN */ 75) {
+    if (typeof match$2 !== "object" && typeof match$2 !== "function" && match$2 === /* T_ASSIGN */ 75) {
       token$4(env, /* T_ASSIGN */ 75);
       const $$default = Curry._1(Parse.assignment, env);
       const loc$1 = btwn(pattern$3[0], $$default[0]);
@@ -12908,7 +12908,7 @@ function _object$2(restricted_error) {
     while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */ typeof match === "number" || typeof match === "string") {
+      if (typeof match !== "object" && typeof match !== "function") {
         switch (match) {
           case /* T_RCURLY */ 2 :
           case /* T_EOF */ 105 :
@@ -12966,7 +12966,7 @@ function _array(restricted_error) {
     while (true) {
       const acc = _acc;
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
-      if (/* tag */ typeof match === "number" || typeof match === "string") {
+      if (typeof match !== "object" && typeof match !== "function") {
         switch (match) {
           case /* T_COMMA */ 8 :
             token$4(env, /* T_COMMA */ 8);
@@ -13002,7 +13002,7 @@ function _array(restricted_error) {
       const pattern$2 = pattern$1(env, restricted_error);
       const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       let pattern$3;
-      if (/* tag */ (typeof match$1 === "number" || typeof match$1 === "string") && match$1 === /* T_ASSIGN */ 75) {
+      if (typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_ASSIGN */ 75) {
         token$4(env, /* T_ASSIGN */ 75);
         const $$default = Curry._1(Parse.expression, env);
         const loc$1 = btwn(pattern$2[0], $$default[0]);
@@ -13067,7 +13067,7 @@ function _array(restricted_error) {
 
 function pattern$1(env, restricted_error) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_LCURLY */ 1 :
         return _object$2(restricted_error)(env);
@@ -13146,7 +13146,7 @@ function member_expression(env, _member) {
   while (true) {
     const member = _member;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+    if (!(typeof match !== "object" && typeof match !== "function")) {
       return member;
     }
     if (match !== /* T_PERIOD */ 9) {
@@ -13175,7 +13175,7 @@ function member_expression(env, _member) {
 function name(env) {
   const name$1 = identifier$1(env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return {
       TAG: /* Identifier */ 0,
       _0: name$1
@@ -13259,7 +13259,7 @@ function attribute(env) {
     token$4(env, /* T_ASSIGN */ 75);
     const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+    if (typeof token$5 !== "object" && typeof token$5 !== "function") {
       if (token$5 === /* T_LCURLY */ 1) {
         const match$2 = expression_container(env);
         const expression_container$1 = match$2[1];
@@ -13339,7 +13339,7 @@ function attributes(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_LCURLY */ 1 :
           const attribute$1 = {
@@ -13405,7 +13405,7 @@ function closing_element_without_lt(env, start_loc) {
 
 function child(env) {
   const token$5 = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ typeof token$5 === "number" || typeof token$5 === "string") {
+  if (typeof token$5 !== "object" && typeof token$5 !== "function") {
     if (token$5 === /* T_LCURLY */ 1) {
       const expression_container$1 = expression_container(env);
       return [
@@ -13453,7 +13453,7 @@ function element_or_closing(env) {
   const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LESS_THAN */ 89);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return {
       TAG: /* ChildElement */ 1,
       _0: Curry._2(element_without_lt, env, start_loc)
@@ -13478,7 +13478,7 @@ function children_and_closing(env, _acc) {
   while (true) {
     const acc = _acc;
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_LESS_THAN */ 89 :
           const closingElement = element_or_closing(env);
@@ -13579,7 +13579,7 @@ function statement(env) {
   while (true) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     let exit = 0;
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       switch (match) {
         case /* T_LCURLY */ 1 :
           const match$1 = Curry._1(Parse.block_body, env);
@@ -13672,7 +13672,7 @@ function statement(env) {
           const block = Curry._1(Parse.block_body, env);
           const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
           let handler;
-          if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_CATCH */ 32) {
+          if (typeof match$2 !== "object" && typeof match$2 !== "function" && match$2 === /* T_CATCH */ 32) {
             const start_loc$4 = Curry._2(Parser_env_Peek.loc, undefined, env);
             token$4(env, /* T_CATCH */ 32);
             token$4(env, /* T_LPAREN */ 3);
@@ -13702,7 +13702,7 @@ function statement(env) {
           }
           const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
           let finalizer;
-          if (/* tag */ (typeof match$3 === "number" || typeof match$3 === "string") && match$3 === /* T_FINALLY */ 36) {
+          if (typeof match$3 !== "object" && typeof match$3 !== "function" && match$3 === /* T_FINALLY */ 36) {
             token$4(env, /* T_FINALLY */ 36);
             finalizer = Curry._1(Parse.block_body, env);
           } else {
@@ -13874,7 +13874,7 @@ function statement(env) {
           const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
           let match$5;
           let exit$1 = 0;
-          if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
+          if (typeof match$4 !== "object" && typeof match$4 !== "function") {
             switch (match$4) {
               case /* T_SEMICOLON */ 7 :
                 match$5 = [
@@ -13930,7 +13930,7 @@ function statement(env) {
           }
           const init = match$5[0];
           const match$9 = Curry._2(Parser_env_Peek.token, undefined, env);
-          if (/* tag */ typeof match$9 === "number" || typeof match$9 === "string") {
+          if (typeof match$9 !== "object" && typeof match$9 !== "function") {
             switch (match$9) {
               case /* T_IN */ 15 :
                 assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */ 16, init);
@@ -14013,11 +14013,11 @@ function statement(env) {
           token$4(env, /* T_SEMICOLON */ 7);
           const match$10 = Curry._2(Parser_env_Peek.token, undefined, env);
           let test$2;
-          test$2 = /* tag */ (typeof match$10 === "number" || typeof match$10 === "string") && match$10 === /* T_SEMICOLON */ 7 ? undefined : Curry._1(Parse.expression, env);
+          test$2 = typeof match$10 !== "object" && typeof match$10 !== "function" && match$10 === /* T_SEMICOLON */ 7 ? undefined : Curry._1(Parse.expression, env);
           token$4(env, /* T_SEMICOLON */ 7);
           const match$11 = Curry._2(Parser_env_Peek.token, undefined, env);
           let update;
-          update = /* tag */ (typeof match$11 === "number" || typeof match$11 === "string") && match$11 === /* T_RPAREN */ 4 ? undefined : Curry._1(Parse.expression, env);
+          update = typeof match$11 !== "object" && typeof match$11 !== "function" && match$11 === /* T_RPAREN */ 4 ? undefined : Curry._1(Parse.expression, env);
           token$4(env, /* T_RPAREN */ 4);
           const body$6 = Curry._1(Parse.statement, with_in_loop(true, env));
           return [
@@ -14059,7 +14059,7 @@ function statement(env) {
         const expr$1 = Curry._1(Parse.expression, env);
         const match$12 = Curry._2(Parser_env_Peek.token, undefined, env);
         const label$4 = expr$1[1];
-        if (!/* tag */ (typeof label$4 === "number" || typeof label$4 === "string") && label$4.TAG === /* Identifier */ 18 && /* tag */ (typeof match$12 === "number" || typeof match$12 === "string") && match$12 === /* T_COLON */ 77) {
+        if (!(typeof label$4 !== "object" && typeof label$4 !== "function") && label$4.TAG === /* Identifier */ 18 && typeof match$12 !== "object" && typeof match$12 !== "function" && match$12 === /* T_COLON */ 77) {
           const label$5 = label$4._0;
           const loc$11 = expr$1[0];
           const match$13 = label$5[1];
@@ -14101,7 +14101,7 @@ function statement(env) {
           }
         ];
       }
-      if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+      if (!(typeof match !== "object" && typeof match !== "function")) {
         return expression(env);
       }
       switch (match) {
@@ -14139,7 +14139,7 @@ function statement(env) {
 function module_item(env) {
   const decorators = decorator_list(env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return statement_list_item(decorators, env);
   }
   switch (match) {
@@ -14149,7 +14149,7 @@ function module_item(env) {
       token$4(env$1, /* T_EXPORT */ 47);
       const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
       let exit = 0;
-      if (/* tag */ typeof match$1 === "number" || typeof match$1 === "string") {
+      if (typeof match$1 !== "object" && typeof match$1 !== "function") {
         switch (match$1) {
           case /* T_DEFAULT */ 34 :
             token$4(env$1, /* T_DEFAULT */ 34);
@@ -14160,7 +14160,7 @@ function module_item(env) {
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env$1);
             let match$3;
             let exit$1 = 0;
-            if (/* tag */ (typeof match$2 === "number" || typeof match$2 === "string") && match$2 === /* T_FUNCTION */ 13) {
+            if (typeof match$2 !== "object" && typeof match$2 !== "function" && match$2 === /* T_FUNCTION */ 13) {
               const fn = _function(env$1);
               match$3 = [
                 fn[0],
@@ -14215,7 +14215,7 @@ function module_item(env) {
             }
             const $$interface$1 = $$interface(env$1);
             const match$4 = $$interface$1[1];
-            if (/* tag */ typeof match$4 === "number" || typeof match$4 === "string") {
+            if (typeof match$4 !== "object" && typeof match$4 !== "function") {
               throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
@@ -14256,7 +14256,7 @@ function module_item(env) {
               }
               const type_alias$1 = type_alias(env$1);
               const match$5 = type_alias$1[1];
-              if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string") {
+              if (typeof match$5 !== "object" && typeof match$5 !== "function") {
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                     MEL_EXN_ID: "Failure",
                     _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!"
@@ -14340,7 +14340,7 @@ function module_item(env) {
         case 1 :
           const match$6 = Curry._2(Parser_env_Peek.token, undefined, env$1);
           let exportKind;
-          if (/* tag */ (typeof match$6 === "number" || typeof match$6 === "string") && match$6 === /* T_TYPE */ 59) {
+          if (typeof match$6 !== "object" && typeof match$6 !== "function" && match$6 === /* T_TYPE */ 59) {
             token$3(env$1);
             exportKind = /* ExportType */ 0;
           } else {
@@ -14380,7 +14380,7 @@ function module_item(env) {
           const match$8 = stmt[1];
           const loc$4 = stmt[0];
           let names;
-          if (/* tag */ typeof match$8 === "number" || typeof match$8 === "string") {
+          if (typeof match$8 !== "object" && typeof match$8 !== "function") {
             throw new Caml_js_exceptions.MelangeError("Failure", {
                 MEL_EXN_ID: "Failure",
                 _1: "Internal Flow Error! Unexpected export statement declaration!"
@@ -14467,7 +14467,7 @@ function module_item(env) {
       token$4(env$2, /* T_IMPORT */ 48);
       const match$9 = Curry._2(Parser_env_Peek.token, undefined, env$2);
       let match$10;
-      if (/* tag */ typeof match$9 === "number" || typeof match$9 === "string") {
+      if (typeof match$9 !== "object" && typeof match$9 !== "function") {
         switch (match$9) {
           case /* T_TYPEOF */ 44 :
             if (!env$2.parse_options.types) {
@@ -14506,7 +14506,7 @@ function module_item(env) {
       const match$12 = Curry._2(Parser_env_Peek.is_identifier, undefined, env$2);
       let exit$2 = 0;
       let exit$3 = 0;
-      if (/* tag */ typeof match$11 === "number" || typeof match$11 === "string") {
+      if (typeof match$11 !== "object" && typeof match$11 !== "function") {
         if (match$11 === /* T_COMMA */ 8) {
           exit$2 = 1;
         } else {
@@ -14589,7 +14589,7 @@ function module_item(env) {
         const match$15 = Curry._2(Parser_env_Peek.value, undefined, env$2);
         let match$16;
         let exit$4 = 0;
-        if (type_ident !== undefined && /* tag */ (typeof match$14 === "number" || typeof match$14 === "string")) {
+        if (type_ident !== undefined && typeof match$14 !== "object" && typeof match$14 !== "function") {
           switch (match$14) {
             case /* T_IDENTIFIER */ 0 :
               if (match$15 === "from") {
@@ -14630,7 +14630,7 @@ function module_item(env) {
         }
         const match$17 = Curry._2(Parser_env_Peek.token, undefined, env$2);
         let additional_specifiers;
-        if (/* tag */ (typeof match$17 === "number" || typeof match$17 === "string") && match$17 === /* T_COMMA */ 8) {
+        if (typeof match$17 !== "object" && typeof match$17 !== "function" && match$17 === /* T_COMMA */ 8) {
           token$4(env$2, /* T_COMMA */ 8);
           additional_specifiers = named_or_namespace_specifier(env$2);
         } else {
@@ -14673,7 +14673,7 @@ function statement_list_item(decoratorsOpt, env) {
     error_on_decorators(env)(decorators);
   }
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ typeof match === "number" || typeof match === "string") {
+  if (typeof match !== "object" && typeof match !== "function") {
     switch (match) {
       case /* T_CONST */ 25 :
         return var_or_const(env);
@@ -14735,7 +14735,7 @@ function statement_list_item(decoratorsOpt, env) {
   if (Curry._2(Parser_env_Peek.is_class, undefined, env)) {
     return class_declaration$1(env, decorators);
   }
-  if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+  if (!(typeof match !== "object" && typeof match !== "function")) {
     return statement(env);
   }
   switch (match) {
@@ -14759,7 +14759,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
     const stmts = param[1];
     const string_tokens = param[0];
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
+    if (typeof t !== "object" && typeof t !== "function" && t === /* T_EOF */ 105) {
       return [
         env,
         string_tokens,
@@ -14785,7 +14785,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
       tl: stmts
     };
     const match = possible_directive[1];
-    if (/* tag */ typeof match === "number" || typeof match === "string") {
+    if (typeof match !== "object" && typeof match !== "function") {
       return [
         env,
         string_tokens,
@@ -14801,7 +14801,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
     }
     const match$1 = match._0.expression;
     const match$2 = match$1[1];
-    if (/* tag */ typeof match$2 === "number" || typeof match$2 === "string") {
+    if (typeof match$2 !== "object" && typeof match$2 !== "function") {
       return [
         env,
         string_tokens,
@@ -14816,7 +14816,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
       ];
     }
     const str = match$2._0.value;
-    if (/* tag */ typeof str === "number" || typeof str === "string") {
+    if (typeof str !== "object" && typeof str !== "function") {
       return [
         env,
         string_tokens,
@@ -14854,7 +14854,7 @@ function directives(env, term_fn, item_fn) {
   const env$1 = match[0];
   Stdlib__List.iter((function (param) {
     const token = param[1];
-    if (!/* tag */ (typeof token === "number" || typeof token === "string") && token.TAG === /* T_STRING */ 1) {
+    if (!(typeof token !== "object" && typeof token !== "function") && token.TAG === /* T_STRING */ 1) {
       if (token._0[3]) {
         return strict_error_at(env$1, [
           param[0],
@@ -14881,7 +14881,7 @@ function module_body(term_fn, env) {
   while (true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
+    if (typeof t !== "object" && typeof t !== "function" && t === /* T_EOF */ 105) {
       return Stdlib__List.rev(acc);
     }
     if (Curry._1(term_fn, t)) {
@@ -14900,7 +14900,7 @@ function statement_list$1(term_fn, env) {
   while (true) {
     const acc = _acc;
     const t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_EOF */ 105) {
+    if (typeof t !== "object" && typeof t !== "function" && t === /* T_EOF */ 105) {
       return Stdlib__List.rev(acc);
     }
     if (Curry._1(term_fn, t)) {
@@ -14948,7 +14948,7 @@ function identifier$2(restricted_error, env) {
   const name = Curry._2(Parser_env_Peek.value, undefined, env);
   const t = Curry._2(Parser_env_Peek.token, undefined, env);
   let exit = 0;
-  if (/* tag */ (typeof t === "number" || typeof t === "string") && t === /* T_LET */ 26) {
+  if (typeof t !== "object" && typeof t !== "function" && t === /* T_LET */ 26) {
     if (env.in_strict_mode) {
       strict_error(env, /* StrictReservedWord */ 39);
     } else if (env.no_let) {
@@ -14965,7 +14965,7 @@ function identifier$2(restricted_error, env) {
     if (is_strict_reserved(name)) {
       strict_error(env, /* StrictReservedWord */ 39);
       token$3(env);
-    } else if (/* tag */ typeof t === "number" || typeof t === "string") {
+    } else if (typeof t !== "object" && typeof t !== "function") {
       switch (t) {
         case /* T_DECLARE */ 58 :
         case /* T_TYPE */ 59 :
@@ -15015,7 +15015,7 @@ function program(env) {
 function expression$1(env) {
   const expr = Curry._1(assignment, env);
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (/* tag */ (typeof match === "number" || typeof match === "string") && match === /* T_COMMA */ 8) {
+  if (typeof match !== "object" && typeof match !== "function" && match === /* T_COMMA */ 8) {
     return sequence(env, {
       hd: expr,
       tl: /* [] */ 0
@@ -15344,7 +15344,7 @@ function parse(content, options) {
     const loc = function ($$location) {
       const match = $$location.source;
       const source = match !== undefined ? (
-          /* tag */ typeof match === "number" || typeof match === "string" ? string("(global)") : string(match._0)
+          typeof match !== "object" && typeof match !== "function" ? string("(global)") : string(match._0)
         ) : $$null;
       return obj([
         [
@@ -15401,7 +15401,7 @@ function parse(content, options) {
     const statement = function (param) {
       const b = param[1];
       const loc = param[0];
-      if (/* tag */ typeof b === "number" || typeof b === "string") {
+      if (typeof b !== "object" && typeof b !== "function") {
         if (b === /* Empty */ 0) {
           return node("EmptyStatement", loc, []);
         } else {
@@ -15917,7 +15917,7 @@ function parse(content, options) {
     const _type = function (param) {
       const t = param[1];
       const loc = param[0];
-      if (/* tag */ typeof t === "number" || typeof t === "string") {
+      if (typeof t !== "object" && typeof t !== "function") {
         switch (t) {
           case /* Any */ 0 :
             return node("AnyTypeAnnotation", loc, []);
@@ -16164,7 +16164,7 @@ function parse(content, options) {
     const expression = function (param) {
       const arr = param[1];
       const loc = param[0];
-      if (/* tag */ typeof arr === "number" || typeof arr === "string") {
+      if (typeof arr !== "object" && typeof arr !== "function") {
         return node("ThisExpression", loc, []);
       }
       switch (arr.TAG) {
@@ -16721,7 +16721,7 @@ function parse(content, options) {
       const value = lit.value;
       const loc = param[0];
       let value_;
-      if (/* tag */ typeof value === "number" || typeof value === "string") {
+      if (typeof value !== "object" && typeof value !== "function") {
         value_ = $$null;
       } else {
         switch (value.TAG) {
@@ -16742,7 +16742,7 @@ function parse(content, options) {
       }
       let props;
       let exit = 0;
-      if (/* tag */ typeof value === "number" || typeof value === "string" || value.TAG !== /* RegExp */ 3) {
+      if (typeof value !== "object" && typeof value !== "function" || value.TAG !== /* RegExp */ 3) {
         exit = 1;
       } else {
         const match$1 = value._0;

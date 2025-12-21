@@ -27,7 +27,7 @@ if (match) {
       const match$3 = match$2.hd;
       const match$4 = match$3.pvb_pat;
       const match$5 = match$4.ppat_desc;
-      if (/* tag */ typeof match$5 === "number" || typeof match$5 === "string" || match$5.TAG !== /* Ppat_var */ 0) {
+      if (typeof match$5 !== "object" && typeof match$5 !== "function" || match$5.TAG !== /* Ppat_var */ 0) {
         eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
       } else {
         const match$6 = match$5._0;
@@ -47,7 +47,7 @@ if (match) {
                   if (match$14.TAG === /* Pexp_fun */ 4 && match$14._0 === "" && match$14._1 === undefined) {
                     const match$15 = match$14._2;
                     const match$16 = match$15.ppat_desc;
-                    if (/* tag */ typeof match$16 === "number" || typeof match$16 === "string" || match$16.TAG !== /* Ppat_var */ 0) {
+                    if (typeof match$16 !== "object" && typeof match$16 !== "function" || match$16.TAG !== /* Ppat_var */ 0) {
                       eq("File \"jscomp/test/parser_api_test.ml\", line 211, characters 12-19", true, false);
                     } else {
                       const match$17 = match$16._0;

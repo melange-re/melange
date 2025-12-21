@@ -179,7 +179,7 @@ if (v6.MEL_EXN_ID === A4) {
 eq("File \"jscomp/test/inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);
 
 function ff1(x) {
-  if (/* tag */ typeof x === "number" || typeof x === "string") {
+  if (typeof x !== "object" && typeof x !== "function") {
     return /* A1 */ 0;
   } else {
     return {

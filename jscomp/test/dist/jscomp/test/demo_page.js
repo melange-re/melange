@@ -22,7 +22,7 @@ function sum(n) {
 }
 
 function map(f, param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return /* Nil */ 0;
   } else {
     return {

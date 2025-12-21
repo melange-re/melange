@@ -9,7 +9,7 @@ const a = {
 
 let c;
 
-c = /* tag */ typeof a === "number" || typeof a === "string" ? "orange" : "white";
+c = typeof a !== "object" && typeof a !== "function" ? "orange" : "white";
 
 module.exports = {
   a,

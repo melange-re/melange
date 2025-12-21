@@ -16,10 +16,10 @@ function f2(param, param$1) {
 function f3(param, param$1) {
   const lhs = param.rank;
   const rhs = param$1.rank;
-  if (/* tag */ typeof lhs === "number" || typeof lhs === "string") {
+  if (typeof lhs !== "object" && typeof lhs !== "function") {
     lhs === /* Uninitialized */ 0;
   } else {
-    if (!/* tag */ (typeof rhs === "number" || typeof rhs === "string")) {
+    if (!(typeof rhs !== "object" && typeof rhs !== "function")) {
       return Caml.caml_int_compare(lhs._0, rhs._0);
     }
     rhs === /* Uninitialized */ 0;
@@ -37,10 +37,10 @@ function f3(param, param$1) {
 function f4(param, param$1) {
   const lhs = param.rank;
   const rhs = param$1.rank;
-  if (/* tag */ typeof lhs === "number" || typeof lhs === "string") {
+  if (typeof lhs !== "object" && typeof lhs !== "function") {
     lhs === /* Uninitialized */ 0;
   } else {
-    if (!/* tag */ (typeof rhs === "number" || typeof rhs === "string")) {
+    if (!(typeof rhs !== "object" && typeof rhs !== "function")) {
       return Caml.caml_int_compare(lhs._0, rhs._0);
     }
     rhs === /* Uninitialized */ 0;

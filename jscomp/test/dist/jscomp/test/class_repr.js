@@ -114,7 +114,7 @@ if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
     });
 }
 
-if (/* tag */ typeof Stdlib__Sys.backend_type === "number" || typeof Stdlib__Sys.backend_type === "string") {
+if (typeof Stdlib__Sys.backend_type !== "object" && typeof Stdlib__Sys.backend_type !== "function") {
   Stdlib__Sys.backend_type === /* Native */ 0;
 } else if (Stdlib__Sys.backend_type._0 === "Melange") {
   console.log([

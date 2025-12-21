@@ -7,7 +7,7 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 function $$eval(_bdd, vars) {
   while (true) {
     const bdd = _bdd;
-    if (/* tag */ typeof bdd === "number" || typeof bdd === "string") {
+    if (typeof bdd !== "object" && typeof bdd !== "function") {
       if (bdd === /* One */ 0) {
         return true;
       } else {
@@ -24,7 +24,7 @@ function $$eval(_bdd, vars) {
 }
 
 function getId(bdd) {
-  if (/* tag */ typeof bdd === "number" || typeof bdd === "string") {
+  if (typeof bdd !== "object" && typeof bdd !== "function") {
     if (bdd === /* One */ 0) {
       return 1;
     } else {
@@ -66,7 +66,7 @@ function resize(newSize) {
         return;
       }
       const n = bucket.hd;
-      if (/* tag */ typeof n === "number" || typeof n === "string") {
+      if (typeof n !== "object" && typeof n !== "function") {
         if (n === /* One */ 0) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -140,7 +140,7 @@ function mkNode(low, v, high) {
     const b = _b;
     if (b) {
       const n = b.hd;
-      if (/* tag */ typeof n === "number" || typeof n === "string") {
+      if (typeof n !== "object" && typeof n !== "function") {
         if (n === /* One */ 0) {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
@@ -216,7 +216,7 @@ function hash(x, y) {
 }
 
 function not(n) {
-  if (/* tag */ typeof n === "number" || typeof n === "string") {
+  if (typeof n !== "object" && typeof n !== "function") {
     if (n === /* One */ 0) {
       return /* Zero */ 1;
     } else {
@@ -235,7 +235,7 @@ function not(n) {
 }
 
 function and2(n1, n2) {
-  if (/* tag */ typeof n1 === "number" || typeof n1 === "string") {
+  if (typeof n1 !== "object" && typeof n1 !== "function") {
     if (n1 === /* One */ 0) {
       return n2;
     } else {
@@ -246,7 +246,7 @@ function and2(n1, n2) {
   const i1 = n1._2;
   const v1 = n1._1;
   const l1 = n1._0;
-  if (/* tag */ typeof n2 === "number" || typeof n2 === "string") {
+  if (typeof n2 !== "object" && typeof n2 !== "function") {
     if (n2 === /* One */ 0) {
       return n1;
     } else {
@@ -281,7 +281,7 @@ function and2(n1, n2) {
 }
 
 function xor(n1, n2) {
-  if (/* tag */ typeof n1 === "number" || typeof n1 === "string") {
+  if (typeof n1 !== "object" && typeof n1 !== "function") {
     if (n1 === /* One */ 0) {
       return not(n2);
     } else {
@@ -292,7 +292,7 @@ function xor(n1, n2) {
   const i1 = n1._2;
   const v1 = n1._1;
   const l1 = n1._0;
-  if (/* tag */ typeof n2 === "number" || typeof n2 === "string") {
+  if (typeof n2 !== "object" && typeof n2 !== "function") {
     if (n2 === /* One */ 0) {
       return not(n1);
     } else {

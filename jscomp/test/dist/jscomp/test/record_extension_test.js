@@ -37,7 +37,7 @@ const v0 = {
 eq("File \"jscomp/test/record_extension_test.ml\", line 18, characters 6-13", f(v0), 7);
 
 function f2(x) {
-  if (/* tag */ typeof x === "number" || typeof x === "string" || x.TAG !== /* C */ 0) {
+  if (typeof x !== "object" && typeof x !== "function" || x.TAG !== /* C */ 0) {
     return 0;
   } else {
     return x.x;
@@ -45,7 +45,7 @@ function f2(x) {
 }
 
 function f2_with(x) {
-  if (/* tag */ typeof x === "number" || typeof x === "string" || x.TAG !== /* C */ 0) {
+  if (typeof x !== "object" && typeof x !== "function" || x.TAG !== /* C */ 0) {
     return x;
   } else {
     return {
