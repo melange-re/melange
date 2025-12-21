@@ -6,6 +6,8 @@
     - Fixes a regression introduced in
       [#1457](https://github.com/melange-re/melange/pull/1457) that broke
       builds in the Dune sandbox.
+- `@mel.as`: support `[@mel.as {null,undefined,bool}]`
+  ([#1670](https://github.com/melange-re/melange/pull/1670))
 
 6.0.0-54 2025-11-08
 ---------------
