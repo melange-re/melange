@@ -115,7 +115,7 @@ function u(param) {
 }
 
 function f(x) {
-  if (/* tag */ typeof x === "number" || typeof x === "string") {
+  if (typeof x !== "object" && typeof x !== "function") {
     return 2;
   }
   if (x.TAG === /* D */ 0) {

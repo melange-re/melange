@@ -3,7 +3,7 @@
 
 
 function height(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param._3;
@@ -26,7 +26,7 @@ function bal(l, v, r) {
   const hl = height(l);
   const hr = height(r);
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       return /* Empty */ 0;
     }
     const lr = l._2;
@@ -34,7 +34,7 @@ function bal(l, v, r) {
     const ll = l._0;
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
-    } else if (/* tag */ typeof lr === "number" || typeof lr === "string") {
+    } else if (typeof lr !== "object" && typeof lr !== "function") {
       return /* Empty */ 0;
     } else {
       return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
@@ -49,7 +49,7 @@ function bal(l, v, r) {
       _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     return /* Empty */ 0;
   }
   const rr = r._2;
@@ -57,7 +57,7 @@ function bal(l, v, r) {
   const rl = r._0;
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
-  } else if (/* tag */ typeof rl === "number" || typeof rl === "string") {
+  } else if (typeof rl !== "object" && typeof rl !== "function") {
     return /* Empty */ 0;
   } else {
     return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
@@ -75,7 +75,7 @@ function compare_int(x, y) {
 }
 
 function add(x, t) {
-  if (/* tag */ typeof t === "number" || typeof t === "string") {
+  if (typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: /* Empty */ 0,
@@ -101,11 +101,11 @@ function min_elt(_def, _param) {
   while (true) {
     const param = _param;
     const def = _def;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return def;
     }
     const l = param._0;
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       return param._1;
     }
     _param = l;
@@ -115,7 +115,7 @@ function min_elt(_def, _param) {
 }
 
 function remove_min_elt(l, v, r) {
-  if (/* tag */ typeof l === "number" || typeof l === "string") {
+  if (typeof l !== "object" && typeof l !== "function") {
     return r;
   } else {
     return bal(remove_min_elt(l._0, l._1, l._2), v, r);
@@ -123,10 +123,10 @@ function remove_min_elt(l, v, r) {
 }
 
 function internal_merge(l, r) {
-  if (/* tag */ typeof l === "number" || typeof l === "string") {
+  if (typeof l !== "object" && typeof l !== "function") {
     return r;
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     return l;
   }
   const rv = r._1;
@@ -134,7 +134,7 @@ function internal_merge(l, r) {
 }
 
 function remove(x, tree) {
-  if (/* tag */ typeof tree === "number" || typeof tree === "string") {
+  if (typeof tree !== "object" && typeof tree !== "function") {
     return /* Empty */ 0;
   }
   const r = tree._2;
@@ -153,7 +153,7 @@ function remove(x, tree) {
 function mem(x, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const c = compare_int(x, param._1);
@@ -184,7 +184,7 @@ for (let i$2 = 0; i$2 <= 100000; ++i$2) {
 
 const match = v;
 
-if (!/* tag */ (typeof match === "number" || typeof match === "string")) {
+if (!(typeof match !== "object" && typeof match !== "function")) {
   console.log("impossible");
 }
 

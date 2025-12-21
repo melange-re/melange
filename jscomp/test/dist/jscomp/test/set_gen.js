@@ -12,7 +12,7 @@ function cons_enum(_s, _e) {
   while (true) {
     const e = _e;
     const s = _s;
-    if (/* tag */ typeof s === "number" || typeof s === "string") {
+    if (typeof s !== "object" && typeof s !== "function") {
       return e;
     }
     _e = {
@@ -27,7 +27,7 @@ function cons_enum(_s, _e) {
 }
 
 function height(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param._3;
@@ -37,13 +37,13 @@ function height(param) {
 function min_elt(_param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
     const l = param._0;
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       return param._1;
     }
     _param = l;
@@ -54,13 +54,13 @@ function min_elt(_param) {
 function max_elt(_param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
     let tmp = param._2;
-    if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+    if (typeof tmp !== "object" && typeof tmp !== "function") {
       return param._1;
     }
     _param = param._2;
@@ -69,7 +69,7 @@ function max_elt(_param) {
 }
 
 function is_empty(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return true;
   } else {
     return false;
@@ -80,7 +80,7 @@ function cardinal_aux(_acc, _param) {
   while (true) {
     const param = _param;
     const acc = _acc;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return acc;
     }
     _param = param._0;
@@ -97,7 +97,7 @@ function elements_aux(_accu, _param) {
   while (true) {
     const param = _param;
     const accu = _accu;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return accu;
     }
     _param = param._0;
@@ -116,7 +116,7 @@ function elements(s) {
 function iter(f, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return;
     }
     iter(f, param._0);
@@ -130,7 +130,7 @@ function fold(f, _s, _accu) {
   while (true) {
     const accu = _accu;
     const s = _s;
-    if (/* tag */ typeof s === "number" || typeof s === "string") {
+    if (typeof s !== "object" && typeof s !== "function") {
       return accu;
     }
     _accu = Curry._2(f, s._1, fold(f, s._0, accu));
@@ -142,7 +142,7 @@ function fold(f, _s, _accu) {
 function for_all(p, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return true;
     }
     if (!Curry._1(p, param._1)) {
@@ -159,7 +159,7 @@ function for_all(p, _param) {
 function exists(p, _param) {
   while (true) {
     const param = _param;
-    if (/* tag */ typeof param === "number" || typeof param === "string") {
+    if (typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     if (Curry._1(p, param._1)) {
@@ -200,7 +200,7 @@ const Height_invariant_broken = /* @__PURE__ */ Caml_exceptions.create("Set_gen.
 const Height_diff_borken = /* @__PURE__ */ Caml_exceptions.create("Set_gen.Height_diff_borken");
 
 function check_height_and_diff(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return 0;
   }
   const h = param._3;
@@ -226,9 +226,9 @@ function check(tree) {
 
 function create(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l._3;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l._3;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r._3;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r._3;
   return {
     TAG: /* Node */ 0,
     _0: l,
@@ -240,11 +240,11 @@ function create(l, v, r) {
 
 function internal_bal(l, v, r) {
   let hl;
-  hl = /* tag */ typeof l === "number" || typeof l === "string" ? 0 : l._3;
+  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l._3;
   let hr;
-  hr = /* tag */ typeof r === "number" || typeof r === "string" ? 0 : r._3;
+  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r._3;
   if (hl > (hr + 2 | 0)) {
-    if (/* tag */ typeof l === "number" || typeof l === "string") {
+    if (typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -260,7 +260,7 @@ function internal_bal(l, v, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, create(lr, v, r));
     }
-    if (!/* tag */ (typeof lr === "number" || typeof lr === "string")) {
+    if (!(typeof lr !== "object" && typeof lr !== "function")) {
       return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -281,7 +281,7 @@ function internal_bal(l, v, r) {
       _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -297,7 +297,7 @@ function internal_bal(l, v, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, v, rl), rv, rr);
   }
-  if (!/* tag */ (typeof rl === "number" || typeof rl === "string")) {
+  if (!(typeof rl !== "object" && typeof rl !== "function")) {
     return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -311,14 +311,14 @@ function internal_bal(l, v, r) {
 }
 
 function remove_min_elt(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.remove_min_elt"
       });
   }
   const l = param._0;
-  if (/* tag */ typeof l === "number" || typeof l === "string") {
+  if (typeof l !== "object" && typeof l !== "function") {
     return param._2;
   } else {
     return internal_bal(remove_min_elt(l), param._1, param._2);
@@ -336,9 +336,9 @@ function singleton(x) {
 }
 
 function internal_merge(l, r) {
-  if (/* tag */ typeof l === "number" || typeof l === "string") {
+  if (typeof l !== "object" && typeof l !== "function") {
     return r;
-  } else if (/* tag */ typeof r === "number" || typeof r === "string") {
+  } else if (typeof r !== "object" && typeof r !== "function") {
     return l;
   } else {
     return internal_bal(l, min_elt(r), remove_min_elt(r));
@@ -346,7 +346,7 @@ function internal_merge(l, r) {
 }
 
 function add_min_element(v, param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return singleton(v);
   } else {
     return internal_bal(add_min_element(v, param._0), param._1, param._2);
@@ -354,7 +354,7 @@ function add_min_element(v, param) {
 }
 
 function add_max_element(v, param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return singleton(v);
   } else {
     return internal_bal(param._0, param._1, add_max_element(v, param._2));
@@ -362,11 +362,11 @@ function add_max_element(v, param) {
 }
 
 function internal_join(l, v, r) {
-  if (/* tag */ typeof l === "number" || typeof l === "string") {
+  if (typeof l !== "object" && typeof l !== "function") {
     return add_min_element(v, r);
   }
   const lh = l._3;
-  if (/* tag */ typeof r === "number" || typeof r === "string") {
+  if (typeof r !== "object" && typeof r !== "function") {
     return add_max_element(v, l);
   }
   const rh = r._3;
@@ -380,9 +380,9 @@ function internal_join(l, v, r) {
 }
 
 function internal_concat(t1, t2) {
-  if (/* tag */ typeof t1 === "number" || typeof t1 === "string") {
+  if (typeof t1 !== "object" && typeof t1 !== "function") {
     return t2;
-  } else if (/* tag */ typeof t2 === "number" || typeof t2 === "string") {
+  } else if (typeof t2 !== "object" && typeof t2 !== "function") {
     return t1;
   } else {
     return internal_join(t1, min_elt(t2), remove_min_elt(t2));
@@ -390,7 +390,7 @@ function internal_concat(t1, t2) {
 }
 
 function filter(p, param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return /* Empty */ 0;
   }
   const v = param._1;
@@ -405,7 +405,7 @@ function filter(p, param) {
 }
 
 function partition(p, param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     return [
       /* Empty */ 0,
       /* Empty */ 0
@@ -603,7 +603,7 @@ function of_sorted_array(l) {
 
 function is_ordered(cmp, tree) {
   const is_ordered_min_max = function (tree) {
-    if (/* tag */ typeof tree === "number" || typeof tree === "string") {
+    if (typeof tree !== "object" && typeof tree !== "function") {
       return "Empty";
     }
     const r = tree._2;
@@ -682,14 +682,14 @@ function compare_aux(cmp, _e1, _e2) {
   while (true) {
     const e2 = _e2;
     const e1 = _e1;
-    if (/* tag */ typeof e1 === "number" || typeof e1 === "string") {
-      if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
+    if (typeof e1 !== "object" && typeof e1 !== "function") {
+      if (typeof e2 !== "object" && typeof e2 !== "function") {
         return 0;
       } else {
         return -1;
       }
     }
-    if (/* tag */ typeof e2 === "number" || typeof e2 === "string") {
+    if (typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
     const c = Curry._2(cmp, e1._0, e2._0);

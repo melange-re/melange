@@ -5,7 +5,7 @@ const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function insert(queue, prio, elt) {
-  if (/* tag */ typeof queue === "number" || typeof queue === "string") {
+  if (typeof queue !== "object" && typeof queue !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: prio,
@@ -40,17 +40,17 @@ function insert(queue, prio, elt) {
 const Queue_is_empty = /* @__PURE__ */ Caml_exceptions.create("Pq_test.PrioQueue.Queue_is_empty");
 
 function remove_top(param) {
-  if (/* tag */ typeof param === "number" || typeof param === "string") {
+  if (typeof param !== "object" && typeof param !== "function") {
     throw new Caml_js_exceptions.MelangeError(Queue_is_empty, {
         MEL_EXN_ID: Queue_is_empty
       });
   }
   const left = param._2;
   let tmp = param._3;
-  if (/* tag */ typeof tmp === "number" || typeof tmp === "string") {
+  if (typeof tmp !== "object" && typeof tmp !== "function") {
     return left;
   }
-  if (/* tag */ typeof left === "number" || typeof left === "string") {
+  if (typeof left !== "object" && typeof left !== "function") {
     return param._3;
   }
   const right = param._3;
@@ -76,7 +76,7 @@ function remove_top(param) {
 }
 
 function extract(queue) {
-  if (!/* tag */ (typeof queue === "number" || typeof queue === "string")) {
+  if (!(typeof queue !== "object" && typeof queue !== "function")) {
     return [
       queue._0,
       queue._1,

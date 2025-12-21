@@ -550,7 +550,7 @@ function make_type(typ, dir) {
       }
     case /* SBlock */ 3 :
       let param$1 = typ._0;
-      if (!/* tag */ (typeof param$1 === "number" || typeof param$1 === "string")) {
+      if (!(typeof param$1 !== "object" && typeof param$1 !== "function")) {
         return setup_sprite(undefined, undefined, undefined, "blocks.png", 4, 15, [
           16,
           16
@@ -1345,7 +1345,7 @@ function kill(collid, ctx) {
     case /* Block */ 3 :
       const o$2 = collid._2;
       let tmp = collid._0;
-      if (!/* tag */ (typeof tmp === "number" || typeof tmp === "string")) {
+      if (!(typeof tmp !== "object" && typeof tmp !== "function")) {
         return /* [] */ 0;
       }
       if (tmp !== /* Brick */ 1) {
@@ -1667,7 +1667,7 @@ function process_collision(dir, c1, c2, state) {
           const t = c2._0;
           if (dir === /* North */ 0) {
             const o2$3 = c2._2;
-            if (/* tag */ typeof t === "number" || typeof t === "string") {
+            if (typeof t !== "object" && typeof t !== "function") {
               switch (t) {
                 case /* Brick */ 1 :
                   if (c1._0 === /* BigM */ 0) {
@@ -1708,7 +1708,7 @@ function process_collision(dir, c1, c2, state) {
             }
           } else {
             let exit$1 = 0;
-            if (/* tag */ typeof t === "number" || typeof t === "string") {
+            if (typeof t !== "object" && typeof t !== "function") {
               if (t === /* Panel */ 4) {
                 game_win(state.ctx);
                 return [
@@ -1883,7 +1883,7 @@ function process_collision(dir, c1, c2, state) {
             let typ$2;
             switch (t1) {
               case /* GKoopaShell */ 3 :
-                if (/* tag */ typeof t2$3 === "number" || typeof t2$3 === "string") {
+                if (typeof t2$3 !== "object" && typeof t2$3 !== "function") {
                   if (t2$3 === /* Brick */ 1) {
                     dec_health(o2$5);
                     reverse_left_right(o1$4);
@@ -1899,7 +1899,7 @@ function process_collision(dir, c1, c2, state) {
                 }
                 break;
               case /* RKoopaShell */ 4 :
-                if (/* tag */ typeof t2$3 === "number" || typeof t2$3 === "string") {
+                if (typeof t2$3 !== "object" && typeof t2$3 !== "function") {
                   if (t2$3 === /* Brick */ 1) {
                     dec_health(o2$5);
                     reverse_left_right(o1$4);
