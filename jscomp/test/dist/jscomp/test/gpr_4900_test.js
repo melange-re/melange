@@ -12,7 +12,7 @@ const id = {
 };
 
 function showToJs(x) {
-  if (typeof x !== "object" && typeof x !== "function" && x === /* No */ 0) {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function" && x === /* No */ 0) {
     return false;
   } else {
     return true;

@@ -299,7 +299,7 @@ const funarg = {
 };
 
 function height(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -321,11 +321,11 @@ function create(l, x, d, r) {
 
 function bal(l, x, d, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Map.bal"
@@ -338,7 +338,7 @@ function bal(l, x, d, r) {
     if (height(ll) >= height(lr)) {
       return create(ll, lv, ld, create(lr, x, d, r));
     }
-    if (!(typeof lr !== "object" && typeof lr !== "function")) {
+    if (!/* tag */ (typeof lr !== "object" && typeof lr !== "function")) {
       return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -356,7 +356,7 @@ function bal(l, x, d, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Map.bal"
@@ -369,7 +369,7 @@ function bal(l, x, d, r) {
   if (height(rr) >= height(rl)) {
     return create(create(l, x, d, rl), rv, rd, rr);
   }
-  if (!(typeof rl !== "object" && typeof rl !== "function")) {
+  if (!/* tag */ (typeof rl !== "object" && typeof rl !== "function")) {
     return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -379,7 +379,7 @@ function bal(l, x, d, r) {
 }
 
 function add(x, data, m) {
-  if (typeof m !== "object" && typeof m !== "function") {
+  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -427,7 +427,7 @@ function add(x, data, m) {
 function find(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -508,7 +508,7 @@ const funarg$1 = {
 };
 
 function height$1(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return param.h;
@@ -517,9 +517,9 @@ function height$1(param) {
 
 function create$1(l, v, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
     l: l,
@@ -531,11 +531,11 @@ function create$1(l, v, r) {
 
 function bal$1(l, v, r) {
   let hl;
-  hl = typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
+  hl = /* tag */ typeof l !== "object" && typeof l !== "function" ? 0 : l.h;
   let hr;
-  hr = typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
+  hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   if (hl > (hr + 2 | 0)) {
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "Set.bal"
@@ -547,7 +547,7 @@ function bal$1(l, v, r) {
     if (height$1(ll) >= height$1(lr)) {
       return create$1(ll, lv, create$1(lr, v, r));
     }
-    if (!(typeof lr !== "object" && typeof lr !== "function")) {
+    if (!/* tag */ (typeof lr !== "object" && typeof lr !== "function")) {
       return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -564,7 +564,7 @@ function bal$1(l, v, r) {
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "Set.bal"
@@ -576,7 +576,7 @@ function bal$1(l, v, r) {
   if (height$1(rr) >= height$1(rl)) {
     return create$1(create$1(l, v, rl), rv, rr);
   }
-  if (!(typeof rl !== "object" && typeof rl !== "function")) {
+  if (!/* tag */ (typeof rl !== "object" && typeof rl !== "function")) {
     return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
   }
   throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -586,7 +586,7 @@ function bal$1(l, v, r) {
 }
 
 function add$1(x, t) {
-  if (typeof t !== "object" && typeof t !== "function") {
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
     return {
       TAG: /* Node */ 0,
       l: /* Empty */ 0,
@@ -734,7 +734,7 @@ function seq$1(ids, kind, x, y) {
   const match = x.def;
   const match$1 = y.def;
   let exit = 0;
-  if (typeof match !== "object" && typeof match !== "function") {
+  if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     return y;
   }
   if (match.TAG === /* Alt */ 1) {
@@ -746,7 +746,7 @@ function seq$1(ids, kind, x, y) {
     exit = 2;
   }
   if (exit === 2) {
-    if (typeof match$1 !== "object" && typeof match$1 !== "function") {
+    if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
       if (kind === "First") {
         return x;
       }
@@ -766,7 +766,7 @@ function seq$1(ids, kind, x, y) {
 
 function is_eps(expr) {
   const match = expr.def;
-  if (typeof match !== "object" && typeof match !== "function") {
+  if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     return true;
   } else {
     return false;
@@ -792,7 +792,7 @@ function erase(ids, m, m$p) {
 
 function rename(ids, x) {
   const l = x.def;
-  if (typeof l !== "object" && typeof l !== "function") {
+  if (/* tag */ typeof l !== "object" && typeof l !== "function") {
     return mk_expr(ids, x.def);
   }
   switch (l.TAG) {
@@ -929,7 +929,7 @@ function tseq(kind, x, y, rem) {
   switch (match.TAG) {
     case /* TExp */ 1 :
       let tmp = match._1.def;
-      if (typeof tmp !== "object" && typeof tmp !== "function" && !x.tl) {
+      if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function" && !x.tl) {
         return {
           hd: {
             TAG: /* TExp */ 1,
@@ -1120,7 +1120,7 @@ function remove_duplicates(prev, _l, y) {
         ];
       case /* TExp */ 1 :
         let tmp = x._1.def;
-        if (typeof tmp !== "object" && typeof tmp !== "function") {
+        if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
           const r = l.tl;
           if (Stdlib__List.memq(y.id, prev)) {
             _l = r;
@@ -1219,7 +1219,7 @@ function filter_marks(b, e, marks) {
 
 function delta_1(marks, c, next_cat, prev_cat, x, rem) {
   const s = x.def;
-  if (typeof s !== "object" && typeof s !== "function") {
+  if (/* tag */ typeof s !== "object" && typeof s !== "function") {
     return {
       hd: {
         TAG: /* TMatch */ 2,
@@ -1509,7 +1509,7 @@ const unknown_state = {
 function mk_state(ncol, desc) {
   const match = status(desc);
   let break_state;
-  break_state = typeof match !== "object" && typeof match !== "function" && match !== /* Failed */ 0 ? false : true;
+  break_state = /* tag */ typeof match !== "object" && typeof match !== "function" && match !== /* Failed */ 0 ? false : true;
   return {
     idx: break_state ? -3 : desc.idx,
     real_idx: desc.idx,
@@ -1749,7 +1749,7 @@ function trans_set(cache, cm, s) {
 function is_charset(_param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     switch (param.TAG) {
@@ -1838,7 +1838,7 @@ function colorize(c, regexp) {
   const colorize$1 = function (_regexp) {
     while (true) {
       const regexp = _regexp;
-      if (typeof regexp !== "object" && typeof regexp !== "function") {
+      if (/* tag */ typeof regexp !== "object" && typeof regexp !== "function") {
         switch (regexp) {
           case /* Beg_of_line */ 0 :
           case /* End_of_line */ 1 :
@@ -1921,64 +1921,64 @@ function equal$2(_x1, _x2) {
   while (true) {
     const x2 = _x2;
     const x1 = _x1;
-    if (typeof x1 !== "object" && typeof x1 !== "function") {
+    if (/* tag */ typeof x1 !== "object" && typeof x1 !== "function") {
       switch (x1) {
         case /* Beg_of_line */ 0 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_line */ 0) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_line */ 0) {
             return true;
           } else {
             return false;
           }
         case /* End_of_line */ 1 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_line */ 1) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_line */ 1) {
             return true;
           } else {
             return false;
           }
         case /* Beg_of_word */ 2 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_word */ 2) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_word */ 2) {
             return true;
           } else {
             return false;
           }
         case /* End_of_word */ 3 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_word */ 3) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_word */ 3) {
             return true;
           } else {
             return false;
           }
         case /* Not_bound */ 4 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Not_bound */ 4) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Not_bound */ 4) {
             return true;
           } else {
             return false;
           }
         case /* Beg_of_str */ 5 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_str */ 5) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Beg_of_str */ 5) {
             return true;
           } else {
             return false;
           }
         case /* End_of_str */ 6 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_str */ 6) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* End_of_str */ 6) {
             return true;
           } else {
             return false;
           }
         case /* Last_end_of_line */ 7 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Last_end_of_line */ 7) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Last_end_of_line */ 7) {
             return true;
           } else {
             return false;
           }
         case /* Start */ 8 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Start */ 8) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Start */ 8) {
             return true;
           } else {
             return false;
           }
         case /* Stop */ 9 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Stop */ 9) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" && x2 === /* Stop */ 9) {
             return true;
           } else {
             return false;
@@ -1987,25 +1987,25 @@ function equal$2(_x1, _x2) {
     } else {
       switch (x1.TAG) {
         case /* Set */ 0 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Set */ 0) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Set */ 0) {
             return false;
           } else {
             return Caml_obj.caml_equal(x1._0, x2._0);
           }
         case /* Sequence */ 1 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Sequence */ 1) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Sequence */ 1) {
             return false;
           } else {
             return eq_list(x1._0, x2._0);
           }
         case /* Alternative */ 2 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Alternative */ 2) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Alternative */ 2) {
             return false;
           } else {
             return eq_list(x1._0, x2._0);
           }
         case /* Repeat */ 3 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Repeat */ 3) {
@@ -2021,7 +2021,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._0;
           continue;
         case /* Sem */ 4 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Sem */ 4) {
@@ -2034,7 +2034,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._1;
           continue;
         case /* Sem_greedy */ 5 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Sem_greedy */ 5) {
@@ -2049,7 +2049,7 @@ function equal$2(_x1, _x2) {
         case /* Group */ 6 :
           return false;
         case /* No_group */ 7 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* No_group */ 7) {
@@ -2059,7 +2059,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._0;
           continue;
         case /* Nest */ 8 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Nest */ 8) {
@@ -2069,7 +2069,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._0;
           continue;
         case /* Case */ 9 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Case */ 9) {
@@ -2079,7 +2079,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._0;
           continue;
         case /* No_case */ 10 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* No_case */ 10) {
@@ -2089,19 +2089,19 @@ function equal$2(_x1, _x2) {
           _x1 = x1._0;
           continue;
         case /* Intersection */ 11 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Intersection */ 11) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Intersection */ 11) {
             return false;
           } else {
             return eq_list(x1._0, x2._0);
           }
         case /* Complement */ 12 :
-          if (typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Complement */ 12) {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function" || x2.TAG !== /* Complement */ 12) {
             return false;
           } else {
             return eq_list(x1._0, x2._0);
           }
         case /* Difference */ 13 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Difference */ 13) {
@@ -2114,7 +2114,7 @@ function equal$2(_x1, _x2) {
           _x1 = x1._1;
           continue;
         case /* Pmark */ 14 :
-          if (typeof x2 !== "object" && typeof x2 !== "function") {
+          if (/* tag */ typeof x2 !== "object" && typeof x2 !== "function") {
             return false;
           }
           if (x2.TAG !== /* Pmark */ 14) {
@@ -2172,7 +2172,7 @@ function merge_sequences(_param) {
       return /* [] */ 0;
     }
     const l$p = param.hd;
-    if (!(typeof l$p !== "object" && typeof l$p !== "function")) {
+    if (!/* tag */ (typeof l$p !== "object" && typeof l$p !== "function")) {
       switch (l$p.TAG) {
         case /* Sequence */ 1 :
           const match = l$p._0;
@@ -2183,7 +2183,7 @@ function merge_sequences(_param) {
             let exit = 0;
             if (r$p) {
               const match$1 = r$p.hd;
-              if (typeof match$1 !== "object" && typeof match$1 !== "function" || match$1.TAG !== /* Sequence */ 1) {
+              if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function" || match$1.TAG !== /* Sequence */ 1) {
                 exit = 2;
               } else {
                 const match$2 = match$1._0;
@@ -2260,7 +2260,7 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
     const s = _s;
     const greedy = _greedy;
     const ign_group = _ign_group;
-    if (typeof s !== "object" && typeof s !== "function") {
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
       switch (s) {
         case /* Beg_of_line */ 0 :
           const c$1 = Curry._2(Re_automata_Category.$plus$plus, Re_automata_Category.inexistant, Re_automata_Category.newline);
@@ -2534,7 +2534,7 @@ function case_insens(s) {
 }
 
 function as_set(s) {
-  if (typeof s !== "object" && typeof s !== "function") {
+  if (/* tag */ typeof s !== "object" && typeof s !== "function") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -2561,7 +2561,7 @@ function handle_case(_ign_case, _s) {
   while (true) {
     const s = _s;
     const ign_case = _ign_case;
-    if (typeof s !== "object" && typeof s !== "function") {
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
       return s;
     }
     switch (s.TAG) {
@@ -2698,7 +2698,7 @@ function handle_case(_ign_case, _s) {
 function anchored(_l) {
   while (true) {
     const l = _l;
-    if (typeof l !== "object" && typeof l !== "function") {
+    if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       switch (l) {
         case /* Beg_of_str */ 5 :
         case /* Start */ 8 :
@@ -3204,7 +3204,7 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
     }
     res = match[1];
   }
-  if (typeof res !== "object" && typeof res !== "function") {
+  if (/* tag */ typeof res !== "object" && typeof res !== "function") {
     if (res === /* Failed */ 0) {
       return /* Failed */ 0;
     } else {
@@ -4111,7 +4111,7 @@ function re(flagsOpt, pat) {
 function exec(rex, pos, s) {
   let len;
   const substr = exec_internal("Re.exec", pos, len, true, rex, s);
-  if (!(typeof substr !== "object" && typeof substr !== "function")) {
+  if (!/* tag */ (typeof substr !== "object" && typeof substr !== "function")) {
     return substr._0;
   }
   if (substr === /* Failed */ 0) {

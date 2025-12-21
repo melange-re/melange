@@ -3,7 +3,7 @@
 
 
 function f9(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     if (param === /* T63 */ 3) {
       return 3;
     } else {

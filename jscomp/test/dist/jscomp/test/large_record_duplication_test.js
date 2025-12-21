@@ -87,7 +87,7 @@ const v1 = {
 };
 
 function get_x0(x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     return;
   } else {
     return x.x0;
@@ -95,7 +95,7 @@ function get_x0(x) {
 }
 
 function f1(x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     return /* A1 */ 0;
   }
   const newrecord = Caml_obj.caml_obj_dup(x);

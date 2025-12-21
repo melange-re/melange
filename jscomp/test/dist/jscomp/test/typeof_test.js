@@ -6,7 +6,7 @@ const Mt = require("./mt.js");
 
 function string_or_number(x) {
   const ty = Js__Js_types.classify(x);
-  if (typeof ty !== "object" && typeof ty !== "function") {
+  if (/* tag */ typeof ty !== "object" && typeof ty !== "function") {
     switch (ty) {
       default:
         return false;

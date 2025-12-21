@@ -4,7 +4,7 @@
 const Curry = require("melange.js/curry.js");
 
 function f(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     if (param === /* G */ 0) {
       return 4;
     } else {

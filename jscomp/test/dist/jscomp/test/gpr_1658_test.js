@@ -33,7 +33,7 @@ eq("File \"jscomp/test/gpr_1658_test.ml\", line 11, characters 7-14", null, null
 
 const match = Js__Js_types.classify(null);
 
-if (typeof match !== "object" && typeof match !== "function" && match === /* JSNull */ 2) {
+if (/* tag */ typeof match !== "object" && typeof match !== "function" && match === /* JSNull */ 2) {
   eq("File \"jscomp/test/gpr_1658_test.ml\", line 14, characters 11-18", true, true);
 } else {
   eq("File \"jscomp/test/gpr_1658_test.ml\", line 16, characters 11-18", true, false);

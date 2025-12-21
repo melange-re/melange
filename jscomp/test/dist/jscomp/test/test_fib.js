@@ -44,7 +44,7 @@ function cons(x, y) {
 }
 
 function length(x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     return 0;
   } else {
     return 1 + length(x._1) | 0;
@@ -52,7 +52,7 @@ function length(x) {
 }
 
 function map(f, x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     return /* Nil */ 0;
   } else {
     return {

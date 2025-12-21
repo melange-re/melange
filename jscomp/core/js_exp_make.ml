@@ -821,28 +821,31 @@ let is_type_number ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "number")
 
 let is_tag ?(has_null_undefined_other = (false, false, false)) (e : t) : t =
-  match has_null_undefined_other with
-  | true, false, false ->
-      (* null *)
-      bin EqEqEq e nil
-  | true, true, false ->
-      (* null + undefined *)
-      or_ (bin EqEqEq e nil) (bin EqEqEq e undefined)
-  | false, true, false ->
-      (* undefined *)
-      bin EqEqEq e undefined
-  | true, true, true | true, false, true ->
-      (* (null + undefined + other) || (null + other) *)
-      or_ (bin EqEqEq e nil)
-        (and_
-           (bin NotEqEq (typeof e) (str L.js_type_object))
-           (bin NotEqEq (typeof e) (str L.js_type_function)))
-  | false, _, _ ->
-      (* (undefined + other) || other *)
-      (* bin NotEqEq (typeof e) (str L.js_type_object) *)
-      and_
-        (bin NotEqEq (typeof e) (str L.js_type_object))
-        (bin NotEqEq (typeof e) (str L.js_type_function))
+  let expr =
+    match has_null_undefined_other with
+    | true, false, false ->
+        (* null *)
+        bin EqEqEq e nil
+    | true, true, false ->
+        (* null + undefined *)
+        or_ (bin EqEqEq e nil) (bin EqEqEq e undefined)
+    | false, true, false ->
+        (* undefined *)
+        bin EqEqEq e undefined
+    | true, true, true | true, false, true ->
+        (* (null + undefined + other) || (null + other) *)
+        or_ (bin EqEqEq e nil)
+          (and_
+             (bin NotEqEq (typeof e) (str L.js_type_object))
+             (bin NotEqEq (typeof e) (str L.js_type_function)))
+    | false, _, _ ->
+        (* (undefined + other) || other *)
+        (* bin NotEqEq (typeof e) (str L.js_type_object) *)
+        and_
+          (bin NotEqEq (typeof e) (str L.js_type_object))
+          (bin NotEqEq (typeof e) (str L.js_type_function))
+  in
+  { expr with comment = Some "tag" }
 
 let is_type_string ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "string")

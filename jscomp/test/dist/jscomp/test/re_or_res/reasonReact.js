@@ -265,7 +265,7 @@ function createClass(debugName) {
           return null;
         }
         let nextTotalState;
-        if (typeof reasonStateUpdate !== "object" && typeof reasonStateUpdate !== "function") {
+        if (/* tag */ typeof reasonStateUpdate !== "object" && typeof reasonStateUpdate !== "function") {
           nextTotalState = curTotalState;
         } else {
           switch (reasonStateUpdate.TAG) {

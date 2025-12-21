@@ -67,7 +67,7 @@ function not_(x) {
 }
 
 function st(state) {
-  if (typeof state !== "object" && typeof state !== "function") {
+  if (/* tag */ typeof state !== "object" && typeof state !== "function") {
     return 0;
   } else {
     return 23;
@@ -75,7 +75,7 @@ function st(state) {
 }
 
 function showToJs(x) {
-  if (typeof x !== "object" && typeof x !== "function" && x === /* No */ 0) {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function" && x === /* No */ 0) {
     return false;
   } else {
     return true;
@@ -95,28 +95,28 @@ function third(l) {
 }
 
 function third2(l) {
-  if (typeof l !== "object" && typeof l !== "function") {
+  if (/* tag */ typeof l !== "object" && typeof l !== "function") {
     return false;
   }
   if (l._0 !== 1) {
     return false;
   }
   const match = l._1;
-  if (typeof match !== "object" && typeof match !== "function") {
+  if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     return false;
   }
   if (match._0 !== 2) {
     return false;
   }
   const match$1 = match._1;
-  if (typeof match$1 !== "object" && typeof match$1 !== "function") {
+  if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
     return false;
   }
   if (match$1._0 !== 3) {
     return false;
   }
   let tmp = match$1._1;
-  if (typeof tmp !== "object" && typeof tmp !== "function") {
+  if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
     return true;
   } else {
     return false;
@@ -124,7 +124,7 @@ function third2(l) {
 }
 
 function foo(x) {
-  if (typeof x !== "object" && typeof x !== "function") {
+  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     switch (x) {
       case /* A */ "dd" :
         return 1;

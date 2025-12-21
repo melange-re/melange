@@ -3,7 +3,7 @@
 
 
 function func(state) {
-  if (typeof state !== "object" && typeof state !== "function") {
+  if (/* tag */ typeof state !== "object" && typeof state !== "function") {
     return 0;
   } else {
     return 0 + state._0 | 0;

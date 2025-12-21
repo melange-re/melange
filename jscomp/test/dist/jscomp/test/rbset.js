@@ -4,7 +4,7 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function blackify(s) {
-  if (typeof s !== "object" && typeof s !== "function" || s._0 === /* Black */ 0) {
+  if (/* tag */ typeof s !== "object" && typeof s !== "function" || s._0 === /* Black */ 0) {
     return [
       s,
       true
@@ -24,7 +24,7 @@ function blackify(s) {
 }
 
 function is_empty(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return true;
   } else {
     return false;
@@ -34,7 +34,7 @@ function is_empty(param) {
 function mem(x, _param) {
   while (true) {
     const param = _param;
-    if (typeof param !== "object" && typeof param !== "function") {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
     const y = param._2;
@@ -59,12 +59,12 @@ function balance_left(l, x, r) {
   let c;
   let z;
   let d;
-  if (typeof l !== "object" && typeof l !== "function" || l._0 === /* Black */ 0) {
+  if (/* tag */ typeof l !== "object" && typeof l !== "function" || l._0 === /* Black */ 0) {
     exit = 1;
   } else {
     const a$1 = l._1;
     let exit$1 = 0;
-    if (typeof a$1 !== "object" && typeof a$1 !== "function" || a$1._0 === /* Black */ 0) {
+    if (/* tag */ typeof a$1 !== "object" && typeof a$1 !== "function" || a$1._0 === /* Black */ 0) {
       exit$1 = 3;
     } else {
       a = a$1._1;
@@ -78,7 +78,7 @@ function balance_left(l, x, r) {
     }
     if (exit$1 === 3) {
       const match = l._3;
-      if (typeof match !== "object" && typeof match !== "function" || match._0 === /* Black */ 0) {
+      if (/* tag */ typeof match !== "object" && typeof match !== "function" || match._0 === /* Black */ 0) {
         exit = 1;
       } else {
         a = a$1;
@@ -134,12 +134,12 @@ function balance_right(l, x, r) {
   let c;
   let z;
   let d;
-  if (typeof r !== "object" && typeof r !== "function" || r._0 === /* Black */ 0) {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function" || r._0 === /* Black */ 0) {
     exit = 1;
   } else {
     const b$1 = r._1;
     let exit$1 = 0;
-    if (typeof b$1 !== "object" && typeof b$1 !== "function" || b$1._0 === /* Black */ 0) {
+    if (/* tag */ typeof b$1 !== "object" && typeof b$1 !== "function" || b$1._0 === /* Black */ 0) {
       exit$1 = 3;
     } else {
       a = l;
@@ -153,7 +153,7 @@ function balance_right(l, x, r) {
     }
     if (exit$1 === 3) {
       const match = r._3;
-      if (typeof match !== "object" && typeof match !== "function" || match._0 === /* Black */ 0) {
+      if (/* tag */ typeof match !== "object" && typeof match !== "function" || match._0 === /* Black */ 0) {
         exit = 1;
       } else {
         a = l;
@@ -211,10 +211,10 @@ function singleton(x) {
 }
 
 function unbalanced_left(param) {
-  if (!(typeof param !== "object" && typeof param !== "function")) {
+  if (!/* tag */ (typeof param !== "object" && typeof param !== "function")) {
     if (param._0 === /* Black */ 0) {
       const match = param._1;
-      if (!(typeof match !== "object" && typeof match !== "function")) {
+      if (!/* tag */ (typeof match !== "object" && typeof match !== "function")) {
         if (match._0 === /* Black */ 0) {
           return [
             balance_left({
@@ -228,7 +228,7 @@ function unbalanced_left(param) {
           ];
         }
         const match$1 = match._3;
-        if (!(typeof match$1 !== "object" && typeof match$1 !== "function") && match$1._0 === /* Black */ 0) {
+        if (!/* tag */ (typeof match$1 !== "object" && typeof match$1 !== "function") && match$1._0 === /* Black */ 0) {
           return [
             {
               TAG: /* Node */ 0,
@@ -251,7 +251,7 @@ function unbalanced_left(param) {
       
     } else {
       const match$2 = param._1;
-      if (!(typeof match$2 !== "object" && typeof match$2 !== "function") && match$2._0 === /* Black */ 0) {
+      if (!/* tag */ (typeof match$2 !== "object" && typeof match$2 !== "function") && match$2._0 === /* Black */ 0) {
         return [
           balance_left({
             TAG: /* Node */ 0,
@@ -277,12 +277,12 @@ function unbalanced_left(param) {
 }
 
 function unbalanced_right(param) {
-  if (!(typeof param !== "object" && typeof param !== "function")) {
+  if (!/* tag */ (typeof param !== "object" && typeof param !== "function")) {
     if (param._0 === /* Black */ 0) {
       const match = param._3;
       const x = param._2;
       const a = param._1;
-      if (!(typeof match !== "object" && typeof match !== "function")) {
+      if (!/* tag */ (typeof match !== "object" && typeof match !== "function")) {
         if (match._0 === /* Black */ 0) {
           return [
             balance_right(a, x, {
@@ -296,7 +296,7 @@ function unbalanced_right(param) {
           ];
         }
         const match$1 = match._1;
-        if (!(typeof match$1 !== "object" && typeof match$1 !== "function") && match$1._0 === /* Black */ 0) {
+        if (!/* tag */ (typeof match$1 !== "object" && typeof match$1 !== "function") && match$1._0 === /* Black */ 0) {
           return [
             {
               TAG: /* Node */ 0,
@@ -319,7 +319,7 @@ function unbalanced_right(param) {
       
     } else {
       const match$2 = param._3;
-      if (!(typeof match$2 !== "object" && typeof match$2 !== "function") && match$2._0 === /* Black */ 0) {
+      if (!/* tag */ (typeof match$2 !== "object" && typeof match$2 !== "function") && match$2._0 === /* Black */ 0) {
         return [
           balance_right(param._1, param._2, {
             TAG: /* Node */ 0,
@@ -345,7 +345,7 @@ function unbalanced_right(param) {
 }
 
 function lbalance(x1, x2, x3) {
-  if (typeof x1 !== "object" && typeof x1 !== "function") {
+  if (/* tag */ typeof x1 !== "object" && typeof x1 !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: /* Black */ 0,
@@ -365,7 +365,7 @@ function lbalance(x1, x2, x3) {
   }
   const r = x1._3;
   const l = x1._1;
-  if (!(typeof l !== "object" && typeof l !== "function") && l._0 !== /* Black */ 0) {
+  if (!/* tag */ (typeof l !== "object" && typeof l !== "function") && l._0 !== /* Black */ 0) {
     return {
       TAG: /* Node */ 0,
       _0: /* Red */ 1,
@@ -386,7 +386,7 @@ function lbalance(x1, x2, x3) {
       }
     };
   }
-  if (typeof r !== "object" && typeof r !== "function") {
+  if (/* tag */ typeof r !== "object" && typeof r !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: /* Black */ 0,
@@ -427,10 +427,10 @@ function lbalance(x1, x2, x3) {
 }
 
 function rbalance(x1, x2, x3) {
-  if (!(typeof x3 !== "object" && typeof x3 !== "function") && x3._0 !== /* Black */ 0) {
+  if (!/* tag */ (typeof x3 !== "object" && typeof x3 !== "function") && x3._0 !== /* Black */ 0) {
     const b = x3._1;
     let exit = 0;
-    if (typeof b !== "object" && typeof b !== "function") {
+    if (/* tag */ typeof b !== "object" && typeof b !== "function") {
       exit = 2;
     } else {
       if (b._0 !== /* Black */ 0) {
@@ -458,7 +458,7 @@ function rbalance(x1, x2, x3) {
     }
     if (exit === 2) {
       const match = x3._3;
-      if (!(typeof match !== "object" && typeof match !== "function") && match._0 !== /* Black */ 0) {
+      if (!/* tag */ (typeof match !== "object" && typeof match !== "function") && match._0 !== /* Black */ 0) {
         return {
           TAG: /* Node */ 0,
           _0: /* Red */ 1,
@@ -493,7 +493,7 @@ function rbalance(x1, x2, x3) {
 }
 
 function ins(x, s) {
-  if (typeof s !== "object" && typeof s !== "function") {
+  if (/* tag */ typeof s !== "object" && typeof s !== "function") {
     return {
       TAG: /* Node */ 0,
       _0: /* Red */ 1,
@@ -542,7 +542,7 @@ function ins(x, s) {
 
 function add(x, s) {
   const s$1 = ins(x, s);
-  if (typeof s$1 !== "object" && typeof s$1 !== "function" || s$1._0 === /* Black */ 0) {
+  if (/* tag */ typeof s$1 !== "object" && typeof s$1 !== "function" || s$1._0 === /* Black */ 0) {
     return s$1;
   } else {
     return {
@@ -556,7 +556,7 @@ function add(x, s) {
 }
 
 function remove_min(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -569,10 +569,10 @@ function remove_min(param) {
   const c = param._0;
   if (c === /* Black */ 0) {
     let tmp = param._1;
-    if (typeof tmp !== "object" && typeof tmp !== "function") {
+    if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
       const match = param._3;
       const x = param._2;
-      if (typeof match !== "object" && typeof match !== "function") {
+      if (/* tag */ typeof match !== "object" && typeof match !== "function") {
         return [
           /* Empty */ 0,
           x,
@@ -604,7 +604,7 @@ function remove_min(param) {
     
   } else {
     let tmp$1 = param._1;
-    if (typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
       return [
         param._3,
         param._2,
@@ -641,7 +641,7 @@ function remove_min(param) {
 }
 
 function remove_aux(x, n) {
-  if (typeof n !== "object" && typeof n !== "function") {
+  if (/* tag */ typeof n !== "object" && typeof n !== "function") {
     return [
       /* Empty */ 0,
       false
@@ -652,7 +652,7 @@ function remove_aux(x, n) {
   const l = n._1;
   const c = n._0;
   if (x === y) {
-    if (typeof r !== "object" && typeof r !== "function") {
+    if (/* tag */ typeof r !== "object" && typeof r !== "function") {
       if (c === /* Red */ 1) {
         return [
           l,
@@ -724,7 +724,7 @@ function remove(x, s) {
 }
 
 function cardinal(param) {
-  if (typeof param !== "object" && typeof param !== "function") {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
   } else {
     return (1 + cardinal(param._1) | 0) + cardinal(param._3) | 0;

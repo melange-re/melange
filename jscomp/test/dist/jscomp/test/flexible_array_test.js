@@ -13,7 +13,7 @@ function sub(_tr, _k) {
   while (true) {
     const k = _k;
     const tr = _tr;
-    if (typeof tr !== "object" && typeof tr !== "function") {
+    if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found
         });
@@ -33,7 +33,7 @@ function sub(_tr, _k) {
 }
 
 function update(tr, k, w) {
-  if (typeof tr !== "object" && typeof tr !== "function") {
+  if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
     if (k === 1) {
       return {
         TAG: /* Br */ 0,
@@ -75,7 +75,7 @@ function update(tr, k, w) {
 }
 
 function $$delete(tr, n) {
-  if (typeof tr !== "object" && typeof tr !== "function") {
+  if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
         MEL_EXN_ID: Stdlib.Not_found
       });
@@ -104,7 +104,7 @@ function $$delete(tr, n) {
 }
 
 function loext(tr, w) {
-  if (typeof tr !== "object" && typeof tr !== "function") {
+  if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
     return {
       TAG: /* Br */ 0,
       _0: w,
@@ -122,13 +122,13 @@ function loext(tr, w) {
 }
 
 function lorem(tr) {
-  if (typeof tr !== "object" && typeof tr !== "function") {
+  if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
         MEL_EXN_ID: Stdlib.Not_found
       });
   }
   const l = tr._1;
-  if (!(typeof l !== "object" && typeof l !== "function")) {
+  if (!/* tag */ (typeof l !== "object" && typeof l !== "function")) {
     return {
       TAG: /* Br */ 0,
       _0: l._0,
@@ -137,7 +137,7 @@ function lorem(tr) {
     };
   }
   let tmp = tr._2;
-  if (typeof tmp !== "object" && typeof tmp !== "function") {
+  if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
     return /* Lf */ 0;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

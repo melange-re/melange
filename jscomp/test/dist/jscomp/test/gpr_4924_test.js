@@ -12,7 +12,7 @@ const id = {
 };
 
 function u(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return 0;
   } else {
     return 1;
@@ -20,7 +20,7 @@ function u(b) {
 }
 
 function u1(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return true;
   } else {
     return false;
@@ -28,7 +28,7 @@ function u1(b) {
 }
 
 function u2(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return false;
   } else {
     return true;
@@ -42,7 +42,7 @@ Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 26, charac
 Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 27, characters 33-40", true, true);
 
 function u3(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return 3;
   } else {
     return 4;
@@ -50,7 +50,7 @@ function u3(b) {
 }
 
 function u4(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return 3;
   } else {
     return 4;
@@ -58,7 +58,7 @@ function u4(b) {
 }
 
 function u5(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return false;
   } else {
     return true;
@@ -66,7 +66,7 @@ function u5(b) {
 }
 
 function u6(b) {
-  if (typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
+  if (/* tag */ typeof b !== "object" && typeof b !== "function" && b === /* A */ 0) {
     return true;
   } else {
     return false;
