@@ -1,13 +1,14 @@
-{ melange
-, lib
-, buildDunePackage
-, cppo
-, nodejs
-, js_of_ocaml
-, js_of_ocaml-compiler
-, reason
-, reason-react-ppx
-, melange-compiler-libs-vendor-dir
+{
+  melange,
+  lib,
+  buildDunePackage,
+  cppo,
+  nodejs,
+  js_of_ocaml,
+  js_of_ocaml-compiler,
+  reason,
+  reason-react-ppx,
+  melange-compiler-libs-vendor-dir,
 }:
 
 buildDunePackage {
@@ -16,7 +17,9 @@ buildDunePackage {
   duneVersion = "3";
 
   src =
-    let fs = lib.fileset; in
+    let
+      fs = lib.fileset;
+    in
     fs.toSource {
       root = ./..;
       fileset = fs.unions [
@@ -37,6 +40,15 @@ buildDunePackage {
   '';
 
   doCheck = true;
-  nativeBuildInputs = [ cppo nodejs js_of_ocaml ];
-  propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
+  nativeBuildInputs = [
+    cppo
+    nodejs
+    js_of_ocaml
+  ];
+  propagatedBuildInputs = [
+    js_of_ocaml-compiler
+    melange
+    reason
+    reason-react-ppx
+  ];
 }

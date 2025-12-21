@@ -11,22 +11,35 @@
     };
   };
 
-  outputs = { self, nixpkgs, melange-compiler-libs }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      melange-compiler-libs,
+    }:
     let
-      forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system}.extend (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_4;
-          });
-        in
-        f pkgs);
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (
+          system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system}.extend (
+              self: super: {
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_4;
+              }
+            );
+          in
+          f pkgs
+        );
     in
     {
+      formatter = forAllSystems (pkgs: pkgs.nixfmt);
       overlays.default = import ./nix/overlay.nix {
         melange-compiler-libs-vendor-dir = melange-compiler-libs;
       };
 
-      packages = forAllSystems (pkgs:
+      packages = forAllSystems (
+        pkgs:
         let
           melange = pkgs.callPackage ./nix {
             melange-compiler-libs-vendor-dir = melange-compiler-libs;
@@ -42,12 +55,17 @@
         }
       );
 
-      devShells = forAllSystems (pkgs:
+      devShells = forAllSystems (
+        pkgs:
         let
-          melange-shell = opts:
-            pkgs.callPackage ./nix/shell.nix ({
-              packages = self.packages.${pkgs.stdenv.hostPlatform.system};
-            } // opts);
+          melange-shell =
+            opts:
+            pkgs.callPackage ./nix/shell.nix (
+              {
+                packages = self.packages.${pkgs.stdenv.hostPlatform.system};
+              }
+              // opts
+            );
 
         in
         {

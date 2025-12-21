@@ -1,11 +1,19 @@
 { pkgs, packages }:
 
 let
-  inputString =
-    builtins.substring
-      11 32
-      (builtins.unsafeDiscardStringContext packages.melange.outPath);
-  inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
+  inputString = builtins.substring 11 32 (
+    builtins.unsafeDiscardStringContext packages.melange.outPath
+  );
+  inherit (pkgs)
+    stdenv
+    nodejs
+    yarn
+    git
+    lib
+    nodePackages
+    ocamlPackages
+    tree
+    ;
 in
 
 with ocamlPackages;
@@ -15,7 +23,11 @@ stdenv.mkDerivation {
 
   src = ../jscomp/test;
 
-  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+  phases = [
+    "unpackPhase"
+    "checkPhase"
+    "installPhase"
+  ];
 
   installPhase = ''
     mkdir -p $out/lib
