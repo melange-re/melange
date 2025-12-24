@@ -160,6 +160,7 @@ module Reserved_words = struct
       "__dirname";
       "__filename";
       "__esModule";
+      "Bun";
     |]
 
   let all_from_file =

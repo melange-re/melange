@@ -10,6 +10,8 @@
   ([#1670](https://github.com/melange-re/melange/pull/1670))
 - fix(ffi): support uncurried `[@mel.new]` external definitions
   ([#1710](https://github.com/melange-re/melange/pull/1710))
+- core: add `Bun` as a reserved JS keyword, to avoid shadowing the `Bun`
+  variable ([#1711](https://github.com/melange-re/melange/pull/1711))
 
 6.0.0-54 2025-11-08
 ---------------
