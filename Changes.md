@@ -8,6 +8,8 @@
       builds in the Dune sandbox.
 - `@mel.as`: support `[@mel.as {null,undefined,bool}]`
   ([#1670](https://github.com/melange-re/melange/pull/1670))
+- fix(ffi): support uncurried `[@mel.new]` external definitions
+  ([#1710](https://github.com/melange-re/melange/pull/1710))
 
 6.0.0-54 2025-11-08
 ---------------

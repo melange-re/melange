@@ -1704,8 +1704,12 @@ and compile_prim (prim_info : Lam.prim_info)
             {
               primitive =
                 Pjs_call
-                  { ffi = Js_call _ | Js_send _ | Js_get _ | Js_get_index _; _ }
-                as primitive;
+                  {
+                    ffi =
+                      ( Js_new _ | Js_call _ | Js_send _ | Js_get _
+                      | Js_get_index _ );
+                    _;
+                  } as primitive;
               args = [];
               loc;
             }
@@ -1720,7 +1724,8 @@ and compile_prim (prim_info : Lam.prim_info)
                         Pjs_call
                           {
                             ffi =
-                              Js_call _ | Js_send _ | Js_get _ | Js_get_index _;
+                              ( Js_new _ | Js_call _ | Js_send _ | Js_get _
+                              | Js_get_index _ );
                             _;
                           } as primitive;
                       args = [];
