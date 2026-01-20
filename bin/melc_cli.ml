@@ -91,6 +91,11 @@ type t = {
   store_occurrences : bool;
 }
 
+let repeatable_flag arg_info =
+  Term.(
+    const (function [] -> false | _ :: _ -> true)
+    $ Arg.(value & flag_all & arg_info))
+
 let include_dirs =
   let doc = "Add $(docv) to the list of include directories" in
   let docv = "dir" in
@@ -145,7 +150,7 @@ let open_modules =
 
 let bs_syntax_only =
   let doc = "Only check syntax" in
-  Arg.(value & flag & info [ "bs-syntax-only"; "mel-syntax-only" ] ~doc)
+  repeatable_flag (Arg.info [ "bs-syntax-only"; "mel-syntax-only" ] ~doc)
 
 let bs_package_name =
   let doc = "Set package name, useful when you want to produce npm packages" in
@@ -165,7 +170,7 @@ let bs_module_name =
 
 let unboxed_types =
   let doc = "Unannotated unboxable types will be unboxed" in
-  Arg.(value & flag & info [ "unboxed-types" ] ~doc)
+  repeatable_flag (Arg.info [ "unboxed-types" ] ~doc)
 
 let color =
   let doc =
@@ -188,11 +193,11 @@ let preamble =
 
 let where =
   let doc = "Print location of standard library and exit" in
-  Arg.(value & flag & info [ "where" ] ~doc)
+  repeatable_flag (Arg.info [ "where" ] ~doc)
 
 let verbose =
   let doc = "Print calls to external commands" in
-  Arg.(value & flag & info [ "verbose" ] ~doc)
+  repeatable_flag (Arg.info [ "verbose" ] ~doc)
 
 let keep_locs =
   Arg.(
@@ -205,7 +210,7 @@ let keep_locs =
 
 let version =
   let doc = "Print version and exit" in
-  Arg.(value & flag & info [ "v"; "version" ] ~doc)
+  repeatable_flag (Arg.info [ "v"; "version" ] ~doc)
 
 let pp =
   let doc = "Pipe sources through preprocessor $(docv)" in
@@ -214,7 +219,7 @@ let pp =
 
 let absname =
   let doc = "Show absolute filenames in error messages" in
-  Arg.(value & flag & info [ "absname" ] ~doc)
+  repeatable_flag (Arg.info [ "absname" ] ~doc)
 
 let bin_annot =
   Arg.(
@@ -229,15 +234,15 @@ let bin_annot =
 
 let i =
   let doc = "Print inferred interface" in
-  Arg.(value & flag & info [ "i" ] ~doc)
+  repeatable_flag (Arg.info [ "i" ] ~doc)
 
 let unsafe =
   let doc = "Do not compile bounds checking on array and string access" in
-  Arg.(value & flag & info [ "unsafe" ] ~doc)
+  repeatable_flag (Arg.info [ "unsafe" ] ~doc)
 
 let warn_help =
   let doc = "Show description of warning numbers" in
-  Arg.(value & flag & info [ "warn-help" ] ~doc)
+  repeatable_flag (Arg.info [ "warn-help" ] ~doc)
 
 let warn_error =
   let doc =
@@ -249,7 +254,7 @@ let warn_error =
 
 let bs_stop_after_cmj =
   let doc = "Stop after generating the cmj" in
-  Arg.(value & flag & info [ "bs-stop-after-cmj"; "mel-stop-after-cmj" ] ~doc)
+  repeatable_flag (Arg.info [ "bs-stop-after-cmj"; "mel-stop-after-cmj" ] ~doc)
 
 module Internal = struct
   let bs_package_output =
@@ -282,15 +287,15 @@ module Internal = struct
 
   let as_ppx =
     let doc = "*internal* As ppx for editor integration" in
-    Arg.(value & flag & info [ "as-ppx" ] ~doc)
+    repeatable_flag (Arg.info [ "as-ppx" ] ~doc)
 
   let as_pp =
     let doc = "*internal* As pp to interact with native tools" in
-    Arg.(value & flag & info [ "as-pp" ] ~doc)
+    repeatable_flag (Arg.info [ "as-pp" ] ~doc)
 
   let no_alias_deps =
     let doc = "*internal*Do not record dependencies for module aliases" in
-    Arg.(value & flag & info [ "no-alias-deps" ] ~doc)
+    repeatable_flag (Arg.info [ "no-alias-deps" ] ~doc)
 
   let bs_gentype =
     let doc = "*internal* Pass gentype command" in
@@ -299,13 +304,12 @@ module Internal = struct
 
   let bs_unsafe_empty_array =
     let doc = "*internal* Allow [||] to be polymorphic" in
-    Arg.(
-      value & flag
-      & info [ "bs-unsafe-empty-array"; "mel-unsafe-empty-array" ] ~doc)
+    repeatable_flag
+      (Arg.info [ "bs-unsafe-empty-array"; "mel-unsafe-empty-array" ] ~doc)
 
   let nostdlib =
     let doc = "*internal* Don't use stdlib" in
-    Arg.(value & flag & info [ "nostdlib" ] ~doc)
+    repeatable_flag (Arg.info [ "nostdlib" ] ~doc)
 
   let bs_eval =
     let doc =
@@ -315,13 +319,12 @@ module Internal = struct
 
   let bs_cmi_only =
     let doc = "*internal* Stop after generating cmi file" in
-    Arg.(value & flag & info [ "bs-cmi-only"; "mel-cmi-only" ] ~doc)
+    repeatable_flag (Arg.info [ "bs-cmi-only"; "mel-cmi-only" ] ~doc)
 
   let bs_no_version_header =
     let doc = "*internal* Don't print version header" in
-    Arg.(
-      value & flag
-      & info [ "bs-no-version-header"; "mel-no-version-header" ] ~doc)
+    repeatable_flag
+      (Arg.info [ "bs-no-version-header"; "mel-no-version-header" ] ~doc)
 
   let bs_cross_module_opt =
     Arg.(
@@ -340,29 +343,28 @@ module Internal = struct
 
   let bs_diagnose =
     let doc = "*internal* More verbose output" in
-    Arg.(value & flag & info [ "bs-diagnose"; "mel-diagnose" ] ~doc)
+    repeatable_flag (Arg.info [ "bs-diagnose"; "mel-diagnose" ] ~doc)
 
   let bs_no_check_div_by_zero =
     let doc =
       "*internal* unsafe mode, don't check div by zero and mod by zero"
     in
-    Arg.(
-      value & flag
-      & info [ "bs-no-check-div-by-zero"; "mel-no-check-div-by-zero" ] ~doc)
+    repeatable_flag
+      (Arg.info [ "bs-no-check-div-by-zero"; "mel-no-check-div-by-zero" ] ~doc)
 
   let bs_noassertfalse =
     let doc = "*internal*  no code for assert false" in
-    Arg.(value & flag & info [ "bs-noassertfalse"; "mel-noassertfalse" ] ~doc)
+    repeatable_flag (Arg.info [ "bs-noassertfalse"; "mel-noassertfalse" ] ~doc)
 
   let noassert =
     let doc = "*internal* Do not compile assertion checks" in
-    Arg.(value & flag & info [ "noassert" ] ~doc)
+    repeatable_flag (Arg.info [ "noassert" ] ~doc)
 
   let bs_loc =
     let doc =
       "*internal*  dont display location with -dtypedtree, -dparsetree"
     in
-    Arg.(value & flag & info [ "bs-loc"; "mel-loc" ] ~doc)
+    repeatable_flag (Arg.info [ "bs-loc"; "mel-loc" ] ~doc)
 
   let impl =
     let doc = "*internal* Compile $(docv) as a .ml file" in
@@ -383,64 +385,64 @@ module Internal = struct
 
   let g =
     let doc = "*internal* Save debugging information" in
-    Arg.(value & flag & info [ "g" ] ~doc)
+    repeatable_flag (Arg.info [ "g" ] ~doc)
 
   let opaque =
     let doc =
       "*internal* <file> Does not generate cross-module optimization \
        information (reduces necessary recompilation on module change)"
     in
-    Arg.(value & flag & info [ "opaque" ] ~doc)
+    repeatable_flag (Arg.info [ "opaque" ] ~doc)
 
   let strict_sequence =
     let doc = "*internal* Left-hand part of a sequence must have type unit" in
-    Arg.(value & flag & info [ "strict-sequence" ] ~doc)
+    repeatable_flag (Arg.info [ "strict-sequence" ] ~doc)
 
   let strict_formats =
     let doc =
       "*internal* Reject invalid formats accepted by legacy implementations"
     in
-    Arg.(value & flag & info [ "strict-formats" ] ~doc)
+    repeatable_flag (Arg.info [ "strict-formats" ] ~doc)
 
   let dtypedtree =
     let doc = "*internal* debug typedtree" in
-    Arg.(value & flag & info [ "dtypedtree" ] ~doc)
+    repeatable_flag (Arg.info [ "dtypedtree" ] ~doc)
 
   let dparsetree =
     let doc = "*internal* debug parsetree" in
-    Arg.(value & flag & info [ "dparsetree" ] ~doc)
+    repeatable_flag (Arg.info [ "dparsetree" ] ~doc)
 
   let drawlambda =
     let doc = "*internal* debug raw lambda" in
-    Arg.(value & flag & info [ "drawlambda" ] ~doc)
+    repeatable_flag (Arg.info [ "drawlambda" ] ~doc)
 
   let dsource =
     let doc = "*internal* print source" in
-    Arg.(value & flag & info [ "dsource" ] ~doc)
+    repeatable_flag (Arg.info [ "dsource" ] ~doc)
 
   let nopervasives =
     let doc = "*internal*" in
-    Arg.(value & flag & info [ "nopervasives" ] ~doc)
+    repeatable_flag (Arg.info [ "nopervasives" ] ~doc)
 
   let modules =
     let doc = "*internal* serve similar to ocamldep" in
-    Arg.(value & flag & info [ "modules" ] ~doc)
+    repeatable_flag (Arg.info [ "modules" ] ~doc)
 
   let nolabels =
     let doc = "*internal* Ignore non-optional labels in types" in
-    Arg.(value & flag & info [ "nolabels" ] ~doc)
+    repeatable_flag (Arg.info [ "nolabels" ] ~doc)
 
   let principal =
     let doc = "*internal* Check principality of type inference" in
-    Arg.(value & flag & info [ "principal" ] ~doc)
+    repeatable_flag (Arg.info [ "principal" ] ~doc)
 
   let rectypes =
     let doc = "Allow arbitrary recursive types" in
-    Arg.(value & flag & info [ "rectypes" ] ~doc)
+    repeatable_flag (Arg.info [ "rectypes" ] ~doc)
 
   let short_paths =
     let doc = "*internal* Shorten paths in types" in
-    Arg.(value & flag & info [ "short-paths" ] ~doc)
+    repeatable_flag (Arg.info [ "short-paths" ] ~doc)
 
   let runtime =
     let doc = "*internal* Set the runtime directory" in
@@ -458,14 +460,14 @@ let store_occurrences =
      features such as project-wide occurrences. This flag has\n\
      no effect in the absence of '-bin-annot'."
   in
-  Arg.(value & flag & info [ "bin-annot-occurrences" ] ~doc)
+  repeatable_flag (Arg.info [ "bin-annot-occurrences" ] ~doc)
 
 module Compat = struct
   (* The args in this module are accepted by the CLI but ignored. They exist
    * for compatibility with OCaml compilation. *)
 
   let doc = "Ignored. Kept for compatibility"
-  let c = Arg.(value & flag & info [ "c" ] ~doc)
+  let c = repeatable_flag (Arg.info [ "c" ] ~doc)
 end
 
 let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
