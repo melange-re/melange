@@ -21,7 +21,6 @@ Generated JS files are unmangled
   $ tree --noreport _build/default/dist/node
   _build/default/dist/node
   |-- node.js
-  |-- node__.js
   `-- other.js
 
   $ node _build/default/dist/entry_module.js

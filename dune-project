@@ -1,4 +1,4 @@
-(lang dune 3.18)
+(lang dune 3.21)
 
 (maintenance_intent "(latest)")
 
@@ -6,7 +6,7 @@
 
 (using menhir 3.0)
 
-(using melange 0.1)
+(using melange 1.0)
 
 (using directory-targets 0.1)
 
