@@ -234,6 +234,7 @@ HTMLFormControlsCollection
 HTMLFormElement
 HTMLFrameElement
 HTMLFrameSetElement
+HTMLGeolocationElement
 HTMLHRElement
 HTMLHeadElement
 HTMLHeadingElement
@@ -633,6 +634,7 @@ TaskAttributionTiming
 TaskController
 TaskPriorityChangeEvent
 TaskSignal
+Temporal
 Text
 TextDecoder
 TextDecoderStream
