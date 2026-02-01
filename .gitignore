@@ -6,7 +6,7 @@ _opam
 .vscode
 
 node_modules/*
-!node_modules/melange.*/
+!node_modules/melange*/
 !node_modules/melange.*/**
 !jscomp/test/dist/node_modules
 lib/melange
