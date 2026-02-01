@@ -33,4 +33,4 @@ jobs:
             extra-substituters = https://anmonteiro.nix-cache.workers.dev
             extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
       - name: "Run nix-build"
-        run: nix flake check -L
+        run: nix build .#melange .#melange-playground

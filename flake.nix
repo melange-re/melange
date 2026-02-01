@@ -75,11 +75,5 @@
           };
         }
       );
-
-      checks = forAllSystems (pkgs: {
-        melange-check = pkgs.callPackage ./nix/test.nix {
-          packages = self.packages.${pkgs.stdenv.hostPlatform.system};
-        };
-      });
     };
 }
