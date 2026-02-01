@@ -41,7 +41,9 @@
 (melange.emit
  (target dist)
  (alias melange-runtime-tests)
- (promote (until-clean))
+ (promote
+  (into dist)
+  (until-clean))
  (modules)
  (module_systems
   (commonjs js))
@@ -53,7 +55,9 @@
 (melange.emit
  (target dist-es6)
  (alias melange-runtime-tests)
- (promote (until-clean))
+ (promote
+  (into dist)
+  (until-clean))
  (modules)
  (module_systems
   (esm mjs))
