@@ -1,6 +1,7 @@
 {
   stdenv,
   ocamlPackages,
+  nodePackages,
   jq,
   lib,
   git,
@@ -29,7 +30,7 @@ buildDunePackage {
         ../bin
         ../dune-project
         ../dune
-        (fs.difference ../jscomp ../jscomp/test)
+        ../jscomp
         ../melange.opam
         ../ppx
         ../test
@@ -54,14 +55,24 @@ buildDunePackage {
       # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
       # x86_64-darwin?
       !(stdenv.isDarwin && stdenv.isx86_64);
+
+  checkPhase = ''
+    dune build @melange-runtime-tests --profile=release --display=short
+    mocha "jscomp/test/dist/**/*_test.*js"
+  '';
+
   nativeCheckInputs = [
     tree
     nodejs
     reason
     jq
     merlin
+    nodePackages.mocha
   ];
-  checkInputs = [ alcotest ];
+  checkInputs = [
+    alcotest
+    reason-react-ppx
+  ];
   DUNE_CACHE = "disabled";
 
   nativeBuildInputs = [
