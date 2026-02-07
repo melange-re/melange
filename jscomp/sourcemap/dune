@@ -1,3 +1,2 @@
 (library
- (name sourcemap)
- (libraries vlq))
+ (name sourcemap))

@@ -86,7 +86,6 @@ buildDunePackage {
     cmdliner
     ppxlib
     menhirLib
-    vlq
   ];
   meta.mainProgram = "melc";
 }
