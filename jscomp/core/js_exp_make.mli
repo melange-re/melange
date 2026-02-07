@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Creator utilities for the [J] module *)
 
 type t = J.expression
@@ -48,7 +50,13 @@ val runtime_var_dot :
 
 (* val runtime_var_vid : string -> string -> J.vident *)
 
-val ml_var_dot : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t
+val ml_var_dot :
+  ?loc:Location.t ->
+  ?comment:string ->
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  t
 (** [ml_var_dot ocaml_module name]
 *)
 
@@ -56,46 +64,32 @@ val external_var_field :
   ?loc:Location.t ->
   ?comment:string ->
   external_name:string ->
+  dynamic_import:bool ->
   Ident.t ->
   field:string ->
   default:bool ->
   t
 (** [external_var_field ~external_name ~dot id]
-  Used in FFI
-*)
+    Used in the FFI *)
 
 val external_var :
-  ?loc:Location.t -> ?comment:string -> external_name:string -> Ident.t -> t
-
-val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
-
-val runtime_call :
   ?loc:Location.t ->
-  string ->
-  (* module_name *)
-  string ->
-  (* fn_name *)
-  t list ->
-  (* args *)
+  ?comment:string ->
+  external_name:string ->
+  dynamic_import:bool ->
+  Ident.t ->
   t
 
-val pure_runtime_call :
-  ?loc:Location.t ->
-  string ->
-  (* module_name *)
-  string ->
-  (* fn_name *)
-  t list ->
-  (* args *)
-  t
+val ml_module_as_var :
+  ?loc:Location.t -> ?comment:string -> dynamic_import:bool -> Ident.t -> t
 
-val runtime_ref : ?loc:Location.t -> string -> string -> t
-
-val public_method_call :
-  ?loc:Location.t -> string -> t -> t -> Int32.t -> t list -> t
-
-val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
+val runtime_call : module_name:string -> fn_name:string -> t list -> t
+val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
+val runtime_ref : string -> string -> t
+val public_method_call : string -> t -> t -> Int32.t -> t list -> t
+val str : ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
+val module_ : ?loc:Location.t -> ?comment:string -> J.module_id -> t
 
 val ocaml_fun :
   ?loc:Location.t ->
@@ -129,10 +123,8 @@ val zero_int_literal : t
 val zero_float_lit : t
 (* val obj_int_tag_literal : t *)
 
-val is_out : ?loc:Location.t -> ?comment:string -> t -> t -> t
-(** [is_out e range] is equivalent to [e > range or e <0]
-
-*)
+val is_out : ?comment:string -> t -> t -> t
+(** [is_out e range] is equivalent to [e > range or e <0] *)
 
 val dot : ?loc:Location.t -> ?comment:string -> t -> string -> t
 val module_access : t -> string -> int32 -> t
@@ -140,32 +132,22 @@ val array_length : ?loc:Location.t -> ?comment:string -> t -> t
 val string_length : ?loc:Location.t -> ?comment:string -> t -> t
 val bytes_length : ?loc:Location.t -> ?comment:string -> t -> t
 val function_length : ?loc:Location.t -> ?comment:string -> t -> t
-
-(* val char_of_int : ?loc:Location.t -> ?comment:string -> t -> t  *)
-
 val char_to_int : ?loc:Location.t -> ?comment:string -> t -> t
 
 val string_append : ?loc:Location.t -> ?comment:string -> t -> t -> t
 (**
    When in ES6 mode, we can use Symbol to guarantee its uniquess,
-   we can not tag [js] object, since it can be frozen
-*)
-
-(* val var_dot : ?comment:string -> Ident.t -> string -> t *)
-
-(* val bind_var_call : ?loc:Location.t -> ?comment:string -> Ident.t -> string -> t list -> t  *)
-
-(* val bind_call : ?loc:Location.t -> ?comment:string -> J.expression -> string -> J.expression list -> t *)
-(* val js_global_dot : ?loc:Location.t -> ?comment:string -> string -> string -> t *)
+   we can not tag [js] object, since it can be frozen *)
 
 val string_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val array_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val array_index_by_int : ?loc:Location.t -> ?comment:string -> t -> Int32.t -> t
 val record_access : t -> string -> Int32.t -> t
 val inline_record_access : t -> string -> Int32.t -> t
+val variant_pos : constr:string -> int32 -> string
 val variant_access : t -> int32 -> t
 val cons_access : t -> int32 -> t
-val extension_access : t -> string option -> Int32.t -> t
+val extension_access : t -> ?name:string -> Int32.t -> t
 val record_assign : t -> int32 -> string -> t -> t
 val poly_var_tag_access : t -> t
 val poly_var_value_access : t -> t
@@ -181,6 +163,7 @@ val assign_by_int : ?loc:Location.t -> ?comment:string -> t -> int32 -> t -> t
 
 val assign_by_exp : t -> t -> t -> t
 val assign : ?loc:Location.t -> ?comment:string -> t -> t -> t
+val as_value : ?comment:string -> Import.Lambda.as_modifier -> t
 val triple_equal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 (* TODO: reduce [triple_equal] use *)
 
@@ -195,13 +178,14 @@ val neq_null_undefined_boolean :
   ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val is_type_number : ?loc:Location.t -> ?comment:string -> t -> t
+val is_tag : ?has_null_undefined_other:bool * bool * bool -> t -> t
 val is_type_string : ?loc:Location.t -> ?comment:string -> t -> t
 val typeof : ?loc:Location.t -> ?comment:string -> t -> t
 val to_int32 : ?loc:Location.t -> ?comment:string -> t -> t
 val to_uint32 : ?loc:Location.t -> ?comment:string -> t -> t
 val unchecked_int32_add : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_add : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val offset : ?loc:Location.t -> t -> int -> t
+val offset : t -> int -> t
 val unchecked_int32_minus : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_minus : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_mul : ?loc:Location.t -> ?comment:string -> t -> t -> t
@@ -227,7 +211,7 @@ val float_notequal : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_mod : ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val int_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -235,7 +219,7 @@ val int_comp :
   t
 
 val bool_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -243,10 +227,10 @@ val bool_comp :
   t
 
 val string_comp :
-  Js_op.binop -> ?loc:Location.t -> ?comment:string -> t -> t -> t
+  Js_op.Binop.t -> ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 val float_comp :
-  Lam_compat.float_comparison ->
+  Lam_compat.Float_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
@@ -254,14 +238,14 @@ val float_comp :
   t
 
 val js_comp :
-  Lam_compat.integer_comparison ->
+  Lam_compat.Integer_comparison.t ->
   ?loc:Location.t ->
   ?comment:string ->
   t ->
   t ->
   t
 
-val not : ?loc:Location.t -> t -> t
+val not : t -> t
 
 val call :
   ?loc:Location.t -> ?comment:string -> info:Js_call_info.t -> t -> t list -> t
@@ -274,8 +258,8 @@ val new_ :
 val array :
   ?loc:Location.t -> ?comment:string -> J.mutable_flag -> J.expression list -> t
 
-val optional_block : ?loc:Location.t -> J.expression -> J.expression
-val optional_not_nest_block : ?loc:Location.t -> J.expression -> J.expression
+val optional_block : J.expression -> J.expression
+val optional_not_nest_block : J.expression -> J.expression
 
 val make_block :
   ?loc:Location.t ->
@@ -289,7 +273,7 @@ val make_block :
   t
 
 val seq : ?loc:Location.t -> ?comment:string -> t -> t -> t
-val fuse_to_seq : t -> t list -> t
+val fuse_to_seq : t Nonempty_list.t -> t
 val obj : ?loc:Location.t -> ?comment:string -> J.property_map -> t
 val true_ : t
 val false_ : t
@@ -299,7 +283,9 @@ val unit : t
 (** [unit] in ocaml will be compiled into [0]  in js *)
 
 val undefined : t
-val tag : ?loc:Location.t -> ?comment:string -> J.expression -> t
+
+val tag :
+  ?loc:Location.t -> ?comment:string -> ?name:string -> J.expression -> t
 
 (** Note that this is coupled with how we encode block, if we use the
     `Object.defineProperty(..)` since the array already hold the length,
@@ -312,7 +298,7 @@ val or_ : ?loc:Location.t -> ?comment:string -> t -> t -> t
 
 (** we don't expose a general interface, since a general interface is generally not safe *)
 
-val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam_tag_info.t -> t
+val dummy_obj : ?loc:Location.t -> ?comment:string -> Lam.Tag_info.t -> t
 (** used combined with [caml_update_dummy]*)
 
 val of_block :
@@ -320,12 +306,16 @@ val of_block :
 (** convert a block to expresion by using IIFE *)
 
 val raw_js_code :
-  ?loc:Location.t -> ?comment:string -> Js_raw_info.code_info -> string -> t
+  ?loc:Location.t ->
+  ?comment:string ->
+  Melange_ffi.Js_raw_info.code_info ->
+  string ->
+  t
 
 val nil : t
 val is_null : ?loc:Location.t -> ?comment:string -> t -> t
-val is_undef : ?loc:Location.t -> ?comment:string -> t -> t
+val is_undefined : ?loc:Location.t -> ?comment:string -> t -> t
 val for_sure_js_null_undefined : J.expression -> bool
 val is_null_undefined : ?loc:Location.t -> ?comment:string -> t -> t
-val resolve_and_apply : ?loc:Location.t -> string -> t list -> t
-val make_exception : loc:Location.t -> string -> t
+val resolve_and_apply : string -> t list -> t
+val make_exception : string -> t

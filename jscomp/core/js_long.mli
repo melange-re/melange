@@ -22,11 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type int64_call = ?loc:Location.t -> J.expression list -> J.expression
+type int64_call = J.expression list -> J.expression
 
 (* val make_const : lo:Int32.t -> hi:Int32.t -> J.expression *)
 
-val of_const : ?loc:Location.t -> int64 -> J.expression
+val of_const : int64 -> J.expression
 val to_int32 : int64_call
 val of_int32 : int64_call
 val comp : Lam_compat.Integer_comparison.t -> int64_call

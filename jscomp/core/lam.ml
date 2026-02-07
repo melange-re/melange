@@ -488,7 +488,7 @@ let mutvar id : t = Lmutvar id
 let global_module ~dynamic_import id = Lglobal_module { id; dynamic_import }
 let const ct : t = Lconst ct
 
-let function_ ~attr ~arity ~params ~body ?(loc = Location.none) : t =
+let[@warning "-16"] function_ ?(loc = Location.none) ~attr ~arity ~params ~body : t =
   Lfunction { arity; params; body; attr; loc }
 
 let let_ kind id e body : t = Llet (kind, id, e, body)

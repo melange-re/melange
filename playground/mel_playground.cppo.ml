@@ -222,7 +222,7 @@ let compile =
       |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam; _ } ->
       let v =
         let buffer = Buffer.create 1000 in
-        let () =
+        let _ =
           Js_dump_program.pp_deps_program ~output_prefix:""
             ~package_info:Js_packages_info.empty
             ~output_info:
