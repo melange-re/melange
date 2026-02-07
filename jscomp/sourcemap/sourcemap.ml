@@ -223,14 +223,14 @@ let mappings_of_stream =
     prev_mapping = None;
   } in
   let next_is_separator stream =
-    match Stream.peek stream with
+    match Vlq.Stream.peek stream with
     | None
     | Some ';'
     | Some ',' -> true
     | _ -> false
   in
   let rec helper acc state stream sources names =
-    match Stream.peek stream with
+    match Vlq.Stream.peek stream with
     | None ->
       (* end of stream *)
       acc
@@ -240,11 +240,11 @@ let mappings_of_stream =
         prev_gen_line = state.prev_gen_line + 1;
         prev_gen_col = 0;
       } in
-      Stream.junk stream;
+      Vlq.Stream.junk stream;
       helper acc state stream sources names
     | Some ',' ->
       (* separator between segments *)
-      Stream.junk stream;
+      Vlq.Stream.junk stream;
       helper acc state stream sources names
     | Some _ ->
       (* start of a segment, which consists of 1, 4 or 5 VLQs *)
@@ -283,7 +283,7 @@ let mappings_of_stream =
   fun ~sources ~names stream -> helper [] state stream sources names
 
 let mappings_of_string ~sources ~names str =
-  mappings_of_stream ~sources ~names (Stream.of_string str)
+  mappings_of_stream ~sources ~names (Vlq.Stream.of_string str)
 
 let sources_contents map =
   sources map
