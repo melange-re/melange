@@ -22,9 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
+
 (** Compile lambda primitives (note this is different external c calls) *)
 
-val translate : loc:Location.t -> string -> J.expression list -> J.expression
-(**
-    @return None when the primitives are not handled in  pre-processing
-*)
+val translate : Location.t -> string -> J.expression list -> J.expression
+(** @return None when the primitives are not handled in  pre-processing *)

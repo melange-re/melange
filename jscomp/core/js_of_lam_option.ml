@@ -36,15 +36,15 @@ type option_unwrap_time = Static_unwrapped | Runtime_maybe_unwrapped
 *)
 let none : J.expression = E.undefined
 
-let is_none_static (arg : J.expression_desc) = arg = Undefined
+let is_none_static = function J.Undefined _ -> true | _ -> false
 
-let is_not_none ?loc (e : J.expression) : J.expression =
-  let desc = e.expression_desc in
-  if is_none_static desc then E.false_
-  else
-    match desc with
-    | Optional_block _ -> E.true_
-    | _ -> E.not ?loc (E.triple_equal e none)
+let is_not_none (e : J.expression) : J.expression =
+  match is_none_static e.expression_desc with
+  | true -> E.false_
+  | false -> (
+      match e.expression_desc with
+      | Optional_block _ -> E.true_
+      | _ -> E.not (E.triple_equal e none))
 
 (**
   Invrariant:
@@ -58,16 +58,17 @@ let is_not_none ?loc (e : J.expression) : J.expression =
 
   - avoid duplicate evlauation of [arg] when it
    is not a variable
-  {!Js_ast_util.named_expression} does not help
+  {!Js_stmt_make.named_expression} does not help
    since we need an expression here, it might be a statement
 *)
-let val_from_option ?loc (arg : J.expression) =
+let val_from_option (arg : J.expression) =
   match arg.expression_desc with
   | Optional_block (x, _) -> x
-  | _ -> E.runtime_call ?loc Js_runtime_modules.option "valFromOption" [ arg ]
+  | _ ->
+      E.runtime_call ~module_name:Js_runtime_modules.option
+        ~fn_name:"valFromOption" [ arg ]
 
-let get_default_undefined_from_optional ?loc (arg : J.expression) : J.expression
-    =
+let get_default_undefined_from_optional (arg : J.expression) : J.expression =
   let desc = arg.expression_desc in
   if is_none_static desc then E.undefined
   else
@@ -76,17 +77,21 @@ let get_default_undefined_from_optional ?loc (arg : J.expression) : J.expression
     | _ ->
         if Js_analyzer.is_okay_to_duplicate arg then
           (* FIXME: no need do such inlining*)
-          E.econd ?loc (is_not_none arg) (val_from_option arg) E.undefined
-        else E.runtime_call ?loc Js_runtime_modules.option "option_get" [ arg ]
+          E.econd (is_not_none arg) (val_from_option arg) E.undefined
+        else
+          E.runtime_call ~module_name:Js_runtime_modules.option
+            ~fn_name:"option_get" [ arg ]
 
-let option_unwrap ?loc (arg : J.expression) : J.expression =
+let option_unwrap (arg : J.expression) : J.expression =
   let desc = arg.expression_desc in
   if is_none_static desc then E.undefined
   else
     match desc with
     | Optional_block (x, _) ->
         E.poly_var_value_access x (* invariant: option encoding *)
-    | _ -> E.runtime_call ?loc Js_runtime_modules.option "option_unwrap" [ arg ]
+    | _ ->
+        E.runtime_call ~module_name:Js_runtime_modules.option
+          ~fn_name:"option_unwrap" [ arg ]
 
 let destruct_optional ~for_sure_none ~for_sure_some ~not_sure
     (arg : J.expression) =
@@ -98,8 +103,6 @@ let destruct_optional ~for_sure_none ~for_sure_some ~not_sure
     | _ -> not_sure ()
 
 let some = E.optional_block
-let null_to_opt ?loc e = E.econd ?loc (E.is_null e) none (some e)
-let undef_to_opt ?loc e = E.econd ?loc (E.is_undef e) none (some e)
-
-let null_undef_to_opt ?loc e =
-  E.econd ?loc (E.is_null_undefined e) none (some e)
+let null_to_opt e = E.econd (E.is_null e) none (some e)
+let undef_to_opt e = E.econd (E.is_undefined e) none (some e)
+let null_undef_to_opt e = E.econd (E.is_null_undefined e) none (some e)

@@ -97,7 +97,7 @@ let transform_under_supply n ap_info fn args =
     Lam.function_ ~arity:n ~params:extra_args
       ~attr:Lambda.default_function_attribute
       ~body:(Lam.apply fn (append_var_args args extra_args) ap_info)
-      ~loc:ap_info.ap_loc
+      ~loc:Location.none
   in
   match bindings with
   | [] ->
@@ -181,11 +181,11 @@ let unsafe_adjust_to_arity =
         if from = to_ then fn
         else if to_ = 0 then
           match fn with
-          | Lfunction { params = [ param ]; body; loc = function_loc } ->
+          | Lfunction { params = [ param ]; body; _ } ->
               Lam.function_ ~arity:0 ~attr:Lambda.default_function_attribute
                 ~params:[]
                 ~body:(Lam.let_ Alias param Lam.unit body)
-                ~loc:function_loc
+                ~loc
               (* could be only introduced by
                {[ Pjs_fn_make 0 ]} <-
                {[ fun [@u] () -> .. ]}
@@ -193,7 +193,7 @@ let unsafe_adjust_to_arity =
           | _ -> empty_wrapper fn ~ap_info
         else if to_ > from then
           match fn with
-          | Lfunction { params; body; loc = function_loc } ->
+          | Lfunction { params; body; _ } ->
               (* {[fun x -> f]} ->
                {[ fun x y -> f y ]}
             *)
@@ -204,7 +204,7 @@ let unsafe_adjust_to_arity =
               Lam.function_ ~attr:Lambda.default_function_attribute ~arity:to_
                 ~params:(List.append params extra_args)
                 ~body:(Lam.apply body (var_args extra_args) ap_info)
-                ~loc:function_loc
+                ~loc
           | _ -> (
               let arity = to_ in
               let extra_args =
@@ -249,7 +249,7 @@ let unsafe_adjust_to_arity =
            This is okay if the function is not held by other..
         *)
           match fn with
-          | Lfunction { params; body; loc = function_loc }
+          | Lfunction { params; body; _ }
           (* TODO check arity = List.length params in debug mode *) ->
               let arity = to_ in
               let extra_outer_args, extra_inner_args =
@@ -260,8 +260,8 @@ let unsafe_adjust_to_arity =
                 ~body:
                   (Lam.function_ ~arity:(from - to_)
                      ~attr:Lambda.default_function_attribute
-                     ~params:extra_inner_args ~body ~loc:function_loc)
-                ~loc:function_loc
+                     ~params:extra_inner_args ~body ~loc)
+                ~loc
           | _ -> (
               let extra_outer_args =
                 List.init ~len:to_ ~f:(fun _ -> Ident.create_local L.param)
