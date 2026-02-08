@@ -163,7 +163,7 @@ let pp_deps_program =
       P.flush f ();
       cxt.sourcemap
 
-let dump_deps_program ~package_info ~output_info ~output_prefix x
+let dump_deps_program ~package_info ~output_info ~output_prefix ?sourcemap x
     (oc : Unix.file_descr) =
-  ignore
-    (pp_deps_program ~package_info ~output_info ~output_prefix (P.from_fd oc) x)
+  pp_deps_program ~package_info ~output_info ~output_prefix (P.from_fd oc)
+    ?sourcemap x

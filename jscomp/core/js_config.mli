@@ -52,3 +52,5 @@ val no_export : bool ref
 val as_ppx : bool ref
 val as_pp : bool ref
 val preamble : string option ref
+val source_map : bool ref
+val source_map_include_sources : bool ref
