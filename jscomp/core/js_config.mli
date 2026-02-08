@@ -53,3 +53,5 @@ val as_ppx : bool ref
 val as_pp : bool ref
 val modules : bool ref
 val preamble : string option ref
+val source_map : bool ref
+val source_map_include_sources : bool ref
