@@ -132,6 +132,7 @@ ConstantSourceNode
 ContentVisibilityAutoStateChangeEvent
 ConvolverNode
 CountQueuingStrategy
+CrashReportContext
 CropTarget
 Crypto
 CustomElementRegistry
@@ -397,6 +398,7 @@ OfflineAudioContext
 OffscreenCanvas
 OffscreenCanvasRenderingContext2D
 Option
+Origin
 OscillatorNode
 OverconstrainedError
 PageRevealEvent
@@ -423,6 +425,7 @@ PerformanceResourceTiming
 PerformanceScriptTiming
 PerformanceServerTiming
 PerformanceTiming
+PerformanceTimingConfidence
 PeriodicSyncManager
 PeriodicWave
 PermissionStatus
