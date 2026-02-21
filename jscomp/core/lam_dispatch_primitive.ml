@@ -254,6 +254,11 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_lex_engine" | "caml_new_lex_engine" -> call Js_runtime_modules.lexer
   | "caml_parse_engine" | "caml_set_parser_trace" ->
       call Js_runtime_modules.parser
+  | "caml_alloc_stack" | "caml_runstack" | "caml_perform" | "caml_reperform"
+  | "caml_resume" | "caml_continuation_use_noexc"
+  | "caml_continuation_use_and_update_handler_noexc"
+  | "caml_get_continuation_callstack" ->
+      call Js_runtime_modules.caml_effect
   | "caml_make_float_vect" | "caml_array_create_float"
   | "caml_floatarray_create" (* TODO: compile float array into TypedArray*) ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make_float"

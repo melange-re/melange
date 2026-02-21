@@ -441,7 +441,14 @@ let lam_prim =
     | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args ~loc
     | Pduparray _ -> assert false
 #if OCAML_VERSION >= (5, 1, 0)
-    | Prunstack | Pperform | Presume | Preperform
+    | Prunstack ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_runstack" }) ~args ~loc
+    | Pperform ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_perform" }) ~args ~loc
+    | Presume ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_resume" }) ~args ~loc
+    | Preperform ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_reperform" }) ~args ~loc
 #if OCAML_VERSION < (5, 4, 0)
     | Patomic_exchange | Patomic_cas
     | Patomic_fetch_add | Pdls_get | Patomic_load _
@@ -454,8 +461,8 @@ let lam_prim =
 #endif
     ->
         Location.raise_errorf ~loc
-          "OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not \
-           currently supported in Melange"
+          "OCaml 5 multicore primitives (Condition, Semaphore) are not \
+           currently supported in this Melange backend"
 #endif
 
 (* Does not exist since we compile array in js backend unlike native backend *)
