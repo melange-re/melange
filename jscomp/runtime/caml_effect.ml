@@ -26,7 +26,14 @@ type replay_payload = {
   used : int;
 }
 
-type continuation = Obj.t * Obj.t * bool ref * replay_payload
+type continuation_payload =
+  | Replay_payload of replay_payload
+  | Tail_payload of {
+      stack : stack;
+      k : Obj.t -> Obj.t;
+    }
+
+type continuation = Obj.t * Obj.t * bool ref * continuation_payload
 
 exception Perform of Obj.t
 exception Reperform of Obj.t * continuation * Obj.t
@@ -47,12 +54,15 @@ let caml_alloc_stack retc exnc effc =
     replay_index = 0;
   }
 
-let make_continuation (stack : stack) (comp : Obj.t -> Obj.t) (arg : Obj.t)
-    (answers : replay_answer list) (used : int) : continuation =
+let make_replay_continuation (stack : stack) (comp : Obj.t -> Obj.t)
+    (arg : Obj.t) (answers : replay_answer list) (used : int) : continuation =
   ( Obj.repr stack,
     default_last_fiber,
     ref false,
-    { stack; comp; arg; answers; used } )
+    Replay_payload { stack; comp; arg; answers; used } )
+
+let make_tail_continuation (stack : stack) (k : Obj.t -> Obj.t) : continuation =
+  (Obj.repr stack, default_last_fiber, ref false, Tail_payload { stack; k })
 
 let continuation_of_value (k : Obj.t) : continuation = Obj.obj k
 
@@ -97,6 +107,15 @@ let caml_perform eff =
       | None -> raise (Perform (Obj.repr eff)))
   | None -> raise (Unhandled_effect (Obj.repr eff))
 
+let caml_perform_tail eff k =
+  match current_stack.contents with
+  | Some stack ->
+      let continuation =
+        make_tail_continuation stack (Obj.magic k : Obj.t -> Obj.t)
+      in
+      Obj.obj (dispatch_effect stack (Obj.repr eff) continuation default_last_fiber)
+  | None -> raise (Unhandled_effect (Obj.repr eff))
+
 let caml_reperform eff k k_tail =
   raise (Reperform (Obj.repr eff, continuation_of_value k, Obj.repr k_tail))
 
@@ -131,7 +150,7 @@ let runstack_with_answers (stack : stack) (comp : Obj.t -> Obj.t) (arg : Obj.t)
   with
   | Perform eff ->
       let continuation =
-        make_continuation stack comp arg answers stack.replay_index
+        make_replay_continuation stack comp arg answers stack.replay_index
       in
       Obj.obj
         (finish (dispatch_effect stack eff continuation default_last_fiber))
@@ -150,13 +169,20 @@ let caml_runstack stack comp arg =
   runstack_with_answers stack comp (Obj.repr arg) []
 
 let caml_resume stack resume_fun arg _last_fiber =
-  let payload = (Obj.magic stack : replay_payload) in
+  let payload = (Obj.magic stack : continuation_payload) in
   let resume_fun = (Obj.magic resume_fun : Obj.t -> Obj.t) in
-  let answer =
-    try Replay_value (resume_fun (Obj.repr arg)) with exn -> Replay_exn exn
-  in
-  let answers = append_replay_answer payload.answers payload.used answer in
-  runstack_with_answers payload.stack payload.comp payload.arg answers
+  match payload with
+  | Replay_payload payload ->
+      let answer =
+        try Replay_value (resume_fun (Obj.repr arg)) with exn -> Replay_exn exn
+      in
+      let answers = append_replay_answer payload.answers payload.used answer in
+      runstack_with_answers payload.stack payload.comp payload.arg answers
+  | Tail_payload { stack; k } -> (
+      try
+        let value = resume_fun (Obj.repr arg) in
+        Obj.obj (stack.retc (k value))
+      with exn -> Obj.obj (stack.exnc exn))
 
 let caml_continuation_use_noexc k =
   let continuation = continuation_of_value k in
@@ -168,10 +194,17 @@ let caml_continuation_use_and_update_handler_noexc k retc exnc effc =
   let continuation = continuation_of_value k in
   mark_continuation_used continuation;
   let payload = continuation_payload continuation in
-  let stack = payload.stack in
-  let updated = caml_alloc_stack retc exnc effc in
-  updated.parent <- stack.parent;
-  Obj.repr { payload with stack = updated }
+  match payload with
+  | Replay_payload payload ->
+      let stack = payload.stack in
+      let updated = caml_alloc_stack retc exnc effc in
+      updated.parent <- stack.parent;
+      Obj.repr (Replay_payload { payload with stack = updated })
+  | Tail_payload payload ->
+      let stack = payload.stack in
+      let updated = caml_alloc_stack retc exnc effc in
+      updated.parent <- stack.parent;
+      Obj.repr (Tail_payload { payload with stack = updated })
 
 let caml_get_continuation_callstack k _ =
   let continuation = continuation_of_value k in
