@@ -10,6 +10,7 @@ effectful `g`, `f` is lifted and its tail call is rewritten to `g$cps(..., k)`.
   > EOF
 
   $ MELANGE_EFFECT_CPS_EXPERIMENT=1 MELANGE_EFFECT_CPS_DEBUG=1 melc x.ml -o x.cps.js
+  [effect-cps] prim-arg-perform rewrite in g
   [effect-cps] lifted g -> g$cps
   [effect-cps] tail-call rewrite g -> g$cps in f
   [effect-cps] lifted f -> f$cps
