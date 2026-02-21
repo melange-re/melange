@@ -296,8 +296,8 @@ let simplify_alias =
         (*   simpl (Lam_beta_reduce.propagate_beta_reduce meta params body args) *)
     | Lapply { ap_func = l1; ap_args = ll; ap_info } ->
         Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) ll) ap_info
-    | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(simpl meta body) ~attr
+    | Lfunction { arity; params; body; attr; loc } ->
+        Lam.function_ ~arity ~params ~body:(simpl meta body) ~attr ~loc
     | Lswitch
         ( l,
           {

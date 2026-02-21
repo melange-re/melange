@@ -92,10 +92,10 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         in
         let body = aux body in
         Lam.letrec bindings body
-    | Lfunction { arity; params; body; attr } ->
+    | Lfunction { arity; params; body; attr; loc } ->
         let params = List.map ~f:rebind params in
         let body = aux body in
-        Lam.function_ ~arity ~params ~body ~attr
+        Lam.function_ ~arity ~params ~body ~attr ~loc
     | Lstaticcatch (l1, (i, xs), l2) ->
         let l1 = aux l1 in
         let xs = List.map ~f:rebind xs in

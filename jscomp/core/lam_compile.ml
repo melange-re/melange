@@ -1569,7 +1569,7 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       | _ ->
           Js_output.output_of_block_and_expression lambda_cxt.continuation
             args_code
-            (E.call
+            (E.call ~loc:appinfo.ap_info.ap_loc
                ~info:(call_info_of_apply_status appinfo.ap_info.ap_status)
                fn_code args))
 
@@ -1926,10 +1926,10 @@ and compile_prim (prim_info : Lam.prim_info)
 and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
     Js_output.t =
   match cur_lam with
-  | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
+  | Lfunction { params; body; attr = { return_unit; _ }; loc } ->
       Js_output.output_of_expression lambda_cxt.continuation
         ~no_effects:no_effects_const
-        (E.ocaml_fun params ~return_unit
+        (E.ocaml_fun ~loc params ~return_unit
            (* Invariant:  jmp_table can not across function boundary,
               here we share env
            *)

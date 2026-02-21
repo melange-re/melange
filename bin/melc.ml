@@ -244,6 +244,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       intf_suffix;
       cmi_file = _cmi_file;
       g;
+      source_map;
+      source_map_include_sources;
       opaque;
       preamble;
       strict_sequence;
@@ -370,6 +372,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if warn_help then Warnings.help_warnings ();
     List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
+    if source_map then Js_config.source_map := source_map;
+    if source_map_include_sources then
+      Js_config.source_map_include_sources := source_map_include_sources;
 
     Option.iter bs_eval ~f:(fun s -> ignore (eval s: _ Cmdliner.Term.ret));
     Option.iter intf_suffix ~f:(fun suffix -> Config.interface_suffix := suffix);

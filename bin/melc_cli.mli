@@ -62,6 +62,8 @@ type t = {
   intf_suffix : string option;
   cmi_file : string option;
   g : bool;
+  source_map : bool;
+  source_map_include_sources : bool;
   opaque : bool;
   preamble : string option;
   strict_sequence : bool;

@@ -74,16 +74,24 @@ module L = Js_dump_lit
 type cxt = {
   scope : Js_pp.Scope.t;
   pp : Js_pp.t;
+  sourcemap : Js_sourcemap.t option ref;
   output_dir : string;
   package_info : Js_packages_info.t;
   output_info : Js_packages_info.output_info;
 }
 
-let from_pp ~output_dir ~package_info ~output_info pp =
-  { scope = Js_pp.Scope.empty; pp; output_dir; package_info; output_info }
+let from_pp ~output_dir ~package_info ~output_info ?sourcemap pp =
+  {
+    scope = Js_pp.Scope.empty;
+    pp;
+    sourcemap = ref sourcemap;
+    output_dir;
+    package_info;
+    output_info;
+  }
 
-let from_buffer ~output_dir ~package_info ~output_info buf =
-  from_pp ~output_dir ~package_info ~output_info (Js_pp.from_buffer buf)
+let from_buffer ~output_dir ~package_info ~output_info ?sourcemap buf =
+  from_pp ~output_dir ~package_info ~output_info ?sourcemap (Js_pp.from_buffer buf)
 
 let update_scope cxt scope = { cxt with scope }
 let ident cxt id = update_scope cxt (Js_pp.Scope.ident cxt.scope cxt.pp id)
@@ -112,6 +120,12 @@ let str_of_ident cxt id =
 
 let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
 let flush cxt () = Js_pp.flush cxt.pp ()
+
+let write_sourcemap cxt loc =
+  match (loc, !(cxt.sourcemap)) with
+  | Some loc, Some sourcemap ->
+      cxt.sourcemap := Some (Js_sourcemap.add_mapping sourcemap ~pp:cxt.pp loc)
+  | _ -> ()
 
 module Curry_gen = struct
   let pp_curry_dot cxt =
@@ -534,6 +548,7 @@ and vident cxt (v : J.vident) =
 
 (* The higher the level, the more likely that inner has to add parens *)
 and expression ~level cxt (exp : J.expression) : cxt =
+  write_sourcemap cxt exp.loc;
   pp_comment_option cxt exp.comment;
   expression_desc cxt ~level exp.expression_desc
 
@@ -1344,5 +1359,13 @@ let string_of_expression (e : J.expression) =
   flush cxt ();
   Buffer.contents buffer
 
-let statements ~top ~scope ~output_dir ~package_info ~output_info pp b =
-  (statements ~top { scope; pp; output_dir; package_info; output_info } b).scope
+type ret_cxt = { scope : Js_pp.Scope.t; sourcemap : Js_sourcemap.t option }
+
+let statements ~top ~scope ~output_dir ~package_info ~output_info ?sourcemap pp b
+    =
+  let cxt =
+    statements ~top
+      { scope; pp; sourcemap = ref sourcemap; output_dir; package_info; output_info }
+      b
+  in
+  { scope = cxt.scope; sourcemap = !(cxt.sourcemap) }

@@ -286,8 +286,8 @@ let deep_flatten =
     | Lprim { primitive; args; loc } ->
         let args = List.map ~f:aux args in
         Lam.prim ~primitive ~args ~loc
-    | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(aux body) ~attr
+    | Lfunction { arity; params; body; attr; loc } ->
+        Lam.function_ ~arity ~params ~body:(aux body) ~attr ~loc
     | Lswitch
         ( l,
           {

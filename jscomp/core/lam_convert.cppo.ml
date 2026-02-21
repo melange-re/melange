@@ -169,7 +169,7 @@ let lam_prim =
               Lam.const Const_js_false;
               (* FIXME: arity 0 does not get proper supported*)
               Lam.function_ ~arity:0 ~params:[] ~body:computation
-                ~attr:Lambda.default_function_attribute;
+                ~attr:Lambda.default_function_attribute ~loc;
             ]
           in
           Lam.prim
@@ -484,7 +484,7 @@ let rec rename_optional_parameters map params (body : Lam.t) =
       let map, rest = rename_optional_parameters map params rest in
       let new_id = Ident.create_local (Ident.name id ^ "Opt") in
       begin match rest with
-      | Lam.Lfunction { params; body; attr; arity } ->
+      | Lam.Lfunction { params; body; attr; arity; loc } ->
         let body =
           Lam.let_ k id
             (Lam.if_
@@ -493,7 +493,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
                f)
             body
         in
-        (Ident.Map.add ~key:opt ~data:new_id map, Lam.function_ ~attr ~arity ~params ~body)
+        ( Ident.Map.add ~key:opt ~data:new_id map,
+          Lam.function_ ~attr ~arity ~params ~body ~loc )
       | _ ->
         ( Ident.Map.add ~key:opt ~data:new_id map,
           Lam.let_ k id
@@ -517,7 +518,7 @@ let rec rename_optional_parameters map params (body : Lam.t) =
     let map, rest = rename_optional_parameters map params rest in
     let new_id = Ident.create_local (Ident.name id ^ "Opt") in
     begin match rest with
-    | Lfunction { attr; arity; params; body} ->
+    | Lfunction { attr; arity; params; body; loc } ->
       let body =
         Lam.let_ k id
           (Lam.if_
@@ -526,7 +527,8 @@ let rec rename_optional_parameters map params (body : Lam.t) =
              f)
           body
       in
-      (Ident.Map.add ~key:opt ~data:new_id map, Lam.function_ ~attr ~arity ~params ~body)
+      ( Ident.Map.add ~key:opt ~data:new_id map,
+        Lam.function_ ~attr ~arity ~params ~body ~loc )
     | _ ->
       ( Ident.Map.add ~key:opt ~data:new_id map,
         Lam.let_ k id
@@ -795,7 +797,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             ap_inlined;
             ap_status = App_na;
           }
-    | Lfunction { params; body = l; attr = attr1; _ } -> (
+    | Lfunction { params; body = l; attr = attr1; loc = loc1 } -> (
         let params, body =
           let body = convert_aux ~dynamic_import l in
           convert_lfunction_params_and_body params body
@@ -803,12 +805,15 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         (* because of ocaml/ocaml#12236, `fun a -> fun b -> ..` becomes 2
            `Lfunction` nodes in the AST on OCaml 5.2 and up. *)
         match body with
-        | Lfunction { arity = arity'; params = params'; body; attr = attr2 }
+        | Lfunction
+            { arity = arity'; params = params'; body; attr = attr2; loc = loc2 }
           when List.length params + List.length params' <= Lambda.max_arity() ->
           let arity = (List.length params) + arity' in
           Lam.function_ ~arity ~params:(params @ params') ~body ~attr:attr2
+            ~loc:loc2
         | body ->
-          Lam.function_ ~attr:attr1 ~arity:(List.length params) ~params ~body)
+          Lam.function_ ~attr:attr1 ~arity:(List.length params) ~params ~body
+            ~loc:(Debuginfo.Scoped_location.to_location loc1))
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body

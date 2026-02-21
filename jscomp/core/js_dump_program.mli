@@ -35,14 +35,16 @@ val dump_deps_program :
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->
+  ?sourcemap:Js_sourcemap.t ->
   J.deps_program ->
   Unix.file_descr ->
-  unit
+  Js_sourcemap.t option
 
 val pp_deps_program :
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->
   Js_pp.t ->
+  ?sourcemap:Js_sourcemap.t ->
   J.deps_program ->
-  unit
+  Js_sourcemap.t option

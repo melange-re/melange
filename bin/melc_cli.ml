@@ -63,6 +63,8 @@ type t = {
   intf_suffix : string option;
   cmi_file : string option;
   g : bool;
+  source_map : bool;
+  source_map_include_sources : bool;
   opaque : bool;
   preamble : string option;
   strict_sequence : bool;
@@ -190,6 +192,14 @@ let color =
 let preamble =
   let doc = "a string to be pre-prended to the generated javascript" in
   Arg.(value & opt (some string) None & info [ "preamble" ] ~doc)
+
+let source_map =
+  let doc = "Generate JavaScript source maps" in
+  repeatable_flag (Arg.info [ "source-map" ] ~doc)
+
+let source_map_include_sources =
+  let doc = "Include sources content in generated source maps" in
+  repeatable_flag (Arg.info [ "source-map-include-sources" ] ~doc)
 
 let where =
   let doc = "Print location of standard library and exit" in
@@ -476,7 +486,8 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
+    intf_suffix cmi_file g source_map source_map_include_sources opaque preamble
+    strict_sequence strict_formats
     dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
     nopervasives modules nolabels principal rectypes short_paths unsafe
     warn_help warn_error bs_stop_after_cmj runtime filenames _c
@@ -519,6 +530,8 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     intf_suffix;
     cmi_file;
     g;
+    source_map;
+    source_map_include_sources;
     opaque;
     preamble;
     strict_sequence;
@@ -559,8 +572,9 @@ let cmd =
     $ Internal.bs_diagnose $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.intf_suffix $ Internal.cmi_file $ Internal.g $ Internal.opaque
-    $ preamble $ Internal.strict_sequence $ Internal.strict_formats
+    $ Internal.intf_suffix $ Internal.cmi_file $ Internal.g $ source_map
+    $ source_map_include_sources $ Internal.opaque $ preamble
+    $ Internal.strict_sequence $ Internal.strict_formats
     $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
     $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
     $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
