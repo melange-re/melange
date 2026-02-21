@@ -119,6 +119,17 @@ let rec rewrite_value ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
 let apply_k (ap_info : Lam.ap_info) (k : Ident.t) (value : Lam.t) =
   Lam.apply (Lam.var k) [ value ] ap_info
 
+let perform_prim (lam : Lam.t) =
+  match lam with
+  | Lprim
+      {
+        primitive = Lam_primitive.Pccall { prim_name = "caml_perform" };
+        args = [ eff ];
+        loc;
+      } ->
+      Some (eff, loc)
+  | _ -> None
+
 let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) ~(ap_info : Lam.ap_info) (lam : Lam.t) : Lam.t =
   match lam with
@@ -135,31 +146,75 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
                [ Lam.var k ])
             call_ap_info
       | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
-  | Lprim
-      {
-        primitive = Lam_primitive.Pccall { prim_name = "caml_perform" };
-        args = [ eff ];
-        loc;
-      } ->
-      if debug_enabled () then
-        Format.eprintf "[effect-cps] tail-perform rewrite in %s@."
-          (Ident.name owner);
-      Lam.prim
-        ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
-        ~args:[ rewrite_value ~owner ~cps_ids ~k eff; Lam.var k ]
-        ~loc
-  | Llet (kind, id, arg, body) ->
-      Lam.let_ kind id
-        (rewrite_value ~owner ~cps_ids ~k arg)
-        (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
-  | Lmutlet (id, arg, body) ->
-      Lam.mutlet id
-        (rewrite_value ~owner ~cps_ids ~k arg)
-        (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
-  | Lsequence (left, right) ->
-      Lam.seq
-        (rewrite_value ~owner ~cps_ids ~k left)
-        (rewrite_tail ~owner ~cps_ids ~k ~ap_info right)
+  | Lprim _ -> (
+      match perform_prim lam with
+      | Some (eff, loc) ->
+          if debug_enabled () then
+            Format.eprintf "[effect-cps] tail-perform rewrite in %s@."
+              (Ident.name owner);
+          Lam.prim
+            ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+            ~args:[ rewrite_value ~owner ~cps_ids ~k eff; Lam.var k ]
+            ~loc
+      | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
+  | Llet (kind, id, arg, body) -> (
+      match perform_prim arg with
+      | Some (eff, loc) ->
+          if debug_enabled () then
+            Format.eprintf "[effect-cps] let-perform rewrite in %s@."
+              (Ident.name owner);
+          let cont =
+            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+              ~params:[ id ]
+              ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
+          in
+          Lam.prim
+            ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+            ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+            ~loc
+      | None ->
+          Lam.let_ kind id
+            (rewrite_value ~owner ~cps_ids ~k arg)
+            (rewrite_tail ~owner ~cps_ids ~k ~ap_info body))
+  | Lmutlet (id, arg, body) -> (
+      match perform_prim arg with
+      | Some (eff, loc) ->
+          if debug_enabled () then
+            Format.eprintf "[effect-cps] mutlet-perform rewrite in %s@."
+              (Ident.name owner);
+          let cont =
+            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+              ~params:[ id ]
+              ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
+          in
+          Lam.prim
+            ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+            ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+            ~loc
+      | None ->
+          Lam.mutlet id
+            (rewrite_value ~owner ~cps_ids ~k arg)
+            (rewrite_tail ~owner ~cps_ids ~k ~ap_info body))
+  | Lsequence (left, right) -> (
+      match perform_prim left with
+      | Some (eff, loc) ->
+          if debug_enabled () then
+            Format.eprintf "[effect-cps] seq-perform rewrite in %s@."
+              (Ident.name owner);
+          let u = Ident.create_local "__u" in
+          let cont =
+            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+              ~params:[ u ]
+              ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info right)
+          in
+          Lam.prim
+            ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+            ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+            ~loc
+      | None ->
+          Lam.seq
+            (rewrite_value ~owner ~cps_ids ~k left)
+            (rewrite_tail ~owner ~cps_ids ~k ~ap_info right))
   | Lifthenelse (pred, ifso, ifnot) ->
       Lam.if_
         (rewrite_value ~owner ~cps_ids ~k pred)
