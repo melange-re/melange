@@ -130,6 +130,30 @@ let perform_prim (lam : Lam.t) =
       Some (eff, loc)
   | _ -> None
 
+let rec split_first_perform_arg (args : Lam.t list) =
+  match args with
+  | [] -> None
+  | arg :: rest -> (
+      match perform_prim arg with
+      | Some perf -> Some ([], perf, rest)
+      | None -> (
+          match split_first_perform_arg rest with
+          | None -> None
+          | Some (before, perf, after) -> Some (arg :: before, perf, after)))
+
+let bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+    ~(k : Ident.t) (args : Lam.t list) (continue : Lam.t list -> Lam.t) =
+  let rec aux args acc =
+    match args with
+    | [] -> continue (List.rev acc)
+    | arg :: rest ->
+        let id = Ident.create_local "__arg" in
+        Lam.let_ Strict id
+          (rewrite_value ~owner ~cps_ids ~k arg)
+          (aux rest (Lam.var id :: acc))
+  in
+  aux args []
+
 let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) ~(ap_info : Lam.ap_info) (lam : Lam.t) : Lam.t =
   match lam with
@@ -156,7 +180,33 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
             ~args:[ rewrite_value ~owner ~cps_ids ~k eff; Lam.var k ]
             ~loc
-      | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
+      | None -> (
+          match lam with
+          | Lprim { primitive; args; loc } -> (
+              match split_first_perform_arg args with
+              | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)
+              | Some (before, (eff, eff_loc), after) ->
+                  if debug_enabled () then
+                    Format.eprintf
+                      "[effect-cps] prim-arg-perform rewrite in %s@."
+                      (Ident.name owner);
+                  bind_prefix_args ~owner ~cps_ids ~k before (fun before_vars ->
+                      let pv = Ident.create_local "__p" in
+                      let rest_args = List.append before_vars (Lam.var pv :: after) in
+                      let rest_expr = Lam.prim ~primitive ~args:rest_args ~loc in
+                      let cont =
+                        Lam.function_ ~loc:eff_loc
+                          ~attr:Lambda.default_function_attribute ~arity:1
+                          ~params:[ pv ]
+                          ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info rest_expr)
+                      in
+                      Lam.prim
+                        ~primitive:
+                          (Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+                        ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+                        ~loc:eff_loc)
+              )
+          | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)))
   | Llet (kind, id, arg, body) -> (
       match perform_prim arg with
       | Some (eff, loc) ->
