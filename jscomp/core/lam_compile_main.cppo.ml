@@ -202,6 +202,48 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     Lam_coercion.coerce_and_group_big_lambda  meta lam
   in
   let groups = Lam_coercion.groups coerced_input in
+  let effect_mode = Lam_pass_effect_analysis.mode_from_env () in
+  let effectful_bindings =
+    Lam_pass_effect_analysis.effectful_bindings ~mode:effect_mode groups
+  in
+  let () =
+    match Sys.getenv "MELANGE_EFFECT_ANALYSIS_DEBUG" with
+    | names_csv ->
+        let names =
+          String.split_on_char ~sep:',' names_csv
+          |> List.filter ~f:(fun x -> String.length x > 0)
+        in
+        let is_name_effectful name =
+          let rec group_has_name = function
+            | [] -> false
+            | group :: rest -> (
+                match group with
+                | Lam_group.Single (_, id, _) ->
+                    (String.equal (Ident.name id) name
+                    && Ident.Set.mem id effectful_bindings)
+                    || group_has_name rest
+                | Recursive bindings ->
+                    List.exists bindings ~f:(fun (id, _) ->
+                        String.equal (Ident.name id) name
+                        && Ident.Set.mem id effectful_bindings)
+                    || group_has_name rest
+                | Nop _ -> group_has_name rest)
+          in
+          group_has_name groups
+        in
+        List.iter names ~f:(fun name ->
+            let status = if is_name_effectful name then "effectful" else "pure" in
+            Format.eprintf
+              "[effect-analysis] mode=%s %s=%s@."
+              (Lam_pass_effect_analysis.mode_to_string effect_mode)
+              name status)
+    | exception Not_found -> ()
+  in
+  let groups =
+    Lam_pass_effect_cps.transform_groups
+      ~enabled:(Lam_pass_effect_cps.enabled_from_env ())
+      ~effectful:effectful_bindings groups
+  in
 
 #ifndef MELANGE_RELEASE_BUILD
   let () =
