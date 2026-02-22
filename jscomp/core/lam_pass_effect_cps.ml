@@ -154,6 +154,90 @@ let bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
   in
   aux args []
 
+let rec rewrite_eval ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+    ~(k : Ident.t) (lam : Lam.t) (continue : Lam.t -> Lam.t) : Lam.t =
+  match perform_prim lam with
+  | Some (eff, loc) ->
+      let pv = Ident.create_local "__p" in
+      let cont =
+        Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+          ~params:[ pv ]
+          ~body:(continue (Lam.var pv))
+      in
+      Lam.prim
+        ~primitive:(Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+        ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+        ~loc
+  | None -> (
+      match lam with
+      | Lapply { ap_func; ap_args; ap_info } ->
+          rewrite_eval ~owner ~cps_ids ~k ap_func (fun ap_func' ->
+              rewrite_eval_list ~owner ~cps_ids ~k ap_args (fun ap_args' ->
+                  continue (Lam.apply ap_func' ap_args' ap_info)))
+      | Lprim { primitive; args; loc } ->
+          rewrite_eval_list ~owner ~cps_ids ~k args (fun args' ->
+              continue (Lam.prim ~primitive ~args:args' ~loc))
+      | Llet (kind, id, arg, body) ->
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.let_ kind id arg'
+                (rewrite_eval ~owner ~cps_ids ~k body continue))
+      | Lmutlet (id, arg, body) ->
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.mutlet id arg' (rewrite_eval ~owner ~cps_ids ~k body continue))
+      | Lsequence (left, right) ->
+          rewrite_eval ~owner ~cps_ids ~k left (fun left' ->
+              Lam.seq left' (rewrite_eval ~owner ~cps_ids ~k right continue))
+      | Lifthenelse (pred, ifso, ifnot) ->
+          rewrite_eval ~owner ~cps_ids ~k pred (fun pred' ->
+              Lam.if_
+                pred'
+                (rewrite_eval ~owner ~cps_ids ~k ifso continue)
+                (rewrite_eval ~owner ~cps_ids ~k ifnot continue))
+      | Lswitch
+          ( arg,
+            {
+              sw_consts;
+              sw_consts_full;
+              sw_blocks;
+              sw_blocks_full;
+              sw_failaction;
+              sw_names;
+            } ) ->
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.switch arg'
+                {
+                  sw_consts =
+                    List.map sw_consts ~f:(fun (tag, case) ->
+                        (tag, rewrite_eval ~owner ~cps_ids ~k case continue));
+                  sw_consts_full;
+                  sw_blocks =
+                    List.map sw_blocks ~f:(fun (tag, case) ->
+                        (tag, rewrite_eval ~owner ~cps_ids ~k case continue));
+                  sw_blocks_full;
+                  sw_failaction =
+                    Option.map sw_failaction ~f:(fun case ->
+                        rewrite_eval ~owner ~cps_ids ~k case continue);
+                  sw_names;
+                })
+      | Lstringswitch (arg, cases, default) ->
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.stringswitch arg'
+                (List.map cases ~f:(fun (s, case) ->
+                     (s, rewrite_eval ~owner ~cps_ids ~k case continue)))
+                (Option.map default ~f:(fun case ->
+                     rewrite_eval ~owner ~cps_ids ~k case continue)))
+      | _ -> continue (rewrite_value ~owner ~cps_ids ~k lam))
+
+and rewrite_eval_list ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+    ~(k : Ident.t) (args : Lam.t list) (continue : Lam.t list -> Lam.t) : Lam.t
+    =
+  match args with
+  | [] -> continue []
+  | arg :: rest ->
+      rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+          rewrite_eval_list ~owner ~cps_ids ~k rest (fun rest' ->
+              continue (arg' :: rest')))
+
 let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) ~(ap_info : Lam.ap_info) (lam : Lam.t) : Lam.t =
   match lam with
@@ -187,13 +271,16 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
                     Format.eprintf
                       "[effect-cps] tail-call rewrite %s -> %s in %s@."
                       (Ident.name id) (Ident.name cps_id) (Ident.name owner);
-                  Lam.apply (Lam.var cps_id)
-                    (List.append
-                       (List.map ~f:(rewrite_value ~owner ~cps_ids ~k) ap_args)
-                       [ Lam.var k ])
-                    call_ap_info
-              | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
-          | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)))
+                  rewrite_eval_list ~owner ~cps_ids ~k ap_args (fun ap_args' ->
+                      Lam.apply (Lam.var cps_id)
+                        (List.append ap_args' [ Lam.var k ])
+                        call_ap_info)
+              | None ->
+                  rewrite_eval ~owner ~cps_ids ~k lam (fun value ->
+                      apply_k ap_info k value))
+          | _ ->
+              rewrite_eval ~owner ~cps_ids ~k lam (fun value ->
+                  apply_k ap_info k value)))
   | Lprim _ -> (
       match perform_prim lam with
       | Some (eff, loc) ->
@@ -230,7 +317,9 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
                         ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
                         ~loc:eff_loc)
               )
-          | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)))
+          | _ ->
+              rewrite_eval ~owner ~cps_ids ~k lam (fun value ->
+                  apply_k ap_info k value)))
   | Llet (kind, id, arg, body) -> (
       match perform_prim arg with
       | Some (eff, loc) ->
@@ -247,9 +336,9 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
             ~loc
       | None ->
-          Lam.let_ kind id
-            (rewrite_value ~owner ~cps_ids ~k arg)
-            (rewrite_tail ~owner ~cps_ids ~k ~ap_info body))
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.let_ kind id arg'
+                (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)))
   | Lmutlet (id, arg, body) -> (
       match perform_prim arg with
       | Some (eff, loc) ->
@@ -266,9 +355,8 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
             ~loc
       | None ->
-          Lam.mutlet id
-            (rewrite_value ~owner ~cps_ids ~k arg)
-            (rewrite_tail ~owner ~cps_ids ~k ~ap_info body))
+          rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+              Lam.mutlet id arg' (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)))
   | Lsequence (left, right) -> (
       match perform_prim left with
       | Some (eff, loc) ->
@@ -286,14 +374,14 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
             ~loc
       | None ->
-          Lam.seq
-            (rewrite_value ~owner ~cps_ids ~k left)
-            (rewrite_tail ~owner ~cps_ids ~k ~ap_info right))
+          rewrite_eval ~owner ~cps_ids ~k left (fun left' ->
+              Lam.seq left' (rewrite_tail ~owner ~cps_ids ~k ~ap_info right)))
   | Lifthenelse (pred, ifso, ifnot) ->
-      Lam.if_
-        (rewrite_value ~owner ~cps_ids ~k pred)
-        (rewrite_tail ~owner ~cps_ids ~k ~ap_info ifso)
-        (rewrite_tail ~owner ~cps_ids ~k ~ap_info ifnot)
+      rewrite_eval ~owner ~cps_ids ~k pred (fun pred' ->
+          Lam.if_
+            pred'
+            (rewrite_tail ~owner ~cps_ids ~k ~ap_info ifso)
+            (rewrite_tail ~owner ~cps_ids ~k ~ap_info ifnot))
   | Lswitch
       ( arg,
         {
@@ -304,27 +392,28 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
           sw_failaction;
           sw_names;
         } ) ->
-      Lam.switch
-        (rewrite_value ~owner ~cps_ids ~k arg)
-        {
-          sw_consts =
-            List.map sw_consts ~f:(fun (tag, case) ->
-                (tag, rewrite_tail ~owner ~cps_ids ~k ~ap_info case));
-          sw_consts_full;
-          sw_blocks =
-            List.map sw_blocks ~f:(fun (tag, case) ->
-                (tag, rewrite_tail ~owner ~cps_ids ~k ~ap_info case));
-          sw_blocks_full;
-          sw_failaction =
-            Option.map sw_failaction ~f:(rewrite_tail ~owner ~cps_ids ~k ~ap_info);
-          sw_names;
-        }
+      rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+          Lam.switch arg'
+            {
+              sw_consts =
+                List.map sw_consts ~f:(fun (tag, case) ->
+                    (tag, rewrite_tail ~owner ~cps_ids ~k ~ap_info case));
+              sw_consts_full;
+              sw_blocks =
+                List.map sw_blocks ~f:(fun (tag, case) ->
+                    (tag, rewrite_tail ~owner ~cps_ids ~k ~ap_info case));
+              sw_blocks_full;
+              sw_failaction =
+                Option.map sw_failaction
+                  ~f:(rewrite_tail ~owner ~cps_ids ~k ~ap_info);
+              sw_names;
+            })
   | Lstringswitch (arg, cases, default) ->
-      Lam.stringswitch
-        (rewrite_value ~owner ~cps_ids ~k arg)
-        (List.map cases ~f:(fun (s, case) ->
-             (s, rewrite_tail ~owner ~cps_ids ~k ~ap_info case)))
-        (Option.map default ~f:(rewrite_tail ~owner ~cps_ids ~k ~ap_info))
+      rewrite_eval ~owner ~cps_ids ~k arg (fun arg' ->
+          Lam.stringswitch arg'
+            (List.map cases ~f:(fun (s, case) ->
+                 (s, rewrite_tail ~owner ~cps_ids ~k ~ap_info case)))
+            (Option.map default ~f:(rewrite_tail ~owner ~cps_ids ~k ~ap_info)))
   | Lstaticcatch (body, (i, vars), handler) ->
       Lam.staticcatch
         (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
