@@ -431,10 +431,18 @@ let make_identity_cont ~attr =
   Lam.function_ ~attr ~arity:1 ~params:[ id_x ] ~body:(Lam.var id_x)
 
 let build_cps_ids (effectful : Ident.Set.t) (groups : Lam_group.t list) =
+  let add_if_effectful_function acc id lam =
+    match lam with
+    | Lam.Lfunction _ when Ident.Set.mem id effectful ->
+        Ident.Map.add ~key:id ~data:(Ident.create (Ident.name id ^ "$cps")) acc
+    | _ -> acc
+  in
   List.fold_left groups ~init:Ident.Map.empty ~f:(fun acc group ->
       match group with
-      | Lam_group.Single (_, id, Lfunction _) when Ident.Set.mem id effectful ->
-          Ident.Map.add ~key:id ~data:(Ident.create (Ident.name id ^ "$cps")) acc
+      | Lam_group.Single (_, id, lam) -> add_if_effectful_function acc id lam
+      | Recursive bindings ->
+          List.fold_left bindings ~init:acc ~f:(fun acc (id, lam) ->
+              add_if_effectful_function acc id lam)
       | _ -> acc)
 
 let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
@@ -510,14 +518,52 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
           | Lglobal_module _ -> "global-module");
       [ group ]
   | Recursive bindings ->
-      if debug_enabled () then
-        List.iter bindings ~f:(fun (id, _) ->
-            if Ident.Set.mem id effectful then
-              Format.eprintf
-                "[effect-cps] skip recursive effectful binding %s (not yet \
-                 supported)@."
-                (Ident.name id));
-      [ group ]
+      let lifted_bindings =
+        List.concat_map bindings ~f:(fun (id, lam) ->
+            if not (Ident.Set.mem id effectful) then [ (id, lam) ]
+            else
+              match (map_find_cps_id cps_ids id, lam) with
+              | Some cps_id, Lam.Lfunction { arity; params; body; attr } ->
+                  let k = Ident.create_local "__k" in
+                  let ap_info =
+                    {
+                      Lam.ap_loc = Location.none;
+                      ap_inlined = Default_inline;
+                      ap_status = App_na;
+                    }
+                  in
+                  let cps_body = rewrite_tail ~owner:id ~cps_ids ~k ~ap_info body in
+                  let cps_fun =
+                    Lam.function_ ~attr:{ attr with inline = Never_inline }
+                      ~arity:(arity + 1)
+                      ~params:(List.append params [ k ])
+                      ~body:cps_body
+                  in
+                  let id_fun = make_identity_cont ~attr in
+                  let wrapper_body =
+                    Lam.apply (Lam.var cps_id)
+                      (List.append (List.map ~f:Lam.var params) [ id_fun ])
+                      ap_info
+                  in
+                  let wrapper_fun =
+                    Lam.function_ ~attr ~arity ~params ~body:wrapper_body
+                  in
+                  if debug_enabled () then
+                    Format.eprintf "[effect-cps] lifted recursive %s -> %s@."
+                      (Ident.name id) (Ident.name cps_id);
+                  [ (cps_id, cps_fun); (id, wrapper_fun) ]
+              | None, _ ->
+                  (* Should not happen when build_cps_ids is in sync. *)
+                  [ (id, lam) ]
+              | Some _, _ ->
+                  if debug_enabled () then
+                    Format.eprintf
+                      "[effect-cps] skip recursive non-function effectful \
+                       binding %s@."
+                      (Ident.name id);
+                  [ (id, lam) ])
+      in
+      [ Recursive lifted_bindings ]
   | _ -> [ group ]
 
 let transform_groups ~(enabled : bool) ~(effectful : Ident.Set.t)
