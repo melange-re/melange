@@ -226,6 +226,38 @@ let rec rewrite_eval ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
                      (s, rewrite_eval ~owner ~cps_ids ~k case continue)))
                 (Option.map default ~f:(fun case ->
                      rewrite_eval ~owner ~cps_ids ~k case continue)))
+      | Lwhile (pred, body) ->
+          let pred' = rewrite_eval ~owner ~cps_ids ~k pred (fun x -> x) in
+          let body' = rewrite_eval ~owner ~cps_ids ~k body (fun x -> x) in
+          continue (Lam.while_ pred' body')
+      | Lfor (id, from_, to_, dir, body) ->
+          let from_' = rewrite_eval ~owner ~cps_ids ~k from_ (fun x -> x) in
+          let to_' = rewrite_eval ~owner ~cps_ids ~k to_ (fun x -> x) in
+          let body' = rewrite_eval ~owner ~cps_ids ~k body (fun x -> x) in
+          continue (Lam.for_ id from_' to_' dir body')
+      | Lassign (id, rhs) ->
+          rewrite_eval ~owner ~cps_ids ~k rhs (fun rhs' ->
+              continue (Lam.assign id rhs'))
+      | Lsend (mk, meth, obj, args, loc) ->
+          rewrite_eval ~owner ~cps_ids ~k meth (fun meth' ->
+              rewrite_eval ~owner ~cps_ids ~k obj (fun obj' ->
+                  rewrite_eval_list ~owner ~cps_ids ~k args (fun args' ->
+                      continue (Lam.send mk meth' obj' args' ~loc))))
+      | Lstaticraise (i, args) ->
+          rewrite_eval_list ~owner ~cps_ids ~k args (fun args' ->
+              continue (Lam.staticraise i args'))
+      | Lstaticcatch (body, (i, vars), handler) ->
+          Lam.staticcatch
+            (rewrite_eval ~owner ~cps_ids ~k body continue)
+            (i, vars)
+            (rewrite_eval ~owner ~cps_ids ~k handler continue)
+      | Ltrywith (body, exn, handler) ->
+          Lam.try_
+            (rewrite_eval ~owner ~cps_ids ~k body continue)
+            exn
+            (rewrite_eval ~owner ~cps_ids ~k handler continue)
+      | Lifused (id, body) ->
+          Lam.ifused id (rewrite_eval ~owner ~cps_ids ~k body continue)
       | _ -> continue (rewrite_value ~owner ~cps_ids ~k lam))
 
 and rewrite_eval_list ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
@@ -295,7 +327,9 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
           match lam with
           | Lprim { primitive; args; loc } -> (
               match split_first_perform_arg args with
-              | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)
+              | None ->
+                  rewrite_eval ~owner ~cps_ids ~k lam (fun value ->
+                      apply_k ap_info k value)
               | Some (before, (eff, eff_loc), after) ->
                   if debug_enabled () then
                     Format.eprintf
@@ -424,7 +458,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
         (rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
         exn
         (rewrite_tail ~owner ~cps_ids ~k ~ap_info handler)
-  | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)
+  | _ -> rewrite_eval ~owner ~cps_ids ~k lam (fun value -> apply_k ap_info k value)
 
 let make_identity_cont ~attr =
   let id_x = Ident.create_local "__x" in
