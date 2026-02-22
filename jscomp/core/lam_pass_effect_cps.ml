@@ -24,8 +24,8 @@ let rec rewrite_value ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
         (rewrite_value ~owner ~cps_ids ~k ap_func)
         (List.map ~f:(rewrite_value ~owner ~cps_ids ~k) ap_args)
         ap_info
-  | Lfunction { arity; params; body; attr; loc } ->
-      Lam.function_ ~loc ~attr ~arity ~params
+  | Lfunction { arity; params; body; attr } ->
+      Lam.function_ ~attr ~arity ~params
         ~body:(rewrite_value ~owner ~cps_ids ~k body)
   | Llet (kind, id, arg, body) ->
       Lam.let_ kind id
@@ -160,7 +160,7 @@ let rec rewrite_eval ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
   | Some (eff, loc) ->
       let pv = Ident.create_local "__p" in
       let cont =
-        Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+        Lam.function_ ~attr:Lambda.default_function_attribute ~arity:1
           ~params:[ pv ]
           ~body:(continue (Lam.var pv))
       in
@@ -252,7 +252,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
               let rest_args = List.append before_vars (Lam.var pv :: after) in
               let rest_apply = Lam.apply ap_func rest_args call_ap_info in
               let cont =
-                Lam.function_ ~loc:eff_loc
+                Lam.function_
                   ~attr:Lambda.default_function_attribute ~arity:1
                   ~params:[ pv ]
                   ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info rest_apply)
@@ -306,7 +306,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
                       let rest_args = List.append before_vars (Lam.var pv :: after) in
                       let rest_expr = Lam.prim ~primitive ~args:rest_args ~loc in
                       let cont =
-                        Lam.function_ ~loc:eff_loc
+                        Lam.function_
                           ~attr:Lambda.default_function_attribute ~arity:1
                           ~params:[ pv ]
                           ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info rest_expr)
@@ -327,7 +327,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             Format.eprintf "[effect-cps] let-perform rewrite in %s@."
               (Ident.name owner);
           let cont =
-            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+            Lam.function_ ~attr:Lambda.default_function_attribute ~arity:1
               ~params:[ id ]
               ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
           in
@@ -346,7 +346,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
             Format.eprintf "[effect-cps] mutlet-perform rewrite in %s@."
               (Ident.name owner);
           let cont =
-            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+            Lam.function_ ~attr:Lambda.default_function_attribute ~arity:1
               ~params:[ id ]
               ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info body)
           in
@@ -365,7 +365,7 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
               (Ident.name owner);
           let u = Ident.create_local "__u" in
           let cont =
-            Lam.function_ ~loc ~attr:Lambda.default_function_attribute ~arity:1
+            Lam.function_ ~attr:Lambda.default_function_attribute ~arity:1
               ~params:[ u ]
               ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info right)
           in
@@ -426,9 +426,9 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
         (rewrite_tail ~owner ~cps_ids ~k ~ap_info handler)
   | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)
 
-let make_identity_cont ~loc ~attr =
+let make_identity_cont ~attr =
   let id_x = Ident.create_local "__x" in
-  Lam.function_ ~loc ~attr ~arity:1 ~params:[ id_x ] ~body:(Lam.var id_x)
+  Lam.function_ ~attr ~arity:1 ~params:[ id_x ] ~body:(Lam.var id_x)
 
 let build_cps_ids (effectful : Ident.Set.t) (groups : Lam_group.t list) =
   List.fold_left groups ~init:Ident.Map.empty ~f:(fun acc group ->
@@ -449,7 +449,6 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
             params;
             body;
             attr;
-            loc;
           } )
     when Ident.Set.mem id effectful -> (
       match map_find_cps_id cps_ids id with
@@ -458,26 +457,26 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
           let k = Ident.create_local "__k" in
           let ap_info =
             {
-              Lam.ap_loc = loc;
+              Lam.ap_loc = Location.none;
               ap_inlined = Default_inline;
               ap_status = App_na;
             }
           in
           let cps_body = rewrite_tail ~owner:id ~cps_ids ~k ~ap_info body in
           let cps_fun =
-            Lam.function_ ~loc ~attr:{ attr with inline = Never_inline }
+            Lam.function_ ~attr:{ attr with inline = Never_inline }
               ~arity:(arity + 1)
               ~params:(List.append params [ k ])
               ~body:cps_body
           in
-          let id_fun = make_identity_cont ~loc ~attr in
+          let id_fun = make_identity_cont ~attr in
           let wrapper_body =
             Lam.apply (Lam.var cps_id)
               (List.append (List.map ~f:Lam.var params) [ id_fun ])
               ap_info
           in
           let wrapper_fun =
-            Lam.function_ ~loc ~attr ~arity ~params ~body:wrapper_body
+            Lam.function_ ~attr ~arity ~params ~body:wrapper_body
           in
           if debug_enabled () then
             Format.eprintf "[effect-cps] lifted %s -> %s@." (Ident.name id)
