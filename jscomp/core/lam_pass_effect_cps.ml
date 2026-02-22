@@ -157,19 +157,43 @@ let bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
 let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) ~(ap_info : Lam.ap_info) (lam : Lam.t) : Lam.t =
   match lam with
-  | Lapply { ap_func = (Lvar id | Lmutvar id); ap_args; ap_info = call_ap_info } -> (
-      match map_find_cps_id cps_ids id with
-      | Some cps_id ->
+  | Lapply { ap_func; ap_args; ap_info = call_ap_info } -> (
+      match split_first_perform_arg ap_args with
+      | Some (before, (eff, eff_loc), after) ->
           if debug_enabled () then
-            Format.eprintf
-              "[effect-cps] tail-call rewrite %s -> %s in %s@."
-              (Ident.name id) (Ident.name cps_id) (Ident.name owner);
-          Lam.apply (Lam.var cps_id)
-            (List.append
-               (List.map ~f:(rewrite_value ~owner ~cps_ids ~k) ap_args)
-               [ Lam.var k ])
-            call_ap_info
-      | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
+            Format.eprintf "[effect-cps] apply-arg-perform rewrite in %s@."
+              (Ident.name owner);
+          bind_prefix_args ~owner ~cps_ids ~k before (fun before_vars ->
+              let pv = Ident.create_local "__p" in
+              let rest_args = List.append before_vars (Lam.var pv :: after) in
+              let rest_apply = Lam.apply ap_func rest_args call_ap_info in
+              let cont =
+                Lam.function_ ~loc:eff_loc
+                  ~attr:Lambda.default_function_attribute ~arity:1
+                  ~params:[ pv ]
+                  ~body:(rewrite_tail ~owner ~cps_ids ~k ~ap_info rest_apply)
+              in
+              Lam.prim
+                ~primitive:
+                  (Lam_primitive.Pccall { prim_name = "caml_perform_tail" })
+                ~args:[ rewrite_value ~owner ~cps_ids ~k eff; cont ]
+                ~loc:eff_loc)
+      | None -> (
+          match ap_func with
+          | Lvar id | Lmutvar id -> (
+              match map_find_cps_id cps_ids id with
+              | Some cps_id ->
+                  if debug_enabled () then
+                    Format.eprintf
+                      "[effect-cps] tail-call rewrite %s -> %s in %s@."
+                      (Ident.name id) (Ident.name cps_id) (Ident.name owner);
+                  Lam.apply (Lam.var cps_id)
+                    (List.append
+                       (List.map ~f:(rewrite_value ~owner ~cps_ids ~k) ap_args)
+                       [ Lam.var k ])
+                    call_ap_info
+              | None -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam))
+          | _ -> apply_k ap_info k (rewrite_value ~owner ~cps_ids ~k lam)))
   | Lprim _ -> (
       match perform_prim lam with
       | Some (eff, loc) ->
