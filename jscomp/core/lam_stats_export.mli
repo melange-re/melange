@@ -31,6 +31,7 @@ val export_to_cmj :
   case:Js_packages_info.file_case ->
   Lam_stats.t ->
   effect_:string option ->
+  effectful_export_names:string list ->
   Lam.t Ident.Map.t ->
   (* FIXME: this is a leaky abstraction *)
   delayed_program:J.deps_program ->

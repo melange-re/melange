@@ -4,39 +4,51 @@
 
 function toEnum(x) {
   switch (x) {
-    case /* A */ 0 :
+    case /* A */ 0 : {
       return 0;
-    case /* B */ 1 :
+      }
+    case /* B */ 1 : {
       return 1;
-    case /* C */ 2 :
+      }
+    case /* C */ 2 : {
       return 2;
-    case /* D */ 3 :
+      }
+    case /* D */ 3 : {
       return 3;
-    case /* E */ 4 :
+      }
+    case /* E */ 4 : {
       return 4;
+      }
   }
 }
 
 function toString(x) {
   switch (x) {
-    case /* A */ 0 :
+    case /* A */ 0 : {
       return "A";
-    case /* B */ 1 :
+      }
+    case /* B */ 1 : {
       return "B";
-    case /* C */ 2 :
+      }
+    case /* C */ 2 : {
       return "C";
-    case /* D */ 3 :
+      }
+    case /* D */ 3 : {
       return "D";
-    case /* E */ 4 :
+      }
+    case /* E */ 4 : {
       return "E";
+      }
   }
 }
 
 function bar(x) {
   switch (x) {
-    case /* A */ 0 :
-    case /* E */ 4 :
+    case /* A */ 0 : {
+      }
+    case /* E */ 4 : {
       return 10;
+      }
     default:
       return 0;
   }
@@ -126,21 +138,27 @@ function third2(l) {
 function foo(x) {
   if (/* tag */ typeof x !== "object" && typeof x !== "function") {
     switch (x) {
-      case /* A */ "dd" :
+      case /* A */ "dd" : {
         return 1;
-      case /* B */ 12 :
+        }
+      case /* B */ 12 : {
         return 2;
-      case /* C */ 2 :
+        }
+      case /* C */ 2 : {
         return 3;
+        }
     }
   } else {
     switch (x.TAG) {
-      case /* D */ "qq" :
+      case /* D */ "qq" : {
         return 4;
-      case /* E */ 42 :
+        }
+      case /* E */ 42 : {
         return 5;
-      case /* F */ 2 :
+        }
+      case /* F */ 2 : {
         return 6;
+        }
     }
   }
 }

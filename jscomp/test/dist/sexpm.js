@@ -57,21 +57,31 @@ function _must_escape(s) {
       } else if (c >= 11) {
         if (c >= 32) {
           switch (c) {
-            case 33 :
-            case 35 :
-            case 36 :
-            case 37 :
-            case 38 :
-            case 39 :
+            case 33 : {
+              }
+            case 35 : {
+              }
+            case 36 : {
+              }
+            case 37 : {
+              }
+            case 38 : {
+              }
+            case 39 : {
               exit = 1;
               break;
-            case 32 :
-            case 34 :
-            case 40 :
-            case 41 :
+              }
+            case 32 : {
+              }
+            case 34 : {
+              }
+            case 40 : {
+              }
+            case 41 : {
               throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
                   MEL_EXN_ID: Stdlib.Exit
                 });
+              }
           }
         } else {
           exit = 1;
@@ -548,7 +558,7 @@ function expr_starting_with(c, k, t) {
   } else if (c >= 11) {
     if (c >= 32) {
       switch (c) {
-        case 32 :
+        case 32 : {
           throw new Caml_js_exceptions.MelangeError("Assert_failure", {
               MEL_EXN_ID: "Assert_failure",
               _1: [
@@ -557,18 +567,27 @@ function expr_starting_with(c, k, t) {
                 27
               ]
             });
-        case 34 :
+          }
+        case 34 : {
           return quoted(k, t);
-        case 33 :
-        case 35 :
-        case 36 :
-        case 37 :
-        case 38 :
-        case 39 :
+          }
+        case 33 : {
+          }
+        case 35 : {
+          }
+        case 36 : {
+          }
+        case 37 : {
+          }
+        case 38 : {
+          }
+        case 39 : {
           break;
-        case 40 :
+          }
+        case 40 : {
           return expr_list(/* [] */ 0, k, t);
-        case 41 :
+          }
+        case 41 : {
           return _error(t, {
             TAG: /* Format */ 0,
             _0: {
@@ -578,6 +597,7 @@ function expr_starting_with(c, k, t) {
             },
             _1: "unexpected ')'"
           });
+          }
       }
     }
     
@@ -689,13 +709,15 @@ function atom(k, t) {
     } else if (c >= 11) {
       if (c >= 32) {
         switch (c) {
-          case 32 :
+          case 32 : {
             exit = 2;
             break;
-          case 33 :
+            }
+          case 33 : {
             exit = 1;
             break;
-          case 34 :
+            }
+          case 34 : {
             return _error(t, {
               TAG: /* Format */ 0,
               _0: {
@@ -705,6 +727,7 @@ function atom(k, t) {
               },
               _1: "unexpected '\"' in the middle of an atom"
             });
+            }
         }
       } else {
         exit = 1;
@@ -713,11 +736,13 @@ function atom(k, t) {
       exit = c >= 9 ? 2 : 1;
     }
     switch (exit) {
-      case 1 :
+      case 1 : {
         Stdlib__Buffer.add_char(t.atom, c);
         continue;
-      case 2 :
+        }
+      case 2 : {
         return _return_atom(c, k, t);
+        }
     }
   };
 }
@@ -754,37 +779,62 @@ function escaped(k, t) {
   if (c >= 92) {
     if (c < 117) {
       switch (c) {
-        case 92 :
+        case 92 : {
           return Curry._1(k, /* '\\' */92);
-        case 98 :
+          }
+        case 98 : {
           return Curry._1(k, /* '\b' */8);
-        case 110 :
+          }
+        case 110 : {
           return Curry._1(k, /* '\n' */10);
-        case 114 :
+          }
+        case 114 : {
           return Curry._1(k, /* '\r' */13);
-        case 93 :
-        case 94 :
-        case 95 :
-        case 96 :
-        case 97 :
-        case 99 :
-        case 100 :
-        case 101 :
-        case 102 :
-        case 103 :
-        case 104 :
-        case 105 :
-        case 106 :
-        case 107 :
-        case 108 :
-        case 109 :
-        case 111 :
-        case 112 :
-        case 113 :
-        case 115 :
+          }
+        case 93 : {
+          }
+        case 94 : {
+          }
+        case 95 : {
+          }
+        case 96 : {
+          }
+        case 97 : {
+          }
+        case 99 : {
+          }
+        case 100 : {
+          }
+        case 101 : {
+          }
+        case 102 : {
+          }
+        case 103 : {
+          }
+        case 104 : {
+          }
+        case 105 : {
+          }
+        case 106 : {
+          }
+        case 107 : {
+          }
+        case 108 : {
+          }
+        case 109 : {
+          }
+        case 111 : {
+          }
+        case 112 : {
+          }
+        case 113 : {
+          }
+        case 115 : {
           break;
-        case 116 :
+          }
+        case 116 : {
           return Curry._1(k, /* '\t' */9);
+          }
       }
     }
     
@@ -1158,7 +1208,7 @@ function MakeDecode(funarg) {
     } else if (c >= 11) {
       if (c >= 32) {
         switch (c) {
-          case 32 :
+          case 32 : {
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
                 _1: [
@@ -1167,18 +1217,27 @@ function MakeDecode(funarg) {
                   27
                 ]
               });
-          case 34 :
+            }
+          case 34 : {
             return quoted(k, t);
-          case 33 :
-          case 35 :
-          case 36 :
-          case 37 :
-          case 38 :
-          case 39 :
+            }
+          case 33 : {
+            }
+          case 35 : {
+            }
+          case 36 : {
+            }
+          case 37 : {
+            }
+          case 38 : {
+            }
+          case 39 : {
             break;
-          case 40 :
+            }
+          case 40 : {
             return expr_list(/* [] */ 0, k, t);
-          case 41 :
+            }
+          case 41 : {
             return _error(t, {
               TAG: /* Format */ 0,
               _0: {
@@ -1188,6 +1247,7 @@ function MakeDecode(funarg) {
               },
               _1: "unexpected ')'"
             });
+            }
         }
       }
       
@@ -1296,13 +1356,15 @@ function MakeDecode(funarg) {
       } else if (c >= 11) {
         if (c >= 32) {
           switch (c) {
-            case 32 :
+            case 32 : {
               exit = 2;
               break;
-            case 33 :
+              }
+            case 33 : {
               exit = 1;
               break;
-            case 34 :
+              }
+            case 34 : {
               return _error(t, {
                 TAG: /* Format */ 0,
                 _0: {
@@ -1312,6 +1374,7 @@ function MakeDecode(funarg) {
                 },
                 _1: "unexpected '\"' in the middle of an atom"
               });
+              }
           }
         } else {
           exit = 1;
@@ -1320,11 +1383,13 @@ function MakeDecode(funarg) {
         exit = c >= 9 ? 2 : 1;
       }
       switch (exit) {
-        case 1 :
+        case 1 : {
           Stdlib__Buffer.add_char(t.atom, c);
           continue;
-        case 2 :
+          }
+        case 2 : {
           return _return_atom(c, k, t);
+          }
       }
     };
   };
@@ -1359,37 +1424,62 @@ function MakeDecode(funarg) {
     if (c >= 92) {
       if (c < 117) {
         switch (c) {
-          case 92 :
+          case 92 : {
             return Curry._1(k, /* '\\' */92);
-          case 98 :
+            }
+          case 98 : {
             return Curry._1(k, /* '\b' */8);
-          case 110 :
+            }
+          case 110 : {
             return Curry._1(k, /* '\n' */10);
-          case 114 :
+            }
+          case 114 : {
             return Curry._1(k, /* '\r' */13);
-          case 93 :
-          case 94 :
-          case 95 :
-          case 96 :
-          case 97 :
-          case 99 :
-          case 100 :
-          case 101 :
-          case 102 :
-          case 103 :
-          case 104 :
-          case 105 :
-          case 106 :
-          case 107 :
-          case 108 :
-          case 109 :
-          case 111 :
-          case 112 :
-          case 113 :
-          case 115 :
+            }
+          case 93 : {
+            }
+          case 94 : {
+            }
+          case 95 : {
+            }
+          case 96 : {
+            }
+          case 97 : {
+            }
+          case 99 : {
+            }
+          case 100 : {
+            }
+          case 101 : {
+            }
+          case 102 : {
+            }
+          case 103 : {
+            }
+          case 104 : {
+            }
+          case 105 : {
+            }
+          case 106 : {
+            }
+          case 107 : {
+            }
+          case 108 : {
+            }
+          case 109 : {
+            }
+          case 111 : {
+            }
+          case 112 : {
+            }
+          case 113 : {
+            }
+          case 115 : {
             break;
-          case 116 :
+            }
+          case 116 : {
             return Curry._1(k, /* '\t' */9);
+            }
         }
       }
       

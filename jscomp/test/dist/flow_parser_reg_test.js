@@ -97,11 +97,14 @@ function order_of_filename(param) {
     return 1;
   }
   switch (param.TAG) {
-    case /* LibFile */ 0 :
+    case /* LibFile */ 0 : {
       return 2;
-    case /* SourceFile */ 1 :
-    case /* JsonFile */ 2 :
+      }
+    case /* SourceFile */ 1 : {
+      }
+    case /* JsonFile */ 2 : {
       return 3;
+      }
   }
 }
 
@@ -152,138 +155,202 @@ const $$Error = /* @__PURE__ */ Caml_exceptions.create("Flow_parser_reg_test.Par
 function error(str) {
   if (/* tag */ typeof str !== "object" && typeof str !== "function") {
     switch (str) {
-      case /* UnexpectedNumber */ 0 :
+      case /* UnexpectedNumber */ 0 : {
         return "Unexpected number";
-      case /* UnexpectedString */ 1 :
+        }
+      case /* UnexpectedString */ 1 : {
         return "Unexpected string";
-      case /* UnexpectedIdentifier */ 2 :
+        }
+      case /* UnexpectedIdentifier */ 2 : {
         return "Unexpected identifier";
-      case /* UnexpectedReserved */ 3 :
+        }
+      case /* UnexpectedReserved */ 3 : {
         return "Unexpected reserved word";
-      case /* UnexpectedEOS */ 4 :
+        }
+      case /* UnexpectedEOS */ 4 : {
         return "Unexpected end of input";
-      case /* UnexpectedTypeAlias */ 5 :
+        }
+      case /* UnexpectedTypeAlias */ 5 : {
         return "Type aliases are not allowed in untyped mode";
-      case /* UnexpectedTypeAnnotation */ 6 :
+        }
+      case /* UnexpectedTypeAnnotation */ 6 : {
         return "Type annotations are not allowed in untyped mode";
-      case /* UnexpectedTypeDeclaration */ 7 :
+        }
+      case /* UnexpectedTypeDeclaration */ 7 : {
         return "Type declarations are not allowed in untyped mode";
-      case /* UnexpectedTypeImport */ 8 :
+        }
+      case /* UnexpectedTypeImport */ 8 : {
         return "Type imports are not allowed in untyped mode";
-      case /* UnexpectedTypeExport */ 9 :
+        }
+      case /* UnexpectedTypeExport */ 9 : {
         return "Type exports are not allowed in untyped mode";
-      case /* UnexpectedTypeInterface */ 10 :
+        }
+      case /* UnexpectedTypeInterface */ 10 : {
         return "Interfaces are not allowed in untyped mode";
-      case /* NewlineAfterThrow */ 11 :
+        }
+      case /* NewlineAfterThrow */ 11 : {
         return "Illegal newline after throw";
-      case /* InvalidRegExp */ 12 :
+        }
+      case /* InvalidRegExp */ 12 : {
         return "Invalid regular expression";
-      case /* UnterminatedRegExp */ 13 :
+        }
+      case /* UnterminatedRegExp */ 13 : {
         return "Invalid regular expression: missing /";
-      case /* InvalidLHSInAssignment */ 14 :
+        }
+      case /* InvalidLHSInAssignment */ 14 : {
         return "Invalid left-hand side in assignment";
-      case /* InvalidLHSInExponentiation */ 15 :
+        }
+      case /* InvalidLHSInExponentiation */ 15 : {
         return "Invalid left-hand side in exponentiation expression";
-      case /* InvalidLHSInForIn */ 16 :
+        }
+      case /* InvalidLHSInForIn */ 16 : {
         return "Invalid left-hand side in for-in";
-      case /* InvalidLHSInForOf */ 17 :
+        }
+      case /* InvalidLHSInForOf */ 17 : {
         return "Invalid left-hand side in for-of";
-      case /* ExpectedPatternFoundExpression */ 18 :
+        }
+      case /* ExpectedPatternFoundExpression */ 18 : {
         return "Expected an object pattern, array pattern, or an identifier but found an expression instead";
-      case /* MultipleDefaultsInSwitch */ 19 :
+        }
+      case /* MultipleDefaultsInSwitch */ 19 : {
         return "More than one default clause in switch statement";
-      case /* NoCatchOrFinally */ 20 :
+        }
+      case /* NoCatchOrFinally */ 20 : {
         return "Missing catch or finally after try";
-      case /* IllegalContinue */ 21 :
+        }
+      case /* IllegalContinue */ 21 : {
         return "Illegal continue statement";
-      case /* IllegalBreak */ 22 :
+        }
+      case /* IllegalBreak */ 22 : {
         return "Illegal break statement";
-      case /* IllegalReturn */ 23 :
+        }
+      case /* IllegalReturn */ 23 : {
         return "Illegal return statement";
-      case /* IllegalYield */ 24 :
+        }
+      case /* IllegalYield */ 24 : {
         return "Illegal yield expression";
-      case /* StrictModeWith */ 25 :
+        }
+      case /* StrictModeWith */ 25 : {
         return "Strict mode code may not include a with statement";
-      case /* StrictCatchVariable */ 26 :
+        }
+      case /* StrictCatchVariable */ 26 : {
         return "Catch variable may not be eval or arguments in strict mode";
-      case /* StrictVarName */ 27 :
+        }
+      case /* StrictVarName */ 27 : {
         return "Variable name may not be eval or arguments in strict mode";
-      case /* StrictParamName */ 28 :
+        }
+      case /* StrictParamName */ 28 : {
         return "Parameter name eval or arguments is not allowed in strict mode";
-      case /* StrictParamDupe */ 29 :
+        }
+      case /* StrictParamDupe */ 29 : {
         return "Strict mode function may not have duplicate parameter names";
-      case /* StrictFunctionName */ 30 :
+        }
+      case /* StrictFunctionName */ 30 : {
         return "Function name may not be eval or arguments in strict mode";
-      case /* StrictOctalLiteral */ 31 :
+        }
+      case /* StrictOctalLiteral */ 31 : {
         return "Octal literals are not allowed in strict mode.";
-      case /* StrictDelete */ 32 :
+        }
+      case /* StrictDelete */ 32 : {
         return "Delete of an unqualified identifier in strict mode.";
-      case /* StrictDuplicateProperty */ 33 :
+        }
+      case /* StrictDuplicateProperty */ 33 : {
         return "Duplicate data property in object literal not allowed in strict mode";
-      case /* AccessorDataProperty */ 34 :
+        }
+      case /* AccessorDataProperty */ 34 : {
         return "Object literal may not have data and accessor property with the same name";
-      case /* AccessorGetSet */ 35 :
+        }
+      case /* AccessorGetSet */ 35 : {
         return "Object literal may not have multiple get/set accessors with the same name";
-      case /* StrictLHSAssignment */ 36 :
+        }
+      case /* StrictLHSAssignment */ 36 : {
         return "Assignment to eval or arguments is not allowed in strict mode";
-      case /* StrictLHSPostfix */ 37 :
+        }
+      case /* StrictLHSPostfix */ 37 : {
         return "Postfix increment/decrement may not have eval or arguments operand in strict mode";
-      case /* StrictLHSPrefix */ 38 :
+        }
+      case /* StrictLHSPrefix */ 38 : {
         return "Prefix increment/decrement may not have eval or arguments operand in strict mode";
-      case /* StrictReservedWord */ 39 :
+        }
+      case /* StrictReservedWord */ 39 : {
         return "Use of future reserved word in strict mode";
-      case /* JSXAttributeValueEmptyExpression */ 40 :
+        }
+      case /* JSXAttributeValueEmptyExpression */ 40 : {
         return "JSX attributes must only be assigned a non-empty expression";
-      case /* InvalidJSXAttributeValue */ 41 :
+        }
+      case /* InvalidJSXAttributeValue */ 41 : {
         return "JSX value should be either an expression or a quoted JSX text";
-      case /* NoUninitializedConst */ 42 :
+        }
+      case /* NoUninitializedConst */ 42 : {
         return "Const must be initialized";
-      case /* NoUninitializedDestructuring */ 43 :
+        }
+      case /* NoUninitializedDestructuring */ 43 : {
         return "Destructuring assignment must be initialized";
-      case /* NewlineBeforeArrow */ 44 :
+        }
+      case /* NewlineBeforeArrow */ 44 : {
         return "Illegal newline before arrow";
-      case /* StrictFunctionStatement */ 45 :
+        }
+      case /* StrictFunctionStatement */ 45 : {
         return "In strict mode code, functions can only be declared at top level or immediately within another function.";
-      case /* AdjacentJSXElements */ 46 :
+        }
+      case /* AdjacentJSXElements */ 46 : {
         return "Unexpected token <. Remember, adjacent JSX elements must be wrapped in an enclosing parent tag";
-      case /* ParameterAfterRestParameter */ 47 :
+        }
+      case /* ParameterAfterRestParameter */ 47 : {
         return "Rest parameter must be final parameter of an argument list";
-      case /* AsyncGenerator */ 48 :
+        }
+      case /* AsyncGenerator */ 48 : {
         return "A function may not be both async and a generator";
-      case /* DeclareAsync */ 49 :
+        }
+      case /* DeclareAsync */ 49 : {
         return "async is an implementation detail and isn't necessary for your declare function statement. It is sufficient for your declare function to just have a Promise return type.";
-      case /* DeclareExportLet */ 50 :
+        }
+      case /* DeclareExportLet */ 50 : {
         return "`declare export let` is not supported. Use `declare export var` instead.";
-      case /* DeclareExportConst */ 51 :
+        }
+      case /* DeclareExportConst */ 51 : {
         return "`declare export const` is not supported. Use `declare export var` instead.";
-      case /* DeclareExportType */ 52 :
+        }
+      case /* DeclareExportType */ 52 : {
         return "`declare export type` is not supported. Use `export type` instead.";
-      case /* DeclareExportInterface */ 53 :
+        }
+      case /* DeclareExportInterface */ 53 : {
         return "`declare export interface` is not supported. Use `export interface` instead.";
-      case /* UnexpectedExportStarAs */ 54 :
+        }
+      case /* UnexpectedExportStarAs */ 54 : {
         return "`export * as` is an early-stage proposal and is not enabled by default. To enable support in the parser, use the `esproposal_export_star_as` option";
-      case /* ExportNamelessClass */ 55 :
+        }
+      case /* ExportNamelessClass */ 55 : {
         return "When exporting a class as a named export, you must specify a class name. Did you mean `export default class ...`?";
-      case /* ExportNamelessFunction */ 56 :
+        }
+      case /* ExportNamelessFunction */ 56 : {
         return "When exporting a function as a named export, you must specify a function name. Did you mean `export default function ...`?";
-      case /* UnsupportedDecorator */ 57 :
+        }
+      case /* UnsupportedDecorator */ 57 : {
         return "Found a decorator in an unsupported position.";
-      case /* MissingTypeParamDefault */ 58 :
+        }
+      case /* MissingTypeParamDefault */ 58 : {
         return "Type parameter declaration needs a default, since a preceding type parameter declaration has a default.";
-      case /* WindowsFloatOfString */ 59 :
+        }
+      case /* WindowsFloatOfString */ 59 : {
         return "The Windows version of OCaml has a bug in how it parses hexidecimal numbers. It is fixed in OCaml 4.03.0. Until we can switch to 4.03.0, please avoid either hexidecimal notation or Windows.";
-      case /* DuplicateDeclareModuleExports */ 60 :
+        }
+      case /* DuplicateDeclareModuleExports */ 60 : {
         return "Duplicate `declare module.exports` statement!";
-      case /* AmbiguousDeclareModuleKind */ 61 :
+        }
+      case /* AmbiguousDeclareModuleKind */ 61 : {
         return "Found both `declare module.exports` and `declare export` in the same module. Modules can only have 1 since they are either an ES module xor they are a CommonJS module.";
+        }
     }
   } else {
     switch (str.TAG) {
-      case /* Assertion */ 0 :
+      case /* Assertion */ 0 : {
         return "Unexpected parser state: " + str._0;
-      case /* UnexpectedToken */ 1 :
+        }
+      case /* UnexpectedToken */ 1 : {
         return "Unexpected token " + str._0;
-      case /* UnexpectedTokenWithSuggestion */ 2 :
+        }
+      case /* UnexpectedTokenWithSuggestion */ 2 : {
         return Curry._2(Stdlib__Printf.sprintf({
           TAG: /* Format */ 0,
           _0: {
@@ -309,15 +376,20 @@ function error(str) {
           },
           _1: "Unexpected token `%s`. Did you mean `%s`?"
         }), str._0, str._1);
-      case /* InvalidRegExpFlags */ 3 :
+        }
+      case /* InvalidRegExpFlags */ 3 : {
         return "Invalid flags supplied to RegExp constructor '" + (str._0 + "'");
-      case /* UnknownLabel */ 4 :
+        }
+      case /* UnknownLabel */ 4 : {
         return "Undefined label '" + (str._0 + "'");
-      case /* Redeclaration */ 5 :
+        }
+      case /* Redeclaration */ 5 : {
         return str._0 + (" '" + (str._1 + "' has already been declared"));
-      case /* ExpectedJSXClosingTag */ 6 :
+        }
+      case /* ExpectedJSXClosingTag */ 6 : {
         return "Expected corresponding JSX closing tag for " + str._0;
-      case /* DuplicateExport */ 7 :
+        }
+      case /* DuplicateExport */ 7 : {
         return Curry._1(Stdlib__Printf.sprintf({
           TAG: /* Format */ 0,
           _0: {
@@ -335,6 +407,7 @@ function error(str) {
           },
           _1: "Duplicate export for `%s`"
         }), str._0);
+        }
     }
   }
 }
@@ -1692,245 +1765,363 @@ Caml_module.update_mod({
 function token_to_string(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     switch (param) {
-      case /* T_IDENTIFIER */ 0 :
+      case /* T_IDENTIFIER */ 0 : {
         return "T_IDENTIFIER";
-      case /* T_LCURLY */ 1 :
+        }
+      case /* T_LCURLY */ 1 : {
         return "T_LCURLY";
-      case /* T_RCURLY */ 2 :
+        }
+      case /* T_RCURLY */ 2 : {
         return "T_RCURLY";
-      case /* T_LPAREN */ 3 :
+        }
+      case /* T_LPAREN */ 3 : {
         return "T_LPAREN";
-      case /* T_RPAREN */ 4 :
+        }
+      case /* T_RPAREN */ 4 : {
         return "T_RPAREN";
-      case /* T_LBRACKET */ 5 :
+        }
+      case /* T_LBRACKET */ 5 : {
         return "T_LBRACKET";
-      case /* T_RBRACKET */ 6 :
+        }
+      case /* T_RBRACKET */ 6 : {
         return "T_RBRACKET";
-      case /* T_SEMICOLON */ 7 :
+        }
+      case /* T_SEMICOLON */ 7 : {
         return "T_SEMICOLON";
-      case /* T_COMMA */ 8 :
+        }
+      case /* T_COMMA */ 8 : {
         return "T_COMMA";
-      case /* T_PERIOD */ 9 :
+        }
+      case /* T_PERIOD */ 9 : {
         return "T_PERIOD";
-      case /* T_ARROW */ 10 :
+        }
+      case /* T_ARROW */ 10 : {
         return "T_ARROW";
-      case /* T_ELLIPSIS */ 11 :
+        }
+      case /* T_ELLIPSIS */ 11 : {
         return "T_ELLIPSIS";
-      case /* T_AT */ 12 :
+        }
+      case /* T_AT */ 12 : {
         return "T_AT";
-      case /* T_FUNCTION */ 13 :
+        }
+      case /* T_FUNCTION */ 13 : {
         return "T_FUNCTION";
-      case /* T_IF */ 14 :
+        }
+      case /* T_IF */ 14 : {
         return "T_IF";
-      case /* T_IN */ 15 :
+        }
+      case /* T_IN */ 15 : {
         return "T_IN";
-      case /* T_INSTANCEOF */ 16 :
+        }
+      case /* T_INSTANCEOF */ 16 : {
         return "T_INSTANCEOF";
-      case /* T_RETURN */ 17 :
+        }
+      case /* T_RETURN */ 17 : {
         return "T_RETURN";
-      case /* T_SWITCH */ 18 :
+        }
+      case /* T_SWITCH */ 18 : {
         return "T_SWITCH";
-      case /* T_THIS */ 19 :
+        }
+      case /* T_THIS */ 19 : {
         return "T_THIS";
-      case /* T_THROW */ 20 :
+        }
+      case /* T_THROW */ 20 : {
         return "T_THROW";
-      case /* T_TRY */ 21 :
+        }
+      case /* T_TRY */ 21 : {
         return "T_TRY";
-      case /* T_VAR */ 22 :
+        }
+      case /* T_VAR */ 22 : {
         return "T_VAR";
-      case /* T_WHILE */ 23 :
+        }
+      case /* T_WHILE */ 23 : {
         return "T_WHILE";
-      case /* T_WITH */ 24 :
+        }
+      case /* T_WITH */ 24 : {
         return "T_WITH";
-      case /* T_CONST */ 25 :
+        }
+      case /* T_CONST */ 25 : {
         return "T_CONST";
-      case /* T_LET */ 26 :
+        }
+      case /* T_LET */ 26 : {
         return "T_LET";
-      case /* T_NULL */ 27 :
+        }
+      case /* T_NULL */ 27 : {
         return "T_NULL";
-      case /* T_FALSE */ 28 :
+        }
+      case /* T_FALSE */ 28 : {
         return "T_FALSE";
-      case /* T_TRUE */ 29 :
+        }
+      case /* T_TRUE */ 29 : {
         return "T_TRUE";
-      case /* T_BREAK */ 30 :
+        }
+      case /* T_BREAK */ 30 : {
         return "T_BREAK";
-      case /* T_CASE */ 31 :
+        }
+      case /* T_CASE */ 31 : {
         return "T_CASE";
-      case /* T_CATCH */ 32 :
+        }
+      case /* T_CATCH */ 32 : {
         return "T_CATCH";
-      case /* T_CONTINUE */ 33 :
+        }
+      case /* T_CONTINUE */ 33 : {
         return "T_CONTINUE";
-      case /* T_DEFAULT */ 34 :
+        }
+      case /* T_DEFAULT */ 34 : {
         return "T_DEFAULT";
-      case /* T_DO */ 35 :
+        }
+      case /* T_DO */ 35 : {
         return "T_DO";
-      case /* T_FINALLY */ 36 :
+        }
+      case /* T_FINALLY */ 36 : {
         return "T_FINALLY";
-      case /* T_FOR */ 37 :
+        }
+      case /* T_FOR */ 37 : {
         return "T_FOR";
-      case /* T_CLASS */ 38 :
+        }
+      case /* T_CLASS */ 38 : {
         return "T_CLASS";
-      case /* T_EXTENDS */ 39 :
+        }
+      case /* T_EXTENDS */ 39 : {
         return "T_EXTENDS";
-      case /* T_STATIC */ 40 :
+        }
+      case /* T_STATIC */ 40 : {
         return "T_STATIC";
-      case /* T_ELSE */ 41 :
+        }
+      case /* T_ELSE */ 41 : {
         return "T_ELSE";
-      case /* T_NEW */ 42 :
+        }
+      case /* T_NEW */ 42 : {
         return "T_NEW";
-      case /* T_DELETE */ 43 :
+        }
+      case /* T_DELETE */ 43 : {
         return "T_DELETE";
-      case /* T_TYPEOF */ 44 :
+        }
+      case /* T_TYPEOF */ 44 : {
         return "T_TYPEOF";
-      case /* T_VOID */ 45 :
+        }
+      case /* T_VOID */ 45 : {
         return "T_VOID";
-      case /* T_ENUM */ 46 :
+        }
+      case /* T_ENUM */ 46 : {
         return "T_ENUM";
-      case /* T_EXPORT */ 47 :
+        }
+      case /* T_EXPORT */ 47 : {
         return "T_EXPORT";
-      case /* T_IMPORT */ 48 :
+        }
+      case /* T_IMPORT */ 48 : {
         return "T_IMPORT";
-      case /* T_SUPER */ 49 :
+        }
+      case /* T_SUPER */ 49 : {
         return "T_SUPER";
-      case /* T_IMPLEMENTS */ 50 :
+        }
+      case /* T_IMPLEMENTS */ 50 : {
         return "T_IMPLEMENTS";
-      case /* T_INTERFACE */ 51 :
+        }
+      case /* T_INTERFACE */ 51 : {
         return "T_INTERFACE";
-      case /* T_PACKAGE */ 52 :
+        }
+      case /* T_PACKAGE */ 52 : {
         return "T_PACKAGE";
-      case /* T_PRIVATE */ 53 :
+        }
+      case /* T_PRIVATE */ 53 : {
         return "T_PRIVATE";
-      case /* T_PROTECTED */ 54 :
+        }
+      case /* T_PROTECTED */ 54 : {
         return "T_PROTECTED";
-      case /* T_PUBLIC */ 55 :
+        }
+      case /* T_PUBLIC */ 55 : {
         return "T_PUBLIC";
-      case /* T_YIELD */ 56 :
+        }
+      case /* T_YIELD */ 56 : {
         return "T_YIELD";
-      case /* T_DEBUGGER */ 57 :
+        }
+      case /* T_DEBUGGER */ 57 : {
         return "T_DEBUGGER";
-      case /* T_DECLARE */ 58 :
+        }
+      case /* T_DECLARE */ 58 : {
         return "T_DECLARE";
-      case /* T_TYPE */ 59 :
+        }
+      case /* T_TYPE */ 59 : {
         return "T_TYPE";
-      case /* T_OF */ 60 :
+        }
+      case /* T_OF */ 60 : {
         return "T_OF";
-      case /* T_ASYNC */ 61 :
+        }
+      case /* T_ASYNC */ 61 : {
         return "T_ASYNC";
-      case /* T_AWAIT */ 62 :
+        }
+      case /* T_AWAIT */ 62 : {
         return "T_AWAIT";
-      case /* T_RSHIFT3_ASSIGN */ 63 :
+        }
+      case /* T_RSHIFT3_ASSIGN */ 63 : {
         return "T_RSHIFT3_ASSIGN";
-      case /* T_RSHIFT_ASSIGN */ 64 :
+        }
+      case /* T_RSHIFT_ASSIGN */ 64 : {
         return "T_RSHIFT_ASSIGN";
-      case /* T_LSHIFT_ASSIGN */ 65 :
+        }
+      case /* T_LSHIFT_ASSIGN */ 65 : {
         return "T_LSHIFT_ASSIGN";
-      case /* T_BIT_XOR_ASSIGN */ 66 :
+        }
+      case /* T_BIT_XOR_ASSIGN */ 66 : {
         return "T_BIT_XOR_ASSIGN";
-      case /* T_BIT_OR_ASSIGN */ 67 :
+        }
+      case /* T_BIT_OR_ASSIGN */ 67 : {
         return "T_BIT_OR_ASSIGN";
-      case /* T_BIT_AND_ASSIGN */ 68 :
+        }
+      case /* T_BIT_AND_ASSIGN */ 68 : {
         return "T_BIT_AND_ASSIGN";
-      case /* T_MOD_ASSIGN */ 69 :
+        }
+      case /* T_MOD_ASSIGN */ 69 : {
         return "T_MOD_ASSIGN";
-      case /* T_DIV_ASSIGN */ 70 :
+        }
+      case /* T_DIV_ASSIGN */ 70 : {
         return "T_DIV_ASSIGN";
-      case /* T_MULT_ASSIGN */ 71 :
+        }
+      case /* T_MULT_ASSIGN */ 71 : {
         return "T_MULT_ASSIGN";
-      case /* T_EXP_ASSIGN */ 72 :
+        }
+      case /* T_EXP_ASSIGN */ 72 : {
         return "T_EXP_ASSIGN";
-      case /* T_MINUS_ASSIGN */ 73 :
+        }
+      case /* T_MINUS_ASSIGN */ 73 : {
         return "T_MINUS_ASSIGN";
-      case /* T_PLUS_ASSIGN */ 74 :
+        }
+      case /* T_PLUS_ASSIGN */ 74 : {
         return "T_PLUS_ASSIGN";
-      case /* T_ASSIGN */ 75 :
+        }
+      case /* T_ASSIGN */ 75 : {
         return "T_ASSIGN";
-      case /* T_PLING */ 76 :
+        }
+      case /* T_PLING */ 76 : {
         return "T_PLING";
-      case /* T_COLON */ 77 :
+        }
+      case /* T_COLON */ 77 : {
         return "T_COLON";
-      case /* T_OR */ 78 :
+        }
+      case /* T_OR */ 78 : {
         return "T_OR";
-      case /* T_AND */ 79 :
+        }
+      case /* T_AND */ 79 : {
         return "T_AND";
-      case /* T_BIT_OR */ 80 :
+        }
+      case /* T_BIT_OR */ 80 : {
         return "T_BIT_OR";
-      case /* T_BIT_XOR */ 81 :
+        }
+      case /* T_BIT_XOR */ 81 : {
         return "T_BIT_XOR";
-      case /* T_BIT_AND */ 82 :
+        }
+      case /* T_BIT_AND */ 82 : {
         return "T_BIT_AND";
-      case /* T_EQUAL */ 83 :
+        }
+      case /* T_EQUAL */ 83 : {
         return "T_EQUAL";
-      case /* T_NOT_EQUAL */ 84 :
+        }
+      case /* T_NOT_EQUAL */ 84 : {
         return "T_NOT_EQUAL";
-      case /* T_STRICT_EQUAL */ 85 :
+        }
+      case /* T_STRICT_EQUAL */ 85 : {
         return "T_STRICT_EQUAL";
-      case /* T_STRICT_NOT_EQUAL */ 86 :
+        }
+      case /* T_STRICT_NOT_EQUAL */ 86 : {
         return "T_STRICT_NOT_EQUAL";
-      case /* T_LESS_THAN_EQUAL */ 87 :
+        }
+      case /* T_LESS_THAN_EQUAL */ 87 : {
         return "T_LESS_THAN_EQUAL";
-      case /* T_GREATER_THAN_EQUAL */ 88 :
+        }
+      case /* T_GREATER_THAN_EQUAL */ 88 : {
         return "T_GREATER_THAN_EQUAL";
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LESS_THAN */ 89 : {
         return "T_LESS_THAN";
-      case /* T_GREATER_THAN */ 90 :
+        }
+      case /* T_GREATER_THAN */ 90 : {
         return "T_GREATER_THAN";
-      case /* T_LSHIFT */ 91 :
+        }
+      case /* T_LSHIFT */ 91 : {
         return "T_LSHIFT";
-      case /* T_RSHIFT */ 92 :
+        }
+      case /* T_RSHIFT */ 92 : {
         return "T_RSHIFT";
-      case /* T_RSHIFT3 */ 93 :
+        }
+      case /* T_RSHIFT3 */ 93 : {
         return "T_RSHIFT3";
-      case /* T_PLUS */ 94 :
+        }
+      case /* T_PLUS */ 94 : {
         return "T_PLUS";
-      case /* T_MINUS */ 95 :
+        }
+      case /* T_MINUS */ 95 : {
         return "T_MINUS";
-      case /* T_DIV */ 96 :
+        }
+      case /* T_DIV */ 96 : {
         return "T_DIV";
-      case /* T_MULT */ 97 :
+        }
+      case /* T_MULT */ 97 : {
         return "T_MULT";
-      case /* T_EXP */ 98 :
+        }
+      case /* T_EXP */ 98 : {
         return "T_EXP";
-      case /* T_MOD */ 99 :
+        }
+      case /* T_MOD */ 99 : {
         return "T_MOD";
-      case /* T_NOT */ 100 :
+        }
+      case /* T_NOT */ 100 : {
         return "T_NOT";
-      case /* T_BIT_NOT */ 101 :
+        }
+      case /* T_BIT_NOT */ 101 : {
         return "T_BIT_NOT";
-      case /* T_INCR */ 102 :
+        }
+      case /* T_INCR */ 102 : {
         return "T_INCR";
-      case /* T_DECR */ 103 :
+        }
+      case /* T_DECR */ 103 : {
         return "T_DECR";
-      case /* T_ERROR */ 104 :
+        }
+      case /* T_ERROR */ 104 : {
         return "T_ERROR";
-      case /* T_EOF */ 105 :
+        }
+      case /* T_EOF */ 105 : {
         return "T_EOF";
-      case /* T_JSX_IDENTIFIER */ 106 :
+        }
+      case /* T_JSX_IDENTIFIER */ 106 : {
         return "T_JSX_IDENTIFIER";
-      case /* T_ANY_TYPE */ 107 :
+        }
+      case /* T_ANY_TYPE */ 107 : {
         return "T_ANY_TYPE";
-      case /* T_BOOLEAN_TYPE */ 108 :
+        }
+      case /* T_BOOLEAN_TYPE */ 108 : {
         return "T_BOOLEAN_TYPE";
-      case /* T_NUMBER_TYPE */ 109 :
+        }
+      case /* T_NUMBER_TYPE */ 109 : {
         return "T_NUMBER_TYPE";
-      case /* T_STRING_TYPE */ 110 :
+        }
+      case /* T_STRING_TYPE */ 110 : {
         return "T_STRING_TYPE";
-      case /* T_VOID_TYPE */ 111 :
+        }
+      case /* T_VOID_TYPE */ 111 : {
         return "T_VOID_TYPE";
+        }
     }
   } else {
     switch (param.TAG) {
-      case /* T_NUMBER */ 0 :
+      case /* T_NUMBER */ 0 : {
         return "T_NUMBER";
-      case /* T_STRING */ 1 :
+        }
+      case /* T_STRING */ 1 : {
         return "T_STRING";
-      case /* T_TEMPLATE_PART */ 2 :
+        }
+      case /* T_TEMPLATE_PART */ 2 : {
         return "T_TEMPLATE_PART";
-      case /* T_REGEXP */ 3 :
+        }
+      case /* T_REGEXP */ 3 : {
         return "T_REGEXP";
-      case /* T_JSX_TEXT */ 4 :
+        }
+      case /* T_JSX_TEXT */ 4 : {
         return "T_JSX_TEXT";
-      case /* T_NUMBER_SINGLETON_TYPE */ 5 :
+        }
+      case /* T_NUMBER_SINGLETON_TYPE */ 5 : {
         return "T_NUMBER_SINGLETON_TYPE";
+        }
     }
   }
 }
@@ -2016,42 +2207,48 @@ function get_result_and_clear_state(param) {
     exit = 2;
   } else {
     switch (lex_token.TAG) {
-      case /* T_TEMPLATE_PART */ 2 :
+      case /* T_TEMPLATE_PART */ 2 : {
         const match$2 = lex_token._0;
         match$1 = [
           match$2[0],
           match$2[1].literal
         ];
         break;
-      case /* T_REGEXP */ 3 :
+        }
+      case /* T_REGEXP */ 3 : {
         const match$3 = lex_token._0;
         match$1 = [
           match$3[0],
           "/" + (match$3[1] + ("/" + match$3[2]))
         ];
         break;
-      case /* T_STRING */ 1 :
-      case /* T_JSX_TEXT */ 4 :
+        }
+      case /* T_STRING */ 1 : {
+        }
+      case /* T_JSX_TEXT */ 4 : {
         exit = 1;
         break;
+        }
       default:
         exit = 2;
     }
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       const match$4 = lex_token._0;
       match$1 = [
         match$4[0],
         match$4[2]
       ];
       break;
-    case 2 :
+      }
+    case 2 : {
       match$1 = [
         from_lb(env.lex_source, env.lex_lb),
         Stdlib__Lexing.lexeme(env.lex_lb)
       ];
       break;
+      }
   }
   return [
     env,
@@ -2159,9 +2356,10 @@ function parse_sign(f) {
     return f;
   }
   switch (match.hd) {
-    case 43 :
+    case 43 : {
       return eat(f);
-    case 45 :
+      }
+    case 45 : {
       const init = eat(f);
       return {
         negative: true,
@@ -2170,6 +2368,7 @@ function parse_sign(f) {
         decimal_exponent: init.decimal_exponent,
         todo: init.todo
       };
+      }
     default:
       return f;
   }
@@ -2478,16 +2677,20 @@ function utf16to8(code) {
 function mk_num_singleton(number_type, num, neg) {
   let value;
   switch (number_type) {
-    case /* LEGACY_OCTAL */ 1 :
+    case /* LEGACY_OCTAL */ 1 : {
       value = Caml_format.caml_int_of_string("0o" + num);
       break;
-    case /* BINARY */ 0 :
-    case /* OCTAL */ 2 :
+      }
+    case /* BINARY */ 0 : {
+      }
+    case /* OCTAL */ 2 : {
       value = Caml_format.caml_int_of_string(num);
       break;
-    case /* NORMAL */ 3 :
+      }
+    case /* NORMAL */ 3 : {
       value = float_of_string(num);
       break;
+      }
   }
   const value$1 = neg === "" ? value : - value;
   return {
@@ -2896,25 +3099,29 @@ function token(env, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         Stdlib__Lexing.new_line(lexbuf);
         return token(env, lexbuf);
-      case 1 :
+        }
+      case 1 : {
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
         });
         return token(env$1, lexbuf);
-      case 2 :
+        }
+      case 2 : {
         unicode_fix_cols(lexbuf);
         return token(env, lexbuf);
-      case 3 :
+        }
+      case 3 : {
         const start = from_lb(env.lex_source, lexbuf);
         const buf = Stdlib__Buffer.create(127);
         const match = comment(env, buf, lexbuf);
         const env$2 = save_comment(match[0], start, match[1], buf, true);
         return token(env$2, lexbuf);
-      case 4 :
+        }
+      case 4 : {
         const sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
         const escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         const pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
@@ -2943,7 +3150,8 @@ function token(env, lexbuf) {
         const match$1 = comment(env, buf$1, lexbuf);
         const env$5 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
         return token(env$5, lexbuf);
-      case 5 :
+        }
+      case 5 : {
         if (env.lex_in_comment_syntax) {
           const env$6 = in_comment_syntax(false, env);
           return token(env$6, lexbuf);
@@ -2953,13 +3161,15 @@ function token(env, lexbuf) {
           env,
           /* T_MULT */ 97
         ];
-      case 6 :
+        }
+      case 6 : {
         const start$2 = from_lb(env.lex_source, lexbuf);
         const buf$2 = Stdlib__Buffer.create(127);
         const match$2 = line_comment(env, buf$2, lexbuf);
         const env$7 = save_comment(match$2[0], start$2, match$2[1], buf$2, false);
         return token(env$7, lexbuf);
-      case 7 :
+        }
+      case 7 : {
         if (lexbuf.lex_start_pos !== 0) {
           return [
             env,
@@ -2968,7 +3178,8 @@ function token(env, lexbuf) {
         }
         const match$3 = line_comment(env, Stdlib__Buffer.create(127), lexbuf);
         return token(match$3[0], lexbuf);
-      case 8 :
+        }
+      case 8 : {
         const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const start$3 = from_lb(env.lex_source, lexbuf);
         const buf$3 = Stdlib__Buffer.create(127);
@@ -2987,7 +3198,8 @@ function token(env, lexbuf) {
             ]
           }
         ];
-      case 9 :
+        }
+      case 9 : {
         const cooked = Stdlib__Buffer.create(127);
         const raw$1 = Stdlib__Buffer.create(127);
         const literal = Stdlib__Buffer.create(127);
@@ -3009,13 +3221,15 @@ function token(env, lexbuf) {
             ]
           }
         ];
-      case 10 :
+        }
+      case 10 : {
         const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w, {
           TAG: /* T_NUMBER */ 0,
           _0: /* BINARY */ 0
         });
-      case 11 :
+        }
+      case 11 : {
         return [
           env,
           {
@@ -3023,13 +3237,15 @@ function token(env, lexbuf) {
             _0: /* BINARY */ 0
           }
         ];
-      case 12 :
+        }
+      case 12 : {
         const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$1, {
           TAG: /* T_NUMBER */ 0,
           _0: /* OCTAL */ 2
         });
-      case 13 :
+        }
+      case 13 : {
         return [
           env,
           {
@@ -3037,13 +3253,15 @@ function token(env, lexbuf) {
             _0: /* OCTAL */ 2
           }
         ];
-      case 14 :
+        }
+      case 14 : {
         const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$2, {
           TAG: /* T_NUMBER */ 0,
           _0: /* LEGACY_OCTAL */ 1
         });
-      case 15 :
+        }
+      case 15 : {
         return [
           env,
           {
@@ -3051,13 +3269,19 @@ function token(env, lexbuf) {
             _0: /* LEGACY_OCTAL */ 1
           }
         ];
-      case 16 :
-      case 18 :
-      case 20 :
+        }
+      case 16 : {
+        }
+      case 18 : {
+        }
+      case 20 : {
         break;
-      case 17 :
-      case 19 :
-      case 21 :
+        }
+      case 17 : {
+        }
+      case 19 : {
+        }
+      case 21 : {
         return [
           env,
           {
@@ -3065,7 +3289,8 @@ function token(env, lexbuf) {
             _0: /* NORMAL */ 3
           }
         ];
-      case 22 :
+        }
+      case 22 : {
         const word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         unicode_fix_cols(lexbuf);
         try {
@@ -3084,272 +3309,326 @@ function token(env, lexbuf) {
           }
           throw exn;
         }
-      case 23 :
+        }
+      case 23 : {
         return [
           env,
           /* T_LCURLY */ 1
         ];
-      case 24 :
+        }
+      case 24 : {
         return [
           env,
           /* T_RCURLY */ 2
         ];
-      case 25 :
+        }
+      case 25 : {
         return [
           env,
           /* T_LPAREN */ 3
         ];
-      case 26 :
+        }
+      case 26 : {
         return [
           env,
           /* T_RPAREN */ 4
         ];
-      case 27 :
+        }
+      case 27 : {
         return [
           env,
           /* T_LBRACKET */ 5
         ];
-      case 28 :
+        }
+      case 28 : {
         return [
           env,
           /* T_RBRACKET */ 6
         ];
-      case 29 :
+        }
+      case 29 : {
         return [
           env,
           /* T_ELLIPSIS */ 11
         ];
-      case 30 :
+        }
+      case 30 : {
         return [
           env,
           /* T_PERIOD */ 9
         ];
-      case 31 :
+        }
+      case 31 : {
         return [
           env,
           /* T_SEMICOLON */ 7
         ];
-      case 32 :
+        }
+      case 32 : {
         return [
           env,
           /* T_COMMA */ 8
         ];
-      case 33 :
+        }
+      case 33 : {
         return [
           env,
           /* T_COLON */ 77
         ];
-      case 34 :
+        }
+      case 34 : {
         return [
           env,
           /* T_PLING */ 76
         ];
-      case 35 :
+        }
+      case 35 : {
         return [
           env,
           /* T_AND */ 79
         ];
-      case 36 :
+        }
+      case 36 : {
         return [
           env,
           /* T_OR */ 78
         ];
-      case 37 :
+        }
+      case 37 : {
         return [
           env,
           /* T_STRICT_EQUAL */ 85
         ];
-      case 38 :
+        }
+      case 38 : {
         return [
           env,
           /* T_STRICT_NOT_EQUAL */ 86
         ];
-      case 39 :
+        }
+      case 39 : {
         return [
           env,
           /* T_LESS_THAN_EQUAL */ 87
         ];
-      case 40 :
+        }
+      case 40 : {
         return [
           env,
           /* T_GREATER_THAN_EQUAL */ 88
         ];
-      case 41 :
+        }
+      case 41 : {
         return [
           env,
           /* T_EQUAL */ 83
         ];
-      case 42 :
+        }
+      case 42 : {
         return [
           env,
           /* T_NOT_EQUAL */ 84
         ];
-      case 43 :
+        }
+      case 43 : {
         return [
           env,
           /* T_INCR */ 102
         ];
-      case 44 :
+        }
+      case 44 : {
         return [
           env,
           /* T_DECR */ 103
         ];
-      case 45 :
+        }
+      case 45 : {
         return [
           env,
           /* T_LSHIFT_ASSIGN */ 65
         ];
-      case 46 :
+        }
+      case 46 : {
         return [
           env,
           /* T_LSHIFT */ 91
         ];
-      case 47 :
+        }
+      case 47 : {
         return [
           env,
           /* T_RSHIFT_ASSIGN */ 64
         ];
-      case 48 :
+        }
+      case 48 : {
         return [
           env,
           /* T_RSHIFT3_ASSIGN */ 63
         ];
-      case 49 :
+        }
+      case 49 : {
         return [
           env,
           /* T_RSHIFT3 */ 93
         ];
-      case 50 :
+        }
+      case 50 : {
         return [
           env,
           /* T_RSHIFT */ 92
         ];
-      case 51 :
+        }
+      case 51 : {
         return [
           env,
           /* T_PLUS_ASSIGN */ 74
         ];
-      case 52 :
+        }
+      case 52 : {
         return [
           env,
           /* T_MINUS_ASSIGN */ 73
         ];
-      case 53 :
+        }
+      case 53 : {
         return [
           env,
           /* T_MULT_ASSIGN */ 71
         ];
-      case 54 :
+        }
+      case 54 : {
         return [
           env,
           /* T_EXP_ASSIGN */ 72
         ];
-      case 55 :
+        }
+      case 55 : {
         return [
           env,
           /* T_MOD_ASSIGN */ 69
         ];
-      case 56 :
+        }
+      case 56 : {
         return [
           env,
           /* T_BIT_AND_ASSIGN */ 68
         ];
-      case 57 :
+        }
+      case 57 : {
         return [
           env,
           /* T_BIT_OR_ASSIGN */ 67
         ];
-      case 58 :
+        }
+      case 58 : {
         return [
           env,
           /* T_BIT_XOR_ASSIGN */ 66
         ];
-      case 59 :
+        }
+      case 59 : {
         return [
           env,
           /* T_LESS_THAN */ 89
         ];
-      case 60 :
+        }
+      case 60 : {
         return [
           env,
           /* T_GREATER_THAN */ 90
         ];
-      case 61 :
+        }
+      case 61 : {
         return [
           env,
           /* T_PLUS */ 94
         ];
-      case 62 :
+        }
+      case 62 : {
         return [
           env,
           /* T_MINUS */ 95
         ];
-      case 63 :
+        }
+      case 63 : {
         return [
           env,
           /* T_MULT */ 97
         ];
-      case 64 :
+        }
+      case 64 : {
         return [
           env,
           /* T_EXP */ 98
         ];
-      case 65 :
+        }
+      case 65 : {
         return [
           env,
           /* T_MOD */ 99
         ];
-      case 66 :
+        }
+      case 66 : {
         return [
           env,
           /* T_BIT_OR */ 80
         ];
-      case 67 :
+        }
+      case 67 : {
         return [
           env,
           /* T_BIT_AND */ 82
         ];
-      case 68 :
+        }
+      case 68 : {
         return [
           env,
           /* T_BIT_XOR */ 81
         ];
-      case 69 :
+        }
+      case 69 : {
         return [
           env,
           /* T_NOT */ 100
         ];
-      case 70 :
+        }
+      case 70 : {
         return [
           env,
           /* T_BIT_NOT */ 101
         ];
-      case 71 :
+        }
+      case 71 : {
         return [
           env,
           /* T_ASSIGN */ 75
         ];
-      case 72 :
+        }
+      case 72 : {
         return [
           env,
           /* T_ARROW */ 10
         ];
-      case 73 :
+        }
+      case 73 : {
         return [
           env,
           /* T_DIV_ASSIGN */ 70
         ];
-      case 74 :
+        }
+      case 74 : {
         return [
           env,
           /* T_DIV */ 96
         ];
-      case 75 :
+        }
+      case 75 : {
         return [
           env,
           /* T_AT */ 12
         ];
-      case 76 :
+        }
+      case 76 : {
         let env$8;
         if (env.lex_in_comment_syntax) {
           const loc$1 = from_lb(env.lex_source, lexbuf);
@@ -3361,7 +3640,8 @@ function token(env, lexbuf) {
           env$8,
           /* T_EOF */ 105
         ];
-      case 77 :
+        }
+      case 77 : {
         const env$9 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -3370,6 +3650,7 @@ function token(env, lexbuf) {
           env$9,
           /* T_ERROR */ 104
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -3389,7 +3670,7 @@ function comment(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -3398,18 +3679,21 @@ function comment(env, buf, lexbuf) {
           env$1,
           from_lb(env$1.lex_source, lexbuf)
         ];
-      case 1 :
+        }
+      case 1 : {
         Stdlib__Lexing.new_line(lexbuf);
         Stdlib__Buffer.add_char(buf, /* '\n' */10);
         return comment(env, buf, lexbuf);
-      case 2 :
+        }
+      case 2 : {
         const loc = from_lb(env.lex_source, lexbuf);
         const env$2 = env.lex_in_comment_syntax ? unexpected_error_w_suggest(env, loc, "*/", "*-/") : env;
         return [
           env$2,
           loc
         ];
-      case 3 :
+        }
+      case 3 : {
         if (env.lex_in_comment_syntax) {
           return [
             env,
@@ -3419,10 +3703,12 @@ function comment(env, buf, lexbuf) {
           Stdlib__Buffer.add_string(buf, "*-/");
           return comment(env, buf, lexbuf);
         }
-      case 4 :
+        }
+      case 4 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c);
         return comment(env, buf, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -3437,10 +3723,10 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         switch (mode) {
-          case /* JSX_SINGLE_QUOTED_TEXT */ 0 :
+          case /* JSX_SINGLE_QUOTED_TEXT */ 0 : {
             if (c === 39) {
               return [
                 env,
@@ -3448,7 +3734,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
               ];
             }
             break;
-          case /* JSX_DOUBLE_QUOTED_TEXT */ 1 :
+            }
+          case /* JSX_DOUBLE_QUOTED_TEXT */ 1 : {
             if (c === 34) {
               return [
                 env,
@@ -3456,7 +3743,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
               ];
             }
             break;
-          case /* JSX_CHILD_TEXT */ 2 :
+            }
+          case /* JSX_CHILD_TEXT */ 2 : {
             let exit = 0;
             if (!(c !== 60 && c !== 123)) {
               exit = 2;
@@ -3469,11 +3757,13 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
               ];
             }
             break;
+            }
         }
         Stdlib__Buffer.add_char(raw, c);
         Stdlib__Buffer.add_char(buf, c);
         return jsx_text(env, mode, buf, raw, lexbuf);
-      case 1 :
+        }
+      case 1 : {
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -3482,13 +3772,15 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           env$1,
           from_lb(env$1.lex_source, lexbuf)
         ];
-      case 2 :
+        }
+      case 2 : {
         const lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, lt);
         Stdlib__Buffer.add_string(buf, lt);
         Stdlib__Lexing.new_line(lexbuf);
         return jsx_text(env, mode, buf, raw, lexbuf);
-      case 3 :
+        }
+      case 3 : {
         const n = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 3 | 0, lexbuf.lex_curr_pos - 1 | 0);
         const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, s);
@@ -3497,7 +3789,8 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           return Stdlib__Buffer.add_char(buf, param);
         }), utf16to8(code));
         return jsx_text(env, mode, buf, raw, lexbuf);
-      case 4 :
+        }
+      case 4 : {
         const n$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
         const s$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, s$1);
@@ -3506,771 +3799,1025 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           return Stdlib__Buffer.add_char(buf, param);
         }), utf16to8(code$1));
         return jsx_text(env, mode, buf, raw, lexbuf);
-      case 5 :
+        }
+      case 5 : {
         const entity = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos - 1 | 0);
         const s$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, s$2);
         let code$2;
         switch (entity) {
-          case "'int'" :
+          case "'int'" : {
             code$2 = 8747;
             break;
-          case "AElig" :
+            }
+          case "AElig" : {
             code$2 = 198;
             break;
-          case "Aacute" :
+            }
+          case "Aacute" : {
             code$2 = 193;
             break;
-          case "Acirc" :
+            }
+          case "Acirc" : {
             code$2 = 194;
             break;
-          case "Agrave" :
+            }
+          case "Agrave" : {
             code$2 = 192;
             break;
-          case "Alpha" :
+            }
+          case "Alpha" : {
             code$2 = 913;
             break;
-          case "Aring" :
+            }
+          case "Aring" : {
             code$2 = 197;
             break;
-          case "Atilde" :
+            }
+          case "Atilde" : {
             code$2 = 195;
             break;
-          case "Auml" :
+            }
+          case "Auml" : {
             code$2 = 196;
             break;
-          case "Beta" :
+            }
+          case "Beta" : {
             code$2 = 914;
             break;
-          case "Ccedil" :
+            }
+          case "Ccedil" : {
             code$2 = 199;
             break;
-          case "Chi" :
+            }
+          case "Chi" : {
             code$2 = 935;
             break;
-          case "Dagger" :
+            }
+          case "Dagger" : {
             code$2 = 8225;
             break;
-          case "Delta" :
+            }
+          case "Delta" : {
             code$2 = 916;
             break;
-          case "ETH" :
+            }
+          case "ETH" : {
             code$2 = 208;
             break;
-          case "Eacute" :
+            }
+          case "Eacute" : {
             code$2 = 201;
             break;
-          case "Ecirc" :
+            }
+          case "Ecirc" : {
             code$2 = 202;
             break;
-          case "Egrave" :
+            }
+          case "Egrave" : {
             code$2 = 200;
             break;
-          case "Epsilon" :
+            }
+          case "Epsilon" : {
             code$2 = 917;
             break;
-          case "Eta" :
+            }
+          case "Eta" : {
             code$2 = 919;
             break;
-          case "Euml" :
+            }
+          case "Euml" : {
             code$2 = 203;
             break;
-          case "Gamma" :
+            }
+          case "Gamma" : {
             code$2 = 915;
             break;
-          case "Iacute" :
+            }
+          case "Iacute" : {
             code$2 = 205;
             break;
-          case "Icirc" :
+            }
+          case "Icirc" : {
             code$2 = 206;
             break;
-          case "Igrave" :
+            }
+          case "Igrave" : {
             code$2 = 204;
             break;
-          case "Iota" :
+            }
+          case "Iota" : {
             code$2 = 921;
             break;
-          case "Iuml" :
+            }
+          case "Iuml" : {
             code$2 = 207;
             break;
-          case "Kappa" :
+            }
+          case "Kappa" : {
             code$2 = 922;
             break;
-          case "Lambda" :
+            }
+          case "Lambda" : {
             code$2 = 923;
             break;
-          case "Mu" :
+            }
+          case "Mu" : {
             code$2 = 924;
             break;
-          case "Ntilde" :
+            }
+          case "Ntilde" : {
             code$2 = 209;
             break;
-          case "Nu" :
+            }
+          case "Nu" : {
             code$2 = 925;
             break;
-          case "OElig" :
+            }
+          case "OElig" : {
             code$2 = 338;
             break;
-          case "Oacute" :
+            }
+          case "Oacute" : {
             code$2 = 211;
             break;
-          case "Ocirc" :
+            }
+          case "Ocirc" : {
             code$2 = 212;
             break;
-          case "Ograve" :
+            }
+          case "Ograve" : {
             code$2 = 210;
             break;
-          case "Omega" :
+            }
+          case "Omega" : {
             code$2 = 937;
             break;
-          case "Omicron" :
+            }
+          case "Omicron" : {
             code$2 = 927;
             break;
-          case "Oslash" :
+            }
+          case "Oslash" : {
             code$2 = 216;
             break;
-          case "Otilde" :
+            }
+          case "Otilde" : {
             code$2 = 213;
             break;
-          case "Ouml" :
+            }
+          case "Ouml" : {
             code$2 = 214;
             break;
-          case "Phi" :
+            }
+          case "Phi" : {
             code$2 = 934;
             break;
-          case "Pi" :
+            }
+          case "Pi" : {
             code$2 = 928;
             break;
-          case "Prime" :
+            }
+          case "Prime" : {
             code$2 = 8243;
             break;
-          case "Psi" :
+            }
+          case "Psi" : {
             code$2 = 936;
             break;
-          case "Rho" :
+            }
+          case "Rho" : {
             code$2 = 929;
             break;
-          case "Scaron" :
+            }
+          case "Scaron" : {
             code$2 = 352;
             break;
-          case "Sigma" :
+            }
+          case "Sigma" : {
             code$2 = 931;
             break;
-          case "THORN" :
+            }
+          case "THORN" : {
             code$2 = 222;
             break;
-          case "Tau" :
+            }
+          case "Tau" : {
             code$2 = 932;
             break;
-          case "Theta" :
+            }
+          case "Theta" : {
             code$2 = 920;
             break;
-          case "Uacute" :
+            }
+          case "Uacute" : {
             code$2 = 218;
             break;
-          case "Ucirc" :
+            }
+          case "Ucirc" : {
             code$2 = 219;
             break;
-          case "Ugrave" :
+            }
+          case "Ugrave" : {
             code$2 = 217;
             break;
-          case "Upsilon" :
+            }
+          case "Upsilon" : {
             code$2 = 933;
             break;
-          case "Uuml" :
+            }
+          case "Uuml" : {
             code$2 = 220;
             break;
-          case "Xi" :
+            }
+          case "Xi" : {
             code$2 = 926;
             break;
-          case "Yacute" :
+            }
+          case "Yacute" : {
             code$2 = 221;
             break;
-          case "Yuml" :
+            }
+          case "Yuml" : {
             code$2 = 376;
             break;
-          case "Zeta" :
+            }
+          case "Zeta" : {
             code$2 = 918;
             break;
-          case "aacute" :
+            }
+          case "aacute" : {
             code$2 = 225;
             break;
-          case "acirc" :
+            }
+          case "acirc" : {
             code$2 = 226;
             break;
-          case "acute" :
+            }
+          case "acute" : {
             code$2 = 180;
             break;
-          case "aelig" :
+            }
+          case "aelig" : {
             code$2 = 230;
             break;
-          case "agrave" :
+            }
+          case "agrave" : {
             code$2 = 224;
             break;
-          case "alefsym" :
+            }
+          case "alefsym" : {
             code$2 = 8501;
             break;
-          case "alpha" :
+            }
+          case "alpha" : {
             code$2 = 945;
             break;
-          case "amp" :
+            }
+          case "amp" : {
             code$2 = 38;
             break;
-          case "and" :
+            }
+          case "and" : {
             code$2 = 8743;
             break;
-          case "ang" :
+            }
+          case "ang" : {
             code$2 = 8736;
             break;
-          case "apos" :
+            }
+          case "apos" : {
             code$2 = 39;
             break;
-          case "aring" :
+            }
+          case "aring" : {
             code$2 = 229;
             break;
-          case "asymp" :
+            }
+          case "asymp" : {
             code$2 = 8776;
             break;
-          case "atilde" :
+            }
+          case "atilde" : {
             code$2 = 227;
             break;
-          case "auml" :
+            }
+          case "auml" : {
             code$2 = 228;
             break;
-          case "bdquo" :
+            }
+          case "bdquo" : {
             code$2 = 8222;
             break;
-          case "beta" :
+            }
+          case "beta" : {
             code$2 = 946;
             break;
-          case "brvbar" :
+            }
+          case "brvbar" : {
             code$2 = 166;
             break;
-          case "bull" :
+            }
+          case "bull" : {
             code$2 = 8226;
             break;
-          case "cap" :
+            }
+          case "cap" : {
             code$2 = 8745;
             break;
-          case "ccedil" :
+            }
+          case "ccedil" : {
             code$2 = 231;
             break;
-          case "cedil" :
+            }
+          case "cedil" : {
             code$2 = 184;
             break;
-          case "cent" :
+            }
+          case "cent" : {
             code$2 = 162;
             break;
-          case "chi" :
+            }
+          case "chi" : {
             code$2 = 967;
             break;
-          case "circ" :
+            }
+          case "circ" : {
             code$2 = 710;
             break;
-          case "clubs" :
+            }
+          case "clubs" : {
             code$2 = 9827;
             break;
-          case "cong" :
+            }
+          case "cong" : {
             code$2 = 8773;
             break;
-          case "copy" :
+            }
+          case "copy" : {
             code$2 = 169;
             break;
-          case "crarr" :
+            }
+          case "crarr" : {
             code$2 = 8629;
             break;
-          case "cup" :
+            }
+          case "cup" : {
             code$2 = 8746;
             break;
-          case "curren" :
+            }
+          case "curren" : {
             code$2 = 164;
             break;
-          case "dArr" :
+            }
+          case "dArr" : {
             code$2 = 8659;
             break;
-          case "dagger" :
+            }
+          case "dagger" : {
             code$2 = 8224;
             break;
-          case "darr" :
+            }
+          case "darr" : {
             code$2 = 8595;
             break;
-          case "deg" :
+            }
+          case "deg" : {
             code$2 = 176;
             break;
-          case "delta" :
+            }
+          case "delta" : {
             code$2 = 948;
             break;
-          case "diams" :
+            }
+          case "diams" : {
             code$2 = 9830;
             break;
-          case "divide" :
+            }
+          case "divide" : {
             code$2 = 247;
             break;
-          case "eacute" :
+            }
+          case "eacute" : {
             code$2 = 233;
             break;
-          case "ecirc" :
+            }
+          case "ecirc" : {
             code$2 = 234;
             break;
-          case "egrave" :
+            }
+          case "egrave" : {
             code$2 = 232;
             break;
-          case "empty" :
+            }
+          case "empty" : {
             code$2 = 8709;
             break;
-          case "emsp" :
+            }
+          case "emsp" : {
             code$2 = 8195;
             break;
-          case "ensp" :
+            }
+          case "ensp" : {
             code$2 = 8194;
             break;
-          case "epsilon" :
+            }
+          case "epsilon" : {
             code$2 = 949;
             break;
-          case "equiv" :
+            }
+          case "equiv" : {
             code$2 = 8801;
             break;
-          case "eta" :
+            }
+          case "eta" : {
             code$2 = 951;
             break;
-          case "eth" :
+            }
+          case "eth" : {
             code$2 = 240;
             break;
-          case "euml" :
+            }
+          case "euml" : {
             code$2 = 235;
             break;
-          case "euro" :
+            }
+          case "euro" : {
             code$2 = 8364;
             break;
-          case "exist" :
+            }
+          case "exist" : {
             code$2 = 8707;
             break;
-          case "fnof" :
+            }
+          case "fnof" : {
             code$2 = 402;
             break;
-          case "forall" :
+            }
+          case "forall" : {
             code$2 = 8704;
             break;
-          case "frac12" :
+            }
+          case "frac12" : {
             code$2 = 189;
             break;
-          case "frac14" :
+            }
+          case "frac14" : {
             code$2 = 188;
             break;
-          case "frac34" :
+            }
+          case "frac34" : {
             code$2 = 190;
             break;
-          case "frasl" :
+            }
+          case "frasl" : {
             code$2 = 8260;
             break;
-          case "gamma" :
+            }
+          case "gamma" : {
             code$2 = 947;
             break;
-          case "ge" :
+            }
+          case "ge" : {
             code$2 = 8805;
             break;
-          case "gt" :
+            }
+          case "gt" : {
             code$2 = 62;
             break;
-          case "hArr" :
+            }
+          case "hArr" : {
             code$2 = 8660;
             break;
-          case "harr" :
+            }
+          case "harr" : {
             code$2 = 8596;
             break;
-          case "hearts" :
+            }
+          case "hearts" : {
             code$2 = 9829;
             break;
-          case "hellip" :
+            }
+          case "hellip" : {
             code$2 = 8230;
             break;
-          case "iacute" :
+            }
+          case "iacute" : {
             code$2 = 237;
             break;
-          case "icirc" :
+            }
+          case "icirc" : {
             code$2 = 238;
             break;
-          case "iexcl" :
+            }
+          case "iexcl" : {
             code$2 = 161;
             break;
-          case "igrave" :
+            }
+          case "igrave" : {
             code$2 = 236;
             break;
-          case "image" :
+            }
+          case "image" : {
             code$2 = 8465;
             break;
-          case "infin" :
+            }
+          case "infin" : {
             code$2 = 8734;
             break;
-          case "iota" :
+            }
+          case "iota" : {
             code$2 = 953;
             break;
-          case "iquest" :
+            }
+          case "iquest" : {
             code$2 = 191;
             break;
-          case "isin" :
+            }
+          case "isin" : {
             code$2 = 8712;
             break;
-          case "iuml" :
+            }
+          case "iuml" : {
             code$2 = 239;
             break;
-          case "kappa" :
+            }
+          case "kappa" : {
             code$2 = 954;
             break;
-          case "lArr" :
+            }
+          case "lArr" : {
             code$2 = 8656;
             break;
-          case "lambda" :
+            }
+          case "lambda" : {
             code$2 = 955;
             break;
-          case "lang" :
+            }
+          case "lang" : {
             code$2 = 10216;
             break;
-          case "laquo" :
+            }
+          case "laquo" : {
             code$2 = 171;
             break;
-          case "larr" :
+            }
+          case "larr" : {
             code$2 = 8592;
             break;
-          case "lceil" :
+            }
+          case "lceil" : {
             code$2 = 8968;
             break;
-          case "ldquo" :
+            }
+          case "ldquo" : {
             code$2 = 8220;
             break;
-          case "le" :
+            }
+          case "le" : {
             code$2 = 8804;
             break;
-          case "lfloor" :
+            }
+          case "lfloor" : {
             code$2 = 8970;
             break;
-          case "lowast" :
+            }
+          case "lowast" : {
             code$2 = 8727;
             break;
-          case "loz" :
+            }
+          case "loz" : {
             code$2 = 9674;
             break;
-          case "lrm" :
+            }
+          case "lrm" : {
             code$2 = 8206;
             break;
-          case "lsaquo" :
+            }
+          case "lsaquo" : {
             code$2 = 8249;
             break;
-          case "lsquo" :
+            }
+          case "lsquo" : {
             code$2 = 8216;
             break;
-          case "lt" :
+            }
+          case "lt" : {
             code$2 = 60;
             break;
-          case "macr" :
+            }
+          case "macr" : {
             code$2 = 175;
             break;
-          case "mdash" :
+            }
+          case "mdash" : {
             code$2 = 8212;
             break;
-          case "micro" :
+            }
+          case "micro" : {
             code$2 = 181;
             break;
-          case "middot" :
+            }
+          case "middot" : {
             code$2 = 183;
             break;
-          case "minus" :
+            }
+          case "minus" : {
             code$2 = 8722;
             break;
-          case "mu" :
+            }
+          case "mu" : {
             code$2 = 956;
             break;
-          case "nabla" :
+            }
+          case "nabla" : {
             code$2 = 8711;
             break;
-          case "nbsp" :
+            }
+          case "nbsp" : {
             code$2 = 160;
             break;
-          case "ndash" :
+            }
+          case "ndash" : {
             code$2 = 8211;
             break;
-          case "ne" :
+            }
+          case "ne" : {
             code$2 = 8800;
             break;
-          case "ni" :
+            }
+          case "ni" : {
             code$2 = 8715;
             break;
-          case "not" :
+            }
+          case "not" : {
             code$2 = 172;
             break;
-          case "notin" :
+            }
+          case "notin" : {
             code$2 = 8713;
             break;
-          case "nsub" :
+            }
+          case "nsub" : {
             code$2 = 8836;
             break;
-          case "ntilde" :
+            }
+          case "ntilde" : {
             code$2 = 241;
             break;
-          case "nu" :
+            }
+          case "nu" : {
             code$2 = 957;
             break;
-          case "oacute" :
+            }
+          case "oacute" : {
             code$2 = 243;
             break;
-          case "ocirc" :
+            }
+          case "ocirc" : {
             code$2 = 244;
             break;
-          case "oelig" :
+            }
+          case "oelig" : {
             code$2 = 339;
             break;
-          case "ograve" :
+            }
+          case "ograve" : {
             code$2 = 242;
             break;
-          case "oline" :
+            }
+          case "oline" : {
             code$2 = 8254;
             break;
-          case "omega" :
+            }
+          case "omega" : {
             code$2 = 969;
             break;
-          case "omicron" :
+            }
+          case "omicron" : {
             code$2 = 959;
             break;
-          case "oplus" :
+            }
+          case "oplus" : {
             code$2 = 8853;
             break;
-          case "or" :
+            }
+          case "or" : {
             code$2 = 8744;
             break;
-          case "ordf" :
+            }
+          case "ordf" : {
             code$2 = 170;
             break;
-          case "ordm" :
+            }
+          case "ordm" : {
             code$2 = 186;
             break;
-          case "oslash" :
+            }
+          case "oslash" : {
             code$2 = 248;
             break;
-          case "otilde" :
+            }
+          case "otilde" : {
             code$2 = 245;
             break;
-          case "otimes" :
+            }
+          case "otimes" : {
             code$2 = 8855;
             break;
-          case "ouml" :
+            }
+          case "ouml" : {
             code$2 = 246;
             break;
-          case "para" :
+            }
+          case "para" : {
             code$2 = 182;
             break;
-          case "part" :
+            }
+          case "part" : {
             code$2 = 8706;
             break;
-          case "permil" :
+            }
+          case "permil" : {
             code$2 = 8240;
             break;
-          case "perp" :
+            }
+          case "perp" : {
             code$2 = 8869;
             break;
-          case "phi" :
+            }
+          case "phi" : {
             code$2 = 966;
             break;
-          case "pi" :
+            }
+          case "pi" : {
             code$2 = 960;
             break;
-          case "piv" :
+            }
+          case "piv" : {
             code$2 = 982;
             break;
-          case "plusmn" :
+            }
+          case "plusmn" : {
             code$2 = 177;
             break;
-          case "pound" :
+            }
+          case "pound" : {
             code$2 = 163;
             break;
-          case "prime" :
+            }
+          case "prime" : {
             code$2 = 8242;
             break;
-          case "prod" :
+            }
+          case "prod" : {
             code$2 = 8719;
             break;
-          case "prop" :
+            }
+          case "prop" : {
             code$2 = 8733;
             break;
-          case "psi" :
+            }
+          case "psi" : {
             code$2 = 968;
             break;
-          case "quot" :
+            }
+          case "quot" : {
             code$2 = 34;
             break;
-          case "rArr" :
+            }
+          case "rArr" : {
             code$2 = 8658;
             break;
-          case "radic" :
+            }
+          case "radic" : {
             code$2 = 8730;
             break;
-          case "rang" :
+            }
+          case "rang" : {
             code$2 = 10217;
             break;
-          case "raquo" :
+            }
+          case "raquo" : {
             code$2 = 187;
             break;
-          case "rarr" :
+            }
+          case "rarr" : {
             code$2 = 8594;
             break;
-          case "rceil" :
+            }
+          case "rceil" : {
             code$2 = 8969;
             break;
-          case "rdquo" :
+            }
+          case "rdquo" : {
             code$2 = 8221;
             break;
-          case "real" :
+            }
+          case "real" : {
             code$2 = 8476;
             break;
-          case "reg" :
+            }
+          case "reg" : {
             code$2 = 174;
             break;
-          case "rfloor" :
+            }
+          case "rfloor" : {
             code$2 = 8971;
             break;
-          case "rho" :
+            }
+          case "rho" : {
             code$2 = 961;
             break;
-          case "rlm" :
+            }
+          case "rlm" : {
             code$2 = 8207;
             break;
-          case "rsaquo" :
+            }
+          case "rsaquo" : {
             code$2 = 8250;
             break;
-          case "rsquo" :
+            }
+          case "rsquo" : {
             code$2 = 8217;
             break;
-          case "sbquo" :
+            }
+          case "sbquo" : {
             code$2 = 8218;
             break;
-          case "scaron" :
+            }
+          case "scaron" : {
             code$2 = 353;
             break;
-          case "sdot" :
+            }
+          case "sdot" : {
             code$2 = 8901;
             break;
-          case "sect" :
+            }
+          case "sect" : {
             code$2 = 167;
             break;
-          case "shy" :
+            }
+          case "shy" : {
             code$2 = 173;
             break;
-          case "sigma" :
+            }
+          case "sigma" : {
             code$2 = 963;
             break;
-          case "sigmaf" :
+            }
+          case "sigmaf" : {
             code$2 = 962;
             break;
-          case "sim" :
+            }
+          case "sim" : {
             code$2 = 8764;
             break;
-          case "spades" :
+            }
+          case "spades" : {
             code$2 = 9824;
             break;
-          case "sub" :
+            }
+          case "sub" : {
             code$2 = 8834;
             break;
-          case "sube" :
+            }
+          case "sube" : {
             code$2 = 8838;
             break;
-          case "sum" :
+            }
+          case "sum" : {
             code$2 = 8721;
             break;
-          case "sup" :
+            }
+          case "sup" : {
             code$2 = 8835;
             break;
-          case "sup1" :
+            }
+          case "sup1" : {
             code$2 = 185;
             break;
-          case "sup2" :
+            }
+          case "sup2" : {
             code$2 = 178;
             break;
-          case "sup3" :
+            }
+          case "sup3" : {
             code$2 = 179;
             break;
-          case "supe" :
+            }
+          case "supe" : {
             code$2 = 8839;
             break;
-          case "szlig" :
+            }
+          case "szlig" : {
             code$2 = 223;
             break;
-          case "tau" :
+            }
+          case "tau" : {
             code$2 = 964;
             break;
-          case "there4" :
+            }
+          case "there4" : {
             code$2 = 8756;
             break;
-          case "theta" :
+            }
+          case "theta" : {
             code$2 = 952;
             break;
-          case "thetasym" :
+            }
+          case "thetasym" : {
             code$2 = 977;
             break;
-          case "thinsp" :
+            }
+          case "thinsp" : {
             code$2 = 8201;
             break;
-          case "thorn" :
+            }
+          case "thorn" : {
             code$2 = 254;
             break;
-          case "tilde" :
+            }
+          case "tilde" : {
             code$2 = 732;
             break;
-          case "times" :
+            }
+          case "times" : {
             code$2 = 215;
             break;
-          case "trade" :
+            }
+          case "trade" : {
             code$2 = 8482;
             break;
-          case "uArr" :
+            }
+          case "uArr" : {
             code$2 = 8657;
             break;
-          case "uacute" :
+            }
+          case "uacute" : {
             code$2 = 250;
             break;
-          case "uarr" :
+            }
+          case "uarr" : {
             code$2 = 8593;
             break;
-          case "ucirc" :
+            }
+          case "ucirc" : {
             code$2 = 251;
             break;
-          case "ugrave" :
+            }
+          case "ugrave" : {
             code$2 = 249;
             break;
-          case "uml" :
+            }
+          case "uml" : {
             code$2 = 168;
             break;
-          case "upsih" :
+            }
+          case "upsih" : {
             code$2 = 978;
             break;
-          case "upsilon" :
+            }
+          case "upsilon" : {
             code$2 = 965;
             break;
-          case "uuml" :
+            }
+          case "uuml" : {
             code$2 = 252;
             break;
-          case "weierp" :
+            }
+          case "weierp" : {
             code$2 = 8472;
             break;
-          case "xi" :
+            }
+          case "xi" : {
             code$2 = 958;
             break;
-          case "yacute" :
+            }
+          case "yacute" : {
             code$2 = 253;
             break;
-          case "yen" :
+            }
+          case "yen" : {
             code$2 = 165;
             break;
-          case "yuml" :
+            }
+          case "yuml" : {
             code$2 = 255;
             break;
-          case "zeta" :
+            }
+          case "zeta" : {
             code$2 = 950;
             break;
-          case "zwj" :
+            }
+          case "zwj" : {
             code$2 = 8205;
             break;
-          case "zwnj" :
+            }
+          case "zwnj" : {
             code$2 = 8204;
             break;
+            }
           default:
             code$2 = undefined;
         }
@@ -4282,11 +4829,13 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           Stdlib__Buffer.add_string(buf, "&" + (entity + ";"));
         }
         return jsx_text(env, mode, buf, raw, lexbuf);
-      case 6 :
+        }
+      case 6 : {
         const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, c$1);
         Stdlib__Buffer.add_char(buf, c$1);
         return jsx_text(env, mode, buf, raw, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4301,20 +4850,23 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         return [
           env,
           /* T_EOF */ 105
         ];
-      case 1 :
+        }
+      case 1 : {
         Stdlib__Lexing.new_line(lexbuf);
         ___ocaml_lex_state = 333;
         continue;
-      case 2 :
+        }
+      case 2 : {
         unicode_fix_cols(lexbuf);
         ___ocaml_lex_state = 333;
         continue;
-      case 3 :
+        }
+      case 3 : {
         const start = from_lb(env.lex_source, lexbuf);
         const buf = Stdlib__Buffer.create(127);
         const match = line_comment(env, buf, lexbuf);
@@ -4322,7 +4874,8 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 333;
         _env = env$1;
         continue;
-      case 4 :
+        }
+      case 4 : {
         const start$1 = from_lb(env.lex_source, lexbuf);
         const buf$1 = Stdlib__Buffer.create(127);
         const match$1 = comment(env, buf$1, lexbuf);
@@ -4330,48 +4883,57 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 333;
         _env = env$2;
         continue;
-      case 5 :
+        }
+      case 5 : {
         return [
           env,
           /* T_LESS_THAN */ 89
         ];
-      case 6 :
+        }
+      case 6 : {
         return [
           env,
           /* T_DIV */ 96
         ];
-      case 7 :
+        }
+      case 7 : {
         return [
           env,
           /* T_GREATER_THAN */ 90
         ];
-      case 8 :
+        }
+      case 8 : {
         return [
           env,
           /* T_LCURLY */ 1
         ];
-      case 9 :
+        }
+      case 9 : {
         return [
           env,
           /* T_COLON */ 77
         ];
-      case 10 :
+        }
+      case 10 : {
         return [
           env,
           /* T_PERIOD */ 9
         ];
-      case 11 :
+        }
+      case 11 : {
         return [
           env,
           /* T_ASSIGN */ 75
         ];
-      case 12 :
+        }
+      case 12 : {
         unicode_fix_cols(lexbuf);
         return [
           env,
           /* T_JSX_IDENTIFIER */ 106
         ];
-      case 13 :
+        }
+      case 13 : {
         const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const start$2 = from_lb(env.lex_source, lexbuf);
         const buf$2 = Stdlib__Buffer.create(127);
@@ -4393,11 +4955,13 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
             ]
           }
         ];
-      case 14 :
+        }
+      case 14 : {
         return [
           env,
           /* T_ERROR */ 104
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4412,12 +4976,13 @@ function line_comment(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         return [
           env,
           from_lb(env.lex_source, lexbuf)
         ];
-      case 1 :
+        }
+      case 1 : {
         const match = from_lb(env.lex_source, lexbuf);
         const match$1 = match._end;
         Stdlib__Lexing.new_line(lexbuf);
@@ -4437,10 +5002,12 @@ function line_comment(env, buf, lexbuf) {
             _end: _end
           }
         ];
-      case 2 :
+        }
+      case 2 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c);
         return line_comment(env, buf, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4455,19 +5022,24 @@ function regexp_class(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         return env;
-      case 1 :
-      case 2 :
+        }
+      case 1 : {
+        }
+      case 2 : {
         break;
-      case 3 :
+        }
+      case 3 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c);
         return env;
-      case 4 :
+        }
+      case 4 : {
         const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c$1);
         return regexp_class(env, buf, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4485,7 +5057,7 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -4495,21 +5067,24 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
           btwn(start, from_lb(env$1.lex_source, lexbuf)),
           true
         ];
-      case 1 :
+        }
+      case 1 : {
         Stdlib__Buffer.add_char(literal, /* '`' */96);
         return [
           env,
           btwn(start, from_lb(env.lex_source, lexbuf)),
           true
         ];
-      case 2 :
+        }
+      case 2 : {
         Stdlib__Buffer.add_string(literal, "${");
         return [
           env,
           btwn(start, from_lb(env.lex_source, lexbuf)),
           false
         ];
-      case 3 :
+        }
+      case 3 : {
         Stdlib__Buffer.add_char(raw, /* '\\' */92);
         Stdlib__Buffer.add_char(literal, /* '\\' */92);
         const match = string_escape(env, cooked, lexbuf);
@@ -4517,26 +5092,30 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
         Stdlib__Buffer.add_string(raw, str);
         Stdlib__Buffer.add_string(literal, str);
         return template_part(match[0], start, cooked, raw, literal, lexbuf);
-      case 4 :
+        }
+      case 4 : {
         const lf = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
         Stdlib__Buffer.add_string(raw, lf);
         Stdlib__Buffer.add_string(literal, lf);
         Stdlib__Buffer.add_string(cooked, "\n");
         Stdlib__Lexing.new_line(lexbuf);
         return template_part(env, start, cooked, raw, literal, lexbuf);
-      case 5 :
+        }
+      case 5 : {
         const lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, lf$1);
         Stdlib__Buffer.add_char(literal, lf$1);
         Stdlib__Buffer.add_char(cooked, /* '\n' */10);
         Stdlib__Lexing.new_line(lexbuf);
         return template_part(env, start, cooked, raw, literal, lexbuf);
-      case 6 :
+        }
+      case 6 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, c);
         Stdlib__Buffer.add_char(literal, c);
         Stdlib__Buffer.add_char(cooked, c);
         return template_part(env, start, cooked, raw, literal, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4551,18 +5130,20 @@ function string_escape(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         return [
           env,
           false
         ];
-      case 1 :
+        }
+      case 1 : {
         Stdlib__Buffer.add_string(buf, "\\");
         return [
           env,
           false
         ];
-      case 2 :
+        }
+      case 2 : {
         const a = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
         const b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
         const code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
@@ -4573,7 +5154,8 @@ function string_escape(env, buf, lexbuf) {
           env,
           false
         ];
-      case 3 :
+        }
+      case 3 : {
         const a$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const b$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
@@ -4593,7 +5175,8 @@ function string_escape(env, buf, lexbuf) {
           env,
           true
         ];
-      case 4 :
+        }
+      case 4 : {
         const a$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
         const code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
@@ -4604,49 +5187,57 @@ function string_escape(env, buf, lexbuf) {
           env,
           true
         ];
-      case 5 :
+        }
+      case 5 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(0));
         return [
           env,
           false
         ];
-      case 6 :
+        }
+      case 6 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(8));
         return [
           env,
           false
         ];
-      case 7 :
+        }
+      case 7 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(12));
         return [
           env,
           false
         ];
-      case 8 :
+        }
+      case 8 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(10));
         return [
           env,
           false
         ];
-      case 9 :
+        }
+      case 9 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(13));
         return [
           env,
           false
         ];
-      case 10 :
+        }
+      case 10 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(9));
         return [
           env,
           false
         ];
-      case 11 :
+        }
+      case 11 : {
         Stdlib__Buffer.add_char(buf, Stdlib__Char.chr(11));
         return [
           env,
           false
         ];
-      case 12 :
+        }
+      case 12 : {
         const a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const code$4 = oct_to_int(a$3);
         Stdlib__List.iter((function (param) {
@@ -4656,7 +5247,8 @@ function string_escape(env, buf, lexbuf) {
           env,
           true
         ];
-      case 13 :
+        }
+      case 13 : {
         const a$4 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
         const b$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
         const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 3 | 0);
@@ -4669,7 +5261,8 @@ function string_escape(env, buf, lexbuf) {
           env,
           false
         ];
-      case 14 :
+        }
+      case 14 : {
         const hex_code = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, lexbuf.lex_curr_pos - 1 | 0);
         const code$6 = Caml_format.caml_int_of_string("0x" + hex_code);
         const env$1 = code$6 > 1114111 ? lex_error(env, from_lb(env.lex_source, lexbuf), {
@@ -4683,7 +5276,8 @@ function string_escape(env, buf, lexbuf) {
           env$1,
           false
         ];
-      case 15 :
+        }
+      case 15 : {
         const c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
@@ -4694,19 +5288,22 @@ function string_escape(env, buf, lexbuf) {
           env$2,
           false
         ];
-      case 16 :
+        }
+      case 16 : {
         Stdlib__Lexing.new_line(lexbuf);
         return [
           env,
           false
         ];
-      case 17 :
+        }
+      case 17 : {
         const c$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c$3);
         return [
           env,
           false
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4736,19 +5333,22 @@ function type_token(env, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         Stdlib__Lexing.new_line(lexbuf);
         return type_token(env, lexbuf);
-      case 1 :
+        }
+      case 1 : {
         unicode_fix_cols(lexbuf);
         return type_token(env, lexbuf);
-      case 2 :
+        }
+      case 2 : {
         const start = from_lb(env.lex_source, lexbuf);
         const buf = Stdlib__Buffer.create(127);
         const match = comment(env, buf, lexbuf);
         const env$1 = save_comment(match[0], start, match[1], buf, true);
         return type_token(env$1, lexbuf);
-      case 3 :
+        }
+      case 3 : {
         const sp = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 2 | 0, Caml_array.get(lexbuf.lex_mem, 0));
         const escape_type = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         const pattern = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
@@ -4777,7 +5377,8 @@ function type_token(env, lexbuf) {
         const match$1 = comment(env, buf$1, lexbuf);
         const env$4 = save_comment(match$1[0], start$1, match$1[1], buf$1, true);
         return type_token(env$4, lexbuf);
-      case 4 :
+        }
+      case 4 : {
         if (env.lex_in_comment_syntax) {
           const env$5 = in_comment_syntax(false, env);
           return type_token(env$5, lexbuf);
@@ -4787,13 +5388,15 @@ function type_token(env, lexbuf) {
           env,
           /* T_MULT */ 97
         ];
-      case 5 :
+        }
+      case 5 : {
         const start$2 = from_lb(env.lex_source, lexbuf);
         const buf$2 = Stdlib__Buffer.create(127);
         const match$2 = line_comment(env, buf$2, lexbuf);
         const env$6 = save_comment(match$2[0], start$2, match$2[1], buf$2, true);
         return type_token(env$6, lexbuf);
-      case 6 :
+        }
+      case 6 : {
         const quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         const start$3 = from_lb(env.lex_source, lexbuf);
         const buf$3 = Stdlib__Buffer.create(127);
@@ -4812,43 +5415,50 @@ function type_token(env, lexbuf) {
             ]
           }
         ];
-      case 7 :
+        }
+      case 7 : {
         const neg = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w, mk_num_singleton(/* BINARY */ 0, num, neg));
-      case 8 :
+        }
+      case 8 : {
         const neg$1 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return [
           env,
           mk_num_singleton(/* BINARY */ 0, num$1, neg$1)
         ];
-      case 9 :
+        }
+      case 9 : {
         const neg$2 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w$1 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$1, mk_num_singleton(/* OCTAL */ 2, num$2, neg$2));
-      case 10 :
+        }
+      case 10 : {
         const neg$3 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return [
           env,
           mk_num_singleton(/* OCTAL */ 2, num$3, neg$3)
         ];
-      case 11 :
+        }
+      case 11 : {
         const neg$4 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w$2 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$2, mk_num_singleton(/* LEGACY_OCTAL */ 1, num$4, neg$4));
-      case 12 :
+        }
+      case 12 : {
         const neg$5 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return [
           env,
           mk_num_singleton(/* LEGACY_OCTAL */ 1, num$5, neg$5)
         ];
-      case 13 :
+        }
+      case 13 : {
         const neg$6 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$6 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w$3 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
@@ -4876,7 +5486,8 @@ function type_token(env, lexbuf) {
           }
         }
         return illegal_number(match$4[0], lexbuf, w$3, match$4[1]);
-      case 14 :
+        }
+      case 14 : {
         const neg$7 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$7 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         try {
@@ -4900,31 +5511,36 @@ function type_token(env, lexbuf) {
           }
           throw exn$1;
         }
-      case 15 :
+        }
+      case 15 : {
         const neg$8 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$8 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w$4 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$4, mk_num_singleton(/* NORMAL */ 3, num$8, neg$8));
-      case 16 :
+        }
+      case 16 : {
         const neg$9 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$9 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
         return [
           env,
           mk_num_singleton(/* NORMAL */ 3, num$9, neg$9)
         ];
-      case 17 :
+        }
+      case 17 : {
         const neg$10 = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, Caml_array.get(lexbuf.lex_mem, 0));
         const num$10 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), Caml_array.get(lexbuf.lex_mem, 1));
         const w$5 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), lexbuf.lex_curr_pos);
         return illegal_number(env, lexbuf, w$5, mk_num_singleton(/* NORMAL */ 3, num$10, neg$10));
-      case 18 :
+        }
+      case 18 : {
         const neg$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 1), Caml_array.get(lexbuf.lex_mem, 0));
         const num$11 = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 3), Caml_array.get(lexbuf.lex_mem, 2));
         return [
           env,
           mk_num_singleton(/* NORMAL */ 3, num$11, neg$11)
         ];
-      case 19 :
+        }
+      case 19 : {
         const word = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         unicode_fix_cols(lexbuf);
         try {
@@ -4943,122 +5559,150 @@ function type_token(env, lexbuf) {
           }
           throw exn$2;
         }
-      case 22 :
+        }
+      case 22 : {
         return [
           env,
           /* T_LCURLY */ 1
         ];
-      case 23 :
+        }
+      case 23 : {
         return [
           env,
           /* T_RCURLY */ 2
         ];
-      case 24 :
+        }
+      case 24 : {
         return [
           env,
           /* T_LPAREN */ 3
         ];
-      case 25 :
+        }
+      case 25 : {
         return [
           env,
           /* T_RPAREN */ 4
         ];
-      case 26 :
+        }
+      case 26 : {
         return [
           env,
           /* T_ELLIPSIS */ 11
         ];
-      case 27 :
+        }
+      case 27 : {
         return [
           env,
           /* T_PERIOD */ 9
         ];
-      case 28 :
+        }
+      case 28 : {
         return [
           env,
           /* T_SEMICOLON */ 7
         ];
-      case 29 :
+        }
+      case 29 : {
         return [
           env,
           /* T_COMMA */ 8
         ];
-      case 20 :
-      case 32 :
+        }
+      case 20 : {
+        }
+      case 32 : {
         return [
           env,
           /* T_LBRACKET */ 5
         ];
-      case 21 :
-      case 33 :
+        }
+      case 21 : {
+        }
+      case 33 : {
         return [
           env,
           /* T_RBRACKET */ 6
         ];
-      case 34 :
+        }
+      case 34 : {
         return [
           env,
           /* T_LESS_THAN */ 89
         ];
-      case 35 :
+        }
+      case 35 : {
         return [
           env,
           /* T_GREATER_THAN */ 90
         ];
-      case 31 :
-      case 37 :
+        }
+      case 31 : {
+        }
+      case 37 : {
         return [
           env,
           /* T_PLING */ 76
         ];
-      case 38 :
+        }
+      case 38 : {
         return [
           env,
           /* T_MULT */ 97
         ];
-      case 30 :
-      case 39 :
+        }
+      case 30 : {
+        }
+      case 39 : {
         return [
           env,
           /* T_COLON */ 77
         ];
-      case 40 :
+        }
+      case 40 : {
         return [
           env,
           /* T_BIT_OR */ 80
         ];
-      case 41 :
+        }
+      case 41 : {
         return [
           env,
           /* T_BIT_AND */ 82
         ];
-      case 42 :
+        }
+      case 42 : {
         return [
           env,
           /* T_TYPEOF */ 44
         ];
-      case 43 :
+        }
+      case 43 : {
         return [
           env,
           /* T_ARROW */ 10
         ];
-      case 36 :
-      case 44 :
+        }
+      case 36 : {
+        }
+      case 44 : {
         return [
           env,
           /* T_ASSIGN */ 75
         ];
-      case 45 :
+        }
+      case 45 : {
         return [
           env,
           /* T_PLUS */ 94
         ];
-      case 46 :
+        }
+      case 46 : {
         return [
           env,
           /* T_MINUS */ 95
         ];
-      case 47 :
+        }
+      case 47 : {
         let env$9;
         if (env.lex_in_comment_syntax) {
           const loc$3 = from_lb(env.lex_source, lexbuf);
@@ -5070,11 +5714,13 @@ function type_token(env, lexbuf) {
           env$9,
           /* T_EOF */ 105
         ];
-      case 48 :
+        }
+      case 48 : {
         return [
           env,
           /* T_ERROR */ 104
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5089,7 +5735,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, q$p);
         if (q === q$p) {
@@ -5102,14 +5748,16 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
           Stdlib__Buffer.add_char(buf, q$p);
           return string_quote(env, q, buf, raw, octal, lexbuf);
         }
-      case 1 :
+        }
+      case 1 : {
         const e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, e);
         const match = string_escape(env, buf, lexbuf);
         const octal$1 = match[1] || octal;
         Stdlib__Buffer.add_string(raw, Stdlib__Lexing.lexeme(lexbuf));
         return string_quote(match[0], q, buf, raw, octal$1, lexbuf);
-      case 2 :
+        }
+      case 2 : {
         const x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, x);
         const env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
@@ -5122,11 +5770,13 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
           from_lb(env$1.lex_source, lexbuf),
           octal
         ];
-      case 3 :
+        }
+      case 3 : {
         const x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, x$1);
         Stdlib__Buffer.add_char(buf, x$1);
         return string_quote(env, q, buf, raw, octal, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5141,15 +5791,17 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         Stdlib__Lexing.new_line(lexbuf);
         ___ocaml_lex_state = 393;
         continue;
-      case 1 :
+        }
+      case 1 : {
         unicode_fix_cols(lexbuf);
         ___ocaml_lex_state = 393;
         continue;
-      case 2 :
+        }
+      case 2 : {
         const start = from_lb(env.lex_source, lexbuf);
         const buf = Stdlib__Buffer.create(127);
         const match = line_comment(env, buf, lexbuf);
@@ -5157,7 +5809,8 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 393;
         _env = env$1;
         continue;
-      case 3 :
+        }
+      case 3 : {
         const start$1 = from_lb(env.lex_source, lexbuf);
         const buf$1 = Stdlib__Buffer.create(127);
         const match$1 = comment(env, buf$1, lexbuf);
@@ -5165,7 +5818,8 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 393;
         _env = env$2;
         continue;
-      case 4 :
+        }
+      case 4 : {
         const start$2 = from_lb(env.lex_source, lexbuf);
         const cooked = Stdlib__Buffer.create(127);
         const raw = Stdlib__Buffer.create(127);
@@ -5187,7 +5841,8 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
             ]
           }
         ];
-      case 5 :
+        }
+      case 5 : {
         const env$3 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -5207,6 +5862,7 @@ function __ocaml_lex_template_tail_rec(_env, lexbuf, ___ocaml_lex_state) {
             ]
           }
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5221,20 +5877,23 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
     const env = _env;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         return [
           env,
           /* T_EOF */ 105
         ];
-      case 1 :
+        }
+      case 1 : {
         Stdlib__Lexing.new_line(lexbuf);
         ___ocaml_lex_state = 291;
         continue;
-      case 2 :
+        }
+      case 2 : {
         unicode_fix_cols(lexbuf);
         ___ocaml_lex_state = 291;
         continue;
-      case 3 :
+        }
+      case 3 : {
         const start = from_lb(env.lex_source, lexbuf);
         const buf = Stdlib__Buffer.create(127);
         const match = line_comment(env, buf, lexbuf);
@@ -5242,7 +5901,8 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 291;
         _env = env$1;
         continue;
-      case 4 :
+        }
+      case 4 : {
         const start$1 = from_lb(env.lex_source, lexbuf);
         const buf$1 = Stdlib__Buffer.create(127);
         const match$1 = comment(env, buf$1, lexbuf);
@@ -5250,7 +5910,8 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 291;
         _env = env$2;
         continue;
-      case 5 :
+        }
+      case 5 : {
         const start$2 = from_lb(env.lex_source, lexbuf);
         const buf$2 = Stdlib__Buffer.create(127);
         const match$2 = regexp_body(env, buf$2, lexbuf);
@@ -5268,7 +5929,8 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
             ]
           }
         ];
-      case 6 :
+        }
+      case 6 : {
         const env$4 = lex_error(env, from_lb(env.lex_source, lexbuf), {
           TAG: /* UnexpectedToken */ 1,
           _0: "ILLEGAL"
@@ -5277,6 +5939,7 @@ function __ocaml_lex_regexp_rec(_env, lexbuf, ___ocaml_lex_state) {
           env$4,
           /* T_ERROR */ 104
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5291,51 +5954,59 @@ function regexp_body(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const loc = from_lb(env.lex_source, lexbuf);
         const env$1 = lex_error(env, loc, /* UnterminatedRegExp */ 13);
         return [
           env$1,
           ""
         ];
-      case 1 :
+        }
+      case 1 : {
         const loc$1 = from_lb(env.lex_source, lexbuf);
         const env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */ 13);
         return [
           env$2,
           ""
         ];
-      case 2 :
+        }
+      case 2 : {
         const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
         Stdlib__Buffer.add_string(buf, s);
         return regexp_body(env, buf, lexbuf);
-      case 3 :
+        }
+      case 3 : {
         const flags = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos + 1 | 0, lexbuf.lex_curr_pos);
         return [
           env,
           flags
         ];
-      case 4 :
+        }
+      case 4 : {
         return [
           env,
           ""
         ];
-      case 5 :
+        }
+      case 5 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c);
         const env$3 = regexp_class(env, buf, lexbuf);
         return regexp_body(env$3, buf, lexbuf);
-      case 6 :
+        }
+      case 6 : {
         const loc$2 = from_lb(env.lex_source, lexbuf);
         const env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */ 13);
         return [
           env$4,
           ""
         ];
-      case 7 :
+        }
+      case 7 : {
         const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c$1);
         return regexp_body(env, buf, lexbuf);
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5350,7 +6021,7 @@ function jsx_child(env, start, buf, raw, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         const lt = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
         Stdlib__Buffer.add_string(raw, lt);
         Stdlib__Buffer.add_string(buf, lt);
@@ -5369,22 +6040,26 @@ function jsx_child(env, start, buf, raw, lexbuf) {
             ]
           }
         ];
-      case 1 :
+        }
+      case 1 : {
         return [
           env,
           /* T_EOF */ 105
         ];
-      case 2 :
+        }
+      case 2 : {
         return [
           env,
           /* T_LESS_THAN */ 89
         ];
-      case 3 :
+        }
+      case 3 : {
         return [
           env,
           /* T_LCURLY */ 1
         ];
-      case 4 :
+        }
+      case 4 : {
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(raw, c);
         Stdlib__Buffer.add_char(buf, c);
@@ -5402,6 +6077,7 @@ function jsx_child(env, start, buf, raw, lexbuf) {
             ]
           }
         ];
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -5628,25 +6304,32 @@ function lex(t) {
   const match = t.la_lex_mode;
   let match$1;
   switch (match) {
-    case /* TYPE */ 1 :
+    case /* TYPE */ 1 : {
       match$1 = type_token$1(lex_env);
       break;
-    case /* JSX_TAG */ 2 :
+      }
+    case /* JSX_TAG */ 2 : {
       match$1 = jsx_tag(lex_env);
       break;
-    case /* JSX_CHILD */ 3 :
+      }
+    case /* JSX_CHILD */ 3 : {
       match$1 = jsx_child$1(lex_env);
       break;
-    case /* TEMPLATE */ 4 :
+      }
+    case /* TEMPLATE */ 4 : {
       match$1 = template_tail(lex_env);
       break;
-    case /* REGEXP */ 5 :
+      }
+    case /* REGEXP */ 5 : {
       match$1 = regexp(lex_env);
       break;
-    case /* NORMAL */ 0 :
-    case /* PREDICATE */ 6 :
+      }
+    case /* NORMAL */ 0 : {
+      }
+    case /* PREDICATE */ 6 : {
       match$1 = token$1(lex_env);
       break;
+      }
   }
   const lex_env$1 = match$1[0];
   const lexbuf = lex_env$1.lex_lb;
@@ -5919,15 +6602,23 @@ function is_future_reserved(param) {
 
 function is_strict_reserved(param) {
   switch (param) {
-    case "implements" :
-    case "interface" :
-    case "package" :
-    case "private" :
-    case "protected" :
-    case "public" :
-    case "static" :
-    case "yield" :
+    case "implements" : {
+      }
+    case "interface" : {
+      }
+    case "package" : {
+      }
+    case "private" : {
+      }
+    case "protected" : {
+      }
+    case "public" : {
+      }
+    case "static" : {
+      }
+    case "yield" : {
       return true;
+      }
     default:
       return false;
   }
@@ -5935,9 +6626,11 @@ function is_strict_reserved(param) {
 
 function is_restricted(param) {
   switch (param) {
-    case "arguments" :
-    case "eval" :
+    case "arguments" : {
+      }
+    case "eval" : {
       return true;
+      }
     default:
       return false;
   }
@@ -5997,11 +6690,14 @@ function is_implicit_semicolon(env) {
     return is_line_terminator(env);
   }
   switch (match) {
-    case /* T_SEMICOLON */ 7 :
+    case /* T_SEMICOLON */ 7 : {
       return false;
-    case /* T_RCURLY */ 2 :
-    case /* T_EOF */ 105 :
+      }
+    case /* T_RCURLY */ 2 : {
+      }
+    case /* T_EOF */ 105 : {
       return true;
+      }
     default:
       return is_line_terminator(env);
   }
@@ -6026,14 +6722,21 @@ function is_identifier(iOpt, env) {
     return false;
   }
   switch (match) {
-    case /* T_IDENTIFIER */ 0 :
-    case /* T_LET */ 26 :
-    case /* T_DECLARE */ 58 :
-    case /* T_TYPE */ 59 :
-    case /* T_OF */ 60 :
-    case /* T_ASYNC */ 61 :
-    case /* T_AWAIT */ 62 :
+    case /* T_IDENTIFIER */ 0 : {
+      }
+    case /* T_LET */ 26 : {
+      }
+    case /* T_DECLARE */ 58 : {
+      }
+    case /* T_TYPE */ 59 : {
+      }
+    case /* T_OF */ 60 : {
+      }
+    case /* T_ASYNC */ 61 : {
+      }
+    case /* T_AWAIT */ 62 : {
       return true;
+      }
     default:
       return false;
   }
@@ -6057,9 +6760,11 @@ function is_class(iOpt, env) {
     return false;
   }
   switch (match) {
-    case /* T_AT */ 12 :
-    case /* T_CLASS */ 38 :
+    case /* T_AT */ 12 : {
+      }
+    case /* T_CLASS */ 38 : {
       return true;
+      }
     default:
       return false;
   }
@@ -6077,18 +6782,23 @@ function get_unexpected_error(param) {
   let tmp = param[0];
   if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
     switch (tmp) {
-      case /* T_IDENTIFIER */ 0 :
+      case /* T_IDENTIFIER */ 0 : {
         return /* UnexpectedIdentifier */ 2;
-      case /* T_EOF */ 105 :
+        }
+      case /* T_EOF */ 105 : {
         return /* UnexpectedEOS */ 4;
+        }
     }
   } else {
     switch (tmp.TAG) {
-      case /* T_NUMBER */ 0 :
+      case /* T_NUMBER */ 0 : {
         return /* UnexpectedNumber */ 0;
-      case /* T_STRING */ 1 :
-      case /* T_JSX_TEXT */ 4 :
+        }
+      case /* T_STRING */ 1 : {
+        }
+      case /* T_JSX_TEXT */ 4 : {
         return /* UnexpectedString */ 1;
+        }
     }
   }
   const word = param[1];
@@ -7014,7 +7724,7 @@ function primary(env) {
   let exit = 0;
   if (/* tag */ typeof token$5 !== "object" && typeof token$5 !== "function") {
     switch (token$5) {
-      case /* T_IDENTIFIER */ 0 :
+      case /* T_IDENTIFIER */ 0 : {
         const match = generic(env);
         return [
           match[0],
@@ -7023,7 +7733,8 @@ function primary(env) {
             _0: match[1]
           }
         ];
-      case /* T_LCURLY */ 1 :
+        }
+      case /* T_LCURLY */ 1 : {
         const match$1 = Curry._2(_object, undefined, env);
         return [
           match$1[0],
@@ -7032,7 +7743,8 @@ function primary(env) {
             _0: match$1[1]
           }
         ];
-      case /* T_LPAREN */ 3 :
+        }
+      case /* T_LPAREN */ 3 : {
         const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
         const _type = param_list_or_type(env);
         if (_type.TAG !== /* ParamList */ 0) {
@@ -7054,7 +7766,8 @@ function primary(env) {
             }
           }
         ];
-      case /* T_LBRACKET */ 5 :
+        }
+      case /* T_LBRACKET */ 5 : {
         const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
         token$4(env, /* T_LBRACKET */ 5);
         const tl = types(env, /* [] */ 0);
@@ -7067,11 +7780,14 @@ function primary(env) {
             _0: tl
           }
         ];
-      case /* T_FALSE */ 28 :
-      case /* T_TRUE */ 29 :
+        }
+      case /* T_FALSE */ 28 : {
+        }
+      case /* T_TRUE */ 29 : {
         exit = 2;
         break;
-      case /* T_TYPEOF */ 44 :
+        }
+      case /* T_TYPEOF */ 44 : {
         const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
         token$4(env, /* T_TYPEOF */ 44);
         const t = primary(env);
@@ -7082,7 +7798,8 @@ function primary(env) {
             _0: t
           }
         ];
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LESS_THAN */ 89 : {
         const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
         const typeParameters = Curry._2(type_parameter_declaration, false, env);
         const match$3 = function_param_list(env);
@@ -7101,18 +7818,20 @@ function primary(env) {
             }
           }
         ];
-      case /* T_MULT */ 97 :
+        }
+      case /* T_MULT */ 97 : {
         token$4(env, /* T_MULT */ 97);
         return [
           loc,
           /* Exists */ 6
         ];
+        }
       default:
         exit = 1;
     }
   } else {
     switch (token$5.TAG) {
-      case /* T_STRING */ 1 :
+      case /* T_STRING */ 1 : {
         const match$4 = token$5._0;
         const octal = match$4[3];
         const raw = match$4[2];
@@ -7140,7 +7859,8 @@ function primary(env) {
             }
           }
         ];
-      case /* T_NUMBER_SINGLETON_TYPE */ 5 :
+        }
+      case /* T_NUMBER_SINGLETON_TYPE */ 5 : {
         const value$1 = token$5._1;
         const number_type = token$5._0;
         const raw$1 = Curry._2(Parser_env_Peek.value, undefined, env);
@@ -7162,12 +7882,13 @@ function primary(env) {
             }
           }
         ];
+        }
       default:
         exit = 1;
     }
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       const t$1 = primitive(token$5);
       if (t$1 !== undefined) {
         token$4(env, token$5);
@@ -7182,7 +7903,8 @@ function primary(env) {
           /* Any */ 0
         ];
       }
-    case 2 :
+      }
+    case 2 : {
       const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
       token$4(env, token$5);
       const value$2 = Caml_obj.caml_equal(token$5, /* T_TRUE */ 29);
@@ -7196,6 +7918,7 @@ function primary(env) {
           }
         }
       ];
+      }
   }
 }
 
@@ -7204,18 +7927,24 @@ function primitive(param) {
     return;
   }
   switch (param) {
-    case /* T_NULL */ 27 :
+    case /* T_NULL */ 27 : {
       return /* Null */ 2;
-    case /* T_ANY_TYPE */ 107 :
+      }
+    case /* T_ANY_TYPE */ 107 : {
       return /* Any */ 0;
-    case /* T_BOOLEAN_TYPE */ 108 :
+      }
+    case /* T_BOOLEAN_TYPE */ 108 : {
       return /* Boolean */ 5;
-    case /* T_NUMBER_TYPE */ 109 :
+      }
+    case /* T_NUMBER_TYPE */ 109 : {
       return /* Number */ 3;
-    case /* T_STRING_TYPE */ 110 :
+      }
+    case /* T_STRING_TYPE */ 110 : {
       return /* String */ 4;
-    case /* T_VOID_TYPE */ 111 :
+      }
+    case /* T_VOID_TYPE */ 111 : {
       return /* Void */ 1;
+      }
     default:
       return;
   }
@@ -7237,10 +7966,11 @@ function param_list_or_type(env) {
   let exit = 0;
   if (/* tag */ typeof token$5 !== "object" && typeof token$5 !== "function") {
     switch (token$5) {
-      case /* T_IDENTIFIER */ 0 :
+      case /* T_IDENTIFIER */ 0 : {
         ret = function_param_or_generic_type(env);
         break;
-      case /* T_RPAREN */ 4 :
+        }
+      case /* T_RPAREN */ 4 : {
         ret = {
           TAG: /* ParamList */ 0,
           _0: [
@@ -7249,13 +7979,16 @@ function param_list_or_type(env) {
           ]
         };
         break;
-      case /* T_ELLIPSIS */ 11 :
-      case /* T_EOF */ 105 :
+        }
+      case /* T_ELLIPSIS */ 11 : {
+        }
+      case /* T_EOF */ 105 : {
         ret = {
           TAG: /* ParamList */ 0,
           _0: Curry._2(function_param_list_without_parens, env, /* [] */ 0)
         };
         break;
+        }
       default:
         exit = 1;
     }
@@ -7269,10 +8002,12 @@ function param_list_or_type(env) {
       let exit$1 = 0;
       if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
         switch (match$1) {
-          case /* T_PLING */ 76 :
-          case /* T_COLON */ 77 :
+          case /* T_PLING */ 76 : {
+            }
+          case /* T_COLON */ 77 : {
             exit$1 = 2;
             break;
+            }
           default:
             ret = {
               TAG: /* Type */ 1,
@@ -7333,10 +8068,12 @@ function function_param_or_generic_type(env) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_PLING */ 76 :
-      case /* T_COLON */ 77 :
+      case /* T_PLING */ 76 : {
+        }
+      case /* T_COLON */ 77 : {
         exit = 2;
         break;
+        }
       default:
         exit = 1;
     }
@@ -7344,12 +8081,13 @@ function function_param_or_generic_type(env) {
     exit = 1;
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       return {
         TAG: /* Type */ 1,
         _0: Curry._2(union_with, env, Curry._2(intersection_with, env, postfix_with(env, generic_type_with_identifier(env, id))))
       };
-    case 2 :
+      }
+    case 2 : {
       const param = function_param_with_id(env, id);
       maybe(env, /* T_COMMA */ 8);
       return {
@@ -7359,6 +8097,7 @@ function function_param_or_generic_type(env) {
           tl: /* [] */ 0
         })
       };
+      }
   }
 }
 
@@ -7383,11 +8122,14 @@ function function_param_list_without_parens(env) {
       let exit = 0;
       if (/* tag */ typeof t !== "object" && typeof t !== "function") {
         switch (t) {
-          case /* T_RPAREN */ 4 :
-          case /* T_ELLIPSIS */ 11 :
-          case /* T_EOF */ 105 :
+          case /* T_RPAREN */ 4 : {
+            }
+          case /* T_ELLIPSIS */ 11 : {
+            }
+          case /* T_EOF */ 105 : {
             exit = 2;
             break;
+            }
           default:
             exit = 1;
         }
@@ -7395,7 +8137,7 @@ function function_param_list_without_parens(env) {
         exit = 1;
       }
       switch (exit) {
-        case 1 :
+        case 1 : {
           const acc_0 = param(env);
           const acc$1 = {
             hd: acc_0,
@@ -7406,12 +8148,14 @@ function function_param_list_without_parens(env) {
           }
           _acc = acc$1;
           continue;
-        case 2 :
+          }
+        case 2 : {
           const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), param(env)) : undefined;
           return [
             rest,
             Stdlib__List.rev(acc)
           ];
+          }
       }
     };
   };
@@ -7485,9 +8229,11 @@ function types(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RBRACKET */ 6 :
-        case /* T_EOF */ 105 :
+        case /* T_RBRACKET */ 6 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const acc_0 = union(env);
@@ -7598,11 +8344,14 @@ function semicolon$1(env) {
     return error_unexpected(env);
   }
   switch (match) {
-    case /* T_RCURLY */ 2 :
+    case /* T_RCURLY */ 2 : {
       return;
-    case /* T_SEMICOLON */ 7 :
-    case /* T_COMMA */ 8 :
+      }
+    case /* T_SEMICOLON */ 7 : {
+      }
+    case /* T_COMMA */ 8 : {
       return token$3(env);
+      }
     default:
       return error_unexpected(env);
   }
@@ -7620,7 +8369,7 @@ function properties(allow_static, env, _param) {
     let exit = 0;
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_LBRACKET */ 5 :
+        case /* T_LBRACKET */ 5 : {
           const indexer = indexer_property(env, start_loc, $$static);
           semicolon$1(env);
           _param = [
@@ -7632,14 +8381,19 @@ function properties(allow_static, env, _param) {
             callProperties
           ];
           continue;
-        case /* T_LPAREN */ 3 :
-        case /* T_LESS_THAN */ 89 :
+          }
+        case /* T_LPAREN */ 3 : {
+          }
+        case /* T_LESS_THAN */ 89 : {
           exit = 3;
           break;
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+          }
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           exit = 2;
           break;
+          }
         default:
           exit = 1;
       }
@@ -7647,7 +8401,7 @@ function properties(allow_static, env, _param) {
       exit = 1;
     }
     switch (exit) {
-      case 1 :
+      case 1 : {
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
         let match$2;
         let exit$1 = 0;
@@ -7693,10 +8447,12 @@ function properties(allow_static, env, _param) {
         let property$1;
         if (/* tag */ typeof match$3 !== "object" && typeof match$3 !== "function") {
           switch (match$3) {
-            case /* T_LPAREN */ 3 :
-            case /* T_LESS_THAN */ 89 :
+            case /* T_LPAREN */ 3 : {
+              }
+            case /* T_LESS_THAN */ 89 : {
               property$1 = method_property(env, start_loc, $$static$1, key$1);
               break;
+              }
             default:
               property$1 = property(env, start_loc, $$static$1, key$1);
           }
@@ -7713,13 +8469,15 @@ function properties(allow_static, env, _param) {
           callProperties
         ];
         continue;
-      case 2 :
+        }
+      case 2 : {
         return [
           Stdlib__List.rev(acc),
           Stdlib__List.rev(indexers),
           Stdlib__List.rev(callProperties)
         ];
-      case 3 :
+        }
+      case 3 : {
         const call_prop = call_property(env, start_loc, $$static);
         semicolon$1(env);
         _param = [
@@ -7731,6 +8489,7 @@ function properties(allow_static, env, _param) {
           }
         ];
         continue;
+        }
     }
   };
 }
@@ -7819,14 +8578,16 @@ function params(env, allow_default, _require_default, _acc) {
     let variance;
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_PLUS */ 94 :
+        case /* T_PLUS */ 94 : {
           token$3(env);
           variance = /* Plus */ 0;
           break;
-        case /* T_MINUS */ 95 :
+          }
+        case /* T_MINUS */ 95 : {
           token$3(env);
           variance = /* Minus */ 1;
           break;
+          }
         default:
           variance = undefined;
       }
@@ -7885,9 +8646,11 @@ function params(env, allow_default, _require_default, _acc) {
     const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match$4 !== "object" && typeof match$4 !== "function") {
       switch (match$4) {
-        case /* T_GREATER_THAN */ 90 :
-        case /* T_EOF */ 105 :
+        case /* T_GREATER_THAN */ 90 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc$1);
+          }
       }
     }
     token$4(env, /* T_COMMA */ 8);
@@ -7926,9 +8689,11 @@ function params$1(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_GREATER_THAN */ 90 :
-        case /* T_EOF */ 105 :
+        case /* T_GREATER_THAN */ 90 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const acc_0 = union(env);
@@ -8028,16 +8793,19 @@ function pattern(check_env, _param) {
     const param = _param;
     const p = param[1];
     switch (p.TAG) {
-      case /* Object */ 0 :
+      case /* Object */ 0 : {
         let o = p._0;
         return Stdlib__List.fold_left(object_property, check_env, o.properties);
-      case /* Array */ 1 :
+        }
+      case /* Array */ 1 : {
         let arr = p._0;
         return Stdlib__List.fold_left(array_element, check_env, arr.elements);
-      case /* Assignment */ 2 :
+        }
+      case /* Assignment */ 2 : {
         _param = p._0.left;
         continue;
-      case /* Identifier */ 3 :
+        }
+      case /* Identifier */ 3 : {
         let id = p._0;
         const name = id[1].name;
         const param_names = check_env[1];
@@ -8056,12 +8824,14 @@ function pattern(check_env, _param) {
           match[0],
           Curry._2(add$1, name, match[1])
         ];
-      case /* Expression */ 4 :
+        }
+      case /* Expression */ 4 : {
         error_at(check_env[0], [
           param[0],
           /* ExpectedPatternFoundExpression */ 18
         ]);
         return check_env;
+        }
     }
   };
 }
@@ -8074,13 +8844,16 @@ function object_property(check_env, param) {
   const id = property.key;
   let check_env$1;
   switch (id.TAG) {
-    case /* Identifier */ 1 :
+    case /* Identifier */ 1 : {
       check_env$1 = identifier_no_dupe_check(check_env, id._0);
       break;
-    case /* Literal */ 0 :
-    case /* Computed */ 2 :
+      }
+    case /* Literal */ 0 : {
+      }
+    case /* Computed */ 2 : {
       check_env$1 = check_env;
       break;
+      }
   }
   return pattern(check_env$1, property.pattern);
 }
@@ -8173,11 +8946,14 @@ function param_list(env, _param) {
     let exit = 0;
     if (/* tag */ typeof t !== "object" && typeof t !== "function") {
       switch (t) {
-        case /* T_RPAREN */ 4 :
-        case /* T_ELLIPSIS */ 11 :
-        case /* T_EOF */ 105 :
+        case /* T_RPAREN */ 4 : {
+          }
+        case /* T_ELLIPSIS */ 11 : {
+          }
+        case /* T_EOF */ 105 : {
           exit = 2;
           break;
+          }
         default:
           exit = 1;
       }
@@ -8185,7 +8961,7 @@ function param_list(env, _param) {
       exit = 1;
     }
     switch (exit) {
-      case 1 :
+      case 1 : {
         const match = param$1(env);
         const $$default = match[1];
         const has_default$1 = has_default || $$default !== undefined;
@@ -8204,7 +8980,8 @@ function param_list(env, _param) {
           has_default$1
         ];
         continue;
-      case 2 :
+        }
+      case 2 : {
         const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28)) : undefined;
         if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RPAREN */ 4)) {
           error$1(env, /* ParameterAfterRestParameter */ 47);
@@ -8214,6 +8991,7 @@ function param_list(env, _param) {
           has_default ? Stdlib__List.rev(defaults) : /* [] */ 0,
           rest
         ];
+        }
     }
   };
 }
@@ -8287,13 +9065,14 @@ function _function(env) {
   let exit = 0;
   if (match && /* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
     switch (match$1) {
-      case /* T_LPAREN */ 3 :
+      case /* T_LPAREN */ 3 : {
         match$2 = [
           undefined,
           undefined
         ];
         break;
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LESS_THAN */ 89 : {
         const typeParams = Curry._1(type_parameter_declaration$1, env);
         const id = Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */ 3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
         match$2 = [
@@ -8301,6 +9080,7 @@ function _function(env) {
           id
         ];
         break;
+        }
       default:
         exit = 1;
     }
@@ -8474,15 +9254,18 @@ function variable(env) {
   let match$1;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_VAR */ 22 :
+      case /* T_VAR */ 22 : {
         match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
         break;
-      case /* T_CONST */ 25 :
+        }
+      case /* T_CONST */ 25 : {
         match$1 = $$const(env);
         break;
-      case /* T_LET */ 26 :
+        }
+      case /* T_LET */ 26 : {
         match$1 = _let(env);
         break;
+        }
       default:
         error_unexpected(env);
         match$1 = declarations(/* T_VAR */ 22, /* Var */ 0, env);
@@ -8516,9 +9299,11 @@ function is_lhs(param) {
     return false;
   }
   switch (tmp.TAG) {
-    case /* Member */ 13 :
-    case /* Identifier */ 18 :
+    case /* Member */ 13 : {
+      }
+    case /* Identifier */ 18 : {
       return true;
+      }
     default:
       return false;
   }
@@ -8530,11 +9315,15 @@ function is_assignable_lhs(param) {
     return false;
   }
   switch (tmp.TAG) {
-    case /* Array */ 0 :
-    case /* Object */ 1 :
-    case /* Member */ 13 :
-    case /* Identifier */ 18 :
+    case /* Array */ 0 : {
+      }
+    case /* Object */ 1 : {
+      }
+    case /* Member */ 13 : {
+      }
+    case /* Identifier */ 18 : {
       return true;
+      }
     default:
       return false;
   }
@@ -8545,45 +9334,58 @@ function assignment_op(env) {
   let op;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_RSHIFT3_ASSIGN */ 63 :
+      case /* T_RSHIFT3_ASSIGN */ 63 : {
         op = /* RShift3Assign */ 9;
         break;
-      case /* T_RSHIFT_ASSIGN */ 64 :
+        }
+      case /* T_RSHIFT_ASSIGN */ 64 : {
         op = /* RShiftAssign */ 8;
         break;
-      case /* T_LSHIFT_ASSIGN */ 65 :
+        }
+      case /* T_LSHIFT_ASSIGN */ 65 : {
         op = /* LShiftAssign */ 7;
         break;
-      case /* T_BIT_XOR_ASSIGN */ 66 :
+        }
+      case /* T_BIT_XOR_ASSIGN */ 66 : {
         op = /* BitXorAssign */ 11;
         break;
-      case /* T_BIT_OR_ASSIGN */ 67 :
+        }
+      case /* T_BIT_OR_ASSIGN */ 67 : {
         op = /* BitOrAssign */ 10;
         break;
-      case /* T_BIT_AND_ASSIGN */ 68 :
+        }
+      case /* T_BIT_AND_ASSIGN */ 68 : {
         op = /* BitAndAssign */ 12;
         break;
-      case /* T_MOD_ASSIGN */ 69 :
+        }
+      case /* T_MOD_ASSIGN */ 69 : {
         op = /* ModAssign */ 6;
         break;
-      case /* T_DIV_ASSIGN */ 70 :
+        }
+      case /* T_DIV_ASSIGN */ 70 : {
         op = /* DivAssign */ 5;
         break;
-      case /* T_MULT_ASSIGN */ 71 :
+        }
+      case /* T_MULT_ASSIGN */ 71 : {
         op = /* MultAssign */ 3;
         break;
-      case /* T_EXP_ASSIGN */ 72 :
+        }
+      case /* T_EXP_ASSIGN */ 72 : {
         op = /* ExpAssign */ 4;
         break;
-      case /* T_MINUS_ASSIGN */ 73 :
+        }
+      case /* T_MINUS_ASSIGN */ 73 : {
         op = /* MinusAssign */ 2;
         break;
-      case /* T_PLUS_ASSIGN */ 74 :
+        }
+      case /* T_PLUS_ASSIGN */ 74 : {
         op = /* PlusAssign */ 1;
         break;
-      case /* T_ASSIGN */ 75 :
+        }
+      case /* T_ASSIGN */ 75 : {
         op = /* Assign */ 0;
         break;
+        }
       default:
         op = undefined;
     }
@@ -8627,26 +9429,34 @@ function peek_unary_op(env) {
     return;
   }
   switch (match) {
-    case /* T_DELETE */ 43 :
+    case /* T_DELETE */ 43 : {
       return /* Delete */ 6;
-    case /* T_TYPEOF */ 44 :
+      }
+    case /* T_TYPEOF */ 44 : {
       return /* Typeof */ 4;
-    case /* T_VOID */ 45 :
+      }
+    case /* T_VOID */ 45 : {
       return /* Void */ 5;
-    case /* T_AWAIT */ 62 :
+      }
+    case /* T_AWAIT */ 62 : {
       if (env.allow_await) {
         return /* Await */ 7;
       } else {
         return;
       }
-    case /* T_PLUS */ 94 :
+      }
+    case /* T_PLUS */ 94 : {
       return /* Plus */ 1;
-    case /* T_MINUS */ 95 :
+      }
+    case /* T_MINUS */ 95 : {
       return /* Minus */ 0;
-    case /* T_NOT */ 100 :
+      }
+    case /* T_NOT */ 100 : {
       return /* Not */ 2;
-    case /* T_BIT_NOT */ 101 :
+      }
+    case /* T_BIT_NOT */ 101 : {
       return /* BitNot */ 3;
+      }
     default:
       return;
   }
@@ -8685,12 +9495,14 @@ function unary(env) {
   let op$1;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_INCR */ 102 :
+      case /* T_INCR */ 102 : {
         op$1 = /* Increment */ 0;
         break;
-      case /* T_DECR */ 103 :
+        }
+      case /* T_DECR */ 103 : {
         op$1 = /* Decrement */ 1;
         break;
+        }
       default:
         op$1 = undefined;
     }
@@ -8706,12 +9518,14 @@ function unary(env) {
     let op$2;
     if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
       switch (match$1) {
-        case /* T_INCR */ 102 :
+        case /* T_INCR */ 102 : {
           op$2 = /* Increment */ 0;
           break;
-        case /* T_DECR */ 103 :
+          }
+        case /* T_DECR */ 103 : {
           op$2 = /* Decrement */ 1;
           break;
+          }
         default:
           op$2 = undefined;
       }
@@ -8817,7 +9631,7 @@ function call(env, _left) {
       }
     }
     switch (part) {
-      case /* T_LPAREN */ 3 :
+      case /* T_LPAREN */ 3 : {
         if (env.no_call) {
           return left;
         }
@@ -8833,7 +9647,8 @@ function call(env, _left) {
           }
         ];
         continue;
-      case /* T_LBRACKET */ 5 :
+        }
+      case /* T_LBRACKET */ 5 : {
         token$4(env, /* T_LBRACKET */ 5);
         const expr = Curry._1(Parse.expression, env);
         const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -8854,7 +9669,8 @@ function call(env, _left) {
           }
         ];
         continue;
-      case /* T_PERIOD */ 9 :
+        }
+      case /* T_PERIOD */ 9 : {
         token$4(env, /* T_PERIOD */ 9);
         const match$1 = identifier_or_reserved_keyword(env);
         const id = match$1[0];
@@ -8873,6 +9689,7 @@ function call(env, _left) {
           }
         ];
         continue;
+        }
       default:
         return left;
     }
@@ -8930,7 +9747,7 @@ function member(env, left) {
     return left;
   }
   switch (match) {
-    case /* T_LBRACKET */ 5 :
+    case /* T_LBRACKET */ 5 : {
       token$4(env, /* T_LBRACKET */ 5);
       const expr = Curry._1(Parse.expression, with_no_call(false, env));
       const last_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -8949,7 +9766,8 @@ function member(env, left) {
           }
         }
       ]);
-    case /* T_PERIOD */ 9 :
+      }
+    case /* T_PERIOD */ 9 : {
       token$4(env, /* T_PERIOD */ 9);
       const match$1 = identifier_or_reserved_keyword(env);
       const id = match$1[0];
@@ -8967,6 +9785,7 @@ function member(env, left) {
           }
         }
       ]);
+      }
     default:
       return left;
   }
@@ -9030,15 +9849,18 @@ function number(env, number_type) {
   const value = Curry._2(Parser_env_Peek.value, undefined, env);
   let value$1;
   switch (number_type) {
-    case /* LEGACY_OCTAL */ 1 :
+    case /* LEGACY_OCTAL */ 1 : {
       strict_error(env, /* StrictOctalLiteral */ 31);
       value$1 = Caml_format.caml_int_of_string("0o" + value);
       break;
-    case /* BINARY */ 0 :
-    case /* OCTAL */ 2 :
+      }
+    case /* BINARY */ 0 : {
+      }
+    case /* OCTAL */ 2 : {
       value$1 = Caml_format.caml_int_of_string(value);
       break;
-    case /* NORMAL */ 3 :
+      }
+    case /* NORMAL */ 3 : {
       try {
         value$1 = float_of_string(value);
       }
@@ -9051,6 +9873,7 @@ function number(env, number_type) {
         }
       }
       break;
+      }
   }
   token$4(env, {
     TAG: /* T_NUMBER */ 0,
@@ -9065,7 +9888,7 @@ function primary$1(env) {
   let exit = 0;
   if (/* tag */ typeof number_type !== "object" && typeof number_type !== "function") {
     switch (number_type) {
-      case /* T_LCURLY */ 1 :
+      case /* T_LCURLY */ 1 : {
         const match = Curry._1(Parse.object_initializer, env);
         return [
           match[0],
@@ -9074,20 +9897,22 @@ function primary$1(env) {
             _0: match[1]
           }
         ];
-      case /* T_LPAREN */ 3 :
+        }
+      case /* T_LPAREN */ 3 : {
         token$4(env, /* T_LPAREN */ 3);
         const expression = Curry._1(assignment, env);
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
         let ret;
         if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
           switch (match$1) {
-            case /* T_COMMA */ 8 :
+            case /* T_COMMA */ 8 : {
               ret = sequence(env, {
                 hd: expression,
                 tl: /* [] */ 0
               });
               break;
-            case /* T_COLON */ 77 :
+              }
+            case /* T_COLON */ 77 : {
               const typeAnnotation = wrap(annotation, env);
               ret = [
                 btwn(expression[0], typeAnnotation[0]),
@@ -9100,6 +9925,7 @@ function primary$1(env) {
                 }
               ];
               break;
+              }
             default:
               ret = expression;
           }
@@ -9108,7 +9934,8 @@ function primary$1(env) {
         }
         token$4(env, /* T_RPAREN */ 4);
         return ret;
-      case /* T_LBRACKET */ 5 :
+        }
+      case /* T_LBRACKET */ 5 : {
         const match$2 = Curry._1(array_initializer, env);
         return [
           match$2[0],
@@ -9117,13 +9944,15 @@ function primary$1(env) {
             _0: match$2[1]
           }
         ];
-      case /* T_THIS */ 19 :
+        }
+      case /* T_THIS */ 19 : {
         token$4(env, /* T_THIS */ 19);
         return [
           loc,
           /* This */ 0
         ];
-      case /* T_NULL */ 27 :
+        }
+      case /* T_NULL */ 27 : {
         const raw = Curry._2(Parser_env_Peek.value, undefined, env);
         token$4(env, /* T_NULL */ 27);
         return [
@@ -9136,13 +9965,17 @@ function primary$1(env) {
             }
           }
         ];
-      case /* T_FALSE */ 28 :
-      case /* T_TRUE */ 29 :
+        }
+      case /* T_FALSE */ 28 : {
+        }
+      case /* T_TRUE */ 29 : {
         exit = 2;
         break;
-      case /* T_CLASS */ 38 :
+        }
+      case /* T_CLASS */ 38 : {
         return Curry._1(Parse.class_expression, env);
-      case /* T_SUPER */ 49 :
+        }
+      case /* T_SUPER */ 49 : {
         const loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
         token$4(env, /* T_SUPER */ 49);
         const id_1 = {
@@ -9161,7 +9994,8 @@ function primary$1(env) {
             _0: id
           }
         ];
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LESS_THAN */ 89 : {
         const match$3 = Curry._1(Parse.jsx_element, env);
         return [
           match$3[0],
@@ -9170,8 +10004,10 @@ function primary$1(env) {
             _0: match$3[1]
           }
         ];
-      case /* T_DIV_ASSIGN */ 70 :
-      case /* T_DIV */ 96 :
+        }
+      case /* T_DIV_ASSIGN */ 70 : {
+        }
+      case /* T_DIV */ 96 : {
         push_lex_mode(env, /* REGEXP */ 5);
         const loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
         const match$4 = Curry._2(Parser_env_Peek.token, undefined, env);
@@ -9220,15 +10056,22 @@ function primary$1(env) {
             return;
           }
           switch (c) {
-            case 104 :
-            case 106 :
-            case 107 :
-            case 108 :
+            case 104 : {
+              }
+            case 106 : {
+              }
+            case 107 : {
+              }
+            case 108 : {
               return;
-            case 103 :
-            case 105 :
-            case 109 :
+              }
+            case 103 : {
+              }
+            case 105 : {
+              }
+            case 109 : {
               return Stdlib__Buffer.add_char(filtered_flags, c);
+              }
           }
         }), raw_flags);
         const flags = Stdlib__Buffer.contents(filtered_flags);
@@ -9255,12 +10098,13 @@ function primary$1(env) {
             }
           }
         ];
+        }
       default:
         exit = 1;
     }
   } else {
     switch (number_type.TAG) {
-      case /* T_NUMBER */ 0 :
+      case /* T_NUMBER */ 0 : {
         const raw$2 = Curry._2(Parser_env_Peek.value, undefined, env);
         const value$1 = {
           TAG: /* Number */ 2,
@@ -9276,7 +10120,8 @@ function primary$1(env) {
             }
           }
         ];
-      case /* T_STRING */ 1 :
+        }
+      case /* T_STRING */ 1 : {
         const match$7 = number_type._0;
         const octal = match$7[3];
         const raw$3 = match$7[2];
@@ -9308,7 +10153,8 @@ function primary$1(env) {
             }
           }
         ];
-      case /* T_TEMPLATE_PART */ 2 :
+        }
+      case /* T_TEMPLATE_PART */ 2 : {
         const match$8 = Curry._2(template_literal, env, number_type._0);
         return [
           match$8[0],
@@ -9317,12 +10163,13 @@ function primary$1(env) {
             _0: match$8[1]
           }
         ];
+        }
       default:
         exit = 1;
     }
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       if (Curry._2(Parser_env_Peek.is_identifier, undefined, env)) {
         const id$1 = Curry._2(Parse.identifier, undefined, env);
         return [
@@ -9347,7 +10194,8 @@ function primary$1(env) {
           }
         }
       ];
-    case 2 :
+      }
+    case 2 : {
       const raw$4 = Curry._2(Parser_env_Peek.value, undefined, env);
       token$4(env, number_type);
       const value$4 = {
@@ -9364,6 +10212,7 @@ function primary$1(env) {
           }
         }
       ];
+      }
   }
 }
 
@@ -9416,13 +10265,18 @@ function identifier_or_reserved_keyword(env) {
   let exit = 0;
   if (/* tag */ typeof lex_token !== "object" && typeof lex_token !== "function") {
     switch (lex_token) {
-      case /* T_IDENTIFIER */ 0 :
-      case /* T_DECLARE */ 58 :
-      case /* T_TYPE */ 59 :
-      case /* T_OF */ 60 :
-      case /* T_ASYNC */ 61 :
+      case /* T_IDENTIFIER */ 0 : {
+        }
+      case /* T_DECLARE */ 58 : {
+        }
+      case /* T_TYPE */ 59 : {
+        }
+      case /* T_OF */ 60 : {
+        }
+      case /* T_ASYNC */ 61 : {
         exit = 2;
         break;
+        }
       default:
         exit = 1;
     }
@@ -9430,64 +10284,115 @@ function identifier_or_reserved_keyword(env) {
     exit = 1;
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       let err;
       let exit$1 = 0;
       if (/* tag */ typeof lex_token !== "object" && typeof lex_token !== "function") {
         switch (lex_token) {
-          case /* T_FUNCTION */ 13 :
-          case /* T_IF */ 14 :
-          case /* T_IN */ 15 :
-          case /* T_INSTANCEOF */ 16 :
-          case /* T_RETURN */ 17 :
-          case /* T_SWITCH */ 18 :
-          case /* T_THIS */ 19 :
-          case /* T_THROW */ 20 :
-          case /* T_TRY */ 21 :
-          case /* T_VAR */ 22 :
-          case /* T_WHILE */ 23 :
-          case /* T_WITH */ 24 :
-          case /* T_CONST */ 25 :
-          case /* T_LET */ 26 :
-          case /* T_NULL */ 27 :
-          case /* T_FALSE */ 28 :
-          case /* T_TRUE */ 29 :
-          case /* T_BREAK */ 30 :
-          case /* T_CASE */ 31 :
-          case /* T_CATCH */ 32 :
-          case /* T_CONTINUE */ 33 :
-          case /* T_DEFAULT */ 34 :
-          case /* T_DO */ 35 :
-          case /* T_FINALLY */ 36 :
-          case /* T_FOR */ 37 :
-          case /* T_CLASS */ 38 :
-          case /* T_EXTENDS */ 39 :
-          case /* T_STATIC */ 40 :
-          case /* T_ELSE */ 41 :
-          case /* T_NEW */ 42 :
-          case /* T_DELETE */ 43 :
-          case /* T_TYPEOF */ 44 :
-          case /* T_VOID */ 45 :
-          case /* T_ENUM */ 46 :
-          case /* T_EXPORT */ 47 :
-          case /* T_IMPORT */ 48 :
-          case /* T_SUPER */ 49 :
-          case /* T_IMPLEMENTS */ 50 :
-          case /* T_INTERFACE */ 51 :
-          case /* T_PACKAGE */ 52 :
-          case /* T_PRIVATE */ 53 :
-          case /* T_PROTECTED */ 54 :
-          case /* T_PUBLIC */ 55 :
-          case /* T_YIELD */ 56 :
-          case /* T_DEBUGGER */ 57 :
-          case /* T_AWAIT */ 62 :
-          case /* T_ANY_TYPE */ 107 :
-          case /* T_BOOLEAN_TYPE */ 108 :
-          case /* T_NUMBER_TYPE */ 109 :
-          case /* T_STRING_TYPE */ 110 :
-          case /* T_VOID_TYPE */ 111 :
+          case /* T_FUNCTION */ 13 : {
+            }
+          case /* T_IF */ 14 : {
+            }
+          case /* T_IN */ 15 : {
+            }
+          case /* T_INSTANCEOF */ 16 : {
+            }
+          case /* T_RETURN */ 17 : {
+            }
+          case /* T_SWITCH */ 18 : {
+            }
+          case /* T_THIS */ 19 : {
+            }
+          case /* T_THROW */ 20 : {
+            }
+          case /* T_TRY */ 21 : {
+            }
+          case /* T_VAR */ 22 : {
+            }
+          case /* T_WHILE */ 23 : {
+            }
+          case /* T_WITH */ 24 : {
+            }
+          case /* T_CONST */ 25 : {
+            }
+          case /* T_LET */ 26 : {
+            }
+          case /* T_NULL */ 27 : {
+            }
+          case /* T_FALSE */ 28 : {
+            }
+          case /* T_TRUE */ 29 : {
+            }
+          case /* T_BREAK */ 30 : {
+            }
+          case /* T_CASE */ 31 : {
+            }
+          case /* T_CATCH */ 32 : {
+            }
+          case /* T_CONTINUE */ 33 : {
+            }
+          case /* T_DEFAULT */ 34 : {
+            }
+          case /* T_DO */ 35 : {
+            }
+          case /* T_FINALLY */ 36 : {
+            }
+          case /* T_FOR */ 37 : {
+            }
+          case /* T_CLASS */ 38 : {
+            }
+          case /* T_EXTENDS */ 39 : {
+            }
+          case /* T_STATIC */ 40 : {
+            }
+          case /* T_ELSE */ 41 : {
+            }
+          case /* T_NEW */ 42 : {
+            }
+          case /* T_DELETE */ 43 : {
+            }
+          case /* T_TYPEOF */ 44 : {
+            }
+          case /* T_VOID */ 45 : {
+            }
+          case /* T_ENUM */ 46 : {
+            }
+          case /* T_EXPORT */ 47 : {
+            }
+          case /* T_IMPORT */ 48 : {
+            }
+          case /* T_SUPER */ 49 : {
+            }
+          case /* T_IMPLEMENTS */ 50 : {
+            }
+          case /* T_INTERFACE */ 51 : {
+            }
+          case /* T_PACKAGE */ 52 : {
+            }
+          case /* T_PRIVATE */ 53 : {
+            }
+          case /* T_PROTECTED */ 54 : {
+            }
+          case /* T_PUBLIC */ 55 : {
+            }
+          case /* T_YIELD */ 56 : {
+            }
+          case /* T_DEBUGGER */ 57 : {
+            }
+          case /* T_AWAIT */ 62 : {
+            }
+          case /* T_ANY_TYPE */ 107 : {
+            }
+          case /* T_BOOLEAN_TYPE */ 108 : {
+            }
+          case /* T_NUMBER_TYPE */ 109 : {
+            }
+          case /* T_STRING_TYPE */ 110 : {
+            }
+          case /* T_VOID_TYPE */ 111 : {
             exit$1 = 3;
             break;
+            }
           default:
             error_unexpected(env);
             err = undefined;
@@ -9517,11 +10422,13 @@ function identifier_or_reserved_keyword(env) {
         ],
         err
       ];
-    case 2 :
+      }
+    case 2 : {
       return [
         Curry._2(Parse.identifier, undefined, env),
         undefined
       ];
+      }
   }
 }
 
@@ -9575,11 +10482,13 @@ function try_assignment_but_not_arrow_function(env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env$1);
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_ARROW */ 10 :
-      case /* T_COLON */ 77 :
+      case /* T_ARROW */ 10 : {
+        }
+      case /* T_COLON */ 77 : {
         throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
             MEL_EXN_ID: Parser_env_Try.Rollback
           });
+        }
     }
   }
   if (!Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
@@ -9614,7 +10523,7 @@ function assignment(env) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_YIELD */ 56 :
+      case /* T_YIELD */ 56 : {
         if (env.allow_yield) {
           const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_YIELD */ 56);
@@ -9646,9 +10555,12 @@ function assignment(env) {
         }
         exit = 2;
         break;
-      case /* T_LPAREN */ 3 :
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LPAREN */ 3 : {
+        }
+      case /* T_LESS_THAN */ 89 : {
         break;
+        }
       default:
         exit = 2;
     }
@@ -9748,7 +10660,7 @@ function binary_op(env) {
   let ret;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_IN */ 15 :
+      case /* T_IN */ 15 : {
         ret = env.no_in ? undefined : [
             /* In */ 20,
             {
@@ -9757,7 +10669,8 @@ function binary_op(env) {
             }
           ];
         break;
-      case /* T_INSTANCEOF */ 16 :
+        }
+      case /* T_INSTANCEOF */ 16 : {
         ret = [
           /* Instanceof */ 21,
           {
@@ -9766,7 +10679,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_BIT_OR */ 80 :
+        }
+      case /* T_BIT_OR */ 80 : {
         ret = [
           /* BitOr */ 17,
           {
@@ -9775,7 +10689,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_BIT_XOR */ 81 :
+        }
+      case /* T_BIT_XOR */ 81 : {
         ret = [
           /* Xor */ 18,
           {
@@ -9784,7 +10699,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_BIT_AND */ 82 :
+        }
+      case /* T_BIT_AND */ 82 : {
         ret = [
           /* BitAnd */ 19,
           {
@@ -9793,7 +10709,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_EQUAL */ 83 :
+        }
+      case /* T_EQUAL */ 83 : {
         ret = [
           /* Equal */ 0,
           {
@@ -9802,7 +10719,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_NOT_EQUAL */ 84 :
+        }
+      case /* T_NOT_EQUAL */ 84 : {
         ret = [
           /* NotEqual */ 1,
           {
@@ -9811,7 +10729,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_STRICT_EQUAL */ 85 :
+        }
+      case /* T_STRICT_EQUAL */ 85 : {
         ret = [
           /* StrictEqual */ 2,
           {
@@ -9820,7 +10739,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_STRICT_NOT_EQUAL */ 86 :
+        }
+      case /* T_STRICT_NOT_EQUAL */ 86 : {
         ret = [
           /* StrictNotEqual */ 3,
           {
@@ -9829,7 +10749,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_LESS_THAN_EQUAL */ 87 :
+        }
+      case /* T_LESS_THAN_EQUAL */ 87 : {
         ret = [
           /* LessThanEqual */ 5,
           {
@@ -9838,7 +10759,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_GREATER_THAN_EQUAL */ 88 :
+        }
+      case /* T_GREATER_THAN_EQUAL */ 88 : {
         ret = [
           /* GreaterThanEqual */ 7,
           {
@@ -9847,7 +10769,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LESS_THAN */ 89 : {
         ret = [
           /* LessThan */ 4,
           {
@@ -9856,7 +10779,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_GREATER_THAN */ 90 :
+        }
+      case /* T_GREATER_THAN */ 90 : {
         ret = [
           /* GreaterThan */ 6,
           {
@@ -9865,7 +10789,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_LSHIFT */ 91 :
+        }
+      case /* T_LSHIFT */ 91 : {
         ret = [
           /* LShift */ 8,
           {
@@ -9874,7 +10799,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_RSHIFT */ 92 :
+        }
+      case /* T_RSHIFT */ 92 : {
         ret = [
           /* RShift */ 9,
           {
@@ -9883,7 +10809,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_RSHIFT3 */ 93 :
+        }
+      case /* T_RSHIFT3 */ 93 : {
         ret = [
           /* RShift3 */ 10,
           {
@@ -9892,7 +10819,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_PLUS */ 94 :
+        }
+      case /* T_PLUS */ 94 : {
         ret = [
           /* Plus */ 11,
           {
@@ -9901,7 +10829,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_MINUS */ 95 :
+        }
+      case /* T_MINUS */ 95 : {
         ret = [
           /* Minus */ 12,
           {
@@ -9910,7 +10839,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_DIV */ 96 :
+        }
+      case /* T_DIV */ 96 : {
         ret = [
           /* Div */ 15,
           {
@@ -9919,7 +10849,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_MULT */ 97 :
+        }
+      case /* T_MULT */ 97 : {
         ret = [
           /* Mult */ 13,
           {
@@ -9928,7 +10859,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_EXP */ 98 :
+        }
+      case /* T_EXP */ 98 : {
         ret = [
           /* Exp */ 14,
           {
@@ -9937,7 +10869,8 @@ function binary_op(env) {
           }
         ];
         break;
-      case /* T_MOD */ 99 :
+        }
+      case /* T_MOD */ 99 : {
         ret = [
           /* Mod */ 16,
           {
@@ -9946,6 +10879,7 @@ function binary_op(env) {
           }
         ];
         break;
+        }
       default:
         ret = undefined;
     }
@@ -10098,9 +11032,11 @@ function arguments$p(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RPAREN */ 4 :
-        case /* T_EOF */ 105 :
+        case /* T_RPAREN */ 4 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const acc_0 = argument(env);
@@ -10269,14 +11205,15 @@ function elements(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_COMMA */ 8 :
+        case /* T_COMMA */ 8 : {
           token$4(env, /* T_COMMA */ 8);
           _acc = {
             hd: undefined,
             tl: acc
           };
           continue;
-        case /* T_ELLIPSIS */ 11 :
+          }
+        case /* T_ELLIPSIS */ 11 : {
           const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_ELLIPSIS */ 11);
           const argument = Curry._1(assignment, env);
@@ -10295,9 +11232,12 @@ function elements(env, _acc) {
             tl: acc
           };
           continue;
-        case /* T_RBRACKET */ 6 :
-        case /* T_EOF */ 105 :
+          }
+        case /* T_RBRACKET */ 6 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const elem$1 = {
@@ -10332,10 +11272,13 @@ function array_initializer(env) {
 function error_callback$1(param, param$1) {
   if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
     switch (param$1) {
-      case /* StrictParamName */ 28 :
-      case /* NewlineBeforeArrow */ 44 :
-      case /* ParameterAfterRestParameter */ 47 :
+      case /* StrictParamName */ 28 : {
+        }
+      case /* NewlineBeforeArrow */ 44 : {
+        }
+      case /* ParameterAfterRestParameter */ 47 : {
         return;
+        }
       default:
         throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
             MEL_EXN_ID: Parser_env_Try.Rollback
@@ -10489,7 +11432,7 @@ function key(env) {
     
   } else {
     switch (number_type.TAG) {
-      case /* T_NUMBER */ 0 :
+      case /* T_NUMBER */ 0 : {
         const raw = Curry._2(Parser_env_Peek.value, undefined, env);
         const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
         const value = number(env, number_type._0);
@@ -10510,7 +11453,8 @@ function key(env) {
             ]
           }
         ];
-      case /* T_STRING */ 1 :
+        }
+      case /* T_STRING */ 1 : {
         const match = number_type._0;
         const octal = match[3];
         const raw$1 = match[2];
@@ -10545,6 +11489,7 @@ function key(env) {
             ]
           }
         ];
+        }
     }
   }
   const match$1 = identifier_or_reserved_keyword(env);
@@ -10563,18 +11508,21 @@ function _method(env, kind) {
   const match = key(env);
   let typeParameters;
   switch (kind) {
-    case /* Init */ 0 :
+    case /* Init */ 0 : {
       typeParameters = Curry._1(type_parameter_declaration$1, env);
       break;
-    case /* Get */ 1 :
-    case /* Set */ 2 :
+      }
+    case /* Get */ 1 : {
+      }
+    case /* Set */ 2 : {
       typeParameters = undefined;
       break;
+      }
   }
   token$4(env, /* T_LPAREN */ 3);
   let params;
   switch (kind) {
-    case /* Init */ 0 :
+    case /* Init */ 0 : {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -10583,10 +11531,12 @@ function _method(env, kind) {
             16
           ]
         });
-    case /* Get */ 1 :
+      }
+    case /* Get */ 1 : {
       params = /* [] */ 0;
       break;
-    case /* Set */ 2 :
+      }
+    case /* Set */ 2 : {
       const param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28);
       params = {
         hd: [
@@ -10599,6 +11549,7 @@ function _method(env, kind) {
         tl: /* [] */ 0
       };
       break;
+      }
   }
   token$4(env, /* T_RPAREN */ 4);
   const returnType = wrap(annotation_opt, env);
@@ -10663,18 +11614,21 @@ function property$1(env) {
   } else {
     const key$1 = match$1[1];
     switch (key$1.TAG) {
-      case /* Identifier */ 1 :
+      case /* Identifier */ 1 : {
         switch (key$1._0[1].name) {
-          case "get" :
+          case "get" : {
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$1 = 0;
             if (/* tag */ typeof match$2 !== "object" && typeof match$2 !== "function") {
               switch (match$2) {
-                case /* T_LPAREN */ 3 :
-                case /* T_COLON */ 77 :
-                case /* T_LESS_THAN */ 89 :
+                case /* T_LPAREN */ 3 : {
+                  }
+                case /* T_COLON */ 77 : {
+                  }
+                case /* T_LESS_THAN */ 89 : {
                   exit$1 = 2;
                   break;
+                  }
                 default:
                   tmp = get(env, start_loc);
               }
@@ -10685,16 +11639,20 @@ function property$1(env) {
               tmp = init(env, start_loc, key$1, false, false);
             }
             break;
-          case "set" :
+            }
+          case "set" : {
             const match$3 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$2 = 0;
             if (/* tag */ typeof match$3 !== "object" && typeof match$3 !== "function") {
               switch (match$3) {
-                case /* T_LPAREN */ 3 :
-                case /* T_COLON */ 77 :
-                case /* T_LESS_THAN */ 89 :
+                case /* T_LPAREN */ 3 : {
+                  }
+                case /* T_COLON */ 77 : {
+                  }
+                case /* T_LESS_THAN */ 89 : {
                   exit$2 = 2;
                   break;
+                  }
                 default:
                   tmp = set(env, start_loc);
               }
@@ -10705,14 +11663,18 @@ function property$1(env) {
               tmp = init(env, start_loc, key$1, false, false);
             }
             break;
+            }
           default:
             exit = 1;
         }
         break;
-      case /* Literal */ 0 :
-      case /* Computed */ 2 :
+        }
+      case /* Literal */ 0 : {
+        }
+      case /* Computed */ 2 : {
         exit = 1;
         break;
+        }
     }
   }
   if (exit === 1) {
@@ -10778,14 +11740,18 @@ function init(env, start_loc, key, async, generator) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_RCURLY */ 2 :
-      case /* T_COMMA */ 8 :
+      case /* T_RCURLY */ 2 : {
+        }
+      case /* T_COMMA */ 8 : {
         exit = 2;
         break;
-      case /* T_LPAREN */ 3 :
-      case /* T_LESS_THAN */ 89 :
+        }
+      case /* T_LPAREN */ 3 : {
+        }
+      case /* T_LESS_THAN */ 89 : {
         exit = 3;
         break;
+        }
       default:
         exit = 1;
     }
@@ -10793,7 +11759,7 @@ function init(env, start_loc, key, async, generator) {
     exit = 1;
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       token$4(env, /* T_COLON */ 77);
       match$1 = [
         Curry._1(Parse.assignment, env),
@@ -10801,10 +11767,11 @@ function init(env, start_loc, key, async, generator) {
         false
       ];
       break;
-    case 2 :
+      }
+    case 2 : {
       let tmp;
       switch (key.TAG) {
-        case /* Literal */ 0 :
+        case /* Literal */ 0 : {
           const lit = key._0;
           tmp = [
             lit[0],
@@ -10814,7 +11781,8 @@ function init(env, start_loc, key, async, generator) {
             }
           ];
           break;
-        case /* Identifier */ 1 :
+          }
+        case /* Identifier */ 1 : {
           const id = key._0;
           tmp = [
             id[0],
@@ -10824,9 +11792,11 @@ function init(env, start_loc, key, async, generator) {
             }
           ];
           break;
-        case /* Computed */ 2 :
+          }
+        case /* Computed */ 2 : {
           tmp = key._0;
           break;
+          }
       }
       match$1 = [
         tmp,
@@ -10834,7 +11804,8 @@ function init(env, start_loc, key, async, generator) {
         false
       ];
       break;
-    case 3 :
+      }
+    case 3 : {
       const typeParameters = Curry._1(type_parameter_declaration$1, env);
       const match$2 = function_params(env);
       const rest = match$2[2];
@@ -10880,6 +11851,7 @@ function init(env, start_loc, key, async, generator) {
         true
       ];
       break;
+      }
   }
   const value$1 = match$1[0];
   return [
@@ -10903,45 +11875,54 @@ function check_property(env, prop_map, prop) {
   const prop_loc = match[0];
   let exit = 0;
   switch (prop$1.key.TAG) {
-    case /* Literal */ 0 :
-    case /* Identifier */ 1 :
+    case /* Literal */ 0 : {
+      }
+    case /* Identifier */ 1 : {
       exit = 1;
       break;
-    case /* Computed */ 2 :
+      }
+    case /* Computed */ 2 : {
       return prop_map;
+      }
   }
   if (exit === 1) {
     const match$1 = prop$1.key;
     let key;
     switch (match$1.TAG) {
-      case /* Literal */ 0 :
+      case /* Literal */ 0 : {
         const s = match$1._0[1].value;
         if (/* tag */ typeof s !== "object" && typeof s !== "function") {
           key = "null";
         } else {
           switch (s.TAG) {
-            case /* String */ 0 :
+            case /* String */ 0 : {
               key = s._0;
               break;
-            case /* Boolean */ 1 :
+              }
+            case /* Boolean */ 1 : {
               const b = s._0;
               key = b ? "true" : "false";
               break;
-            case /* Number */ 2 :
+              }
+            case /* Number */ 2 : {
               key = Stdlib.string_of_float(s._0);
               break;
-            case /* RegExp */ 3 :
+              }
+            case /* RegExp */ 3 : {
               throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "RegExp cannot be property key"
                 });
+              }
           }
         }
         break;
-      case /* Identifier */ 1 :
+        }
+      case /* Identifier */ 1 : {
         key = match$1._0[1].name;
         break;
-      case /* Computed */ 2 :
+        }
+      case /* Computed */ 2 : {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",
             _1: [
@@ -10950,6 +11931,7 @@ function check_property(env, prop_map, prop) {
               30
             ]
           });
+        }
     }
     let prev_kinds;
     try {
@@ -10966,19 +11948,22 @@ function check_property(env, prop_map, prop) {
     const match$2 = prop$1.kind;
     let kind_string;
     switch (match$2) {
-      case /* Init */ 0 :
+      case /* Init */ 0 : {
         kind_string = "Init";
         break;
-      case /* Get */ 1 :
+        }
+      case /* Get */ 1 : {
         kind_string = "Get";
         break;
-      case /* Set */ 2 :
+        }
+      case /* Set */ 2 : {
         kind_string = "Set";
         break;
+        }
     }
     let exit$1 = 0;
     switch (kind_string) {
-      case "Init" :
+      case "Init" : {
         if (Curry._2(mem$1, "Init", prev_kinds)) {
           strict_error_at(env, [
             prop_loc,
@@ -10991,10 +11976,13 @@ function check_property(env, prop_map, prop) {
           ]);
         }
         break;
-      case "Get" :
-      case "Set" :
+        }
+      case "Get" : {
+        }
+      case "Set" : {
         exit$1 = 2;
         break;
+        }
     }
     if (exit$1 === 2) {
       if (Curry._2(mem$1, "Init", prev_kinds)) {
@@ -11023,9 +12011,11 @@ function properties$1(env, _param) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const prop = property$1(env);
@@ -11133,11 +12123,14 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_SEMICOLON */ 7 :
-      case /* T_ASSIGN */ 75 :
-      case /* T_COLON */ 77 :
+      case /* T_SEMICOLON */ 7 : {
+        }
+      case /* T_ASSIGN */ 75 : {
+        }
+      case /* T_COLON */ 77 : {
         exit = 2;
         break;
+        }
     }
   }
   if (exit === 2 && !async && !generator) {
@@ -11202,16 +12195,19 @@ function init$1(env, start_loc, decorators, key, async, generator, $$static) {
   ];
   let kind;
   switch (key.TAG) {
-    case /* Literal */ 0 :
+    case /* Literal */ 0 : {
       const match$4 = key._0[1].value;
       kind = /* tag */ typeof match$4 !== "object" && typeof match$4 !== "function" || !(match$4.TAG === /* String */ 0 && match$4._0 === "constructor") ? /* Method */ 1 : /* Constructor */ 0;
       break;
-    case /* Identifier */ 1 :
+      }
+    case /* Identifier */ 1 : {
       kind = key._0[1].name === "constructor" ? /* Constructor */ 0 : /* Method */ 1;
       break;
-    case /* Computed */ 2 :
+      }
+    case /* Computed */ 2 : {
       kind = /* Method */ 1;
       break;
+      }
   }
   return {
     TAG: /* Method */ 0,
@@ -11238,22 +12234,27 @@ function class_element(env) {
   if (!async && !generator$1) {
     const key$1 = match[1];
     switch (key$1.TAG) {
-      case /* Identifier */ 1 :
+      case /* Identifier */ 1 : {
         switch (key$1._0[1].name) {
-          case "get" :
+          case "get" : {
             const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit = 0;
             if (!/* tag */ (typeof match$1 !== "object" && typeof match$1 !== "function")) {
               return get$1(env, start_loc, decorators, $$static);
             }
             switch (match$1) {
-              case /* T_LPAREN */ 3 :
-              case /* T_SEMICOLON */ 7 :
-              case /* T_ASSIGN */ 75 :
-              case /* T_COLON */ 77 :
-              case /* T_LESS_THAN */ 89 :
+              case /* T_LPAREN */ 3 : {
+                }
+              case /* T_SEMICOLON */ 7 : {
+                }
+              case /* T_ASSIGN */ 75 : {
+                }
+              case /* T_COLON */ 77 : {
+                }
+              case /* T_LESS_THAN */ 89 : {
                 exit = 2;
                 break;
+                }
               default:
                 return get$1(env, start_loc, decorators, $$static);
             }
@@ -11261,20 +12262,26 @@ function class_element(env) {
               return init$1(env, start_loc, decorators, key$1, async, generator$1, $$static);
             }
             break;
-          case "set" :
+            }
+          case "set" : {
             const match$2 = Curry._2(Parser_env_Peek.token, undefined, env);
             let exit$1 = 0;
             if (!/* tag */ (typeof match$2 !== "object" && typeof match$2 !== "function")) {
               return set$1(env, start_loc, decorators, $$static);
             }
             switch (match$2) {
-              case /* T_LPAREN */ 3 :
-              case /* T_SEMICOLON */ 7 :
-              case /* T_ASSIGN */ 75 :
-              case /* T_COLON */ 77 :
-              case /* T_LESS_THAN */ 89 :
+              case /* T_LPAREN */ 3 : {
+                }
+              case /* T_SEMICOLON */ 7 : {
+                }
+              case /* T_ASSIGN */ 75 : {
+                }
+              case /* T_COLON */ 77 : {
+                }
+              case /* T_LESS_THAN */ 89 : {
                 exit$1 = 2;
                 break;
+                }
               default:
                 return set$1(env, start_loc, decorators, $$static);
             }
@@ -11282,11 +12289,15 @@ function class_element(env) {
               return init$1(env, start_loc, decorators, key$1, async, generator$1, $$static);
             }
             break;
+            }
         }
         break;
-      case /* Literal */ 0 :
-      case /* Computed */ 2 :
+        }
+      case /* Literal */ 0 : {
+        }
+      case /* Computed */ 2 : {
         break;
+        }
     }
   }
   return init$1(env, start_loc, decorators, match[1], async, generator$1, $$static);
@@ -11298,12 +12309,15 @@ function elements$1(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_SEMICOLON */ 7 :
+        case /* T_SEMICOLON */ 7 : {
           token$4(env, /* T_SEMICOLON */ 7);
           continue;
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+          }
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
         default:
           _acc = {
             hd: Curry._1(class_element, env),
@@ -11400,14 +12414,17 @@ function class_expression(env) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_LCURLY */ 1 :
-      case /* T_EXTENDS */ 39 :
-      case /* T_LESS_THAN */ 89 :
+      case /* T_LCURLY */ 1 : {
+        }
+      case /* T_EXTENDS */ 39 : {
+        }
+      case /* T_LESS_THAN */ 89 : {
         match$1 = [
           undefined,
           undefined
         ];
         break;
+        }
       default:
         exit = 1;
     }
@@ -11451,7 +12468,7 @@ function declare(in_moduleOpt, env) {
   const match = Curry._2(Parser_env_Peek.token, 1, env);
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_IDENTIFIER */ 0 :
+      case /* T_IDENTIFIER */ 0 : {
         if (Curry._2(Parser_env_Peek.value, 1, env) === "module") {
           token$4(env, /* T_DECLARE */ 58);
           contextual(env, "module");
@@ -11544,13 +12561,16 @@ function declare(in_moduleOpt, env) {
           }
         }
         break;
-      case /* T_FUNCTION */ 13 :
+        }
+      case /* T_FUNCTION */ 13 : {
         token$4(env, /* T_DECLARE */ 58);
         return declare_function_statement(env, start_loc);
-      case /* T_VAR */ 22 :
+        }
+      case /* T_VAR */ 22 : {
         token$4(env, /* T_DECLARE */ 58);
         return declare_var_statement(env, start_loc);
-      case /* T_CLASS */ 38 :
+        }
+      case /* T_CLASS */ 38 : {
         token$4(env, /* T_DECLARE */ 58);
         const match$4 = Curry._2(declare_class, env, start_loc);
         return [
@@ -11560,22 +12580,27 @@ function declare(in_moduleOpt, env) {
             _0: match$4[1]
           }
         ];
-      case /* T_EXPORT */ 47 :
+        }
+      case /* T_EXPORT */ 47 : {
         if (in_module) {
           return declare_export_declaration(in_module, env);
         }
         break;
-      case /* T_INTERFACE */ 51 :
+        }
+      case /* T_INTERFACE */ 51 : {
         token$4(env, /* T_DECLARE */ 58);
         return $$interface(env);
-      case /* T_TYPE */ 59 :
+        }
+      case /* T_TYPE */ 59 : {
         token$4(env, /* T_DECLARE */ 58);
         return type_alias(env);
-      case /* T_ASYNC */ 61 :
+        }
+      case /* T_ASYNC */ 61 : {
         token$4(env, /* T_DECLARE */ 58);
         error$1(env, /* DeclareAsync */ 49);
         token$4(env, /* T_ASYNC */ 61);
         return declare_function_statement(env, start_loc);
+        }
     }
   }
   if (in_module) {
@@ -11593,12 +12618,14 @@ function export_specifiers_and_errs(env, _specifiers, _errs) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return [
             Stdlib__List.rev(specifiers),
             Stdlib__List.rev(errs)
           ];
+          }
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -11836,14 +12863,14 @@ function declare_export_declaration(allow_export_typeOpt, env) {
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_DEFAULT */ 34 :
+      case /* T_DEFAULT */ 34 : {
         token$4(env$1, /* T_DEFAULT */ 34);
         const match$1 = Curry._2(Parser_env_Peek.token, undefined, env$1);
         let match$2;
         let exit$1 = 0;
         if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
           switch (match$1) {
-            case /* T_FUNCTION */ 13 :
+            case /* T_FUNCTION */ 13 : {
               const fn = declare_function(env$1, start_loc);
               match$2 = [
                 fn[0],
@@ -11853,7 +12880,8 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                 }
               ];
               break;
-            case /* T_CLASS */ 38 :
+              }
+            case /* T_CLASS */ 38 : {
               const _class = Curry._2(declare_class, env$1, start_loc);
               match$2 = [
                 _class[0],
@@ -11863,6 +12891,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
                 }
               ];
               break;
+              }
             default:
               exit$1 = 3;
           }
@@ -11894,14 +12923,20 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             }
           }
         ];
-      case /* T_FUNCTION */ 13 :
-      case /* T_VAR */ 22 :
-      case /* T_CONST */ 25 :
-      case /* T_LET */ 26 :
-      case /* T_CLASS */ 38 :
+        }
+      case /* T_FUNCTION */ 13 : {
+        }
+      case /* T_VAR */ 22 : {
+        }
+      case /* T_CONST */ 25 : {
+        }
+      case /* T_LET */ 26 : {
+        }
+      case /* T_CLASS */ 38 : {
         exit = 2;
         break;
-      case /* T_INTERFACE */ 51 :
+        }
+      case /* T_INTERFACE */ 51 : {
         if (allow_export_type) {
           const match$3 = Curry._1(interface_helper, env$1);
           const iface_loc = match$3[0];
@@ -11927,7 +12962,8 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
         exit = 1;
         break;
-      case /* T_TYPE */ 59 :
+        }
+      case /* T_TYPE */ 59 : {
         if (allow_export_type) {
           const match$4 = type_alias_helper(env$1);
           const alias_loc = match$4[0];
@@ -11953,7 +12989,8 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         }
         exit = 1;
         break;
-      case /* T_MULT */ 97 :
+        }
+      case /* T_MULT */ 97 : {
         const loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
         token$4(env$1, /* T_MULT */ 97);
         const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
@@ -11980,6 +13017,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
             }
           }
         ];
+        }
       default:
         exit = 1;
     }
@@ -11987,16 +13025,18 @@ function declare_export_declaration(allow_export_typeOpt, env) {
     exit = 1;
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       const match$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
       if (/* tag */ typeof match$5 !== "object" && typeof match$5 !== "function") {
         switch (match$5) {
-          case /* T_INTERFACE */ 51 :
+          case /* T_INTERFACE */ 51 : {
             error$1(env$1, /* DeclareExportInterface */ 53);
             break;
-          case /* T_TYPE */ 59 :
+            }
+          case /* T_TYPE */ 59 : {
             error$1(env$1, /* DeclareExportType */ 52);
             break;
+            }
         }
       }
       token$4(env$1, /* T_LCURLY */ 1);
@@ -12027,13 +13067,14 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
         }
       ];
-    case 2 :
+      }
+    case 2 : {
       const token$5 = Curry._2(Parser_env_Peek.token, undefined, env$1);
       let match$7;
       let exit$2 = 0;
       if (/* tag */ typeof token$5 !== "object" && typeof token$5 !== "function") {
         switch (token$5) {
-          case /* T_FUNCTION */ 13 :
+          case /* T_FUNCTION */ 13 : {
             const fn$1 = declare_function(env$1, start_loc);
             match$7 = [
               fn$1[0],
@@ -12043,12 +13084,16 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               }
             ];
             break;
-          case /* T_VAR */ 22 :
-          case /* T_CONST */ 25 :
-          case /* T_LET */ 26 :
+            }
+          case /* T_VAR */ 22 : {
+            }
+          case /* T_CONST */ 25 : {
+            }
+          case /* T_LET */ 26 : {
             exit$2 = 3;
             break;
-          case /* T_CLASS */ 38 :
+            }
+          case /* T_CLASS */ 38 : {
             const _class$1 = Curry._2(declare_class, env$1, start_loc);
             match$7 = [
               _class$1[0],
@@ -12058,6 +13103,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               }
             ];
             break;
+            }
           default:
             throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                 MEL_EXN_ID: "Assert_failure",
@@ -12081,12 +13127,14 @@ function declare_export_declaration(allow_export_typeOpt, env) {
       if (exit$2 === 3) {
         if (/* tag */ typeof token$5 !== "object" && typeof token$5 !== "function") {
           switch (token$5) {
-            case /* T_CONST */ 25 :
+            case /* T_CONST */ 25 : {
               error$1(env$1, /* DeclareExportConst */ 51);
               break;
-            case /* T_LET */ 26 :
+              }
+            case /* T_LET */ 26 : {
               error$1(env$1, /* DeclareExportLet */ 50);
               break;
+              }
           }
         }
         const $$var = declare_var(env$1, start_loc);
@@ -12110,6 +13158,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
           }
         }
       ];
+      }
   }
 }
 
@@ -12251,12 +13300,14 @@ function module_items(env, _module_kind, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return [
             module_kind,
             Stdlib__List.rev(acc)
           ];
+          }
       }
     }
     const stmt = declare(true, env);
@@ -12269,17 +13320,20 @@ function module_items(env, _module_kind, _acc) {
           module_kind$1 = module_kind;
         } else {
           switch (stmt$1.TAG) {
-            case /* DeclareModuleExports */ 26 :
+            case /* DeclareModuleExports */ 26 : {
               error$1(env, /* DuplicateDeclareModuleExports */ 60);
               module_kind$1 = module_kind;
               break;
-            case /* DeclareExportDeclaration */ 27 :
+              }
+            case /* DeclareExportDeclaration */ 27 : {
               const declaration = stmt$1._0.declaration;
               if (declaration !== undefined) {
                 switch (declaration.TAG) {
-                  case /* NamedType */ 4 :
-                  case /* Interface */ 5 :
+                  case /* NamedType */ 4 : {
+                    }
+                  case /* Interface */ 5 : {
                     break;
+                    }
                   default:
                     error$1(env, /* AmbiguousDeclareModuleKind */ 61);
                 }
@@ -12288,6 +13342,7 @@ function module_items(env, _module_kind, _acc) {
               }
               module_kind$1 = module_kind;
               break;
+              }
             default:
               module_kind$1 = module_kind;
           }
@@ -12302,20 +13357,23 @@ function module_items(env, _module_kind, _acc) {
       module_kind$1 = module_kind;
     } else {
       switch (stmt$1.TAG) {
-        case /* DeclareModuleExports */ 26 :
+        case /* DeclareModuleExports */ 26 : {
           module_kind$1 = {
             TAG: /* CommonJS */ 0,
             _0: loc
           };
           break;
-        case /* DeclareExportDeclaration */ 27 :
+          }
+        case /* DeclareExportDeclaration */ 27 : {
           const declaration$1 = stmt$1._0.declaration;
           if (declaration$1 !== undefined) {
             switch (declaration$1.TAG) {
-              case /* NamedType */ 4 :
-              case /* Interface */ 5 :
+              case /* NamedType */ 4 : {
+                }
+              case /* Interface */ 5 : {
                 module_kind$1 = module_kind;
                 break;
+                }
               default:
                 module_kind$1 = {
                   TAG: /* ES */ 1,
@@ -12329,6 +13387,7 @@ function module_items(env, _module_kind, _acc) {
             };
           }
           break;
+          }
         default:
           module_kind$1 = module_kind;
       }
@@ -12347,7 +13406,7 @@ function fold(acc, _param) {
     const param = _param;
     const match = param[1];
     switch (match.TAG) {
-      case /* Object */ 0 :
+      case /* Object */ 0 : {
         return Stdlib__List.fold_left((function (acc, prop) {
           if (prop.TAG === /* Property */ 0) {
             return fold(acc, prop._0[1].pattern);
@@ -12355,7 +13414,8 @@ function fold(acc, _param) {
             return fold(acc, prop._0[1].argument);
           }
         }), acc, match._0.properties);
-      case /* Array */ 1 :
+        }
+      case /* Array */ 1 : {
         return Stdlib__List.fold_left((function (acc, elem) {
           if (elem !== undefined) {
             if (elem.TAG === /* Element */ 0) {
@@ -12367,10 +13427,12 @@ function fold(acc, _param) {
             return acc;
           }
         }), acc, match._0.elements);
-      case /* Assignment */ 2 :
+        }
+      case /* Assignment */ 2 : {
         _param = match._0.left;
         continue;
-      case /* Identifier */ 3 :
+        }
+      case /* Identifier */ 3 : {
         const match$1 = match._0;
         return {
           hd: [
@@ -12379,11 +13441,13 @@ function fold(acc, _param) {
           ],
           tl: acc
         };
-      case /* Expression */ 4 :
+        }
+      case /* Expression */ 4 : {
         throw new Caml_js_exceptions.MelangeError("Failure", {
             MEL_EXN_ID: "Failure",
             _1: "Parser error: No such thing as an expression pattern!"
           });
+        }
     }
   };
 }
@@ -12448,9 +13512,11 @@ function case_list(env, _param) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -12474,10 +13540,13 @@ function case_list(env, _param) {
         return false;
       }
       switch (param) {
-        case /* T_RCURLY */ 2 :
-        case /* T_CASE */ 31 :
-        case /* T_DEFAULT */ 34 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_CASE */ 31 : {
+          }
+        case /* T_DEFAULT */ 34 : {
           return true;
+          }
         default:
           return false;
       }
@@ -12577,9 +13646,11 @@ function specifier_list(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_RCURLY */ 2 :
-        case /* T_EOF */ 105 :
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
@@ -12648,7 +13719,7 @@ function from_expr(env, param) {
   const loc = param[0];
   if (!/* tag */ (typeof expr !== "object" && typeof expr !== "function")) {
     switch (expr.TAG) {
-      case /* Array */ 0 :
+      case /* Array */ 0 : {
         let param$1 = [
           loc,
           expr._0
@@ -12689,7 +13760,8 @@ function from_expr(env, param) {
             }
           }
         ];
-      case /* Object */ 1 :
+        }
+      case /* Object */ 1 : {
         let param$2 = [
           loc,
           expr._0
@@ -12701,24 +13773,27 @@ function from_expr(env, param) {
             const key = match$1.key;
             let key$1;
             switch (key.TAG) {
-              case /* Literal */ 0 :
+              case /* Literal */ 0 : {
                 key$1 = {
                   TAG: /* Literal */ 0,
                   _0: key._0
                 };
                 break;
-              case /* Identifier */ 1 :
+                }
+              case /* Identifier */ 1 : {
                 key$1 = {
                   TAG: /* Identifier */ 1,
                   _0: key._0
                 };
                 break;
-              case /* Computed */ 2 :
+                }
+              case /* Computed */ 2 : {
                 key$1 = {
                   TAG: /* Computed */ 2,
                   _0: key._0
                 };
                 break;
+                }
             }
             const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
             return {
@@ -12755,7 +13830,8 @@ function from_expr(env, param) {
             }
           }
         ];
-      case /* Assignment */ 7 :
+        }
+      case /* Assignment */ 7 : {
         const match = expr._0;
         if (match.operator === /* Assign */ 0) {
           return [
@@ -12770,7 +13846,8 @@ function from_expr(env, param) {
           ];
         }
         break;
-      case /* Identifier */ 18 :
+        }
+      case /* Identifier */ 18 : {
         return [
           loc,
           {
@@ -12778,6 +13855,7 @@ function from_expr(env, param) {
             _0: expr._0
           }
         ];
+        }
     }
   }
   return [
@@ -12812,24 +13890,27 @@ function _object$2(restricted_error) {
     const lit = match[1];
     let key;
     switch (lit.TAG) {
-      case /* Literal */ 0 :
+      case /* Literal */ 0 : {
         key = {
           TAG: /* Literal */ 0,
           _0: lit._0
         };
         break;
-      case /* Identifier */ 1 :
+        }
+      case /* Identifier */ 1 : {
         key = {
           TAG: /* Identifier */ 1,
           _0: lit._0
         };
         break;
-      case /* Computed */ 2 :
+        }
+      case /* Computed */ 2 : {
         key = {
           TAG: /* Computed */ 2,
           _0: lit._0
         };
         break;
+        }
     }
     const match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
     let prop;
@@ -12845,7 +13926,7 @@ function _object$2(restricted_error) {
     }
     if (exit === 1) {
       switch (key.TAG) {
-        case /* Identifier */ 1 :
+        case /* Identifier */ 1 : {
           const id = key._0;
           const pattern_0 = id[0];
           const pattern_1 = {
@@ -12861,11 +13942,14 @@ function _object$2(restricted_error) {
             true
           ];
           break;
-        case /* Literal */ 0 :
-        case /* Computed */ 2 :
+          }
+        case /* Literal */ 0 : {
+          }
+        case /* Computed */ 2 : {
           error_unexpected(env);
           prop = undefined;
           break;
+          }
       }
     }
     if (prop === undefined) {
@@ -12910,9 +13994,11 @@ function _object$2(restricted_error) {
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ typeof match !== "object" && typeof match !== "function") {
         switch (match) {
-          case /* T_RCURLY */ 2 :
-          case /* T_EOF */ 105 :
+          case /* T_RCURLY */ 2 : {
+            }
+          case /* T_EOF */ 105 : {
             return Stdlib__List.rev(acc);
+            }
         }
       }
       const prop = property(env);
@@ -12968,14 +14054,15 @@ function _array(restricted_error) {
       const match = Curry._2(Parser_env_Peek.token, undefined, env);
       if (/* tag */ typeof match !== "object" && typeof match !== "function") {
         switch (match) {
-          case /* T_COMMA */ 8 :
+          case /* T_COMMA */ 8 : {
             token$4(env, /* T_COMMA */ 8);
             _acc = {
               hd: undefined,
               tl: acc
             };
             continue;
-          case /* T_ELLIPSIS */ 11 :
+            }
+          case /* T_ELLIPSIS */ 11 : {
             const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
             token$4(env, /* T_ELLIPSIS */ 11);
             const argument = pattern$1(env, restricted_error);
@@ -12994,9 +14081,12 @@ function _array(restricted_error) {
               tl: acc
             };
             continue;
-          case /* T_RBRACKET */ 6 :
-          case /* T_EOF */ 105 :
+            }
+          case /* T_RBRACKET */ 6 : {
+            }
+          case /* T_EOF */ 105 : {
             return Stdlib__List.rev(acc);
+            }
         }
       }
       const pattern$2 = pattern$1(env, restricted_error);
@@ -13069,10 +14159,12 @@ function pattern$1(env, restricted_error) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_LCURLY */ 1 :
+      case /* T_LCURLY */ 1 : {
         return _object$2(restricted_error)(env);
-      case /* T_LBRACKET */ 5 :
+        }
+      case /* T_LBRACKET */ 5 : {
         return _array(restricted_error)(env);
+        }
     }
   }
   const id = Curry._2(Parse.identifier_with_type, env, restricted_error);
@@ -13182,7 +14274,7 @@ function name(env) {
     };
   }
   switch (match) {
-    case /* T_PERIOD */ 9 :
+    case /* T_PERIOD */ 9 : {
       const _object = {
         TAG: /* Identifier */ 0,
         _0: name$1
@@ -13202,7 +14294,8 @@ function name(env) {
         TAG: /* MemberExpression */ 2,
         _0: member_expression(env, member)
       };
-    case /* T_COLON */ 77 :
+      }
+    case /* T_COLON */ 77 : {
       token$4(env, /* T_COLON */ 77);
       const name$2 = identifier$1(env);
       const loc$1 = btwn(name$1[0], name$2[0]);
@@ -13216,6 +14309,7 @@ function name(env) {
           }
         ]
       };
+      }
     default:
       return {
         TAG: /* Identifier */ 0,
@@ -13341,7 +14435,7 @@ function attributes(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_LCURLY */ 1 :
+        case /* T_LCURLY */ 1 : {
           const attribute$1 = {
             TAG: /* SpreadAttribute */ 1,
             _0: spread_attribute(env)
@@ -13351,10 +14445,14 @@ function attributes(env, _acc) {
             tl: acc
           };
           continue;
-        case /* T_GREATER_THAN */ 90 :
-        case /* T_DIV */ 96 :
-        case /* T_EOF */ 105 :
+          }
+        case /* T_GREATER_THAN */ 90 : {
+          }
+        case /* T_DIV */ 96 : {
+          }
+        case /* T_EOF */ 105 : {
           return Stdlib__List.rev(acc);
+          }
       }
     }
     const attribute$2 = {
@@ -13460,12 +14558,14 @@ function element_or_closing(env) {
     };
   }
   switch (match) {
-    case /* T_DIV */ 96 :
-    case /* T_EOF */ 105 :
+    case /* T_DIV */ 96 : {
+      }
+    case /* T_EOF */ 105 : {
       return {
         TAG: /* Closing */ 0,
         _0: closing_element_without_lt(env, start_loc)
       };
+      }
     default:
       return {
         TAG: /* ChildElement */ 1,
@@ -13480,7 +14580,7 @@ function children_and_closing(env, _acc) {
     const match = Curry._2(Parser_env_Peek.token, undefined, env);
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_LESS_THAN */ 89 :
+        case /* T_LESS_THAN */ 89 : {
           const closingElement = element_or_closing(env);
           if (closingElement.TAG === /* Closing */ 0) {
             return [
@@ -13503,12 +14603,14 @@ function children_and_closing(env, _acc) {
             tl: acc
           };
           continue;
-        case /* T_EOF */ 105 :
+          }
+        case /* T_EOF */ 105 : {
           error_unexpected(env);
           return [
             Stdlib__List.rev(acc),
             undefined
           ];
+          }
         default:
           _acc = {
             hd: child(env),
@@ -13528,12 +14630,14 @@ function children_and_closing(env, _acc) {
 
 function normalize(name) {
   switch (name.TAG) {
-    case /* Identifier */ 0 :
+    case /* Identifier */ 0 : {
       return name._0[1].name;
-    case /* NamespacedName */ 1 :
+      }
+    case /* NamespacedName */ 1 : {
       const match = name._0[1];
       return match.namespace[1].name + (":" + match.name[1].name);
-    case /* MemberExpression */ 2 :
+      }
+    case /* MemberExpression */ 2 : {
       const match$1 = name._0[1];
       const _object = match$1._object;
       let _object$1;
@@ -13542,6 +14646,7 @@ function normalize(name) {
           _0: _object._0
         });
       return _object$1 + ("." + match$1.property[1].name);
+      }
   }
 }
 
@@ -13581,7 +14686,7 @@ function statement(env) {
     let exit = 0;
     if (/* tag */ typeof match !== "object" && typeof match !== "function") {
       switch (match) {
-        case /* T_LCURLY */ 1 :
+        case /* T_LCURLY */ 1 : {
           const match$1 = Curry._1(Parse.block_body, env);
           return [
             match$1[0],
@@ -13590,16 +14695,19 @@ function statement(env) {
               _0: match$1[1]
             }
           ];
-        case /* T_SEMICOLON */ 7 :
+          }
+        case /* T_SEMICOLON */ 7 : {
           const loc = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_SEMICOLON */ 7);
           return [
             loc,
             /* Empty */ 0
           ];
-        case /* T_IF */ 14 :
+          }
+        case /* T_IF */ 14 : {
           return _if(env);
-        case /* T_RETURN */ 17 :
+          }
+        case /* T_RETURN */ 17 : {
           if (!env.in_function) {
             error$1(env, /* IllegalReturn */ 23);
           }
@@ -13620,7 +14728,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_SWITCH */ 18 :
+          }
+        case /* T_SWITCH */ 18 : {
           const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_SWITCH */ 18);
           token$4(env, /* T_LPAREN */ 3);
@@ -13644,7 +14753,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_THROW */ 20 :
+          }
+        case /* T_THROW */ 20 : {
           const start_loc$2 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_THROW */ 20);
           if (Curry._1(Parser_env_Peek.is_line_terminator, env)) {
@@ -13666,7 +14776,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_TRY */ 21 :
+          }
+        case /* T_TRY */ 21 : {
           const start_loc$3 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_TRY */ 21);
           const block = Curry._1(Parse.block_body, env);
@@ -13726,9 +14837,11 @@ function statement(env) {
               }
             }
           ];
-        case /* T_VAR */ 22 :
+          }
+        case /* T_VAR */ 22 : {
           return var_or_const(env);
-        case /* T_WHILE */ 23 :
+          }
+        case /* T_WHILE */ 23 : {
           const start_loc$5 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_WHILE */ 23);
           token$4(env, /* T_LPAREN */ 3);
@@ -13745,7 +14858,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_WITH */ 24 :
+          }
+        case /* T_WITH */ 24 : {
           const start_loc$6 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_WITH */ 24);
           token$4(env, /* T_LPAREN */ 3);
@@ -13767,7 +14881,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_BREAK */ 30 :
+          }
+        case /* T_BREAK */ 30 : {
           const start_loc$7 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_BREAK */ 30);
           let label;
@@ -13805,7 +14920,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_CONTINUE */ 33 :
+          }
+        case /* T_CONTINUE */ 33 : {
           const start_loc$8 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_CONTINUE */ 33);
           let label$2;
@@ -13843,7 +14959,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_DO */ 35 :
+          }
+        case /* T_DO */ 35 : {
           const start_loc$9 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_DO */ 35);
           const body$3 = Curry._1(Parse.statement, with_in_loop(true, env));
@@ -13867,7 +14984,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_FOR */ 37 :
+          }
+        case /* T_FOR */ 37 : {
           const start_loc$10 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_FOR */ 37);
           token$4(env, /* T_LPAREN */ 3);
@@ -13876,13 +14994,14 @@ function statement(env) {
           let exit$1 = 0;
           if (/* tag */ typeof match$4 !== "object" && typeof match$4 !== "function") {
             switch (match$4) {
-              case /* T_SEMICOLON */ 7 :
+              case /* T_SEMICOLON */ 7 : {
                 match$5 = [
                   undefined,
                   /* [] */ 0
                 ];
                 break;
-              case /* T_VAR */ 22 :
+                }
+              case /* T_VAR */ 22 : {
                 const match$6 = declarations(/* T_VAR */ 22, /* Var */ 0, with_no_in(true, env));
                 match$5 = [
                   {
@@ -13892,7 +15011,8 @@ function statement(env) {
                   match$6[1]
                 ];
                 break;
-              case /* T_CONST */ 25 :
+                }
+              case /* T_CONST */ 25 : {
                 const match$7 = $$const(with_no_in(true, env));
                 match$5 = [
                   {
@@ -13902,7 +15022,8 @@ function statement(env) {
                   match$7[1]
                 ];
                 break;
-              case /* T_LET */ 26 :
+                }
+              case /* T_LET */ 26 : {
                 const match$8 = _let(with_no_in(true, env));
                 match$5 = [
                   {
@@ -13912,6 +15033,7 @@ function statement(env) {
                   match$8[1]
                 ];
                 break;
+                }
               default:
                 exit$1 = 1;
             }
@@ -13932,7 +15054,7 @@ function statement(env) {
           const match$9 = Curry._2(Parser_env_Peek.token, undefined, env);
           if (/* tag */ typeof match$9 !== "object" && typeof match$9 !== "function") {
             switch (match$9) {
-              case /* T_IN */ 15 :
+              case /* T_IN */ 15 : {
                 assert_can_be_forin_or_forof(env, /* InvalidLHSInForIn */ 16, init);
                 let left;
                 if (init !== undefined) {
@@ -13969,7 +15091,8 @@ function statement(env) {
                     }
                   }
                 ];
-              case /* T_OF */ 60 :
+                }
+              case /* T_OF */ 60 : {
                 assert_can_be_forin_or_forof(env, /* InvalidLHSInForOf */ 17, init);
                 let left$1;
                 if (init !== undefined) {
@@ -14005,6 +15128,7 @@ function statement(env) {
                     }
                   }
                 ];
+                }
             }
           }
           Stdlib__List.iter((function (param) {
@@ -14032,7 +15156,8 @@ function statement(env) {
               }
             }
           ];
-        case /* T_DEBUGGER */ 57 :
+          }
+        case /* T_DEBUGGER */ 57 : {
           const start_loc$11 = Curry._2(Parser_env_Peek.loc, undefined, env);
           token$4(env, /* T_DEBUGGER */ 57);
           const loc$10 = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
@@ -14042,12 +15167,14 @@ function statement(env) {
             btwn(start_loc$11, end_loc$8),
             /* Debugger */ 1
           ];
-        case /* T_EOF */ 105 :
+          }
+        case /* T_EOF */ 105 : {
           error_unexpected(env);
           return [
             Curry._2(Parser_env_Peek.loc, undefined, env),
             /* Empty */ 0
           ];
+          }
         default:
           exit = 2;
       }
@@ -14105,27 +15232,46 @@ function statement(env) {
         return expression(env);
       }
       switch (match) {
-        case /* T_ELSE */ 41 :
+        case /* T_ELSE */ 41 : {
           return _if(env);
-        case /* T_RCURLY */ 2 :
-        case /* T_RPAREN */ 4 :
-        case /* T_RBRACKET */ 6 :
-        case /* T_COMMA */ 8 :
-        case /* T_PERIOD */ 9 :
-        case /* T_ARROW */ 10 :
-        case /* T_ELLIPSIS */ 11 :
-        case /* T_IN */ 15 :
-        case /* T_INSTANCEOF */ 16 :
-        case /* T_CASE */ 31 :
-        case /* T_CATCH */ 32 :
-        case /* T_DEFAULT */ 34 :
-        case /* T_FINALLY */ 36 :
-        case /* T_EXTENDS */ 39 :
-        case /* T_STATIC */ 40 :
-        case /* T_EXPORT */ 47 :
-        case /* T_IMPORT */ 48 :
-        case /* T_COLON */ 77 :
+          }
+        case /* T_RCURLY */ 2 : {
+          }
+        case /* T_RPAREN */ 4 : {
+          }
+        case /* T_RBRACKET */ 6 : {
+          }
+        case /* T_COMMA */ 8 : {
+          }
+        case /* T_PERIOD */ 9 : {
+          }
+        case /* T_ARROW */ 10 : {
+          }
+        case /* T_ELLIPSIS */ 11 : {
+          }
+        case /* T_IN */ 15 : {
+          }
+        case /* T_INSTANCEOF */ 16 : {
+          }
+        case /* T_CASE */ 31 : {
+          }
+        case /* T_CATCH */ 32 : {
+          }
+        case /* T_DEFAULT */ 34 : {
+          }
+        case /* T_FINALLY */ 36 : {
+          }
+        case /* T_EXTENDS */ 39 : {
+          }
+        case /* T_STATIC */ 40 : {
+          }
+        case /* T_EXPORT */ 47 : {
+          }
+        case /* T_IMPORT */ 48 : {
+          }
+        case /* T_COLON */ 77 : {
           break;
+          }
         default:
           return expression(env);
       }
@@ -14143,7 +15289,7 @@ function module_item(env) {
     return statement_list_item(decorators, env);
   }
   switch (match) {
-    case /* T_EXPORT */ 47 :
+    case /* T_EXPORT */ 47 : {
       const env$1 = with_in_export(true, with_strict(true, env));
       const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env$1);
       token$4(env$1, /* T_EXPORT */ 47);
@@ -14151,7 +15297,7 @@ function module_item(env) {
       let exit = 0;
       if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function") {
         switch (match$1) {
-          case /* T_DEFAULT */ 34 :
+          case /* T_DEFAULT */ 34 : {
             token$4(env$1, /* T_DEFAULT */ 34);
             record_export(env$1, [
               btwn(start_loc, Curry._2(Parser_env_Peek.loc, undefined, env$1)),
@@ -14209,7 +15355,8 @@ function module_item(env) {
                 }
               }
             ];
-          case /* T_INTERFACE */ 51 :
+            }
+          case /* T_INTERFACE */ 51 : {
             if (!env$1.parse_options.types) {
               error$1(env$1, /* UnexpectedTypeExport */ 9);
             }
@@ -14249,7 +15396,8 @@ function module_item(env) {
                 }
               }
             ];
-          case /* T_TYPE */ 59 :
+            }
+          case /* T_TYPE */ 59 : {
             if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, 1, env$1), /* T_LCURLY */ 1)) {
               if (!env$1.parse_options.types) {
                 error$1(env$1, /* UnexpectedTypeExport */ 9);
@@ -14293,16 +15441,24 @@ function module_item(env) {
             }
             exit = 1;
             break;
-          case /* T_AT */ 12 :
-          case /* T_FUNCTION */ 13 :
-          case /* T_VAR */ 22 :
-          case /* T_CONST */ 25 :
-          case /* T_LET */ 26 :
-          case /* T_CLASS */ 38 :
-          case /* T_ASYNC */ 61 :
+            }
+          case /* T_AT */ 12 : {
+            }
+          case /* T_FUNCTION */ 13 : {
+            }
+          case /* T_VAR */ 22 : {
+            }
+          case /* T_CONST */ 25 : {
+            }
+          case /* T_LET */ 26 : {
+            }
+          case /* T_CLASS */ 38 : {
+            }
+          case /* T_ASYNC */ 61 : {
             exit = 2;
             break;
-          case /* T_MULT */ 97 :
+            }
+          case /* T_MULT */ 97 : {
             const loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$1);
             token$4(env$1, /* T_MULT */ 97);
             const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
@@ -14330,6 +15486,7 @@ function module_item(env) {
                 }
               }
             ];
+            }
           default:
             exit = 1;
         }
@@ -14337,7 +15494,7 @@ function module_item(env) {
         exit = 1;
       }
       switch (exit) {
-        case 1 :
+        case 1 : {
           const match$6 = Curry._2(Parser_env_Peek.token, undefined, env$1);
           let exportKind;
           if (/* tag */ typeof match$6 !== "object" && typeof match$6 !== "function" && match$6 === /* T_TYPE */ 59) {
@@ -14375,7 +15532,8 @@ function module_item(env) {
               }
             }
           ];
-        case 2 :
+          }
+        case 2 : {
           const stmt = Curry._2(Parse.statement_list_item, decorators, env$1);
           const match$8 = stmt[1];
           const loc$4 = stmt[0];
@@ -14387,7 +15545,7 @@ function module_item(env) {
               });
           }
           switch (match$8.TAG) {
-            case /* FunctionDeclaration */ 18 :
+            case /* FunctionDeclaration */ 18 : {
               const id = match$8._0.id;
               if (id !== undefined) {
                 names = {
@@ -14405,7 +15563,8 @@ function module_item(env) {
                 names = /* [] */ 0;
               }
               break;
-            case /* VariableDeclaration */ 19 :
+              }
+            case /* VariableDeclaration */ 19 : {
               names = Stdlib__List.fold_left((function (names, param) {
                 const id = param[1].id;
                 let param$1 = {
@@ -14415,7 +15574,8 @@ function module_item(env) {
                 return Stdlib__List.fold_left(fold, names, param$1);
               }), /* [] */ 0, match$8._0.declarations);
               break;
-            case /* ClassDeclaration */ 20 :
+              }
+            case /* ClassDeclaration */ 20 : {
               const id$1 = match$8._0.id;
               if (id$1 !== undefined) {
                 names = {
@@ -14433,6 +15593,7 @@ function module_item(env) {
                 names = /* [] */ 0;
               }
               break;
+              }
             default:
               throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
@@ -14459,8 +15620,10 @@ function module_item(env) {
               }
             }
           ];
+          }
       }
-    case /* T_IMPORT */ 48 :
+      }
+    case /* T_IMPORT */ 48 : {
       error_on_decorators(env)(decorators);
       const env$2 = with_strict(true, env);
       const start_loc$1 = Curry._2(Parser_env_Peek.loc, undefined, env$2);
@@ -14469,7 +15632,7 @@ function module_item(env) {
       let match$10;
       if (/* tag */ typeof match$9 !== "object" && typeof match$9 !== "function") {
         switch (match$9) {
-          case /* T_TYPEOF */ 44 :
+          case /* T_TYPEOF */ 44 : {
             if (!env$2.parse_options.types) {
               error$1(env$2, /* UnexpectedTypeImport */ 8);
             }
@@ -14479,7 +15642,8 @@ function module_item(env) {
               undefined
             ];
             break;
-          case /* T_TYPE */ 59 :
+            }
+          case /* T_TYPE */ 59 : {
             if (!env$2.parse_options.types) {
               error$1(env$2, /* UnexpectedTypeImport */ 8);
             }
@@ -14488,6 +15652,7 @@ function module_item(env) {
               Curry._2(Parse.identifier, undefined, env$2)
             ];
             break;
+            }
           default:
             match$10 = [
               /* ImportValue */ 2,
@@ -14591,7 +15756,7 @@ function module_item(env) {
         let exit$4 = 0;
         if (type_ident !== undefined && /* tag */ typeof match$14 !== "object" && typeof match$14 !== "function") {
           switch (match$14) {
-            case /* T_IDENTIFIER */ 0 :
+            case /* T_IDENTIFIER */ 0 : {
               if (match$15 === "from") {
                 match$16 = [
                   /* ImportValue */ 2,
@@ -14604,7 +15769,8 @@ function module_item(env) {
                 exit$4 = 2;
               }
               break;
-            case /* T_COMMA */ 8 :
+              }
+            case /* T_COMMA */ 8 : {
               match$16 = [
                 /* ImportValue */ 2,
                 {
@@ -14613,6 +15779,7 @@ function module_item(env) {
                 }
               ];
               break;
+              }
             default:
               exit$4 = 2;
           }
@@ -14655,12 +15822,14 @@ function module_item(env) {
           }
         ];
       }
-      case /* T_DECLARE */ 58 :
+      }
+    case /* T_DECLARE */ 58 : {
       if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, 1, env), /* T_EXPORT */ 47)) {
         error_on_decorators(env)(decorators);
         return declare_export_declaration(undefined, env);
       } else {
         return statement_list_item(decorators, env);
+      }
       }
     default:
       return statement_list_item(decorators, env);
@@ -14675,9 +15844,10 @@ function statement_list_item(decoratorsOpt, env) {
   const match = Curry._2(Parser_env_Peek.token, undefined, env);
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
     switch (match) {
-      case /* T_CONST */ 25 :
+      case /* T_CONST */ 25 : {
         return var_or_const(env);
-      case /* T_LET */ 26 :
+        }
+      case /* T_LET */ 26 : {
         const start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
         token$4(env, /* T_LET */ 26);
         if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_LPAREN */ 3)) {
@@ -14727,6 +15897,7 @@ function statement_list_item(decoratorsOpt, env) {
           btwn(start_loc, end_loc$3),
           declaration
         ];
+        }
     }
   }
   if (Curry._2(Parser_env_Peek.is_function, undefined, env)) {
@@ -14739,12 +15910,15 @@ function statement_list_item(decoratorsOpt, env) {
     return statement(env);
   }
   switch (match) {
-    case /* T_INTERFACE */ 51 :
+    case /* T_INTERFACE */ 51 : {
       return $$interface(env);
-    case /* T_DECLARE */ 58 :
+      }
+    case /* T_DECLARE */ 58 : {
       return declare(undefined, env);
-    case /* T_TYPE */ 59 :
+      }
+    case /* T_TYPE */ 59 : {
       return type_alias(env);
+      }
     default:
       return statement(env);
   }
@@ -14967,13 +16141,18 @@ function identifier$2(restricted_error, env) {
       token$3(env);
     } else if (/* tag */ typeof t !== "object" && typeof t !== "function") {
       switch (t) {
-        case /* T_DECLARE */ 58 :
-        case /* T_TYPE */ 59 :
-        case /* T_OF */ 60 :
-        case /* T_ASYNC */ 61 :
-        case /* T_AWAIT */ 62 :
+        case /* T_DECLARE */ 58 : {
+          }
+        case /* T_TYPE */ 59 : {
+          }
+        case /* T_OF */ 60 : {
+          }
+        case /* T_ASYNC */ 61 : {
+          }
+        case /* T_AWAIT */ 62 : {
           token$4(env, t);
           break;
+          }
         default:
           token$4(env, /* T_IDENTIFIER */ 0);
       }
@@ -15409,17 +16588,19 @@ function parse(content, options) {
         }
       }
       switch (b.TAG) {
-        case /* Block */ 0 :
+        case /* Block */ 0 : {
           return block([
             loc,
             b._0
           ]);
-        case /* Expression */ 1 :
+          }
+        case /* Expression */ 1 : {
           return node("ExpressionStatement", loc, [[
               "expression",
               expression(b._0.expression)
             ]]);
-        case /* If */ 2 :
+          }
+        case /* If */ 2 : {
           const _if = b._0;
           return node("IfStatement", loc, [
             [
@@ -15435,7 +16616,8 @@ function parse(content, options) {
               option(statement, _if.alternate)
             ]
           ]);
-        case /* Labeled */ 3 :
+          }
+        case /* Labeled */ 3 : {
           const labeled = b._0;
           return node("LabeledStatement", loc, [
             [
@@ -15447,17 +16629,20 @@ function parse(content, options) {
               statement(labeled.body)
             ]
           ]);
-        case /* Break */ 4 :
+          }
+        case /* Break */ 4 : {
           return node("BreakStatement", loc, [[
               "label",
               option(identifier, b._0.label)
             ]]);
-        case /* Continue */ 5 :
+          }
+        case /* Continue */ 5 : {
           return node("ContinueStatement", loc, [[
               "label",
               option(identifier, b._0.label)
             ]]);
-        case /* With */ 6 :
+          }
+        case /* With */ 6 : {
           const _with = b._0;
           return node("WithStatement", loc, [
             [
@@ -15469,12 +16654,14 @@ function parse(content, options) {
               statement(_with.body)
             ]
           ]);
-        case /* TypeAlias */ 7 :
+          }
+        case /* TypeAlias */ 7 : {
           return type_alias([
             loc,
             b._0
           ]);
-        case /* Switch */ 8 :
+          }
+        case /* Switch */ 8 : {
           const $$switch = b._0;
           return node("SwitchStatement", loc, [
             [
@@ -15490,17 +16677,20 @@ function parse(content, options) {
               bool($$switch.lexical)
             ]
           ]);
-        case /* Return */ 9 :
+          }
+        case /* Return */ 9 : {
           return node("ReturnStatement", loc, [[
               "argument",
               option(expression, b._0.argument)
             ]]);
-        case /* Throw */ 10 :
+          }
+        case /* Throw */ 10 : {
           return node("ThrowStatement", loc, [[
               "argument",
               expression(b._0.argument)
             ]]);
-        case /* Try */ 11 :
+          }
+        case /* Try */ 11 : {
           const _try = b._0;
           return node("TryStatement", loc, [
             [
@@ -15520,7 +16710,8 @@ function parse(content, options) {
               option(block, _try.finalizer)
             ]
           ]);
-        case /* While */ 12 :
+          }
+        case /* While */ 12 : {
           const _while = b._0;
           return node("WhileStatement", loc, [
             [
@@ -15532,7 +16723,8 @@ function parse(content, options) {
               statement(_while.body)
             ]
           ]);
-        case /* DoWhile */ 13 :
+          }
+        case /* DoWhile */ 13 : {
           const dowhile = b._0;
           return node("DoWhileStatement", loc, [
             [
@@ -15544,7 +16736,8 @@ function parse(content, options) {
               expression(dowhile.test)
             ]
           ]);
-        case /* For */ 14 :
+          }
+        case /* For */ 14 : {
           const _for = b._0;
           const init = function (init$1) {
             if (init$1.TAG === /* InitDeclaration */ 0) {
@@ -15571,7 +16764,8 @@ function parse(content, options) {
               statement(_for.body)
             ]
           ]);
-        case /* ForIn */ 15 :
+          }
+        case /* ForIn */ 15 : {
           const forin = b._0;
           const left = forin.left;
           let left$1;
@@ -15594,7 +16788,8 @@ function parse(content, options) {
               bool(forin.each)
             ]
           ]);
-        case /* ForOf */ 16 :
+          }
+        case /* ForOf */ 16 : {
           const forof = b._0;
           const left$2 = forof.left;
           let left$3;
@@ -15613,7 +16808,8 @@ function parse(content, options) {
               statement(forof.body)
             ]
           ]);
-        case /* Let */ 17 :
+          }
+        case /* Let */ 17 : {
           const _let = b._0;
           return node("LetStatement", loc, [
             [
@@ -15625,7 +16821,8 @@ function parse(content, options) {
               statement(_let.body)
             ]
           ]);
-        case /* FunctionDeclaration */ 18 :
+          }
+        case /* FunctionDeclaration */ 18 : {
           const fn = b._0;
           const id = fn.id;
           const match = id !== undefined ? [
@@ -15682,12 +16879,14 @@ function parse(content, options) {
               option(type_parameter_declaration, fn.typeParameters)
             ]
           ]);
-        case /* VariableDeclaration */ 19 :
+          }
+        case /* VariableDeclaration */ 19 : {
           return variable_declaration([
             loc,
             b._0
           ]);
-        case /* ClassDeclaration */ 20 :
+          }
+        case /* ClassDeclaration */ 20 : {
           let param$1 = [
             loc,
             b._0
@@ -15731,27 +16930,32 @@ function parse(content, options) {
               array_of_list(expression, c.classDecorators)
             ]
           ]);
-        case /* InterfaceDeclaration */ 21 :
+          }
+        case /* InterfaceDeclaration */ 21 : {
           return interface_declaration([
             loc,
             b._0
           ]);
-        case /* DeclareVariable */ 22 :
+          }
+        case /* DeclareVariable */ 22 : {
           return declare_variable([
             loc,
             b._0
           ]);
-        case /* DeclareFunction */ 23 :
+          }
+        case /* DeclareFunction */ 23 : {
           return declare_function([
             loc,
             b._0
           ]);
-        case /* DeclareClass */ 24 :
+          }
+        case /* DeclareClass */ 24 : {
           return declare_class([
             loc,
             b._0
           ]);
-        case /* DeclareModule */ 25 :
+          }
+        case /* DeclareModule */ 25 : {
           const m = b._0;
           const lit = m.id;
           let id$2;
@@ -15773,35 +16977,43 @@ function parse(content, options) {
               tmp
             ]
           ]);
-        case /* DeclareModuleExports */ 26 :
+          }
+        case /* DeclareModuleExports */ 26 : {
           return node("DeclareModuleExports", loc, [[
               "typeAnnotation",
               type_annotation(b._0)
             ]]);
-        case /* DeclareExportDeclaration */ 27 :
+          }
+        case /* DeclareExportDeclaration */ 27 : {
           const $$export = b._0;
           const match$3 = $$export.declaration;
           let declaration;
           if (match$3 !== undefined) {
             switch (match$3.TAG) {
-              case /* Variable */ 0 :
+              case /* Variable */ 0 : {
                 declaration = declare_variable(match$3._0);
                 break;
-              case /* Function */ 1 :
+                }
+              case /* Function */ 1 : {
                 declaration = declare_function(match$3._0);
                 break;
-              case /* Class */ 2 :
+                }
+              case /* Class */ 2 : {
                 declaration = declare_class(match$3._0);
                 break;
-              case /* DefaultType */ 3 :
+                }
+              case /* DefaultType */ 3 : {
                 declaration = _type(match$3._0);
                 break;
-              case /* NamedType */ 4 :
+                }
+              case /* NamedType */ 4 : {
                 declaration = type_alias(match$3._0);
                 break;
-              case /* Interface */ 5 :
+                }
+              case /* Interface */ 5 : {
                 declaration = interface_declaration(match$3._0);
                 break;
+                }
             }
           } else {
             declaration = $$null;
@@ -15824,7 +17036,8 @@ function parse(content, options) {
               option(literal, $$export.source)
             ]
           ]);
-        case /* ExportDeclaration */ 28 :
+          }
+        case /* ExportDeclaration */ 28 : {
           const $$export$1 = b._0;
           const match$4 = $$export$1.declaration;
           const declaration$1 = match$4 !== undefined ? (
@@ -15852,11 +17065,12 @@ function parse(content, options) {
               string(export_kind($$export$1.exportKind))
             ]
           ]);
-        case /* ImportDeclaration */ 29 :
+          }
+        case /* ImportDeclaration */ 29 : {
           const $$import = b._0;
           const specifiers = Stdlib__List.map((function (id) {
             switch (id.TAG) {
-              case /* ImportNamedSpecifier */ 0 :
+              case /* ImportNamedSpecifier */ 0 : {
                 const match = id._0;
                 let local_id = match.local;
                 let remote_id = match.remote;
@@ -15871,32 +17085,38 @@ function parse(content, options) {
                     option(identifier, local_id)
                   ]
                 ]);
-              case /* ImportDefaultSpecifier */ 1 :
+                }
+              case /* ImportDefaultSpecifier */ 1 : {
                 let id$1 = id._0;
                 return node("ImportDefaultSpecifier", id$1[0], [[
                     "id",
                     identifier(id$1)
                   ]]);
-              case /* ImportNamespaceSpecifier */ 2 :
+                }
+              case /* ImportNamespaceSpecifier */ 2 : {
                 let param = id._0;
                 return node("ImportNamespaceSpecifier", param[0], [[
                     "id",
                     identifier(param[1])
                   ]]);
+                }
             }
           }), $$import.specifiers);
           const match$5 = $$import.importKind;
           let import_kind;
           switch (match$5) {
-            case /* ImportType */ 0 :
+            case /* ImportType */ 0 : {
               import_kind = "type";
               break;
-            case /* ImportTypeof */ 1 :
+              }
+            case /* ImportTypeof */ 1 : {
               import_kind = "typeof";
               break;
-            case /* ImportValue */ 2 :
+              }
+            case /* ImportValue */ 2 : {
               import_kind = "value";
               break;
+              }
           }
           return node("ImportDeclaration", loc, [
             [
@@ -15912,6 +17132,7 @@ function parse(content, options) {
               string(import_kind)
             ]
           ]);
+          }
       }
     };
     const _type = function (param) {
@@ -15919,46 +17140,57 @@ function parse(content, options) {
       const loc = param[0];
       if (/* tag */ typeof t !== "object" && typeof t !== "function") {
         switch (t) {
-          case /* Any */ 0 :
+          case /* Any */ 0 : {
             return node("AnyTypeAnnotation", loc, []);
-          case /* Void */ 1 :
+            }
+          case /* Void */ 1 : {
             return node("VoidTypeAnnotation", loc, []);
-          case /* Null */ 2 :
+            }
+          case /* Null */ 2 : {
             return node("NullTypeAnnotation", loc, []);
-          case /* Number */ 3 :
+            }
+          case /* Number */ 3 : {
             return node("NumberTypeAnnotation", loc, []);
-          case /* String */ 4 :
+            }
+          case /* String */ 4 : {
             return node("StringTypeAnnotation", loc, []);
-          case /* Boolean */ 5 :
+            }
+          case /* Boolean */ 5 : {
             return node("BooleanTypeAnnotation", loc, []);
-          case /* Exists */ 6 :
+            }
+          case /* Exists */ 6 : {
             return node("ExistsTypeAnnotation", loc, []);
+            }
         }
       } else {
         switch (t.TAG) {
-          case /* Nullable */ 0 :
+          case /* Nullable */ 0 : {
             let t$1 = t._0;
             return node("NullableTypeAnnotation", loc, [[
                 "typeAnnotation",
                 _type(t$1)
               ]]);
-          case /* Function */ 1 :
+            }
+          case /* Function */ 1 : {
             return function_type([
               loc,
               t._0
             ]);
-          case /* Object */ 2 :
+            }
+          case /* Object */ 2 : {
             return object_type([
               loc,
               t._0
             ]);
-          case /* Array */ 3 :
+            }
+          case /* Array */ 3 : {
             let t$2 = t._0;
             return node("ArrayTypeAnnotation", loc, [[
                 "elementType",
                 _type(t$2)
               ]]);
-          case /* Generic */ 4 :
+            }
+          case /* Generic */ 4 : {
             let param$1 = [
               loc,
               t._0
@@ -15977,7 +17209,8 @@ function parse(content, options) {
                 option(type_parameter_instantiation, g.typeParameters)
               ]
             ]);
-          case /* Union */ 5 :
+            }
+          case /* Union */ 5 : {
             let param$2 = [
               loc,
               t._0
@@ -15986,7 +17219,8 @@ function parse(content, options) {
                 "types",
                 array_of_list(_type, param$2[1])
               ]]);
-          case /* Intersection */ 6 :
+            }
+          case /* Intersection */ 6 : {
             let param$3 = [
               loc,
               t._0
@@ -15995,7 +17229,8 @@ function parse(content, options) {
                 "types",
                 array_of_list(_type, param$3[1])
               ]]);
-          case /* Typeof */ 7 :
+            }
+          case /* Typeof */ 7 : {
             let param$4 = [
               loc,
               t._0
@@ -16004,7 +17239,8 @@ function parse(content, options) {
                 "argument",
                 _type(param$4[1])
               ]]);
-          case /* Tuple */ 8 :
+            }
+          case /* Tuple */ 8 : {
             let param$5 = [
               loc,
               t._0
@@ -16013,7 +17249,8 @@ function parse(content, options) {
                 "types",
                 array_of_list(_type, param$5[1])
               ]]);
-          case /* StringLiteral */ 9 :
+            }
+          case /* StringLiteral */ 9 : {
             let param$6 = [
               loc,
               t._0
@@ -16029,7 +17266,8 @@ function parse(content, options) {
                 string(s.raw)
               ]
             ]);
-          case /* NumberLiteral */ 10 :
+            }
+          case /* NumberLiteral */ 10 : {
             let param$7 = [
               loc,
               t._0
@@ -16045,7 +17283,8 @@ function parse(content, options) {
                 string(s$1.raw)
               ]
             ]);
-          case /* BooleanLiteral */ 11 :
+            }
+          case /* BooleanLiteral */ 11 : {
             let param$8 = [
               loc,
               t._0
@@ -16061,6 +17300,7 @@ function parse(content, options) {
                 string(s$2.raw)
               ]
             ]);
+            }
         }
       }
     };
@@ -16168,24 +17408,27 @@ function parse(content, options) {
         return node("ThisExpression", loc, []);
       }
       switch (arr.TAG) {
-        case /* Array */ 0 :
+        case /* Array */ 0 : {
           return node("ArrayExpression", loc, [[
               "elements",
               array_of_list((function (param) {
                 return option(expression_or_spread, param);
               }), arr._0.elements)
             ]]);
-        case /* Object */ 1 :
+          }
+        case /* Object */ 1 : {
           return node("ObjectExpression", loc, [[
               "properties",
               array_of_list(object_property, arr._0.properties)
             ]]);
-        case /* Function */ 2 :
+          }
+        case /* Function */ 2 : {
           return function_expression([
             loc,
             arr._0
           ]);
-        case /* ArrowFunction */ 3 :
+          }
+        case /* ArrowFunction */ 3 : {
           const arrow = arr._0;
           const b = arrow.body;
           let body;
@@ -16234,12 +17477,14 @@ function parse(content, options) {
               option(type_parameter_declaration, arrow.typeParameters)
             ]
           ]);
-        case /* Sequence */ 4 :
+          }
+        case /* Sequence */ 4 : {
           return node("SequenceExpression", loc, [[
               "expressions",
               array_of_list(expression, arr._0.expressions)
             ]]);
-        case /* Unary */ 5 :
+          }
+        case /* Unary */ 5 : {
           const unary = arr._0;
           const match = unary.operator;
           if (match === /* Await */ 7) {
@@ -16251,32 +17496,40 @@ function parse(content, options) {
           const match$1 = unary.operator;
           let operator;
           switch (match$1) {
-            case /* Minus */ 0 :
+            case /* Minus */ 0 : {
               operator = "-";
               break;
-            case /* Plus */ 1 :
+              }
+            case /* Plus */ 1 : {
               operator = "+";
               break;
-            case /* Not */ 2 :
+              }
+            case /* Not */ 2 : {
               operator = "!";
               break;
-            case /* BitNot */ 3 :
+              }
+            case /* BitNot */ 3 : {
               operator = "~";
               break;
-            case /* Typeof */ 4 :
+              }
+            case /* Typeof */ 4 : {
               operator = "typeof";
               break;
-            case /* Void */ 5 :
+              }
+            case /* Void */ 5 : {
               operator = "void";
               break;
-            case /* Delete */ 6 :
+              }
+            case /* Delete */ 6 : {
               operator = "delete";
               break;
-            case /* Await */ 7 :
+              }
+            case /* Await */ 7 : {
               throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "matched above"
                 });
+              }
           }
           return node("UnaryExpression", loc, [
             [
@@ -16292,77 +17545,100 @@ function parse(content, options) {
               expression(unary.argument)
             ]
           ]);
-        case /* Binary */ 6 :
+          }
+        case /* Binary */ 6 : {
           const binary = arr._0;
           const match$2 = binary.operator;
           let operator$1;
           switch (match$2) {
-            case /* Equal */ 0 :
+            case /* Equal */ 0 : {
               operator$1 = "==";
               break;
-            case /* NotEqual */ 1 :
+              }
+            case /* NotEqual */ 1 : {
               operator$1 = "!=";
               break;
-            case /* StrictEqual */ 2 :
+              }
+            case /* StrictEqual */ 2 : {
               operator$1 = "===";
               break;
-            case /* StrictNotEqual */ 3 :
+              }
+            case /* StrictNotEqual */ 3 : {
               operator$1 = "!==";
               break;
-            case /* LessThan */ 4 :
+              }
+            case /* LessThan */ 4 : {
               operator$1 = "<";
               break;
-            case /* LessThanEqual */ 5 :
+              }
+            case /* LessThanEqual */ 5 : {
               operator$1 = "<=";
               break;
-            case /* GreaterThan */ 6 :
+              }
+            case /* GreaterThan */ 6 : {
               operator$1 = ">";
               break;
-            case /* GreaterThanEqual */ 7 :
+              }
+            case /* GreaterThanEqual */ 7 : {
               operator$1 = ">=";
               break;
-            case /* LShift */ 8 :
+              }
+            case /* LShift */ 8 : {
               operator$1 = "<<";
               break;
-            case /* RShift */ 9 :
+              }
+            case /* RShift */ 9 : {
               operator$1 = ">>";
               break;
-            case /* RShift3 */ 10 :
+              }
+            case /* RShift3 */ 10 : {
               operator$1 = ">>>";
               break;
-            case /* Plus */ 11 :
+              }
+            case /* Plus */ 11 : {
               operator$1 = "+";
               break;
-            case /* Minus */ 12 :
+              }
+            case /* Minus */ 12 : {
               operator$1 = "-";
               break;
-            case /* Mult */ 13 :
+              }
+            case /* Mult */ 13 : {
               operator$1 = "*";
               break;
-            case /* Exp */ 14 :
+              }
+            case /* Exp */ 14 : {
               operator$1 = "**";
               break;
-            case /* Div */ 15 :
+              }
+            case /* Div */ 15 : {
               operator$1 = "/";
               break;
-            case /* Mod */ 16 :
+              }
+            case /* Mod */ 16 : {
               operator$1 = "%";
               break;
-            case /* BitOr */ 17 :
+              }
+            case /* BitOr */ 17 : {
               operator$1 = "|";
               break;
-            case /* Xor */ 18 :
+              }
+            case /* Xor */ 18 : {
               operator$1 = "^";
               break;
-            case /* BitAnd */ 19 :
+              }
+            case /* BitAnd */ 19 : {
               operator$1 = "&";
               break;
-            case /* In */ 20 :
+              }
+            case /* In */ 20 : {
               operator$1 = "in";
               break;
-            case /* Instanceof */ 21 :
+              }
+            case /* Instanceof */ 21 : {
               operator$1 = "instanceof";
               break;
+              }
           }
           return node("BinaryExpression", loc, [
             [
@@ -16378,50 +17654,64 @@ function parse(content, options) {
               expression(binary.right)
             ]
           ]);
-        case /* Assignment */ 7 :
+          }
+        case /* Assignment */ 7 : {
           const assignment = arr._0;
           const match$3 = assignment.operator;
           let operator$2;
           switch (match$3) {
-            case /* Assign */ 0 :
+            case /* Assign */ 0 : {
               operator$2 = "=";
               break;
-            case /* PlusAssign */ 1 :
+              }
+            case /* PlusAssign */ 1 : {
               operator$2 = "+=";
               break;
-            case /* MinusAssign */ 2 :
+              }
+            case /* MinusAssign */ 2 : {
               operator$2 = "-=";
               break;
-            case /* MultAssign */ 3 :
+              }
+            case /* MultAssign */ 3 : {
               operator$2 = "*=";
               break;
-            case /* ExpAssign */ 4 :
+              }
+            case /* ExpAssign */ 4 : {
               operator$2 = "**=";
               break;
-            case /* DivAssign */ 5 :
+              }
+            case /* DivAssign */ 5 : {
               operator$2 = "/=";
               break;
-            case /* ModAssign */ 6 :
+              }
+            case /* ModAssign */ 6 : {
               operator$2 = "%=";
               break;
-            case /* LShiftAssign */ 7 :
+              }
+            case /* LShiftAssign */ 7 : {
               operator$2 = "<<=";
               break;
-            case /* RShiftAssign */ 8 :
+              }
+            case /* RShiftAssign */ 8 : {
               operator$2 = ">>=";
               break;
-            case /* RShift3Assign */ 9 :
+              }
+            case /* RShift3Assign */ 9 : {
               operator$2 = ">>>=";
               break;
-            case /* BitOrAssign */ 10 :
+              }
+            case /* BitOrAssign */ 10 : {
               operator$2 = "|=";
               break;
-            case /* BitXorAssign */ 11 :
+              }
+            case /* BitXorAssign */ 11 : {
               operator$2 = "^=";
               break;
-            case /* BitAndAssign */ 12 :
+              }
+            case /* BitAndAssign */ 12 : {
               operator$2 = "&=";
               break;
+              }
           }
           return node("AssignmentExpression", loc, [
             [
@@ -16437,7 +17727,8 @@ function parse(content, options) {
               expression(assignment.right)
             ]
           ]);
-        case /* Update */ 8 :
+          }
+        case /* Update */ 8 : {
           const update = arr._0;
           const match$4 = update.operator;
           let operator$3;
@@ -16456,7 +17747,8 @@ function parse(content, options) {
               bool(update.prefix)
             ]
           ]);
-        case /* Logical */ 9 :
+          }
+        case /* Logical */ 9 : {
           const logical = arr._0;
           const match$5 = logical.operator;
           let operator$4;
@@ -16475,7 +17767,8 @@ function parse(content, options) {
               expression(logical.right)
             ]
           ]);
-        case /* Conditional */ 10 :
+          }
+        case /* Conditional */ 10 : {
           const conditional = arr._0;
           return node("ConditionalExpression", loc, [
             [
@@ -16491,7 +17784,8 @@ function parse(content, options) {
               expression(conditional.alternate)
             ]
           ]);
-        case /* New */ 11 :
+          }
+        case /* New */ 11 : {
           const _new = arr._0;
           return node("NewExpression", loc, [
             [
@@ -16503,7 +17797,8 @@ function parse(content, options) {
               array_of_list(expression_or_spread, _new.arguments)
             ]
           ]);
-        case /* Call */ 12 :
+          }
+        case /* Call */ 12 : {
           const call = arr._0;
           return node("CallExpression", loc, [
             [
@@ -16515,7 +17810,8 @@ function parse(content, options) {
               array_of_list(expression_or_spread, call.arguments)
             ]
           ]);
-        case /* Member */ 13 :
+          }
+        case /* Member */ 13 : {
           const member = arr._0;
           const id = member.property;
           let property;
@@ -16534,7 +17830,8 @@ function parse(content, options) {
               bool(member.computed)
             ]
           ]);
-        case /* Yield */ 14 :
+          }
+        case /* Yield */ 14 : {
           const $$yield = arr._0;
           return node("YieldExpression", loc, [
             [
@@ -16546,7 +17843,8 @@ function parse(content, options) {
               bool($$yield.delegate)
             ]
           ]);
-        case /* Comprehension */ 15 :
+          }
+        case /* Comprehension */ 15 : {
           const comp = arr._0;
           return node("ComprehensionExpression", loc, [
             [
@@ -16558,7 +17856,8 @@ function parse(content, options) {
               option(expression, comp.filter)
             ]
           ]);
-        case /* Generator */ 16 :
+          }
+        case /* Generator */ 16 : {
           const gen = arr._0;
           return node("GeneratorExpression", loc, [
             [
@@ -16570,7 +17869,8 @@ function parse(content, options) {
               option(expression, gen.filter)
             ]
           ]);
-        case /* Let */ 17 :
+          }
+        case /* Let */ 17 : {
           const _let = arr._0;
           return node("LetExpression", loc, [
             [
@@ -16582,19 +17882,23 @@ function parse(content, options) {
               expression(_let.body)
             ]
           ]);
-        case /* Identifier */ 18 :
+          }
+        case /* Identifier */ 18 : {
           return identifier(arr._0);
-        case /* Literal */ 19 :
+          }
+        case /* Literal */ 19 : {
           return literal([
             loc,
             arr._0
           ]);
-        case /* TemplateLiteral */ 20 :
+          }
+        case /* TemplateLiteral */ 20 : {
           return template_literal([
             loc,
             arr._0
           ]);
-        case /* TaggedTemplate */ 21 :
+          }
+        case /* TaggedTemplate */ 21 : {
           let param$1 = [
             loc,
             arr._0
@@ -16610,12 +17914,14 @@ function parse(content, options) {
               template_literal(tagged.quasi)
             ]
           ]);
-        case /* JSXElement */ 22 :
+          }
+        case /* JSXElement */ 22 : {
           return jsx_element([
             loc,
             arr._0
           ]);
-        case /* Class */ 23 :
+          }
+        case /* Class */ 23 : {
           let param$2 = [
             loc,
             arr._0
@@ -16651,7 +17957,8 @@ function parse(content, options) {
               array_of_list(expression, c.classDecorators)
             ]
           ]);
-        case /* TypeCast */ 24 :
+          }
+        case /* TypeCast */ 24 : {
           const typecast = arr._0;
           return node("TypeCastExpression", loc, [
             [
@@ -16663,6 +17970,7 @@ function parse(content, options) {
               type_annotation(typecast.typeAnnotation)
             ]
           ]);
+          }
       }
     };
     const function_expression = function (param) {
@@ -16725,19 +18033,23 @@ function parse(content, options) {
         value_ = $$null;
       } else {
         switch (value.TAG) {
-          case /* String */ 0 :
+          case /* String */ 0 : {
             value_ = string(value._0);
             break;
-          case /* Boolean */ 1 :
+            }
+          case /* Boolean */ 1 : {
             value_ = bool(value._0);
             break;
-          case /* Number */ 2 :
+            }
+          case /* Number */ 2 : {
             value_ = number$1(value._0);
             break;
-          case /* RegExp */ 3 :
+            }
+          case /* RegExp */ 3 : {
             const match = value._0;
             value_ = regexp$1(loc, match.pattern, match.flags);
             break;
+            }
         }
       }
       let props;
@@ -16789,7 +18101,7 @@ function parse(content, options) {
       const obj = param[1];
       const loc = param[0];
       switch (obj.TAG) {
-        case /* Object */ 0 :
+        case /* Object */ 0 : {
           const obj$1 = obj._0;
           return node("ObjectPattern", loc, [
             [
@@ -16801,7 +18113,8 @@ function parse(content, options) {
               option(type_annotation, obj$1.typeAnnotation)
             ]
           ]);
-        case /* Array */ 1 :
+          }
+        case /* Array */ 1 : {
           const arr = obj._0;
           return node("ArrayPattern", loc, [
             [
@@ -16815,7 +18128,8 @@ function parse(content, options) {
               option(type_annotation, arr.typeAnnotation)
             ]
           ]);
-        case /* Assignment */ 2 :
+          }
+        case /* Assignment */ 2 : {
           const match = obj._0;
           return node("AssignmentPattern", loc, [
             [
@@ -16827,10 +18141,13 @@ function parse(content, options) {
               expression(match.right)
             ]
           ]);
-        case /* Identifier */ 3 :
+          }
+        case /* Identifier */ 3 : {
           return identifier(obj._0);
-        case /* Expression */ 4 :
+          }
+        case /* Expression */ 4 : {
           return expression(obj._0);
+          }
       }
     };
     const block = function (param) {
@@ -16872,12 +18189,15 @@ function parse(content, options) {
     };
     const jsx_name = function (id) {
       switch (id.TAG) {
-        case /* Identifier */ 0 :
+        case /* Identifier */ 0 : {
           return jsx_identifier(id._0);
-        case /* NamespacedName */ 1 :
+          }
+        case /* NamespacedName */ 1 : {
           return jsx_namespaced_name(id._0);
-        case /* MemberExpression */ 2 :
+          }
+        case /* MemberExpression */ 2 : {
           return jsx_member_expression(id._0);
+          }
       }
     };
     const template_literal = function (param) {
@@ -16923,37 +18243,43 @@ function parse(content, options) {
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */ 0 :
+          case /* Literal */ 0 : {
             match$1 = [
               literal(lit._0),
               false
             ];
             break;
-          case /* Identifier */ 1 :
+            }
+          case /* Identifier */ 1 : {
             match$1 = [
               identifier(lit._0),
               false
             ];
             break;
-          case /* Computed */ 2 :
+            }
+          case /* Computed */ 2 : {
             match$1 = [
               expression(lit._0),
               true
             ];
             break;
+            }
         }
         const match$2 = prop.kind;
         let kind;
         switch (match$2) {
-          case /* Init */ 0 :
+          case /* Init */ 0 : {
             kind = "init";
             break;
-          case /* Get */ 1 :
+            }
+          case /* Get */ 1 : {
             kind = "get";
             break;
-          case /* Set */ 2 :
+            }
+          case /* Set */ 2 : {
             kind = "set";
             break;
+            }
         }
         return node("Property", match[0], [
           [
@@ -17041,39 +18367,46 @@ function parse(content, options) {
         const key = method_.key;
         let match;
         switch (key.TAG) {
-          case /* Literal */ 0 :
+          case /* Literal */ 0 : {
             match = [
               literal(key._0),
               false
             ];
             break;
-          case /* Identifier */ 1 :
+            }
+          case /* Identifier */ 1 : {
             match = [
               identifier(key._0),
               false
             ];
             break;
-          case /* Computed */ 2 :
+            }
+          case /* Computed */ 2 : {
             match = [
               expression(key._0),
               true
             ];
             break;
+            }
         }
         let kind;
         switch (method_.kind) {
-          case /* Constructor */ 0 :
+          case /* Constructor */ 0 : {
             kind = "constructor";
             break;
-          case /* Method */ 1 :
+            }
+          case /* Method */ 1 : {
             kind = "method";
             break;
-          case /* Get */ 2 :
+            }
+          case /* Get */ 2 : {
             kind = "get";
             break;
-          case /* Set */ 3 :
+            }
+          case /* Set */ 3 : {
             kind = "set";
             break;
+            }
         }
         return node("MethodDefinition", param[0], [
           [
@@ -17107,24 +18440,27 @@ function parse(content, options) {
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */ 0 :
+          case /* Literal */ 0 : {
             match$1 = [
               literal(lit._0),
               false
             ];
             break;
-          case /* Identifier */ 1 :
+            }
+          case /* Identifier */ 1 : {
             match$1 = [
               identifier(lit._0),
               false
             ];
             break;
-          case /* Computed */ 2 :
+            }
+          case /* Computed */ 2 : {
             match$1 = [
               expression(lit._0),
               true
             ];
             break;
+            }
         }
         return node("ClassProperty", param$1[0], [
           [
@@ -17220,15 +18556,18 @@ function parse(content, options) {
       const match = $$var.kind;
       let kind;
       switch (match) {
-        case /* Var */ 0 :
+        case /* Var */ 0 : {
           kind = "var";
           break;
-        case /* Let */ 1 :
+          }
+        case /* Let */ 1 : {
           kind = "let";
           break;
-        case /* Const */ 2 :
+          }
+        case /* Const */ 2 : {
           kind = "const";
           break;
+          }
       }
       return node("VariableDeclaration", param[0], [
         [
@@ -17383,17 +18722,19 @@ function parse(content, options) {
       const element = param[1];
       const loc = param[0];
       switch (element.TAG) {
-        case /* Element */ 0 :
+        case /* Element */ 0 : {
           return jsx_element([
             loc,
             element._0
           ]);
-        case /* ExpressionContainer */ 1 :
+          }
+        case /* ExpressionContainer */ 1 : {
           return jsx_expression_container([
             loc,
             element._0
           ]);
-        case /* Text */ 2 :
+          }
+        case /* Text */ 2 : {
           let param$1 = [
             loc,
             element._0
@@ -17409,6 +18750,7 @@ function parse(content, options) {
               string(text.raw)
             ]
           ]);
+          }
       }
     };
     const export_specifier = function (param) {
@@ -17459,24 +18801,27 @@ function parse(content, options) {
         const lit = prop.key;
         let match$1;
         switch (lit.TAG) {
-          case /* Literal */ 0 :
+          case /* Literal */ 0 : {
             match$1 = [
               literal(lit._0),
               false
             ];
             break;
-          case /* Identifier */ 1 :
+            }
+          case /* Identifier */ 1 : {
             match$1 = [
               identifier(lit._0),
               false
             ];
             break;
-          case /* Computed */ 2 :
+            }
+          case /* Computed */ 2 : {
             match$1 = [
               expression(lit._0),
               true
             ];
             break;
+            }
         }
         return node("PropertyPattern", match[0], [
           [
@@ -17584,17 +18929,20 @@ function parse(content, options) {
       const lit = prop.key;
       let key;
       switch (lit.TAG) {
-        case /* Literal */ 0 :
+        case /* Literal */ 0 : {
           key = literal(lit._0);
           break;
-        case /* Identifier */ 1 :
+          }
+        case /* Identifier */ 1 : {
           key = identifier(lit._0);
           break;
-        case /* Computed */ 2 :
+          }
+        case /* Computed */ 2 : {
           throw new Caml_js_exceptions.MelangeError("Failure", {
               MEL_EXN_ID: "Failure",
               _1: "There should not be computed object type property keys"
             });
+          }
       }
       return node("ObjectTypeProperty", param[0], [
         [

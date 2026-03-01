@@ -23,12 +23,15 @@ function b(loc, x) {
 function f(x) {
   const match = Curry._1(x, undefined);
   switch (match) {
-    case 1 :
+    case 1 : {
       return /* 'a' */97;
-    case 2 :
+      }
+    case 2 : {
       return /* 'b' */98;
-    case 3 :
+      }
+    case 3 : {
       return /* 'c' */99;
+      }
     default:
       return /* 'x' */120;
   }
@@ -37,12 +40,15 @@ function f(x) {
 function f22(x) {
   const match = Curry._1(x, undefined);
   switch (match) {
-    case 1 :
+    case 1 : {
       return /* 'a' */97;
-    case 2 :
+      }
+    case 2 : {
       return /* 'b' */98;
-    case 3 :
+      }
+    case 3 : {
       return /* 'c' */99;
+      }
     default:
       return /* 'x' */120;
   }
@@ -51,14 +57,18 @@ function f22(x) {
 function f33(x) {
   const match = Curry._1(x, undefined);
   switch (match) {
-    case /* A */ 0 :
+    case /* A */ 0 : {
       return /* 'a' */97;
-    case /* B */ 1 :
+      }
+    case /* B */ 1 : {
       return /* 'b' */98;
-    case /* C */ 2 :
+      }
+    case /* C */ 2 : {
       return /* 'c' */99;
-    case /* D */ 3 :
+      }
+    case /* D */ 3 : {
       return /* 'x' */120;
+      }
   }
 }
 

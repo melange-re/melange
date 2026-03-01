@@ -5,20 +5,26 @@
 function ff(x) {
   let a;
   switch (x) {
-    case "0" :
-    case "1" :
-    case "2" :
+    case "0" : {
+      }
+    case "1" : {
+      }
+    case "2" : {
       a = 3;
       break;
-    case "3" :
+      }
+    case "3" : {
       a = 4;
       break;
-    case "4" :
+      }
+    case "4" : {
       a = 6;
       break;
-    case "7" :
+      }
+    case "7" : {
       a = 7;
       break;
+      }
     default:
       a = 8;
   }

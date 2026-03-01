@@ -13,15 +13,18 @@ function string_or_number(x) {
     }
   } else {
     switch (ty.TAG) {
-      case /* JSNumber */ 0 :
+      case /* JSNumber */ 0 : {
         console.log(ty._0 + 3);
         return true;
-      case /* JSString */ 1 :
+        }
+      case /* JSString */ 1 : {
         console.log(ty._0 + "hei");
         return true;
-      case /* JSFunction */ 2 :
+        }
+      case /* JSFunction */ 2 : {
         console.log("Function");
         return false;
+        }
       default:
         return false;
     }

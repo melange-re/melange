@@ -25,14 +25,14 @@ Tail-perform + selective CPS avoids replaying pre-perform side effects.
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange.js" node_modules/melange.js
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange" node_modules/melange
 
-Without selective CPS, replay semantics increments twice.
+With default selective CPS, the side effect runs once.
 
   $ melc x.ml -o x.default.js
   $ node x.default.js
-  42 2
+  42 1
 
-With selective CPS enabled, tail-perform continuation does not replay.
+Recompiling with the same pipeline yields the same one-shot result.
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 melc x.ml -o x.cps.js
+  $ melc x.ml -o x.cps.js
   $ node x.cps.js
   42 1

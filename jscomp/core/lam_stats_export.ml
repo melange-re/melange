@@ -136,10 +136,16 @@ let get_dependent_module_effect (maybe_pure : string option)
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj ~case meta ~effect_ export_map =
+let export_to_cmj ~case meta ~effect_ ~effectful_export_names export_map =
   let values = values_of_export meta export_map in
+  let effectful_exports =
+    effectful_export_names
+    |> List.sort_uniq ~cmp:String.compare
+    |> Array.of_list
+  in
 
   Js_cmj_format.make ~values ~effect_
+    ~effectful_exports
     ~package_spec:(Js_packages_state.get_packages_info_for_cmj ())
     ~case
 (* FIXME: make sure [-o] would not change its case

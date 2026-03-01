@@ -20,9 +20,11 @@ function path(param) {
   }
   const raw = $$window.location.pathname;
   switch (raw) {
-    case "" :
-    case "/" :
+    case "" : {
+      }
+    case "/" : {
       return /* [] */ 0;
+      }
     default:
       const raw$1 = raw.slice(1);
       const match = raw$1[raw$1.length - 1 | 0];
@@ -53,9 +55,11 @@ function hash(param) {
   }
   const raw = $$window.location.hash;
   switch (raw) {
-    case "" :
-    case "#" :
+    case "" : {
+      }
+    case "#" : {
       return "";
+      }
     default:
       return raw.slice(1);
   }
@@ -68,9 +72,11 @@ function search(param) {
   }
   const raw = $$window.location.search;
   switch (raw) {
-    case "" :
-    case "?" :
+    case "" : {
+      }
+    case "?" : {
       return "";
+      }
     default:
       return raw.slice(1);
   }

@@ -7,14 +7,16 @@ function x(url) {
     return "start";
   }
   switch (url.hd) {
-    case "login" :
+    case "login" : {
       if (url.tl) {
         return "start";
       } else {
         return "login";
       }
-    case "start" :
+      }
+    case "start" : {
       return "start";
+      }
     default:
       return "start";
   }

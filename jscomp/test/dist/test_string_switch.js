@@ -6,12 +6,14 @@ const Stdlib__Sys = require("melange/sys.js");
 let os_version;
 
 switch (Stdlib__Sys.os_type) {
-  case "Cygwin" :
+  case "Cygwin" : {
     os_version = 2;
     break;
-  case "Unix" :
+    }
+  case "Unix" : {
     os_version = 1;
     break;
+    }
   default:
     os_version = 3;
 }

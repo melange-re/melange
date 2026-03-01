@@ -29,26 +29,30 @@ function f1(x) {
 function f3(x) {
   let tmp;
   switch (x) {
-    case 0 :
+    case 0 : {
       tmp = (function (x) {
         return x + 1 | 0;
       });
       break;
-    case 1 :
+      }
+    case 1 : {
       tmp = (function (x) {
         return x + 2 | 0;
       });
       break;
-    case 2 :
+      }
+    case 2 : {
       tmp = (function (x) {
         return x + 3 | 0;
       });
       break;
-    case 3 :
+      }
+    case 3 : {
       tmp = (function (x) {
         return x + 4 | 0;
       });
       break;
+      }
     default:
       throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
           MEL_EXN_ID: Stdlib.Not_found

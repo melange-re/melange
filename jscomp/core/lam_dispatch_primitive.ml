@@ -226,8 +226,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       call Js_runtime_modules.bytes
   | "caml_backtrace_status" | "caml_get_exception_backtrace"
   | "caml_get_exception_raw_backtrace" | "caml_record_backtrace"
-  | "caml_convert_raw_backtrace" | "caml_get_current_callstack" ->
-      E.unit
+  | "caml_convert_raw_backtrace" | "caml_get_current_callstack"
+  | "caml_restore_raw_backtrace" ->
+      call Js_runtime_modules.caml_backtrace
   (* unit -> unit
      _ -> unit
      major_slice : int -> int
@@ -258,7 +259,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_perform_tail" | "caml_reperform"
   | "caml_resume" | "caml_continuation_use_noexc"
   | "caml_continuation_use_and_update_handler_noexc"
-  | "caml_get_continuation_callstack" ->
+  | "caml_get_continuation_callstack"
+  | "caml_set_continuation_already_resumed"
+  | "caml_set_unhandled_exception_constructor" ->
       call Js_runtime_modules.caml_effect
   | "caml_make_float_vect" | "caml_array_create_float"
   | "caml_floatarray_create" (* TODO: compile float array into TypedArray*) ->

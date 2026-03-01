@@ -241,7 +241,6 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
   in
   let groups =
     Lam_pass_effect_cps.transform_groups
-      ~enabled:(Lam_pass_effect_cps.enabled_from_env ())
       ~effectful:effectful_bindings groups
   in
 
@@ -341,11 +340,17 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
           package_info
       in
       let cmj : Js_cmj_format.t =
+        let effectful_export_names =
+          List.filter_map meta.exports ~f:(fun id ->
+              if Ident.Set.mem id effectful_bindings then Some (Ident.name id)
+              else None)
+        in
         Lam_stats_export.export_to_cmj
           ~case
           ~delayed_program
           meta
           ~effect_
+          ~effectful_export_names
           (Lam_coercion.export_map coerced_input)
       in
       (if not !Clflags.dont_write_files then

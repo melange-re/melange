@@ -27,8 +27,8 @@ The user module is tiny and direct.
 
   $ rg "Shallow\\.fiber|caml_perform|Shallow\\.continue_with" x.js
     const k = Stdlib__Effect.Shallow.fiber(function (param) {
-      return Caml_effect.caml_perform({
-    return Stdlib__Effect.Shallow.continue_with(k, undefined, {
+      return Caml_effect.caml_perform_tail({
+    return Curry._1(run$idk, Stdlib__Effect.Shallow.continue_with(k, undefined, {
 
 But generated `melange/effect.js` uses CPS-style internal helpers with one extra
 argument (`last_fiber`) on top of effect + continuation.

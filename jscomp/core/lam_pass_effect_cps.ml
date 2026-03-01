@@ -1,11 +1,5 @@
 open Import
 
-let enabled_from_env () =
-  match Sys.getenv "MELANGE_EFFECT_CPS_EXPERIMENT" with
-  | "1" | "true" | "yes" -> true
-  | _ -> false
-  | exception Not_found -> false
-
 let debug_enabled () =
   match Sys.getenv "MELANGE_EFFECT_CPS_DEBUG" with
   | "1" -> true
@@ -14,6 +8,98 @@ let debug_enabled () =
 
 let map_find_cps_id (cps_ids : Ident.t Ident.Map.t) (id : Ident.t) =
   Ident.Map.find_opt id cps_ids
+
+let default_ap_info =
+  {
+    Lam.ap_loc = Location.none;
+    ap_inlined = Default_inline;
+    ap_status = App_na;
+  }
+
+let make_identity_cont ~attr =
+  let id_x = Ident.create_local "__x" in
+  Lam.function_ ~attr ~arity:1 ~params:[ id_x ] ~body:(Lam.var id_x)
+
+let rec may_perform ~(cps_ids : Ident.t Ident.Map.t) (lam : Lam.t) : bool =
+  match lam with
+  | Lvar id | Lmutvar id -> Option.is_some (map_find_cps_id cps_ids id)
+  | Lconst _ | Lglobal_module _ -> false
+  | Lapply { ap_func; ap_args; _ } ->
+      may_perform ~cps_ids ap_func
+      || List.exists ap_args ~f:(may_perform ~cps_ids)
+  | Lfunction { body; _ } -> may_perform ~cps_ids body
+  | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
+      may_perform ~cps_ids arg || may_perform ~cps_ids body
+  | Lletrec (bindings, body) ->
+      List.exists bindings ~f:(fun (_, rhs) -> may_perform ~cps_ids rhs)
+      || may_perform ~cps_ids body
+  | Lprim { primitive; args; _ } ->
+      (match primitive with
+      | Lam_primitive.Pccall { prim_name = "caml_perform" | "caml_perform_tail" } ->
+          true
+      | _ -> false)
+      || List.exists args ~f:(may_perform ~cps_ids)
+  | Lswitch (arg, sw) ->
+      may_perform ~cps_ids arg
+      || List.exists sw.sw_consts ~f:(fun (_, case) -> may_perform ~cps_ids case)
+      || List.exists sw.sw_blocks ~f:(fun (_, case) -> may_perform ~cps_ids case)
+      ||
+      (match sw.sw_failaction with
+      | None -> false
+      | Some case -> may_perform ~cps_ids case)
+  | Lstringswitch (arg, cases, default) ->
+      may_perform ~cps_ids arg
+      || List.exists cases ~f:(fun (_, case) -> may_perform ~cps_ids case)
+      ||
+      (match default with
+      | None -> false
+      | Some case -> may_perform ~cps_ids case)
+  | Lstaticraise (_, args) -> List.exists args ~f:(may_perform ~cps_ids)
+  | Lstaticcatch (body, _, handler) | Ltrywith (body, _, handler) ->
+      may_perform ~cps_ids body || may_perform ~cps_ids handler
+  | Lifthenelse (pred, ifso, ifnot) ->
+      may_perform ~cps_ids pred
+      || may_perform ~cps_ids ifso
+      || may_perform ~cps_ids ifnot
+  | Lsequence (left, right) ->
+      may_perform ~cps_ids left || may_perform ~cps_ids right
+  | Lwhile (pred, body) ->
+      may_perform ~cps_ids pred || may_perform ~cps_ids body
+  | Lfor (_, from_, to_, _, body) ->
+      may_perform ~cps_ids from_
+      || may_perform ~cps_ids to_
+      || may_perform ~cps_ids body
+  | Lassign (_, rhs) -> may_perform ~cps_ids rhs
+  | Lsend (_, meth, obj, args, _) ->
+      may_perform ~cps_ids meth
+      || may_perform ~cps_ids obj
+      || List.exists args ~f:(may_perform ~cps_ids)
+  | Lifused (_, body) -> may_perform ~cps_ids body
+
+let apply_k (ap_info : Lam.ap_info) (k : Ident.t) (value : Lam.t) =
+  Lam.apply (Lam.var k) [ value ] ap_info
+
+let perform_prim (lam : Lam.t) =
+  match lam with
+  | Lprim
+      {
+        primitive = Lam_primitive.Pccall { prim_name = "caml_perform" };
+        args = [ eff ];
+        loc;
+      } ->
+      Some (eff, loc)
+  | _ -> None
+
+let rec split_first_perform_arg (args : Lam.t list) =
+  match args with
+  | [] -> None
+  | arg :: rest -> (
+      match perform_prim arg with
+      | Some perf -> Some ([], perf, rest)
+      | None -> (
+          match split_first_perform_arg rest with
+          | None -> None
+          | Some (before, perf, after) -> Some (arg :: before, perf, after)))
 
 let rec rewrite_value ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) (lam : Lam.t) : Lam.t =
@@ -25,8 +111,27 @@ let rec rewrite_value ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
         (List.map ~f:(rewrite_value ~owner ~cps_ids ~k) ap_args)
         ap_info
   | Lfunction { arity; params; body; attr } ->
-      Lam.function_ ~attr ~arity ~params
-        ~body:(rewrite_value ~owner ~cps_ids ~k body)
+      if may_perform ~cps_ids body then
+        let cps_id = Ident.create_local "__fn$cps" in
+        let cps_k = Ident.create_local "__k" in
+        let cps_fun =
+          Lam.function_ ~attr:{ attr with inline = Never_inline }
+            ~arity:(arity + 1)
+            ~params:(List.append params [ cps_k ])
+            ~body:(rewrite_tail ~owner ~cps_ids ~k:cps_k ~ap_info:default_ap_info body)
+        in
+        let id_fun = make_identity_cont ~attr in
+        let wrapper_fun =
+          Lam.function_ ~attr ~arity ~params
+            ~body:
+              (Lam.apply (Lam.var cps_id)
+                 (List.append (List.map ~f:Lam.var params) [ id_fun ])
+                 default_ap_info)
+        in
+        Lam.let_ Strict cps_id cps_fun wrapper_fun
+      else
+        Lam.function_ ~attr ~arity ~params
+          ~body:(rewrite_value ~owner ~cps_ids ~k body)
   | Llet (kind, id, arg, body) ->
       Lam.let_ kind id
         (rewrite_value ~owner ~cps_ids ~k arg)
@@ -116,32 +221,7 @@ let rec rewrite_value ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
   | Lifused (id, body) ->
       Lam.ifused id (rewrite_value ~owner ~cps_ids ~k body)
 
-let apply_k (ap_info : Lam.ap_info) (k : Ident.t) (value : Lam.t) =
-  Lam.apply (Lam.var k) [ value ] ap_info
-
-let perform_prim (lam : Lam.t) =
-  match lam with
-  | Lprim
-      {
-        primitive = Lam_primitive.Pccall { prim_name = "caml_perform" };
-        args = [ eff ];
-        loc;
-      } ->
-      Some (eff, loc)
-  | _ -> None
-
-let rec split_first_perform_arg (args : Lam.t list) =
-  match args with
-  | [] -> None
-  | arg :: rest -> (
-      match perform_prim arg with
-      | Some perf -> Some ([], perf, rest)
-      | None -> (
-          match split_first_perform_arg rest with
-          | None -> None
-          | Some (before, perf, after) -> Some (arg :: before, perf, after)))
-
-let bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+and bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) (args : Lam.t list) (continue : Lam.t list -> Lam.t) =
   let rec aux args acc =
     match args with
@@ -154,7 +234,7 @@ let bind_prefix_args ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
   in
   aux args []
 
-let rec rewrite_eval ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+and rewrite_eval ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) (lam : Lam.t) (continue : Lam.t -> Lam.t) : Lam.t =
   match perform_prim lam with
   | Some (eff, loc) ->
@@ -270,7 +350,7 @@ and rewrite_eval_list ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
           rewrite_eval_list ~owner ~cps_ids ~k rest (fun rest' ->
               continue (arg' :: rest')))
 
-let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+and rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
     ~(k : Ident.t) ~(ap_info : Lam.ap_info) (lam : Lam.t) : Lam.t =
   match lam with
   | Lapply { ap_func; ap_args; ap_info = call_ap_info } -> (
@@ -460,10 +540,6 @@ let rec rewrite_tail ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
         (rewrite_tail ~owner ~cps_ids ~k ~ap_info handler)
   | _ -> rewrite_eval ~owner ~cps_ids ~k lam (fun value -> apply_k ap_info k value)
 
-let make_identity_cont ~attr =
-  let id_x = Ident.create_local "__x" in
-  Lam.function_ ~attr ~arity:1 ~params:[ id_x ] ~body:(Lam.var id_x)
-
 let build_cps_ids (effectful : Ident.Set.t) (groups : Lam_group.t list) =
   let add_if_effectful_function acc id lam =
     match lam with
@@ -497,12 +573,9 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
       | None -> [ group ]
       | Some cps_id ->
           let k = Ident.create_local "__k" in
+          let idk_id = Ident.create (Ident.name id ^ "$idk") in
           let ap_info =
-            {
-              Lam.ap_loc = Location.none;
-              ap_inlined = Default_inline;
-              ap_status = App_na;
-            }
+            default_ap_info
           in
           let cps_body = rewrite_tail ~owner:id ~cps_ids ~k ~ap_info body in
           let cps_fun =
@@ -511,10 +584,10 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
               ~params:(List.append params [ k ])
               ~body:cps_body
           in
-          let id_fun = make_identity_cont ~attr in
+          let idk_fun = make_identity_cont ~attr in
           let wrapper_body =
             Lam.apply (Lam.var cps_id)
-              (List.append (List.map ~f:Lam.var params) [ id_fun ])
+              (List.append (List.map ~f:Lam.var params) [ Lam.var idk_id ])
               ap_info
           in
           let wrapper_fun =
@@ -525,6 +598,7 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
               (Ident.name cps_id);
           [
             Lam_group.Single (kind, cps_id, cps_fun);
+            Lam_group.Single (kind, idk_id, idk_fun);
             Lam_group.Single (kind, id, wrapper_fun);
           ])
   | Lam_group.Single (_, id, lam) ->
@@ -559,12 +633,9 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
               match (map_find_cps_id cps_ids id, lam) with
               | Some cps_id, Lam.Lfunction { arity; params; body; attr } ->
                   let k = Ident.create_local "__k" in
+                  let idk_id = Ident.create (Ident.name id ^ "$idk") in
                   let ap_info =
-                    {
-                      Lam.ap_loc = Location.none;
-                      ap_inlined = Default_inline;
-                      ap_status = App_na;
-                    }
+                    default_ap_info
                   in
                   let cps_body = rewrite_tail ~owner:id ~cps_ids ~k ~ap_info body in
                   let cps_fun =
@@ -573,10 +644,10 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
                       ~params:(List.append params [ k ])
                       ~body:cps_body
                   in
-                  let id_fun = make_identity_cont ~attr in
+                  let idk_fun = make_identity_cont ~attr in
                   let wrapper_body =
                     Lam.apply (Lam.var cps_id)
-                      (List.append (List.map ~f:Lam.var params) [ id_fun ])
+                      (List.append (List.map ~f:Lam.var params) [ Lam.var idk_id ])
                       ap_info
                   in
                   let wrapper_fun =
@@ -585,7 +656,7 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
                   if debug_enabled () then
                     Format.eprintf "[effect-cps] lifted recursive %s -> %s@."
                       (Ident.name id) (Ident.name cps_id);
-                  [ (cps_id, cps_fun); (id, wrapper_fun) ]
+                  [ (cps_id, cps_fun); (idk_id, idk_fun); (id, wrapper_fun) ]
               | None, _ ->
                   (* Should not happen when build_cps_ids is in sync. *)
                   [ (id, lam) ]
@@ -600,9 +671,6 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
       [ Recursive lifted_bindings ]
   | _ -> [ group ]
 
-let transform_groups ~(enabled : bool) ~(effectful : Ident.Set.t)
-    (groups : Lam_group.t list) =
-  if not enabled then groups
-  else
-    let cps_ids = build_cps_ids effectful groups in
-    List.concat_map groups ~f:(lift_group ~effectful ~cps_ids)
+let transform_groups ~(effectful : Ident.Set.t) (groups : Lam_group.t list) =
+  let cps_ids = build_cps_ids effectful groups in
+  List.concat_map groups ~f:(lift_group ~effectful ~cps_ids)

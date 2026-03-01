@@ -1,5 +1,21 @@
 (library
  (modes melange)
+ (name effect_boundary)
+ (public_name melange.effect_boundary)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (libraries melange.js)
+ (modules effect_boundary)
+ (stdlib)
+ (melange.compile_flags
+  -mel-no-check-div-by-zero
+  -mel-cross-module-opt
+  -unsafe
+  -open
+  Melange_mini_stdlib))
+
+(library
+ (modes melange)
  (name dom)
  (public_name melange.dom)
  (preprocess

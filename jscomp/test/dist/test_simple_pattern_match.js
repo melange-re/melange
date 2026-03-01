@@ -6,13 +6,15 @@ const Stdlib__Sys = require("melange/sys.js");
 let match;
 
 switch (Stdlib__Sys.os_type) {
-  case "Cygwin" :
-  case "Unix" :
+  case "Cygwin" : {
+    }
+  case "Unix" : {
     match = [
       1,
       2
     ];
     break;
+    }
   default:
     match = [
       3,

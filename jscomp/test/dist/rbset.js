@@ -94,7 +94,7 @@ function balance_left(l, x, r) {
     
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       return {
         TAG: /* Node */ 0,
         _0: /* Black */ 0,
@@ -102,7 +102,8 @@ function balance_left(l, x, r) {
         _2: x,
         _3: r
       };
-    case 2 :
+      }
+    case 2 : {
       return {
         TAG: /* Node */ 0,
         _0: /* Red */ 1,
@@ -122,6 +123,7 @@ function balance_left(l, x, r) {
           _3: d
         }
       };
+      }
   }
 }
 
@@ -169,7 +171,7 @@ function balance_right(l, x, r) {
     
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       return {
         TAG: /* Node */ 0,
         _0: /* Black */ 0,
@@ -177,7 +179,8 @@ function balance_right(l, x, r) {
         _2: x,
         _3: r
       };
-    case 2 :
+      }
+    case 2 : {
       return {
         TAG: /* Node */ 0,
         _0: /* Red */ 1,
@@ -197,6 +200,7 @@ function balance_right(l, x, r) {
           _3: d
         }
       };
+      }
   }
 }
 

@@ -95,6 +95,26 @@ let query_external_id_info ~dynamic_import module_id name =
   try Some (query_external_id_info_exn ~dynamic_import module_id name)
   with Mel_exception.Error (Cmj_not_found _) -> None
 
+let query_external_field_effect ~dynamic_import module_id field_index =
+  let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
+  let get_cmj_table () =
+    match Lam_module_ident.Hashtbl.find cached_tbl oid with
+    | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table
+    | External _ -> assert false
+    | exception Not_found ->
+        let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
+        Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
+          ~data:(Ml { cmj_load_info; id = module_id });
+        cmj_load_info.cmj_table
+  in
+  try
+    let cmj_table = get_cmj_table () in
+    match Js_cmj_format.export_name_by_index cmj_table field_index with
+    | None -> None
+    | Some export_name ->
+        Some (Js_cmj_format.is_effectful_export cmj_table export_name)
+  with Mel_exception.Error (Cmj_not_found _) -> None
+
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =

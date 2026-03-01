@@ -1758,7 +1758,7 @@ function kwd(ppf, s) {
 
 function pr_exp0(ppf, s) {
   switch (s.TAG) {
-    case /* Var */ 1 :
+    case /* Var */ 1 : {
       return Curry._2(Stdlib__Format.fprintf(ppf)({
         TAG: /* Format */ 0,
         _0: {
@@ -1767,9 +1767,12 @@ function pr_exp0(ppf, s) {
         },
         _1: "%a"
       }), ident, s._0);
-    case /* Lambda */ 0 :
-    case /* Apply */ 2 :
+      }
+    case /* Lambda */ 0 : {
+      }
+    case /* Apply */ 2 : {
       break;
+      }
   }
   Curry._2(Stdlib__Format.fprintf(ppf)({
     TAG: /* Format */ 0,
@@ -1840,10 +1843,12 @@ function pr_app(ppf, e) {
 
 function pr_other_applications(ppf, f) {
   switch (f.TAG) {
-    case /* Lambda */ 0 :
-    case /* Var */ 1 :
+    case /* Lambda */ 0 : {
+      }
+    case /* Var */ 1 : {
       return pr_exp0(ppf, f);
-    case /* Apply */ 2 :
+      }
+    case /* Apply */ 2 : {
       return Curry._4(Stdlib__Format.fprintf(ppf)({
         TAG: /* Format */ 0,
         _0: {
@@ -1864,12 +1869,13 @@ function pr_other_applications(ppf, f) {
         },
         _1: "%a@ %a"
       }), pr_app, f._0, pr_exp0, f._1);
+      }
   }
 }
 
 function pr_lambda(ppf, e) {
   switch (e.TAG) {
-    case /* Lambda */ 0 :
+    case /* Lambda */ 0 : {
       return Curry._8(Stdlib__Format.fprintf(ppf)({
         TAG: /* Format */ 0,
         _0: {
@@ -1915,9 +1921,12 @@ function pr_lambda(ppf, e) {
         },
         _1: "@[<1>%a%a%a@ %a@]"
       }), kwd, "\\", ident, e._0, kwd, ".", pr_lambda, e._1);
-    case /* Var */ 1 :
-    case /* Apply */ 2 :
+      }
+    case /* Var */ 1 : {
+      }
+    case /* Apply */ 2 : {
       return pr_app(ppf, e);
+      }
   }
 }
 

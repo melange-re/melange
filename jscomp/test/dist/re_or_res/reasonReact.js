@@ -269,21 +269,24 @@ function createClass(debugName) {
           nextTotalState = curTotalState;
         } else {
           switch (reasonStateUpdate.TAG) {
-            case /* Update */ 0 :
+            case /* Update */ 0 : {
               nextTotalState = {
                 reasonState: reasonStateUpdate._0
               };
               break;
-            case /* SideEffects */ 1 :
+              }
+            case /* SideEffects */ 1 : {
               sideEffects.contents = reasonStateUpdate._0;
               nextTotalState = curTotalState;
               break;
-            case /* UpdateWithSideEffects */ 2 :
+              }
+            case /* UpdateWithSideEffects */ 2 : {
               sideEffects.contents = reasonStateUpdate._1;
               nextTotalState = {
                 reasonState: reasonStateUpdate._0
               };
               break;
+              }
           }
         }
         if (nextTotalState !== curTotalState) {
