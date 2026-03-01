@@ -1,6 +1,6 @@
-Limitation: an anonymous computation passed directly to `Effect.Deep.try_with`
-currently compiles through `caml_perform` and replays pre-`perform` side effects
-when the continuation is resumed later.
+Regression check: an anonymous computation passed directly to
+`Effect.Deep.try_with` should still be selectively CPS-lowered, so pre-`perform`
+side effects are not replayed when the continuation is resumed later.
 
   $ . ./setup.sh
 
@@ -39,15 +39,15 @@ when the continuation is resumed later.
 
   $ melc x.ml -o x.js
   $ node x.js
-  0 2 2
+  0 1 1
 
-Generated code shows direct `caml_perform` (replay path), not `caml_perform_tail`.
+Generated code uses `caml_perform_tail` for this shape.
 
   $ rg "caml_perform\\(|caml_perform_tail\\(" x.js
-    Caml_effect.caml_perform({
+    return Caml_effect.caml_perform_tail({
 
 Conservative effect analysis mode currently behaves the same for this shape.
 
   $ MELANGE_EFFECT_ANALYSIS_MODE=conservative melc x.ml -o x.cons.js
   $ node x.cons.js
-  0 2 2
+  0 1 1
