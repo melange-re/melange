@@ -43,6 +43,8 @@
  (deps
   (package melange)
   %{bin:js_of_ocaml}
+  (:some-mini-stdlib-cmi
+   %{lib:melange:__private__/melange_mini_stdlib/melange/melange_mini_stdlib.cmj})
   (:some-js-cmi %{lib:melange:js/melange/js.cmi})
   (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
   (:some-belt-cmi %{lib:melange.belt:melange/belt.cmi})
@@ -51,7 +53,9 @@
  (action
   (progn
    (bash
-    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+    "find $(dirname %{some-mini-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+   (bash
+    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
    (bash
     "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
    (bash
