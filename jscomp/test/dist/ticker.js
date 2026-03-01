@@ -1406,7 +1406,7 @@ function process_input_line(ticker_map, all_tickers, line) {
   const tokens = split(/* '|' */124, line);
   if (tokens) {
     switch (tokens.hd) {
-      case "Q" :
+      case "Q" : {
         const match = tokens.tl;
         if (match) {
           const match$1 = match.tl;
@@ -1434,14 +1434,15 @@ function process_input_line(ticker_map, all_tickers, line) {
             MEL_EXN_ID: "Failure",
             _1: "Invalid input line"
           });
-      case "R" :
+        }
+      case "R" : {
         const match$2 = tokens.tl;
         if (match$2) {
           const match$3 = match$2.tl;
           if (match$3) {
             const ticker_name = match$2.hd;
             switch (match$3.hd) {
-              case "+" :
+              case "+" : {
                 const match$4 = match$3.tl;
                 if (match$4) {
                   const match$5 = match$4.tl;
@@ -1469,7 +1470,8 @@ function process_input_line(ticker_map, all_tickers, line) {
                     MEL_EXN_ID: "Failure",
                     _1: "Invalid input line"
                   });
-              case "-" :
+                }
+              case "-" : {
                 const match$6 = match$3.tl;
                 if (match$6) {
                   const match$7 = match$6.tl;
@@ -1497,7 +1499,8 @@ function process_input_line(ticker_map, all_tickers, line) {
                     MEL_EXN_ID: "Failure",
                     _1: "Invalid input line"
                   });
-              case "S" :
+                }
+              case "S" : {
                 if (match$3.tl) {
                   throw new Caml_js_exceptions.MelangeError("Failure", {
                       MEL_EXN_ID: "Failure",
@@ -1516,6 +1519,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                   },
                   ticker_map
                 ];
+                }
               default:
                 throw new Caml_js_exceptions.MelangeError("Failure", {
                     MEL_EXN_ID: "Failure",
@@ -1533,6 +1537,7 @@ function process_input_line(ticker_map, all_tickers, line) {
               MEL_EXN_ID: "Failure",
               _1: "Invalid input line"
             });
+        }
         }
       default:
         throw new Caml_js_exceptions.MelangeError("Failure", {

@@ -1892,7 +1892,7 @@ function scan_elems$2(ib, accu) {
       if (c >= 91) {
         if (c < 94) {
           switch (c) {
-            case 91 :
+            case 91 : {
               if (Caml_obj.caml_equal(accu, /* [] */ 0)) {
                 return scan_elems$2(ib, {
                   hd: i,
@@ -1900,13 +1900,16 @@ function scan_elems$2(ib, accu) {
                 });
               }
               break;
-            case 92 :
+              }
+            case 92 : {
               break;
-            case 93 :
+              }
+            case 93 : {
               return Stdlib__List.rev({
                 hd: i,
                 tl: accu
               });
+              }
           }
         }
         
@@ -2012,11 +2015,12 @@ function scan_elems$3(ib, accu) {
     _1: " %i%[]; \t\n\r]"
   }), (function (i, s) {
     switch (s) {
-      case ";" :
+      case ";" : {
         return scan_elems$3(ib, {
           hd: i,
           tl: accu
         });
+        }
       default:
         return Stdlib__List.rev({
           hd: i,
@@ -2337,10 +2341,12 @@ function scan_rest$1(ib, accu) {
           _1: "%1[];]"
         }), (function (param) {
           switch (param) {
-            case ";" :
+            case ";" : {
               return scan_rest$1(ib, accu$1);
-            case "]" :
+              }
+            case "]" : {
               return accu$1;
+              }
             default:
               const s = Stdlib__Printf.sprintf({
                 TAG: /* Format */ 0,
@@ -4546,10 +4552,11 @@ function writer(ib, ob) {
     _1: "%s\n"
   }), (function (s) {
     switch (s) {
-      case "start" :
+      case "start" : {
         send_string(ob, "Hello World!");
         return reader(ib, ob);
-      case "stop" :
+        }
+      case "stop" : {
         return Curry._1(Stdlib__Scanf.bscanf(ib, {
           TAG: /* Format */ 0,
           _0: {
@@ -4563,6 +4570,7 @@ function writer(ib, ob) {
         }), (function (i) {
           return i;
         }));
+        }
       default:
         const i = Caml_format.caml_int_of_string(s);
         send_string(ob, String(i));

@@ -1042,12 +1042,13 @@ function of_list(l) {
       let l$1 = Stdlib__List.sort_uniq(AAA.compare, l);
       const sub = function (n, l) {
         switch (n) {
-          case 0 :
+          case 0 : {
             return [
               /* Empty */ 0,
               l
             ];
-          case 1 :
+            }
+          case 1 : {
             if (l) {
               return [
                 {
@@ -1061,7 +1062,8 @@ function of_list(l) {
               ];
             }
             break;
-          case 2 :
+            }
+          case 2 : {
             if (l) {
               const match = l.tl;
               if (match) {
@@ -1085,7 +1087,8 @@ function of_list(l) {
               
             }
             break;
-          case 3 :
+            }
+          case 3 : {
             if (l) {
               const match$1 = l.tl;
               if (match$1) {
@@ -1119,6 +1122,7 @@ function of_list(l) {
               
             }
             break;
+            }
         }
         const nl = n / 2 | 0;
         const match$3 = sub(nl, l);

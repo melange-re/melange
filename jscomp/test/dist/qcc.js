@@ -930,17 +930,19 @@ function binary(stk, lvl) {
 function unary(stk) {
   const i = Curry._1(next$1, undefined);
   switch (i.TAG) {
-    case /* Op */ 0 :
+    case /* Op */ 0 : {
       const o = i._0;
       switch (o) {
-        case "&" :
+        case "&" : {
           unary(stk);
           return patchlval();
-        case "(" :
+          }
+        case "(" : {
           expr(stk);
           Curry._1(next$1, undefined);
           return postfix(stk);
-        case "*" :
+          }
+        case "*" : {
           Curry._1(next$1, undefined);
           const t = Curry._1(next$1, undefined);
           let match;
@@ -971,6 +973,7 @@ function unary(stk) {
           }
           unary(stk);
           return read(match[0]);
+          }
         default:
           const unops = {
             hd: [
@@ -1024,12 +1027,15 @@ function unary(stk) {
             return;
           }
       }
-    case /* ILit */ 1 :
+      }
+    case /* ILit */ 1 : {
       return load(0, i._0);
-    case /* SLit */ 2 :
+      }
+    case /* SLit */ 2 : {
       out(18616);
       return le(64, i._0);
-    case /* Sym */ 3 :
+      }
+    case /* Sym */ 3 : {
       const i$1 = i._0;
       if (Stdlib__List.mem_assoc(i$1, stk)) {
         const l = Stdlib__List.assoc(i$1, stk);
@@ -1064,6 +1070,7 @@ function unary(stk) {
         read(/* Int */ 0);
       }
       return postfix(stk);
+      }
   }
 }
 
@@ -1074,7 +1081,7 @@ function postfix(stk) {
   }
   const op$1 = op._0;
   switch (op$1) {
-    case "(" :
+    case "(" : {
       const emitargs = function (_l, _rl) {
         while (true) {
           const rl = _rl;
@@ -1133,9 +1140,12 @@ function postfix(stk) {
       } else {
         return;
       }
-    case "++" :
-    case "--" :
+      }
+    case "++" : {
+      }
+    case "--" : {
       break;
+      }
     default:
       return Curry._1(unnext, op);
   }
@@ -1463,10 +1473,12 @@ function stmt(brk, stk) {
   }
   if (t.TAG === /* Op */ 0) {
     switch (t._0) {
-      case ";" :
+      case ";" : {
         return;
-      case "{" :
+        }
+      case "{" : {
         return block(brk, stk);
+        }
     }
   }
   Curry._1(unnext, t);
@@ -1528,7 +1540,7 @@ function top(_param) {
           const regs = _regs;
           const i = Curry._1(next$1, undefined);
           switch (i.TAG) {
-            case /* Op */ 0 :
+            case /* Op */ 0 : {
               if (i._0 === ")") {
                 return stk;
               }
@@ -1536,13 +1548,16 @@ function top(_param) {
                   MEL_EXN_ID: "Failure",
                   _1: "[var] or ) expected"
                 });
-            case /* ILit */ 1 :
-            case /* SLit */ 2 :
+              }
+            case /* ILit */ 1 : {
+              }
+            case /* SLit */ 2 : {
               throw new Caml_js_exceptions.MelangeError("Failure", {
                   MEL_EXN_ID: "Failure",
                   _1: "[var] or ) expected"
                 });
-            case /* Sym */ 3 :
+              }
+            case /* Sym */ 3 : {
               const r = Stdlib__List.hd(regs);
               push(r);
               if (nextis({
@@ -1563,6 +1578,7 @@ function top(_param) {
               _n = n + 1 | 0;
               _regs = Stdlib__List.tl(regs);
               continue;
+              }
           }
         };
       };
@@ -1868,7 +1884,7 @@ function elfgen(outf) {
 function main(param) {
   const ppsym = function (s) {
     switch (s.TAG) {
-      case /* Op */ 0 :
+      case /* Op */ 0 : {
         return Curry._1(Stdlib__Printf.printf({
           TAG: /* Format */ 0,
           _0: {
@@ -1886,7 +1902,8 @@ function main(param) {
           },
           _1: "Operator '%s'\n"
         }), s._0);
-      case /* ILit */ 1 :
+        }
+      case /* ILit */ 1 : {
         return Curry._1(Stdlib__Printf.printf({
           TAG: /* Format */ 0,
           _0: {
@@ -1906,7 +1923,8 @@ function main(param) {
           },
           _1: "Int literal %d\n"
         }), s._0);
-      case /* SLit */ 2 :
+        }
+      case /* SLit */ 2 : {
         return Curry._1(Stdlib__Printf.printf({
           TAG: /* Format */ 0,
           _0: {
@@ -1924,7 +1942,8 @@ function main(param) {
           },
           _1: "Str literal %S\n"
         }), s._1);
-      case /* Sym */ 3 :
+        }
+      case /* Sym */ 3 : {
         const i = s._0;
         return Curry._2(Stdlib__Printf.printf({
           TAG: /* Format */ 0,
@@ -1953,11 +1972,12 @@ function main(param) {
           },
           _1: "Symbol '%s' (%d)\n"
         }), symstr(i), i);
+        }
     }
   };
   const f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);
   switch (f) {
-    case "-blk" :
+    case "-blk" : {
       const partial_arg_0 = {
         contents: 0
       };
@@ -1972,7 +1992,8 @@ function main(param) {
       opos.contents = 0;
       Curry._1(c, stk);
       return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
-    case "-lex" :
+      }
+    case "-lex" : {
       let _param;
       while (true) {
         const tok = Curry._1(next$1, undefined);
@@ -1996,6 +2017,7 @@ function main(param) {
         _param = undefined;
         continue;
       };
+      }
     default:
       const oc = Stdlib.open_out("a.out");
       inch.contents = Stdlib.open_in_bin(f);

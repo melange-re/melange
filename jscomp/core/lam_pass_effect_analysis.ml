@@ -19,7 +19,7 @@ let empty_info =
 
 let is_effect_primitive = function
   | Lam_primitive.Pccall
-      { prim_name = "caml_perform" | "caml_reperform" | "caml_resume" } ->
+      { prim_name = "caml_perform" | "caml_perform_tail" } ->
       true
   | _ -> false
 
@@ -30,13 +30,35 @@ let mode_to_string = function
 let mode_from_env () =
   match Sys.getenv "MELANGE_EFFECT_ANALYSIS_MODE" with
   | "optimistic" -> Optimistic
-  | _ -> Conservative
-  | exception Not_found -> Conservative
+  | "conservative" -> Conservative
+  | _ -> Optimistic
+  | exception Not_found -> Optimistic
 
 let add_call_if_local local_ids local_calls = function
   | Lam.Lvar id | Lmutvar id when Ident.Set.mem id local_ids ->
       Ident.Set.add id local_calls
   | _ -> local_calls
+
+type call_classification =
+  | Known_pure
+  | Known_effectful
+  | Unknown
+
+let classify_module_field_call (ap_func : Lam.t) =
+  match ap_func with
+  | Lprim
+      {
+        primitive = Pfield (field_index, _);
+        args = [ Lglobal_module { id; dynamic_import } ];
+        loc = _;
+      } -> (
+      match
+        Lam_compile_env.query_external_field_effect ~dynamic_import id field_index
+      with
+      | Some true -> Known_effectful
+      | Some false -> Known_pure
+      | None -> Unknown)
+  | _ -> Unknown
 
 let merge_info left right =
   {
@@ -58,15 +80,28 @@ let rec analyze_lambda ~(mode : mode) (local_ids : Ident.Set.t) (lam : Lam.t) :
       let fn_info = analyze_lambda ~mode local_ids ap_func in
       let args_info = analyze_lambdas ~mode local_ids ap_args in
       let local_calls = add_call_if_local local_ids fn_info.local_calls ap_func in
+      let call_classification =
+        match ap_func with
+        | Lvar id | Lmutvar id when Ident.Set.mem id local_ids -> Known_pure
+        | Lvar _ | Lmutvar _ -> Unknown
+        | _ -> classify_module_field_call ap_func
+      in
       let unknown_call =
         fn_info.unknown_call
         ||
-        match ap_func with
-        | Lvar id | Lmutvar id -> not (Ident.Set.mem id local_ids)
-        | _ -> unknown_calls_are_effectful mode
+        match call_classification with
+        | Known_pure -> false
+        | Known_effectful -> false
+        | Unknown -> unknown_calls_are_effectful mode
       in
       {
-        direct_effect = fn_info.direct_effect || args_info.direct_effect;
+        direct_effect =
+          fn_info.direct_effect
+          || args_info.direct_effect
+          ||
+          (match call_classification with
+          | Known_effectful -> true
+          | Known_pure | Unknown -> false);
         unknown_call =
           (unknown_call && unknown_calls_are_effectful mode)
           || args_info.unknown_call;
@@ -141,11 +176,17 @@ let rec analyze_lambda ~(mode : mode) (local_ids : Ident.Set.t) (lam : Lam.t) :
            (analyze_lambda ~mode local_ids body))
   | Lassign (_, rhs) -> analyze_lambda ~mode local_ids rhs
   | Lsend (_, meth, obj, args, _) ->
-      merge_info
-        (analyze_lambda ~mode local_ids meth)
-        (merge_info
-           (analyze_lambda ~mode local_ids obj)
-           (analyze_lambdas ~mode local_ids args))
+      let info =
+        merge_info
+          (analyze_lambda ~mode local_ids meth)
+          (merge_info
+             (analyze_lambda ~mode local_ids obj)
+             (analyze_lambdas ~mode local_ids args))
+      in
+      {
+        info with
+        unknown_call = info.unknown_call || unknown_calls_are_effectful mode;
+      }
   | Lifused (_, body) -> analyze_lambda ~mode local_ids body
 
 and analyze_lambdas ~mode local_ids lams =

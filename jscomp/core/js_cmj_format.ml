@@ -43,6 +43,7 @@ type keyed_cmj_value = {
 
 type t = {
   values : keyed_cmj_value array;
+  effectful_exports : string array;
   pure : bool;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
@@ -61,7 +62,8 @@ let to_sorted_array_with_f_seq ~(f : String.Map.key -> 'a -> 'b)
       incr i);
   arr
 
-let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
+let make ~(values : cmj_value String.Map.t) ~effectful_exports ~effect_
+    ~package_spec ~case
     ~delayed_program : t =
   {
     values =
@@ -71,6 +73,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
           });
+    effectful_exports;
     pure = effect_ = None;
     package_spec;
     case;
@@ -161,6 +164,19 @@ let binarySearch (sorted : keyed_cmj_value array) (key : string) :
 let query_by_name (cmj_table : t) name : keyed_cmj_value =
   let values = cmj_table.values in
   binarySearch values name
+
+let rec nth_export_name exports index =
+  match exports with
+  | [] -> None
+  | id :: _ when index = 0 -> Some (Ident.name id)
+  | _ :: rest -> nth_export_name rest (index - 1)
+
+let export_name_by_index (cmj_table : t) index =
+  if index < 0 then None
+  else nth_export_name cmj_table.delayed_program.program.exports index
+
+let is_effectful_export (cmj_table : t) name =
+  Array.exists cmj_table.effectful_exports ~f:(String.equal name)
 
 type cmj_load_info = {
   cmj_table : t;

@@ -62,6 +62,7 @@ type keyed_cmj_value = {
 
 type t = {
   values : keyed_cmj_value array;
+  effectful_exports : string array;
   pure : bool;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
@@ -70,6 +71,7 @@ type t = {
 
 val make :
   values:cmj_value String.Map.t ->
+  effectful_exports:string array ->
   effect_:string option ->
   package_spec:Js_packages_info.t ->
   case:Js_packages_info.file_case ->
@@ -77,6 +79,8 @@ val make :
   t
 
 val query_by_name : t -> string -> keyed_cmj_value
+val export_name_by_index : t -> int -> string option
+val is_effectful_export : t -> string -> bool
 val single_na : arity
 val from_file : string -> t
 

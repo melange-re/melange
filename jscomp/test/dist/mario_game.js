@@ -46,7 +46,7 @@ function setup_sprite(loopOpt, bbox_offsetOpt, bbox_sizeOpt, img_src, max_frames
 function make_enemy(param) {
   const dir = param[1];
   switch (param[0]) {
-    case /* Goomba */ 0 :
+    case /* Goomba */ 0 : {
       return setup_sprite(undefined, [
         1,
         1
@@ -60,7 +60,8 @@ function make_enemy(param) {
         0,
         128
       ]);
-    case /* GKoopa */ 1 :
+      }
+    case /* GKoopa */ 1 : {
       if (dir === /* Left */ 0) {
         return setup_sprite(undefined, [
           4,
@@ -90,7 +91,8 @@ function make_enemy(param) {
           69
         ]);
       }
-    case /* RKoopa */ 2 :
+      }
+    case /* RKoopa */ 2 : {
       if (dir === /* Left */ 0) {
         return setup_sprite(undefined, [
           4,
@@ -120,7 +122,8 @@ function make_enemy(param) {
           5
         ]);
       }
-    case /* GKoopaShell */ 3 :
+      }
+    case /* GKoopaShell */ 3 : {
       return setup_sprite(undefined, [
         2,
         2
@@ -134,7 +137,8 @@ function make_enemy(param) {
         0,
         96
       ]);
-    case /* RKoopaShell */ 4 :
+      }
+    case /* RKoopaShell */ 4 : {
       return setup_sprite(undefined, [
         2,
         2
@@ -148,12 +152,13 @@ function make_enemy(param) {
         0,
         32
       ]);
+      }
   }
 }
 
 function make_particle(param) {
   switch (param) {
-    case /* GoombaSquish */ 0 :
+    case /* GoombaSquish */ 0 : {
       return setup_sprite(undefined, undefined, undefined, "enemies.png", 1, 0, [
         16,
         16
@@ -161,7 +166,8 @@ function make_particle(param) {
         0,
         144
       ]);
-    case /* BrickChunkL */ 1 :
+      }
+    case /* BrickChunkL */ 1 : {
       return setup_sprite(undefined, undefined, undefined, "chunks.png", 1, 0, [
         8,
         8
@@ -169,7 +175,8 @@ function make_particle(param) {
         0,
         0
       ]);
-    case /* BrickChunkR */ 2 :
+      }
+    case /* BrickChunkR */ 2 : {
       return setup_sprite(undefined, undefined, undefined, "chunks.png", 1, 0, [
         8,
         8
@@ -177,7 +184,8 @@ function make_particle(param) {
         8,
         0
       ]);
-    case /* Score100 */ 3 :
+      }
+    case /* Score100 */ 3 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         12,
         8
@@ -185,7 +193,8 @@ function make_particle(param) {
         0,
         0
       ]);
-    case /* Score200 */ 4 :
+      }
+    case /* Score200 */ 4 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         12,
         9
@@ -193,7 +202,8 @@ function make_particle(param) {
         0,
         9
       ]);
-    case /* Score400 */ 5 :
+      }
+    case /* Score400 */ 5 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         12,
         9
@@ -201,7 +211,8 @@ function make_particle(param) {
         0,
         18
       ]);
-    case /* Score800 */ 6 :
+      }
+    case /* Score800 */ 6 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         12,
         9
@@ -209,7 +220,8 @@ function make_particle(param) {
         0,
         27
       ]);
-    case /* Score1000 */ 7 :
+      }
+    case /* Score1000 */ 7 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         14,
         9
@@ -217,7 +229,8 @@ function make_particle(param) {
         13,
         0
       ]);
-    case /* Score2000 */ 8 :
+      }
+    case /* Score2000 */ 8 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         14,
         9
@@ -225,7 +238,8 @@ function make_particle(param) {
         13,
         9
       ]);
-    case /* Score4000 */ 9 :
+      }
+    case /* Score4000 */ 9 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         14,
         9
@@ -233,7 +247,8 @@ function make_particle(param) {
         13,
         18
       ]);
-    case /* Score8000 */ 10 :
+      }
+    case /* Score8000 */ 10 : {
       return setup_sprite(undefined, undefined, undefined, "score.png", 1, 0, [
         14,
         9
@@ -241,12 +256,13 @@ function make_particle(param) {
         13,
         27
       ]);
+      }
   }
 }
 
 function make_type(typ, dir) {
   switch (typ.TAG) {
-    case /* SPlayer */ 0 :
+    case /* SPlayer */ 0 : {
       let pt = typ._0;
       let spr_type = [
         typ._1,
@@ -256,7 +272,7 @@ function make_type(typ, dir) {
         const typ$1 = spr_type[0];
         if (spr_type[1] === /* Left */ 0) {
           switch (typ$1) {
-            case /* Standing */ 0 :
+            case /* Standing */ 0 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -270,7 +286,8 @@ function make_type(typ, dir) {
                 16,
                 5
               ]);
-            case /* Jumping */ 1 :
+              }
+            case /* Jumping */ 1 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -284,7 +301,8 @@ function make_type(typ, dir) {
                 48,
                 6
               ]);
-            case /* Running */ 2 :
+              }
+            case /* Running */ 2 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -298,7 +316,8 @@ function make_type(typ, dir) {
                 0,
                 37
               ]);
-            case /* Crouching */ 3 :
+              }
+            case /* Crouching */ 3 : {
               return setup_sprite(undefined, [
                 2,
                 10
@@ -312,10 +331,11 @@ function make_type(typ, dir) {
                 32,
                 5
               ]);
+              }
           }
         } else {
           switch (typ$1) {
-            case /* Standing */ 0 :
+            case /* Standing */ 0 : {
               return setup_sprite(undefined, [
                 1,
                 1
@@ -329,7 +349,8 @@ function make_type(typ, dir) {
                 16,
                 69
               ]);
-            case /* Jumping */ 1 :
+              }
+            case /* Jumping */ 1 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -343,7 +364,8 @@ function make_type(typ, dir) {
                 48,
                 70
               ]);
-            case /* Running */ 2 :
+              }
+            case /* Running */ 2 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -357,7 +379,8 @@ function make_type(typ, dir) {
                 0,
                 101
               ]);
-            case /* Crouching */ 3 :
+              }
+            case /* Crouching */ 3 : {
               return setup_sprite(undefined, [
                 2,
                 10
@@ -371,13 +394,14 @@ function make_type(typ, dir) {
                 32,
                 69
               ]);
+              }
           }
         }
       } else {
         const typ$2 = spr_type[0];
         if (spr_type[1] === /* Left */ 0) {
           switch (typ$2) {
-            case /* Standing */ 0 :
+            case /* Standing */ 0 : {
               return setup_sprite(undefined, [
                 3,
                 1
@@ -391,7 +415,8 @@ function make_type(typ, dir) {
                 0,
                 0
               ]);
-            case /* Jumping */ 1 :
+              }
+            case /* Jumping */ 1 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -405,7 +430,8 @@ function make_type(typ, dir) {
                 16,
                 16
               ]);
-            case /* Running */ 2 :
+              }
+            case /* Running */ 2 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -419,7 +445,8 @@ function make_type(typ, dir) {
                 16,
                 0
               ]);
-            case /* Crouching */ 3 :
+              }
+            case /* Crouching */ 3 : {
               return setup_sprite(undefined, [
                 1,
                 5
@@ -433,10 +460,11 @@ function make_type(typ, dir) {
                 0,
                 64
               ]);
+              }
           }
         } else {
           switch (typ$2) {
-            case /* Standing */ 0 :
+            case /* Standing */ 0 : {
               return setup_sprite(undefined, [
                 1,
                 1
@@ -450,7 +478,8 @@ function make_type(typ, dir) {
                 0,
                 32
               ]);
-            case /* Jumping */ 1 :
+              }
+            case /* Jumping */ 1 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -464,7 +493,8 @@ function make_type(typ, dir) {
                 16,
                 48
               ]);
-            case /* Running */ 2 :
+              }
+            case /* Running */ 2 : {
               return setup_sprite(undefined, [
                 2,
                 1
@@ -478,7 +508,8 @@ function make_type(typ, dir) {
                 16,
                 32
               ]);
-            case /* Crouching */ 3 :
+              }
+            case /* Crouching */ 3 : {
               return setup_sprite(undefined, [
                 1,
                 5
@@ -492,18 +523,21 @@ function make_type(typ, dir) {
                 0,
                 64
               ]);
+              }
           }
         }
       }
-    case /* SEnemy */ 1 :
+      }
+    case /* SEnemy */ 1 : {
       return make_enemy([
         typ._0,
         dir
       ]);
-    case /* SItem */ 2 :
+      }
+    case /* SItem */ 2 : {
       let param = typ._0;
       switch (param) {
-        case /* Mushroom */ 0 :
+        case /* Mushroom */ 0 : {
           return setup_sprite(undefined, [
             2,
             0
@@ -517,7 +551,8 @@ function make_type(typ, dir) {
             0,
             0
           ]);
-        case /* FireFlower */ 1 :
+          }
+        case /* FireFlower */ 1 : {
           return setup_sprite(undefined, undefined, undefined, "items.png", 1, 0, [
             16,
             16
@@ -525,7 +560,8 @@ function make_type(typ, dir) {
             0,
             188
           ]);
-        case /* Star */ 2 :
+          }
+        case /* Star */ 2 : {
           return setup_sprite(undefined, undefined, undefined, "items.png", 1, 0, [
             16,
             16
@@ -533,7 +569,8 @@ function make_type(typ, dir) {
             16,
             48
           ]);
-        case /* Coin */ 3 :
+          }
+        case /* Coin */ 3 : {
           return setup_sprite(undefined, [
             3,
             0
@@ -547,8 +584,10 @@ function make_type(typ, dir) {
             0,
             80
           ]);
+          }
       }
-    case /* SBlock */ 3 :
+      }
+    case /* SBlock */ 3 : {
       let param$1 = typ._0;
       if (!/* tag */ (typeof param$1 !== "object" && typeof param$1 !== "function")) {
         return setup_sprite(undefined, undefined, undefined, "blocks.png", 4, 15, [
@@ -560,7 +599,7 @@ function make_type(typ, dir) {
         ]);
       }
       switch (param$1) {
-        case /* QBlockUsed */ 0 :
+        case /* QBlockUsed */ 0 : {
           return setup_sprite(undefined, undefined, undefined, "blocks.png", 1, 0, [
             16,
             16
@@ -568,7 +607,8 @@ function make_type(typ, dir) {
             0,
             32
           ]);
-        case /* Brick */ 1 :
+          }
+        case /* Brick */ 1 : {
           return setup_sprite(undefined, undefined, undefined, "blocks.png", 5, 10, [
             16,
             16
@@ -576,7 +616,8 @@ function make_type(typ, dir) {
             0,
             0
           ]);
-        case /* UnBBlock */ 2 :
+          }
+        case /* UnBBlock */ 2 : {
           return setup_sprite(undefined, undefined, undefined, "blocks.png", 1, 0, [
             16,
             16
@@ -584,7 +625,8 @@ function make_type(typ, dir) {
             0,
             48
           ]);
-        case /* Cloud */ 3 :
+          }
+        case /* Cloud */ 3 : {
           return setup_sprite(undefined, undefined, undefined, "blocks.png", 1, 0, [
             16,
             16
@@ -592,7 +634,8 @@ function make_type(typ, dir) {
             0,
             64
           ]);
-        case /* Panel */ 4 :
+          }
+        case /* Panel */ 4 : {
           return setup_sprite(undefined, undefined, undefined, "panel.png", 3, 15, [
             26,
             26
@@ -600,7 +643,8 @@ function make_type(typ, dir) {
             0,
             0
           ]);
-        case /* Ground */ 5 :
+          }
+        case /* Ground */ 5 : {
           return setup_sprite(undefined, undefined, undefined, "ground.png", 1, 0, [
             16,
             16
@@ -608,6 +652,8 @@ function make_type(typ, dir) {
             0,
             32
           ]);
+          }
+      }
       }
   }
 }
@@ -694,13 +740,15 @@ function pair_to_xy(pair) {
 
 function make_type$1(typ, ctx) {
   switch (typ) {
-    case /* BrickChunkL */ 1 :
-    case /* BrickChunkR */ 2 :
+    case /* BrickChunkL */ 1 : {
+      }
+    case /* BrickChunkR */ 2 : {
       return {
         sprite: make_particle$1(typ, ctx),
         rot: 0,
         lifetime: 300
       };
+      }
     default:
       return {
         sprite: make_particle$1(typ, ctx),
@@ -806,26 +854,32 @@ function set_vel_to_speed(obj) {
 
 function make_type$2(t) {
   switch (t.TAG) {
-    case /* SPlayer */ 0 :
+    case /* SPlayer */ 0 : {
       return setup_obj(undefined, 2.8, undefined);
-    case /* SEnemy */ 1 :
+      }
+    case /* SEnemy */ 1 : {
       let param = t._0;
       switch (param) {
-        case /* GKoopaShell */ 3 :
-        case /* RKoopaShell */ 4 :
+        case /* GKoopaShell */ 3 : {
+          }
+        case /* RKoopaShell */ 4 : {
           return setup_obj(undefined, 3, undefined);
+          }
         default:
           return setup_obj(undefined, undefined, undefined);
       }
-    case /* SItem */ 2 :
+      }
+    case /* SItem */ 2 : {
       let param$1 = t._0;
       if (param$1 === /* Coin */ 3) {
         return setup_obj(false, undefined, undefined);
       } else {
         return setup_obj(undefined, undefined, undefined);
       }
-    case /* SBlock */ 3 :
+      }
+    case /* SBlock */ 3 : {
       return setup_obj(false, undefined, undefined);
+      }
   }
 }
 
@@ -874,14 +928,15 @@ function spawn(spawnable, context, param) {
   const obj = match[1];
   const spr = match[0];
   switch (spawnable.TAG) {
-    case /* SPlayer */ 0 :
+    case /* SPlayer */ 0 : {
       return {
         TAG: /* Player */ 0,
         _0: spawnable._0,
         _1: spr,
         _2: obj
       };
-    case /* SEnemy */ 1 :
+      }
+    case /* SEnemy */ 1 : {
       set_vel_to_speed(obj);
       return {
         TAG: /* Enemy */ 1,
@@ -889,20 +944,23 @@ function spawn(spawnable, context, param) {
         _1: spr,
         _2: obj
       };
-    case /* SItem */ 2 :
+      }
+    case /* SItem */ 2 : {
       return {
         TAG: /* Item */ 2,
         _0: spawnable._0,
         _1: spr,
         _2: obj
       };
-    case /* SBlock */ 3 :
+      }
+    case /* SBlock */ 3 : {
       return {
         TAG: /* Block */ 3,
         _0: spawnable._0,
         _1: spr,
         _2: obj
       };
+      }
   }
 }
 
@@ -950,7 +1008,7 @@ function update_player(player, keys, context) {
   Stdlib__List.iter((function (param) {
     const lr_acc = player.vel.x * 0.2;
     switch (param) {
-      case /* CLeft */ 0 :
+      case /* CLeft */ 0 : {
         if (!player.crouch) {
           if (player.vel.x > - player.params.speed) {
             player.vel.x = player.vel.x - (0.4 - lr_acc);
@@ -960,7 +1018,8 @@ function update_player(player, keys, context) {
         } else {
           return;
         }
-      case /* CRight */ 1 :
+        }
+      case /* CRight */ 1 : {
         if (!player.crouch) {
           if (player.vel.x < player.params.speed) {
             player.vel.x = player.vel.x + (0.4 + lr_acc);
@@ -970,7 +1029,8 @@ function update_player(player, keys, context) {
         } else {
           return;
         }
-      case /* CUp */ 2 :
+        }
+      case /* CUp */ 2 : {
         if (!player.jumping && player.grounded) {
           player.jumping = true;
           player.grounded = false;
@@ -979,12 +1039,14 @@ function update_player(player, keys, context) {
         } else {
           return;
         }
-      case /* CDown */ 3 :
+        }
+      case /* CDown */ 3 : {
         if (!player.jumping && player.grounded) {
           player.crouch = true;
           return;
         } else {
           return;
+        }
         }
     }
   }), keys);
@@ -1084,17 +1146,21 @@ function normalize_origin(pos, spr) {
 function collide_block(check_xOpt, dir, obj) {
   const check_x = check_xOpt !== undefined ? check_xOpt : true;
   switch (dir) {
-    case /* North */ 0 :
+    case /* North */ 0 : {
       obj.vel.y = -0.001;
       return;
-    case /* South */ 1 :
+      }
+    case /* South */ 1 : {
       obj.vel.y = 0;
       obj.grounded = true;
       obj.jumping = false;
       return;
-    case /* East */ 2 :
-    case /* West */ 3 :
+      }
+    case /* East */ 2 : {
+      }
+    case /* West */ 3 : {
       break;
+      }
   }
   if (check_x) {
     obj.vel.x = 0;
@@ -1118,10 +1184,11 @@ function reverse_left_right(obj) {
 
 function evolve_enemy(player_dir, typ, spr, obj, context) {
   switch (typ) {
-    case /* Goomba */ 0 :
+    case /* Goomba */ 0 : {
       obj.kill = true;
       return;
-    case /* GKoopa */ 1 :
+      }
+    case /* GKoopa */ 1 : {
       const match = make$2(undefined, obj.dir, {
         TAG: /* SEnemy */ 1,
         _0: /* GKoopaShell */ 3
@@ -1138,7 +1205,8 @@ function evolve_enemy(player_dir, typ, spr, obj, context) {
         _1: new_spr,
         _2: new_obj
       };
-    case /* RKoopa */ 2 :
+      }
+    case /* RKoopa */ 2 : {
       const match$1 = make$2(undefined, obj.dir, {
         TAG: /* SEnemy */ 1,
         _0: /* RKoopaShell */ 4
@@ -1155,9 +1223,12 @@ function evolve_enemy(player_dir, typ, spr, obj, context) {
         _1: new_spr$1,
         _2: new_obj$1
       };
-    case /* GKoopaShell */ 3 :
-    case /* RKoopaShell */ 4 :
+      }
+    case /* GKoopaShell */ 3 : {
+      }
+    case /* RKoopaShell */ 4 : {
       break;
+      }
   }
   obj.dir = player_dir;
   if (obj.vel.x !== 0) {
@@ -1245,27 +1316,35 @@ function col_bypass(c1, c2) {
   const o2 = c2._2;
   let ctypes;
   switch (c1.TAG) {
-    case /* Player */ 0 :
+    case /* Player */ 0 : {
       ctypes = c2.TAG === /* Enemy */ 1 ? c1._2.invuln > 0 : false;
       break;
-    case /* Enemy */ 1 :
+      }
+    case /* Enemy */ 1 : {
       ctypes = c2.TAG === /* Item */ 2 ? true : false;
       break;
-    case /* Item */ 2 :
+      }
+    case /* Item */ 2 : {
       switch (c2.TAG) {
-        case /* Enemy */ 1 :
-        case /* Item */ 2 :
+        case /* Enemy */ 1 : {
+          }
+        case /* Item */ 2 : {
           ctypes = true;
           break;
-        case /* Player */ 0 :
-        case /* Block */ 3 :
+          }
+        case /* Player */ 0 : {
+          }
+        case /* Block */ 3 : {
           ctypes = false;
           break;
+          }
       }
       break;
-    case /* Block */ 3 :
+      }
+    case /* Block */ 3 : {
       ctypes = false;
       break;
+      }
   }
   if (o1.kill || o2.kill) {
     return true;
@@ -1309,9 +1388,10 @@ function check_collision(c1, c2) {
 
 function kill(collid, ctx) {
   switch (collid.TAG) {
-    case /* Player */ 0 :
+    case /* Player */ 0 : {
       return /* [] */ 0;
-    case /* Enemy */ 1 :
+      }
+    case /* Enemy */ 1 : {
       const o = collid._2;
       const pos_0 = o.pos.x;
       const pos_1 = o.pos.y;
@@ -1329,7 +1409,8 @@ function kill(collid, ctx) {
           tl: /* [] */ 0
         }) : /* [] */ 0;
       return Stdlib.$at(score, remains);
-    case /* Item */ 2 :
+      }
+    case /* Item */ 2 : {
       const o$1 = collid._2;
       if (collid._0 === /* Mushroom */ 0) {
         return {
@@ -1342,7 +1423,8 @@ function kill(collid, ctx) {
       } else {
         return /* [] */ 0;
       }
-    case /* Block */ 3 :
+      }
+    case /* Block */ 3 : {
       const o$2 = collid._2;
       let tmp = collid._0;
       if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
@@ -1398,6 +1480,7 @@ function kill(collid, ctx) {
           }
         }
       };
+      }
   }
 }
 
@@ -1630,16 +1713,17 @@ function process_collision(dir, c1, c2, state) {
   let t2$1;
   let o2$2;
   switch (c1.TAG) {
-    case /* Player */ 0 :
+    case /* Player */ 0 : {
       const o1$3 = c1._2;
       const s1$2 = c1._1;
       switch (c2.TAG) {
-        case /* Player */ 0 :
+        case /* Player */ 0 : {
           return [
             undefined,
             undefined
           ];
-        case /* Enemy */ 1 :
+          }
+        case /* Enemy */ 1 : {
           const typ$1 = c2._0;
           if (dir === /* South */ 1) {
             s1 = s1$2;
@@ -1657,19 +1741,21 @@ function process_collision(dir, c1, c2, state) {
             exit = 2;
           }
           break;
-        case /* Item */ 2 :
+          }
+        case /* Item */ 2 : {
           o1$2 = o1$3;
           t2$1 = c2._0;
           o2$2 = c2._2;
           exit = 3;
           break;
-        case /* Block */ 3 :
+          }
+        case /* Block */ 3 : {
           const t = c2._0;
           if (dir === /* North */ 0) {
             const o2$3 = c2._2;
             if (/* tag */ typeof t !== "object" && typeof t !== "function") {
               switch (t) {
-                case /* Brick */ 1 :
+                case /* Brick */ 1 : {
                   if (c1._0 === /* BigM */ 0) {
                     collide_block(undefined, dir, o1$3);
                     dec_health(o2$3);
@@ -1684,12 +1770,14 @@ function process_collision(dir, c1, c2, state) {
                       undefined
                     ];
                   }
-                case /* Panel */ 4 :
+                  }
+                case /* Panel */ 4 : {
                   game_win(state.ctx);
                   return [
                     undefined,
                     undefined
                   ];
+                  }
                 default:
                   collide_block(undefined, dir, o1$3);
                   return [
@@ -1738,14 +1826,16 @@ function process_collision(dir, c1, c2, state) {
             
           }
           break;
+          }
       }
       break;
-    case /* Enemy */ 1 :
+      }
+    case /* Enemy */ 1 : {
       const o1$4 = c1._2;
       const s1$3 = c1._1;
       const t1 = c1._0;
       switch (c2.TAG) {
-        case /* Player */ 0 :
+        case /* Player */ 0 : {
           if (dir === /* North */ 0) {
             s1 = c2._1;
             o1 = c2._2;
@@ -1762,51 +1852,64 @@ function process_collision(dir, c1, c2, state) {
             exit = 2;
           }
           break;
-        case /* Enemy */ 1 :
+          }
+        case /* Enemy */ 1 : {
           let t2$2 = c2._0;
           let s2$2 = c2._1;
           let o2$4 = c2._2;
           let exit$2 = 0;
           switch (t1) {
-            case /* GKoopaShell */ 3 :
+            case /* GKoopaShell */ 3 : {
               switch (t2$2) {
-                case /* GKoopaShell */ 3 :
-                case /* RKoopaShell */ 4 :
+                case /* GKoopaShell */ 3 : {
+                  }
+                case /* RKoopaShell */ 4 : {
                   exit$2 = 1;
                   break;
+                  }
                 default:
                   exit$2 = 2;
               }
               break;
-            case /* RKoopaShell */ 4 :
+              }
+            case /* RKoopaShell */ 4 : {
               switch (t2$2) {
-                case /* GKoopaShell */ 3 :
-                case /* RKoopaShell */ 4 :
+                case /* GKoopaShell */ 3 : {
+                  }
+                case /* RKoopaShell */ 4 : {
                   exit$2 = 1;
                   break;
+                  }
                 default:
                   exit$2 = 2;
               }
               break;
+              }
             default:
               switch (t2$2) {
-                case /* GKoopaShell */ 3 :
-                case /* RKoopaShell */ 4 :
+                case /* GKoopaShell */ 3 : {
+                  }
+                case /* RKoopaShell */ 4 : {
                   exit$2 = 3;
                   break;
+                  }
                 default:
                   let exit$3 = 0;
                   switch (dir) {
-                    case /* North */ 0 :
-                    case /* South */ 1 :
+                    case /* North */ 0 : {
+                      }
+                    case /* South */ 1 : {
                       return [
                         undefined,
                         undefined
                       ];
-                    case /* East */ 2 :
-                    case /* West */ 3 :
+                      }
+                    case /* East */ 2 : {
+                      }
+                    case /* West */ 3 : {
                       exit$3 = 4;
                       break;
+                      }
                   }
                   if (exit$3 === 4) {
                     rev_dir(o1$4, t1, s1$3);
@@ -1820,14 +1923,15 @@ function process_collision(dir, c1, c2, state) {
               }
           }
           switch (exit$2) {
-            case 1 :
+            case 1 : {
               dec_health(o1$4);
               dec_health(o2$4);
               return [
                 undefined,
                 undefined
               ];
-            case 2 :
+              }
+            case 2 : {
               if (o1$4.vel.x === 0) {
                 rev_dir(o2$4, t2$2, s2$2);
                 return [
@@ -1841,7 +1945,8 @@ function process_collision(dir, c1, c2, state) {
                   undefined
                 ];
               }
-            case 3 :
+              }
+            case 3 : {
               if (o2$4.vel.x === 0) {
                 rev_dir(o1$4, t1, s1$3);
                 return [
@@ -1855,34 +1960,41 @@ function process_collision(dir, c1, c2, state) {
                   undefined
                 ];
               }
+              }
           }
-        case /* Item */ 2 :
+          }
+        case /* Item */ 2 : {
           return [
             undefined,
             undefined
           ];
-        case /* Block */ 3 :
+          }
+        case /* Block */ 3 : {
           const t2$3 = c2._0;
           const o2$5 = c2._2;
           let exit$4 = 0;
           switch (dir) {
-            case /* North */ 0 :
-            case /* South */ 1 :
+            case /* North */ 0 : {
+              }
+            case /* South */ 1 : {
               collide_block(undefined, dir, o1$4);
               return [
                 undefined,
                 undefined
               ];
-            case /* East */ 2 :
-            case /* West */ 3 :
+              }
+            case /* East */ 2 : {
+              }
+            case /* West */ 3 : {
               exit$4 = 4;
               break;
+              }
           }
           if (exit$4 === 4) {
             let exit$5 = 0;
             let typ$2;
             switch (t1) {
-              case /* GKoopaShell */ 3 :
+              case /* GKoopaShell */ 3 : {
                 if (/* tag */ typeof t2$3 !== "object" && typeof t2$3 !== "function") {
                   if (t2$3 === /* Brick */ 1) {
                     dec_health(o2$5);
@@ -1898,7 +2010,8 @@ function process_collision(dir, c1, c2, state) {
                   exit$5 = 6;
                 }
                 break;
-              case /* RKoopaShell */ 4 :
+                }
+              case /* RKoopaShell */ 4 : {
                 if (/* tag */ typeof t2$3 !== "object" && typeof t2$3 !== "function") {
                   if (t2$3 === /* Brick */ 1) {
                     dec_health(o2$5);
@@ -1914,17 +2027,19 @@ function process_collision(dir, c1, c2, state) {
                   exit$5 = 6;
                 }
                 break;
+                }
               default:
                 exit$5 = 5;
             }
             switch (exit$5) {
-              case 5 :
+              case 5 : {
                 rev_dir(o1$4, t1, s1$3);
                 return [
                   undefined,
                   undefined
                 ];
-              case 6 :
+                }
+              case 6 : {
                 const updated_block$1 = evolve_block(o2$5, context);
                 const spawned_item$1 = spawn_above(o1$4.dir, o2$5, typ$2, context);
                 rev_dir(o1$4, t1, s1$3);
@@ -1932,60 +2047,75 @@ function process_collision(dir, c1, c2, state) {
                   updated_block$1,
                   spawned_item$1
                 ];
+                }
             }
           }
           break;
+          }
       }
       break;
-    case /* Item */ 2 :
+      }
+    case /* Item */ 2 : {
       const o2$6 = c1._2;
       switch (c2.TAG) {
-        case /* Player */ 0 :
+        case /* Player */ 0 : {
           o1$2 = c2._2;
           t2$1 = c1._0;
           o2$2 = o2$6;
           exit = 3;
           break;
-        case /* Enemy */ 1 :
-        case /* Item */ 2 :
+          }
+        case /* Enemy */ 1 : {
+          }
+        case /* Item */ 2 : {
           return [
             undefined,
             undefined
           ];
-        case /* Block */ 3 :
+          }
+        case /* Block */ 3 : {
           switch (dir) {
-            case /* North */ 0 :
-            case /* South */ 1 :
+            case /* North */ 0 : {
+              }
+            case /* South */ 1 : {
               collide_block(undefined, dir, o2$6);
               return [
                 undefined,
                 undefined
               ];
-            case /* East */ 2 :
-            case /* West */ 3 :
+              }
+            case /* East */ 2 : {
+              }
+            case /* West */ 3 : {
               reverse_left_right(o2$6);
               return [
                 undefined,
                 undefined
               ];
+              }
+          }
           }
       }
       break;
-    case /* Block */ 3 :
+      }
+    case /* Block */ 3 : {
       return [
         undefined,
         undefined
       ];
+      }
   }
   switch (exit) {
-    case 1 :
+    case 1 : {
       o1.invuln = 10;
       o1.jumping = false;
       o1.grounded = true;
       switch (typ) {
-        case /* GKoopaShell */ 3 :
-        case /* RKoopaShell */ 4 :
+        case /* GKoopaShell */ 3 : {
+          }
+        case /* RKoopaShell */ 4 : {
           break;
+          }
         default:
           dec_health(o2);
           o1.vel.y = - 4;
@@ -2013,11 +2143,14 @@ function process_collision(dir, c1, c2, state) {
         undefined,
         r2
       ];
-    case 2 :
+      }
+    case 2 : {
       switch (t2) {
-        case /* GKoopaShell */ 3 :
-        case /* RKoopaShell */ 4 :
+        case /* GKoopaShell */ 3 : {
+          }
+        case /* RKoopaShell */ 4 : {
           break;
+          }
         default:
           dec_health(o1$1);
           o1$1.invuln = 60;
@@ -2031,10 +2164,11 @@ function process_collision(dir, c1, c2, state) {
         undefined,
         r2$1
       ];
-    case 3 :
+      }
+    case 3 : {
       let exit$6 = 0;
       switch (t2$1) {
-        case /* Mushroom */ 0 :
+        case /* Mushroom */ 0 : {
           dec_health(o2$2);
           if (o1$2.health === 2) {
             
@@ -2049,11 +2183,14 @@ function process_collision(dir, c1, c2, state) {
             undefined,
             undefined
           ];
-        case /* FireFlower */ 1 :
-        case /* Star */ 2 :
+          }
+        case /* FireFlower */ 1 : {
+          }
+        case /* Star */ 2 : {
           exit$6 = 4;
           break;
-        case /* Coin */ 3 :
+          }
+        case /* Coin */ 3 : {
           state.coins = state.coins + 1 | 0;
           dec_health(o2$2);
           update_score(state, 100);
@@ -2061,6 +2198,7 @@ function process_collision(dir, c1, c2, state) {
             undefined,
             undefined
           ];
+          }
       }
       if (exit$6 === 4) {
         dec_health(o2$2);
@@ -2071,6 +2209,7 @@ function process_collision(dir, c1, c2, state) {
         ];
       }
       break;
+      }
   }
 }
 
@@ -2323,42 +2462,56 @@ function keydown(evt) {
   const match = evt.keyCode;
   if (match >= 41) {
     switch (match) {
-      case 65 :
+      case 65 : {
         pressed_keys.left = true;
         break;
-      case 66 :
+        }
+      case 66 : {
         pressed_keys.bbox = (pressed_keys.bbox + 1 | 0) % 2;
         break;
-      case 68 :
+        }
+      case 68 : {
         pressed_keys.right = true;
         break;
-      case 83 :
+        }
+      case 83 : {
         pressed_keys.down = true;
         break;
-      case 87 :
+        }
+      case 87 : {
         pressed_keys.up = true;
         break;
+        }
     }
   } else if (match >= 32) {
     switch (match) {
-      case 33 :
-      case 34 :
-      case 35 :
-      case 36 :
+      case 33 : {
+        }
+      case 34 : {
+        }
+      case 35 : {
+        }
+      case 36 : {
         break;
-      case 37 :
+        }
+      case 37 : {
         pressed_keys.left = true;
         break;
-      case 32 :
-      case 38 :
+        }
+      case 32 : {
+        }
+      case 38 : {
         pressed_keys.up = true;
         break;
-      case 39 :
+        }
+      case 39 : {
         pressed_keys.right = true;
         break;
-      case 40 :
+        }
+      case 40 : {
         pressed_keys.down = true;
         break;
+        }
     }
   }
   return true;
@@ -2388,24 +2541,33 @@ function keyup(evt) {
     }
   } else if (match >= 32) {
     switch (match) {
-      case 33 :
-      case 34 :
-      case 35 :
-      case 36 :
+      case 33 : {
+        }
+      case 34 : {
+        }
+      case 35 : {
+        }
+      case 36 : {
         break;
-      case 37 :
+        }
+      case 37 : {
         pressed_keys.left = false;
         break;
-      case 32 :
-      case 38 :
+        }
+      case 32 : {
+        }
+      case 38 : {
         pressed_keys.up = false;
         break;
-      case 39 :
+        }
+      case 39 : {
         pressed_keys.right = false;
         break;
-      case 40 :
+        }
+      case 40 : {
         pressed_keys.down = false;
         break;
+        }
     }
   }
   return true;
@@ -2450,12 +2612,15 @@ function convert_list(lst) {
 
 function choose_enemy_typ(typ) {
   switch (typ) {
-    case 0 :
+    case 0 : {
       return /* RKoopa */ 2;
-    case 1 :
+      }
+    case 1 : {
       return /* GKoopa */ 1;
-    case 2 :
+      }
+    case 2 : {
       return /* Goomba */ 0;
+      }
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
@@ -2466,19 +2631,24 @@ function choose_enemy_typ(typ) {
 
 function choose_sblock_typ(typ) {
   switch (typ) {
-    case 0 :
+    case 0 : {
       return /* Brick */ 1;
-    case 1 :
+      }
+    case 1 : {
       return /* UnBBlock */ 2;
-    case 2 :
+      }
+    case 2 : {
       return /* Cloud */ 3;
-    case 3 :
+      }
+    case 3 : {
       return {
         TAG: /* QBlock */ 0,
         _0: /* Mushroom */ 0
       };
-    case 4 :
+      }
+    case 4 : {
       return /* Ground */ 5;
+      }
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
@@ -2583,7 +2753,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
   const life_block_chance = Stdlib__Random.$$int(5);
   const middle_block = life_block_chance === 0 ? 3 : stair_typ;
   switch (prob) {
-    case 0 :
+    case 0 : {
       if (blockw - cbx > 2) {
         return {
           hd: [
@@ -2645,14 +2815,16 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
           tl: /* [] */ 0
         };
       }
-    case 1 :
+      }
+    case 1 : {
       const num_clouds = Stdlib__Random.$$int(5) + 5 | 0;
       if (cby < 5) {
         return generate_clouds(cbx, cby, 2, num_clouds);
       } else {
         return /* [] */ 0;
       }
-    case 2 :
+      }
+    case 2 : {
       if (blockh - cby === 1) {
         const four_0 = [
           stair_typ,
@@ -2759,7 +2931,8 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
       } else {
         return /* [] */ 0;
       }
-    case 3 :
+      }
+    case 3 : {
       if (stair_typ === 0 && blockh - cby > 3) {
         const three_0$1 = [
           stair_typ,
@@ -2920,7 +3093,8 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
           tl: /* [] */ 0
         };
       }
-    case 4 :
+      }
+    case 4 : {
       if (cby + 3 - blockh === 2) {
         return {
           hd: [
@@ -2982,7 +3156,8 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
           }
         };
       }
-    case 5 :
+      }
+    case 5 : {
       return {
         hd: [
           3,
@@ -2993,6 +3168,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
         ],
         tl: /* [] */ 0
       };
+      }
     default:
       throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",

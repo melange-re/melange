@@ -11,7 +11,7 @@ Selective CPS supports effectful `let rec` functions by generating a recursive
   >   else loop (n - 1)
   > EOF
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 MELANGE_EFFECT_CPS_DEBUG=1 melc x.ml -o x.cps.js
+  $ MELANGE_EFFECT_CPS_DEBUG=1 melc x.ml -o x.cps.js
   [effect-cps] tail-call rewrite loop -> loop$cps in loop
   [effect-cps] tail-perform rewrite in loop
   [effect-cps] lifted recursive loop -> loop$cps

@@ -1,5 +1,5 @@
-Known selective-CPS breakdown: `perform` inside a returned closure can still
-replay, because that closure body is not CPS-lowered.
+Selective CPS now lowers effectful returned closures, so this shape no longer
+replays side effects.
 
   $ . ./setup.sh
 
@@ -34,10 +34,10 @@ replay, because that closure body is not CPS-lowered.
 
   $ melc x.ml -o x.default.js
   $ node x.default.js
-  7 2
+  6 1
 
-Even with selective CPS + conservative analysis, this shape still replays.
+With conservative analysis mode, this shape avoids replay.
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 MELANGE_EFFECT_ANALYSIS_MODE=conservative melc x.ml -o x.cons.js
+  $ MELANGE_EFFECT_ANALYSIS_MODE=conservative melc x.ml -o x.cons.js
   $ node x.cons.js
-  7 2
+  6 1

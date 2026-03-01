@@ -81,6 +81,14 @@ val query_external_id_info :
     its virtual modules. Because we're programming against the interface file
     at this point, we must emit the deoptimized expression too. *)
 
+val query_external_field_effect :
+  dynamic_import:bool -> Ident.t -> int -> bool option
+(** Query whether a module-field export is effectful based on `.cmj` summaries.
+    Returns:
+    - [Some true] for known effectful exports
+    - [Some false] for known pure exports
+    - [None] when the export cannot be resolved (missing `.cmj` / index mismatch) *)
+
 val is_pure_module : Lam_module_ident.t -> bool
 
 val get_dependency_info_from_cmj :

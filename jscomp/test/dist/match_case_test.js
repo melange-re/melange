@@ -30,10 +30,12 @@ function eq(loc, x, y) {
 
 function f(x) {
   switch (x) {
-    case "xx\"" :
+    case "xx\"" : {
       return 1;
-    case "xx'''" :
+      }
+    case "xx'''" : {
       return 0;
+      }
     default:
       return 4;
   }

@@ -31,6 +31,15 @@ let () =
 type _ t += Should_not_see_this__ : unit t
 let _ = Should_not_see_this__
 
+external set_continuation_already_resumed : exn -> unit
+  = "caml_set_continuation_already_resumed"
+
+external set_unhandled_exception_constructor : (Obj.t -> exn) -> unit
+  = "caml_set_unhandled_exception_constructor"
+
+let () = set_continuation_already_resumed Continuation_already_resumed
+let () = set_unhandled_exception_constructor (fun eff -> Unhandled (Obj.obj eff))
+
 type ('a, 'b) stack [@@immediate]
 type last_fiber [@@immediate]
 
@@ -58,8 +67,7 @@ module Deep = struct
     resume (take_cont_noexc k) (fun e -> raise e) e (cont_last_fiber k)
 
   let discontinue_with_backtrace k e bt =
-    let _ = bt in
-    resume (take_cont_noexc k) (fun e -> raise e)
+    resume (take_cont_noexc k) (fun e -> Printexc.raise_with_backtrace e bt)
       e (cont_last_fiber k)
 
   type ('a,'b) handler =
@@ -110,18 +118,22 @@ module Shallow = struct
 
   let fiber : type a b. (a -> b) -> (a, b) continuation = fun f ->
     let module M = struct type _ t += Initial_setup__ : a t end in
-    let exception E of (a,b) continuation in
+    let captured : (a, b) continuation option ref = ref None in
     let f' () = f (perform M.Initial_setup__) in
     let error _ = failwith "impossible" in
+    let dummy : b = Obj.magic 0 in
     let effc eff k _last_fiber =
       match eff with
-      | M.Initial_setup__ -> raise_notrace (E k)
+      | M.Initial_setup__ ->
+          captured := Some k;
+          dummy
       | _ -> error ()
     in
-    let s = alloc_stack error error effc in
-    match runstack s f' () with
-    | exception E k -> k
-    | _ -> error ()
+    let s = alloc_stack (fun x -> x) error effc in
+    let _ = runstack s f' () in
+    match captured.contents with
+    | Some k -> k
+    | None -> error ()
 
   type ('a,'b) handler =
     { retc: 'a -> 'b;
@@ -155,8 +167,7 @@ module Shallow = struct
     continue_gen k (fun e -> raise e) v handler
 
   let discontinue_with_backtrace k v bt handler =
-    let _ = bt in
-    continue_gen k (fun e -> raise e) v handler
+    continue_gen k (fun e -> Printexc.raise_with_backtrace e bt) v handler
 
   external get_callstack :
     ('a,'b) continuation -> int -> Printexc.raw_backtrace =

@@ -5,10 +5,12 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function f(param) {
   switch (param) {
-    case "abcd" :
+    case "abcd" : {
       return 0;
-    case "bcde" :
+      }
+    case "bcde" : {
       return 1;
+      }
     default:
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",

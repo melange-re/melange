@@ -494,6 +494,8 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
             space cxt;
             string cxt L.colon);
         group cxt 0 (fun () ->
+            space cxt;
+            string cxt "{";
             let cxt =
               match switch_body with
               | [] -> cxt
@@ -505,6 +507,8 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
               newline cxt;
               string cxt L.break;
               semi cxt);
+            newline cxt;
+            string cxt "}";
             cxt))
   in
   cxt

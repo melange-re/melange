@@ -208,7 +208,8 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
               match compile_lambda arg_cxt arg_lambda with
               | { block; value = Some b; _ } ->
                   (List.append block args_code, b :: args)
-              | _ -> assert false)
+              | { block; value = None; _ } ->
+                  (List.append block args_code, E.undefined :: args))
             ap_args ~init:dummy
       in
 
@@ -982,10 +983,15 @@ and compile_sequand (l : Lam.t) (r : Lam.t) (lambda_cxt : Lam_compile_context.t)
   else
     let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
     match compile_lambda new_cxt l with
-    | { value = None; _ } -> assert false
+    | { block = l_block; value = None; _ } ->
+        Js_output.output_of_block_and_expression lambda_cxt.continuation l_block
+          E.false_
     | { block = l_block; value = Some l_expr; _ } -> (
         match compile_lambda new_cxt r with
-        | { value = None; _ } -> assert false
+        | { block = r_block; value = None; _ } ->
+            Js_output.output_of_block_and_expression lambda_cxt.continuation
+              (l_block @ [ S.if_ l_expr r_block ])
+              E.false_
         | { block = []; value = Some r_expr; _ } ->
             Js_output.output_of_block_and_expression lambda_cxt.continuation
               l_block (E.and_ l_expr r_expr)
@@ -1022,10 +1028,15 @@ and compile_sequor (l : Lam.t) (r : Lam.t) (lambda_cxt : Lam_compile_context.t)
   else
     let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
     match compile_lambda new_cxt l with
-    | { value = None; _ } -> assert false
+    | { block = l_block; value = None; _ } ->
+        Js_output.output_of_block_and_expression lambda_cxt.continuation l_block
+          E.false_
     | { block = l_block; value = Some l_expr; _ } -> (
         match compile_lambda new_cxt r with
-        | { value = None; _ } -> assert false
+        | { block = r_block; value = None; _ } ->
+            Js_output.output_of_block_and_expression lambda_cxt.continuation
+              (l_block @ [ S.if_ (E.not l_expr) r_block ])
+              l_expr
         | { block = []; value = Some r_expr; _ } ->
             let exp = E.or_ l_expr r_expr in
             Js_output.output_of_block_and_expression lambda_cxt.continuation
@@ -1319,8 +1330,9 @@ and compile_ifthenelse (predicate : Lam.t) (t_branch : Lam.t) (f_branch : Lam.t)
       { lambda_cxt with continuation = NeedValue Not_tail }
       predicate
   with
-  | { value = None; _ } -> assert false
-  | { block = b; value = Some e; _ } -> (
+  | { block = b; value; _ } ->
+      let e = Option.value value ~default:E.false_ in
+      (
       match lambda_cxt.continuation with
       | NeedValue _ -> (
           match
@@ -1511,7 +1523,11 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
             match compile_lambda new_cxt x with
             | { block; value = Some b; _ } ->
                 (List.append block args_code, b :: fn_code)
-            | { value = None; _ } -> assert false)
+            | { block; value = None; _ } ->
+                (* Be defensive here: some transformed lambdas can lower to
+                   statement-only outputs in value context. Preserve effects and
+                   keep argument positions with `undefined`. *)
+                (List.append block args_code, E.undefined :: fn_code))
       in
       match (ap_func, lambda_cxt.continuation) with
       | ( Lvar fn_id,
@@ -1822,7 +1838,7 @@ and compile_prim (prim_info : Lam.prim_info)
             List.split_map args ~f:(fun x ->
                 match compile_lambda new_cxt x with
                 | { block; value = Some b; _ } -> (block, b)
-                | { value = None; _ } -> assert false)
+                | { block; value = None; _ } -> (block, E.undefined))
       in
       let block, exp =
         Lam_compile_external_obj.assemble_obj_args labels args_expr
@@ -1914,7 +1930,7 @@ and compile_prim (prim_info : Lam.prim_info)
             List.split_map args ~f:(fun x ->
                 match compile_lambda new_cxt x with
                 | { block; value = Some b; _ } -> (block, b)
-                | { value = None; _ } -> assert false)
+                | { block; value = None; _ } -> (block, E.undefined))
       in
       let exp =
         (* TODO: all can be done in [compile_primitive] *)

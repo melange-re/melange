@@ -3,6 +3,7 @@
  (deps
   (env_var MELANGE_LIB)
   setup.sh
+  ../../runtime-export/x/node_modules/melange/camlinternalFormat.js
   (package melange)
   %{bin:jq}
   %{bin:ocamlmerlin}

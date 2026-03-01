@@ -25,33 +25,43 @@ function __ocaml_lex_lexeme_rec(lexbuf, ___ocaml_lex_state) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
+      case 0 : {
         ___ocaml_lex_state = 0;
         continue;
-      case 1 :
+        }
+      case 1 : {
         return {
           TAG: /* NUMERAL */ 0,
           _0: Caml_format.caml_int_of_string(Stdlib__Lexing.lexeme(lexbuf))
         };
-      case 2 :
+        }
+      case 2 : {
         return {
           TAG: /* IDENT */ 1,
           _0: Stdlib__Lexing.lexeme(lexbuf)
         };
-      case 3 :
+        }
+      case 3 : {
         return /* PLUS */ 0;
-      case 4 :
+        }
+      case 4 : {
         return /* MINUS */ 1;
-      case 5 :
+        }
+      case 5 : {
         return /* TIMES */ 2;
-      case 6 :
+        }
+      case 6 : {
         return /* DIVIDE */ 3;
-      case 7 :
+        }
+      case 7 : {
         return /* LPAREN */ 5;
-      case 8 :
+        }
+      case 8 : {
         return /* RPAREN */ 6;
-      case 9 :
+        }
+      case 9 : {
         return /* EOF */ 7;
+        }
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -66,20 +76,27 @@ function lexeme(lexbuf) {
 
 function str(e) {
   switch (e.TAG) {
-    case /* Numeral */ 0 :
+    case /* Numeral */ 0 : {
       return Stdlib.string_of_float(e._0);
-    case /* Plus */ 1 :
+      }
+    case /* Plus */ 1 : {
       return str(e._0) + ("+" + str(e._1));
-    case /* Minus */ 2 :
+      }
+    case /* Minus */ 2 : {
       return str(e._0) + ("-" + str(e._1));
-    case /* Times */ 3 :
+      }
+    case /* Times */ 3 : {
       return str(e._0) + ("*" + str(e._1));
-    case /* Divide */ 4 :
+      }
+    case /* Divide */ 4 : {
       return str(e._0) + ("/" + str(e._1));
-    case /* Negate */ 5 :
+      }
+    case /* Negate */ 5 : {
       return "-" + str(e._0);
-    case /* Variable */ 6 :
+      }
+    case /* Variable */ 6 : {
       return e._0;
+      }
   }
 }
 

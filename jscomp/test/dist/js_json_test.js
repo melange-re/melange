@@ -234,10 +234,12 @@ function test(v) {
     }));
   }
   switch (ty) {
-    case /* JSONFalse */ 0 :
+    case /* JSONFalse */ 0 : {
       return eq("File \"jscomp/test/js_json_test.ml\", line 96, characters 25-32", false, v);
-    case /* JSONTrue */ 1 :
+      }
+    case /* JSONTrue */ 1 : {
       return eq("File \"jscomp/test/js_json_test.ml\", line 95, characters 24-31", true, v);
+      }
     default:
       return add_test("File \"jscomp/test/js_json_test.ml\", line 97, characters 18-25", (function (param) {
         return {
@@ -365,7 +367,7 @@ function eq_at_i(loc, json, i, kind, expected) {
   }
   const ty$1 = Js__Js_json.classify(Caml_array.get(ty._0, i));
   switch (kind) {
-    case /* String */ 0 :
+    case /* String */ 0 : {
       if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
@@ -383,7 +385,8 @@ function eq_at_i(loc, json, i, kind, expected) {
           };
         }));
       }
-    case /* Number */ 1 :
+      }
+    case /* Number */ 1 : {
       if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
@@ -401,7 +404,8 @@ function eq_at_i(loc, json, i, kind, expected) {
           };
         }));
       }
-    case /* Object */ 2 :
+      }
+    case /* Object */ 2 : {
       if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
@@ -419,7 +423,8 @@ function eq_at_i(loc, json, i, kind, expected) {
           };
         }));
       }
-    case /* Array */ 3 :
+      }
+    case /* Array */ 3 : {
       if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         return add_test(loc, (function (param) {
           return {
@@ -437,7 +442,8 @@ function eq_at_i(loc, json, i, kind, expected) {
           };
         }));
       }
-    case /* Boolean */ 4 :
+      }
+    case /* Boolean */ 4 : {
       if (!/* tag */ (typeof ty$1 !== "object" && typeof ty$1 !== "function")) {
         return add_test(loc, (function (param) {
           return {
@@ -447,10 +453,12 @@ function eq_at_i(loc, json, i, kind, expected) {
         }));
       }
       switch (ty$1) {
-        case /* JSONFalse */ 0 :
+        case /* JSONFalse */ 0 : {
           return eq(loc, false, expected);
-        case /* JSONTrue */ 1 :
+          }
+        case /* JSONTrue */ 1 : {
           return eq(loc, true, expected);
+          }
         default:
           return add_test(loc, (function (param) {
             return {
@@ -459,7 +467,8 @@ function eq_at_i(loc, json, i, kind, expected) {
             };
           }));
       }
-    case /* Null */ 5 :
+      }
+    case /* Null */ 5 : {
       if (/* tag */ typeof ty$1 !== "object" && typeof ty$1 !== "function") {
         if (ty$1 === /* JSONNull */ 2) {
           return add_test(loc, (function (param) {
@@ -483,6 +492,7 @@ function eq_at_i(loc, json, i, kind, expected) {
             _0: false
           };
         }));
+      }
       }
   }
 }

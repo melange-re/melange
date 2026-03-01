@@ -1,5 +1,5 @@
-Show that the replay-based continuation prototype can rerun side effects placed
-before `perform`.
+Regression check: side effects placed before `perform` run once with the
+default selective-CPS lowering.
 
   $ cat > dune-project <<EOF
   > (lang dune 3.8)
@@ -36,4 +36,4 @@ before `perform`.
 
   $ dune build @melange
   $ node ./_build/default/melange/x.js
-  2 2
+  1 1

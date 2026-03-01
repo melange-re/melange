@@ -4050,72 +4050,83 @@ function method_impl(table, i, arr) {
     return clo;
   }
   switch (clo) {
-    case /* GetConst */ 0 :
+    case /* GetConst */ 0 : {
       const partial_arg = next();
       return function (param) {
         return partial_arg;
       };
-    case /* GetVar */ 1 :
+      }
+    case /* GetVar */ 1 : {
       const partial_arg$1 = next();
       return function (param) {
         return param[partial_arg$1];
       };
-    case /* GetEnv */ 2 :
+      }
+    case /* GetEnv */ 2 : {
       const e = next();
       const n = next();
       return function (param) {
         return get_env(e, n, param);
       };
-    case /* GetMeth */ 3 :
+      }
+    case /* GetMeth */ 3 : {
       const partial_arg$2 = next();
       return function (param) {
         return get_meth(partial_arg$2, param);
       };
-    case /* SetVar */ 4 :
+      }
+    case /* SetVar */ 4 : {
       const partial_arg$3 = next();
       return function (param, param$1) {
         param[partial_arg$3] = param$1;
       };
-    case /* AppConst */ 5 :
+      }
+    case /* AppConst */ 5 : {
       const f = next();
       const x = next();
       return function (param) {
         return Curry._1(f, x);
       };
-    case /* AppVar */ 6 :
+      }
+    case /* AppVar */ 6 : {
       const f$1 = next();
       const n$1 = next();
       return function (param) {
         return Curry._1(f$1, param[n$1]);
       };
-    case /* AppEnv */ 7 :
+      }
+    case /* AppEnv */ 7 : {
       const f$2 = next();
       const e$1 = next();
       const n$2 = next();
       return function (param) {
         return app_env(f$2, e$1, n$2, param);
       };
-    case /* AppMeth */ 8 :
+      }
+    case /* AppMeth */ 8 : {
       const f$3 = next();
       const n$3 = next();
       return function (param) {
         return app_meth(f$3, n$3, param);
       };
-    case /* AppConstConst */ 9 :
+      }
+    case /* AppConstConst */ 9 : {
       const f$4 = next();
       const x$1 = next();
       const y = next();
       return function (param) {
         return Curry._2(f$4, x$1, y);
       };
-    case /* AppConstVar */ 10 :
+      }
+    case /* AppConstVar */ 10 : {
       const f$5 = next();
       const x$2 = next();
       const n$4 = next();
       return function (param) {
         return app_const_var(f$5, x$2, n$4, param);
       };
-    case /* AppConstEnv */ 11 :
+      }
+    case /* AppConstEnv */ 11 : {
       const f$6 = next();
       const x$3 = next();
       const e$2 = next();
@@ -4123,21 +4134,24 @@ function method_impl(table, i, arr) {
       return function (param) {
         return app_const_env(f$6, x$3, e$2, n$5, param);
       };
-    case /* AppConstMeth */ 12 :
+      }
+    case /* AppConstMeth */ 12 : {
       const f$7 = next();
       const x$4 = next();
       const n$6 = next();
       return function (param) {
         return app_const_meth(f$7, x$4, n$6, param);
       };
-    case /* AppVarConst */ 13 :
+      }
+    case /* AppVarConst */ 13 : {
       const f$8 = next();
       const n$7 = next();
       const x$5 = next();
       return function (param) {
         return app_var_const(f$8, n$7, x$5, param);
       };
-    case /* AppEnvConst */ 14 :
+      }
+    case /* AppEnvConst */ 14 : {
       const f$9 = next();
       const e$3 = next();
       const n$8 = next();
@@ -4145,53 +4159,61 @@ function method_impl(table, i, arr) {
       return function (param) {
         return app_env_const(f$9, e$3, n$8, x$6, param);
       };
-    case /* AppMethConst */ 15 :
+      }
+    case /* AppMethConst */ 15 : {
       const f$10 = next();
       const n$9 = next();
       const x$7 = next();
       return function (param) {
         return app_meth_const(f$10, n$9, x$7, param);
       };
-    case /* MethAppConst */ 16 :
+      }
+    case /* MethAppConst */ 16 : {
       const n$10 = next();
       const x$8 = next();
       return function (param) {
         return meth_app_const(n$10, x$8, param);
       };
-    case /* MethAppVar */ 17 :
+      }
+    case /* MethAppVar */ 17 : {
       const n$11 = next();
       const m = next();
       return function (param) {
         return meth_app_var(n$11, m, param);
       };
-    case /* MethAppEnv */ 18 :
+      }
+    case /* MethAppEnv */ 18 : {
       const n$12 = next();
       const e$4 = next();
       const m$1 = next();
       return function (param) {
         return meth_app_env(n$12, e$4, m$1, param);
       };
-    case /* MethAppMeth */ 19 :
+      }
+    case /* MethAppMeth */ 19 : {
       const n$13 = next();
       const m$2 = next();
       return function (param) {
         return meth_app_meth(n$13, m$2, param);
       };
-    case /* SendConst */ 20 :
+      }
+    case /* SendConst */ 20 : {
       const m$3 = next();
       const x$9 = next();
       const partial_arg$4 = new_cache(table);
       return function (param) {
         return send_const(m$3, x$9, partial_arg$4, param);
       };
-    case /* SendVar */ 21 :
+      }
+    case /* SendVar */ 21 : {
       const m$4 = next();
       const n$14 = next();
       const partial_arg$5 = new_cache(table);
       return function (param) {
         return send_var(m$4, n$14, partial_arg$5, param);
       };
-    case /* SendEnv */ 22 :
+      }
+    case /* SendEnv */ 22 : {
       const m$5 = next();
       const e$5 = next();
       const n$15 = next();
@@ -4199,13 +4221,15 @@ function method_impl(table, i, arr) {
       return function (param) {
         return send_env(m$5, e$5, n$15, partial_arg$6, param);
       };
-    case /* SendMeth */ 23 :
+      }
+    case /* SendMeth */ 23 : {
       const m$6 = next();
       const n$16 = next();
       const partial_arg$7 = new_cache(table);
       return function (param) {
         return send_meth(m$6, n$16, partial_arg$7, param);
       };
+      }
   }
 }
 

@@ -27,14 +27,14 @@ non-tail shape.
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange.js" node_modules/melange.js
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange" node_modules/melange
 
-Without selective CPS, replay semantics reruns side effects.
+With default selective CPS, side effects run once.
 
   $ melc x.ml -o x.default.js
   $ node x.default.js
-  7 2
+  6 1
 
-With selective CPS enabled, the `let-perform` continuation path avoids replay.
+Recompiling with the same pipeline yields the same one-shot result.
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 melc x.ml -o x.cps.js
+  $ melc x.ml -o x.cps.js
   $ node x.cps.js
   6 1

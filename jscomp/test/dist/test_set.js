@@ -577,12 +577,13 @@ function Make(Ord) {
   const of_sorted_list = function (l) {
     const sub = function (n, l) {
       switch (n) {
-        case 0 :
+        case 0 : {
           return [
             /* Empty */ 0,
             l
           ];
-        case 1 :
+          }
+        case 1 : {
           if (l) {
             return [
               {
@@ -596,7 +597,8 @@ function Make(Ord) {
             ];
           }
           break;
-        case 2 :
+          }
+        case 2 : {
           if (l) {
             const match = l.tl;
             if (match) {
@@ -620,7 +622,8 @@ function Make(Ord) {
             
           }
           break;
-        case 3 :
+          }
+        case 3 : {
           if (l) {
             const match$1 = l.tl;
             if (match$1) {
@@ -654,6 +657,7 @@ function Make(Ord) {
             
           }
           break;
+          }
       }
       const nl = n / 2 | 0;
       const match$3 = sub(nl, l);

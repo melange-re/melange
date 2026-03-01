@@ -10,18 +10,18 @@ Tail-perform rewriting under selective CPS: a tail `Effect.perform` becomes
   >   Effect.perform Tick
   > EOF
 
-Without CPS, the generated code uses plain `caml_perform`.
+Default compilation already uses `caml_perform_tail`.
 
   $ melc x.ml -o x.default.js
   $ rg "caml_perform\\(" x.default.js
-    return Caml_effect.caml_perform({
-  $ rg "caml_perform_tail\\(" x.default.js
   [1]
+  $ rg "caml_perform_tail\\(" x.default.js
+    return Caml_effect.caml_perform_tail({
 
-With selective CPS enabled, tail-perform rewriting uses `caml_perform_tail`
+Recompiling with debug enabled still shows `caml_perform_tail` rewriting
 and prints a debug trace.
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 MELANGE_EFFECT_CPS_DEBUG=1 melc x.ml -o x.cps.js
+  $ MELANGE_EFFECT_CPS_DEBUG=1 melc x.ml -o x.cps.js
   [effect-cps] tail-perform rewrite in body
   [effect-cps] lifted body -> body$cps
   $ rg "caml_perform_tail\\(" x.cps.js

@@ -26,16 +26,16 @@ the effect appears inside a primitive expression (e.g. `1 + perform`).
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange.js" node_modules/melange.js
   $ ln -sfn "$INSIDE_DUNE/runtime-export/x/node_modules/melange" node_modules/melange
 
-Without selective CPS, continuation replay reruns pre-perform side effects.
+With default selective CPS, pre-perform side effects run once.
 
   $ melc x.ml -o x.default.js
   $ node x.default.js
-  6 2
+  6 1
 
-With selective CPS enabled, this shape is rewritten through `caml_perform_tail`
+Recompiling with the same pipeline, this shape is rewritten through `caml_perform_tail`
 and the pre-perform increment runs once.
 
-  $ MELANGE_EFFECT_CPS_EXPERIMENT=1 melc x.ml -o x.cps.js
+  $ melc x.ml -o x.cps.js
   $ rg "caml_perform_tail\\(" x.cps.js
     return Caml_effect.caml_perform_tail({
   $ node x.cps.js

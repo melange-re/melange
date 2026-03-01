@@ -16,7 +16,8 @@ val mode_from_env : unit -> mode
     A binding is considered effectful if:
     - it directly uses effect runtime primitives, or
     - it contains unknown calls we cannot classify precisely, or
-    - it calls another local binding already classified as effectful.
+    - it calls another local binding already classified as effectful, or
+    - it calls a known effectful export from another module (via `.cmj` summary).
 *)
 val effectful_bindings : mode:mode -> Lam_group.t list -> Ident.Set.t
 
