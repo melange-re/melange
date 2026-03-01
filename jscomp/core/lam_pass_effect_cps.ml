@@ -555,6 +555,11 @@ let build_cps_ids (effectful : Ident.Set.t) (groups : Lam_group.t list) =
               add_if_effectful_function acc id lam)
       | _ -> acc)
 
+let rewrite_group_rhs ~(owner : Ident.t) ~(cps_ids : Ident.t Ident.Map.t)
+    (lam : Lam.t) =
+  let k = Ident.create_local "__k" in
+  rewrite_value ~owner ~cps_ids ~k lam
+
 let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
     (group : Lam_group.t) : Lam_group.t list =
   match group with
@@ -601,7 +606,7 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
             Lam_group.Single (kind, idk_id, idk_fun);
             Lam_group.Single (kind, id, wrapper_fun);
           ])
-  | Lam_group.Single (_, id, lam) ->
+  | Lam_group.Single (kind, id, lam) ->
       if debug_enabled () && Ident.Set.mem id effectful then
         Format.eprintf
           "[effect-cps] skip non-function effectful binding %s (%s)@."
@@ -624,7 +629,12 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
           | Lsend _ -> "send"
           | Lifused _ -> "ifused"
           | Lglobal_module _ -> "global-module");
-      [ group ]
+      if Ident.Set.mem id effectful then
+        [
+          Lam_group.Single
+            (kind, id, rewrite_group_rhs ~owner:id ~cps_ids lam);
+        ]
+      else [ group ]
   | Recursive bindings ->
       let lifted_bindings =
         List.concat_map bindings ~f:(fun (id, lam) ->
@@ -659,14 +669,14 @@ let lift_group ~(effectful : Ident.Set.t) ~(cps_ids : Ident.t Ident.Map.t)
                   [ (cps_id, cps_fun); (idk_id, idk_fun); (id, wrapper_fun) ]
               | None, _ ->
                   (* Should not happen when build_cps_ids is in sync. *)
-                  [ (id, lam) ]
+                  [ (id, rewrite_group_rhs ~owner:id ~cps_ids lam) ]
               | Some _, _ ->
                   if debug_enabled () then
                     Format.eprintf
                       "[effect-cps] skip recursive non-function effectful \
                        binding %s@."
                       (Ident.name id);
-                  [ (id, lam) ])
+                  [ (id, rewrite_group_rhs ~owner:id ~cps_ids lam) ])
       in
       [ Recursive lifted_bindings ]
   | _ -> [ group ]
