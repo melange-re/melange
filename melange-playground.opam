@@ -10,7 +10,7 @@ depends: [
   "dune" {>= "3.21"}
   "ocaml"
   "js_of_ocaml" {dev}
-  "reason"
+  "reason" {dev}
   "melange" {= version}
   "ppxlib" {dev}
   "reason-react-ppx"
@@ -34,6 +34,6 @@ dev-repo: "git+https://github.com/melange-re/melange.git"
 x-maintenance-intent: ["(latest)"]
 pin-depends: [
   [ "ppxlib.dev" "https://github.com/NathanReb/ppxlib/archive/547c6cfd69671e147767e0937d069c5b9eb2aa4a.tar.gz" ]
-  [ "js_of_ocaml-compiler.dev" "git+https://github.com/ocsigen/js_of_ocaml#d5383e1361ad109463d2b59afaf65a032c1b8f79"]
   [ "js_of_ocaml.dev" "git+https://github.com/ocsigen/js_of_ocaml#d5383e1361ad109463d2b59afaf65a032c1b8f79"]
+  [ "reason.dev" "git+https://github.com/reasonml/reason#a712a322c9f4df570206441a46bf0f30d2c1a1a5"]
 ]

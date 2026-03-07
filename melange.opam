@@ -13,7 +13,7 @@ depends: [
   "dune-build-info"
   "cppo" {build}
   "alcotest" {with-test}
-  "reason" {with-test}
+  "reason" {dev & with-test}
   "ppxlib" {dev}
   "menhir" {>= "20201214"}
   "reason-react-ppx" {with-test & post}

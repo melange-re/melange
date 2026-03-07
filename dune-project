@@ -38,7 +38,7 @@
   dune-build-info
   (cppo :build)
   (alcotest :with-test)
-  (reason :with-test)
+  (reason (and :dev :with-test))
   (ppxlib :dev)
   (menhir
    (>= 20201214))
@@ -53,7 +53,7 @@
  (depends
   ocaml
   (js_of_ocaml :dev)
-  reason
+  (reason :dev)
   (melange (= :version))
   (ppxlib :dev)
   reason-react-ppx))
