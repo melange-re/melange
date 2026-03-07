@@ -53,12 +53,6 @@
       {
         start: [Object],
         end: [Object],
-        kind: 'pattern_type',
-        hint: 'person'
-      },
-      {
-        start: [Object],
-        end: [Object],
         kind: 'core_type',
         hint: 'person'
       },

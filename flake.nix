@@ -34,6 +34,12 @@
                         repo = "dune";
                         rev = "9e80abbfb0b2ae09ff5b5412d419f3828992d13c";
                         hash = "sha256-2ijxaxykiHga+cuOQJ+FtzDCw1b1xGoYPBUPQl/ujBc=";
+                    js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
+                      src = super.fetchFromGitHub {
+                        owner = "ocsigen";
+                        repo = "js_of_ocaml";
+                        rev = "d5383e1361ad109463d2b59afaf65a032c1b8f79";
+                        hash = "sha256-Gd1bdp/dXmM/UJRGypYN10RbIjE76D5wkJhF2NPeIPs=";
                       };
                     });
                   }
