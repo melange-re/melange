@@ -38,4 +38,5 @@ dev-repo: "git+https://github.com/melange-re/melange.git"
 x-maintenance-intent: ["(latest)"]
 pin-depends: [
   [ "ppxlib.dev" "https://github.com/NathanReb/ppxlib/archive/547c6cfd69671e147767e0937d069c5b9eb2aa4a.tar.gz" ]
+  [ "reason.dev" "git+https://github.com/reasonml/reason#a712a322c9f4df570206441a46bf0f30d2c1a1a5"]
 ]
