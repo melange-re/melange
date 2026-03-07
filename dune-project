@@ -55,4 +55,5 @@
   (js_of_ocaml :dev)
   reason
   (melange (= :version))
+  (ppxlib :dev)
   reason-react-ppx))
