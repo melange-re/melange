@@ -39,7 +39,7 @@
   (cppo :build)
   (alcotest :with-test)
   (reason :with-test)
-  (ppxlib (>= "0.36"))
+  (ppxlib :dev)
   (menhir
    (>= 20201214))
   (reason-react-ppx
