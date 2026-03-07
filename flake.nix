@@ -25,7 +25,7 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5.overrideScope (
                   oself: osuper: {
                     dune_3 = osuper.dune_3.overrideAttrs (_: {
                       # https://github.com/ocaml/dune/pull/14018

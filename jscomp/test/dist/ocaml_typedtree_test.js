@@ -27713,7 +27713,7 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
     const cmt_cmt_annots = clear_env(binary_annots);
     const cmt_cmt_value_dependencies = value_deps.contents;
     const cmt_cmt_comments = Stdlib__List.rev(comment_list.contents);
-    const cmt_cmt_args = Caml_sys.caml_sys_argv(0);
+    const cmt_cmt_args = Caml_sys.caml_sys_argv();
     const cmt_cmt_builddir = Caml_sys.caml_sys_getcwd();
     const cmt_cmt_loadpath = load_path.contents;
     const cmt_cmt_initial_env = need_to_clear_env ? keep_only_summary(initial_env) : initial_env;

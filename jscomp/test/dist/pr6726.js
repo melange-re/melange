@@ -20,9 +20,11 @@ function test_endian_string(x) {
   return 33;
 }
 
+const v = 33;
+
 const Test = {
   test_endian_string: test_endian_string,
-  v: 33
+  v: v
 };
 
 module.exports = {

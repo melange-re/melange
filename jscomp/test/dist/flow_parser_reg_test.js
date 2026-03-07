@@ -5291,20 +5291,6 @@ function regexp_body(env, buf, lexbuf) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
-      case 0 :
-        const loc = from_lb(env.lex_source, lexbuf);
-        const env$1 = lex_error(env, loc, /* UnterminatedRegExp */ 13);
-        return [
-          env$1,
-          ""
-        ];
-      case 1 :
-        const loc$1 = from_lb(env.lex_source, lexbuf);
-        const env$2 = lex_error(env, loc$1, /* UnterminatedRegExp */ 13);
-        return [
-          env$2,
-          ""
-        ];
       case 2 :
         const s = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_start_pos + 2 | 0);
         Stdlib__Buffer.add_string(buf, s);
@@ -5323,15 +5309,12 @@ function regexp_body(env, buf, lexbuf) {
       case 5 :
         const c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c);
-        const env$3 = regexp_class(env, buf, lexbuf);
-        return regexp_body(env$3, buf, lexbuf);
+        const env$1 = regexp_class(env, buf, lexbuf);
+        return regexp_body(env$1, buf, lexbuf);
+      case 0 :
+      case 1 :
       case 6 :
-        const loc$2 = from_lb(env.lex_source, lexbuf);
-        const env$4 = lex_error(env, loc$2, /* UnterminatedRegExp */ 13);
-        return [
-          env$4,
-          ""
-        ];
+        break;
       case 7 :
         const c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
         Stdlib__Buffer.add_char(buf, c$1);
@@ -5341,6 +5324,12 @@ function regexp_body(env, buf, lexbuf) {
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
+    const loc = from_lb(env.lex_source, lexbuf);
+    const env$2 = lex_error(env, loc, /* UnterminatedRegExp */ 13);
+    return [
+      env$2,
+      ""
+    ];
   };
 }
 
@@ -15914,6 +15903,23 @@ function parse(content, options) {
           ]);
       }
     };
+    const identifier = function (param) {
+      const id = param[1];
+      return node("Identifier", param[0], [
+        [
+          "name",
+          string(id.name)
+        ],
+        [
+          "typeAnnotation",
+          option(type_annotation, id.typeAnnotation)
+        ],
+        [
+          "optional",
+          bool(id.optional)
+        ]
+      ]);
+    };
     const _type = function (param) {
       const t = param[1];
       const loc = param[0];
@@ -16063,103 +16069,6 @@ function parse(content, options) {
             ]);
         }
       }
-    };
-    const object_type = function (param) {
-      const o = param[1];
-      return node("ObjectTypeAnnotation", param[0], [
-        [
-          "properties",
-          array_of_list(object_type_property, o.properties)
-        ],
-        [
-          "indexers",
-          array_of_list(object_type_indexer, o.indexers)
-        ],
-        [
-          "callProperties",
-          array_of_list(object_type_call_property, o.callProperties)
-        ]
-      ]);
-    };
-    const identifier = function (param) {
-      const id = param[1];
-      return node("Identifier", param[0], [
-        [
-          "name",
-          string(id.name)
-        ],
-        [
-          "typeAnnotation",
-          option(type_annotation, id.typeAnnotation)
-        ],
-        [
-          "optional",
-          bool(id.optional)
-        ]
-      ]);
-    };
-    const interface_extends = function (param) {
-      const g = param[1];
-      const id = g.id;
-      let id$1;
-      id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("InterfaceExtends", param[0], [
-        [
-          "id",
-          id$1
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_instantiation, g.typeParameters)
-        ]
-      ]);
-    };
-    const type_parameter_declaration = function (param) {
-      return node("TypeParameterDeclaration", param[0], [[
-          "params",
-          array_of_list(type_param, param[1].params)
-        ]]);
-    };
-    const type_parameter_instantiation = function (param) {
-      return node("TypeParameterInstantiation", param[0], [[
-          "params",
-          array_of_list(_type, param[1].params)
-        ]]);
-    };
-    const generic_type_qualified_identifier = function (param) {
-      const q = param[1];
-      const id = q.qualification;
-      let qualification;
-      qualification = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("QualifiedTypeIdentifier", param[0], [
-        [
-          "qualification",
-          qualification
-        ],
-        [
-          "id",
-          identifier(q.id)
-        ]
-      ]);
-    };
-    const class_implements = function (param) {
-      const $$implements = param[1];
-      return node("ClassImplements", param[0], [
-        [
-          "id",
-          identifier($$implements.id)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_instantiation, $$implements.typeParameters)
-        ]
-      ]);
-    };
-    const class_body = function (param) {
-      return node("ClassBody", param[0], [[
-          "body",
-          array_of_list(class_element, param[1].body)
-        ]]);
     };
     const expression = function (param) {
       const arr = param[1];
@@ -16665,55 +16574,147 @@ function parse(content, options) {
           ]);
       }
     };
-    const function_expression = function (param) {
-      const _function = param[1];
-      const b = _function.body;
-      let body;
-      body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
-      return node("FunctionExpression", param[0], [
+    const jsx_child = function (param) {
+      const element = param[1];
+      const loc = param[0];
+      switch (element.TAG) {
+        case /* Element */ 0 :
+          return jsx_element([
+            loc,
+            element._0
+          ]);
+        case /* ExpressionContainer */ 1 :
+          return jsx_expression_container([
+            loc,
+            element._0
+          ]);
+        case /* Text */ 2 :
+          let param$1 = [
+            loc,
+            element._0
+          ];
+          const text = param$1[1];
+          return node("JSXText", param$1[0], [
+            [
+              "value",
+              string(text.value)
+            ],
+            [
+              "raw",
+              string(text.raw)
+            ]
+          ]);
+      }
+    };
+    const jsx_closing = function (param) {
+      return node("JSXClosingElement", param[0], [[
+          "name",
+          jsx_name(param[1].name)
+        ]]);
+    };
+    const jsx_opening = function (param) {
+      const opening = param[1];
+      return node("JSXOpeningElement", param[0], [
         [
-          "id",
-          option(identifier, _function.id)
+          "name",
+          jsx_name(opening.name)
         ],
         [
-          "params",
-          array_of_list(pattern, _function.params)
+          "attributes",
+          array_of_list(jsx_opening_attribute, opening.attributes)
         ],
         [
-          "defaults",
-          array_of_list((function (param) {
-            return option(expression, param);
-          }), _function.defaults)
-        ],
-        [
-          "rest",
-          option(identifier, _function.rest)
-        ],
-        [
-          "body",
-          body
-        ],
-        [
-          "async",
-          bool(_function.async)
-        ],
-        [
-          "generator",
-          bool(_function.generator)
-        ],
-        [
-          "expression",
-          bool(_function.expression)
-        ],
-        [
-          "returnType",
-          option(type_annotation, _function.returnType)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_declaration, _function.typeParameters)
+          "selfClosing",
+          bool(opening.selfClosing)
         ]
       ]);
+    };
+    const jsx_member_expression = function (param) {
+      const member_expression = param[1];
+      const id = member_expression._object;
+      let _object;
+      _object = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
+      return node("JSXMemberExpression", param[0], [
+        [
+          "object",
+          _object
+        ],
+        [
+          "property",
+          jsx_identifier(member_expression.property)
+        ]
+      ]);
+    };
+    const jsx_namespaced_name = function (param) {
+      const namespaced_name = param[1];
+      return node("JSXNamespacedName", param[0], [
+        [
+          "namespace",
+          jsx_identifier(namespaced_name.namespace)
+        ],
+        [
+          "name",
+          jsx_identifier(namespaced_name.name)
+        ]
+      ]);
+    };
+    const jsx_identifier = function (param) {
+      return node("JSXIdentifier", param[0], [[
+          "name",
+          string(param[1].name)
+        ]]);
+    };
+    const type_annotation = function (param) {
+      return node("TypeAnnotation", param[0], [[
+          "typeAnnotation",
+          _type(param[1])
+        ]]);
+    };
+    const jsx_attribute_value = function (param) {
+      if (param.TAG === /* Literal */ 0) {
+        return literal([
+          param._0,
+          param._1
+        ]);
+      } else {
+        return jsx_expression_container([
+          param._0,
+          param._1
+        ]);
+      }
+    };
+    const template_element = function (param) {
+      const element = param[1];
+      const value = obj([
+        [
+          "raw",
+          string(element.value.raw)
+        ],
+        [
+          "cooked",
+          string(element.value.cooked)
+        ]
+      ]);
+      return node("TemplateElement", param[0], [
+        [
+          "value",
+          value
+        ],
+        [
+          "tail",
+          bool(element.tail)
+        ]
+      ]);
+    };
+    const expression_or_spread = function (expr) {
+      if (expr.TAG === /* Expression */ 0) {
+        return expression(expr._0);
+      }
+      const match = expr._0;
+      return node("SpreadElement", match[0], [[
+          "argument",
+          expression(match[1].argument)
+        ]]);
     };
     const literal = function (param) {
       const lit = param[1];
@@ -16833,88 +16834,22 @@ function parse(content, options) {
           return expression(obj._0);
       }
     };
-    const block = function (param) {
-      return node("BlockStatement", param[0], [[
-          "body",
-          array_of_list(statement, param[1].body)
-        ]]);
-    };
-    const type_annotation = function (param) {
-      return node("TypeAnnotation", param[0], [[
-          "typeAnnotation",
-          _type(param[1])
-        ]]);
-    };
-    const jsx_opening_attribute = function (attribute) {
-      if (attribute.TAG === /* Attribute */ 0) {
-        let param = attribute._0;
-        const attribute$1 = param[1];
-        const id = attribute$1.name;
-        let name;
-        name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
-        return node("JSXAttribute", param[0], [
-          [
-            "name",
-            name
-          ],
-          [
-            "value",
-            option(jsx_attribute_value, attribute$1.value)
-          ]
-        ]);
-      } else {
-        let param$1 = attribute._0;
-        return node("JSXSpreadAttribute", param$1[0], [[
-            "argument",
-            expression(param$1[1].argument)
-          ]]);
-      }
-    };
-    const jsx_name = function (id) {
-      switch (id.TAG) {
-        case /* Identifier */ 0 :
-          return jsx_identifier(id._0);
-        case /* NamespacedName */ 1 :
-          return jsx_namespaced_name(id._0);
-        case /* MemberExpression */ 2 :
-          return jsx_member_expression(id._0);
-      }
-    };
-    const template_literal = function (param) {
-      const value = param[1];
-      return node("TemplateLiteral", param[0], [
+    const jsx_element = function (param) {
+      const element = param[1];
+      return node("JSXElement", param[0], [
         [
-          "quasis",
-          array_of_list(template_element, value.quasis)
+          "openingElement",
+          jsx_opening(element.openingElement)
         ],
         [
-          "expressions",
-          array_of_list(expression, value.expressions)
-        ]
-      ]);
-    };
-    const variable_declarator = function (param) {
-      const declarator = param[1];
-      return node("VariableDeclarator", param[0], [
-        [
-          "id",
-          pattern(declarator.id)
+          "closingElement",
+          option(jsx_closing, element.closingElement)
         ],
         [
-          "init",
-          option(expression, declarator.init)
+          "children",
+          array_of_list(jsx_child, element.children)
         ]
       ]);
-    };
-    const expression_or_spread = function (expr) {
-      if (expr.TAG === /* Expression */ 0) {
-        return expression(expr._0);
-      }
-      const match = expr._0;
-      return node("SpreadElement", match[0], [[
-          "argument",
-          expression(match[1].argument)
-        ]]);
     };
     const object_property = function (param) {
       if (param.TAG === /* Property */ 0) {
@@ -16988,6 +16923,19 @@ function parse(content, options) {
           expression(match$3[1].argument)
         ]]);
     };
+    const template_literal = function (param) {
+      const value = param[1];
+      return node("TemplateLiteral", param[0], [
+        [
+          "quasis",
+          array_of_list(template_element, value.quasis)
+        ],
+        [
+          "expressions",
+          array_of_list(expression, value.expressions)
+        ]
+      ]);
+    };
     const comprehension_block = function (param) {
       const b = param[1];
       return node("ComprehensionBlock", param[0], [
@@ -17017,20 +16965,398 @@ function parse(content, options) {
         ]
       ]);
     };
-    const jsx_element = function (param) {
-      const element = param[1];
-      return node("JSXElement", param[0], [
+    const type_parameter_declaration = function (param) {
+      return node("TypeParameterDeclaration", param[0], [[
+          "params",
+          array_of_list(type_param, param[1].params)
+        ]]);
+    };
+    const function_expression = function (param) {
+      const _function = param[1];
+      const b = _function.body;
+      let body;
+      body = b.TAG === /* BodyBlock */ 0 ? block(b._0) : expression(b._0);
+      return node("FunctionExpression", param[0], [
         [
-          "openingElement",
-          jsx_opening(element.openingElement)
+          "id",
+          option(identifier, _function.id)
         ],
         [
-          "closingElement",
-          option(jsx_closing, element.closingElement)
+          "params",
+          array_of_list(pattern, _function.params)
         ],
         [
-          "children",
-          array_of_list(jsx_child, element.children)
+          "defaults",
+          array_of_list((function (param) {
+            return option(expression, param);
+          }), _function.defaults)
+        ],
+        [
+          "rest",
+          option(identifier, _function.rest)
+        ],
+        [
+          "body",
+          body
+        ],
+        [
+          "async",
+          bool(_function.async)
+        ],
+        [
+          "generator",
+          bool(_function.generator)
+        ],
+        [
+          "expression",
+          bool(_function.expression)
+        ],
+        [
+          "returnType",
+          option(type_annotation, _function.returnType)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, _function.typeParameters)
+        ]
+      ]);
+    };
+    const block = function (param) {
+      return node("BlockStatement", param[0], [[
+          "body",
+          array_of_list(statement, param[1].body)
+        ]]);
+    };
+    const jsx_expression_container = function (param) {
+      const expr = param[1].expression;
+      let expression$1;
+      expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
+      return node("JSXExpressionContainer", param[0], [[
+          "expression",
+          expression$1
+        ]]);
+    };
+    const type_param = function (param) {
+      const tp = param[1];
+      const variance = function (param) {
+        if (param === /* Plus */ 0) {
+          return string("plus");
+        } else {
+          return string("minus");
+        }
+      };
+      return node("TypeParameter", param[0], [
+        [
+          "name",
+          string(tp.name)
+        ],
+        [
+          "bound",
+          option(type_annotation, tp.bound)
+        ],
+        [
+          "variance",
+          option(variance, tp.variance)
+        ],
+        [
+          "default",
+          option(_type, tp.default)
+        ]
+      ]);
+    };
+    const class_body = function (param) {
+      return node("ClassBody", param[0], [[
+          "body",
+          array_of_list(class_element, param[1].body)
+        ]]);
+    };
+    const class_implements = function (param) {
+      const $$implements = param[1];
+      return node("ClassImplements", param[0], [
+        [
+          "id",
+          identifier($$implements.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, $$implements.typeParameters)
+        ]
+      ]);
+    };
+    const type_parameter_instantiation = function (param) {
+      return node("TypeParameterInstantiation", param[0], [[
+          "params",
+          array_of_list(_type, param[1].params)
+        ]]);
+    };
+    const variable_declaration = function (param) {
+      const $$var = param[1];
+      const match = $$var.kind;
+      let kind;
+      switch (match) {
+        case /* Var */ 0 :
+          kind = "var";
+          break;
+        case /* Let */ 1 :
+          kind = "let";
+          break;
+        case /* Const */ 2 :
+          kind = "const";
+          break;
+      }
+      return node("VariableDeclaration", param[0], [
+        [
+          "declarations",
+          array_of_list(variable_declarator, $$var.declarations)
+        ],
+        [
+          "kind",
+          string(kind)
+        ]
+      ]);
+    };
+    const interface_declaration = function (param) {
+      const i = param[1];
+      return node("InterfaceDeclaration", param[0], [
+        [
+          "id",
+          identifier(i.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, i.typeParameters)
+        ],
+        [
+          "body",
+          object_type(i.body)
+        ],
+        [
+          "extends",
+          array_of_list(interface_extends, i.extends)
+        ]
+      ]);
+    };
+    const export_specifiers = function (param) {
+      if (param !== undefined) {
+        if (param.TAG === /* ExportSpecifiers */ 0) {
+          return array_of_list(export_specifier, param._0);
+        } else {
+          return array([node("ExportBatchSpecifier", param._0, [[
+                "name",
+                option(identifier, param._1)
+              ]])]);
+        }
+      } else {
+        return array([]);
+      }
+    };
+    const type_alias = function (param) {
+      const alias = param[1];
+      return node("TypeAlias", param[0], [
+        [
+          "id",
+          identifier(alias.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, alias.typeParameters)
+        ],
+        [
+          "right",
+          _type(alias.right)
+        ]
+      ]);
+    };
+    const declare_variable = function (param) {
+      return node("DeclareVariable", param[0], [[
+          "id",
+          identifier(param[1].id)
+        ]]);
+    };
+    const $$catch = function (param) {
+      const c = param[1];
+      return node("CatchClause", param[0], [
+        [
+          "param",
+          pattern(c.param)
+        ],
+        [
+          "guard",
+          option(expression, c.guard)
+        ],
+        [
+          "body",
+          block(c.body)
+        ]
+      ]);
+    };
+    const declare_function = function (param) {
+      return node("DeclareFunction", param[0], [[
+          "id",
+          identifier(param[1].id)
+        ]]);
+    };
+    const export_kind = function (param) {
+      if (param === /* ExportType */ 0) {
+        return "type";
+      } else {
+        return "value";
+      }
+    };
+    const declare_class = function (param) {
+      const d = param[1];
+      return node("DeclareClass", param[0], [
+        [
+          "id",
+          identifier(d.id)
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_declaration, d.typeParameters)
+        ],
+        [
+          "body",
+          object_type(d.body)
+        ],
+        [
+          "extends",
+          array_of_list(interface_extends, d.extends)
+        ]
+      ]);
+    };
+    const $$case = function (param) {
+      const c = param[1];
+      return node("SwitchCase", param[0], [
+        [
+          "test",
+          option(expression, c.test)
+        ],
+        [
+          "consequent",
+          array_of_list(statement, c.consequent)
+        ]
+      ]);
+    };
+    const object_pattern_property = function (param) {
+      if (param.TAG === /* Property */ 0) {
+        const match = param._0;
+        const prop = match[1];
+        const lit = prop.key;
+        let match$1;
+        switch (lit.TAG) {
+          case /* Literal */ 0 :
+            match$1 = [
+              literal(lit._0),
+              false
+            ];
+            break;
+          case /* Identifier */ 1 :
+            match$1 = [
+              identifier(lit._0),
+              false
+            ];
+            break;
+          case /* Computed */ 2 :
+            match$1 = [
+              expression(lit._0),
+              true
+            ];
+            break;
+        }
+        return node("PropertyPattern", match[0], [
+          [
+            "key",
+            match$1[0]
+          ],
+          [
+            "pattern",
+            pattern(prop.pattern)
+          ],
+          [
+            "computed",
+            bool(match$1[1])
+          ],
+          [
+            "shorthand",
+            bool(prop.shorthand)
+          ]
+        ]);
+      }
+      const match$2 = param._0;
+      return node("SpreadPropertyPattern", match$2[0], [[
+          "argument",
+          pattern(match$2[1].argument)
+        ]]);
+    };
+    const array_pattern_element = function (p) {
+      if (p.TAG === /* Element */ 0) {
+        return pattern(p._0);
+      }
+      const match = p._0;
+      return node("SpreadElementPattern", match[0], [[
+          "argument",
+          pattern(match[1].argument)
+        ]]);
+    };
+    const export_specifier = function (param) {
+      const specifier = param[1];
+      return node("ExportSpecifier", param[0], [
+        [
+          "id",
+          identifier(specifier.id)
+        ],
+        [
+          "name",
+          option(identifier, specifier.name)
+        ]
+      ]);
+    };
+    const generic_type_qualified_identifier = function (param) {
+      const q = param[1];
+      const id = q.qualification;
+      let qualification;
+      qualification = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("QualifiedTypeIdentifier", param[0], [
+        [
+          "qualification",
+          qualification
+        ],
+        [
+          "id",
+          identifier(q.id)
+        ]
+      ]);
+    };
+    const interface_extends = function (param) {
+      const g = param[1];
+      const id = g.id;
+      let id$1;
+      id$1 = id.TAG === /* Unqualified */ 0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("InterfaceExtends", param[0], [
+        [
+          "id",
+          id$1
+        ],
+        [
+          "typeParameters",
+          option(type_parameter_instantiation, g.typeParameters)
+        ]
+      ]);
+    };
+    const object_type = function (param) {
+      const o = param[1];
+      return node("ObjectTypeAnnotation", param[0], [
+        [
+          "properties",
+          array_of_list(object_type_property, o.properties)
+        ],
+        [
+          "indexers",
+          array_of_list(object_type_indexer, o.indexers)
+        ],
+        [
+          "callProperties",
+          array_of_list(object_type_call_property, o.callProperties)
         ]
       ]);
     };
@@ -17150,368 +17476,28 @@ function parse(content, options) {
         ]);
       }
     };
-    const jsx_member_expression = function (param) {
-      const member_expression = param[1];
-      const id = member_expression._object;
-      let _object;
-      _object = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
-      return node("JSXMemberExpression", param[0], [
-        [
-          "object",
-          _object
-        ],
-        [
-          "property",
-          jsx_identifier(member_expression.property)
-        ]
-      ]);
-    };
-    const jsx_identifier = function (param) {
-      return node("JSXIdentifier", param[0], [[
-          "name",
-          string(param[1].name)
-        ]]);
-    };
-    const jsx_namespaced_name = function (param) {
-      const namespaced_name = param[1];
-      return node("JSXNamespacedName", param[0], [
-        [
-          "namespace",
-          jsx_identifier(namespaced_name.namespace)
-        ],
-        [
-          "name",
-          jsx_identifier(namespaced_name.name)
-        ]
-      ]);
-    };
-    const template_element = function (param) {
-      const element = param[1];
-      const value = obj([
-        [
-          "raw",
-          string(element.value.raw)
-        ],
-        [
-          "cooked",
-          string(element.value.cooked)
-        ]
-      ]);
-      return node("TemplateElement", param[0], [
-        [
-          "value",
-          value
-        ],
-        [
-          "tail",
-          bool(element.tail)
-        ]
-      ]);
-    };
-    const export_kind = function (param) {
-      if (param === /* ExportType */ 0) {
-        return "type";
-      } else {
-        return "value";
+    const jsx_name = function (id) {
+      switch (id.TAG) {
+        case /* Identifier */ 0 :
+          return jsx_identifier(id._0);
+        case /* NamespacedName */ 1 :
+          return jsx_namespaced_name(id._0);
+        case /* MemberExpression */ 2 :
+          return jsx_member_expression(id._0);
       }
     };
-    const variable_declaration = function (param) {
-      const $$var = param[1];
-      const match = $$var.kind;
-      let kind;
-      switch (match) {
-        case /* Var */ 0 :
-          kind = "var";
-          break;
-        case /* Let */ 1 :
-          kind = "let";
-          break;
-        case /* Const */ 2 :
-          kind = "const";
-          break;
-      }
-      return node("VariableDeclaration", param[0], [
-        [
-          "declarations",
-          array_of_list(variable_declarator, $$var.declarations)
-        ],
-        [
-          "kind",
-          string(kind)
-        ]
-      ]);
-    };
-    const interface_declaration = function (param) {
-      const i = param[1];
-      return node("InterfaceDeclaration", param[0], [
+    const variable_declarator = function (param) {
+      const declarator = param[1];
+      return node("VariableDeclarator", param[0], [
         [
           "id",
-          identifier(i.id)
+          pattern(declarator.id)
         ],
         [
-          "typeParameters",
-          option(type_parameter_declaration, i.typeParameters)
-        ],
-        [
-          "body",
-          object_type(i.body)
-        ],
-        [
-          "extends",
-          array_of_list(interface_extends, i.extends)
+          "init",
+          option(expression, declarator.init)
         ]
       ]);
-    };
-    const export_specifiers = function (param) {
-      if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */ 0) {
-          return array_of_list(export_specifier, param._0);
-        } else {
-          return array([node("ExportBatchSpecifier", param._0, [[
-                "name",
-                option(identifier, param._1)
-              ]])]);
-        }
-      } else {
-        return array([]);
-      }
-    };
-    const declare_class = function (param) {
-      const d = param[1];
-      return node("DeclareClass", param[0], [
-        [
-          "id",
-          identifier(d.id)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_declaration, d.typeParameters)
-        ],
-        [
-          "body",
-          object_type(d.body)
-        ],
-        [
-          "extends",
-          array_of_list(interface_extends, d.extends)
-        ]
-      ]);
-    };
-    const $$case = function (param) {
-      const c = param[1];
-      return node("SwitchCase", param[0], [
-        [
-          "test",
-          option(expression, c.test)
-        ],
-        [
-          "consequent",
-          array_of_list(statement, c.consequent)
-        ]
-      ]);
-    };
-    const type_alias = function (param) {
-      const alias = param[1];
-      return node("TypeAlias", param[0], [
-        [
-          "id",
-          identifier(alias.id)
-        ],
-        [
-          "typeParameters",
-          option(type_parameter_declaration, alias.typeParameters)
-        ],
-        [
-          "right",
-          _type(alias.right)
-        ]
-      ]);
-    };
-    const declare_function = function (param) {
-      return node("DeclareFunction", param[0], [[
-          "id",
-          identifier(param[1].id)
-        ]]);
-    };
-    const declare_variable = function (param) {
-      return node("DeclareVariable", param[0], [[
-          "id",
-          identifier(param[1].id)
-        ]]);
-    };
-    const $$catch = function (param) {
-      const c = param[1];
-      return node("CatchClause", param[0], [
-        [
-          "param",
-          pattern(c.param)
-        ],
-        [
-          "guard",
-          option(expression, c.guard)
-        ],
-        [
-          "body",
-          block(c.body)
-        ]
-      ]);
-    };
-    const jsx_opening = function (param) {
-      const opening = param[1];
-      return node("JSXOpeningElement", param[0], [
-        [
-          "name",
-          jsx_name(opening.name)
-        ],
-        [
-          "attributes",
-          array_of_list(jsx_opening_attribute, opening.attributes)
-        ],
-        [
-          "selfClosing",
-          bool(opening.selfClosing)
-        ]
-      ]);
-    };
-    const jsx_closing = function (param) {
-      return node("JSXClosingElement", param[0], [[
-          "name",
-          jsx_name(param[1].name)
-        ]]);
-    };
-    const jsx_child = function (param) {
-      const element = param[1];
-      const loc = param[0];
-      switch (element.TAG) {
-        case /* Element */ 0 :
-          return jsx_element([
-            loc,
-            element._0
-          ]);
-        case /* ExpressionContainer */ 1 :
-          return jsx_expression_container([
-            loc,
-            element._0
-          ]);
-        case /* Text */ 2 :
-          let param$1 = [
-            loc,
-            element._0
-          ];
-          const text = param$1[1];
-          return node("JSXText", param$1[0], [
-            [
-              "value",
-              string(text.value)
-            ],
-            [
-              "raw",
-              string(text.raw)
-            ]
-          ]);
-      }
-    };
-    const export_specifier = function (param) {
-      const specifier = param[1];
-      return node("ExportSpecifier", param[0], [
-        [
-          "id",
-          identifier(specifier.id)
-        ],
-        [
-          "name",
-          option(identifier, specifier.name)
-        ]
-      ]);
-    };
-    const type_param = function (param) {
-      const tp = param[1];
-      const variance = function (param) {
-        if (param === /* Plus */ 0) {
-          return string("plus");
-        } else {
-          return string("minus");
-        }
-      };
-      return node("TypeParameter", param[0], [
-        [
-          "name",
-          string(tp.name)
-        ],
-        [
-          "bound",
-          option(type_annotation, tp.bound)
-        ],
-        [
-          "variance",
-          option(variance, tp.variance)
-        ],
-        [
-          "default",
-          option(_type, tp.default)
-        ]
-      ]);
-    };
-    const object_pattern_property = function (param) {
-      if (param.TAG === /* Property */ 0) {
-        const match = param._0;
-        const prop = match[1];
-        const lit = prop.key;
-        let match$1;
-        switch (lit.TAG) {
-          case /* Literal */ 0 :
-            match$1 = [
-              literal(lit._0),
-              false
-            ];
-            break;
-          case /* Identifier */ 1 :
-            match$1 = [
-              identifier(lit._0),
-              false
-            ];
-            break;
-          case /* Computed */ 2 :
-            match$1 = [
-              expression(lit._0),
-              true
-            ];
-            break;
-        }
-        return node("PropertyPattern", match[0], [
-          [
-            "key",
-            match$1[0]
-          ],
-          [
-            "pattern",
-            pattern(prop.pattern)
-          ],
-          [
-            "computed",
-            bool(match$1[1])
-          ],
-          [
-            "shorthand",
-            bool(prop.shorthand)
-          ]
-        ]);
-      }
-      const match$2 = param._0;
-      return node("SpreadPropertyPattern", match$2[0], [[
-          "argument",
-          pattern(match$2[1].argument)
-        ]]);
-    };
-    const array_pattern_element = function (p) {
-      if (p.TAG === /* Element */ 0) {
-        return pattern(p._0);
-      }
-      const match = p._0;
-      return node("SpreadElementPattern", match[0], [[
-          "argument",
-          pattern(match[1].argument)
-        ]]);
     };
     const function_type = function (param) {
       const fn = param[1];
@@ -17534,15 +17520,6 @@ function parse(content, options) {
         ]
       ]);
     };
-    const jsx_expression_container = function (param) {
-      const expr = param[1].expression;
-      let expression$1;
-      expression$1 = expr.TAG === /* Expression */ 0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
-      return node("JSXExpressionContainer", param[0], [[
-          "expression",
-          expression$1
-        ]]);
-    };
     const comment = function (param) {
       const c = param[1];
       let match;
@@ -17557,6 +17534,23 @@ function parse(content, options) {
           "value",
           string(match[1])
         ]]);
+    };
+    const function_type_param = function (param) {
+      const param$1 = param[1];
+      return node("FunctionTypeParam", param[0], [
+        [
+          "name",
+          identifier(param$1.name)
+        ],
+        [
+          "typeAnnotation",
+          _type(param$1.typeAnnotation)
+        ],
+        [
+          "optional",
+          bool(param$1.optional)
+        ]
+      ]);
     };
     const object_type_indexer = function (param) {
       const indexer = param[1];
@@ -17628,35 +17622,30 @@ function parse(content, options) {
         ]
       ]);
     };
-    const jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */ 0) {
-        return literal([
-          param._0,
-          param._1
+    const jsx_opening_attribute = function (attribute) {
+      if (attribute.TAG === /* Attribute */ 0) {
+        let param = attribute._0;
+        const attribute$1 = param[1];
+        const id = attribute$1.name;
+        let name;
+        name = id.TAG === /* Identifier */ 0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
+        return node("JSXAttribute", param[0], [
+          [
+            "name",
+            name
+          ],
+          [
+            "value",
+            option(jsx_attribute_value, attribute$1.value)
+          ]
         ]);
       } else {
-        return jsx_expression_container([
-          param._0,
-          param._1
-        ]);
+        let param$1 = attribute._0;
+        return node("JSXSpreadAttribute", param$1[0], [[
+            "argument",
+            expression(param$1[1].argument)
+          ]]);
       }
-    };
-    const function_type_param = function (param) {
-      const param$1 = param[1];
-      return node("FunctionTypeParam", param[0], [
-        [
-          "name",
-          identifier(param$1.name)
-        ],
-        [
-          "typeAnnotation",
-          _type(param$1.typeAnnotation)
-        ],
-        [
-          "optional",
-          bool(param$1.optional)
-        ]
-      ]);
     };
     const program$2 = function (param) {
       return node("Program", param[0], [

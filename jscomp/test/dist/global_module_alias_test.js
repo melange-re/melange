@@ -112,13 +112,9 @@ function xx(param) {
 
 eq("File \"jscomp/test/global_module_alias_test.ml\", line 86, characters 5-12", g(), 4);
 
-v.contents = v.contents + 1 | 0;
+const V = xx();
 
-v.contents = v.contents + 1 | 0;
-
-v.contents = v.contents + 1 | 0;
-
-eq("File \"jscomp/test/global_module_alias_test.ml\", line 92, characters 5-12", Stdlib__List.length({
+eq("File \"jscomp/test/global_module_alias_test.ml\", line 92, characters 5-12", Curry._1(V.length, {
   hd: 1,
   tl: {
     hd: 2,

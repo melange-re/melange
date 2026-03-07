@@ -33,12 +33,27 @@ let modifier ~name attributes =
 
 let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
   match const with
+#if OCAML_VERSION >= (5,5,0)
+  | Const_int (
+      0,
+      Pt_constructor
+        { name = "()"
+        ; const = 1
+        ; non_const = 0
+        ; attributes = _
+        }) ->
+#else
   | Const_base
       ( Const_int 0,
         Pt_constructor { name = "()"; const = 1; non_const = 0; attributes = _ }
       ) ->
+#endif
       Const_js_undefined { is_unit = true }
+#if OCAML_VERSION >= (5,5,0)
+  | Const_int (i, p) -> (
+#else
   | Const_base (Const_int i, p) -> (
+#endif
       match p with
       | Pt_module_alias -> Const_module_alias
       | Pt_builtin_boolean -> if i = 0 then Const_js_false else Const_js_true
@@ -58,7 +73,13 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
             (Js_exp_make.variant_pos ~constr:cstr_name (Int32.of_int i))
       | Pt_variant { name } -> Const_pointer name
       | Pt_na -> Const_int { i = Int32.of_int i; comment = None })
-  | Const_base (Const_char i, _) -> Const_char i
+#if OCAML_VERSION >= (5,5,0)
+  | Const_char i ->
+#else
+  | Const_base (Const_char i, _) ->
+#endif
+     Const_char i
+#if OCAML_VERSION < (5,5,0)
   | Const_base (Const_string (s, _, opt), _) ->
       let unicode =
         match opt with
@@ -66,12 +87,40 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
         | _ -> false
       in
       Const_string { s; unicode }
+#endif
+#if OCAML_VERSION >= (5,5,0)
+  | Const_float i -> Const_float i
+#else
   | Const_base (Const_float i, _) -> Const_float i
+#endif
+#if OCAML_VERSION >= (5,5,0)
+  | Const_int32 i -> Const_int { i; comment = None }
+#else
   | Const_base (Const_int32 i, _) -> Const_int { i; comment = None }
+#endif
+#if OCAML_VERSION >= (5,5,0)
+  | Const_int64 i -> Const_int64 i
+#else
   | Const_base (Const_int64 i, _) -> Const_int64 i
+#endif
+#if OCAML_VERSION >= (5,5,0)
+  | Const_nativeint _ -> assert false
+#else
   | Const_base (Const_nativeint _, _) -> assert false
+#endif
   | Const_float_array s -> Const_float_array s
-  | Const_immstring s -> Const_string { s; unicode = false }
+#if OCAML_VERSION >= (5,5,0)
+  | Const_immstring (s, opt) ->
+      let unicode =
+        match opt with
+        | Some opt -> Melange_ffi.Utf8_string.is_unicode_string opt
+        | None -> false
+      in
+      Const_string { s; unicode }
+#else
+  | Const_immstring s ->
+      Const_string { s; unicode = false }
+#endif
   | Const_block (i, t, xs) -> (
       match t with
       | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))

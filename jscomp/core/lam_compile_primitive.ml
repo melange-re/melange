@@ -356,7 +356,12 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
             (Blk_constructor
                { name = "Other"; num_nonconst = 1; attributes = [] })
             [ E.str "Melange" ]
-            Immutable)
+            Immutable
+      | Standard_library_default ->
+          E.string_equal
+            (E.runtime_call ~module_name:Js_runtime_modules.sys
+               ~fn_name:"standard_library_deault" args)
+            E.unit)
   | Pbswap16 ->
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap16"
         args

@@ -8,12 +8,12 @@ const CamlinternalOO = require("melange/camlinternalOO.js");
 const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
-const shared = ["repr"];
-
-const shared$1 = [
+const shared = [
   "leq",
   "value"
 ];
+
+const shared$1 = ["repr"];
 
 const suites = {
   contents: /* [] */ 0
@@ -44,7 +44,7 @@ function money_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
     "value",
     "leq"
-  ], shared);
+  ], shared$1);
   const value = ids[0];
   const leq = ids[1];
   const repr = ids[2];
@@ -68,7 +68,7 @@ function money_init($$class) {
   };
 }
 
-const money = CamlinternalOO.make_class(shared$1, money_init);
+const money = CamlinternalOO.make_class(shared, money_init);
 
 function money2_init($$class) {
   const ids = CamlinternalOO.get_method_labels($$class, [
@@ -77,7 +77,7 @@ function money2_init($$class) {
     "leq"
   ]);
   const times = ids[1];
-  const inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
+  const inh = CamlinternalOO.inherits($$class, shared$1, 0, shared, money, true);
   const obj_init = inh[0];
   const repr = inh[1];
   CamlinternalOO.set_method($$class, times, (function (self$3, k) {

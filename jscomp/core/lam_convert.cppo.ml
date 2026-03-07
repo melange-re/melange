@@ -423,7 +423,9 @@ let lam_prim =
         | Ostype_unix -> Lam.prim ~primitive:(Pctconst Ostype_unix) ~args ~loc
         | Ostype_win32 -> Lam.prim ~primitive:(Pctconst Ostype_win32) ~args ~loc
         | Ostype_cygwin -> Lam.false_
-        | Backend_type -> Lam.prim ~primitive:(Pctconst Backend_type) ~args ~loc)
+        | Backend_type -> Lam.prim ~primitive:(Pctconst Backend_type) ~args ~loc
+        | Standard_library_default -> Lam.prim ~primitive:(Pctconst Standard_library_default) ~args ~loc
+        )
     | Pcvtbint (a, b) -> (
         match (a, b) with
         | (Pnativeint | Pint32), (Pnativeint | Pint32) | Pint64, Pint64 ->

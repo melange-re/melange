@@ -9,12 +9,12 @@ const CamlinternalOO = require("melange/camlinternalOO.js");
 const Curry = require("melange.js/curry.js");
 const Stdlib__Sys = require("melange/sys.js");
 
-const shared = ["get_x"];
-
-const shared$1 = [
+const shared = [
   "incr",
   "get_money"
 ];
+
+const shared$1 = ["get_x"];
 
 const shared$2 = ["x"];
 
@@ -30,7 +30,7 @@ function x0_init($$class) {
 const x0 = CamlinternalOO.make_class(0, x0_init);
 
 function x_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   const get_x = ids[0];
   const x = ids[1];
   CamlinternalOO.set_method($$class, get_x, (function (self$2) {
@@ -43,7 +43,7 @@ function x_init($$class) {
   };
 }
 
-const x = CamlinternalOO.make_class(shared, x_init);
+const x = CamlinternalOO.make_class(shared$1, x_init);
 
 const v = Curry._2(x[0], undefined, 3);
 
@@ -73,7 +73,7 @@ if (Caml_oo_curry.js1(291546447, 2, u) !== 3) {
 
 function xx_init($$class) {
   const x = CamlinternalOO.new_variable($$class, "");
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, ["money"]);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, ["money"]);
   const incr = ids[0];
   const get_money = ids[1];
   const money = ids[2];
@@ -97,7 +97,7 @@ function xx_init($$class) {
   };
 }
 
-const xx = CamlinternalOO.make_class(shared$1, xx_init);
+const xx = CamlinternalOO.make_class(shared, xx_init);
 
 const v1 = Curry._2(xx[0], undefined, 3);
 
@@ -179,7 +179,7 @@ if (Caml_oo_curry.js1(590348294, 8, v$1) !== 5) {
 
 function xx0_init($$class) {
   const x = CamlinternalOO.new_variable($$class, "");
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, [
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, [
     "money",
     "a0",
     "a1",
@@ -215,7 +215,7 @@ function xx0_init($$class) {
   };
 }
 
-const xx0 = CamlinternalOO.make_class(shared$1, xx0_init);
+const xx0 = CamlinternalOO.make_class(shared, xx0_init);
 
 module.exports = {
   x0,

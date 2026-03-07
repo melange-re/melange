@@ -184,6 +184,7 @@ let primitive ppf (prim : Lam_primitive.t) =
         | Ostype_win32 -> "ostype_win32"
         | Ostype -> "ostype"
         | Backend_type -> "backend_type"
+        | Standard_library_default -> "standard_library_default"
       in
       fprintf ppf "sys.constant_%s" const_name
   | Pbswap16 -> fprintf ppf "bswap16"

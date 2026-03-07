@@ -80,6 +80,9 @@ let names_from_construct_pattern
       ; type_manifest = None
       ; _ } -> None
     | { type_kind = Type_record _ | Type_open (* Exceptions *); _ } -> None
+#if OCAML_VERSION >= (5,5,0)
+    | { type_kind = Type_external _ ; _ } -> None
+#endif
   in
 
   match Types.get_desc pat.pat_type with
