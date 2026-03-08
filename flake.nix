@@ -6,7 +6,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs";
+      url = "github:melange-re/melange-compiler-libs/5.4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -25,7 +25,13 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_4;
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (
+                  oself: osuper: {
+                    ppxlib_0_37 = osuper.ppxlib.overrideAttrs (o: {
+                      propagatedBuildInputs = o.propagatedBuildInputs ++ [ oself.stdio ];
+                    });
+                  }
+                );
               }
             );
           in
