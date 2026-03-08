@@ -101,7 +101,9 @@ record field access not yet supported
   > let x = {j|Hello, $(t.x)|j}
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 1:
+  File "x.ml", line 5, characters 20-23:
+  5 | let x = {j|Hello, $(t.x)|j}
+                          ^^^
   Error: Unbound module t
   [2]
 
