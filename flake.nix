@@ -6,7 +6,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs/5.4";
+      url = "github:melange-re/melange-compiler-libs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -34,12 +34,14 @@
                         repo = "dune";
                         rev = "9e80abbfb0b2ae09ff5b5412d419f3828992d13c";
                         hash = "sha256-2ijxaxykiHga+cuOQJ+FtzDCw1b1xGoYPBUPQl/ujBc=";
+                      };
+                    });
                     js_of_ocaml-compiler = osuper.js_of_ocaml-compiler.overrideAttrs (_: {
                       src = super.fetchFromGitHub {
                         owner = "ocsigen";
                         repo = "js_of_ocaml";
-                        rev = "d5383e1361ad109463d2b59afaf65a032c1b8f79";
-                        hash = "sha256-Gd1bdp/dXmM/UJRGypYN10RbIjE76D5wkJhF2NPeIPs=";
+                        rev = "0213c3f2173c330c268d32639c0d7dff7108a90e";
+                        hash = "sha256-HY5yWAsV5aPs6yWZP8JyJjdZL21kv4HgxRK4orxOEjg=";
                       };
                     });
                   }
