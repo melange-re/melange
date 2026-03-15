@@ -587,6 +587,7 @@ SVGTransformList
 SVGUnitTypes
 SVGUseElement
 SVGViewElement
+Sanitizer
 Scheduler
 Scheduling
 Screen
@@ -653,6 +654,9 @@ TextTrackCueList
 TextTrackList
 TextUpdateEvent
 TimeRanges
+TimelineTrigger
+TimelineTriggerRange
+TimelineTriggerRangeList
 ToggleEvent
 Touch
 TouchEvent
