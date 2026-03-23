@@ -42,12 +42,14 @@ Melange build and run
   
   let a = {};
   
+  let b = {};
+  
   Caml_obj.update_dummy(a, {
     value: 1,
     next: b
   });
   
-  const b = {
+  Caml_obj.update_dummy(b, {
     LAZY_DONE: false,
     VAL: (function () {
       return {
@@ -58,7 +60,7 @@ Melange build and run
         }
       };
     })
-  };
+  });
   
   Stdlib.print_int(1);
   
@@ -73,5 +75,5 @@ Melange build and run
     b,
   }
   /*  Not a pure module */
-  $ node _build/default/out/rec_value.js 2>&1 | grep -i error
-  ReferenceError: Cannot access 'b' before initialization
+  $ node _build/default/out/rec_value.js
+  1 2

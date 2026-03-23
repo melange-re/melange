@@ -313,7 +313,11 @@ and compile_recursive_let :
             ~no_effects:(lazy (Lam_analysis.no_side_effects arg)),
           [] )
     | Lprim { primitive = Pmakeblock (_, _, _); args; _ }
-      when args_either_function_or_const args ->
+      when args_either_function_or_const args
+           && not
+                (List.exists all_bindings ~f:(fun (other_id, other_arg) ->
+                     (not (Ident.same other_id id))
+                     && Lam_hit.hit_variable id other_arg)) ->
         (compile_lambda { cxt with continuation = Declare (Alias, id) } arg, [])
         (* case of lazy blocks, treat it as usual *)
     | Lprim
