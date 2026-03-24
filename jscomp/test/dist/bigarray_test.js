@@ -360,6 +360,65 @@ Caml_bigarray.caml_ba_set_generic(ba$20, [], 42.0);
 
 eq("File \"jscomp/test/bigarray_test.ml\", line 302, characters 5-12", Caml_bigarray.caml_ba_get_generic(ba$20, []), 42.0);
 
+const ba$21 = Caml_bigarray.caml_ba_create(1, 0, [5]);
+
+Caml_bigarray.caml_ba_set_1(ba$21, 0, 10.0);
+
+Caml_bigarray.caml_ba_set_1(ba$21, 4, 40.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 325, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 0), 10.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 326, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 4), 40.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 327, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$21), 5);
+
+Caml_bigarray.caml_ba_set_1(ba$21, 2, 20.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 330, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 2), 20.0);
+
+const ba$22 = Caml_bigarray.caml_ba_create(8, 0, [
+  3,
+  4
+]);
+
+Caml_bigarray.caml_ba_set_2(ba$22, 1, 2, 42);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 337, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$22, 1, 2), 42);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 338, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$22), 3);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 339, characters 5-12", Caml_bigarray.caml_ba_dim_2(ba$22), 4);
+
+const ba$23 = Caml_bigarray.caml_ba_create(8, 0, [
+  2,
+  3,
+  4
+]);
+
+Caml_bigarray.caml_ba_set_3(ba$23, 1, 2, 3, 99);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 346, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$23, 1, 2, 3), 99);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 347, characters 5-12", Caml_bigarray.caml_ba_dim_3(ba$23), 4);
+
+const ba$24 = Caml_bigarray.caml_ba_create(1, 1, [5]);
+
+Caml_bigarray.caml_ba_set_1(ba$24, 1, 100.0);
+
+Caml_bigarray.caml_ba_set_1(ba$24, 5, 500.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 355, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 1), 100.0);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 356, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 5), 500.0);
+
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 358, characters 8-15", (function (param) {
+  Caml_bigarray.caml_ba_get_1(ba$24, 0);
+}));
+
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 359, characters 8-15", (function (param) {
+  Caml_bigarray.caml_ba_get_1(ba$24, 6);
+}));
+
 Mt.from_pair_suites("Bigarray_test", suites.contents);
 
 const float32_kind = 0;

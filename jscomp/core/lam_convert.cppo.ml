@@ -398,7 +398,12 @@ let lam_prim =
         match x with
         | Pnativeint | Pint32 -> Lam.prim ~primitive:Pasrint ~args ~loc
         | Pint64 -> Lam.prim ~primitive:Pasrint64 ~args ~loc)
-    | Pbigarraydim _ | Pbigstring_load_16 _ | Pbigstring_load_32 _
+    | Pbigarraydim n ->
+        (* Convert to caml_ba_dim(ba, n) *)
+        let n_const = Lam.const (Const_int { i = Int32.of_int n; comment = None }) in
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_ba_dim" })
+          ~args:(args @ [ n_const ]) ~loc
+    | Pbigstring_load_16 _ | Pbigstring_load_32 _
     | Pbigstring_load_64 _ | Pbigstring_set_16 _ | Pbigstring_set_32 _
     | Pbigstring_set_64 _ ->
         Location.raise_errorf ~loc "unsupported primitive"
@@ -411,8 +416,45 @@ let lam_prim =
     | Pstring_load_16 b -> Lam.prim ~primitive:(Pstring_load_16 b) ~args ~loc
     | Pstring_load_32 b -> Lam.prim ~primitive:(Pstring_load_32 b) ~args ~loc
     | Pstring_load_64 b -> Lam.prim ~primitive:(Pstring_load_64 b) ~args ~loc
-    | Pbigarrayref _ | Pbigarrayset _ ->
-        Location.raise_errorf ~loc "unsupported primitive"
+    | Pbigarrayref (_unsafe, num_dims, _kind, _layout) ->
+        (* Convert to caml_ba_get_1/2/3/generic depending on num_dims.
+           Lambda args: [ba; idx1; idx2; ...; idxN] *)
+        let prim_name = match num_dims with
+          | 1 -> "caml_ba_get_1"
+          | 2 -> "caml_ba_get_2"
+          | 3 -> "caml_ba_get_3"
+          | _ -> "caml_ba_get_generic"
+        in
+        if num_dims <= 3 then
+          Lam.prim ~primitive:(Pccall { prim_name }) ~args ~loc
+        else
+          (* For generic: pack indices into an array *)
+          let ba = List.hd args in
+          let indices = List.tl args in
+          let idx_array = Lam.prim ~primitive:Pmakearray ~args:indices ~loc in
+          Lam.prim ~primitive:(Pccall { prim_name }) ~args:[ ba; idx_array ] ~loc
+    | Pbigarrayset (_unsafe, num_dims, _kind, _layout) ->
+        (* Lambda args: [ba; idx1; idx2; ...; idxN; value] *)
+        let prim_name = match num_dims with
+          | 1 -> "caml_ba_set_1"
+          | 2 -> "caml_ba_set_2"
+          | 3 -> "caml_ba_set_3"
+          | _ -> "caml_ba_set_generic"
+        in
+        if num_dims <= 3 then
+          Lam.prim ~primitive:(Pccall { prim_name }) ~args ~loc
+        else
+          (* For generic: args = [ba; idx1; ...; idxN; value],
+             need to split into [ba; [idx1; ...; idxN]; value] *)
+          let ba = List.hd args in
+          let rest = List.tl args in
+          let rec take n l = if n = 0 then [] else
+            match l with h :: t -> h :: take (n - 1) t | [] -> [] in
+          let indices = take num_dims rest in
+          let value = List.nth rest num_dims in
+          let idx_array = Lam.prim ~primitive:Pmakearray ~args:indices ~loc in
+          Lam.prim ~primitive:(Pccall { prim_name })
+            ~args:[ ba; idx_array; value ] ~loc
     | Pctconst x -> (
         match x with
         | Word_size | Int_size ->
