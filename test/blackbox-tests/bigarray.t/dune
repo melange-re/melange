@@ -1,0 +1,5 @@
+(melange.emit
+ (target out)
+ (emit_stdlib false)
+ (libraries melange)
+ (preprocess (pps melange.ppx)))

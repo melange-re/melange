@@ -1,7 +1,7 @@
 (* Tests for Bigarray runtime support *)
 
-(* Since the stdlib Bigarray module is not yet wired up, we test
-   the runtime primitives directly via external declarations. *)
+(* Tests for the runtime primitives directly via external declarations.
+   See bigarray_stdlib_test.ml for tests using the stdlib Bigarray module. *)
 
 (* Kind constants matching OCaml GADT constructor order *)
 let float32_kind = 0
