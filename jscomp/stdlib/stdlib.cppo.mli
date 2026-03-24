@@ -1509,10 +1509,7 @@ module Arg            = Arg
 module Array          = Array
 module ArrayLabels    = ArrayLabels
 module Atomic         = Atomic
-#ifdef MELANGE
-#else
 module Bigarray       = Bigarray
-#endif
 module Bool           = Bool
 module Buffer         = Buffer
 module Bytes          = Bytes
