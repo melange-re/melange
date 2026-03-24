@@ -383,6 +383,16 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_ba_slice" -> call Js_runtime_modules.bigarray
   | "caml_ba_reshape" -> call Js_runtime_modules.bigarray
   | "caml_ba_change_layout" -> call Js_runtime_modules.bigarray
+  (* Bigstring primitives *)
+  | "caml_bigstring_get16" | "caml_bigstring_get16u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_get32" | "caml_bigstring_get32u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_get64" | "caml_bigstring_get64u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_set16" | "caml_bigstring_set16u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_set32" | "caml_bigstring_set32u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_set64" | "caml_bigstring_set64u" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_blit_ba_to_bytes" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_blit_bytes_to_ba" -> call Js_runtime_modules.bigstring
+  | "caml_bigstring_blit_ba_to_ba" -> call Js_runtime_modules.bigstring
   | _ ->
       Location.prerr_warning loc (Mel_unimplemented_primitive prim_name);
       E.resolve_and_apply prim_name args

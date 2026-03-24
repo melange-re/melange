@@ -359,4 +359,68 @@ let () =
   throw __LOC__ (fun () -> ignore (ba_get_1 ba 6));
   ()
 
+(* === Bigstring (multi-byte load/set) primitives === *)
+external bigstring_get16 : 'a -> int -> int = "caml_bigstring_get16"
+external bigstring_set16 : 'a -> int -> int -> unit = "caml_bigstring_set16"
+external bigstring_get32 : 'a -> int -> int32 = "caml_bigstring_get32"
+external bigstring_set32 : 'a -> int -> int32 -> unit = "caml_bigstring_set32"
+external bigstring_blit_ba_to_bytes : 'a -> int -> bytes -> int -> int -> unit
+  = "caml_bigstring_blit_ba_to_bytes"
+external bigstring_blit_bytes_to_ba : bytes -> int -> 'a -> int -> int -> unit
+  = "caml_bigstring_blit_bytes_to_ba"
+external bigstring_blit_ba_to_ba : 'a -> int -> 'a -> int -> int -> unit
+  = "caml_bigstring_blit_ba_to_ba"
+
+(* Test 16-bit load/set on a uint8 bigarray *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 10 |] in
+  bigstring_set16 ba 0 0x0102;
+  eq __LOC__ (bigstring_get16 ba 0) 0x0102;
+  (* Little-endian: byte 0 = 0x02, byte 1 = 0x01 *)
+  eq __LOC__ (caml_ba_get_1 ba 0) 0x02;
+  eq __LOC__ (caml_ba_get_1 ba 1) 0x01;
+  ()
+
+(* Test 32-bit load/set *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 10 |] in
+  bigstring_set32 ba 0 0x04030201l;
+  eq __LOC__ (bigstring_get32 ba 0) 0x04030201l;
+  (* Little-endian byte order *)
+  eq __LOC__ (caml_ba_get_1 ba 0) 0x01;
+  eq __LOC__ (caml_ba_get_1 ba 1) 0x02;
+  eq __LOC__ (caml_ba_get_1 ba 2) 0x03;
+  eq __LOC__ (caml_ba_get_1 ba 3) 0x04;
+  ()
+
+(* Test blit ba -> bytes *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  for i = 0 to 4 do caml_ba_set_1 ba i (i + 65) done;  (* A B C D E *)
+  let buf = Bytes.create 5 in
+  bigstring_blit_ba_to_bytes ba 0 buf 0 5;
+  eq __LOC__ (Bytes.get buf 0) 'A';
+  eq __LOC__ (Bytes.get buf 4) 'E';
+  ()
+
+(* Test blit bytes -> ba *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let buf = Bytes.of_string "Hello" in
+  bigstring_blit_bytes_to_ba buf 0 ba 0 5;
+  eq __LOC__ (caml_ba_get_1 ba 0) (Char.code 'H');
+  eq __LOC__ (caml_ba_get_1 ba 4) (Char.code 'o');
+  ()
+
+(* Test blit ba -> ba *)
+let () =
+  let src = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let dst = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  for i = 0 to 4 do caml_ba_set_1 src i (i * 10) done;
+  bigstring_blit_ba_to_ba src 1 dst 0 3;
+  eq __LOC__ (caml_ba_get_1 dst 0) 10;
+  eq __LOC__ (caml_ba_get_1 dst 1) 20;
+  eq __LOC__ (caml_ba_get_1 dst 2) 30;
+  ()
+
 let () = Mt.from_pair_suites __MODULE__ !suites

@@ -2,7 +2,10 @@
 'use strict';
 
 const Caml_bigarray = require("melange.js/caml_bigarray.js");
+const Caml_bigstring = require("melange.js/caml_bigstring.js");
+const Caml_bytes = require("melange.js/caml_bytes.js");
 const Mt = require("./mt.js");
+const Stdlib__Bytes = require("melange/bytes.js");
 
 const suites = {
   contents: /* [] */ 0
@@ -418,6 +421,76 @@ $$throw("File \"jscomp/test/bigarray_test.ml\", line 358, characters 8-15", (fun
 $$throw("File \"jscomp/test/bigarray_test.ml\", line 359, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba$24, 6);
 }));
+
+const ba$25 = Caml_bigarray.caml_ba_create(3, 0, [10]);
+
+Caml_bigstring.caml_bigstring_set16(ba$25, 0, 258);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 378, characters 5-12", Caml_bigstring.caml_bigstring_get16(ba$25, 0), 258);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 380, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 0), 2);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 381, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 1), 1);
+
+const ba$26 = Caml_bigarray.caml_ba_create(3, 0, [10]);
+
+Caml_bigstring.caml_bigstring_set32(ba$26, 0, 67305985);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 388, characters 5-12", Caml_bigstring.caml_bigstring_get32(ba$26, 0), 67305985);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 390, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 0), 1);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 391, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 1), 2);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 392, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 2), 3);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 393, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 3), 4);
+
+const ba$27 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+
+for (let i$3 = 0; i$3 <= 4; ++i$3) {
+  Caml_bigarray.caml_ba_set_1(ba$27, i$3, i$3 + 65 | 0);
+}
+
+const buf = [
+  0,
+  0,
+  0,
+  0,
+  0
+];
+
+Caml_bigstring.caml_bigstring_blit_ba_to_bytes(ba$27, 0, buf, 0, 5);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 402, characters 5-12", Caml_bytes.get(buf, 0), /* 'A' */65);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 403, characters 5-12", Caml_bytes.get(buf, 4), /* 'E' */69);
+
+const ba$28 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+
+const buf$1 = Stdlib__Bytes.of_string("Hello");
+
+Caml_bigstring.caml_bigstring_blit_bytes_to_ba(buf$1, 0, ba$28, 0, 5);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 411, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$28, 0), /* 'H' */72);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 412, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$28, 4), /* 'o' */111);
+
+const src$1 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+
+const dst$1 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+
+for (let i$4 = 0; i$4 <= 4; ++i$4) {
+  Caml_bigarray.caml_ba_set_1(src$1, i$4, Math.imul(i$4, 10));
+}
+
+Caml_bigstring.caml_bigstring_blit_ba_to_ba(src$1, 1, dst$1, 0, 3);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 421, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 0), 10);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 422, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 1), 20);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 423, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 2), 30);
 
 Mt.from_pair_suites("Bigarray_test", suites.contents);
 
