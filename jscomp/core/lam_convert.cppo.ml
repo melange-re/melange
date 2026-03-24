@@ -403,10 +403,24 @@ let lam_prim =
         let n_const = Lam.const (Const_int { i = Int32.of_int n; comment = None }) in
         Lam.prim ~primitive:(Pccall { prim_name = "caml_ba_dim" })
           ~args:(args @ [ n_const ]) ~loc
-    | Pbigstring_load_16 _ | Pbigstring_load_32 _
-    | Pbigstring_load_64 _ | Pbigstring_set_16 _ | Pbigstring_set_32 _
-    | Pbigstring_set_64 _ ->
-        Location.raise_errorf ~loc "unsupported primitive"
+    | Pbigstring_load_16 unsafe ->
+        let fn = if unsafe then "caml_bigstring_get16u" else "caml_bigstring_get16" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
+    | Pbigstring_load_32 unsafe ->
+        let fn = if unsafe then "caml_bigstring_get32u" else "caml_bigstring_get32" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
+    | Pbigstring_load_64 unsafe ->
+        let fn = if unsafe then "caml_bigstring_get64u" else "caml_bigstring_get64" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
+    | Pbigstring_set_16 unsafe ->
+        let fn = if unsafe then "caml_bigstring_set16u" else "caml_bigstring_set16" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
+    | Pbigstring_set_32 unsafe ->
+        let fn = if unsafe then "caml_bigstring_set32u" else "caml_bigstring_set32" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
+    | Pbigstring_set_64 unsafe ->
+        let fn = if unsafe then "caml_bigstring_set64u" else "caml_bigstring_set64" in
+        Lam.prim ~primitive:(Pccall { prim_name = fn }) ~args ~loc
     | Pbytes_load_16 b -> Lam.prim ~primitive:(Pbytes_load_16 b) ~args ~loc
     | Pbytes_load_32 b -> Lam.prim ~primitive:(Pbytes_load_32 b) ~args ~loc
     | Pbytes_load_64 b -> Lam.prim ~primitive:(Pbytes_load_64 b) ~args ~loc
