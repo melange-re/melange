@@ -360,6 +360,29 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       match args with
       | [ e1; e2 ] -> E.unchecked_int32_mul e1 e2
       | _ -> assert false)
+  (* Bigarray primitives *)
+  | "caml_ba_create" -> call Js_runtime_modules.bigarray
+  | "caml_ba_num_dims" -> call Js_runtime_modules.bigarray
+  | "caml_ba_dim" -> call Js_runtime_modules.bigarray
+  | "caml_ba_dim_1" -> call Js_runtime_modules.bigarray
+  | "caml_ba_dim_2" -> call Js_runtime_modules.bigarray
+  | "caml_ba_dim_3" -> call Js_runtime_modules.bigarray
+  | "caml_ba_kind" -> call Js_runtime_modules.bigarray
+  | "caml_ba_layout" -> call Js_runtime_modules.bigarray
+  | "caml_ba_get_generic" -> call Js_runtime_modules.bigarray
+  | "caml_ba_set_generic" -> call Js_runtime_modules.bigarray
+  | "caml_ba_get_1" -> call Js_runtime_modules.bigarray
+  | "caml_ba_set_1" -> call Js_runtime_modules.bigarray
+  | "caml_ba_get_2" -> call Js_runtime_modules.bigarray
+  | "caml_ba_set_2" -> call Js_runtime_modules.bigarray
+  | "caml_ba_get_3" -> call Js_runtime_modules.bigarray
+  | "caml_ba_set_3" -> call Js_runtime_modules.bigarray
+  | "caml_ba_fill" -> call Js_runtime_modules.bigarray
+  | "caml_ba_blit" -> call Js_runtime_modules.bigarray
+  | "caml_ba_sub" -> call Js_runtime_modules.bigarray
+  | "caml_ba_slice" -> call Js_runtime_modules.bigarray
+  | "caml_ba_reshape" -> call Js_runtime_modules.bigarray
+  | "caml_ba_change_layout" -> call Js_runtime_modules.bigarray
   | _ ->
       Location.prerr_warning loc (Mel_unimplemented_primitive prim_name);
       E.resolve_and_apply prim_name args
