@@ -302,4 +302,61 @@ let () =
   eq __LOC__ (caml_ba_get_generic ba [| |]) 42.0;
   ()
 
+(* === C-external caml_ba_get/set/dim primitives ===
+   These externals are dispatched through lam_dispatch_primitive.ml
+   to the Caml_bigarray runtime module *)
+external ba_get_1 : 'a -> int -> 'b = "caml_ba_get_1"
+external ba_set_1 : 'a -> int -> 'b -> unit = "caml_ba_set_1"
+external ba_unsafe_get_1 : 'a -> int -> 'b = "caml_ba_get_1"
+external ba_unsafe_set_1 : 'a -> int -> 'b -> unit = "caml_ba_set_1"
+external ba_dim_1 : 'a -> int = "caml_ba_dim_1"
+external ba_get_2 : 'a -> int -> int -> 'b = "caml_ba_get_2"
+external ba_set_2 : 'a -> int -> int -> 'b -> unit = "caml_ba_set_2"
+external ba_dim_2 : 'a -> int = "caml_ba_dim_2"
+external ba_get_3 : 'a -> int -> int -> int -> 'b = "caml_ba_get_3"
+external ba_set_3 : 'a -> int -> int -> int -> 'b -> unit = "caml_ba_set_3"
+external ba_dim_3 : 'a -> int = "caml_ba_dim_3"
+
+(* Test caml_ba_get_1 / caml_ba_set_1 (1D) *)
+let () =
+  let ba = caml_ba_create float64_kind c_layout [| 5 |] in
+  ba_set_1 ba 0 10.0;
+  ba_set_1 ba 4 40.0;
+  eq __LOC__ (ba_get_1 ba 0) 10.0;
+  eq __LOC__ (ba_get_1 ba 4) 40.0;
+  eq __LOC__ (ba_dim_1 ba) 5;
+  (* unsafe variants *)
+  ba_unsafe_set_1 ba 2 20.0;
+  eq __LOC__ (ba_unsafe_get_1 ba 2) 20.0;
+  ()
+
+(* Test caml_ba_get_2 / caml_ba_set_2 (2D) *)
+let () =
+  let ba = caml_ba_create int_kind c_layout [| 3; 4 |] in
+  ba_set_2 ba 1 2 42;
+  eq __LOC__ (ba_get_2 ba 1 2) 42;
+  eq __LOC__ (ba_dim_1 ba) 3;
+  eq __LOC__ (ba_dim_2 ba) 4;
+  ()
+
+(* Test caml_ba_get_3 / caml_ba_set_3 (3D) *)
+let () =
+  let ba = caml_ba_create int_kind c_layout [| 2; 3; 4 |] in
+  ba_set_3 ba 1 2 3 99;
+  eq __LOC__ (ba_get_3 ba 1 2 3) 99;
+  eq __LOC__ (ba_dim_3 ba) 4;
+  ()
+
+(* Test Fortran layout with compiler primitives *)
+let () =
+  let ba = caml_ba_create float64_kind fortran_layout [| 5 |] in
+  ba_set_1 ba 1 100.0;
+  ba_set_1 ba 5 500.0;
+  eq __LOC__ (ba_get_1 ba 1) 100.0;
+  eq __LOC__ (ba_get_1 ba 5) 500.0;
+  (* bounds check still works *)
+  throw __LOC__ (fun () -> ignore (ba_get_1 ba 0));
+  throw __LOC__ (fun () -> ignore (ba_get_1 ba 6));
+  ()
+
 let () = Mt.from_pair_suites __MODULE__ !suites
