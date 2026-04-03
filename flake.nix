@@ -28,11 +28,12 @@
                 ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (
                   oself: osuper: {
                     dune_3 = osuper.dune_3.overrideAttrs (_: {
+                      # https://github.com/ocaml/dune/pull/14018
                       src = super.fetchFromGitHub {
                         owner = "ocaml";
                         repo = "dune";
-                        rev = "2da3f7adfcc93c82b52578d29cc7616823207c84";
-                        hash = "sha256-3uitSVvt3Kkz6wUDls9l179wds55UCuTUStjG7Cxc7Y=";
+                        rev = "12f217f521ce4081aa918fb4e2a1665f88065825";
+                        hash = "sha256-exZoStJLV00OT1FF8popRh07DU9d7vcxx1Kukts8a3U=";
                       };
                     });
                   }
