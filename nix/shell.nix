@@ -10,7 +10,7 @@
   ocamlPackages,
   git,
   python3,
-  nodePackages,
+  mocha,
   release-mode ? false,
 }:
 
@@ -30,7 +30,7 @@ mkShell {
       python3
       nodejs
       yarn
-      nodePackages.mocha
+      mocha
       js_of_ocaml-compiler
     ]
     ++ lib.optionals release-mode ([

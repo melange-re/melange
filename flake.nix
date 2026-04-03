@@ -27,8 +27,13 @@
               self: super: {
                 ocamlPackages = super.ocaml-ng.ocamlPackages_5_4.overrideScope (
                   oself: osuper: {
-                    ppxlib_0_37 = osuper.ppxlib.overrideAttrs (o: {
-                      propagatedBuildInputs = o.propagatedBuildInputs ++ [ oself.stdio ];
+                    dune_3 = osuper.dune_3.overrideAttrs (_: {
+                      src = super.fetchFromGitHub {
+                        owner = "ocaml";
+                        repo = "dune";
+                        rev = "2da3f7adfcc93c82b52578d29cc7616823207c84";
+                        hash = "sha256-3uitSVvt3Kkz6wUDls9l179wds55UCuTUStjG7Cxc7Y=";
+                      };
                     });
                   }
                 );

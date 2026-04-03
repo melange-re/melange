@@ -1,13 +1,13 @@
 {
   stdenv,
   ocamlPackages,
-  nodePackages,
   jq,
   lib,
   git,
   tree,
   makeWrapper,
   nodejs,
+  mocha,
   melange-compiler-libs-vendor-dir,
   doCheck ? true,
 }:
@@ -67,7 +67,7 @@ buildDunePackage {
     reason
     jq
     merlin
-    nodePackages.mocha
+    mocha
   ];
   checkInputs = [
     alcotest
