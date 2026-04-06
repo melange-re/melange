@@ -6,7 +6,10 @@ const Belt__Belt_HashMapInt = require("melange.belt/belt_HashMapInt.js");
 const Belt__Belt_HashMapString = require("melange.belt/belt_HashMapString.js");
 const Belt__Belt_HashSetInt = require("melange.belt/belt_HashSetInt.js");
 const Belt__Belt_Id = require("melange.belt/belt_Id.js");
+const Belt__Belt_Map = require("melange.belt/belt_Map.js");
 const Belt__Belt_MapDict = require("melange.belt/belt_MapDict.js");
+const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
+const Belt__Belt_internalBuckets = require("melange.belt/belt_internalBuckets.js");
 const Belt__Belt_internalBucketsType = require("melange.belt/belt_internalBucketsType.js");
 const Caml = require("melange.js/caml.js");
 const Caml_hash_primitive = require("melange.js/caml_hash_primitive.js");
@@ -64,7 +67,7 @@ function bench(param) {
     }
     
   }
-  Belt__Belt_HashMap.logStats(empty);
+  Belt__Belt_internalBuckets.logStats(empty);
 }
 
 function bench2(m) {
@@ -109,7 +112,7 @@ function bench3(m) {
     table = Belt__Belt_MapDict.set(table, String(i), i, cmp);
   }
   for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
-    if (!Belt__Belt_MapDict.has(table, String(i$1), cmp)) {
+    if (!Belt__Belt_internalAVLtree.has(table, String(i$1), cmp)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -124,7 +127,7 @@ function bench3(m) {
   for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     table = Belt__Belt_MapDict.remove(table, String(i$2), cmp);
   }
-  if (Belt__Belt_MapDict.size(table) === 0) {
+  if (Belt__Belt_internalAVLtree.size(table) === 0) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -160,7 +163,7 @@ function bench4(param) {
   for (let i$2 = 0; i$2 <= 1000000; ++i$2) {
     Belt__Belt_HashMapString.remove(table, String(i$2));
   }
-  if (Belt__Belt_HashMapString.isEmpty(table)) {
+  if (table.size === 0) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -200,7 +203,7 @@ function bench5(param) {
     Belt__Belt_HashMap.remove(table, i$2);
   }
   console.timeEnd("bs_hashtbl_string_test.ml 141");
-  if (Belt__Belt_HashMap.isEmpty(table)) {
+  if (table.size === 0) {
     return;
   }
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {

@@ -2,6 +2,7 @@
 'use strict';
 
 const Mt = require("./mt.js");
+const Set_gen = require("./set_gen.js");
 const String_set = require("./string_set.js");
 
 const suites = {
@@ -35,7 +36,7 @@ for (let i = 0; i <= 99999; ++i) {
   s = String_set.add(String(i), s);
 }
 
-eq("File \"jscomp/test/string_set_test.ml\", line 16, characters 5-12", String_set.cardinal(s), 100000);
+eq("File \"jscomp/test/string_set_test.ml\", line 16, characters 5-12", Set_gen.cardinal(s), 100000);
 
 Mt.from_pair_suites("String_set_test", suites.contents);
 

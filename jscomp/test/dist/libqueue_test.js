@@ -1317,4 +1317,4 @@ module.exports = {
   Q,
   does_raise,
 }
-/* q Not a pure module */
+/*  Not a pure module */

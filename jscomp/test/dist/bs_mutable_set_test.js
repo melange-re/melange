@@ -293,64 +293,56 @@ b("File \"jscomp/test/bs_mutable_set_test.ml\", line 120, characters 4-11", Belt
   data: undefined
 }));
 
+const xs$13 = [
+  1,
+  3,
+  4,
+  5,
+  7,
+  9
+];
+
+const xs$14 = [
+  2,
+  4,
+  5,
+  6,
+  8,
+  10
+];
+
+const xs$15 = [
+  4,
+  5
+];
+
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 126, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
-  data: Belt__Belt_internalSetInt.fromArray([
-    1,
-    3,
-    4,
-    5,
-    7,
-    9
-  ])
+  data: Belt__Belt_internalSetInt.fromArray(xs$13)
 }, {
-  data: Belt__Belt_internalSetInt.fromArray([
-    2,
-    4,
-    5,
-    6,
-    8,
-    10
-  ])
+  data: Belt__Belt_internalSetInt.fromArray(xs$14)
 }), {
-  data: Belt__Belt_internalSetInt.fromArray([
-    4,
-    5
-  ])
+  data: Belt__Belt_internalSetInt.fromArray(xs$15)
 }));
 
-const xs$13 = Array_data_util.randomRange(0, 39);
+const xs$16 = Array_data_util.randomRange(0, 39);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 132, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff(aa$2, bb$2), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$13)
+  data: Belt__Belt_internalSetInt.fromArray(xs$16)
 }));
 
-const xs$14 = Array_data_util.randomRange(101, 120);
+const xs$17 = Array_data_util.randomRange(101, 120);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 134, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff(bb$2, aa$2), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$14)
-}));
-
-const xs$15 = Array_data_util.randomRange(21, 40);
-
-const xs$16 = Array_data_util.randomRange(0, 20);
-
-const xs$17 = Array_data_util.randomRange(21, 40);
-
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 136, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
-  data: Belt__Belt_internalSetInt.fromArray(xs$15)
-}, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$16)
-}), {
   data: Belt__Belt_internalSetInt.fromArray(xs$17)
 }));
 
-const xs$18 = Array_data_util.randomRange(0, 20);
+const xs$18 = Array_data_util.randomRange(21, 40);
 
-const xs$19 = Array_data_util.randomRange(21, 40);
+const xs$19 = Array_data_util.randomRange(0, 20);
 
-const xs$20 = Array_data_util.randomRange(0, 20);
+const xs$20 = Array_data_util.randomRange(21, 40);
 
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 142, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 136, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
   data: Belt__Belt_internalSetInt.fromArray(xs$18)
 }, {
   data: Belt__Belt_internalSetInt.fromArray(xs$19)
@@ -360,11 +352,11 @@ b("File \"jscomp/test/bs_mutable_set_test.ml\", line 142, characters 4-11", Belt
 
 const xs$21 = Array_data_util.randomRange(0, 20);
 
-const xs$22 = Array_data_util.randomRange(0, 40);
+const xs$22 = Array_data_util.randomRange(21, 40);
 
-const xs$23 = Array_data_util.randomRange(0, -1);
+const xs$23 = Array_data_util.randomRange(0, 20);
 
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 149, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 142, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
   data: Belt__Belt_internalSetInt.fromArray(xs$21)
 }, {
   data: Belt__Belt_internalSetInt.fromArray(xs$22)
@@ -372,10 +364,24 @@ b("File \"jscomp/test/bs_mutable_set_test.ml\", line 149, characters 4-11", Belt
   data: Belt__Belt_internalSetInt.fromArray(xs$23)
 }));
 
-const xs$24 = Array_data_util.randomRange(0, 1000);
+const xs$24 = Array_data_util.randomRange(0, 20);
+
+const xs$25 = Array_data_util.randomRange(0, 40);
+
+const xs$26 = Array_data_util.randomRange(0, -1);
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 149, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+  data: Belt__Belt_internalSetInt.fromArray(xs$24)
+}, {
+  data: Belt__Belt_internalSetInt.fromArray(xs$25)
+}), {
+  data: Belt__Belt_internalSetInt.fromArray(xs$26)
+}));
+
+const xs$27 = Array_data_util.randomRange(0, 1000);
 
 const a0 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$24)
+  data: Belt__Belt_internalSetInt.fromArray(xs$27)
 };
 
 const a1 = Belt__Belt_MutableSetInt.keep(a0, (function (x) {
@@ -471,12 +477,12 @@ eq("File \"jscomp/test/bs_mutable_set_test.ml\", line 206, characters 5-12", Bel
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 207, characters 4-11", Belt__Belt_MutableSetInt.isEmpty(v$3));
 
-const xs$25 = Belt__Belt_Array.makeBy(30, (function (i) {
+const xs$28 = Belt__Belt_Array.makeBy(30, (function (i) {
   return i;
 }));
 
 const v$4 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$25)
+  data: Belt__Belt_internalSetInt.fromArray(xs$28)
 };
 
 Belt__Belt_MutableSetInt.remove(v$4, 30);
@@ -592,10 +598,10 @@ id("File \"jscomp/test/bs_mutable_set_test.ml\", line 239, characters 5-12", [
 
 id("File \"jscomp/test/bs_mutable_set_test.ml\", line 240, characters 5-12", Array_data_util.range(0, 1000));
 
-const xs$26 = Array_data_util.randomRange(0, 1000);
+const xs$29 = Array_data_util.randomRange(0, 1000);
 
 const v$5 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$26)
+  data: Belt__Belt_internalSetInt.fromArray(xs$29)
 };
 
 const copyV = Belt__Belt_MutableSetInt.keep(v$5, (function (x) {
@@ -626,199 +632,205 @@ b("File \"jscomp/test/bs_mutable_set_test.ml\", line 253, characters 4-11", Belt
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 254, characters 4-11", Belt__Belt_MutableSetInt.eq(cc$1, match$5[1]));
 
-const xs$27 = Array_data_util.randomRange(0, 1000);
+const xs$30 = Array_data_util.randomRange(0, 1000);
 
 const v$6 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$27)
+  data: Belt__Belt_internalSetInt.fromArray(xs$30)
 };
 
 const match$6 = Belt__Belt_MutableSetInt.split(v$6, 400);
 
 const match$7 = match$6[0];
 
-const xs$28 = Array_data_util.randomRange(0, 399);
+const xs$31 = Array_data_util.randomRange(0, 399);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 259, characters 4-11", Belt__Belt_MutableSetInt.eq(match$7[0], {
-  data: Belt__Belt_internalSetInt.fromArray(xs$28)
+  data: Belt__Belt_internalSetInt.fromArray(xs$31)
 }));
 
-const xs$29 = Array_data_util.randomRange(401, 1000);
+const xs$32 = Array_data_util.randomRange(401, 1000);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 260, characters 4-11", Belt__Belt_MutableSetInt.eq(match$7[1], {
-  data: Belt__Belt_internalSetInt.fromArray(xs$29)
+  data: Belt__Belt_internalSetInt.fromArray(xs$32)
 }));
 
-const xs$30 = Belt__Belt_Array.map(Array_data_util.randomRange(0, 1000), (function (x) {
+const xs$33 = Belt__Belt_Array.map(Array_data_util.randomRange(0, 1000), (function (x) {
   return (x << 1);
 }));
 
 const d = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$30)
+  data: Belt__Belt_internalSetInt.fromArray(xs$33)
 };
 
 const match$8 = Belt__Belt_MutableSetInt.split(d, 1001);
 
 const match$9 = match$8[0];
 
-const xs$31 = Belt__Belt_Array.makeBy(501, (function (x) {
+const xs$34 = Belt__Belt_Array.makeBy(501, (function (x) {
   return (x << 1);
 }));
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 263, characters 4-11", Belt__Belt_MutableSetInt.eq(match$9[0], {
-  data: Belt__Belt_internalSetInt.fromArray(xs$31)
+  data: Belt__Belt_internalSetInt.fromArray(xs$34)
 }));
 
-const xs$32 = Belt__Belt_Array.makeBy(500, (function (x) {
+const xs$35 = Belt__Belt_Array.makeBy(500, (function (x) {
   return 1002 + (x << 1) | 0;
 }));
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 264, characters 4-11", Belt__Belt_MutableSetInt.eq(match$9[1], {
-  data: Belt__Belt_internalSetInt.fromArray(xs$32)
+  data: Belt__Belt_internalSetInt.fromArray(xs$35)
 }));
 
-const xs$33 = Array_data_util.randomRange(0, 100);
+const xs$36 = Array_data_util.randomRange(0, 100);
 
 const aa$3 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$33)
+  data: Belt__Belt_internalSetInt.fromArray(xs$36)
 };
 
-const xs$34 = Array_data_util.randomRange(40, 120);
+const xs$37 = Array_data_util.randomRange(40, 120);
 
 const bb$3 = {
-  data: Belt__Belt_internalSetInt.fromArray(xs$34)
+  data: Belt__Belt_internalSetInt.fromArray(xs$37)
 };
 
 const cc$2 = Belt__Belt_MutableSetInt.union(aa$3, bb$3);
 
-const xs$35 = Array_data_util.randomRange(0, 120);
+const xs$38 = Array_data_util.randomRange(0, 120);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 274, characters 4-11", Belt__Belt_MutableSetInt.eq(cc$2, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$35)
+  data: Belt__Belt_internalSetInt.fromArray(xs$38)
 }));
 
-const xs$36 = Array_data_util.randomRange(0, 20);
+const xs$39 = Array_data_util.randomRange(0, 20);
 
-const xs$37 = Array_data_util.randomRange(21, 40);
+const xs$40 = Array_data_util.randomRange(21, 40);
 
-const xs$38 = Array_data_util.randomRange(0, 40);
+const xs$41 = Array_data_util.randomRange(0, 40);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 276, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.union({
-  data: Belt__Belt_internalSetInt.fromArray(xs$36)
+  data: Belt__Belt_internalSetInt.fromArray(xs$39)
 }, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$37)
+  data: Belt__Belt_internalSetInt.fromArray(xs$40)
 }), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$38)
+  data: Belt__Belt_internalSetInt.fromArray(xs$41)
 }));
 
 const dd$1 = Belt__Belt_MutableSetInt.intersect(aa$3, bb$3);
 
-const xs$39 = Array_data_util.randomRange(40, 100);
+const xs$42 = Array_data_util.randomRange(40, 100);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 281, characters 4-11", Belt__Belt_MutableSetInt.eq(dd$1, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$39)
+  data: Belt__Belt_internalSetInt.fromArray(xs$42)
 }));
-
-const xs$40 = Array_data_util.randomRange(0, 20);
-
-const xs$41 = Array_data_util.randomRange(21, 40);
-
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 282, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
-  data: Belt__Belt_internalSetInt.fromArray(xs$40)
-}, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$41)
-}), {
-  data: undefined
-}));
-
-const xs$42 = Array_data_util.randomRange(21, 40);
 
 const xs$43 = Array_data_util.randomRange(0, 20);
 
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 288, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
-  data: Belt__Belt_internalSetInt.fromArray(xs$42)
-}, {
+const xs$44 = Array_data_util.randomRange(21, 40);
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 282, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
   data: Belt__Belt_internalSetInt.fromArray(xs$43)
+}, {
+  data: Belt__Belt_internalSetInt.fromArray(xs$44)
 }), {
   data: undefined
 }));
 
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 294, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
-  data: Belt__Belt_internalSetInt.fromArray([
-    1,
-    3,
-    4,
-    5,
-    7,
-    9
-  ])
+const xs$45 = Array_data_util.randomRange(21, 40);
+
+const xs$46 = Array_data_util.randomRange(0, 20);
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 288, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
+  data: Belt__Belt_internalSetInt.fromArray(xs$45)
 }, {
-  data: Belt__Belt_internalSetInt.fromArray([
-    2,
-    4,
-    5,
-    6,
-    8,
-    10
-  ])
+  data: Belt__Belt_internalSetInt.fromArray(xs$46)
 }), {
-  data: Belt__Belt_internalSetInt.fromArray([
-    4,
-    5
-  ])
+  data: undefined
 }));
 
-const xs$44 = Array_data_util.randomRange(0, 39);
+const xs$47 = [
+  1,
+  3,
+  4,
+  5,
+  7,
+  9
+];
+
+const xs$48 = [
+  2,
+  4,
+  5,
+  6,
+  8,
+  10
+];
+
+const xs$49 = [
+  4,
+  5
+];
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 294, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.intersect({
+  data: Belt__Belt_internalSetInt.fromArray(xs$47)
+}, {
+  data: Belt__Belt_internalSetInt.fromArray(xs$48)
+}), {
+  data: Belt__Belt_internalSetInt.fromArray(xs$49)
+}));
+
+const xs$50 = Array_data_util.randomRange(0, 39);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 300, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff(aa$3, bb$3), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$44)
+  data: Belt__Belt_internalSetInt.fromArray(xs$50)
 }));
 
-const xs$45 = Array_data_util.randomRange(101, 120);
+const xs$51 = Array_data_util.randomRange(101, 120);
 
 b("File \"jscomp/test/bs_mutable_set_test.ml\", line 302, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff(bb$3, aa$3), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$45)
-}));
-
-const xs$46 = Array_data_util.randomRange(21, 40);
-
-const xs$47 = Array_data_util.randomRange(0, 20);
-
-const xs$48 = Array_data_util.randomRange(21, 40);
-
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 304, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
-  data: Belt__Belt_internalSetInt.fromArray(xs$46)
-}, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$47)
-}), {
-  data: Belt__Belt_internalSetInt.fromArray(xs$48)
-}));
-
-const xs$49 = Array_data_util.randomRange(0, 20);
-
-const xs$50 = Array_data_util.randomRange(21, 40);
-
-const xs$51 = Array_data_util.randomRange(0, 20);
-
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 310, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
-  data: Belt__Belt_internalSetInt.fromArray(xs$49)
-}, {
-  data: Belt__Belt_internalSetInt.fromArray(xs$50)
-}), {
   data: Belt__Belt_internalSetInt.fromArray(xs$51)
 }));
 
-const xs$52 = Array_data_util.randomRange(0, 20);
+const xs$52 = Array_data_util.randomRange(21, 40);
 
-const xs$53 = Array_data_util.randomRange(0, 40);
+const xs$53 = Array_data_util.randomRange(0, 20);
 
-const xs$54 = Array_data_util.randomRange(0, -1);
+const xs$54 = Array_data_util.randomRange(21, 40);
 
-b("File \"jscomp/test/bs_mutable_set_test.ml\", line 317, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 304, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
   data: Belt__Belt_internalSetInt.fromArray(xs$52)
 }, {
   data: Belt__Belt_internalSetInt.fromArray(xs$53)
 }), {
   data: Belt__Belt_internalSetInt.fromArray(xs$54)
+}));
+
+const xs$55 = Array_data_util.randomRange(0, 20);
+
+const xs$56 = Array_data_util.randomRange(21, 40);
+
+const xs$57 = Array_data_util.randomRange(0, 20);
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 310, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+  data: Belt__Belt_internalSetInt.fromArray(xs$55)
+}, {
+  data: Belt__Belt_internalSetInt.fromArray(xs$56)
+}), {
+  data: Belt__Belt_internalSetInt.fromArray(xs$57)
+}));
+
+const xs$58 = Array_data_util.randomRange(0, 20);
+
+const xs$59 = Array_data_util.randomRange(0, 40);
+
+const xs$60 = Array_data_util.randomRange(0, -1);
+
+b("File \"jscomp/test/bs_mutable_set_test.ml\", line 317, characters 4-11", Belt__Belt_MutableSetInt.eq(Belt__Belt_MutableSetInt.diff({
+  data: Belt__Belt_internalSetInt.fromArray(xs$58)
+}, {
+  data: Belt__Belt_internalSetInt.fromArray(xs$59)
+}), {
+  data: Belt__Belt_internalSetInt.fromArray(xs$60)
 }));
 
 Mt.from_pair_suites("Bs_mutable_set_test", suites.contents);
@@ -844,4 +856,4 @@ module.exports = {
   f,
   $eq$tilde,
 }
-/* u Not a pure module */
+/* xs Not a pure module */

@@ -39,7 +39,7 @@ function empty(param) {
   };
 }
 
-const u = fromArray(Array_data_util.range(0, 30));
+const u = Belt__Belt_MutableSet.fromArray(Array_data_util.range(0, 30), IntCmp);
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 18, characters 4-11", Belt__Belt_MutableSet.removeCheck(u, 0));
 
@@ -115,7 +115,7 @@ Belt__Belt_MutableSet.removeMany(u, Array_data_util.randomRange(10000, 30000));
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 56, characters 4-11", Belt__Belt_MutableSet.isEmpty(u));
 
-const v = fromArray(Array_data_util.randomRange(1000, 2000));
+const v = Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(1000, 2000), IntCmp);
 
 const bs = Belt__Belt_Array.map(Array_data_util.randomRange(500, 1499), (function (x) {
   return Belt__Belt_MutableSet.removeCheck(v, x);
@@ -232,60 +232,60 @@ b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 94, characters 4-11", 
 
 b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 95, characters 4-11", Belt__Belt_MutableSet.isEmpty(Belt__Belt_MutableSet.intersect(aa$1, bb$1)));
 
-const aa$2 = fromArray(Array_data_util.randomRange(0, 100));
+const aa$2 = Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 100), IntCmp);
 
-const bb$2 = fromArray(Array_data_util.randomRange(40, 120));
+const bb$2 = Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(40, 120), IntCmp);
 
 const cc = Belt__Belt_MutableSet.union(aa$2, bb$2);
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 104, characters 4-11", Belt__Belt_MutableSet.eq(cc, fromArray(Array_data_util.randomRange(0, 120))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 104, characters 4-11", Belt__Belt_MutableSet.eq(cc, Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 120), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 106, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.union(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(21, 40))), fromArray(Array_data_util.randomRange(0, 40))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 106, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.union(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp)), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 40), IntCmp)));
 
 const dd = Belt__Belt_MutableSet.intersect(aa$2, bb$2);
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 111, characters 4-11", Belt__Belt_MutableSet.eq(dd, fromArray(Array_data_util.randomRange(40, 100))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 111, characters 4-11", Belt__Belt_MutableSet.eq(dd, Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(40, 100), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 112, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(21, 40))), {
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 112, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp)), {
   cmp: IntCmp.cmp,
   data: undefined
 }));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 118, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(fromArray(Array_data_util.randomRange(21, 40)), fromArray(Array_data_util.randomRange(0, 20))), {
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 118, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp)), {
   cmp: IntCmp.cmp,
   data: undefined
 }));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 124, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(fromArray([
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 124, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.intersect(Belt__Belt_MutableSet.fromArray([
   1,
   3,
   4,
   5,
   7,
   9
-]), fromArray([
+], IntCmp), Belt__Belt_MutableSet.fromArray([
   2,
   4,
   5,
   6,
   8,
   10
-])), fromArray([
+], IntCmp)), Belt__Belt_MutableSet.fromArray([
   4,
   5
-])));
+], IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 130, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(aa$2, bb$2), fromArray(Array_data_util.randomRange(0, 39))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 130, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(aa$2, bb$2), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 39), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 132, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(bb$2, aa$2), fromArray(Array_data_util.randomRange(101, 120))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 132, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(bb$2, aa$2), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(101, 120), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 134, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(fromArray(Array_data_util.randomRange(21, 40)), fromArray(Array_data_util.randomRange(0, 20))), fromArray(Array_data_util.randomRange(21, 40))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 134, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp)), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 140, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(21, 40))), fromArray(Array_data_util.randomRange(0, 20))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 140, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(21, 40), IntCmp)), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp)));
 
-b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 147, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(fromArray(Array_data_util.randomRange(0, 20)), fromArray(Array_data_util.randomRange(0, 40))), fromArray(Array_data_util.randomRange(0, -1))));
+b("File \"jscomp/test/bs_poly_mutable_set_test.ml\", line 147, characters 4-11", Belt__Belt_MutableSet.eq(Belt__Belt_MutableSet.diff(Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 20), IntCmp), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 40), IntCmp)), Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, -1), IntCmp)));
 
-const a0 = fromArray(Array_data_util.randomRange(0, 1000));
+const a0 = Belt__Belt_MutableSet.fromArray(Array_data_util.randomRange(0, 1000), IntCmp);
 
 const a1 = Belt__Belt_MutableSet.keep(a0, (function (x) {
   return x % 2 === 0;
