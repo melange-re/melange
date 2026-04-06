@@ -106,18 +106,29 @@ let values_of_export =
         let call_summary =
           match Ident.Map.find x export_map with
           | lambda ->
+              let find_external ~dynamic_import ident name =
+                match
+                  Lam_compile_env.query_external_id_info ~dynamic_import ident
+                    name
+                with
+                | Some { arity; call_summary; _ } ->
+                    if not (Lam_call_summary.is_unknown call_summary) then
+                      call_summary
+                    else (
+                      match arity with
+                      | Single arity when not (Lam_arity.first_arity_na arity)
+                        ->
+                          Lam_call_summary.Direct_external
+                            { dynamic_import; id = ident; name }
+                      | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+                | None -> Lam_call_summary.Unknown
+              in
               Lam_call_summary.of_lambda lambda
                 ~find_ident:(fun ident ->
                   match Ident.Hashtbl.find meta.ident_tbl ident with
                   | FunctionId { call_summary; _ } -> call_summary
                   | _ | exception Not_found -> Lam_call_summary.Unknown)
-                ~find_external:(fun ~dynamic_import ident name ->
-                  match
-                    Lam_compile_env.query_external_id_info ~dynamic_import ident
-                      name
-                  with
-                  | Some { call_summary; _ } -> call_summary
-                  | None -> Lam_call_summary.Unknown)
+                ~find_external
           | exception Not_found -> Lam_call_summary.Unknown
         in
         match (arity, persistent_closed_lambda, call_summary) with

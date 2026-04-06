@@ -1,6 +1,11 @@
 type t =
   | Unknown
   | Direct_primitive of Lam_primitive.t
+  | Direct_external of {
+      dynamic_import : bool;
+      id : Ident.t;
+      name : string;
+    }
 
 val print : Format.formatter -> t -> unit
 val is_unknown : t -> bool
