@@ -161,6 +161,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
                           (match lam with
                           | Lfunction _ -> Some (lam, Lam_non_rec)
                           | _ -> None);
+                        call_summary = Lam_call_summary.Unknown;
                       }));
             {
               acc with
