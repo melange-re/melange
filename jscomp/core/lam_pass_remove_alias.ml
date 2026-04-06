@@ -78,6 +78,11 @@ let simplify_alias =
     | Js_cmj_format.Single arity -> fully_applied arity args
     | Js_cmj_format.Submodule _ -> false
   in
+  let direct_external_field ~dynamic_import ident name ~loc =
+    Lam.prim ~primitive:(Pfield (0, Fld_module { name }))
+      ~args:[ Lam.global_module ~dynamic_import ident ]
+      ~loc
+  in
   let direct_primitive_of_value value args =
     match value with
     | Lam_id_kind.FunctionId
@@ -88,6 +93,17 @@ let simplify_alias =
         }
       when fully_applied arity args ->
         Some primitive
+    | _ -> None
+  in
+  let direct_external_of_value value =
+    match value with
+    | Lam_id_kind.FunctionId
+        {
+          call_summary =
+            Lam_call_summary.Direct_external { dynamic_import; id; name };
+          _;
+        } ->
+        Some (dynamic_import, id, name)
     | _ -> None
   in
   let rec id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t)
@@ -224,6 +240,22 @@ let simplify_alias =
               ~loc:ap_info.ap_loc
         | Some
             {
+              call_summary =
+                Lam_call_summary.Direct_external
+                  { dynamic_import = dynamic_import'; id; name };
+              _;
+            }
+          when
+            not
+              (dynamic_import = dynamic_import' && Ident.same ident id
+              && String.equal fld_name name) ->
+            simpl meta
+              (Lam.apply
+                 (direct_external_field ~dynamic_import:dynamic_import' id name
+                    ~loc:ap_info.ap_loc)
+                 args ap_info)
+        | Some
+            {
               persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
               _;
             }
@@ -260,7 +292,15 @@ let simplify_alias =
             | Some primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
             | None -> (
-                match value with
+                match direct_external_of_value value with
+                | Some (dynamic_import, id, name) ->
+                    simpl meta
+                      (Lam.apply
+                         (direct_external_field ~dynamic_import id name
+                            ~loc:ap_info.ap_loc)
+                         ap_args ap_info)
+                | None -> (
+                    match value with
                 | FunctionId
                     {
                       lambda =
@@ -327,7 +367,7 @@ let simplify_alias =
                         | _ -> normal ()
                       else normal ()
                     else normal ()
-                | _ -> normal ()))
+                | _ -> normal ())))
         | exception Not_found -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->

@@ -3,13 +3,24 @@ open Import
 type t =
   | Unknown
   | Direct_primitive of Lam_primitive.t
+  | Direct_external of {
+      dynamic_import : bool;
+      id : Ident.t;
+      name : string;
+    }
 
 let print fmt = function
   | Unknown -> Format.fprintf fmt "Unknown"
   | Direct_primitive primitive ->
       Format.fprintf fmt "Direct(%a)" Lam_print.primitive primitive
+  | Direct_external { dynamic_import; id; name } ->
+      Format.fprintf fmt "Direct(%s%s.%s)"
+        (if dynamic_import then "import " else "")
+        (Ident.name id) name
 
-let is_unknown = function Unknown -> true | Direct_primitive _ -> false
+let is_unknown = function
+  | Unknown -> true
+  | Direct_primitive _ | Direct_external _ -> false
 
 let params_match_args (params : Ident.t list) (args : Lam.t list) =
   List.same_length params args
@@ -39,6 +50,6 @@ and of_eta_wrapper ~find_ident ~find_external params body =
   | Lam.Lapply { ap_func; ap_args; _ }
     when params_match_args params ap_args -> (
       match of_lambda ~find_ident ~find_external ap_func with
-      | Direct_primitive _ as summary -> summary
+      | (Direct_primitive _ | Direct_external _) as summary -> summary
       | Unknown -> Unknown)
   | _ -> Unknown

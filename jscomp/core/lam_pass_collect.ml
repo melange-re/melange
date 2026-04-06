@@ -60,7 +60,14 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
 let collect_info =
   let find_external ~dynamic_import ident name =
     match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
-    | Some { call_summary; _ } -> call_summary
+    | Some ({ arity; call_summary; _ } as _info) ->
+        if not (Lam_call_summary.is_unknown call_summary) then call_summary
+        else (
+          match arity with
+          | Single arity when not (Lam_arity.first_arity_na arity) ->
+              Lam_call_summary.Direct_external
+                { dynamic_import; id = ident; name }
+          | Single _ | Submodule _ -> Lam_call_summary.Unknown)
     | None -> Lam_call_summary.Unknown
   in
   let find_ident (meta : Lam_stats.t) ident =
