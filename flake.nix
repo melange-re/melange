@@ -40,9 +40,17 @@
                       src = super.fetchFromGitHub {
                         owner = "ocsigen";
                         repo = "js_of_ocaml";
-                        rev = "0213c3f2173c330c268d32639c0d7dff7108a90e";
-                        hash = "sha256-HY5yWAsV5aPs6yWZP8JyJjdZL21kv4HgxRK4orxOEjg=";
+                        rev = "8df204bc6982ae2e1d20f07f02af8c5b0ea7aff5";
+                        hash = "sha256-Z30NLi3akYvLl+YardOBY8tkMqzSbsj3ime+ajlVqPM=";
                       };
+                    });
+                    ocaml-lsp = osuper.ocaml-lsp.overrideAttrs (o: {
+                      postPatch = ''
+                        ${o.postPatch or ""}
+                        substituteInPlace ocaml-lsp-server/src/dune.ml \
+                          --replace-fail '| s -> Ok (`Mtime s.st_mtime)' \
+                                         '| s -> Ok (`Mtime (Stdune.Time.of_epoch_secs s.st_mtime))'
+                      '';
                     });
                   }
                 );
