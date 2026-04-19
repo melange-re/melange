@@ -246,11 +246,78 @@ and compile_recursive_let :
       | Lam.Lfunction _ | Lconst _ -> true
       | _ -> false)
   in
+  let rec hit_variable_outside_functions (id : Ident.t) (lam : Lam.t) =
+    match lam with
+    | Lvar other_id | Lmutvar other_id -> Ident.same id other_id
+    | Lassign (other_id, expr) ->
+        Ident.same id other_id || hit_variable_outside_functions id expr
+    | Lstaticcatch (expr1, (_, _vars), expr2) ->
+        hit_variable_outside_functions id expr1
+        || hit_variable_outside_functions id expr2
+    | Ltrywith (expr1, _exn, expr2) ->
+        hit_variable_outside_functions id expr1
+        || hit_variable_outside_functions id expr2
+    | Lfunction _ -> false
+    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
+        hit_variable_outside_functions id arg
+        || hit_variable_outside_functions id body
+    | Lletrec (decl, body) ->
+        hit_variable_outside_functions id body
+        || List.exists decl ~f:(fun (_, lam) ->
+            hit_variable_outside_functions id lam)
+    | Lfor (_v, e1, e2, _dir, e3) ->
+        hit_variable_outside_functions id e1
+        || hit_variable_outside_functions id e2
+        || hit_variable_outside_functions id e3
+    | Lconst _ | Lglobal_module _ -> false
+    | Lapply { ap_func; ap_args; _ } ->
+        hit_variable_outside_functions id ap_func
+        || List.exists ap_args ~f:(hit_variable_outside_functions id)
+    | Lprim { args; _ } ->
+        List.exists args ~f:(hit_variable_outside_functions id)
+    | Lswitch (arg, sw) -> (
+        hit_variable_outside_functions id arg
+        || List.exists sw.sw_consts ~f:(fun (_, lam) ->
+            hit_variable_outside_functions id lam)
+        || List.exists sw.sw_blocks ~f:(fun (_, lam) ->
+            hit_variable_outside_functions id lam)
+        ||
+        match sw.sw_failaction with
+        | None -> false
+        | Some lam -> hit_variable_outside_functions id lam)
+    | Lstringswitch (arg, cases, default) -> (
+        hit_variable_outside_functions id arg
+        || List.exists cases ~f:(fun (_, lam) ->
+            hit_variable_outside_functions id lam)
+        ||
+        match default with
+        | None -> false
+        | Some lam -> hit_variable_outside_functions id lam)
+    | Lstaticraise (_, args) ->
+        List.exists args ~f:(hit_variable_outside_functions id)
+    | Lifthenelse (e1, e2, e3) ->
+        hit_variable_outside_functions id e1
+        || hit_variable_outside_functions id e2
+        || hit_variable_outside_functions id e3
+    | Lsequence (e1, e2) | Lwhile (e1, e2) ->
+        hit_variable_outside_functions id e1
+        || hit_variable_outside_functions id e2
+    | Lsend (_kind, meth, obj, args, _loc) ->
+        hit_variable_outside_functions id meth
+        || hit_variable_outside_functions id obj
+        || List.exists args ~f:(hit_variable_outside_functions id)
+    | Lifused (_id, expr) -> hit_variable_outside_functions id expr
+  in
   fun ~all_bindings
     (cxt : Lam_compile_context.t)
     (id : Ident.t)
     (arg : Lam.t)
   ->
+    let has_eager_reference =
+      List.exists all_bindings ~f:(fun (other_id, other_arg) ->
+          (not (Ident.same other_id id))
+          && hit_variable_outside_functions id other_arg)
+    in
     match arg with
     | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
         (* TODO: Think about recursive value
@@ -258,8 +325,7 @@ and compile_recursive_let :
            let rec v = ref (fun _ ...
                            )
          ]}
-          [Alias] may not be exact
-      *)
+          [Alias] may not be exact *)
         let ret : Lam_compile_context.return_label =
           {
             id;
@@ -313,7 +379,7 @@ and compile_recursive_let :
             ~no_effects:(lazy (Lam_analysis.no_side_effects arg)),
           [] )
     | Lprim { primitive = Pmakeblock (_, _, _); args; _ }
-      when args_either_function_or_const args ->
+      when args_either_function_or_const args && not has_eager_reference ->
         (compile_lambda { cxt with continuation = Declare (Alias, id) } arg, [])
         (* case of lazy blocks, treat it as usual *)
     | Lprim

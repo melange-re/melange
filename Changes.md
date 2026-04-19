@@ -1,3 +1,9 @@
+Unreleased
+---------------
+
+- fix: code generation for lazy rec forward references
+  ([#1735](https://github.com/melange-re/melange/pull/1735))
+
 6.0.1-54 2025-11-29
 ---------------
 
