@@ -6,6 +6,9 @@ Unreleased
 - Support OCaml 5.5 ([#1724](https://github.com/melange-re/melange/pull/1724))
 - Upgrade Stdlib to the OCaml 5.5 Stdlib
   ([#1739](https://github.com/melange-re/melange/pull/1739))
+- feat: preserve safe cross-module simplifications in cmj exports when using
+  `--cross-module-opt`
+  ([#1737](https://github.com/melange-re/melange/pull/1737))
 
 6.0.1-54 2025-11-29
 ---------------

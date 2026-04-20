@@ -69,6 +69,7 @@ let values_of_export =
           | exception Not_found -> None
           | _ when not !Js_config.cross_module_inline -> None
           | lambda -> (
+              let lambda = Lam_pass_remove_alias.simplify_alias meta lambda in
               match
                 Lam_analysis.safe_to_inline lambda
                 (* when inlining a non function, we have to be very careful,

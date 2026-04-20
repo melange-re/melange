@@ -96,6 +96,61 @@ let simplify_alias =
     | (exception Not_found) ->
         Eval_unknown
   in
+  let arg_is_parameter (tbl : Lam_id_kind.t Ident.Hashtbl.t) = function
+    | Lam.Lvar p | Lam.Lmutvar p -> (
+        match Ident.Hashtbl.find tbl p with
+        | Parameter -> true
+        | _ | exception Not_found -> false)
+    | _ -> false
+  in
+  let rec contains_global_module (lam : Lam.t) =
+    match lam with
+    | Lam.Lglobal_module _ -> true
+    | Lam.Lvar _ | Lam.Lmutvar _ | Lam.Lconst _ -> false
+    | Lam.Lapply { ap_func; ap_args; _ } ->
+        contains_global_module ap_func
+        || List.exists ap_args ~f:contains_global_module
+    | Lam.Lfunction { body; _ } -> contains_global_module body
+    | Lam.Llet (_, _, arg, body) | Lam.Lmutlet (_, arg, body) ->
+        contains_global_module arg || contains_global_module body
+    | Lam.Lletrec (bindings, body) ->
+        List.exists bindings ~f:(fun (_, lam) -> contains_global_module lam)
+        || contains_global_module body
+    | Lam.Lprim { args; _ } -> List.exists args ~f:contains_global_module
+    | Lam.Lswitch (lam, { sw_consts; sw_blocks; sw_failaction; _ }) ->
+        contains_global_module lam
+        || List.exists sw_consts ~f:(fun (_, lam) -> contains_global_module lam)
+        || List.exists sw_blocks ~f:(fun (_, lam) -> contains_global_module lam)
+        ||
+        (match sw_failaction with
+        | Some lam -> contains_global_module lam
+        | None -> false)
+    | Lam.Lstringswitch (lam, cases, default) ->
+        contains_global_module lam
+        || List.exists cases ~f:(fun (_, lam) -> contains_global_module lam)
+        ||
+        (match default with
+        | Some lam -> contains_global_module lam
+        | None -> false)
+    | Lam.Lstaticraise (_, lams) -> List.exists lams ~f:contains_global_module
+    | Lam.Lstaticcatch (lam1, _, lam2) | Lam.Ltrywith (lam1, _, lam2)
+    | Lam.Lsequence (lam1, lam2) | Lam.Lwhile (lam1, lam2) ->
+        contains_global_module lam1 || contains_global_module lam2
+    | Lam.Lifthenelse (lam1, lam2, lam3) ->
+        contains_global_module lam1 || contains_global_module lam2
+        || contains_global_module lam3
+    | Lam.Lfor (_, lam1, lam2, _, lam3) ->
+        contains_global_module lam1 || contains_global_module lam2
+        || contains_global_module lam3
+    | Lam.Lassign (_, lam) | Lam.Lifused (_, lam) -> contains_global_module lam
+    | Lam.Lsend (_, meth, obj, args, _) ->
+        contains_global_module meth || contains_global_module obj
+        || List.exists args ~f:contains_global_module
+  in
+  let cross_module_parameter_result_is_safe (lam : Lam.t) =
+    Lam_analysis.size lam < Lam_analysis.small_inline_size
+    && not (contains_global_module lam)
+  in
   let rec simpl (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     match lam with
     | Lvar _ | Lmutvar _ -> lam
@@ -196,19 +251,18 @@ let simplify_alias =
               persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
               _;
             }
-        (* be more cautious when do cross module inlining *)
-          when List.same_length params args
-               && List.for_all
-                    ~f:(fun (arg : Lam.t) ->
-                      match arg with
-                      | Lvar p | Lmutvar p -> (
-                          match Ident.Hashtbl.find meta.ident_tbl p with
-                          | v -> v <> Parameter
-                          | exception Not_found -> true)
-                      | _ -> true)
-                    args ->
-            simpl meta
-              (Lam_beta_reduce.propagate_beta_reduce meta params body args)
+          when List.same_length params args ->
+            let reduced =
+              Lam_beta_reduce.propagate_beta_reduce meta params body args
+            in
+            let has_parameter_arg =
+              List.exists args ~f:(arg_is_parameter meta.ident_tbl)
+            in
+            if
+              (not has_parameter_arg)
+              || cross_module_parameter_result_is_safe reduced
+            then simpl meta reduced
+            else Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
         | Some _ | None ->
             Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
     (* Function inlining interact with other optimizations...
