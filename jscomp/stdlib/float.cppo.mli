@@ -97,7 +97,7 @@ val pred : float -> float
    {!next_after}.
    @since 4.08 *)
 
-#ifdef BS
+#ifdef MELANGE
 external abs : float -> float = "abs" [@@mel.scope "Math"]
 #else
 external abs : float -> float = "%absfloat"
@@ -217,7 +217,7 @@ external classify_float : (float [@unboxed]) -> fpclass =
 (** Return the class of the given floating-point number:
     normal, subnormal, zero, infinite, or not a number. *)
 
-#ifdef BS
+#ifdef MELANGE
 external pow : float -> float -> float = "pow"  [@@mel.scope "Math"]
 #else
 external pow : float -> float -> float = "caml_power_float" "pow"
@@ -225,7 +225,7 @@ external pow : float -> float -> float = "caml_power_float" "pow"
 #endif
 (** Exponentiation. *)
 
-#ifdef BS
+#ifdef MELANGE
 external sqrt : float -> float =  "sqrt"  [@@mel.scope "Math"]
 #else
 external sqrt : float -> float = "caml_sqrt_float" "sqrt"
@@ -233,7 +233,7 @@ external sqrt : float -> float = "caml_sqrt_float" "sqrt"
 #endif
 (** Square root. *)
 
-#ifdef BS
+#ifdef MELANGE
 external cbrt : float -> float = "cbrt"  [@@mel.scope "Math"]
 #else
 external cbrt : float -> float = "caml_cbrt_float" "caml_cbrt"
@@ -244,7 +244,7 @@ external cbrt : float -> float = "caml_cbrt_float" "caml_cbrt"
     @since 4.13
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external exp : float -> float = "exp" [@@mel.scope "Math"]
 #else
 external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
@@ -258,14 +258,14 @@ external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
     @since 4.13
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external log : float -> float =  "log"  [@@mel.scope "Math"]
 #else
 external log : float -> float = "caml_log_float" "log" [@@unboxed] [@@noalloc]
 #endif
 (** Natural logarithm. *)
 
-#ifdef BS
+#ifdef MELANGE
 external log10 : float -> float = "log10" [@@mel.scope "Math"]
 #else
 external log10 : float -> float = "caml_log10_float" "log10"
@@ -285,7 +285,7 @@ external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
 (** [expm1 x] computes [exp x -. 1.0], giving numerically-accurate results
     even if [x] is close to [0.0]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external log1p : float -> float = "log1p"  [@@mel.scope "Math"]
 #else
 external log1p : float -> float = "caml_log1p_float" "caml_log1p"
@@ -294,28 +294,28 @@ external log1p : float -> float = "caml_log1p_float" "caml_log1p"
 (** [log1p x] computes [log(1.0 +. x)] (natural logarithm),
     giving numerically-accurate results even if [x] is close to [0.0]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external cos : float -> float = "cos"  [@@mel.scope "Math"]
 #else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 #endif
 (** Cosine.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external sin : float -> float =  "sin"  [@@mel.scope "Math"]
 #else
 external sin : float -> float = "caml_sin_float" "sin" [@@unboxed] [@@noalloc]
 #endif
 (** Sine.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external tan : float -> float =  "tan"  [@@mel.scope "Math"]
 #else
 external tan : float -> float = "caml_tan_float" "tan" [@@unboxed] [@@noalloc]
 #endif
 (** Tangent.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external acos : float -> float =  "acos"  [@@mel.scope "Math"]
 #else
 external acos : float -> float = "caml_acos_float" "acos"
@@ -324,7 +324,7 @@ external acos : float -> float = "caml_acos_float" "acos"
 (** Arc cosine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [0.0] and [pi]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external asin : float -> float = "asin"  [@@mel.scope "Math"]
 #else
 external asin : float -> float = "caml_asin_float" "asin"
@@ -333,7 +333,7 @@ external asin : float -> float = "caml_asin_float" "asin"
 (** Arc sine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external atan : float -> float = "atan"  [@@mel.scope "Math"]
 #else
 external atan : float -> float = "caml_atan_float" "atan"
@@ -342,7 +342,7 @@ external atan : float -> float = "caml_atan_float" "atan"
 (** Arc tangent.
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external atan2 : float -> float -> float = "atan2"  [@@mel.scope "Math"]
 #else
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
@@ -360,7 +360,7 @@ external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
     to origin.  If one of [x] or [y] is infinite, returns [infinity]
     even if the other is [nan]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external cosh : float -> float = "cosh"  [@@mel.scope "Math"]
 #else
 external cosh : float -> float = "caml_cosh_float" "cosh"
@@ -368,7 +368,7 @@ external cosh : float -> float = "caml_cosh_float" "cosh"
 #endif
 (** Hyperbolic cosine.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external sinh : float -> float = "sinh"  [@@mel.scope "Math"]
 #else
 external sinh : float -> float = "caml_sinh_float" "sinh"
@@ -376,7 +376,7 @@ external sinh : float -> float = "caml_sinh_float" "sinh"
 #endif
 (** Hyperbolic sine.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external tanh : float -> float =  "tanh"  [@@mel.scope "Math"]
 #else
 external tanh : float -> float = "caml_tanh_float" "tanh"
@@ -384,7 +384,7 @@ external tanh : float -> float = "caml_tanh_float" "tanh"
 #endif
 (** Hyperbolic tangent.  Argument is in radians. *)
 
-#ifdef BS
+#ifdef MELANGE
 external acosh : float -> float = "acosh"   [@@mel.scope "Math"]
 #else
 external acosh : float -> float = "caml_acosh_float" "caml_acosh"
@@ -397,7 +397,7 @@ external acosh : float -> float = "caml_acosh_float" "caml_acosh"
     @since 4.13
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external asinh : float -> float = "asinh"  [@@mel.scope "Math"]
 #else
 external asinh : float -> float = "caml_asinh_float" "caml_asinh"
@@ -410,7 +410,7 @@ external asinh : float -> float = "caml_asinh_float" "caml_asinh"
     @since 4.13
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external atanh : float -> float =  "atanh"  [@@mel.scope "Math"]
 #else
 external atanh : float -> float = "caml_atanh_float" "caml_atanh"
@@ -440,7 +440,7 @@ external erfc : float -> float = "caml_erfc_float" "caml_erfc"
     @since 4.13
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external trunc : float -> float = "trunc" [@@mel.scope "Math"]
 #else
 external trunc : float -> float = "caml_trunc_float" "caml_trunc"
@@ -451,7 +451,7 @@ external trunc : float -> float = "caml_trunc_float" "caml_trunc"
 
    @since 4.08 *)
 
-#ifdef BS
+#ifdef MELANGE
 external round : float -> float =  "round"  [@@mel.scope "Math"]
 #else
 external round : float -> float = "caml_round_float" "caml_round"
@@ -467,7 +467,7 @@ external round : float -> float = "caml_round_float" "caml_round"
 
    @since 4.08 *)
 
-#ifdef BS
+#ifdef MELANGE
 external ceil : float -> float =  "ceil"  [@@mel.scope "Math"]
 #else
 external ceil : float -> float = "caml_ceil_float" "ceil"
@@ -477,7 +477,7 @@ external ceil : float -> float = "caml_ceil_float" "ceil"
     [ceil f] returns the least integer value greater than or equal to [f].
     The result is returned as a float. *)
 
-#ifdef BS
+#ifdef MELANGE
 external floor : float -> float =  "floor"  [@@mel.scope "Math"]
 #else
 external floor : float -> float = "caml_floor_float" "floor"
@@ -677,7 +677,7 @@ module Array : sig
       @raise Invalid_argument if
       [length v1 + length v2 > Sys.max_floatarray_length]. *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
   val concat : t list -> t
   (** Same as {!append}, but concatenates a list of floatarrays. *)
@@ -1000,7 +1000,7 @@ module Array : sig
 end
 (** Float arrays with packed representation. *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 module ArrayLabels : sig
   type t = floatarray

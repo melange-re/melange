@@ -46,7 +46,7 @@ let flip_ongoing_traversal h =
 (* To pick random seeds if requested *)
 
 let randomized_default =
-#ifdef BS
+#ifdef MELANGE
 false
 #else
   let params =
@@ -70,7 +70,7 @@ let prng_key = Domain.DLS.new_key Random.State.make_self_init
 
 let rec power_2_above x n =
   if x >= n then x
-#ifdef BS
+#ifdef MELANGE
   else if x * 2 < x then x (* overflow *)
 #else
   else if x * 2 > Sys.max_array_length then x
@@ -152,7 +152,7 @@ let resize indexfun h =
   let odata = h.data in
   let osize = Array.length odata in
   let nsize = osize * 2 in
-#ifdef BS
+#ifdef MELANGE
   if  nsize >= osize then begin
 #else
   if nsize < Sys.max_array_length then begin

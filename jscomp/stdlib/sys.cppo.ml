@@ -22,7 +22,7 @@ type backend_type =
 
 (* external get_config: unit -> string * int * bool = "caml_sys_get_config" *)
 external get_executable_name : unit -> string = "caml_sys_executable_name"
-#ifndef BS
+#ifndef MELANGE
 external get_proc_self_exe : unit -> string option = "caml_sys_proc_self_exe"
 #endif
 external argv : string array = "%sys_argv"
@@ -37,7 +37,7 @@ external get_backend_type : unit -> backend_type = "%backend_type"
 
 let executable_name = get_executable_name()
 
-#ifdef BS
+#ifdef MELANGE
 let runtime_executable = executable_name
 external get_os_type : unit -> string = "#os_type"
 let os_type = get_os_type ()
@@ -56,7 +56,7 @@ let unix = unix ()
 let win32 = win32 ()
 let cygwin = cygwin ()
 
-#ifdef BS
+#ifdef MELANGE
 let max_array_length = 2147483647 (* 2^ 31 - 1 *)
 let max_floatarray_length = 2147483647
 let max_string_length = 2147483647
@@ -68,7 +68,7 @@ let max_string_length = word_size / 8 * max_array_length - 1
 external runtime_variant : unit -> string = "caml_runtime_variant"
 external runtime_parameters : unit -> string = "caml_runtime_parameters"
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external poll_actions : unit -> unit = "%poll"
 #endif
@@ -81,7 +81,7 @@ external rename : string -> string -> unit = "caml_sys_rename"
 external getenv: string -> string = "caml_sys_getenv"
 
 
-#ifdef BS
+#ifdef MELANGE
 external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 let getenv_opt s =
     match [%external process ] with
@@ -100,7 +100,7 @@ external rmdir: string -> unit = "caml_sys_rmdir"
 external getcwd: unit -> string = "caml_sys_getcwd"
 external readdir : string -> string array = "caml_sys_read_directory"
 
-#ifdef BS
+#ifdef MELANGE
 let io_buffer_size = 65536
 #else
 external io_buffer_size: unit -> int = "caml_sys_io_buffer_size"

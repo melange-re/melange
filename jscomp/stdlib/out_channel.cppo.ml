@@ -46,7 +46,7 @@ let with_open_text s f =
 let with_open_gen flags perm s f =
   with_open (Stdlib.open_out_gen flags perm) s f
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external unsafe_output_bigarray :
   t -> _ Bigarray.Array1.t -> int -> int -> unit
@@ -66,7 +66,7 @@ let output_string = Stdlib.output_string
 let output_bytes = Stdlib.output_bytes
 let output = Stdlib.output
 let output_substring = Stdlib.output_substring
-#ifdef BS
+#ifdef MELANGE
 #else
 let output_bigarray oc buf ofs len =
   if ofs < 0 || len < 0 || ofs > Bigarray.Array1.dim buf - len

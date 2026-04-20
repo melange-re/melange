@@ -15,7 +15,7 @@
 
 (* Exceptions *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external register_named_value : string -> 'a -> unit
                               = "caml_register_named_value"
@@ -74,7 +74,7 @@ external ( <= ) : 'a -> 'a -> bool = "%lessequal"
 external ( >= ) : 'a -> 'a -> bool = "%greaterequal"
 external compare : 'a -> 'a -> int = "%compare"
 
-#ifdef BS
+#ifdef MELANGE
 external min : 'a -> 'a -> 'a = "%bs_min"
 external max : 'a -> 'a -> 'a = "%bs_max"
 #else
@@ -127,7 +127,7 @@ external ( -. ) : float -> float -> float = "%subfloat"
 external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
-#ifdef BS
+#ifdef MELANGE
 external ( ** ) : float -> float -> float = "pow"  [@@mel.scope "Math"]
 external exp : float -> float = "exp" [@@mel.scope "Math"]
 #else
@@ -138,7 +138,7 @@ external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
 external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
   [@@unboxed] [@@noalloc]
 
-#ifdef BS
+#ifdef MELANGE
 external acos : float -> float =  "acos"  [@@mel.scope "Math"]
 external asin : float -> float = "asin"  [@@mel.scope "Math"]
 external atan : float -> float = "atan"  [@@mel.scope "Math"]
@@ -156,7 +156,7 @@ external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
 external hypot : float -> float -> float
                = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
 
-#ifdef BS
+#ifdef MELANGE
 external cos : float -> float = "cos"  [@@mel.scope "Math"]
 external cosh : float -> float = "cosh"  [@@mel.scope "Math"]
 external acosh : float -> float = "acosh"   [@@mel.scope "Math"]
@@ -218,7 +218,7 @@ external truncate : float -> int = "%intoffloat"
 external int_of_float : float -> int = "%intoffloat"
 
 (* better unused finding *)
-#ifdef BS
+#ifdef MELANGE
 #else
 external float_of_bits : int64 -> float
   = "caml_int64_float_of_bits" "caml_int64_float_of_bits_unboxed"
@@ -226,7 +226,7 @@ external float_of_bits : int64 -> float
 
 #endif
 
-#ifdef BS
+#ifdef MELANGE
 let infinity = 0x1p2047
 let neg_infinity = -0x1p2047
 external nan : float = "NaN"
@@ -256,7 +256,7 @@ type fpclass =
   | FP_infinite
   | FP_nan
 
-#ifdef BS
+#ifdef MELANGE
 let classify_float (x : float) : fpclass =
   if ([%raw{|isFinite|}] : _ -> _ [@u]) x [@u] then
     if abs_float x >= (* 0x1p-1022 *) (* 2.22507385850720138e-308*) min_float  then
@@ -277,7 +277,7 @@ external classify_float : (float [@unboxed]) -> fpclass =
 external string_length : string -> int = "%string_length"
 external bytes_length : bytes -> int = "%bytes_length"
 external bytes_create : int -> bytes = "caml_create_bytes"
-#ifdef BS
+#ifdef MELANGE
 #else
 external string_blit : string -> int -> bytes -> int -> int -> unit
                      = "caml_blit_string" [@@noalloc]
@@ -286,7 +286,7 @@ external bytes_blit : bytes -> int -> bytes -> int -> int -> unit
                         = "caml_blit_bytes" [@@noalloc]
 external bytes_unsafe_to_string : bytes -> string = "%bytes_to_string"
 
-#ifdef BS
+#ifdef MELANGE
 external (^) : string -> string -> string = "#string_append"
 #else
 let ( ^ ) s1 s2 =
@@ -328,7 +328,7 @@ type ('a,'b) result = Ok of 'a | Error of 'b
 
 (* String conversion functions *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external format_int : string -> int -> string = "caml_format_int"
 #endif
@@ -347,7 +347,7 @@ let bool_of_string_opt = function
   | "false" -> Some false
   | _ -> None
 
-#ifdef BS
+#ifdef MELANGE
 external string_of_int : int -> string = "String"
 #else
 let string_of_int n =
@@ -578,7 +578,7 @@ let print_bytes s = output_bytes stdout s
 let print_int i = output_string stdout (string_of_int i)
 let print_float f = output_string stdout (string_of_float f)
 
-#ifdef BS
+#ifdef MELANGE
 external print_endline : string -> unit = "log"
  [@@mel.scope "console"]
 #else
@@ -594,7 +594,7 @@ let prerr_string s = output_string stderr s
 let prerr_bytes s = output_bytes stderr s
 let prerr_int i = output_string stderr (string_of_int i)
 let prerr_float f = output_string stderr (string_of_float f)
-#ifdef BS
+#ifdef MELANGE
 external prerr_endline : string -> unit = "error"
  [@@mel.scope "console"]
 #else
@@ -649,7 +649,7 @@ let ( ^^ ) (Format (fmt1, str1)) (Format (fmt2, str2)) =
 
 external sys_exit : int -> 'a = "caml_sys_exit"
 
-#ifdef BS
+#ifdef MELANGE
 #else
 (* for at_exit *)
 type 'a atomic_t
@@ -661,7 +661,7 @@ external atomic_compare_and_set : 'a atomic_t -> 'a -> 'a -> bool
 
 let exit_function = ref flush_all
 
-#ifdef BS
+#ifdef MELANGE
 let at_exit f =
   (* MPR#7253, MPR#7796: make sure "f" is executed only once *)
   let f_yet_to_run = ref true in
@@ -689,7 +689,7 @@ let rec at_exit f =
 
 let do_domain_local_at_exit = ref (fun () -> ())
 
-#ifdef BS
+#ifdef MELANGE
 let do_at_exit () =
   (!do_domain_local_at_exit) ();
   (!exit_function) ()
@@ -703,7 +703,7 @@ let exit retcode =
   do_at_exit ();
   sys_exit retcode
 
-#ifdef BS
+#ifdef MELANGE
 #else
 let _ = register_named_value "Pervasives.do_at_exit" do_at_exit
 
@@ -715,7 +715,7 @@ module Arg            = Arg
 module Array          = Array
 module ArrayLabels    = ArrayLabels
 module Atomic         = Atomic
-#ifdef BS
+#ifdef MELANGE
 #else
 module Bigarray       = Bigarray
 #endif
@@ -723,13 +723,13 @@ module Bool           = Bool
 module Buffer         = Buffer
 module Bytes          = Bytes
 module BytesLabels    = BytesLabels
-#ifdef BS
+#ifdef MELANGE
 #else
 module Callback       = Callback
 #endif
 module Char           = Char
 module Complex        = Complex
-#ifdef BS
+#ifdef MELANGE
 #else
 module Condition      = Condition
 #endif
@@ -739,7 +739,7 @@ module Dynarray       = Dynarray
 module Pqueue         = Pqueue
 module Effect         = Effect
 module Either         = Either
-#ifdef BS
+#ifdef MELANGE
 #else
 module Ephemeron      = Ephemeron
 #endif
@@ -764,7 +764,7 @@ module Map            = Map
 module Marshal        = Marshal
 module MoreLabels     = MoreLabels
 module Mutex          = Mutex
-#ifdef BS
+#ifdef MELANGE
 #else
 module Nativeint      = Nativeint
 #endif
@@ -781,7 +781,7 @@ module Random         = Random
 module Result         = Result
 module Repr           = Repr
 module Scanf          = Scanf
-#ifdef BS
+#ifdef MELANGE
 #else
 module Semaphore      = Semaphore
 #endif

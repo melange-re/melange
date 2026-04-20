@@ -158,7 +158,7 @@ external ( >= ) : 'a -> 'a -> bool = "%greaterequal"
 external compare : 'a -> 'a -> int = "%compare"
 (** Alias of {!Repr.compare}. *)
 
-#ifdef BS
+#ifdef MELANGE
 external min : 'a -> 'a -> 'a = "%bs_min"
 external max : 'a -> 'a -> 'a = "%bs_max"
 #else
@@ -450,7 +450,7 @@ external ( /. ) : float -> float -> float = "%divfloat"
     Left-associative operator, see {!Ocaml_operators} for more information.
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external ( ** ) : float -> float -> float =  "pow"  [@@mel.scope "Math"]
 (** Exponentiation. *)
 
@@ -737,7 +737,7 @@ val infinity : float
 val neg_infinity : float
 (** Negative infinity. *)
 
-#ifdef BS
+#ifdef MELANGE
 external nan : float = "NaN"   [@@mel.scope "Number"]
 (* we could also use [0.  /. 0.] *)
 #else
@@ -772,7 +772,7 @@ type fpclass =
 (** The five classes of floating-point numbers, as determined by
    the {!Stdlib.classify_float} function. *)
 
-#ifdef BS
+#ifdef MELANGE
 val classify_float : float -> fpclass
 #else
 external classify_float : (float [@unboxed]) -> fpclass =
@@ -787,7 +787,7 @@ external classify_float : (float [@unboxed]) -> fpclass =
    More string operations are provided in module {!String}.
 *)
 
-#ifdef BS
+#ifdef MELANGE
 external (^) : string -> string -> string = "#string_append"
 #else
 val ( ^ ) : string -> string -> string
@@ -842,7 +842,7 @@ val bool_of_string : string -> bool
 (** Same as {!Stdlib.bool_of_string_opt}, but raise
    [Invalid_argument "bool_of_string"] instead of returning [None]. *)
 
-#ifdef BS
+#ifdef MELANGE
 external string_of_int : int -> string = "String"
 #else
 val string_of_int : int -> string
@@ -969,7 +969,7 @@ val print_float : float -> unit
     The conversion of the number to a string uses {!string_of_float} and
     can involve a loss of precision. *)
 
-#ifdef BS
+#ifdef MELANGE
 external print_endline : string -> unit = "log"
  [@@mel.scope "console"]
 #else
@@ -1005,7 +1005,7 @@ val prerr_float : float -> unit
     The conversion of the number to a string uses {!string_of_float} and
     can involve a loss of precision. *)
 
-#ifdef BS
+#ifdef MELANGE
 external prerr_endline : string -> unit = "error"
  [@@mel.scope "console"]
 #else
@@ -1509,7 +1509,7 @@ module Arg            = Arg
 module Array          = Array
 module ArrayLabels    = ArrayLabels
 module Atomic         = Atomic
-#ifdef BS
+#ifdef MELANGE
 #else
 module Bigarray       = Bigarray
 #endif
@@ -1517,13 +1517,13 @@ module Bool           = Bool
 module Buffer         = Buffer
 module Bytes          = Bytes
 module BytesLabels    = BytesLabels
-#ifdef BS
+#ifdef MELANGE
 #else
 module Callback       = Callback
 #endif
 module Char           = Char
 module Complex        = Complex
-#ifdef BS
+#ifdef MELANGE
 #else
  module Condition      = Condition
 #endif
@@ -1541,7 +1541,7 @@ module Effect         = Effect
     "The Effect interface may change in incompatible ways in the future."
 ]
 module Either         = Either
-#ifdef BS
+#ifdef MELANGE
 #else
 module Ephemeron      = Ephemeron
 #endif
@@ -1566,7 +1566,7 @@ module Map            = Map
 module Marshal        = Marshal
 module MoreLabels     = MoreLabels
 module Mutex          = Mutex
-#ifdef BS
+#ifdef MELANGE
 #else
 module Nativeint      = Nativeint
 #endif
@@ -1583,7 +1583,7 @@ module Random         = Random
 module Result         = Result
 module Repr           = Repr
 module Scanf          = Scanf
-#ifdef BS
+#ifdef MELANGE
 #else
 module Semaphore      = Semaphore
 #endif

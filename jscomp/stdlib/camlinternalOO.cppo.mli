@@ -61,7 +61,7 @@ val make_class :
 type init_table
 val make_class_store :
     string array -> (table -> t) -> init_table -> unit
-#ifdef BS
+#ifdef MELANGE
 #else
 val dummy_class :
     string * int * int ->
@@ -76,7 +76,7 @@ val create_object_opt : obj -> table -> obj
 val run_initializers : obj -> table -> unit
 val run_initializers_opt : obj -> obj -> table -> obj
 val create_object_and_run_initializers : obj -> table -> obj
-#ifdef BS
+#ifdef MELANGE
 #else
 external send : obj -> tag -> t = "%send"
 #endif

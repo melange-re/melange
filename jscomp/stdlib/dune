@@ -8,7 +8,7 @@
     (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
    (run
     cppo
-    -D=BS
+    -D=MELANGE
     %{env:CPPO_FLAGS=}
     -V
     OCAML:%{ocaml_version}
@@ -31,7 +31,7 @@
     (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
    (run
     cppo
-    -D=BS
+    -D=MELANGE
     %{env:CPPO_FLAGS=}
     -V
     OCAML:%{ocaml_version}
@@ -64,7 +64,7 @@
  (deps array.cppo.ml)
  (target array.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps atomic.cppo.ml)
@@ -72,7 +72,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -86,7 +86,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -98,13 +98,13 @@
  (deps bool.cppo.ml)
  (target bool.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps camlinternalFormat.cppo.ml)
  (target camlinternalFormat.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps camlinternalMod.cppo.ml)
@@ -112,7 +112,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    -V
    OCAML:%{ocaml_version}
    %{env:CPPO_FLAGS=}
@@ -124,7 +124,7 @@
  (deps camlinternalMod.cppo.mli)
  (target camlinternalMod.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps camlinternalOO.cppo.ml)
@@ -132,7 +132,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    -V
    OCAML:%{ocaml_version}
    %{env:CPPO_FLAGS=}
@@ -146,7 +146,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    -V
    OCAML:%{ocaml_version}
    %{env:CPPO_FLAGS=}
@@ -158,25 +158,25 @@
  (deps float.cppo.ml)
  (target float.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps float.cppo.mli)
  (target float.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps hashtbl.cppo.ml)
  (target hashtbl.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps lexing.cppo.ml)
  (target lexing.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps iarray.cppo.ml)
@@ -184,7 +184,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -198,7 +198,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -212,7 +212,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -226,7 +226,7 @@
  (action
   (run
    cppo
-   -D=BS
+   -D=MELANGE
    %{env:CPPO_FLAGS=}
    -V
    OCAML:%{ocaml_version}
@@ -238,64 +238,64 @@
  (deps filename.cppo.ml)
  (target filename.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps in_channel.cppo.ml)
  (target in_channel.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps in_channel.cppo.mli)
  (target in_channel.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps out_channel.cppo.ml)
  (target out_channel.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps out_channel.cppo.mli)
  (target out_channel.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps parsing.cppo.ml)
  (target parsing.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps printexc.cppo.ml)
  (target printexc.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps random.cppo.ml)
  (target random.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps random.cppo.mli)
  (target random.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps sys.cppo.ml)
  (target sys.ml)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (deps sys.cppo.mli)
  (target sys.mli)
  (action
-  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))

@@ -20,7 +20,7 @@ type shape =
   | Module of shape array
   | Value of Obj.t
 
-#ifdef BS
+#ifdef MELANGE
 #else
 let rec init_mod_field modu i loc shape =
   let init =

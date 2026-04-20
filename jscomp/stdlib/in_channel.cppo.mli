@@ -136,7 +136,7 @@ val input : t -> bytes -> int -> int -> int
     @raise Invalid_argument if [pos] and [len] do not designate a valid range of
     [buf]. *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 val input_bigarray :
   t -> (_, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t ->
@@ -158,7 +158,7 @@ val really_input : t -> bytes -> int -> int -> unit option
     @raise Invalid_argument if [pos] and [len] do not designate a valid range of
     [buf]. *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 val really_input_bigarray :
   t -> (_, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t ->

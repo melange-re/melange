@@ -229,7 +229,7 @@ external runtime_parameters : unit -> string = "caml_runtime_parameters"
     as the contents of the [OCAMLRUNPARAM] environment variable.
     @since 4.03 *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external poll_actions : unit -> unit = "%poll"
 (** Run any pending runtime actions, such as minor collections, major
