@@ -149,11 +149,13 @@ val utf_8_decode_length_of_byte : char -> int
     to {!max_utf_8_decode_length}, that a valid UTF-8 decode starting
     with byte [byte] would consume or [0] if [byte] cannot start a
     valid decode.
+
     @since 5.4 *)
 
 val max_utf_8_decode_length : int
 (** [max_utf_8_decode_length] is [4], the maximal number of bytes
     a valid or invalid UTF-8 decode can consume.
+
     @since 5.4 *)
 
 val utf_8_byte_length : t -> int

@@ -164,12 +164,14 @@ val equal : eq:('a -> 'a -> bool) -> 'a array -> 'a array -> bool
 (** [equal eq a b] is [true] if and only if [a] and [b] have the
     same length [n] and for all [i] in \[[0];[n-1]\], [eq a.(i) b.(i)]
     is [true].
+
     @since 5.4 *)
 
 val compare : cmp:('a -> 'a -> int) -> 'a array -> 'a array -> int
 (** [compare cmp a b] compares [a] and [b] according to the shortlex order,
     that is, shorter arrays are smaller and equal-sized arrays are compared
     in lexicographic order using [cmp] to compare elements.
+
     @since 5.4 *)
 
 (** {1 Iterators} *)
@@ -352,6 +354,20 @@ val stable_sort : cmp:('a -> 'a -> int) -> 'a array -> unit
    length [n/2], where [n] is the length of the array.  It is usually faster
    than the current implementation of {!sort}.
 *)
+
+val stable_sort_sub :
+   cmp:('a -> 'a -> int) -> 'a array -> pos:int -> len:int -> unit
+(**[stable_sort_sub ~cmp a ~pos ~len] sorts the subarray of the array [a]
+   delimited by the start position [pos] and by the length [len]. The data
+   in this subarray is sorted in increasing order according to the comparison
+   function [cmp]. The data outside of this subarray is unaffected. The
+   sorting algorithm is stable; it is the same as in {!stable_sort}.
+
+   @raise Invalid_argument if [pos] and [len] do not
+   designate a valid subarray of [a]; that is, if
+   [pos < 0], or [len < 0], or [pos + len > length a].
+
+   @since 5.5 *)
 
 val fast_sort : cmp:('a -> 'a -> int) -> 'a array -> unit
 (** Same as {!sort} or {!stable_sort}, whichever is

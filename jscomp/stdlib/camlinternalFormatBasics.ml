@@ -689,6 +689,7 @@ fun fmt1 fmt2 -> match fmt1 with
   | End_of_format ->
     fmt2
 
+
 type neutral_concat =
   { f:
       'a 'b 'c 'd 'e 'f. [`String of string | `Char of char ] ->

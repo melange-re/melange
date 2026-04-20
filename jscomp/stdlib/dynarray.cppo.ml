@@ -183,6 +183,8 @@ module Dummy : sig
       ('a, 'stamp2) with_dummy array -> 'stamp2 dummy -> int ->
       len:int ->
       unit
+    (** Raises [Dummy_found i] if there is a dummy at any index [i] in
+        the source region. *)
 
     val prefix :
       ('a, 'stamp) with_dummy array ->
@@ -226,18 +228,31 @@ end = struct
     r := Some dummy;
     Fresh dummy
 
-  type ('a, 'stamp) with_dummy = 'a
+  (* Use an abstract type to prevent the compiler from assuming anything about
+     the representation of [with_dummy] values.
 
-  let of_val v = v
+     Representation: We explicitly use "%opaque" primitives when converting
+     to/from [with_dummy] types and/or arrays of [with_dummy] types, because
+     using "transparent" identity (e.g. `Obj.magic`) might break assumptions
+     that the compiler makes about value representations (for instance, a value
+     of type [(int, 'stamp) with_dummy array] could contain blocks, while a
+     value of type [int array] certainly does not).
 
-  let of_dummy (type a stamp) (dummy : stamp dummy) =
-    (Obj.magic dummy : (a, stamp) with_dummy)
+     While it would be possible to use transparent identity in {b some} places,
+     it would require careful reasoning to make sure it is safe to do so
+     (especially in a forward-compatible way) and it is not clear the benefit
+     is worth the effort. *)
+  type ('a, 'stamp) with_dummy
+
+  external of_val : 'a -> ('a, 'stamp) with_dummy = "%opaque"
+
+  external of_dummy : 'stamp dummy -> ('a, 'stamp) with_dummy = "%opaque"
 
   let is_dummy v dummy =
     v == of_dummy dummy
 
-  let unsafe_get v =
-    v
+  (* Safety: the argument must not be the ['stamp dummy]. *)
+  external unsafe_get : ('a, 'stamp) with_dummy -> 'a = "%opaque"
 
   module Array = struct
     let make n x ~dummy =
@@ -249,9 +264,14 @@ end = struct
         arr
       end
 
+    (* Safety: must not be called on float arrays. *)
+    external unsafe_nocopy_from_non_float_array :
+      'a array -> ('a, 'stamp) with_dummy array
+    = "%opaque"
+
     let copy_from_array a ~dummy =
       if Obj.(tag (repr a) <> double_array_tag) then
-        Array.copy a
+        unsafe_nocopy_from_non_float_array (Array.copy a)
       else begin
         let n = Array.length a in
         let arr = Array.make n (of_dummy dummy) in
@@ -264,28 +284,33 @@ end = struct
 
     let unsafe_nocopy_from_array a ~dummy =
       if Obj.(tag (repr a) <> double_array_tag) then
-        a
+        unsafe_nocopy_from_non_float_array a
       else copy_from_array a ~dummy
 
     exception Dummy_found of int
 
+    (* Safety: the argument must not contain any dummies, and must not contain
+       floats. *)
+    external unsafe_nocopy_to_non_float_array :
+      ('a, 'stamp) with_dummy array -> 'a array
+    = "%opaque"
+
     let unsafe_nocopy_to_array a ~dummy =
-      let arr =
-        if Array.length a = 0 || Obj.(tag (repr a.(0)) <> double_tag) then
-          a
-        else begin
-          let n = Array.length a in
-          let a' = Array.make n a.(0) in
-          for i = 1 to n - 1 do
-            Array.unsafe_set a' i (unsafe_get (Array.unsafe_get a i))
-          done;
-          a'
-        end
-      in
-      Array.iteri
-        (fun i v -> if is_dummy v dummy then raise (Dummy_found i))
-        arr;
-      arr
+      let n = Array.length a in
+      if n = 0 || Obj.(tag (repr a.(0)) <> double_tag) then begin
+        for i = 0 to n - 1 do
+          if is_dummy (Array.unsafe_get a i) dummy then raise (Dummy_found i)
+        done;
+        unsafe_nocopy_to_non_float_array a
+      end else begin
+        let a' = Array.make n (unsafe_get a.(0)) in
+        for i = 1 to n - 1 do
+          let v = Array.unsafe_get a i in
+          if is_dummy v dummy then raise (Dummy_found i);
+          Array.unsafe_set a' i (unsafe_get v)
+        done;
+        a'
+      end
 
     let init n f ~dummy =
       let arr = Array.make n (of_dummy dummy) in
@@ -296,16 +321,25 @@ end = struct
 
     let blit_array src src_pos dst dst_pos ~len =
       if Obj.(tag (repr src) <> double_array_tag) then
-        Array.blit src src_pos dst dst_pos len
+        Array.blit
+          (unsafe_nocopy_from_non_float_array src)
+          src_pos dst
+          dst_pos len
       else begin
         for i = 0 to len - 1 do
           dst.(dst_pos + i) <- of_val src.(src_pos + i)
         done;
       end
 
+    (* Safety: both arrays must have the same dummy, i.e. the ['stamp1 dummy]
+         and the ['stamp2 dummy] must be physically equal. *)
+    external unsafe_cast_stamp_array :
+      ('a, 'stamp1) with_dummy array -> ('a, 'stamp2) with_dummy array
+    = "%opaque"
+
     let blit src src_dummy src_pos dst dst_dummy dst_pos ~len =
       if src_dummy == dst_dummy then
-        Array.blit src src_pos dst dst_pos len
+        Array.blit (unsafe_cast_stamp_array src) src_pos dst dst_pos len
       else begin
         if len < 0
            || src_pos < 0
@@ -323,14 +357,26 @@ end = struct
         end;
         (* We failed the check [src_dummy == dst_dummy] above, so we
            know that in fact [src != dst] -- two dynarrays with
-           distinct dummies cannot share the same backing arrays. *)
-        assert (src != dst);
+           distinct dummies cannot share the same backing arrays.
+
+           We use [Obj.repr] for the comparison since [src] and [dst] have
+           different dummies. *)
+        assert (Obj.repr src != Obj.repr dst);
         (* In particular, the source and destination arrays cannot
            overlap, so we can always copy in ascending order without
-           risking overwriting an element needed later. *)
+           risking overwriting an element needed later.
+
+           We also must check for dummies (invalid state) in the source
+           array: having two different dummies in the same array would be
+           memory unsafe. *)
         for i = 0 to len - 1 do
+          let v = Array.unsafe_get src (src_pos + i) in
+          (* The combination of [of_val] and [unsafe_get] below allows to change
+             the stamp mark, which is only safe on a non-dummy value. *)
+          if is_dummy v src_dummy then
+            raise (Dummy_found (src_pos + i));
           Array.unsafe_set dst (dst_pos + i)
-            (Array.unsafe_get src (src_pos + i));
+            (of_val (unsafe_get v));
         done
       end
 
@@ -374,30 +420,30 @@ let global_dummy = Dummy.fresh ()
    parameter helps us to avoid this assumption. *)
 
 module Error = struct
-  let[@inline never] index_out_of_bounds f ~i ~length =
+  let[@inline never] index_out_of_bounds fname ~i ~length =
     if length = 0 then
       Printf.ksprintf invalid_arg
         "Dynarray.%s: index %d out of bounds (empty dynarray)"
-        f i
+        fname i
     else
       Printf.ksprintf invalid_arg
         "Dynarray.%s: index %d out of bounds (0..%d)"
-        f i (length - 1)
+        fname i (length - 1)
 
-  let[@inline never] negative_length_requested f n =
+  let[@inline never] negative_length_requested fname n =
     Printf.ksprintf invalid_arg
       "Dynarray.%s: negative length %d requested"
-      f n
+      fname n
 
-  let[@inline never] negative_capacity_requested f n =
+  let[@inline never] negative_capacity_requested fname n =
     Printf.ksprintf invalid_arg
       "Dynarray.%s: negative capacity %d requested"
-      f n
+      fname n
 
-  let[@inline never] requested_length_out_of_bounds f requested_length =
+  let[@inline never] requested_length_out_of_bounds fname requested_length =
     Printf.ksprintf invalid_arg
       "Dynarray.%s: cannot grow to requested length %d (max_array_length is %d)"
-      f requested_length Sys.max_array_length
+      fname requested_length Sys.max_array_length
 
   (* When observing an invalid state ([missing_element],
      [invalid_length]), we do not give the name of the calling function
@@ -420,23 +466,23 @@ module Error = struct
       invalid_state_description
       length capacity
 
-  let[@inline never] length_change_during_iteration f ~expected ~observed =
+  let[@inline never] length_change_during_iteration fname ~expected ~observed =
     Printf.ksprintf invalid_arg
       "Dynarray.%s: a length change from %d to %d occurred during iteration"
-      f expected observed
+      fname expected observed
 
   (* When an [Empty] element is observed unexpectedly at index [i],
      it may be either an out-of-bounds access or an invalid-state situation
      depending on whether [i <= length]. *)
-  let[@inline never] unexpected_empty_element f ~i ~length =
+  let[@inline never] unexpected_empty_element fname ~i ~length =
     if i < length then
       missing_element ~i ~length
     else
-      index_out_of_bounds f ~i ~length
+      index_out_of_bounds fname ~i ~length
 
-  let[@inline never] empty_dynarray f =
+  let[@inline never] empty_dynarray fname =
     Printf.ksprintf invalid_arg
-      "Dynarray.%s: empty array" f
+      "Dynarray.%s: empty array" fname
 
   let[@inline never] different_lengths f ~length1 ~length2 =
     Printf.ksprintf invalid_arg
@@ -448,10 +494,10 @@ end
 
    See {!iter} below for a detailed usage example.
 *)
-let check_same_length f (Pack a) ~length =
+let check_same_length fname (Pack a) ~length =
   let length_a = a.length in
   if length <> length_a then
-    Error.length_change_during_iteration f
+    Error.length_change_during_iteration fname
       ~expected:length ~observed:length_a
 
 (** Careful unsafe access. *)
@@ -738,12 +784,15 @@ let blit_assume_room
   if dst_pos + blit_length > dst_length then begin
     dst.length <- dst_pos + blit_length;
   end;
-  (* note: [src] and [dst] may be equal when self-blitting, so
-     [src.length] may have been mutated here. *)
-  Dummy.Array.blit
-    src_arr src.dummy src_pos
-    dst_arr dst.dummy dst_pos
-    ~len:blit_length
+  try
+    (* note: [src] and [dst] may be equal when self-blitting, so
+       [src.length] may have been mutated here. *)
+    Dummy.Array.blit
+      src_arr src.dummy src_pos
+      dst_arr dst.dummy dst_pos
+      ~len:blit_length
+  with Dummy.Array.Dummy_found i ->
+    Error.missing_element ~i ~length:src_length
 
 let blit ~src ~src_pos ~dst ~dst_pos ~len =
   let src_length = length src in
@@ -873,7 +922,7 @@ let append a b =
    each other and leave the length unchanged at the next check.
 *)
 
-let iter_ f k a =
+let iter_ fname f a =
   let Pack {arr; length; dummy} = a in
   (* [check_valid_length length arr] is used for memory safety, it
      guarantees that the backing array has capacity at least [length],
@@ -900,20 +949,36 @@ let iter_ f k a =
   *)
   check_valid_length length arr;
   for i = 0 to length - 1 do
-    k (unsafe_get arr ~dummy ~i ~length);
+    f (unsafe_get arr ~dummy ~i ~length);
   done;
-  check_same_length f a ~length
+  check_same_length fname a ~length
 
-let iter k a =
-  iter_ "iter" k a
+let iter f a =
+  iter_ "iter" f a
 
-let iteri k a =
+let iteri f a =
   let Pack {arr; length; dummy} = a in
   check_valid_length length arr;
   for i = 0 to length - 1 do
-    k i (unsafe_get arr ~dummy ~i ~length);
+    f i (unsafe_get arr ~dummy ~i ~length);
   done;
   check_same_length "iteri" a ~length
+
+let rev_iter f a =
+  let Pack {arr; length; dummy} = a in
+  check_valid_length length arr;
+  for i = length - 1 downto 0 do
+    f (unsafe_get arr ~dummy ~i ~length);
+  done;
+  check_same_length "rev_iter" a ~length
+
+let rev_iteri f a =
+  let Pack {arr; length; dummy} = a in
+  check_valid_length length arr;
+  for i = length - 1 downto 0 do
+    f i (unsafe_get arr ~dummy ~i ~length);
+  done;
+  check_same_length "rev_iteri" a ~length
 
 let map f a =
   let Pack {arr = arr_in; length; dummy} = a in

@@ -22,6 +22,9 @@ type backend_type =
 
 (* external get_config: unit -> string * int * bool = "caml_sys_get_config" *)
 external get_executable_name : unit -> string = "caml_sys_executable_name"
+#ifndef BS
+external get_proc_self_exe : unit -> string option = "caml_sys_proc_self_exe"
+#endif
 external argv : string array = "%sys_argv"
 external big_endian : unit -> bool = "%big_endian"
 external word_size : unit -> int = "%word_size"
@@ -35,9 +38,14 @@ external get_backend_type : unit -> backend_type = "%backend_type"
 let executable_name = get_executable_name()
 
 #ifdef BS
+let runtime_executable = executable_name
 external get_os_type : unit -> string = "#os_type"
 let os_type = get_os_type ()
 #else
+let runtime_executable =
+  match get_proc_self_exe () with
+  | None -> executable_name
+  | Some proc_self_exe -> proc_self_exe
 let (os_type, _, _) = get_config()
 #endif
 let backend_type = get_backend_type ()
@@ -207,10 +215,9 @@ external runtime_warnings_enabled: unit -> bool =
 
 (* The version string is found in file ../VERSION *)
 
-(* TODO(anmonteiro): fix correct version *)
-let ocaml_version = "4.14.0+mel"
+let ocaml_version = "5.5.0+dev2-2026-01-22"
 
-let development_version = false
+let development_version = true
 
 type extra_prefix = Plus | Tilde
 
@@ -224,10 +231,10 @@ type ocaml_release_info = {
 }
 
 let ocaml_release = {
-  major = 4;
-  minor = 14;
+  major = 5;
+  minor = 5;
   patchlevel = 0;
-  extra = Some (Plus, "mel")
+  extra = Some (Plus, "dev2-2026-01-22")
 }
 
 (* Optimization *)

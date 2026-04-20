@@ -236,8 +236,17 @@ external __POS__ : string * int * int * int = "%loc_POS"
  *)
 
 external __FUNCTION__ : string = "%loc_FUNCTION"
-(** [__FUNCTION__] returns the name of the current function or method, including
-    any enclosing modules or classes.
+(** [__FUNCTION__] returns a string of the form ["N0n1n2..."] where [N0] is the
+    name of the current compilation unit and the [ni] are the names of the
+    successive scopes leading to the location of the call. Each of the scopes
+    has one of the following forms:
+
+    - [.n] if [n] is the name of a function, module, class or value definition,
+      or
+    - [#n] if [n] is the name of a method, or
+    - [.(fun)] if the scope corresponds to an anonymous function.
+
+    Note that the precise format may change in the future.
 
     @since 4.12 *)
 
@@ -623,15 +632,15 @@ external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
 
 external cosh : float -> float = "caml_cosh_float" "cosh"
   [@@unboxed] [@@noalloc]
-(** Hyperbolic cosine.  Argument is in radians. *)
+(** Hyperbolic cosine. *)
 
 external sinh : float -> float = "caml_sinh_float" "sinh"
   [@@unboxed] [@@noalloc]
-(** Hyperbolic sine.  Argument is in radians. *)
+(** Hyperbolic sine. *)
 
 external tanh : float -> float = "caml_tanh_float" "tanh"
   [@@unboxed] [@@noalloc]
-(** Hyperbolic tangent.  Argument is in radians. *)
+(** Hyperbolic tangent. *)
 
 external acosh : float -> float = "caml_acosh_float" "caml_acosh"
   [@@unboxed] [@@noalloc]
@@ -697,7 +706,7 @@ external frexp : float -> float * int = "caml_frexp_float"
    and the exponent of [f].  When [f] is zero, the
    significant [x] and the exponent [n] of [f] are equal to
    zero.  When [f] is non-zero, they are defined by
-   [f = x *. 2 ** n] and [0.5 <= x < 1.0]. *)
+   [f = x *. 2 ** n] and [0.5 <= abs x < 1.0]. *)
 
 
 external ldexp : (float [@unboxed]) -> (int [@untagged]) -> (float [@unboxed]) =

@@ -21,7 +21,7 @@
 
 (** {1:combinators Combinators} *)
 
-external id : 'a -> 'a = "%identity"
+val id : 'a -> 'a
 (** [id] is the identity function. For any argument [x], [id x] is [x]. *)
 
 val const : 'a -> (_ -> 'a)
@@ -148,7 +148,7 @@ distance of 2, instead of the default variable max distance
 
 {3:hflip {{!val:flip}flip}}
 
-Useing [flip] to reverse the comparator passed to {!val:List.sort}, which sorts
+Using [flip] to reverse the comparator passed to {!val:List.sort}, which sorts
 in the opposite order
 {[
   # List.sort (Fun.flip Int.compare) [5; 3; 9; 0; 1; 6; 8];;

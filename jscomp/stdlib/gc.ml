@@ -32,6 +32,7 @@ type stat = {
   top_heap_words : int;
   stack_size : int;
   forced_major_collections: int;
+  live_stacks_words: int;
 }
 
 type control = {
@@ -166,6 +167,8 @@ module Memprof =
       tracker =
       c_start sampling_rate callstack_size tracker
 
+    external is_sampling : unit -> bool = "caml_memprof_is_sampling"
+
     external stop : unit -> unit = "caml_memprof_stop"
 
     external discard : t -> unit = "caml_memprof_discard"
@@ -194,3 +197,10 @@ external ramp_up : (unit -> 'a) -> 'a * suspended_collection_work
 
 external ramp_down : suspended_collection_work -> unit
   = "caml_ml_gc_ramp_down"
+
+module Tweak = struct
+  external set : string -> int -> unit = "caml_gc_tweak_set"
+  external get : string -> int = "caml_gc_tweak_get"
+  external list_active : unit -> (string * int) list =
+    "caml_gc_tweak_list_active"
+end

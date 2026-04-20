@@ -317,11 +317,17 @@ module Array = struct
 
   let append a1 a2 =
     let l1 = length a1 in
+#ifdef BS
     let l2 = length a2 in
     let result = create (l1 + l2) in
     unsafe_blit a1 0 result 0 l1;
     unsafe_blit a2 0 result l1 l2;
     result
+#else
+    if l1 = 0 then copy a2
+    else if length a2 = 0 then unsafe_sub a1 0 l1
+    else append_prim a1 a2
+#endif
 
   (* inlining exposes a float-unboxing opportunity for [v] *)
   let[@inline] fill a ofs len v =

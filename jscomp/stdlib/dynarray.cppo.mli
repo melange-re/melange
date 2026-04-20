@@ -197,7 +197,9 @@ val blit : src:'a t -> src_pos:int -> dst:'a t -> dst_pos:int -> len:int -> unit
 
     @raise Invalid_argument if [src_pos] and [len] do not designate
     a valid subarray of [src], or if [dst_pos] is strictly below [0]
-    or strictly above [length dst]. *)
+    or strictly above [length dst].
+
+    @since 5.3 *)
 
 (** {1:removing Removing elements} *)
 
@@ -247,10 +249,26 @@ val clear : 'a t -> unit
 *)
 
 val iter : ('a -> unit) -> 'a t -> unit
-(** [iter f a] calls [f] on each element of [a]. *)
+(** [iter f a] calls [f] on each element of [a], from the element of
+    index [0] to the element of index [length a - 1]. *)
+
+val rev_iter : ('a -> unit) -> 'a t -> unit
+(** [rev_iter f a] calls [f] on each element of [a], from the element
+    of index [length a - 1] to the element of index [0].
+
+    @since 5.5
+*)
 
 val iteri : (int -> 'a -> unit) -> 'a t -> unit
-(** [iteri f a] calls [f i x] for each [x] at index [i] in [a]. *)
+(** [iteri f a] calls [f i x] for each [x] at index [i] in [a],
+    from the index [0] to the index [length a - 1]. *)
+
+val rev_iteri : (int -> 'a -> unit) -> 'a t -> unit
+(** [rev_iteri f a] calls [f i x] for each [x] at index [i] in [a],
+    from the index [length a - 1] down to the index [0].
+
+    @since 5.5
+*)
 
 val map : ('a -> 'b) -> 'a t -> 'b t
 (** [map f a] is a new array of elements of the form [f x]
@@ -614,7 +632,9 @@ val unsafe_to_iarray : capacity:int -> ('a t -> unit) -> 'a array
 
     This function is unsafe because type safety may be broken by concurrent
     writes to the dynarray from other domains, without proper synchronization,
-    before [f] returns. *)
+    before [f] returns.
+
+    @since 5.4 *)
 
 
 (** {1:examples Code examples}
