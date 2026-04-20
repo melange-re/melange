@@ -68,7 +68,7 @@ let input_line ic =
 
 let input = Stdlib.input
 
-#ifdef BS
+#ifdef MELANGE
 #else
 external unsafe_input_bigarray :
   t -> _ Bigarray.Array1.t -> int -> int -> int
@@ -85,7 +85,7 @@ let really_input ic buf pos len =
   | () -> Some ()
   | exception End_of_file -> None
 
-#ifdef BS
+#ifdef MELANGE
 #else
 let rec unsafe_really_input_bigarray ic buf ofs len =
   if len <= 0 then Some () else begin

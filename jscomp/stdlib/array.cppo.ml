@@ -25,7 +25,7 @@ external unsafe_get: 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set: 'a array -> int -> 'a -> unit = "%array_unsafe_set"
 external make: int -> 'a -> 'a array = "caml_array_make"
 external unsafe_sub : 'a array -> int -> int -> 'a array = "caml_array_sub"
-#ifdef BS
+#ifdef MELANGE
 external append_prim : 'a array -> 'a array -> 'a array = "concat"
 [@@mel.send]
 #else
@@ -105,7 +105,7 @@ let sub a ofs len =
 let fill a ofs len v =
   if ofs < 0 || len < 0 || ofs > length a - len
   then invalid_arg "Array.fill"
-#ifdef BS
+#ifdef MELANGE
   else for i = ofs to ofs + len - 1 do unsafe_set a i v done
 #else
   else unsafe_fill a ofs len v

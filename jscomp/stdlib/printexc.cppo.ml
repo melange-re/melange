@@ -111,7 +111,7 @@ type[@warning "-37"] backtrace_slot =
       is_raise : bool
     }
 
-#ifdef BS
+#ifdef MELANGE
 let convert_raw_backtrace_slot:
   raw_backtrace_slot -> backtrace_slot =
     fun _ -> failwith "convert_raw_backtrace_slot not implemented"
@@ -306,7 +306,7 @@ let default_uncaught_exception_handler exn raw_backtrace =
 
 let uncaught_exception_handler = ref default_uncaught_exception_handler
 
-#ifdef BS
+#ifdef MELANGE
 let set_uncaught_exception_handler _ = ()
 #else
 let set_uncaught_exception_handler fn = uncaught_exception_handler := fn

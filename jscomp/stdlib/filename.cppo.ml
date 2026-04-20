@@ -139,7 +139,7 @@ module Win32 : SYSDEPS = struct
     else
       false
 
-#ifdef BS
+#ifdef MELANGE
   let temp_dir_name =
     try Sys.getenv "TEMP" with Not_found -> "."
 #else

@@ -29,7 +29,7 @@ module Global : sig
   (** This function set up built in compile time variables used in
       conditional compilation so that
       {[
-          #if  BS then
+          #if MELANGE then
           #elif .. then
           #end
       ]}

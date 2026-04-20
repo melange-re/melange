@@ -237,7 +237,7 @@ val set_state : State.t -> unit
     generator (which is used by the basic functions) by copying
     the state [s] into it. *)
 
-#ifdef BS
+#ifdef MELANGE
 #else
 val split : unit -> State.t
 (** Draw a fresh PRNG state from the current state of the domain-local

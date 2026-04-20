@@ -23,7 +23,7 @@ external logor : bool -> bool -> bool = "%orint"
 external logxor : bool -> bool -> bool = "%xorint"
 let equal : bool -> bool -> bool = ( = )
 let compare : bool -> bool -> int = Stdlib.compare
-#ifdef BS
+#ifdef MELANGE
 let to_int = function false -> 0 | true -> 1
 #else
 external to_int : bool -> int = "%identity"

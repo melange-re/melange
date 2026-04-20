@@ -31,7 +31,7 @@ let copy o =
 
 (**** Compression options ****)
 (* Parameters *)
-#ifdef BS
+#ifdef MELANGE
 (* {!Translobj.oo_prim : string -> lambda} not by slot *)
 module Sys = struct
   external word_size : unit -> int = "%word_size"
@@ -367,7 +367,7 @@ let make_class_store pub_meths class_init init_table =
   init_table.env_init <- env_init
 
 
-#ifdef BS
+#ifdef MELANGE
 #else
 let dummy_class loc =
   let undef = fun _ -> raise (Undefined_recursive_module loc) in
@@ -420,7 +420,7 @@ let create_object_and_run_initializers obj_0 table =
 let sendself obj lab =
   (magic obj : (obj -> t) array array).(0).(lab) obj
 *)
-#ifdef BS
+#ifdef MELANGE
 #else
 external send : obj -> tag -> 'a = "%send"
 #endif

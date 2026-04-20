@@ -178,7 +178,7 @@ let yyparse tables start lexer lexbuf =
     | _ ->
         current_lookahead_fun :=
           (fun tok ->
-#ifdef BS
+#ifdef MELANGE
             if Js.typeof tok <> "number"
 #else
             if Obj.is_block tok

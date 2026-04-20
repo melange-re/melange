@@ -23,7 +23,7 @@ external rem : float -> float -> float = "caml_fmod_float" "fmod"
   [@@unboxed] [@@noalloc]
 external fma : float -> float -> float -> float = "caml_fma_float" "caml_fma"
   [@@unboxed] [@@noalloc]
-#ifdef BS
+#ifdef MELANGE
 external abs : float -> float = "abs" [@@mel.scope "Math"]
 #else
 external abs : float -> float = "%absfloat"
@@ -62,7 +62,7 @@ type fpclass = Stdlib.fpclass =
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
 
-#ifdef BS
+#ifdef MELANGE
 external pow : float -> float -> float = "pow"  [@@mel.scope "Math"]
 external sqrt : float -> float =  "sqrt"  [@@mel.scope "Math"]
 external cbrt : float -> float = "cbrt"  [@@mel.scope "Math"]
@@ -233,7 +233,7 @@ module Array = struct
   external make : (int[@untagged]) -> (float[@unboxed]) -> t =
     "caml_floatarray_make" "caml_floatarray_make_unboxed"
 
-#ifdef BS
+#ifdef MELANGE
 #else
   external unsafe_fill
     : t -> (int[@untagged]) -> (int[@untagged]) -> (float[@unboxed]) -> unit
@@ -243,7 +243,7 @@ module Array = struct
   external unsafe_blit: t -> int -> t -> int -> int -> unit =
     "caml_floatarray_blit" [@@noalloc]
 
-#ifdef BS
+#ifdef MELANGE
 #else
   external unsafe_sub : t -> int -> int -> t = "caml_floatarray_sub"
   external append_prim : t -> t -> t = "caml_floatarray_append"
@@ -254,7 +254,7 @@ module Array = struct
     if ofs < 0 || len < 0 || ofs + len < 0 || ofs + len > length a then
       invalid_arg msg
 
-#ifdef BS
+#ifdef MELANGE
 #else
   let empty = create 0
 #endif
@@ -296,7 +296,7 @@ module Array = struct
 
   let sub a ofs len =
     check a ofs len "Float.Array.sub";
-#ifdef BS
+#ifdef MELANGE
     let result = create len in
     unsafe_blit a ofs result 0 len;
     result
@@ -306,7 +306,7 @@ module Array = struct
 
   let copy a =
     let l = length a in
-#ifdef BS
+#ifdef MELANGE
     let result = create l in
     unsafe_blit a 0 result 0 l;
     result
@@ -317,7 +317,7 @@ module Array = struct
 
   let append a1 a2 =
     let l1 = length a1 in
-#ifdef BS
+#ifdef MELANGE
     let l2 = length a2 in
     let result = create (l1 + l2) in
     unsafe_blit a1 0 result 0 l1;
@@ -697,7 +697,7 @@ module Array = struct
 
 end
 
-#ifdef BS
+#ifdef MELANGE
 #else
 module ArrayLabels = Array
 #endif
