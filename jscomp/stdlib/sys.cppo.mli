@@ -32,6 +32,16 @@ val executable_name : string
     on the platform and whether the program was compiled to bytecode or a native
     executable. *)
 
+val runtime_executable : string
+(** The name of the file containing the runtime currently running. For
+    native code, this is always {!executable_name}, but in bytecode it may be
+    ocamlrun, for example. This name may be absolute or relative to the current
+    directory, depending on the platform (Linux, Windows and macOS should all
+    return absolute paths).
+
+    @since 5.5
+*)
+
 external file_exists : string -> bool = "caml_sys_file_exists"
 (** Test if a file with the given name exists. *)
 
@@ -129,9 +139,11 @@ external readdir : string -> string array = "caml_sys_read_directory"
 val io_buffer_size: int
 (** Size of C buffers used by the runtime system and IO primitives of the [unix]
     library.
+
     Primitives that read from or write to values of type [string] or [bytes]
     generally use an intermediate buffer of this size to avoid holding the
     domain lock.
+
     @since 5.4
 *)
 
@@ -230,6 +242,7 @@ external poll_actions : unit -> unit = "%poll"
 
 type signal = int
 (** The type for signal numbers.
+
   Negative numbers are used by OCaml to provide a platform-independent
   number for signals recognised by OCaml. Positive numbers are always the
   platform-dependent value for a given signal.
@@ -255,6 +268,7 @@ external signal :
    previously associated with the signal. If the signal number is
    invalid (or not available on your system), an [Invalid_argument]
    exception is raised.
+
    If a platform-dependent signal number is used, it will be converted
    to a platform-independent signal using {!signal_of_int} before
    calling the handler.
@@ -368,21 +382,26 @@ val signal_to_string : signal -> string
 (** [signal_to_string] formats an OCaml [signal] as a C POSIX
     {{:http://pubs.opengroup.org/onlinepubs/9799919799/basedefs/signal.h.html}
     constant} or ["SIG(%d)"] for platform-dependent signal numbers.
+
     @raise Invalid_argument for unrecognised negative numbers.
     @since 5.4 *)
 
 val signal_of_int : int -> signal
 (** [signal_of_int n] converts a platform-dependent signal number [n] to
     an OCaml signal number.
+
     For positive [n] this is [n] itself if OCaml does not have a
     platform-independent signal number for [n].
+
     @raise Invalid_argument if [n] is negative.
     @since 5.4 *)
 
 val signal_to_int : signal -> int
 (** [signal_to_int n] converts an OCaml signal number [n] to
     a platform-dependent signal number.
+
     For positive [n] this is [n] itself.
+
     @raise Invalid_argument for unrecognised negative numbers.
     @since 5.4 *)
 

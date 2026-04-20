@@ -71,12 +71,16 @@ val is_right : ('a, 'b) t -> bool
 
 val get_left : ('a, 'b) t -> 'a
 (** [get_left e] is [v] if [e] is [Left v] and raise otherwise.
+
     @raise Invalid_argument if [e] is [Right _].
+
     @since 5.4 *)
 
 val get_right : ('a, 'b) t -> 'b
 (** [get_right e] is [v] if [e] is [Right v] and raise otherwise.
+
     @raise Invalid_argument if [e] is [Left _].
+
     @since 5.4 *)
 
 val find_left : ('a, 'b) t -> 'a option
@@ -104,6 +108,7 @@ val fold : left:('a -> 'c) -> right:('b -> 'c) -> ('a, 'b) t -> 'c
 
 val retract : ('a, 'a) t -> 'a
 (** [retract (Left v)] is [v], and [retract (Right v)] is [v].
+
     @since 5.4 *)
 
 val iter : left:('a -> unit) -> right:('b -> unit) -> ('a, 'b) t -> unit
