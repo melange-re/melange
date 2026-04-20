@@ -24,12 +24,11 @@ Test cases for stdlib Array
   
   const Caml_array = require("melange.js/caml_array.js");
   const Stdlib__Array = require("melange/array.js");
+  const Stdlib__Fun = require("melange/fun.js");
   
   const t = Caml_array.make_float(10);
   
-  const t2 = Stdlib__Array.init(10, (function (prim) {
-    return prim;
-  }));
+  const t2 = Stdlib__Array.init(10, Stdlib__Fun.id);
   
   const m = Stdlib__Array.make_matrix(2, 2, undefined);
   
