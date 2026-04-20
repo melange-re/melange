@@ -3361,6 +3361,35 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       };
     }
   };
+  const branch$p = function (_left) {
+    while (true) {
+      const left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(Stdlib__List.rev(left));
+      }
+      _left = {
+        hd: piece(),
+        tl: left
+      };
+      continue;
+    };
+  };
+  const regexp$p = function (_left) {
+    while (true) {
+      const left = _left;
+      if (!accept(/* '|' */124)) {
+        return left;
+      }
+      _left = alt$1({
+        hd: left,
+        tl: {
+          hd: branch$p(/* [] */ 0),
+          tl: /* [] */ 0
+        }
+      });
+      continue;
+    };
+  };
   const integer = function (param) {
     if (i.contents === l) {
       return;
@@ -3640,6 +3669,87 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         _0: single(c$1)
       };
     }
+  };
+  const bracket = function (_s) {
+    while (true) {
+      const s = _s;
+      if (Caml_obj.caml_notequal(s, /* [] */ 0) && accept(/* ']' */93)) {
+        return s;
+      }
+      const match = $$char();
+      if (match.NAME === "Char") {
+        const c = match.VAL;
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
+            return {
+              hd: {
+                TAG: /* Set */ 0,
+                _0: single(c)
+              },
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '-' */45,
+                      /* '-' */45
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: s
+              }
+            };
+          }
+          const match$1 = $$char();
+          if (match$1.NAME !== "Char") {
+            return {
+              hd: {
+                TAG: /* Set */ 0,
+                _0: single(c)
+              },
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '-' */45,
+                      /* '-' */45
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: {
+                  hd: match$1.VAL,
+                  tl: s
+                }
+              }
+            };
+          }
+          _s = {
+            hd: {
+              TAG: /* Set */ 0,
+              _0: seq(c, match$1.VAL)
+            },
+            tl: s
+          };
+          continue;
+        }
+        _s = {
+          hd: {
+            TAG: /* Set */ 0,
+            _0: single(c)
+          },
+          tl: s
+        };
+        continue;
+      }
+      _s = {
+        hd: match.VAL,
+        tl: s
+      };
+      continue;
+    };
   };
   const $$char = function (param) {
     if (i.contents === l) {
@@ -3926,100 +4036,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       };
     }
   };
-  const bracket = function (_s) {
-    while (true) {
-      const s = _s;
-      if (Caml_obj.caml_notequal(s, /* [] */ 0) && accept(/* ']' */93)) {
-        return s;
-      }
-      const match = $$char();
-      if (match.NAME === "Char") {
-        const c = match.VAL;
-        if (accept(/* '-' */45)) {
-          if (accept(/* ']' */93)) {
-            return {
-              hd: {
-                TAG: /* Set */ 0,
-                _0: single(c)
-              },
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '-' */45,
-                      /* '-' */45
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: s
-              }
-            };
-          }
-          const match$1 = $$char();
-          if (match$1.NAME !== "Char") {
-            return {
-              hd: {
-                TAG: /* Set */ 0,
-                _0: single(c)
-              },
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '-' */45,
-                      /* '-' */45
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: {
-                  hd: match$1.VAL,
-                  tl: s
-                }
-              }
-            };
-          }
-          _s = {
-            hd: {
-              TAG: /* Set */ 0,
-              _0: seq(c, match$1.VAL)
-            },
-            tl: s
-          };
-          continue;
-        }
-        _s = {
-          hd: {
-            TAG: /* Set */ 0,
-            _0: single(c)
-          },
-          tl: s
-        };
-        continue;
-      }
-      _s = {
-        hd: match.VAL,
-        tl: s
-      };
-      continue;
-    };
-  };
-  const branch$p = function (_left) {
-    while (true) {
-      const left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(Stdlib__List.rev(left));
-      }
-      _left = {
-        hd: piece(),
-        tl: left
-      };
-      continue;
-    };
-  };
   const piece = function (param) {
     const r = atom();
     if (accept(/* '*' */42)) {
@@ -4051,22 +4067,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
     i.contents = i.contents - 1 | 0;
     return r;
-  };
-  const regexp$p = function (_left) {
-    while (true) {
-      const left = _left;
-      if (!accept(/* '|' */124)) {
-        return left;
-      }
-      _left = alt$1({
-        hd: left,
-        tl: {
-          hd: branch$p(/* [] */ 0),
-          tl: /* [] */ 0
-        }
-      });
-      continue;
-    };
   };
   const res = regexp$p(branch$p(/* [] */ 0));
   if (i.contents !== l) {

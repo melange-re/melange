@@ -99,6 +99,8 @@ const sort = Stdlib__Array.sort;
 
 const stable_sort = Stdlib__Array.stable_sort;
 
+const stable_sort_sub = Stdlib__Array.stable_sort_sub;
+
 const fast_sort = Stdlib__Array.fast_sort;
 
 const shuffle = Stdlib__Array.shuffle;
@@ -152,6 +154,7 @@ module.exports = {
   combine,
   sort,
   stable_sort,
+  stable_sort_sub,
   fast_sort,
   shuffle,
   to_seq,

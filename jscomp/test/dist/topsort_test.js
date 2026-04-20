@@ -735,6 +735,22 @@ function is_empty(param) {
   }
 }
 
+function is_singleton(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return false;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return false;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function mem(x, _param) {
   while (true) {
     const param = _param;
@@ -1483,7 +1499,7 @@ function of_list(l) {
             MEL_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/stdlib/set.ml",
-              571,
+              576,
               18
             ]
           });
@@ -1637,6 +1653,7 @@ const String_set = {
   partition: partition,
   split: split,
   is_empty: is_empty,
+  is_singleton: is_singleton,
   mem: mem,
   equal: equal,
   compare: compare,
