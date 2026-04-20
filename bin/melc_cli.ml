@@ -569,33 +569,32 @@ let cmd =
     $ Compat.c $ store_occurrences)
 
 let normalize_argv argv =
+  let needs_extra_dash s =
+    String.length s > 2 && s.[0] = '-' && s.[1] <> '-'
+  in
+  let normalize_opt_name s = if needs_extra_dash s then "-" ^ s else s in
   let len = Array.length argv in
   let normalized = Array.make len "" in
   let idx = ref 0 in
   let nidx = ref 0 in
   while !idx < len do
     let s = argv.(!idx) in
-    let is_w = s.[0] = '-' && s.[1] = 'w' && String.length s = 2 in
-    if
-      is_w
-      || (s.[0] = '-' && s.[1] = 'w' && s = "-warn-error")
-      || (s.[0] = '-' && s.[1] = '-' && s.[2] = 'w' && s = "-warn-error")
-      || (s.[0] = '-' && s.[1] = 'a' && s = "-alert")
-      || (s.[0] = '-' && s.[1] = '-' && s.[2] = 'a' && s = "-alert")
-    then (
+    let is_short_w = String.equal s "-w" in
+    let is_warn = String.equal s "-warn" || String.equal s "--warn" in
+    let is_warn_error =
+      String.equal s "-warn-error" || String.equal s "--warn-error"
+    in
+    let is_alert = String.equal s "-alert" || String.equal s "--alert" in
+    if is_short_w || is_warn || is_warn_error || is_alert then (
+      let opt = normalize_opt_name s in
       let s =
         if !idx >= len - 1 then
-          if s.[0] = '-' && s.[1] != '-' && String.length s > 2 then "-" ^ s
-          else s
+          opt
         else
-          let s =
-            if s.[0] = '-' && s.[1] != '-' && String.length s > 2 then "-" ^ s
-            else s
-          in
-          if is_w then
+          if is_short_w then
             (* https://github.com/dbuenzli/cmdliner/issues/157 *)
-            Format.asprintf "%s%s" s argv.(!idx + 1)
-          else Format.asprintf "%s=%s" s argv.(!idx + 1)
+            opt ^ argv.(!idx + 1)
+          else opt ^ "=" ^ argv.(!idx + 1)
       in
       incr idx;
       normalized.(!nidx) <- s;
@@ -603,7 +602,7 @@ let normalize_argv argv =
     else if String.length s <= 2 then (
       normalized.(!nidx) <- s;
       incr nidx)
-    else if s.[0] = '-' && s.[1] <> '-' then (
+    else if needs_extra_dash s then (
       normalized.(!nidx) <- "-" ^ s;
       incr nidx)
     else (
