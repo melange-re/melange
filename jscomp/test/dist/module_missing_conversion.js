@@ -49,6 +49,7 @@ const XX = {
   combine: Stdlib__Array.combine,
   sort: Stdlib__Array.sort,
   stable_sort: Stdlib__Array.stable_sort,
+  stable_sort_sub: Stdlib__Array.stable_sort_sub,
   fast_sort: Stdlib__Array.fast_sort,
   shuffle: Stdlib__Array.shuffle,
   to_seq: Stdlib__Array.to_seq,

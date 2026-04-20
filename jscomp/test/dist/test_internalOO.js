@@ -148,6 +148,22 @@ function is_empty(param) {
   }
 }
 
+function is_singleton(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return false;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return false;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function add(x, data, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
@@ -799,7 +815,7 @@ function merge$1(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          408,
+          413,
           10
         ]
       });
@@ -1173,6 +1189,7 @@ const Vars = {
   partition: partition,
   split: split,
   is_empty: is_empty,
+  is_singleton: is_singleton,
   mem: mem,
   equal: equal,
   compare: compare$1,
@@ -1286,6 +1303,22 @@ function bal$1(l, x, d, r) {
 
 function is_empty$1(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function is_singleton$1(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return false;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return false;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
     return true;
   } else {
     return false;
@@ -1943,7 +1976,7 @@ function merge$3(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          408,
+          413,
           10
         ]
       });
@@ -2317,6 +2350,7 @@ const Meths = {
   partition: partition$1,
   split: split$1,
   is_empty: is_empty$1,
+  is_singleton: is_singleton$1,
   mem: mem$1,
   equal: equal$1,
   compare: compare$3,
@@ -2430,6 +2464,22 @@ function bal$2(l, x, d, r) {
 
 function is_empty$2(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function is_singleton$2(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return false;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return false;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
     return true;
   } else {
     return false;
@@ -3087,7 +3137,7 @@ function merge$5(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          408,
+          413,
           10
         ]
       });
@@ -3461,6 +3511,7 @@ const Labs = {
   partition: partition$2,
   split: split$2,
   is_empty: is_empty$2,
+  is_singleton: is_singleton$2,
   mem: mem$2,
   equal: equal$2,
   compare: compare$5,

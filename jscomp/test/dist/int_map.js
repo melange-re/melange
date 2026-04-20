@@ -114,6 +114,22 @@ function is_empty(param) {
   }
 }
 
+function is_singleton(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return false;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return false;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function add(x, data, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
@@ -765,7 +781,7 @@ function merge$1(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          408,
+          413,
           10
         ]
       });
@@ -1169,6 +1185,8 @@ const split$1 = split;
 
 const is_empty$1 = is_empty;
 
+const is_singleton$1 = is_singleton;
+
 const mem$1 = mem;
 
 const equal$1 = equal;
@@ -1225,6 +1243,7 @@ module.exports = {
   partition: partition$1,
   split: split$1,
   is_empty: is_empty$1,
+  is_singleton: is_singleton$1,
   mem: mem$1,
   equal: equal$1,
   compare: compare$2,

@@ -93,6 +93,8 @@ const rev_map = Stdlib__List.rev_map;
 
 const filter_map = Stdlib__List.filter_map;
 
+const filter_mapi = Stdlib__List.filter_mapi;
+
 const concat_map = Stdlib__List.concat_map;
 
 const fold_left_map = Stdlib__List.fold_left_map;
@@ -169,6 +171,8 @@ const remove_assq = Stdlib__List.remove_assq;
 
 const split = Stdlib__List.split;
 
+const split_map = Stdlib__List.split_map;
+
 const combine = Stdlib__List.combine;
 
 const sort = Stdlib__List.sort;
@@ -218,6 +222,7 @@ module.exports = {
   mapi,
   rev_map,
   filter_map,
+  filter_mapi,
   concat_map,
   fold_left_map,
   fold_left,
@@ -256,6 +261,7 @@ module.exports = {
   remove_assoc,
   remove_assq,
   split,
+  split_map,
   combine,
   sort,
   stable_sort,
