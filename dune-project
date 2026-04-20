@@ -56,4 +56,6 @@
   (reason :dev)
   (melange (= :version))
   (ppxlib :dev)
+  (menhir
+   (>= 20201214))
   reason-react-ppx))
