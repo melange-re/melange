@@ -76,7 +76,6 @@ type t = {
   bin_annot : bool option;
   i : bool;
   nopervasives : bool;
-  modules : bool;
   nolabels : bool;
   principal : bool;
   rectypes : bool;

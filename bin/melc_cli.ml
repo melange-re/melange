@@ -77,7 +77,6 @@ type t = {
   bin_annot : bool option;
   i : bool;
   nopervasives : bool;
-  modules : bool;
   nolabels : bool;
   principal : bool;
   rectypes : bool;
@@ -424,10 +423,6 @@ module Internal = struct
     let doc = "*internal*" in
     repeatable_flag (Arg.info [ "nopervasives" ] ~doc)
 
-  let modules =
-    let doc = "*internal* serve similar to ocamldep" in
-    repeatable_flag (Arg.info [ "modules" ] ~doc)
-
   let nolabels =
     let doc = "*internal* Ignore non-optional labels in types" in
     repeatable_flag (Arg.info [ "nolabels" ] ~doc)
@@ -478,7 +473,7 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
     dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives modules nolabels principal rectypes short_paths unsafe
+    nopervasives nolabels principal rectypes short_paths unsafe
     warn_help warn_error bs_stop_after_cmj runtime filenames _c
     store_occurrences =
   {
@@ -533,7 +528,6 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     bin_annot;
     i;
     nopervasives;
-    modules;
     nolabels;
     principal;
     rectypes;
@@ -563,7 +557,7 @@ let cmd =
     $ preamble $ Internal.strict_sequence $ Internal.strict_formats
     $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
     $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
-    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
+    $ Internal.nopervasives $ Internal.nolabels
     $ Internal.principal $ Internal.rectypes $ Internal.short_paths $ unsafe
     $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
     $ Compat.c $ store_occurrences)

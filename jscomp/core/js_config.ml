@@ -74,5 +74,4 @@ let std_include_dirs () = if !no_stdlib then [] else Lazy.force stdlib_paths
 let no_export = ref false
 let as_ppx = ref false
 let as_pp = ref false
-let modules = ref false
 let preamble = ref None

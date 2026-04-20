@@ -17,19 +17,6 @@
   (>= %{ocaml_version} 5.2.0)))
 
 (rule
- (targets meldep.ml)
- (deps meldep.cppo.ml)
- (action
-  (run
-   cppo
-   -V
-   OCAML:%{ocaml_version}
-   %{env:CPPO_FLAGS=}
-   %{deps}
-   -o
-   %{targets})))
-
-(rule
  (targets lam_constant_convert.ml)
  (deps lam_constant_convert.cppo.ml)
  (action
