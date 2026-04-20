@@ -11,7 +11,7 @@ let bark () =
       x + y
     end
 
-let js_obj : 'self =
+let js_obj () : 'self =
   [%mel.obj
       {
         bark =

@@ -1955,7 +1955,7 @@ function main(param) {
         }), symstr(i), i);
     }
   };
-  const f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);
+  const f = Caml_sys.caml_sys_argv().length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(), 1);
   switch (f) {
     case "-blk" :
       const partial_arg_0 = {

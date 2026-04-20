@@ -88,7 +88,7 @@ module Set_field_dbg_info : sig
 end
 
 module Compile_time_constant : sig
-  type t = Big_endian | Ostype_unix | Ostype_win32 | Ostype | Backend_type
+  type t = Big_endian | Ostype_unix | Ostype_win32 | Ostype | Backend_type | Standard_library_default
 
   val equal : t -> t -> bool
 end

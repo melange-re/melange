@@ -7,6 +7,52 @@ const CamlinternalOO = require("melange/camlinternalOO.js");
 const Curry = require("melange.js/curry.js");
 
 const shared = [
+  "get0",
+  "get1",
+  "get2",
+  "get3",
+  "get4",
+  "get5",
+  "get6",
+  "get7",
+  "get8",
+  "get9",
+  "get10",
+  "get11",
+  "get12",
+  "get13",
+  "get14",
+  "get15",
+  "get16",
+  "get17",
+  "get18",
+  "get19"
+];
+
+const shared$1 = [
+  "get9",
+  "get8",
+  "get7",
+  "get6",
+  "get5",
+  "get4",
+  "get3",
+  "get2",
+  "get19",
+  "get18",
+  "get17",
+  "get16",
+  "get15",
+  "get14",
+  "get13",
+  "get12",
+  "get11",
+  "get10",
+  "get1",
+  "get0"
+];
+
+const shared$2 = [
   "field0",
   "field1",
   "field2",
@@ -109,55 +155,9 @@ const shared = [
   "field99"
 ];
 
-const shared$1 = [
-  "get9",
-  "get8",
-  "get7",
-  "get6",
-  "get5",
-  "get4",
-  "get3",
-  "get2",
-  "get19",
-  "get18",
-  "get17",
-  "get16",
-  "get15",
-  "get14",
-  "get13",
-  "get12",
-  "get11",
-  "get10",
-  "get1",
-  "get0"
-];
+const $$class = CamlinternalOO.create_table(shared);
 
-const shared$2 = [
-  "get0",
-  "get1",
-  "get2",
-  "get3",
-  "get4",
-  "get5",
-  "get6",
-  "get7",
-  "get8",
-  "get9",
-  "get10",
-  "get11",
-  "get12",
-  "get13",
-  "get14",
-  "get15",
-  "get16",
-  "get17",
-  "get18",
-  "get19"
-];
-
-const $$class = CamlinternalOO.create_table(shared$2);
-
-const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared);
+const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
 
 const get9 = ids[0];
 
@@ -603,7 +603,7 @@ if (Caml_oo_curry.js1(291536124, 1, raw_object) !== 34) {
 }
 
 function raw_class_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   const get9 = ids[0];
   const get8 = ids[1];
   const get7 = ids[2];
@@ -912,7 +912,7 @@ function raw_class_init($$class) {
   };
 }
 
-const raw_class = CamlinternalOO.make_class(shared$2, raw_class_init);
+const raw_class = CamlinternalOO.make_class(shared, raw_class_init);
 
 const v = Curry._2(raw_class[0], undefined, 3);
 

@@ -112,7 +112,7 @@ module Float_comparison = struct
 end
 
 module Compile_time_constant = struct
-  type t = Big_endian | Ostype_unix | Ostype_win32 | Ostype | Backend_type
+  type t = Big_endian | Ostype_unix | Ostype_win32 | Ostype | Backend_type | Standard_library_default
 
   let equal p1 p2 =
     match (p1, p2) with
@@ -121,6 +121,7 @@ module Compile_time_constant = struct
     | Ostype_win32, Ostype_win32 -> true
     | Ostype, Ostype -> true
     | Backend_type, Backend_type -> true
+    | Standard_library_default, Standard_library_default -> true
     | _, _ -> false
 end
 

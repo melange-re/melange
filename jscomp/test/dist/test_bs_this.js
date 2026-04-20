@@ -26,13 +26,15 @@ function bark(param) {
   };
 }
 
-const js_obj = {
-  bark: (function (x, y) {
-    let o = this;
-    console.log(o);
-    return x + y | 0;
-  })
-};
+function js_obj(param) {
+  return {
+    bark: (function (x, y) {
+      let o = this;
+      console.log(o);
+      return x + y | 0;
+    })
+  };
+}
 
 function f(x) {
   x.onload = (function () {

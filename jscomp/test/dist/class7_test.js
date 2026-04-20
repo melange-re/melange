@@ -9,28 +9,28 @@ const CamlinternalOO = require("melange/camlinternalOO.js");
 const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
-const shared = ["copy"];
+const shared = ["window"];
 
-const shared$1 = [
-  "move",
-  "get_x"
-];
+const shared$1 = ["top_widget"];
 
 const shared$2 = [
   "save",
   "restore"
 ];
 
-const shared$3 = [
+const shared$3 = ["copy"];
+
+const shared$4 = [
   "get",
   "set"
 ];
 
-const shared$4 = ["window"];
+const shared$5 = [
+  "move",
+  "get_x"
+];
 
-const shared$5 = ["x"];
-
-const shared$6 = ["top_widget"];
+const shared$6 = ["x"];
 
 const suites = {
   contents: /* [] */ 0
@@ -58,7 +58,7 @@ function eq(loc, x, y) {
 }
 
 function point_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$5);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$5, shared$6);
   const move = ids[0];
   const get_x = ids[1];
   const x = ids[2];
@@ -79,7 +79,7 @@ function point_init($$class) {
   };
 }
 
-const point = CamlinternalOO.make_class(shared$1, point_init);
+const point = CamlinternalOO.make_class(shared$5, point_init);
 
 const p = Curry._2(point[0], undefined, 55);
 
@@ -99,7 +99,7 @@ function ref_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
     "set",
     "get"
-  ], shared$5);
+  ], shared$6);
   const set = ids[0];
   const get = ids[1];
   const x = ids[2];
@@ -120,10 +120,10 @@ function ref_init($$class) {
   };
 }
 
-const ref = CamlinternalOO.make_class(shared$3, ref_init);
+const ref = CamlinternalOO.make_class(shared$4, ref_init);
 
 function backup_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared$3);
   const save = ids[0];
   const restore = ids[1];
   const copy = ids[2];
@@ -159,9 +159,9 @@ function backup_ref_init($$class) {
     "restore",
     "get"
   ]);
-  const inh = CamlinternalOO.inherits($$class, shared$5, 0, shared$3, ref, true);
+  const inh = CamlinternalOO.inherits($$class, shared$6, 0, shared$4, ref, true);
   const obj_init = inh[0];
-  const inh$1 = CamlinternalOO.inherits($$class, shared, 0, [
+  const inh$1 = CamlinternalOO.inherits($$class, shared$3, 0, [
     "restore",
     "save"
   ], backup, true);
@@ -223,7 +223,7 @@ function backup2_init($$class) {
     "save",
     "restore",
     "clear"
-  ], shared);
+  ], shared$3);
   const save = ids[0];
   const restore = ids[1];
   const clear = ids[2];
@@ -268,9 +268,9 @@ function backup_ref2_init($$class) {
     "get",
     "clear"
   ]);
-  const inh = CamlinternalOO.inherits($$class, shared$5, 0, shared$3, ref, true);
+  const inh = CamlinternalOO.inherits($$class, shared$6, 0, shared$4, ref, true);
   const obj_init = inh[0];
-  const inh$1 = CamlinternalOO.inherits($$class, shared, 0, [
+  const inh$1 = CamlinternalOO.inherits($$class, shared$3, 0, [
     "clear",
     "restore",
     "save"
@@ -317,7 +317,7 @@ eq("File \"jscomp/test/class7_test.ml\", line 63, characters 5-12", [
 ]);
 
 function window_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$6, shared$6);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$1);
   const top_widget = ids[0];
   const top_widget$1 = ids[1];
   CamlinternalOO.set_method($$class, top_widget, (function (self$7) {
@@ -330,10 +330,10 @@ function window_init($$class) {
   };
 }
 
-const $$window = CamlinternalOO.make_class(shared$6, window_init);
+const $$window = CamlinternalOO.make_class(shared$1, window_init);
 
 function widget_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$4, shared$4);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared);
   const $$window = ids[0];
   const $$window$1 = ids[1];
   CamlinternalOO.set_method($$class, $$window, (function (self$8) {
@@ -346,7 +346,7 @@ function widget_init($$class) {
   };
 }
 
-const widget = CamlinternalOO.make_class(shared$4, widget_init);
+const widget = CamlinternalOO.make_class(shared, widget_init);
 
 Mt.from_pair_suites("Class7_test", suites.contents);
 

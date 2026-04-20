@@ -176,7 +176,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
-  if !Js_config.modules 
+  if !Js_config.modules
   then Meldep.output_deps_set !Location.input_name Ml ast
   else (
     if !Js_config.as_pp then (

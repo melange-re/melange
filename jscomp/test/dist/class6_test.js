@@ -10,12 +10,12 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 
-const shared = [
+const shared = ["m"];
+
+const shared$1 = [
   "move",
   "get_x"
 ];
-
-const shared$1 = ["m"];
 
 const shared$2 = ["x"];
 
@@ -45,7 +45,7 @@ function eq(loc, x, y) {
 }
 
 function point_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   const move = ids[0];
   const get_x = ids[1];
   const x = ids[2];
@@ -66,7 +66,7 @@ function point_init($$class) {
   };
 }
 
-const point = CamlinternalOO.make_class(shared, point_init);
+const point = CamlinternalOO.make_class(shared$1, point_init);
 
 function colored_point_init($$class) {
   const ids = CamlinternalOO.new_methods_variables($$class, [
@@ -133,7 +133,7 @@ function c_init($$class) {
   };
 }
 
-const c = CamlinternalOO.make_class(shared$1, c_init);
+const c = CamlinternalOO.make_class(shared, c_init);
 
 function d_init($$class) {
   const ids = CamlinternalOO.get_method_labels($$class, [
@@ -143,7 +143,7 @@ function d_init($$class) {
   ]);
   const n = ids[0];
   const as_c = ids[2];
-  const inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, c, true);
+  const inh = CamlinternalOO.inherits($$class, 0, 0, shared, c, true);
   const obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
     n,
@@ -194,7 +194,7 @@ const c2$p = [
 ];
 
 function functional_point_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   const move = ids[0];
   const get_x = ids[1];
   const x = ids[2];
@@ -217,7 +217,7 @@ function functional_point_init($$class) {
   };
 }
 
-const functional_point = CamlinternalOO.make_class(shared, functional_point_init);
+const functional_point = CamlinternalOO.make_class(shared$1, functional_point_init);
 
 const p$1 = Curry._2(functional_point[0], undefined, 7);
 
@@ -234,7 +234,7 @@ eq("File \"jscomp/test/class6_test.ml\", line 60, characters 5-12", [
 ]);
 
 function bad_functional_point_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   const move = ids[0];
   const get_x = ids[1];
   const x = ids[2];
@@ -255,7 +255,7 @@ function bad_functional_point_init($$class) {
   };
 }
 
-const table$1 = CamlinternalOO.create_table(shared);
+const table$1 = CamlinternalOO.create_table(shared$1);
 
 const env_init$1 = bad_functional_point_init(table$1);
 

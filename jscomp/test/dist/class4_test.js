@@ -7,14 +7,14 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const shared = [
-  "bump",
-  "get_x"
-];
-
-const shared$1 = [
   "move",
   "get_x",
   "get_offset"
+];
+
+const shared$1 = [
+  "bump",
+  "get_x"
 ];
 
 const shared$2 = ["x"];
@@ -75,27 +75,27 @@ function restricted_point_init($$class) {
   };
 }
 
-const restricted_point = CamlinternalOO.make_class(shared, restricted_point_init);
+const restricted_point = CamlinternalOO.make_class(shared$1, restricted_point_init);
 
 function restricted_point$p_init($$class) {
-  const inh = CamlinternalOO.inherits($$class, 0, 0, shared, restricted_point, true);
+  const inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, restricted_point, true);
   const obj_init = inh[0];
   return function (env, self, x) {
     return Curry._2(obj_init, self, x);
   };
 }
 
-const restricted_point$p = CamlinternalOO.make_class(shared, restricted_point$p_init);
+const restricted_point$p = CamlinternalOO.make_class(shared$1, restricted_point$p_init);
 
 function restricted_point2$p_init($$class) {
-  const inh = CamlinternalOO.inherits($$class, 0, 0, shared, restricted_point, true);
+  const inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, restricted_point, true);
   const obj_init = inh[0];
   return function (env, self, x) {
     return Curry._2(obj_init, self, x);
   };
 }
 
-const restricted_point2$p = CamlinternalOO.make_class(shared, restricted_point2$p_init);
+const restricted_point2$p = CamlinternalOO.make_class(shared$1, restricted_point2$p_init);
 
 const Point = {
   restricted_point$p: restricted_point
@@ -103,7 +103,7 @@ const Point = {
 
 function abstract_point_1($$class) {
   const x_init = CamlinternalOO.new_variable($$class, "");
-  const ids = CamlinternalOO.get_method_labels($$class, shared$1);
+  const ids = CamlinternalOO.get_method_labels($$class, shared);
   const get_x = ids[1];
   const get_offset = ids[2];
   CamlinternalOO.set_method($$class, get_offset, (function (self$5) {
@@ -123,7 +123,7 @@ const abstract_point = [
 ];
 
 function point_init($$class) {
-  const ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
+  const ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   const move = ids[0];
   const get_x = ids[1];
   const x = ids[3];
