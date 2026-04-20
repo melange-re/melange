@@ -64,8 +64,14 @@
     "find $(dirname %{some-dom-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
 
 (rule
- (deps cmi-files.txt)
+ (deps
+  cmi-files.txt
+  %{bin:js_of_ocaml}
+  %{lib:melange:js/melange/js.cmi}
+  %{lib:melange:melange/stdlib.cmi}
+  %{lib:melange.belt:melange/belt.cmi}
+  %{lib:melange:dom/melange/dom.cmi})
  (alias playground-cmijs)
  (target melange-cmijs.js)
  (action
-  (bash "cat %{deps} | xargs js_of_ocaml build-fs -o %{target}")))
+  (bash "cat %{dep:cmi-files.txt} | xargs js_of_ocaml build-fs -o %{target}")))
