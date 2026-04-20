@@ -114,4 +114,4 @@ module.exports = {
   bad_argf,
   hash_variant,
 }
-/* Stdlib__Format Not a pure module */
+/* Stdlib__Arg Not a pure module */
