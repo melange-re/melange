@@ -258,7 +258,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bin_annot;
       i;
       nopervasives;
-      modules;
       nolabels;
       principal;
       rectypes;
@@ -361,7 +360,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Option.iter ~f:(fun bin_annot ->  Clflags.binary_annotations := bin_annot) bin_annot;
     if i then Clflags.print_types := i;
     if nopervasives then Clflags.nopervasives := nopervasives;
-    if modules then Js_config.modules := modules;
     if nolabels then Clflags.classic := nolabels;
     if principal then Clflags.principal := principal;
     if rectypes then Clflags.recursive_types := rectypes;
