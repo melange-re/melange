@@ -68,6 +68,28 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
   | _ | (exception Not_found) -> f ()
 
 let simplify_alias =
+  let fully_applied arity args =
+    match Lam_arity.get_first_arity arity with
+    | Some n -> n = List.length args
+    | None -> false
+  in
+  let fully_applied_external arity args =
+    match arity with
+    | Js_cmj_format.Single arity -> fully_applied arity args
+    | Js_cmj_format.Submodule _ -> false
+  in
+  let direct_primitive_of_value value args =
+    match value with
+    | Lam_id_kind.FunctionId
+        {
+          arity;
+          call_summary = Lam_call_summary.Direct_primitive primitive;
+          _;
+        }
+      when fully_applied arity args ->
+        Some primitive
+    | _ -> None
+  in
   let rec id_is_for_sure_true_in_boolean (tbl : Lam_id_kind.t Ident.Hashtbl.t)
       id =
     match Ident.Hashtbl.find tbl id with
@@ -248,6 +270,15 @@ let simplify_alias =
         with
         | Some
             {
+              arity;
+              call_summary = Lam_call_summary.Direct_primitive primitive;
+              _;
+            }
+          when fully_applied_external arity args ->
+            Lam.prim ~primitive ~args:(List.map ~f:(simpl meta) args)
+              ~loc:ap_info.ap_loc
+        | Some
+            {
               persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
               _;
             }
@@ -278,66 +309,80 @@ let simplify_alias =
         let ap_args = List.map ~f:(simpl meta) ap_args in
         let[@local] normal () = Lam.apply (simpl meta fn) ap_args ap_info in
         match Ident.Hashtbl.find meta.ident_tbl v with
-        | FunctionId
-            {
-              lambda =
-                Some
-                  ( Lfunction
-                      ({ params; body; attr = { is_a_functor; _ }; _ } as m),
-                    rec_flag );
-              _;
-            } ->
-            if List.same_length ap_args params (* && false *) then
-              if
-                is_a_functor
-                (* && (Ident.Set.mem v meta.export_idents) && false *)
-              then
-                (* TODO: check l1 if it is exported,
-                   if so, maybe not since in that case,
-                   we are going to have two copy?
-                *)
-                (* Check: recursive applying may result in non-termination *)
+        | value -> (
+            match direct_primitive_of_value value ap_args with
+            | Some primitive ->
+                Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
+            | None -> (
+                match value with
+                | FunctionId
+                    {
+                      lambda =
+                        Some
+                          ( Lfunction
+                              ( {
+                                  params;
+                                  body;
+                                  attr = { is_a_functor; _ };
+                                  _;
+                                } as m ),
+                            rec_flag );
+                      _;
+                    } ->
+                    if List.same_length ap_args params (* && false *) then
+                      if
+                        is_a_functor
+                        (* && (Ident.Set.mem v meta.export_idents) && false *)
+                      then
+                        (* TODO: check l1 if it is exported,
+                           if so, maybe not since in that case,
+                           we are going to have two copy?
+                        *)
+                        (* Check: recursive applying may result in non-termination *)
 
-                (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
-                simpl meta
-                  (Lam_beta_reduce.propagate_beta_reduce meta params body
-                     ap_args)
-              else if
-                (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
-                (* ap_inlined = Always_inline || *)
-                Lam_analysis.ok_to_inline_fun_when_app m ap_args
-              then
-                (* let param_map =  *)
-                (*   Lam_analysis.free_variables meta.export_idents  *)
-                (*     (Lam_analysis.param_map_of_list params) body in *)
-                (* let old_count = List.length params in *)
-                (* let new_count = Map_ident.cardinal param_map in *)
-                let param_map =
-                  Lam_closure.is_closed_with_map meta.export_idents params body
-                in
-                let is_export_id = Ident.Set.mem v meta.export_idents in
-                match (is_export_id, param_map) with
-                | false, (_, param_map) | true, (true, param_map) -> (
-                    match rec_flag with
-                    | Lam_rec ->
-                        Lam_beta_reduce.propagate_beta_reduce_with_map meta
-                          param_map params body ap_args
-                    | Lam_self_rec -> normal ()
-                    | Lam_non_rec ->
-                        if
-                          List.exists
-                            ~f:(fun lam -> Lam_hit.hit_variable v lam)
-                            ap_args
-                          (*avoid nontermination, e.g, `g(g)`*)
-                        then normal ()
-                        else
-                          simpl meta
-                            (Lam_beta_reduce.propagate_beta_reduce_with_map meta
-                               param_map params body ap_args))
-                | _ -> normal ()
-              else normal ()
-            else normal ()
-        | _ | (exception Not_found) -> normal ())
+                        (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
+                        simpl meta
+                          (Lam_beta_reduce.propagate_beta_reduce meta params
+                             body ap_args)
+                      else if
+                        (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
+                        (* ap_inlined = Always_inline || *)
+                        Lam_analysis.ok_to_inline_fun_when_app m ap_args
+                      then
+                        (* let param_map =  *)
+                        (*   Lam_analysis.free_variables meta.export_idents  *)
+                        (*     (Lam_analysis.param_map_of_list params) body in *)
+                        (* let old_count = List.length params in *)
+                        (* let new_count = Map_ident.cardinal param_map in *)
+                        let param_map =
+                          Lam_closure.is_closed_with_map meta.export_idents
+                            params body
+                        in
+                        let is_export_id = Ident.Set.mem v meta.export_idents in
+                        match (is_export_id, param_map) with
+                        | false, (_, param_map) | true, (true, param_map) -> (
+                            match rec_flag with
+                            | Lam_rec ->
+                                Lam_beta_reduce.propagate_beta_reduce_with_map
+                                  meta param_map params body ap_args
+                            | Lam_self_rec -> normal ()
+                            | Lam_non_rec ->
+                                if
+                                  List.exists
+                                    ~f:(fun lam -> Lam_hit.hit_variable v lam)
+                                    ap_args
+                                  (*avoid nontermination, e.g, `g(g)`*)
+                                then normal ()
+                                else
+                                  simpl meta
+                                    (Lam_beta_reduce
+                                     .propagate_beta_reduce_with_map meta
+                                       param_map params body ap_args))
+                        | _ -> normal ()
+                      else normal ()
+                    else normal ()
+                | _ -> normal ()))
+        | exception Not_found -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->
         simpl meta (Lam_beta_reduce.propagate_beta_reduce meta params body args)

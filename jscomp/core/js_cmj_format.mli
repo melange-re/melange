@@ -52,12 +52,14 @@ type cmj_value = {
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (* Either constant or closed functor *)
+  call_summary : Lam_call_summary.t;
 }
 
 type keyed_cmj_value = {
   name : string;
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
+  call_summary : Lam_call_summary.t;
 }
 
 type t = {

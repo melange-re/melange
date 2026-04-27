@@ -32,7 +32,6 @@ const Stdlib__Lexing = require("melange/lexing.js");
 const Stdlib__List = require("melange/list.js");
 const Stdlib__Marshal = require("melange/marshal.js");
 const Stdlib__Parsing = require("melange/parsing.js");
-const Stdlib__Printexc = require("melange/printexc.js");
 const Stdlib__Printf = require("melange/printf.js");
 const Stdlib__Seq = require("melange/seq.js");
 const Stdlib__String = require("melange/string.js");

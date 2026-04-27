@@ -5,7 +5,6 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const CamlinternalLazy = require("melange/camlinternalLazy.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
-const Stdlib__Lazy = require("melange/lazy.js");
 
 const u = {
   contents: 3
@@ -312,10 +311,7 @@ Mt.from_pair_suites("Lazy_test", {
                         (function (param) {
                           return {
                             TAG: /* Ok */ 4,
-                            _0: Stdlib__Lazy.is_val({
-                              LAZY_DONE: true,
-                              VAL: 3
-                            })
+                            _0: true
                           };
                         })
                       ],
@@ -325,14 +321,7 @@ Mt.from_pair_suites("Lazy_test", {
                           (function (param) {
                             return {
                               TAG: /* Ok */ 4,
-                              _0: !Stdlib__Lazy.is_val({
-                                LAZY_DONE: false,
-                                VAL: (function () {
-                                  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-                                      MEL_EXN_ID: Stdlib.Not_found
-                                    });
-                                })
-                              })
+                              _0: true
                             };
                           })
                         ],
