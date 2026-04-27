@@ -30,6 +30,7 @@ val ocaml_to_js_eff :
 (** Compile ocaml external function call to JS IR. *)
 
 val translate_ffi :
+  loc:Location.t ->
   Lam_compile_context.t ->
   Melange_ffi.External_arg_spec.Arg_label.t
   Melange_ffi.External_arg_spec.Param.t

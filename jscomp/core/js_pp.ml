@@ -64,7 +64,7 @@ let flush t =
 let from_fd fd =
   {
     kind = File_descr fd;
-    line = 0;
+    line = 1;
     column = 0;
     indent_level = 0;
     last_new_line = false;
@@ -73,11 +73,14 @@ let from_fd fd =
 let from_buffer buf =
   {
     kind = Buffer buf;
-    line = 0;
+    line = 1;
     column = 0;
     indent_level = 0;
     last_new_line = false;
   }
+
+let current_line (t : t) = t.line
+let current_column (t : t) = t.column
 
 let string =
   let ends_with_char s c =
