@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  update-sources:
+  auto-update-reserved-keywords:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
