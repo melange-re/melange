@@ -34,7 +34,7 @@ Test cases for stdlib Array
   
   const x = Stdlib__Array.append([2], [3]);
   
-  const c = Stdlib__Array.concat({
+  const c = Caml_array.concat({
     hd: [1],
     tl: {
       hd: [2],

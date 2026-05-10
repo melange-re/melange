@@ -59,6 +59,7 @@ type t =
   | FunctionId of {
       mutable arity : Lam_arity.t;
       lambda : (Lam.t * rec_flag) option;
+      call_summary : Lam_call_summary.t;
     }
   | Exception
   | Parameter

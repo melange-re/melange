@@ -64,6 +64,7 @@ type t =
          check how it will interact with dead code elimination
       *)
       lambda : (Lam.t * rec_flag) option;
+      call_summary : Lam_call_summary.t;
     }
   | Exception
   | Parameter
@@ -105,7 +106,8 @@ let print =
     | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
     | Constant _ -> pp fmt "Constant"
     | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
-    | FunctionId _ -> pp fmt "FunctionID"
+    | FunctionId { call_summary; _ } ->
+        pp fmt "FunctionID(%a)" Lam_call_summary.print call_summary
     | Exception -> pp fmt "Exception"
     | Parameter -> pp fmt "Parameter"
     | NA -> pp fmt "NA"

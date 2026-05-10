@@ -34,9 +34,9 @@ open Import
    assert (old.arity = v)
 *)
 let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
-    lambda =
+    lambda call_summary =
   Ident.Hashtbl.add meta.ident_tbl ~key:k
-    ~data:(FunctionId { arity; lambda = Some (lambda, rec_flag) })
+    ~data:(FunctionId { arity; lambda = Some (lambda, rec_flag); call_summary })
 
 (* see #3609
    we have to update since bounded function lambda
@@ -58,6 +58,19 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     alias propgation - and toplevel identifiers, this needs to be exported
 *)
 let collect_info =
+  let find_external ~dynamic_import ident name =
+    match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
+    | Some { call_summary; _ } -> call_summary
+    | None -> Lam_call_summary.Unknown
+  in
+  let find_ident (meta : Lam_stats.t) ident =
+    match Ident.Hashtbl.find meta.ident_tbl ident with
+    | FunctionId { call_summary; _ } -> call_summary
+    | _ | exception Not_found -> Lam_call_summary.Unknown
+  in
+  let summarize meta lam =
+    Lam_call_summary.of_lambda lam ~find_ident:(find_ident meta) ~find_external
+  in
   let rec collect_bind (meta : Lam_stats.t) rec_flag (ident : Ident.t)
       (lam : Lam.t) =
     match lam with
@@ -82,7 +95,11 @@ let collect_info =
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
           ~data:
             (FunctionId
-               { arity = Lam_arity.info [ arity ] false; lambda = None })
+               {
+                 arity = Lam_arity.info [ arity ] false;
+                 lambda = None;
+                 call_summary = Lam_call_summary.Unknown;
+               })
     | Lprim { primitive = Pnull_to_opt; args = [ (Lvar _ as l) ]; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
           ~data:(OptionalBlock (l, Null))
@@ -97,9 +114,31 @@ let collect_info =
         Lam_util.alias_ident_or_global meta ident v (Module v)
     | Lvar v ->
         (* if Ident.global v then  *)
-        Lam_util.alias_ident_or_global meta ident v NA
+        let summary = find_ident meta v in
+        if Lam_call_summary.is_unknown summary then
+          Lam_util.alias_ident_or_global meta ident v NA
+        else
+          let arity = Lam_arity_analysis.get_arity meta lam in
+          Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+            ~data:(FunctionId { arity; lambda = None; call_summary = summary })
         (* enven for not subsitution, it still propogate some properties *)
         (* else () *)
+    | Lprim
+        {
+          primitive = Pfield (_, Fld_module { name = field_name });
+          args = [ Lglobal_module { id = module_id; dynamic_import } ];
+          _;
+        } ->
+        let call_summary = find_external ~dynamic_import module_id field_name in
+        if Lam_call_summary.is_unknown call_summary then (
+          collect meta lam;
+          if Ident.Set.mem ident meta.export_idents then
+            annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta lam)
+              lam call_summary)
+        else
+          let arity = Lam_arity_analysis.get_arity meta lam in
+          Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+            ~data:(FunctionId { arity; lambda = None; call_summary })
     | Lfunction { params; body; _ }
     (* TODO record parameters ident ?, but it will be broken after inlining *)
       ->
@@ -111,12 +150,13 @@ let collect_info =
           ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
           params;
         let arity = Lam_arity_analysis.get_arity meta lam in
-        annotate meta rec_flag ident arity lam;
+        annotate meta rec_flag ident arity lam (summarize meta lam);
         collect meta body
     | x ->
         collect meta x;
         if Ident.Set.mem ident meta.export_idents then
           annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta x) lam
+            (summarize meta lam)
   and collect meta (lam : Lam.t) =
     match lam with
     | Lconst _ -> ()

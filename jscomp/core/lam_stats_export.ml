@@ -104,13 +104,34 @@ let values_of_export =
                         Some (lambda, param_map lambda))
                       else None))
         in
-        match (arity, persistent_closed_lambda) with
-        | Single Arity_na, (None | Some (Lconst Const_module_alias, _))
-        | Submodule [||], None ->
+        let call_summary =
+          match Ident.Map.find x export_map with
+          | lambda ->
+              Lam_call_summary.of_lambda lambda
+                ~find_ident:(fun ident ->
+                  match Ident.Hashtbl.find meta.ident_tbl ident with
+                  | FunctionId { call_summary; _ } -> call_summary
+                  | _ | exception Not_found -> Lam_call_summary.Unknown)
+                ~find_external:(fun ~dynamic_import ident name ->
+                  match
+                    Lam_compile_env.query_external_id_info ~dynamic_import ident
+                      name
+                  with
+                  | Some { call_summary; _ } -> call_summary
+                  | None -> Lam_call_summary.Unknown)
+          | exception Not_found -> Lam_call_summary.Unknown
+        in
+        match (arity, persistent_closed_lambda, call_summary) with
+        | ( ( Single Arity_na,
+                (None | Some (Lconst Const_module_alias, _)),
+                summary )
+          | (Submodule [||], None, summary) )
+          when Lam_call_summary.is_unknown summary
+          ->
             acc
-        | _, _ ->
+        | _, _, _ ->
             String.Map.add acc ~key:(Ident.name x)
-              ~data:{ Js_cmj_format.arity; persistent_closed_lambda })
+              ~data:{ Js_cmj_format.arity; persistent_closed_lambda; call_summary })
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it *)

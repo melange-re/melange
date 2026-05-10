@@ -31,6 +31,7 @@ type cmj_value = {
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (** Either constant or closed functor *)
+  call_summary : Lam_call_summary.t;
 }
 
 let single_na = Single Lam_arity.na
@@ -39,6 +40,7 @@ type keyed_cmj_value = {
   name : string;
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
+  call_summary : Lam_call_summary.t;
 }
 
 type t = {
@@ -70,6 +72,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
             name = k;
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
+            call_summary = v.call_summary;
           });
     pure = effect_ = None;
     package_spec;
@@ -110,7 +113,12 @@ let to_file =
 let keyComp (a : string) b = String.compare a b.name
 
 let not_found key =
-  { name = key; arity = single_na; persistent_closed_lambda = None }
+  {
+    name = key;
+    arity = single_na;
+    persistent_closed_lambda = None;
+    call_summary = Lam_call_summary.Unknown;
+  }
 
 let get_result midVal =
   match midVal.persistent_closed_lambda with
