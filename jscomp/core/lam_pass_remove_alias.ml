@@ -118,12 +118,12 @@ let simplify_alias =
     | (exception Not_found) ->
         Eval_unknown
   in
-  let arg_is_parameter (tbl : Lam_id_kind.t Ident.Hashtbl.t) = function
+  let parameter_arg_id (tbl : Lam_id_kind.t Ident.Hashtbl.t) = function
     | Lam.Lvar p | Lam.Lmutvar p -> (
         match Ident.Hashtbl.find tbl p with
-        | Parameter -> true
-        | _ | exception Not_found -> false)
-    | _ -> false
+        | Parameter -> Some p
+        | _ | exception Not_found -> None)
+    | _ -> None
   in
   let rec contains_global_module (lam : Lam.t) =
     match lam with
@@ -286,12 +286,15 @@ let simplify_alias =
             let reduced =
               Lam_beta_reduce.propagate_beta_reduce meta params body args
             in
-            let has_parameter_arg =
-              List.exists args ~f:(arg_is_parameter meta.ident_tbl)
+            let parameter_args =
+              List.filter_map args ~f:(parameter_arg_id meta.ident_tbl)
             in
             if
-              (not has_parameter_arg)
-              || cross_module_parameter_result_is_safe reduced
+              List.is_empty parameter_args
+              || (cross_module_parameter_result_is_safe reduced
+                 && not
+                      (List.exists parameter_args ~f:(fun param ->
+                           Lam_hit.hit_variable param reduced)))
             then simpl meta reduced
             else Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
         | Some _ | None ->
