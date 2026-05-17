@@ -36,6 +36,16 @@ let f1 = fun x -> fun [@u] y z -> x + y + z
 let f2 = fun [@u] x y -> let a = x in fun z -> a + y +  z
 
 let f3 = fun x -> let a = x in fun [@u] y z -> a + y + z
+
+let utf_8_byte_length u =
+  let u = Arity_deopt_helper.uchar_to_int u in
+  if u <= 0x007F then 1
+  else if u <= 0x07FF then 2
+  else if u <= 0xFFFF then 3
+  else 4
+
+let captures_after_effect a = Arity_deopt_helper.captures_after_effect a
+
 (* be careful! When you start optimize functions of [@u], its call site invariant
    (Ml_app) will not hold any more.
    So the best is never shrink functions which could change arity
@@ -45,6 +55,9 @@ let () =
     eq __LOC__ 6 @@ f0 1 2 3 [@u] ;
         eq __LOC__ 6 @@ (f1 1 ) 2 3 [@u];
             eq __LOC__ 6   @@ ((f2 1 2 [@u]) 3);
-            eq __LOC__ 6  @@ (f3 1 ) 2 3  [@u]
+            eq __LOC__ 6  @@ (f3 1 ) 2 3  [@u];
+            eq __LOC__ 1 @@ utf_8_byte_length (Uchar.of_int 0x007F);
+            eq __LOC__ 3 @@ utf_8_byte_length (Uchar.of_int 0x0800);
+            eq __LOC__ 3 @@ captures_after_effect 1 2
   end
 let () = Mt.from_pair_suites __MODULE__ !suites
