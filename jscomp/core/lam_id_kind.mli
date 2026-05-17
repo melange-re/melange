@@ -32,7 +32,11 @@ type rec_flag =
 (* not inlining in this case *)
 
 module Element : sig
-  type t = NA | SimpleForm of Lam.t
+  type t =
+    | NA
+    | SimpleForm of Lam.t
+    | Function of Lam_arity.t
+    | ImmutableBlock of t array
 end
 
 type boxed_nullable = Undefined | Null | Null_undefined

@@ -32,6 +32,19 @@ let arity_of_var (meta : Lam_stats.t) (v : Ident.t) =
   | FunctionId { arity; _ } -> arity
   | _ | (exception Not_found) -> Lam_arity.na
 
+let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
+  match lam with
+  | Lvar v | Lmutvar v -> (
+      match Ident.Hashtbl.find meta.ident_tbl v with
+      | ImmutableBlock elems -> elems.(i)
+      | _ | (exception Not_found) -> Lam_id_kind.Element.NA
+      | exception _ -> Lam_id_kind.Element.NA)
+  | Lprim { primitive = Pfield (j, _); args = [ owner ]; _ } -> (
+      match field_element meta owner j with
+      | Lam_id_kind.Element.ImmutableBlock elems -> elems.(i)
+      | _ | exception _ -> Lam_id_kind.Element.NA)
+  | _ -> Lam_id_kind.Element.NA
+
 (* we need record all aliases -- since not all aliases are eliminated,
    mostly are toplevel bindings
    We will keep iterating such environment
@@ -69,6 +82,16 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
       | Some { arity = Submodule subs; _ } ->
           subs.(m) (* TODO: shall we store it as array?*)
       | Some { arity = Single _; _ } | None -> Lam_arity.na)
+  | Lprim
+      {
+        primitive = Pfield (m, _);
+        args = [ owner ];
+        _;
+      } -> (
+      match field_element meta owner m with
+      | Lam_id_kind.Element.Function arity -> arity
+      | SimpleForm lam -> get_arity meta lam
+      | NA | ImmutableBlock _ -> Lam_arity.na)
   (* TODO: all information except Pccall is complete, we could
      get more arity information
   *)

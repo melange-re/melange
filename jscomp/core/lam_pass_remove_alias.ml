@@ -62,7 +62,10 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
         ~args:[ Lam.global_module ~dynamic_import:false g ]
         ~loc:Location.none
   | ImmutableBlock arr -> (
-      match arr.(i) with NA -> f () | SimpleForm l -> l | exception _ -> f ())
+      match arr.(i) with
+      | NA | Function _ | ImmutableBlock _ -> f ()
+      | SimpleForm l -> l
+      | exception _ -> f ())
   | Constant (Const_block (_, _, ls)) -> (
       match List.nth ls i with exception Failure _ -> f () | x -> Lam.const x)
   | _ | (exception Not_found) -> f ()
