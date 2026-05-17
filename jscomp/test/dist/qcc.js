@@ -1733,10 +1733,10 @@ function elfgen(outf) {
   symitr(patchloc);
   const strtab = opos.contents;
   opos.contents = opos.contents + 1 | 0;
-  Stdlib__String.blit("/lib64/ld-linux-x86-64.so.2\0libc.so.6", 0, obuf, opos.contents, 37);
+  Stdlib__Bytes.blit_string("/lib64/ld-linux-x86-64.so.2\0libc.so.6", 0, obuf, opos.contents, 37);
   opos.contents = (opos.contents + 37 | 0) + 1 | 0;
   itr(function (s, sl, param) {
-    Stdlib__String.blit(s, 0, obuf, opos.contents, sl);
+    Stdlib__Bytes.blit_string(s, 0, obuf, opos.contents, sl);
     opos.contents = (opos.contents + sl | 0) + 1 | 0;
   });
   opos.contents = opos.contents + 7 & -8;

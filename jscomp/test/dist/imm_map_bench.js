@@ -2,7 +2,7 @@
 'use strict';
 
 const Belt__Belt_Array = require("melange.belt/belt_Array.js");
-const Belt__Belt_MapInt = require("melange.belt/belt_MapInt.js");
+const Belt__Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Js__Js_exn = require("melange.js/js_exn.js");
 const Immutable = require("immutable");
@@ -40,9 +40,9 @@ function test(param) {
 }
 
 function test2(param) {
-  const v = Belt__Belt_MapInt.fromArray(shuffledDataAdd);
+  const v = Belt__Belt_internalMapInt.fromArray(shuffledDataAdd);
   for (let j = 0; j <= 1000000; ++j) {
-    should(Belt__Belt_MapInt.has(v, j));
+    should(Belt__Belt_internalMapInt.has(v, j));
   }
 }
 

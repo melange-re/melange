@@ -6,6 +6,7 @@ const Belt__Belt_Array = require("melange.belt/belt_Array.js");
 const Belt__Belt_HashMap = require("melange.belt/belt_HashMap.js");
 const Belt__Belt_Id = require("melange.belt/belt_Id.js");
 const Belt__Belt_SortArray = require("melange.belt/belt_SortArray.js");
+const Belt__Belt_internalBuckets = require("melange.belt/belt_internalBuckets.js");
 const Belt__Belt_internalBucketsType = require("melange.belt/belt_internalBucketsType.js");
 const Caml = require("melange.js/caml.js");
 const Mt = require("./mt.js");
@@ -74,7 +75,7 @@ const xx = Belt__Belt_HashMap.fromArray(v, Y);
 
 eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 41, characters 6-13", xx.size, 91);
 
-eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 42, characters 6-13", Belt__Belt_SortArray.stableSortBy(Belt__Belt_HashMap.keysToArray(xx), cmp), Array_data_util.range(30, 120));
+eqx("File \"jscomp/test/bs_hashmap_test.ml\", line 42, characters 6-13", Belt__Belt_SortArray.stableSortBy(Belt__Belt_internalBuckets.keysToArray(xx), cmp), Array_data_util.range(30, 120));
 
 const u$1 = Belt__Belt_Array.concat(Array_data_util.randomRange(0, 100000), Array_data_util.randomRange(0, 100));
 

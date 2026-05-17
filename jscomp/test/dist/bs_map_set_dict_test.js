@@ -7,7 +7,9 @@ const Belt__Belt_Id = require("melange.belt/belt_Id.js");
 const Belt__Belt_List = require("melange.belt/belt_List.js");
 const Belt__Belt_Map = require("melange.belt/belt_Map.js");
 const Belt__Belt_MapDict = require("melange.belt/belt_MapDict.js");
+const Belt__Belt_Set = require("melange.belt/belt_Set.js");
 const Belt__Belt_SetDict = require("melange.belt/belt_SetDict.js");
+const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
 const Caml = require("melange.js/caml.js");
 const Mt = require("./mt.js");
 
@@ -112,16 +114,16 @@ function $eq$tilde(a, b) {
   };
 }
 
-const u0 = f(Belt__Belt_Array.map(Array_data_util.randomRange(0, 39), (function (x) {
+const u0 = Belt__Belt_Map.fromArray(Belt__Belt_Array.map(Array_data_util.randomRange(0, 39), (function (x) {
   return [
     x,
     x
   ];
-})));
+})), Icmp);
 
 const u1 = Belt__Belt_Map.set(u0, 39, 120);
 
-b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt__Belt_Array.every2(Belt__Belt_MapDict.toArray(u0.data), Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
+b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt__Belt_Array.every2(Belt__Belt_internalAVLtree.toArray(u0.data), Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
   return [
     x,
     x
@@ -134,7 +136,7 @@ b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt
   }
 })));
 
-b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 85, characters 4-11", Belt__Belt_List.every2(Belt__Belt_MapDict.toList(u0.data), Belt__Belt_List.fromArray(Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
+b("File \"jscomp/test/bs_map_set_dict_test.ml\", line 85, characters 4-11", Belt__Belt_List.every2(Belt__Belt_internalAVLtree.toList(u0.data), Belt__Belt_List.fromArray(Belt__Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
   return [
     x,
     x
@@ -151,19 +153,19 @@ eq("File \"jscomp/test/bs_map_set_dict_test.ml\", line 90, characters 5-12", Bel
 
 eq("File \"jscomp/test/bs_map_set_dict_test.ml\", line 91, characters 5-12", Belt__Belt_Map.get(u1, 39), 120);
 
-const u = f(Belt__Belt_Array.makeByAndShuffle(10000, (function (x) {
+const u = Belt__Belt_Map.fromArray(Belt__Belt_Array.makeByAndShuffle(10000, (function (x) {
   return [
     x,
     x
   ];
-})));
+})), Icmp);
 
 eq("File \"jscomp/test/bs_map_set_dict_test.ml\", line 97, characters 4-11", Belt__Belt_Array.makeBy(10000, (function (x) {
   return [
     x,
     x
   ];
-})), Belt__Belt_MapDict.toArray(u.data));
+})), Belt__Belt_internalAVLtree.toArray(u.data));
 
 Mt.from_pair_suites("Bs_map_set_dict_test", suites.contents);
 

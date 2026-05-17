@@ -3,7 +3,9 @@
 
 const Belt__Belt_Array = require("melange.belt/belt_Array.js");
 const Belt__Belt_MapInt = require("melange.belt/belt_MapInt.js");
-const Belt__Belt_SetInt = require("melange.belt/belt_SetInt.js");
+const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
+const Belt__Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js");
+const Belt__Belt_internalSetInt = require("melange.belt/belt_internalSetInt.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -47,9 +49,9 @@ function b(loc, v) {
   };
 }
 
-const mapOfArray = Belt__Belt_MapInt.fromArray;
+const mapOfArray = Belt__Belt_internalMapInt.fromArray;
 
-const setOfArray = Belt__Belt_SetInt.fromArray;
+const setOfArray = Belt__Belt_internalSetInt.fromArray;
 
 function emptyMap(param) {
   
@@ -62,9 +64,9 @@ const v = Belt__Belt_Array.makeByAndShuffle(1000000, (function (i) {
   ];
 }));
 
-const u = Belt__Belt_MapInt.fromArray(v);
+const u = Belt__Belt_internalMapInt.fromArray(v);
 
-Belt__Belt_MapInt.checkInvariantInternal(u);
+Belt__Belt_internalAVLtree.checkInvariantInternal(u);
 
 const firstHalf = Belt__Belt_Array.slice(v, 0, 2000);
 
@@ -72,9 +74,9 @@ const xx = Belt__Belt_Array.reduce(firstHalf, u, (function (acc, param) {
   return Belt__Belt_MapInt.remove(acc, param[0]);
 }));
 
-Belt__Belt_MapInt.checkInvariantInternal(u);
+Belt__Belt_internalAVLtree.checkInvariantInternal(u);
 
-Belt__Belt_MapInt.checkInvariantInternal(xx);
+Belt__Belt_internalAVLtree.checkInvariantInternal(xx);
 
 Mt.from_pair_suites("Bs_map_test", suites.contents);
 

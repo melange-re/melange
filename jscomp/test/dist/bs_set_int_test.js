@@ -4,6 +4,8 @@
 const Array_data_util = require("./array_data_util.js");
 const Belt__Belt_Array = require("melange.belt/belt_Array.js");
 const Belt__Belt_SetInt = require("melange.belt/belt_SetInt.js");
+const Belt__Belt_internalAVLset = require("melange.belt/belt_internalAVLset.js");
+const Belt__Belt_internalSetInt = require("melange.belt/belt_internalSetInt.js");
 const Mt = require("./mt.js");
 const Stdlib__Array = require("melange/array.js");
 const Stdlib__List = require("melange/list.js");
@@ -25,11 +27,11 @@ function b(loc, v) {
 }
 
 function $eq$tilde(s, i) {
-  return Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i), s);
+  return Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i), s);
 }
 
 function $eq$star(a, b) {
-  return Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(a), Belt__Belt_SetInt.fromArray(b));
+  return Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(a), Belt__Belt_internalSetInt.fromArray(b));
 }
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 17, characters 4-11", $eq$star([
@@ -42,17 +44,17 @@ b("File \"jscomp/test/bs_set_int_test.ml\", line 17, characters 4-11", $eq$star(
   1
 ]));
 
-const u = Belt__Belt_SetInt.intersect(Belt__Belt_SetInt.fromArray([
+const u = Belt__Belt_SetInt.intersect(Belt__Belt_internalSetInt.fromArray([
   1,
   2,
   3
-]), Belt__Belt_SetInt.fromArray([
+]), Belt__Belt_internalSetInt.fromArray([
   3,
   4,
   5
 ]));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 23, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray([3]), u));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 23, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray([3]), u));
 
 function range(i, j) {
   return Stdlib__Array.init((j - i | 0) + 1 | 0, (function (k) {
@@ -66,13 +68,13 @@ function revRange(i, j) {
   })))));
 }
 
-const v = Belt__Belt_SetInt.fromArray(Stdlib__Array.append(range(100, 1000), revRange(400, 1500)));
+const v = Belt__Belt_internalSetInt.fromArray(Stdlib__Array.append(range(100, 1000), revRange(400, 1500)));
 
 const i = range(100, 1500);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 36, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i), v));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 36, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i), v));
 
-const match = Belt__Belt_SetInt.partition(v, (function (x) {
+const match = Belt__Belt_internalAVLset.partitionShared(v, (function (x) {
   return x % 3 === 0;
 }));
 
@@ -92,45 +94,45 @@ const nl = l;
 
 const nr = r;
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 47, characters 4-11", Belt__Belt_SetInt.eq(match[0], nl));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 47, characters 4-11", Belt__Belt_internalSetInt.eq(match[0], nl));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 48, characters 4-11", Belt__Belt_SetInt.eq(match[1], nr));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 48, characters 4-11", Belt__Belt_internalSetInt.eq(match[1], nr));
 
 const i$2 = range(50, 100);
 
-const s = Belt__Belt_SetInt.intersect(Belt__Belt_SetInt.fromArray(range(1, 100)), Belt__Belt_SetInt.fromArray(range(50, 200)));
+const s = Belt__Belt_SetInt.intersect(Belt__Belt_internalSetInt.fromArray(range(1, 100)), Belt__Belt_internalSetInt.fromArray(range(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 51, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$2), s));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 51, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$2), s));
 
 const i$3 = range(1, 200);
 
-const s$1 = Belt__Belt_SetInt.union(Belt__Belt_SetInt.fromArray(range(1, 100)), Belt__Belt_SetInt.fromArray(range(50, 200)));
+const s$1 = Belt__Belt_SetInt.union(Belt__Belt_internalSetInt.fromArray(range(1, 100)), Belt__Belt_internalSetInt.fromArray(range(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 54, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$3), s$1));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 54, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$3), s$1));
 
 const i$4 = range(1, 49);
 
-const s$2 = Belt__Belt_SetInt.diff(Belt__Belt_SetInt.fromArray(range(1, 100)), Belt__Belt_SetInt.fromArray(range(50, 200)));
+const s$2 = Belt__Belt_SetInt.diff(Belt__Belt_internalSetInt.fromArray(range(1, 100)), Belt__Belt_internalSetInt.fromArray(range(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 57, characters 6-13", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$4), s$2));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 57, characters 6-13", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$4), s$2));
 
 const i$5 = revRange(50, 100);
 
-const s$3 = Belt__Belt_SetInt.intersect(Belt__Belt_SetInt.fromArray(revRange(1, 100)), Belt__Belt_SetInt.fromArray(revRange(50, 200)));
+const s$3 = Belt__Belt_SetInt.intersect(Belt__Belt_internalSetInt.fromArray(revRange(1, 100)), Belt__Belt_internalSetInt.fromArray(revRange(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 60, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$5), s$3));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 60, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$5), s$3));
 
 const i$6 = revRange(1, 200);
 
-const s$4 = Belt__Belt_SetInt.union(Belt__Belt_SetInt.fromArray(revRange(1, 100)), Belt__Belt_SetInt.fromArray(revRange(50, 200)));
+const s$4 = Belt__Belt_SetInt.union(Belt__Belt_internalSetInt.fromArray(revRange(1, 100)), Belt__Belt_internalSetInt.fromArray(revRange(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 63, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$6), s$4));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 63, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$6), s$4));
 
 const i$7 = revRange(1, 49);
 
-const s$5 = Belt__Belt_SetInt.diff(Belt__Belt_SetInt.fromArray(revRange(1, 100)), Belt__Belt_SetInt.fromArray(revRange(50, 200)));
+const s$5 = Belt__Belt_SetInt.diff(Belt__Belt_internalSetInt.fromArray(revRange(1, 100)), Belt__Belt_internalSetInt.fromArray(revRange(50, 200)));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 66, characters 6-13", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.fromArray(i$7), s$5));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 66, characters 6-13", Belt__Belt_internalSetInt.eq(Belt__Belt_internalSetInt.fromArray(i$7), s$5));
 
 const ss = [
   1,
@@ -143,7 +145,7 @@ const ss = [
   -1
 ];
 
-const v$1 = Belt__Belt_SetInt.fromArray([
+const v$1 = Belt__Belt_internalSetInt.fromArray([
   1,
   222,
   3,
@@ -154,15 +156,15 @@ const v$1 = Belt__Belt_SetInt.fromArray([
   -1
 ]);
 
-const minv = Belt__Belt_SetInt.minUndefined(v$1);
+const minv = Belt__Belt_internalAVLset.minUndefined(v$1);
 
-const maxv = Belt__Belt_SetInt.maxUndefined(v$1);
+const maxv = Belt__Belt_internalAVLset.maxUndefined(v$1);
 
 function approx(loc, x, y) {
   b(loc, x === y);
 }
 
-eq("File \"jscomp/test/bs_set_int_test.ml\", line 74, characters 5-12", Belt__Belt_SetInt.reduce(v$1, 0, (function (x, y) {
+eq("File \"jscomp/test/bs_set_int_test.ml\", line 74, characters 5-12", Belt__Belt_internalAVLset.reduce(v$1, 0, (function (x, y) {
   return x + y | 0;
 })), Belt__Belt_Array.reduce(ss, 0, (function (prim0, prim1) {
   return prim0 + prim1 | 0;
@@ -174,9 +176,9 @@ approx("File \"jscomp/test/bs_set_int_test.ml\", line 76, characters 9-16", 222,
 
 const v$2 = Belt__Belt_SetInt.remove(v$1, 3);
 
-const minv$1 = Belt__Belt_SetInt.minimum(v$2);
+const minv$1 = Belt__Belt_internalAVLset.minimum(v$2);
 
-const maxv$1 = Belt__Belt_SetInt.maximum(v$2);
+const maxv$1 = Belt__Belt_internalAVLset.maximum(v$2);
 
 eq("File \"jscomp/test/bs_set_int_test.ml\", line 79, characters 5-12", minv$1, -1);
 
@@ -184,9 +186,9 @@ eq("File \"jscomp/test/bs_set_int_test.ml\", line 80, characters 5-12", maxv$1, 
 
 const v$3 = Belt__Belt_SetInt.remove(v$2, 222);
 
-const minv$2 = Belt__Belt_SetInt.minimum(v$3);
+const minv$2 = Belt__Belt_internalAVLset.minimum(v$3);
 
-const maxv$2 = Belt__Belt_SetInt.maximum(v$3);
+const maxv$2 = Belt__Belt_internalAVLset.maximum(v$3);
 
 eq("File \"jscomp/test/bs_set_int_test.ml\", line 83, characters 5-12", minv$2, -1);
 
@@ -194,9 +196,9 @@ eq("File \"jscomp/test/bs_set_int_test.ml\", line 84, characters 5-12", maxv$2, 
 
 const v$4 = Belt__Belt_SetInt.remove(v$3, -1);
 
-const minv$3 = Belt__Belt_SetInt.minimum(v$4);
+const minv$3 = Belt__Belt_internalAVLset.minimum(v$4);
 
-const maxv$3 = Belt__Belt_SetInt.maximum(v$4);
+const maxv$3 = Belt__Belt_internalAVLset.maximum(v$4);
 
 eq("File \"jscomp/test/bs_set_int_test.ml\", line 87, characters 5-12", minv$3, 0);
 
@@ -214,47 +216,47 @@ const v$9 = Belt__Belt_SetInt.remove(v$8, 4);
 
 const v$10 = Belt__Belt_SetInt.remove(v$9, 1);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 95, characters 4-11", Belt__Belt_SetInt.isEmpty(v$10));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 95, characters 4-11", v$10 === undefined);
 
 const v$11 = Belt__Belt_Array.makeByAndShuffle(1000000, (function (i) {
   return i;
 }));
 
-const u$1 = Belt__Belt_SetInt.fromArray(v$11);
+const u$1 = Belt__Belt_internalSetInt.fromArray(v$11);
 
-Belt__Belt_SetInt.checkInvariantInternal(u$1);
+Belt__Belt_internalAVLset.checkInvariantInternal(u$1);
 
 const firstHalf = Belt__Belt_Array.slice(v$11, 0, 2000);
 
 const xx = Belt__Belt_Array.reduce(firstHalf, u$1, Belt__Belt_SetInt.remove);
 
-Belt__Belt_SetInt.checkInvariantInternal(u$1);
+Belt__Belt_internalAVLset.checkInvariantInternal(u$1);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 106, characters 4-11", Belt__Belt_SetInt.eq(Belt__Belt_SetInt.union(Belt__Belt_SetInt.fromArray(firstHalf), xx), u$1));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 106, characters 4-11", Belt__Belt_internalSetInt.eq(Belt__Belt_SetInt.union(Belt__Belt_internalSetInt.fromArray(firstHalf), xx), u$1));
 
-const aa = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 100));
+const aa = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 100));
 
-const bb = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 200));
+const bb = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 200));
 
-const cc = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(120, 200));
+const cc = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(120, 200));
 
 const dd = Belt__Belt_SetInt.union(aa, cc);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 113, characters 4-11", Belt__Belt_SetInt.subset(aa, bb));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 113, characters 4-11", Belt__Belt_internalSetInt.subset(aa, bb));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 114, characters 4-11", Belt__Belt_SetInt.subset(dd, bb));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 114, characters 4-11", Belt__Belt_internalSetInt.subset(dd, bb));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 115, characters 4-11", Belt__Belt_SetInt.subset(Belt__Belt_SetInt.add(dd, 200), bb));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 115, characters 4-11", Belt__Belt_internalSetInt.subset(Belt__Belt_SetInt.add(dd, 200), bb));
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 116, characters 4-11", Belt__Belt_SetInt.add(dd, 200) === dd);
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 117, characters 4-11", Belt__Belt_SetInt.add(dd, 0) === dd);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 118, characters 4-11", !Belt__Belt_SetInt.subset(Belt__Belt_SetInt.add(dd, 201), bb));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 118, characters 4-11", !Belt__Belt_internalSetInt.subset(Belt__Belt_SetInt.add(dd, 201), bb));
 
-const aa$1 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 100));
+const aa$1 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 100));
 
-const bb$1 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 100));
+const bb$1 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 100));
 
 const cc$1 = Belt__Belt_SetInt.add(bb$1, 101);
 
@@ -262,19 +264,19 @@ const dd$1 = Belt__Belt_SetInt.remove(bb$1, 99);
 
 const ee = Belt__Belt_SetInt.add(dd$1, 101);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 127, characters 4-11", Belt__Belt_SetInt.eq(aa$1, bb$1));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 127, characters 4-11", Belt__Belt_internalSetInt.eq(aa$1, bb$1));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 128, characters 4-11", !Belt__Belt_SetInt.eq(aa$1, cc$1));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 128, characters 4-11", !Belt__Belt_internalSetInt.eq(aa$1, cc$1));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 129, characters 4-11", !Belt__Belt_SetInt.eq(dd$1, cc$1));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 129, characters 4-11", !Belt__Belt_internalSetInt.eq(dd$1, cc$1));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 130, characters 4-11", !Belt__Belt_SetInt.eq(bb$1, ee));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 130, characters 4-11", !Belt__Belt_internalSetInt.eq(bb$1, ee));
 
 const a1 = Belt__Belt_SetInt.mergeMany(undefined, Array_data_util.randomRange(0, 100));
 
 const a2 = Belt__Belt_SetInt.removeMany(a1, Array_data_util.randomRange(40, 100));
 
-const a3 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 39));
+const a3 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 39));
 
 const match$1 = Belt__Belt_SetInt.split(a1, 40);
 
@@ -284,17 +286,17 @@ const a5 = match$2[1];
 
 const a4 = match$2[0];
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 138, characters 4-11", Belt__Belt_SetInt.eq(a1, Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 100))));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 138, characters 4-11", Belt__Belt_internalSetInt.eq(a1, Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 100))));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 139, characters 4-11", Belt__Belt_SetInt.eq(a2, a3));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 139, characters 4-11", Belt__Belt_internalSetInt.eq(a2, a3));
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 140, characters 4-11", match$1[1]);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 141, characters 4-11", Belt__Belt_SetInt.eq(a3, a4));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 141, characters 4-11", Belt__Belt_internalSetInt.eq(a3, a4));
 
 const a6 = Belt__Belt_SetInt.remove(Belt__Belt_SetInt.removeMany(a1, Array_data_util.randomRange(0, 39)), 40);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 143, characters 4-11", Belt__Belt_SetInt.eq(a5, a6));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 143, characters 4-11", Belt__Belt_internalSetInt.eq(a5, a6));
 
 const a7 = Belt__Belt_SetInt.remove(a1, 40);
 
@@ -306,35 +308,35 @@ const a9 = match$4[1];
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 146, characters 4-11", !match$3[1]);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 147, characters 4-11", Belt__Belt_SetInt.eq(a4, match$4[0]));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 147, characters 4-11", Belt__Belt_internalSetInt.eq(a4, match$4[0]));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 148, characters 4-11", Belt__Belt_SetInt.eq(a5, a9));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 148, characters 4-11", Belt__Belt_internalSetInt.eq(a5, a9));
 
 const a10 = Belt__Belt_SetInt.removeMany(a9, Array_data_util.randomRange(42, 2000));
 
-eq("File \"jscomp/test/bs_set_int_test.ml\", line 150, characters 5-12", Belt__Belt_SetInt.size(a10), 1);
+eq("File \"jscomp/test/bs_set_int_test.ml\", line 150, characters 5-12", Belt__Belt_internalAVLset.size(a10), 1);
 
 const a11 = Belt__Belt_SetInt.removeMany(a9, Array_data_util.randomRange(0, 2000));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 152, characters 4-11", Belt__Belt_SetInt.isEmpty(a11));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 152, characters 4-11", a11 === undefined);
 
 const match$5 = Belt__Belt_SetInt.split(undefined, 0);
 
 const match$6 = match$5[0];
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 156, characters 4-11", Belt__Belt_SetInt.isEmpty(match$6[0]));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 156, characters 4-11", match$6[0] === undefined);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 157, characters 4-11", Belt__Belt_SetInt.isEmpty(match$6[1]));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 157, characters 4-11", match$6[1] === undefined);
 
 b("File \"jscomp/test/bs_set_int_test.ml\", line 158, characters 4-11", !match$5[1]);
 
-const v$12 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 2000));
+const v$12 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 2000));
 
-const v0 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(0, 2000));
+const v0 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(0, 2000));
 
-const v1 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(1, 2001));
+const v1 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(1, 2001));
 
-const v2 = Belt__Belt_SetInt.fromArray(Array_data_util.randomRange(3, 2002));
+const v2 = Belt__Belt_internalSetInt.fromArray(Array_data_util.randomRange(3, 2002));
 
 const v3 = Belt__Belt_SetInt.removeMany(v2, [
   2002,
@@ -342,7 +344,7 @@ const v3 = Belt__Belt_SetInt.removeMany(v2, [
 ]);
 
 const us = Belt__Belt_Array.map(Array_data_util.randomRange(1000, 3000), (function (x) {
-  return Belt__Belt_SetInt.has(v$12, x);
+  return Belt__Belt_internalSetInt.has(v$12, x);
 }));
 
 const counted = Belt__Belt_Array.reduce(us, 0, (function (acc, x) {
@@ -355,21 +357,21 @@ const counted = Belt__Belt_Array.reduce(us, 0, (function (acc, x) {
 
 eq("File \"jscomp/test/bs_set_int_test.ml\", line 168, characters 5-12", counted, 1001);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 169, characters 4-11", Belt__Belt_SetInt.eq(v$12, v0));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 169, characters 4-11", Belt__Belt_internalSetInt.eq(v$12, v0));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 170, characters 4-11", Belt__Belt_SetInt.cmp(v$12, v0) === 0);
+b("File \"jscomp/test/bs_set_int_test.ml\", line 170, characters 4-11", Belt__Belt_internalSetInt.cmp(v$12, v0) === 0);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 171, characters 4-11", Belt__Belt_SetInt.cmp(v$12, v1) < 0);
+b("File \"jscomp/test/bs_set_int_test.ml\", line 171, characters 4-11", Belt__Belt_internalSetInt.cmp(v$12, v1) < 0);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 172, characters 4-11", Belt__Belt_SetInt.cmp(v$12, v2) > 0);
+b("File \"jscomp/test/bs_set_int_test.ml\", line 172, characters 4-11", Belt__Belt_internalSetInt.cmp(v$12, v2) > 0);
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 173, characters 4-11", Belt__Belt_SetInt.subset(v3, v0));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 173, characters 4-11", Belt__Belt_internalSetInt.subset(v3, v0));
 
-b("File \"jscomp/test/bs_set_int_test.ml\", line 174, characters 4-11", !Belt__Belt_SetInt.subset(v1, v0));
+b("File \"jscomp/test/bs_set_int_test.ml\", line 174, characters 4-11", !Belt__Belt_internalSetInt.subset(v1, v0));
 
-eq("File \"jscomp/test/bs_set_int_test.ml\", line 175, characters 5-12", Belt__Belt_SetInt.get(v$12, 30), 30);
+eq("File \"jscomp/test/bs_set_int_test.ml\", line 175, characters 5-12", Belt__Belt_internalSetInt.get(v$12, 30), 30);
 
-eq("File \"jscomp/test/bs_set_int_test.ml\", line 176, characters 5-12", Belt__Belt_SetInt.get(v$12, 3000), undefined);
+eq("File \"jscomp/test/bs_set_int_test.ml\", line 176, characters 5-12", Belt__Belt_internalSetInt.get(v$12, 3000), undefined);
 
 Mt.from_pair_suites("Bs_set_int_test", suites.contents);
 

@@ -2,7 +2,6 @@
 'use strict';
 
 const Curry = require("melange.js/curry.js");
-const Gpr_1423_nav = require("./gpr_1423_nav.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -36,7 +35,7 @@ function foo(f) {
 
 foo(function (param) {
   return function (param$1) {
-    return Gpr_1423_nav.busted(param, "a2", param$1);
+    return param + "a2";
   };
 });
 

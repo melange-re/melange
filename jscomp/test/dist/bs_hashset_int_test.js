@@ -4,9 +4,11 @@
 const Array_data_util = require("./array_data_util.js");
 const Belt__Belt_Array = require("melange.belt/belt_Array.js");
 const Belt__Belt_HashSetInt = require("melange.belt/belt_HashSetInt.js");
-const Belt__Belt_SetInt = require("melange.belt/belt_SetInt.js");
 const Belt__Belt_SortArrayInt = require("melange.belt/belt_SortArrayInt.js");
+const Belt__Belt_internalAVLset = require("melange.belt/belt_internalAVLset.js");
 const Belt__Belt_internalBucketsType = require("melange.belt/belt_internalBucketsType.js");
+const Belt__Belt_internalSetBuckets = require("melange.belt/belt_internalSetBuckets.js");
+const Belt__Belt_internalSetInt = require("melange.belt/belt_internalSetInt.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -33,7 +35,7 @@ function sum2(h) {
   const v = {
     contents: 0
   };
-  Belt__Belt_HashSetInt.forEach(h, (function (x) {
+  Belt__Belt_internalSetBuckets.forEach(h, (function (x) {
     v.contents = v.contents + x | 0;
   }));
   return v.contents;
@@ -45,11 +47,11 @@ const v = Belt__Belt_HashSetInt.fromArray(u);
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 19, characters 5-12", v.size, 91);
 
-const xs = Belt__Belt_SetInt.toArray(Belt__Belt_SetInt.fromArray(Belt__Belt_HashSetInt.toArray(v)));
+const xs = Belt__Belt_internalAVLset.toArray(Belt__Belt_internalSetInt.fromArray(Belt__Belt_internalSetBuckets.toArray(v)));
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 21, characters 5-12", xs, Array_data_util.range(30, 120));
 
-eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 23, characters 5-12", Belt__Belt_HashSetInt.reduce(v, 0, add), 6825);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 23, characters 5-12", Belt__Belt_internalSetBuckets.reduce(v, 0, add), 6825);
 
 eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 24, characters 5-12", sum2(v), 6825);
 
@@ -75,9 +77,9 @@ eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 38, characters 5-12", v$1.
 
 const u0 = Belt__Belt_HashSetInt.fromArray(Array_data_util.randomRange(0, 100000));
 
-const u1 = Belt__Belt_HashSetInt.copy(u0);
+const u1 = Belt__Belt_internalSetBuckets.copy(u0);
 
-eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 46, characters 5-12", Belt__Belt_HashSetInt.toArray(u0), Belt__Belt_HashSetInt.toArray(u1));
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 46, characters 5-12", Belt__Belt_internalSetBuckets.toArray(u0), Belt__Belt_internalSetBuckets.toArray(u1));
 
 for (let i$2 = 0; i$2 <= 2000; ++i$2) {
   Belt__Belt_HashSetInt.remove(u1, i$2);
@@ -87,9 +89,9 @@ for (let i$3 = 0; i$3 <= 1000; ++i$3) {
   Belt__Belt_HashSetInt.remove(u0, i$3);
 }
 
-const v0 = Belt__Belt_Array.concat(Array_data_util.range(0, 1000), Belt__Belt_HashSetInt.toArray(u0));
+const v0 = Belt__Belt_Array.concat(Array_data_util.range(0, 1000), Belt__Belt_internalSetBuckets.toArray(u0));
 
-const v1 = Belt__Belt_Array.concat(Array_data_util.range(0, 2000), Belt__Belt_HashSetInt.toArray(u1));
+const v1 = Belt__Belt_Array.concat(Array_data_util.range(0, 2000), Belt__Belt_internalSetBuckets.toArray(u1));
 
 Belt__Belt_SortArrayInt.stableSortInPlace(v0);
 
@@ -99,7 +101,7 @@ eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 57, characters 5-12", v0, 
 
 const h = Belt__Belt_HashSetInt.fromArray(Array_data_util.randomRange(0, 1000000));
 
-const histo = Belt__Belt_HashSetInt.getBucketHistogram(h);
+const histo = Belt__Belt_internalSetBuckets.getBucketHistogram(h);
 
 b("File \"jscomp/test/bs_hashset_int_test.ml\", line 62, characters 4-11", histo.length <= 10);
 

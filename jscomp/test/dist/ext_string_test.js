@@ -238,7 +238,7 @@ function repeat(n, s) {
   const len = s.length;
   const res = Caml_bytes.caml_create_bytes(Math.imul(n, len));
   for (let i = 0; i < n; ++i) {
-    Stdlib__String.blit(s, 0, res, Math.imul(i, len), len);
+    Stdlib__Bytes.blit_string(s, 0, res, Math.imul(i, len), len);
   }
   return Stdlib__Bytes.to_string(res);
 }

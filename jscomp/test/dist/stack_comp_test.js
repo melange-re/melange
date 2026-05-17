@@ -364,10 +364,12 @@ const i$7 = {
   contents: 1
 };
 
-Stdlib__List.iter((function (j) {
+function f(j) {
   assert_("File \"jscomp/test/stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
   i$7.contents = i$7.contents + 1 | 0;
-}), s$5.c);
+}
+
+Stdlib__List.iter(f, s$5.c);
 
 const s1$1 = {
   c: /* [] */ 0,
@@ -457,4 +459,4 @@ module.exports = {
   S,
   does_raise,
 }
-/* s Not a pure module */
+/*  Not a pure module */

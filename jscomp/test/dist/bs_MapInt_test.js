@@ -2,6 +2,8 @@
 'use strict';
 
 const Belt__Belt_MapInt = require("melange.belt/belt_MapInt.js");
+const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
+const Belt__Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js");
 const Js__Js_exn = require("melange.js/js_exn.js");
 
 function should(b) {
@@ -17,12 +19,12 @@ function test(param) {
     m = Belt__Belt_MapInt.set(m, i, i);
   }
   for (let i$1 = 0; i$1 <= 999999; ++i$1) {
-    should(Belt__Belt_MapInt.get(m, i$1) !== undefined);
+    should(Belt__Belt_internalMapInt.get(m, i$1) !== undefined);
   }
   for (let i$2 = 0; i$2 <= 999999; ++i$2) {
     m = Belt__Belt_MapInt.remove(m, i$2);
   }
-  should(Belt__Belt_MapInt.isEmpty(m));
+  should(Belt__Belt_internalAVLtree.isEmpty(m));
 }
 
 test();
