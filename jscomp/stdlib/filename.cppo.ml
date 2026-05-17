@@ -276,6 +276,15 @@ module Sysdeps =
 
 include Sysdeps
 
+let is_relative name = Sysdeps.is_relative name
+let is_implicit name = Sysdeps.is_implicit name
+let check_suffix name suff = Sysdeps.check_suffix name suff
+let basename name = Sysdeps.basename name
+let dirname name = Sysdeps.dirname name
+let quote s = Sysdeps.quote s
+let quote_command cmd ?stdin ?stdout ?stderr args =
+  Sysdeps.quote_command cmd ?stdin ?stdout ?stderr args
+
 let concat dirname filename =
   let l = String.length dirname in
   if l = 0 || is_dir_sep dirname (l-1)
