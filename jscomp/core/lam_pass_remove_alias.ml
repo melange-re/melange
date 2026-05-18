@@ -195,6 +195,56 @@ let simplify_alias =
     Lam_analysis.size lam < Lam_analysis.small_inline_size
     && not (contains_global_module lam)
   in
+  let parameter_is_captured param (lam : Lam.t) =
+    let rec hit_opt ~under_function = function
+      | Some lam -> hit ~under_function lam
+      | None -> false
+    and hit_list ~under_function lams =
+      List.exists lams ~f:(hit ~under_function)
+    and hit ~under_function (lam : Lam.t) =
+      match lam with
+      | Lam.Lvar id | Lmutvar id -> under_function && Ident.same param id
+      | Lassign (id, lam) ->
+          (under_function && Ident.same param id) || hit ~under_function lam
+      | Lfunction { body; _ } -> hit ~under_function:true body
+      | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
+          hit ~under_function arg || hit ~under_function body
+      | Lletrec (bindings, body) ->
+          List.exists bindings ~f:(fun (_, lam) -> hit ~under_function lam)
+          || hit ~under_function body
+      | Lapply { ap_func; ap_args; _ } ->
+          hit ~under_function ap_func || hit_list ~under_function ap_args
+      | Lprim { args; _ } -> hit_list ~under_function args
+      | Lswitch (arg, { sw_consts; sw_blocks; sw_failaction; _ }) ->
+          hit ~under_function arg
+          || List.exists sw_consts ~f:(fun (_, lam) -> hit ~under_function lam)
+          || List.exists sw_blocks ~f:(fun (_, lam) -> hit ~under_function lam)
+          || hit_opt ~under_function sw_failaction
+      | Lstringswitch (arg, cases, default) ->
+          hit ~under_function arg
+          || List.exists cases ~f:(fun (_, lam) -> hit ~under_function lam)
+          || hit_opt ~under_function default
+      | Lstaticraise (_, lams) -> hit_list ~under_function lams
+      | Lstaticcatch (lam1, _, lam2) | Ltrywith (lam1, _, lam2)
+      | Lsequence (lam1, lam2) | Lwhile (lam1, lam2) ->
+          hit ~under_function lam1 || hit ~under_function lam2
+      | Lifthenelse (lam1, lam2, lam3) ->
+          hit ~under_function lam1
+          || hit ~under_function lam2
+          || hit ~under_function lam3
+      | Lfor (_, lam1, lam2, _, lam3) ->
+          hit ~under_function lam1
+          || hit ~under_function lam2
+          || hit ~under_function lam3
+      | Lsend (_, meth, obj, args, _) ->
+          hit ~under_function meth
+          || hit ~under_function obj
+          || hit_list ~under_function args
+      | Lifused (_, lam) -> hit ~under_function lam
+      | Lconst _ | Lglobal_module _ -> false
+    in
+    hit ~under_function:false lam
+  in
   let rec simpl (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     match lam with
     | Lvar _ | Lmutvar _ -> lam
@@ -338,7 +388,7 @@ let simplify_alias =
               || (cross_module_parameter_result_is_safe reduced
                  && not
                       (List.exists parameter_args ~f:(fun param ->
-                           Lam_hit.hit_variable param reduced)))
+                           parameter_is_captured param reduced)))
             then simpl meta reduced
             else Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
         | Some _ | None ->

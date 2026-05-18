@@ -54,12 +54,11 @@ function f3(x) {
 }
 
 function utf_8_byte_length(u) {
-  const u$1 = u;
-  if (u$1 <= 127) {
+  if (u <= 127) {
     return 1;
-  } else if (u$1 <= 2047) {
+  } else if (u <= 2047) {
     return 2;
-  } else if (u$1 <= 65535) {
+  } else if (u <= 65535) {
     return 3;
   } else {
     return 4;
