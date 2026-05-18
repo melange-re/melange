@@ -82,7 +82,7 @@ let () =
             eq __LOC__ 6  @@ (f3 1 ) 2 3  [@u];
             eq __LOC__ 1 @@ utf_8_byte_length (Uchar.of_int 0x007F);
             eq __LOC__ 3 @@ utf_8_byte_length (Uchar.of_int 0x0800);
-            eq __LOC__ 3 @@ captures_after_effect 1 2
+            eq __LOC__ 3 @@ captures_after_effect 1 2;
             eq __LOC__ 3 local_module_field_result;
             eq __LOC__ ["inner"; "outer"] !(Local_module_field.effects);
             eq __LOC__ 3 nested_module_field_result;
