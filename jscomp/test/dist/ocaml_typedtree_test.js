@@ -1874,7 +1874,7 @@ function get_pos_info(pos) {
 }
 
 function print_loc(ppf, loc) {
-  Curry._1(Misc_Color.setup, color.contents);
+  Misc_Color.setup(color.contents);
   const match = get_pos_info(loc.loc_start);
   const startchar = match[2];
   const file = match[0];
@@ -1991,7 +1991,7 @@ function print_loc(ppf, loc) {
 }
 
 function print$1(ppf, loc) {
-  Curry._1(Misc_Color.setup, color.contents);
+  Misc_Color.setup(color.contents);
   if (loc.loc_start.pos_fname === "//toplevel//" && highlight_locations(ppf, {
       hd: loc,
       tl: /* [] */ 0
@@ -2040,7 +2040,7 @@ const error_prefix = "Error";
 
 function print_error(ppf, loc) {
   print$1(ppf, loc);
-  Curry._1(Misc_Color.setup, color.contents);
+  Misc_Color.setup(color.contents);
   Curry._1(Stdlib__Format.fprintf(ppf)({
     TAG: /* Format */ 0,
     _0: {
@@ -2077,7 +2077,7 @@ function print_error(ppf, loc) {
 
 function default_warning_printer(loc, ppf, w) {
   if (is_active(w)) {
-    Curry._1(Misc_Color.setup, color.contents);
+    Misc_Color.setup(color.contents);
     print$1(ppf, loc);
     return Curry._3(Stdlib__Format.fprintf(ppf)({
       TAG: /* Format */ 0,
@@ -2186,7 +2186,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   };
   const buf = Stdlib__Buffer.create(64);
   const ppf = Stdlib__Format.formatter_of_buffer(buf);
-  Curry._1(Misc_Color.set_color_tag_handling, ppf);
+  Misc_Color.set_color_tag_handling(ppf);
   if (before !== undefined) {
     Curry._1(before, ppf);
   }
@@ -9542,20 +9542,20 @@ function map_field(sub, param) {
   const attrs = Curry._2(sub.attributes, sub, param.pctf_attributes);
   switch (desc.TAG) {
     case /* Pctf_inherit */ 0 :
-      return Curry._3(Ast_helper_Ctf.inherit_, loc, attrs, Curry._2(sub.class_type, sub, desc._0));
+      return Ast_helper_Ctf.inherit_(loc, attrs, Curry._2(sub.class_type, sub, desc._0));
     case /* Pctf_val */ 1 :
       const match = desc._0;
-      return Curry._6(Ast_helper_Ctf.val_, loc, attrs, match[0], match[1], match[2], Curry._2(sub.typ, sub, match[3]));
+      return Ast_helper_Ctf.val_(loc, attrs, match[0], match[1], match[2], Curry._2(sub.typ, sub, match[3]));
     case /* Pctf_method */ 2 :
       const match$1 = desc._0;
-      return Curry._6(Ast_helper_Ctf.method_, loc, attrs, match$1[0], match$1[1], match$1[2], Curry._2(sub.typ, sub, match$1[3]));
+      return Ast_helper_Ctf.method_(loc, attrs, match$1[0], match$1[1], match$1[2], Curry._2(sub.typ, sub, match$1[3]));
     case /* Pctf_constraint */ 3 :
       const match$2 = desc._0;
-      return Curry._4(Ast_helper_Ctf.constraint_, loc, attrs, Curry._2(sub.typ, sub, match$2[0]), Curry._2(sub.typ, sub, match$2[1]));
+      return Ast_helper_Ctf.constraint_(loc, attrs, Curry._2(sub.typ, sub, match$2[0]), Curry._2(sub.typ, sub, match$2[1]));
     case /* Pctf_attribute */ 4 :
-      return Curry._2(Ast_helper_Ctf.attribute, loc, Curry._2(sub.attribute, sub, desc._0));
+      return Ast_helper_Ctf.attribute(loc, Curry._2(sub.attribute, sub, desc._0));
     case /* Pctf_extension */ 5 :
-      return Curry._3(Ast_helper_Ctf.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
+      return Ast_helper_Ctf.extension(loc, attrs, Curry._2(sub.extension, sub, desc._0));
   }
 }
 
@@ -9810,86 +9810,86 @@ function map$5(sub, param) {
   const attrs = Curry._2(sub.attributes, sub, param.pexp_attributes);
   switch (desc.TAG) {
     case /* Pexp_ident */ 0 :
-      return Curry._3(Ast_helper_Exp.ident, loc, attrs, map_loc(sub, desc._0));
+      return Ast_helper_Exp.ident(loc, attrs, map_loc(sub, desc._0));
     case /* Pexp_constant */ 1 :
-      return Curry._3(Ast_helper_Exp.constant, loc, attrs, desc._0);
+      return Ast_helper_Exp.constant(loc, attrs, desc._0);
     case /* Pexp_let */ 2 :
-      return Curry._5(Ast_helper_Exp.let_, loc, attrs, desc._0, Stdlib__List.map(Curry._1(sub.value_binding, sub), desc._1), Curry._2(sub.expr, sub, desc._2));
+      return Ast_helper_Exp.let_(loc, attrs, desc._0, Stdlib__List.map(Curry._1(sub.value_binding, sub), desc._1), Curry._2(sub.expr, sub, desc._2));
     case /* Pexp_function */ 3 :
-      return Curry._3(Ast_helper_Exp.function_, loc, attrs, Curry._2(sub.cases, sub, desc._0));
+      return Ast_helper_Exp.function_(loc, attrs, Curry._2(sub.cases, sub, desc._0));
     case /* Pexp_fun */ 4 :
-      return Curry._6(Ast_helper_Exp.fun_, loc, attrs, desc._0, map_opt(Curry._1(sub.expr, sub), desc._1), Curry._2(sub.pat, sub, desc._2), Curry._2(sub.expr, sub, desc._3));
+      return Ast_helper_Exp.fun_(loc, attrs, desc._0, map_opt(Curry._1(sub.expr, sub), desc._1), Curry._2(sub.pat, sub, desc._2), Curry._2(sub.expr, sub, desc._3));
     case /* Pexp_apply */ 5 :
       const partial_arg = Curry._1(sub.expr, sub);
-      return Curry._4(Ast_helper_Exp.apply, loc, attrs, Curry._2(sub.expr, sub, desc._0), Stdlib__List.map((function (param) {
+      return Ast_helper_Exp.apply(loc, attrs, Curry._2(sub.expr, sub, desc._0), Stdlib__List.map((function (param) {
         return map_snd(partial_arg, param);
       }), desc._1));
     case /* Pexp_match */ 6 :
-      return Curry._4(Ast_helper_Exp.match_, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.cases, sub, desc._1));
+      return Ast_helper_Exp.match_(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.cases, sub, desc._1));
     case /* Pexp_try */ 7 :
-      return Curry._4(Ast_helper_Exp.try_, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.cases, sub, desc._1));
+      return Ast_helper_Exp.try_(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.cases, sub, desc._1));
     case /* Pexp_tuple */ 8 :
-      return Curry._3(Ast_helper_Exp.tuple, loc, attrs, Stdlib__List.map(Curry._1(sub.expr, sub), desc._0));
+      return Ast_helper_Exp.tuple(loc, attrs, Stdlib__List.map(Curry._1(sub.expr, sub), desc._0));
     case /* Pexp_construct */ 9 :
-      return Curry._4(Ast_helper_Exp.construct, loc, attrs, map_loc(sub, desc._0), map_opt(Curry._1(sub.expr, sub), desc._1));
+      return Ast_helper_Exp.construct(loc, attrs, map_loc(sub, desc._0), map_opt(Curry._1(sub.expr, sub), desc._1));
     case /* Pexp_variant */ 10 :
-      return Curry._4(Ast_helper_Exp.variant, loc, attrs, desc._0, map_opt(Curry._1(sub.expr, sub), desc._1));
+      return Ast_helper_Exp.variant(loc, attrs, desc._0, map_opt(Curry._1(sub.expr, sub), desc._1));
     case /* Pexp_record */ 11 :
       const partial_arg$1 = Curry._1(sub.expr, sub);
-      return Curry._4(Ast_helper_Exp.record, loc, attrs, Stdlib__List.map((function (param) {
+      return Ast_helper_Exp.record(loc, attrs, Stdlib__List.map((function (param) {
         return map_tuple((function (param) {
           return map_loc(sub, param);
         }), partial_arg$1, param);
       }), desc._0), map_opt(Curry._1(sub.expr, sub), desc._1));
     case /* Pexp_field */ 12 :
-      return Curry._4(Ast_helper_Exp.field, loc, attrs, Curry._2(sub.expr, sub, desc._0), map_loc(sub, desc._1));
+      return Ast_helper_Exp.field(loc, attrs, Curry._2(sub.expr, sub, desc._0), map_loc(sub, desc._1));
     case /* Pexp_setfield */ 13 :
-      return Curry._5(Ast_helper_Exp.setfield, loc, attrs, Curry._2(sub.expr, sub, desc._0), map_loc(sub, desc._1), Curry._2(sub.expr, sub, desc._2));
+      return Ast_helper_Exp.setfield(loc, attrs, Curry._2(sub.expr, sub, desc._0), map_loc(sub, desc._1), Curry._2(sub.expr, sub, desc._2));
     case /* Pexp_array */ 14 :
-      return Curry._3(Ast_helper_Exp.array, loc, attrs, Stdlib__List.map(Curry._1(sub.expr, sub), desc._0));
+      return Ast_helper_Exp.array(loc, attrs, Stdlib__List.map(Curry._1(sub.expr, sub), desc._0));
     case /* Pexp_ifthenelse */ 15 :
-      return Curry._5(Ast_helper_Exp.ifthenelse, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1), map_opt(Curry._1(sub.expr, sub), desc._2));
+      return Ast_helper_Exp.ifthenelse(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1), map_opt(Curry._1(sub.expr, sub), desc._2));
     case /* Pexp_sequence */ 16 :
-      return Curry._4(Ast_helper_Exp.sequence, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1));
+      return Ast_helper_Exp.sequence(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1));
     case /* Pexp_while */ 17 :
-      return Curry._4(Ast_helper_Exp.while_, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1));
+      return Ast_helper_Exp.while_(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.expr, sub, desc._1));
     case /* Pexp_for */ 18 :
-      return Curry._7(Ast_helper_Exp.for_, loc, attrs, Curry._2(sub.pat, sub, desc._0), Curry._2(sub.expr, sub, desc._1), Curry._2(sub.expr, sub, desc._2), desc._3, Curry._2(sub.expr, sub, desc._4));
+      return Ast_helper_Exp.for_(loc, attrs, Curry._2(sub.pat, sub, desc._0), Curry._2(sub.expr, sub, desc._1), Curry._2(sub.expr, sub, desc._2), desc._3, Curry._2(sub.expr, sub, desc._4));
     case /* Pexp_constraint */ 19 :
-      return Curry._4(Ast_helper_Exp.constraint_, loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.typ, sub, desc._1));
+      return Ast_helper_Exp.constraint_(loc, attrs, Curry._2(sub.expr, sub, desc._0), Curry._2(sub.typ, sub, desc._1));
     case /* Pexp_coerce */ 20 :
-      return Curry._5(Ast_helper_Exp.coerce, loc, attrs, Curry._2(sub.expr, sub, desc._0), map_opt(Curry._1(sub.typ, sub), desc._1), Curry._2(sub.typ, sub, desc._2));
+      return Ast_helper_Exp.coerce(loc, attrs, Curry._2(sub.expr, sub, desc._0), map_opt(Curry._1(sub.typ, sub), desc._1), Curry._2(sub.typ, sub, desc._2));
     case /* Pexp_send */ 21 :
-      return Curry._4(Ast_helper_Exp.send, loc, attrs, Curry._2(sub.expr, sub, desc._0), desc._1);
+      return Ast_helper_Exp.send(loc, attrs, Curry._2(sub.expr, sub, desc._0), desc._1);
     case /* Pexp_new */ 22 :
-      return Curry._3(Ast_helper_Exp.new_, loc, attrs, map_loc(sub, desc._0));
+      return Ast_helper_Exp.new_(loc, attrs, map_loc(sub, desc._0));
     case /* Pexp_setinstvar */ 23 :
-      return Curry._4(Ast_helper_Exp.setinstvar, loc, attrs, map_loc(sub, desc._0), Curry._2(sub.expr, sub, desc._1));
+      return Ast_helper_Exp.setinstvar(loc, attrs, map_loc(sub, desc._0), Curry._2(sub.expr, sub, desc._1));
     case /* Pexp_override */ 24 :
       const partial_arg$2 = Curry._1(sub.expr, sub);
-      return Curry._3(Ast_helper_Exp.override, loc, attrs, Stdlib__List.map((function (param) {
+      return Ast_helper_Exp.override(loc, attrs, Stdlib__List.map((function (param) {
         return map_tuple((function (param) {
           return map_loc(sub, param);
         }), partial_arg$2, param);
       }), desc._0));
     case /* Pexp_letmodule */ 25 :
-      return Curry._5(Ast_helper_Exp.letmodule, loc, attrs, map_loc(sub, desc._0), Curry._2(sub.module_expr, sub, desc._1), Curry._2(sub.expr, sub, desc._2));
+      return Ast_helper_Exp.letmodule(loc, attrs, map_loc(sub, desc._0), Curry._2(sub.module_expr, sub, desc._1), Curry._2(sub.expr, sub, desc._2));
     case /* Pexp_assert */ 26 :
-      return Curry._3(Ast_helper_Exp.assert_, loc, attrs, Curry._2(sub.expr, sub, desc._0));
+      return Ast_helper_Exp.assert_(loc, attrs, Curry._2(sub.expr, sub, desc._0));
     case /* Pexp_lazy */ 27 :
-      return Curry._3(Ast_helper_Exp.lazy_, loc, attrs, Curry._2(sub.expr, sub, desc._0));
+      return Ast_helper_Exp.lazy_(loc, attrs, Curry._2(sub.expr, sub, desc._0));
     case /* Pexp_poly */ 28 :
-      return Curry._4(Ast_helper_Exp.poly, loc, attrs, Curry._2(sub.expr, sub, desc._0), map_opt(Curry._1(sub.typ, sub), desc._1));
+      return Ast_helper_Exp.poly(loc, attrs, Curry._2(sub.expr, sub, desc._0), map_opt(Curry._1(sub.typ, sub), desc._1));
     case /* Pexp_object */ 29 :
-      return Curry._3(Ast_helper_Exp.object_, loc, attrs, Curry._2(sub.class_structure, sub, desc._0));
+      return Ast_helper_Exp.object_(loc, attrs, Curry._2(sub.class_structure, sub, desc._0));
     case /* Pexp_newtype */ 30 :
-      return Curry._4(Ast_helper_Exp.newtype, loc, attrs, desc._0, Curry._2(sub.expr, sub, desc._1));
+      return Ast_helper_Exp.newtype(loc, attrs, desc._0, Curry._2(sub.expr, sub, desc._1));
     case /* Pexp_pack */ 31 :
-      return Curry._3(Ast_helper_Exp.pack, loc, attrs, Curry._2(sub.module_expr, sub, desc._0));
+      return Ast_helper_Exp.pack(loc, attrs, Curry._2(sub.module_expr, sub, desc._0));
     case /* Pexp_open */ 32 :
-      return Curry._5(Ast_helper_Exp.open_, loc, attrs, desc._0, map_loc(sub, desc._1), Curry._2(sub.expr, sub, desc._2));
+      return Ast_helper_Exp.open_(loc, attrs, desc._0, map_loc(sub, desc._1), Curry._2(sub.expr, sub, desc._2));
     case /* Pexp_extension */ 33 :
-      return Curry._3(Ast_helper_Exp.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
+      return Ast_helper_Exp.extension(loc, attrs, Curry._2(sub.extension, sub, desc._0));
   }
 }
 
@@ -9987,22 +9987,22 @@ function map_field$1(sub, param) {
   const attrs = Curry._2(sub.attributes, sub, param.pcf_attributes);
   switch (desc.TAG) {
     case /* Pcf_inherit */ 0 :
-      return Curry._5(Ast_helper_Cf.inherit_, loc, attrs, desc._0, Curry._2(sub.class_expr, sub, desc._1), desc._2);
+      return Ast_helper_Cf.inherit_(loc, attrs, desc._0, Curry._2(sub.class_expr, sub, desc._1), desc._2);
     case /* Pcf_val */ 1 :
       const match = desc._0;
-      return Curry._5(Ast_helper_Cf.val_, loc, attrs, map_loc(sub, match[0]), match[1], map_kind(sub, match[2]));
+      return Ast_helper_Cf.val_(loc, attrs, map_loc(sub, match[0]), match[1], map_kind(sub, match[2]));
     case /* Pcf_method */ 2 :
       const match$1 = desc._0;
-      return Curry._5(Ast_helper_Cf.method_, loc, attrs, map_loc(sub, match$1[0]), match$1[1], map_kind(sub, match$1[2]));
+      return Ast_helper_Cf.method_(loc, attrs, map_loc(sub, match$1[0]), match$1[1], map_kind(sub, match$1[2]));
     case /* Pcf_constraint */ 3 :
       const match$2 = desc._0;
-      return Curry._4(Ast_helper_Cf.constraint_, loc, attrs, Curry._2(sub.typ, sub, match$2[0]), Curry._2(sub.typ, sub, match$2[1]));
+      return Ast_helper_Cf.constraint_(loc, attrs, Curry._2(sub.typ, sub, match$2[0]), Curry._2(sub.typ, sub, match$2[1]));
     case /* Pcf_initializer */ 4 :
-      return Curry._3(Ast_helper_Cf.initializer_, loc, attrs, Curry._2(sub.expr, sub, desc._0));
+      return Ast_helper_Cf.initializer_(loc, attrs, Curry._2(sub.expr, sub, desc._0));
     case /* Pcf_attribute */ 5 :
-      return Curry._2(Ast_helper_Cf.attribute, loc, Curry._2(sub.attribute, sub, desc._0));
+      return Ast_helper_Cf.attribute(loc, Curry._2(sub.attribute, sub, desc._0));
     case /* Pcf_extension */ 6 :
-      return Curry._3(Ast_helper_Cf.extension, loc, attrs, Curry._2(sub.extension, sub, desc._0));
+      return Ast_helper_Cf.extension(loc, attrs, Curry._2(sub.extension, sub, desc._0));
   }
 }
 
@@ -15807,7 +15807,7 @@ function mkpat(d) {
 }
 
 function mkexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_rloc(), undefined, d);
+  return Ast_helper_Exp.mk(symbol_rloc(), undefined, d);
 }
 
 function mkmty(d) {
@@ -15835,11 +15835,11 @@ function mkcty(d) {
 }
 
 function mkctf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Ctf.mk, symbol_rloc(), attrs, docs, d);
+  return Ast_helper_Ctf.mk(symbol_rloc(), attrs, docs, d);
 }
 
 function mkcf(attrs, docs, d) {
-  return Curry._4(Ast_helper_Cf.mk, symbol_rloc(), attrs, docs, d);
+  return Ast_helper_Cf.mk(symbol_rloc(), attrs, docs, d);
 }
 
 function mkoption(d) {
@@ -15889,7 +15889,7 @@ function reloc_exp(x) {
 
 function mkoperator(name, pos) {
   const loc = rhs_loc(pos);
-  return Curry._3(Ast_helper_Exp.mk, loc, undefined, {
+  return Ast_helper_Exp.mk(loc, undefined, {
     TAG: /* Pexp_ident */ 0,
     _0: {
       txt: {
@@ -15912,7 +15912,7 @@ function mkpatvar(name, pos) {
 }
 
 function ghexp(d) {
-  return Curry._3(Ast_helper_Exp.mk, symbol_gloc(), undefined, d);
+  return Ast_helper_Exp.mk(symbol_gloc(), undefined, d);
 }
 
 function ghpat(d) {
@@ -15952,7 +15952,7 @@ function neg_float_string(f) {
 }
 
 function mkexp_cons(consloc, args, loc) {
-  return Curry._3(Ast_helper_Exp.mk, loc, undefined, {
+  return Ast_helper_Exp.mk(loc, undefined, {
     TAG: /* Pexp_construct */ 9,
     _0: {
       txt: {
@@ -15990,7 +15990,7 @@ function mktailexp(nilloc, param) {
       loc_end: loc_loc_end,
       loc_ghost: true
     };
-    const arg = Curry._3(Ast_helper_Exp.mk, loc, undefined, {
+    const arg = Ast_helper_Exp.mk(loc, undefined, {
       TAG: /* Pexp_tuple */ 8,
       _0: {
         hd: e1,
@@ -16021,7 +16021,7 @@ function mktailexp(nilloc, param) {
     txt: nil_txt,
     loc: loc$1
   };
-  return Curry._3(Ast_helper_Exp.mk, loc$1, undefined, {
+  return Ast_helper_Exp.mk(loc$1, undefined, {
     TAG: /* Pexp_construct */ 9,
     _0: nil,
     _1: undefined
@@ -17809,7 +17809,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return Stdlib.$at({
       hd: _2,
-      tl: Curry._1(Ast_helper_Cf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
+      tl: Ast_helper_Cf.text(get_text(Stdlib__Parsing.rhs_start_pos(2)))
     }, _1);
   }),
   (function (__caml_parser_env) {
@@ -18180,7 +18180,7 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     return Stdlib.$at({
       hd: _2,
-      tl: Curry._1(Ast_helper_Ctf.text, get_text(Stdlib__Parsing.rhs_start_pos(2)))
+      tl: Ast_helper_Ctf.text(get_text(Stdlib__Parsing.rhs_start_pos(2)))
     }, _1);
   }),
   (function (__caml_parser_env) {
@@ -19237,7 +19237,7 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return Curry._2(Ast_helper_Exp.attr, _1, _2);
+    return Ast_helper_Exp.attr(_1, _2);
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -20026,13 +20026,13 @@ const yyact = [
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return Curry._3(Ast_helper_Exp.$$case, _1, undefined, _3);
+    return Ast_helper_Exp.$$case(_1, undefined, _3);
   }),
   (function (__caml_parser_env) {
     const _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
     const _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
     const _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
-    return Curry._3(Ast_helper_Exp.$$case, _1, _3, _5);
+    return Ast_helper_Exp.$$case(_1, _3, _5);
   }),
   (function (__caml_parser_env) {
     return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
@@ -27538,7 +27538,7 @@ function leave_class_type(c) {
   };
 }
 
-const ClearEnv = Curry._1(TypedtreeMap_MakeMap, {
+const ClearEnv = TypedtreeMap_MakeMap({
   enter_structure: enter_structure,
   enter_value_description: enter_value_description,
   enter_type_declaration: enter_type_declaration,
@@ -29332,7 +29332,7 @@ function generalize_expansive(env, var_level, _ty) {
         }
         match._2.contents = /* Mnil */ 0;
         return Stdlib__List.iter2((function (v, t) {
-          if (Curry._2(Types_Variance.mem, /* May_weak */ 2, v)) {
+          if (Types_Variance.mem(/* May_weak */ 2)(v)) {
             return generalize_contravariant(env)(var_level, t);
           } else {
             return generalize_expansive(env, var_level, t);
@@ -31157,7 +31157,7 @@ function occur_univar(env, ty) {
           try {
             const td = find_type_full(match._0, env)[0];
             return Stdlib__List.iter2((function (t, v) {
-              if (Curry._2(Types_Variance.mem, /* May_pos */ 0, v) || Curry._2(Types_Variance.mem, /* May_neg */ 1, v)) {
+              if (Types_Variance.mem(/* May_pos */ 0)(v) || Types_Variance.mem(/* May_neg */ 1)(v)) {
                 return occur_rec(bound, t);
               }
               
@@ -31261,7 +31261,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
           try {
             const td = find_type_full(match._0, env)[0];
             return Stdlib__List.iter2((function (t, v) {
-              if (Curry._2(Types_Variance.mem, /* May_pos */ 0, v) || Curry._2(Types_Variance.mem, /* May_neg */ 1, v)) {
+              if (Types_Variance.mem(/* May_pos */ 0)(v) || Types_Variance.mem(/* May_neg */ 1)(v)) {
                 return occur(t);
               }
               
@@ -31834,7 +31834,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                       if (same(p1, p2)) {
                         let inj;
                         try {
-                          inj = Stdlib__List.map(Curry._1(Types_Variance.mem, /* Inj */ 3), find_type_full(p1, env)[0].type_variance);
+                          inj = Stdlib__List.map(Types_Variance.mem(/* Inj */ 3), find_type_full(p1, env)[0].type_variance);
                         }
                         catch (raw_exn$1){
                           const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
@@ -33682,7 +33682,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                   } else {
                     let inj;
                     try {
-                      inj = Stdlib__List.map(Curry._1(Types_Variance.mem, /* Inj */ 3), find_type_full(p1, env.contents)[0].type_variance);
+                      inj = Stdlib__List.map(Types_Variance.mem(/* Inj */ 3), find_type_full(p1, env.contents)[0].type_variance);
                     }
                     catch (raw_exn){
                       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -37227,7 +37227,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
             warn.contents = true;
           }
           const tl$p = Stdlib__List.map2((function (v, t) {
-            const match = Curry._1(Types_Variance.get_upper, v);
+            const match = Types_Variance.get_upper(v);
             const co = match[0];
             if (match[1]) {
               if (co) {
@@ -38258,7 +38258,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                 return Stdlib__List.fold_left2((function (cstrs, v, param) {
                   const t2 = param[1];
                   const t1 = param[0];
-                  const match = Curry._1(Types_Variance.get_upper, v);
+                  const match = Types_Variance.get_upper(v);
                   const cn = match[1];
                   if (match[0]) {
                     if (cn) {
@@ -46356,7 +46356,7 @@ function tree_of_type_decl(id, decl) {
       );
     const vari = Stdlib__List.map2((function (ty, v) {
       if (abstr || !is_Tvar(repr(ty))) {
-        return Curry._1(Types_Variance.get_upper, v);
+        return Types_Variance.get_upper(v);
       } else {
         return [
           true,
@@ -46755,8 +46755,8 @@ function tree_of_class_param(param, variance) {
 function class_variance(param) {
   return Stdlib__List.map((function (v) {
     return [
-      Curry._2(Types_Variance.mem, /* May_pos */ 0, v),
-      Curry._2(Types_Variance.mem, /* May_neg */ 1, v)
+      Types_Variance.mem(/* May_pos */ 0)(v),
+      Types_Variance.mem(/* May_neg */ 1)(v)
     ];
   }), param);
 }
@@ -50345,10 +50345,10 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
   if (Stdlib__List.for_all2((function (ty, param) {
       const v2 = param[1];
       const v1 = param[0];
-      const match = Curry._1(Types_Variance.get_upper, v1);
+      const match = Types_Variance.get_upper(v1);
       const cn1 = match[1];
       const co1 = match[0];
-      const match$1 = Curry._1(Types_Variance.get_upper, v2);
+      const match$1 = Types_Variance.get_upper(v2);
       const cn2 = match$1[1];
       const co2 = match$1[0];
       if (!(
@@ -50358,8 +50358,8 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
         )) {
         return false;
       }
-      const match$2 = Curry._1(Types_Variance.get_lower, v1);
-      const match$3 = Curry._1(Types_Variance.get_lower, v2);
+      const match$2 = Types_Variance.get_lower(v1);
+      const match$3 = Types_Variance.get_lower(v2);
       return abstr ? (
           (!match$3[0] || match$2[0]) && (!match$3[1] || match$2[1]) && (!match$3[2] || match$2[2]) ? (
               match$3[3] ? match$2[3] : true
@@ -66157,7 +66157,7 @@ const self_coercion = {
 function wrap_unpacks(sexp, unpacks) {
   return Stdlib__List.fold_left((function (sexp, param) {
     const name = param[0];
-    return Curry._5(Ast_helper_Exp.letmodule, sexp.pexp_loc, undefined, name, unpack$1(param[1], undefined, Curry._3(Ast_helper_Exp.ident, name.loc, undefined, {
+    return Ast_helper_Exp.letmodule(sexp.pexp_loc, undefined, name, unpack$1(param[1], undefined, Ast_helper_Exp.ident(name.loc, undefined, {
       txt: {
         TAG: /* Lident */ 0,
         _0: name.txt
@@ -66636,7 +66636,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   TAG: /* Pexp_match */ 6,
                   _0: match$6.pvb_expr,
                   _1: {
-                    hd: Curry._3(Ast_helper_Exp.$$case, spat, undefined, lid._2),
+                    hd: Ast_helper_Exp.$$case(spat, undefined, lid._2),
                     tl: /* [] */ 0
                   }
                 },
@@ -66705,7 +66705,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             });
         }
         const default_loc = $$default.pexp_loc;
-        const scases_0 = Curry._3(Ast_helper_Exp.$$case, construct(default_loc, undefined, {
+        const scases_0 = Ast_helper_Exp.$$case(construct(default_loc, undefined, {
           txt: {
             TAG: /* Ldot */ 1,
             _0: {
@@ -66718,7 +66718,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         }, $$var$1(default_loc, undefined, {
           txt: "*sth*",
           loc: none
-        })), undefined, Curry._3(Ast_helper_Exp.ident, default_loc, undefined, {
+        })), undefined, Ast_helper_Exp.ident(default_loc, undefined, {
           txt: {
             TAG: /* Lident */ 0,
             _0: "*sth*"
@@ -66726,7 +66726,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           loc: none
         }));
         const scases_1 = {
-          hd: Curry._3(Ast_helper_Exp.$$case, construct(default_loc, undefined, {
+          hd: Ast_helper_Exp.$$case(construct(default_loc, undefined, {
             txt: {
               TAG: /* Ldot */ 1,
               _0: {
@@ -66743,17 +66743,17 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           hd: scases_0,
           tl: scases_1
         };
-        const smatch = Curry._4(Ast_helper_Exp.match_, loc, undefined, Curry._3(Ast_helper_Exp.ident, loc, undefined, {
+        const smatch = Ast_helper_Exp.match_(loc, undefined, Ast_helper_Exp.ident(loc, undefined, {
           txt: {
             TAG: /* Lident */ 0,
             _0: "*opt*"
           },
           loc: none
         }), scases);
-        const sfun = Curry._6(Ast_helper_Exp.fun_, loc, undefined, l, undefined, $$var$1(loc, undefined, {
+        const sfun = Ast_helper_Exp.fun_(loc, undefined, l, undefined, $$var$1(loc, undefined, {
           txt: "*opt*",
           loc: none
-        }), Curry._5(Ast_helper_Exp.let_, loc, {
+        }), Ast_helper_Exp.let_(loc, {
           hd: [
             {
               txt: "#default",
@@ -73398,10 +73398,10 @@ function compute_variance(env, visited, vari, ty) {
       const vari = _vari;
       const ty$1 = repr(ty);
       const vari$p = get_variance(ty$1, visited);
-      if (Curry._2(Types_Variance.subset, vari, vari$p)) {
+      if (Types_Variance.subset(vari, vari$p)) {
         return;
       }
-      const vari$1 = Curry._2(Types_Variance.union, vari, vari$p);
+      const vari$1 = Types_Variance.union(vari, vari$p);
       visited.contents = Curry._3(add$4, ty$1, vari$1, visited.contents);
       const compute_same = function (param) {
         return compute_variance_rec(vari$1, param);
@@ -73412,8 +73412,8 @@ function compute_variance(env, visited, vari, ty) {
       }
       switch (tl.TAG) {
         case /* Tarrow */ 1 :
-          const v = Curry._1(Types_Variance.conjugate, vari$1);
-          const v1 = Curry._2(Types_Variance.mem, /* May_pos */ 0, v) || Curry._2(Types_Variance.mem, /* May_neg */ 1, v) ? Curry._3(Types_Variance.set, /* May_weak */ 2, true, v) : v;
+          const v = Types_Variance.conjugate(vari$1);
+          const v1 = Types_Variance.mem(/* May_pos */ 0)(v) || Types_Variance.mem(/* May_neg */ 1)(v) ? Types_Variance.set(/* May_weak */ 2, true, v) : v;
           compute_variance_rec(v1, tl._1);
           _ty = tl._2;
           _vari = vari$1;
@@ -73428,15 +73428,15 @@ function compute_variance(env, visited, vari, ty) {
           try {
             const decl = find_type_full(tl._0, env)[0];
             return Stdlib__List.iter2((function (ty, v) {
-              const strict = Curry._2(Types_Variance.mem, /* Inv */ 6, vari$1) && Curry._2(Types_Variance.mem, /* Inj */ 3, v) || (Curry._2(Types_Variance.mem, /* Pos */ 4, vari$1) || Curry._2(Types_Variance.mem, /* Neg */ 5, vari$1)) && Curry._2(Types_Variance.mem, /* Inv */ 6, v);
+              const strict = Types_Variance.mem(/* Inv */ 6)(vari$1) && Types_Variance.mem(/* Inj */ 3)(v) || (Types_Variance.mem(/* Pos */ 4)(vari$1) || Types_Variance.mem(/* Neg */ 5)(vari$1)) && Types_Variance.mem(/* Inv */ 6)(v);
               if (strict) {
                 return compute_variance_rec(Types_Variance.full, ty);
               }
-              const p1 = Curry._2(Types_Variance.inter, v, vari$1);
-              const n1 = Curry._2(Types_Variance.inter, v, Curry._1(Types_Variance.conjugate, vari$1));
-              const v1 = Curry._2(Types_Variance.union, Curry._2(Types_Variance.inter, Types_Variance.covariant, Curry._2(Types_Variance.union, p1, Curry._1(Types_Variance.conjugate, p1))), Curry._2(Types_Variance.inter, Curry._1(Types_Variance.conjugate, Types_Variance.covariant), Curry._2(Types_Variance.union, n1, Curry._1(Types_Variance.conjugate, n1))));
-              const weak = Curry._2(Types_Variance.mem, /* May_weak */ 2, vari$1) && (Curry._2(Types_Variance.mem, /* May_pos */ 0, v) || Curry._2(Types_Variance.mem, /* May_neg */ 1, v)) || (Curry._2(Types_Variance.mem, /* May_pos */ 0, vari$1) || Curry._2(Types_Variance.mem, /* May_neg */ 1, vari$1)) && Curry._2(Types_Variance.mem, /* May_weak */ 2, v);
-              const v2 = Curry._3(Types_Variance.set, /* May_weak */ 2, weak, v1);
+              const p1 = Types_Variance.inter(v, vari$1);
+              const n1 = Types_Variance.inter(v, Types_Variance.conjugate(vari$1));
+              const v1 = Types_Variance.union(Types_Variance.inter(Types_Variance.covariant, Types_Variance.union(p1, Types_Variance.conjugate(p1))), Types_Variance.inter(Types_Variance.conjugate(Types_Variance.covariant), Types_Variance.union(n1, Types_Variance.conjugate(n1))));
+              const weak = Types_Variance.mem(/* May_weak */ 2)(vari$1) && (Types_Variance.mem(/* May_pos */ 0)(v) || Types_Variance.mem(/* May_neg */ 1)(v)) || (Types_Variance.mem(/* May_pos */ 0)(vari$1) || Types_Variance.mem(/* May_neg */ 1)(vari$1)) && Types_Variance.mem(/* May_weak */ 2)(v);
+              const v2 = Types_Variance.set(/* May_weak */ 2, weak, v1);
               compute_variance_rec(v2, ty);
             }), tl$1, decl.type_variance);
           }
@@ -73470,7 +73470,7 @@ function compute_variance(env, visited, vari, ty) {
               }
             }
             const upper = Stdlib__List.fold_left((function (s, f) {
-              return Curry._3(Types_Variance.set, f, true, s);
+              return Types_Variance.set(f, true, s);
             }), Types_Variance.$$null, {
               hd: /* May_pos */ 0,
               tl: {
@@ -73481,7 +73481,7 @@ function compute_variance(env, visited, vari, ty) {
                 }
               }
             });
-            const v = Curry._2(Types_Variance.inter, vari$1, upper);
+            const v = Types_Variance.inter(vari$1, upper);
             Stdlib__List.iter((function (param) {
               return compute_variance_rec(v, param);
             }), match._1);
@@ -73496,7 +73496,7 @@ function compute_variance(env, visited, vari, ty) {
           _vari = vari$1;
           continue;
         case /* Tpackage */ 11 :
-          const v$1 = Curry._2(Types_Variance.mem, /* Pos */ 4, vari$1) || Curry._2(Types_Variance.mem, /* Neg */ 5, vari$1) ? Types_Variance.full : Types_Variance.may_inv;
+          const v$1 = Types_Variance.mem(/* Pos */ 4)(vari$1) || Types_Variance.mem(/* Neg */ 5)(vari$1) ? Types_Variance.full : Types_Variance.may_inv;
           return Stdlib__List.iter((function (param) {
             return compute_variance_rec(v$1, param);
           }), tl._2);
@@ -73509,7 +73509,7 @@ function compute_variance(env, visited, vari, ty) {
 }
 
 function make(p, n, i) {
-  return Curry._3(Types_Variance.set, /* May_pos */ 0, p, Curry._3(Types_Variance.set, /* May_neg */ 1, n, Curry._3(Types_Variance.set, /* May_weak */ 2, n, Curry._3(Types_Variance.set, /* Inj */ 3, i, Types_Variance.$$null))));
+  return Types_Variance.set(/* May_pos */ 0, p, Types_Variance.set(/* May_neg */ 1, n, Types_Variance.set(/* May_weak */ 2, n, Types_Variance.set(/* Inj */ 3, i, Types_Variance.$$null))));
 }
 
 function compute_variance_type(env, check, param, decl, tyl) {
@@ -73549,10 +73549,10 @@ function compute_variance_type(env, check, param, decl, tyl) {
       const c = param[0];
       pos.contents = pos.contents + 1 | 0;
       const $$var = get_variance(ty, tvl);
-      const match = Curry._1(Types_Variance.get_upper, $$var);
+      const match = Types_Variance.get_upper($$var);
       const cn = match[1];
       const co = match[0];
-      const ij = Curry._2(Types_Variance.mem, /* Inj */ 3, $$var);
+      const ij = Types_Variance.mem(/* Inj */ 3)($$var);
       if (!(is_Tvar(ty) && (co && !c || cn && !n || !ij && i))) {
         return;
       }
@@ -73593,7 +73593,7 @@ function compute_variance_type(env, check, param, decl, tyl) {
         }
         const v = param[0] ? (
             param[1] ? Types_Variance.full : Types_Variance.covariant
-          ) : Curry._1(Types_Variance.conjugate, Types_Variance.covariant);
+          ) : Types_Variance.conjugate(Types_Variance.covariant);
         compute_variance(env, tvl2, v, ty);
       }), params, required);
       const visited = {
@@ -73616,16 +73616,16 @@ function compute_variance_type(env, check, param, decl, tyl) {
               hd: t,
               tl: /* [] */ 0
             })) {
-            return Curry._2(Types_Variance.union, vt, v);
+            return Types_Variance.union(vt, v);
           } else {
             return v;
           }
         }), tvl2.contents, Types_Variance.$$null);
         backtrack(snap);
-        const match = Curry._1(Types_Variance.get_upper, v1);
+        const match = Types_Variance.get_upper(v1);
         const n1 = match[1];
         const c1 = match[0];
-        const match$1 = Curry._1(Types_Variance.get_lower, v2);
+        const match$1 = Types_Variance.get_lower(v2);
         const n2 = match$1[1];
         const c2 = match$1[0];
         if (!(c1 && !c2 || n1 && !n2)) {
@@ -73676,18 +73676,18 @@ function compute_variance_type(env, check, param, decl, tyl) {
     const n = match[1];
     const p = match[0];
     const i = concr || param[2] && tr === /* Private */ 0;
-    const v$1 = Curry._2(Types_Variance.union, v, make(p, n, i));
+    const v$1 = Types_Variance.union(v, make(p, n, i));
     const v$2 = concr ? (
-        Curry._2(Types_Variance.mem, /* Pos */ 4, v$1) && Curry._2(Types_Variance.mem, /* Neg */ 5, v$1) ? Types_Variance.full : (
-            is_Tvar(ty) ? v$1 : Curry._2(Types_Variance.union, v$1, p ? (
+        Types_Variance.mem(/* Pos */ 4)(v$1) && Types_Variance.mem(/* Neg */ 5)(v$1) ? Types_Variance.full : (
+            is_Tvar(ty) ? v$1 : Types_Variance.union(v$1, p ? (
                   n ? Types_Variance.full : Types_Variance.covariant
-                ) : Curry._1(Types_Variance.conjugate, Types_Variance.covariant))
+                ) : Types_Variance.conjugate(Types_Variance.covariant))
           )
       ) : v$1;
     if (Caml_obj.caml_equal(decl.type_kind, /* Type_abstract */ 0) && tr === /* Public */ 1) {
       return v$2;
     } else {
-      return Curry._3(Types_Variance.set, /* May_weak */ 2, Curry._2(Types_Variance.mem, /* May_neg */ 1, v$2), v$2);
+      return Types_Variance.set(/* May_weak */ 2, Types_Variance.mem(/* May_neg */ 1)(v$2), v$2);
     }
   }), params, required);
 }
@@ -73874,7 +73874,7 @@ function compute_variance_decl(env, check, decl, rloc) {
       return Stdlib__List.map2(Types_Variance.union, param, param$1);
     }), match.hd, match.tl);
     return Stdlib__List.map((function (v) {
-      if (Curry._2(Types_Variance.mem, /* Pos */ 4, v) && Curry._2(Types_Variance.mem, /* Neg */ 5, v)) {
+      if (Types_Variance.mem(/* Pos */ 4)(v) && Types_Variance.mem(/* Neg */ 5)(v)) {
         return Types_Variance.full;
       } else {
         return v;
@@ -75065,7 +75065,7 @@ function transl_type_extension(check_open, env, loc, styext) {
       });
   }
   const type_variance = Stdlib__List.map((function (v) {
-    const match = Curry._1(Types_Variance.get_upper, v);
+    const match = Types_Variance.get_upper(v);
     return [
       !match[1],
       !match[0],
@@ -77572,7 +77572,7 @@ function type_constraint(val_env, sty, sty$p, loc) {
 }
 
 function make_method(loc, cl_num, expr) {
-  return Curry._6(Ast_helper_Exp.fun_, expr.pexp_loc, undefined, "", undefined, alias$1(loc, undefined, $$var$1(loc, undefined, {
+  return Ast_helper_Exp.fun_(expr.pexp_loc, undefined, "", undefined, alias$1(loc, undefined, $$var$1(loc, undefined, {
     txt: "self-*",
     loc: loc
   }), {
@@ -78329,7 +78329,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
         const ovf$2 = sty._0;
         const match$10 = expr$1.pexp_desc;
         let expr$2;
-        expr$2 = match$10.TAG === /* Pexp_poly */ 28 ? expr$1 : Curry._4(Ast_helper_Exp.poly, expr$1.pexp_loc, undefined, expr$1, undefined);
+        expr$2 = match$10.TAG === /* Pexp_poly */ 28 ? expr$1 : Ast_helper_Exp.poly(expr$1.pexp_loc, undefined, expr$1, undefined);
         if (Curry._2(mem$2, lab$1.txt, local_meths)) {
           throw new Caml_js_exceptions.MelangeError($$Error$9, {
               MEL_EXN_ID: $$Error$9,
@@ -78856,7 +78856,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
         const l = cl_str._0;
         if ($$default !== undefined) {
           const loc = $$default.pexp_loc;
-          const scases_0 = Curry._3(Ast_helper_Exp.$$case, construct(loc, undefined, {
+          const scases_0 = Ast_helper_Exp.$$case(construct(loc, undefined, {
             txt: {
               TAG: /* Ldot */ 1,
               _0: {
@@ -78869,7 +78869,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           }, $$var$1(loc, undefined, {
             txt: "*sth*",
             loc: none
-          })), undefined, Curry._3(Ast_helper_Exp.ident, loc, undefined, {
+          })), undefined, Ast_helper_Exp.ident(loc, undefined, {
             txt: {
               TAG: /* Lident */ 0,
               _0: "*sth*"
@@ -78877,7 +78877,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             loc: none
           }));
           const scases_1 = {
-            hd: Curry._3(Ast_helper_Exp.$$case, construct(loc, undefined, {
+            hd: Ast_helper_Exp.$$case(construct(loc, undefined, {
               txt: {
                 TAG: /* Ldot */ 1,
                 _0: {
@@ -78894,7 +78894,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
             hd: scases_0,
             tl: scases_1
           };
-          const smatch = Curry._4(Ast_helper_Exp.match_, loc, undefined, Curry._3(Ast_helper_Exp.ident, loc, undefined, {
+          const smatch = Ast_helper_Exp.match_(loc, undefined, Ast_helper_Exp.ident(loc, undefined, {
             txt: {
               TAG: /* Lident */ 0,
               _0: "*opt*"
@@ -82074,7 +82074,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                         let p = !match[1];
                         let n = !match[0];
                         let i = false;
-                        return Curry._3(Types_Variance.set, /* May_pos */ 0, p, Curry._3(Types_Variance.set, /* May_neg */ 1, n, Curry._3(Types_Variance.set, /* May_weak */ 2, n, Curry._3(Types_Variance.set, /* Inj */ 3, i, Types_Variance.$$null))));
+                        return Types_Variance.set(/* May_pos */ 0, p, Types_Variance.set(/* May_neg */ 1, n, Types_Variance.set(/* May_weak */ 2, n, Types_Variance.set(/* Inj */ 3, i, Types_Variance.$$null))));
                       }), sdecl.ptype_params);
                       const decl_row_type_loc = sdecl.ptype_loc;
                       const decl_row = {

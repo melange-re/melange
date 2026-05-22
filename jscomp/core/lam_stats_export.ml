@@ -51,6 +51,8 @@ let values_of_export =
               Submodule
                 (Array.map elems ~f:(function
                   | Lam_id_kind.Element.NA -> Lam_arity.na
+                  | Function arity -> arity
+                  | ImmutableBlock _ -> Lam_arity.na
                   | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
           | _ | (exception Not_found) -> (
               match Ident.Map.find x export_map with

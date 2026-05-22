@@ -50,6 +50,30 @@ let captures_after_effect a = Arity_deopt_helper.captures_after_effect a
    (Ml_app) will not hold any more.
    So the best is never shrink functions which could change arity
 *)
+
+module Local_module_field = struct
+  module Nested = struct
+    let effects = ref []
+
+    let x a =
+      effects := "outer" :: !effects;
+      fun b ->
+        effects := "inner" :: !effects;
+        a + b
+  end
+
+  let effects = ref []
+
+  let x a =
+    effects := "outer" :: !effects;
+    fun b ->
+      effects := "inner" :: !effects;
+      a + b
+end
+
+let local_module_field_result = Local_module_field.x 1 2
+let nested_module_field_result = Local_module_field.Nested.x 1 2
+
 let () =
   begin
     eq __LOC__ 6 @@ f0 1 2 3 [@u] ;
@@ -58,6 +82,10 @@ let () =
             eq __LOC__ 6  @@ (f3 1 ) 2 3  [@u];
             eq __LOC__ 1 @@ utf_8_byte_length (Uchar.of_int 0x007F);
             eq __LOC__ 3 @@ utf_8_byte_length (Uchar.of_int 0x0800);
-            eq __LOC__ 3 @@ captures_after_effect 1 2
+            eq __LOC__ 3 @@ captures_after_effect 1 2;
+            eq __LOC__ 3 local_module_field_result;
+            eq __LOC__ ["inner"; "outer"] !(Local_module_field.effects);
+            eq __LOC__ 3 nested_module_field_result;
+            eq __LOC__ ["inner"; "outer"] !(Local_module_field.Nested.effects)
   end
 let () = Mt.from_pair_suites __MODULE__ !suites

@@ -67,19 +67,90 @@ function utf_8_byte_length(u) {
 
 const captures_after_effect = Arity_deopt_helper.captures_after_effect;
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 55, characters 7-14", 6, f0(1, 2, 3));
+const effects = {
+  contents: /* [] */ 0
+};
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 56, characters 11-18", 6, f1(1)(2, 3));
+function x(a) {
+  effects.contents = {
+    hd: "outer",
+    tl: effects.contents
+  };
+  return function (b) {
+    effects.contents = {
+      hd: "inner",
+      tl: effects.contents
+    };
+    return a + b | 0;
+  };
+}
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 57, characters 15-22", 6, Curry._1(f2(1, 2), 3));
+const Nested = {
+  effects: effects,
+  x: x
+};
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 58, characters 15-22", 6, f3(1)(2, 3));
+const effects$1 = {
+  contents: /* [] */ 0
+};
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 59, characters 15-22", 1, utf_8_byte_length(Stdlib__Uchar.of_int(127)));
+function x$1(a) {
+  effects$1.contents = {
+    hd: "outer",
+    tl: effects$1.contents
+  };
+  return function (b) {
+    effects$1.contents = {
+      hd: "inner",
+      tl: effects$1.contents
+    };
+    return a + b | 0;
+  };
+}
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 60, characters 15-22", 3, utf_8_byte_length(Stdlib__Uchar.of_int(2048)));
+const Local_module_field = {
+  Nested: Nested,
+  effects: effects$1,
+  x: x$1
+};
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 61, characters 15-22", 3, Arity_deopt_helper.captures_after_effect(1)(2));
+const local_module_field_result = x$1(1)(2);
+
+const nested_module_field_result = x(1)(2);
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 79, characters 7-14", 6, f0(1, 2, 3));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 80, characters 11-18", 6, f1(1)(2, 3));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 81, characters 15-22", 6, Curry._1(f2(1, 2), 3));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 82, characters 15-22", 6, f3(1)(2, 3));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 83, characters 15-22", 1, utf_8_byte_length(Stdlib__Uchar.of_int(127)));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 84, characters 15-22", 3, utf_8_byte_length(Stdlib__Uchar.of_int(2048)));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 85, characters 15-22", 3, Arity_deopt_helper.captures_after_effect(1)(2));
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 86, characters 15-22", 3, local_module_field_result);
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 87, characters 15-22", {
+  hd: "inner",
+  tl: {
+    hd: "outer",
+    tl: /* [] */ 0
+  }
+}, effects$1.contents);
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 88, characters 15-22", 3, nested_module_field_result);
+
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 89, characters 15-22", {
+  hd: "inner",
+  tl: {
+    hd: "outer",
+    tl: /* [] */ 0
+  }
+}, effects.contents);
 
 Mt.from_pair_suites("Arity_deopt_test", suites.contents);
 
@@ -93,5 +164,8 @@ module.exports = {
   f3,
   utf_8_byte_length,
   captures_after_effect,
+  Local_module_field,
+  local_module_field_result,
+  nested_module_field_result,
 }
-/*  Not a pure module */
+/* local_module_field_result Not a pure module */
