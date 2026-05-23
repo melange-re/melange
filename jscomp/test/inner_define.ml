@@ -3,6 +3,16 @@ module N  = struct
   let add x y = x + y
 end
 
+module Deep = struct
+  module N = struct
+    let add x y = x + y
+  end
+end
+
+module P = struct
+  external fancy_add : int -> int -> int = "caml_nested_summary_fancy_add"
+end
+
 module type S0 =  sig 
   val f1 : unit -> unit 
   val f2 : unit -> unit -> unit 
