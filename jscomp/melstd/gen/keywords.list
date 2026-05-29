@@ -88,6 +88,7 @@ CSSPositionTryDescriptors
 CSSPositionTryRule
 CSSPositionValue
 CSSPropertyRule
+CSSPseudoElement
 CSSRotate
 CSSRule
 CSSRuleList
@@ -719,6 +720,7 @@ WebGLUniformLocation
 WebGLVertexArrayObject
 WebKitCSSMatrix
 WebKitMutationObserver
+WebMCPEvent
 WebSocket
 WebSocketError
 WebSocketStream
