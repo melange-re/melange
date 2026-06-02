@@ -26,6 +26,15 @@ open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
+let append_args xs ys =
+  match xs with
+  | [] -> ys
+  | [ x0 ] -> x0 :: ys
+  | [ x0; x1 ] -> x0 :: x1 :: ys
+  | [ x0; x1; x2 ] -> x0 :: x1 :: x2 :: ys
+  | [ x0; x1; x2; x3 ] -> x0 :: x1 :: x2 :: x3 :: ys
+  | _ -> List.append xs ys
+
 module AsValue = struct
   type t = Lambda.as_modifier =
     | Int of int
@@ -1546,8 +1555,12 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
         if outer_ap_info.ap_inlined = ap_inlined then outer_ap_info
         else { outer_ap_info with ap_inlined }
       in
-      compile_lambda lambda_cxt
-        (Lam.apply ap_func (List.append ap_args appinfo.ap_args) ap_info)
+      let ap_args =
+        match (ap_args, appinfo.ap_args) with
+        | [], args | args, [] -> args
+        | ap_args, outer_args -> append_args ap_args outer_args
+      in
+      compile_lambda lambda_cxt (Lam.apply ap_func ap_args ap_info)
   (* External function call: it can not be tailcall in this case*)
   | {
    ap_func =
