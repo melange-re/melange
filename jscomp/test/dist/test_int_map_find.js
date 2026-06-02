@@ -9,7 +9,7 @@ const Stdlib__List = require("melange/list.js");
 const compare = Caml.caml_int_compare;
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -25,10 +25,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -63,10 +63,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -114,10 +114,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }

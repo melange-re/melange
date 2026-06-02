@@ -33,27 +33,27 @@ function a4(x, y) {
 }
 
 const A4 = {
-  a4: a4
+  a4
 };
 
 const A3 = {
-  a3: a3,
-  A4: A4
+  a3,
+  A4
 };
 
 const A2 = {
-  a2: a2,
-  A3: A3
+  a2,
+  A3
 };
 
 const A1 = {
-  a1: a1,
-  A2: A2
+  a1,
+  A2
 };
 
 const A0 = {
-  a0: a0,
-  A1: A1
+  a0,
+  A1
 };
 
 const v1 = a1(1, 2);

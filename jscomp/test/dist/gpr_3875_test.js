@@ -13,7 +13,7 @@ function log(x) {
 }
 
 const Xx = {
-  log: log
+  log
 };
 
 function compilerBug(a, b, c, f) {

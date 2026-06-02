@@ -1931,13 +1931,13 @@ const string_of_lambda = Curry._1(Stdlib__Format.asprintf({
 }), pr_lambda);
 
 const Lambda_suites = {
-  ident: ident,
-  kwd: kwd,
-  pr_exp0: pr_exp0,
-  pr_app: pr_app,
-  pr_other_applications: pr_other_applications,
-  pr_lambda: pr_lambda,
-  string_of_lambda: string_of_lambda
+  ident,
+  kwd,
+  pr_exp0,
+  pr_app,
+  pr_other_applications,
+  pr_lambda,
+  string_of_lambda
 };
 
 const lambda_suites = [

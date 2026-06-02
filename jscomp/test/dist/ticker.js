@@ -65,8 +65,8 @@ function string_of_float_option(x) {
 }
 
 const Util = {
-  split: split,
-  string_of_float_option: string_of_float_option
+  split,
+  string_of_float_option
 };
 
 function string_of_rank(i) {
@@ -118,7 +118,7 @@ function print_all_composite(all_tickers) {
 const compare = Caml_obj.caml_compare;
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -134,10 +134,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -147,7 +147,7 @@ function singleton(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -183,10 +183,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -258,10 +258,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -643,10 +643,10 @@ function update(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -725,7 +725,7 @@ function mapi(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h
@@ -1231,49 +1231,49 @@ function to_seq_from(low, m) {
 
 const Ticker_map = {
   empty: /* Empty */ 0,
-  add: add,
-  add_to_list: add_to_list,
-  update: update,
-  singleton: singleton,
-  remove: remove,
+  add,
+  add_to_list,
+  update,
+  singleton,
+  remove,
   merge: merge$1,
-  union: union,
-  cardinal: cardinal,
-  bindings: bindings,
-  min_binding: min_binding,
-  min_binding_opt: min_binding_opt,
-  max_binding: max_binding,
-  max_binding_opt: max_binding_opt,
+  union,
+  cardinal,
+  bindings,
+  min_binding,
+  min_binding_opt,
+  max_binding,
+  max_binding_opt,
   choose: min_binding,
   choose_opt: min_binding_opt,
-  find: find,
-  find_opt: find_opt,
-  find_first: find_first,
-  find_first_opt: find_first_opt,
-  find_last: find_last,
-  find_last_opt: find_last_opt,
-  iter: iter,
-  fold: fold,
-  map: map,
-  mapi: mapi,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
+  find,
+  find_opt,
+  find_first,
+  find_first_opt,
+  find_last,
+  find_last_opt,
+  iter,
+  fold,
+  map,
+  mapi,
+  filter,
+  filter_map,
+  partition,
   split: split$1,
-  is_empty: is_empty,
-  is_singleton: is_singleton,
-  mem: mem,
-  equal: equal,
+  is_empty,
+  is_singleton,
+  mem,
+  equal,
   compare: compare$1,
-  for_all: for_all,
-  exists: exists,
+  for_all,
+  exists,
   to_list: bindings,
-  of_list: of_list,
-  to_seq: to_seq,
-  to_rev_seq: to_rev_seq,
-  to_seq_from: to_seq_from,
-  add_seq: add_seq,
-  of_seq: of_seq
+  of_list,
+  to_seq,
+  to_rev_seq,
+  to_seq_from,
+  add_seq,
+  of_seq
 };
 
 function compute_update_sequences(all_tickers) {
@@ -1409,11 +1409,11 @@ function process_input_line(ticker_map, all_tickers, line) {
     return {
       value: undefined,
       rank: /* Uninitialized */ 0,
-      ticker_name: ticker_name,
+      ticker_name,
       type_: {
         TAG: /* Binary_op */ 0,
         _0: {
-          op: op,
+          op,
           rhs: rhs$1,
           lhs: lhs$1
         }
@@ -1526,7 +1526,7 @@ function process_input_line(ticker_map, all_tickers, line) {
                     hd: {
                       value: undefined,
                       rank: /* Uninitialized */ 0,
-                      ticker_name: ticker_name,
+                      ticker_name,
                       type_: /* Market */ 0
                     },
                     tl: all_tickers

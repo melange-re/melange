@@ -12,7 +12,7 @@ const Stdlib__Seq = require("melange/seq.js");
 const compare = Caml.caml_int_compare;
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -28,10 +28,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -41,7 +41,7 @@ function singleton(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -77,10 +77,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -152,10 +152,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -537,10 +537,10 @@ function update(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -619,7 +619,7 @@ function mapi(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h

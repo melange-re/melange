@@ -54,7 +54,7 @@ const N = {
 };
 
 const M$p = {
-  N: N
+  N
 };
 
 console.log(1);
@@ -66,7 +66,7 @@ const M$p$p = {
 console.log(M$p$p.N$p.x);
 
 const M2 = {
-  N: N
+  N
 };
 
 const M3 = {
@@ -96,7 +96,7 @@ function F0(X) {
     x: 1
   };
   return {
-    N: N
+    N
   };
 }
 
@@ -119,7 +119,7 @@ const N$3 = {
 };
 
 const M6 = {
-  D: D,
+  D,
   N: N$3
 };
 

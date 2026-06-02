@@ -34,8 +34,8 @@
   }
   
   const Test1 = {
-    person1: person1,
-    message: message
+    person1,
+    message
   };
   
   module.exports = {

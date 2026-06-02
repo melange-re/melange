@@ -5,7 +5,7 @@
 function f(x) {
   x.dec = (function (x) {
     return {
-      x: x,
+      x,
       y: x
     };
   });

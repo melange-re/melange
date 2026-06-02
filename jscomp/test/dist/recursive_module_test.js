@@ -66,13 +66,13 @@ function fact(n) {
 }
 
 const M = {
-  fact: fact
+  fact
 };
 
 const fact$1 = M.fact;
 
 const Fact = {
-  M: M,
+  M,
   fact: fact$1
 };
 

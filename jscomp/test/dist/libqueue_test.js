@@ -38,7 +38,7 @@ const Q = {
   to_seq: Stdlib__Queue.to_seq,
   add_seq: Stdlib__Queue.add_seq,
   of_seq: Stdlib__Queue.of_seq,
-  to_list: to_list
+  to_list
 };
 
 function does_raise(f, q) {

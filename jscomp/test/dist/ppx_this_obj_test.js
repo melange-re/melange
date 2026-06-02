@@ -62,7 +62,7 @@ const v3 = {
   hi: (function (x, y) {
     let self = this;
     const u = {
-      x: x
+      x
     };
     return self.say(u.x) + y + x;
   }),

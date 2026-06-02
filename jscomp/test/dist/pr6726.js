@@ -7,11 +7,11 @@ function get_uint8(str, off) {
 }
 
 const BigEndian = {
-  get_uint8: get_uint8
+  get_uint8
 };
 
 const ExtUnixAll = {
-  BigEndian: BigEndian
+  BigEndian
 };
 
 const ExtUnix = {};
@@ -23,8 +23,8 @@ function test_endian_string(x) {
 const v = 33;
 
 const Test = {
-  test_endian_string: test_endian_string,
-  v: v
+  test_endian_string,
+  v
 };
 
 module.exports = {

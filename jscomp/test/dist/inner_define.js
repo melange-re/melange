@@ -7,7 +7,7 @@ function add(x, y) {
 }
 
 const N = {
-  add: add
+  add
 };
 
 function f1(param) {
@@ -23,9 +23,9 @@ function f3(param, param$1, param$2) {
 }
 
 const N0 = {
-  f1: f1,
-  f2: f2,
-  f3: f3
+  f1,
+  f2,
+  f3
 };
 
 function f2$1(param, param$1) {
