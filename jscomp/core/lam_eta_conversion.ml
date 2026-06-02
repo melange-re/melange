@@ -29,6 +29,37 @@ module L = struct
   let partial_arg = "partial_arg"
 end
 
+let append_var_args args params =
+  let var_params =
+    List.fold_right params ~init:[] ~f:(fun param acc -> Lam.var param :: acc)
+  in
+  List.fold_right args ~init:var_params ~f:(fun arg acc -> arg :: acc)
+
+let var_args params =
+  match params with
+  | [] -> []
+  | [ p0 ] -> [ Lam.var p0 ]
+  | [ p0; p1 ] -> [ Lam.var p0; Lam.var p1 ]
+  | [ p0; p1; p2 ] -> [ Lam.var p0; Lam.var p1; Lam.var p2 ]
+  | [ p0; p1; p2; p3 ] -> [ Lam.var p0; Lam.var p1; Lam.var p2; Lam.var p3 ]
+  | [ p0; p1; p2; p3; p4 ] ->
+      [ Lam.var p0; Lam.var p1; Lam.var p2; Lam.var p3; Lam.var p4 ]
+  | _ ->
+      List.fold_right params ~init:[] ~f:(fun param acc -> Lam.var param :: acc)
+
+let append_var_params params extra_params =
+  List.fold_right params ~init:(var_args extra_params) ~f:(fun param acc ->
+      Lam.var param :: acc)
+
+let split_at_arity xs n =
+  match (n, xs) with
+  | 1, x0 :: rest -> ([ x0 ], rest)
+  | 2, x0 :: x1 :: rest -> ([ x0; x1 ], rest)
+  | 3, x0 :: x1 :: x2 :: rest -> ([ x0; x1; x2 ], rest)
+  | 4, x0 :: x1 :: x2 :: x3 :: rest -> ([ x0; x1; x2; x3 ], rest)
+  | 5, x0 :: x1 :: x2 :: x3 :: x4 :: rest -> ([ x0; x1; x2; x3; x4 ], rest)
+  | _ -> List.split_at xs n
+
 (*
   let f x y =  x + y
   Invariant: there is no currying
@@ -63,10 +94,9 @@ let transform_under_supply n ap_info fn args =
     let extra_args =
       List.init ~len:n ~f:(fun _ -> Ident.create_local L.param)
     in
-    let extra_lambdas = List.map ~f:Lam.var extra_args in
     Lam.function_ ~arity:n ~params:extra_args
       ~attr:Lambda.default_function_attribute
-      ~body:(Lam.apply fn (List.append args extra_lambdas) ap_info)
+      ~body:(Lam.apply fn (append_var_args args extra_args) ap_info)
   in
   match bindings with
   | [] ->
@@ -170,7 +200,7 @@ let unsafe_adjust_to_arity =
               in
               Lam.function_ ~attr:Lambda.default_function_attribute ~arity:to_
                 ~params:(List.append params extra_args)
-                ~body:(Lam.apply body (List.map ~f:Lam.var extra_args) ap_info)
+                ~body:(Lam.apply body (var_args extra_args) ap_info)
           | _ -> (
               let arity = to_ in
               let extra_args =
@@ -195,14 +225,12 @@ let unsafe_adjust_to_arity =
                   ~params:extra_args
                   ~body:
                     (let first_args, rest_args =
-                       List.split_at extra_args from
+                       split_at_arity extra_args from
                      in
                      Lam.apply
-                       (Lam.apply new_fn
-                          (List.map ~f:Lam.var first_args)
+                       (Lam.apply new_fn (var_args first_args)
                           { ap_info with ap_status = App_infer_full })
-                       (List.map ~f:Lam.var rest_args)
-                       ap_info)
+                       (var_args rest_args) ap_info)
               in
               match wrapper with
               | None -> cont
@@ -220,7 +248,7 @@ let unsafe_adjust_to_arity =
           (* TODO check arity = List.length params in debug mode *) ->
               let arity = to_ in
               let extra_outer_args, extra_inner_args =
-                List.split_at params arity
+                split_at_arity params arity
               in
               Lam.function_ ~arity ~attr:Lambda.default_function_attribute
                 ~params:extra_outer_args
@@ -259,8 +287,7 @@ let unsafe_adjust_to_arity =
                        ~attr:Lambda.default_function_attribute
                        ~body:
                          (Lam.apply new_fn
-                            (List.map ~f:Lam.var extra_outer_args
-                            @ List.map ~f:Lam.var extra_inner_args)
+                            (append_var_params extra_outer_args extra_inner_args)
                             { ap_info with ap_status = App_infer_full }))
               in
               match wrapper with
