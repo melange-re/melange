@@ -42,6 +42,15 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
+let append_stmt block stmt =
+  match block with [] -> [ stmt ] | _ -> block @ [ stmt ]
+
+let append_block left right =
+  match (left, right) with
+  | [], right -> right
+  | left, [] -> left
+  | left, right -> left @ right
+
 (** This can be merged with
     {!output_of_block_and_expression} *)
 let output_of_expression (continuation : continuation) (exp : J.expression)
@@ -61,16 +70,17 @@ let output_of_block_and_expression (continuation : continuation)
   match continuation with
   | EffectCall Not_tail -> make block ~value:exp
   | EffectCall (Maybe_tail_is_return _) ->
-      make (block @ [ S.return_stmt exp ]) ~output_finished:True
-  | Declare (kind, n) -> make (block @ [ S.define_variable ~kind n exp ])
-  | Assign n -> make (block @ [ S.assign n exp ])
+      make (append_stmt block (S.return_stmt exp)) ~output_finished:True
+  | Declare (kind, n) ->
+      make (append_stmt block (S.define_variable ~kind n exp))
+  | Assign n -> make (append_stmt block (S.assign n exp))
   | NeedValue _ -> make block ~value:exp
 
 let block_with_opt_expr block (x : J.expression option) : J.block =
   match x with
   | None -> block
   | Some x when Js_analyzer.no_side_effect_expression x -> block
-  | Some x -> block @ [ S.exp x ]
+  | Some x -> append_stmt block (S.exp x)
 
 let opt_expr_with_block (x : J.expression option) block : J.block =
   match x with
@@ -134,9 +144,9 @@ let append_output (x : t) (y : t) : t =
   | ( { block = block1; value = opt_e1; _ },
       { block = block2; value = opt_e2; output_finished } ) ->
       let block1 = unnest_block block1 in
-      make
-        (block1 @ opt_expr_with_block opt_e1 @@ unnest_block block2)
-        ?value:opt_e2 ~output_finished
+      let block2 = unnest_block block2 in
+      let block2 = opt_expr_with_block opt_e1 block2 in
+      make (append_block block1 block2) ?value:opt_e2 ~output_finished
 
 (* Fold right is more efficient *)
 let concat (xs : t list) : t =
