@@ -28,21 +28,24 @@ let arity_of_var (meta : Lam_stats.t) (v : Ident.t) =
   (* for functional parameter, if it is a high order function,
       if it's not from function parameter, we should warn
   *)
-  match Ident.Hashtbl.find meta.ident_tbl v with
-  | FunctionId { arity; _ } -> arity
-  | _ | (exception Not_found) -> Lam_arity.na
+  match Ident.Hashtbl.find_opt meta.ident_tbl v with
+  | Some (FunctionId { arity; _ }) -> arity
+  | Some _ | None -> Lam_arity.na
 
 let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
   match lam with
   | Lvar v | Lmutvar v -> (
-      match Ident.Hashtbl.find meta.ident_tbl v with
-      | ImmutableBlock elems -> elems.(i)
-      | _ | (exception Not_found) -> Lam_id_kind.Element.NA
-      | exception _ -> Lam_id_kind.Element.NA)
+      match Ident.Hashtbl.find_opt meta.ident_tbl v with
+      | Some (ImmutableBlock elems) ->
+          if i >= 0 && i < Array.length elems then Array.unsafe_get elems i
+          else Lam_id_kind.Element.NA
+      | Some _ | None -> Lam_id_kind.Element.NA)
   | Lprim { primitive = Pfield (j, _); args = [ owner ]; _ } -> (
       match field_element meta owner j with
-      | Lam_id_kind.Element.ImmutableBlock elems -> elems.(i)
-      | _ | exception _ -> Lam_id_kind.Element.NA)
+      | Lam_id_kind.Element.ImmutableBlock elems ->
+          if i >= 0 && i < Array.length elems then Array.unsafe_get elems i
+          else Lam_id_kind.Element.NA
+      | _ -> Lam_id_kind.Element.NA)
   | _ -> Lam_id_kind.Element.NA
 
 (* we need record all aliases -- since not all aliases are eliminated,
@@ -80,14 +83,10 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
       } -> (
       match Lam_compile_env.query_external_id_info ~dynamic_import id name with
       | Some { arity = Submodule subs; _ } ->
-          subs.(m) (* TODO: shall we store it as array?*)
+          if m >= 0 && m < Array.length subs then Array.unsafe_get subs m
+          else Lam_arity.na (* TODO: shall we store it as array?*)
       | Some { arity = Single _; _ } | None -> Lam_arity.na)
-  | Lprim
-      {
-        primitive = Pfield (m, _);
-        args = [ owner ];
-        _;
-      } -> (
+  | Lprim { primitive = Pfield (m, _); args = [ owner ]; _ } -> (
       match field_element meta owner m with
       | Lam_id_kind.Element.Function arity -> arity
       | SimpleForm lam -> get_arity meta lam
@@ -124,18 +123,30 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
       match fn with
       | Arity_na -> Lam_arity.na
       | Arity_info (xs, tail) ->
-          let rec take (arities : _ list) arg_length =
+          (* Actually, you can not have truly deministic arities
+             for example [fun x -> x ]
+          *)
+          let rec take (arities : _ list) args =
             match arities with
             | x :: yys ->
-                if arg_length = x then Lam_arity.info yys tail
-                else if arg_length > x then take yys (arg_length - x)
-                else Lam_arity.info ((x - arg_length) :: yys) tail
+                if x = 0 then
+                  match args with
+                  | [] -> Lam_arity.info yys tail
+                  | _ :: _ -> take yys args
+                else consume_arity x yys args
             | [] -> if tail then Lam_arity.raise_arity_info else Lam_arity.na
-            (* Actually, you can not have truly deministic arities
-               for example [fun x -> x ]
-            *)
+          and consume_arity remaining yys args =
+            match args with
+            | [] -> Lam_arity.info (remaining :: yys) tail
+            | _ :: args ->
+                let remaining = remaining - 1 in
+                if remaining = 0 then
+                  match args with
+                  | [] -> Lam_arity.info yys tail
+                  | _ :: _ -> take yys args
+                else consume_arity remaining yys args
           in
-          take xs (List.length args))
+          take xs args)
   | Lfunction { arity; body; _ } -> Lam_arity.merge arity (get_arity meta body)
   | Lswitch
       ( _,
@@ -147,35 +158,59 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           sw_consts_full = _;
           _;
         } ) ->
-      all_lambdas meta
-        (let rest = List.map ~f:snd sw_consts @ List.map ~f:snd sw_blocks in
-         match sw_failaction with None -> rest | Some x -> x :: rest)
-  | Lstringswitch (_, sw, d) -> (
-      match d with
-      | None -> all_lambdas meta (List.map ~f:snd sw)
-      | Some v -> all_lambdas meta (v :: List.map ~f:snd sw))
+      all_switch_lambdas meta sw_failaction sw_consts sw_blocks
+  | Lstringswitch (_, sw, d) -> all_case_lambdas meta d sw
   | Lstaticcatch (_, _, handler) -> get_arity meta handler
-  | Ltrywith (l1, _, l2) -> all_lambdas meta [ l1; l2 ]
-  | Lifthenelse (_, l2, l3) -> all_lambdas meta [ l2; l3 ]
+  | Ltrywith (l1, _, l2) -> merge_lambda_arity meta (get_arity meta l1) l2
+  | Lifthenelse (_, l2, l3) -> merge_lambda_arity meta (get_arity meta l2) l3
   | Lsequence (_, l2) -> get_arity meta l2
   | Lstaticraise _ (* since it will not be in tail position *) | Lsend _
   | Lifused _ ->
       Lam_arity.na
   | Lwhile _ | Lfor _ | Lassign _ -> Lam_arity.non_function_arity_info
 
-and all_lambdas meta (xs : Lam.t list) =
-  match xs with
-  | y :: ys ->
-      let arity = get_arity meta y in
-      let rec aux (acc : Lam_arity.t) xs =
-        match (acc, xs) with
-        | Arity_na, _ -> acc
-        | _, [] -> acc
-        | Arity_info (xxxs, tail), y :: ys -> (
-            match get_arity meta y with
-            | Arity_na -> Lam_arity.na
-            | Arity_info (yyys, tail2) ->
-                aux (Lam_arity.merge_arities xxxs yyys tail tail2) ys)
-      in
-      aux arity ys
-  | [] -> Lam_arity.na
+and merge_lambda_arity meta (acc : Lam_arity.t) lam =
+  match acc with
+  | Arity_na -> Lam_arity.na
+  | Arity_info (xxxs, tail) -> (
+      match get_arity meta lam with
+      | Arity_na -> Lam_arity.na
+      | Arity_info (yyys, tail2) -> Lam_arity.merge_arities xxxs yyys tail tail2
+      )
+
+and merge_case_lambdas :
+    'a. Lam_stats.t -> Lam_arity.t -> ('a * Lam.t) list -> Lam_arity.t =
+ fun meta acc cases ->
+  match (acc, cases) with
+  | Arity_na, _ -> Lam_arity.na
+  | _, [] -> acc
+  | _, (_, lam) :: cases ->
+      merge_case_lambdas meta (merge_lambda_arity meta acc lam) cases
+
+and all_case_lambdas :
+    'a. Lam_stats.t -> Lam.t option -> ('a * Lam.t) list -> Lam_arity.t =
+ fun meta first cases ->
+  match first with
+  | Some lam -> merge_case_lambdas meta (get_arity meta lam) cases
+  | None -> (
+      match cases with
+      | [] -> Lam_arity.na
+      | (_, lam) :: cases -> merge_case_lambdas meta (get_arity meta lam) cases)
+
+and all_switch_lambdas meta failaction consts blocks =
+  match failaction with
+  | Some lam ->
+      merge_case_lambdas meta
+        (merge_case_lambdas meta (get_arity meta lam) consts)
+        blocks
+  | None -> (
+      match consts with
+      | (_, lam) :: consts ->
+          merge_case_lambdas meta
+            (merge_case_lambdas meta (get_arity meta lam) consts)
+            blocks
+      | [] -> (
+          match blocks with
+          | [] -> Lam_arity.na
+          | (_, lam) :: blocks ->
+              merge_case_lambdas meta (get_arity meta lam) blocks))
