@@ -28,7 +28,6 @@ module P = Js_pp
 (* https://mathiasbynens.be/notes/javascript-escapes *)
 let escape_to_buffer =
   let ( +> ) = Buffer.add_string in
-  let array_str1 = Array.init 256 ~f:(fun i -> String.make 1 (Char.chr i)) in
   let array_conv =
     [|
       "0";
@@ -49,16 +48,41 @@ let escape_to_buffer =
       "f";
     |]
   in
+  let add_hex f c =
+    let c = Char.code c in
+    f +> "\\x";
+    f +> Array.unsafe_get array_conv (c lsr 4);
+    f +> Array.unsafe_get array_conv (c land 0xf)
+  in
   let pp_raw_string f (* ?(utf=false)*) s =
     let l = String.length s in
+    let raw_start = ref 0 in
+    let flush_raw i =
+      if i > !raw_start then Buffer.add_substring f s !raw_start (i - !raw_start)
+    in
     for i = 0 to l - 1 do
       let c = String.unsafe_get s i in
       match c with
-      | '\b' -> f +> "\\b"
-      | '\012' -> f +> "\\f"
-      | '\n' -> f +> "\\n"
-      | '\r' -> f +> "\\r"
-      | '\t' -> f +> "\\t"
+      | '\b' ->
+          flush_raw i;
+          f +> "\\b";
+          raw_start := i + 1
+      | '\012' ->
+          flush_raw i;
+          f +> "\\f";
+          raw_start := i + 1
+      | '\n' ->
+          flush_raw i;
+          f +> "\\n";
+          raw_start := i + 1
+      | '\r' ->
+          flush_raw i;
+          f +> "\\r";
+          raw_start := i + 1
+      | '\t' ->
+          flush_raw i;
+          f +> "\\t";
+          raw_start := i + 1
       (* This escape sequence is not supported by IE < 9
                | '\011' -> "\\v"
          IE < 9 treats '\v' as 'v' instead of a vertical tab ('\x0B').
@@ -71,33 +95,68 @@ let escape_to_buffer =
              ||
              let next = String.unsafe_get s (i + 1) in
              next < '0' || next > '9' ->
-          f +> "\\0"
-      | '\\' (* when not utf*) -> f +> "\\\\"
+          flush_raw i;
+          f +> "\\0";
+          raw_start := i + 1
+      | '\\' (* when not utf*) ->
+          flush_raw i;
+          f +> "\\\\";
+          raw_start := i + 1
       | '\000' .. '\031' | '\127' ->
-          let c = Char.code c in
-          f +> "\\x";
-          f +> Array.unsafe_get array_conv (c lsr 4);
-          f +> Array.unsafe_get array_conv (c land 0xf)
+          flush_raw i;
+          add_hex f c;
+          raw_start := i + 1
       | '\128' .. '\255' (* when not utf*) ->
-          let c = Char.code c in
-          f +> "\\x";
-          f +> Array.unsafe_get array_conv (c lsr 4);
-          f +> Array.unsafe_get array_conv (c land 0xf)
-      | '\"' -> f +> "\\\"" (* quote*)
-      | _ -> f +> Array.unsafe_get array_str1 (Char.code c)
-    done
+          flush_raw i;
+          add_hex f c;
+          raw_start := i + 1
+      | '\"' ->
+          flush_raw i;
+          f +> "\\\"";
+          raw_start := i + 1 (* quote*)
+      | _ -> ()
+    done;
+    flush_raw l
   in
   fun f (* ?(utf=false)*) s ->
     f +> "\"";
     pp_raw_string f (*~utf*) s;
     f +> "\""
 
-let escape_to_string s =
-  let buf = Buffer.create (String.length s * 2) in
-  escape_to_buffer buf s;
-  Buffer.contents buf
+let needs_escape s =
+  let rec loop i len =
+    if i = len then false
+    else
+      match String.unsafe_get s i with
+      | '\000' .. '\031' | '\127' .. '\255' | '"' | '\\' -> true
+      | _ -> loop (i + 1) len
+  in
+  loop 0 (String.length s)
 
-let pp_string f s = P.string f (escape_to_string s)
+let quote_without_escape s =
+  let len = String.length s in
+  let bytes = Bytes.create (len + 2) in
+  Bytes.unsafe_set bytes 0 '"';
+  Bytes.blit_string ~src:s ~src_pos:0 ~dst:bytes ~dst_pos:1 ~len;
+  Bytes.unsafe_set bytes (len + 1) '"';
+  Bytes.unsafe_to_string bytes
+
+let escape_to_string s =
+  if needs_escape s then (
+    let buf = Buffer.create (String.length s * 2) in
+    escape_to_buffer buf s;
+    Buffer.contents buf)
+  else quote_without_escape s
+
+let pp_string f s =
+  if needs_escape s then (
+    let buf = Buffer.create (String.length s * 2) in
+    escape_to_buffer buf s;
+    P.string f (Buffer.contents buf))
+  else (
+    P.string_no_newline f "\"";
+    P.string_no_newline f s;
+    P.string_no_newline f "\"")
 
 (* let _best_string_quote s =
    let simple = ref 0 in

@@ -50,6 +50,7 @@ module Scope : sig
 end
 
 val string : t -> string -> unit
+val string_no_newline : t -> string -> unit
 val space : t -> unit
 
 val group : t -> int -> (unit -> 'a) -> 'a
