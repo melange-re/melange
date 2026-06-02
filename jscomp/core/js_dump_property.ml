@@ -62,6 +62,40 @@ let obj_property_no_need_quot s =
     | _ -> false
   else false
 
+let matches_js_int_literal_key s =
+  let len = String.length s in
+  let max_div_10 = max_int / 10 in
+  let positive_max_digit = max_int mod 10 in
+  let negative_max_digit = positive_max_digit + 1 in
+  let rec valid_digits_and_fits_int ~max_digit i acc =
+    if i = len then true
+    else
+      match String.unsafe_get s i with
+      | '0' .. '9' as c ->
+          let digit = Char.code c - Char.code '0' in
+          if acc > max_div_10 || (acc = max_div_10 && digit > max_digit) then
+            false
+          else valid_digits_and_fits_int ~max_digit (i + 1) ((acc * 10) + digit)
+      | _ -> false
+  in
+  match len with
+  | 0 -> false
+  | _ -> (
+      match String.unsafe_get s 0 with
+      | '-' -> (
+          if len = 1 then false
+          else
+            match String.unsafe_get s 1 with
+            | '1' .. '9' as c ->
+                valid_digits_and_fits_int ~max_digit:negative_max_digit 2
+                  (Char.code c - Char.code '0')
+            | _ -> false)
+      | '0' -> len = 1
+      | '1' .. '9' as c ->
+          valid_digits_and_fits_int ~max_digit:positive_max_digit 1
+            (Char.code c - Char.code '0')
+      | _ -> false)
+
 (** used in property access
     {[
       f.x ;;
@@ -77,10 +111,8 @@ let property_access f s =
         (* avoid cases like
            "0123", "123_456"
         *)
-        match string_of_int (int_of_string s) with
-        | s0 when s0 = s -> P.string f s
-        | _ -> Js_dump_string.pp_string f s
-        | exception _ -> Js_dump_string.pp_string f s)
+        if matches_js_int_literal_key s then P.string f s
+        else Js_dump_string.pp_string f s)
 
 let property_key (s : J.property_name) : string =
   if obj_property_no_need_quot s then s else Js_dump_string.escape_to_string s
