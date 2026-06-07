@@ -25,7 +25,20 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5;
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5.overrideScope (
+                  oself: osuper: {
+                    dune_3 = osuper.dune_3.overrideAttrs (_: {
+                      src = super.fetchFromGitHub {
+                        owner = "ocaml";
+                        repo = "dune";
+                        rev = "6fa426316b9022d6687b09e2bc600c983a9383d0";
+                        hash = "sha256-VZNoc8iN9UvEigFCBKTKC4MWtlAI3go4/ok9cyrQmS0=";
+                      };
+
+                    });
+
+                  }
+                );
               }
             );
           in
