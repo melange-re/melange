@@ -40,7 +40,7 @@ function map(map_optionsOpt, number, key_type, value_type, name) {
     map_number: number,
     map_key_type: key_type,
     map_value_type: value_type,
-    map_options: map_options
+    map_options
   };
 }
 
@@ -75,14 +75,14 @@ function message(content, message_name) {
   message_counter.contents = message_counter.contents + 1 | 0;
   return {
     id: message_counter.contents,
-    message_name: message_name,
+    message_name,
     message_body: content
   };
 }
 
 function $$import($$public, file_name) {
   return {
-    file_name: file_name,
+    file_name,
     public: $$public !== undefined
   };
 }
@@ -91,14 +91,14 @@ function extend(extend_name, extend_body) {
   message_counter.contents = message_counter.contents + 1 | 0;
   return {
     id: message_counter.contents,
-    extend_name: extend_name,
-    extend_body: extend_body
+    extend_name,
+    extend_body
   };
 }
 
 function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$1, extend, param) {
   const proto$2 = proto$1 !== undefined ? proto$1 : ({
-      syntax: syntax,
+      syntax,
       imports: /* [] */ 0,
       file_options: /* [] */ 0,
       package: undefined,
@@ -107,7 +107,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
       extends: /* [] */ 0
     });
   const proto$3 = syntax !== undefined ? ({
-      syntax: syntax,
+      syntax,
       imports: proto$2.imports,
       file_options: proto$2.file_options,
       package: proto$2.package,
@@ -310,8 +310,8 @@ function from_lexbuf(lexbuf) {
   const file_name = x === "" ? undefined : x;
   const line = lexbuf.lex_curr_p.pos_lnum;
   return {
-    file_name: file_name,
-    line: line
+    file_name,
+    line
   };
 }
 
@@ -763,8 +763,8 @@ function invalid_default_value(field_name, info, param) {
       _1: {
         TAG: /* Invalid_default_value */ 2,
         _0: {
-          field_name: field_name,
-          info: info
+          field_name,
+          info
         }
       }
     });
@@ -776,9 +776,9 @@ function unsupported_field_type(field_name, field_type, backend_name, param) {
       _1: {
         TAG: /* Unsupported_field_type */ 3,
         _0: {
-          field_name: field_name,
-          field_type: field_type,
-          backend_name: backend_name
+          field_name,
+          field_type,
+          backend_name
         }
       }
     });
@@ -1400,8 +1400,8 @@ const yyact = [
     message_counter.contents = message_counter.contents + 1 | 0;
     return {
       enum_id: message_counter.contents,
-      enum_name: enum_name,
-      enum_values: enum_values
+      enum_name,
+      enum_values
     };
   }),
   (function (__caml_parser_env) {
@@ -3230,8 +3230,8 @@ function gen_sig(and_, t, sc) {
 }
 
 const Codegen_decode = {
-  gen_sig: gen_sig,
-  gen_struct: gen_struct,
+  gen_sig,
+  gen_struct,
   ocamldoc_title: "Protobuf Decoding"
 };
 
@@ -3875,7 +3875,7 @@ const Codegen_pp = {
 const compare = Caml_obj.caml_compare;
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -3891,10 +3891,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -3929,10 +3929,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -3980,10 +3980,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -4116,7 +4116,7 @@ function string_of_option(f, x) {
 function reset(g) {
   return Curry._2(map$1, (function (core) {
     return {
-      core: core,
+      core,
       index: undefined,
       lowlink: undefined,
       on_stack: false
@@ -4637,10 +4637,10 @@ function compile_field_p1(field_parsed) {
   const field_type = field_type_of_string(field_parsed.field_type);
   const field_default = get_default(field_parsed.field_name, field_options, field_type);
   return {
-    field_parsed: field_parsed,
-    field_type: field_type,
-    field_default: field_default,
-    field_options: field_options
+    field_parsed,
+    field_type,
+    field_default,
+    field_options
   };
 }
 
@@ -4694,11 +4694,11 @@ function list_assoc2(x, _param) {
 
 function type_of_spec(file_name, file_options, id, scope, spec) {
   return {
-    scope: scope,
-    id: id,
-    file_name: file_name,
-    file_options: file_options,
-    spec: spec
+    scope,
+    id,
+    file_name,
+    file_options,
+    spec
   };
 }
 
@@ -4713,7 +4713,7 @@ function compile_enum_p1(file_name, file_options, scope, param) {
     TAG: /* Enum */ 0,
     _0: {
       enum_name: param.enum_name,
-      enum_values: enum_values
+      enum_values
     }
   });
 }
@@ -4825,8 +4825,8 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             TAG: /* Duplicated_field_number */ 1,
             _0: {
               field_name: name,
-              previous_field_name: previous_field_name,
-              message_name: message_name
+              previous_field_name,
+              message_name
             }
           }
         });
@@ -4847,8 +4847,8 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
       TAG: /* Message */ 1,
       _0: {
         extensions: match[1],
-        message_name: message_name,
-        message_body: message_body
+        message_name,
+        message_body
       }
     }),
     tl: /* [] */ 0
@@ -5075,9 +5075,9 @@ function compile_message_p2(types, param, message) {
           _1: {
             TAG: /* Unresolved_type */ 0,
             _0: {
-              field_name: field_name,
+              field_name,
               type_: type_name,
-              message_name: message_name
+              message_name
             }
           }
         });
@@ -5151,10 +5151,10 @@ function compile_message_p2(types, param, message) {
         const resolved_map = {
           TAG: /* Message_map_field */ 2,
           _0: {
-            map_name: map_name,
+            map_name,
             map_number: map.map_number,
-            map_key_type: map_key_type,
-            map_value_type: map_value_type,
+            map_key_type,
+            map_value_type,
             map_options: map.map_options
           }
         };
@@ -5177,7 +5177,7 @@ function node_of_proto_type(param) {
   const id = param.id;
   if (match.TAG === /* Enum */ 0) {
     return {
-      id: id,
+      id,
       sub: /* [] */ 0
     };
   }
@@ -5218,8 +5218,8 @@ function node_of_proto_type(param) {
     }
   }), match._0.message_body));
   return {
-    id: id,
-    sub: sub
+    id,
+    sub
   };
 }
 
@@ -7315,8 +7315,8 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
         TAG: /* Ft_user_defined_type */ 1,
         _0: {
           udt_module: undefined,
-          udt_type_name: udt_type_name,
-          udt_nested: udt_nested
+          udt_type_name,
+          udt_nested
         }
       };
     } else {
@@ -7324,8 +7324,8 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
         TAG: /* Ft_user_defined_type */ 1,
         _0: {
           udt_module: field_type_module,
-          udt_type_name: udt_type_name,
-          udt_nested: udt_nested
+          udt_type_name,
+          udt_nested
         }
       };
     }
@@ -7420,7 +7420,7 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
         _0: field_type$1
       });
     return {
-      vc_constructor: vc_constructor,
+      vc_constructor,
       vc_field_type: tmp,
       vc_encoding_number: match[1],
       vc_payload_kind: match[0]
@@ -7428,8 +7428,8 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
   }), oneof_field.oneof_fields);
   const v_name = include_oneof_name !== undefined ? type_name(outer_message_names, oneof_field.oneof_name) : type_name(outer_message_names, "");
   return {
-    v_name: v_name,
-    v_constructors: v_constructors
+    v_name,
+    v_constructors
   };
 }
 
@@ -7442,12 +7442,12 @@ function compile_enum(file_name, scope, param) {
     ];
   }), param.enum_values);
   return {
-    module_: module_,
+    module_,
     spec: {
       TAG: /* Const_variant */ 2,
       _0: {
         cv_name: type_name(scope.message_names, param.enum_name),
-        cv_constructors: cv_constructors
+        cv_constructors
       }
     }
   };
@@ -7491,18 +7491,18 @@ function compile(proto_definition) {
     const scope = param.scope;
     if (m.TAG === /* Enum */ 0) {
       return {
-        scope: scope,
-        id: id,
-        file_name: file_name,
-        file_options: file_options,
+        scope,
+        id,
+        file_name,
+        file_options,
         spec: m
       };
     } else {
       return {
-        scope: scope,
-        id: id,
-        file_name: file_name,
-        file_options: file_options,
+        scope,
+        id,
+        file_name,
+        file_options,
         spec: {
           TAG: /* Message */ 1,
           _0: compile_message_p2(all_pbtt_msgs, scope, m._0)
@@ -7542,7 +7542,7 @@ function compile(proto_definition) {
               const variant = variant_of_oneof(undefined, outer_message_names, all_pbtt_msgs$1, file_options, file_name, f._0);
               return {
                 hd: {
-                  module_: module_,
+                  module_,
                   spec: {
                     TAG: /* Variant */ 1,
                     _0: variant
@@ -7649,7 +7649,7 @@ function compile(proto_definition) {
                 rf_mutable: false
               };
               const variants_0 = {
-                module_: module_,
+                module_,
                 spec: {
                   TAG: /* Variant */ 1,
                   _0: variant
@@ -7775,7 +7775,7 @@ function compile(proto_definition) {
           _0: record
         };
         const type_ = {
-          module_: module_,
+          module_,
           spec: type__spec
         };
         return Stdlib__List.rev({

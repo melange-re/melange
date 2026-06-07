@@ -32,14 +32,14 @@ function setup_sprite(loopOpt, bbox_offsetOpt, bbox_sizeOpt, img_src, max_frames
   ]) ? frame_size : bbox_size;
   const img_src$1 = "./sprites/" + img_src;
   return {
-    max_frames: max_frames,
-    max_ticks: max_ticks,
+    max_frames,
+    max_ticks,
     img_src: img_src$1,
-    frame_size: frame_size,
-    src_offset: src_offset,
-    bbox_offset: bbox_offset,
+    frame_size,
+    src_offset,
+    bbox_offset,
     bbox_size: bbox_size$1,
-    loop: loop
+    loop
   };
 }
 
@@ -616,15 +616,15 @@ function make_from_params(params, context) {
   const img = document.createElement("img");
   img.src = params.img_src;
   return {
-    params: params,
-    context: context,
+    params,
+    context,
     frame: {
       contents: 0
     },
     ticks: {
       contents: 0
     },
-    img: img
+    img
   };
 }
 
@@ -677,12 +677,12 @@ function update_animation(spr) {
 }
 
 const Sprite = {
-  setup_sprite: setup_sprite,
-  make: make,
-  make_bgd: make_bgd,
+  setup_sprite,
+  make,
+  make_bgd,
   make_particle: make_particle$1,
-  transform_enemy: transform_enemy,
-  update_animation: update_animation
+  transform_enemy,
+  update_animation
 };
 
 function pair_to_xy(pair) {
@@ -724,8 +724,8 @@ function make$1(velOpt, accOpt, part_type, pos, ctx) {
   const vel$1 = pair_to_xy(vel);
   const acc$1 = pair_to_xy(acc);
   return {
-    params: params,
-    part_type: part_type,
+    params,
+    part_type,
     pos: pos$1,
     vel: vel$1,
     acc: acc$1,
@@ -777,8 +777,8 @@ function $$process(part) {
 
 const Particle = {
   make: make$1,
-  make_score: make_score,
-  $$process: $$process
+  make_score,
+  $$process
 };
 
 const id_counter = {
@@ -789,8 +789,8 @@ function setup_obj(has_gravityOpt, speedOpt, param) {
   const has_gravity = has_gravityOpt !== undefined ? has_gravityOpt : true;
   const speed = speedOpt !== undefined ? speedOpt : 1;
   return {
-    has_gravity: has_gravity,
-    speed: speed
+    has_gravity,
+    speed
   };
 }
 
@@ -841,7 +841,7 @@ function make$2(idOpt, dirOpt, spawnable, context, param) {
   const params = make_type$2(spawnable);
   const id$1 = id !== undefined ? id : new_id();
   const obj = {
-    params: params,
+    params,
     pos: {
       x: param[0],
       y: param[1]
@@ -853,7 +853,7 @@ function make$2(idOpt, dirOpt, spawnable, context, param) {
     id: id$1,
     jumping: false,
     grounded: false,
-    dir: dir,
+    dir,
     invuln: 0,
     kill: false,
     health: 1,
@@ -1404,25 +1404,25 @@ function kill(collid, ctx) {
 const $$Object = {
   invuln: 60,
   dampen_jump: 4,
-  get_sprite: get_sprite,
-  get_obj: get_obj,
-  spawn: spawn,
-  equals: equals,
-  is_player: is_player,
-  is_enemy: is_enemy,
-  normalize_origin: normalize_origin,
-  normalize_pos: normalize_pos,
-  kill: kill,
-  process_obj: process_obj,
-  update_player: update_player,
-  check_collision: check_collision,
-  evolve_enemy: evolve_enemy,
-  evolve_block: evolve_block,
-  dec_health: dec_health,
-  rev_dir: rev_dir,
-  reverse_left_right: reverse_left_right,
-  collide_block: collide_block,
-  spawn_above: spawn_above
+  get_sprite,
+  get_obj,
+  spawn,
+  equals,
+  is_player,
+  is_enemy,
+  normalize_origin,
+  normalize_pos,
+  kill,
+  process_obj,
+  update_player,
+  check_collision,
+  evolve_enemy,
+  evolve_block,
+  dec_health,
+  rev_dir,
+  reverse_left_right,
+  collide_block,
+  spawn_above
 };
 
 function render_bbox(sprite, param) {
@@ -1503,14 +1503,14 @@ function game_loss(ctx) {
 }
 
 const Draw = {
-  render: render,
-  clear_canvas: clear_canvas,
-  draw_bgd: draw_bgd,
-  render_bbox: render_bbox,
-  fps: fps,
-  hud: hud,
-  game_win: game_win,
-  game_loss: game_loss
+  render,
+  clear_canvas,
+  draw_bgd,
+  render_bbox,
+  fps,
+  hud,
+  game_win,
+  game_loss
 };
 
 function make$3(param, param$1) {
@@ -1569,7 +1569,7 @@ function update(vpt, ctr) {
     y: new_y
   };
   return {
-    pos: pos,
+    pos,
     v_dim: vpt.v_dim,
     m_dim: vpt.m_dim
   };
@@ -1577,11 +1577,11 @@ function update(vpt, ctr) {
 
 const $$Viewport = {
   make: make$3,
-  calc_viewport_point: calc_viewport_point,
-  in_viewport: in_viewport,
-  out_of_viewport_below: out_of_viewport_below,
-  coord_to_viewport: coord_to_viewport,
-  update: update
+  calc_viewport_point,
+  in_viewport,
+  out_of_viewport_below,
+  coord_to_viewport,
+  update
 };
 
 const pressed_keys = {
@@ -2255,7 +2255,7 @@ function update_loop(canvas, param, map_dim) {
   ], map_dim);
   const state = {
     bgd: make_bgd(ctx),
-    ctx: ctx,
+    ctx,
     vpt: update(viewport, player._2.pos),
     map: map_dim[1],
     score: 0,
@@ -2412,9 +2412,9 @@ function keyup(evt) {
 }
 
 const Director = {
-  update_loop: update_loop,
-  keydown: keydown,
-  keyup: keyup
+  update_loop,
+  keydown,
+  keyup
 };
 
 function mem_loc(checkloc, _loclist) {
@@ -3249,8 +3249,8 @@ function init(param) {
 }
 
 const Procedural_generator = {
-  init: init,
-  generate: generate
+  init,
+  generate
 };
 
 const loadCount = {
@@ -3336,13 +3336,13 @@ window.onload = (function (param) {
 });
 
 const Main = {
-  loadCount: loadCount,
+  loadCount,
   imgsToLoad: 4,
   level_width: 2400,
   level_height: 256,
-  load: load,
-  inc_counter: inc_counter,
-  preload: preload
+  load,
+  inc_counter,
+  preload
 };
 
 module.exports = {

@@ -86,8 +86,8 @@ function x(a) {
 }
 
 const Nested = {
-  effects: effects,
-  x: x
+  effects,
+  x
 };
 
 const effects$1 = {
@@ -109,7 +109,7 @@ function x$1(a) {
 }
 
 const Local_module_field = {
-  Nested: Nested,
+  Nested,
   effects: effects$1,
   x: x$1
 };

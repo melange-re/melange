@@ -23,7 +23,7 @@ function actAsync(func) {
 function changeWithValue(element, value) {
   const $$event = {
     target: {
-      value: value
+      value
     }
   };
   TestUtils.Simulate.change(element, $$event);
@@ -39,8 +39,8 @@ function changeWithChecked(element, value) {
 }
 
 const Simulate = {
-  changeWithValue: changeWithValue,
-  changeWithChecked: changeWithChecked
+  changeWithValue,
+  changeWithChecked
 };
 
 function findBySelector(element, selector) {
@@ -65,10 +65,10 @@ function findBySelectorAndPartialTextContent(element, selector, content) {
 }
 
 const DOM = {
-  findBySelector: findBySelector,
-  findByAllSelector: findByAllSelector,
-  findBySelectorAndTextContent: findBySelectorAndTextContent,
-  findBySelectorAndPartialTextContent: findBySelectorAndPartialTextContent
+  findBySelector,
+  findByAllSelector,
+  findBySelectorAndTextContent,
+  findBySelectorAndPartialTextContent
 };
 
 function prepareContainer(container, param) {

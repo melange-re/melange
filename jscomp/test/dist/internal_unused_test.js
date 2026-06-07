@@ -31,7 +31,7 @@ const h5 = h4 + 1 | 0;
 const b = 5;
 
 const N = {
-  b: b
+  b
 };
 
 console.log(h5);

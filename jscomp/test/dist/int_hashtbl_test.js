@@ -54,8 +54,8 @@ function equal(x, y) {
 }
 
 const Int_hash = Stdlib__Hashtbl.Make({
-  equal: equal,
-  hash: hash
+  equal,
+  hash
 });
 
 const suites_0 = [

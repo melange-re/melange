@@ -12,7 +12,7 @@ const List$2 = require("reactX");
 const configx = WebpackConfigJs;
 
 const WebpackConfig = {
-  configx: configx
+  configx
 };
 
 const configx$1 = WebpackMiddlewareConfigJs;

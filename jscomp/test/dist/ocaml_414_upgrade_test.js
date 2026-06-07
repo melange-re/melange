@@ -13,7 +13,7 @@ function forEach(xs, f) {
 }
 
 const Y = {
-  forEach: forEach
+  forEach
 };
 
 function f(X, xs) {

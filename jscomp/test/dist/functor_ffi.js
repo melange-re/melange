@@ -8,7 +8,7 @@ function Make(S) {
     return Caml_option.undefined_to_opt(f[i]);
   };
   return {
-    opt_get: opt_get
+    opt_get
   };
 }
 
@@ -17,7 +17,7 @@ function opt_get(f, i) {
 }
 
 const Int_arr = {
-  opt_get: opt_get
+  opt_get
 };
 
 function f(v) {

@@ -46,7 +46,7 @@ function public_method_label(s) {
 const compare = Caml.caml_string_compare;
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -62,10 +62,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -75,7 +75,7 @@ function singleton(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -111,10 +111,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -186,10 +186,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -571,10 +571,10 @@ function update(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -653,7 +653,7 @@ function mapi(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h
@@ -1159,49 +1159,49 @@ function to_seq_from(low, m) {
 
 const Vars = {
   empty: /* Empty */ 0,
-  add: add,
-  add_to_list: add_to_list,
-  update: update,
-  singleton: singleton,
-  remove: remove,
+  add,
+  add_to_list,
+  update,
+  singleton,
+  remove,
   merge: merge$1,
-  union: union,
-  cardinal: cardinal,
-  bindings: bindings,
-  min_binding: min_binding,
-  min_binding_opt: min_binding_opt,
-  max_binding: max_binding,
-  max_binding_opt: max_binding_opt,
+  union,
+  cardinal,
+  bindings,
+  min_binding,
+  min_binding_opt,
+  max_binding,
+  max_binding_opt,
   choose: min_binding,
   choose_opt: min_binding_opt,
-  find: find,
-  find_opt: find_opt,
-  find_first: find_first,
-  find_first_opt: find_first_opt,
-  find_last: find_last,
-  find_last_opt: find_last_opt,
-  iter: iter,
-  fold: fold,
-  map: map,
-  mapi: mapi,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
-  split: split,
-  is_empty: is_empty,
-  is_singleton: is_singleton,
-  mem: mem,
-  equal: equal,
+  find,
+  find_opt,
+  find_first,
+  find_first_opt,
+  find_last,
+  find_last_opt,
+  iter,
+  fold,
+  map,
+  mapi,
+  filter,
+  filter_map,
+  partition,
+  split,
+  is_empty,
+  is_singleton,
+  mem,
+  equal,
   compare: compare$1,
-  for_all: for_all,
-  exists: exists,
+  for_all,
+  exists,
   to_list: bindings,
-  of_list: of_list,
-  to_seq: to_seq,
-  to_rev_seq: to_rev_seq,
-  to_seq_from: to_seq_from,
-  add_seq: add_seq,
-  of_seq: of_seq
+  of_list,
+  to_seq,
+  to_rev_seq,
+  to_seq_from,
+  add_seq,
+  of_seq
 };
 
 const compare$2 = Caml.caml_string_compare;
@@ -1223,10 +1223,10 @@ function create$1(l, x, d, r) {
   const hr = height$1(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -1236,7 +1236,7 @@ function singleton$1(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -1272,10 +1272,10 @@ function bal$1(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -1347,10 +1347,10 @@ function add$1(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -1732,10 +1732,10 @@ function update$1(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -1814,7 +1814,7 @@ function mapi$1(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h
@@ -2384,10 +2384,10 @@ function create$2(l, x, d, r) {
   const hr = height$2(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -2397,7 +2397,7 @@ function singleton$2(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -2433,10 +2433,10 @@ function bal$2(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -2508,10 +2508,10 @@ function add$2(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -2893,10 +2893,10 @@ function update$2(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -2975,7 +2975,7 @@ function mapi$2(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h
@@ -3560,7 +3560,7 @@ function new_table(pub_labels) {
   }
   return {
     size: 2,
-    methods: methods,
+    methods,
     methods_by_name: /* Empty */ 0,
     methods_by_label: /* Empty */ 0,
     previous_states: /* [] */ 0,

@@ -11,7 +11,7 @@ function u(v) {
 const s = Stdlib__String;
 
 const N = {
-  s: s
+  s
 };
 
 function v(x) {

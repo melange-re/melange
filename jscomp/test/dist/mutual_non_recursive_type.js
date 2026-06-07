@@ -7,7 +7,7 @@ function f(x) {
 }
 
 const U = {
-  f: f
+  f
 };
 
 const v = {

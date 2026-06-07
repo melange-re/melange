@@ -66,8 +66,8 @@ function createClass(debugName) {
       const _x = $$this.handleMethod;
       return {
         handle: _x,
-        state: state,
-        retainedProps: retainedProps,
+        state,
+        retainedProps,
         send: $$this.sendMethod,
         onUnmount: $$this.onUnmountMethod
       };
@@ -118,8 +118,8 @@ function createClass(debugName) {
         onUnmount: oldSelf_onUnmount
       };
       Curry._1(newComponent.didUpdate, {
-        oldSelf: oldSelf,
-        newSelf: newSelf
+        oldSelf,
+        newSelf
       });
     }),
     componentWillUnmount: (function () {
@@ -167,8 +167,8 @@ function createClass(debugName) {
         onUnmount: oldSelf_onUnmount
       };
       Curry._1(newComponent.willUpdate, {
-        oldSelf: oldSelf,
-        newSelf: newSelf
+        oldSelf,
+        newSelf
       });
     }),
     componentWillReceiveProps: (function (nextProps) {
@@ -221,8 +221,8 @@ function createClass(debugName) {
         onUnmount: oldSelf_onUnmount
       };
       return Curry._1(newComponent.shouldUpdate, {
-        oldSelf: oldSelf,
-        newSelf: newSelf
+        oldSelf,
+        newSelf
       });
     }),
     onUnmountMethod: (function (subscription) {
@@ -309,7 +309,7 @@ function createClass(debugName) {
 
 function basicComponent(debugName) {
   return {
-    debugName: debugName,
+    debugName,
     reactClassInternal: createClass(debugName),
     handedOffState: {
       contents: undefined
@@ -348,8 +348,8 @@ function element(keyOpt, refOpt, component) {
     return Curry._2(Caml_option.valFromOption(jsElementWrapped), key, ref);
   } else {
     return React.createElement(component.reactClassInternal, {
-      key: key,
-      ref: ref,
+      key,
+      ref,
       reasonProps: element$1
     });
   }
@@ -389,7 +389,7 @@ function wrapJsForReason(reactClass, props, children) {
     initialState: dummyInteropComponent.initialState,
     retainedProps: dummyInteropComponent.retainedProps,
     reducer: dummyInteropComponent.reducer,
-    jsElementWrapped: jsElementWrapped
+    jsElementWrapped
   };
 }
 

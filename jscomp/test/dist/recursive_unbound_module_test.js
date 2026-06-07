@@ -8,10 +8,10 @@ function Make(X) {
     
   };
   const M = {
-    f: f
+    f
   };
   return {
-    M: M
+    M
   };
 }
 
@@ -38,7 +38,7 @@ function f(param) {
 }
 
 const M = {
-  f: f
+  f
 };
 
 Caml_module.update_mod({
@@ -54,7 +54,7 @@ Caml_module.update_mod({
       "M"
     ]]
 }, B, {
-  M: M
+  M
 });
 
 let A;

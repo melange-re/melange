@@ -89,7 +89,7 @@ const List = {
   merge: Stdlib__List.merge,
   to_seq: Stdlib__List.to_seq,
   of_seq: Stdlib__List.of_seq,
-  b: b,
+  b,
   length: 3
 };
 

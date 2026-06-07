@@ -19,7 +19,7 @@ catch (exn){
 }
 
 const N = {
-  f: f
+  f
 };
 
 module.exports = {

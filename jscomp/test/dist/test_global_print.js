@@ -7,7 +7,7 @@ const List = {
 };
 
 const X = {
-  List: List
+  List
 };
 
 module.exports = {

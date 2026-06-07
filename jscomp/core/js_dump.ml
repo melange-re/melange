@@ -929,9 +929,7 @@ and property_name_and_value_list cxt (l : J.property_map) =
           let key = Js_dump_property.property_key pn in
           let str, cxt = str_of_ident cxt v in
           let content =
-            (* if key = str then key
-               else *)
-            key ^ L.colon_space ^ str
+            if key = str then key else key ^ L.colon_space ^ str
           in
           string cxt content;
           cxt

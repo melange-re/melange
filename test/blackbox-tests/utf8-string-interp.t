@@ -59,7 +59,7 @@ Test edge cases on unicode string interpolation
   const world = "world";
   
   const M = {
-    world: world
+    world
   };
   
   const x = "Hello, " + world;
