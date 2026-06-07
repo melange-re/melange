@@ -37,6 +37,7 @@ build: [
 dev-repo: "git+https://github.com/melange-re/melange.git"
 x-maintenance-intent: ["(latest)"]
 pin-depends: [
+  [ "dune.dev" "git+https://github.com/ocaml/dune#6fa426316b9022d6687b09e2bc600c983a9383d0" ]
   [ "ppxlib.dev" "https://github.com/NathanReb/ppxlib/archive/547c6cfd69671e147767e0937d069c5b9eb2aa4a.tar.gz" ]
   [ "reason.dev" "git+https://github.com/reasonml/reason#1013ec710a493a9463dd899712c12e9422e78f91"]
 ]
