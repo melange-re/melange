@@ -75,3 +75,5 @@ let no_export = ref false
 let as_ppx = ref false
 let as_pp = ref false
 let preamble = ref None
+let source_map = ref false
+let source_map_include_sources = ref false

@@ -20,15 +20,18 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
+type ret_cxt = { scope : Js_pp.Scope.t; sourcemap : Js_sourcemap.t option }
+
 val statements :
   top:bool ->
   scope:Js_pp.Scope.t ->
   output_dir:string ->
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
+  ?sourcemap:Js_sourcemap.t ->
   Js_pp.t ->
   J.block ->
-  Js_pp.Scope.t
+  ret_cxt
 (** Print JS IR to vanilla Javascript code
     Called by module {!Js_dump_program} *)
 

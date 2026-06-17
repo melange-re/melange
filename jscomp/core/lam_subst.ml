@@ -39,8 +39,8 @@ let subst =
         Lam.apply (subst_aux s ap_func)
           (List.map ~f:(subst_aux s) ap_args)
           ap_info
-    | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(subst_aux s body) ~attr
+    | Lfunction { arity; params; body; attr; loc } ->
+        Lam.function_ ~arity ~params ~body:(subst_aux s body) ~attr ~loc
     | Llet (str, id, arg, body) ->
         Lam.let_ str id (subst_aux s arg) (subst_aux s body)
     | Lmutlet (id, arg, body) ->

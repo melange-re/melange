@@ -313,14 +313,37 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       delayed_program)
 ;;
 
-let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
+let source_map_comment map_file =
+  Printf.sprintf "\n//# sourceMappingURL=%s\n" (Filename.basename map_file)
+
+let make_sourcemap_for_input () =
+  let source_file = !Location.input_name in
+  let sourcemap = Js_sourcemap.create ~source_name:(Filename.basename source_file) in
+  if !Js_config.source_map_include_sources && Sys.file_exists source_file then
+    Js_sourcemap.add_sources_content sourcemap (Io.read_file source_file)
+  else sourcemap
+
+let write_to_file ~package_info ~output_info ~output_prefix lambda_output file =
   Io.with_file_out_fd file ~f:(fun fd ->
-    Js_dump_program.dump_deps_program
-      ~package_info
-      ~output_info
-      ~output_prefix
-      lambda_output
-      fd)
+      let sourcemap =
+        if !Js_config.source_map then Some (make_sourcemap_for_input ()) else None
+      in
+      let generated_sourcemap =
+        Js_dump_program.dump_deps_program
+          ~package_info
+          ~output_info
+          ~output_prefix
+          ?sourcemap
+          lambda_output
+          fd
+      in
+      match generated_sourcemap with
+      | None -> ()
+      | Some sourcemap ->
+          let map_file = file ^ ".map" in
+          let comment = source_map_comment map_file in
+          Io.write fd comment ~off:0 ~len:(String.length comment);
+          Io.write_file map_file (Js_sourcemap.to_string sourcemap))
 
 let lambda_as_module =
   let (//) = Paths.(//) in
@@ -330,11 +353,12 @@ let lambda_as_module =
     in
     match (!Js_config.js_stdout, !Clflags.output_name) with
     | (true, None) ->
-      Js_dump_program.dump_deps_program
-        ~package_info
-        ~output_info:Js_packages_info.default_output_info
-        ~output_prefix
-        lambda_output Unix.stdout
+      ignore
+        (Js_dump_program.dump_deps_program
+           ~package_info
+           ~output_info:Js_packages_info.default_output_info
+           ~output_prefix
+           lambda_output Unix.stdout)
     | false, None ->
       raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
     | (_, Some _) ->

@@ -376,8 +376,8 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         (*   simplif (Lam_beta_reduce.beta_reduce params body args) *)
     | Lapply { ap_func = l1; ap_args = ll; ap_info } ->
         Lam.apply (simplif l1) (List.map ~f:simplif ll) ap_info
-    | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(simplif body) ~attr
+    | Lfunction { arity; params; body; attr; loc } ->
+        Lam.function_ ~arity ~params ~body:(simplif body) ~attr ~loc
     | Lconst _ -> lam
     | Lletrec (bindings, body) ->
         Lam.letrec (List.map_snd bindings ~f:simplif) (simplif body)
