@@ -25,13 +25,10 @@
 open Import
 
 let add_use =
-  let add_or_update (h : 'a Ident.Hashtbl.t) (key : Ident.Hashtbl.key)
-      ~update:modf ~default =
-    match Ident.Hashtbl.find h key with
-    | v -> Ident.Hashtbl.replace h ~key ~data:(modf v)
-    | exception Not_found -> Ident.Hashtbl.add h ~key ~data:default
-  in
-  fun stats id -> add_or_update stats id ~update:succ ~default:1
+ fun stats id ->
+  match Ident.Hashtbl.find_opt stats id with
+  | Some count -> incr count
+  | None -> Ident.Hashtbl.add stats ~key:id ~data:(ref 1)
 
 let post_process_stats my_export_set
     (defined_idents : J.variable_declaration Ident.Hashtbl.t) stats =
@@ -45,12 +42,12 @@ let post_process_stats my_export_set
           | None -> false (* can not happen *)
           | Some x -> Js_analyzer.no_side_effect_expression x
         in
-        match Ident.Hashtbl.find stats ident with
-        | exception Not_found ->
+        match Ident.Hashtbl.find_opt stats ident with
+        | None ->
             Js_op.update_used_stats v.ident_info
               (if pure then Dead_pure else Dead_non_pure)
-        | num ->
-            if num = 1 then
+        | Some num ->
+            if !num = 1 then
               Js_op.update_used_stats v.ident_info
                 (if pure then Once_pure else Used));
   defined_idents
@@ -62,7 +59,7 @@ let post_process_stats my_export_set
 *)
 let super = Js_record_iter.super
 
-let count_collects (* collect used status*) (stats : int Ident.Hashtbl.t)
+let count_collects (* collect used status*) (stats : int ref Ident.Hashtbl.t)
     (* collect all def sites *)
       (defined_idents : J.variable_declaration Ident.Hashtbl.t) =
   {
@@ -75,7 +72,7 @@ let count_collects (* collect used status*) (stats : int Ident.Hashtbl.t)
   }
 
 let get_stats (program : J.program) : J.variable_declaration Ident.Hashtbl.t =
-  let stats : int Ident.Hashtbl.t = Ident.Hashtbl.create 83 in
+  let stats : int ref Ident.Hashtbl.t = Ident.Hashtbl.create 83 in
   let defined_idents : J.variable_declaration Ident.Hashtbl.t =
     Ident.Hashtbl.create 83
   in
