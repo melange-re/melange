@@ -1,14 +1,29 @@
 Unreleased
 ---------------
 
+- BREAKING(CLI): remove --modules, redundant to ocamldep
+  ([#1744](https://github.com/melange-re/melange/pull/1744))
 - fix: code generation for lazy rec forward references
   ([#1735](https://github.com/melange-re/melange/pull/1735))
 - Support OCaml 5.5 ([#1724](https://github.com/melange-re/melange/pull/1724))
 - Upgrade Stdlib to the OCaml 5.5 Stdlib
   ([#1739](https://github.com/melange-re/melange/pull/1739))
-- feat: preserve safe cross-module simplifications in cmj exports when using
+- feat: preserve safe cross-module simplifications in `.cmj` exports with
   `--cross-module-opt`
   ([#1737](https://github.com/melange-re/melange/pull/1737))
+- feat: allow inlining direct primitive function calls with
+  `--cross-module-opt`
+  ([#1732](https://github.com/melange-re/melange/pull/1732),
+  [#1750](https://github.com/melange-re/melange/pull/1750),
+  [#1751](https://github.com/melange-re/melange/pull/1751))
+- fix(CLI): fix `-warn` / `-warn-error` arguments not accepting 2 dash prefix
+  ([#1738](https://github.com/melange-re/melange/pull/1738))
+- code generation: emit object property shorthand for matching identifiers
+  ([#1762](https://github.com/melange-re/melange/pull/1762))
+- code generation: emit direct function calls instead of currying in the
+  presence of local modules
+  ([#1752](https://github.com/melange-re/melange/pull/1752),
+  [#1755](https://github.com/melange-re/melange/pull/1755))
 
 6.0.1-54 2025-11-29
 ---------------
