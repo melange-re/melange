@@ -8,6 +8,7 @@
   cacert,
   curl,
   ocamlPackages,
+  ocaml-ng,
   git,
   python3,
   mocha,
@@ -36,7 +37,7 @@ mkShell {
     ++ lib.optionals release-mode ([
       cacert
       curl
-      ocamlPackages.dune-release
+      ocaml-ng.ocamlPackages_5_4.dune-release
       ocamlPackages.odoc
       git
     ]);

@@ -1,4 +1,4 @@
-Unreleased
+7.0.0-53 2026-06-22
 ---------------
 
 - BREAKING(CLI): remove --modules, redundant to ocamldep
