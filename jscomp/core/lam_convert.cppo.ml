@@ -424,7 +424,9 @@ let lam_prim =
         | Ostype_win32 -> Lam.prim ~primitive:(Pctconst Ostype_win32) ~args ~loc
         | Ostype_cygwin -> Lam.false_
         | Backend_type -> Lam.prim ~primitive:(Pctconst Backend_type) ~args ~loc
+#if OCAML_VERSION >= (5, 5, 0)
         | Standard_library_default -> Lam.prim ~primitive:(Pctconst Standard_library_default) ~args ~loc
+#endif
         )
     | Pcvtbint (a, b) -> (
         match (a, b) with
