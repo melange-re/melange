@@ -76,7 +76,13 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
       let init : lam =
         Lprim
           ( Pintcomp Ceq,
-            [ arg; Lconst (Const_int (hash, Pt_variant { name })) ],
+            [
+              arg;
+              Lconst
+                (Lambda.const_int
+                   ~ptr_info:(Pt_variant { name })
+                   hash);
+            ],
             Loc_unknown )
       in
       List.fold_left
@@ -90,7 +96,10 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
                   ( Pintcomp Ceq,
                     [
                       arg;
-                      Lconst (Const_int (hash, Pt_variant { name }));
+                      Lconst
+                        (Lambda.const_int
+                           ~ptr_info:(Pt_variant { name })
+                           hash);
                     ],
                     Loc_unknown );
               ],

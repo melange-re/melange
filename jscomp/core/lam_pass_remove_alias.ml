@@ -387,7 +387,7 @@ let simplify_alias =
               List.filter_map args ~f:(parameter_arg_id meta.ident_tbl)
             in
             if
-              List.is_empty parameter_args
+              parameter_args = []
               || (cross_module_parameter_result_is_safe reduced
                  && not
                       (List.exists parameter_args ~f:(fun param ->
