@@ -152,10 +152,40 @@ let mark_dead_code (js : J.program) : J.program =
 
 let super = Js_record_map.super
 
-let add_substitue substitution (ident : Ident.t) (e : J.expression) =
-  Ident.Hashtbl.replace substitution ~key:ident ~data:e
+type block_fields = {
+  fields : J.expression list;
+  mutable fields_array : J.expression array option;
+  mutable hits : int;
+}
 
-let subst_map (substitution : J.expression Ident.Hashtbl.t) =
+type substitution = block_fields Ident.Hashtbl.t
+
+let add_substitue substitution (ident : Ident.t) (e : J.expression) =
+  match e.expression_desc with
+  | Caml_block { fields; mutable_flag = Immutable; _ } ->
+      Ident.Hashtbl.replace substitution ~key:ident
+        ~data:{ fields; fields_array = None; hits = 0 }
+  | _ -> Ident.Hashtbl.remove substitution ident
+
+let find_substitute_field substitution id i =
+  let i = Int32.to_int i in
+  if i < 0 then None
+  else
+    match Ident.Hashtbl.find_opt substitution id with
+    | None -> None
+    | Some block_fields -> (
+        match block_fields.fields_array with
+        | Some fields ->
+            if i < Array.length fields then Some fields.(i) else None
+        | None ->
+            block_fields.hits <- block_fields.hits + 1;
+            if block_fields.hits > 1 then (
+              let fields = Array.of_list block_fields.fields in
+              block_fields.fields_array <- Some fields;
+              if i < Array.length fields then Some fields.(i) else None)
+            else List.nth_opt block_fields.fields i)
+
+let subst_map substitution =
   {
     super with
     statement =
@@ -201,6 +231,25 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
             (* If we do this, we should prevent incorrect inlning to inline it into an array :)
                 do it only when block size is larger than one
             *)
+            let module_fields_array = ref None in
+            let field_name i =
+              match tag_info with
+              | Blk_module fields ->
+                  let fields =
+                    match !module_fields_array with
+                    | Some fields -> fields
+                    | None ->
+                        let fields = Array.of_list fields in
+                        module_fields_array := Some fields;
+                        fields
+                  in
+                  if i < Array.length fields then fields.(i)
+                  else string_of_int i
+              | Blk_record fields ->
+                  if i < Array.length fields then Array.unsafe_get fields i
+                  else string_of_int i
+              | _ -> string_of_int i
+            in
             let _, e, bindings =
               List.fold_left
                 ~f:(fun (i, e, acc) (x : J.expression) ->
@@ -218,20 +267,7 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
                       *)
                       let v' = self.expression self x in
                       let match_id =
-                        Ident.create
-                          (Ident.name ident ^ "_"
-                          ^
-                          match tag_info with
-                          | Blk_module fields -> (
-                              match List.nth_opt fields i with
-                              | None -> Printf.sprintf "%d" i
-                              | Some x -> x)
-                          | Blk_record fields -> (
-                              match Array.get fields i with
-                              | i -> i
-                              | exception Invalid_argument _ ->
-                                  Printf.sprintf "%d" i)
-                          | _ -> Printf.sprintf "%d" i)
+                        Ident.create (Ident.name ident ^ "_" ^ field_name i)
                       in
                       (i + 1, E.var match_id :: e, (match_id, v') :: acc))
                 ~init:(0, [], []) ls
@@ -262,11 +298,9 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
             | _ ->
                 (* self#add_substitue ident e ; *)
                 S.block
-                  (List.rev_append
-                     (List.map
-                        ~f:(fun (id, v) -> S.define_variable ~kind:Strict id v)
-                        bindings)
-                     [ original_statement ]))
+                  (List.fold_left bindings ~init:[ original_statement ]
+                     ~f:(fun acc (id, v) ->
+                       S.define_variable ~kind:Strict id v :: acc)))
         | _ -> super.statement self v);
     expression =
       (fun self x ->
@@ -279,23 +313,16 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
         | Static_index
             { expr = { expression_desc = Var (Id id); _ }; pos = Some i; _ }
           -> (
-            match Ident.Hashtbl.find substitution id with
-            | {
-             expression_desc =
-               Caml_block { fields = ls; mutable_flag = Immutable; _ };
-             _;
-            } -> (
-                (* user program can be wrong, we should not
-                   turn a runtime crash into compile time crash : )
-                *)
-                match List.nth ls (Int32.to_int i) with
-                | {
-                    expression_desc = J.Var _ | Number _ | Str _ | Undefined _;
-                    _;
-                  } as x ->
-                    x
-                | _ | (exception Failure _) -> super.expression self x)
-            | _ | (exception Not_found) -> super.expression self x)
+            (* user program can be wrong, we should not turn a runtime crash
+               into compile time crash. *)
+            match find_substitute_field substitution id i with
+            | Some
+                ({
+                   expression_desc = J.Var _ | Number _ | Str _ | Undefined _;
+                   _;
+                 } as x) ->
+                x
+            | Some _ | None -> super.expression self x)
         | _ -> super.expression self x);
   }
 
