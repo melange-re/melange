@@ -3,7 +3,13 @@
 
 const Inner_define = require("./inner_define.js");
 
-console.log(Inner_define.N.add(1, 2));
+console.log(3);
+
+console.log(7);
+
+function nested_external_wrapper(x, y) {
+  return Inner_define.P.fancy_add(x, y);
+}
 
 function f(x) {
   return [
@@ -15,6 +21,7 @@ function f(x) {
 }
 
 module.exports = {
+  nested_external_wrapper,
   f,
 }
 /*  Not a pure module */

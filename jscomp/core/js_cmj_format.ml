@@ -24,7 +24,11 @@
 
 open Import
 
-type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
+type arity = Single of Lam_arity.t | Submodule of arity array
+
+type nested_call_summary =
+  | Call_summary of Lam_call_summary.t
+  | Call_summary_submodule of nested_call_summary array
 
 (* TODO: add a magic number *)
 type cmj_value = {
@@ -32,15 +36,18 @@ type cmj_value = {
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (** Either constant or closed functor *)
   call_summary : Lam_call_summary.t;
+  nested_call_summary : nested_call_summary;
 }
 
 let single_na = Single Lam_arity.na
+let call_summary_unknown = Call_summary Lam_call_summary.Unknown
 
 type keyed_cmj_value = {
   name : string;
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
   call_summary : Lam_call_summary.t;
+  nested_call_summary : nested_call_summary;
 }
 
 type t = {
@@ -73,6 +80,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
             arity = v.arity;
             persistent_closed_lambda = v.persistent_closed_lambda;
             call_summary = v.call_summary;
+            nested_call_summary = v.nested_call_summary;
           });
     pure = effect_ = None;
     package_spec;
@@ -118,6 +126,7 @@ let not_found key =
     arity = single_na;
     persistent_closed_lambda = None;
     call_summary = Lam_call_summary.Unknown;
+    nested_call_summary = call_summary_unknown;
   }
 
 let get_result midVal =

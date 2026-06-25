@@ -24,4 +24,6 @@
 
 (** Utilities for lambda analysis *)
 
+val external_field_path : Lam.t -> (Ident.t * bool * string * int list) option
+
 val get_arity : Lam_stats.t -> Lam.t -> Lam_arity.t

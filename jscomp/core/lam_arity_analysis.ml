@@ -45,6 +45,32 @@ let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
       | _ | exception _ -> Lam_id_kind.Element.NA)
   | _ -> Lam_id_kind.Element.NA
 
+let rec get_cmj_arity (arity : Js_cmj_format.arity) (path : int list) :
+    Lam_arity.t =
+  match (path, arity) with
+  | [], Js_cmj_format.Single arity -> arity
+  | i :: rest, Submodule arities -> (
+      match arities.(i) with
+      | arity -> get_cmj_arity arity rest
+      | exception _ -> Lam_arity.na)
+  | [], Submodule _ | _ :: _, Js_cmj_format.Single _ -> Lam_arity.na
+
+let external_field_path (lam : Lam.t) :
+    (Ident.t * bool * string * int list) option =
+  let rec aux path = function
+    | Lam.Lprim
+        {
+          primitive = Pfield (_, Fld_module { name });
+          args = [ Lam.Lglobal_module { id; dynamic_import } ];
+          _;
+        } ->
+        Some (id, dynamic_import, name, path)
+    | Lam.Lprim { primitive = Pfield (i, _); args = [ owner ]; _ } ->
+        aux (i :: path) owner
+    | _ -> None
+  in
+  aux [] lam
+
 (* we need record all aliases -- since not all aliases are eliminated,
    mostly are toplevel bindings
    We will keep iterating such environment
@@ -57,41 +83,20 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
   | Llet (_, _, _, l) | Lmutlet (_, _, l) -> get_arity meta l
   | Lprim
       {
-        primitive = Pfield (_, Fld_module { name });
-        args = [ Lglobal_module { id; dynamic_import } ];
-        _;
-      } -> (
-      match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-      | Some { arity = Single x; _ } -> x
-      | Some { arity = Submodule _; _ } | None -> Lam_arity.na)
-  | Lprim
-      {
-        primitive = Pfield (m, _);
-        args =
-          [
-            Lprim
-              {
-                primitive = Pfield (_, Fld_module { name });
-                args = [ Lglobal_module { id; dynamic_import } ];
-                _;
-              };
-          ];
-        _;
-      } -> (
-      match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-      | Some { arity = Submodule subs; _ } ->
-          subs.(m) (* TODO: shall we store it as array?*)
-      | Some { arity = Single _; _ } | None -> Lam_arity.na)
-  | Lprim
-      {
         primitive = Pfield (m, _);
         args = [ owner ];
         _;
-      } -> (
-      match field_element meta owner m with
-      | Lam_id_kind.Element.Function arity -> arity
-      | SimpleForm lam -> get_arity meta lam
-      | NA | ImmutableBlock _ -> Lam_arity.na)
+      } as lam -> (
+      match external_field_path lam with
+      | Some (id, dynamic_import, name, path) -> (
+          match Lam_compile_env.query_external_id_info ~dynamic_import id name with
+          | Some { arity; _ } -> get_cmj_arity arity path
+          | None -> Lam_arity.na)
+      | None -> (
+          match field_element meta owner m with
+          | Lam_id_kind.Element.Function arity -> arity
+          | SimpleForm lam -> get_arity meta lam
+          | NA | ImmutableBlock _ -> Lam_arity.na))
   (* TODO: all information except Pccall is complete, we could
      get more arity information
   *)

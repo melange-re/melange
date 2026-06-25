@@ -91,6 +91,26 @@ let simplify_alias =
       ~args:[ Lam.global_module ~dynamic_import ident ]
       ~loc
   in
+  let rec nested_call_summary_at_path summary path =
+    match (path, summary) with
+    | [], Js_cmj_format.Call_summary summary -> summary
+    | i :: rest, Call_summary_submodule summaries -> (
+        match summaries.(i) with
+        | summary -> nested_call_summary_at_path summary rest
+        | exception _ -> Lam_call_summary.Unknown)
+    | [], Call_summary_submodule _ | _ :: _, Call_summary _ ->
+        Lam_call_summary.Unknown
+  in
+  let find_nested_external_call_summary ~dynamic_import ident name path =
+    match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
+    | Some { nested_call_summary; _ } ->
+        nested_call_summary_at_path nested_call_summary path
+    | None -> Lam_call_summary.Unknown
+  in
+  let primitive_summary_is_safe_to_inline = function
+    | Lam_primitive.Pccall _ | Pjs_call _ | Pjs_object_create _ -> false
+    | _ -> true
+  in
   let direct_primitive_of_value value args =
     match value with
     | Lam_id_kind.FunctionId
@@ -396,6 +416,34 @@ let simplify_alias =
             else Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
         | Some _ | None ->
             Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
+    (* Function inlining interact with other optimizations...
+
+        - parameter attributes
+        - scope issues
+        - code bloat
+    *)
+    | Lapply
+        {
+          ap_func =
+            Lprim { primitive = Pfield (_, _); args = [ Lprim _ ]; _ } as l1;
+          ap_args = args;
+          ap_info;
+        } -> (
+        let ap_args = List.map ~f:(simpl meta) args in
+        let[@local] normal () = Lam.apply (simpl meta l1) ap_args ap_info in
+        match Lam_arity_analysis.external_field_path l1 with
+        | Some (ident, dynamic_import, fld_name, ((_ :: _) as path)) -> (
+            match
+              find_nested_external_call_summary ~dynamic_import ident fld_name
+                path
+            with
+            | Direct_primitive primitive
+              when fully_applied (Lam_arity_analysis.get_arity meta l1) ap_args
+                   && primitive_summary_is_safe_to_inline primitive
+              ->
+                Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
+            | Unknown | Direct_primitive _ | Direct_external _ -> normal ())
+        | Some (_, _, _, []) | None -> normal ())
     (* Function inlining interact with other optimizations...
 
         - parameter attributes

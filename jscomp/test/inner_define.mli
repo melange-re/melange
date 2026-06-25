@@ -3,6 +3,16 @@ module N : sig
   val add : int -> int -> int
 end
 
+module Deep : sig
+  module N : sig
+    val add : int -> int -> int
+  end
+end
+
+module P : sig
+  val fancy_add : int -> int -> int
+end
+
 
 
 module type S0 =  sig 
