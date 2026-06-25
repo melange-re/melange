@@ -28,102 +28,82 @@ module L = Js_dump_lit
 
 (* Exports printer *)
 
-let rev_iter_inter lst f inter =
-  match lst with
-  | [] -> ()
-  | [ a ] -> f a
-  | a :: rest ->
-      List.rev_iter rest ~f:(fun x ->
-          f x;
-          inter ());
-      f a
+let print_commonjs_export f s export =
+  P.group f 0 (fun () ->
+      if not @@ String.equal export s then (
+        P.string f s;
+        P.string f L.colon;
+        P.space f);
+      P.string f export;
+      P.string f L.comma)
 
-let accumulate_exports ~add_esmodule =
-  let default_export = L.default in
-  let esModule = ("__esModule", "true") in
-  fun (cxt, acc) id ->
-    let id_name = Ident.name id in
-    let s = Ident.convert id_name in
-    let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-    let exports =
-      if id_name = default_export then
-        (if add_esmodule then [ esModule ] else [])
-        @ ((default_export, str) :: acc)
-      else (s, str) :: acc
-    in
-    (cxt, exports)
+let print_es6_export f s export =
+  P.group f 0 (fun () ->
+      P.string f export;
+      if not @@ String.equal export s then (
+        P.space f;
+        P.string f L.as_;
+        P.space f;
+        P.string f s);
+      P.string f L.comma)
+
+let export_name cxt id =
+  let id_name = Ident.name id in
+  let s = Ident.convert id_name in
+  let export, cxt = Js_pp.Scope.str_of_ident cxt id in
+  let is_default = id_name = L.default in
+  let s = if is_default then L.default else s in
+  (s, export, is_default, cxt)
+
+let iter_exports cxt f idents ~add_esmodule ~print_export =
+  let first = ref true in
+  let print_one s export =
+    if !first then first := false else P.newline f;
+    print_export f s export
+  in
+  List.fold_left idents ~init:cxt ~f:(fun cxt id ->
+      let s, export, is_default, cxt = export_name cxt id in
+      print_one s export;
+      if add_esmodule && is_default then (
+        P.newline f;
+        print_export f "__esModule" "true");
+      cxt)
 
 (* Print exports in CommonJS format *)
-let module_exports =
-  let accumulate_exports = accumulate_exports ~add_esmodule:true in
-  fun cxt f (idents : Ident.t list) ->
-    match idents with
-    | [] -> cxt
-    | idents ->
-        let outer_cxt, reversed_list =
-          List.fold_left ~f:accumulate_exports ~init:(cxt, []) idents
-        in
-        P.at_least_two_lines f;
-        P.string f L.module_;
-        P.string f L.dot;
-        P.string f L.exports;
-        P.space f;
-        P.string f L.eq;
-        P.space f;
-        P.brace_vgroup f 1 (fun () ->
-            rev_iter_inter reversed_list
-              (fun (s, export) ->
-                P.group f 0 (fun () ->
-                    if not @@ String.equal export s then (
-                      P.string f s;
-                      P.string f L.colon;
-                      P.space f);
-                    P.string f export;
-                    P.string f L.comma))
-              (fun () -> P.newline f));
-        outer_cxt
+let module_exports cxt f (idents : Ident.t list) =
+  match idents with
+  | [] -> cxt
+  | idents ->
+      P.at_least_two_lines f;
+      P.string f L.module_;
+      P.string f L.dot;
+      P.string f L.exports;
+      P.space f;
+      P.string f L.eq;
+      P.space f;
+      P.brace_vgroup f 1 (fun () ->
+          iter_exports cxt f idents ~add_esmodule:true
+            ~print_export:print_commonjs_export)
 
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
-let es6_export =
-  let accumulate_exports = accumulate_exports ~add_esmodule:false in
-  fun cxt f (idents : Ident.t list) ->
-    match idents with
-    | [] -> cxt
-    | idents ->
-        let outer_cxt, reversed_list =
-          List.fold_left ~f:accumulate_exports ~init:(cxt, []) idents
-        in
-        P.at_least_two_lines f;
-        P.string f L.export;
-        P.space f;
-        P.brace_vgroup f 1 (fun () ->
-            rev_iter_inter reversed_list
-              (fun (s, export) ->
-                P.group f 0 (fun () ->
-                    P.string f export;
-                    if not @@ String.equal export s then (
-                      P.space f;
-                      P.string f L.as_;
-                      P.space f;
-                      P.string f s);
-                    P.string f L.comma))
-              (fun () -> P.newline f));
-        outer_cxt
+let es6_export cxt f (idents : Ident.t list) =
+  match idents with
+  | [] -> cxt
+  | idents ->
+      P.at_least_two_lines f;
+      P.string f L.export;
+      P.space f;
+      P.brace_vgroup f 1 (fun () ->
+          iter_exports cxt f idents ~add_esmodule:false
+            ~print_export:print_es6_export)
 
 type module_ = { id : Ident.t; path : string; default : bool }
 
 (** Node style imports *)
 let requires cxt f modules =
-  (* the context used to print the following program *)
-  let outer_cxt, reversed_list =
-    List.fold_left
-      ~f:(fun (cxt, acc) { id; path; default } ->
-        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        (cxt, (str, path, default) :: acc))
-      ~init:(cxt, []) modules
-  in
   P.at_least_two_lines f;
-  List.rev_iter reversed_list ~f:(fun (s, file, default) ->
+  List.fold_left modules ~init:cxt ~f:(fun cxt { id; path = file; default } ->
+      let s, cxt = Js_pp.Scope.str_of_ident cxt id in
       P.string f L.const;
       P.space f;
       P.string f s;
@@ -136,21 +116,14 @@ let requires cxt f modules =
         P.string f L.dot;
         P.string f L.default);
       P.string f L.semi;
-      P.newline f);
-  outer_cxt
+      P.newline f;
+      cxt)
 
 (** ES6 module style imports *)
 let imports cxt f modules =
-  (* the context used to print the following program *)
-  let outer_cxt, reversed_list =
-    List.fold_left
-      ~f:(fun (cxt, acc) { id; path; default } ->
-        let str, cxt = Js_pp.Scope.str_of_ident cxt id in
-        (cxt, (str, path, default) :: acc))
-      ~init:(cxt, []) modules
-  in
   P.at_least_two_lines f;
-  List.rev_iter reversed_list ~f:(fun (s, file, default) ->
+  List.fold_left modules ~init:cxt ~f:(fun cxt { id; path = file; default } ->
+      let s, cxt = Js_pp.Scope.str_of_ident cxt id in
       P.string f L.import;
       P.space f;
       if default then (
@@ -171,5 +144,5 @@ let imports cxt f modules =
         P.space f;
         Js_dump_string.pp_string f file);
       P.string f L.semi;
-      P.newline f);
-  outer_cxt
+      P.newline f;
+      cxt)
