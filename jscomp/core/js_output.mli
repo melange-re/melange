@@ -43,6 +43,8 @@ type t = {
 *)
 
 val make : ?value:J.expression -> ?output_finished:finished -> J.block -> t
+val append_stmt : J.block -> J.statement -> J.block
+val append_block : J.block -> J.block -> J.block
 val output_as_block : t -> J.block
 val to_break_block : t -> J.block * bool
 (* the second argument is
