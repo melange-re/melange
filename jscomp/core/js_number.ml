@@ -59,13 +59,16 @@ let to_string (v : float) =
         if v = float_of_string s2 then s2 else Printf.sprintf "%.18g" v
 
 let is_hex_format =
-  let rec is_hex_format_aux v cur =
-    if v.[cur] = '-' || v.[cur] = '+' then is_hex_format_ox v (cur + 1)
-    else is_hex_format_ox v cur
-  and is_hex_format_ox v cur =
-    v.[cur] = '0' && (v.[cur + 1] = 'x' || v.[cur + 1] = 'X')
+  let is_hex_format_ox v cur len =
+    cur + 1 < len && v.[cur] = '0' && (v.[cur + 1] = 'x' || v.[cur + 1] = 'X')
   in
-  fun v -> try is_hex_format_aux v 0 with _ -> false
+  fun v ->
+    let len = String.length v in
+    if len < 2 then false
+    else
+      match v.[0] with
+      | '-' | '+' -> is_hex_format_ox v 1 len
+      | _ -> is_hex_format_ox v 0 len
 
 let transform =
   (* calling [to_string (float_of_string v)] directly would lose some precision
