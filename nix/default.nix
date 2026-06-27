@@ -56,7 +56,7 @@ buildDunePackage {
       # x86_64-darwin?
       !(stdenv.isDarwin && stdenv.isx86_64);
 
-  checkPhase = ''
+  postCheck = ''
     dune build @melange-runtime-tests --profile=release --display=short
     mocha "jscomp/test/dist/**/*_test.*js"
   '';
