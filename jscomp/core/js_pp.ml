@@ -30,6 +30,8 @@ module L = struct
   let newline = "\n"
 end
 
+let indent_cache = Array.init 33 ~f:(fun level -> String.make (level * 2) ' ')
+
 type kind = File_descr of Unix.file_descr | Buffer of Buffer.t
 
 type t = {
@@ -41,18 +43,60 @@ type t = {
       (* only when we print newline, we print the indent *)
 }
 
-let output_string t s =
-  (match t.kind with
-  | File_descr fd -> Io.write fd s ~off:0 ~len:(String.length s)
-  | Buffer buf -> Buffer.add_string buf s);
-  let new_line, new_column =
-    Stdlib.String.fold_left
-      (fun (line, column) char ->
-        match char with '\n' -> (line + 1, 0) | _c -> (line, column + 1))
-      (t.line, t.column) s
-  in
-  t.line <- new_line;
-  t.column <- new_column
+let output_string_len t s len =
+  if len = 0 then ()
+  else (
+    (match t.kind with
+    | File_descr fd -> Io.write fd s ~off:0 ~len
+    | Buffer buf -> Buffer.add_string buf s);
+    if len = 1 then
+      match String.unsafe_get s 0 with
+      | '\n' ->
+          t.line <- t.line + 1;
+          t.column <- 0
+      | _ -> t.column <- t.column + 1
+    else
+      match String.index_opt s '\n' with
+      | None -> t.column <- t.column + len
+      | Some first_newline ->
+          let line = ref (t.line + 1) in
+          let column = ref 0 in
+          for i = first_newline + 1 to len - 1 do
+            match String.unsafe_get s i with
+            | '\n' ->
+                incr line;
+                column := 0
+            | _ -> incr column
+          done;
+          t.line <- !line;
+          t.column <- !column)
+
+let output_string t s = output_string_len t s (String.length s)
+
+let output_string_no_newline_len t s len =
+  if len = 0 then ()
+  else (
+    (match t.kind with
+    | File_descr fd -> Io.write fd s ~off:0 ~len
+    | Buffer buf -> Buffer.add_string buf s);
+    t.column <- t.column + len)
+
+let output_indent t =
+  let level = t.indent_level in
+  if level <= 0 then ()
+  else if level < Array.length indent_cache then
+    output_string t (Array.unsafe_get indent_cache level)
+  else
+    let chunk_level = Array.length indent_cache - 1 in
+    let chunk = Array.unsafe_get indent_cache chunk_level in
+    let rec loop level =
+      if level >= chunk_level then (
+        output_string t chunk;
+        loop (level - chunk_level))
+      else if level > 0 then
+        output_string t (Array.unsafe_get indent_cache level)
+    in
+    loop level
 
 let flush _t = ()
 
@@ -74,37 +118,31 @@ let from_buffer buf =
     last_new_line = false;
   }
 
-let string =
-  let ends_with_char s c =
-    match Stdlib.String.length s with
-    | 0 -> false
-    | len -> Stdlib.String.unsafe_get s (len - 1) = c
-  in
-  fun t s ->
-    output_string t s;
-    t.last_new_line <- ends_with_char s '\n'
+let string t s =
+  let len = String.length s in
+  output_string_len t s len;
+  t.last_new_line <- len > 0 && Stdlib.String.unsafe_get s (len - 1) = '\n'
+
+let string_no_newline t s =
+  let len = String.length s in
+  output_string_no_newline_len t s len;
+  if len > 0 then t.last_new_line <- false
 
 let newline t =
   if not t.last_new_line then (
     output_string t L.newline;
-    for _ = 0 to t.indent_level - 1 do
-      output_string t L.indent_str
-    done;
+    output_indent t;
     t.last_new_line <- true)
 
 let at_least_two_lines t =
   if not t.last_new_line then output_string t L.newline;
   output_string t L.newline;
-  for _ = 0 to t.indent_level - 1 do
-    output_string t L.indent_str
-  done;
+  output_indent t;
   t.last_new_line <- true
 
 let force_newline t =
   output_string t L.newline;
-  for _ = 0 to t.indent_level - 1 do
-    output_string t L.indent_str
-  done;
+  output_indent t;
   t.last_new_line <- true
 
 let space t = output_string t L.space
