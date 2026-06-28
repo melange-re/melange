@@ -1,9 +1,3 @@
-Unreleased
----------------
-
-- BREAKING(runtime): add `Js.Json.JSONUndefined` to `Js.Json.classify`
-  ([#1795](https://github.com/melange-re/melange/pull/1795))
-
 7.0.0-55 2026-06-21
 ---------------
 
