@@ -38,7 +38,6 @@ type tagged_t =
   | JSONFalse
   | JSONTrue
   | JSONNull
-  | JSONUndefined
   | JSONString of string
   | JSONNumber of float
   | JSONObject of t Js.dict
@@ -52,7 +51,6 @@ let classify (x : t) : tagged_t =
   else if ty = "number" then JSONNumber (Obj.magic x)
   else if ty = "boolean" then if Obj.magic x = true then JSONTrue else JSONFalse
   else if Obj.magic x == Js.null then JSONNull
-  else if ty = "undefined" then JSONUndefined
   else if isArray x then JSONArray (Obj.magic x)
   else JSONObject (Obj.magic x)
 

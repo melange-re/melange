@@ -45,7 +45,6 @@ type tagged_t =
   | JSONFalse
   | JSONTrue
   | JSONNull
-  | JSONUndefined
   | JSONString of string
   | JSONNumber of float
   | JSONObject of t Js.dict
