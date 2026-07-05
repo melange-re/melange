@@ -148,13 +148,18 @@ type initialization = J.block
 let rec compile_external_field ~dynamic_import
     (lamba_cxt : Lam_compile_context.t) id name =
   match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-  | Some { persistent_closed_lambda = Some (Lfunction _, _) | None; _ } | None
+  | Some { persistent_closed_lambda = None | Some (Lfunction _, _); _ } | None
     ->
       Js_output.output_of_expression lamba_cxt.continuation
         ~no_effects:no_effects_const
         (E.ml_var_dot ~dynamic_import id name)
-  | Some { persistent_closed_lambda = Some (lam, _); _ } ->
+  | Some { persistent_closed_lambda = Some (lam, _); _ }
+    when Lam_compile_env.lambda_is_relocatable lam ->
       compile_lambda lamba_cxt lam
+  | Some _ ->
+      Js_output.output_of_expression lamba_cxt.continuation
+        ~no_effects:no_effects_const
+        (E.ml_var_dot ~dynamic_import id name)
 
 (* TODO: how nested module call would behave,
    In the future, we should keep in track  of if
@@ -194,10 +199,11 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
   | Some
       {
         persistent_closed_lambda =
-          Some (Lfunction { params; body; _ }, param_map);
+          Some ((Lfunction { params; body; _ } as lambda), param_map);
         _;
       }
-    when List.same_length params ap_args ->
+    when List.same_length params ap_args
+         && Lam_compile_env.lambda_is_relocatable lambda ->
       compile_lambda lambda_cxt
         (Lam_beta_reduce.propagate_beta_reduce_with_map lambda_cxt.meta
            param_map params body ap_args)
