@@ -1,6 +1,17 @@
 Test that `Js.Json.classify` treats JavaScript `undefined` as `JSONNull`
 
   $ . ./setup.sh
+  $ cat > dune-project <<EOF
+  > (lang dune 3.8)
+  > (using melange 0.1)
+  > EOF
+  $ cat > dune <<EOF
+  > (melange.emit
+  >  (target out)
+  >  (emit_stdlib false)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx)))
+  > EOF
   $ cat > x.ml <<EOF
   > let undefined_json : Js.Json.t = Obj.magic Js.undefined
   > 
@@ -11,6 +22,6 @@ Test that `Js.Json.classify` treats JavaScript `undefined` as `JSONNull`
   >   | _ -> Js.log "other"
   > EOF
 
-  $ melc -ppx melppx x.ml > x.js
-  $ NODE_PATH="$INSIDE_DUNE/../../node_modules" node x.js
+  $ dune build @melange
+  $ node _build/default/out/x.js
   object
