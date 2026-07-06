@@ -40,5 +40,5 @@ Preprocess with `--as-pp`
   > EOF
 
   $ dune build --display=short ./.x.objs/melange/x.cmj
-          melc x.pp.ml
+          melc .melange_src/x.pp.ml
           melc .x.objs/melange/x.{cmi,cmj,cmt}
