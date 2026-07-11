@@ -37,6 +37,10 @@ let values_of_export =
         param_map
     | _ -> Ident.Map.empty
   in
+  let direct_external ~dynamic_import id name arity ~relocatable =
+    Lam_call_summary.Direct_external
+      { dynamic_import; id; name; arity; relocatable }
+  in
   fun (meta : Lam_stats.t)
     (export_map : Lam.t Ident.Map.t)
     :
@@ -72,79 +76,94 @@ let values_of_export =
           | _ when not !Js_config.cross_module_inline -> None
           | lambda -> (
               let lambda = Lam_pass_remove_alias.simplify_alias meta lambda in
-              match
-                Lam_analysis.safe_to_inline lambda
-                (* when inlining a non function, we have to be very careful,
-                 only truly immutable values can be inlined *)
-              with
-              | false -> None
-              | true -> (
-                  match lambda with
-                  | Lfunction { attr = { inline = Always_inline; _ }; _ }
-                  (* FIXME: is_closed lambda is too restrictive
-                     It precludes use cases
-                     - inline forEach but not forEachU *)
-                  | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
-                      if Lam_closure.is_closed lambda (* TODO: seriealize more*)
-                      then Some (lambda, param_map lambda)
-                      else None
-                  | _ ->
-                      let lam_size = Lam_analysis.size lambda in
-                      (* TODO:
-                         1. global need re-assocate when do the beta reduction
-                         2. [lambda_exports] is not precise *)
-                      let free_variables =
-                        Lam_closure.free_variables Ident.Set.empty
-                          Ident.Map.empty lambda
-                      in
-                      if
-                        lam_size < Lam_analysis.small_inline_size
-                        && Ident.Map.is_empty free_variables
-                      then (
-                        Log.warn ~loc:(Loc.of_pos __POS__)
-                          (Pp.textf "%s recorded for inlining @." (Ident.name x));
-                        Some (lambda, param_map lambda))
-                      else None))
+              if not (Lam_compile_env.lambda_is_relocatable lambda) then None
+              else
+                match
+                  Lam_analysis.safe_to_inline lambda
+                  (* when inlining a non function, we have to be very careful,
+                     only truly immutable values can be inlined *)
+                with
+                | false -> None
+                | true -> (
+                    match lambda with
+                    | Lfunction { attr = { inline = Always_inline; _ }; _ }
+                    (* FIXME: is_closed lambda is too restrictive
+                       It precludes use cases
+                       - inline forEach but not forEachU *)
+                    | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
+                        if
+                          Lam_closure.is_closed
+                            lambda (* TODO: seriealize more*)
+                        then Some (lambda, param_map lambda)
+                        else None
+                    | _ ->
+                        let lam_size = Lam_analysis.size lambda in
+                        (* TODO:
+                           1. global need re-assocate when do the beta reduction
+                           2. [lambda_exports] is not precise *)
+                        let free_variables =
+                          Lam_closure.free_variables Ident.Set.empty
+                            Ident.Map.empty lambda
+                        in
+                        if
+                          lam_size < Lam_analysis.small_inline_size
+                          && Ident.Map.is_empty free_variables
+                        then (
+                          Log.warn ~loc:(Loc.of_pos __POS__)
+                            (Pp.textf "%s recorded for inlining @."
+                               (Ident.name x));
+                          Some (lambda, param_map lambda))
+                        else None))
         in
         let call_summary =
           match Ident.Map.find x export_map with
           | lambda ->
-              let find_external ~dynamic_import ident name =
-                match
-                  Lam_compile_env.query_external_id_info ~dynamic_import ident
-                    name
-                with
-                | Some { arity; call_summary; _ } ->
-                    if not (Lam_call_summary.is_unknown call_summary) then
-                      call_summary
-                    else (
-                      match arity with
-                      | Single arity when not (Lam_arity.first_arity_na arity)
-                        ->
-                          Lam_call_summary.Direct_external
-                            { dynamic_import; id = ident; name; arity }
-                      | Single _ | Submodule _ -> Lam_call_summary.Unknown)
-                | None -> Lam_call_summary.Unknown
+              let find_external ~dynamic_import ident name ~arity:direct_arity =
+                match Lam_compile_env.external_id_is_relative ident with
+                | Some is_relative -> (
+                    match direct_arity with
+                    | Some arity ->
+                        direct_external ~dynamic_import ident name arity
+                          ~relocatable:(not is_relative)
+                    | None -> Lam_call_summary.Unknown)
+                | None -> (
+                    match
+                      Lam_compile_env.query_external_id_info ~dynamic_import
+                        ident name
+                    with
+                    | Some { arity; call_summary; _ } -> (
+                        if not (Lam_call_summary.is_unknown call_summary) then
+                          call_summary
+                        else
+                          match arity with
+                          | Single arity
+                            when not (Lam_arity.first_arity_na arity) ->
+                              direct_external ~dynamic_import ident name arity
+                                ~relocatable:true
+                          | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+                    | None -> Lam_call_summary.Unknown)
               in
-              Lam_call_summary.of_lambda lambda
-                ~find_ident:(fun ident ->
-                  match Ident.Hashtbl.find meta.ident_tbl ident with
-                  | FunctionId { call_summary; _ } -> call_summary
-                  | _ | exception Not_found -> Lam_call_summary.Unknown)
-                ~find_external
+              let call_summary =
+                Lam_call_summary.of_lambda lambda
+                  ~find_ident:(fun ident ->
+                    match Ident.Hashtbl.find meta.ident_tbl ident with
+                    | FunctionId { call_summary; _ } -> call_summary
+                    | _ | (exception Not_found) -> Lam_call_summary.Unknown)
+                  ~find_external
+              in
+              if Lam_call_summary.is_relocatable call_summary then call_summary
+              else Lam_call_summary.Unknown
           | exception Not_found -> Lam_call_summary.Unknown
         in
         match (arity, persistent_closed_lambda, call_summary) with
-        | ( ( Single Arity_na,
-                (None | Some (Lconst Const_module_alias, _)),
-                summary )
-          | (Submodule [||], None, summary) )
-          when Lam_call_summary.is_unknown summary
-          ->
+        | Single Arity_na, (None | Some (Lconst Const_module_alias, _)), summary
+        | Submodule [||], None, summary
+          when Lam_call_summary.is_unknown summary ->
             acc
         | _, _, _ ->
             String.Map.add acc ~key:(Ident.name x)
-              ~data:{ Js_cmj_format.arity; persistent_closed_lambda; call_summary })
+              ~data:
+                { Js_cmj_format.arity; persistent_closed_lambda; call_summary })
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it *)
@@ -171,12 +190,13 @@ let get_dependent_module_effect (maybe_pure : string option)
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj ~case meta ~effect_ export_map =
+let export_to_cmj ~case meta ~effect_ export_map
+    ~(delayed_program : J.deps_program) =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect_
     ~package_spec:(Js_packages_state.get_packages_info_for_cmj ())
-    ~case
+    ~case ~delayed_program
 (* FIXME: make sure [-o] would not change its case
    add test for ns/non-ns
 *)

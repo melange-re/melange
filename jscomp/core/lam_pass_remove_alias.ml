@@ -108,7 +108,8 @@ let simplify_alias =
     | Lam_id_kind.FunctionId
         {
           call_summary =
-            Lam_call_summary.Direct_external { dynamic_import; id; name; arity };
+            Lam_call_summary.Direct_external
+                  { dynamic_import; id; name; arity; relocatable = _ };
           _;
         }
       when fully_applied arity args ->
@@ -349,7 +350,8 @@ let simplify_alias =
               call_summary = Lam_call_summary.Direct_primitive primitive;
               _;
             }
-          when fully_applied_external arity args ->
+          when Lam_primitive.is_relocatable primitive
+               && fully_applied_external arity args ->
             Lam.prim ~primitive ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc
         | Some
@@ -361,11 +363,13 @@ let simplify_alias =
                     id;
                     name;
                     arity = direct_arity;
+                    relocatable;
                   };
               _;
             }
           when
-            fully_applied direct_arity args
+            relocatable
+            && fully_applied direct_arity args
             && not
                  (dynamic_import = dynamic_import' && Ident.same ident id
                  && String.equal fld_name name) ->
@@ -376,10 +380,12 @@ let simplify_alias =
                  args (direct_apply_info ap_info))
         | Some
             {
-              persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
+              persistent_closed_lambda =
+                Some ((Lfunction { params; body; _ } as lambda), _);
               _;
             }
-          when List.same_length params args ->
+          when List.same_length params args
+               && Lam_compile_env.lambda_is_relocatable lambda ->
             let reduced =
               Lam_beta_reduce.propagate_beta_reduce meta params body args
             in
