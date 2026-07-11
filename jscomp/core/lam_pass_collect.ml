@@ -58,22 +58,36 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     alias propgation - and toplevel identifiers, this needs to be exported
 *)
 let collect_info =
-  let find_external ~dynamic_import ident name =
-    match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
-    | Some ({ arity; call_summary; _ } as _info) ->
-        if not (Lam_call_summary.is_unknown call_summary) then call_summary
-        else (
-          match arity with
-          | Single arity when not (Lam_arity.first_arity_na arity) ->
-              Lam_call_summary.Direct_external
-                { dynamic_import; id = ident; name; arity }
-          | Single _ | Submodule _ -> Lam_call_summary.Unknown)
-    | None -> Lam_call_summary.Unknown
+  let direct_external ~dynamic_import id name arity ~relocatable =
+    Lam_call_summary.Direct_external
+      { dynamic_import; id; name; arity; relocatable }
+  in
+  let find_external ~dynamic_import ident name ~arity:direct_arity =
+    match Lam_compile_env.external_id_is_relative ident with
+    | Some is_relative -> (
+        match direct_arity with
+        | Some arity ->
+            direct_external ~dynamic_import ident name arity
+              ~relocatable:(not is_relative)
+        | None -> Lam_call_summary.Unknown)
+    | None -> (
+        match
+          Lam_compile_env.query_external_id_info ~dynamic_import ident name
+        with
+        | Some ({ arity; call_summary; _ } as _info) -> (
+            if not (Lam_call_summary.is_unknown call_summary) then call_summary
+            else
+              match arity with
+              | Single arity when not (Lam_arity.first_arity_na arity) ->
+                  direct_external ~dynamic_import ident name arity
+                    ~relocatable:true
+              | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+        | None -> Lam_call_summary.Unknown)
   in
   let find_ident (meta : Lam_stats.t) ident =
     match Ident.Hashtbl.find meta.ident_tbl ident with
     | FunctionId { call_summary; _ } -> call_summary
-    | _ | exception Not_found -> Lam_call_summary.Unknown
+    | _ | (exception Not_found) -> Lam_call_summary.Unknown
   in
   let summarize meta lam =
     Lam_call_summary.of_lambda lam ~find_ident:(find_ident meta) ~find_external
@@ -136,14 +150,18 @@ let collect_info =
           args = [ Lglobal_module { id = module_id; dynamic_import } ];
           _;
         } ->
-        let call_summary = find_external ~dynamic_import module_id field_name in
+        let arity = Lam_arity_analysis.get_arity meta lam in
+        let direct_arity =
+          if Lam_arity.first_arity_na arity then None else Some arity
+        in
+        let call_summary =
+          find_external ~dynamic_import module_id field_name ~arity:direct_arity
+        in
         if Lam_call_summary.is_unknown call_summary then (
           collect meta lam;
           if Ident.Set.mem ident meta.export_idents then
-            annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta lam)
-              lam call_summary)
+            annotate meta rec_flag ident arity lam call_summary)
         else
-          let arity = Lam_arity_analysis.get_arity meta lam in
           Ident.Hashtbl.replace meta.ident_tbl ~key:ident
             ~data:(FunctionId { arity; lambda = None; call_summary })
     | Lfunction { params; body; _ }
@@ -162,8 +180,9 @@ let collect_info =
     | x ->
         collect meta x;
         if Ident.Set.mem ident meta.export_idents then
-          annotate meta rec_flag ident (Lam_arity_analysis.get_arity meta x) lam
-            (summarize meta lam)
+          annotate meta rec_flag ident
+            (Lam_arity_analysis.get_arity meta x)
+            lam (summarize meta lam)
   and collect meta (lam : Lam.t) =
     match lam with
     | Lconst _ -> ()
