@@ -34,6 +34,11 @@ val ( // ) : string -> string -> string
 
 val node_rebase_file : from:string -> to_:string -> string -> string
 
+val is_relative_module_specifier : string -> bool
+(** True for path-like JavaScript module specifiers: [.], [..], [./x], [../x],
+    and backslash variants. Bare specifiers such as [react] are not relative
+    module specifiers. *)
+
 val rel_normalized_absolute_path : from:string -> string -> string
 (**
    TODO: could be highly optimized
