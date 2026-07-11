@@ -6,13 +6,16 @@ type t =
       id : Ident.t;
       name : string;
       arity : Lam_arity.t;
+      relocatable : bool;
     }
 
 val print : Format.formatter -> t -> unit
 val is_unknown : t -> bool
+val is_relocatable : t -> bool
 
 val of_lambda :
   find_ident:(Ident.t -> t) ->
-  find_external:(dynamic_import:bool -> Ident.t -> string -> t) ->
+  find_external:
+    (dynamic_import:bool -> Ident.t -> string -> arity:Lam_arity.t option -> t) ->
   Lam.t ->
   t

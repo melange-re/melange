@@ -152,6 +152,14 @@ let split_aux p =
 let curd = Filename.current_dir_name
 let pard = Filename.parent_dir_name
 
+let is_relative_module_specifier = function
+  | "." | ".." -> true
+  | specifier ->
+      String.starts_with specifier ~prefix:"./"
+      || String.starts_with specifier ~prefix:"../"
+      || String.starts_with specifier ~prefix:".\\"
+      || String.starts_with specifier ~prefix:"..\\"
+
 let rel_normalized_absolute_path ~from to_ =
   let merge_parent_segment acc segment =
     if String.equal segment curd then acc else acc // pard

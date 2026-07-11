@@ -14,7 +14,8 @@ wrapper.
   >  (alias melange)
   >  (module_systems commonjs)
   >  (emit_stdlib false)
-  >  (libraries app))
+  >  (libraries app)
+  >  (runtime_deps vendor/shared.js))
   > EOF
 
   $ mkdir -p app/deep bindings vendor
@@ -38,7 +39,7 @@ output dir
 
   $ cat > bindings/bindings.ml <<EOF
   > external value : int -> int = "value"
-  > [@@mel.module "../../vendor/shared.js"]
+  > [@@mel.module "../vendor/shared.js"]
   > 
   > let run x = value x
   > EOF
@@ -58,5 +59,5 @@ output dir
 
   $ dune build @melange
 
-  $ node _build/default/dist/app/deep/main.js 2>&1 | grep -i cannot
-  Error: Cannot find module '../../vendor/shared.js'
+  $ node _build/default/dist/app/deep/main.js
+  42

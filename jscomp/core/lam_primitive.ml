@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+module External_ffi_types = Melange_ffi.External_ffi_types
 
 module Record_representation = struct
   type t =
@@ -410,3 +411,30 @@ let eq_approx (lhs : t) (rhs : t) =
   | Praw_js_code _ -> false (* TOO lazy, here comparison is only approximation*)
   | Pfield_computed -> rhs = Pfield_computed
   | Psetfield_computed -> rhs = Psetfield_computed
+
+let external_module_name_is_relative
+    ({ bundle; module_bind_name = _ } :
+      External_ffi_types.External_module_name.t) =
+  Paths.is_relative_module_specifier bundle
+
+let external_module_name_option_is_relative = function
+  | Some module_name -> external_module_name_is_relative module_name
+  | None -> false
+
+let external_spec_uses_relative_module
+    (ffi : External_ffi_types.External_spec.t) =
+  let open External_ffi_types.External_spec in
+  match ffi with
+  | Js_var { external_module_name; _ }
+  | Js_call { external_module_name; _ }
+  | Js_new { external_module_name; _ } ->
+      external_module_name_option_is_relative external_module_name
+  | Js_module_as_var external_module_name
+  | Js_module_as_fn { external_module_name; _ }
+  | Js_module_as_class external_module_name ->
+      external_module_name_is_relative external_module_name
+  | Js_send _ | Js_set _ | Js_get _ | Js_get_index _ | Js_set_index _ -> false
+
+let is_relocatable = function
+  | Pjs_call { ffi; _ } -> not (external_spec_uses_relative_module ffi)
+  | _ -> true
