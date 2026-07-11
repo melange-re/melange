@@ -81,6 +81,10 @@ val query_external_id_info :
     its virtual modules. Because we're programming against the interface file
     at this point, we must emit the deoptimized expression too. *)
 
+val external_id_is_relative : Ident.t -> bool option
+(** Returns [None] when the identifier is not a registered JS external module. *)
+
+val lambda_is_relocatable : Lam.t -> bool
 val is_pure_module : Lam_module_ident.t -> bool
 
 val get_dependency_info_from_cmj :
