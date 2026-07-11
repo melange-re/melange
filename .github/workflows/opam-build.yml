@@ -56,11 +56,14 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          restore-keys: |
+            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
 
       - name: Install dependencies
         working-directory: melange
         run: |
+          rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
           make opam-install-test
 
@@ -94,4 +97,4 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
