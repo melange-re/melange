@@ -48,6 +48,7 @@ jobs:
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          cache-prefix: v3-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}
 
       - name: Restore OPAM cache
         id: opam-cache
@@ -56,9 +57,9 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
           restore-keys: |
-            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-
 
       - name: Install dependencies
         working-directory: melange
@@ -97,4 +98,4 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
