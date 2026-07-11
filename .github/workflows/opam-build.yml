@@ -66,9 +66,13 @@ jobs:
         run: |
           rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
-          dune_src="git+https://github.com/ocaml/dune.git#eac1b1290fd59d2f68734e3c5166ef8116432188"
-          opam pin add dune.3.24.1 "$dune_src" --subpath=opam -y --no-action
-          opam pin add dune-build-info.3.24.1 "$dune_src" --subpath=opam -y --no-action
+          rm -rf /tmp/dune-pin
+          git clone https://github.com/ocaml/dune.git /tmp/dune-pin
+          git -C /tmp/dune-pin checkout eac1b1290fd59d2f68734e3c5166ef8116432188
+          cp /tmp/dune-pin/opam/dune.opam /tmp/dune-pin/dune.opam
+          cp /tmp/dune-pin/opam/dune-build-info.opam /tmp/dune-pin/dune-build-info.opam
+          opam pin add dune.3.24.1 /tmp/dune-pin -y --no-action
+          opam pin add dune-build-info.3.24.1 /tmp/dune-pin -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template
