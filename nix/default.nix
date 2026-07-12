@@ -84,7 +84,7 @@ buildDunePackage {
   propagatedBuildInputs = [
     dune-build-info
     cmdliner
-    ppxlib
+    ppxlib_gt_0_37
     menhirLib
   ];
   meta.mainProgram = "melc";
