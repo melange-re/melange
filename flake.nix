@@ -25,7 +25,7 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope (
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_2.overrideScope (
                   self: super: {
                     pp = super.pp.overrideAttrs (_: {
                       doCheck = false;
