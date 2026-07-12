@@ -92,19 +92,13 @@ b("File \"jscomp/test/bs_poly_set_test.ml\", line 39, characters 4-11", 1 === Be
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 40, characters 4-11", u4 === u5);
 
-const n = u6.data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 41, characters 4-11", n === undefined);
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 41, characters 4-11", Belt__Belt_Set.isEmpty(u6));
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 42, characters 6-13", Belt__Belt_internalAVLset.size(u7.data), 3);
 
-const n$1 = u7.data;
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 43, characters 4-11", !Belt__Belt_Set.isEmpty(u7));
 
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 43, characters 4-11", n$1 !== undefined);
-
-const n$2 = u8.data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 44, characters 4-11", n$2 === undefined);
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 44, characters 4-11", Belt__Belt_Set.isEmpty(u8));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 47, characters 4-11", Belt__Belt_Set.has(u10, 20));
 
@@ -126,9 +120,7 @@ b("File \"jscomp/test/bs_poly_set_test.ml\", line 56, characters 4-11", Belt__Be
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 57, characters 4-11", !Belt__Belt_Set.has(u15, 2000));
 
-const n$3 = u16.data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 58, characters 4-11", n$3 === undefined);
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 58, characters 4-11", Belt__Belt_Set.isEmpty(u16));
 
 const u17 = Belt__Belt_Set.fromArray(Array_data_util.randomRange(0, 100), IntCmp);
 
@@ -319,9 +311,7 @@ t("File \"jscomp/test/bs_poly_set_test.ml\", line 134, characters 4-11", (functi
 
 eq("File \"jscomp/test/bs_poly_set_test.ml\", line 135, characters 5-12", Belt__Belt_internalAVLset.size(a0.data), 1001);
 
-const n$4 = a0.data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 136, characters 4-11", n$4 !== undefined);
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 136, characters 4-11", !Belt__Belt_Set.isEmpty(a0));
 
 const match$1 = Belt__Belt_Set.split(a0, 200);
 
@@ -382,13 +372,9 @@ Belt__Belt_List.forEach({
 
 const a = Belt__Belt_Set.fromArray([], IntCmp);
 
-const m = Belt__Belt_Set.keep(a, (function (x) {
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 153, characters 4-11", Belt__Belt_Set.isEmpty(Belt__Belt_Set.keep(a, (function (x) {
   return x % 2 === 0;
-}));
-
-const n$5 = m.data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 153, characters 4-11", n$5 === undefined);
+}))));
 
 const match$5 = Belt__Belt_Set.split({
   cmp: IntCmp.cmp,
@@ -397,13 +383,9 @@ const match$5 = Belt__Belt_Set.split({
 
 const match$6 = match$5[0];
 
-const n$6 = match$6[0].data;
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 157, characters 4-11", Belt__Belt_Set.isEmpty(match$6[0]));
 
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 157, characters 4-11", n$6 === undefined);
-
-const n$7 = match$6[1].data;
-
-b("File \"jscomp/test/bs_poly_set_test.ml\", line 158, characters 4-11", n$7 === undefined);
+b("File \"jscomp/test/bs_poly_set_test.ml\", line 158, characters 4-11", Belt__Belt_Set.isEmpty(match$6[1]));
 
 b("File \"jscomp/test/bs_poly_set_test.ml\", line 159, characters 4-11", !match$5[1]);
 

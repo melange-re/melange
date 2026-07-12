@@ -6,7 +6,6 @@ const Belt__Belt_HashMapInt = require("melange.belt/belt_HashMapInt.js");
 const Belt__Belt_HashMapString = require("melange.belt/belt_HashMapString.js");
 const Belt__Belt_HashSetInt = require("melange.belt/belt_HashSetInt.js");
 const Belt__Belt_Id = require("melange.belt/belt_Id.js");
-const Belt__Belt_Map = require("melange.belt/belt_Map.js");
 const Belt__Belt_MapDict = require("melange.belt/belt_MapDict.js");
 const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
 const Belt__Belt_internalBuckets = require("melange.belt/belt_internalBuckets.js");

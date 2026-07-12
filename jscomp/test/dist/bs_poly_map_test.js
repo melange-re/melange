@@ -157,9 +157,7 @@ eq("File \"jscomp/test/bs_poly_map_test.ml\", line 81, characters 5-12", Belt__B
 
 const a8 = Belt__Belt_Map.removeMany(a7, Array_data_util.randomRange(0, 100));
 
-const x = a8.data;
-
-b("File \"jscomp/test/bs_poly_map_test.ml\", line 83, characters 4-11", x === undefined);
+b("File \"jscomp/test/bs_poly_map_test.ml\", line 83, characters 4-11", Belt__Belt_Map.isEmpty(a8));
 
 const u0$1 = Belt__Belt_Map.fromArray(randomRange(0, 100), Icmp);
 
@@ -254,23 +252,15 @@ const match$4 = Belt__Belt_Map.get(v4, -10);
 
 b("File \"jscomp/test/bs_poly_map_test.ml\", line 128, characters 4-11", match$4 !== undefined ? match$4 === 0 : false);
 
-const map = Belt__Belt_Map.remove({
+b("File \"jscomp/test/bs_poly_map_test.ml\", line 129, characters 4-11", Belt__Belt_Map.isEmpty(Belt__Belt_Map.remove({
   cmp: Icmp.cmp,
   data: undefined
-}, 0);
+}, 0)));
 
-const x$1 = map.data;
-
-b("File \"jscomp/test/bs_poly_map_test.ml\", line 129, characters 4-11", x$1 === undefined);
-
-const map$1 = Belt__Belt_Map.removeMany({
+b("File \"jscomp/test/bs_poly_map_test.ml\", line 130, characters 4-11", Belt__Belt_Map.isEmpty(Belt__Belt_Map.removeMany({
   cmp: Icmp.cmp,
   data: undefined
-}, [0]);
-
-const x$2 = map$1.data;
-
-b("File \"jscomp/test/bs_poly_map_test.ml\", line 130, characters 4-11", x$2 === undefined);
+}, [0])));
 
 b("File \"jscomp/test/bs_poly_map_test.ml\", line 131, characters 4-11", pres !== undefined ? pres === 5000 : false);
 
