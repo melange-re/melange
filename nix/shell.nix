@@ -25,7 +25,7 @@ mkShell {
     [
       ocamlformat
       utop
-      ocaml-lsp
+      # ocaml-lsp
       merlin
       python3
       nodejs
