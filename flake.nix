@@ -25,7 +25,25 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
+                ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope (
+                  self: super: {
+                    pp = super.pp.overrideAttrs (_: {
+                      doCheck = false;
+                      buildInputs = [ ];
+                    });
+                    sedlex = super.sedlex.override {
+                      ppxlib = self.ppxlib_gt_0_37;
+                    };
+                    js_of_ocaml-compiler = super.js_of_ocaml-compiler.override {
+                      inherit (self) sedlex;
+                      ppxlib = self.ppxlib_gt_0_37;
+                    };
+                    js_of_ocaml = super.js_of_ocaml.override {
+                      inherit (self) js_of_ocaml-compiler;
+                      ppxlib = self.ppxlib_gt_0_37;
+                    };
+                  }
+                );
               }
             );
           in
