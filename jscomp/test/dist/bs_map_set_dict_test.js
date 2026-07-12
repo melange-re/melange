@@ -7,7 +7,6 @@ const Belt__Belt_Id = require("melange.belt/belt_Id.js");
 const Belt__Belt_List = require("melange.belt/belt_List.js");
 const Belt__Belt_Map = require("melange.belt/belt_Map.js");
 const Belt__Belt_MapDict = require("melange.belt/belt_MapDict.js");
-const Belt__Belt_Set = require("melange.belt/belt_Set.js");
 const Belt__Belt_SetDict = require("melange.belt/belt_SetDict.js");
 const Belt__Belt_internalAVLtree = require("melange.belt/belt_internalAVLtree.js");
 const Caml = require("melange.js/caml.js");
