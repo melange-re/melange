@@ -119,3 +119,13 @@ kind_size_in_bytes for all kinds
   int16_unsigned: 2
   int32: 4
   char: 1
+
+Fixed-rank Bigarray types remain abstract and cannot be mixed
+
+  $ cat > rank_mismatch.ml <<'EOF'
+  > open Bigarray
+  > let one = Array1.create int c_layout 1
+  > let (_ : (int, int_elt, c_layout) Array2.t) = one
+  > EOF
+  $ melc -I "$MELANGELIB" rank_mismatch.ml >/dev/null 2>&1
+  [2]

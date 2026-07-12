@@ -58,6 +58,33 @@ let raises_invalid_argument f =
     false
   with Invalid_argument _ -> true | _ -> false
 
+let raises_out_of_memory f =
+  try
+    f ();
+    false
+  with Out_of_memory -> true | _ -> false
+
+type custom_compare_collision = {
+  payload : int;
+  caml_custom : string;
+  caml_compare : Obj.t -> Obj.t -> bool -> int;
+}
+
+let fake_custom_compare _ _ _ = 0
+
+(* Ordinary record fields cannot opt into the runtime custom protocol. *)
+let () =
+  let a =
+    {
+      payload = 1;
+      caml_custom = "same";
+      caml_compare = fake_custom_compare;
+    }
+  in
+  let b = { a with payload = 999 } in
+  ok __LOC__ (a <> b);
+  ok __LOC__ (compare a b < 0)
+
 (* === 1D Float64 C layout === *)
 let () =
   let ba = caml_ba_create float64_kind c_layout [| 5 |] in
@@ -116,6 +143,23 @@ let () =
   eq __LOC__ (data_byte_length float16) 6;
   eq __LOC__ (data_byte_length int64) 24;
   ()
+
+(* === Float16 uses native double -> float32 -> float16 rounding === *)
+let () =
+  let tie = 1.0004883110523224 in
+  let a1 = caml_ba_create float16_kind c_layout [| 2 |] in
+  caml_ba_set_1 a1 0 tie;
+  eq __LOC__ (caml_ba_get_1 a1 0) 1.0;
+  caml_ba_fill a1 tie;
+  eq __LOC__ (caml_ba_get_1 a1 1) 1.0;
+  let a2 = caml_ba_create float16_kind c_layout [| 1; 1 |] in
+  caml_ba_set_2 a2 0 0 tie;
+  eq __LOC__ (caml_ba_get_2 a2 0 0) 1.0;
+  let a3 = caml_ba_create float16_kind c_layout [| 1; 1; 1 |] in
+  caml_ba_set_3 a3 0 0 0 tie;
+  eq __LOC__ (caml_ba_get_3 a3 0 0 0) 1.0;
+  caml_ba_set_generic a3 [| 0; 0; 0 |] tie;
+  eq __LOC__ (caml_ba_get_generic a3 [| 0; 0; 0 |]) 1.0
 
 (* === 1D Int8 signed === *)
 let () =
@@ -237,6 +281,13 @@ let () =
   eq __LOC__ (caml_ba_get_2 reshaped 1 0) 3.0;
   ()
 
+(* === reshape rejects more than 16 dimensions === *)
+let () =
+  let scalar = caml_ba_create float64_kind c_layout [||] in
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         ignore (caml_ba_reshape scalar (Array.make 17 1))))
+
 (* === 2D access C layout === *)
 let () =
   let ba = caml_ba_create int_kind c_layout [| 3; 4 |] in
@@ -307,6 +358,21 @@ let () =
   eq __LOC__ (caml_ba_get_1 row1 3) 13.0;
   ()
 
+(* === slice all dimensions to a scalar view === *)
+let () =
+  let c = caml_ba_create float64_kind c_layout [| 2 |] in
+  caml_ba_set_1 c 1 42.0;
+  let c_scalar = caml_ba_slice c [| 1 |] in
+  eq __LOC__ (caml_ba_num_dims c_scalar) 0;
+  eq __LOC__ (caml_ba_get_generic c_scalar [||]) 42.0;
+  caml_ba_set_generic c_scalar [||] 43.0;
+  eq __LOC__ (caml_ba_get_1 c 1) 43.0;
+  let f = caml_ba_create float64_kind fortran_layout [| 2 |] in
+  caml_ba_set_1 f 1 24.0;
+  let f_scalar = caml_ba_slice f [| 1 |] in
+  eq __LOC__ (caml_ba_num_dims f_scalar) 0;
+  eq __LOC__ (caml_ba_get_generic f_scalar [||]) 24.0
+
 (* === negative dimension check === *)
 let () =
   throw __LOC__ (fun () -> ignore (caml_ba_create float64_kind c_layout [| -1 |]));
@@ -320,20 +386,47 @@ let () =
   eq __LOC__ (caml_ba_get_generic ba [| |]) 42.0;
   ()
 
+(* === sub preserves the rank of a zero-dimensional array === *)
+let () =
+  let c = caml_ba_create float64_kind c_layout [||] in
+  caml_ba_set_generic c [||] 7.0;
+  let c_sub = caml_ba_sub c 0 1 in
+  eq __LOC__ (caml_ba_num_dims c_sub) 0;
+  eq __LOC__ (caml_ba_get_generic c_sub [||]) 7.0;
+  let f = caml_ba_create float64_kind fortran_layout [||] in
+  caml_ba_set_generic f [||] 8.0;
+  let f_sub = caml_ba_sub f 1 1 in
+  eq __LOC__ (caml_ba_num_dims f_sub) 0;
+  eq __LOC__ (caml_ba_get_generic f_sub [||]) 8.0;
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (caml_ba_sub c 1 1)));
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (caml_ba_sub c 0 0)));
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (caml_ba_sub f 2 1)))
+
+(* === creation rejects a dimension product that overflows JS indexing === *)
+let () =
+  ok __LOC__
+    (raises_out_of_memory (fun () ->
+         ignore
+           (caml_ba_create int8_unsigned_kind c_layout
+              [| 65536; 65536; 65536; 65536; 0 |])))
+
 (* === C-external caml_ba_get/set/dim primitives ===
    These externals are dispatched through lam_dispatch_primitive.ml
    to the Caml_bigarray runtime module *)
-external ba_get_1 : 'a -> int -> 'b = "caml_ba_get_1"
-external ba_set_1 : 'a -> int -> 'b -> unit = "caml_ba_set_1"
-external ba_unsafe_get_1 : 'a -> int -> 'b = "caml_ba_get_1"
-external ba_unsafe_set_1 : 'a -> int -> 'b -> unit = "caml_ba_set_1"
-external ba_dim_1 : 'a -> int = "caml_ba_dim_1"
-external ba_get_2 : 'a -> int -> int -> 'b = "caml_ba_get_2"
-external ba_set_2 : 'a -> int -> int -> 'b -> unit = "caml_ba_set_2"
-external ba_dim_2 : 'a -> int = "caml_ba_dim_2"
-external ba_get_3 : 'a -> int -> int -> int -> 'b = "caml_ba_get_3"
-external ba_set_3 : 'a -> int -> int -> int -> 'b -> unit = "caml_ba_set_3"
-external ba_dim_3 : 'a -> int = "caml_ba_dim_3"
+external ba_get_1 : 'a -> int -> 'b = "%caml_ba_ref_1"
+external ba_set_1 : 'a -> int -> 'b -> unit = "%caml_ba_set_1"
+external ba_unsafe_get_1 : 'a -> int -> 'b = "%caml_ba_unsafe_ref_1"
+external ba_unsafe_set_1 : 'a -> int -> 'b -> unit = "%caml_ba_unsafe_set_1"
+external ba_dim_1 : 'a -> int = "%caml_ba_dim_1"
+external ba_get_2 : 'a -> int -> int -> 'b = "%caml_ba_ref_2"
+external ba_set_2 : 'a -> int -> int -> 'b -> unit = "%caml_ba_set_2"
+external ba_dim_2 : 'a -> int = "%caml_ba_dim_2"
+external ba_get_3 : 'a -> int -> int -> int -> 'b = "%caml_ba_ref_3"
+external ba_set_3 : 'a -> int -> int -> int -> 'b -> unit = "%caml_ba_set_3"
+external ba_dim_3 : 'a -> int = "%caml_ba_dim_3"
 
 (* Test caml_ba_get_1 / caml_ba_set_1 (1D) *)
 let () =
@@ -378,12 +471,13 @@ let () =
   ()
 
 (* === Bigstring (multi-byte load/set) primitives === *)
-external bigstring_get16 : 'a -> int -> int = "caml_bigstring_get16"
-external bigstring_set16 : 'a -> int -> int -> unit = "caml_bigstring_set16"
-external bigstring_get32 : 'a -> int -> int32 = "caml_bigstring_get32"
-external bigstring_set32 : 'a -> int -> int32 -> unit = "caml_bigstring_set32"
-external bigstring_get64 : 'a -> int -> int64 = "caml_bigstring_get64"
-external bigstring_set64 : 'a -> int -> int64 -> unit = "caml_bigstring_set64"
+external bigstring_get16 : 'a -> int -> int = "%caml_bigstring_get16"
+external bigstring_get16u : 'a -> int -> int = "%caml_bigstring_get16u"
+external bigstring_set16 : 'a -> int -> int -> unit = "%caml_bigstring_set16"
+external bigstring_get32 : 'a -> int -> int32 = "%caml_bigstring_get32"
+external bigstring_set32 : 'a -> int -> int32 -> unit = "%caml_bigstring_set32"
+external bigstring_get64 : 'a -> int -> int64 = "%caml_bigstring_get64"
+external bigstring_set64 : 'a -> int -> int64 -> unit = "%caml_bigstring_set64"
 external bigstring_blit_ba_to_bytes : 'a -> int -> bytes -> int -> int -> unit
   = "caml_bigstring_blit_ba_to_bytes"
 external bigstring_blit_bytes_to_ba : bytes -> int -> 'a -> int -> int -> unit
@@ -399,6 +493,10 @@ let () =
   (* Little-endian: byte 0 = 0x02, byte 1 = 0x01 *)
   eq __LOC__ (caml_ba_get_1 ba 0) 0x02;
   eq __LOC__ (caml_ba_get_1 ba 1) 0x01;
+  caml_ba_set_1 ba 2 0xdc;
+  caml_ba_set_1 ba 3 0xfe;
+  eq __LOC__ (bigstring_get16 ba 2) 0xfedc;
+  eq __LOC__ (bigstring_get16u ba 2) 0xfedc;
   ()
 
 (* Test 32-bit load/set *)
@@ -434,7 +532,7 @@ let () =
 
 (* Test blit ba -> bytes *)
 let () =
-  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let ba = caml_ba_create char_kind c_layout [| 5 |] in
   for i = 0 to 4 do caml_ba_set_1 ba i (i + 65) done;  (* A B C D E *)
   let buf = Bytes.create 5 in
   bigstring_blit_ba_to_bytes ba 0 buf 0 5;
@@ -444,7 +542,7 @@ let () =
 
 (* Test blit bytes -> ba *)
 let () =
-  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let ba = caml_ba_create char_kind c_layout [| 5 |] in
   let buf = Bytes.of_string "Hello" in
   bigstring_blit_bytes_to_ba buf 0 ba 0 5;
   eq __LOC__ (caml_ba_get_1 ba 0) (Char.code 'H');
@@ -453,8 +551,8 @@ let () =
 
 (* Test blit ba -> ba *)
 let () =
-  let src = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
-  let dst = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let src = caml_ba_create char_kind c_layout [| 5 |] in
+  let dst = caml_ba_create char_kind c_layout [| 5 |] in
   for i = 0 to 4 do caml_ba_set_1 src i (i * 10) done;
   bigstring_blit_ba_to_ba src 1 dst 0 3;
   eq __LOC__ (caml_ba_get_1 dst 0) 10;
@@ -464,7 +562,7 @@ let () =
 
 (* Test overlapping blit through distinct subarray views behaves like memmove *)
 let () =
-  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  let ba = caml_ba_create char_kind c_layout [| 5 |] in
   for i = 0 to 4 do caml_ba_set_1 ba i (i + 1) done;
   let src = caml_ba_sub ba 0 4 in
   let dst = caml_ba_sub ba 1 4 in
@@ -476,4 +574,97 @@ let () =
   eq __LOC__ (caml_ba_get_1 ba 4) 4;
   ()
 
+(* Bigstring blits validate kinds and both source and destination ranges. *)
+let () =
+  let ba = caml_ba_create char_kind c_layout [| 3 |] in
+  let other = caml_ba_create char_kind c_layout [| 3 |] in
+  let wrong_kind = caml_ba_create int8_unsigned_kind c_layout [| 3 |] in
+  let bytes = Bytes.of_string "abc" in
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_bytes ba 2 bytes 0 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_bytes ba 0 bytes 2 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_bytes ba (-1) bytes 0 1));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_bytes wrong_kind 0 bytes 0 1));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_bytes_to_ba bytes 2 ba 0 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_bytes_to_ba bytes 0 ba 2 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_bytes_to_ba bytes 0 wrong_kind 0 1));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_ba ba 2 other 0 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_ba ba 0 other 2 2));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_ba ba 0 other 0 (-1)));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_ba wrong_kind 0 other 0 1));
+  bigstring_blit_ba_to_bytes ba 3 bytes 3 0;
+  bigstring_blit_bytes_to_ba bytes 3 ba 3 0;
+  bigstring_blit_ba_to_ba ba 3 other 3 0;
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_bytes ba (-1) bytes 0 0));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_bytes_to_ba bytes 0 ba 4 0));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         bigstring_blit_ba_to_ba ba 4 other 0 0));
+  eq __LOC__ bytes (Bytes.of_string "abc");
+  eq __LOC__ (caml_ba_get_1 other 0) 0
+
 let () = Mt.from_pair_suites __MODULE__ !suites
+
+let load_esm_bigarray_values : unit -> Obj.t array Js.Promise.t =
+  [%raw
+    {|function() {
+    var load = import("../../../dist-es6/node_modules/melange.js/caml_bigarray.mjs")
+      .catch(function() {
+        return import("../../../node_modules/melange.js/caml_bigarray.mjs");
+      });
+    return load.then(function(ba) {
+      var negative_zero = ba.caml_ba_create(13, 0, [1]);
+      ba.caml_ba_set_1(negative_zero, 0, -0);
+      var high_low_word = ba.caml_ba_create(7, 0, [1]);
+      ba.caml_ba_set_1(high_low_word, 0, [0, 0x80000000]);
+      return [negative_zero, high_low_word];
+    });
+  }|}]
+
+(* CommonJS and ESM runtimes resolve the same registered custom operations. *)
+let () =
+  let positive_zero = caml_ba_create float16_kind c_layout [| 1 |] in
+  caml_ba_set_1 positive_zero 0 0.0;
+  let low_low_word = caml_ba_create int64_kind c_layout [| 1 |] in
+  caml_ba_set_1 low_low_word 0 0x7fffffffL;
+  let test =
+    load_esm_bigarray_values ()
+    |> Js.Promise.then_ (fun values ->
+           let negative_zero = values.(0) in
+           let high_low_word = values.(1) in
+           let positive_zero = Obj.repr positive_zero in
+           let low_low_word = Obj.repr low_low_word in
+           Js.Promise.resolve
+             (Mt.Ok
+                ( positive_zero = negative_zero
+                && compare positive_zero negative_zero = 0
+                && Hashtbl.hash positive_zero = Hashtbl.hash negative_zero
+                && compare low_low_word high_low_word = -1
+                && compare high_low_word low_low_word = 1 )))
+  in
+  Mt.from_promise_suites "Bigarray_cross_format" [ (__LOC__, test) ]

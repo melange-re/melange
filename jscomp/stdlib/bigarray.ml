@@ -183,12 +183,12 @@ module Array1 = struct
   type (!'a, !'b, !'c) t = ('a, 'b, 'c) Genarray.t
   let create kind layout dim =
     Genarray.create kind layout [|dim|]
-  external get: ('a, 'b, 'c) t -> int -> 'a = "caml_ba_get_1"
-  external set: ('a, 'b, 'c) t -> int -> 'a -> unit = "caml_ba_set_1"
-  external unsafe_get: ('a, 'b, 'c) t -> int -> 'a = "caml_ba_get_1"
+  external get: ('a, 'b, 'c) t -> int -> 'a = "%caml_ba_ref_1"
+  external set: ('a, 'b, 'c) t -> int -> 'a -> unit = "%caml_ba_set_1"
+  external unsafe_get: ('a, 'b, 'c) t -> int -> 'a = "%caml_ba_unsafe_ref_1"
   external unsafe_set: ('a, 'b, 'c) t -> int -> 'a -> unit
-     = "caml_ba_set_1"
-  external dim: ('a, 'b, 'c) t -> int = "caml_ba_dim_1"
+     = "%caml_ba_unsafe_set_1"
+  external dim: ('a, 'b, 'c) t -> int = "%caml_ba_dim_1"
   external kind: ('a, 'b, 'c) t -> ('a, 'b) kind = "caml_ba_kind"
   external layout: ('a, 'b, 'c) t -> 'c layout = "caml_ba_layout"
 
@@ -229,14 +229,14 @@ module Array2 = struct
   type (!'a, !'b, !'c) t = ('a, 'b, 'c) Genarray.t
   let create kind layout dim1 dim2 =
     Genarray.create kind layout [|dim1; dim2|]
-  external get: ('a, 'b, 'c) t -> int -> int -> 'a = "caml_ba_get_2"
-  external set: ('a, 'b, 'c) t -> int -> int -> 'a -> unit = "caml_ba_set_2"
+  external get: ('a, 'b, 'c) t -> int -> int -> 'a = "%caml_ba_ref_2"
+  external set: ('a, 'b, 'c) t -> int -> int -> 'a -> unit = "%caml_ba_set_2"
   external unsafe_get: ('a, 'b, 'c) t -> int -> int -> 'a
-     = "caml_ba_get_2"
+     = "%caml_ba_unsafe_ref_2"
   external unsafe_set: ('a, 'b, 'c) t -> int -> int -> 'a -> unit
-     = "caml_ba_set_2"
-  external dim1: ('a, 'b, 'c) t -> int = "caml_ba_dim_1"
-  external dim2: ('a, 'b, 'c) t -> int = "caml_ba_dim_2"
+     = "%caml_ba_unsafe_set_2"
+  external dim1: ('a, 'b, 'c) t -> int = "%caml_ba_dim_1"
+  external dim2: ('a, 'b, 'c) t -> int = "%caml_ba_dim_2"
   external kind: ('a, 'b, 'c) t -> ('a, 'b) kind = "caml_ba_kind"
   external layout: ('a, 'b, 'c) t -> 'c layout = "caml_ba_layout"
 
@@ -296,16 +296,16 @@ module Array3 = struct
   type (!'a, !'b, !'c) t = ('a, 'b, 'c) Genarray.t
   let create kind layout dim1 dim2 dim3 =
     Genarray.create kind layout [|dim1; dim2; dim3|]
-  external get: ('a, 'b, 'c) t -> int -> int -> int -> 'a = "caml_ba_get_3"
+  external get: ('a, 'b, 'c) t -> int -> int -> int -> 'a = "%caml_ba_ref_3"
   external set: ('a, 'b, 'c) t -> int -> int -> int -> 'a -> unit
-     = "caml_ba_set_3"
+     = "%caml_ba_set_3"
   external unsafe_get: ('a, 'b, 'c) t -> int -> int -> int -> 'a
-     = "caml_ba_get_3"
+     = "%caml_ba_unsafe_ref_3"
   external unsafe_set: ('a, 'b, 'c) t -> int -> int -> int -> 'a -> unit
-     = "caml_ba_set_3"
-  external dim1: ('a, 'b, 'c) t -> int = "caml_ba_dim_1"
-  external dim2: ('a, 'b, 'c) t -> int = "caml_ba_dim_2"
-  external dim3: ('a, 'b, 'c) t -> int = "caml_ba_dim_3"
+     = "%caml_ba_unsafe_set_3"
+  external dim1: ('a, 'b, 'c) t -> int = "%caml_ba_dim_1"
+  external dim2: ('a, 'b, 'c) t -> int = "%caml_ba_dim_2"
+  external dim3: ('a, 'b, 'c) t -> int = "%caml_ba_dim_3"
   external kind: ('a, 'b, 'c) t -> ('a, 'b) kind = "caml_ba_kind"
   external layout: ('a, 'b, 'c) t -> 'c layout = "caml_ba_layout"
 

@@ -135,8 +135,26 @@ let update_dummy : _ -> _ -> unit =
     The compare function can be used as the comparison function required by the [Set.Make] and [Map.Make] functors,
     as well as the [List.sort] and [Array.sort] functions.
 *)
+let%private has_matching_custom_compare : Obj.t -> Obj.t -> bool =
+  [%raw
+    {|function(a, b) {
+    if (a === null || b === null ||
+        typeof a !== "object" || typeof b !== "object") return false;
+    var key = Symbol.for("melange.runtime.custom_ops/1");
+    var ops = a[key];
+    return ops !== undefined && ops === b[key] &&
+      typeof ops.compare === "function";
+  }|}]
+
+let%private run_custom_compare : Obj.t -> Obj.t -> bool -> int =
+  [%raw
+    {|function(a, b, total) {
+    return a[Symbol.for("melange.runtime.custom_ops/1")].compare(a, b, total);
+  }|}]
+
 let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
-  if a == b then 0
+  if has_matching_custom_compare a b then run_custom_compare a b true
+  else if a == b then 0
   else
     (*front and formoest, we do not compare function values*)
     let a_type = Js.typeof a in
@@ -280,7 +298,8 @@ type eq = Obj.t -> Obj.t -> bool
 *)
 let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
   (*front and foremost, we do not compare function values*)
-  if a == b then true
+  if has_matching_custom_compare a b then run_custom_compare a b false = 0
+  else if a == b then true
   else
     let a_type = Js.typeof a in
     if

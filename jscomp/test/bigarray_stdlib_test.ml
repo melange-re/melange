@@ -13,6 +13,12 @@ let raises_invalid_argument f =
     false
   with Invalid_argument _ -> true | _ -> false
 
+let raises_out_of_memory f =
+  try
+    f ();
+    false
+  with Out_of_memory -> true | _ -> false
+
 (* Test Array1 create/get/set via stdlib module *)
 let () =
   let open Bigarray in
@@ -62,9 +68,11 @@ let () =
 (* Test float16 storage rounds to IEEE binary16 precision *)
 let () =
   let open Bigarray in
-  let a = Array1.create float16 c_layout 1 in
-  Array1.set a 0 1.0001;
-  eq __LOC__ (Array1.get a 0) 1.0
+  let a = Array1.create float16 c_layout 2 in
+  Array1.set a 0 1.0004883110523224;
+  eq __LOC__ (Array1.get a 0) 1.0;
+  Array1.fill a 1.0004883110523224;
+  eq __LOC__ (Array1.get a 1) 1.0
 
 (* Test Array1 with char kind *)
 let () =
@@ -212,13 +220,20 @@ let () =
   eq __LOC__ (Array2.get b2 0 0) 0.0;
   eq __LOC__ (Array2.get b2 1 2) 5.0
 
+(* Reshape enforces Bigarray's 16-dimension limit. *)
+let () =
+  let open Bigarray in
+  let scalar = Genarray.create float64 c_layout [||] in
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         ignore (reshape scalar (Array.make 17 1))))
+
 (* Test reshape convenience functions *)
 let () =
   let open Bigarray in
   let a = Array1.init float64 c_layout 6 (fun i -> Float.of_int i) in
   let ga = genarray_of_array1 a in
-  let r1 = reshape_1 ga 6 in
-  let a1 = array1_of_genarray r1 in
+  let a1 = reshape_1 ga 6 in
   eq __LOC__ (Array1.get a1 0) 0.0;
   eq __LOC__ (Array1.get a1 5) 5.0
 
@@ -255,6 +270,49 @@ let () =
   eq __LOC__ (Array1.get row 0) 10.0;
   eq __LOC__ (Array1.get row 3) 13.0
 
+(* Array1.slice creates a shared zero-dimensional view in both layouts. *)
+let () =
+  let open Bigarray in
+  let c = Array1.of_array float64 c_layout [| 10.0; 20.0 |] in
+  let c_scalar = Array1.slice c 1 in
+  eq __LOC__ (Array0.get c_scalar) 20.0;
+  Array0.set c_scalar 21.0;
+  eq __LOC__ (Array1.get c 1) 21.0;
+  let f = Array1.of_array float64 fortran_layout [| 30.0; 40.0 |] in
+  let f_scalar = Array1.slice f 1 in
+  eq __LOC__ (Array0.get f_scalar) 30.0;
+  Array0.set f_scalar 31.0;
+  eq __LOC__ (Array1.get f 1) 31.0
+
+(* Bigarrays use the native custom comparison rules. *)
+let () =
+  let open Bigarray in
+  let low = Array1.of_array int64 c_layout [| 0x7fffffffL |] in
+  let high = Array1.of_array int64 c_layout [| 0x80000000L |] in
+  eq __LOC__ (compare low high) (-1);
+  let rank1 = Genarray.create int c_layout [| 2 |] in
+  let rank2 = Genarray.create int c_layout [| 2; 1 |] in
+  eq __LOC__ (compare rank1 rank2) 1;
+  let nan = Array1.of_array float64 c_layout [| Float.nan |] in
+  ok __LOC__ (not (nan = nan));
+  eq __LOC__ (compare nan nan) 0;
+  let positive_zero = Array1.of_array float16 c_layout [| 0.0 |] in
+  let negative_zero = Array1.of_array float16 c_layout [| -0.0 |] in
+  ok __LOC__ (positive_zero = negative_zero);
+  eq __LOC__ (Hashtbl.hash positive_zero) (Hashtbl.hash negative_zero)
+
+(* Zero-dimensional subviews retain rank zero. *)
+let () =
+  let open Bigarray in
+  let scalar = Genarray.create int c_layout [||] in
+  Genarray.set scalar [||] 42;
+  let sub = Genarray.sub_left scalar 0 1 in
+  eq __LOC__ (Genarray.num_dims sub) 0;
+  eq __LOC__ (Genarray.get sub [||]) 42;
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         ignore (Genarray.sub_left scalar 1 1)))
+
 (* Test array_of_genarray validation *)
 let () =
   let open Bigarray in
@@ -287,5 +345,14 @@ let () =
          ignore (Genarray.create float64 c_layout [| -1 |])));
   ok __LOC__
     (raises_invalid_argument (fun () -> ignore (reshape ga [| 5 |])))
+
+(* Creation rejects dimension products that overflow before a trailing zero. *)
+let () =
+  let open Bigarray in
+  ok __LOC__
+    (raises_out_of_memory (fun () ->
+         ignore
+           (Genarray.create int8_unsigned c_layout
+              [| 65536; 65536; 65536; 65536; 0 |])))
 
 let () = Mt.from_pair_suites __MODULE__ !suites

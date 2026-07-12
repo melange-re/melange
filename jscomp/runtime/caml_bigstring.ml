@@ -36,7 +36,7 @@ let%private caml_bigstring_get16_raw : 'a -> int -> (string -> 'b) -> int =
     if (i < 0 || i + 1 >= ba.dims[0])
       return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    return dv.getInt16(i, true);
+    return dv.getUint16(i, true);
   }|}]
 
 let caml_bigstring_get16 ba i =
@@ -46,7 +46,7 @@ let caml_bigstring_get16u : 'a -> int -> int =
   [%raw
     {|function(ba, i) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    return dv.getInt16(i, true);
+    return dv.getUint16(i, true);
   }|}]
 
 let%private caml_bigstring_set16_raw :
@@ -156,24 +156,54 @@ let caml_bigstring_set64u : 'a -> int -> 'b -> unit =
   }|}]
 
 (* Blit operations *)
-let caml_bigstring_blit_ba_to_bytes : 'a -> int -> bytes -> int -> int -> unit =
+let%private caml_bigstring_blit_ba_to_bytes_raw :
+    'a -> int -> bytes -> int -> int -> (string -> 'b) -> unit =
   [%raw
-    {|function(ba, ba_off, bytes, bytes_off, len) {
+    {|function(ba, ba_off, bytes, bytes_off, len, invalid) {
+    if (ba.kind !== 12)
+      return invalid("caml_bigstring_blit_ba_to_bytes: kind mismatch");
+    if (len < 0 || ba_off < 0 || ba_off > ba.data.length - len ||
+        bytes_off < 0 || bytes_off > bytes.length - len)
+      return invalid("index out of bounds");
     for (var i = 0; i < len; i++) {
       bytes[bytes_off + i] = ba.data[ba_off + i];
     }
   }|}]
 
-let caml_bigstring_blit_bytes_to_ba : bytes -> int -> 'a -> int -> int -> unit =
+let caml_bigstring_blit_ba_to_bytes ba ba_off bytes bytes_off len =
+  caml_bigstring_blit_ba_to_bytes_raw ba ba_off bytes bytes_off len
+    raise_invalid_argument
+
+let%private caml_bigstring_blit_bytes_to_ba_raw :
+    bytes -> int -> 'a -> int -> int -> (string -> 'b) -> unit =
   [%raw
-    {|function(bytes, bytes_off, ba, ba_off, len) {
+    {|function(bytes, bytes_off, ba, ba_off, len, invalid) {
+    if (ba.kind !== 12)
+      return invalid("caml_bigstring_blit_bytes_to_ba: kind mismatch");
+    if (len < 0 || bytes_off < 0 || bytes_off > bytes.length - len ||
+        ba_off < 0 || ba_off > ba.data.length - len)
+      return invalid("index out of bounds");
     for (var i = 0; i < len; i++) {
       ba.data[ba_off + i] = bytes[bytes_off + i];
     }
   }|}]
 
-let caml_bigstring_blit_ba_to_ba : 'a -> int -> 'a -> int -> int -> unit =
+let caml_bigstring_blit_bytes_to_ba bytes bytes_off ba ba_off len =
+  caml_bigstring_blit_bytes_to_ba_raw bytes bytes_off ba ba_off len
+    raise_invalid_argument
+
+let%private caml_bigstring_blit_ba_to_ba_raw :
+    'a -> int -> 'a -> int -> int -> (string -> 'b) -> unit =
   [%raw
-    {|function(src, src_off, dst, dst_off, len) {
+    {|function(src, src_off, dst, dst_off, len, invalid) {
+    if (src.kind !== 12 || dst.kind !== 12)
+      return invalid("caml_bigstring_blit_ba_to_ba: kind mismatch");
+    if (len < 0 || src_off < 0 || src_off > src.data.length - len ||
+        dst_off < 0 || dst_off > dst.data.length - len)
+      return invalid("index out of bounds");
     dst.data.set(src.data.subarray(src_off, src_off + len), dst_off);
   }|}]
+
+let caml_bigstring_blit_ba_to_ba src src_off dst dst_off len =
+  caml_bigstring_blit_ba_to_ba_raw src src_off dst dst_off len
+    raise_invalid_argument
