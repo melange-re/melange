@@ -25,7 +25,7 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5;
+                ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
               }
             );
           in
