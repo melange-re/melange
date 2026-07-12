@@ -362,7 +362,7 @@ let matchFn matchPart offset wholeString = Js.String.toUpperCase matchPart
 
 let replaced = Js.String.unsafeReplaceBy0 ~regexp:re ~f:matchFn str
 
-let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
+let () = Js.log replaced (* prints "bEAUtIfUl vOwEls" *)
 ]}
 
   @see
