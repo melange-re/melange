@@ -1,3 +1,11 @@
+7.0.1-54 2026-07-12
+---------------
+
+- fix: avoid relocating relative `mel.module` externals when inlining
+  ([#1799](https://github.com/melange-re/melange/pull/1799),
+  [#1800](https://github.com/melange-re/melange/pull/1800))
+
+
 7.0.0-54 2026-06-21
 ---------------
 
