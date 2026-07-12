@@ -37,8 +37,7 @@
   (name melange_wrapper)
   (package melange)
   (libraries compiler-libs.common)
-  (modules melange_wrapper)
-  (modules_without_implementation melange_wrapper))
+  (modules melange_wrapper))
  (library
   (name melange_compiler_libs)
   (package melange)
@@ -46,5 +45,4 @@
   (libraries menhirLib melange_wrapper)
   (modules :standard \ melange_wrapper)
   (modules_without_implementation
-   annot
    %{read-lines:../gen/optional_5_2_modules.txt})))
