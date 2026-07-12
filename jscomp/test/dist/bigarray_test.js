@@ -4,8 +4,15 @@
 const Caml_bigarray = require("melange.js/caml_bigarray.js");
 const Caml_bigstring = require("melange.js/caml_bigstring.js");
 const Caml_bytes = require("melange.js/caml_bytes.js");
+const Caml_int64 = require("melange.js/caml_int64.js");
+const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
+const Stdlib = require("melange/stdlib.js");
 const Stdlib__Bytes = require("melange/bytes.js");
+
+const data_byte_length = (function(ba) { return ba.data.byteLength; }
+);
 
 const suites = {
   contents: /* [] */ 0
@@ -27,17 +34,28 @@ function $$throw(loc, x) {
   Mt.throw_suites(test_id, suites, loc, x);
 }
 
+function raises_invalid_argument(f) {
+  try {
+    Curry._1(f, undefined);
+    return false;
+  }
+  catch (raw_exn){
+    const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    return exn.MEL_EXN_ID === Stdlib.Invalid_argument;
+  }
+}
+
 const ba = Caml_bigarray.caml_ba_create(1, 0, [5]);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 54, characters 5-12", Caml_bigarray.caml_ba_num_dims(ba), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 64, characters 5-12", Caml_bigarray.caml_ba_num_dims(ba), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 55, characters 5-12", Caml_bigarray.caml_ba_dim(ba, 0), 5);
+eq("File \"jscomp/test/bigarray_test.ml\", line 65, characters 5-12", Caml_bigarray.caml_ba_dim(ba, 0), 5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 56, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba), 5);
+eq("File \"jscomp/test/bigarray_test.ml\", line 66, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba), 5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 57, characters 5-12", Caml_bigarray.caml_ba_kind(ba), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 67, characters 5-12", Caml_bigarray.caml_ba_kind(ba), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 58, characters 5-12", Caml_bigarray.caml_ba_layout(ba), 0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 68, characters 5-12", Caml_bigarray.caml_ba_layout(ba), 0);
 
 Caml_bigarray.caml_ba_set_1(ba, 0, 1.5);
 
@@ -45,37 +63,37 @@ Caml_bigarray.caml_ba_set_1(ba, 1, 2.5);
 
 Caml_bigarray.caml_ba_set_1(ba, 4, 9.9);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 64, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 0), 1.5);
+eq("File \"jscomp/test/bigarray_test.ml\", line 74, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 0), 1.5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 65, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 1), 2.5);
+eq("File \"jscomp/test/bigarray_test.ml\", line 75, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 1), 2.5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 66, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 4), 9.9);
+eq("File \"jscomp/test/bigarray_test.ml\", line 76, characters 5-12", Caml_bigarray.caml_ba_get_1(ba, 4), 9.9);
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 69, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 79, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba, 5);
 }));
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 70, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 80, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba, -1);
 }));
 
 const ba$1 = Caml_bigarray.caml_ba_create(1, 1, [5]);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 77, characters 5-12", Caml_bigarray.caml_ba_layout(ba$1), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 87, characters 5-12", Caml_bigarray.caml_ba_layout(ba$1), 1);
 
 Caml_bigarray.caml_ba_set_1(ba$1, 1, 10.0);
 
 Caml_bigarray.caml_ba_set_1(ba$1, 5, 50.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 82, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$1, 1), 10.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 92, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$1, 1), 10.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 83, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$1, 5), 50.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 93, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$1, 5), 50.0);
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 86, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 96, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba$1, 0);
 }));
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 87, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 97, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba$1, 6);
 }));
 
@@ -87,11 +105,19 @@ Caml_bigarray.caml_ba_set_1(ba$2, 1, 2.0);
 
 Caml_bigarray.caml_ba_set_1(ba$2, 2, 3.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 97, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 0), 1.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 107, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 0), 1.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 98, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 1), 2.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 108, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 1), 2.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 99, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 2), 3.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 109, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$2, 2), 3.0);
+
+const float16 = Caml_bigarray.caml_ba_create(13, 0, [3]);
+
+const int64 = Caml_bigarray.caml_ba_create(7, 0, [3]);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 116, characters 5-12", data_byte_length(float16), 6);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 117, characters 5-12", data_byte_length(int64), 24);
 
 const ba$3 = Caml_bigarray.caml_ba_create(2, 0, [3]);
 
@@ -99,9 +125,9 @@ Caml_bigarray.caml_ba_set_1(ba$3, 0, 42);
 
 Caml_bigarray.caml_ba_set_1(ba$3, 1, -1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 107, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$3, 0), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 125, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$3, 0), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 108, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$3, 1), -1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 126, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$3, 1), -1);
 
 const ba$4 = Caml_bigarray.caml_ba_create(3, 0, [3]);
 
@@ -109,9 +135,9 @@ Caml_bigarray.caml_ba_set_1(ba$4, 0, 200);
 
 Caml_bigarray.caml_ba_set_1(ba$4, 1, 0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 116, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$4, 0), 200);
+eq("File \"jscomp/test/bigarray_test.ml\", line 134, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$4, 0), 200);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 117, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$4, 1), 0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 135, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$4, 1), 0);
 
 const ba$5 = Caml_bigarray.caml_ba_create(4, 0, [2]);
 
@@ -119,15 +145,15 @@ Caml_bigarray.caml_ba_set_1(ba$5, 0, -32000);
 
 Caml_bigarray.caml_ba_set_1(ba$5, 1, 32000);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 125, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$5, 0), -32000);
+eq("File \"jscomp/test/bigarray_test.ml\", line 143, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$5, 0), -32000);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 126, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$5, 1), 32000);
+eq("File \"jscomp/test/bigarray_test.ml\", line 144, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$5, 1), 32000);
 
 const ba$6 = Caml_bigarray.caml_ba_create(5, 0, [2]);
 
 Caml_bigarray.caml_ba_set_1(ba$6, 0, 60000);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 133, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$6, 0), 60000);
+eq("File \"jscomp/test/bigarray_test.ml\", line 151, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$6, 0), 60000);
 
 const ba$7 = Caml_bigarray.caml_ba_create(6, 0, [3]);
 
@@ -135,9 +161,9 @@ Caml_bigarray.caml_ba_set_1(ba$7, 0, 42);
 
 Caml_bigarray.caml_ba_set_1(ba$7, 1, -1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 141, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$7, 0), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 159, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$7, 0), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 142, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$7, 1), -1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 160, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$7, 1), -1);
 
 const ba$8 = Caml_bigarray.caml_ba_create(8, 0, [3]);
 
@@ -145,9 +171,9 @@ Caml_bigarray.caml_ba_set_1(ba$8, 0, 42);
 
 Caml_bigarray.caml_ba_set_1(ba$8, 1, -7);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 150, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$8, 0), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 168, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$8, 0), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 151, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$8, 1), -7);
+eq("File \"jscomp/test/bigarray_test.ml\", line 169, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$8, 1), -7);
 
 const ba$9 = Caml_bigarray.caml_ba_create(12, 0, [3]);
 
@@ -155,17 +181,17 @@ Caml_bigarray.caml_ba_set_1(ba$9, 0, /* 'A' */65);
 
 Caml_bigarray.caml_ba_set_1(ba$9, 1, /* 'B' */66);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 159, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$9, 0), /* 'A' */65);
+eq("File \"jscomp/test/bigarray_test.ml\", line 177, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$9, 0), /* 'A' */65);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 160, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$9, 1), /* 'B' */66);
+eq("File \"jscomp/test/bigarray_test.ml\", line 178, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$9, 1), /* 'B' */66);
 
 const ba$10 = Caml_bigarray.caml_ba_create(1, 0, [5]);
 
 Caml_bigarray.caml_ba_fill(ba$10, 42.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 167, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$10, 0), 42.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 185, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$10, 0), 42.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 168, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$10, 4), 42.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 186, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$10, 4), 42.0);
 
 const src = Caml_bigarray.caml_ba_create(1, 0, [3]);
 
@@ -179,11 +205,11 @@ Caml_bigarray.caml_ba_set_1(src, 2, 3.0);
 
 Caml_bigarray.caml_ba_blit(src, dst);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 179, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 0), 1.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 197, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 0), 1.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 180, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 1), 2.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 198, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 1), 2.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 181, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 2), 3.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 199, characters 5-12", Caml_bigarray.caml_ba_get_1(dst, 2), 3.0);
 
 const ba$11 = Caml_bigarray.caml_ba_create(1, 0, [10]);
 
@@ -193,15 +219,15 @@ for (let i = 0; i <= 9; ++i) {
 
 const sub = Caml_bigarray.caml_ba_sub(ba$11, 3, 4);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 189, characters 5-12", Caml_bigarray.caml_ba_dim_1(sub), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 207, characters 5-12", Caml_bigarray.caml_ba_dim_1(sub), 4);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 190, characters 5-12", Caml_bigarray.caml_ba_get_1(sub, 0), 3.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 208, characters 5-12", Caml_bigarray.caml_ba_get_1(sub, 0), 3.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 191, characters 5-12", Caml_bigarray.caml_ba_get_1(sub, 3), 6.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 209, characters 5-12", Caml_bigarray.caml_ba_get_1(sub, 3), 6.0);
 
 Caml_bigarray.caml_ba_set_1(sub, 0, 99.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 195, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$11, 3), 99.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 213, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$11, 3), 99.0);
 
 const ba$12 = Caml_bigarray.caml_ba_create(1, 1, [10]);
 
@@ -211,11 +237,11 @@ for (let i$1 = 1; i$1 <= 10; ++i$1) {
 
 const sub$1 = Caml_bigarray.caml_ba_sub(ba$12, 3, 4);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 203, characters 5-12", Caml_bigarray.caml_ba_dim_1(sub$1), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 221, characters 5-12", Caml_bigarray.caml_ba_dim_1(sub$1), 4);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 204, characters 5-12", Caml_bigarray.caml_ba_get_1(sub$1, 1), 3.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 222, characters 5-12", Caml_bigarray.caml_ba_get_1(sub$1, 1), 3.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 205, characters 5-12", Caml_bigarray.caml_ba_get_1(sub$1, 4), 6.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 223, characters 5-12", Caml_bigarray.caml_ba_get_1(sub$1, 4), 6.0);
 
 const ba$13 = Caml_bigarray.caml_ba_create(1, 0, [6]);
 
@@ -228,17 +254,17 @@ const reshaped = Caml_bigarray.caml_ba_reshape(ba$13, [
   3
 ]);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 213, characters 5-12", Caml_bigarray.caml_ba_num_dims(reshaped), 2);
+eq("File \"jscomp/test/bigarray_test.ml\", line 231, characters 5-12", Caml_bigarray.caml_ba_num_dims(reshaped), 2);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 214, characters 5-12", Caml_bigarray.caml_ba_dim(reshaped, 0), 2);
+eq("File \"jscomp/test/bigarray_test.ml\", line 232, characters 5-12", Caml_bigarray.caml_ba_dim(reshaped, 0), 2);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 215, characters 5-12", Caml_bigarray.caml_ba_dim(reshaped, 1), 3);
+eq("File \"jscomp/test/bigarray_test.ml\", line 233, characters 5-12", Caml_bigarray.caml_ba_dim(reshaped, 1), 3);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 217, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 0, 0), 0.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 235, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 0, 0), 0.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 218, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 0, 2), 2.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 236, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 0, 2), 2.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 219, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 1, 0), 3.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 237, characters 5-12", Caml_bigarray.caml_ba_get_2(reshaped, 1, 0), 3.0);
 
 const ba$14 = Caml_bigarray.caml_ba_create(8, 0, [
   3,
@@ -251,17 +277,17 @@ Caml_bigarray.caml_ba_set_2(ba$14, 1, 2, 42);
 
 Caml_bigarray.caml_ba_set_2(ba$14, 2, 3, 99);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 228, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 0, 0), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 246, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 0, 0), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 229, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 1, 2), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 247, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 1, 2), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 230, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 2, 3), 99);
+eq("File \"jscomp/test/bigarray_test.ml\", line 248, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$14, 2, 3), 99);
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 232, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 250, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_2(ba$14, 3, 0);
 }));
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 233, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 251, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_2(ba$14, 0, 4);
 }));
 
@@ -276,11 +302,11 @@ Caml_bigarray.caml_ba_set_2(ba$15, 2, 3, 42);
 
 Caml_bigarray.caml_ba_set_2(ba$15, 3, 4, 99);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 242, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 1, 1), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 260, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 1, 1), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 243, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 2, 3), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 261, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 2, 3), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 244, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 3, 4), 99);
+eq("File \"jscomp/test/bigarray_test.ml\", line 262, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$15, 3, 4), 99);
 
 const ba$16 = Caml_bigarray.caml_ba_create(8, 0, [
   2,
@@ -292,9 +318,9 @@ Caml_bigarray.caml_ba_set_3(ba$16, 0, 0, 0, 1);
 
 Caml_bigarray.caml_ba_set_3(ba$16, 1, 2, 3, 99);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 252, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$16, 0, 0, 0), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 270, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$16, 0, 0, 0), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 253, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$16, 1, 2, 3), 99);
+eq("File \"jscomp/test/bigarray_test.ml\", line 271, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$16, 1, 2, 3), 99);
 
 const ba$17 = Caml_bigarray.caml_ba_create(1, 0, [
   3,
@@ -306,7 +332,7 @@ Caml_bigarray.caml_ba_set_generic(ba$17, [
   2
 ], 42.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 260, characters 5-12", Caml_bigarray.caml_ba_get_generic(ba$17, [
+eq("File \"jscomp/test/bigarray_test.ml\", line 278, characters 5-12", Caml_bigarray.caml_ba_get_generic(ba$17, [
   1,
   2
 ]), 42.0);
@@ -324,11 +350,11 @@ Caml_bigarray.caml_ba_set_2(ba$18, 1, 0, 4.0);
 
 const ba2 = Caml_bigarray.caml_ba_change_layout(ba$18, 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 270, characters 5-12", Caml_bigarray.caml_ba_layout(ba2), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 288, characters 5-12", Caml_bigarray.caml_ba_layout(ba2), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 272, characters 5-12", Caml_bigarray.caml_ba_dim(ba2, 0), 3);
+eq("File \"jscomp/test/bigarray_test.ml\", line 290, characters 5-12", Caml_bigarray.caml_ba_dim(ba2, 0), 3);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 273, characters 5-12", Caml_bigarray.caml_ba_dim(ba2, 1), 2);
+eq("File \"jscomp/test/bigarray_test.ml\", line 291, characters 5-12", Caml_bigarray.caml_ba_dim(ba2, 1), 2);
 
 const ba$19 = Caml_bigarray.caml_ba_create(1, 0, [
   3,
@@ -343,25 +369,25 @@ for (let r = 0; r <= 2; ++r) {
 
 const row1 = Caml_bigarray.caml_ba_slice(ba$19, [1]);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 286, characters 5-12", Caml_bigarray.caml_ba_num_dims(row1), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 304, characters 5-12", Caml_bigarray.caml_ba_num_dims(row1), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 287, characters 5-12", Caml_bigarray.caml_ba_dim_1(row1), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 305, characters 5-12", Caml_bigarray.caml_ba_dim_1(row1), 4);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 288, characters 5-12", Caml_bigarray.caml_ba_get_1(row1, 0), 10.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 306, characters 5-12", Caml_bigarray.caml_ba_get_1(row1, 0), 10.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 289, characters 5-12", Caml_bigarray.caml_ba_get_1(row1, 3), 13.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 307, characters 5-12", Caml_bigarray.caml_ba_get_1(row1, 3), 13.0);
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 294, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 312, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_create(1, 0, [-1]);
 }));
 
 const ba$20 = Caml_bigarray.caml_ba_create(1, 0, []);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 300, characters 5-12", Caml_bigarray.caml_ba_num_dims(ba$20), 0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 318, characters 5-12", Caml_bigarray.caml_ba_num_dims(ba$20), 0);
 
 Caml_bigarray.caml_ba_set_generic(ba$20, [], 42.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 302, characters 5-12", Caml_bigarray.caml_ba_get_generic(ba$20, []), 42.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 320, characters 5-12", Caml_bigarray.caml_ba_get_generic(ba$20, []), 42.0);
 
 const ba$21 = Caml_bigarray.caml_ba_create(1, 0, [5]);
 
@@ -369,15 +395,15 @@ Caml_bigarray.caml_ba_set_1(ba$21, 0, 10.0);
 
 Caml_bigarray.caml_ba_set_1(ba$21, 4, 40.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 325, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 0), 10.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 343, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 0), 10.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 326, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 4), 40.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 344, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 4), 40.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 327, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$21), 5);
+eq("File \"jscomp/test/bigarray_test.ml\", line 345, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$21), 5);
 
 Caml_bigarray.caml_ba_set_1(ba$21, 2, 20.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 330, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 2), 20.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 348, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$21, 2), 20.0);
 
 const ba$22 = Caml_bigarray.caml_ba_create(8, 0, [
   3,
@@ -386,11 +412,11 @@ const ba$22 = Caml_bigarray.caml_ba_create(8, 0, [
 
 Caml_bigarray.caml_ba_set_2(ba$22, 1, 2, 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 337, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$22, 1, 2), 42);
+eq("File \"jscomp/test/bigarray_test.ml\", line 355, characters 5-12", Caml_bigarray.caml_ba_get_2(ba$22, 1, 2), 42);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 338, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$22), 3);
+eq("File \"jscomp/test/bigarray_test.ml\", line 356, characters 5-12", Caml_bigarray.caml_ba_dim_1(ba$22), 3);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 339, characters 5-12", Caml_bigarray.caml_ba_dim_2(ba$22), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 357, characters 5-12", Caml_bigarray.caml_ba_dim_2(ba$22), 4);
 
 const ba$23 = Caml_bigarray.caml_ba_create(8, 0, [
   2,
@@ -400,9 +426,9 @@ const ba$23 = Caml_bigarray.caml_ba_create(8, 0, [
 
 Caml_bigarray.caml_ba_set_3(ba$23, 1, 2, 3, 99);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 346, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$23, 1, 2, 3), 99);
+eq("File \"jscomp/test/bigarray_test.ml\", line 364, characters 5-12", Caml_bigarray.caml_ba_get_3(ba$23, 1, 2, 3), 99);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 347, characters 5-12", Caml_bigarray.caml_ba_dim_3(ba$23), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 365, characters 5-12", Caml_bigarray.caml_ba_dim_3(ba$23), 4);
 
 const ba$24 = Caml_bigarray.caml_ba_create(1, 1, [5]);
 
@@ -410,15 +436,15 @@ Caml_bigarray.caml_ba_set_1(ba$24, 1, 100.0);
 
 Caml_bigarray.caml_ba_set_1(ba$24, 5, 500.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 355, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 1), 100.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 373, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 1), 100.0);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 356, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 5), 500.0);
+eq("File \"jscomp/test/bigarray_test.ml\", line 374, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$24, 5), 500.0);
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 358, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 376, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba$24, 0);
 }));
 
-$$throw("File \"jscomp/test/bigarray_test.ml\", line 359, characters 8-15", (function (param) {
+$$throw("File \"jscomp/test/bigarray_test.ml\", line 377, characters 8-15", (function (param) {
   Caml_bigarray.caml_ba_get_1(ba$24, 6);
 }));
 
@@ -426,30 +452,66 @@ const ba$25 = Caml_bigarray.caml_ba_create(3, 0, [10]);
 
 Caml_bigstring.caml_bigstring_set16(ba$25, 0, 258);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 378, characters 5-12", Caml_bigstring.caml_bigstring_get16(ba$25, 0), 258);
+eq("File \"jscomp/test/bigarray_test.ml\", line 398, characters 5-12", Caml_bigstring.caml_bigstring_get16(ba$25, 0), 258);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 380, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 0), 2);
+eq("File \"jscomp/test/bigarray_test.ml\", line 400, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 0), 2);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 381, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 1), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 401, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$25, 1), 1);
 
 const ba$26 = Caml_bigarray.caml_ba_create(3, 0, [10]);
 
 Caml_bigstring.caml_bigstring_set32(ba$26, 0, 67305985);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 388, characters 5-12", Caml_bigstring.caml_bigstring_get32(ba$26, 0), 67305985);
+eq("File \"jscomp/test/bigarray_test.ml\", line 408, characters 5-12", Caml_bigstring.caml_bigstring_get32(ba$26, 0), 67305985);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 390, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 0), 1);
+eq("File \"jscomp/test/bigarray_test.ml\", line 410, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 0), 1);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 391, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 1), 2);
+eq("File \"jscomp/test/bigarray_test.ml\", line 411, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 1), 2);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 392, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 2), 3);
+eq("File \"jscomp/test/bigarray_test.ml\", line 412, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 2), 3);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 393, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 3), 4);
+eq("File \"jscomp/test/bigarray_test.ml\", line 413, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$26, 3), 4);
 
-const ba$27 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+const ba$27 = Caml_bigarray.caml_ba_create(3, 0, [16]);
+
+Caml_bigstring.caml_bigstring_set64(ba$27, 0, [
+  16909060,
+  84281096
+]);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 420, characters 5-12", Caml_bigstring.caml_bigstring_get64(ba$27, 0), [
+  16909060,
+  84281096
+]);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 421, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 0), 8);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 422, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 1), 7);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 423, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 2), 6);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 424, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 3), 5);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 425, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 4), 4);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 426, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 5), 3);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 427, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 6), 2);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 428, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$27, 7), 1);
+
+Caml_bigstring.caml_bigstring_set64(ba$27, 8, Caml_int64.neg_one);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 430, characters 5-12", Caml_bigstring.caml_bigstring_get64(ba$27, 8), Caml_int64.neg_one);
+
+ok("File \"jscomp/test/bigarray_test.ml\", line 431, characters 5-12", raises_invalid_argument(function (param) {
+  Caml_bigstring.caml_bigstring_get64(ba$27, 9);
+}));
+
+const ba$28 = Caml_bigarray.caml_ba_create(3, 0, [5]);
 
 for (let i$3 = 0; i$3 <= 4; ++i$3) {
-  Caml_bigarray.caml_ba_set_1(ba$27, i$3, i$3 + 65 | 0);
+  Caml_bigarray.caml_ba_set_1(ba$28, i$3, i$3 + 65 | 0);
 }
 
 const buf = [
@@ -460,21 +522,21 @@ const buf = [
   0
 ];
 
-Caml_bigstring.caml_bigstring_blit_ba_to_bytes(ba$27, 0, buf, 0, 5);
+Caml_bigstring.caml_bigstring_blit_ba_to_bytes(ba$28, 0, buf, 0, 5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 402, characters 5-12", Caml_bytes.get(buf, 0), /* 'A' */65);
+eq("File \"jscomp/test/bigarray_test.ml\", line 441, characters 5-12", Caml_bytes.get(buf, 0), /* 'A' */65);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 403, characters 5-12", Caml_bytes.get(buf, 4), /* 'E' */69);
+eq("File \"jscomp/test/bigarray_test.ml\", line 442, characters 5-12", Caml_bytes.get(buf, 4), /* 'E' */69);
 
-const ba$28 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+const ba$29 = Caml_bigarray.caml_ba_create(3, 0, [5]);
 
 const buf$1 = Stdlib__Bytes.of_string("Hello");
 
-Caml_bigstring.caml_bigstring_blit_bytes_to_ba(buf$1, 0, ba$28, 0, 5);
+Caml_bigstring.caml_bigstring_blit_bytes_to_ba(buf$1, 0, ba$29, 0, 5);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 411, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$28, 0), /* 'H' */72);
+eq("File \"jscomp/test/bigarray_test.ml\", line 450, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$29, 0), /* 'H' */72);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 412, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$28, 4), /* 'o' */111);
+eq("File \"jscomp/test/bigarray_test.ml\", line 451, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$29, 4), /* 'o' */111);
 
 const src$1 = Caml_bigarray.caml_ba_create(3, 0, [5]);
 
@@ -486,11 +548,33 @@ for (let i$4 = 0; i$4 <= 4; ++i$4) {
 
 Caml_bigstring.caml_bigstring_blit_ba_to_ba(src$1, 1, dst$1, 0, 3);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 421, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 0), 10);
+eq("File \"jscomp/test/bigarray_test.ml\", line 460, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 0), 10);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 422, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 1), 20);
+eq("File \"jscomp/test/bigarray_test.ml\", line 461, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 1), 20);
 
-eq("File \"jscomp/test/bigarray_test.ml\", line 423, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 2), 30);
+eq("File \"jscomp/test/bigarray_test.ml\", line 462, characters 5-12", Caml_bigarray.caml_ba_get_1(dst$1, 2), 30);
+
+const ba$30 = Caml_bigarray.caml_ba_create(3, 0, [5]);
+
+for (let i$5 = 0; i$5 <= 4; ++i$5) {
+  Caml_bigarray.caml_ba_set_1(ba$30, i$5, i$5 + 1 | 0);
+}
+
+const src$2 = Caml_bigarray.caml_ba_sub(ba$30, 0, 4);
+
+const dst$2 = Caml_bigarray.caml_ba_sub(ba$30, 1, 4);
+
+Caml_bigstring.caml_bigstring_blit_ba_to_ba(src$2, 0, dst$2, 0, 4);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 472, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$30, 0), 1);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 473, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$30, 1), 1);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 474, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$30, 2), 2);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 475, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$30, 3), 3);
+
+eq("File \"jscomp/test/bigarray_test.ml\", line 476, characters 5-12", Caml_bigarray.caml_ba_get_1(ba$30, 4), 4);
 
 Mt.from_pair_suites("Bigarray_test", suites.contents);
 
@@ -508,13 +592,15 @@ const int16_unsigned_kind = 5;
 
 const int32_kind = 6;
 
-const _int64_kind = 7;
+const int64_kind = 7;
 
 const int_kind = 8;
 
 const _nativeint_kind = 9;
 
 const char_kind = 12;
+
+const float16_kind = 13;
 
 const c_layout = 0;
 
@@ -528,16 +614,19 @@ module.exports = {
   int16_signed_kind,
   int16_unsigned_kind,
   int32_kind,
-  _int64_kind,
+  int64_kind,
   int_kind,
   _nativeint_kind,
   char_kind,
+  float16_kind,
   c_layout,
   fortran_layout,
+  data_byte_length,
   suites,
   test_id,
   eq,
   ok,
   $$throw,
+  raises_invalid_argument,
 }
 /* ba Not a pure module */

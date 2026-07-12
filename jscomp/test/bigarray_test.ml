@@ -11,10 +11,11 @@ let int8_unsigned_kind = 3
 let int16_signed_kind = 4
 let int16_unsigned_kind = 5
 let int32_kind = 6
-let _int64_kind = 7
+let int64_kind = 7
 let int_kind = 8
 let _nativeint_kind = 9
 let char_kind = 12
+let float16_kind = 13
 
 (* Layout constants *)
 let c_layout = 0
@@ -42,11 +43,20 @@ external caml_ba_slice : 'a -> int array -> 'a = "caml_ba_slice"
 external caml_ba_reshape : 'a -> int array -> 'a = "caml_ba_reshape"
 external caml_ba_change_layout : 'a -> int -> 'a = "caml_ba_change_layout"
 
+let data_byte_length : 'a -> int =
+  [%raw {|function(ba) { return ba.data.byteLength; }|}]
+
 let suites : Mt.pair_suites ref = ref []
 let test_id = ref 0
 let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 let ok loc x = Mt.bool_suites ~test_id ~suites loc x
 let throw loc x = Mt.throw_suites ~test_id ~suites loc x
+
+let raises_invalid_argument f =
+  try
+    f ();
+    false
+  with Invalid_argument _ -> true | _ -> false
 
 (* === 1D Float64 C layout === *)
 let () =
@@ -97,6 +107,14 @@ let () =
   eq __LOC__ (caml_ba_get_1 ba 0) 1.0;
   eq __LOC__ (caml_ba_get_1 ba 1) 2.0;
   eq __LOC__ (caml_ba_get_1 ba 2) 3.0;
+  ()
+
+(* === Float16 and Int64 backing-store widths === *)
+let () =
+  let float16 = caml_ba_create float16_kind c_layout [| 3 |] in
+  let int64 = caml_ba_create int64_kind c_layout [| 3 |] in
+  eq __LOC__ (data_byte_length float16) 6;
+  eq __LOC__ (data_byte_length int64) 24;
   ()
 
 (* === 1D Int8 signed === *)
@@ -364,6 +382,8 @@ external bigstring_get16 : 'a -> int -> int = "caml_bigstring_get16"
 external bigstring_set16 : 'a -> int -> int -> unit = "caml_bigstring_set16"
 external bigstring_get32 : 'a -> int -> int32 = "caml_bigstring_get32"
 external bigstring_set32 : 'a -> int -> int32 -> unit = "caml_bigstring_set32"
+external bigstring_get64 : 'a -> int -> int64 = "caml_bigstring_get64"
+external bigstring_set64 : 'a -> int -> int64 -> unit = "caml_bigstring_set64"
 external bigstring_blit_ba_to_bytes : 'a -> int -> bytes -> int -> int -> unit
   = "caml_bigstring_blit_ba_to_bytes"
 external bigstring_blit_bytes_to_ba : bytes -> int -> 'a -> int -> int -> unit
@@ -391,6 +411,25 @@ let () =
   eq __LOC__ (caml_ba_get_1 ba 1) 0x02;
   eq __LOC__ (caml_ba_get_1 ba 2) 0x03;
   eq __LOC__ (caml_ba_get_1 ba 3) 0x04;
+  ()
+
+(* Test 64-bit load/set uses little-endian bytes and Melange int64 word order *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 16 |] in
+  bigstring_set64 ba 0 0x0102030405060708L;
+  eq __LOC__ (bigstring_get64 ba 0) 0x0102030405060708L;
+  eq __LOC__ (caml_ba_get_1 ba 0) 0x08;
+  eq __LOC__ (caml_ba_get_1 ba 1) 0x07;
+  eq __LOC__ (caml_ba_get_1 ba 2) 0x06;
+  eq __LOC__ (caml_ba_get_1 ba 3) 0x05;
+  eq __LOC__ (caml_ba_get_1 ba 4) 0x04;
+  eq __LOC__ (caml_ba_get_1 ba 5) 0x03;
+  eq __LOC__ (caml_ba_get_1 ba 6) 0x02;
+  eq __LOC__ (caml_ba_get_1 ba 7) 0x01;
+  bigstring_set64 ba 8 (-1L);
+  eq __LOC__ (bigstring_get64 ba 8) (-1L);
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (bigstring_get64 ba 9)));
   ()
 
 (* Test blit ba -> bytes *)
@@ -421,6 +460,20 @@ let () =
   eq __LOC__ (caml_ba_get_1 dst 0) 10;
   eq __LOC__ (caml_ba_get_1 dst 1) 20;
   eq __LOC__ (caml_ba_get_1 dst 2) 30;
+  ()
+
+(* Test overlapping blit through distinct subarray views behaves like memmove *)
+let () =
+  let ba = caml_ba_create int8_unsigned_kind c_layout [| 5 |] in
+  for i = 0 to 4 do caml_ba_set_1 ba i (i + 1) done;
+  let src = caml_ba_sub ba 0 4 in
+  let dst = caml_ba_sub ba 1 4 in
+  bigstring_blit_ba_to_ba src 0 dst 0 4;
+  eq __LOC__ (caml_ba_get_1 ba 0) 1;
+  eq __LOC__ (caml_ba_get_1 ba 1) 1;
+  eq __LOC__ (caml_ba_get_1 ba 2) 2;
+  eq __LOC__ (caml_ba_get_1 ba 3) 3;
+  eq __LOC__ (caml_ba_get_1 ba 4) 4;
   ()
 
 let () = Mt.from_pair_suites __MODULE__ !suites

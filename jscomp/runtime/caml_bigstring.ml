@@ -27,123 +27,153 @@
    The bigarray representation is { kind, layout, dims, data: Uint8Array }.
    All operations are little-endian (matching OCaml's convention on x86). *)
 
+let%private raise_invalid_argument message = raise (Invalid_argument message)
+
 (* 16-bit load/set *)
-let caml_bigstring_get16 : 'a -> int -> int =
-  [%raw {|function(ba, i) {
+let%private caml_bigstring_get16_raw : 'a -> int -> (string -> 'b) -> int =
+  [%raw
+    {|function(ba, i, invalid) {
     if (i < 0 || i + 1 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     return dv.getInt16(i, true);
   }|}]
+
+let caml_bigstring_get16 ba i =
+  caml_bigstring_get16_raw ba i raise_invalid_argument
 
 let caml_bigstring_get16u : 'a -> int -> int =
-  [%raw {|function(ba, i) {
+  [%raw
+    {|function(ba, i) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     return dv.getInt16(i, true);
   }|}]
 
-let caml_bigstring_set16 : 'a -> int -> int -> unit =
-  [%raw {|function(ba, i, v) {
+let%private caml_bigstring_set16_raw :
+    'a -> int -> int -> (string -> 'b) -> unit =
+  [%raw
+    {|function(ba, i, v, invalid) {
     if (i < 0 || i + 1 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     dv.setInt16(i, v, true);
   }|}]
 
+let caml_bigstring_set16 ba i v =
+  caml_bigstring_set16_raw ba i v raise_invalid_argument
+
 let caml_bigstring_set16u : 'a -> int -> int -> unit =
-  [%raw {|function(ba, i, v) {
+  [%raw
+    {|function(ba, i, v) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     dv.setInt16(i, v, true);
   }|}]
 
 (* 32-bit load/set *)
-let caml_bigstring_get32 : 'a -> int -> int32 =
-  [%raw {|function(ba, i) {
+let%private caml_bigstring_get32_raw : 'a -> int -> (string -> 'b) -> int32 =
+  [%raw
+    {|function(ba, i, invalid) {
     if (i < 0 || i + 3 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     return dv.getInt32(i, true);
   }|}]
+
+let caml_bigstring_get32 ba i =
+  caml_bigstring_get32_raw ba i raise_invalid_argument
 
 let caml_bigstring_get32u : 'a -> int -> int32 =
-  [%raw {|function(ba, i) {
+  [%raw
+    {|function(ba, i) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     return dv.getInt32(i, true);
   }|}]
 
-let caml_bigstring_set32 : 'a -> int -> int32 -> unit =
-  [%raw {|function(ba, i, v) {
+let%private caml_bigstring_set32_raw :
+    'a -> int -> int32 -> (string -> 'b) -> unit =
+  [%raw
+    {|function(ba, i, v, invalid) {
     if (i < 0 || i + 3 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     dv.setInt32(i, v, true);
   }|}]
+
+let caml_bigstring_set32 ba i v =
+  caml_bigstring_set32_raw ba i v raise_invalid_argument
 
 let caml_bigstring_set32u : 'a -> int -> int32 -> unit =
-  [%raw {|function(ba, i, v) {
+  [%raw
+    {|function(ba, i, v) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
     dv.setInt32(i, v, true);
   }|}]
 
-(* 64-bit load/set — returns/takes Melange int64 = [lo, hi] *)
-let caml_bigstring_get64 : 'a -> int -> 'b =
-  [%raw {|function(ba, i) {
+(* 64-bit load/set -- returns/takes Melange int64 = [signed high, unsigned low] *)
+let%private caml_bigstring_get64_raw : 'a -> int -> (string -> 'b) -> 'c =
+  [%raw
+    {|function(ba, i, invalid) {
     if (i < 0 || i + 7 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    var lo = dv.getInt32(i, true);
+    var lo = dv.getUint32(i, true);
     var hi = dv.getInt32(i + 4, true);
-    return [lo, hi];
+    return [hi, lo];
   }|}]
+
+let caml_bigstring_get64 ba i =
+  caml_bigstring_get64_raw ba i raise_invalid_argument
 
 let caml_bigstring_get64u : 'a -> int -> 'b =
-  [%raw {|function(ba, i) {
+  [%raw
+    {|function(ba, i) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    var lo = dv.getInt32(i, true);
+    var lo = dv.getUint32(i, true);
     var hi = dv.getInt32(i + 4, true);
-    return [lo, hi];
+    return [hi, lo];
   }|}]
 
-let caml_bigstring_set64 : 'a -> int -> 'b -> unit =
-  [%raw {|function(ba, i, v) {
+let%private caml_bigstring_set64_raw : 'a -> int -> 'b -> (string -> 'c) -> unit
+    =
+  [%raw
+    {|function(ba, i, v, invalid) {
     if (i < 0 || i + 7 >= ba.dims[0])
-      throw [0, -3, "index out of bounds"];
+      return invalid("index out of bounds");
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    dv.setInt32(i, v[0], true);
-    dv.setInt32(i + 4, v[1], true);
+    dv.setUint32(i, v[1], true);
+    dv.setInt32(i + 4, v[0], true);
   }|}]
+
+let caml_bigstring_set64 ba i v =
+  caml_bigstring_set64_raw ba i v raise_invalid_argument
 
 let caml_bigstring_set64u : 'a -> int -> 'b -> unit =
-  [%raw {|function(ba, i, v) {
+  [%raw
+    {|function(ba, i, v) {
     var dv = new DataView(ba.data.buffer, ba.data.byteOffset, ba.data.byteLength);
-    dv.setInt32(i, v[0], true);
-    dv.setInt32(i + 4, v[1], true);
+    dv.setUint32(i, v[1], true);
+    dv.setInt32(i + 4, v[0], true);
   }|}]
 
 (* Blit operations *)
 let caml_bigstring_blit_ba_to_bytes : 'a -> int -> bytes -> int -> int -> unit =
-  [%raw {|function(ba, ba_off, bytes, bytes_off, len) {
+  [%raw
+    {|function(ba, ba_off, bytes, bytes_off, len) {
     for (var i = 0; i < len; i++) {
       bytes[bytes_off + i] = ba.data[ba_off + i];
     }
   }|}]
 
 let caml_bigstring_blit_bytes_to_ba : bytes -> int -> 'a -> int -> int -> unit =
-  [%raw {|function(bytes, bytes_off, ba, ba_off, len) {
+  [%raw
+    {|function(bytes, bytes_off, ba, ba_off, len) {
     for (var i = 0; i < len; i++) {
       ba.data[ba_off + i] = bytes[bytes_off + i];
     }
   }|}]
 
 let caml_bigstring_blit_ba_to_ba : 'a -> int -> 'a -> int -> int -> unit =
-  [%raw {|function(src, src_off, dst, dst_off, len) {
-    if (src.data === dst.data && dst_off > src_off) {
-      for (var i = len - 1; i >= 0; i--) {
-        dst.data[dst_off + i] = src.data[src_off + i];
-      }
-    } else {
-      for (var i = 0; i < len; i++) {
-        dst.data[dst_off + i] = src.data[src_off + i];
-      }
-    }
+  [%raw
+    {|function(src, src_off, dst, dst_off, len) {
+    dst.data.set(src.data.subarray(src_off, src_off + len), dst_off);
   }|}]

@@ -7,6 +7,12 @@ let test_id = ref 0
 let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 let ok loc x = Mt.bool_suites ~test_id ~suites loc x
 
+let raises_invalid_argument f =
+  try
+    f ();
+    false
+  with Invalid_argument _ -> true | _ -> false
+
 (* Test Array1 create/get/set via stdlib module *)
 let () =
   let open Bigarray in
@@ -26,6 +32,39 @@ let () =
   eq __LOC__ (Array1.get a 0) 42l;
   eq __LOC__ (Array1.get a 1) 100l;
   eq __LOC__ (Array1.get a 2) (-1l)
+
+(* Test Array1 with int64 kind, including an unsigned low word *)
+let () =
+  let open Bigarray in
+  let a = Array1.create int64 c_layout 2 in
+  Array1.set a 0 0x0000000180000000L;
+  Array1.set a 1 (-1L);
+  eq __LOC__ (Array1.get a 0) 0x0000000180000000L;
+  eq __LOC__ (Array1.get a 1) (-1L)
+
+(* Test complex values use the Complex.t record representation *)
+let () =
+  let open Bigarray in
+  let a32 = Array1.create complex32 c_layout 2 in
+  let value32 = Complex.{ re = 1.25; im = -2.5 } in
+  Array1.set a32 0 value32;
+  Array1.fill a32 value32;
+  let actual32 = Array1.get a32 1 in
+  eq __LOC__ actual32.re value32.re;
+  eq __LOC__ actual32.im value32.im;
+  let a64 = Array1.create complex64 c_layout 1 in
+  let value64 = Complex.{ re = 1.0 /. 3.0; im = -1.0 /. 7.0 } in
+  Array1.set a64 0 value64;
+  let actual64 = Array1.get a64 0 in
+  eq __LOC__ actual64.re value64.re;
+  eq __LOC__ actual64.im value64.im
+
+(* Test float16 storage rounds to IEEE binary16 precision *)
+let () =
+  let open Bigarray in
+  let a = Array1.create float16 c_layout 1 in
+  Array1.set a 0 1.0001;
+  eq __LOC__ (Array1.get a 0) 1.0
 
 (* Test Array1 with char kind *)
 let () =
@@ -129,6 +168,13 @@ let () =
   eq __LOC__ (Array1.get dst 0) 0.0;
   eq __LOC__ (Array1.get dst 4) 4.0
 
+(* Test blit validates the full shape, not only the element count *)
+let () =
+  let open Bigarray in
+  let src = Array2.create float64 c_layout 2 3 in
+  let dst = Array2.create float64 c_layout 3 2 in
+  ok __LOC__ (raises_invalid_argument (fun () -> Array2.blit src dst))
+
 (* Test sub *)
 let () =
   let open Bigarray in
@@ -149,6 +195,13 @@ let () =
   let b1 = array1_of_genarray b in
   eq __LOC__ (Array1.get b1 1) 0.0;
   eq __LOC__ (Array1.get b1 5) 4.0
+
+(* Changing to the current layout preserves dimension order *)
+let () =
+  let open Bigarray in
+  let a = Genarray.create float64 c_layout [| 2; 3 |] in
+  let unchanged = Genarray.change_layout a c_layout in
+  eq __LOC__ (Genarray.dims unchanged) [| 2; 3 |]
 
 (* Test reshape *)
 let () =
@@ -179,6 +232,8 @@ let () =
   eq __LOC__ (kind_size_in_bytes int16_signed) 2;
   eq __LOC__ (kind_size_in_bytes int16_unsigned) 2;
   eq __LOC__ (kind_size_in_bytes int32) 4;
+  eq __LOC__ (kind_size_in_bytes int64) 8;
+  eq __LOC__ (kind_size_in_bytes float16) 2;
   eq __LOC__ (kind_size_in_bytes char) 1
 
 (* Test Genarray.dims *)
@@ -217,5 +272,20 @@ let () =
   eq __LOC__ (Array1.size_in_bytes a) 80;
   let b = Array2.create int32 c_layout 3 4 in
   eq __LOC__ (Array2.size_in_bytes b) 48
+
+(* Runtime validation raises catchable OCaml Invalid_argument exceptions *)
+let () =
+  let open Bigarray in
+  let a = Array1.create float64 c_layout 1 in
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (Array1.get a 1)));
+  let ga = Genarray.create float64 c_layout [| 2; 3 |] in
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (Genarray.get ga [| 0 |])));
+  ok __LOC__
+    (raises_invalid_argument (fun () ->
+         ignore (Genarray.create float64 c_layout [| -1 |])));
+  ok __LOC__
+    (raises_invalid_argument (fun () -> ignore (reshape ga [| 5 |])))
 
 let () = Mt.from_pair_suites __MODULE__ !suites
