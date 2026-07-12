@@ -38,8 +38,8 @@
   dune-build-info
   (cppo :build)
   (alcotest :with-test)
-  (reason (and :dev :with-test))
-  (ppxlib :dev)
+  (reason :with-test)
+  (ppxlib (>= "0.36"))
   (menhir
    (>= 20201214))
   (reason-react-ppx
