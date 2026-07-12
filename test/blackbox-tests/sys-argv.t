@@ -2,7 +2,7 @@ Test case for Sys.argv
 
   $ . ./setup.sh
 
-  $ export BUILD_PATH_PREFIX_MAP="/NODE_BIN_PATH=$(command -v node):$BUILD_PATH_PREFIX_MAP"
+  $ export BUILD_PATH_PREFIX_MAP="/NODE_BIN_PATH=$(realpath $(command -v node)):$BUILD_PATH_PREFIX_MAP"
 
   $ cat > dune-project <<EOF
   > (lang dune 3.8)

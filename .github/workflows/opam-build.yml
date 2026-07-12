@@ -48,6 +48,7 @@ jobs:
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          cache-prefix: v3-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}
 
       - name: Restore OPAM cache
         id: opam-cache
@@ -56,20 +57,30 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
           restore-keys: |
-            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-
 
       - name: Install dependencies
         working-directory: melange
         run: |
           rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
+          dune_commit=eac1b1290fd59d2f68734e3c5166ef8116432188
+          rm -rf /tmp/dune-pin
+          git init -q /tmp/dune-pin
+          git -C /tmp/dune-pin remote add origin https://github.com/ocaml/dune.git
+          git -C /tmp/dune-pin fetch --depth 1 --filter=blob:none origin "$dune_commit"
+          git -C /tmp/dune-pin checkout --detach --quiet FETCH_HEAD
+          cp /tmp/dune-pin/opam/dune.opam /tmp/dune-pin/dune.opam
+          cp /tmp/dune-pin/opam/dune-build-info.opam /tmp/dune-pin/dune-build-info.opam
+          opam pin add dune.3.24.1 /tmp/dune-pin -y --no-action
+          opam pin add dune-build-info.3.24.1 /tmp/dune-pin -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template
         run: |
-          git clone https://github.com/melange-re/melange-opam-template.git
+          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git
           cd melange-opam-template
 
       - name: Install all deps
@@ -97,4 +108,4 @@ jobs:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
