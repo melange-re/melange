@@ -4,14 +4,14 @@ module rec
              {
              leading: 'M Comment.t list ;
              trailing: 'M Comment.t list ;
-             internal: 'internal }[@@deriving show]
+             internal: 'internal }
          end =
   struct
     type ('M, 'internal) t =
       {
       leading: 'M Comment.t list ;
       trailing: 'M Comment.t list ;
-      internal: 'internal }[@@deriving show]
+      internal: 'internal }
   end
  and
   Identifier:sig
@@ -19,42 +19,40 @@ module rec
                and 'M t' =
                  {
                  name: string ;
-                 comments: ('M, unit) Syntax.t option }[@@deriving show]
+                 comments: ('M, unit) Syntax.t option }
              end =
   struct
     type ('M, 'T) t = ('T * 'M t')
     and 'M t' = {
       name: string ;
-      comments: ('M, unit) Syntax.t option }[@@deriving show]
+      comments: ('M, unit) Syntax.t option }
   end and
        PrivateName:sig
                      type 'M t = ('M * 'M t')
                      and 'M t' =
                        {
                        name: string ;
-                       comments: ('M, unit) Syntax.t option }[@@deriving
-                                                               show]
+                       comments: ('M, unit) Syntax.t option }
                    end =
        struct
          type 'M t = ('M * 'M t')
          and 'M t' = {
            name: string ;
-           comments: ('M, unit) Syntax.t option }[@@deriving show]
+           comments: ('M, unit) Syntax.t option }
        end and
             StringLiteral:sig
                             type 'M t =
                               {
                               value: string ;
                               raw: string ;
-                              comments: ('M, unit) Syntax.t option }[@@deriving
-                                                                    show]
+                              comments: ('M, unit) Syntax.t option }
                           end =
             struct
               type 'M t =
                 {
                 value: string ;
                 raw: string ;
-                comments: ('M, unit) Syntax.t option }[@@deriving show]
+                comments: ('M, unit) Syntax.t option }
             end and
                  NumberLiteral:sig
                                  type 'M t =
@@ -62,14 +60,13 @@ module rec
                                    value: float ;
                                    raw: string ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end =
                  struct
                    type 'M t =
                      {
                      value: float ;
                      raw: string ;
-                     comments: ('M, unit) Syntax.t option }[@@deriving show]
+                     comments: ('M, unit) Syntax.t option }
                  end and
                       BigIntLiteral:sig
                                       type 'M t =
@@ -77,15 +74,13 @@ module rec
                                         value: int64 option ;
                                         raw: string ;
                                         comments: ('M, unit) Syntax.t option }
-                                      [@@deriving show]
                                     end =
                       struct
                         type 'M t =
                           {
                           value: int64 option ;
                           raw: string ;
-                          comments: ('M, unit) Syntax.t option }[@@deriving
-                                                                  show]
+                          comments: ('M, unit) Syntax.t option }
                       end and
                            BooleanLiteral:sig
                                             type 'M t =
@@ -93,14 +88,12 @@ module rec
                                               value: bool ;
                                               comments:
                                                 ('M, unit) Syntax.t option }
-                                            [@@deriving show]
                                           end =
                            struct
                              type 'M t =
                                {
                                value: bool ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end and
                                 RegExpLiteral:sig
                                                 type 'M t =
@@ -111,7 +104,7 @@ module rec
                                                   comments:
                                                     ('M, unit) Syntax.t
                                                       option
-                                                    }[@@deriving show]
+                                                    }
                                               end =
                                 struct
                                   type 'M t =
@@ -120,7 +113,6 @@ module rec
                                     flags: string ;
                                     raw: string ;
                                     comments: ('M, unit) Syntax.t option }
-                                  [@@deriving show]
                                 end and
                                      ModuleRefLiteral:sig
                                                         type ('M, 'T) t =
@@ -134,8 +126,7 @@ module rec
                                                           comments:
                                                             ('M, unit)
                                                               Syntax.t option
-                                                            }[@@deriving
-                                                               show]
+                                                            }
                                                       end =
                                      struct
                                        type ('M, 'T) t =
@@ -146,7 +137,6 @@ module rec
                                          prefix_len: int ;
                                          raw: string ;
                                          comments: ('M, unit) Syntax.t option }
-                                       [@@deriving show]
                                      end and
                                           Variance:sig
                                                      type 'M t = ('M * 'M t')
@@ -164,7 +154,7 @@ module rec
                                                        comments:
                                                          ('M, unit) Syntax.t
                                                            option
-                                                         }[@@deriving show]
+                                                         }
                                                    end =
                                           struct
                                             type 'M t = ('M * 'M t')
@@ -181,7 +171,6 @@ module rec
                                               kind: kind ;
                                               comments:
                                                 ('M, unit) Syntax.t option }
-                                            [@@deriving show]
                                           end and
                                                ComputedKey:sig
                                                              type ('M,
@@ -203,8 +192,7 @@ module rec
                                                                    unit)
                                                                    Syntax.t
                                                                    option
-                                                                 }[@@deriving
-                                                                    show]
+                                                                 }
                                                            end =
                                                struct
                                                  type ('M, 'T) t =
@@ -217,22 +205,19 @@ module rec
                                                    comments:
                                                      ('M, unit) Syntax.t
                                                        option
-                                                     }[@@deriving show]
+                                                     }
                                                end and
                                                     Variable:sig
                                                                type kind =
                                                                  | Var 
                                                                  | Let 
-                                                                 | Const 
-                                                               [@@deriving
-                                                                 show]
+                                                                 | Const
                                                              end =
                                                     struct
                                                       type kind =
                                                         | Var 
                                                         | Let 
-                                                        | Const [@@deriving
-                                                                  show]
+                                                        | Const
                                                     end and
                                                          Type:sig
                                                                 module
@@ -263,8 +248,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Infer
                                                                 :
@@ -283,8 +266,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Function :
@@ -326,9 +307,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                   end
                                                                   module
                                                                   RestParam :
@@ -352,8 +331,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   ThisParam :
@@ -378,8 +355,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Params :
@@ -416,8 +391,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -462,8 +435,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Type.TypeGuard.t
-                                                                    [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Component :
@@ -493,8 +464,6 @@ module rec
                                                                     ;
                                                                     optional:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   RestParam :
@@ -525,8 +494,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Params :
@@ -558,8 +525,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -584,8 +549,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Generic :
@@ -654,8 +617,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -676,8 +637,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 IndexedAccess
@@ -700,8 +659,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 OptionalIndexedAccess
@@ -718,8 +675,6 @@ module rec
                                                                     ;
                                                                     optional:
                                                                     bool }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Object
                                                                 :
@@ -794,8 +749,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     Function.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   SpreadProperty
@@ -820,8 +773,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Indexer :
@@ -862,8 +813,6 @@ module rec
                                                                     ('M *
                                                                     ('M, 
                                                                     'T) t')
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   MappedType
@@ -881,13 +830,9 @@ module rec
                                                                     
                                                                     |
                                                                     NoOptionalFlag
-                                                                    [@@deriving
-                                                                    show]
                                                                     type variance_op =
                                                                     | Add 
-                                                                    | Remove 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    | Remove
                                                                     type (
                                                                     'M,
                                                                     'T) t' =
@@ -931,8 +876,6 @@ module rec
                                                                     ('M *
                                                                     ('M, 
                                                                     'T) t')
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   CallProperty
@@ -961,8 +904,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   InternalSlot
@@ -998,8 +939,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   PrivateField
@@ -1024,8 +963,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -1097,8 +1034,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     PrivateField.t
-                                                                    [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Interface :
@@ -1123,8 +1058,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Nullable :
@@ -1142,8 +1075,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Typeof
                                                                 :
@@ -1193,8 +1124,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     qualified')
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -1214,8 +1143,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Keyof
                                                                 :
@@ -1233,8 +1160,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Renders :
@@ -1243,9 +1168,7 @@ module rec
                                                                     | Normal
                                                                     
                                                                     | Maybe 
-                                                                    | Star 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    | Star
                                                                   type (
                                                                     'M,
                                                                     'T) t =
@@ -1263,8 +1186,6 @@ module rec
                                                                     option ;
                                                                     variant:
                                                                     variant }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ReadOnly :
@@ -1282,8 +1203,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ConstructorType
@@ -1300,8 +1219,6 @@ module rec
                                                                     'T)
                                                                     Function.t
                                                                     }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Tuple
                                                                 :
@@ -1329,8 +1246,6 @@ module rec
                                                                     option ;
                                                                     optional:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   UnlabeledElement
@@ -1346,8 +1261,6 @@ module rec
                                                                     Type.t ;
                                                                     optional:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   SpreadElement
@@ -1366,8 +1279,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     Type.t }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -1376,8 +1287,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     element')
-                                                                  [@@deriving
-                                                                    show]
                                                                   and (
                                                                     'M,
                                                                     'T) element' =
@@ -1401,8 +1310,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     SpreadElement.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   and (
                                                                     'M,
                                                                     'T) t =
@@ -1419,8 +1326,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Array
                                                                 :
@@ -1438,8 +1343,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Union
                                                                 :
@@ -1464,8 +1367,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Intersection
@@ -1491,8 +1392,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 TemplateLiteral
@@ -1516,8 +1415,6 @@ module rec
                                                                     value ;
                                                                     tail:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -1537,8 +1434,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 type (
                                                                   'M, 
@@ -1789,8 +1684,6 @@ module rec
                                                                   'M, 
                                                                   'T)
                                                                   Type.annotation
-                                                                  [@@deriving
-                                                                    show]
                                                                 and (
                                                                   'M,
                                                                   'T) component_renders_annotation =
@@ -1803,16 +1696,12 @@ module rec
                                                                   ('M, 
                                                                   'T)
                                                                   Type.Renders.t
-                                                                  [@@deriving
-                                                                    show]
                                                                 module
                                                                 TypeParam :
                                                                 sig
                                                                   type bound_kind =
                                                                     | Colon 
-                                                                    | Extends 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    | Extends
                                                                   module
                                                                   ConstModifier
                                                                   :
@@ -1824,8 +1713,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option)
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -1863,8 +1750,6 @@ module rec
                                                                     'M
                                                                     ConstModifier.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 TypeParams :
@@ -1891,8 +1776,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 TypeArgs :
@@ -1919,8 +1802,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Predicate :
@@ -1954,9 +1835,7 @@ module rec
                                                                     Expression.t
                                                                     
                                                                     |
-                                                                    Inferred 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    Inferred
                                                                 end
                                                                 module
                                                                 TypeGuard :
@@ -1995,8 +1874,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                               end =
                                                          struct
@@ -2031,8 +1908,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Infer =
                                                              struct
@@ -2050,8 +1926,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Function =
                                                              struct
@@ -2091,9 +1966,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                   [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                  end
                                                                module RestParam =
                                                                  struct
@@ -2116,8 +1989,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module ThisParam =
                                                                  struct
@@ -2141,8 +2012,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module Params =
                                                                  struct
@@ -2178,8 +2047,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -2223,8 +2090,6 @@ module rec
                                                                  'M, 
                                                                  'T)
                                                                  Type.TypeGuard.t
-                                                                 [@@deriving
-                                                                   show]
                                                              end
                                                            module Component =
                                                              struct
@@ -2252,8 +2117,6 @@ module rec
                                                                     ;
                                                                     optional:
                                                                     bool }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module RestParam =
                                                                  struct
@@ -2283,8 +2146,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module Params =
                                                                  struct
@@ -2315,8 +2176,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -2343,8 +2202,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Generic =
                                                              struct
@@ -2410,8 +2268,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -2433,8 +2289,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module IndexedAccess =
                                                              struct
@@ -2457,8 +2312,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module OptionalIndexedAccess =
                                                              struct
@@ -2473,8 +2327,6 @@ module rec
                                                                    ;
                                                                  optional:
                                                                    bool }
-                                                               [@@deriving
-                                                                 show]
                                                              end
                                                            module Object =
                                                              struct
@@ -2547,8 +2399,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     Function.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                  end
                                                                module SpreadProperty =
                                                                  struct
@@ -2571,8 +2421,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module Indexer =
                                                                  struct
@@ -2612,8 +2460,6 @@ module rec
                                                                     ('M *
                                                                     ('M, 
                                                                     'T) t')
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module MappedType =
                                                                  struct
@@ -2629,13 +2475,9 @@ module rec
                                                                     
                                                                     |
                                                                     NoOptionalFlag
-                                                                    [@@deriving
-                                                                    show]
                                                                    type variance_op =
                                                                     | Add 
-                                                                    | Remove 
-                                                                   [@@deriving
-                                                                    show]
+                                                                    | Remove
                                                                    type (
                                                                     'M,
                                                                     'T) t' =
@@ -2679,8 +2521,6 @@ module rec
                                                                     ('M *
                                                                     ('M, 
                                                                     'T) t')
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module CallProperty =
                                                                  struct
@@ -2707,8 +2547,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module InternalSlot =
                                                                  struct
@@ -2742,8 +2580,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module PrivateField =
                                                                  struct
@@ -2766,8 +2602,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -2834,8 +2668,6 @@ module rec
                                                                  'M, 
                                                                  'T)
                                                                  PrivateField.t
-                                                                 [@@deriving
-                                                                   show]
                                                              end
                                                            module Interface =
                                                              struct
@@ -2861,8 +2693,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Nullable =
                                                              struct
@@ -2880,8 +2711,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Typeof =
                                                              struct
@@ -2929,8 +2759,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     qualified')
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -2952,8 +2780,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Keyof =
                                                              struct
@@ -2971,17 +2798,14 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Renders =
                                                              struct
                                                                type variant =
                                                                  | Normal 
                                                                  | Maybe 
-                                                                 | Star 
-                                                               [@@deriving
-                                                                 show]
+                                                                 | Star
                                                                type (
                                                                  'M, 
                                                                  'T) t =
@@ -3001,8 +2825,6 @@ module rec
                                                                    ;
                                                                  variant:
                                                                    variant }
-                                                               [@@deriving
-                                                                 show]
                                                              end
                                                            module ReadOnly =
                                                              struct
@@ -3020,8 +2842,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module ConstructorType =
                                                              struct
@@ -3035,8 +2856,7 @@ module rec
                                                                    ('M, 
                                                                     'T)
                                                                     Function.t
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Tuple =
                                                              struct
@@ -3061,8 +2881,6 @@ module rec
                                                                     option ;
                                                                     optional:
                                                                     bool }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module UnlabeledElement =
                                                                  struct
@@ -3076,8 +2894,6 @@ module rec
                                                                     Type.t ;
                                                                     optional:
                                                                     bool }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                module SpreadElement =
                                                                  struct
@@ -3094,8 +2910,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     Type.t }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M,
@@ -3104,8 +2918,6 @@ module rec
                                                                    'M, 
                                                                    'T)
                                                                    element')
-                                                               [@@deriving
-                                                                 show]
                                                                and ('M,
                                                                  'T) element' =
                                                                  |
@@ -3128,8 +2940,6 @@ module rec
                                                                  'M, 
                                                                  'T)
                                                                  SpreadElement.t
-                                                                 [@@deriving
-                                                                   show]
                                                                and ('M,
                                                                  'T) t =
                                                                  {
@@ -3146,8 +2956,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Array =
                                                              struct
@@ -3165,8 +2974,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Union =
                                                              struct
@@ -3191,8 +2999,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Intersection =
                                                              struct
@@ -3217,8 +3024,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module TemplateLiteral =
                                                              struct
@@ -3239,8 +3045,6 @@ module rec
                                                                     value ;
                                                                     tail:
                                                                     bool }
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -3262,8 +3066,7 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            type ('M, 
                                                              'T) t =
@@ -3440,9 +3243,7 @@ module rec
                                                              
                                                              | Available of
                                                              ('M, 'T)
-                                                             Type.annotation 
-                                                           [@@deriving 
-                                                             show]
+                                                             Type.annotation
                                                            and ('M,
                                                              'T) component_renders_annotation =
                                                              | MissingRenders
@@ -3451,16 +3252,12 @@ module rec
                                                              AvailableRenders
                                                              of 'M * (
                                                              'M, 'T)
-                                                             Type.Renders.t 
-                                                           [@@deriving 
-                                                             show]
+                                                             Type.Renders.t
                                                            module TypeParam =
                                                              struct
                                                                type bound_kind =
                                                                  | Colon 
-                                                                 | Extends 
-                                                               [@@deriving
-                                                                 show]
+                                                                 | Extends
                                                                module ConstModifier =
                                                                  struct
                                                                    type 
@@ -3470,8 +3267,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option)
-                                                                   [@@deriving
-                                                                    show]
                                                                  end
                                                                type (
                                                                  'M, 
@@ -3509,8 +3304,7 @@ module rec
                                                                    'M
                                                                     ConstModifier.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module TypeParams =
                                                              struct
@@ -3536,8 +3330,7 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module TypeArgs =
                                                              struct
@@ -3563,8 +3356,7 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                            module Predicate =
                                                              struct
@@ -3595,9 +3387,7 @@ module rec
                                                                  'T)
                                                                  Expression.t
                                                                  
-                                                                 | Inferred 
-                                                               [@@deriving
-                                                                 show]
+                                                                 | Inferred
                                                              end
                                                            module TypeGuard =
                                                              struct
@@ -3632,8 +3422,7 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option
-                                                                   }[@@deriving
-                                                                    show]
+                                                                   }
                                                              end
                                                          end and
                                                               Statement:
@@ -3657,8 +3446,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module If :
                                                                 sig
@@ -3685,8 +3472,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -3712,8 +3497,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Labeled :
@@ -3737,8 +3520,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Break
                                                                 :
@@ -3756,8 +3537,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Continue :
@@ -3775,8 +3554,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Debugger :
@@ -3789,8 +3566,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module With :
                                                                 sig
@@ -3813,8 +3588,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 TypeAlias :
@@ -3842,8 +3615,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 OpaqueType :
@@ -3889,8 +3660,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 type (
                                                                   'M,
@@ -3901,8 +3670,6 @@ module rec
                                                                     'T)
                                                                     Statement.t)
                                                                     Match.t
-                                                                [@@deriving
-                                                                  show]
                                                                 module Switch
                                                                 :
                                                                 sig
@@ -3936,8 +3703,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -3960,8 +3725,6 @@ module rec
                                                                     option ;
                                                                     exhaustive_out:
                                                                     'T }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Return
                                                                 :
@@ -3982,8 +3745,6 @@ module rec
                                                                     option ;
                                                                     return_out:
                                                                     'T }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Throw
                                                                 :
@@ -4002,8 +3763,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Try :
                                                                 sig
@@ -4036,8 +3795,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -4064,8 +3821,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 VariableDeclaration
@@ -4094,8 +3849,6 @@ module rec
                                                                     'T)
                                                                     Expression.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -4114,8 +3867,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module While
                                                                 :
@@ -4139,8 +3890,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DoWhile :
@@ -4164,8 +3913,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module For :
                                                                 sig
@@ -4214,8 +3961,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Expression.t
-                                                                    [@@deriving
-                                                                    show]
                                                                 end
                                                                 module ForIn
                                                                 :
@@ -4260,9 +4005,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                 end
                                                                 module ForOf
                                                                 :
@@ -4307,9 +4050,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                 end
                                                                 module
                                                                 EnumDeclaration
@@ -4329,8 +4070,6 @@ module rec
                                                                     of ('M *
                                                                     'M
                                                                     StringLiteral.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                   module
                                                                   DefaultedMember
                                                                   :
@@ -4346,8 +4085,6 @@ module rec
                                                                     'M
                                                                     member_name
                                                                     }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   InitializedMember
@@ -4369,8 +4106,6 @@ module rec
                                                                     ;
                                                                     init:
                                                                     ('M * 'I) }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type explicit_type =
                                                                     | Boolean
@@ -4381,10 +4116,7 @@ module rec
                                                                     
                                                                     | Symbol
                                                                     
-                                                                    | BigInt 
-                                                                  [@@deriving
-                                                                    (ord,
-                                                                    show)]
+                                                                    | BigInt
                                                                   val compare_explicit_type :
                                                                     explicit_type -> explicit_type -> int
                                                                   type 
@@ -4429,8 +4161,6 @@ module rec
                                                                     DefaultedMember
                                                                     of 'M
                                                                     DefaultedMember.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   module Body
                                                                   :
                                                                   sig
@@ -4453,8 +4183,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -4478,8 +4206,6 @@ module rec
                                                                     'M body =
                                                                     ('M * 'M
                                                                     Body.t)
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ComponentDeclaration
@@ -4507,8 +4233,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Param :
@@ -4554,8 +4278,6 @@ module rec
                                                                     of ('M *
                                                                     'M
                                                                     StringLiteral.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Params :
@@ -4587,8 +4309,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -4628,8 +4348,6 @@ module rec
                                                                     option ;
                                                                     sig_loc:
                                                                     'M }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Interface :
@@ -4665,8 +4383,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 RecordDeclaration
@@ -4687,8 +4403,6 @@ module rec
                                                                     'M option ;
                                                                     invalid_suffix_semicolon:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   Property :
@@ -4727,8 +4441,6 @@ module rec
                                                                     'M
                                                                     InvalidPropertySyntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   StaticProperty
@@ -4768,8 +4480,6 @@ module rec
                                                                     'M
                                                                     InvalidPropertySyntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module Body
                                                                   :
@@ -4816,8 +4526,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     StaticProperty.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   InvalidSyntax
@@ -4828,8 +4536,6 @@ module rec
                                                                     {
                                                                     invalid_infix_equals:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -4863,8 +4569,6 @@ module rec
                                                                     'M
                                                                     InvalidSyntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareClass
@@ -4895,8 +4599,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     extends) }
-                                                                    [@@deriving
-                                                                    show]
                                                                   type (
                                                                     'M,
                                                                     'T) t =
@@ -4941,8 +4643,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareComponent
@@ -4977,8 +4677,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareVariable
@@ -5001,8 +4699,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareFunction
@@ -5034,8 +4730,6 @@ module rec
                                                                     option ;
                                                                     implicit_declare:
                                                                     bool }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareModule
@@ -5073,8 +4767,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareModuleExports
@@ -5094,8 +4786,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareNamespace
@@ -5105,9 +4795,7 @@ module rec
                                                                     |
                                                                     Namespace
                                                                     
-                                                                    | Module 
-                                                                  [@@deriving
-                                                                    show]
+                                                                    | Module
                                                                   type (
                                                                     'M,
                                                                     'T) id =
@@ -5122,8 +4810,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Identifier.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   type (
                                                                     'M,
                                                                     'T) t =
@@ -5145,8 +4831,6 @@ module rec
                                                                     bool ;
                                                                     keyword:
                                                                     keyword }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ExportAssignment
@@ -5169,8 +4853,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     DeclareFunction.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                   type (
                                                                     'M,
                                                                     'T) t =
@@ -5183,8 +4865,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 NamespaceExportDeclaration
@@ -5204,8 +4884,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ExportNamedDeclaration
@@ -5242,8 +4920,6 @@ module rec
                                                                     bool ;
                                                                     imported_name_def_loc:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   module
                                                                   ExportBatchSpecifier
@@ -5257,8 +4933,6 @@ module rec
                                                                     'T)
                                                                     Identifier.t
                                                                     option)
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                   type (
                                                                     'M,
@@ -5302,8 +4976,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     ExportBatchSpecifier.t
-                                                                    [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ExportDefaultDeclaration
@@ -5341,8 +5013,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Expression.t
-                                                                    [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 DeclareExportDeclaration
@@ -5452,8 +5122,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ImportDeclaration
@@ -5582,8 +5250,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 ImportEqualsDeclaration
@@ -5629,8 +5295,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module
                                                                 Expression :
@@ -5652,8 +5316,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 module Empty
                                                                 :
@@ -5666,8 +5328,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                  [@@deriving
-                                                                    show]
                                                                 end
                                                                 type export_kind =
                                                                   |
@@ -5946,9 +5606,7 @@ module rec
                                                                   
                                                                   | With of
                                                                   ('M, 
-                                                                  'T) With.t 
-                                                                [@@deriving
-                                                                  show]
+                                                                  'T) With.t
                                                               end =
                                                               struct
                                                                 module Block =
@@ -5969,8 +5627,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module If =
                                                                   struct
@@ -5996,8 +5652,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6023,8 +5677,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Labeled =
                                                                   struct
@@ -6047,8 +5699,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Break =
                                                                   struct
@@ -6065,8 +5715,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Continue =
                                                                   struct
@@ -6083,8 +5731,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Debugger =
                                                                   struct
@@ -6096,8 +5742,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module With =
                                                                   struct
@@ -6120,8 +5764,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module TypeAlias =
                                                                   struct
@@ -6148,8 +5790,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module OpaqueType =
                                                                   struct
@@ -6194,8 +5834,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 type (
                                                                   'M,
@@ -6206,8 +5844,6 @@ module rec
                                                                     'T)
                                                                     Statement.t)
                                                                     Match.t
-                                                                [@@deriving
-                                                                  show]
                                                                 module Switch =
                                                                   struct
                                                                     module Case =
@@ -6239,8 +5875,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6263,8 +5897,6 @@ module rec
                                                                     option ;
                                                                     exhaustive_out:
                                                                     'T }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Return =
                                                                   struct
@@ -6284,8 +5916,6 @@ module rec
                                                                     option ;
                                                                     return_out:
                                                                     'T }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Throw =
                                                                   struct
@@ -6303,8 +5933,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Try =
                                                                   struct
@@ -6335,8 +5963,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6363,8 +5989,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module VariableDeclaration =
                                                                   struct
@@ -6389,8 +6013,6 @@ module rec
                                                                     'T)
                                                                     Expression.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6409,8 +6031,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module While =
                                                                   struct
@@ -6433,8 +6053,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DoWhile =
                                                                   struct
@@ -6457,8 +6075,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module For =
                                                                   struct
@@ -6506,8 +6122,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Expression.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ForIn =
                                                                   struct
@@ -6550,9 +6164,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                   end
                                                                 module ForOf =
                                                                   struct
@@ -6595,9 +6207,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Pattern.t 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    Pattern.t
                                                                   end
                                                                 module EnumDeclaration =
                                                                   struct
@@ -6615,8 +6225,6 @@ module rec
                                                                     of ('M *
                                                                     'M
                                                                     StringLiteral.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                     module DefaultedMember =
                                                                     struct
                                                                     type 
@@ -6630,8 +6238,6 @@ module rec
                                                                     'M
                                                                     member_name
                                                                     }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module InitializedMember =
                                                                     struct
@@ -6651,8 +6257,6 @@ module rec
                                                                     ;
                                                                     init:
                                                                     ('M * 'I) }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type explicit_type =
                                                                     | Boolean
@@ -6663,10 +6267,7 @@ module rec
                                                                     
                                                                     | Symbol
                                                                     
-                                                                    | BigInt 
-                                                                    [@@deriving
-                                                                    (ord,
-                                                                    show)]
+                                                                    | BigInt
                                                                     let compare_explicit_type a b =
                                                                     Stdlib.compare a b
                                                                     type 
@@ -6707,8 +6308,6 @@ module rec
                                                                     DefaultedMember
                                                                     of 'M
                                                                     DefaultedMember.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     module Body =
                                                                     struct
                                                                     type 
@@ -6730,8 +6329,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6755,8 +6352,6 @@ module rec
                                                                     'M body =
                                                                     ('M * 'M
                                                                     Body.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ComponentDeclaration =
                                                                   struct
@@ -6781,8 +6376,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Param =
                                                                     struct
@@ -6827,8 +6420,6 @@ module rec
                                                                     of ('M *
                                                                     'M
                                                                     StringLiteral.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Params =
                                                                     struct
@@ -6859,8 +6450,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -6900,8 +6489,6 @@ module rec
                                                                     option ;
                                                                     sig_loc:
                                                                     'M }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Interface =
                                                                   struct
@@ -6936,8 +6523,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module RecordDeclaration =
                                                                   struct
@@ -6954,8 +6539,6 @@ module rec
                                                                     'M option ;
                                                                     invalid_suffix_semicolon:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Property =
                                                                     struct
@@ -6993,8 +6576,6 @@ module rec
                                                                     'M
                                                                     InvalidPropertySyntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module StaticProperty =
                                                                     struct
@@ -7032,8 +6613,6 @@ module rec
                                                                     'M
                                                                     InvalidPropertySyntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Body =
                                                                     struct
@@ -7079,8 +6658,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     StaticProperty.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module InvalidSyntax =
                                                                     struct
@@ -7089,8 +6666,6 @@ module rec
                                                                     {
                                                                     invalid_infix_equals:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -7124,8 +6699,6 @@ module rec
                                                                     'M
                                                                     InvalidSyntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareClass =
                                                                   struct
@@ -7154,8 +6727,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     extends) }
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -7200,8 +6771,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareComponent =
                                                                   struct
@@ -7234,8 +6803,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareVariable =
                                                                   struct
@@ -7256,8 +6823,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareFunction =
                                                                   struct
@@ -7287,8 +6852,6 @@ module rec
                                                                     option ;
                                                                     implicit_declare:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareModule =
                                                                   struct
@@ -7324,8 +6887,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareModuleExports =
                                                                   struct
@@ -7343,8 +6904,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareNamespace =
                                                                   struct
@@ -7352,9 +6911,7 @@ module rec
                                                                     |
                                                                     Namespace
                                                                     
-                                                                    | Module 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    | Module
                                                                     type (
                                                                     'M,
                                                                     'T) id =
@@ -7369,8 +6926,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Identifier.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -7392,8 +6947,6 @@ module rec
                                                                     bool ;
                                                                     keyword:
                                                                     keyword }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ExportAssignment =
                                                                   struct
@@ -7413,8 +6966,6 @@ module rec
                                                                     ('M, 
                                                                     'T)
                                                                     DeclareFunction.t)
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -7427,8 +6978,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module NamespaceExportDeclaration =
                                                                   struct
@@ -7446,8 +6995,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ExportNamedDeclaration =
                                                                   struct
@@ -7480,8 +7027,6 @@ module rec
                                                                     bool ;
                                                                     imported_name_def_loc:
                                                                     'M option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module ExportBatchSpecifier =
                                                                     struct
@@ -7493,8 +7038,6 @@ module rec
                                                                     'T)
                                                                     Identifier.t
                                                                     option)
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -7538,8 +7081,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     ExportBatchSpecifier.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ExportDefaultDeclaration =
                                                                   struct
@@ -7575,8 +7116,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Expression.t
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module DeclareExportDeclaration =
                                                                   struct
@@ -7675,8 +7214,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ImportDeclaration =
                                                                   struct
@@ -7802,8 +7339,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module ImportEqualsDeclaration =
                                                                   struct
@@ -7847,8 +7382,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Expression =
                                                                   struct
@@ -7869,8 +7402,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 module Empty =
                                                                   struct
@@ -7882,8 +7413,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                   end
                                                                 type export_kind =
                                                                   |
@@ -8162,9 +7691,7 @@ module rec
                                                                   
                                                                   | With of
                                                                   ('M, 
-                                                                  'T) With.t 
-                                                                [@@deriving
-                                                                  show]
+                                                                  'T) With.t
                                                               end and
                                                                    Expression:
                                                                    sig
@@ -8189,8 +7716,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -8207,8 +7732,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Implicit.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     CallTypeArgs
@@ -8236,8 +7759,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     SpreadElement
@@ -8263,8 +7784,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Array :
@@ -8286,9 +7805,7 @@ module rec
                                                                     SpreadElement.t
                                                                     
                                                                     | Hole of
-                                                                    'M 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    'M
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -8307,8 +7824,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     TemplateLiteral
@@ -8332,8 +7847,6 @@ module rec
                                                                     value ;
                                                                     tail:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -8353,8 +7866,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     TaggedTemplate
@@ -8385,8 +7896,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Object :
@@ -8500,9 +8009,7 @@ module rec
                                                                     ('M,
                                                                     unit)
                                                                     Syntax.t
-                                                                    option } 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    option }
                                                                     end
                                                                     module
                                                                     SpreadProperty
@@ -8528,8 +8035,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -8564,8 +8069,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Record :
@@ -8594,8 +8097,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Sequence
@@ -8615,8 +8116,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Unary :
@@ -8650,8 +8149,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Binary :
@@ -8720,8 +8217,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Assignment
@@ -8793,8 +8288,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Update :
@@ -8823,8 +8316,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Logical :
@@ -8856,8 +8347,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Conditional
@@ -8887,8 +8376,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -8905,8 +8392,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     SpreadElement.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     module
                                                                     ArgList :
                                                                     sig
@@ -8932,8 +8417,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     New :
@@ -8962,8 +8445,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Call :
@@ -8991,8 +8472,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     OptionalCall
@@ -9007,8 +8486,6 @@ module rec
                                                                     
                                                                     |
                                                                     AssertNonnull
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -9021,8 +8498,6 @@ module rec
                                                                     'T ;
                                                                     optional:
                                                                     kind }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Member :
@@ -9067,8 +8542,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     OptionalMember
@@ -9083,8 +8556,6 @@ module rec
                                                                     
                                                                     |
                                                                     AssertNonnull
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -9097,8 +8568,6 @@ module rec
                                                                     'T ;
                                                                     optional:
                                                                     kind }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Yield :
@@ -9121,8 +8590,6 @@ module rec
                                                                     bool ;
                                                                     result_out:
                                                                     'T }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     TypeCast
@@ -9147,8 +8614,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     AsExpression
@@ -9173,8 +8638,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     AsConstExpression
@@ -9194,8 +8657,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     TSSatisfies
@@ -9220,8 +8681,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     MetaProperty
@@ -9245,8 +8704,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     This :
@@ -9259,8 +8716,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Super :
@@ -9273,8 +8728,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module
                                                                     Import :
@@ -9298,8 +8751,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -9310,8 +8761,6 @@ module rec
                                                                     'T)
                                                                     Expression.t)
                                                                     Match.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -9558,9 +9007,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Yield.t 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    Yield.t
                                                                    end =
                                                                    struct
                                                                     module CallTypeArg =
@@ -9580,8 +9027,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -9598,8 +9043,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     Implicit.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module CallTypeArgs =
                                                                     struct
@@ -9625,8 +9068,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module SpreadElement =
                                                                     struct
@@ -9650,8 +9091,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Array =
                                                                     struct
@@ -9672,9 +9111,7 @@ module rec
                                                                     SpreadElement.t
                                                                     
                                                                     | Hole of
-                                                                    'M 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    'M
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -9693,8 +9130,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module TemplateLiteral =
                                                                     struct
@@ -9715,8 +9150,6 @@ module rec
                                                                     value ;
                                                                     tail:
                                                                     bool }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -9736,8 +9169,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module TaggedTemplate =
                                                                     struct
@@ -9766,8 +9197,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Object =
                                                                     struct
@@ -9878,9 +9307,7 @@ module rec
                                                                     ('M,
                                                                     unit)
                                                                     Syntax.t
-                                                                    option } 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    option }
                                                                     end
                                                                     module SpreadProperty =
                                                                     struct
@@ -9904,8 +9331,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -9940,8 +9365,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Record =
                                                                     struct
@@ -9969,8 +9392,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Sequence =
                                                                     struct
@@ -9988,8 +9409,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Unary =
                                                                     struct
@@ -10022,8 +9441,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Binary =
                                                                     struct
@@ -10091,8 +9508,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Assignment =
                                                                     struct
@@ -10162,8 +9577,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Update =
                                                                     struct
@@ -10191,8 +9604,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Logical =
                                                                     struct
@@ -10223,8 +9634,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Conditional =
                                                                     struct
@@ -10252,8 +9661,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -10270,8 +9677,6 @@ module rec
                                                                     'M, 
                                                                     'T)
                                                                     SpreadElement.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     module ArgList =
                                                                     struct
                                                                     type (
@@ -10296,8 +9701,6 @@ module rec
                                                                     list)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module New =
                                                                     struct
@@ -10325,8 +9728,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Call =
                                                                     struct
@@ -10353,8 +9754,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module OptionalCall =
                                                                     struct
@@ -10367,8 +9766,6 @@ module rec
                                                                     
                                                                     |
                                                                     AssertNonnull
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -10381,8 +9778,6 @@ module rec
                                                                     'T ;
                                                                     optional:
                                                                     kind }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Member =
                                                                     struct
@@ -10426,8 +9821,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module OptionalMember =
                                                                     struct
@@ -10440,8 +9833,6 @@ module rec
                                                                     
                                                                     |
                                                                     AssertNonnull
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -10454,8 +9845,6 @@ module rec
                                                                     'T ;
                                                                     optional:
                                                                     kind }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Yield =
                                                                     struct
@@ -10477,8 +9866,6 @@ module rec
                                                                     bool ;
                                                                     result_out:
                                                                     'T }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module TypeCast =
                                                                     struct
@@ -10501,8 +9888,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module AsExpression =
                                                                     struct
@@ -10525,8 +9910,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module AsConstExpression =
                                                                     struct
@@ -10544,8 +9927,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module TSSatisfies =
                                                                     struct
@@ -10568,8 +9949,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module MetaProperty =
                                                                     struct
@@ -10591,8 +9970,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module This =
                                                                     struct
@@ -10604,8 +9981,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Super =
                                                                     struct
@@ -10617,8 +9992,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     module Import =
                                                                     struct
@@ -10641,8 +10014,6 @@ module rec
                                                                     unit)
                                                                     Syntax.t
                                                                     option }
-                                                                    [@@deriving
-                                                                    show]
                                                                     end
                                                                     type (
                                                                     'M,
@@ -10653,8 +10024,6 @@ module rec
                                                                     'T)
                                                                     Expression.t)
                                                                     Match.t
-                                                                    [@@deriving
-                                                                    show]
                                                                     type (
                                                                     'M,
                                                                     'T) t =
@@ -10901,9 +10270,7 @@ module rec
                                                                     of (
                                                                     'M, 
                                                                     'T)
-                                                                    Yield.t 
-                                                                    [@@deriving
-                                                                    show]
+                                                                    Yield.t
                                                                    end
  and
   JSX:sig
@@ -10912,7 +10279,7 @@ module rec
           type ('M, 'T) t = ('T * 'M t')
           and 'M t' = {
             name: string ;
-            comments: ('M, unit) Syntax.t option }[@@deriving show]
+            comments: ('M, unit) Syntax.t option }
         end
         module NamespacedName :
         sig
@@ -10920,7 +10287,7 @@ module rec
           and ('M, 'T) t' =
             {
             namespace: ('M, 'T) Identifier.t ;
-            name: ('M, 'T) Identifier.t }[@@deriving show]
+            name: ('M, 'T) Identifier.t }
         end
         module ExpressionContainer :
         sig
@@ -10930,12 +10297,12 @@ module rec
             comments: ('M, 'M Comment.t list) Syntax.t option }
           and ('M, 'T) expression =
             | Expression of ('M, 'T) Expression.t 
-            | EmptyExpression [@@deriving show]
+            | EmptyExpression
         end
         module Text :
         sig type t = {
               value: string ;
-              raw: string }[@@deriving show] end
+              raw: string } end
         module Attribute :
         sig
           type ('M, 'T) t = ('M * ('M, 'T) t')
@@ -10948,7 +10315,7 @@ module rec
           and ('M, 'T) t' =
             {
             name: ('M, 'T) name ;
-            value: ('M, 'T) value option }[@@deriving show]
+            value: ('M, 'T) value option }
         end
         module SpreadAttribute :
         sig
@@ -10956,7 +10323,7 @@ module rec
           and ('M, 'T) t' =
             {
             argument: ('M, 'T) Expression.t ;
-            comments: ('M, unit) Syntax.t option }[@@deriving show]
+            comments: ('M, unit) Syntax.t option }
         end
         module MemberExpression :
         sig
@@ -10967,12 +10334,12 @@ module rec
           and ('M, 'T) t' =
             {
             _object: ('M, 'T) _object ;
-            property: ('M, 'T) Identifier.t }[@@deriving show]
+            property: ('M, 'T) Identifier.t }
         end
         type ('M, 'T) name =
           | Identifier of ('M, 'T) Identifier.t 
           | NamespacedName of ('M, 'T) NamespacedName.t 
-          | MemberExpression of ('M, 'T) MemberExpression.t [@@deriving show]
+          | MemberExpression of ('M, 'T) MemberExpression.t
         module Opening :
         sig
           type ('M, 'T) t = ('M * ('M, 'T) t')
@@ -10984,20 +10351,20 @@ module rec
             name: ('M, 'T) name ;
             targs: ('M, 'T) Expression.CallTypeArgs.t option ;
             self_closing: bool ;
-            attributes: ('M, 'T) attribute list }[@@deriving show]
+            attributes: ('M, 'T) attribute list }
         end
         module Closing :
         sig
           type ('M, 'T) t = ('M * ('M, 'T) t')
           and ('M, 'T) t' = {
-            name: ('M, 'T) name }[@@deriving show]
+            name: ('M, 'T) name }
         end
         module SpreadChild :
         sig
           type ('M, 'T) t =
             {
             expression: ('M, 'T) Expression.t ;
-            comments: ('M, unit) Syntax.t option }[@@deriving show]
+            comments: ('M, unit) Syntax.t option }
         end
         type ('M, 'T) child = ('T * ('M, 'T) child')
         and ('M, 'T) child' =
@@ -11017,7 +10384,7 @@ module rec
           frag_opening_element: 'M ;
           frag_closing_element: 'M ;
           frag_children: ('M * ('M, 'T) child list) ;
-          frag_comments: ('M, unit) Syntax.t option }[@@deriving show]
+          frag_comments: ('M, unit) Syntax.t option }
       end =
   struct
     module Identifier =
@@ -11025,7 +10392,7 @@ module rec
         type ('M, 'T) t = ('T * 'M t')
         and 'M t' = {
           name: string ;
-          comments: ('M, unit) Syntax.t option }[@@deriving show]
+          comments: ('M, unit) Syntax.t option }
       end
     module NamespacedName =
       struct
@@ -11033,7 +10400,7 @@ module rec
         and ('M, 'T) t' =
           {
           namespace: ('M, 'T) Identifier.t ;
-          name: ('M, 'T) Identifier.t }[@@deriving show]
+          name: ('M, 'T) Identifier.t }
       end
     module ExpressionContainer =
       struct
@@ -11043,12 +10410,12 @@ module rec
           comments: ('M, 'M Comment.t list) Syntax.t option }
         and ('M, 'T) expression =
           | Expression of ('M, 'T) Expression.t 
-          | EmptyExpression [@@deriving show]
+          | EmptyExpression
       end
     module Text =
       struct type t = {
                value: string ;
-               raw: string }[@@deriving show] end
+               raw: string } end
     module Attribute =
       struct
         type ('M, 'T) t = ('M * ('M, 'T) t')
@@ -11061,7 +10428,7 @@ module rec
         and ('M, 'T) t' =
           {
           name: ('M, 'T) name ;
-          value: ('M, 'T) value option }[@@deriving show]
+          value: ('M, 'T) value option }
       end
     module SpreadAttribute =
       struct
@@ -11069,7 +10436,7 @@ module rec
         and ('M, 'T) t' =
           {
           argument: ('M, 'T) Expression.t ;
-          comments: ('M, unit) Syntax.t option }[@@deriving show]
+          comments: ('M, unit) Syntax.t option }
       end
     module MemberExpression =
       struct
@@ -11080,12 +10447,12 @@ module rec
         and ('M, 'T) t' =
           {
           _object: ('M, 'T) _object ;
-          property: ('M, 'T) Identifier.t }[@@deriving show]
+          property: ('M, 'T) Identifier.t }
       end
     type ('M, 'T) name =
       | Identifier of ('M, 'T) Identifier.t 
       | NamespacedName of ('M, 'T) NamespacedName.t 
-      | MemberExpression of ('M, 'T) MemberExpression.t [@@deriving show]
+      | MemberExpression of ('M, 'T) MemberExpression.t
     module Opening =
       struct
         type ('M, 'T) t = ('M * ('M, 'T) t')
@@ -11097,20 +10464,20 @@ module rec
           name: ('M, 'T) name ;
           targs: ('M, 'T) Expression.CallTypeArgs.t option ;
           self_closing: bool ;
-          attributes: ('M, 'T) attribute list }[@@deriving show]
+          attributes: ('M, 'T) attribute list }
       end
     module Closing =
       struct
         type ('M, 'T) t = ('M * ('M, 'T) t')
         and ('M, 'T) t' = {
-          name: ('M, 'T) name }[@@deriving show]
+          name: ('M, 'T) name }
       end
     module SpreadChild =
       struct
         type ('M, 'T) t =
           {
           expression: ('M, 'T) Expression.t ;
-          comments: ('M, unit) Syntax.t option }[@@deriving show]
+          comments: ('M, unit) Syntax.t option }
       end
     type ('M, 'T) child = ('T * ('M, 'T) child')
     and ('M, 'T) child' =
@@ -11130,7 +10497,7 @@ module rec
       frag_opening_element: 'M ;
       frag_closing_element: 'M ;
       frag_children: ('M * ('M, 'T) child list) ;
-      frag_comments: ('M, unit) Syntax.t option }[@@deriving show]
+      frag_comments: ('M, unit) Syntax.t option }
   end and
        Match:sig
                module Case :
@@ -11141,7 +10508,7 @@ module rec
                      {
                      invalid_prefix_case: 'M option ;
                      invalid_infix_colon: 'M option ;
-                     invalid_suffix_semicolon: 'M option }[@@deriving show]
+                     invalid_suffix_semicolon: 'M option }
                  end
                  type ('M, 'T, 'B) t = ('M * ('M, 'T, 'B) t')
                  and ('M, 'T, 'B) t' =
@@ -11151,14 +10518,14 @@ module rec
                    guard: ('M, 'T) Expression.t option ;
                    comments: ('M, unit) Syntax.t option ;
                    invalid_syntax: 'M InvalidSyntax.t ;
-                   case_match_root_loc: 'M }[@@deriving show]
+                   case_match_root_loc: 'M }
                end
                type ('M, 'T, 'B) t =
                  {
                  arg: ('M, 'T) Expression.t ;
                  cases: ('M, 'T, 'B) Case.t list ;
                  match_keyword_loc: 'M ;
-                 comments: ('M, unit) Syntax.t option }[@@deriving show]
+                 comments: ('M, unit) Syntax.t option }
              end =
        struct
          module Case =
@@ -11169,7 +10536,7 @@ module rec
                    {
                    invalid_prefix_case: 'M option ;
                    invalid_infix_colon: 'M option ;
-                   invalid_suffix_semicolon: 'M option }[@@deriving show]
+                   invalid_suffix_semicolon: 'M option }
                end
              type ('M, 'T, 'B) t = ('M * ('M, 'T, 'B) t')
              and ('M, 'T, 'B) t' =
@@ -11179,14 +10546,14 @@ module rec
                guard: ('M, 'T) Expression.t option ;
                comments: ('M, unit) Syntax.t option ;
                invalid_syntax: 'M InvalidSyntax.t ;
-               case_match_root_loc: 'M }[@@deriving show]
+               case_match_root_loc: 'M }
            end
          type ('M, 'T, 'B) t =
            {
            arg: ('M, 'T) Expression.t ;
            cases: ('M, 'T, 'B) Case.t list ;
            match_keyword_loc: 'M ;
-           comments: ('M, unit) Syntax.t option }[@@deriving show]
+           comments: ('M, unit) Syntax.t option }
        end and
             MatchPattern:sig
                            module UnaryPattern :
@@ -11202,7 +10569,6 @@ module rec
                                operator: operator ;
                                argument: ('M * 'M argument) ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module MemberPattern :
                            sig
@@ -11223,7 +10589,6 @@ module rec
                                base: ('M, 'T) base ;
                                property: ('M, 'T) property ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module BindingPattern :
                            sig
@@ -11232,7 +10597,6 @@ module rec
                                kind: Variable.kind ;
                                id: ('M, 'T) Identifier.t ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module RestPattern :
                            sig
@@ -11242,7 +10606,6 @@ module rec
                                argument:
                                  ('M * ('M, 'T) BindingPattern.t) option ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module ObjectPattern :
                            sig
@@ -11265,8 +10628,7 @@ module rec
                                and ('M, 'T) t = ('M * ('M, 'T) t')
                                and ('M, 'T) t' =
                                  | Valid of ('M, 'T) property 
-                                 | InvalidShorthand of ('M, 'M) Identifier.t 
-                               [@@deriving show]
+                                 | InvalidShorthand of ('M, 'M) Identifier.t
                              end
                              type ('M, 'T) t =
                                {
@@ -11274,7 +10636,6 @@ module rec
                                rest: ('M, 'T) RestPattern.t option ;
                                comments:
                                  ('M, 'M Comment.t list) Syntax.t option }
-                             [@@deriving show]
                            end
                            module ArrayPattern :
                            sig
@@ -11283,8 +10644,7 @@ module rec
                                type ('M, 'T) t =
                                  {
                                  index: 'M ;
-                                 pattern: ('M, 'T) MatchPattern.t }[@@deriving
-                                                                    show]
+                                 pattern: ('M, 'T) MatchPattern.t }
                              end
                              type ('M, 'T) t =
                                {
@@ -11292,7 +10652,6 @@ module rec
                                rest: ('M, 'T) RestPattern.t option ;
                                comments:
                                  ('M, 'M Comment.t list) Syntax.t option }
-                             [@@deriving show]
                            end
                            module InstancePattern :
                            sig
@@ -11306,7 +10665,6 @@ module rec
                                constructor: ('M, 'T) constructor ;
                                properties: ('M * ('M, 'T) ObjectPattern.t) ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module OrPattern :
                            sig
@@ -11314,7 +10672,6 @@ module rec
                                {
                                patterns: ('M, 'T) MatchPattern.t list ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module AsPattern :
                            sig
@@ -11326,7 +10683,6 @@ module rec
                                pattern: ('M, 'T) MatchPattern.t ;
                                target: ('M, 'T) target ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module WildcardPattern :
                            sig
@@ -11334,7 +10690,6 @@ module rec
                                {
                                comments: ('M, unit) Syntax.t option ;
                                invalid_syntax_default_keyword: bool }
-                             [@@deriving show]
                            end
                            type ('M, 'T) t = ('M * ('M, 'T) t')
                            and ('M, 'T) t' =
@@ -11353,8 +10708,7 @@ module rec
                              | InstancePattern of ('M, 'T) InstancePattern.t
                              
                              | OrPattern of ('M, 'T) OrPattern.t 
-                             | AsPattern of ('M, 'T) AsPattern.t [@@deriving
-                                                                   show]
+                             | AsPattern of ('M, 'T) AsPattern.t
                          end =
             struct
               module UnaryPattern =
@@ -11369,7 +10723,7 @@ module rec
                     {
                     operator: operator ;
                     argument: ('M * 'M argument) ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module MemberPattern =
                 struct
@@ -11386,7 +10740,7 @@ module rec
                     {
                     base: ('M, 'T) base ;
                     property: ('M, 'T) property ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module BindingPattern =
                 struct
@@ -11394,7 +10748,7 @@ module rec
                     {
                     kind: Variable.kind ;
                     id: ('M, 'T) Identifier.t ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module RestPattern =
                 struct
@@ -11402,7 +10756,7 @@ module rec
                   and ('M, 'T) t' =
                     {
                     argument: ('M * ('M, 'T) BindingPattern.t) option ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module ObjectPattern =
                 struct
@@ -11422,15 +10776,13 @@ module rec
                       and ('M, 'T) t = ('M * ('M, 'T) t')
                       and ('M, 'T) t' =
                         | Valid of ('M, 'T) property 
-                        | InvalidShorthand of ('M, 'M) Identifier.t [@@deriving
-                                                                    show]
+                        | InvalidShorthand of ('M, 'M) Identifier.t
                     end
                   type ('M, 'T) t =
                     {
                     properties: ('M, 'T) Property.t list ;
                     rest: ('M, 'T) RestPattern.t option ;
                     comments: ('M, 'M Comment.t list) Syntax.t option }
-                  [@@deriving show]
                 end
               module ArrayPattern =
                 struct
@@ -11439,14 +10791,13 @@ module rec
                       type ('M, 'T) t =
                         {
                         index: 'M ;
-                        pattern: ('M, 'T) MatchPattern.t }[@@deriving show]
+                        pattern: ('M, 'T) MatchPattern.t }
                     end
                   type ('M, 'T) t =
                     {
                     elements: ('M, 'T) Element.t list ;
                     rest: ('M, 'T) RestPattern.t option ;
                     comments: ('M, 'M Comment.t list) Syntax.t option }
-                  [@@deriving show]
                 end
               module InstancePattern =
                 struct
@@ -11457,14 +10808,14 @@ module rec
                     {
                     constructor: ('M, 'T) constructor ;
                     properties: ('M * ('M, 'T) ObjectPattern.t) ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module OrPattern =
                 struct
                   type ('M, 'T) t =
                     {
                     patterns: ('M, 'T) MatchPattern.t list ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module AsPattern =
                 struct
@@ -11475,14 +10826,14 @@ module rec
                     {
                     pattern: ('M, 'T) MatchPattern.t ;
                     target: ('M, 'T) target ;
-                    comments: ('M, unit) Syntax.t option }[@@deriving show]
+                    comments: ('M, unit) Syntax.t option }
                 end
               module WildcardPattern =
                 struct
                   type 'M t =
                     {
                     comments: ('M, unit) Syntax.t option ;
-                    invalid_syntax_default_keyword: bool }[@@deriving show]
+                    invalid_syntax_default_keyword: bool }
                 end
               type ('M, 'T) t = ('M * ('M, 'T) t')
               and ('M, 'T) t' =
@@ -11500,7 +10851,7 @@ module rec
                 | ArrayPattern of ('M, 'T) ArrayPattern.t 
                 | InstancePattern of ('M, 'T) InstancePattern.t 
                 | OrPattern of ('M, 'T) OrPattern.t 
-                | AsPattern of ('M, 'T) AsPattern.t [@@deriving show]
+                | AsPattern of ('M, 'T) AsPattern.t
             end and
                  Pattern:sig
                            module RestElement :
@@ -11510,7 +10861,6 @@ module rec
                                {
                                argument: ('M, 'T) Pattern.t ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end
                            module Object :
                            sig
@@ -11531,7 +10881,7 @@ module rec
                                  key: ('M, 'T) key ;
                                  pattern: ('M, 'T) Pattern.t ;
                                  default: ('M, 'T) Expression.t option ;
-                                 shorthand: bool }[@@deriving show]
+                                 shorthand: bool }
                              end
                              type ('M, 'T) property =
                                | Property of ('M, 'T) Property.t 
@@ -11543,7 +10893,6 @@ module rec
                                optional: bool ;
                                comments:
                                  ('M, 'M Comment.t list) Syntax.t option }
-                             [@@deriving show]
                            end
                            module Array :
                            sig
@@ -11554,7 +10903,6 @@ module rec
                                  {
                                  argument: ('M, 'T) Pattern.t ;
                                  default: ('M, 'T) Expression.t option }
-                               [@@deriving show]
                              end
                              type ('M, 'T) element =
                                | Element of ('M, 'T) Element.t 
@@ -11567,7 +10915,6 @@ module rec
                                optional: bool ;
                                comments:
                                  ('M, 'M Comment.t list) Syntax.t option }
-                             [@@deriving show]
                            end
                            module Identifier :
                            sig
@@ -11575,15 +10922,14 @@ module rec
                                {
                                name: ('M, 'T) Identifier.t ;
                                annot: ('M, 'T) Type.annotation_or_hint ;
-                               optional: bool }[@@deriving show]
+                               optional: bool }
                            end
                            type ('M, 'T) t = ('T * ('M, 'T) t')
                            and ('M, 'T) t' =
                              | Object of ('M, 'T) Object.t 
                              | Array of ('M, 'T) Array.t 
                              | Identifier of ('M, 'T) Identifier.t 
-                             | Expression of ('M, 'T) Expression.t [@@deriving
-                                                                    show]
+                             | Expression of ('M, 'T) Expression.t
                          end =
                  struct
                    module RestElement =
@@ -11592,8 +10938,7 @@ module rec
                        and ('M, 'T) t' =
                          {
                          argument: ('M, 'T) Pattern.t ;
-                         comments: ('M, unit) Syntax.t option }[@@deriving
-                                                                 show]
+                         comments: ('M, unit) Syntax.t option }
                      end
                    module Object =
                      struct
@@ -11611,7 +10956,7 @@ module rec
                              key: ('M, 'T) key ;
                              pattern: ('M, 'T) Pattern.t ;
                              default: ('M, 'T) Expression.t option ;
-                             shorthand: bool }[@@deriving show]
+                             shorthand: bool }
                          end
                        type ('M, 'T) property =
                          | Property of ('M, 'T) Property.t 
@@ -11622,7 +10967,6 @@ module rec
                          annot: ('M, 'T) Type.annotation_or_hint ;
                          optional: bool ;
                          comments: ('M, 'M Comment.t list) Syntax.t option }
-                       [@@deriving show]
                      end
                    module Array =
                      struct
@@ -11632,8 +10976,7 @@ module rec
                            and ('M, 'T) t' =
                              {
                              argument: ('M, 'T) Pattern.t ;
-                             default: ('M, 'T) Expression.t option }[@@deriving
-                                                                    show]
+                             default: ('M, 'T) Expression.t option }
                          end
                        type ('M, 'T) element =
                          | Element of ('M, 'T) Element.t 
@@ -11645,7 +10988,6 @@ module rec
                          annot: ('M, 'T) Type.annotation_or_hint ;
                          optional: bool ;
                          comments: ('M, 'M Comment.t list) Syntax.t option }
-                       [@@deriving show]
                      end
                    module Identifier =
                      struct
@@ -11653,14 +10995,14 @@ module rec
                          {
                          name: ('M, 'T) Identifier.t ;
                          annot: ('M, 'T) Type.annotation_or_hint ;
-                         optional: bool }[@@deriving show]
+                         optional: bool }
                      end
                    type ('M, 'T) t = ('T * ('M, 'T) t')
                    and ('M, 'T) t' =
                      | Object of ('M, 'T) Object.t 
                      | Array of ('M, 'T) Array.t 
                      | Identifier of ('M, 'T) Identifier.t 
-                     | Expression of ('M, 'T) Expression.t [@@deriving show]
+                     | Expression of ('M, 'T) Expression.t
                  end and
                       Comment:sig
                                 type 'M t = ('M * t')
@@ -11671,7 +11013,7 @@ module rec
                                   {
                                   kind: kind ;
                                   text: string ;
-                                  on_newline: bool }[@@deriving show]
+                                  on_newline: bool }
                               end =
                       struct
                         type 'M t = ('M * t')
@@ -11682,7 +11024,7 @@ module rec
                           {
                           kind: kind ;
                           text: string ;
-                          on_newline: bool }[@@deriving show]
+                          on_newline: bool }
                       end and
                            Class:sig
                                    module TSAccessibility :
@@ -11696,7 +11038,6 @@ module rec
                                        {
                                        kind: kind ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module Method :
                                    sig
@@ -11721,7 +11062,6 @@ module rec
                                        decorators:
                                          ('M, 'T) Class.Decorator.t list ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module DeclareMethod :
                                    sig
@@ -11738,7 +11078,6 @@ module rec
                                        override: bool ;
                                        optional: bool ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module AbstractMethod :
                                    sig
@@ -11754,7 +11093,6 @@ module rec
                                        ts_accessibility:
                                          'M TSAccessibility.t option ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module AbstractProperty :
                                    sig
@@ -11772,7 +11110,6 @@ module rec
                                          'M TSAccessibility.t option ;
                                        variance: 'M Variance.t option ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module Property :
                                    sig
@@ -11798,8 +11135,7 @@ module rec
                                      and ('M, 'T) value =
                                        | Declared 
                                        | Uninitialized 
-                                       | Initialized of ('M, 'T) Expression.t 
-                                     [@@deriving show]
+                                       | Initialized of ('M, 'T) Expression.t
                                    end
                                    module PrivateField :
                                    sig
@@ -11819,7 +11155,6 @@ module rec
                                        decorators:
                                          ('M, 'T) Class.Decorator.t list ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module StaticBlock :
                                    sig
@@ -11830,7 +11165,7 @@ module rec
                                        comments:
                                          ('M, 'M Comment.t list) Syntax.t
                                            option
-                                         }[@@deriving show]
+                                         }
                                    end
                                    module Extends :
                                    sig
@@ -11840,7 +11175,6 @@ module rec
                                        expr: ('M, 'T) Expression.t ;
                                        targs: ('M, 'T) Type.TypeArgs.t option ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module Implements :
                                    sig
@@ -11853,14 +11187,12 @@ module rec
                                            ('M, 'T) Type.Generic.Identifier.t ;
                                          targs:
                                            ('M, 'T) Type.TypeArgs.t option }
-                                       [@@deriving show]
                                      end
                                      type ('M, 'T) t = ('M * ('M, 'T) t')
                                      and ('M, 'T) t' =
                                        {
                                        interfaces: ('M, 'T) Interface.t list ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    module Body :
                                    sig
@@ -11883,8 +11215,7 @@ module rec
                                        | AbstractProperty of ('M, 'T)
                                        AbstractProperty.t 
                                        | IndexSignature of ('M, 'T)
-                                       Type.Object.Indexer.t [@@deriving
-                                                               show]
+                                       Type.Object.Indexer.t
                                    end
                                    module Decorator :
                                    sig
@@ -11893,7 +11224,6 @@ module rec
                                        {
                                        expression: ('M, 'T) Expression.t ;
                                        comments: ('M, unit) Syntax.t option }
-                                     [@@deriving show]
                                    end
                                    type ('M, 'T) t =
                                      {
@@ -11907,7 +11237,6 @@ module rec
                                        ('M, 'T) Decorator.t list ;
                                      abstract: bool ;
                                      comments: ('M, unit) Syntax.t option }
-                                   [@@deriving show]
                                  end =
                            struct
                              module TSAccessibility =
@@ -11921,7 +11250,6 @@ module rec
                                    {
                                    kind: kind ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module Method =
                                struct
@@ -11944,7 +11272,6 @@ module rec
                                    decorators:
                                      ('M, 'T) Class.Decorator.t list ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module DeclareMethod =
                                struct
@@ -11959,7 +11286,6 @@ module rec
                                    override: bool ;
                                    optional: bool ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module AbstractMethod =
                                struct
@@ -11973,7 +11299,6 @@ module rec
                                    ts_accessibility:
                                      'M TSAccessibility.t option ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module AbstractProperty =
                                struct
@@ -11988,7 +11313,6 @@ module rec
                                      'M TSAccessibility.t option ;
                                    variance: 'M Variance.t option ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module Property =
                                struct
@@ -12011,8 +11335,7 @@ module rec
                                  and ('M, 'T) value =
                                    | Declared 
                                    | Uninitialized 
-                                   | Initialized of ('M, 'T) Expression.t 
-                                 [@@deriving show]
+                                   | Initialized of ('M, 'T) Expression.t
                                end
                              module PrivateField =
                                struct
@@ -12031,7 +11354,6 @@ module rec
                                    decorators:
                                      ('M, 'T) Class.Decorator.t list ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module StaticBlock =
                                struct
@@ -12041,7 +11363,6 @@ module rec
                                    body: ('M, 'T) Statement.t list ;
                                    comments:
                                      ('M, 'M Comment.t list) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module Extends =
                                struct
@@ -12051,7 +11372,6 @@ module rec
                                    expr: ('M, 'T) Expression.t ;
                                    targs: ('M, 'T) Type.TypeArgs.t option ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module Implements =
                                struct
@@ -12062,14 +11382,12 @@ module rec
                                        {
                                        id: ('M, 'T) Type.Generic.Identifier.t ;
                                        targs: ('M, 'T) Type.TypeArgs.t option }
-                                     [@@deriving show]
                                    end
                                  type ('M, 'T) t = ('M * ('M, 'T) t')
                                  and ('M, 'T) t' =
                                    {
                                    interfaces: ('M, 'T) Interface.t list ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              module Body =
                                struct
@@ -12091,7 +11409,7 @@ module rec
                                    | AbstractProperty of ('M, 'T)
                                    AbstractProperty.t 
                                    | IndexSignature of ('M, 'T)
-                                   Type.Object.Indexer.t [@@deriving show]
+                                   Type.Object.Indexer.t
                                end
                              module Decorator =
                                struct
@@ -12100,7 +11418,6 @@ module rec
                                    {
                                    expression: ('M, 'T) Expression.t ;
                                    comments: ('M, unit) Syntax.t option }
-                                 [@@deriving show]
                                end
                              type ('M, 'T) t =
                                {
@@ -12112,7 +11429,6 @@ module rec
                                class_decorators: ('M, 'T) Decorator.t list ;
                                abstract: bool ;
                                comments: ('M, unit) Syntax.t option }
-                             [@@deriving show]
                            end and
                                 Function:sig
                                            module RestParam :
@@ -12124,7 +11440,6 @@ module rec
                                                argument: ('M, 'T) Pattern.t ;
                                                comments:
                                                  ('M, unit) Syntax.t option }
-                                             [@@deriving show]
                                            end
                                            module Param :
                                            sig
@@ -12138,8 +11453,7 @@ module rec
                                                  ('M, 'T) Expression.t option }
                                                
                                                | ParamProperty of ('M, 
-                                               'T) Class.Property.t' 
-                                             [@@deriving show]
+                                               'T) Class.Property.t'
                                            end
                                            module ThisParam :
                                            sig
@@ -12151,7 +11465,6 @@ module rec
                                                  ('M, 'T) Type.annotation ;
                                                comments:
                                                  ('M, unit) Syntax.t option }
-                                             [@@deriving show]
                                            end
                                            module Params :
                                            sig
@@ -12167,7 +11480,7 @@ module rec
                                                comments:
                                                  ('M, 'M Comment.t list)
                                                    Syntax.t option
-                                                 }[@@deriving show]
+                                                 }
                                            end
                                            module ReturnAnnot :
                                            sig
@@ -12176,12 +11489,11 @@ module rec
                                                | Available of ('M, 'T)
                                                Type.annotation 
                                                | TypeGuard of ('M, 'T)
-                                               Type.type_guard_annotation 
-                                             [@@deriving show]
+                                               Type.type_guard_annotation
                                            end
                                            type effect_ =
                                              | Hook 
-                                             | Arbitrary [@@deriving show]
+                                             | Arbitrary
                                            type ('M, 'T) t =
                                              {
                                              id: ('M, 'T) Identifier.t option ;
@@ -12206,8 +11518,7 @@ module rec
                                              | BodyBlock of ('M * ('M, 
                                              'T) Statement.Block.t) 
                                              | BodyExpression of ('M, 
-                                             'T) Expression.t [@@deriving
-                                                                show]
+                                             'T) Expression.t
                                          end =
                                 struct
                                   module RestParam =
@@ -12217,7 +11528,6 @@ module rec
                                         {
                                         argument: ('M, 'T) Pattern.t ;
                                         comments: ('M, unit) Syntax.t option }
-                                      [@@deriving show]
                                     end
                                   module Param =
                                     struct
@@ -12229,7 +11539,7 @@ module rec
                                         default: ('M, 'T) Expression.t option }
                                         
                                         | ParamProperty of ('M, 'T)
-                                        Class.Property.t' [@@deriving show]
+                                        Class.Property.t'
                                     end
                                   module ThisParam =
                                     struct
@@ -12238,7 +11548,6 @@ module rec
                                         {
                                         annot: ('M, 'T) Type.annotation ;
                                         comments: ('M, unit) Syntax.t option }
-                                      [@@deriving show]
                                     end
                                   module Params =
                                     struct
@@ -12251,7 +11560,7 @@ module rec
                                         comments:
                                           ('M, 'M Comment.t list) Syntax.t
                                             option
-                                          }[@@deriving show]
+                                          }
                                     end
                                   module ReturnAnnot =
                                     struct
@@ -12260,12 +11569,11 @@ module rec
                                         | Available of ('M, 'T)
                                         Type.annotation 
                                         | TypeGuard of ('M, 'T)
-                                        Type.type_guard_annotation [@@deriving
-                                                                    show]
+                                        Type.type_guard_annotation
                                     end
                                   type effect_ =
                                     | Hook 
-                                    | Arbitrary [@@deriving show]
+                                    | Arbitrary
                                   type ('M, 'T) t =
                                     {
                                     id: ('M, 'T) Identifier.t option ;
@@ -12284,8 +11592,7 @@ module rec
                                   and ('M, 'T) body =
                                     | BodyBlock of ('M * ('M, 'T)
                                     Statement.Block.t) 
-                                    | BodyExpression of ('M, 'T) Expression.t 
-                                  [@@deriving show]
+                                    | BodyExpression of ('M, 'T) Expression.t
                                 end and
                                      Program:sig
                                                type ('M, 'T) t =
@@ -12302,7 +11609,6 @@ module rec
                                                    ('M, unit) Syntax.t option ;
                                                  all_comments:
                                                    'M Comment.t list }
-                                               [@@deriving show]
                                              end =
                                      struct
                                        type ('M, 'T) t = ('M * ('M, 'T) t')
@@ -12315,5 +11621,4 @@ module rec
                                              " interpreter directive / shebang "];
                                          comments: ('M, unit) Syntax.t option ;
                                          all_comments: 'M Comment.t list }
-                                       [@@deriving show]
                                      end

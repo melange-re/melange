@@ -9,14 +9,12 @@ type position = {
   line: int;
   column: int;
 }
-[@@deriving eq, show]
 
 type t = {
   source: File_key.t option;
   start: position;
   _end: position;
 }
-[@@deriving show]
 
 val none : t
 

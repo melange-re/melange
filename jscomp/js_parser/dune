@@ -1,4 +1,3 @@
 (library
  (name js_parser)
- (flags :standard -warn-error -53)
  (public_name melange.js_parser))

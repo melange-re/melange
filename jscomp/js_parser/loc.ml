@@ -10,7 +10,6 @@ type position = {
   line: int;
   column: int;
 }
-[@@deriving eq, show]
 
 (* start is inclusive; end is exclusive *)
 (* If you are modifying this record, go look at ALoc.ml and make sure you understand the
@@ -20,7 +19,6 @@ type t = {
   start: position;
   _end: position;
 }
-[@@deriving show]
 
 let none = { source = None; start = { line = 0; column = 0 }; _end = { line = 0; column = 0 } }
 

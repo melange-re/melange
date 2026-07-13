@@ -11,9 +11,9 @@ module I = Identifier
 
 type 'loc binding = 'loc * string
 
-type 'loc ident = 'loc * string [@@deriving show]
+type 'loc ident = 'loc * string
 
-type 'loc source = 'loc * string [@@deriving show]
+type 'loc source = 'loc * string
 
 let rec fold_bindings_of_pattern =
   Pattern.(
@@ -659,7 +659,6 @@ module ExpressionSort = struct
     | Unary
     | Update
     | Yield
-  [@@deriving show]
 
   let to_string = function
     | Array -> "array"

@@ -25,7 +25,6 @@ type t =
   (* A resource that might get required, like .css, .jpg, etc. We don't parse
      these, just check that they exist *)
   | ResourceFile of string
-[@@deriving show, eq]
 
 (* Marker for flowlib LibFile paths. This is the single source of truth —
    saved_state.ml uses File_key.flowlib_marker, not a separate constant. *)
