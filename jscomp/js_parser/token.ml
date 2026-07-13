@@ -178,7 +178,7 @@ and number_type =
 and bigint_type =
   | BIG_BINARY 
   | BIG_OCTAL 
-  | BIG_NORMAL [@@deriving eq]
+  | BIG_NORMAL
 include
   struct
     let _ = fun (_ : t) -> ()

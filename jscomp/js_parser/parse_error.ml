@@ -177,7 +177,7 @@ type t =
   | UnterminatedRegExp 
   | WhitespaceInPrivateName 
   | YieldAsIdentifierReference 
-  | YieldInFormalParameters [@@deriving ord]
+  | YieldInFormalParameters
 include
   struct
     let _ = fun (_ : t) -> ()

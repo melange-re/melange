@@ -7,9 +7,9 @@
 
 type 'loc binding = 'loc * string
 
-type 'loc ident = 'loc * string [@@deriving show]
+type 'loc ident = 'loc * string
 
-type 'loc source = 'loc * string [@@deriving show]
+type 'loc source = 'loc * string
 
 val fold_bindings_of_pattern :
   ('a -> ('m, 't) Flow_ast.Identifier.t -> 'a) -> 'a -> ('m, 't) Flow_ast.Pattern.t -> 'a
@@ -162,7 +162,6 @@ module ExpressionSort : sig
     | Unary
     | Update
     | Yield
-  [@@deriving show]
 
   val to_string : t -> string
 end
