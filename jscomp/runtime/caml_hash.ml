@@ -69,6 +69,20 @@ let caml_hash_mix_int = Caml_hash_primitive.caml_hash_mix_int
 let caml_hash_final_mix = Caml_hash_primitive.caml_hash_final_mix
 let caml_hash_mix_string = Caml_hash_primitive.caml_hash_mix_string
 
+let%private has_custom_hash : Obj.t -> bool =
+  [%raw
+    {|function(obj) {
+    if (obj === null || typeof obj !== "object") return false;
+    var ops = obj[Symbol.for("melange.runtime.custom_ops/1")];
+    return ops !== undefined && typeof ops.hash === "function";
+  }|}]
+
+let%private run_custom_hash : Obj.t -> int =
+  [%raw
+    {|function(obj) {
+    return obj[Symbol.for("melange.runtime.custom_ops/1")].hash(obj);
+  }|}]
+
 let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
   let hash = ref seed in
   match Js.typeof obj with
@@ -107,27 +121,32 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
             num.contents <- num.contents - 1
         | "undefined" | "symbol" | "function" -> ()
         | _ ->
-            let size = Obj.size obj in
-            if size <> 0 then
-              let obj_tag = Obj.tag obj in
-              let tag = (size lsl 10) lor obj_tag in
-              if obj_tag = 248 (* Obj.object_tag*) then
-                hash.contents <-
-                  caml_hash_mix_int hash.contents
-                    (Obj.obj (Obj.field obj 1) : int)
-              else (
-                hash.contents <- caml_hash_mix_int hash.contents tag;
-                let block =
-                  let v = size - 1 in
-                  if v < num.contents then v else num.contents
-                in
-                for i = 0 to block do
-                  push_back queue (Obj.field obj i)
-                done)
+            if has_custom_hash obj then (
+              hash.contents <-
+                caml_hash_mix_int hash.contents (run_custom_hash obj);
+              num.contents <- num.contents - 1)
             else
-              let size : int =
-                ([%raw
-                   {|function(obj,cb){
+              let size = Obj.size obj in
+              if size <> 0 then
+                let obj_tag = Obj.tag obj in
+                let tag = (size lsl 10) lor obj_tag in
+                if obj_tag = 248 (* Obj.object_tag*) then
+                  hash.contents <-
+                    caml_hash_mix_int hash.contents
+                      (Obj.obj (Obj.field obj 1) : int)
+                else (
+                  hash.contents <- caml_hash_mix_int hash.contents tag;
+                  let block =
+                    let v = size - 1 in
+                    if v < num.contents then v else num.contents
+                  in
+                  for i = 0 to block do
+                    push_back queue (Obj.field obj i)
+                  done)
+              else
+                let size : int =
+                  ([%raw
+                     {|function(obj,cb){
             var size = 0
             for(var k in obj){
               cb(obj[k])
@@ -135,11 +154,11 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
             }
             return size
           }|}]
-                   obj (fun[@u] v -> push_back queue v)
-                [@u])
-              in
-              hash.contents <-
-                caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
+                     obj (fun[@u] v -> push_back queue v)
+                  [@u])
+                in
+                hash.contents <-
+                  caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
         (*tag*)
       done;
       caml_hash_final_mix hash.contents
