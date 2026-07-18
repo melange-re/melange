@@ -65,7 +65,8 @@ external push : value:'a -> ('a t[@mel.this]) -> int = "push" [@@mel.send]
 external pushMany : values:'a array -> ('a t[@mel.this]) -> int = "push"
 [@@mel.send] [@@mel.variadic]
 
-external toReversed : 'a t -> 'a t = "toReversed" [@@mel.send]
+external toReversed : 'a t -> 'a t = "toReversed"
+[@@mel.send]
 (** returns a new array with the elements in reversed order. (ES2023) *)
 
 external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
@@ -73,7 +74,8 @@ external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
 external shift : 'a t -> 'a option = "shift"
 [@@mel.send] [@@mel.return undefined_to_opt]
 
-external toSorted : 'a t -> 'a t = "toSorted" [@@mel.send]
+external toSorted : 'a t -> 'a t = "toSorted"
+[@@mel.send]
 (** returns a new array with the elements sorted in ascending order. (ES2023) *)
 
 external toSortedWith :
@@ -114,8 +116,8 @@ external removeCountInPlace :
 [@@mel.send]
 (** removes [count] elements from the given array starting at the [start] index and returns the removed elements. *)
 
-external removeCount :
-  start:int -> count:int -> ('a t[@mel.this]) -> 'a t = "toSpliced"
+external removeCount : start:int -> count:int -> ('a t[@mel.this]) -> 'a t
+  = "toSpliced"
 [@@mel.send]
 (** returns a new array with [count] elements removed starting at the [start] index. (ES2023) *)
 
@@ -138,8 +140,7 @@ external join : ?sep:string -> ('a t[@mel.this]) -> string = "join" [@@mel.send]
 
 (** Accessor functions *)
 
-external at : index:int -> ('a t[@mel.this]) -> 'a option
-  = "at"
+external at : index:int -> ('a t[@mel.this]) -> 'a option = "at"
 [@@mel.send] [@@mel.return { undefined_to_opt }]
 (** ES2022 *)
 
@@ -193,8 +194,8 @@ external findi :
 [@@mel.send] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
-external findLast : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
-  = "findLast"
+external findLast :
+  f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option = "findLast"
 [@@mel.send] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
@@ -215,8 +216,8 @@ external findIndexi :
 [@@mel.send]
 (* ES2015 *)
 
-external findLastIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
-  = "findLastIndex"
+external findLastIndex :
+  f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int = "findLastIndex"
 [@@mel.send]
 (* ES2015 *)
 
