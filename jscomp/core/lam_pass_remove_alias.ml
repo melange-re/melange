@@ -92,6 +92,26 @@ let simplify_alias =
       ~args:[ Lam.global_module ~dynamic_import ident ]
       ~loc
   in
+  let direct_external_call ~source summary args (ap_info : Lam.ap_info) =
+    match summary with
+    | Lam_call_summary.Direct_external
+        { dynamic_import; id; name; arity; relocatable }
+      when relocatable && fully_applied arity args
+           &&
+           match source with
+           | None -> true
+           | Some (source_dynamic_import, source_id, source_name) ->
+               not
+                 (source_dynamic_import = dynamic_import
+                 && Ident.same source_id id
+                 && String.equal source_name name) ->
+        Some
+          (Lam.apply
+             (direct_external_field ~dynamic_import id name ~loc:ap_info.ap_loc)
+             args
+             (direct_apply_info ap_info))
+    | Unknown | Direct_primitive _ | Direct_external _ -> None
+  in
   let rec nested_call_summary_at_path summary path =
     match (path, summary) with
     | [], Js_cmj_format.Call_summary summary -> summary
@@ -365,6 +385,9 @@ let simplify_alias =
           ap_args = args;
           ap_info;
         } -> (
+        let[@local] normal () =
+          Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
+        in
         match
           Lam_compile_env.query_external_id_info ~dynamic_import ident fld_name
         with
@@ -381,28 +404,16 @@ let simplify_alias =
               ~loc:ap_info.ap_loc
         | Some
             {
-              call_summary =
-                Lam_call_summary.Direct_external
-                  {
-                    dynamic_import = dynamic_import';
-                    id;
-                    name;
-                    arity = direct_arity;
-                    relocatable;
-                  };
+              call_summary = Lam_call_summary.Direct_external _ as call_summary;
               _;
-            }
-          when relocatable
-               && fully_applied direct_arity args
-               && not
-                    (dynamic_import = dynamic_import'
-                    && Ident.same ident id && String.equal fld_name name) ->
-            simpl meta
-              (Lam.apply
-                 (direct_external_field ~dynamic_import:dynamic_import' id name
-                    ~loc:ap_info.ap_loc)
-                 args
-                 (direct_apply_info ap_info))
+            } -> (
+            match
+              direct_external_call
+                ~source:(Some (dynamic_import, ident, fld_name))
+                call_summary args ap_info
+            with
+            | Some call -> simpl meta call
+            | None -> normal ())
         | Some
             {
               persistent_closed_lambda =
@@ -424,10 +435,8 @@ let simplify_alias =
                       (List.exists parameter_args ~f:(fun param ->
                            parameter_is_captured param reduced))
             then simpl meta reduced
-            else
-              Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
-        | Some _ | None ->
-            Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
+            else normal ()
+        | Some _ | None -> normal ())
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
@@ -453,7 +462,13 @@ let simplify_alias =
               when fully_applied (Lam_arity_analysis.get_arity meta l1) ap_args
                    && primitive_summary_is_safe_to_inline primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
-            | Unknown | Direct_primitive _ | Direct_external _ -> normal ())
+            | Direct_external _ as call_summary -> (
+                match
+                  direct_external_call ~source:None call_summary ap_args ap_info
+                with
+                | Some call -> simpl meta call
+                | None -> normal ())
+            | Unknown | Direct_primitive _ -> normal ())
         | Some (_, _, _, []) | None -> normal ())
     (* Function inlining interact with other optimizations...
 

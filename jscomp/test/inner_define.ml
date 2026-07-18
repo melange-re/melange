@@ -13,6 +13,10 @@ module P = struct
   external fancy_add : int -> int -> int = "caml_nested_summary_fancy_add"
 end
 
+module Forward = struct
+  let choose x y = Inner_target.choose x y
+end
+
 module type S0 =  sig 
   val f1 : unit -> unit 
   val f2 : unit -> unit -> unit 

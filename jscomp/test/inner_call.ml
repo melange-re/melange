@@ -3,6 +3,7 @@
 
 let () = Js.log (Inner_define.N.add 1 2)
 let () = Js.log (Inner_define.Deep.N.add 3 4)
+let () = Js.log (Inner_define.Forward.choose 8 5)
 
 let nested_external_wrapper x y = Inner_define.P.fancy_add x y
 
