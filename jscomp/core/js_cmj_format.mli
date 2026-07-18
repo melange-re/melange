@@ -46,26 +46,20 @@ open Import
     ]}
 *)
 
-type arity = Single of Lam_arity.t | Submodule of arity array
-
-type nested_call_summary =
-  | Call_summary of Lam_call_summary.t
-  | Call_summary_submodule of nested_call_summary array
+type value_summary =
+  | Leaf of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
+  | Submodule of value_summary array
 
 type cmj_value = {
-  arity : arity;
+  value_summary : value_summary;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (* Either constant or closed functor *)
-  call_summary : Lam_call_summary.t;
-  nested_call_summary : nested_call_summary;
 }
 
 type keyed_cmj_value = {
   name : string;
-  arity : arity;
+  value_summary : value_summary;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
-  call_summary : Lam_call_summary.t;
-  nested_call_summary : nested_call_summary;
 }
 
 type t = {
@@ -85,8 +79,8 @@ val make :
   t
 
 val query_by_name : t -> string -> keyed_cmj_value
-val single_na : arity
-val call_summary_unknown : nested_call_summary
+val unknown_value_summary : value_summary
+val value_summary_at_path : value_summary -> int list -> value_summary option
 val from_file : string -> t
 
 (* Note writing the file if its content is not changed *)

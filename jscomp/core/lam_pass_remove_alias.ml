@@ -81,11 +81,6 @@ let simplify_alias =
     | Lam.App_na -> { ap_info with ap_status = Lam.App_infer_full }
     | Lam.App_infer_full | Lam.App_uncurry -> ap_info
   in
-  let fully_applied_external arity args =
-    match arity with
-    | Js_cmj_format.Single arity -> fully_applied arity args
-    | Js_cmj_format.Submodule _ -> false
-  in
   let direct_external_field ~dynamic_import ident name ~loc =
     Lam.prim
       ~primitive:(Pfield (0, Fld_module { name }))
@@ -112,21 +107,11 @@ let simplify_alias =
              (direct_apply_info ap_info))
     | Unknown | Direct_primitive _ | Direct_external _ -> None
   in
-  let rec nested_call_summary_at_path summary path =
-    match (path, summary) with
-    | [], Js_cmj_format.Call_summary summary -> summary
-    | i :: rest, Call_summary_submodule summaries -> (
-        match summaries.(i) with
-        | summary -> nested_call_summary_at_path summary rest
-        | exception _ -> Lam_call_summary.Unknown)
-    | [], Call_summary_submodule _ | _ :: _, Call_summary _ ->
-        Lam_call_summary.Unknown
-  in
-  let find_nested_external_call_summary ~dynamic_import ident name path =
+  let find_external_value_summary ~dynamic_import ident name path =
     match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
-    | Some { nested_call_summary; _ } ->
-        nested_call_summary_at_path nested_call_summary path
-    | None -> Lam_call_summary.Unknown
+    | Some { value_summary; _ } ->
+        Js_cmj_format.value_summary_at_path value_summary path
+    | None -> None
   in
   let primitive_summary_is_safe_to_inline primitive =
     Lam_primitive.is_relocatable primitive
@@ -393,18 +378,28 @@ let simplify_alias =
         with
         | Some
             {
-              arity;
-              call_summary = Lam_call_summary.Direct_primitive primitive;
+              value_summary =
+                Leaf
+                  {
+                    arity;
+                    call_summary = Lam_call_summary.Direct_primitive primitive;
+                  };
               _;
             }
           when Lam_primitive.is_relocatable primitive
-               && fully_applied_external arity args ->
+               && fully_applied arity args ->
             Lam.prim ~primitive
               ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc
         | Some
             {
-              call_summary = Lam_call_summary.Direct_external _ as call_summary;
+              value_summary =
+                Leaf
+                  {
+                    call_summary =
+                      Lam_call_summary.Direct_external _ as call_summary;
+                    _;
+                  };
               _;
             } -> (
             match
@@ -455,20 +450,24 @@ let simplify_alias =
         match Lam_arity_analysis.external_field_path l1 with
         | Some (ident, dynamic_import, fld_name, (_ :: _ as path)) -> (
             match
-              find_nested_external_call_summary ~dynamic_import ident fld_name
-                path
+              find_external_value_summary ~dynamic_import ident fld_name path
             with
-            | Direct_primitive primitive
-              when fully_applied (Lam_arity_analysis.get_arity meta l1) ap_args
+            | Some (Leaf { arity; call_summary = Direct_primitive primitive })
+              when fully_applied arity ap_args
                    && primitive_summary_is_safe_to_inline primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
-            | Direct_external _ as call_summary -> (
+            | Some
+                (Leaf { call_summary = Direct_external _ as call_summary; _ })
+              -> (
                 match
                   direct_external_call ~source:None call_summary ap_args ap_info
                 with
                 | Some call -> simpl meta call
                 | None -> normal ())
-            | Unknown | Direct_primitive _ -> normal ())
+            | Some (Leaf { call_summary = Unknown | Direct_primitive _; _ })
+            | Some (Submodule _)
+            | None ->
+                normal ())
         | Some (_, _, _, []) | None -> normal ())
     (* Function inlining interact with other optimizations...
 

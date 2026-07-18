@@ -45,16 +45,6 @@ let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
       | _ | (exception _) -> Lam_id_kind.Element.NA)
   | _ -> Lam_id_kind.Element.NA
 
-let rec get_cmj_arity (arity : Js_cmj_format.arity) (path : int list) :
-    Lam_arity.t =
-  match (path, arity) with
-  | [], Js_cmj_format.Single arity -> arity
-  | i :: rest, Submodule arities -> (
-      match arities.(i) with
-      | arity -> get_cmj_arity arity rest
-      | exception _ -> Lam_arity.na)
-  | [], Submodule _ | _ :: _, Js_cmj_format.Single _ -> Lam_arity.na
-
 let external_field_path (lam : Lam.t) :
     (Ident.t * bool * string * int list) option =
   let rec aux path = function
@@ -87,7 +77,10 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           match
             Lam_compile_env.query_external_id_info ~dynamic_import id name
           with
-          | Some { arity; _ } -> get_cmj_arity arity path
+          | Some { value_summary; _ } -> (
+              match Js_cmj_format.value_summary_at_path value_summary path with
+              | Some (Leaf { arity; _ }) -> arity
+              | Some (Submodule _) | None -> Lam_arity.na)
           | None -> Lam_arity.na)
       | None -> (
           match field_element meta owner m with
