@@ -209,9 +209,9 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
            param_map params body ap_args)
   | Some _ | None ->
       let arity =
-        ident_info
-        |> Option.map ~f:(fun (t : Js_cmj_format.keyed_cmj_value) -> t.arity)
-        |> Option.value ~default:Js_cmj_format.single_na
+        match ident_info with
+        | Some { value_summary = Leaf { arity; _ }; _ } -> arity
+        | Some { value_summary = Submodule _; _ } | None -> Lam_arity.na
       in
       let args_code, args =
         let dummy = ([], []) in
@@ -234,10 +234,8 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
             E.call ~info:(call_info_of_apply_status ap_status) fn args
         | App_na -> (
             match arity with
-            | Submodule _ | Single Arity_na ->
-                E.call ~info:Js_call_info.dummy fn args
-            | Single x ->
-                apply_with_arity fn ~arity:(Lam_arity.extract_arity x) args)
+            | Arity_na -> E.call ~info:Js_call_info.dummy fn args
+            | x -> apply_with_arity fn ~arity:(Lam_arity.extract_arity x) args)
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation args_code
         expression

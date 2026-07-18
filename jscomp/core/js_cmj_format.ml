@@ -24,30 +24,33 @@
 
 open Import
 
-type arity = Single of Lam_arity.t | Submodule of arity array
+type value_summary =
+  | Leaf of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
+  | Submodule of value_summary array
 
-type nested_call_summary =
-  | Call_summary of Lam_call_summary.t
-  | Call_summary_submodule of nested_call_summary array
+let unknown_value_summary =
+  Leaf { arity = Lam_arity.na; call_summary = Lam_call_summary.Unknown }
+
+let rec value_summary_at_path summary path =
+  match (path, summary) with
+  | [], summary -> Some summary
+  | i :: rest, Submodule summaries -> (
+      match summaries.(i) with
+      | summary -> value_summary_at_path summary rest
+      | exception _ -> None)
+  | _ :: _, Leaf _ -> None
 
 (* TODO: add a magic number *)
 type cmj_value = {
-  arity : arity;
+  value_summary : value_summary;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
       (** Either constant or closed functor *)
-  call_summary : Lam_call_summary.t;
-  nested_call_summary : nested_call_summary;
 }
-
-let single_na = Single Lam_arity.na
-let call_summary_unknown = Call_summary Lam_call_summary.Unknown
 
 type keyed_cmj_value = {
   name : string;
-  arity : arity;
+  value_summary : value_summary;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
-  call_summary : Lam_call_summary.t;
-  nested_call_summary : nested_call_summary;
 }
 
 type t = {
@@ -77,10 +80,8 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
       to_sorted_array_with_f_seq values ~f:(fun k (v : cmj_value) ->
           {
             name = k;
-            arity = v.arity;
+            value_summary = v.value_summary;
             persistent_closed_lambda = v.persistent_closed_lambda;
-            call_summary = v.call_summary;
-            nested_call_summary = v.nested_call_summary;
           });
     pure = effect_ = None;
     package_spec;
@@ -123,10 +124,8 @@ let keyComp (a : string) b = String.compare a b.name
 let not_found key =
   {
     name = key;
-    arity = single_na;
+    value_summary = unknown_value_summary;
     persistent_closed_lambda = None;
-    call_summary = Lam_call_summary.Unknown;
-    nested_call_summary = call_summary_unknown;
   }
 
 let get_result midVal =
