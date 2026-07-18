@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+const Nested_call_target = require("./nested_call_target.js");
 
 function add(x, y) {
   return x + y | 0;
@@ -21,6 +22,12 @@ const N$1 = {
 
 const Deep = {
   N: N$1
+};
+
+const external_target = Nested_call_target.external_target;
+
+const Forward = {
+  external_target
 };
 
 function f1(param) {
@@ -55,6 +62,21 @@ const P = {
   })
 };
 
+const Js_call = {
+  parse_int: (function (prim) {
+    return parseInt(prim);
+  })
+};
+
+const Js_object = {
+  make: (function (prim0, prim1) {
+    return {
+      x: prim0,
+      y: prim1
+    };
+  })
+};
+
 const N1 = {
   f2: f2$1,
   f3: f3$1
@@ -64,6 +86,9 @@ module.exports = {
   N,
   Deep,
   P,
+  Js_call,
+  Js_object,
+  Forward,
   N0,
   N1,
 }

@@ -5,6 +5,11 @@ let () = Js.log (Inner_define.N.add 1 2)
 let () = Js.log (Inner_define.Deep.N.add 3 4)
 
 let nested_external_wrapper x y = Inner_define.P.fancy_add x y
+let nested_js_call_wrapper value = Inner_define.Js_call.parse_int value
+let nested_object_wrapper x y = Inner_define.Js_object.make ~x ~y
+
+let nested_direct_external_wrapper x =
+  Inner_define.Forward.external_target x
 
 
 open Inner_define

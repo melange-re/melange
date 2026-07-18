@@ -13,6 +13,18 @@ module P : sig
   val fancy_add : int -> int -> int
 end
 
+module Js_call : sig
+  val parse_int : string -> int
+end
+
+module Js_object : sig
+  val make : x:int -> y:int -> < x : int; y : int > Js.t
+end
+
+module Forward : sig
+  val external_target : int -> int
+end
+
 
 
 module type S0 =  sig 

@@ -74,14 +74,14 @@ let collect_info =
         match
           Lam_compile_env.query_external_id_info ~dynamic_import ident name
         with
-        | Some ({ arity; call_summary; _ } as _info) -> (
+        | Some { summary = { arity; call_summary; fields }; _ } -> (
             if not (Lam_call_summary.is_unknown call_summary) then call_summary
             else
-              match arity with
-              | Single arity when not (Lam_arity.first_arity_na arity) ->
+              match fields with
+              | None when not (Lam_arity.first_arity_na arity) ->
                   direct_external ~dynamic_import ident name arity
                     ~relocatable:true
-              | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+              | None | Some _ -> Lam_call_summary.Unknown)
         | None -> Lam_call_summary.Unknown)
   in
   let find_ident (meta : Lam_stats.t) ident =

@@ -50,32 +50,6 @@ let values_of_export =
         Ident.Hashtbl.replace cache ~key ~data:value;
         value
   in
-  let arity_cache = Ident.Hashtbl.create 32 in
-  let rec arity_of_lambda (meta : Lam_stats.t) seen = function
-    | (Lam.Lvar v | Lmutvar v) as lam ->
-        memoize arity_cache v (fun () ->
-            if Ident.Set.mem v seen then Js_cmj_format.single_na
-            else
-              let seen = Ident.Set.add v seen in
-              match Ident.Hashtbl.find meta.ident_tbl v with
-              | ImmutableBlock elems ->
-                  Js_cmj_format.Submodule
-                    (Array.map elems ~f:(arity_of_element meta seen))
-              | FunctionId { arity; _ } -> Js_cmj_format.Single arity
-              | _ | (exception Not_found) ->
-                  Js_cmj_format.Single (Lam_arity_analysis.get_arity meta lam))
-    | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-        Js_cmj_format.Submodule
-          (Array.of_list_map args ~f:(arity_of_lambda meta seen))
-    | lam -> Js_cmj_format.Single (Lam_arity_analysis.get_arity meta lam)
-  and arity_of_element (meta : Lam_stats.t) seen = function
-    | Lam_id_kind.Element.NA -> Js_cmj_format.single_na
-    | Function arity -> Js_cmj_format.Single arity
-    | ImmutableBlock elems ->
-        Js_cmj_format.Submodule
-          (Array.map elems ~f:(arity_of_element meta seen))
-    | SimpleForm lam -> arity_of_lambda meta seen lam
-  in
   let find_external_summary ~dynamic_import ident name ~arity:direct_arity =
     match Lam_compile_env.external_id_is_relative ident with
     | Some is_relative -> (
@@ -88,14 +62,14 @@ let values_of_export =
         match
           Lam_compile_env.query_external_id_info ~dynamic_import ident name
         with
-        | Some { arity; call_summary; _ } -> (
+        | Some { summary = { arity; call_summary; fields }; _ } -> (
             if not (Lam_call_summary.is_unknown call_summary) then call_summary
             else
-              match arity with
-              | Single arity when not (Lam_arity.first_arity_na arity) ->
+              match fields with
+              | None when not (Lam_arity.first_arity_na arity) ->
                   direct_external ~dynamic_import ident name arity
                     ~relocatable:true
-              | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+              | None | Some _ -> Lam_call_summary.Unknown)
         | None -> Lam_call_summary.Unknown)
   in
   let find_ident_summary (meta : Lam_stats.t) ident =
@@ -111,63 +85,89 @@ let values_of_export =
     if Lam_call_summary.is_relocatable call_summary then call_summary
     else Lam_call_summary.Unknown
   in
-  let nested_call_summary_of_summary summary =
-    Js_cmj_format.Call_summary
-      (if Lam_call_summary.is_relocatable summary then summary
-       else Lam_call_summary.Unknown)
+  let relocatable_call_summary call_summary =
+    if Lam_call_summary.is_relocatable call_summary then call_summary
+    else Lam_call_summary.Unknown
   in
-  let nested_call_summary_cache = Ident.Hashtbl.create 32 in
-  let rec nested_call_summary_of_lambda (meta : Lam_stats.t) seen = function
+  let leaf_summary arity call_summary : Js_cmj_format.value_summary =
+    {
+      arity;
+      call_summary = relocatable_call_summary call_summary;
+      fields = None;
+    }
+  in
+  let block_summary fields : Js_cmj_format.value_summary =
+    {
+      arity = Lam_arity.na;
+      call_summary = Lam_call_summary.Unknown;
+      fields = Some fields;
+    }
+  in
+  let summary_cache = Ident.Hashtbl.create 32 in
+  let rec summary_of_lambda (meta : Lam_stats.t) seen = function
     | (Lam.Lvar v | Lmutvar v) as lam ->
-        memoize nested_call_summary_cache v (fun () ->
-            if Ident.Set.mem v seen then Js_cmj_format.call_summary_unknown
+        memoize summary_cache v (fun () ->
+            if Ident.Set.mem v seen then Js_cmj_format.unknown_summary
             else
               let seen = Ident.Set.add v seen in
               match Ident.Hashtbl.find meta.ident_tbl v with
               | ImmutableBlock elems ->
-                  Js_cmj_format.Call_summary_submodule
-                    (Array.map elems
-                       ~f:(nested_call_summary_of_element meta seen))
-              | FunctionId { call_summary; _ } ->
-                  nested_call_summary_of_summary call_summary
+                  block_summary
+                    (Array.map elems ~f:(summary_of_element meta seen))
+              | FunctionId { arity; call_summary; _ } ->
+                  leaf_summary arity call_summary
               | _ | (exception Not_found) ->
-                  Js_cmj_format.Call_summary (summarize meta lam))
+                  leaf_summary
+                    (Lam_arity_analysis.get_arity meta lam)
+                    (summarize meta lam))
     | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-        Js_cmj_format.Call_summary_submodule
-          (Array.of_list_map args ~f:(nested_call_summary_of_lambda meta seen))
-    | lam -> Js_cmj_format.Call_summary (summarize meta lam)
-  and nested_call_summary_of_element (meta : Lam_stats.t) seen = function
+        block_summary (Array.of_list_map args ~f:(summary_of_lambda meta seen))
+    | lam ->
+        leaf_summary
+          (Lam_arity_analysis.get_arity meta lam)
+          (summarize meta lam)
+  and summary_of_element (meta : Lam_stats.t) seen = function
     | Lam_id_kind.Element.ImmutableBlock elems ->
-        Js_cmj_format.Call_summary_submodule
-          (Array.map elems ~f:(nested_call_summary_of_element meta seen))
-    | SimpleForm lam -> nested_call_summary_of_lambda meta seen lam
-    | NA | Function _ -> Js_cmj_format.call_summary_unknown
+        block_summary (Array.map elems ~f:(summary_of_element meta seen))
+    | SimpleForm lam -> summary_of_lambda meta seen lam
+    | Function arity -> leaf_summary arity Lam_call_summary.Unknown
+    | NA -> Js_cmj_format.unknown_summary
   in
   fun (meta : Lam_stats.t)
     (export_map : Lam.t Ident.Map.t)
     :
     Js_cmj_format.cmj_value String.Map.t
   ->
-    Ident.Hashtbl.clear arity_cache;
-    Ident.Hashtbl.clear nested_call_summary_cache;
+    Ident.Hashtbl.clear summary_cache;
     List.fold_left meta.exports ~init:String.Map.empty ~f:(fun acc x ->
-        let arity =
-          memoize arity_cache x (fun () ->
+        let summary =
+          memoize summary_cache x (fun () ->
               match Ident.Hashtbl.find meta.ident_tbl x with
-              | FunctionId { arity; _ } -> Js_cmj_format.Single arity
+              | FunctionId { arity; call_summary; _ } ->
+                  leaf_summary arity call_summary
               | ImmutableBlock elems ->
                   (* FIXME: field name for dumping *)
-                  Submodule
+                  block_summary
                     (Array.map elems
-                       ~f:(arity_of_element meta (Ident.Set.singleton x)))
+                       ~f:(summary_of_element meta (Ident.Set.singleton x)))
               | _ | (exception Not_found) -> (
                   match Ident.Map.find x export_map with
                   | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ }
                     ->
-                      Submodule
+                      block_summary
                         (Array.of_list_map args
-                           ~f:(arity_of_lambda meta (Ident.Set.singleton x)))
-                  | _ | (exception Not_found) -> Js_cmj_format.single_na))
+                           ~f:(summary_of_lambda meta (Ident.Set.singleton x)))
+                  | lambda -> leaf_summary Lam_arity.na (summarize meta lambda)
+                  | exception Not_found -> Js_cmj_format.unknown_summary))
+        in
+        let summary =
+          match Ident.Map.find x export_map with
+          | lambda ->
+              {
+                summary with
+                call_summary = relocatable_call_summary (summarize meta lambda);
+              }
+          | exception Not_found -> summary
         in
         let persistent_closed_lambda =
           match Ident.Map.find x export_map with
@@ -218,48 +218,22 @@ let values_of_export =
                           Some (lambda, param_map lambda))
                         else None))
         in
-        let call_summary =
-          match Ident.Map.find x export_map with
-          | lambda -> summarize meta lambda
-          | exception Not_found -> Lam_call_summary.Unknown
-        in
-        let nested_call_summary =
-          memoize nested_call_summary_cache x (fun () ->
-              match Ident.Hashtbl.find meta.ident_tbl x with
-              | FunctionId { call_summary; _ } ->
-                  nested_call_summary_of_summary call_summary
-              | ImmutableBlock elems ->
-                  Js_cmj_format.Call_summary_submodule
-                    (Array.map elems
-                       ~f:
-                         (nested_call_summary_of_element meta
-                            (Ident.Set.singleton x)))
-              | _ | (exception Not_found) -> (
-                  match Ident.Map.find x export_map with
-                  | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ }
-                    ->
-                      Js_cmj_format.Call_summary_submodule
-                        (Array.of_list_map args
-                           ~f:
-                             (nested_call_summary_of_lambda meta
-                                (Ident.Set.singleton x)))
-                  | lambda -> Js_cmj_format.Call_summary (summarize meta lambda)
-                  | exception Not_found -> Js_cmj_format.call_summary_unknown))
-        in
-        match (arity, persistent_closed_lambda, call_summary) with
-        | Single Arity_na, (None | Some (Lconst Const_module_alias, _)), summary
-        | Submodule [||], None, summary
-          when Lam_call_summary.is_unknown summary ->
+        match
+          ( summary.fields,
+            summary.arity,
+            persistent_closed_lambda,
+            summary.call_summary )
+        with
+        | ( None,
+            Arity_na,
+            (None | Some (Lconst Const_module_alias, _)),
+            call_summary )
+        | Some [||], _, None, call_summary
+          when Lam_call_summary.is_unknown call_summary ->
             acc
-        | _, _, _ ->
+        | _, _, _, _ ->
             String.Map.add acc ~key:(Ident.name x)
-              ~data:
-                {
-                  Js_cmj_format.arity;
-                  persistent_closed_lambda;
-                  call_summary;
-                  nested_call_summary;
-                })
+              ~data:{ Js_cmj_format.summary; persistent_closed_lambda })
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it *)
