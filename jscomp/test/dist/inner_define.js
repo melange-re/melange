@@ -24,6 +24,14 @@ const Deep = {
   N: N$1
 };
 
+const ExternalInclude = {
+  N: Inner_target.Tree.N
+};
+
+const ExternalNInclude = {
+  add: Inner_target.Tree.N.add
+};
+
 const choose = Inner_target.choose;
 
 const Forward = {
@@ -56,6 +64,10 @@ function f3$1(param, param$1, param$2) {
   
 }
 
+const ExternalAlias = Inner_target.Tree;
+
+const ExternalNAlias = Inner_target.Tree.N;
+
 const P = {
   fancy_add: (function (prim0, prim1) {
     return Caml_external_polyfill.resolve("caml_nested_summary_fancy_add")(prim0, prim1);
@@ -70,6 +82,10 @@ const N1 = {
 module.exports = {
   N,
   Deep,
+  ExternalAlias,
+  ExternalNAlias,
+  ExternalInclude,
+  ExternalNInclude,
   P,
   Forward,
   N0,

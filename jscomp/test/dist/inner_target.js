@@ -12,7 +12,20 @@ function choose(x, y) {
   }
 }
 
+function add(x, y) {
+  return x + y | 0;
+}
+
+const N = {
+  add
+};
+
+const Tree = {
+  N
+};
+
 module.exports = {
   choose,
+  Tree,
 }
 /* No side effect */

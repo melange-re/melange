@@ -9,6 +9,26 @@ module Deep : sig
   end
 end
 
+module ExternalAlias : sig
+  module N : sig
+    val add : int -> int -> int
+  end
+end
+
+module ExternalNAlias : sig
+  val add : int -> int -> int
+end
+
+module ExternalInclude : sig
+  module N : sig
+    val add : int -> int -> int
+  end
+end
+
+module ExternalNInclude : sig
+  val add : int -> int -> int
+end
+
 module P : sig
   val fancy_add : int -> int -> int
 end

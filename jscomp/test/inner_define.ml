@@ -9,6 +9,17 @@ module Deep = struct
   end
 end
 
+module ExternalAlias = Inner_target.Tree
+module ExternalNAlias = Inner_target.Tree.N
+
+module ExternalInclude = struct
+  include Inner_target.Tree
+end
+
+module ExternalNInclude = struct
+  include Inner_target.Tree.N
+end
+
 module P = struct
   external fancy_add : int -> int -> int = "caml_nested_summary_fancy_add"
 end
