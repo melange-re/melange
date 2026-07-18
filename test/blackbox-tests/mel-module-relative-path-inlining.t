@@ -1,5 +1,5 @@
-Regression test for relative `[@mel.module]` paths hidden behind an exported
-wrapper.
+Regression test for relative `[@mel.module]` paths hidden behind exported
+wrappers, including one in a nested module.
 
   $ . ./setup.sh
 
@@ -42,6 +42,9 @@ output dir
   > [@@mel.module "../vendor/shared.js"]
   > 
   > let run x = value x
+  > module Nested = struct
+  >   let run x = value x
+  > end
   > EOF
 
   $ cat > app/deep/dune <<EOF
@@ -53,11 +56,12 @@ output dir
   > EOF
 
   $ cat > app/deep/main.ml <<EOF
-  > let result = Bindings.run 41
-  > let () = Js.log result
+  > let () = Js.log (Bindings.run 41)
+  > let () = Js.log (Bindings.Nested.run 41)
   > EOF
 
   $ dune build @melange
 
   $ node _build/default/dist/app/deep/main.js
+  42
   42
