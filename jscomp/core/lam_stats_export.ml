@@ -104,7 +104,7 @@ let values_of_export =
         Js_cmj_format.Submodule
           (Array.map elems ~f:(value_summary_of_element meta seen))
     | SimpleForm lam -> value_summary_of_lambda meta seen lam
-    | Function arity -> leaf arity Lam_call_summary.Unknown
+    | Function { arity; call_summary } -> leaf arity call_summary
     | NA -> Js_cmj_format.unknown_value_summary
   in
   fun (meta : Lam_stats.t)

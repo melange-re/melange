@@ -20,6 +20,15 @@ console.log({
   y: 2
 });
 
+console.log(Math.imul(7, 8));
+
+console.log(Path.basename("/tmp/packed-ffi.txt"));
+
+console.log({
+  x: 3,
+  y: 4
+});
+
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
 }

@@ -57,6 +57,31 @@ const Ffi = {
   unresolved_add
 };
 
+function functions_imul(x, y) {
+  return Math.imul(x, y);
+}
+
+function functions_basename(path) {
+  return Path.basename(path);
+}
+
+function functions_point(x, y) {
+  return {
+    x,
+    y
+  };
+}
+
+const functions = {
+  imul: functions_imul,
+  basename: functions_basename,
+  point: functions_point
+};
+
+const PackedFfi = {
+  functions
+};
+
 function f1(param) {
   
 }
@@ -100,6 +125,7 @@ module.exports = {
   P,
   Forward,
   Ffi,
+  PackedFfi,
   N0,
   N1,
 }

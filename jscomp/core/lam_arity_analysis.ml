@@ -84,7 +84,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           | None -> Lam_arity.na)
       | None -> (
           match field_element meta owner m with
-          | Lam_id_kind.Element.Function arity -> arity
+          | Lam_id_kind.Element.Function { arity; _ } -> arity
           | SimpleForm lam -> get_arity meta lam
           | NA | ImmutableBlock _ -> Lam_arity.na))
   (* TODO: all information except Pccall is complete, we could

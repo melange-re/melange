@@ -35,7 +35,7 @@ module Element : sig
   type t =
     | NA
     | SimpleForm of Lam.t
-    | Function of Lam_arity.t
+    | Function of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
     | ImmutableBlock of t array
 end
 
@@ -75,4 +75,6 @@ type t =
         *)
 
 val print : Format.formatter -> t -> unit
-val of_lambda_block : Lam.t list -> t
+
+val of_lambda_block :
+  ?summarize:(Lam.t -> Lam_call_summary.t) -> Lam.t list -> t

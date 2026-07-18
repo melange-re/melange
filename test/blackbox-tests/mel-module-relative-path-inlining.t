@@ -41,9 +41,12 @@ output dir
   > external value : int -> int = "value"
   > [@@mel.module "../vendor/shared.js"]
   > 
+  > type packed = { call : int -> int }
+  > 
   > let run x = value x
   > module Nested = struct
   >   let run x = value x
+  >   let packed = { call = (fun x -> value x) }
   > end
   > EOF
 
@@ -58,10 +61,12 @@ output dir
   $ cat > app/deep/main.ml <<EOF
   > let () = Js.log (Bindings.run 41)
   > let () = Js.log (Bindings.Nested.run 41)
+  > let () = Js.log (Bindings.Nested.packed.call 41)
   > EOF
 
   $ dune build @melange
 
   $ node _build/default/dist/app/deep/main.js
+  42
   42
   42
