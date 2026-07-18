@@ -28,4 +28,4 @@ recursive CMJ summary data.
 
   $ melc $MEL_STDLIB_FLAGS --mel-stop-after-cmj input.ml
   $ if test "$(wc -c < input.cmj)" -lt 100000; then echo shared; else echo duplicated; fi
-  duplicated
+  shared
