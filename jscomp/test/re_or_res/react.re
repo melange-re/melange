@@ -110,17 +110,17 @@ external memoCustomCompareProps:
 module Fragment = {
   [@mel.obj]
   external makeProps:
-    (~children: element, ~key: 'key=?, unit) => {. "children": element};
+    (~children: element, ~key: 'key=?, unit) => {. "children": element };
   [@mel.module "react"]
-  external make: component({. "children": element}) = "Fragment";
+  external make: component({. "children": element }) = "Fragment";
 };
 
 module StrictMode = {
   [@mel.obj]
   external makeProps:
-    (~children: element, ~key: 'key=?, unit) => {. "children": element};
+    (~children: element, ~key: 'key=?, unit) => {. "children": element };
   [@mel.module "react"]
-  external make: component({. "children": element}) = "StrictMode";
+  external make: component({. "children": element }) = "StrictMode";
 };
 
 module Suspense = {
@@ -150,8 +150,19 @@ module SuspenseList = {
   external makeProps:
     (
       ~children: element=?,
-      ~revealOrder: [ | `forwards | `backwards | `together]=?,
-      ~tail: [ | `collapsed | `hidden]=?,
+      ~revealOrder:
+        [
+          | `forwards
+          | `backwards
+          | `together
+        ]
+          =?,
+      ~tail:
+        [
+          | `collapsed
+          | `hidden
+        ]
+          =?,
       unit
     ) =>
     {

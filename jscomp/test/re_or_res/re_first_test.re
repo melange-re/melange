@@ -8,7 +8,11 @@ let x = List.length([1, 2, 3]);
 let u = 3;
 
 [@deriving jsConverter]
-type adapter = [ | `idb | `leveldb | `http];
+type adapter = [
+  | `idb
+  | `leveldb
+  | `http
+];
 
 eq(__LOC__, adapterToJs(`idb), "idb");
 
