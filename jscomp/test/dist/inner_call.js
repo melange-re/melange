@@ -10,8 +10,18 @@ console.log(7);
 
 console.log(Inner_target.choose(8, 5));
 
+console.log(Inner_define.Ffi.imul(6, 7));
+
+console.log(Inner_define.Ffi.basename("/tmp/ffi.txt"));
+
+console.log(Inner_define.Ffi.point(1, 2));
+
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
+}
+
+function nested_unresolved_ffi(x, y) {
+  return Inner_define.Ffi.unresolved_add(x, y);
 }
 
 function f(x) {
@@ -25,6 +35,7 @@ function f(x) {
 
 module.exports = {
   nested_external_wrapper,
+  nested_unresolved_ffi,
   f,
 }
 /*  Not a pure module */

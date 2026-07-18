@@ -17,6 +17,22 @@ module Forward = struct
   let choose x y = Inner_target.choose x y
 end
 
+type point
+
+external math_imul : int -> int -> int = "imul" [@@mel.scope "Math"]
+external path_basename : string -> string = "basename" [@@mel.module "path"]
+external make_point : x:int -> y:int -> point = "" [@@mel.obj]
+
+external unresolved_add : int -> int -> int =
+  "caml_nested_summary_unresolved_add"
+
+module Ffi = struct
+  let imul x y = math_imul x y
+  let basename path = path_basename path
+  let point x y = make_point ~x ~y
+  let unresolved_add x y = unresolved_add x y
+end
+
 module type S0 =  sig 
   val f1 : unit -> unit 
   val f2 : unit -> unit -> unit 

@@ -3,6 +3,7 @@
 
 const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 const Inner_target = require("./inner_target.js");
+const Path = require("path");
 
 function add(x, y) {
   return x + y | 0;
@@ -28,6 +29,32 @@ const choose = Inner_target.choose;
 
 const Forward = {
   choose
+};
+
+function imul(x, y) {
+  return Math.imul(x, y);
+}
+
+function basename(path) {
+  return Path.basename(path);
+}
+
+function point(x, y) {
+  return {
+    x,
+    y
+  };
+}
+
+function unresolved_add(x, y) {
+  return Caml_external_polyfill.resolve("caml_nested_summary_unresolved_add")(x, y);
+}
+
+const Ffi = {
+  imul,
+  basename,
+  point,
+  unresolved_add
 };
 
 function f1(param) {
@@ -72,7 +99,8 @@ module.exports = {
   Deep,
   P,
   Forward,
+  Ffi,
   N0,
   N1,
 }
-/* No side effect */
+/* path Not a pure module */
