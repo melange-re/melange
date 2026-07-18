@@ -23,4 +23,3 @@
  (deps vec.cppo.ml)
  (action
   (run cppo -D TYPE_FUNCTOR %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-

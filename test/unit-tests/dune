@@ -3,4 +3,3 @@
  (package melange)
  (flags :standard -open Melstd -open Melange_compiler_libs)
  (libraries alcotest str melange.ppx melangelib))
-
