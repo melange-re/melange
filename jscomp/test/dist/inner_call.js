@@ -10,6 +10,14 @@ console.log(7);
 
 console.log(Inner_target.choose(8, 5));
 
+console.log(27);
+
+console.log(31);
+
+console.log(35);
+
+console.log(39);
+
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
 }

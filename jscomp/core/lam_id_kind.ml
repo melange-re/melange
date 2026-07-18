@@ -64,6 +64,7 @@ type t =
   | MutableBlock of Element.t array
   | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
+  | FieldAlias of Lam.t
   | FunctionId of {
       mutable arity : Lam_arity.t;
       (* TODO: This may contain some closure environment,
@@ -112,6 +113,7 @@ let print =
     | MutableBlock arr -> pp fmt "Mutable(%d)" (Array.length arr)
     | Constant _ -> pp fmt "Constant"
     | Module id -> pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
+    | FieldAlias lambda -> pp fmt "FieldAlias(%a)" Lam_print.lambda lambda
     | FunctionId { call_summary; _ } ->
         pp fmt "FunctionID(%a)" Lam_call_summary.print call_summary
     | Exception -> pp fmt "Exception"

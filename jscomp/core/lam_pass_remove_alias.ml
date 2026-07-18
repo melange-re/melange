@@ -164,7 +164,8 @@ let simplify_alias =
     | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->
         Eval_false
-    | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+    | Constant _ | Module _ | FieldAlias _ | FunctionId _ | Exception
+    | Parameter | NA
     | OptionalBlock (_, (Undefined | Null | Null_undefined))
     | (exception Not_found) ->
         Eval_unknown
