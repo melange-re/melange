@@ -37,10 +37,10 @@ module Element = struct
   type t =
     | NA
     | SimpleForm of Lam.t
-    | Function of Lam_arity.t
+    | Function of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
     | ImmutableBlock of t array
 
-  let rec of_lambda = function
+  let rec of_lambda ~summarize = function
     | ( Lam.Lvar _ | Lconst _
       | Lprim
           {
@@ -49,9 +49,14 @@ module Element = struct
             _;
           } ) as lam ->
         SimpleForm lam
-    | Lfunction { arity; _ } -> Function (Lam_arity.info [ arity ] false)
+    | Lfunction { arity; _ } as lambda ->
+        Function
+          {
+            arity = Lam_arity.info [ arity ] false;
+            call_summary = summarize lambda;
+          }
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
-        ImmutableBlock (Array.of_list_map args ~f:of_lambda)
+        ImmutableBlock (Array.of_list_map args ~f:(of_lambda ~summarize))
     | _ -> NA
 end
 
@@ -97,8 +102,9 @@ type t =
        mutable fields are explicit, since wen can not inline an mutable block access
 *)
 
-let of_lambda_block (xs : Lam.t list) =
-  ImmutableBlock (Array.of_list_map xs ~f:Element.of_lambda)
+let of_lambda_block ?(summarize = fun _ -> Lam_call_summary.Unknown)
+    (xs : Lam.t list) =
+  ImmutableBlock (Array.of_list_map xs ~f:(Element.of_lambda ~summarize))
 
 let print =
   let pp = Format.fprintf in

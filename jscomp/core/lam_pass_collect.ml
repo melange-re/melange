@@ -98,7 +98,7 @@ let collect_info =
     (* *)
     | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
-          ~data:(Lam_id_kind.of_lambda_block ls);
+          ~data:(Lam_id_kind.of_lambda_block ~summarize:(summarize meta) ls);
         List.iter ~f:(collect meta) ls
     | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident
