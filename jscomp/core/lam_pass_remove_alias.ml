@@ -113,12 +113,9 @@ let simplify_alias =
         Js_cmj_format.value_summary_at_path value_summary path
     | None -> None
   in
-  let primitive_summary_is_safe_to_inline primitive =
-    Lam_primitive.is_relocatable primitive
-    &&
-    match primitive with
-    | Lam_primitive.Pccall _ | Pjs_call _ | Pjs_object_create _ -> false
-    | _ -> true
+  let primitive_summary_is_safe_to_inline = function
+    | Lam_primitive.Pccall _ -> false
+    | primitive -> Lam_primitive.is_relocatable primitive
   in
   let direct_primitive_of_value value args =
     match value with
