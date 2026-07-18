@@ -13,6 +13,10 @@ module P : sig
   val fancy_add : int -> int -> int
 end
 
+module Forward : sig
+  val choose : int -> int -> int
+end
+
 
 
 module type S0 =  sig 

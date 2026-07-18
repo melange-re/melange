@@ -2,6 +2,7 @@
 'use strict';
 
 const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+const Inner_target = require("./inner_target.js");
 
 function add(x, y) {
   return x + y | 0;
@@ -21,6 +22,12 @@ const N$1 = {
 
 const Deep = {
   N: N$1
+};
+
+const choose = Inner_target.choose;
+
+const Forward = {
+  choose
 };
 
 function f1(param) {
@@ -64,6 +71,7 @@ module.exports = {
   N,
   Deep,
   P,
+  Forward,
   N0,
   N1,
 }
