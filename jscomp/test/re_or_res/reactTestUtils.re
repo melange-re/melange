@@ -5,15 +5,14 @@ let undefined: undefined = Js.Undefined.empty;
 [@mel.module "react-dom/test-utils"]
 external reactAct: ((. unit) => undefined) => unit = "act";
 
-let act: (unit => unit) => unit =
-  func => {
-    let reactFunc =
-      (.) => {
-        func();
-        undefined;
-      };
-    reactAct(reactFunc);
-  };
+let act: (unit => unit) => unit = func => {
+  let reactFunc =
+    (.) => {
+      func();
+      undefined;
+    };
+  reactAct(reactFunc);
+};
 
 [@mel.module "react-dom/test-utils"]
 external reactActAsync: ((. unit) => Js.Promise.t('a)) => Js.Promise.t(unit) =

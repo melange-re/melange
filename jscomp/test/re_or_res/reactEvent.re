@@ -1,6 +1,8 @@
 type synthetic('a);
 
-module MakeEventWithType = (Type: {type t;}) => {
+module MakeEventWithType = (Type: {
+                              type t;
+                            }) => {
   [@mel.get] external bubbles: Type.t => bool = "bubbles";
   [@mel.get] external cancelable: Type.t => bool = "cancelable";
   [@mel.get] external currentTarget: Type.t => Js.t({..}) = "currentTarget"; /* Should return Dom.eventTarget */

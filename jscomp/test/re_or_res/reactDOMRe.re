@@ -1116,7 +1116,7 @@ type domProps = {
   vocab: option(string),
   /* react-specific */
   [@mel.optional]
-  dangerouslySetInnerHTML: option({. "__html": string}),
+  dangerouslySetInnerHTML: option({. "__html": string }),
   [@mel.optional]
   suppressContentEditableWarning: option(bool),
 };
@@ -2122,7 +2122,7 @@ type props = {
   vocab: option(string),
   /* react-specific */
   [@mel.optional]
-  dangerouslySetInnerHTML: option({. "__html": string}),
+  dangerouslySetInnerHTML: option({. "__html": string }),
   [@mel.optional]
   suppressContentEditableWarning: option(bool),
 };
