@@ -80,7 +80,9 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
   }
 
 (* Serialization .. *)
-(* Increment the suffix whenever the marshalled representation of [t] changes. *)
+(* Increment the suffix whenever the representation or interpretation of the
+   marshalled object graph rooted at [t] changes incompatibly. This includes
+   changes to transitively referenced types and to the OCaml Marshal format. *)
 let magic_number = "MelangeCMJ001"
 let magic_number_size = String.length magic_number
 let digest_size = 16
@@ -97,7 +99,7 @@ let from_file name : t =
   let actual_digest =
     Digest.substring s marshal_header_size (size - marshal_header_size)
   in
-  if not (String.equal expected_digest actual_digest) then invalid_format name;
+  if not (Digest.equal expected_digest actual_digest) then invalid_format name;
   match Marshal.from_string s marshal_header_size with
   | cmj -> cmj
   | exception (Failure _ | Invalid_argument _) -> invalid_format name
@@ -105,24 +107,26 @@ let from_file name : t =
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
 let to_file =
-  let for_sure_not_changed name header =
+  let for_sure_not_changed name header digest =
     match Sys.file_exists name with
     | true ->
-        let holder =
-          Io.with_file_in_fd name ~f:(fun fd ->
-              let buf = Bytes.create marshal_header_size in
-              let _len = Unix.read fd buf 0 marshal_header_size in
-              Bytes.unsafe_to_string buf)
-        in
-        String.equal holder header
+        Io.with_file_in name ~f:(fun ic ->
+            match really_input_string ic marshal_header_size with
+            | holder ->
+                String.equal holder header
+                && Digest.equal (Digest.channel ic (-1)) digest
+            | exception End_of_file -> false)
     | false -> false
   in
   fun name (v : t) ->
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
     let header = magic_number ^ cur_digest in
-    if not (for_sure_not_changed name header) then
-      Io.write_filev name [ header; s ]
+    if not (for_sure_not_changed name header cur_digest) then
+      Misc.output_to_file_via_temporary ~mode:[ Open_binary ] name
+        (fun _temp_name oc ->
+          output_string oc header;
+          output_string oc s)
 
 let keyComp (a : string) b = String.compare a b.name
 
