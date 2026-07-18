@@ -19,6 +19,12 @@ end
 
 type point
 
+type ffi_functions = {
+  imul : int -> int -> int;
+  basename : string -> string;
+  point : int -> int -> point;
+}
+
 external math_imul : int -> int -> int = "imul" [@@mel.scope "Math"]
 external path_basename : string -> string = "basename" [@@mel.module "path"]
 external make_point : x:int -> y:int -> point = "" [@@mel.obj]
@@ -31,6 +37,14 @@ module Ffi = struct
   let basename path = path_basename path
   let point x y = make_point ~x ~y
   let unresolved_add x y = unresolved_add x y
+end
+
+module PackedFfi = struct
+  let functions = {
+    imul = (fun x y -> math_imul x y);
+    basename = (fun path -> path_basename path);
+    point = (fun x y -> make_point ~x ~y);
+  }
 end
 
 module type S0 =  sig 

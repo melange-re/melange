@@ -7,6 +7,9 @@ let () = Js.log (Inner_define.Forward.choose 8 5)
 let () = Js.log (Inner_define.Ffi.imul 6 7)
 let () = Js.log (Inner_define.Ffi.basename "/tmp/ffi.txt")
 let () = Js.log (Inner_define.Ffi.point 1 2)
+let () = Js.log (Inner_define.PackedFfi.functions.imul 7 8)
+let () = Js.log (Inner_define.PackedFfi.functions.basename "/tmp/packed-ffi.txt")
+let () = Js.log (Inner_define.PackedFfi.functions.point 3 4)
 
 let nested_external_wrapper x y = Inner_define.P.fancy_add x y
 let nested_unresolved_ffi x y = Inner_define.Ffi.unresolved_add x y

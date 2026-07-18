@@ -20,6 +20,12 @@ console.log({
   y: 2
 });
 
+console.log(Inner_define.PackedFfi.functions.imul(7, 8));
+
+console.log(Inner_define.PackedFfi.functions.basename("/tmp/packed-ffi.txt"));
+
+console.log(Inner_define.PackedFfi.functions.point(3, 4));
+
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
 }

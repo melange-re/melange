@@ -19,11 +19,21 @@ end
 
 type point
 
+type ffi_functions = {
+  imul : int -> int -> int;
+  basename : string -> string;
+  point : int -> int -> point;
+}
+
 module Ffi : sig
   val imul : int -> int -> int
   val basename : string -> string
   val point : int -> int -> point
   val unresolved_add : int -> int -> int
+end
+
+module PackedFfi : sig
+  val functions : ffi_functions
 end
 
 
