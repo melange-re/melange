@@ -125,7 +125,7 @@ let to_file =
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
     if not (for_sure_not_changed name cur_digest) then
-      Io.write_filev_atomic name [ magic_number; cur_digest; s ]
+      Io.write_filev name [ magic_number; cur_digest; s ]
 
 let keyComp (a : string) b = String.compare a b.name
 
