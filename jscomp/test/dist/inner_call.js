@@ -3,6 +3,7 @@
 
 const Inner_define = require("./inner_define.js");
 const Inner_target = require("./inner_target.js");
+const Path = require("path");
 
 console.log(3);
 
@@ -10,11 +11,14 @@ console.log(7);
 
 console.log(Inner_target.choose(8, 5));
 
-console.log(Inner_define.Ffi.imul(6, 7));
+console.log(Math.imul(6, 7));
 
-console.log(Inner_define.Ffi.basename("/tmp/ffi.txt"));
+console.log(Path.basename("/tmp/ffi.txt"));
 
-console.log(Inner_define.Ffi.point(1, 2));
+console.log({
+  x: 1,
+  y: 2
+});
 
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
