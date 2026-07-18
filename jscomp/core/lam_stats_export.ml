@@ -83,6 +83,17 @@ let values_of_export =
            else Lam_call_summary.Unknown);
       }
   in
+  let find_external_value_summary lam =
+    match Lam_arity_analysis.external_field_path lam with
+    | Some (ident, dynamic_import, name, path) -> (
+        match
+          Lam_compile_env.query_external_id_info ~dynamic_import ident name
+        with
+        | Some { value_summary; _ } ->
+            Js_cmj_format.value_summary_at_path value_summary path
+        | None -> None)
+    | None -> None
+  in
   let rec value_summary_of_lambda (meta : Lam_stats.t) seen = function
     | (Lam.Lvar v | Lmutvar v) as lam -> (
         if Ident.Set.mem v seen then Js_cmj_format.unknown_value_summary
@@ -93,11 +104,25 @@ let values_of_export =
               Js_cmj_format.Submodule
                 (Array.map elems ~f:(value_summary_of_element meta seen))
           | FunctionId { arity; call_summary; _ } -> leaf arity call_summary
+          | FieldAlias lambda -> value_summary_of_lambda meta seen lambda
           | _ | (exception Not_found) ->
               leaf (Lam_arity_analysis.get_arity meta lam) (summarize meta lam))
     | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
         Js_cmj_format.Submodule
           (Array.of_list_map args ~f:(value_summary_of_lambda meta seen))
+    | Lam.Lprim { primitive = Pfield (i, _); args = [ owner ]; _ } as lam -> (
+        match find_external_value_summary lam with
+        | Some value_summary -> value_summary
+        | None -> (
+            match value_summary_of_lambda meta seen owner with
+            | Submodule summaries -> (
+                match summaries.(i) with
+                | value_summary -> value_summary
+                | exception _ -> Js_cmj_format.unknown_value_summary)
+            | Leaf _ ->
+                leaf
+                  (Lam_arity_analysis.get_arity meta lam)
+                  (summarize meta lam)))
     | lam -> leaf (Lam_arity_analysis.get_arity meta lam) (summarize meta lam)
   and value_summary_of_element (meta : Lam_stats.t) seen = function
     | Lam_id_kind.Element.ImmutableBlock elems ->
@@ -180,6 +205,13 @@ let values_of_export =
                   Js_cmj_format.Submodule
                     (Array.of_list_map args
                        ~f:(value_summary_of_lambda meta (Ident.Set.singleton x)))
+              | (Lvar _ | Lmutvar _ | Lprim { primitive = Pfield _; _ }) as
+                lambda -> (
+                  match
+                    value_summary_of_lambda meta (Ident.Set.singleton x) lambda
+                  with
+                  | Submodule _ as value_summary -> value_summary
+                  | Leaf _ -> leaf Lam_arity.na call_summary)
               | _ -> leaf Lam_arity.na call_summary
               | exception Not_found -> Js_cmj_format.unknown_value_summary)
         in

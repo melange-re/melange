@@ -158,10 +158,21 @@ let collect_info =
         if Lam_call_summary.is_unknown call_summary then (
           collect meta lam;
           if Ident.Set.mem ident meta.export_idents then
-            annotate meta rec_flag ident arity lam call_summary)
+            annotate meta rec_flag ident arity lam call_summary
+          else
+            Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+              ~data:(FieldAlias lam))
         else
           Ident.Hashtbl.replace meta.ident_tbl ~key:ident
             ~data:(FunctionId { arity; lambda = None; call_summary })
+    | Lprim { primitive = Pfield (_, Fld_module _); _ } as lam ->
+        collect meta lam;
+        if Ident.Set.mem ident meta.export_idents then
+          annotate meta rec_flag ident
+            (Lam_arity_analysis.get_arity meta lam)
+            lam (summarize meta lam)
+        else
+          Ident.Hashtbl.replace meta.ident_tbl ~key:ident ~data:(FieldAlias lam)
     | Lfunction { params; body; _ }
     (* TODO record parameters ident ?, but it will be broken after inlining *)
       ->
