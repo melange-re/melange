@@ -107,26 +107,25 @@ let from_file name : t =
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
 let to_file =
-  let for_sure_not_changed name header digest =
+  let for_sure_not_changed name digest =
     match Sys.file_exists name with
     | true ->
         Io.with_file_in name ~f:(fun ic ->
-            match really_input_string ic marshal_header_size with
-            | holder ->
-                String.equal holder header
-                && Digest.equal (Digest.channel ic (-1)) digest
+            match
+              let actual_magic = really_input_string ic magic_number_size in
+              String.equal actual_magic magic_number
+              && Digest.equal (Digest.input ic) digest
+              && Digest.equal (Digest.channel ic (-1)) digest
+            with
+            | unchanged -> unchanged
             | exception End_of_file -> false)
     | false -> false
   in
   fun name (v : t) ->
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
-    let header = magic_number ^ cur_digest in
-    if not (for_sure_not_changed name header cur_digest) then
-      Misc.output_to_file_via_temporary ~mode:[ Open_binary ] name
-        (fun _temp_name oc ->
-          output_string oc header;
-          output_string oc s)
+    if not (for_sure_not_changed name cur_digest) then
+      Io.write_filev_atomic name [ magic_number; cur_digest; s ]
 
 let keyComp (a : string) b = String.compare a b.name
 

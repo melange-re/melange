@@ -31,3 +31,6 @@ val with_file_out_fd : ?perm:int -> string -> f:(Unix.file_descr -> 'a) -> 'a
 val write : Unix.file_descr -> string -> off:int -> len:int -> unit
 val write_file : ?binary:bool -> ?perm:int -> string -> string -> unit
 val write_filev : ?binary:bool -> ?perm:int -> string -> string list -> unit
+
+val write_filev_atomic :
+  ?binary:bool -> ?perm:int -> string -> string list -> unit

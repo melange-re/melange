@@ -186,3 +186,27 @@ let write_filev =
     else
       with_file_out ~binary ?perm fn ~f:(fun oc ->
           List.iter ~f:(output_string oc) data)
+
+let write_filev_atomic ?(binary = true) ?(perm = default_out_perm) fn data =
+  let temp_name, oc =
+    Filename.open_temp_file
+      ~mode:[ (if binary then Open_binary else Open_text) ]
+      ~perms:perm ~temp_dir:(Filename.dirname fn) (Filename.basename fn) ".tmp"
+  in
+  let remove_temp () =
+    match Sys.remove temp_name with () -> () | exception Sys_error _ -> ()
+  in
+  match
+    List.iter ~f:(output_string oc) data;
+    close_out oc
+  with
+  | () -> (
+      match Sys.rename temp_name fn with
+      | () -> ()
+      | exception exn ->
+          remove_temp ();
+          raise exn)
+  | exception exn ->
+      close_out_noerr oc;
+      remove_temp ();
+      raise exn
