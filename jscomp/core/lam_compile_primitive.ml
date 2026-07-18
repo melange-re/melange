@@ -376,10 +376,10 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pduprecord (Record_regular | Record_extension | Record_inlined _) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args
   | Plazyforce
-  (* FIXME: we don't inline lazy force or at least
+    (* FIXME: we don't inline lazy force or at least
      let buckle handle it
   *)
-  (* let parm = Ident.create "prim" in
+    (* let parm = Ident.create "prim" in
          Lfunction(Curried, [parm],
                    Matching.inline_lazy_force (Lvar parm) Location.none)
      It is inlined, this should not appear here *)
