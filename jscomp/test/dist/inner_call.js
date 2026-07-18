@@ -2,12 +2,13 @@
 'use strict';
 
 const Inner_define = require("./inner_define.js");
+const Inner_target = require("./inner_target.js");
 
 console.log(3);
 
 console.log(7);
 
-console.log(Inner_define.Forward.choose(8, 5));
+console.log(Inner_target.choose(8, 5));
 
 function nested_external_wrapper(x, y) {
   return Inner_define.P.fancy_add(x, y);
