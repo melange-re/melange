@@ -26,6 +26,7 @@ open Import
 
 type error =
   | Cmj_not_found of string
+  | Cmj_invalid_format of string
   | Js_not_found of string
   | Mel_duplicate_exports of string (* gpr_974 *)
   | Missing_ml_dependency of string
@@ -47,6 +48,11 @@ let report_error ppf = function
         "%s not found, it means either the module does not exist or it is a \
          namespace"
         s
+  | Cmj_invalid_format filename ->
+      Format.fprintf ppf
+        "%s has an incompatible or corrupt .cmj format; rebuild it with the \
+         current Melange compiler"
+        filename
   | Js_not_found s -> Format.fprintf ppf "%s not found, needed in script mode" s
   | Mel_duplicate_exports str ->
       Format.fprintf ppf "%s are exported as twice" str

@@ -26,7 +26,6 @@ open Import
 
 type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
-(* TODO: add a magic number *)
 type cmj_value = {
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
@@ -81,12 +80,27 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
   }
 
 (* Serialization .. *)
-let marshal_header_size = 16
+(* Increment the suffix whenever the marshalled representation of [t] changes. *)
+let magic_number = "MelangeCMJ001"
+let magic_number_size = String.length magic_number
+let digest_size = 16
+let marshal_header_size = magic_number_size + digest_size
+let invalid_format name = Mel_exception.error (Cmj_invalid_format name)
 
 let from_file name : t =
   let s = Io.read_file name in
-  let _digest = Digest.substring s 0 marshal_header_size in
-  Marshal.from_string s marshal_header_size
+  let size = String.length s in
+  if size < marshal_header_size then invalid_format name;
+  let actual_magic = String.sub s ~pos:0 ~len:magic_number_size in
+  if not (String.equal actual_magic magic_number) then invalid_format name;
+  let expected_digest = String.sub s ~pos:magic_number_size ~len:digest_size in
+  let actual_digest =
+    Digest.substring s marshal_header_size (size - marshal_header_size)
+  in
+  if not (String.equal expected_digest actual_digest) then invalid_format name;
+  match Marshal.from_string s marshal_header_size with
+  | cmj -> cmj
+  | exception (Failure _ | Invalid_argument _) -> invalid_format name
 
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
@@ -106,7 +120,7 @@ let to_file =
   fun name (v : t) ->
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
-    let header = cur_digest in
+    let header = magic_number ^ cur_digest in
     if not (for_sure_not_changed name header) then
       Io.write_filev name [ header; s ]
 

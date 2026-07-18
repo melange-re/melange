@@ -24,6 +24,7 @@
 
 type error =
   | Cmj_not_found of string
+  | Cmj_invalid_format of string
   | Js_not_found of string
   | Mel_duplicate_exports of string (* gpr_974 *)
   | Missing_ml_dependency of string
