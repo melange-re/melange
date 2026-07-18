@@ -60,6 +60,7 @@ type t =
   | MutableBlock of Element.t array
   | Constant of Lam.Constant.t
   | Module of Ident.t  (** TODO: static module vs first class module *)
+  | FieldAlias of Lam.t
   | FunctionId of {
       mutable arity : Lam_arity.t;
       lambda : (Lam.t * rec_flag) option;

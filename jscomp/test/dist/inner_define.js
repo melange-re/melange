@@ -3,6 +3,7 @@
 
 const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 const Nested_call_target = require("./nested_call_target.js");
+const Path = require("path");
 
 function add(x, y) {
   return x + y | 0;
@@ -22,6 +23,14 @@ const N$1 = {
 
 const Deep = {
   N: N$1
+};
+
+const ExternalInclude = {
+  N: Nested_call_target.Tree.N
+};
+
+const ExternalNInclude = {
+  add: Nested_call_target.Tree.N.add
 };
 
 const external_target = Nested_call_target.external_target;
@@ -56,16 +65,32 @@ function f3$1(param, param$1, param$2) {
   
 }
 
+const ExternalAlias = Nested_call_target.Tree;
+
+const ExternalNAlias = Nested_call_target.Tree.N;
+
 const P = {
   fancy_add: (function (prim0, prim1) {
     return Caml_external_polyfill.resolve("caml_nested_summary_fancy_add")(prim0, prim1);
   })
 };
 
+function Js_call_parse_int(prim) {
+  return parseInt(prim);
+}
+
+function Js_call_imul(prim0, prim1) {
+  return Math.imul(prim0, prim1);
+}
+
+function Js_call_basename(prim) {
+  return Path.basename(prim);
+}
+
 const Js_call = {
-  parse_int: (function (prim) {
-    return parseInt(prim);
-  })
+  parse_int: Js_call_parse_int,
+  imul: Js_call_imul,
+  basename: Js_call_basename
 };
 
 const Js_object = {
@@ -85,6 +110,10 @@ const N1 = {
 module.exports = {
   N,
   Deep,
+  ExternalAlias,
+  ExternalNAlias,
+  ExternalInclude,
+  ExternalNInclude,
   P,
   Js_call,
   Js_object,
@@ -92,4 +121,4 @@ module.exports = {
   N0,
   N1,
 }
-/* No side effect */
+/* path Not a pure module */

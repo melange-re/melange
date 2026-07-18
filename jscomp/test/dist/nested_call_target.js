@@ -10,7 +10,20 @@ function external_target(x) {
   }
 }
 
+function add(x, y) {
+  return x + y | 0;
+}
+
+const N = {
+  add
+};
+
+const Tree = {
+  N
+};
+
 module.exports = {
   external_target,
+  Tree,
 }
 /* No side effect */

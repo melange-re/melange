@@ -92,6 +92,12 @@ let simplify_alias =
     | Some { summary; _ } -> Js_cmj_format.summary_at_path summary path
     | None -> Js_cmj_format.unknown_summary
   in
+  let primitive_summary_is_safe_to_inline = function
+    (* Unresolved OCaml primitives must keep calling the producer's exported
+       wrapper. *)
+    | Lam_primitive.Pccall _ -> false
+    | primitive -> Lam_primitive.is_relocatable primitive
+  in
   let direct_primitive_of_value value args =
     match value with
     | Lam_id_kind.FunctionId
@@ -136,7 +142,8 @@ let simplify_alias =
     | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->
         Eval_false
-    | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+    | Constant _ | Module _ | FieldAlias _ | FunctionId _ | Exception
+    | Parameter | NA
     | OptionalBlock (_, (Undefined | Null | Null_undefined))
     | (exception Not_found) ->
         Eval_unknown
@@ -355,7 +362,7 @@ let simplify_alias =
                 };
               _;
             }
-          when Lam_primitive.is_relocatable primitive
+          when primitive_summary_is_safe_to_inline primitive
                && fully_applied arity args ->
             Lam.prim ~primitive
               ~args:(List.map ~f:(simpl meta) args)
@@ -436,7 +443,7 @@ let simplify_alias =
             match summary.call_summary with
             | Direct_primitive primitive
               when fully_applied summary.arity ap_args
-                   && Lam_primitive.is_relocatable primitive ->
+                   && primitive_summary_is_safe_to_inline primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
             | Direct_external
                 {

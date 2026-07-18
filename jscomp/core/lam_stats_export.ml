@@ -103,6 +103,17 @@ let values_of_export =
       fields = Some fields;
     }
   in
+  let find_external_value_summary lam =
+    match Lam_arity_analysis.external_field_path lam with
+    | Some (ident, dynamic_import, name, path) -> (
+        match
+          Lam_compile_env.query_external_id_info ~dynamic_import ident name
+        with
+        | Some { summary; _ } ->
+            Some (Js_cmj_format.summary_at_path summary path)
+        | None -> None)
+    | None -> None
+  in
   let summary_cache = Ident.Hashtbl.create 32 in
   let rec summary_of_lambda (meta : Lam_stats.t) seen = function
     | (Lam.Lvar v | Lmutvar v) as lam ->
@@ -116,12 +127,26 @@ let values_of_export =
                     (Array.map elems ~f:(summary_of_element meta seen))
               | FunctionId { arity; call_summary; _ } ->
                   leaf_summary arity call_summary
+              | FieldAlias lambda -> summary_of_lambda meta seen lambda
               | _ | (exception Not_found) ->
                   leaf_summary
                     (Lam_arity_analysis.get_arity meta lam)
                     (summarize meta lam))
     | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
         block_summary (Array.of_list_map args ~f:(summary_of_lambda meta seen))
+    | Lam.Lprim { primitive = Pfield (i, _); args = [ owner ]; _ } as lam -> (
+        match find_external_value_summary lam with
+        | Some summary -> summary
+        | None -> (
+            match (summary_of_lambda meta seen owner).fields with
+            | Some fields -> (
+                match fields.(i) with
+                | summary -> summary
+                | exception _ -> Js_cmj_format.unknown_summary)
+            | None ->
+                leaf_summary
+                  (Lam_arity_analysis.get_arity meta lam)
+                  (summarize meta lam)))
     | lam ->
         leaf_summary
           (Lam_arity_analysis.get_arity meta lam)
@@ -157,6 +182,15 @@ let values_of_export =
                       block_summary
                         (Array.of_list_map args
                            ~f:(summary_of_lambda meta (Ident.Set.singleton x)))
+                  | (Lvar _ | Lmutvar _ | Lprim { primitive = Pfield _; _ }) as
+                    lambda -> (
+                      let summary =
+                        summary_of_lambda meta (Ident.Set.singleton x) lambda
+                      in
+                      match summary.fields with
+                      | Some _ -> summary
+                      | None ->
+                          leaf_summary Lam_arity.na (summarize meta lambda))
                   | lambda -> leaf_summary Lam_arity.na (summarize meta lambda)
                   | exception Not_found -> Js_cmj_format.unknown_summary))
         in
