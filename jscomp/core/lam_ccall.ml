@@ -130,6 +130,8 @@ let of_name prim_name =
   | "caml_int64_compare" -> builtin prim_name (Int64 Int64_compare)
   | "caml_int64_bits_of_float" -> builtin prim_name (Int64 Int64_bits_of_float)
   | "caml_int64_float_of_bits" ->
+      (* More safe to check if arguments are constant. This has no observable
+         side effect. *)
       builtin ~effects:No_side_effects prim_name (Int64 Int64_float_of_bits)
   | "caml_int64_bswap" -> builtin prim_name (Int64 Int64_bswap)
   | "caml_int64_min" -> builtin prim_name (Int64 Int64_min)
@@ -138,7 +140,9 @@ let of_name prim_name =
   | "caml_ldexp_float" | "caml_frexp_float" | "caml_copysign_float"
   | "caml_expm1_float" | "caml_hypot_float" | "caml_signbit_float" ->
       runtime_primitive prim_name Float
-  | "caml_fmod_float" -> builtin prim_name Float_mod
+  | "caml_fmod_float" ->
+      (* Float module, like the JavaScript Number module. *)
+      builtin prim_name Float_mod
   | "caml_fma_float" -> builtin prim_name Float_fma
   | "caml_string_equal" -> builtin prim_name (String_comparison Eq)
   | "caml_string_notequal" -> builtin prim_name (String_comparison Ne)
@@ -184,28 +188,47 @@ let of_name prim_name =
   | "caml_fill_bytes" | "bytes_to_string" | "bytes_of_string"
   | "caml_blit_string" | "caml_blit_bytes" ->
       runtime_primitive prim_name Bytes
+  (* unit -> unit
+     _ -> unit
+     major_slice : int -> int *)
   | "caml_backtrace_status" | "caml_get_exception_backtrace"
   | "caml_get_exception_raw_backtrace" | "caml_record_backtrace"
   | "caml_convert_raw_backtrace" | "caml_get_current_callstack" ->
       builtin prim_name Unit
+  (* We captured exception/extension creation in the early pass. These
+     primitives only operate on the resulting identifier. *)
   | "caml_exn_slot_id" | "caml_exn_slot_name" | "caml_is_extension" ->
       runtime_primitive prim_name Exceptions
-  | "caml_set_oo_id" -> runtime_primitive prim_name Oo
+  (* | "caml_as_js_exn" -> call Js_runtime_modules.caml_js_exceptions *)
+  | "caml_set_oo_id" ->
+      (* Needed in [CamlinternalOO.set_id]. *)
+      runtime_primitive prim_name Oo
+  (* TODO: refine. Inlining these is helpful for DCE:
+     {[ external get_argv : unit -> string * string array = "caml_sys_get_argv" ]}
+
+     A possible inline representation was:
+     {[ Js_of_lam_tuple.make
+          [ E.str "cmd"; Js_of_lam_array.make_array NA Pgenarray [] ] ]} *)
   | "caml_sys_executable_name" ->
       runtime_primitive ~effects:No_side_effects prim_name Sys
   | "caml_sys_argv" -> runtime_primitive ~effects:No_side_effects prim_name Sys
   | "caml_sys_time" | "caml_sys_getenv" | "caml_sys_system_command"
-  | "caml_sys_getcwd" | "caml_sys_is_directory" | "caml_sys_exit" ->
+  | "caml_sys_getcwd" (* Check browser or Node.js. *) | "caml_sys_is_directory"
+  | "caml_sys_exit" ->
       runtime_primitive prim_name Sys
+  (* | "caml_sys_file_exists" *)
   | "caml_lex_engine" | "caml_new_lex_engine" ->
       runtime_primitive prim_name Lexer
   | "caml_parse_engine" | "caml_set_parser_trace" ->
       runtime_primitive prim_name Parser
   | "caml_make_float_vect" | "caml_array_create_float"
   | "caml_floatarray_create" ->
+      (* TODO: compile float arrays into TypedArray. *)
       runtime prim_name Array (Runtime_name "make_float")
   | "caml_array_sub" -> runtime prim_name Array (Runtime_name "sub")
-  | "caml_array_concat" -> runtime prim_name Array (Runtime_name "concat")
+  | "caml_array_concat" ->
+      (* [concat : 'a array list -> 'a array] is not good for inlining. *)
+      runtime prim_name Array (Runtime_name "concat")
   | "caml_array_blit" -> runtime prim_name Array (Runtime_name "blit")
   | "caml_make_vect" | "caml_array_make" ->
       runtime ~effects:No_side_effects prim_name Array (Runtime_name "make")
@@ -214,9 +237,10 @@ let of_name prim_name =
       runtime_primitive prim_name Io
   | "caml_array_dup" -> builtin ~effects:No_side_effects prim_name Array_dup
   | "caml_format_float" | "caml_hexstring_of_float" | "caml_nativeint_format"
-  | "caml_int32_format" | "caml_float_of_string" | "caml_int_of_string"
-  | "caml_int32_of_string" | "caml_nativeint_of_string" | "caml_int64_format"
-  | "caml_int64_of_string" | "caml_format_int" ->
+  | "caml_int32_format" | "caml_float_of_string"
+  | "caml_int_of_string" (* What is the semantics? *) | "caml_int32_of_string"
+  | "caml_nativeint_of_string" | "caml_int64_format" | "caml_int64_of_string"
+  | "caml_format_int" ->
       runtime_primitive prim_name Format
   | "caml_obj_dup" -> runtime_primitive ~effects:No_side_effects prim_name Obj
   | "caml_notequal" ->
@@ -249,9 +273,18 @@ let of_name prim_name =
   | "caml_ml_open_descriptor_out" ->
       make ~effects:(Depends_on_arguments Open_descriptor_out) prim_name
         (Conditional Open_descriptor_out)
-  | "caml_register_named_value" | "caml_sys_get_config" ->
+  | "caml_register_named_value" ->
+      (* Registering with the C runtime does not make sense in Melange. Keep
+         the call effectful so its arguments are still evaluated, then lower
+         the primitive itself to unit. *)
+      builtin ~effects:May_have_side_effects prim_name Unit
+  | "caml_sys_get_config" ->
+      (* Should be fine to eliminate when unused. *)
       make ~effects:No_side_effects prim_name External
-  | _ -> make prim_name External
+  | _ ->
+      (* "caml_alloc_dummy"; *)
+      (* TODO: "caml_alloc_dummy_float". *)
+      make prim_name External
 
 let name t = t.prim_name
 let lowering t = t.lowering

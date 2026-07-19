@@ -64,7 +64,9 @@ let string_comparison comparison args =
   | [ left; right ] -> (
       match comparison with
       | Lam_ccall.Eq -> E.string_equal left right
-      | Ne -> E.string_comp NotEqEq left right
+      | Ne ->
+          (* TODO: convert to the OCaml operation. *)
+          E.string_comp NotEqEq left right
       | Le -> E.string_comp Le left right
       | Lt -> E.string_comp Lt left right
       | Ge -> E.string_comp Ge left right
@@ -77,7 +79,9 @@ let bool_comparison comparison args =
       E.bool_comp
         (match comparison with
         | Lam_ccall.Eq -> Ceq
-        | Ne -> Cne
+        | Ne ->
+            (* TODO: specialize using the OCaml operation. *)
+            Cne
         | Le -> Cle
         | Lt -> Clt
         | Ge -> Cge
@@ -118,10 +122,12 @@ let polymorphic_comparison loc prim_name operation args =
   | Lam_ccall.Polymorphic_not_equal, [ left; right ]
     when E.for_sure_js_null_undefined left || E.for_sure_js_null_undefined right
     ->
+      (* FIXME: address_equal. *)
       E.neq_null_undefined_boolean left right
   | Polymorphic_equal, [ left; right ]
     when E.for_sure_js_null_undefined left || E.for_sure_js_null_undefined right
     ->
+      (* FIXME: address_equal. *)
       E.eq_null_undefined_boolean left right
   | (Polymorphic_equal | Polymorphic_not_equal | Polymorphic_other), _ ->
       Location.prerr_warning loc Warnings.Mel_polymorphic_comparison;
@@ -165,7 +171,7 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
       match builtin with
       | Float_add -> (
           match args with
-          | [ left; right ] -> E.float_add left right
+          | [ left; right ] -> E.float_add left right (* TODO: float plus. *)
           | _ -> assert false)
       | Float_div -> (
           match args with
@@ -189,7 +195,10 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
           | _ -> assert false)
       | Identity -> ( match args with [ arg ] -> arg | _ -> assert false)
       | To_int32 -> (
-          match args with [ arg ] -> E.to_int32 arg | _ -> assert false)
+          (* TODO: do more checking when converting to int32. *)
+          match args with
+          | [ arg ] -> E.to_int32 arg
+          | _ -> assert false)
       | Runtime_call (runtime, runtime_name) ->
           let fn_name =
             match runtime_name with
@@ -235,8 +244,12 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
           | [ left; right ] -> E.string_comp EqEqEq left right
           | _ -> assert false)
       | Create_bytes -> (
+          (* [Bytes.create]. For an invalid range, JavaScript raises a
+             [RangeError], while OCaml raises [Invalid_argument]; preserve the
+             existing semantics. Bytes are represented as JavaScript arrays. *)
           match args with
           | [ { expression_desc = Number (Int { i; _ }); _ } ] when i < 8l ->
+              (* Invariant: bytes are [int array]. *)
               E.array NA
                 (if i = 0l then []
                  else
@@ -259,22 +272,30 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
           | _ -> call Caml_primitive)
       | Min -> min_max Clt prim_name args
       | Max -> min_max Cgt prim_name args
-      | Unit -> E.unit
+      | Unit -> List.fold_right args ~init:E.unit ~f:E.seq
       | Array_dup -> (
           match args with
           | [ arg ] -> (
               match arg.expression_desc with
               | Array _ | Caml_block _ -> arg
+              (* We created a temporary block, copied it, and immediately
+                 discarded it, so the copy can be canceled. *)
               | _ ->
                   E.runtime_call ~module_name:Js_runtime_modules.array
                     ~fn_name:"dup" args)
           | _ -> assert false)
       | Polymorphic_comparison operation ->
           polymorphic_comparison loc prim_name operation args
-      | Obj_tag -> ( match args with [ arg ] -> E.tag arg | _ -> assert false)
+      | Obj_tag -> (
+          (* In OCaml, [int] has tag 1000 and [string] has tag 252. We also
+             need to check nullary values. *)
+          match args with
+          | [ arg ] -> E.tag arg
+          | _ -> assert false)
+      (* TODO: primitive not implemented yet. *)
       | Install_signal_handler -> (
           match args with
-          | [ number; behavior ] -> E.seq number behavior
+          | [ number; behavior ] -> E.seq number behavior (* TODO *)
           | _ -> assert false)
       | Nativeint operation -> nativeint_operation operation args)
   | Conditional Open_descriptor_in ->
