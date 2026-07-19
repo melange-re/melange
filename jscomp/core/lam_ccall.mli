@@ -84,6 +84,8 @@ type effects =
   | May_have_side_effects
   | Depends_on_arguments of conditional
 
+type result_kind = Unknown | Boolean
+
 type t
 (** A C-call classified for lowering and Lambda analysis. *)
 
@@ -94,6 +96,7 @@ val of_name : string -> t
 val name : t -> string
 val lowering : t -> lowering
 val effects : t -> effects
+val result_kind : t -> result_kind
 val returns_boolean : t -> bool
 val is_relocatable : t -> bool
 val equal : t -> t -> bool
