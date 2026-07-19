@@ -203,14 +203,14 @@ let lam_prim =
         (* Pignore means return unit, it is not an nop *)
         Lam.seq (List.hd args) Lam.unit
     | Pcompare_ints ->
-        Lam.prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args ~loc
+        Lam.prim ~primitive:(Pccall Lam_ccall.int_compare) ~args ~loc
     | Pcompare_floats ->
-        Lam.prim ~primitive:(Pccall { prim_name = "caml_float_compare" }) ~args ~loc
+        Lam.prim ~primitive:(Pccall Lam_ccall.float_compare) ~args ~loc
     | Pcompare_bints Pnativeint -> assert false
     | Pcompare_bints Pint32 ->
-        Lam.prim ~primitive:(Pccall { prim_name = "caml_int32_compare" }) ~args ~loc
+        Lam.prim ~primitive:(Pccall Lam_ccall.int32_compare) ~args ~loc
     | Pcompare_bints Pint64 ->
-        Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_compare" }) ~args ~loc
+        Lam.prim ~primitive:(Pccall Lam_ccall.int64_compare) ~args ~loc
     | Pgetglobal _ -> assert false
     | Psetglobal _ ->
         (* we discard [Psetglobal] in the beginning*)
@@ -646,7 +646,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           convert_js_primitive a_prim args loc
         else
           let args = convert_args args in
-          Lam.prim ~primitive:(Pccall { prim_name }) ~args ~loc
+          Lam.prim ~primitive:(Pccall (Lam_ccall.of_name prim_name)) ~args ~loc
     | Ffi_obj_create labels ->
         let args = convert_args args in
         Lam.prim ~primitive:(Pjs_object_create labels) ~args ~loc
@@ -725,7 +725,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         match args with
         | [ lhs; rhs ] ->
             Lam.prim
-              ~primitive:(Pccall { prim_name = "caml_string_equal" })
+              ~primitive:(Pccall Lam_ccall.string_equal)
               ~args:[ lam_extension_id ~loc lhs; rhs ]
               ~loc
         | _ -> assert false)

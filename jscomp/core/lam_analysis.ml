@@ -43,31 +43,19 @@ let rec no_side_effects (lam : Lam.t) : bool =
       List.for_all ~f:no_side_effects args
       &&
       match primitive with
-      | Pccall { prim_name } -> (
-          match (prim_name, args) with
-          | ( ( "caml_register_named_value"
-              (* register to c runtime does not make sense  in ocaml *)
-              | "caml_int64_float_of_bits"
-              (* more safe to check if arguments are constant *)
-              (* non-observable side effect *)
-              | "caml_sys_get_config" | "caml_sys_argv" (* should be fine *)
-              | "caml_sys_executable_name" | "caml_string_repeat"
-              | "caml_make_vect" | "caml_array_make" | "caml_create_bytes"
-              | "caml_obj_dup" | "caml_array_dup" | "nativeint_add"
-              | "nativeint_div" | "nativeint_mod" | "nativeint_lsr"
-              | "nativeint_mul" ),
-              _ ) ->
+      | Pccall ccall -> (
+          match (Lam_ccall.effects ccall, args) with
+          | No_side_effects, _ -> true
+          | ( Depends_on_arguments Open_descriptor_in,
+              [ Lconst (Const_int { i = 0l; _ }) ] ) ->
               true
-          | "caml_ml_open_descriptor_in", [ Lconst (Const_int { i = 0l; _ }) ]
-            ->
-              true
-          | ( "caml_ml_open_descriptor_out",
+          | ( Depends_on_arguments Open_descriptor_out,
               [ Lconst (Const_int { i = 1l | 2l; _ }) ] ) ->
               true
           (* we can not mark it pure
              only when we guarantee this exception is caught...
           *)
-          | _, _ -> false)
+          | (May_have_side_effects | Depends_on_arguments _), _ -> false)
       | Pmodint | Pdivint | Pdivint64 | Pmodint64 -> (
           match args with
           | [ _; Lconst cst ] -> not_zero_constant cst
