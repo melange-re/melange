@@ -31,6 +31,7 @@ end
 
 module P : sig
   val fancy_add : int -> int -> int
+  val concat : 'a array list -> 'a array
 end
 
 module Js_call : sig

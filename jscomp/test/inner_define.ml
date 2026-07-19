@@ -22,6 +22,7 @@ end
 
 module P = struct
   external fancy_add : int -> int -> int = "caml_nested_summary_fancy_add"
+  external concat : 'a array list -> 'a array = "caml_array_concat"
 end
 
 module Js_call = struct
