@@ -77,28 +77,21 @@ type builtin =
   | Nativeint of nativeint_operation
 
 type conditional = Open_descriptor_in | Open_descriptor_out
-type lowering = Builtin of builtin | Conditional of conditional | External
+type effects = No_side_effects | May_have_side_effects
 
-type effects =
-  | No_side_effects
-  | May_have_side_effects
-  | Depends_on_arguments of conditional
+type behavior =
+  | Builtin of builtin * effects
+  | Conditional of conditional
+  | External of effects
 
 type result_kind = Unknown | Boolean
+type t = { prim_name : string; behavior : behavior; result_kind : result_kind }
 
-type t = {
-  prim_name : string;
-  lowering : lowering;
-  effects : effects;
-  result_kind : result_kind;
-}
+let make ?(result_kind = Unknown) prim_name behavior =
+  { prim_name; behavior; result_kind }
 
-let make ?(effects = May_have_side_effects) ?(result_kind = Unknown) prim_name
-    lowering =
-  { prim_name; lowering; effects; result_kind }
-
-let builtin ?effects ?result_kind prim_name builtin =
-  make ?effects ?result_kind prim_name (Builtin builtin)
+let builtin ?(effects = May_have_side_effects) ?result_kind prim_name builtin =
+  make ?result_kind prim_name (Builtin (builtin, effects))
 
 let runtime ?effects ?result_kind prim_name runtime_module runtime_name =
   builtin ?effects ?result_kind prim_name
@@ -106,6 +99,18 @@ let runtime ?effects ?result_kind prim_name runtime_module runtime_name =
 
 let runtime_primitive ?effects ?result_kind prim_name runtime_module =
   runtime ?effects ?result_kind prim_name runtime_module Primitive_name
+
+let conditional prim_name conditional = make prim_name (Conditional conditional)
+
+let external_call ?(effects = May_have_side_effects) prim_name =
+  make prim_name (External effects)
+
+let resolve_conditional conditional argument =
+  match (conditional, argument) with
+  | Open_descriptor_in, 0l -> Some (Io, "stdin")
+  | Open_descriptor_out, 1l -> Some (Io, "stdout")
+  | Open_descriptor_out, 2l -> Some (Io, "stderr")
+  | (Open_descriptor_in | Open_descriptor_out), _ -> None
 
 let boolean_builtin ?effects prim_name lowering =
   builtin ?effects ~result_kind:Boolean prim_name lowering
@@ -291,12 +296,8 @@ let of_name prim_name =
       builtin ~effects:No_side_effects prim_name (Nativeint Nativeint_lsr)
   | "nativeint_mul" ->
       builtin ~effects:No_side_effects prim_name (Nativeint Nativeint_mul)
-  | "caml_ml_open_descriptor_in" ->
-      make ~effects:(Depends_on_arguments Open_descriptor_in) prim_name
-        (Conditional Open_descriptor_in)
-  | "caml_ml_open_descriptor_out" ->
-      make ~effects:(Depends_on_arguments Open_descriptor_out) prim_name
-        (Conditional Open_descriptor_out)
+  | "caml_ml_open_descriptor_in" -> conditional prim_name Open_descriptor_in
+  | "caml_ml_open_descriptor_out" -> conditional prim_name Open_descriptor_out
   | "caml_register_named_value" ->
       (* Registering with the C runtime does not make sense in Melange. Keep
          the call effectful so its arguments are still evaluated, then lower
@@ -304,22 +305,23 @@ let of_name prim_name =
       builtin ~effects:May_have_side_effects prim_name Unit
   | "caml_sys_get_config" ->
       (* Should be fine to eliminate when unused. *)
-      make ~effects:No_side_effects prim_name External
+      external_call ~effects:No_side_effects prim_name
   | _ ->
       (* "caml_alloc_dummy"; *)
       (* TODO: "caml_alloc_dummy_float". *)
-      make prim_name External
+      external_call prim_name
 
 let name t = t.prim_name
-let lowering t = t.lowering
-let effects t = t.effects
+let behavior t = t.behavior
 let result_kind t = t.result_kind
 
 let returns_boolean t =
   match t.result_kind with Boolean -> true | Unknown -> false
 
 let is_relocatable t =
-  match t.lowering with Builtin _ -> true | Conditional _ | External -> false
+  match t.behavior with
+  | Builtin _ -> true
+  | Conditional _ | External _ -> false
 
 let equal left right = String.equal left.prim_name right.prim_name
 let int_compare = of_name "caml_int_compare"
