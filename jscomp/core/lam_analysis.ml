@@ -44,18 +44,20 @@ let rec no_side_effects (lam : Lam.t) : bool =
       &&
       match primitive with
       | Pccall ccall -> (
-          match (Lam_ccall.effects ccall, args) with
-          | No_side_effects, _ -> true
-          | ( Depends_on_arguments Open_descriptor_in,
-              [ Lconst (Const_int { i = 0l; _ }) ] ) ->
-              true
-          | ( Depends_on_arguments Open_descriptor_out,
-              [ Lconst (Const_int { i = 1l | 2l; _ }) ] ) ->
-              true
+          match (Lam_ccall.behavior ccall, args) with
+          | (Builtin (_, No_side_effects) | External No_side_effects), _ -> true
+          | Conditional conditional, [ Lconst (Const_int { i; _ }) ] -> (
+              match Lam_ccall.resolve_conditional conditional i with
+              | Some _ -> true
+              | None -> false)
           (* we can not mark it pure
              only when we guarantee this exception is caught...
           *)
-          | (May_have_side_effects | Depends_on_arguments _), _ -> false)
+          | ( ( Builtin (_, May_have_side_effects)
+              | External May_have_side_effects ),
+              _ )
+          | Conditional _, _ ->
+              false)
       | Pmodint | Pdivint | Pdivint64 | Pmodint64 -> (
           match args with
           | [ _; Lconst cst ] -> not_zero_constant cst

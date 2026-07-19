@@ -25,21 +25,10 @@
 open Import
 module E = Js_exp_make
 
-(* not exhaustive *)
-let args_const_unbox_approx_int_zero (args : J.expression list) =
+let constant_int_argument (args : J.expression list) =
   match args with
-  | [ { expression_desc = Number (Int { i = 0l; _ }); _ } ] -> true
-  | _ -> false
-
-let args_const_unbox_approx_int_one (args : J.expression list) =
-  match args with
-  | [ { expression_desc = Number (Int { i = 1l; _ }); _ } ] -> true
-  | _ -> false
-
-let args_const_unbox_approx_int_two (args : J.expression list) =
-  match args with
-  | [ { expression_desc = Number (Int { i = 2l; _ }); _ } ] -> true
-  | _ -> false
+  | [ { expression_desc = Number (Int { i; _ }); _ } ] -> Some i
+  | _ -> None
 
 let runtime_module = function
   | Lam_ccall.Bytes -> Js_runtime_modules.bytes
@@ -166,8 +155,8 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
     Location.prerr_warning loc (Mel_unimplemented_primitive prim_name);
     E.resolve_and_apply prim_name args
   in
-  match Lam_ccall.lowering ccall with
-  | Builtin builtin -> (
+  match Lam_ccall.behavior ccall with
+  | Builtin (builtin, _) -> (
       match builtin with
       | Float_add -> (
           match args with
@@ -298,17 +287,14 @@ let translate loc (ccall : Lam_ccall.t) (args : J.expression list) :
           | [ number; behavior ] -> E.seq number behavior (* TODO *)
           | _ -> assert false)
       | Nativeint operation -> nativeint_operation operation args)
-  | Conditional Open_descriptor_in ->
-      if args_const_unbox_approx_int_zero args then
-        E.runtime_ref Js_runtime_modules.io "stdin"
-      else fallback ()
-  | Conditional Open_descriptor_out ->
-      if args_const_unbox_approx_int_one args then
-        E.runtime_ref Js_runtime_modules.io "stdout"
-      else if args_const_unbox_approx_int_two args then
-        E.runtime_ref Js_runtime_modules.io "stderr"
-      else fallback ()
-  | External -> fallback ()
+  | Conditional conditional -> (
+      match constant_int_argument args with
+      | Some argument -> (
+          match Lam_ccall.resolve_conditional conditional argument with
+          | Some (runtime, name) -> E.runtime_ref (runtime_module runtime) name
+          | None -> fallback ())
+      | None -> fallback ())
+  | External _ -> fallback ()
 (*we dont use [throw] here, since [throw] is an statement
   so we wrap in IIFE
   TODO: we might provoide a hook for user to provide polyfill.

@@ -77,12 +77,12 @@ type builtin =
   | Nativeint of nativeint_operation
 
 type conditional = Open_descriptor_in | Open_descriptor_out
-type lowering = Builtin of builtin | Conditional of conditional | External
+type effects = No_side_effects | May_have_side_effects
 
-type effects =
-  | No_side_effects
-  | May_have_side_effects
-  | Depends_on_arguments of conditional
+type behavior =
+  | Builtin of builtin * effects
+  | Conditional of conditional
+  | External of effects
 
 type result_kind = Unknown | Boolean
 
@@ -94,8 +94,12 @@ val of_name : string -> t
     classification. *)
 
 val name : t -> string
-val lowering : t -> lowering
-val effects : t -> effects
+val behavior : t -> behavior
+
+val resolve_conditional :
+  conditional -> int32 -> (runtime_module * string) option
+(** Select the shared lowering/effect case for a constant argument. *)
+
 val result_kind : t -> result_kind
 val returns_boolean : t -> bool
 val is_relocatable : t -> bool
