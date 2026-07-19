@@ -352,11 +352,11 @@ let simplify_alias =
         | Some
             {
               summary =
-                {
-                  arity;
-                  call_summary = Lam_call_summary.Direct_primitive primitive;
-                  _;
-                };
+                Js_cmj_format.Leaf
+                  {
+                    arity;
+                    call_summary = Lam_call_summary.Direct_primitive primitive;
+                  };
               _;
             }
           when primitive_summary_is_safe_to_inline primitive
@@ -367,18 +367,19 @@ let simplify_alias =
         | Some
             {
               summary =
-                {
-                  call_summary =
-                    Lam_call_summary.Direct_external
-                      {
-                        dynamic_import = dynamic_import';
-                        id;
-                        name;
-                        arity = direct_arity;
-                        relocatable;
-                      };
-                  _;
-                };
+                Js_cmj_format.Leaf
+                  {
+                    call_summary =
+                      Lam_call_summary.Direct_external
+                        {
+                          dynamic_import = dynamic_import';
+                          id;
+                          name;
+                          arity = direct_arity;
+                          relocatable;
+                        };
+                    _;
+                  };
               _;
             }
           when relocatable
@@ -437,9 +438,9 @@ let simplify_alias =
             let summary =
               find_external_summary_at_path ~dynamic_import ident fld_name path
             in
-            match summary.call_summary with
+            match Js_cmj_format.call_summary summary with
             | Direct_primitive primitive
-              when fully_applied summary.arity ap_args
+              when fully_applied (Js_cmj_format.arity summary) ap_args
                    && primitive_summary_is_safe_to_inline primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
             | Direct_external

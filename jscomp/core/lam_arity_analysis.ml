@@ -47,7 +47,7 @@ let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
 
 let get_cmj_arity (summary : Js_cmj_format.value_summary) (path : int list) :
     Lam_arity.t =
-  (Js_cmj_format.summary_at_path summary path).arity
+  Js_cmj_format.arity (Js_cmj_format.summary_at_path summary path)
 
 let external_field_path (lam : Lam.t) :
     (Ident.t * bool * string * int list) option =

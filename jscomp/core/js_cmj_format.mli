@@ -45,14 +45,12 @@ open Import
     ]}
 *)
 
-type value_summary = {
-  arity : Lam_arity.t;
-  call_summary : Lam_call_summary.t;
-  fields : value_summary array option;
-}
-(** Recursive metadata for an exported value. [fields] is present for immutable
+(** Recursive metadata for an exported value. [Block] represents immutable
     blocks and modules. The exporter memoizes these nodes, so repeated values
     form a DAG whose sharing is preserved by Marshal. *)
+type value_summary =
+  | Leaf of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
+  | Block of value_summary array
 
 type cmj_value = {
   summary : value_summary;
@@ -84,6 +82,8 @@ val make :
 
 val query_by_name : t -> string -> keyed_cmj_value
 val unknown_summary : value_summary
+val arity : value_summary -> Lam_arity.t
+val call_summary : value_summary -> Lam_call_summary.t
 
 val summary_at_path : value_summary -> int list -> value_summary
 (** Resolve a nested immutable field path, returning [unknown_summary] when the

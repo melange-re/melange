@@ -62,14 +62,13 @@ let values_of_export =
         match
           Lam_compile_env.query_external_id_info ~dynamic_import ident name
         with
-        | Some { summary = { arity; call_summary; fields }; _ } -> (
+        | Some { summary = Js_cmj_format.Leaf { arity; call_summary }; _ } ->
             if not (Lam_call_summary.is_unknown call_summary) then call_summary
-            else
-              match fields with
-              | None when not (Lam_arity.first_arity_na arity) ->
-                  direct_external ~dynamic_import ident name arity
-                    ~relocatable:true
-              | None | Some _ -> Lam_call_summary.Unknown)
+            else if not (Lam_arity.first_arity_na arity) then
+              direct_external ~dynamic_import ident name arity ~relocatable:true
+            else Lam_call_summary.Unknown
+        | Some { summary = Js_cmj_format.Block _; _ } ->
+            Lam_call_summary.Unknown
         | None -> Lam_call_summary.Unknown)
   in
   let find_ident_summary (meta : Lam_stats.t) ident =
@@ -90,18 +89,11 @@ let values_of_export =
     else Lam_call_summary.Unknown
   in
   let leaf_summary arity call_summary : Js_cmj_format.value_summary =
-    {
-      arity;
-      call_summary = relocatable_call_summary call_summary;
-      fields = None;
-    }
+    Js_cmj_format.Leaf
+      { arity; call_summary = relocatable_call_summary call_summary }
   in
   let block_summary fields : Js_cmj_format.value_summary =
-    {
-      arity = Lam_arity.na;
-      call_summary = Lam_call_summary.Unknown;
-      fields = Some fields;
-    }
+    Js_cmj_format.Block fields
   in
   let find_external_value_summary lam =
     match Lam_arity_analysis.external_field_path lam with
@@ -138,12 +130,12 @@ let values_of_export =
         match find_external_value_summary lam with
         | Some summary -> summary
         | None -> (
-            match (summary_of_lambda meta seen owner).fields with
-            | Some fields -> (
+            match summary_of_lambda meta seen owner with
+            | Js_cmj_format.Block fields -> (
                 match fields.(i) with
                 | summary -> summary
                 | exception _ -> Js_cmj_format.unknown_summary)
-            | None ->
+            | Js_cmj_format.Leaf _ ->
                 leaf_summary
                   (Lam_arity_analysis.get_arity meta lam)
                   (summarize meta lam)))
@@ -187,20 +179,20 @@ let values_of_export =
                       let summary =
                         summary_of_lambda meta (Ident.Set.singleton x) lambda
                       in
-                      match summary.fields with
-                      | Some _ -> summary
-                      | None ->
+                      match summary with
+                      | Js_cmj_format.Block _ -> summary
+                      | Js_cmj_format.Leaf _ ->
                           leaf_summary Lam_arity.na (summarize meta lambda))
                   | lambda -> leaf_summary Lam_arity.na (summarize meta lambda)
                   | exception Not_found -> Js_cmj_format.unknown_summary))
         in
         let summary =
           match Ident.Map.find x export_map with
-          | lambda ->
-              {
-                summary with
-                call_summary = relocatable_call_summary (summarize meta lambda);
-              }
+          | lambda -> (
+              match summary with
+              | Js_cmj_format.Leaf { arity; _ } ->
+                  leaf_summary arity (summarize meta lambda)
+              | Js_cmj_format.Block _ -> summary)
           | exception Not_found -> summary
         in
         let persistent_closed_lambda =
@@ -252,20 +244,13 @@ let values_of_export =
                           Some (lambda, param_map lambda))
                         else None))
         in
-        match
-          ( summary.fields,
-            summary.arity,
-            persistent_closed_lambda,
-            summary.call_summary )
-        with
-        | ( None,
-            Arity_na,
-            (None | Some (Lconst Const_module_alias, _)),
-            call_summary )
-        | Some [||], _, None, call_summary
+        match (summary, persistent_closed_lambda) with
+        | ( Js_cmj_format.Leaf { arity = Arity_na; call_summary },
+            (None | Some (Lconst Const_module_alias, _)) )
           when Lam_call_summary.is_unknown call_summary ->
             acc
-        | _, _, _, _ ->
+        | Js_cmj_format.Block [||], None -> acc
+        | _, _ ->
             String.Map.add acc ~key:(Ident.name x)
               ~data:{ Js_cmj_format.summary; persistent_closed_lambda })
 

@@ -211,7 +211,7 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
       let arity =
         ident_info
         |> Option.map ~f:(fun (t : Js_cmj_format.keyed_cmj_value) ->
-            t.summary.arity)
+            Js_cmj_format.arity t.summary)
         |> Option.value ~default:Lam_arity.na
       in
       let args_code, args =

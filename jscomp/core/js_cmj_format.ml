@@ -24,11 +24,9 @@
 
 open Import
 
-type value_summary = {
-  arity : Lam_arity.t;
-  call_summary : Lam_call_summary.t;
-  fields : value_summary array option;
-}
+type value_summary =
+  | Leaf of { arity : Lam_arity.t; call_summary : Lam_call_summary.t }
+  | Block of value_summary array
 
 (* TODO: add a magic number *)
 type cmj_value = {
@@ -38,21 +36,23 @@ type cmj_value = {
 }
 
 let unknown_summary =
-  {
-    arity = Lam_arity.na;
-    call_summary = Lam_call_summary.Unknown;
-    fields = None;
-  }
+  Leaf { arity = Lam_arity.na; call_summary = Lam_call_summary.Unknown }
+
+let arity = function Leaf { arity; _ } -> arity | Block _ -> Lam_arity.na
+
+let call_summary = function
+  | Leaf { call_summary; _ } -> call_summary
+  | Block _ -> Lam_call_summary.Unknown
 
 let rec summary_at_path summary = function
   | [] -> summary
   | i :: rest -> (
-      match summary.fields with
-      | Some fields -> (
+      match summary with
+      | Block fields -> (
           match fields.(i) with
           | summary -> summary_at_path summary rest
           | exception _ -> unknown_summary)
-      | None -> unknown_summary)
+      | Leaf _ -> unknown_summary)
 
 type keyed_cmj_value = {
   name : string;
