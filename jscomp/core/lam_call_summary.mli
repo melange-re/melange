@@ -11,6 +11,7 @@ type t =
 
 val print : Format.formatter -> t -> unit
 val is_unknown : t -> bool
+val primitive_is_relocatable : Lam_primitive.t -> bool
 val is_relocatable : t -> bool
 
 val of_lambda :

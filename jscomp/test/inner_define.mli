@@ -9,8 +9,43 @@ module Deep : sig
   end
 end
 
+module ExternalAlias : sig
+  module N : sig
+    val add : int -> int -> int
+  end
+end
+
+module ExternalNAlias : sig
+  val add : int -> int -> int
+end
+
+module ExternalInclude : sig
+  module N : sig
+    val add : int -> int -> int
+  end
+end
+
+module ExternalNInclude : sig
+  val add : int -> int -> int
+end
+
 module P : sig
   val fancy_add : int -> int -> int
+  val concat : 'a array list -> 'a array
+end
+
+module Js_call : sig
+  val parse_int : string -> int
+  val imul : int -> int -> int
+  val basename : string -> string
+end
+
+module Js_object : sig
+  val make : x:int -> y:int -> < x : int; y : int > Js.t
+end
+
+module Forward : sig
+  val external_target : int -> int
 end
 
 

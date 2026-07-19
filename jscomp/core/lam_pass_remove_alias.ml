@@ -81,39 +81,19 @@ let simplify_alias =
     | Lam.App_na -> { ap_info with ap_status = Lam.App_infer_full }
     | Lam.App_infer_full | Lam.App_uncurry -> ap_info
   in
-  let fully_applied_external arity args =
-    match arity with
-    | Js_cmj_format.Single arity -> fully_applied arity args
-    | Js_cmj_format.Submodule _ -> false
-  in
   let direct_external_field ~dynamic_import ident name ~loc =
     Lam.prim
       ~primitive:(Pfield (0, Fld_module { name }))
       ~args:[ Lam.global_module ~dynamic_import ident ]
       ~loc
   in
-  let rec nested_call_summary_at_path summary path =
-    match (path, summary) with
-    | [], Js_cmj_format.Call_summary summary -> summary
-    | i :: rest, Call_summary_submodule summaries -> (
-        match summaries.(i) with
-        | summary -> nested_call_summary_at_path summary rest
-        | exception _ -> Lam_call_summary.Unknown)
-    | [], Call_summary_submodule _ | _ :: _, Call_summary _ ->
-        Lam_call_summary.Unknown
-  in
-  let find_nested_external_call_summary ~dynamic_import ident name path =
+  let find_external_summary_at_path ~dynamic_import ident name path =
     match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
-    | Some { nested_call_summary; _ } ->
-        nested_call_summary_at_path nested_call_summary path
-    | None -> Lam_call_summary.Unknown
+    | Some { summary; _ } -> Js_cmj_format.summary_at_path summary path
+    | None -> Js_cmj_format.unknown_summary
   in
-  let primitive_summary_is_safe_to_inline primitive =
-    Lam_primitive.is_relocatable primitive
-    &&
-    match primitive with
-    | Lam_primitive.Pccall _ | Pjs_call _ | Pjs_object_create _ -> false
-    | _ -> true
+  let primitive_summary_is_safe_to_inline =
+    Lam_call_summary.primitive_is_relocatable
   in
   let direct_primitive_of_value value args =
     match value with
@@ -159,7 +139,8 @@ let simplify_alias =
     | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->
         Eval_false
-    | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+    | Constant _ | Module _ | FieldAlias _ | FunctionId _ | Exception
+    | Parameter | NA
     | OptionalBlock (_, (Undefined | Null | Null_undefined))
     | (exception Not_found) ->
         Eval_unknown
@@ -370,25 +351,34 @@ let simplify_alias =
         with
         | Some
             {
-              arity;
-              call_summary = Lam_call_summary.Direct_primitive primitive;
+              summary =
+                Js_cmj_format.Leaf
+                  {
+                    arity;
+                    call_summary = Lam_call_summary.Direct_primitive primitive;
+                  };
               _;
             }
-          when Lam_primitive.is_relocatable primitive
-               && fully_applied_external arity args ->
+          when primitive_summary_is_safe_to_inline primitive
+               && fully_applied arity args ->
             Lam.prim ~primitive
               ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc
         | Some
             {
-              call_summary =
-                Lam_call_summary.Direct_external
+              summary =
+                Js_cmj_format.Leaf
                   {
-                    dynamic_import = dynamic_import';
-                    id;
-                    name;
-                    arity = direct_arity;
-                    relocatable;
+                    call_summary =
+                      Lam_call_summary.Direct_external
+                        {
+                          dynamic_import = dynamic_import';
+                          id;
+                          name;
+                          arity = direct_arity;
+                          relocatable;
+                        };
+                    _;
                   };
               _;
             }
@@ -445,14 +435,29 @@ let simplify_alias =
         let[@local] normal () = Lam.apply (simpl meta l1) ap_args ap_info in
         match Lam_arity_analysis.external_field_path l1 with
         | Some (ident, dynamic_import, fld_name, (_ :: _ as path)) -> (
-            match
-              find_nested_external_call_summary ~dynamic_import ident fld_name
-                path
-            with
+            let summary =
+              find_external_summary_at_path ~dynamic_import ident fld_name path
+            in
+            match Js_cmj_format.call_summary summary with
             | Direct_primitive primitive
-              when fully_applied (Lam_arity_analysis.get_arity meta l1) ap_args
+              when fully_applied (Js_cmj_format.arity summary) ap_args
                    && primitive_summary_is_safe_to_inline primitive ->
                 Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
+            | Direct_external
+                {
+                  dynamic_import = dynamic_import';
+                  id;
+                  name;
+                  arity;
+                  relocatable;
+                }
+              when relocatable && fully_applied arity ap_args ->
+                simpl meta
+                  (Lam.apply
+                     (direct_external_field ~dynamic_import:dynamic_import' id
+                        name ~loc:ap_info.ap_loc)
+                     ap_args
+                     (direct_apply_info ap_info))
             | Unknown | Direct_primitive _ | Direct_external _ -> normal ())
         | Some (_, _, _, []) | None -> normal ())
     (* Function inlining interact with other optimizations...
