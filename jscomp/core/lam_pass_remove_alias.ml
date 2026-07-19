@@ -92,11 +92,8 @@ let simplify_alias =
     | Some { summary; _ } -> Js_cmj_format.summary_at_path summary path
     | None -> Js_cmj_format.unknown_summary
   in
-  let primitive_summary_is_safe_to_inline = function
-    (* Unresolved OCaml primitives must keep calling the producer's exported
-       wrapper. *)
-    | Lam_primitive.Pccall _ -> false
-    | primitive -> Lam_primitive.is_relocatable primitive
+  let primitive_summary_is_safe_to_inline =
+    Lam_call_summary.primitive_is_relocatable
   in
   let direct_primitive_of_value value args =
     match value with

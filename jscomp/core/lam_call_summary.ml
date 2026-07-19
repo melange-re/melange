@@ -24,9 +24,13 @@ let is_unknown = function
   | Unknown -> true
   | Direct_primitive _ | Direct_external _ -> false
 
+let primitive_is_relocatable = function
+  | Lam_primitive.Pccall ccall -> Lam_ccall.is_relocatable ccall
+  | primitive -> Lam_primitive.is_relocatable primitive
+
 let is_relocatable = function
   | Unknown -> true
-  | Direct_primitive primitive -> Lam_primitive.is_relocatable primitive
+  | Direct_primitive primitive -> primitive_is_relocatable primitive
   | Direct_external { relocatable; _ } -> relocatable
 
 let params_match_args (params : Ident.t list) (args : Lam.t list) =
