@@ -3,15 +3,10 @@ module Lam_ccall = Melangelib.Lam_ccall
 let register_named_value_is_effectful () =
   let ccall = Lam_ccall.of_name "caml_register_named_value" in
   Alcotest.(check bool)
-    "the registration call may have side effects" true
-    (match Lam_ccall.effects ccall with
-    | May_have_side_effects -> true
-    | No_side_effects | Depends_on_arguments _ -> false);
-  Alcotest.(check bool)
-    "the unsupported registration itself lowers to unit" true
-    (match Lam_ccall.lowering ccall with
-    | Builtin Unit -> true
-    | Builtin _ | Conditional _ | External -> false)
+    "the unsupported registration is an effectful unit builtin" true
+    (match Lam_ccall.behavior ccall with
+    | Builtin (Unit, May_have_side_effects) -> true
+    | Builtin _ | Conditional _ | External _ -> false)
 
 let result_kinds () =
   let check expected prim_name =
@@ -57,9 +52,35 @@ let result_kinds () =
     ]
     ~f:(check false)
 
+let behaviors () =
+  let check message prim_name predicate =
+    Alcotest.(check bool)
+      message true
+      (predicate (Lam_ccall.behavior (Lam_ccall.of_name prim_name)))
+  in
+  check "pure builtin" "caml_string_repeat" (function
+    | Builtin (String_repeat, No_side_effects) -> true
+    | Builtin _ | Conditional _ | External _ -> false);
+  check "conditional behavior" "caml_ml_open_descriptor_in" (function
+    | Conditional Open_descriptor_in -> true
+    | Builtin _ | Conditional Open_descriptor_out | External _ -> false);
+  check "pure external" "caml_sys_get_config" (function
+    | External No_side_effects -> true
+    | Builtin _ | Conditional _ | External May_have_side_effects -> false);
+  Alcotest.(check bool)
+    "conditional resolution" true
+    (match
+       ( Lam_ccall.resolve_conditional Open_descriptor_in 0l,
+         Lam_ccall.resolve_conditional Open_descriptor_out 2l,
+         Lam_ccall.resolve_conditional Open_descriptor_in 1l )
+     with
+    | Some (Io, "stdin"), Some (Io, "stderr"), None -> true
+    | _ -> false)
+
 let suite =
   [
     Alcotest.test_case "register_named_value is effectful" `Quick
       register_named_value_is_effectful;
     Alcotest.test_case "result kinds" `Quick result_kinds;
+    Alcotest.test_case "behaviors" `Quick behaviors;
   ]
