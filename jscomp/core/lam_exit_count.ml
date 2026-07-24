@@ -25,21 +25,27 @@
 open Import
 
 type exit = { mutable count : int; mutable max_depth : int }
-type collection = (int, exit) Hashtbl.t
+
+type collection = {
+  exits : (int, exit) Hashtbl.t;
+  mutable has_staticcatch : bool;
+}
 
 let get_exit exits i =
-  match Hashtbl.find exits i with
+  match Hashtbl.find exits.exits i with
   | v -> v
   | exception Not_found -> { count = 0; max_depth = 0 }
 
 let incr_exit exits i nb d =
-  match Hashtbl.find exits i with
+  match Hashtbl.find exits.exits i with
   | r ->
       r.count <- r.count + nb;
       r.max_depth <- max r.max_depth d
   | exception Not_found ->
       let r = { count = nb; max_depth = d } in
-      Hashtbl.add exits ~key:i ~data:r
+      Hashtbl.add exits.exits ~key:i ~data:r
+
+let has_staticcatch exits = exits.has_staticcatch
 
 (**
   This function counts how each [exit] is used, it will affect how the following optimizations performed.
@@ -60,17 +66,21 @@ let incr_exit exits i nb d =
   Since for pattern match,  we will  test whether it is  an integer or block, both have default cases predicate: [sw_consts_full] vs nconsts
 *)
 let count_helper ~try_depth (lam : Lam.t) : collection =
-  let exits : collection = Hashtbl.create 17 in
+  let exits : collection =
+    { exits = Hashtbl.create 17; has_staticcatch = false }
+  in
   let rec count (lam : Lam.t) =
     match lam with
     | Lstaticraise (i, ls) ->
         incr_exit exits i 1 !try_depth;
         List.iter ~f:count ls
     | Lstaticcatch (l1, (i, []), Lstaticraise (j, [])) ->
+        exits.has_staticcatch <- true;
         count l1;
         let ic = get_exit exits i in
         incr_exit exits j ic.count (max !try_depth ic.max_depth)
     | Lstaticcatch (l1, (i, _), l2) ->
+        exits.has_staticcatch <- true;
         count l1;
         if (get_exit exits i).count > 0 then count l2
     | Lstringswitch (l, sw, d) ->

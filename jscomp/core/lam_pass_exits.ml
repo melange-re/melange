@@ -244,10 +244,12 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
 
 let simplify_exits (lam : Lam.t) =
   let try_depth = ref 0 in
-  let exits =
-    Lam_exit_count.count_helper ~try_depth lam |> Lam_exit_count.get_exit
-  in
-  subst_helper ~try_depth (Int.Hashtbl.create 17) exits lam
+  let exits = Lam_exit_count.count_helper ~try_depth lam in
+  if Lam_exit_count.has_staticcatch exits then
+    subst_helper ~try_depth (Int.Hashtbl.create 17)
+      (Lam_exit_count.get_exit exits)
+      lam
+  else lam
 
 (* Compile-time beta-reduction of functions immediately applied:
       Lapply(Lfunction(Curried, params, body), args, loc) ->
