@@ -81,9 +81,9 @@ let flatten_map =
             match block with
             | { statement_desc = Exp last_one; _ } :: rest_rev ->
                 S.block
-                  (List.rev_append
-                     (List.map ~f:(fun x -> self.statement self x) rest_rev)
-                     [ self.statement self (S.exp (E.assign a last_one)) ])
+                  (List.fold_left rest_rev
+                     ~init:[ self.statement self (S.exp (E.assign a last_one)) ]
+                     ~f:(fun acc x -> self.statement self x :: acc))
                 (* TODO: here we introduce a block, should avoid it *)
                 (* super#statement *)
                 (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
@@ -110,23 +110,32 @@ let flatten_map =
             | { statement_desc = Exp last_one; _ } :: rest_rev ->
                 super.statement self
                   (S.block
-                     (List.rev_append
-                        (List.map ~f:(fun x -> self.statement self x) rest_rev)
-                        [ S.return_stmt last_one ]))
+                     (List.fold_left rest_rev
+                        ~init:[ S.return_stmt last_one ]
+                        ~f:(fun acc x -> self.statement self x :: acc)))
             | _ -> assert false)
         | Block [ x ] -> self.statement self x
         | _ -> super.statement self x);
     block =
       (fun self b ->
-        match b with
-        | { statement_desc = Block bs; _ } :: rest -> self.block self (bs @ rest)
-        | x :: rest -> (
-            let st = self.statement self x in
-            let block = self.block self rest in
-            match st.statement_desc with
-            | Block bs -> bs @ block
-            | _ -> st :: block)
-        | [] -> []);
+        let rec loop (current : J.block) (pending : J.block list) acc =
+          match current with
+          | [] -> (
+              match pending with
+              | [] -> List.rev acc
+              | next :: pending -> loop next pending acc)
+          | { statement_desc = Block bs; _ } :: rest ->
+              let pending =
+                match rest with [] -> pending | _ -> rest :: pending
+              in
+              loop bs pending acc
+          | x :: rest -> (
+              let st = self.statement self x in
+              match st.statement_desc with
+              | Block bs -> loop rest pending (List.rev_append bs acc)
+              | _ -> loop rest pending (st :: acc))
+        in
+        loop b [] []);
   }
 
 let program (x : J.program) = flatten_map.program flatten_map x
