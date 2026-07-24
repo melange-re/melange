@@ -598,12 +598,12 @@ function setup(o) {
 }
 
 const Misc_Color = {
-  ansi_of_style_l: ansi_of_style_l,
-  default_styles: default_styles,
-  get_styles: get_styles,
-  set_styles: set_styles,
-  setup: setup,
-  set_color_tag_handling: set_color_tag_handling
+  ansi_of_style_l,
+  default_styles,
+  get_styles,
+  set_styles,
+  setup,
+  set_color_tag_handling
 };
 
 function number(param) {
@@ -1077,8 +1077,8 @@ function parse_options(errflag, s) {
   const active = Stdlib__Array.copy(current.contents.active);
   parse_opt(error, active, errflag ? error : active, s);
   current.contents = {
-    active: active,
-    error: error
+    active,
+    error
   };
 }
 
@@ -2155,7 +2155,7 @@ function prerr_warning(loc, w) {
     Curry._3(out_functions.out_string, str, start, len);
   };
   Stdlib__Format.pp_set_formatter_out_functions(ppf, {
-    out_string: out_string,
+    out_string,
     out_width: out_functions.out_width,
     out_flush: out_functions.out_flush,
     out_newline: out_functions.out_newline,
@@ -2178,10 +2178,10 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   let before = print_phanton_error_prefix;
   let k = function (msg) {
     return {
-      loc: loc,
-      msg: msg,
-      sub: sub,
-      if_highlight: if_highlight
+      loc,
+      msg,
+      sub,
+      if_highlight
     };
   };
   const buf = Stdlib__Buffer.create(64);
@@ -2201,10 +2201,10 @@ function error(locOpt, subOpt, if_highlightOpt, msg) {
   const sub = subOpt !== undefined ? subOpt : /* [] */ 0;
   const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   return {
-    loc: loc,
-    msg: msg,
-    sub: sub,
-    if_highlight: if_highlight
+    loc,
+    msg,
+    sub,
+    if_highlight
   };
 }
 
@@ -2500,7 +2500,7 @@ function add(id, data, param) {
       _0: /* Empty */ 0,
       _1: {
         ident: id,
-        data: data,
+        data,
         previous: undefined
       },
       _2: /* Empty */ 0,
@@ -2517,7 +2517,7 @@ function add(id, data, param) {
       _0: l,
       _1: {
         ident: id,
-        data: data,
+        data,
         previous: k
       },
       _2: r,
@@ -2922,10 +2922,10 @@ function create$1(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -2935,7 +2935,7 @@ function singleton(x, d) {
     TAG: /* Node */ 0,
     l: /* Empty */ 0,
     v: x,
-    d: d,
+    d,
     r: /* Empty */ 0,
     h: 1
   };
@@ -2971,10 +2971,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -3046,10 +3046,10 @@ function add$1(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -3431,10 +3431,10 @@ function update(x, f, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data$2,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -3513,7 +3513,7 @@ function mapi(f, param) {
   return {
     TAG: /* Node */ 0,
     l: l$p,
-    v: v,
+    v,
     d: d$p,
     r: r$p,
     h: param.h
@@ -4020,48 +4020,48 @@ function to_seq_from(low, m) {
 const Meths = {
   empty: /* Empty */ 0,
   add: add$1,
-  add_to_list: add_to_list,
-  update: update,
-  singleton: singleton,
-  remove: remove,
+  add_to_list,
+  update,
+  singleton,
+  remove,
   merge: merge$1,
-  union: union,
-  cardinal: cardinal,
-  bindings: bindings,
-  min_binding: min_binding,
-  min_binding_opt: min_binding_opt,
-  max_binding: max_binding,
-  max_binding_opt: max_binding_opt,
+  union,
+  cardinal,
+  bindings,
+  min_binding,
+  min_binding_opt,
+  max_binding,
+  max_binding_opt,
   choose: min_binding,
   choose_opt: min_binding_opt,
-  find: find,
-  find_opt: find_opt,
-  find_first: find_first,
-  find_first_opt: find_first_opt,
-  find_last: find_last,
-  find_last_opt: find_last_opt,
+  find,
+  find_opt,
+  find_first,
+  find_first_opt,
+  find_last,
+  find_last_opt,
   iter: iter$1,
-  fold: fold,
-  map: map,
-  mapi: mapi,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
-  split: split,
-  is_empty: is_empty,
-  is_singleton: is_singleton,
-  mem: mem,
+  fold,
+  map,
+  mapi,
+  filter,
+  filter_map,
+  partition,
+  split,
+  is_empty,
+  is_singleton,
+  mem,
   equal: equal$2,
   compare: compare$2,
-  for_all: for_all,
-  exists: exists,
+  for_all,
+  exists,
   to_list: bindings,
-  of_list: of_list,
-  to_seq: to_seq,
-  to_rev_seq: to_rev_seq,
-  to_seq_from: to_seq_from,
-  add_seq: add_seq,
-  of_seq: of_seq
+  of_list,
+  to_seq,
+  to_rev_seq,
+  to_seq_from,
+  add_seq,
+  of_seq
 };
 
 function single(param) {
@@ -4150,9 +4150,9 @@ function create$2(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -4186,9 +4186,9 @@ function bal$1(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -4568,9 +4568,9 @@ function equal_tag(t1, t2) {
 }
 
 const Types_TypeOps = {
-  compare: compare,
+  compare,
   equal: equal$1,
-  hash: hash
+  hash
 };
 
 const Types_Variance = {
@@ -4579,13 +4579,13 @@ const Types_Variance = {
   covariant: 25,
   may_inv: 7,
   union: union$1,
-  inter: inter,
-  subset: subset,
-  set: set,
+  inter,
+  subset,
+  set,
   mem: mem$1,
-  conjugate: conjugate,
-  get_upper: get_upper,
-  get_lower: get_lower
+  conjugate,
+  get_upper,
+  get_lower
 };
 
 const funarg = Types_TypeOps;
@@ -4605,9 +4605,9 @@ function create$3(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -4641,9 +4641,9 @@ function bal$2(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -5024,10 +5024,10 @@ function create$4(l, x, d, r) {
   const hr = height$3(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -5062,10 +5062,10 @@ function bal$3(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -5113,10 +5113,10 @@ function add$4(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -5194,8 +5194,8 @@ const new_id = {
 function newty2(level, desc) {
   new_id.contents = new_id.contents + 1 | 0;
   return {
-    desc: desc,
-    level: level,
+    desc,
+    level,
     id: new_id.contents
   };
 }
@@ -6146,21 +6146,21 @@ function it_type_expr$1(it, ty) {
 }
 
 const unmark_iterators = {
-  it_signature: it_signature,
-  it_signature_item: it_signature_item,
-  it_value_description: it_value_description,
-  it_type_declaration: it_type_declaration,
-  it_extension_constructor: it_extension_constructor,
-  it_module_declaration: it_module_declaration,
-  it_modtype_declaration: it_modtype_declaration,
-  it_class_declaration: it_class_declaration,
-  it_class_type_declaration: it_class_type_declaration,
-  it_module_type: it_module_type,
-  it_class_type: it_class_type,
-  it_type_kind: it_type_kind,
-  it_do_type_expr: it_do_type_expr,
+  it_signature,
+  it_signature_item,
+  it_value_description,
+  it_type_declaration,
+  it_extension_constructor,
+  it_module_declaration,
+  it_modtype_declaration,
+  it_class_declaration,
+  it_class_type_declaration,
+  it_module_type,
+  it_class_type,
+  it_type_kind,
+  it_do_type_expr,
   it_type_expr: it_type_expr$1,
-  it_path: it_path
+  it_path
 };
 
 function unmark_extension_constructor(ext) {
@@ -9298,52 +9298,52 @@ function rebind(locOpt, attrsOpt, docsOpt, infoOpt, name, lid) {
 const Ast_helper_Exp = {
   mk: mk$2,
   attr: attr$2,
-  ident: ident,
+  ident,
   constant: constant$1,
-  let_: let_,
-  fun_: fun_,
-  function_: function_,
-  apply: apply,
-  match_: match_,
-  try_: try_,
+  let_,
+  fun_,
+  function_,
+  apply,
+  match_,
+  try_,
   tuple: tuple$2,
   construct: construct$1,
   variant: variant$2,
   record: record$1,
-  field: field,
-  setfield: setfield,
+  field,
+  setfield,
   array: array$1,
-  ifthenelse: ifthenelse,
-  sequence: sequence,
-  while_: while_,
-  for_: for_,
-  coerce: coerce,
+  ifthenelse,
+  sequence,
+  while_,
+  for_,
+  coerce,
   constraint_: constraint_$1,
-  send: send,
-  new_: new_,
-  setinstvar: setinstvar,
-  override: override,
-  letmodule: letmodule,
-  assert_: assert_,
+  send,
+  new_,
+  setinstvar,
+  override,
+  letmodule,
+  assert_,
   lazy_: lazy_$1,
   poly: poly$1,
   object_: object_$1,
-  newtype: newtype,
-  pack: pack,
-  open_: open_,
+  newtype,
+  pack,
+  open_,
   extension: extension$2,
-  $$case: $$case
+  $$case
 };
 
 const Ast_helper_Ctf = {
   mk: mk$9,
   attr: attr$7,
-  inherit_: inherit_,
-  val_: val_,
-  method_: method_,
+  inherit_,
+  val_,
+  method_,
   constraint_: constraint_$4,
   extension: extension$9,
-  attribute: attribute,
+  attribute,
   text: text$2
 };
 
@@ -9354,12 +9354,12 @@ const Ast_helper_Cf = {
   val_: val_$1,
   method_: method_$1,
   constraint_: constraint_$5,
-  initializer_: initializer_,
+  initializer_,
   extension: extension$10,
   attribute: attribute$1,
   text: text$3,
-  virtual_: virtual_,
-  concrete: concrete
+  virtual_,
+  concrete
 };
 
 function map_fst(f, param) {
@@ -10531,7 +10531,7 @@ const new_id$1 = {
 function newpersty(desc) {
   new_id$1.contents = new_id$1.contents - 1 | 0;
   return {
-    desc: desc,
+    desc,
     level: 100000000,
     id: new_id$1.contents
   };
@@ -11506,9 +11506,9 @@ function create$6(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -11542,9 +11542,9 @@ function bal$5(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -11716,7 +11716,7 @@ function read_pers_struct(modname, filename) {
     TAG: /* Pident */ 0,
     _0: {
       stamp: 0,
-      name: name,
+      name,
       flags: 1
     }
   }, {
@@ -11937,7 +11937,7 @@ function find_module(alias, path, env) {
         const match = find$2(path._1, c._0.comp_modules);
         const md_type = force(subst_modtype_maker, match[0]);
         return {
-          md_type: md_type,
+          md_type,
           md_attributes: /* [] */ 0,
           md_loc: none
         };
@@ -14863,7 +14863,7 @@ function fold_modules(f, lid, env, acc) {
           _1: s,
           _2: param[1]
         }, {
-          md_type: md_type,
+          md_type,
           md_attributes: /* [] */ 0,
           md_loc: none
         }, acc);
@@ -14881,7 +14881,7 @@ function fold_modules(f, lid, env, acc) {
         TAG: /* Pident */ 0,
         _0: {
           stamp: 0,
-          name: name,
+          name,
           flags: 1
         }
       }, {
@@ -15862,7 +15862,7 @@ function mkoption(d) {
         },
         _1: "option"
       },
-      loc: loc
+      loc
     },
     _1: {
       hd: d,
@@ -15896,7 +15896,7 @@ function mkoperator(name, pos) {
         TAG: /* Lident */ 0,
         _0: name
       },
-      loc: loc
+      loc
     }
   });
 }
@@ -17217,7 +17217,7 @@ const yyact = [
       TAG: /* Pmod_functor */ 2,
       _0: _1[0],
       _1: _1[1],
-      _2: _2
+      _2
     });
   }),
   (function (__caml_parser_env) {
@@ -17639,7 +17639,7 @@ const yyact = [
       _0: _1[0],
       _1: _1[1],
       _2: _1[2],
-      _3: _3
+      _3
     });
   }),
   (function (__caml_parser_env) {
@@ -18108,7 +18108,7 @@ const yyact = [
     return mkcty({
       TAG: /* Pcty_arrow */ 2,
       _0: "",
-      _1: _1,
+      _1,
       _2: _3
     });
   }),
@@ -21333,7 +21333,7 @@ const yyact = [
     return mktyp({
       TAG: /* Ptyp_arrow */ 1,
       _0: "",
-      _1: _1,
+      _1,
       _2: _3
     });
   }),
@@ -25997,7 +25997,7 @@ function TypedtreeMap_MakeMap(funarg) {
     const str$1 = Curry._1(funarg.enter_structure, str);
     const str_items = Stdlib__List.map(map_structure_item, str$1.str_items);
     return Curry._1(funarg.leave_structure, {
-      str_items: str_items,
+      str_items,
       str_type: str$1.str_type,
       str_final_env: str$1.str_final_env
     });
@@ -26087,7 +26087,7 @@ function TypedtreeMap_MakeMap(funarg) {
       }
     }
     return Curry._1(funarg.leave_core_type, {
-      ctyp_desc: ctyp_desc,
+      ctyp_desc,
       ctyp_type: ct$1.ctyp_type,
       ctyp_env: ct$1.ctyp_env,
       ctyp_loc: ct$1.ctyp_loc,
@@ -26174,9 +26174,9 @@ function TypedtreeMap_MakeMap(funarg) {
     }
     const pat_extra = Stdlib__List.map(map_pat_extra, pat$1.pat_extra);
     return Curry._1(funarg.leave_pattern, {
-      pat_desc: pat_desc,
+      pat_desc,
       pat_loc: pat$1.pat_loc,
-      pat_extra: pat_extra,
+      pat_extra,
       pat_type: pat$1.pat_type,
       pat_env: pat$1.pat_env,
       pat_attributes: pat$1.pat_attributes
@@ -26266,7 +26266,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_class_field, {
-      cf_desc: cf_desc,
+      cf_desc,
       cf_loc: cf$1.cf_loc,
       cf_attributes: cf$1.cf_attributes
     });
@@ -26316,7 +26316,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_module_type, {
-      mty_desc: mty_desc,
+      mty_desc,
       mty_type: mty$1.mty_type,
       mty_env: mty$1.mty_env,
       mty_loc: mty$1.mty_loc,
@@ -26352,7 +26352,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_class_type, {
-      cltyp_desc: cltyp_desc,
+      cltyp_desc,
       cltyp_type: ct$1.cltyp_type,
       cltyp_env: ct$1.cltyp_env,
       cltyp_loc: ct$1.cltyp_loc,
@@ -26415,7 +26415,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_class_type_field, {
-      ctf_desc: ctf_desc,
+      ctf_desc,
       ctf_loc: ctf$1.ctf_loc,
       ctf_attributes: ctf$1.ctf_attributes
     });
@@ -26481,7 +26481,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_module_expr, {
-      mod_desc: mod_desc,
+      mod_desc,
       mod_loc: mexpr$1.mod_loc,
       mod_type: mexpr$1.mod_type,
       mod_env: mexpr$1.mod_env,
@@ -26515,7 +26515,7 @@ function TypedtreeMap_MakeMap(funarg) {
     const sg$1 = Curry._1(funarg.enter_signature, sg);
     const sig_items = Stdlib__List.map(map_signature_item, sg$1.sig_items);
     return Curry._1(funarg.leave_signature, {
-      sig_items: sig_items,
+      sig_items,
       sig_type: sg$1.sig_type,
       sig_final_env: sg$1.sig_final_env
     });
@@ -26596,8 +26596,8 @@ function TypedtreeMap_MakeMap(funarg) {
     const cstr_self = map_pattern(cs$1.cstr_self);
     const cstr_fields = Stdlib__List.map(map_class_field, cs$1.cstr_fields);
     return Curry._1(funarg.leave_class_structure, {
-      cstr_self: cstr_self,
-      cstr_fields: cstr_fields,
+      cstr_self,
+      cstr_fields,
       cstr_type: cs$1.cstr_type,
       cstr_meths: cs$1.cstr_meths
     });
@@ -26824,9 +26824,9 @@ function TypedtreeMap_MakeMap(funarg) {
     }
     const exp_extra = Stdlib__List.map(map_exp_extra, exp$1.exp_extra);
     return Curry._1(funarg.leave_expression, {
-      exp_desc: exp_desc,
+      exp_desc,
       exp_loc: exp$1.exp_loc,
-      exp_extra: exp_extra,
+      exp_extra,
       exp_type: exp$1.exp_type,
       exp_env: exp$1.exp_env,
       exp_attributes: exp$1.exp_attributes
@@ -26917,7 +26917,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_class_expr, {
-      cl_desc: cl_desc,
+      cl_desc,
       cl_loc: cexpr$1.cl_loc,
       cl_type: cexpr$1.cl_type,
       cl_env: cexpr$1.cl_env,
@@ -26930,13 +26930,13 @@ function TypedtreeMap_MakeMap(funarg) {
     const ci_expr = map_class_type(cd$1.ci_expr);
     return Curry._1(funarg.leave_class_description, {
       ci_virt: cd$1.ci_virt,
-      ci_params: ci_params,
+      ci_params,
       ci_id_name: cd$1.ci_id_name,
       ci_id_class: cd$1.ci_id_class,
       ci_id_class_type: cd$1.ci_id_class_type,
       ci_id_object: cd$1.ci_id_object,
       ci_id_typesharp: cd$1.ci_id_typesharp,
-      ci_expr: ci_expr,
+      ci_expr,
       ci_decl: cd$1.ci_decl,
       ci_type_decl: cd$1.ci_type_decl,
       ci_loc: cd$1.ci_loc,
@@ -26983,12 +26983,12 @@ function TypedtreeMap_MakeMap(funarg) {
     return Curry._1(funarg.leave_type_declaration, {
       typ_id: decl$1.typ_id,
       typ_name: decl$1.typ_name,
-      typ_params: typ_params,
+      typ_params,
       typ_type: decl$1.typ_type,
-      typ_cstrs: typ_cstrs,
-      typ_kind: typ_kind,
+      typ_cstrs,
+      typ_kind,
       typ_private: decl$1.typ_private,
-      typ_manifest: typ_manifest,
+      typ_manifest,
       typ_loc: decl$1.typ_loc,
       typ_attributes: decl$1.typ_attributes
     });
@@ -26999,13 +26999,13 @@ function TypedtreeMap_MakeMap(funarg) {
     const ci_expr = map_class_type(cd$1.ci_expr);
     return Curry._1(funarg.leave_class_type_declaration, {
       ci_virt: cd$1.ci_virt,
-      ci_params: ci_params,
+      ci_params,
       ci_id_name: cd$1.ci_id_name,
       ci_id_class: cd$1.ci_id_class,
       ci_id_class_type: cd$1.ci_id_class_type,
       ci_id_object: cd$1.ci_id_object,
       ci_id_typesharp: cd$1.ci_id_typesharp,
-      ci_expr: ci_expr,
+      ci_expr,
       ci_decl: cd$1.ci_decl,
       ci_type_decl: cd$1.ci_type_decl,
       ci_loc: cd$1.ci_loc,
@@ -27035,7 +27035,7 @@ function TypedtreeMap_MakeMap(funarg) {
       ext_id: ext$1.ext_id,
       ext_name: ext$1.ext_name,
       ext_type: ext$1.ext_type,
-      ext_kind: ext_kind,
+      ext_kind,
       ext_loc: ext$1.ext_loc,
       ext_attributes: ext$1.ext_attributes
     });
@@ -27047,8 +27047,8 @@ function TypedtreeMap_MakeMap(funarg) {
     return Curry._1(funarg.leave_type_extension, {
       tyext_path: tyext$1.tyext_path,
       tyext_txt: tyext$1.tyext_txt,
-      tyext_params: tyext_params,
-      tyext_constructors: tyext_constructors,
+      tyext_params,
+      tyext_constructors,
       tyext_private: tyext$1.tyext_private,
       tyext_attributes: tyext$1.tyext_attributes
     });
@@ -27059,7 +27059,7 @@ function TypedtreeMap_MakeMap(funarg) {
     return Curry._1(funarg.leave_value_description, {
       val_id: v$1.val_id,
       val_name: v$1.val_name,
-      val_desc: val_desc,
+      val_desc,
       val_val: v$1.val_val,
       val_prim: v$1.val_prim,
       val_loc: v$1.val_loc,
@@ -27081,8 +27081,8 @@ function TypedtreeMap_MakeMap(funarg) {
     const csig_self = map_core_type(cs$1.csig_self);
     const csig_fields = Stdlib__List.map(map_class_type_field, cs$1.csig_fields);
     return Curry._1(funarg.leave_class_signature, {
-      csig_self: csig_self,
-      csig_fields: csig_fields,
+      csig_self,
+      csig_fields,
       csig_type: cs$1.csig_type
     });
   };
@@ -27111,13 +27111,13 @@ function TypedtreeMap_MakeMap(funarg) {
     const ci_expr = map_class_expr(cd$1.ci_expr);
     return Curry._1(funarg.leave_class_declaration, {
       ci_virt: cd$1.ci_virt,
-      ci_params: ci_params,
+      ci_params,
       ci_id_name: cd$1.ci_id_name,
       ci_id_class: cd$1.ci_id_class,
       ci_id_class_type: cd$1.ci_id_class_type,
       ci_id_object: cd$1.ci_id_object,
       ci_id_typesharp: cd$1.ci_id_typesharp,
-      ci_expr: ci_expr,
+      ci_expr,
       ci_decl: cd$1.ci_decl,
       ci_type_decl: cd$1.ci_type_decl,
       ci_loc: cd$1.ci_loc,
@@ -27165,7 +27165,7 @@ function TypedtreeMap_MakeMap(funarg) {
     }), pack$1.pack_fields);
     return Curry._1(funarg.leave_package_type, {
       pack_path: pack$1.pack_path,
-      pack_fields: pack_fields,
+      pack_fields,
       pack_type: pack$1.pack_type,
       pack_txt: pack$1.pack_txt
     });
@@ -27264,7 +27264,7 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_signature_item, {
-      sig_desc: sig_desc,
+      sig_desc,
       sig_env: item$1.sig_env,
       sig_loc: item$1.sig_loc
     });
@@ -27384,20 +27384,20 @@ function TypedtreeMap_MakeMap(funarg) {
         break;
     }
     return Curry._1(funarg.leave_structure_item, {
-      str_desc: str_desc,
+      str_desc,
       str_loc: item$1.str_loc,
       str_env: item$1.str_env
     });
   };
   return {
-    map_structure: map_structure,
-    map_pattern: map_pattern,
-    map_structure_item: map_structure_item,
-    map_expression: map_expression,
-    map_class_expr: map_class_expr,
-    map_signature: map_signature,
-    map_signature_item: map_signature_item,
-    map_module_type: map_module_type
+    map_structure,
+    map_pattern,
+    map_structure_item,
+    map_expression,
+    map_class_expr,
+    map_signature,
+    map_signature_item,
+    map_module_type
   };
 }
 
@@ -27449,7 +27449,7 @@ function leave_expression(e) {
   return {
     exp_desc: e.exp_desc,
     exp_loc: e.exp_loc,
-    exp_extra: exp_extra,
+    exp_extra,
     exp_type: e.exp_type,
     exp_env: keep_only_summary(e.exp_env),
     exp_attributes: e.exp_attributes
@@ -27539,56 +27539,56 @@ function leave_class_type(c) {
 }
 
 const ClearEnv = TypedtreeMap_MakeMap({
-  enter_structure: enter_structure,
-  enter_value_description: enter_value_description,
-  enter_type_declaration: enter_type_declaration,
-  enter_type_extension: enter_type_extension,
-  enter_extension_constructor: enter_extension_constructor,
-  enter_pattern: enter_pattern,
-  enter_expression: enter_expression,
-  enter_package_type: enter_package_type,
-  enter_signature: enter_signature,
-  enter_signature_item: enter_signature_item,
-  enter_module_type_declaration: enter_module_type_declaration,
-  enter_module_type: enter_module_type,
-  enter_module_expr: enter_module_expr,
-  enter_with_constraint: enter_with_constraint,
-  enter_class_expr: enter_class_expr,
-  enter_class_signature: enter_class_signature,
-  enter_class_declaration: enter_class_declaration,
-  enter_class_description: enter_class_description,
-  enter_class_type_declaration: enter_class_type_declaration,
-  enter_class_type: enter_class_type,
-  enter_class_type_field: enter_class_type_field,
-  enter_core_type: enter_core_type,
-  enter_class_structure: enter_class_structure,
-  enter_class_field: enter_class_field,
-  enter_structure_item: enter_structure_item,
-  leave_structure: leave_structure,
-  leave_value_description: leave_value_description,
-  leave_type_declaration: leave_type_declaration,
-  leave_type_extension: leave_type_extension,
-  leave_extension_constructor: leave_extension_constructor,
-  leave_pattern: leave_pattern,
-  leave_expression: leave_expression,
-  leave_package_type: leave_package_type,
-  leave_signature: leave_signature,
-  leave_signature_item: leave_signature_item,
-  leave_module_type_declaration: leave_module_type_declaration,
-  leave_module_type: leave_module_type,
-  leave_module_expr: leave_module_expr,
-  leave_with_constraint: leave_with_constraint,
-  leave_class_expr: leave_class_expr,
-  leave_class_signature: leave_class_signature,
-  leave_class_declaration: leave_class_declaration,
-  leave_class_description: leave_class_description,
-  leave_class_type_declaration: leave_class_type_declaration,
-  leave_class_type: leave_class_type,
-  leave_class_type_field: leave_class_type_field,
-  leave_core_type: leave_core_type,
-  leave_class_structure: leave_class_structure,
-  leave_class_field: leave_class_field,
-  leave_structure_item: leave_structure_item
+  enter_structure,
+  enter_value_description,
+  enter_type_declaration,
+  enter_type_extension,
+  enter_extension_constructor,
+  enter_pattern,
+  enter_expression,
+  enter_package_type,
+  enter_signature,
+  enter_signature_item,
+  enter_module_type_declaration,
+  enter_module_type,
+  enter_module_expr,
+  enter_with_constraint,
+  enter_class_expr,
+  enter_class_signature,
+  enter_class_declaration,
+  enter_class_description,
+  enter_class_type_declaration,
+  enter_class_type,
+  enter_class_type_field,
+  enter_core_type,
+  enter_class_structure,
+  enter_class_field,
+  enter_structure_item,
+  leave_structure,
+  leave_value_description,
+  leave_type_declaration,
+  leave_type_extension,
+  leave_extension_constructor,
+  leave_pattern,
+  leave_expression,
+  leave_package_type,
+  leave_signature,
+  leave_signature_item,
+  leave_module_type_declaration,
+  leave_module_type,
+  leave_module_expr,
+  leave_with_constraint,
+  leave_class_expr,
+  leave_class_signature,
+  leave_class_declaration,
+  leave_class_description,
+  leave_class_type_declaration,
+  leave_class_type,
+  leave_class_type_field,
+  leave_core_type,
+  leave_class_structure,
+  leave_class_field,
+  leave_structure_item
 });
 
 function clear_part(p) {
@@ -44978,10 +44978,10 @@ function create$7(l, x, d, r) {
   const hr = height$6(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -45016,10 +45016,10 @@ function bal$6(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -45067,10 +45067,10 @@ function add$8(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -51069,9 +51069,9 @@ function create$8(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -51105,9 +51105,9 @@ function bal$7(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -51295,10 +51295,10 @@ function create$9(l, x, d, r) {
   const hr = height$8(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -51333,10 +51333,10 @@ function bal$8(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -51384,10 +51384,10 @@ function add$10(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -51446,9 +51446,9 @@ function create$10(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -51482,9 +51482,9 @@ function bal$9(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -51796,21 +51796,21 @@ function collect_arg_paths(mty) {
     }
   };
   const it = {
-    it_signature: it_signature,
+    it_signature,
     it_signature_item: it_signature_item$1,
-    it_value_description: it_value_description,
-    it_type_declaration: it_type_declaration,
-    it_extension_constructor: it_extension_constructor,
-    it_module_declaration: it_module_declaration,
-    it_modtype_declaration: it_modtype_declaration,
-    it_class_declaration: it_class_declaration,
-    it_class_type_declaration: it_class_type_declaration,
-    it_module_type: it_module_type,
-    it_class_type: it_class_type,
-    it_type_kind: it_type_kind,
-    it_do_type_expr: it_do_type_expr,
-    it_type_expr: it_type_expr,
-    it_path: it_path
+    it_value_description,
+    it_type_declaration,
+    it_extension_constructor,
+    it_module_declaration,
+    it_modtype_declaration,
+    it_class_declaration,
+    it_class_type_declaration,
+    it_module_type,
+    it_class_type,
+    it_type_kind,
+    it_do_type_expr,
+    it_type_expr,
+    it_path
   };
   it_module_type(it, mty);
   it_module_type(unmark_iterators, mty);
@@ -59977,7 +59977,7 @@ function create_package_mty(fake, loc, env, param) {
             TAG: /* Pwith_type */ 0,
             _0: {
               txt: s.txt,
-              loc: loc
+              loc
             },
             _1: d
           },
@@ -60136,8 +60136,8 @@ function transl_type(env, policy, styp) {
   const loc = styp.ptyp_loc;
   const ctyp = function (ctyp_desc, ctyp_type) {
     return {
-      ctyp_desc: ctyp_desc,
-      ctyp_type: ctyp_type,
+      ctyp_desc,
+      ctyp_type,
       ctyp_env: env,
       ctyp_loc: loc,
       ctyp_attributes: styp.ptyp_attributes
@@ -62636,11 +62636,11 @@ function type_option$1(ty) {
 
 function mkexp$1(exp_desc, exp_type, exp_loc, exp_env) {
   return {
-    exp_desc: exp_desc,
-    exp_loc: exp_loc,
+    exp_desc,
+    exp_loc,
     exp_extra: /* [] */ 0,
-    exp_type: exp_type,
-    exp_env: exp_env,
+    exp_type,
+    exp_env,
     exp_attributes: /* [] */ 0
   };
 }
@@ -68403,7 +68403,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         },
         exp_loc: loc,
         exp_extra: /* [] */ 0,
-        exp_type: exp_type,
+        exp_type,
         exp_env: env,
         exp_attributes: sexp.pexp_attributes
       });
@@ -72628,9 +72628,9 @@ function create$11(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -72664,9 +72664,9 @@ function bal$10(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -72931,10 +72931,10 @@ function create$12(l, x, d, r) {
   const hr = height$11(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -72969,10 +72969,10 @@ function bal$11(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -73020,10 +73020,10 @@ function add$13(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -73259,21 +73259,21 @@ function check_well_founded_decl(env, loc, path, decl, to_check) {
     };
   };
   const it = {
-    it_signature: it_signature,
-    it_signature_item: it_signature_item,
-    it_value_description: it_value_description,
-    it_type_declaration: it_type_declaration,
-    it_extension_constructor: it_extension_constructor,
-    it_module_declaration: it_module_declaration,
-    it_modtype_declaration: it_modtype_declaration,
-    it_class_declaration: it_class_declaration,
-    it_class_type_declaration: it_class_type_declaration,
-    it_module_type: it_module_type,
-    it_class_type: it_class_type,
-    it_type_kind: it_type_kind,
-    it_do_type_expr: it_do_type_expr,
+    it_signature,
+    it_signature_item,
+    it_value_description,
+    it_type_declaration,
+    it_extension_constructor,
+    it_module_declaration,
+    it_modtype_declaration,
+    it_class_declaration,
+    it_class_type_declaration,
+    it_module_type,
+    it_class_type,
+    it_type_kind,
+    it_do_type_expr,
     it_type_expr: it_it_type_expr,
-    it_path: it_path
+    it_path
   };
   it_type_declaration(it, instance_declaration(decl));
 }
@@ -74163,7 +74163,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       loc: ptype_name_loc
     };
     return {
-      ptype_name: ptype_name,
+      ptype_name,
       ptype_params: sdecl.ptype_params,
       ptype_cstrs: sdecl.ptype_cstrs,
       ptype_kind: /* Ptype_abstract */ 0,
@@ -77574,10 +77574,10 @@ function type_constraint(val_env, sty, sty$p, loc) {
 function make_method(loc, cl_num, expr) {
   return Ast_helper_Exp.fun_(expr.pexp_loc, undefined, "", undefined, alias$1(loc, undefined, $$var$1(loc, undefined, {
     txt: "self-*",
-    loc: loc
+    loc
   }), {
     txt: "self-" + cl_num,
-    loc: loc
+    loc
   }), expr);
 }
 
@@ -79845,7 +79845,7 @@ function type_classes(define_class, approx, kind, env, cls) {
         _0: obj_id
       },
       cty_new: tmp,
-      cty_variance: cty_variance,
+      cty_variance,
       cty_loc: cl.pci_loc,
       cty_attributes: cl.pci_attributes
     };
@@ -79914,7 +79914,7 @@ function type_classes(define_class, approx, kind, env, cls) {
         _0: obj_id
       },
       cty_new: tmp$1,
-      cty_variance: cty_variance,
+      cty_variance,
       cty_loc: cl.pci_loc,
       cty_attributes: cl.pci_attributes
     };
@@ -82816,9 +82816,9 @@ function create$13(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -82852,9 +82852,9 @@ function bal$12(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }

@@ -56,7 +56,7 @@ const XX = {
   to_seqi: Stdlib__Array.to_seqi,
   of_seq: Stdlib__Array.of_seq,
   Floatarray: Stdlib__Array.Floatarray,
-  f: f
+  f
 };
 
 const u = [Stdlib__String];

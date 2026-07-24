@@ -29,9 +29,9 @@ function create(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -65,9 +65,9 @@ function bal(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -1190,54 +1190,54 @@ function to_seq_from(low, s) {
 
 const $$Set = {
   empty: /* Empty */ 0,
-  add: add,
-  singleton: singleton,
-  remove: remove,
-  union: union,
-  inter: inter,
-  disjoint: disjoint,
-  diff: diff,
-  cardinal: cardinal,
-  elements: elements,
-  min_elt: min_elt,
-  min_elt_opt: min_elt_opt,
-  max_elt: max_elt,
-  max_elt_opt: max_elt_opt,
+  add,
+  singleton,
+  remove,
+  union,
+  inter,
+  disjoint,
+  diff,
+  cardinal,
+  elements,
+  min_elt,
+  min_elt_opt,
+  max_elt,
+  max_elt_opt,
   choose: min_elt,
   choose_opt: min_elt_opt,
-  find: find,
-  find_opt: find_opt,
-  find_first: find_first,
-  find_first_opt: find_first_opt,
-  find_last: find_last,
-  find_last_opt: find_last_opt,
-  iter: iter,
-  fold: fold,
-  map: map,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
-  split: split,
-  is_empty: is_empty,
-  is_singleton: is_singleton,
-  mem: mem,
-  equal: equal,
-  compare: compare,
-  subset: subset,
-  for_all: for_all,
-  exists: exists,
+  find,
+  find_opt,
+  find_first,
+  find_first_opt,
+  find_last,
+  find_last_opt,
+  iter,
+  fold,
+  map,
+  filter,
+  filter_map,
+  partition,
+  split,
+  is_empty,
+  is_singleton,
+  mem,
+  equal,
+  compare,
+  subset,
+  for_all,
+  exists,
   to_list: elements,
-  of_list: of_list,
-  to_seq_from: to_seq_from,
-  to_seq: to_seq,
-  to_rev_seq: to_rev_seq,
-  add_seq: add_seq,
-  of_seq: of_seq
+  of_list,
+  to_seq_from,
+  to_seq,
+  to_rev_seq,
+  add_seq,
+  of_seq
 };
 
 const M = {
   x: 1,
-  $$Set: $$Set
+  $$Set
 };
 
 const x = 1;

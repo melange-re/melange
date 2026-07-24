@@ -12,7 +12,7 @@
       'const x = null;\n' +
       '\n' +
       'const Deprecated = {\n' +
-      '  x: x\n' +
+      '  x\n' +
       '};\n' +
       '\n' +
       'const t = x;\n' +

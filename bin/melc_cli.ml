@@ -473,9 +473,8 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
     dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives nolabels principal rectypes short_paths unsafe
-    warn_help warn_error bs_stop_after_cmj runtime filenames _c
-    store_occurrences =
+    nopervasives nolabels principal rectypes short_paths unsafe warn_help
+    warn_error bs_stop_after_cmj runtime filenames _c store_occurrences =
   {
     include_dirs;
     hidden_include_dirs;
@@ -557,15 +556,13 @@ let cmd =
     $ preamble $ Internal.strict_sequence $ Internal.strict_formats
     $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
     $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
-    $ Internal.nopervasives $ Internal.nolabels
-    $ Internal.principal $ Internal.rectypes $ Internal.short_paths $ unsafe
-    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
-    $ Compat.c $ store_occurrences)
+    $ Internal.nopervasives $ Internal.nolabels $ Internal.principal
+    $ Internal.rectypes $ Internal.short_paths $ unsafe $ warn_help $ warn_error
+    $ bs_stop_after_cmj $ Internal.runtime $ filenames $ Compat.c
+    $ store_occurrences)
 
 let normalize_argv argv =
-  let needs_extra_dash s =
-    String.length s > 2 && s.[0] = '-' && s.[1] <> '-'
-  in
+  let needs_extra_dash s = String.length s > 2 && s.[0] = '-' && s.[1] <> '-' in
   let normalize_opt_name s = if needs_extra_dash s then "-" ^ s else s in
   let len = Array.length argv in
   let normalized = Array.make len "" in
@@ -582,13 +579,11 @@ let normalize_argv argv =
     if is_short_w || is_warn || is_warn_error || is_alert then (
       let opt = normalize_opt_name s in
       let s =
-        if !idx >= len - 1 then
-          opt
-        else
-          if is_short_w then
-            (* https://github.com/dbuenzli/cmdliner/issues/157 *)
-            opt ^ argv.(!idx + 1)
-          else opt ^ "=" ^ argv.(!idx + 1)
+        if !idx >= len - 1 then opt
+        else if is_short_w then
+          (* https://github.com/dbuenzli/cmdliner/issues/157 *)
+          opt ^ argv.(!idx + 1)
+        else opt ^ "=" ^ argv.(!idx + 1)
       in
       incr idx;
       normalized.(!nidx) <- s;

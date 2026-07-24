@@ -394,8 +394,8 @@ function $great$great$eq(x, f) {
 }
 
 const ID_MONAD = {
-  $$return: $$return,
-  $great$great$eq: $great$great$eq
+  $$return,
+  $great$great$eq
 };
 
 function make(bufsizeOpt, refill) {
@@ -403,7 +403,7 @@ function make(bufsizeOpt, refill) {
   const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
   return {
     buf: Caml_bytes.caml_create_bytes(bufsize$1),
-    refill: refill,
+    refill,
     atom: Stdlib__Buffer.create(32),
     i: 0,
     len: 0,
@@ -1019,7 +1019,7 @@ function MakeDecode(funarg) {
     const bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Stdlib__Sys.max_string_length);
     return {
       buf: Caml_bytes.caml_create_bytes(bufsize$1),
-      refill: refill,
+      refill,
       atom: Stdlib__Buffer.create(32),
       i: 0,
       len: 0,
@@ -1520,14 +1520,14 @@ function MakeDecode(funarg) {
     }), t);
   };
   return {
-    make: make,
-    next: next
+    make,
+    next
   };
 }
 
 const D = {
-  make: make,
-  next: next
+  make,
+  next
 };
 
 module.exports = {

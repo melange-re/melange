@@ -8,7 +8,6 @@ Test `let rec` with non-function and lazy bindings
   $ cat > dune <<EOF
   > (melange.emit
   >  (target out)
-  >  (emit_stdlib false)
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > rec_value.ml <<EOF

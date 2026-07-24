@@ -37,30 +37,137 @@ let values_of_export =
         param_map
     | _ -> Ident.Map.empty
   in
+  let direct_external ~dynamic_import id name arity ~relocatable =
+    Lam_call_summary.Direct_external
+      { dynamic_import; id; name; arity; relocatable }
+  in
+  (* Preserve sharing in the lambda graph when building recursive CMJ data. *)
+  let memoize cache key f =
+    match Ident.Hashtbl.find cache key with
+    | value -> value
+    | exception Not_found ->
+        let value = f () in
+        Ident.Hashtbl.replace cache ~key ~data:value;
+        value
+  in
+  let arity_cache = Ident.Hashtbl.create 32 in
+  let rec arity_of_lambda (meta : Lam_stats.t) seen = function
+    | (Lam.Lvar v | Lmutvar v) as lam ->
+        memoize arity_cache v (fun () ->
+            if Ident.Set.mem v seen then Js_cmj_format.single_na
+            else
+              let seen = Ident.Set.add v seen in
+              match Ident.Hashtbl.find meta.ident_tbl v with
+              | ImmutableBlock elems ->
+                  Js_cmj_format.Submodule
+                    (Array.map elems ~f:(arity_of_element meta seen))
+              | FunctionId { arity; _ } -> Js_cmj_format.Single arity
+              | _ | (exception Not_found) ->
+                  Js_cmj_format.Single (Lam_arity_analysis.get_arity meta lam))
+    | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
+        Js_cmj_format.Submodule
+          (Array.of_list_map args ~f:(arity_of_lambda meta seen))
+    | lam -> Js_cmj_format.Single (Lam_arity_analysis.get_arity meta lam)
+  and arity_of_element (meta : Lam_stats.t) seen = function
+    | Lam_id_kind.Element.NA -> Js_cmj_format.single_na
+    | Function arity -> Js_cmj_format.Single arity
+    | ImmutableBlock elems ->
+        Js_cmj_format.Submodule
+          (Array.map elems ~f:(arity_of_element meta seen))
+    | SimpleForm lam -> arity_of_lambda meta seen lam
+  in
+  let find_external_summary ~dynamic_import ident name ~arity:direct_arity =
+    match Lam_compile_env.external_id_is_relative ident with
+    | Some is_relative -> (
+        match direct_arity with
+        | Some arity ->
+            direct_external ~dynamic_import ident name arity
+              ~relocatable:(not is_relative)
+        | None -> Lam_call_summary.Unknown)
+    | None -> (
+        match
+          Lam_compile_env.query_external_id_info ~dynamic_import ident name
+        with
+        | Some { arity; call_summary; _ } -> (
+            if not (Lam_call_summary.is_unknown call_summary) then call_summary
+            else
+              match arity with
+              | Single arity when not (Lam_arity.first_arity_na arity) ->
+                  direct_external ~dynamic_import ident name arity
+                    ~relocatable:true
+              | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+        | None -> Lam_call_summary.Unknown)
+  in
+  let find_ident_summary (meta : Lam_stats.t) ident =
+    match Ident.Hashtbl.find meta.ident_tbl ident with
+    | FunctionId { call_summary; _ } -> call_summary
+    | _ | (exception Not_found) -> Lam_call_summary.Unknown
+  in
+  let summarize meta lambda =
+    let call_summary =
+      Lam_call_summary.of_lambda lambda ~find_ident:(find_ident_summary meta)
+        ~find_external:find_external_summary
+    in
+    if Lam_call_summary.is_relocatable call_summary then call_summary
+    else Lam_call_summary.Unknown
+  in
+  let nested_call_summary_of_summary summary =
+    Js_cmj_format.Call_summary
+      (if Lam_call_summary.is_relocatable summary then summary
+       else Lam_call_summary.Unknown)
+  in
+  let nested_call_summary_cache = Ident.Hashtbl.create 32 in
+  let rec nested_call_summary_of_lambda (meta : Lam_stats.t) seen = function
+    | (Lam.Lvar v | Lmutvar v) as lam ->
+        memoize nested_call_summary_cache v (fun () ->
+            if Ident.Set.mem v seen then Js_cmj_format.call_summary_unknown
+            else
+              let seen = Ident.Set.add v seen in
+              match Ident.Hashtbl.find meta.ident_tbl v with
+              | ImmutableBlock elems ->
+                  Js_cmj_format.Call_summary_submodule
+                    (Array.map elems
+                       ~f:(nested_call_summary_of_element meta seen))
+              | FunctionId { call_summary; _ } ->
+                  nested_call_summary_of_summary call_summary
+              | _ | (exception Not_found) ->
+                  Js_cmj_format.Call_summary (summarize meta lam))
+    | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
+        Js_cmj_format.Call_summary_submodule
+          (Array.of_list_map args ~f:(nested_call_summary_of_lambda meta seen))
+    | lam -> Js_cmj_format.Call_summary (summarize meta lam)
+  and nested_call_summary_of_element (meta : Lam_stats.t) seen = function
+    | Lam_id_kind.Element.ImmutableBlock elems ->
+        Js_cmj_format.Call_summary_submodule
+          (Array.map elems ~f:(nested_call_summary_of_element meta seen))
+    | SimpleForm lam -> nested_call_summary_of_lambda meta seen lam
+    | NA | Function _ -> Js_cmj_format.call_summary_unknown
+  in
   fun (meta : Lam_stats.t)
     (export_map : Lam.t Ident.Map.t)
     :
     Js_cmj_format.cmj_value String.Map.t
   ->
+    Ident.Hashtbl.clear arity_cache;
+    Ident.Hashtbl.clear nested_call_summary_cache;
     List.fold_left meta.exports ~init:String.Map.empty ~f:(fun acc x ->
         let arity =
-          match Ident.Hashtbl.find meta.ident_tbl x with
-          | FunctionId { arity; _ } -> Js_cmj_format.Single arity
-          | ImmutableBlock elems ->
-              (* FIXME: field name for dumping *)
-              Submodule
-                (Array.map elems ~f:(function
-                  | Lam_id_kind.Element.NA -> Lam_arity.na
-                  | Function arity -> arity
-                  | ImmutableBlock _ -> Lam_arity.na
-                  | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
-          | _ | (exception Not_found) -> (
-              match Ident.Map.find x export_map with
-              | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
+          memoize arity_cache x (fun () ->
+              match Ident.Hashtbl.find meta.ident_tbl x with
+              | FunctionId { arity; _ } -> Js_cmj_format.Single arity
+              | ImmutableBlock elems ->
+                  (* FIXME: field name for dumping *)
                   Submodule
-                    (Array.of_list_map args ~f:(fun lam ->
-                         Lam_arity_analysis.get_arity meta lam))
-              | _ | (exception Not_found) -> Js_cmj_format.single_na)
+                    (Array.map elems
+                       ~f:(arity_of_element meta (Ident.Set.singleton x)))
+              | _ | (exception Not_found) -> (
+                  match Ident.Map.find x export_map with
+                  | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ }
+                    ->
+                      Submodule
+                        (Array.of_list_map args
+                           ~f:(arity_of_lambda meta (Ident.Set.singleton x)))
+                  | _ | (exception Not_found) -> Js_cmj_format.single_na))
         in
         let persistent_closed_lambda =
           match Ident.Map.find x export_map with
@@ -72,79 +179,87 @@ let values_of_export =
           | _ when not !Js_config.cross_module_inline -> None
           | lambda -> (
               let lambda = Lam_pass_remove_alias.simplify_alias meta lambda in
-              match
-                Lam_analysis.safe_to_inline lambda
-                (* when inlining a non function, we have to be very careful,
-                 only truly immutable values can be inlined *)
-              with
-              | false -> None
-              | true -> (
-                  match lambda with
-                  | Lfunction { attr = { inline = Always_inline; _ }; _ }
-                  (* FIXME: is_closed lambda is too restrictive
-                     It precludes use cases
-                     - inline forEach but not forEachU *)
-                  | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
-                      if Lam_closure.is_closed lambda (* TODO: seriealize more*)
-                      then Some (lambda, param_map lambda)
-                      else None
-                  | _ ->
-                      let lam_size = Lam_analysis.size lambda in
-                      (* TODO:
-                         1. global need re-assocate when do the beta reduction
-                         2. [lambda_exports] is not precise *)
-                      let free_variables =
-                        Lam_closure.free_variables Ident.Set.empty
-                          Ident.Map.empty lambda
-                      in
-                      if
-                        lam_size < Lam_analysis.small_inline_size
-                        && Ident.Map.is_empty free_variables
-                      then (
-                        Log.warn ~loc:(Loc.of_pos __POS__)
-                          (Pp.textf "%s recorded for inlining @." (Ident.name x));
-                        Some (lambda, param_map lambda))
-                      else None))
+              if not (Lam_compile_env.lambda_is_relocatable lambda) then None
+              else
+                match
+                  Lam_analysis.safe_to_inline lambda
+                  (* when inlining a non function, we have to be very careful,
+                     only truly immutable values can be inlined *)
+                with
+                | false -> None
+                | true -> (
+                    match lambda with
+                    | Lfunction { attr = { inline = Always_inline; _ }; _ }
+                    (* FIXME: is_closed lambda is too restrictive
+                       It precludes use cases
+                       - inline forEach but not forEachU *)
+                    | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
+                        if
+                          Lam_closure.is_closed
+                            lambda (* TODO: seriealize more*)
+                        then Some (lambda, param_map lambda)
+                        else None
+                    | _ ->
+                        let lam_size = Lam_analysis.size lambda in
+                        (* TODO:
+                           1. global need re-assocate when do the beta reduction
+                           2. [lambda_exports] is not precise *)
+                        let free_variables =
+                          Lam_closure.free_variables Ident.Set.empty
+                            Ident.Map.empty lambda
+                        in
+                        if
+                          lam_size < Lam_analysis.small_inline_size
+                          && Ident.Map.is_empty free_variables
+                        then (
+                          Log.warn ~loc:(Loc.of_pos __POS__)
+                            (Pp.textf "%s recorded for inlining @."
+                               (Ident.name x));
+                          Some (lambda, param_map lambda))
+                        else None))
         in
         let call_summary =
           match Ident.Map.find x export_map with
-          | lambda ->
-              let find_external ~dynamic_import ident name =
-                match
-                  Lam_compile_env.query_external_id_info ~dynamic_import ident
-                    name
-                with
-                | Some { arity; call_summary; _ } ->
-                    if not (Lam_call_summary.is_unknown call_summary) then
-                      call_summary
-                    else (
-                      match arity with
-                      | Single arity when not (Lam_arity.first_arity_na arity)
-                        ->
-                          Lam_call_summary.Direct_external
-                            { dynamic_import; id = ident; name; arity }
-                      | Single _ | Submodule _ -> Lam_call_summary.Unknown)
-                | None -> Lam_call_summary.Unknown
-              in
-              Lam_call_summary.of_lambda lambda
-                ~find_ident:(fun ident ->
-                  match Ident.Hashtbl.find meta.ident_tbl ident with
-                  | FunctionId { call_summary; _ } -> call_summary
-                  | _ | exception Not_found -> Lam_call_summary.Unknown)
-                ~find_external
+          | lambda -> summarize meta lambda
           | exception Not_found -> Lam_call_summary.Unknown
         in
+        let nested_call_summary =
+          memoize nested_call_summary_cache x (fun () ->
+              match Ident.Hashtbl.find meta.ident_tbl x with
+              | FunctionId { call_summary; _ } ->
+                  nested_call_summary_of_summary call_summary
+              | ImmutableBlock elems ->
+                  Js_cmj_format.Call_summary_submodule
+                    (Array.map elems
+                       ~f:
+                         (nested_call_summary_of_element meta
+                            (Ident.Set.singleton x)))
+              | _ | (exception Not_found) -> (
+                  match Ident.Map.find x export_map with
+                  | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ }
+                    ->
+                      Js_cmj_format.Call_summary_submodule
+                        (Array.of_list_map args
+                           ~f:
+                             (nested_call_summary_of_lambda meta
+                                (Ident.Set.singleton x)))
+                  | lambda -> Js_cmj_format.Call_summary (summarize meta lambda)
+                  | exception Not_found -> Js_cmj_format.call_summary_unknown))
+        in
         match (arity, persistent_closed_lambda, call_summary) with
-        | ( ( Single Arity_na,
-                (None | Some (Lconst Const_module_alias, _)),
-                summary )
-          | (Submodule [||], None, summary) )
-          when Lam_call_summary.is_unknown summary
-          ->
+        | Single Arity_na, (None | Some (Lconst Const_module_alias, _)), summary
+        | Submodule [||], None, summary
+          when Lam_call_summary.is_unknown summary ->
             acc
         | _, _, _ ->
             String.Map.add acc ~key:(Ident.name x)
-              ~data:{ Js_cmj_format.arity; persistent_closed_lambda; call_summary })
+              ~data:
+                {
+                  Js_cmj_format.arity;
+                  persistent_closed_lambda;
+                  call_summary;
+                  nested_call_summary;
+                })
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it *)
@@ -171,12 +286,13 @@ let get_dependent_module_effect (maybe_pure : string option)
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj ~case meta ~effect_ export_map =
+let export_to_cmj ~case meta ~effect_ export_map
+    ~(delayed_program : J.deps_program) =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect_
     ~package_spec:(Js_packages_state.get_packages_info_for_cmj ())
-    ~case
+    ~case ~delayed_program
 (* FIXME: make sure [-o] would not change its case
    add test for ns/non-ns
 *)

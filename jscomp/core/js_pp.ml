@@ -54,12 +54,7 @@ let output_string t s =
   t.line <- new_line;
   t.column <- new_column
 
-let flush t =
-  match t.kind with
-  | File_descr fd -> (
-      try Unix.fsync fd
-      with Unix.Unix_error ((Unix.EOPNOTSUPP | Unix.EINVAL), _, _) -> ())
-  | Buffer _ -> ()
+let flush _t = ()
 
 let from_fd fd =
   {

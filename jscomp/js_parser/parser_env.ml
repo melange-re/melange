@@ -15,7 +15,6 @@ module Lex_mode = struct
     | TYPE
     | JSX_TAG
     | JSX_CHILD
-    | TEMPLATE
     | REGEXP
 
   let debug_string_of_lex_mode (mode : t) =
@@ -24,7 +23,6 @@ module Lex_mode = struct
     | TYPE -> "TYPE"
     | JSX_TAG -> "JSX_TAG"
     | JSX_CHILD -> "JSX_CHILD"
-    | TEMPLATE -> "TEMPLATE"
     | REGEXP -> "REGEXP"
 end
 
@@ -52,6 +50,10 @@ module Lookahead : sig
   val lex_env_0 : t -> Lex_env.t
 
   val junk : t -> unit
+
+  val rescan_template_part : t -> Lex_env.t -> unit
+
+  val rescan_template_part_from : t -> Lex_env.t -> Lex_env.t -> unit
 end = struct
   type la_result = (Lex_env.t * Lex_result.t) option
 
@@ -75,7 +77,6 @@ end = struct
       | Lex_mode.TYPE -> Flow_lexer.type_token lex_env
       | Lex_mode.JSX_TAG -> Flow_lexer.jsx_tag lex_env
       | Lex_mode.JSX_CHILD -> Flow_lexer.jsx_child lex_env
-      | Lex_mode.TEMPLATE -> Flow_lexer.template_tail lex_env
       | Lex_mode.REGEXP -> Flow_lexer.regexp lex_env
     in
     let cloned_env = Lex_env.clone lex_env in
@@ -115,6 +116,35 @@ end = struct
     | Some _ ->
       t.la_results_0 <- t.la_results_1;
       t.la_results_1 <- None
+
+  (* Rescan the current position using the template tail lexer.
+     This replaces push_lex_mode(TEMPLATE) by directly lexing a template
+     continuation without modifying the lex mode stack. *)
+  let rescan_template_part t lex_env =
+    t.la_lex_env <- Lex_env.clone lex_env;
+    t.la_results_0 <- None;
+    t.la_results_1 <- None;
+    let (lex_env, lex_result) = Flow_lexer.template_tail t.la_lex_env in
+    let cloned_env = Lex_env.clone lex_env in
+    t.la_lex_env <- lex_env;
+    t.la_results_0 <- Some (cloned_env, lex_result)
+
+  let rescan_template_part_from t lex_env prev_lex_env =
+    let existing_comments =
+      match t.la_results_0 with
+      | Some (_, result) -> Lex_result.comments result
+      | None -> []
+    in
+    let env = Lex_env.clone prev_lex_env in
+    let env = Lex_env.set_last_loc env (Lex_env.lex_last_loc lex_env) in
+    t.la_lex_env <- env;
+    t.la_results_0 <- None;
+    t.la_results_1 <- None;
+    let (lex_env, lex_result) = Flow_lexer.template_tail_start t.la_lex_env in
+    let lex_result = Lex_result.with_comments lex_result existing_comments in
+    let cloned_env = Lex_env.clone lex_env in
+    t.la_lex_env <- lex_env;
+    t.la_results_0 <- Some (cloned_env, lex_result)
 end
 
 type token_sink_result = {
@@ -127,11 +157,15 @@ type parse_options = {
   components: bool; (* enable parsing of Flow component syntax *)
   enums: bool;  (** enable parsing of Flow enums *)
   pattern_matching: bool;
+  records: bool;
   esproposal_decorators: bool;  (** enable parsing of decorators *)
   types: bool;  (** enable parsing of Flow types *)
   use_strict: bool;  (** treat the file as strict, without needing a "use strict" directive *)
   module_ref_prefix: string option;
   assert_operator: bool;
+  allow_return_outside_function: bool;
+      (** suppress the [IllegalReturn] diagnostic for top-level [return]
+          statements; matches hermes-parser [allowReturnOutsideFunction] *)
 }
 
 let default_parse_options =
@@ -140,10 +174,12 @@ let default_parse_options =
     enums = false;
     assert_operator = false;
     pattern_matching = false;
+    records = false;
     esproposal_decorators = false;
     types = true;
     use_strict = false;
     module_ref_prefix = None;
+    allow_return_outside_function = false;
   }
 
 let permissive_parse_options =
@@ -152,10 +188,12 @@ let permissive_parse_options =
     enums = true;
     assert_operator = false;
     pattern_matching = true;
+    records = true;
     esproposal_decorators = true;
     types = true;
     use_strict = false;
     module_ref_prefix = None;
+    allow_return_outside_function = false;
   }
 
 type allowed_super =
@@ -183,11 +221,13 @@ type env = {
   no_anon_function_type: bool;
   no_conditional_type: bool;
   no_new: bool;
+  no_record: bool;
   allow_yield: bool;
   allow_await: bool;
   allow_directive: bool;
   has_simple_parameters: bool;
   allow_super: allowed_super;
+  in_ambient_context: bool;
   error_callback: (env -> Parse_error.t -> unit) option;
   lex_mode_stack: Lex_mode.t list ref;
   (* lex_env is the lex_env after the single lookahead has been lexed *)
@@ -241,10 +281,12 @@ let init_env ?(token_sink = None) ?(parse_options = None) source content =
     no_anon_function_type = false;
     no_conditional_type = false;
     no_new = false;
+    no_record = false;
     allow_yield = false;
     allow_await = false;
     allow_directive = false;
     allow_super = No_super;
+    in_ambient_context = false;
     error_callback = None;
     lex_mode_stack = ref [Lex_mode.NORMAL];
     lex_env = ref lex_env;
@@ -289,6 +331,8 @@ let allow_directive env = env.allow_directive
 
 let allow_super env = env.allow_super
 
+let in_ambient_context env = env.in_ambient_context
+
 let has_simple_parameters env = env.has_simple_parameters
 
 let no_in env = env.no_in
@@ -303,6 +347,8 @@ let no_conditional_type env = env.no_conditional_type
 
 let no_new env = env.no_new
 
+let no_record env = env.no_record
+
 let errors env = !(env.errors)
 
 let parse_options env = env.parse_options
@@ -310,6 +356,14 @@ let parse_options env = env.parse_options
 let source env = env.source
 
 let should_parse_types env = env.parse_options.types
+
+let is_d_ts env =
+  match env.source with
+  | Some file_key ->
+    File_key.check_suffix file_key ".d.ts"
+    || File_key.check_suffix file_key ".d.mts"
+    || File_key.check_suffix file_key ".d.cts"
+  | None -> false
 
 (* mutators: *)
 let error_at env (loc, e) =
@@ -385,12 +439,6 @@ let with_in_formal_parameters in_formal_parameters env =
   else
     { env with in_formal_parameters }
 
-let with_in_function in_function env =
-  if in_function = env.in_function then
-    env
-  else
-    { env with in_function }
-
 let with_in_match_expression in_match_expression env =
   if in_match_expression = env.in_match_expression then
     env
@@ -427,6 +475,12 @@ let with_allow_super allow_super env =
   else
     { env with allow_super }
 
+let with_ambient_context in_ambient_context env =
+  if in_ambient_context = env.in_ambient_context then
+    env
+  else
+    { env with in_ambient_context }
+
 let with_no_let no_let env =
   if no_let = env.no_let then
     env
@@ -462,6 +516,12 @@ let with_no_new no_new env =
     env
   else
     { env with no_new }
+
+let with_no_record no_record env =
+  if no_record = env.no_record then
+    env
+  else
+    { env with no_record }
 
 let with_in_switch in_switch env =
   if in_switch = env.in_switch then
@@ -574,19 +634,6 @@ let is_contextually_reserved str_val =
     true
   | _ -> false
 
-(** Words that are sometimes reserved, and sometimes allowed as identifiers
-    (namely "await" and "yield")
-
-    https://tc39.es/ecma262/#sec-keywords-and-reserved-words *)
-let token_is_contextually_reserved t =
-  let open Token in
-  match t with
-  | T_IDENTIFIER { raw; _ } -> is_contextually_reserved raw
-  | T_AWAIT
-  | T_YIELD ->
-    true
-  | _ -> false
-
 (** Words that are always reserved (mostly keywords)
 
     https://tc39.es/ecma262/#sec-keywords-and-reserved-words *)
@@ -695,6 +742,7 @@ let is_reserved_type str_val =
   | "null"
   | "number"
   | "readonly"
+  | "writeonly"
   | "static"
   | "string"
   | "symbol"
@@ -702,8 +750,7 @@ let is_reserved_type str_val =
   | "typeof"
   | "undefined"
   | "unknown"
-  | "void"
-  | "_" ->
+  | "void" ->
     true
   | _ -> false
 
@@ -726,6 +773,7 @@ let token_is_reserved_type t =
   | T_NULL
   | T_NUMBER_TYPE
   | T_READONLY
+  | T_WRITEONLY
   | T_STATIC
   | T_STRING_TYPE
   | T_SYMBOL_TYPE
@@ -797,6 +845,7 @@ let token_is_type_identifier env t =
     | T_INTERFACE
     | T_LET
     | T_MATCH
+    | T_RECORD
     | T_NEW
     | T_NULL
     | T_OF
@@ -824,6 +873,7 @@ let token_is_type_identifier env t =
     | T_FUNCTION
     | T_KEYOF
     | T_READONLY
+    | T_WRITEONLY
     | T_INFER
     | T_IS
     | T_ASSERTS
@@ -913,7 +963,6 @@ let token_is_type_identifier env t =
   end
   | Lex_mode.JSX_TAG
   | Lex_mode.JSX_CHILD
-  | Lex_mode.TEMPLATE
   | Lex_mode.REGEXP ->
     false
 
@@ -1005,9 +1054,12 @@ module Peek = struct
     | T_AWAIT
     | T_ENUM
     | T_MATCH
+    | T_RECORD
     | T_POUND
     | T_IDENTIFIER _
-    | T_READONLY ->
+    | T_READONLY
+    | T_WRITEONLY
+    | T_INFER ->
       true
     | _ -> false
 
@@ -1015,13 +1067,20 @@ module Peek = struct
 
   let ith_is_identifier_name ~i env = ith_is_identifier ~i env || ith_is_type_identifier ~i env
 
+  let ith_is_object_key ~i ~is_class env =
+    match ith_token ~i env with
+    | T_STRING _
+    | T_NUMBER _
+    | T_BIGINT _
+    | T_LBRACKET ->
+      true
+    | T_POUND when is_class -> true
+    | t when token_is_reserved t -> true
+    | _ -> ith_is_identifier_name ~i env
+
   (* This returns true if the next token is identifier-ish (even if it is an
      error) *)
   let is_identifier env = ith_is_identifier ~i:0 env
-
-  let is_identifier_name env = ith_is_identifier_name ~i:0 env
-
-  let is_type_identifier env = ith_is_type_identifier ~i:0 env
 
   let is_function env =
     token env = T_FUNCTION
@@ -1035,6 +1094,14 @@ module Peek = struct
       (parse_options env).components
       && ith_is_identifier ~i:1 env
       && (loc env)._end.line = (ith_loc ~i:1 env).start.line
+    | T_ASYNC
+      when (parse_options env).components
+           && (loc env)._end.line = (ith_loc ~i:1 env).start.line
+           &&
+           match ith_token ~i:1 env with
+           | T_IDENTIFIER { raw = "hook"; _ } -> true
+           | _ -> false ->
+      true
     | _ -> false
 
   let is_class env =
@@ -1050,12 +1117,25 @@ module Peek = struct
     &&
     match token env with
     | T_IDENTIFIER { raw = "component"; _ } when ith_is_identifier ~i:1 env -> true
+    | T_ASYNC
+      when (loc env)._end.line = (ith_loc ~i:1 env).start.line
+           &&
+           match ith_token ~i:1 env with
+           | T_IDENTIFIER { raw = "component"; _ } -> true
+           | _ -> false ->
+      true
     | _ -> false
 
   let is_renders_ident env =
     match token env with
     | T_IDENTIFIER { raw = "renders"; _ } -> true
     | _ -> false
+
+  let is_record env =
+    (parse_options env).records
+    && token env = T_RECORD
+    && (not (ith_is_line_terminator ~i:1 env))
+    && ith_is_identifier ~i:1 env
 end
 
 (*****************************************************************************)
@@ -1109,9 +1189,13 @@ let function_as_statement_error_at env loc =
 module Eat = struct
   (* Consume a single token *)
   let token env =
-    (* If there's a token_sink, emit the lexed token before moving forward *)
+    (* If there's a token_sink, emit the lexed token before moving forward.
+       Skip T_EOF — upstream Hermes' token stream does not include a sentinel
+       end-of-input token, so neither should ours. The Rust port mirrors this
+       in `parser_env.rs::token::token`. *)
     (match !(env.token_sink) with
     | None -> ()
+    | Some _ when Peek.token env = Token.T_EOF -> ()
     | Some token_sink ->
       let token_loc = Peek.loc env in
       let token = Peek.token env in
@@ -1172,6 +1256,14 @@ module Eat = struct
     in
     env.lex_mode_stack := new_stack;
     env.lookahead := Lookahead.create !(env.lex_env) (lex_mode env)
+
+  (* Rescan the current position as a template continuation (template middle/tail).
+     This replaces the pattern of push_lex_mode(TEMPLATE) + pop_lex_mode()
+     by directly lexing a template tail without modifying the lex mode stack. *)
+  let rescan_as_template env = Lookahead.rescan_template_part !(env.lookahead) !(env.lex_env)
+
+  let rescan_as_template_from env prev_lex_env =
+    Lookahead.rescan_template_part_from !(env.lookahead) !(env.lex_env) prev_lex_env
 
   let trailing_comments env =
     let open Loc in

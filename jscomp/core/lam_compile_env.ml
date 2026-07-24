@@ -39,13 +39,22 @@ type env_value =
 let cached_tbl : env_value Lam_module_ident.Hashtbl.t =
   Lam_module_ident.Hashtbl.create 31
 
+type external_id_info = { is_relative : bool }
+
+let external_id_tbl : external_id_info Ident.Hashtbl.t = Ident.Hashtbl.create 31
+
 (* For each compilation we need reset to make it re-entrant *)
 let reset () =
   Translmod.reset ();
   Js_config.no_export := false;
   (* This is needed in the playground since one no_export can make it true
      In the payground, it seems we need reset more states *)
-  Lam_module_ident.Hashtbl.clear cached_tbl
+  Lam_module_ident.Hashtbl.clear cached_tbl;
+  Ident.Hashtbl.clear external_id_tbl
+
+let register_external_id id module_name =
+  Ident.Hashtbl.replace external_id_tbl ~key:id
+    ~data:{ is_relative = Paths.is_relative_module_specifier module_name }
 
 (** We should not provide "#moduleid" as output
     since when we print it in the end, it will
@@ -69,11 +78,15 @@ let add_js_module
       ~default
   in
   match Lam_module_ident.Hashtbl.find cached_tbl lam_module_ident with
-  | Ml { id; cmj_load_info = _ } | External id -> id
+  | Ml { id; cmj_load_info = _ } -> id
+  | External id ->
+      register_external_id id module_name;
+      id
   | exception Not_found ->
       let module_id = lam_module_ident.id in
       Lam_module_ident.Hashtbl.replace cached_tbl ~key:lam_module_ident
         ~data:(External module_id);
+      register_external_id module_id module_name;
       module_id
 
 let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
@@ -94,6 +107,27 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
 let query_external_id_info ~dynamic_import module_id name =
   try Some (query_external_id_info_exn ~dynamic_import module_id name)
   with Mel_exception.Error (Cmj_not_found _) -> None
+
+let external_id_is_relative id =
+  match Ident.Hashtbl.find external_id_tbl id with
+  | { is_relative } -> Some is_relative
+  | exception Not_found -> None
+
+let is_relative_external_id id =
+  match external_id_is_relative id with
+  | Some true -> true
+  | Some false | None -> false
+
+let rec lambda_is_relocatable (lam : Lam.t) =
+  match lam with
+  | Lglobal_module { id; dynamic_import = _ } ->
+      not (is_relative_external_id id)
+  | Lprim { primitive; _ } when not (Lam_primitive.is_relocatable primitive) ->
+      false
+  | _ ->
+      not
+        (Lam_iter.inner_exists lam ~f:(fun lam ->
+             not (lambda_is_relocatable lam)))
 
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =

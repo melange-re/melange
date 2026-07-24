@@ -48,6 +48,8 @@
 open Import
 open Ast_helper
 
+module String_interp = String_interp
+
 module External = struct
   let rule =
     let rule label =

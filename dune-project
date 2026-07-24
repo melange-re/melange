@@ -32,14 +32,14 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (and (>= "5.4") (< "5.6")))
+   (and (>= "5.5") (< "5.6")))
   (cmdliner
    (>= "1.1.0"))
   dune-build-info
   (cppo :build)
   (alcotest :with-test)
-  (reason (and :dev :with-test))
-  (ppxlib :dev)
+  (reason :with-test)
+  (ppxlib (>= "0.36"))
   (menhir
    (>= 20201214))
   (reason-react-ppx

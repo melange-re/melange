@@ -218,51 +218,51 @@ function print_config(oc) {
 
 const Config = {
   version: Stdlib__Sys.ocaml_version,
-  standard_library: standard_library,
-  standard_runtime: standard_runtime,
-  ccomp_type: ccomp_type,
-  bytecomp_c_compiler: bytecomp_c_compiler,
-  bytecomp_c_libraries: bytecomp_c_libraries,
-  native_c_compiler: native_c_compiler,
-  native_c_libraries: native_c_libraries,
-  native_pack_linker: native_pack_linker,
+  standard_library,
+  standard_runtime,
+  ccomp_type,
+  bytecomp_c_compiler,
+  bytecomp_c_libraries,
+  native_c_compiler,
+  native_c_libraries,
+  native_pack_linker,
   mkdll: "gcc -bundle -flat_namespace -undefined suppress -Wl,-no_compact_unwind",
   mkexe: "gcc -Wl,-no_compact_unwind",
   mkmaindll: "gcc -bundle -flat_namespace -undefined suppress -Wl,-no_compact_unwind",
-  ranlib: ranlib,
+  ranlib,
   ar: "ar",
-  cc_profile: cc_profile,
-  load_path: load_path,
-  interface_suffix: interface_suffix,
-  exec_magic_number: exec_magic_number,
-  cmi_magic_number: cmi_magic_number,
-  cmo_magic_number: cmo_magic_number,
-  cma_magic_number: cma_magic_number,
-  cmx_magic_number: cmx_magic_number,
-  cmxa_magic_number: cmxa_magic_number,
-  ast_intf_magic_number: ast_intf_magic_number,
-  ast_impl_magic_number: ast_impl_magic_number,
-  cmxs_magic_number: cmxs_magic_number,
-  cmt_magic_number: cmt_magic_number,
+  cc_profile,
+  load_path,
+  interface_suffix,
+  exec_magic_number,
+  cmi_magic_number,
+  cmo_magic_number,
+  cma_magic_number,
+  cmx_magic_number,
+  cmxa_magic_number,
+  ast_intf_magic_number,
+  ast_impl_magic_number,
+  cmxs_magic_number,
+  cmt_magic_number,
   max_tag: 245,
   lazy_tag: 246,
   max_young_wosize: 256,
   stack_threshold: 256,
-  architecture: architecture,
-  model: model,
-  system: system,
-  asm: asm,
+  architecture,
+  model,
+  system,
+  asm,
   asm_cfi_supported: true,
   with_frame_pointers: false,
-  ext_obj: ext_obj,
-  ext_asm: ext_asm,
-  ext_lib: ext_lib,
-  ext_dll: ext_dll,
-  default_executable_name: default_executable_name,
+  ext_obj,
+  ext_asm,
+  ext_lib,
+  ext_dll,
+  default_executable_name,
   systhread_supported: true,
-  host: host,
-  target: target,
-  print_config: print_config
+  host,
+  target,
+  print_config
 };
 
 const objfiles = {
@@ -676,102 +676,102 @@ const color = {
 };
 
 const Clflags = {
-  objfiles: objfiles,
-  ccobjs: ccobjs,
-  dllibs: dllibs,
-  compile_only: compile_only,
-  output_name: output_name,
-  include_dirs: include_dirs,
-  no_std_include: no_std_include,
-  print_types: print_types,
-  make_archive: make_archive,
-  debug: debug,
-  fast: fast,
-  link_everything: link_everything,
-  custom_runtime: custom_runtime,
-  no_check_prims: no_check_prims,
-  bytecode_compatible_32: bytecode_compatible_32,
-  output_c_object: output_c_object,
-  output_complete_object: output_complete_object,
-  all_ccopts: all_ccopts,
-  classic: classic,
-  nopervasives: nopervasives,
-  open_modules: open_modules,
-  preprocessor: preprocessor,
-  all_ppx: all_ppx,
-  annotations: annotations,
-  binary_annotations: binary_annotations,
-  use_threads: use_threads,
-  use_vmthreads: use_vmthreads,
-  noassert: noassert,
-  verbose: verbose,
-  noprompt: noprompt,
-  nopromptcont: nopromptcont,
-  init_file: init_file,
-  noinit: noinit,
-  use_prims: use_prims,
-  use_runtime: use_runtime,
-  principal: principal,
-  real_paths: real_paths,
-  recursive_types: recursive_types,
-  strict_sequence: strict_sequence,
-  strict_formats: strict_formats,
-  applicative_functors: applicative_functors,
-  make_runtime: make_runtime,
-  gprofile: gprofile,
-  c_compiler: c_compiler,
-  no_auto_link: no_auto_link,
-  dllpaths: dllpaths,
-  make_package: make_package,
-  for_package: for_package,
-  error_size: error_size,
-  float_const_prop: float_const_prop,
-  transparent_modules: transparent_modules,
-  dump_source: dump_source,
-  dump_parsetree: dump_parsetree,
-  dump_typedtree: dump_typedtree,
-  dump_rawlambda: dump_rawlambda,
-  dump_lambda: dump_lambda,
-  dump_clambda: dump_clambda,
-  dump_instr: dump_instr,
-  keep_asm_file: keep_asm_file,
-  optimize_for_speed: optimize_for_speed,
-  dump_cmm: dump_cmm,
-  dump_selection: dump_selection,
-  dump_cse: dump_cse,
-  dump_live: dump_live,
-  dump_spill: dump_spill,
-  dump_split: dump_split,
-  dump_interf: dump_interf,
-  dump_prefer: dump_prefer,
-  dump_regalloc: dump_regalloc,
-  dump_reload: dump_reload,
-  dump_scheduling: dump_scheduling,
-  dump_linear: dump_linear,
-  keep_startup_file: keep_startup_file,
-  dump_combine: dump_combine,
-  native_code: native_code,
-  inline_threshold: inline_threshold,
-  dont_write_files: dont_write_files,
-  std_include_flag: std_include_flag,
-  std_include_dir: std_include_dir,
-  shared: shared,
-  dlcode: dlcode,
-  runtime_variant: runtime_variant,
-  force_slash: force_slash,
-  keep_docs: keep_docs,
-  keep_locs: keep_locs,
-  unsafe_string: unsafe_string,
-  opaque: opaque,
-  no_implicit_current_dir: no_implicit_current_dir,
-  assume_no_mli: assume_no_mli,
-  record_event_when_debug: record_event_when_debug,
-  bs_vscode: bs_vscode,
-  dont_record_crc_unit: dont_record_crc_unit,
-  bs_only: bs_only,
-  no_assert_false: no_assert_false,
-  parse_color_setting: parse_color_setting,
-  color: color
+  objfiles,
+  ccobjs,
+  dllibs,
+  compile_only,
+  output_name,
+  include_dirs,
+  no_std_include,
+  print_types,
+  make_archive,
+  debug,
+  fast,
+  link_everything,
+  custom_runtime,
+  no_check_prims,
+  bytecode_compatible_32,
+  output_c_object,
+  output_complete_object,
+  all_ccopts,
+  classic,
+  nopervasives,
+  open_modules,
+  preprocessor,
+  all_ppx,
+  annotations,
+  binary_annotations,
+  use_threads,
+  use_vmthreads,
+  noassert,
+  verbose,
+  noprompt,
+  nopromptcont,
+  init_file,
+  noinit,
+  use_prims,
+  use_runtime,
+  principal,
+  real_paths,
+  recursive_types,
+  strict_sequence,
+  strict_formats,
+  applicative_functors,
+  make_runtime,
+  gprofile,
+  c_compiler,
+  no_auto_link,
+  dllpaths,
+  make_package,
+  for_package,
+  error_size,
+  float_const_prop,
+  transparent_modules,
+  dump_source,
+  dump_parsetree,
+  dump_typedtree,
+  dump_rawlambda,
+  dump_lambda,
+  dump_clambda,
+  dump_instr,
+  keep_asm_file,
+  optimize_for_speed,
+  dump_cmm,
+  dump_selection,
+  dump_cse,
+  dump_live,
+  dump_spill,
+  dump_split,
+  dump_interf,
+  dump_prefer,
+  dump_regalloc,
+  dump_reload,
+  dump_scheduling,
+  dump_linear,
+  keep_startup_file,
+  dump_combine,
+  native_code,
+  inline_threshold,
+  dont_write_files,
+  std_include_flag,
+  std_include_dir,
+  shared,
+  dlcode,
+  runtime_variant,
+  force_slash,
+  keep_docs,
+  keep_locs,
+  unsafe_string,
+  opaque,
+  no_implicit_current_dir,
+  assume_no_mli,
+  record_event_when_debug,
+  bs_vscode,
+  dont_record_crc_unit,
+  bs_only,
+  no_assert_false,
+  parse_color_setting,
+  color
 };
 
 const Fatal_error = /* @__PURE__ */ Caml_exceptions.create("Parser_api.Misc.Fatal_error");
@@ -863,7 +863,7 @@ function list_remove(x, param) {
     return tl;
   } else {
     return {
-      hd: hd,
+      hd,
       tl: list_remove(x, tl)
     };
   }
@@ -1352,14 +1352,14 @@ function input_bytes(ic, len) {
 }
 
 const LongString = {
-  create: create,
-  length: length,
-  get: get,
-  set: set,
-  blit: blit,
-  output: output,
-  unsafe_blit_to_bytes: unsafe_blit_to_bytes,
-  input_bytes: input_bytes
+  create,
+  length,
+  get,
+  set,
+  blit,
+  output,
+  unsafe_blit_to_bytes,
+  input_bytes
 };
 
 function edit_distance(a, b, cutoff) {
@@ -1683,58 +1683,58 @@ function setup(o) {
 }
 
 const Misc_Color = {
-  ansi_of_style_l: ansi_of_style_l,
-  default_styles: default_styles,
-  get_styles: get_styles,
-  set_styles: set_styles,
-  setup: setup,
-  set_color_tag_handling: set_color_tag_handling
+  ansi_of_style_l,
+  default_styles,
+  get_styles,
+  set_styles,
+  setup,
+  set_color_tag_handling
 };
 
 const Misc = {
-  fatal_error: fatal_error,
-  Fatal_error: Fatal_error,
-  try_finally: try_finally,
-  map_end: map_end,
-  map_left_right: map_left_right,
-  for_all2: for_all2,
-  replicate_list: replicate_list,
-  list_remove: list_remove,
-  split_last: split_last,
-  samelist: samelist,
-  may: may,
-  may_map: may_map,
-  find_in_path: find_in_path,
-  find_in_path_rel: find_in_path_rel,
-  find_in_path_uncap: find_in_path_uncap,
-  remove_file: remove_file,
-  expand_directory: expand_directory,
-  create_hashtable: create_hashtable,
-  copy_file: copy_file,
-  copy_file_chunk: copy_file_chunk,
-  string_of_file: string_of_file,
-  log2: log2,
-  align: align,
-  no_overflow_add: no_overflow_add,
-  no_overflow_sub: no_overflow_sub,
-  no_overflow_lsl: no_overflow_lsl,
-  chop_extension_if_any: chop_extension_if_any,
-  chop_extensions: chop_extensions,
-  search_substring: search_substring,
-  replace_substring: replace_substring,
-  rev_split_words: rev_split_words,
-  get_ref: get_ref,
-  fst3: fst3,
-  snd3: snd3,
-  thd3: thd3,
-  fst4: fst4,
-  snd4: snd4,
-  thd4: thd4,
-  for4: for4,
-  LongString: LongString,
-  edit_distance: edit_distance,
-  split: split,
-  cut_at: cut_at,
+  fatal_error,
+  Fatal_error,
+  try_finally,
+  map_end,
+  map_left_right,
+  for_all2,
+  replicate_list,
+  list_remove,
+  split_last,
+  samelist,
+  may,
+  may_map,
+  find_in_path,
+  find_in_path_rel,
+  find_in_path_uncap,
+  remove_file,
+  expand_directory,
+  create_hashtable,
+  copy_file,
+  copy_file_chunk,
+  string_of_file,
+  log2,
+  align,
+  no_overflow_add,
+  no_overflow_sub,
+  no_overflow_lsl,
+  chop_extension_if_any,
+  chop_extensions,
+  search_substring,
+  replace_substring,
+  rev_split_words,
+  get_ref,
+  fst3,
+  snd3,
+  thd3,
+  fst4,
+  snd4,
+  thd4,
+  for4,
+  LongString,
+  edit_distance,
+  split,
+  cut_at,
   Color: Misc_Color
 };
 
@@ -2223,8 +2223,8 @@ function parse_options(errflag, s) {
   const active = Stdlib__Array.copy(current.contents.active);
   parse_opt(error, active, errflag ? error : active, s);
   current.contents = {
-    active: active,
-    error: error
+    active,
+    error
   };
 }
 
@@ -3111,20 +3111,20 @@ function help_warnings(param) {
 }
 
 const Warnings = {
-  parse_options: parse_options,
-  is_active: is_active,
-  is_error: is_error,
-  defaults_w: defaults_w,
-  defaults_warn_error: defaults_warn_error,
-  print: print,
-  Errors: Errors,
-  check_fatal: check_fatal,
-  help_warnings: help_warnings,
-  backup: backup,
-  restore: restore,
-  message: message,
-  number: number,
-  super_print: super_print
+  parse_options,
+  is_active,
+  is_error,
+  defaults_w,
+  defaults_warn_error,
+  print,
+  Errors,
+  check_fatal,
+  help_warnings,
+  backup,
+  restore,
+  message,
+  number,
+  super_print
 };
 
 const absname = {
@@ -3227,7 +3227,7 @@ function print_updating_num_loc_lines(ppf, f, arg) {
     Curry._3(out_functions.out_string, str, start, len);
   };
   Stdlib__Format.pp_set_formatter_out_functions(ppf, {
-    out_string: out_string,
+    out_string,
     out_width: out_functions.out_width,
     out_flush: out_functions.out_flush,
     out_newline: out_functions.out_newline,
@@ -3807,14 +3807,14 @@ function echo_eof(param) {
 
 function mkloc(txt, loc) {
   return {
-    txt: txt,
-    loc: loc
+    txt,
+    loc
   };
 }
 
 function mknoloc(txt) {
   return {
-    txt: txt,
+    txt,
     loc: none
   };
 }
@@ -3842,10 +3842,10 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   return pp_ksprintf(print_phanton_error_prefix, (function (msg) {
     return {
-      loc: loc,
-      msg: msg,
-      sub: sub,
-      if_highlight: if_highlight
+      loc,
+      msg,
+      sub,
+      if_highlight
     };
   }), fmt);
 }
@@ -3855,10 +3855,10 @@ function error(locOpt, subOpt, if_highlightOpt, msg) {
   const sub = subOpt !== undefined ? subOpt : /* [] */ 0;
   const if_highlight = if_highlightOpt !== undefined ? if_highlightOpt : "";
   return {
-    loc: loc,
-    msg: msg,
-    sub: sub,
-    if_highlight: if_highlight
+    loc,
+    msg,
+    sub,
+    if_highlight
   };
 }
 
@@ -4097,10 +4097,10 @@ function raise_errorf(locOpt, subOpt, if_highlightOpt) {
       throw new Caml_js_exceptions.MelangeError($$Error, {
           MEL_EXN_ID: $$Error,
           _1: {
-            loc: loc,
-            msg: msg,
-            sub: sub,
-            if_highlight: if_highlight
+            loc,
+            msg,
+            sub,
+            if_highlight
           }
         });
     }), param);
@@ -4108,48 +4108,48 @@ function raise_errorf(locOpt, subOpt, if_highlightOpt) {
 }
 
 const $$Location = {
-  none: none,
-  in_file: in_file,
-  init: init,
-  curr: curr,
-  symbol_rloc: symbol_rloc,
-  symbol_gloc: symbol_gloc,
-  rhs_loc: rhs_loc,
-  input_name: input_name,
-  input_lexbuf: input_lexbuf,
-  get_pos_info: get_pos_info,
-  print_loc: print_loc,
-  print_error: print_error,
-  print_error_cur_file: print_error_cur_file,
-  print_warning: print_warning,
-  formatter_for_warnings: formatter_for_warnings,
-  prerr_warning: prerr_warning,
-  echo_eof: echo_eof,
-  reset: reset,
-  warning_printer: warning_printer,
-  default_warning_printer: default_warning_printer,
-  highlight_locations: highlight_locations,
-  mknoloc: mknoloc,
-  mkloc: mkloc,
+  none,
+  in_file,
+  init,
+  curr,
+  symbol_rloc,
+  symbol_gloc,
+  rhs_loc,
+  input_name,
+  input_lexbuf,
+  get_pos_info,
+  print_loc,
+  print_error,
+  print_error_cur_file,
+  print_warning,
+  formatter_for_warnings,
+  prerr_warning,
+  echo_eof,
+  reset,
+  warning_printer,
+  default_warning_printer,
+  highlight_locations,
+  mknoloc,
+  mkloc,
   print: print$1,
-  print_filename: print_filename,
-  absolute_path: absolute_path,
-  show_filename: show_filename,
-  absname: absname,
-  $$Error: $$Error,
-  print_error_prefix: print_error_prefix,
-  error: error,
-  pp_ksprintf: pp_ksprintf,
-  errorf: errorf,
-  raise_errorf: raise_errorf,
-  error_of_printer: error_of_printer,
-  error_of_printer_file: error_of_printer_file,
+  print_filename,
+  absolute_path,
+  show_filename,
+  absname,
+  $$Error,
+  print_error_prefix,
+  error,
+  pp_ksprintf,
+  errorf,
+  raise_errorf,
+  error_of_printer,
+  error_of_printer_file,
   error_of_exn: error_of_exn$1,
-  register_error_of_exn: register_error_of_exn,
-  report_error: report_error,
-  error_reporter: error_reporter,
-  default_error_reporter: default_error_reporter,
-  report_exception: report_exception
+  register_error_of_exn,
+  report_error,
+  error_reporter,
+  default_error_reporter,
+  report_exception
 };
 
 const Asttypes = {};
@@ -4232,9 +4232,9 @@ function parse(s) {
 }
 
 const Longident = {
-  flatten: flatten,
-  last: last,
-  parse: parse
+  flatten,
+  last,
+  parse
 };
 
 const Parsetree = {};
@@ -4754,40 +4754,40 @@ function init$1(param) {
 
 const Docstrings = {
   init: init$1,
-  warn_bad_docstrings: warn_bad_docstrings,
-  docstring: docstring,
-  docstring_body: docstring_body,
-  docstring_loc: docstring_loc,
-  set_pre_docstrings: set_pre_docstrings,
-  set_post_docstrings: set_post_docstrings,
-  set_floating_docstrings: set_floating_docstrings,
-  set_pre_extra_docstrings: set_pre_extra_docstrings,
-  set_post_extra_docstrings: set_post_extra_docstrings,
-  empty_docs: empty_docs,
-  docs_attr: docs_attr,
-  add_docs_attrs: add_docs_attrs,
-  symbol_docs: symbol_docs,
-  symbol_docs_lazy: symbol_docs_lazy,
-  rhs_docs: rhs_docs,
-  rhs_docs_lazy: rhs_docs_lazy,
-  mark_symbol_docs: mark_symbol_docs,
-  mark_rhs_docs: mark_rhs_docs,
+  warn_bad_docstrings,
+  docstring,
+  docstring_body,
+  docstring_loc,
+  set_pre_docstrings,
+  set_post_docstrings,
+  set_floating_docstrings,
+  set_pre_extra_docstrings,
+  set_post_extra_docstrings,
+  empty_docs,
+  docs_attr,
+  add_docs_attrs,
+  symbol_docs,
+  symbol_docs_lazy,
+  rhs_docs,
+  rhs_docs_lazy,
+  mark_symbol_docs,
+  mark_rhs_docs,
   empty_info: undefined,
   info_attr: docs_attr,
-  add_info_attrs: add_info_attrs,
-  symbol_info: symbol_info,
-  rhs_info: rhs_info,
+  add_info_attrs,
+  symbol_info,
+  rhs_info,
   empty_text: /* [] */ 0,
-  text_attr: text_attr,
-  add_text_attrs: add_text_attrs,
-  symbol_text: symbol_text,
-  symbol_text_lazy: symbol_text_lazy,
-  rhs_text: rhs_text,
-  rhs_text_lazy: rhs_text_lazy,
-  symbol_pre_extra_text: symbol_pre_extra_text,
-  symbol_post_extra_text: symbol_post_extra_text,
-  rhs_pre_extra_text: rhs_pre_extra_text,
-  rhs_post_extra_text: rhs_post_extra_text
+  text_attr,
+  add_text_attrs,
+  symbol_text,
+  symbol_text_lazy,
+  rhs_text,
+  rhs_text_lazy,
+  symbol_pre_extra_text,
+  symbol_post_extra_text,
+  rhs_pre_extra_text,
+  rhs_post_extra_text
 };
 
 const default_loc = {
@@ -4931,21 +4931,21 @@ function force_poly(t) {
 }
 
 const Typ = {
-  mk: mk,
-  attr: attr,
-  any: any,
-  $$var: $$var,
-  arrow: arrow,
-  tuple: tuple,
-  constr: constr,
-  object_: object_,
-  class_: class_,
-  alias: alias,
-  variant: variant,
-  poly: poly,
-  $$package: $$package,
-  extension: extension,
-  force_poly: force_poly
+  mk,
+  attr,
+  any,
+  $$var,
+  arrow,
+  tuple,
+  constr,
+  object_,
+  class_,
+  alias,
+  variant,
+  poly,
+  $$package,
+  extension,
+  force_poly
 };
 
 function mk$1(locOpt, attrsOpt, d) {
@@ -5098,19 +5098,19 @@ const Pat = {
   any: any$1,
   $$var: $$var$1,
   alias: alias$1,
-  constant: constant,
-  interval: interval,
+  constant,
+  interval,
   tuple: tuple$1,
-  construct: construct,
+  construct,
   variant: variant$1,
-  record: record,
-  array: array,
-  or_: or_,
-  constraint_: constraint_,
-  type_: type_,
-  lazy_: lazy_,
-  unpack: unpack,
-  exception_: exception_,
+  record,
+  array,
+  or_,
+  constraint_,
+  type_,
+  lazy_,
+  unpack,
+  exception_,
   extension: extension$1
 };
 
@@ -5492,10 +5492,10 @@ const Mty = {
   attr: attr$3,
   ident: ident$1,
   alias: alias$2,
-  signature: signature,
-  functor_: functor_,
-  with_: with_,
-  typeof_: typeof_,
+  signature,
+  functor_,
+  with_,
+  typeof_,
   extension: extension$3
 };
 
@@ -5577,7 +5577,7 @@ const Mod = {
   mk: mk$4,
   attr: attr$4,
   ident: ident$2,
-  structure: structure,
+  structure,
   functor_: functor_$1,
   apply: apply$1,
   constraint_: constraint_$2,
@@ -5699,20 +5699,20 @@ function text(txt) {
 
 const Sig = {
   mk: mk$5,
-  value: value,
+  value,
   type_: type_$1,
-  type_extension: type_extension,
+  type_extension,
   exception_: exception_$1,
-  module_: module_,
-  rec_module: rec_module,
-  modtype: modtype,
+  module_,
+  rec_module,
+  modtype,
   open_: open_$1,
-  include_: include_,
+  include_,
   class_: class_$1,
-  class_type: class_type,
+  class_type,
   extension: extension$5,
-  attribute: attribute,
-  text: text
+  attribute,
+  text
 };
 
 function mk$6(locOpt, d) {
@@ -5846,9 +5846,9 @@ function text$1(txt) {
 
 const Str = {
   mk: mk$6,
-  $$eval: $$eval,
+  $$eval,
   value: value$1,
-  primitive: primitive,
+  primitive,
   type_: type_$2,
   type_extension: type_extension$1,
   exception_: exception_$2,
@@ -6393,7 +6393,7 @@ function field$1(locOpt, attrsOpt, infoOpt, mutOpt, name, typ) {
 
 const Type = {
   mk: mk$19,
-  constructor: constructor,
+  constructor,
   field: field$1
 };
 
@@ -6461,8 +6461,8 @@ function rebind(locOpt, attrsOpt, docsOpt, infoOpt, name, lid) {
 const Te = {
   mk: mk$20,
   constructor: constructor$1,
-  decl: decl,
-  rebind: rebind
+  decl,
+  rebind
 };
 
 function mk$21(self, fields) {
@@ -6490,49 +6490,49 @@ const Cstr = {
 const Ast_helper_Exp = {
   mk: mk$2,
   attr: attr$2,
-  ident: ident,
+  ident,
   constant: constant$1,
-  let_: let_,
-  fun_: fun_,
-  function_: function_,
-  apply: apply,
-  match_: match_,
-  try_: try_,
+  let_,
+  fun_,
+  function_,
+  apply,
+  match_,
+  try_,
   tuple: tuple$2,
   construct: construct$1,
   variant: variant$2,
   record: record$1,
-  field: field,
-  setfield: setfield,
+  field,
+  setfield,
   array: array$1,
-  ifthenelse: ifthenelse,
-  sequence: sequence,
-  while_: while_,
-  for_: for_,
-  coerce: coerce,
+  ifthenelse,
+  sequence,
+  while_,
+  for_,
+  coerce,
   constraint_: constraint_$1,
-  send: send,
-  new_: new_,
-  setinstvar: setinstvar,
-  override: override,
-  letmodule: letmodule,
-  assert_: assert_,
+  send,
+  new_,
+  setinstvar,
+  override,
+  letmodule,
+  assert_,
   lazy_: lazy_$1,
   poly: poly$1,
   object_: object_$1,
-  newtype: newtype,
-  pack: pack,
-  open_: open_,
+  newtype,
+  pack,
+  open_,
   extension: extension$2,
-  $$case: $$case
+  $$case
 };
 
 const Ast_helper_Ctf = {
   mk: mk$9,
   attr: attr$7,
-  inherit_: inherit_,
-  val_: val_,
-  method_: method_,
+  inherit_,
+  val_,
+  method_,
   constraint_: constraint_$4,
   extension: extension$9,
   attribute: attribute$2,
@@ -6546,40 +6546,40 @@ const Ast_helper_Cf = {
   val_: val_$1,
   method_: method_$1,
   constraint_: constraint_$5,
-  initializer_: initializer_,
+  initializer_,
   extension: extension$10,
   attribute: attribute$3,
   text: text$3,
-  virtual_: virtual_,
-  concrete: concrete
+  virtual_,
+  concrete
 };
 
 const Ast_helper = {
-  default_loc: default_loc,
-  with_default_loc: with_default_loc,
-  Typ: Typ,
-  Pat: Pat,
+  default_loc,
+  with_default_loc,
+  Typ,
+  Pat,
   Exp: Ast_helper_Exp,
-  Val: Val,
-  Type: Type,
-  Te: Te,
-  Mty: Mty,
-  Mod: Mod,
-  Sig: Sig,
-  Str: Str,
-  Md: Md,
-  Mtd: Mtd,
-  Mb: Mb,
-  Opn: Opn,
-  Incl: Incl,
-  Vb: Vb,
-  Cty: Cty,
+  Val,
+  Type,
+  Te,
+  Mty,
+  Mod,
+  Sig,
+  Str,
+  Md,
+  Mtd,
+  Mb,
+  Opn,
+  Incl,
+  Vb,
+  Cty,
   Ctf: Ast_helper_Ctf,
-  Cl: Cl,
+  Cl,
   Cf: Ast_helper_Cf,
-  Ci: Ci,
-  Csig: Csig,
-  Cstr: Cstr
+  Ci,
+  Csig,
+  Cstr
 };
 
 const $$Error$1 = /* @__PURE__ */ Caml_exceptions.create("Parser_api.Syntaxerr.Error");
@@ -6779,10 +6779,10 @@ function ill_formed_ast(loc, s) {
 
 const Syntaxerr = {
   $$Error: $$Error$1,
-  Escape_error: Escape_error,
+  Escape_error,
   report_error: report_error$1,
-  location_of_error: location_of_error,
-  ill_formed_ast: ill_formed_ast
+  location_of_error,
+  ill_formed_ast
 };
 
 function mktyp(d) {
@@ -6849,7 +6849,7 @@ function mkoption(d) {
         },
         _1: "option"
       },
-      loc: loc
+      loc
     },
     _1: {
       hd: d,
@@ -6883,7 +6883,7 @@ function mkoperator(name, pos) {
         TAG: /* Lident */ 0,
         _0: name
       },
-      loc: loc
+      loc
     }
   });
 }
@@ -8204,7 +8204,7 @@ const yyact = [
       TAG: /* Pmod_functor */ 2,
       _0: _1[0],
       _1: _1[1],
-      _2: _2
+      _2
     });
   }),
   (function (__caml_parser_env) {
@@ -8626,7 +8626,7 @@ const yyact = [
       _0: _1[0],
       _1: _1[1],
       _2: _1[2],
-      _3: _3
+      _3
     });
   }),
   (function (__caml_parser_env) {
@@ -9095,7 +9095,7 @@ const yyact = [
     return mkcty({
       TAG: /* Pcty_arrow */ 2,
       _0: "",
-      _1: _1,
+      _1,
       _2: _3
     });
   }),
@@ -12320,7 +12320,7 @@ const yyact = [
     return mktyp({
       TAG: /* Ptyp_arrow */ 1,
       _0: "",
-      _1: _1,
+      _1,
       _2: _3
     });
   }),
@@ -13746,13 +13746,13 @@ function parse_pattern(lexfun, lexbuf) {
 }
 
 const Parser = {
-  implementation: implementation,
-  $$interface: $$interface,
-  toplevel_phrase: toplevel_phrase,
-  use_file: use_file,
-  parse_core_type: parse_core_type,
-  parse_expression: parse_expression,
-  parse_pattern: parse_pattern
+  implementation,
+  $$interface,
+  toplevel_phrase,
+  use_file,
+  parse_core_type,
+  parse_expression,
+  parse_pattern
 };
 
 function type_of_directive(x) {
@@ -16743,23 +16743,23 @@ function set_preprocessor(init, preprocess) {
 const Lexer = {
   init: init$2,
   token: token$1,
-  skip_sharp_bang: skip_sharp_bang,
+  skip_sharp_bang,
   $$Error: $$Error$2,
   report_error: report_error$2,
-  in_comment: in_comment,
-  in_string: in_string,
-  print_warnings: print_warnings,
-  comments: comments,
-  token_with_comments: token_with_comments,
-  set_preprocessor: set_preprocessor,
-  semver: semver,
-  filter_directive_from_lexbuf: filter_directive_from_lexbuf,
-  replace_directive_int: replace_directive_int,
-  replace_directive_string: replace_directive_string,
-  replace_directive_bool: replace_directive_bool,
-  remove_directive_built_in_value: remove_directive_built_in_value,
-  define_key_value: define_key_value,
-  list_variables: list_variables
+  in_comment,
+  in_string,
+  print_warnings,
+  comments,
+  token_with_comments,
+  set_preprocessor,
+  semver,
+  filter_directive_from_lexbuf,
+  replace_directive_int,
+  replace_directive_string,
+  replace_directive_bool,
+  remove_directive_built_in_value,
+  define_key_value,
+  list_variables
 };
 
 function skip_phrase(lexbuf) {
@@ -16895,9 +16895,9 @@ const Parse = {
   $$interface: $$interface$1,
   toplevel_phrase: toplevel_phrase$1,
   use_file: use_file$1,
-  core_type: core_type,
-  expression: expression,
-  pattern: pattern
+  core_type,
+  expression,
+  pattern
 };
 
 function from_string(eta) {

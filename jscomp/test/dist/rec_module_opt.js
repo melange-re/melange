@@ -20,7 +20,7 @@ function compare(t1, t2) {
 }
 
 const A = {
-  compare: compare
+  compare
 };
 
 const ASet = Stdlib__Set.Make(A);
@@ -34,7 +34,7 @@ function f(x) {
 }
 
 const X1 = {
-  f: f
+  f
 };
 
 function f$1(x) {

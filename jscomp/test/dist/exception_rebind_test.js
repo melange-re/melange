@@ -9,7 +9,7 @@ const Stdlib = require("melange/stdlib.js");
 const E = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A.E");
 
 const A = {
-  E: E
+  E
 };
 
 const B = {

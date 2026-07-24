@@ -59,7 +59,7 @@ const S = {
   to_seq: Stdlib__Stack.to_seq,
   add_seq: Stdlib__Stack.add_seq,
   of_seq: Stdlib__Stack.of_seq,
-  to_list: to_list
+  to_list
 };
 
 function does_raise(f, s) {

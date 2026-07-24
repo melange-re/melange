@@ -1,5 +1,5 @@
 module Utf8_string = Melange_ffi.Utf8_string
-module String_interp = Melange_ppx__String_interp
+module String_interp = Melange_ppx.String_interp
 
 let content = function
   | String_interp.String content -> content

@@ -11,7 +11,7 @@ function M(S) {
     return x;
   };
   return {
-    f: f
+    f
   };
 }
 

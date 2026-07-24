@@ -26,6 +26,15 @@ open Import
 module E = Js_exp_make
 module S = Js_stmt_make
 
+let append_args xs ys =
+  match xs with
+  | [] -> ys
+  | [ x0 ] -> x0 :: ys
+  | [ x0; x1 ] -> x0 :: x1 :: ys
+  | [ x0; x1; x2 ] -> x0 :: x1 :: x2 :: ys
+  | [ x0; x1; x2; x3 ] -> x0 :: x1 :: x2 :: x3 :: ys
+  | _ -> List.append xs ys
+
 module AsValue = struct
   type t = Lambda.as_modifier =
     | Int of int
@@ -139,13 +148,18 @@ type initialization = J.block
 let rec compile_external_field ~dynamic_import
     (lamba_cxt : Lam_compile_context.t) id name =
   match Lam_compile_env.query_external_id_info ~dynamic_import id name with
-  | Some { persistent_closed_lambda = Some (Lfunction _, _) | None; _ } | None
+  | Some { persistent_closed_lambda = None | Some (Lfunction _, _); _ } | None
     ->
       Js_output.output_of_expression lamba_cxt.continuation
         ~no_effects:no_effects_const
         (E.ml_var_dot ~dynamic_import id name)
-  | Some { persistent_closed_lambda = Some (lam, _); _ } ->
+  | Some { persistent_closed_lambda = Some (lam, _); _ }
+    when Lam_compile_env.lambda_is_relocatable lam ->
       compile_lambda lamba_cxt lam
+  | Some _ ->
+      Js_output.output_of_expression lamba_cxt.continuation
+        ~no_effects:no_effects_const
+        (E.ml_var_dot ~dynamic_import id name)
 
 (* TODO: how nested module call would behave,
    In the future, we should keep in track  of if
@@ -185,10 +199,11 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
   | Some
       {
         persistent_closed_lambda =
-          Some (Lfunction { params; body; _ }, param_map);
+          Some ((Lfunction { params; body; _ } as lambda), param_map);
         _;
       }
-    when List.same_length params ap_args ->
+    when List.same_length params ap_args
+         && Lam_compile_env.lambda_is_relocatable lambda ->
       compile_lambda lambda_cxt
         (Lam_beta_reduce.propagate_beta_reduce_with_map lambda_cxt.meta
            param_map params body ap_args)
@@ -1546,8 +1561,12 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
         if outer_ap_info.ap_inlined = ap_inlined then outer_ap_info
         else { outer_ap_info with ap_inlined }
       in
-      compile_lambda lambda_cxt
-        (Lam.apply ap_func (List.append ap_args appinfo.ap_args) ap_info)
+      let ap_args =
+        match (ap_args, appinfo.ap_args) with
+        | [], args | args, [] -> args
+        | ap_args, outer_args -> append_args ap_args outer_args
+      in
+      compile_lambda lambda_cxt (Lam.apply ap_func ap_args ap_info)
   (* External function call: it can not be tailcall in this case*)
   | {
    ap_func =

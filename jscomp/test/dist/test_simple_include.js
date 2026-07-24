@@ -11,7 +11,7 @@ v.contents = 0;
 
 const N = {
   a: 3,
-  v: v
+  v
 };
 
 const v$1 = {

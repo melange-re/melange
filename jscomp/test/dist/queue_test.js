@@ -24,8 +24,8 @@ function Test(Queue) {
     return to_array(q);
   };
   return {
-    to_array: to_array,
-    queue_1: queue_1
+    to_array,
+    queue_1
   };
 }
 
@@ -51,8 +51,8 @@ function queue_1(x) {
 }
 
 const T1 = {
-  to_array: to_array,
-  queue_1: queue_1
+  to_array,
+  queue_1
 };
 
 const suites_0 = [

@@ -1287,16 +1287,13 @@ let int32_lsl ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
   | _ -> bin ?loc ?comment Lsl e1 e2
 
 let is_pos_pow n =
-  let module M = struct
-    exception E
-  end in
   let rec aux c (n : Int32.t) =
     if n <= 0l then -2
     else if n = 1l then c
     else if Int32.logand n 1l = 0l then aux (c + 1) (Int32.shift_right n 1)
-    else raise_notrace M.E
+    else -1
   in
-  try aux 0 n with M.E -> -1
+  aux 0 n
 
 let int32_mul ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
     J.expression =

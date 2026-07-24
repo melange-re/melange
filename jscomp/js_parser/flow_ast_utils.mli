@@ -7,9 +7,9 @@
 
 type 'loc binding = 'loc * string
 
-type 'loc ident = 'loc * string [@@deriving show]
+type 'loc ident = 'loc * string
 
-type 'loc source = 'loc * string [@@deriving show]
+type 'loc source = 'loc * string
 
 val fold_bindings_of_pattern :
   ('a -> ('m, 't) Flow_ast.Identifier.t -> 'a) -> 'a -> ('m, 't) Flow_ast.Pattern.t -> 'a
@@ -23,6 +23,8 @@ val fold_bindings_of_variable_declarations :
 val pattern_has_binding : ('m, 't) Flow_ast.Pattern.t -> bool
 
 val match_pattern_has_binding : ('m, 't) Flow_ast.MatchPattern.t -> bool
+
+val pattern_has_type_annotation : ('m, 't) Flow_ast.Pattern.t -> bool
 
 val string_of_variable_kind : Flow_ast.Variable.kind -> string
 
@@ -50,6 +52,8 @@ val get_call_to_object_dot_freeze_arg :
 val is_call_to_object_static_method : ('a, 'b) Flow_ast.Expression.t -> bool
 
 val is_module_dot_exports : ('a, 'b) Flow_ast.Expression.t -> bool
+
+val well_known_symbol_name : ('a, 'b) Flow_ast.Expression.t -> string option
 
 val get_call_to_jest_module_mocking_fn :
   ('loc, 'annot) Flow_ast.Expression.t ->
@@ -147,6 +151,7 @@ module ExpressionSort : sig
     | Object
     | OptionalCall
     | OptionalMember
+    | Record
     | Satisfies
     | Sequence
     | Super
@@ -157,7 +162,6 @@ module ExpressionSort : sig
     | Unary
     | Update
     | Yield
-  [@@deriving show]
 
   val to_string : t -> string
 end
@@ -206,3 +210,25 @@ val unwrap_nonnull_lhs_expr :
 
 val unwrap_nonnull_lhs :
   'loc 'tloc. ('loc, 'tloc) Flow_ast.Pattern.t -> ('loc, 'tloc) Flow_ast.Pattern.t * bool
+
+val effective_export_kind :
+  statement_export_kind:Flow_ast.Statement.export_kind ->
+  Flow_ast.Statement.export_kind ->
+  Flow_ast.Statement.export_kind
+
+val export_specifiers_has_value_export :
+  statement_export_kind:Flow_ast.Statement.export_kind ->
+  ('M, 'T) Flow_ast.Statement.ExportNamedDeclaration.ExportSpecifier.t list ->
+  bool
+
+val pattern_optional : ('M, 'T) Flow_ast.Pattern.t -> bool
+
+val function_type_param_parts :
+  ('M, 'T) Flow_ast.Type.Function.Param.t' ->
+  ('M, 'T) Flow_ast.Identifier.t option * ('M, 'T) Flow_ast.Type.t * bool
+
+val string_of_enum_explicit_type : Flow_ast.Statement.EnumDeclaration.explicit_type -> string
+
+val string_of_enum_member_name : 'M Flow_ast.Statement.EnumDeclaration.member_name -> string
+
+val string_of_bigint : 'm Flow_ast.BigIntLiteral.t -> string

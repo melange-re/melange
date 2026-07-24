@@ -295,7 +295,7 @@ function compare(param, param$1) {
 }
 
 const funarg = {
-  compare: compare
+  compare
 };
 
 function height(param) {
@@ -311,10 +311,10 @@ function create(l, x, d, r) {
   const hr = height(r);
   return {
     TAG: /* Node */ 0,
-    l: l,
+    l,
     v: x,
-    d: d,
-    r: r,
+    d,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -349,10 +349,10 @@ function bal(l, x, d, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
+      l,
       v: x,
-      d: d,
-      r: r,
+      d,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -400,10 +400,10 @@ function add(x, data, m) {
     } else {
       return {
         TAG: /* Node */ 0,
-        l: l,
+        l,
         v: x,
         d: data,
-        r: r,
+        r,
         h: m.h
       };
     }
@@ -522,9 +522,9 @@ function create$1(l, v, r) {
   hr = /* tag */ typeof r !== "object" && typeof r !== "function" ? 0 : r.h;
   return {
     TAG: /* Node */ 0,
-    l: l,
-    v: v,
-    r: r,
+    l,
+    v,
+    r,
     h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
   };
 }
@@ -558,9 +558,9 @@ function bal$1(l, v, r) {
   if (hr <= (hl + 2 | 0)) {
     return {
       TAG: /* Node */ 0,
-      l: l,
-      v: v,
-      r: r,
+      l,
+      v,
+      r,
       h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
     };
   }
@@ -694,7 +694,7 @@ function mk_expr(ids, def) {
   ids.contents = ids.contents + 1 | 0;
   return {
     id: ids.contents,
-    def: def
+    def
   };
 }
 
@@ -969,9 +969,9 @@ function hash$2(idx, cat, desc) {
 
 function mk(idx, cat, desc) {
   return {
-    idx: idx,
+    idx,
     category: cat,
-    desc: desc,
+    desc,
     status: undefined,
     hash: hash$2(idx, cat, desc)
   };
@@ -1457,8 +1457,8 @@ function status(s) {
 }
 
 const Re_automata_Category = {
-  $plus$plus: $plus$plus,
-  from_char: from_char,
+  $plus$plus,
+  from_char,
   inexistant: 1,
   letter: 2,
   not_letter: 4,
@@ -1468,9 +1468,9 @@ const Re_automata_Category = {
 };
 
 const Re_automata_State = {
-  dummy: dummy,
+  dummy,
   create: create$2,
-  Table: Table
+  Table
 };
 
 function iter(_n, f, _v) {
@@ -1515,7 +1515,7 @@ function mk_state(ncol, desc) {
     real_idx: desc.idx,
     next: break_state ? dummy_next : Caml_array.make(ncol, unknown_state),
     final: /* [] */ 0,
-    desc: desc
+    desc
   };
 }
 
@@ -3142,14 +3142,14 @@ function compile(r) {
     initial: r$1,
     initial_states: /* [] */ 0,
     cols: col,
-    col_repr: col_repr,
+    col_repr,
     ncol: ncol$1,
-    lnl: lnl,
+    lnl,
     tbl: {
       contents: [false]
     },
     states: Curry._1(Re_automata_State.Table.create, 97),
-    group_count: group_count
+    group_count
   };
 }
 
@@ -3184,11 +3184,11 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
     tmp = [];
   }
   const info = {
-    re: re,
+    re,
     i_cols: re.cols,
     positions: tmp,
-    pos: pos,
-    last: last
+    pos,
+    last
   };
   const initial_cat = pos === 0 ? Re_automata_Category.$plus$plus(Re_automata_Category.search_boundary, Re_automata_Category.inexistant) : Re_automata_Category.$plus$plus(Re_automata_Category.search_boundary, category(re, get_color(re, s, pos - 1 | 0)));
   const initial_state = find_initial_state(re, initial_cat);
@@ -3214,7 +3214,7 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
     return {
       TAG: /* Match */ 0,
       _0: {
-        s: s,
+        s,
         marks: res._0,
         pmarks: res._1,
         gpos: info.positions,

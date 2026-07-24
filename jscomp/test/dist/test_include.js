@@ -8,7 +8,7 @@ const Test_order = require("./test_order.js");
 function Make(U) {
   const compare = U.compare;
   return {
-    compare: compare,
+    compare,
     v: compare
   };
 }

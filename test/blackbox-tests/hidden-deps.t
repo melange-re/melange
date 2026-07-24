@@ -32,7 +32,7 @@
   > let y = Hidden.x ()
   > EOF
   $ melc -nopervasives -nostdlib -I dep -H hidden --mel-stop-after-cmj x.ml --verbose
-  File "initialization.cppo.ml", line 113, characters 30-37:
+  File "./initialization.cppo.ml", line 113, characters 30-37:
   [INFO] Compiler include dirs:
   Visible:
   - dep

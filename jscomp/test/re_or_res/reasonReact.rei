@@ -197,13 +197,14 @@ type jsPropsToReason('jsProps, 'state, 'retainedProps, 'action) =
  * interop entirely. */
 let wrapReasonForJs:
   (
-    ~component: componentSpec(
-                  'state,
-                  'initialState,
-                  'retainedProps,
-                  'initialRetainedProps,
-                  'action,
-                ),
+    ~component:
+      componentSpec(
+        'state,
+        'initialState,
+        'retainedProps,
+        'initialRetainedProps,
+        'action,
+      ),
     jsPropsToReason(_)
   ) =>
   reactClass;

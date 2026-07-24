@@ -39,7 +39,7 @@ const v1 = {
 
 const N = {
   Block: Block$1,
-  v1: v1
+  v1
 };
 
 const Caml_obj$1 = {};
@@ -47,7 +47,7 @@ const Caml_obj$1 = {};
 const List = {};
 
 const V = {
-  List: List
+  List
 };
 
 const f = Caml_obj.caml_equal;

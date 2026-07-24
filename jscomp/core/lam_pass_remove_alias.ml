@@ -87,18 +87,38 @@ let simplify_alias =
     | Js_cmj_format.Submodule _ -> false
   in
   let direct_external_field ~dynamic_import ident name ~loc =
-    Lam.prim ~primitive:(Pfield (0, Fld_module { name }))
+    Lam.prim
+      ~primitive:(Pfield (0, Fld_module { name }))
       ~args:[ Lam.global_module ~dynamic_import ident ]
       ~loc
+  in
+  let rec nested_call_summary_at_path summary path =
+    match (path, summary) with
+    | [], Js_cmj_format.Call_summary summary -> summary
+    | i :: rest, Call_summary_submodule summaries -> (
+        match summaries.(i) with
+        | summary -> nested_call_summary_at_path summary rest
+        | exception _ -> Lam_call_summary.Unknown)
+    | [], Call_summary_submodule _ | _ :: _, Call_summary _ ->
+        Lam_call_summary.Unknown
+  in
+  let find_nested_external_call_summary ~dynamic_import ident name path =
+    match Lam_compile_env.query_external_id_info ~dynamic_import ident name with
+    | Some { nested_call_summary; _ } ->
+        nested_call_summary_at_path nested_call_summary path
+    | None -> Lam_call_summary.Unknown
+  in
+  let primitive_summary_is_safe_to_inline primitive =
+    Lam_primitive.is_relocatable primitive
+    &&
+    match primitive with
+    | Lam_primitive.Pccall _ | Pjs_call _ | Pjs_object_create _ -> false
+    | _ -> true
   in
   let direct_primitive_of_value value args =
     match value with
     | Lam_id_kind.FunctionId
-        {
-          arity;
-          call_summary = Lam_call_summary.Direct_primitive primitive;
-          _;
-        }
+        { arity; call_summary = Lam_call_summary.Direct_primitive primitive; _ }
       when fully_applied arity args ->
         Some primitive
     | _ -> None
@@ -108,7 +128,8 @@ let simplify_alias =
     | Lam_id_kind.FunctionId
         {
           call_summary =
-            Lam_call_summary.Direct_external { dynamic_import; id; name; arity };
+            Lam_call_summary.Direct_external
+              { dynamic_import; id; name; arity; relocatable = _ };
           _;
         }
       when fully_applied arity args ->
@@ -147,7 +168,7 @@ let simplify_alias =
     | Lam.Lvar p | Lam.Lmutvar p -> (
         match Ident.Hashtbl.find tbl p with
         | Parameter -> Some p
-        | _ | exception Not_found -> None)
+        | _ | (exception Not_found) -> None)
     | _ -> None
   in
   let rec contains_global_module (lam : Lam.t) =
@@ -164,34 +185,39 @@ let simplify_alias =
         List.exists bindings ~f:(fun (_, lam) -> contains_global_module lam)
         || contains_global_module body
     | Lam.Lprim { args; _ } -> List.exists args ~f:contains_global_module
-    | Lam.Lswitch (lam, { sw_consts; sw_blocks; sw_failaction; _ }) ->
+    | Lam.Lswitch (lam, { sw_consts; sw_blocks; sw_failaction; _ }) -> (
         contains_global_module lam
         || List.exists sw_consts ~f:(fun (_, lam) -> contains_global_module lam)
         || List.exists sw_blocks ~f:(fun (_, lam) -> contains_global_module lam)
         ||
-        (match sw_failaction with
+        match sw_failaction with
         | Some lam -> contains_global_module lam
         | None -> false)
-    | Lam.Lstringswitch (lam, cases, default) ->
+    | Lam.Lstringswitch (lam, cases, default) -> (
         contains_global_module lam
         || List.exists cases ~f:(fun (_, lam) -> contains_global_module lam)
         ||
-        (match default with
+        match default with
         | Some lam -> contains_global_module lam
         | None -> false)
     | Lam.Lstaticraise (_, lams) -> List.exists lams ~f:contains_global_module
-    | Lam.Lstaticcatch (lam1, _, lam2) | Lam.Ltrywith (lam1, _, lam2)
-    | Lam.Lsequence (lam1, lam2) | Lam.Lwhile (lam1, lam2) ->
+    | Lam.Lstaticcatch (lam1, _, lam2)
+    | Lam.Ltrywith (lam1, _, lam2)
+    | Lam.Lsequence (lam1, lam2)
+    | Lam.Lwhile (lam1, lam2) ->
         contains_global_module lam1 || contains_global_module lam2
     | Lam.Lifthenelse (lam1, lam2, lam3) ->
-        contains_global_module lam1 || contains_global_module lam2
+        contains_global_module lam1
+        || contains_global_module lam2
         || contains_global_module lam3
     | Lam.Lfor (_, lam1, lam2, _, lam3) ->
-        contains_global_module lam1 || contains_global_module lam2
+        contains_global_module lam1
+        || contains_global_module lam2
         || contains_global_module lam3
     | Lam.Lassign (_, lam) | Lam.Lifused (_, lam) -> contains_global_module lam
     | Lam.Lsend (_, meth, obj, args, _) ->
-        contains_global_module meth || contains_global_module obj
+        contains_global_module meth
+        || contains_global_module obj
         || List.exists args ~f:contains_global_module
   in
   let cross_module_parameter_result_is_safe (lam : Lam.t) =
@@ -228,20 +254,19 @@ let simplify_alias =
           || List.exists cases ~f:(fun (_, lam) -> hit ~under_function lam)
           || hit_opt ~under_function default
       | Lstaticraise (_, lams) -> hit_list ~under_function lams
-      | Lstaticcatch (lam1, _, lam2) | Ltrywith (lam1, _, lam2)
-      | Lsequence (lam1, lam2) | Lwhile (lam1, lam2) ->
+      | Lstaticcatch (lam1, _, lam2)
+      | Ltrywith (lam1, _, lam2)
+      | Lsequence (lam1, lam2)
+      | Lwhile (lam1, lam2) ->
           hit ~under_function lam1 || hit ~under_function lam2
       | Lifthenelse (lam1, lam2, lam3) ->
-          hit ~under_function lam1
-          || hit ~under_function lam2
+          hit ~under_function lam1 || hit ~under_function lam2
           || hit ~under_function lam3
       | Lfor (_, lam1, lam2, _, lam3) ->
-          hit ~under_function lam1
-          || hit ~under_function lam2
+          hit ~under_function lam1 || hit ~under_function lam2
           || hit ~under_function lam3
       | Lsend (_, meth, obj, args, _) ->
-          hit ~under_function meth
-          || hit ~under_function obj
+          hit ~under_function meth || hit ~under_function obj
           || hit_list ~under_function args
       | Lifused (_, lam) -> hit ~under_function lam
       | Lconst _ | Lglobal_module _ -> false
@@ -349,8 +374,10 @@ let simplify_alias =
               call_summary = Lam_call_summary.Direct_primitive primitive;
               _;
             }
-          when fully_applied_external arity args ->
-            Lam.prim ~primitive ~args:(List.map ~f:(simpl meta) args)
+          when Lam_primitive.is_relocatable primitive
+               && fully_applied_external arity args ->
+            Lam.prim ~primitive
+              ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc
         | Some
             {
@@ -361,25 +388,29 @@ let simplify_alias =
                     id;
                     name;
                     arity = direct_arity;
+                    relocatable;
                   };
               _;
             }
-          when
-            fully_applied direct_arity args
-            && not
-                 (dynamic_import = dynamic_import' && Ident.same ident id
-                 && String.equal fld_name name) ->
+          when relocatable
+               && fully_applied direct_arity args
+               && not
+                    (dynamic_import = dynamic_import'
+                    && Ident.same ident id && String.equal fld_name name) ->
             simpl meta
               (Lam.apply
                  (direct_external_field ~dynamic_import:dynamic_import' id name
                     ~loc:ap_info.ap_loc)
-                 args (direct_apply_info ap_info))
+                 args
+                 (direct_apply_info ap_info))
         | Some
             {
-              persistent_closed_lambda = Some (Lfunction { params; body; _ }, _);
+              persistent_closed_lambda =
+                Some ((Lfunction { params; body; _ } as lambda), _);
               _;
             }
-          when List.same_length params args ->
+          when List.same_length params args
+               && Lam_compile_env.lambda_is_relocatable lambda ->
             let reduced =
               Lam_beta_reduce.propagate_beta_reduce meta params body args
             in
@@ -387,15 +418,43 @@ let simplify_alias =
               List.filter_map args ~f:(parameter_arg_id meta.ident_tbl)
             in
             if
-              List.is_empty parameter_args
-              || (cross_module_parameter_result_is_safe reduced
+              parameter_args = []
+              || cross_module_parameter_result_is_safe reduced
                  && not
                       (List.exists parameter_args ~f:(fun param ->
-                           parameter_is_captured param reduced)))
+                           parameter_is_captured param reduced))
             then simpl meta reduced
-            else Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
+            else
+              Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
         | Some _ | None ->
             Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
+    (* Function inlining interact with other optimizations...
+
+        - parameter attributes
+        - scope issues
+        - code bloat
+    *)
+    | Lapply
+        {
+          ap_func =
+            Lprim { primitive = Pfield (_, _); args = [ Lprim _ ]; _ } as l1;
+          ap_args = args;
+          ap_info;
+        } -> (
+        let ap_args = List.map ~f:(simpl meta) args in
+        let[@local] normal () = Lam.apply (simpl meta l1) ap_args ap_info in
+        match Lam_arity_analysis.external_field_path l1 with
+        | Some (ident, dynamic_import, fld_name, (_ :: _ as path)) -> (
+            match
+              find_nested_external_call_summary ~dynamic_import ident fld_name
+                path
+            with
+            | Direct_primitive primitive
+              when fully_applied (Lam_arity_analysis.get_arity meta l1) ap_args
+                   && primitive_summary_is_safe_to_inline primitive ->
+                Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
+            | Unknown | Direct_primitive _ | Direct_external _ -> normal ())
+        | Some (_, _, _, []) | None -> normal ())
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
@@ -420,76 +479,82 @@ let simplify_alias =
                       (Lam.apply
                          (direct_external_field ~dynamic_import id name
                             ~loc:ap_info.ap_loc)
-                         ap_args (direct_apply_info ap_info))
+                         ap_args
+                         (direct_apply_info ap_info))
                 | None -> (
                     match value with
-                | FunctionId
-                    {
-                      lambda =
-                        Some
-                          ( Lfunction
-                              ( {
-                                  params;
-                                  body;
-                                  attr = { is_a_functor; _ };
-                                  _;
-                                } as m ),
-                            rec_flag );
-                      _;
-                    } ->
-                    if List.same_length ap_args params (* && false *) then
-                      if
-                        is_a_functor
-                        (* && (Ident.Set.mem v meta.export_idents) && false *)
-                      then
-                        (* TODO: check l1 if it is exported,
+                    | FunctionId
+                        {
+                          lambda =
+                            Some
+                              ( Lfunction
+                                  ({
+                                     params;
+                                     body;
+                                     attr = { is_a_functor; _ };
+                                     _;
+                                   } as m),
+                                rec_flag );
+                          _;
+                        } ->
+                        if List.same_length ap_args params (* && false *) then
+                          if
+                            is_a_functor
+                            (* && (Ident.Set.mem v meta.export_idents) && false *)
+                          then
+                            (* TODO: check l1 if it is exported,
                            if so, maybe not since in that case,
                            we are going to have two copy?
                         *)
-                        (* Check: recursive applying may result in non-termination *)
+                            (* Check: recursive applying may result in non-termination *)
 
-                        (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
-                        simpl meta
-                          (Lam_beta_reduce.propagate_beta_reduce meta params
-                             body ap_args)
-                      else if
-                        (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
-                        (* ap_inlined = Always_inline || *)
-                        Lam_analysis.ok_to_inline_fun_when_app m ap_args
-                      then
-                        (* let param_map =  *)
-                        (*   Lam_analysis.free_variables meta.export_idents  *)
-                        (*     (Lam_analysis.param_map_of_list params) body in *)
-                        (* let old_count = List.length params in *)
-                        (* let new_count = Map_ident.cardinal param_map in *)
-                        let param_map =
-                          Lam_closure.is_closed_with_map meta.export_idents
-                            params body
-                        in
-                        let is_export_id = Ident.Set.mem v meta.export_idents in
-                        match (is_export_id, param_map) with
-                        | false, (_, param_map) | true, (true, param_map) -> (
-                            match rec_flag with
-                            | Lam_rec ->
-                                Lam_beta_reduce.propagate_beta_reduce_with_map
-                                  meta param_map params body ap_args
-                            | Lam_self_rec -> normal ()
-                            | Lam_non_rec ->
-                                if
-                                  List.exists
-                                    ~f:(fun lam -> Lam_hit.hit_variable v lam)
-                                    ap_args
-                                  (*avoid nontermination, e.g, `g(g)`*)
-                                then normal ()
-                                else
-                                  simpl meta
-                                    (Lam_beta_reduce
-                                     .propagate_beta_reduce_with_map meta
-                                       param_map params body ap_args))
-                        | _ -> normal ()
-                      else normal ()
-                    else normal ()
-                | _ -> normal ())))
+                            (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
+                            simpl meta
+                              (Lam_beta_reduce.propagate_beta_reduce meta params
+                                 body ap_args)
+                          else if
+                            (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
+                            (* ap_inlined = Always_inline || *)
+                            Lam_analysis.ok_to_inline_fun_when_app m ap_args
+                          then
+                            (* let param_map =  *)
+                            (*   Lam_analysis.free_variables meta.export_idents  *)
+                            (*     (Lam_analysis.param_map_of_list params) body in *)
+                            (* let old_count = List.length params in *)
+                            (* let new_count = Map_ident.cardinal param_map in *)
+                            let param_map =
+                              Lam_closure.is_closed_with_map meta.export_idents
+                                params body
+                            in
+                            let is_export_id =
+                              Ident.Set.mem v meta.export_idents
+                            in
+                            match (is_export_id, param_map) with
+                            | false, (_, param_map) | true, (true, param_map)
+                              -> (
+                                match rec_flag with
+                                | Lam_rec ->
+                                    Lam_beta_reduce
+                                    .propagate_beta_reduce_with_map meta
+                                      param_map params body ap_args
+                                | Lam_self_rec -> normal ()
+                                | Lam_non_rec ->
+                                    if
+                                      List.exists
+                                        ~f:(fun lam ->
+                                          Lam_hit.hit_variable v lam)
+                                        ap_args
+                                      (*avoid nontermination, e.g, `g(g)`*)
+                                    then normal ()
+                                    else
+                                      simpl meta
+                                        (Lam_beta_reduce
+                                         .propagate_beta_reduce_with_map meta
+                                           param_map params body ap_args))
+                            | _ -> normal ()
+                          else normal ()
+                        else normal ()
+                    | _ -> normal ())))
         | exception Not_found -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when List.same_length params args ->

@@ -23,7 +23,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: "recursive"
       - uses: cachix/install-nix-action@v31
@@ -32,4 +32,4 @@ jobs:
             extra-substituters = https://anmonteiro.nix-cache.workers.dev
             extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
       - name: "Run nix-build"
-        run: nix build .#melange .#melange-playground
+        run: nix build -L .#melange .#melange-playground

@@ -128,7 +128,7 @@ and oldNewSelf('state, 'retainedProps, 'action) = {
 type jsComponentThis('state, 'props, 'retainedProps, 'action) = {
   .
   "state": totalState('state, 'retainedProps, 'action),
-  "props": {. "reasonProps": 'props},
+  "props": {. "reasonProps": 'props },
   "setState":
     [@mel.meth] (
       (
@@ -154,21 +154,22 @@ type jsComponentThis('state, 'props, 'retainedProps, 'action) = {
  * backup copies of `totalState`, our changes can be rolled back correctly
  * even when we mutate them.
  */
-and totalState('state, 'retainedProps, 'action) = {. "reasonState": 'state};
+and totalState('state, 'retainedProps, 'action) = {. "reasonState": 'state };
 
 let anyToUnit = _ => ();
 
 let anyToTrue = _ => true;
 
-let willReceivePropsDefault = ({state, _}) => state;
+let willReceivePropsDefault = ({ state, _ }) => state;
 
 let renderDefault = _self => string("RenderNotImplemented");
 
 let initialStateDefault = () => ();
 
-let reducerDefault:
-  ('action, 'state) => update('state, 'retainedProps, 'action) =
-  (_action, _state) => NoUpdate;
+let reducerDefault
+    : ('action, 'state) => update('state, 'retainedProps, 'action) =
+    (_action, _state) =>
+  NoUpdate;
 
 let convertPropsIfTheyreFromJs = (props, jsPropsToReason, debugName) => {
   let props = Obj.magic(props);
@@ -225,7 +226,7 @@ let createClass =
           );
         let Element(component) = convertedReasonProps;
         let initialReasonState = component.initialState();
-        {"reasonState": Obj.magic(initialReasonState)};
+        { "reasonState": Obj.magic(initialReasonState) };
       };
       pub componentDidMount = () => {
         let thisJs:
@@ -559,7 +560,7 @@ let createClass =
                     curTotalState;
                   | UpdateWithSideEffects(nextReasonState, performSideEffects) =>
                     sideEffects.contents = performSideEffects;
-                    {"reasonState": nextReasonState};
+                    { "reasonState": nextReasonState };
                   };
                 if (nextTotalState !== curTotalState) {
                   nextTotalState;

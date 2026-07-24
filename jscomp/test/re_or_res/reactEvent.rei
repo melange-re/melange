@@ -82,7 +82,8 @@ module Clipboard: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -103,7 +104,8 @@ module Composition: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -124,7 +126,8 @@ module Keyboard: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -157,7 +160,8 @@ module Focus: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -179,7 +183,8 @@ module Form: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -199,7 +204,8 @@ module Mouse: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -237,7 +243,8 @@ module Selection: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -257,7 +264,8 @@ module Touch: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -286,7 +294,8 @@ module UI: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -308,7 +317,8 @@ module Wheel: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -332,7 +342,8 @@ module Media: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -352,7 +363,8 @@ module Image: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -372,7 +384,8 @@ module Animation: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";
@@ -395,7 +408,8 @@ module Transition: {
   [@mel.send] external preventDefault: t => unit = "preventDefault";
   [@mel.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
   [@mel.send] external stopPropagation: t => unit = "stopPropagation";
-  [@mel.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@mel.send]
+  external isPropagationStopped: t => bool = "isPropagationStopped";
   [@mel.get] external target: t => Js.t({..}) = "target";
   [@mel.get] external timeStamp: t => float = "timeStamp";
   [@mel.get] external type_: t => string = "type";

@@ -55,8 +55,8 @@ function createRootWithId(id) {
 }
 
 const Experimental = {
-  createRootWithClassName: createRootWithClassName,
-  createRootWithId: createRootWithId
+  createRootWithClassName,
+  createRootWithId
 };
 
 function hydrateToElementWithClassName(reactElement, className) {
@@ -96,7 +96,7 @@ function unsafeAddProp(style, key, value) {
 }
 
 const Style = {
-  unsafeAddProp: unsafeAddProp
+  unsafeAddProp
 };
 
 module.exports = {

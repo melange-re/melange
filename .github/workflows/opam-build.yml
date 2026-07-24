@@ -23,19 +23,19 @@ jobs:
           - ubuntu-22.04-arm
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - ocaml-base-compiler.5.5.0~alpha3
+          - ocaml-base-compiler.5.5.0
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: "recursive"
           path: melange
 
       - name: Use Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
 
@@ -48,25 +48,39 @@ jobs:
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          cache-prefix: v3-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}
 
       - name: Restore OPAM cache
         id: opam-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}
+          restore-keys: |
+            opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-
 
       - name: Install dependencies
         working-directory: melange
         run: |
+          rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
+          dune_commit=eac1b1290fd59d2f68734e3c5166ef8116432188
+          rm -rf /tmp/dune-pin
+          git init -q /tmp/dune-pin
+          git -C /tmp/dune-pin remote add origin https://github.com/ocaml/dune.git
+          git -C /tmp/dune-pin fetch --depth 1 --filter=blob:none origin "$dune_commit"
+          git -C /tmp/dune-pin checkout --detach --quiet FETCH_HEAD
+          cp /tmp/dune-pin/opam/dune.opam /tmp/dune-pin/dune.opam
+          cp /tmp/dune-pin/opam/dune-build-info.opam /tmp/dune-pin/dune-build-info.opam
+          opam pin add dune.3.24.1 /tmp/dune-pin -y --no-action
+          opam pin add dune-build-info.3.24.1 /tmp/dune-pin -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template
         run: |
-          git clone https://github.com/melange-re/melange-opam-template.git
+          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git
           cd melange-opam-template
 
       - name: Install all deps
@@ -88,10 +102,10 @@ jobs:
           node ./_build/default/src/node/src/Hello.mjs
 
       - name: Save OPAM cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         if: steps.opam-cache.outputs.cache-hit != 'true'
         with:
           path: |
             ~/.opam
             ~/work/melange/melange/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/*.opam') }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ hashFiles('melange/.github/workflows/opam-build.yml') }}-${{ hashFiles('melange/*.opam', 'melange/dune-project', 'melange/Makefile') }}

@@ -149,7 +149,11 @@ let urlNotEqual = (a, b) => {
   a.hash !== b.hash || a.search !== b.search || listNotEqual(a.path, b.path);
 };
 type watcherID = unit => unit;
-let url = () => {path: path(), hash: hash(), search: search()};
+let url = () => {
+  path: path(),
+  hash: hash(),
+  search: search(),
+};
 /* alias exposed publicly */
 let dangerouslyGetInitialUrl = url;
 let watchUrl = callback =>

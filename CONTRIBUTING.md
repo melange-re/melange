@@ -109,7 +109,8 @@ GitHub repos:
   false)` with a well-known, already compiled runtime, speeding up builds in a
   lot of cases. To release the Melange compiled runtime / stdlib to NPM:
     1. set the `MELANGE_RUNTIME_VERSION` variable in `./runtime-export/dune`
-    2. run `dune build @runtime`, preferably in the tagged release branch.
+    2. run `dune build @runtime --profile=release`, preferably in the tagged
+       release branch.
     3. `cd` into each of the newly created
        `node_modules/{melange.js,melange,melange.belt}` and run `npm publish`,
        in this order.

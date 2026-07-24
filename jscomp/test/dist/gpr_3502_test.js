@@ -11,8 +11,8 @@ function name(param) {
 }
 
 const Language = {
-  toString: toString,
-  name: name
+  toString,
+  name
 };
 
 const language = "a";

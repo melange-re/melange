@@ -60,8 +60,8 @@ const same = Caml_obj.caml_equal;
 const compare = Caml_obj.caml_compare;
 
 const Path = {
-  same: same,
-  compare: compare
+  same,
+  compare
 };
 
 function Make(M) {
@@ -69,7 +69,7 @@ function Make(M) {
     
   };
   return {
-    find: find
+    find
   };
 }
 
@@ -78,7 +78,7 @@ function find(x) {
 }
 
 const M = {
-  find: find
+  find
 };
 
 function rollback_path(subst, p) {

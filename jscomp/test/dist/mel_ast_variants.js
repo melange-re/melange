@@ -156,7 +156,7 @@ const CustomizeTags_e = {
 };
 
 const CustomizeTags = {
-  foo: foo,
+  foo,
   a: /* A */ "dd",
   b: /* B */ 12,
   c: /* C */ 2,

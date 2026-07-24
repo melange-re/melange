@@ -1,189 +1,191 @@
 type t =
   | T_NUMBER of {
   kind: number_type ;
-  raw: string }
+  raw: string } 
   | T_BIGINT of {
   kind: bigint_type ;
-  raw: string }
-  | T_STRING of (Loc.t * string * string * bool)
-  | T_TEMPLATE_PART of (Loc.t * string * string * bool * bool)
+  raw: string } 
+  | T_STRING of (Loc.t * string * string * bool) 
+  | T_TEMPLATE_PART of (Loc.t * string * string * bool * bool) 
   | T_IDENTIFIER of {
   loc: Loc.t ;
   value: string ;
-  raw: string }
-  | T_REGEXP of Loc.t * string * string
-  | T_LCURLY
-  | T_RCURLY
-  | T_LCURLYBAR
-  | T_RCURLYBAR
-  | T_LPAREN
-  | T_RPAREN
-  | T_LBRACKET
-  | T_RBRACKET
-  | T_SEMICOLON
-  | T_COMMA
-  | T_PERIOD
-  | T_ARROW
-  | T_ELLIPSIS
-  | T_AT
-  | T_POUND
-  | T_FUNCTION
-  | T_IF
-  | T_IN
-  | T_INSTANCEOF
-  | T_RETURN
-  | T_SWITCH
-  | T_MATCH
-  | T_THIS
-  | T_THROW
-  | T_TRY
-  | T_VAR
-  | T_WHILE
-  | T_WITH
-  | T_CONST
-  | T_LET
-  | T_NULL
-  | T_FALSE
-  | T_TRUE
-  | T_BREAK
-  | T_CASE
-  | T_CATCH
-  | T_CONTINUE
-  | T_DEFAULT
-  | T_DO
-  | T_FINALLY
-  | T_FOR
-  | T_CLASS
-  | T_EXTENDS
-  | T_STATIC
-  | T_ELSE
-  | T_NEW
-  | T_DELETE
-  | T_TYPEOF
-  | T_VOID
-  | T_ENUM
-  | T_EXPORT
-  | T_IMPORT
-  | T_SUPER
-  | T_IMPLEMENTS
-  | T_INTERFACE
-  | T_PACKAGE
-  | T_PRIVATE
-  | T_PROTECTED
-  | T_PUBLIC
-  | T_YIELD
-  | T_DEBUGGER
-  | T_DECLARE
-  | T_TYPE
-  | T_OPAQUE
-  | T_OF
-  | T_ASYNC
-  | T_AWAIT
-  | T_CHECKS
-  | T_RSHIFT3_ASSIGN
-  | T_RSHIFT_ASSIGN
-  | T_LSHIFT_ASSIGN
-  | T_BIT_XOR_ASSIGN
-  | T_BIT_OR_ASSIGN
-  | T_BIT_AND_ASSIGN
-  | T_MOD_ASSIGN
-  | T_DIV_ASSIGN
-  | T_MULT_ASSIGN
-  | T_EXP_ASSIGN
-  | T_MINUS_ASSIGN
-  | T_PLUS_ASSIGN
-  | T_NULLISH_ASSIGN
-  | T_AND_ASSIGN
-  | T_OR_ASSIGN
-  | T_ASSIGN
-  | T_PLING_PERIOD
-  | T_PLING_PLING
-  | T_PLING
-  | T_COLON
-  | T_OR
-  | T_AND
-  | T_BIT_OR
-  | T_BIT_XOR
-  | T_BIT_AND
-  | T_EQUAL
-  | T_NOT_EQUAL
-  | T_STRICT_EQUAL
-  | T_STRICT_NOT_EQUAL
-  | T_LESS_THAN_EQUAL
-  | T_GREATER_THAN_EQUAL
-  | T_LESS_THAN
-  | T_GREATER_THAN
-  | T_LSHIFT
-  | T_RSHIFT
-  | T_RSHIFT3
-  | T_PLUS
-  | T_MINUS
-  | T_DIV
-  | T_MULT
-  | T_EXP
-  | T_MOD
-  | T_NOT
-  | T_BIT_NOT
-  | T_INCR
-  | T_DECR
-  | T_INTERPRETER of Loc.t * string
-  | T_ERROR of string
-  | T_EOF
+  raw: string } 
+  | T_REGEXP of Loc.t * string * string 
+  | T_LCURLY 
+  | T_RCURLY 
+  | T_LCURLYBAR 
+  | T_RCURLYBAR 
+  | T_LPAREN 
+  | T_RPAREN 
+  | T_LBRACKET 
+  | T_RBRACKET 
+  | T_SEMICOLON 
+  | T_COMMA 
+  | T_PERIOD 
+  | T_ARROW 
+  | T_ELLIPSIS 
+  | T_AT 
+  | T_POUND 
+  | T_FUNCTION 
+  | T_IF 
+  | T_IN 
+  | T_INSTANCEOF 
+  | T_RETURN 
+  | T_SWITCH 
+  | T_MATCH 
+  | T_RECORD 
+  | T_THIS 
+  | T_THROW 
+  | T_TRY 
+  | T_VAR 
+  | T_WHILE 
+  | T_WITH 
+  | T_CONST 
+  | T_LET 
+  | T_NULL 
+  | T_FALSE 
+  | T_TRUE 
+  | T_BREAK 
+  | T_CASE 
+  | T_CATCH 
+  | T_CONTINUE 
+  | T_DEFAULT 
+  | T_DO 
+  | T_FINALLY 
+  | T_FOR 
+  | T_CLASS 
+  | T_EXTENDS 
+  | T_STATIC 
+  | T_ELSE 
+  | T_NEW 
+  | T_DELETE 
+  | T_TYPEOF 
+  | T_VOID 
+  | T_ENUM 
+  | T_EXPORT 
+  | T_IMPORT 
+  | T_SUPER 
+  | T_IMPLEMENTS 
+  | T_INTERFACE 
+  | T_PACKAGE 
+  | T_PRIVATE 
+  | T_PROTECTED 
+  | T_PUBLIC 
+  | T_YIELD 
+  | T_DEBUGGER 
+  | T_DECLARE 
+  | T_TYPE 
+  | T_OPAQUE 
+  | T_OF 
+  | T_ASYNC 
+  | T_AWAIT 
+  | T_CHECKS 
+  | T_RSHIFT3_ASSIGN 
+  | T_RSHIFT_ASSIGN 
+  | T_LSHIFT_ASSIGN 
+  | T_BIT_XOR_ASSIGN 
+  | T_BIT_OR_ASSIGN 
+  | T_BIT_AND_ASSIGN 
+  | T_MOD_ASSIGN 
+  | T_DIV_ASSIGN 
+  | T_MULT_ASSIGN 
+  | T_EXP_ASSIGN 
+  | T_MINUS_ASSIGN 
+  | T_PLUS_ASSIGN 
+  | T_NULLISH_ASSIGN 
+  | T_AND_ASSIGN 
+  | T_OR_ASSIGN 
+  | T_ASSIGN 
+  | T_PLING_PERIOD 
+  | T_PLING_PLING 
+  | T_PLING 
+  | T_COLON 
+  | T_OR 
+  | T_AND 
+  | T_BIT_OR 
+  | T_BIT_XOR 
+  | T_BIT_AND 
+  | T_EQUAL 
+  | T_NOT_EQUAL 
+  | T_STRICT_EQUAL 
+  | T_STRICT_NOT_EQUAL 
+  | T_LESS_THAN_EQUAL 
+  | T_GREATER_THAN_EQUAL 
+  | T_LESS_THAN 
+  | T_GREATER_THAN 
+  | T_LSHIFT 
+  | T_RSHIFT 
+  | T_RSHIFT3 
+  | T_PLUS 
+  | T_MINUS 
+  | T_DIV 
+  | T_MULT 
+  | T_EXP 
+  | T_MOD 
+  | T_NOT 
+  | T_BIT_NOT 
+  | T_INCR 
+  | T_DECR 
+  | T_INTERPRETER of Loc.t * string 
+  | T_ERROR of string 
+  | T_EOF 
   | T_JSX_IDENTIFIER of {
   raw: string ;
-  loc: Loc.t }
-  | T_JSX_CHILD_TEXT of Loc.t * string * string
-  | T_JSX_QUOTE_TEXT of Loc.t * string * string
-  | T_ANY_TYPE
-  | T_MIXED_TYPE
-  | T_EMPTY_TYPE
-  | T_BOOLEAN_TYPE of bool_or_boolean
-  | T_NUMBER_TYPE
-  | T_BIGINT_TYPE
+  loc: Loc.t } 
+  | T_JSX_CHILD_TEXT of Loc.t * string * string 
+  | T_JSX_QUOTE_TEXT of Loc.t * string * string 
+  | T_ANY_TYPE 
+  | T_MIXED_TYPE 
+  | T_EMPTY_TYPE 
+  | T_BOOLEAN_TYPE of bool_or_boolean 
+  | T_NUMBER_TYPE 
+  | T_BIGINT_TYPE 
   | T_NUMBER_SINGLETON_TYPE of
   {
   kind: number_type ;
   value: float ;
-  raw: string }
+  raw: string } 
   | T_BIGINT_SINGLETON_TYPE of
   {
   kind: bigint_type ;
   value: int64 option ;
-  raw: string }
-  | T_STRING_TYPE
-  | T_VOID_TYPE
-  | T_SYMBOL_TYPE
-  | T_UNKNOWN_TYPE
-  | T_NEVER_TYPE
-  | T_UNDEFINED_TYPE
-  | T_KEYOF
-  | T_READONLY
-  | T_INFER
-  | T_IS
-  | T_ASSERTS
-  | T_IMPLIES
-  | T_RENDERS_QUESTION
-  | T_RENDERS_STAR
+  raw: string } 
+  | T_STRING_TYPE 
+  | T_VOID_TYPE 
+  | T_SYMBOL_TYPE 
+  | T_UNKNOWN_TYPE 
+  | T_NEVER_TYPE 
+  | T_UNDEFINED_TYPE 
+  | T_KEYOF 
+  | T_READONLY 
+  | T_WRITEONLY 
+  | T_INFER 
+  | T_IS 
+  | T_ASSERTS 
+  | T_IMPLIES 
+  | T_RENDERS_QUESTION 
+  | T_RENDERS_STAR 
 and bool_or_boolean =
-  | BOOL
-  | BOOLEAN
+  | BOOL 
+  | BOOLEAN 
 and number_type =
-  | BINARY
-  | LEGACY_OCTAL
-  | LEGACY_NON_OCTAL
-  | OCTAL
-  | NORMAL
+  | BINARY 
+  | LEGACY_OCTAL 
+  | LEGACY_NON_OCTAL 
+  | OCTAL 
+  | NORMAL 
 and bigint_type =
-  | BIG_BINARY
-  | BIG_OCTAL
-  | BIG_NORMAL [@@deriving eq]
+  | BIG_BINARY 
+  | BIG_OCTAL 
+  | BIG_NORMAL
 include
   struct
     let _ = fun (_ : t) -> ()
     let _ = fun (_ : bool_or_boolean) -> ()
     let _ = fun (_ : number_type) -> ()
     let _ = fun (_ : bigint_type) -> ()
-    let rec equal : t -> t -> bool =
+    let rec (equal : t -> t -> bool) =
       ((let __12 = equal_bigint_type
         and __11 = equal_number_type
         and __10 = equal_bool_or_boolean
@@ -197,7 +199,10 @@ include
         and __2 = Loc.equal
         and __1 = equal_bigint_type
         and __0 = equal_number_type in
-        ((            fun lhs rhs ->
+        ((let
+            open! Stdlib[@@ocaml.warning
+                                                                 "-A"] in
+            fun lhs rhs ->
               match (lhs, rhs) with
               | (T_NUMBER { kind = lhskind; raw = lhsraw }, T_NUMBER
                  { kind = rhskind; raw = rhsraw }) ->
@@ -256,6 +261,7 @@ include
               | (T_RETURN, T_RETURN) -> true
               | (T_SWITCH, T_SWITCH) -> true
               | (T_MATCH, T_MATCH) -> true
+              | (T_RECORD, T_RECORD) -> true
               | (T_THIS, T_THIS) -> true
               | (T_THROW, T_THROW) -> true
               | (T_TRY, T_TRY) -> true
@@ -401,6 +407,7 @@ include
               | (T_UNDEFINED_TYPE, T_UNDEFINED_TYPE) -> true
               | (T_KEYOF, T_KEYOF) -> true
               | (T_READONLY, T_READONLY) -> true
+              | (T_WRITEONLY, T_WRITEONLY) -> true
               | (T_INFER, T_INFER) -> true
               | (T_IS, T_IS) -> true
               | (T_ASSERTS, T_ASSERTS) -> true
@@ -410,17 +417,25 @@ include
               | _ -> false)
           [@ocaml.warning "-A"]))
       [@ocaml.warning "-39"])[@@ocaml.warning "-39"]
-    and equal_bool_or_boolean :
-      bool_or_boolean -> bool_or_boolean -> bool =
-      ((          fun lhs rhs ->
+    and (equal_bool_or_boolean :
+          bool_or_boolean -> bool_or_boolean -> bool)
+      =
+      ((let
+          open! Stdlib[@@ocaml.warning
+                                                               "-A"] in
+          fun lhs rhs ->
             match (lhs, rhs) with
             | (BOOL, BOOL) -> true
             | (BOOLEAN, BOOLEAN) -> true
             | _ -> false)
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
-    and equal_number_type :
-      number_type -> number_type -> bool =
-      ((          fun lhs rhs ->
+    and (equal_number_type :
+          number_type -> number_type -> bool)
+      =
+      ((let
+          open! Stdlib[@@ocaml.warning
+                                                               "-A"] in
+          fun lhs rhs ->
             match (lhs, rhs) with
             | (BINARY, BINARY) -> true
             | (LEGACY_OCTAL, LEGACY_OCTAL) -> true
@@ -429,9 +444,13 @@ include
             | (NORMAL, NORMAL) -> true
             | _ -> false)
       [@ocaml.warning "-39"][@ocaml.warning "-A"])[@@ocaml.warning "-39"]
-    and equal_bigint_type :
-      bigint_type -> bigint_type -> bool =
-      ((          fun lhs rhs ->
+    and (equal_bigint_type :
+          bigint_type -> bigint_type -> bool)
+      =
+      ((let
+          open! Stdlib[@@ocaml.warning
+                                                               "-A"] in
+          fun lhs rhs ->
             match (lhs, rhs) with
             | (BIG_BINARY, BIG_BINARY) -> true
             | (BIG_OCTAL, BIG_OCTAL) -> true
@@ -458,6 +477,7 @@ let token_to_string =
   | T_RETURN -> "T_RETURN"
   | T_SWITCH -> "T_SWITCH"
   | T_MATCH -> "T_MATCH"
+  | T_RECORD -> "T_RECORD"
   | T_THIS -> "T_THIS"
   | T_THROW -> "T_THROW"
   | T_TRY -> "T_TRY"
@@ -567,6 +587,7 @@ let token_to_string =
   | T_DECR -> "T_DECR"
   | T_KEYOF -> "T_KEYOF"
   | T_READONLY -> "T_READONLY"
+  | T_WRITEONLY -> "T_WRITEONLY"
   | T_INFER -> "T_INFER"
   | T_IS -> "T_IS"
   | T_ASSERTS -> "T_ASSERTS"
@@ -629,6 +650,7 @@ let value_of_token =
   | T_RETURN -> "return"
   | T_SWITCH -> "switch"
   | T_MATCH -> "match"
+  | T_RECORD -> "record"
   | T_THIS -> "this"
   | T_THROW -> "throw"
   | T_TRY -> "try"
@@ -723,6 +745,7 @@ let value_of_token =
   | T_DECR -> "--"
   | T_KEYOF -> "keyof"
   | T_READONLY -> "readonly"
+  | T_WRITEONLY -> "writeonly"
   | T_INFER -> "infer"
   | T_IS -> "is"
   | T_ASSERTS -> "asserts"
