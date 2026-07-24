@@ -37,13 +37,13 @@ let mark_dead_code (js : J.program) : J.program =
       super with
       ident =
         (fun _ ident ->
-          match Ident.Hashtbl.find ident_use_stats ident with
-          | exception Not_found ->
+          match Ident.Hashtbl.find_opt ident_use_stats ident with
+          | None ->
               (* First time *)
               Ident.Hashtbl.add ident_use_stats ~key:ident ~data:Recursive
           (* recursive identifiers *)
-          | Recursive -> ()
-          | Info x -> Js_op.update_used_stats x Used);
+          | Some Recursive -> ()
+          | Some (Info x) -> Js_op.update_used_stats x Used);
       variable_declaration =
         (fun self vd ->
           match vd.ident_info.used_stats with
@@ -67,18 +67,18 @@ let mark_dead_code (js : J.program) : J.program =
                 if Ident.Set.mem ident js.export_set then
                   Js_op.update_used_stats ident_info Exported
               in
-              match Ident.Hashtbl.find ident_use_stats ident with
-              | Recursive ->
+              match Ident.Hashtbl.find_opt ident_use_stats ident with
+              | Some Recursive ->
                   Js_op.update_used_stats ident_info Used;
                   Ident.Hashtbl.replace ident_use_stats ~key:ident
                     ~data:(Info ident_info)
-              | Info _ ->
+              | Some (Info _) ->
                   (* check [camlinternlFormat,box_type] inlined twice
                       FIXME: seems we have redeclared identifiers
                   *)
                   ()
               (* assert false *)
-              | exception Not_found ->
+              | None ->
                   (* First time *)
                   Ident.Hashtbl.add ident_use_stats ~key:ident
                     ~data:(Info ident_info);
