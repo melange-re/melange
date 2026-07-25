@@ -179,27 +179,36 @@ let cond_paren_group st b action =
 let flush t () = flush t
 
 module Scope = struct
-  type t = int Int.Map.t String.Map.t
+  type entry = { stamps : int Int.Map.t; next : int }
+  type t = entry String.Map.t
 
   (* -- "name" --> int map -- stamp --> index suffix *)
   let empty : t = String.Map.empty
 
   let add_ident ~mangled:name (stamp : int) (cxt : t) : int * t =
-    match String.Map.find name cxt with
-    | exception Not_found ->
+    match String.Map.find_opt name cxt with
+    | None ->
         ( 0,
           String.Map.add ~key:name
-            ~data:(Int.Map.add ~key:stamp ~data:0 Int.Map.empty)
+            ~data:
+              {
+                stamps = Int.Map.add ~key:stamp ~data:0 Int.Map.empty;
+                next = 1;
+              }
             cxt )
-    | imap -> (
-        match Int.Map.find stamp imap with
-        | exception Not_found ->
-            let v = Int.Map.cardinal imap in
+    | Some entry -> (
+        match Int.Map.find_opt stamp entry.stamps with
+        | None ->
+            let v = entry.next in
             ( v,
               String.Map.add ~key:name
-                ~data:(Int.Map.add ~key:stamp ~data:v imap)
+                ~data:
+                  {
+                    stamps = Int.Map.add ~key:stamp ~data:v entry.stamps;
+                    next = v + 1;
+                  }
                 cxt )
-        | i -> (i, cxt))
+        | Some i -> (i, cxt))
 
   (*
    same as {!Js_dump.ident} except it generates a string instead of doing the printing
@@ -237,7 +246,7 @@ module Scope = struct
     | Reserved name -> (name, cxt)
     | Mangled name ->
         let i, new_cxt = add_ident ~mangled:name (Ident.stamp id) cxt in
-        ((if i == 0 then name else Printf.sprintf "%s$%d" name i), new_cxt)
+        ((if i == 0 then name else name ^ "$" ^ string_of_int i), new_cxt)
 
   let ident (cxt : t) f (id : Ident.t) : t =
     let str, cxt = str_of_ident cxt id in
@@ -256,11 +265,10 @@ module Scope = struct
      update twice,  once is enough *)
   let sub_scope (scope : t) (idents : Ident.Set.t) : t =
     Ident.Set.fold idents ~init:empty ~f:(fun id acc ->
-        let name = Ident.name id in
-        let mangled = Ident.convert name in
-        match String.Map.find mangled scope with
-        | exception Not_found -> assert false
-        | imap ->
+        let mangled = Ident.convert (Ident.name id) in
+        match String.Map.find_opt mangled scope with
+        | None -> assert false
+        | Some entry ->
             if String.Map.mem mangled acc then acc
-            else String.Map.add ~key:mangled ~data:imap acc)
+            else String.Map.add ~key:mangled ~data:entry acc)
 end
