@@ -55,6 +55,12 @@ let test_map () =
     (List.map ~f:(fun x -> string_of_int x) [ 0; 1; 2 ] @ [ "1"; "2"; "3" ])
     [ "0"; "1"; "2"; "1"; "2"; "3" ]
 
+let test_append () =
+  let left = [ 1; 2; 3 ] in
+  Alcotest.(check bool) __LOC__ true (List.append left [] == left);
+  Alcotest.(check (list int))
+    __LOC__ (List.append left [ 4 ]) [ 1; 2; 3; 4 ]
+
 let test_split_at () =
   let a, b = List.split_at [ 1; 2; 3; 4; 5; 6 ] 3 in
   Alcotest.(check (pair (list int) (list int)))
@@ -101,6 +107,7 @@ let suite =
     ("stable_group", `Quick, test_stable_group);
     ("map_last", `Quick, test_map_last);
     ("map", `Quick, test_map);
+    ("append", `Quick, test_append);
     ("split_at", `Quick, test_split_at);
     ("split_at_last", `Quick, test_split_at_last);
     ("length_larger_than_n", `Quick, test_length_larger_than_n);
