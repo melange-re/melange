@@ -127,7 +127,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint -> (
-      match args with [ e1; e2 ] -> E.int32_add e1 e2 | _ -> assert false)
+      match args with [ e1; e2 ] -> E.int32_add ~loc e1 e2 | _ -> assert false)
   | Paddint64 -> Js_long.add args
   | Paddfloat -> (
       match args with [ e1; e2 ] -> E.float_add e1 e2 | _ -> assert false)
@@ -171,7 +171,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with [ e1; e2 ] -> E.int32_band e1 e2 | _ -> assert false)
   | Pandint64 -> Js_long.and_ args
   | Porint -> (
-      match args with [ e1; e2 ] -> E.int32_bor e1 e2 | _ -> assert false)
+      match args with [ e1; e2 ] -> E.int32_bor ~loc e1 e2 | _ -> assert false)
   | Porint64 -> Js_long.or_ args
   | Pxorint -> (
       match args with [ e1; e2 ] -> E.int32_bxor e1 e2 | _ -> assert false)
@@ -326,7 +326,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pjs_object_create _ -> assert false
   | Pjs_call { arg_types; ffi; dynamic_import; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
-        ~dynamic_import
+        ~dynamic_import ~loc
   (* FIXME, this can be removed later *)
   | Pisint -> E.is_type_number (List.hd args)
   | Pis_poly_var_const -> E.is_type_string (List.hd args)

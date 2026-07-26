@@ -97,6 +97,7 @@ let transform_under_supply n ap_info fn args =
     Lam.function_ ~arity:n ~params:extra_args
       ~attr:Lambda.default_function_attribute
       ~body:(Lam.apply fn (append_var_args args extra_args) ap_info)
+      ~loc:Location.none
   in
   match bindings with
   | [] ->
@@ -165,6 +166,7 @@ let unsafe_adjust_to_arity =
     let cont =
       Lam.function_ ~attr:Lambda.default_function_attribute ~arity:0 ~params:[]
         ~body:(Lam.apply new_fn [ Lam.unit ] ap_info)
+        ~loc:ap_info.Lam.ap_loc
     in
     match wrapper with
     | None -> cont
@@ -183,6 +185,7 @@ let unsafe_adjust_to_arity =
               Lam.function_ ~arity:0 ~attr:Lambda.default_function_attribute
                 ~params:[]
                 ~body:(Lam.let_ Alias param Lam.unit body)
+                ~loc
               (* could be only introduced by
                {[ Pjs_fn_make 0 ]} <-
                {[ fun [@u] () -> .. ]}
@@ -201,6 +204,7 @@ let unsafe_adjust_to_arity =
               Lam.function_ ~attr:Lambda.default_function_attribute ~arity:to_
                 ~params:(List.append params extra_args)
                 ~body:(Lam.apply body (var_args extra_args) ap_info)
+                ~loc
           | _ -> (
               let arity = to_ in
               let extra_args =
@@ -231,6 +235,7 @@ let unsafe_adjust_to_arity =
                        (Lam.apply new_fn (var_args first_args)
                           { ap_info with ap_status = App_infer_full })
                        (var_args rest_args) ap_info)
+                  ~loc
               in
               match wrapper with
               | None -> cont
@@ -255,7 +260,8 @@ let unsafe_adjust_to_arity =
                 ~body:
                   (Lam.function_ ~arity:(from - to_)
                      ~attr:Lambda.default_function_attribute
-                     ~params:extra_inner_args ~body)
+                     ~params:extra_inner_args ~body ~loc)
+                ~loc
           | _ -> (
               let extra_outer_args =
                 List.init ~len:to_ ~f:(fun _ -> Ident.create_local L.param)
@@ -288,7 +294,9 @@ let unsafe_adjust_to_arity =
                        ~body:
                          (Lam.apply new_fn
                             (append_var_params extra_outer_args extra_inner_args)
-                            { ap_info with ap_status = App_infer_full }))
+                            { ap_info with ap_status = App_infer_full })
+                       ~loc)
+                  ~loc
               in
               match wrapper with
               | None -> cont

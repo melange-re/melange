@@ -199,8 +199,8 @@ let subst_helper ~try_depth (subst : (Ident.t list * lam_subst) Int.Hashtbl.t)
     | Lvar _ | Lmutvar _ | Lconst _ -> lam
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply (simplif ap_func) (List.map ~f:simplif ap_args) ap_info
-    | Lfunction { arity; params; body; attr } ->
-        Lam.function_ ~arity ~params ~body:(simplif body) ~attr
+    | Lfunction { arity; params; body; attr; loc } ->
+        Lam.function_ ~arity ~params ~body:(simplif body) ~attr ~loc
     | Llet (kind, v, l1, l2) -> Lam.let_ kind v (simplif l1) (simplif l2)
     | Lmutlet (v, l1, l2) -> Lam.mutlet v (simplif l1) (simplif l2)
     | Lletrec (bindings, body) ->

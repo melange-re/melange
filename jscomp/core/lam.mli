@@ -53,6 +53,7 @@ and lfunction = {
   params : ident list;
   body : t;
   attr : Lambda.function_attribute;
+  loc : Location.t;
 }
 
 and prim_info = private {
@@ -102,6 +103,7 @@ val const : Constant.t -> t
 val apply : t -> t list -> ap_info -> t
 
 val function_ :
+  ?loc:Location.t ->
   attr:Lambda.function_attribute ->
   arity:int ->
   params:ident list ->
