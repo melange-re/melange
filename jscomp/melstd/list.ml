@@ -24,6 +24,9 @@
 
 include StdLabels.List
 
+let[@inline] append left right =
+  match right with [] -> left | _ -> StdLabels.List.append left right
+
 let rec map_combine l1 l2 ~f =
   match (l1, l2) with
   | [], [] -> []
