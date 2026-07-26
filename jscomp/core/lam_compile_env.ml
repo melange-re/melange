@@ -77,12 +77,12 @@ let add_js_module
     Lam_module_ident.external_ module_id ~dynamic_import ~name:module_name
       ~default
   in
-  match Lam_module_ident.Hashtbl.find cached_tbl lam_module_ident with
-  | Ml { id; cmj_load_info = _ } -> id
-  | External id ->
+  match Lam_module_ident.Hashtbl.find_opt cached_tbl lam_module_ident with
+  | Some (Ml { id; cmj_load_info = _ }) -> id
+  | Some (External id) ->
       register_external_id id module_name;
       id
-  | exception Not_found ->
+  | None ->
       let module_id = lam_module_ident.id in
       Lam_module_ident.Hashtbl.replace cached_tbl ~key:lam_module_ident
         ~data:(External module_id);
@@ -93,10 +93,10 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
     (name : string) : Js_cmj_format.keyed_cmj_value =
   let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
   let cmj_table =
-    match Lam_module_ident.Hashtbl.find cached_tbl oid with
-    | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table
-    | External _ -> assert false
-    | exception Not_found ->
+    match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
+    | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table
+    | Some (External _) -> assert false
+    | None ->
         let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
         Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
           ~data:(Ml { cmj_load_info; id = module_id });
@@ -132,13 +132,13 @@ let rec lambda_is_relocatable (lam : Lam.t) =
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =
-    match Lam_module_ident.Hashtbl.find cached_tbl module_id with
-    | Ml { cmj_load_info; id = _ } -> cmj_load_info
-    | External _ ->
+    match Lam_module_ident.Hashtbl.find_opt cached_tbl module_id with
+    | Some (Ml { cmj_load_info; id = _ }) -> cmj_load_info
+    | Some (External _) ->
         (* called by {!Js_name_of_module_id.string_of_module_id}.
            cannot be External *)
         assert false
-    | exception Not_found -> (
+    | None -> (
         match module_id.kind with
         | Runtime | External _ -> assert false
         | Ml ->
@@ -158,10 +158,10 @@ let is_pure_module (oid : Lam_module_ident.t) =
   | Runtime -> true
   | External _ -> false
   | Ml -> (
-      match Lam_module_ident.Hashtbl.find cached_tbl oid with
-      | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table.pure
-      | External _ -> false
-      | exception Not_found -> (
+      match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
+      | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table.pure
+      | Some (External _) -> false
+      | None -> (
           match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
@@ -171,9 +171,13 @@ let is_pure_module (oid : Lam_module_ident.t) =
 
 let add = Lam_module_ident.Hash_set.add
 
+let cached_env_value_is_pure = function
+  | Ml { cmj_load_info = { cmj_table; _ }; id = _ } -> cmj_table.pure
+  | External _ -> false
+
 let populate_required_modules extras
     (hard_dependencies : Lam_module_ident.Hash_set.t) =
-  Lam_module_ident.Hashtbl.iter cached_tbl ~f:(fun ~key:id ~data:_ ->
-      if not (is_pure_module id) then add hard_dependencies id);
+  Lam_module_ident.Hashtbl.iter cached_tbl ~f:(fun ~key:id ~data ->
+      if not (cached_env_value_is_pure data) then add hard_dependencies id);
   Lam_module_ident.Hash_set.iter extras ~f:(fun id ->
       if not (is_pure_module id) then add hard_dependencies id)
