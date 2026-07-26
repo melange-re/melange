@@ -66,16 +66,6 @@ jobs:
         run: |
           rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
-          dune_commit=eac1b1290fd59d2f68734e3c5166ef8116432188
-          rm -rf /tmp/dune-pin
-          git init -q /tmp/dune-pin
-          git -C /tmp/dune-pin remote add origin https://github.com/ocaml/dune.git
-          git -C /tmp/dune-pin fetch --depth 1 --filter=blob:none origin "$dune_commit"
-          git -C /tmp/dune-pin checkout --detach --quiet FETCH_HEAD
-          cp /tmp/dune-pin/opam/dune.opam /tmp/dune-pin/dune.opam
-          cp /tmp/dune-pin/opam/dune-build-info.opam /tmp/dune-pin/dune-build-info.opam
-          opam pin add dune.3.24.1 /tmp/dune-pin -y --no-action
-          opam pin add dune-build-info.3.24.1 /tmp/dune-pin -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template

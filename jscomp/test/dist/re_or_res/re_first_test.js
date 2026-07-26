@@ -37,7 +37,7 @@ function adapterFromJs(param) {
   return _map[param];
 }
 
-eq("File \"jscomp/test/re_or_res/re_first_test.re\", line 13, characters 3-10", "idb", "idb");
+eq("File \"jscomp/test/re_or_res/re_first_test.re\", line 17, characters 3-10", "idb", "idb");
 
 Mt.from_pair_suites("Re_first_test", suites.contents);
 
