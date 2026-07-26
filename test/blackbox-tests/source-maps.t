@@ -1,3 +1,5 @@
+  $ . ./setup.sh
+
   $ cat > example.ml <<'EOF'
   > let add x y = x + y
   > let value = add 1 2

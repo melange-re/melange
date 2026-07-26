@@ -166,7 +166,7 @@ let unsafe_adjust_to_arity =
     let cont =
       Lam.function_ ~attr:Lambda.default_function_attribute ~arity:0 ~params:[]
         ~body:(Lam.apply new_fn [ Lam.unit ] ap_info)
-        ~loc:ap_info.ap_loc
+        ~loc:ap_info.Lam.ap_loc
     in
     match wrapper with
     | None -> cont
