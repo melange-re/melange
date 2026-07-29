@@ -195,6 +195,7 @@ Float32Array
 Float64Array
 FocusEvent
 FontFace
+FontFaceSet
 FontFaceSetLoadEvent
 FormData
 FormDataEvent
@@ -287,6 +288,7 @@ HTMLTitleElement
 HTMLTrackElement
 HTMLUListElement
 HTMLUnknownElement
+HTMLUserMediaElement
 HTMLVideoElement
 HashChangeEvent
 Headers
@@ -323,6 +325,7 @@ Int16Array
 Int32Array
 Int8Array
 IntegrityViolationReportBody
+InteractionContentfulPaint
 InterestEvent
 IntersectionObserver
 IntersectionObserverEntry
@@ -425,6 +428,7 @@ PerformancePaintTiming
 PerformanceResourceTiming
 PerformanceScriptTiming
 PerformanceServerTiming
+PerformanceSoftNavigation
 PerformanceTiming
 PerformanceTimingConfidence
 PeriodicSyncManager
