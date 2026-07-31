@@ -73,8 +73,9 @@ let matches_js_int_literal_key s =
       match String.unsafe_get s i with
       | '0' .. '9' as c ->
           let digit = Char.code c - Char.code '0' in
-          if acc > max_div_10 || (acc = max_div_10 && digit > max_digit) then
-            false
+          if acc > max_div_10 then false
+          else if acc = max_div_10 then
+            i + 1 = len && digit <= max_digit
           else valid_digits_and_fits_int ~max_digit (i + 1) ((acc * 10) + digit)
       | _ -> false
   in
