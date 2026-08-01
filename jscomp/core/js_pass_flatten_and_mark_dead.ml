@@ -294,7 +294,8 @@ let subst_map (substitution : J.expression Ident.Hashtbl.t) =
                     _;
                   } as x ->
                     x
-                | _ | (exception Failure _) -> super.expression self x)
+                | _ | (exception (Failure _ | Invalid_argument _)) ->
+                    super.expression self x)
             | _ | (exception Not_found) -> super.expression self x)
         | _ -> super.expression self x);
   }
