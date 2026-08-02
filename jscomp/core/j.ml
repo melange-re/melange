@@ -107,7 +107,13 @@ type number =
   | Uint of int32
 
 type ident_info = Js_op.ident_info
-type exports = Ident.t list
+(* The unit's exported fields, with the namespace each comes from: that is what
+   decides the name they are exported under (see [Runtime_fields]).
+
+   NOTE: no doc comments in this file. [gen/gen_traversal.ml] parses it as an
+   interface and picks the first type group carrying attributes, which a doc
+   comment would silently make this one. *)
+type exports = Runtime_fields.t list
 type tag_info = Lam.Tag_info.t
 type property_name = string
 
