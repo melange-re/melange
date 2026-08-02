@@ -101,18 +101,23 @@ let read_file_exn =
         failwith "read_file: file is larger than Sys.max_string_length"
   in
   let read_all_fd =
+    let rec unix_read fd buf pos len =
+      match Unix.read fd buf pos len with
+      | bytes_read -> bytes_read
+      | exception Unix.Unix_error (EINTR, _, _) -> unix_read fd buf pos len
+    in
     let rec read fd buf pos left =
       match left with
       | 0 -> pos
       | left -> (
-          match Unix.read fd buf pos left with
+          match unix_read fd buf pos left with
           | 0 -> pos
           | n -> read fd buf (pos + n) (left - n))
     in
     let read_to_eof fd initial =
       let chunk_size = 65536 in
       let probe = Bytes.create 1 in
-      match Unix.read fd probe 0 1 with
+      match unix_read fd probe 0 1 with
       | 0 -> Ok initial
       | _ ->
           let initial_length = String.length initial in
@@ -128,7 +133,7 @@ let read_file_exn =
             Buffer.add_char buffer (Bytes.get probe 0);
             let chunk = Bytes.create chunk_size in
             let rec loop () =
-              match Unix.read fd chunk 0 chunk_size with
+              match unix_read fd chunk 0 chunk_size with
               | 0 -> Ok (Buffer.contents buffer)
               | n ->
                   if n > Sys.max_string_length - Buffer.length buffer then
