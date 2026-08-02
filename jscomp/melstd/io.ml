@@ -210,8 +210,10 @@ let with_file_out_fd ?(perm = default_out_perm) fn ~f =
 
 let rec write fd str ~off ~len =
   if len > 0 then
-    let written = Unix.single_write_substring fd str off len in
-    write fd str ~off:(off + written) ~len:(len - written)
+    match Unix.single_write_substring fd str off len with
+    | exception Unix.Unix_error (EINTR, _, _) -> write fd str ~off ~len
+    | 0 -> raise (Unix.Unix_error (EIO, "single_write", ""))
+    | written -> write fd str ~off:(off + written) ~len:(len - written)
 
 let write_file_exn =
   let write_file_fast ?(perm = default_out_perm) fn data =
