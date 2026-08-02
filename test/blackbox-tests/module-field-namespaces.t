@@ -11,8 +11,6 @@ classes a `$class` one. Values and modules keep their name.
   $ cat > dune <<EOF
   > (melange.emit
   >  (target output)
-  >  (emit_stdlib false)
-  >  (libraries melange.js)
   >  (module_systems (commonjs js) (es6 mjs)))
   > EOF
 
@@ -335,8 +333,6 @@ With cross-module optimization on, the inlined values still resolve.
   $ cat > dune <<EOF
   > (melange.emit
   >  (target output)
-  >  (emit_stdlib false)
-  >  (libraries melange.js)
   >  (compile_flags :standard --mel-cross-module-opt))
   > EOF
   $ dune build @melange
