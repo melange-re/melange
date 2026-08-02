@@ -50,6 +50,7 @@ Test `@mel.as` in inline records / record extensions
   module.exports = {
     user,
     user2,
+    UserException$extension: UserException,
     UserException,
     user3,
   }
