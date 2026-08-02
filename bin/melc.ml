@@ -231,6 +231,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cmi_only;
       bs_no_version_header;
       bs_cross_module_opt;
+      delay_js_optimizations;
+      action_trace;
       bs_diagnose;
       where;
       verbose;
@@ -293,6 +295,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     Option.iter bs_cross_module_opt ~f:(fun bs_cross_module_opt ->
         Js_config.cross_module_inline := bs_cross_module_opt);
+    Option.iter delay_js_optimizations ~f:(fun delay ->
+        Js_config.delay_js_optimizations := delay);
+    if action_trace then Js_config.action_trace := true;
     if bs_syntax_only then Js_config.syntax_only := true;
 
     Option.iter ~f:Js_packages_state.set_package_name bs_package_name;

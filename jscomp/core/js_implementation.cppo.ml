@@ -197,11 +197,14 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     Env.set_unit_name modulename;
 #endif
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
+      Compiler_trace.with_span ~category:"melange.frontend" ~name:"typecheck"
+        ~args:[ "input", fname ] (fun () ->
 #if OCAML_VERSION >= (5,2,0)
-      Typemod.type_implementation unit_info env ast
+          Typemod.type_implementation unit_info env ast
 #else
-      Typemod.type_implementation fname outputprefix modulename env ast
+          Typemod.type_implementation fname outputprefix modulename env ast
 #endif
+        )
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
@@ -212,27 +215,41 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
          processing, as `[@@@config {flags = [| ... |]}]` could have added to
          package specs. *)
       let package_info = Js_packages_state.get_packages_info () in
-      let js_program =
+      let cmj =
         let lambda =
-          let program =
-            Translmod.transl_implementation modulename typedtree_coercion
-          in
-          Lambda_simplif.simplify_lambda program.code
-          |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda
+          Compiler_trace.with_span ~category:"melange.lambda"
+            ~name:"translate" ~args:[ "input", fname ] (fun () ->
+              let program =
+                Translmod.transl_implementation modulename typedtree_coercion
+              in
+              Lambda_simplif.simplify_lambda program.code
+              |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda)
         in
         Lam_compile_main.compile ~package_info outputprefix lambda
       in
       if not !Js_config.cmj_only then
-        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix
+        Lam_compile_main.lambda_as_module cmj ~output_prefix:outputprefix
   )
   (* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
 
 let implementation ~parser ppf fname =
   Initialization.Perfile.init_path ();
-  parser fname
-  |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
-       Ml
-  |> Builtin_ast_mapper.rewrite_structure
+  let ast =
+    Compiler_trace.with_span ~category:"melange.frontend" ~name:"parse"
+      ~args:[ "input", fname ] (fun () -> parser fname)
+  in
+  let ast =
+    Compiler_trace.with_span ~category:"melange.frontend" ~name:"ppx"
+      ~args:[ "input", fname ] (fun () ->
+        Cmd_ppx_apply.apply_rewriters ~restore:false
+          ~tool_name:Js_config.tool_name Ml ast)
+  in
+  let ast =
+    Compiler_trace.with_span ~category:"melange.frontend" ~name:"builtin-ppx"
+      ~args:[ "input", fname ] (fun () ->
+        Builtin_ast_mapper.rewrite_structure ast)
+  in
+  ast
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf fname
@@ -240,7 +257,10 @@ let implementation ~parser ppf fname =
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
   Initialization.Perfile.init_path ();
-  let cmj = Js_cmj_format.from_file fname in
+  let cmj =
+    Compiler_trace.with_span ~category:"melange.io" ~name:"cmj-read"
+      ~args:[ "input", fname ] (fun () -> Js_cmj_format.from_file fname)
+  in
   (* NOTE(anmonteiro): If we're generating JS from a `.cmj`, we take the
      resulting JS extension from the `-o FILENAME.EXT1.EXT2` argument. In this
      case, we need to make sure we're removing all the extensions from the
@@ -248,5 +268,4 @@ let implementation_cmj _ppf fname =
   let output_prefix =
     output_prefix ~f:Filename.chop_all_extensions_maybe fname
   in
-  Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
-    cmj.delayed_program output_prefix
+  Lam_compile_main.lambda_as_module ~output_prefix cmj

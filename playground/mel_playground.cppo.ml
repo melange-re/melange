@@ -231,9 +231,8 @@ let compile =
                 suffix = Js_suffix.default;
               }
             (Js_pp.from_buffer buffer)
-            (Lam_compile_main.compile
-            ~package_info:Js_packages_info.empty
-            "" lam)
+            (Lam_compile_main.compile ~package_info:Js_packages_info.empty "" lam
+            |> Lam_compile_main.program_for_emission ~output_prefix:"")
         in
         Buffer.contents buffer
       in
