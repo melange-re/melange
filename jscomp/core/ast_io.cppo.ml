@@ -115,19 +115,14 @@ let read_magic ic =
   if len = magic_length then Ok s else Error s
 
 let set_input_lexbuf () =
-  let set_input_lexbuf fn =
-    (* set input lexbuf for error messages. *)
-    let source = Io.read_file fn in
-    let lexbuf = Lexing.from_string source in
-    Location.input_lexbuf := Some lexbuf;
-    Ocaml_common.Location.input_lexbuf := Some lexbuf;
-    lexbuf
-  in
-  begin match set_input_lexbuf !Location.input_name with
-  | (_ : Lexing.lexbuf) -> ()
-  | exception Unix.Unix_error (Unix.ENOENT, _, _)
-  | exception Sys_error _ -> ()
-  end
+  match Io.read_file !Location.input_name with
+  | Ok source ->
+      (* set input lexbuf for error messages. *)
+      let lexbuf = Lexing.from_string source in
+      Location.input_lexbuf := Some lexbuf;
+      Ocaml_common.Location.input_lexbuf := Some lexbuf
+  | Error (Unix.Unix_error (Unix.ENOENT, _, _)) | Error (Sys_error _) -> ()
+  | Error exn -> raise exn
 
 let from_channel ch ~input_kind : (t, read_error) result =
   let input_version = (module Compiler_version : OCaml_version) in

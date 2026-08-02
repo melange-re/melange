@@ -11,4 +11,5 @@ let () =
       ("modulename", Test_modulename.suite);
       ("unicode", Test_unicode.suite);
       ("scc", Test_scc.suite);
+      ("io", Test_io.suite);
     ]

@@ -1,7 +1,7 @@
 open Import
 
 let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
-  Io.write_filev fn
+  Io.write_filev_exn fn
     [
       Ml_binary.magic_of_kind kind;
       Marshal.to_string (!Location.input_name : string) [];

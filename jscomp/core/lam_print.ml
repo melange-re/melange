@@ -495,5 +495,5 @@ let serialize (filename : string) (lam : Lam.t) : unit =
   (* lambda_as_module env fmt lambda; *)
   lambda fmt lam;
   Format.pp_print_flush fmt ();
-  Io.write_file filename (Buffer.contents buf);
+  Io.write_file_exn filename (Buffer.contents buf);
   Format.set_margin old
