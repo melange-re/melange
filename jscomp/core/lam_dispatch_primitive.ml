@@ -267,6 +267,9 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
      Not good for inline *)
   | "caml_array_blit" ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"blit" args
+  | "caml_array_check_bound" ->
+      E.runtime_call ~module_name:Js_runtime_modules.array
+        ~fn_name:"check_bound" args
   | "caml_make_vect" | "caml_array_make" ->
       E.runtime_call ~module_name:Js_runtime_modules.array ~fn_name:"make" args
   | "caml_ml_flush" | "caml_ml_out_channels_list" | "caml_ml_output_char"

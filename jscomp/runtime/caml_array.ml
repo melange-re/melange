@@ -72,6 +72,10 @@ let get xs index =
     raise (Invalid_argument "index out of bounds")
   else xs.!(index)
 
+let check_bound length index =
+  if index < 0 || index >= length then
+    raise (Invalid_argument "index out of bounds")
+
 let make len init =
   let b = Caml_array_extern.new_uninitialized len in
   for i = 0 to len - 1 do
