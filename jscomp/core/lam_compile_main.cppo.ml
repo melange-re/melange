@@ -107,12 +107,28 @@ let _d s lam =
 
 (* Actually simplify_lets is kind of global optimization since it requires you
    to know whether it's used or not *)
+let trace_args output_prefix =
+  [ "module", Filename.basename output_prefix ]
+
+let emit_artifact ~name ~output ~output_prefix =
+  if Compiler_trace.enabled () then
+    Compiler_trace.instant ~category:"melange.artifact" ~name
+      ~args:
+        (("bytes", string_of_int (Unix.stat output).st_size)
+        :: ("output", output)
+        :: trace_args output_prefix)
+      ()
+
 let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
   let _j =
     Js_pass_debug.dump
       ~output_dir:(Filename.dirname output_prefix)
       ~package_info
       ~output_info:(Js_packages_state.get_output_info () |> List.hd)
+  in
+  let pass name f program =
+    Compiler_trace.with_span ~category:"melange.js" ~name
+      ~args:(trace_args output_prefix) (fun () -> f program)
   in
 
   let export_idents = Translmod.get_export_identifiers() in
@@ -127,8 +143,15 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
 #endif
     Lam_compile_env.reset ();
   in
-  let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
+  let lam, may_required_modules =
+    Compiler_trace.with_span ~category:"melange.lambda" ~name:"convert"
+      ~args:(trace_args output_prefix) (fun () ->
+        Lam_convert.convert export_ident_sets lam)
+  in
 
+  let coerced_input, meta =
+    Compiler_trace.with_span ~category:"melange.lambda" ~name:"optimize"
+      ~args:(trace_args output_prefix) (fun () ->
   let lam = _d "initial"  lam in
   let lam  = Lam_pass_deep_flatten.deep_flatten lam in
   let lam = _d  "flatten0" lam in
@@ -198,8 +221,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
 #endif
   in
 
-  let (coerced_input, meta) =
-    Lam_coercion.coerce_and_group_big_lambda  meta lam
+        Lam_coercion.coerce_and_group_big_lambda meta lam)
   in
   let groups = Lam_coercion.groups coerced_input in
 
@@ -230,11 +252,13 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       (Pp.textf "[TIME:] Pre-compile: %f" (Sys.time () *. 1000.))
   in
 #endif
-  let body  =
-    groups
-    |> List.map ~f:(fun group -> compile_group meta group)
-    |> Js_output.concat
-    |> Js_output.output_as_block
+  let body =
+    Compiler_trace.with_span ~category:"melange.lambda" ~name:"to-js"
+      ~args:(trace_args output_prefix) (fun () ->
+        groups
+        |> List.map ~f:(fun group -> compile_group meta group)
+        |> Js_output.concat
+        |> Js_output.output_as_block)
   in
 #ifndef MELANGE_RELEASE_BUILD
   let () =
@@ -248,38 +272,43 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     ; block = body
     }
   in
-  js
-  |> _j "initial"
-  |> Js_pass_flatten.program
-  |> _j "flatten"
-  |> Js_pass_tailcall_inline.tailcall_inline
-  |> _j "inline_and_shake"
-  |> Js_pass_flatten_and_mark_dead.program
-  |> _j "flatten_and_mark_dead"
-  |> Js_pass_scope.program
-  |> Js_shake.shake_program
-  |> _j "shake"
+  Compiler_trace.with_span ~category:"melange.js" ~name:"optimize"
+    ~args:(trace_args output_prefix) (fun () ->
+      js
+      |> _j "initial"
+      |> pass "flatten" Js_pass_flatten.program
+      |> _j "flatten"
+      |> pass "tailcall-inline" Js_pass_tailcall_inline.tailcall_inline
+      |> _j "inline_and_shake"
+      |> pass "flatten-and-mark-dead" Js_pass_flatten_and_mark_dead.program
+      |> _j "flatten_and_mark_dead"
+      |> pass "scope" Js_pass_scope.program
+      |> pass "shake" Js_shake.shake_program
+      |> _j "shake")
   |> (fun (program:  J.program) ->
       let external_module_ids : Lam_module_ident.t list =
-        if !Js_config.all_module_aliases then []
-        else
-          let hard_dependencies =
-            Js_fold_basic.calculate_hard_dependencies program.block
-          in
-          Lam_compile_env.populate_required_modules
-            may_required_modules hard_dependencies;
-          let module_ids =
-            let arr =
-              Lam_module_ident.Hash_set.to_list hard_dependencies
-              |> Array.of_list
-            in
-            Array.sort
-              ~cmp:(fun id1 id2 ->
-                String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2))
-              arr;
-            Array.to_list arr
-          in
-          module_ids
+        Compiler_trace.with_span ~category:"melange.js" ~name:"dependencies"
+          ~args:(trace_args output_prefix) (fun () ->
+            if !Js_config.all_module_aliases then []
+            else
+              let hard_dependencies =
+                Js_fold_basic.calculate_hard_dependencies program.block
+              in
+              Lam_compile_env.populate_required_modules
+                may_required_modules hard_dependencies;
+              let module_ids =
+                let arr =
+                  Lam_module_ident.Hash_set.to_list hard_dependencies
+                  |> Array.of_list
+                in
+                Array.sort
+                  ~cmp:(fun id1 id2 ->
+                    String.compare (Lam_module_ident.name id1)
+                      (Lam_module_ident.name id2))
+                  arr;
+                Array.to_list arr
+              in
+              module_ids)
       in
       Warnings.check_fatal();
       let effect_ =
@@ -306,21 +335,22 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
           ~effect_
           (Lam_coercion.export_map coerced_input)
       in
-      (if not !Clflags.dont_write_files then
-         Js_cmj_format.to_file
-           (Artifact_extension.append_extension output_prefix Cmj) 
-           cmj);
+      (if not !Clflags.dont_write_files then (
+         let file = Artifact_extension.append_extension output_prefix Cmj in
+         Compiler_trace.with_span ~category:"melange.io" ~name:"cmj-write"
+           ~args:(trace_args output_prefix) (fun () ->
+             Js_cmj_format.to_file file cmj);
+         emit_artifact ~name:"cmj" ~output:file ~output_prefix));
       delayed_program)
 ;;
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
-  Io.with_file_out_fd file ~f:(fun fd ->
-    Js_dump_program.dump_deps_program
-      ~package_info
-      ~output_info
-      ~output_prefix
-      lambda_output
-      fd)
+  Compiler_trace.with_span ~category:"melange.io" ~name:"js-print"
+    ~args:(trace_args output_prefix) (fun () ->
+      Io.with_file_out_fd file ~f:(fun fd ->
+        Js_dump_program.dump_deps_program ~package_info ~output_info
+          ~output_prefix lambda_output fd));
+  emit_artifact ~name:"javascript" ~output:file ~output_prefix
 
 let lambda_as_module =
   let (//) = Paths.(//) in
@@ -330,11 +360,11 @@ let lambda_as_module =
     in
     match (!Js_config.js_stdout, !Clflags.output_name) with
     | (true, None) ->
-      Js_dump_program.dump_deps_program
-        ~package_info
-        ~output_info:Js_packages_info.default_output_info
-        ~output_prefix
-        lambda_output Unix.stdout
+      Compiler_trace.with_span ~category:"melange.io" ~name:"js-print"
+        ~args:(trace_args output_prefix) (fun () ->
+          Js_dump_program.dump_deps_program ~package_info
+            ~output_info:Js_packages_info.default_output_info ~output_prefix
+            lambda_output Unix.stdout)
     | false, None ->
       raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
     | (_, Some _) ->
