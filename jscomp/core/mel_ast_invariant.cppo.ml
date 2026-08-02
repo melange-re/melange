@@ -123,6 +123,7 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
               then print_unprocessed_alert ~loc
           | _ -> super.expr self a);
       value_description = (fun self v ->
+#if OCAML_VERSION < (5,6,0)
           match v with
           | ({ pval_loc; pval_prim = "%identity" :: _; pval_type; _ } :
               Parsetree.value_description)
@@ -133,7 +134,25 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
           | { pval_attributes; pval_loc; _ } ->
               (match has_mel_attributes pval_attributes with
               | true -> print_unprocessed_alert ~loc:pval_loc
-              | false -> super.value_description self v));
+              | false -> super.value_description self v)
+#else
+          let { Parsetree.pval_attributes; pval_loc; _ } = v in
+          match has_mel_attributes pval_attributes with
+          | true -> print_unprocessed_alert ~loc:pval_loc
+          | false -> super.value_description self v);
+      primitive_description = (fun self p ->
+          match p with
+          | ({ pprim_loc; pprim_kind = Pprim_decl (pprim_type, "%identity" :: _); _ } :
+              Parsetree.primitive_description)
+            when not (Core_type.is_arity_one pprim_type) ->
+              Location.raise_errorf ~loc:pprim_loc
+                "The `%%identity' primitive type must take a single argument ('a \
+                 -> 'b)"
+          | { pprim_attributes; pprim_loc; _ } ->
+              (match has_mel_attributes pprim_attributes with
+              | true -> print_unprocessed_alert ~loc:pprim_loc
+              | false -> super.primitive_description self p));
+#endif
       pat = (fun self (pat : Parsetree.pattern) ->
           match pat.ppat_desc with
           | Ppat_constant constant ->

@@ -6,7 +6,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs";
+      url = "github:melange-re/melange-compiler-libs/anmonteiro/pull-5.6-trunk";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -25,7 +25,7 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5.overrideScope (
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_6.overrideScope (
                   self: super: {
                     pp = super.pp.overrideAttrs (_: {
                       doCheck = false;
@@ -42,6 +42,14 @@
                       inherit (self) js_of_ocaml-compiler;
                       ppxlib = self.ppxlib_gt_0_37;
                     };
+                    reason = super.reason.overrideAttrs (old: {
+                      postPatch = (old.postPatch or "") + ''
+                        substituteInPlace src/vendored-omp/src/config/gen.ml \
+                          --replace-fail '     | (5, 5) -> "55"' \
+                            '     | (5, 5) -> "55"
+                             | (5, 6) -> "55"'
+                      '';
+                    });
                   }
                 );
               }

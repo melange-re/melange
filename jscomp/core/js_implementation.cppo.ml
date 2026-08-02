@@ -91,7 +91,11 @@ let after_parsing_sig ppf fname ast =
     let modulename = module_name outputprefix in
     Env.set_unit_name modulename;
 #endif
+#if OCAML_VERSION >= (5,6,0)
+    let tsg = Typemod.type_interface unit_info initial_env ast in
+#else
     let tsg = Typemod.type_interface initial_env ast in
+#endif
     if !Clflags.dump_typedtree then
       Format.fprintf ppf "%a@." Printtyped.interface tsg;
     let sg = tsg.sig_type in
@@ -149,6 +153,9 @@ let all_module_alias (ast : Parsetree.structure) =
       | Pstr_module { pmb_expr = { pmod_desc = Pmod_ident _; _ }; _ } -> true
       | Pstr_attribute _ -> true
       | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_type _
+#if OCAML_VERSION >= (5,6,0)
+      | Pstr_val _
+#endif
       | Pstr_typext _ | Pstr_exception _ | Pstr_module _ | Pstr_recmodule _
       | Pstr_modtype _ | Pstr_open _ | Pstr_class _ | Pstr_class_type _
       | Pstr_include _ | Pstr_extension _ ->
