@@ -38,7 +38,7 @@ let with_file_in ?(binary = true) fn ~f =
 let with_file_in_fd fn ~f =
   protectx (Unix.openfile fn [ O_RDONLY; O_CLOEXEC ] 0) ~f ~finally:Unix.close
 
-let read_file =
+let read_file_exn =
   let read_all_unless_large =
     let rec eagerly_input_acc ic s ~pos ~len acc =
       if len <= 0 then acc
@@ -139,6 +139,11 @@ let read_file =
               | Error (`Unix (e, c, s)) -> raise (Unix.Unix_error (e, c, s)))
         else read_file_chan ~binary fn
 
+let read_file ?binary fn =
+  match read_file_exn ?binary fn with
+  | contents -> Ok contents
+  | exception exn -> Error exn
+
 let default_out_perm = 0o666
 
 let open_out ?(binary = true) ?(perm = default_out_perm) fn =
@@ -165,7 +170,7 @@ let rec write fd str ~off ~len =
     let written = Unix.single_write_substring fd str off len in
     write fd str ~off:(off + written) ~len:(len - written)
 
-let write_file =
+let write_file_exn =
   let write_file_fast ?(perm = default_out_perm) fn data =
     with_file_out_fd ~perm fn ~f:(fun fd ->
         write fd data ~off:0 ~len:(String.length data))
@@ -174,7 +179,12 @@ let write_file =
     if binary then write_file_fast ?perm fn data
     else with_file_out ~binary ?perm fn ~f:(fun oc -> output_string oc data)
 
-let write_filev =
+let write_file ?binary ?perm fn data =
+  match write_file_exn ?binary ?perm fn data with
+  | () -> Ok ()
+  | exception exn -> Error exn
+
+let write_filev_exn =
   let write_filev_fast ?(perm = default_out_perm) fn data =
     with_file_out_fd ~perm fn ~f:(fun fd ->
         List.iter
@@ -186,3 +196,8 @@ let write_filev =
     else
       with_file_out ~binary ?perm fn ~f:(fun oc ->
           List.iter ~f:(output_string oc) data)
+
+let write_filev ?binary ?perm fn data =
+  match write_filev_exn ?binary ?perm fn data with
+  | () -> Ok ()
+  | exception exn -> Error exn

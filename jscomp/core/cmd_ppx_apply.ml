@@ -1,12 +1,16 @@
 open Import
 
 let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
-  Io.write_filev fn
-    [
-      Ml_binary.magic_of_kind kind;
-      Marshal.to_string (!Location.input_name : string) [];
-      Marshal.to_string (ast : a) [];
-    ]
+  match
+    Io.write_filev fn
+      [
+        Ml_binary.magic_of_kind kind;
+        Marshal.to_string (!Location.input_name : string) [];
+        Marshal.to_string (ast : a) [];
+      ]
+  with
+  | Ok () -> ()
+  | Error exn -> raise exn
 
 let temp_ppx_file () =
   Filename.temp_file "ppx" (Filename.basename !Location.input_name)
