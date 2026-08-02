@@ -64,6 +64,13 @@ let iter_exports cxt f fields ~add_esmodule ~print_export =
   List.fold_left fields ~init:cxt ~f:(fun cxt (field : Runtime_fields.t) ->
       let s, export, is_default, cxt = export_name cxt field in
       print_one s export;
+      (* Fields whose name is mangled to keep OCaml namespaces apart are also
+         exported under their plain OCaml name, so that JavaScript code written
+         against it keeps working. Skipped when another export answers to that
+         name already. *)
+      (match Runtime_fields.compat_alias ~fields field with
+      | Some alias -> print_one (Ident.convert alias) export
+      | None -> ());
       if add_esmodule && is_default then (
         P.newline f;
         print_export f "__esModule" "true");
