@@ -1,5 +1,7 @@
 open Mt
 
+external check_array_bound : 'a array -> int -> unit = "%check_array_bound"
+
 module type ARRAY = module type of Array
 module Make (Array : ARRAY) = struct
 
@@ -28,6 +30,13 @@ let is_sorted x =
   aux 0
 
 let array_suites = Mt.[
+  "check_array_bound_valid", (fun _ ->
+    check_array_bound [|0; 1|] 1;
+    Eq ((), ()));
+  "check_array_bound_negative", (fun _ ->
+    ThrowAny (fun () -> check_array_bound [|0; 1|] (-1)));
+  "check_array_bound_length", (fun _ ->
+    ThrowAny (fun () -> check_array_bound [|0; 1|] 2));
   "init", (fun _ ->
     Eq (Array.init 5 (fun x -> x ),  [|0;1;2;3;4|]));
 
@@ -96,4 +105,3 @@ end
 ;; from_pair_suites __MODULE__
       (let module Array_test = Make(Array)in
       Array_test.array_suites)
-

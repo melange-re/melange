@@ -326,8 +326,9 @@ let lam_prim =
         | _ -> Lam.prim ~primitive:(Pisout 0) ~args ~loc)
 #if OCAML_VERSION >= (5, 6, 0)
     | Pcheckbound ->
-        Location.raise_errorf ~loc
-          "the OCaml 5.6 array-bound-check primitive is not currently supported in Melange"
+        Lam.prim
+          ~primitive:(Pccall { prim_name = "caml_array_check_bound" })
+          ~args ~loc
 #endif
     | Pintoffloat -> Lam.prim ~primitive:Pintoffloat ~args ~loc
     | Pfloatofint -> Lam.prim ~primitive:Pfloatofint ~args ~loc
