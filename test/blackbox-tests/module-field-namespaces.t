@@ -12,6 +12,7 @@ classes a `$class` one. Values and modules keep their name.
   > (melange.emit
   >  (target output)
   >  (emit_stdlib false)
+  >  (libraries melange.js)
   >  (module_systems (commonjs js) (es6 mjs)))
   > EOF
 
@@ -272,12 +273,70 @@ ES6 output names the exports the same way, aliases included.
     v,
   }
 
+Functors, first-class modules and local modules all reach their fields through
+module coercions, which name fields from one side of the boundary only.
+
+  $ cat > torture.ml <<EOF
+  > module type S = sig
+  >   exception Foo of string
+  >   module Foo : sig val x : int end
+  >   class c : object method m : int end
+  >   val c : int
+  > end
+  > module M : S = struct
+  >   exception Foo of string
+  >   module Foo = struct let x = 41 end
+  >   class c = object method m = 7 end
+  >   let c = 5
+  > end
+  > module F (X : S) = struct
+  >   let v = X.Foo.x + X.c
+  >   let raise_it () = raise (X.Foo "functor")
+  >   let m = (new X.c)#m
+  > end
+  > module A = F (M)
+  > let first_class = (module M : S)
+  > let unpacked () =
+  >   let module U = (val first_class : S) in
+  >   (U.Foo.x, U.c, (try raise (U.Foo "fc") with U.Foo s -> s))
+  > let local () =
+  >   let module L = struct
+  >     exception Foo
+  >     module Foo = struct let y = 3 end
+  >   end in
+  >   (L.Foo.y, (try raise L.Foo with L.Foo -> "local"))
+  > let () =
+  >   Js.log (A.v, A.m, (try A.raise_it () with M.Foo s -> s));
+  >   Js.log (unpacked ());
+  >   Js.log (local ())
+  > EOF
+  $ dune build @melange
+  $ cat _build/default/output/torture.js | grep -A 12 "^function F"
+  function F(X) {
+    const v = X.Foo.x + X.c | 0;
+    const raise_it = function (param) {
+      throw new Caml_js_exceptions.MelangeError(X.Foo$extension, {
+          MEL_EXN_ID: X.Foo$extension,
+          _1: "functor"
+        });
+    };
+    const tmp = Curry._1(X.c$class[0], undefined);
+    const m = Caml_oo_curry.js1(109, 1, tmp);
+    return {
+      v,
+      raise_it,
+  $ node _build/default/output/torture.js
+  [ 46, 7, 'functor' ]
+  [ 41, 5, 'fc' ]
+  [ 3, 'local' ]
+
 With cross-module optimization on, the inlined values still resolve.
 
   $ cat > dune <<EOF
   > (melange.emit
   >  (target output)
   >  (emit_stdlib false)
+  >  (libraries melange.js)
   >  (compile_flags :standard --mel-cross-module-opt))
   > EOF
   $ dune build @melange
