@@ -62,6 +62,7 @@ let stdlib_paths =
 let no_version_header = ref false
 let cross_module_inline = ref false
 let diagnose = ref false
+let action_trace = ref false
 let tool_name = "Melange"
 let check_div_by_zero = ref true
 let syntax_only = ref false

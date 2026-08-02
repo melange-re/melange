@@ -6,6 +6,9 @@
   melange_compiler_libs
   melange_ffi
   ppxlib.ast
+  (select compiler_trace.ml from
+   (dune-action-trace csexp -> compiler_trace.enabled.ml)
+   (-> compiler_trace.disabled.ml))
   dune-build-info))
 
 (rule

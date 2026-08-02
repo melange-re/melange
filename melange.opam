@@ -20,6 +20,9 @@ depends: [
   "merlin" {with-test}
   "odoc" {with-doc}
 ]
+depopts: [
+  "dune-action-trace" {>= "3.24"}
+]
 build: [
   ["dune" "subst"] {dev}
   [
