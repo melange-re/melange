@@ -17,7 +17,7 @@ try {
 }
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  function_equal_test = exn.MEL_EXN_ID === Stdlib.Invalid_argument && exn._1 === "equal: functional value" ? true : false;
+  function_equal_test = exn.MEL_EXN_ID === Stdlib.Invalid_argument$extension && exn._1 === "equal: functional value" ? true : false;
 }
 
 const suites = {

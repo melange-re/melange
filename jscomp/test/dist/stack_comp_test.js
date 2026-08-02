@@ -42,7 +42,7 @@ function to_list(s) {
 }
 
 const S = {
-  Empty: Stdlib__Stack.Empty,
+  Empty$extension: Stdlib__Stack.Empty$extension,
   create: Stdlib__Stack.create,
   push: Stdlib__Stack.push,
   pop: Stdlib__Stack.pop,
@@ -59,7 +59,8 @@ const S = {
   to_seq: Stdlib__Stack.to_seq,
   add_seq: Stdlib__Stack.add_seq,
   of_seq: Stdlib__Stack.of_seq,
-  to_list
+  to_list,
+  Empty: Stdlib__Stack.Empty$extension
 };
 
 function does_raise(f, s) {
@@ -69,7 +70,7 @@ function does_raise(f, s) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Stack.Empty) {
+    if (exn.MEL_EXN_ID === Stdlib__Stack.Empty$extension) {
       return true;
     }
     throw exn;

@@ -19,7 +19,7 @@ function Make(funarg) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         return false;
       }
       throw exn;
@@ -93,8 +93,8 @@ function Make(funarg) {
           Curry._3(H.add, l_labels, top$1, 0);
         }
         if (Curry._2(H.find, l_labels, top$1) > Curry._2(H.find, n_labels, top$1)) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-              MEL_EXN_ID: Stdlib.Invalid_argument,
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+              MEL_EXN_ID: Stdlib.Invalid_argument$extension,
               _1: "Graph.Mincut: graph not reducible"
             });
         }

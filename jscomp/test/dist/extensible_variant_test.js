@@ -10,6 +10,7 @@ const Str = /* @__PURE__ */ Caml_exceptions.create("Extensible_variant_test.Str"
 const Int = /* @__PURE__ */ Caml_exceptions.create("Extensible_variant_test.N.Int");
 
 const N = {
+  Int$extension: Int,
   Int
 };
 
@@ -91,8 +92,10 @@ const suites = {
 Mt.from_pair_suites("Extensible_variant_test", suites);
 
 module.exports = {
+  Str$extension: Str,
   Str,
   N,
+  Int$extension: Int$1,
   Int: Int$1,
   to_int,
   suites,

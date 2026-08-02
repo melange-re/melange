@@ -144,8 +144,8 @@ function find(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -321,8 +321,8 @@ function find$1(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Curry._2(funarg$1.compare, x, param.v);

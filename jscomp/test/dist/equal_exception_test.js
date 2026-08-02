@@ -49,13 +49,13 @@ function is_equal(param) {
 
 function is_exception(param) {
   try {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -125,12 +125,12 @@ const suites = {
   tl: suites_1
 };
 
-const e = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+const e = new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   });
 
 function eq(param) {
-  return param.MEL_EXN_ID === Stdlib.Not_found;
+  return param.MEL_EXN_ID === Stdlib.Not_found$extension;
 }
 
 const Not_found = /* @__PURE__ */ Caml_exceptions.create("Equal_exception_test.Not_found");
@@ -148,7 +148,7 @@ if (Caml_obj.caml_equal(e, new Caml_js_exceptions.MelangeError(Not_found, {
     });
 }
 
-if (Not_found === Stdlib.Not_found !== false) {
+if (Not_found === Stdlib.Not_found$extension !== false) {
   throw new Caml_js_exceptions.MelangeError("Assert_failure", {
       MEL_EXN_ID: "Assert_failure",
       _1: [
@@ -170,6 +170,7 @@ module.exports = {
   suites,
   e,
   eq,
+  Not_found$extension: Not_found,
   Not_found,
 }
 /*  Not a pure module */

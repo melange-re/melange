@@ -87,7 +87,7 @@ function rollback_path(subst, p) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       switch (p.TAG) {
         case /* Pdot */ 1 :
           return "Pdot";
@@ -174,10 +174,15 @@ module.exports = {
   Make,
   M,
   rollback_path,
+  EA1$extension: EA1,
   EA1,
+  EA2$extension: EA2,
   EA2,
+  EB$extension: EB,
   EB,
+  EC$extension: EC,
   EC,
+  ED$extension: ED,
   ED,
   fooExn,
 }

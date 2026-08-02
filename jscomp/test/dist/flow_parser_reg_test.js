@@ -2213,7 +2213,7 @@ function parse_exponent(f) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Failure) {
+    if (exn.MEL_EXN_ID === Stdlib.Failure$extension) {
       throw new Caml_js_exceptions.MelangeError(No_good, {
           MEL_EXN_ID: No_good
         });
@@ -3076,7 +3076,7 @@ function token(env, lexbuf) {
         }
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+          if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
             return [
               env,
               /* T_IDENTIFIER */ 0
@@ -5115,7 +5115,7 @@ function type_token(env, lexbuf) {
         }
         catch (raw_exn){
           const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
+          if (exn$2.MEL_EXN_ID === Stdlib.Not_found$extension) {
             return [
               env,
               /* T_IDENTIFIER */ 0
@@ -6319,8 +6319,9 @@ const Parser_env_Peek = {
 };
 
 const Parser_env_Try = {
-  Rollback,
-  to_parse
+  Rollback$extension: Rollback,
+  to_parse,
+  Rollback
 };
 
 const funarg$1 = {
@@ -6587,8 +6588,8 @@ function find(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Curry._2(funarg$2.compare, x, param.v);
@@ -9553,8 +9554,8 @@ function assignment_but_not_arrow_function(env) {
 }
 
 function error_callback(param, param$1) {
-  throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-      MEL_EXN_ID: Parser_env_Try.Rollback
+  throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+      MEL_EXN_ID: Parser_env_Try.Rollback$extension
     });
 }
 
@@ -9566,8 +9567,8 @@ function try_assignment_but_not_arrow_function(env) {
     switch (match) {
       case /* T_ARROW */ 10 :
       case /* T_COLON */ 77 :
-        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-            MEL_EXN_ID: Parser_env_Try.Rollback
+        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+            MEL_EXN_ID: Parser_env_Try.Rollback$extension
           });
     }
   }
@@ -9575,8 +9576,8 @@ function try_assignment_but_not_arrow_function(env) {
     return ret;
   }
   if (Parser_env_Peek.value(undefined, env$1) === "checks") {
-    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-        MEL_EXN_ID: Parser_env_Try.Rollback
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+        MEL_EXN_ID: Parser_env_Try.Rollback$extension
       });
   }
   const match$1 = ret[1];
@@ -9590,8 +9591,8 @@ function try_assignment_but_not_arrow_function(env) {
     return ret;
   }
   if (!Parser_env_Peek.is_line_terminator(env$1)) {
-    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-        MEL_EXN_ID: Parser_env_Try.Rollback
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+        MEL_EXN_ID: Parser_env_Try.Rollback$extension
       });
   }
   return ret;
@@ -10326,13 +10327,13 @@ function error_callback$1(param, param$1) {
       case /* ParameterAfterRestParameter */ 47 :
         return;
       default:
-        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-            MEL_EXN_ID: Parser_env_Try.Rollback
+        throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+            MEL_EXN_ID: Parser_env_Try.Rollback$extension
           });
     }
   } else {
-    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback, {
-        MEL_EXN_ID: Parser_env_Try.Rollback
+    throw new Caml_js_exceptions.MelangeError(Parser_env_Try.Rollback$extension, {
+        MEL_EXN_ID: Parser_env_Try.Rollback$extension
       });
   }
 }
@@ -10946,7 +10947,7 @@ function check_property(env, prop_map, prop) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         prev_kinds = /* Empty */ 0;
       } else {
         throw exn;

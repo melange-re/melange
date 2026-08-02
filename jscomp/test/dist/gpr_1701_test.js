@@ -38,7 +38,7 @@ function read_lines(inc) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
+      if (exn.MEL_EXN_ID === Stdlib.End_of_file$extension) {
         l = undefined;
       } else {
         throw exn;
@@ -65,7 +65,7 @@ function read_lines2(inc) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
+      if (exn.MEL_EXN_ID === Stdlib.End_of_file$extension) {
         return Stdlib__List.rev(acc);
       }
       throw exn;
@@ -89,7 +89,7 @@ function read_lines3(inc) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
+      if (exn.MEL_EXN_ID === Stdlib.End_of_file$extension) {
         return Stdlib__List.rev(acc);
       }
       throw exn;
@@ -108,6 +108,7 @@ function fff(f, x) {
 }
 
 module.exports = {
+  Foo$extension: Foo,
   Foo,
   test,
   read_lines,

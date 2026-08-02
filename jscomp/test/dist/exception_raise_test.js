@@ -27,7 +27,7 @@ function appf(g, x) {
     if (exn.MEL_EXN_ID === Local) {
       return 3;
     }
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 2;
     }
     if (exn.MEL_EXN_ID === A) {
@@ -102,7 +102,7 @@ try {
 }
 catch (raw_x$3){
   const x$3 = Caml_js_exceptions.internalToOCamlException(raw_x$3);
-  if (x$3.MEL_EXN_ID === A || x$3.MEL_EXN_ID === Js__Js_exn.$$Error) {
+  if (x$3.MEL_EXN_ID === A || x$3.MEL_EXN_ID === Js__Js_exn.Error$extension) {
     a0 = x$3._1;
   } else {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -162,7 +162,7 @@ const suites = {
       hd: [
         "File \"jscomp/test/exception_raise_test.ml\", line 116, characters 4-11",
         (function (param) {
-          if (a1.MEL_EXN_ID === Js__Js_exn.$$Error) {
+          if (a1.MEL_EXN_ID === Js__Js_exn.Error$extension) {
             return {
               TAG: /* Eq */ 0,
               _0: a1._1,
@@ -202,8 +202,8 @@ catch (raw_e$2){
 }
 
 try {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 catch (raw_e$3){
@@ -246,11 +246,16 @@ eq("File \"jscomp/test/exception_raise_test.ml\", line 150, characters 5-12", ((
 Mt.from_pair_suites("Exception_raise_test", suites.contents);
 
 module.exports = {
+  Local$extension: Local,
   Local,
+  B$extension: B,
   B,
+  C$extension: C,
   C,
+  D$extension: D,
   D,
   appf,
+  A$extension: A,
   A,
   f,
   ff,

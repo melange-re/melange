@@ -45,13 +45,13 @@ function _must_escape(s) {
           if (c !== 92) {
             exit = 1;
           } else {
-            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                MEL_EXN_ID: Stdlib.Exit
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+                MEL_EXN_ID: Stdlib.Exit$extension
               });
           }
         } else {
-          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-              MEL_EXN_ID: Stdlib.Exit
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+              MEL_EXN_ID: Stdlib.Exit$extension
             });
         }
       } else if (c >= 11) {
@@ -69,8 +69,8 @@ function _must_escape(s) {
             case 34 :
             case 40 :
             case 41 :
-              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                  MEL_EXN_ID: Stdlib.Exit
+              throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+                  MEL_EXN_ID: Stdlib.Exit$extension
                 });
           }
         } else {
@@ -78,15 +78,15 @@ function _must_escape(s) {
         }
       } else {
         if (c >= 9) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-              MEL_EXN_ID: Stdlib.Exit
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+              MEL_EXN_ID: Stdlib.Exit$extension
             });
         }
         exit = 1;
       }
       if (exit === 1 && c > 127) {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-            MEL_EXN_ID: Stdlib.Exit
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+            MEL_EXN_ID: Stdlib.Exit$extension
           });
       }
       
@@ -95,7 +95,7 @@ function _must_escape(s) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Exit) {
+    if (exn.MEL_EXN_ID === Stdlib.Exit$extension) {
       return true;
     }
     throw exn;

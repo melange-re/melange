@@ -465,7 +465,7 @@ function raises(f) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument$extension) {
       tmp = true;
     } else {
       throw exn;

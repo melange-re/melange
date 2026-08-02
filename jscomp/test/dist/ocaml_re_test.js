@@ -428,8 +428,8 @@ function find(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Curry._2(funarg.compare, x, param.v);
@@ -1525,7 +1525,7 @@ function find_state(re, desc) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       const st = mk_state(re.ncol, desc);
       Curry._3(Re_automata_State.Table.add, re.states, desc, st);
       return st;
@@ -1594,7 +1594,7 @@ function $$final(info, st, cat) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       const st$p = delta$1(info, cat, -1, st);
       const res_0 = st$p.idx;
       const res_1 = status(st$p);
@@ -1621,7 +1621,7 @@ function find_initial_state(re, cat) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       const st = find_state(re, Re_automata_State.create(cat, re.initial));
       re.initial_states = {
         hd: [
@@ -1735,7 +1735,7 @@ function trans_set(cache, cm, s) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       const l = Stdlib__List.fold_right((function (param, l) {
         return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
       }), s, /* [] */ 0);
@@ -3226,14 +3226,14 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
 
 function offset$1(t, i) {
   if (((i << 1) + 1 | 0) >= t.marks.length) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   const m1 = Caml_array.get(t.marks, (i << 1));
   if (m1 === -1) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   const p1 = Caml_array.get(t.gpos, m1) - 1 | 0;
@@ -3316,15 +3316,15 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       for (let j = 0; j < len; ++j) {
         try {
           if (Caml_string.get(s$p, j) !== Caml_string.get(s, i.contents + j | 0)) {
-            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-                MEL_EXN_ID: Stdlib.Exit
+            throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+                MEL_EXN_ID: Stdlib.Exit$extension
               });
           }
           
         }
         catch (exn){
-          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-              MEL_EXN_ID: Stdlib.Exit
+          throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+              MEL_EXN_ID: Stdlib.Exit$extension
             });
         }
       }
@@ -3333,7 +3333,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
     catch (raw_exn){
       const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
+      if (exn$1.MEL_EXN_ID === Stdlib.Exit$extension) {
         return false;
       }
       throw exn$1;
@@ -3811,7 +3811,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         }
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+          if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
             throw new Caml_js_exceptions.MelangeError(Parse_error, {
                 MEL_EXN_ID: Parse_error
               });
@@ -4115,12 +4115,12 @@ function exec(rex, pos, s) {
     return substr._0;
   }
   if (substr === /* Failed */ 0) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 

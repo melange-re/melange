@@ -139,8 +139,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       const c = Curry._2(Ord.compare, x, param._1);
@@ -169,8 +169,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       const l = param._0;
@@ -188,8 +188,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       let tmp = param._3;
@@ -760,8 +760,8 @@ function find(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Caml.caml_int_compare(x, param._1);
@@ -792,8 +792,8 @@ function min_binding(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const l = param._0;
@@ -812,8 +812,8 @@ function max_binding(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     let tmp = param._3;
@@ -1435,8 +1435,8 @@ function find$1(x, _param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const c = Caml.caml_string_compare(x, param._1);
@@ -1467,8 +1467,8 @@ function min_binding$1(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const l = param._0;
@@ -1487,8 +1487,8 @@ function max_binding$1(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     let tmp = param._3;

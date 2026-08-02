@@ -65,7 +65,7 @@ function memo_fib_init($$class) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         const v = Curry._2(calc$1, self$2, x);
         Stdlib__Hashtbl.add(self$2[cache], x, v);
         return v;
@@ -93,7 +93,9 @@ module.exports = {
   suites,
   test_id,
   eq,
+  fib$class: fib,
   fib,
+  memo_fib$class: memo_fib,
   memo_fib,
 }
 /* fib Not a pure module */

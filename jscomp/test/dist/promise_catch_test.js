@@ -34,11 +34,11 @@ function eq(loc, x, y) {
 }
 
 function handler(e) {
-  if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
+  if (e.MEL_EXN_ID === Js__Js_exn.Error$extension) {
     console.log("js error");
     return Promise.resolve(0);
   }
-  if (e.MEL_EXN_ID === Stdlib.Not_found) {
+  if (e.MEL_EXN_ID === Stdlib.Not_found$extension) {
     console.log("hi");
     return Promise.resolve(0);
   }
@@ -54,9 +54,9 @@ function handler(e) {
 
 function myHandler(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.MEL_EXN_ID === Stdlib.Not_found) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 1;
-    } else if (match.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    } else if (match.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       return 2;
     } else {
       return;

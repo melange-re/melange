@@ -5,8 +5,8 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 
-const a0 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+const a0 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   });
 
 const b = Stdlib__List.length({

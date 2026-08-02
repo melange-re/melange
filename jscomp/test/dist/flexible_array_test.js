@@ -14,8 +14,8 @@ function sub(_tr, _k) {
     const k = _k;
     const tr = _tr;
     if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     if (k === 1) {
@@ -42,8 +42,8 @@ function update(tr, k, w) {
         _2: /* Lf */ 0
       };
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   const r = tr._2;
@@ -76,8 +76,8 @@ function update(tr, k, w) {
 
 function $$delete(tr, n) {
   if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   if (n === 1) {
@@ -123,8 +123,8 @@ function loext(tr, w) {
 
 function lorem(tr) {
   if (/* tag */ typeof tr !== "object" && typeof tr !== "function") {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
   const l = tr._1;

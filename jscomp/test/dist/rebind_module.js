@@ -8,7 +8,9 @@ const A = /* @__PURE__ */ Caml_exceptions.create("Rebind_module.A");
 const AA = /* @__PURE__ */ Caml_exceptions.create("Rebind_module.AA");
 
 module.exports = {
+  A$extension: A,
   A,
+  AA$extension: AA,
   AA,
 }
 /* No side effect */

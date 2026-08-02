@@ -731,6 +731,7 @@ module.exports = {
   is_empty,
   repeat,
   unsafe_is_sub,
+  Local_exit$extension: Local_exit,
   Local_exit,
   find,
   contain_substring,

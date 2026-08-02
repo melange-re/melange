@@ -117,8 +117,8 @@ function lookup_obj(obj, _param) {
       _param = param.tl;
       continue;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   };
 }
@@ -289,16 +289,23 @@ module.exports = {
   suites,
   test_id,
   eq,
+  point$class: point,
   point,
+  colored_point$class: colored_point,
   colored_point,
   colored_point_to_point,
   p,
   q,
   lookup_obj,
+  c$class: c,
   c,
+  d$class: d,
   d,
+  c2$p$class: c2$p,
   c2$p,
+  functional_point$class: functional_point,
   functional_point,
+  bad_functional_point$class: bad_functional_point,
   bad_functional_point,
 }
 /* point Not a pure module */

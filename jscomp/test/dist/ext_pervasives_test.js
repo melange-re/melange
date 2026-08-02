@@ -84,8 +84,8 @@ function invalid_argf(fmt) {
 
 function bad_argf(fmt) {
   return Stdlib__Format.ksprintf((function (x) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-        MEL_EXN_ID: Stdlib__Arg.Bad,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+        MEL_EXN_ID: Stdlib__Arg.Bad$extension,
         _1: x
       });
   }), fmt);

@@ -41,6 +41,7 @@ const short_int_v = [1];
 const empty = [];
 
 module.exports = {
+  Custom_inline$extension: Custom_inline,
   Custom_inline,
   v,
   vv,
