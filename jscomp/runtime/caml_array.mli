@@ -30,3 +30,4 @@ val make_float : int -> float array
 val blit : 'a array -> int -> 'a array -> int -> int -> unit
 val get : 'a array -> int -> 'a
 val set : 'a array -> int -> 'a -> unit
+val check_bound : int -> int -> unit
