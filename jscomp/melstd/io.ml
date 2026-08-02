@@ -103,24 +103,63 @@ let read_file_exn =
   let read_all_fd =
     let rec read fd buf pos left =
       match left with
-      | 0 -> `Ok
+      | 0 -> pos
       | left -> (
           match Unix.read fd buf pos left with
-          | 0 -> `Eof
+          | 0 -> pos
           | n -> read fd buf (pos + n) (left - n))
+    in
+    let read_to_eof fd initial =
+      let chunk_size = 65536 in
+      let probe = Bytes.create 1 in
+      match Unix.read fd probe 0 1 with
+      | 0 -> Ok initial
+      | _ ->
+          let initial_length = String.length initial in
+          if initial_length >= Sys.max_string_length then Error `Too_big
+          else
+            let capacity =
+              if initial_length > Sys.max_string_length - chunk_size - 1 then
+                Sys.max_string_length
+              else initial_length + chunk_size + 1
+            in
+            let buffer = Buffer.create capacity in
+            Buffer.add_string buffer initial;
+            Buffer.add_char buffer (Bytes.get probe 0);
+            let chunk = Bytes.create chunk_size in
+            let rec loop () =
+              match Unix.read fd chunk 0 chunk_size with
+              | 0 -> Ok (Buffer.contents buffer)
+              | n ->
+                  if n > Sys.max_string_length - Buffer.length buffer then
+                    Error `Too_big
+                  else (
+                    Buffer.add_subbytes buffer chunk 0 n;
+                    loop ())
+            in
+            loop ()
     in
     fun fd ->
       match Unix.fstat fd with
       | exception Unix.Unix_error (e, x, y) -> Error (`Unix (e, x, y))
       | { Unix.st_size; _ } -> (
-          if Int.equal st_size 0 then Ok ""
-          else if st_size > Sys.max_string_length then Error `Too_big
+          if st_size > Sys.max_string_length then Error `Too_big
           else
             let b = Bytes.create st_size in
             match read fd b 0 st_size with
             | exception Unix.Unix_error (e, x, y) -> Error (`Unix (e, x, y))
-            | `Eof -> Error `Retry
-            | `Ok -> Ok (Bytes.unsafe_to_string b))
+            | bytes_read -> (
+                let initial =
+                  if Int.equal bytes_read st_size then Bytes.unsafe_to_string b
+                  else Bytes.sub_string b ~pos:0 ~len:bytes_read
+                in
+                if bytes_read < st_size then Ok initial
+                else
+                  match read_to_eof fd initial with
+                  | Ok contents -> Ok contents
+                  | Error `Too_big -> Error `Too_big
+                  | exception Unix.Unix_error (e, x, y) ->
+                      Error (`Unix (e, x, y))))
   in
   match Sys.backend_type with
   | Other _ ->
@@ -132,7 +171,6 @@ let read_file_exn =
           with_file_in_fd fn ~f:(fun fd ->
               match read_all_fd fd with
               | Ok s -> s
-              | Error `Retry -> read_file_chan ~binary fn
               | Error `Too_big ->
                   failwith
                     "read_file: file is larger than Sys.max_string_length"
