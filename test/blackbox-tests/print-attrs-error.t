@@ -35,7 +35,7 @@ Show how certain attribute errors are printed on type mismatches
   3 | let result = event [ "preventDefault" ] ()
                    ^^^^^
   Error: This expression has type
-           < preventDefault : (unit -> unit [@mel.meth]) > Js.t
+           'a t = < preventDefault : (unit -> unit [@mel.meth]) > Js.t
          This is not a function; it cannot be applied.
   [1]
 
