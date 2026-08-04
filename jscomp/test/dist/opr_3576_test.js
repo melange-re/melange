@@ -136,7 +136,9 @@ module.exports = {
   suites,
   test_id,
   eq,
+  a$class: a,
   a,
+  b$class: b,
   b,
 }
 /* a Not a pure module */

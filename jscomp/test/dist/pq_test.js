@@ -91,9 +91,10 @@ function extract(queue) {
 const PrioQueue = {
   empty: /* Empty */ 0,
   insert,
-  Queue_is_empty,
+  Queue_is_empty$extension: Queue_is_empty,
   remove_top,
-  extract
+  extract,
+  Queue_is_empty
 };
 
 module.exports = {

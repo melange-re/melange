@@ -8,8 +8,8 @@ const Js__Js_exn = require("melange.js/js_exn.js");
 const Stdlib = require("melange/stdlib.js");
 
 function f(param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 
@@ -28,8 +28,8 @@ function assert_f(x) {
 }
 
 function hh(param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 
@@ -50,7 +50,7 @@ function test_not_found(f, param) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 2;
     }
     throw exn;
@@ -63,7 +63,7 @@ function test_js_error2(param) {
   }
   catch (raw_e){
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (e.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       console.log(e._1.stack);
       throw e;
     }
@@ -85,8 +85,11 @@ module.exports = {
   f,
   assert_f,
   hh,
+  A$extension: A,
   A,
+  B$extension: B,
   B,
+  C$extension: C,
   C,
   u,
   test_not_found,

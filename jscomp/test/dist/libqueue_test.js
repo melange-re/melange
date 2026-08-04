@@ -17,7 +17,7 @@ function to_list(q) {
 }
 
 const Q = {
-  Empty: Stdlib__Queue.Empty,
+  Empty$extension: Stdlib__Queue.Empty$extension,
   create: Stdlib__Queue.create,
   add: Stdlib__Queue.add,
   push: Stdlib__Queue.push,
@@ -38,7 +38,8 @@ const Q = {
   to_seq: Stdlib__Queue.to_seq,
   add_seq: Stdlib__Queue.add_seq,
   of_seq: Stdlib__Queue.of_seq,
-  to_list
+  to_list,
+  Empty: Stdlib__Queue.Empty$extension
 };
 
 function does_raise(f, q) {
@@ -48,7 +49,7 @@ function does_raise(f, q) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
+    if (exn.MEL_EXN_ID === Stdlib__Queue.Empty$extension) {
       return true;
     }
     throw exn;

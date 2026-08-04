@@ -218,14 +218,19 @@ function xx0_init($$class) {
 const xx0 = CamlinternalOO.make_class(shared, xx0_init);
 
 module.exports = {
+  x0$class: x0,
   x0,
+  x$class: x,
   x,
   u,
+  xx$class: xx,
   xx,
   v1,
   v2,
+  point$class: point,
   point,
   v: v$1,
+  xx0$class: xx0,
   xx0,
 }
 /* x0 Not a pure module */

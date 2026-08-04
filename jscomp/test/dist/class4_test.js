@@ -98,6 +98,7 @@ function restricted_point2$p_init($$class) {
 const restricted_point2$p = CamlinternalOO.make_class(shared$1, restricted_point2$p_init);
 
 const Point = {
+  restricted_point$p$class: restricted_point,
   restricted_point$p: restricted_point
 };
 
@@ -219,12 +220,18 @@ module.exports = {
   suites,
   test_id,
   eq,
+  restricted_point$class: restricted_point,
   restricted_point,
+  restricted_point$p$class: restricted_point$p,
   restricted_point$p,
+  restricted_point2$p$class: restricted_point2$p,
   restricted_point2$p,
   Point,
+  abstract_point$class: abstract_point,
   abstract_point,
+  point$class: point,
   point,
+  colored_point$class: colored_point,
   colored_point,
   p$p,
   get_succ_x,

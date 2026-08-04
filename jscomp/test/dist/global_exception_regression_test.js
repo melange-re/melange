@@ -5,16 +5,16 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 
-const v = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+const v = new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   });
 
-const u = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+const u = new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   });
 
-const s = new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-    MEL_EXN_ID: Stdlib.End_of_file
+const s = new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+    MEL_EXN_ID: Stdlib.End_of_file$extension
   });
 
 const suites_0 = [

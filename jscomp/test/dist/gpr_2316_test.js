@@ -40,7 +40,7 @@ try {
 }
 catch (raw_msg){
   const msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.MEL_EXN_ID === Stdlib.Failure) {
+  if (msg.MEL_EXN_ID === Stdlib.Failure$extension) {
     y = msg._1;
   } else {
     throw msg;
@@ -59,7 +59,7 @@ try {
 }
 catch (raw_msg$1){
   const msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
-  if (msg$1.MEL_EXN_ID === Stdlib.Failure) {
+  if (msg$1.MEL_EXN_ID === Stdlib.Failure$extension) {
     x = msg$1._1;
   } else {
     throw msg$1;

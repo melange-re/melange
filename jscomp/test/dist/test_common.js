@@ -8,7 +8,9 @@ const U = /* @__PURE__ */ Caml_exceptions.create("Test_common.U");
 const H = /* @__PURE__ */ Caml_exceptions.create("Test_common.H");
 
 module.exports = {
+  U$extension: U,
   U,
+  H$extension: H,
   H,
 }
 /* No side effect */

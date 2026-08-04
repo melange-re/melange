@@ -38,8 +38,8 @@ function min_elt(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const l = param._0;
@@ -55,8 +55,8 @@ function max_elt(_param) {
   while (true) {
     const param = _param;
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     let tmp = param._2;
@@ -728,7 +728,9 @@ module.exports = {
   exists,
   max_int3,
   max_int_2,
+  Height_invariant_broken$extension: Height_invariant_broken,
   Height_invariant_broken,
+  Height_diff_borken$extension: Height_diff_borken,
   Height_diff_borken,
   check_height_and_diff,
   check,

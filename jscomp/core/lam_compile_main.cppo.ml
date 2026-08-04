@@ -116,14 +116,17 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
   in
 
   let export_idents = Translmod.get_export_identifiers() in
-  let export_ident_sets = Ident.Set.of_list export_idents in
+  let export_ident_sets =
+    Ident.Set.of_list (List.map export_idents ~f:Runtime_fields.id)
+  in
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
 #ifndef MELANGE_RELEASE_BUILD
-    List.iter export_idents ~f:(fun id ->
+    List.iter export_idents ~f:(fun (field : Runtime_fields.t) ->
       Log.warn
         ~loc:(Loc.of_pos __POS__)
-        (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)));
+        (Pp.textf "export idents: %s/%d"
+           (Ident.name field.id) (Ident.stamp field.id)));
 #endif
     Lam_compile_env.reset ();
   in
@@ -244,7 +247,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
 #endif
   let js : J.program =
     { exports = meta.exports
-    ; export_set = Ident.Set.of_list meta.exports
+    ; export_set = Ident.Set.of_list (List.map meta.exports ~f:Runtime_fields.id)
     ; block = body
     }
   in

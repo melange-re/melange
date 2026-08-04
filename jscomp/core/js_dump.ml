@@ -772,8 +772,23 @@ and expression_desc cxt ~(level : int) x : cxt =
            E.runtime_call ~module_name:Js_runtime_modules.option ~fn_name:"some"
              [ e ])
   | Caml_block { fields = el; tag_info = Blk_module fields; _ } ->
-      expression_desc cxt ~level
-        (Object (List.map_combine fields el ~f:(fun x -> Ident.convert x)))
+      let properties = List.map_combine fields el ~f:Ident.convert in
+      (* Fields renamed to keep OCaml namespaces apart in the single namespace
+         of a JS object are also exposed under their plain OCaml name, for the
+         benefit of JavaScript callers written against it. Only when nothing
+         else claims that name, and only for values that are free to repeat --
+         a coercion wrapper is not worth duplicating. *)
+      let aliases =
+        List.filter_map properties ~f:(fun (name, (e : J.expression)) ->
+            match (Runtime_fields.unmangle name, e.expression_desc) with
+            | Some plain, Var _
+              when not
+                     (List.exists properties ~f:(fun (other, _) ->
+                          String.equal other plain)) ->
+                Some (Ident.convert plain, e)
+            | _ -> None)
+      in
+      expression_desc cxt ~level (Object (properties @ aliases))
   (*name convention of Record is slight different from modules*)
   | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
       if block_has_all_int_fields fields then

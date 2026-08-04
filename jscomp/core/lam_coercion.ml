@@ -72,7 +72,7 @@ open Import
 *)
 
 type t = {
-  export_list : Ident.t list;
+  export_list : Runtime_fields.t list;
   export_set : Ident.Set.t;
   export_map : Lam.t Ident.Map.t;
   (* not used in code generation, mostly used
@@ -83,30 +83,36 @@ type t = {
 
 let export_map t = t.export_map
 let groups t = t.groups
+let export_idents export_list = List.map export_list ~f:Runtime_fields.id
 
 let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
     (reverse_input : Lam_group.t list) =
-  let (original_exports : Ident.t list) = meta.exports in
+  let (original_exports : Runtime_fields.t list) = meta.exports in
   let (original_export_set : Ident.Set.t) = meta.export_idents in
   let len = List.length original_exports in
   let tbl = String.Hashtbl.create len in
   let ({ export_list; export_set; _ } as result) =
     List.fold_right2
-      ~f:(fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
+      ~f:(fun (original_export : Runtime_fields.t) (lam : Lam.t) (acc : t) ->
+        let original_export_id = Runtime_fields.id original_export in
         let original_name = Ident.name original_export_id in
+        (* Two fields of different namespaces can share [original_name]; what
+           has to be unique is the name they are given at runtime. *)
+        let runtime_name = Runtime_fields.name original_export in
         let already_present =
-          let already_present = String.Hashtbl.mem tbl original_name in
-          String.Hashtbl.replace tbl ~key:original_name ~data:();
+          let already_present = String.Hashtbl.mem tbl runtime_name in
+          String.Hashtbl.replace tbl ~key:runtime_name ~data:();
           already_present
         in
         if already_present then
-          Mel_exception.error (Mel_duplicate_exports original_name);
+          Mel_exception.error (Mel_duplicate_exports runtime_name);
+        let export_field id = { original_export with Runtime_fields.id } in
         match lam with
         | Lvar id | Lmutvar id ->
             if Ident.name id = original_name then
               {
                 acc with
-                export_list = id :: acc.export_list;
+                export_list = export_field id :: acc.export_list;
                 export_set =
                   (if Ident.stamp id = Ident.stamp original_export_id then
                      acc.export_set
@@ -120,7 +126,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
               Lam_util.alias_ident_or_global meta newid id NA;
               {
                 acc with
-                export_list = newid :: acc.export_list;
+                export_list = export_field newid :: acc.export_list;
                 export_map = Ident.Map.add ~key:newid ~data:lam acc.export_map;
                 groups =
                   Single
@@ -150,7 +156,8 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
               of size 4 instead of 2
               *)
             let newid = Ident.rename original_export_id in
-            (let arity = Lam_arity_analysis.get_arity meta lam in
+            let () =
+              let arity = Lam_arity_analysis.get_arity meta lam in
              if not (Lam_arity.first_arity_na arity) then
                Ident.Hashtbl.add meta.ident_tbl ~key:newid
                  ~data:
@@ -162,10 +169,11 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
                           | Lfunction _ -> Some (lam, Lam_non_rec)
                           | _ -> None);
                         call_summary = Lam_call_summary.Unknown;
-                      }));
+                      })
+            in
             {
               acc with
-              export_list = newid :: acc.export_list;
+              export_list = export_field newid :: acc.export_list;
               export_map = Ident.Map.add ~key:newid ~data:lam acc.export_map;
               groups = Single (Strict, newid, lam) :: acc.groups;
             })
@@ -193,7 +201,11 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
       ~init:(result.export_map, result.groups)
       reverse_input
   in
-  { result with export_map; groups = Lam_dce.remove export_list coerced_input }
+  {
+    result with
+    export_map;
+    groups = Lam_dce.remove (export_idents export_list) coerced_input;
+  }
 
 (* TODO: more flattening,
     - also for function compilation, flattening should be done first

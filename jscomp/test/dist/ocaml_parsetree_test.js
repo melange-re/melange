@@ -40,7 +40,7 @@ try {
 }
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
+  if (exn.MEL_EXN_ID !== Stdlib.Not_found$extension) {
     throw exn;
   }
   
@@ -172,7 +172,7 @@ function set_styles(s) {
 }
 
 function style_of_tag(s) {
-  if (s.MEL_EXN_ID === Stdlib__Format.String_tag) {
+  if (s.MEL_EXN_ID === Stdlib__Format.String_tag$extension) {
     switch (s._1) {
       case "dim" :
         return {
@@ -205,8 +205,8 @@ function style_of_tag(s) {
       case "warning" :
         return cur_styles.contents.warning;
       default:
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
     }
   } else {
@@ -240,7 +240,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         return Curry._1(partial_arg, param);
       }
       throw exn;
@@ -260,7 +260,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         return Curry._1(partial_arg$1, param);
       }
       throw exn;
@@ -682,8 +682,8 @@ function parse_opt(error, active, flags, s) {
     const match$1 = get_num(0, i$1 + 2 | 0);
     const n2 = match$1[1];
     if (n2 < n1) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-          MEL_EXN_ID: Stdlib__Arg.Bad,
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+          MEL_EXN_ID: Stdlib__Arg.Bad$extension,
           _1: "Ill-formed list of warnings"
         });
     }
@@ -703,8 +703,8 @@ function parse_opt(error, active, flags, s) {
       if (c >= 65) {
         if (c >= 97) {
           if (c >= 123) {
-            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-                MEL_EXN_ID: Stdlib__Arg.Bad,
+            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+                MEL_EXN_ID: Stdlib__Arg.Bad$extension,
                 _1: "Ill-formed list of warnings"
               });
           }
@@ -713,8 +713,8 @@ function parse_opt(error, active, flags, s) {
           continue;
         }
         if (c >= 91) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-              MEL_EXN_ID: Stdlib__Arg.Bad,
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+              MEL_EXN_ID: Stdlib__Arg.Bad$extension,
               _1: "Ill-formed list of warnings"
             });
         }
@@ -726,8 +726,8 @@ function parse_opt(error, active, flags, s) {
         if (c >= 64) {
           return loop_letter_num(set_all, i + 1 | 0);
         }
-        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-            MEL_EXN_ID: Stdlib__Arg.Bad,
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+            MEL_EXN_ID: Stdlib__Arg.Bad$extension,
             _1: "Ill-formed list of warnings"
           });
       }
@@ -736,16 +736,16 @@ function parse_opt(error, active, flags, s) {
           case 43 :
             return loop_letter_num(set, i + 1 | 0);
           case 44 :
-            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-                MEL_EXN_ID: Stdlib__Arg.Bad,
+            throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+                MEL_EXN_ID: Stdlib__Arg.Bad$extension,
                 _1: "Ill-formed list of warnings"
               });
           case 45 :
             return loop_letter_num(clear, i + 1 | 0);
         }
       } else {
-        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-            MEL_EXN_ID: Stdlib__Arg.Bad,
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+            MEL_EXN_ID: Stdlib__Arg.Bad$extension,
             _1: "Ill-formed list of warnings"
           });
       }
@@ -753,8 +753,8 @@ function parse_opt(error, active, flags, s) {
   };
   const loop_letter_num = function (myset, i) {
     if (i >= s.length) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-          MEL_EXN_ID: Stdlib__Arg.Bad,
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+          MEL_EXN_ID: Stdlib__Arg.Bad$extension,
           _1: "Ill-formed list of warnings"
         });
     }
@@ -762,8 +762,8 @@ function parse_opt(error, active, flags, s) {
     if (match >= 65) {
       if (match >= 97) {
         if (match >= 123) {
-          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-              MEL_EXN_ID: Stdlib__Arg.Bad,
+          throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+              MEL_EXN_ID: Stdlib__Arg.Bad$extension,
               _1: "Ill-formed list of warnings"
             });
         }
@@ -771,8 +771,8 @@ function parse_opt(error, active, flags, s) {
         return loop(i + 1 | 0);
       }
       if (match >= 91) {
-        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-            MEL_EXN_ID: Stdlib__Arg.Bad,
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+            MEL_EXN_ID: Stdlib__Arg.Bad$extension,
             _1: "Ill-formed list of warnings"
           });
       }
@@ -780,8 +780,8 @@ function parse_opt(error, active, flags, s) {
       return loop(i + 1 | 0);
     }
     if (match > 57 || match < 48) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
-          MEL_EXN_ID: Stdlib__Arg.Bad,
+      throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad$extension, {
+          MEL_EXN_ID: Stdlib__Arg.Bad$extension,
           _1: "Ill-formed list of warnings"
         });
     }
@@ -1319,8 +1319,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   Stdlib__Format.pp_print_flush(ppf, undefined);
   const pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-        MEL_EXN_ID: Stdlib.Exit
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+        MEL_EXN_ID: Stdlib.Exit$extension
       });
   }
   let lines = num_loc_lines.contents;
@@ -1331,8 +1331,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
     
   }
   if (lines >= (num_lines - 2 | 0)) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-        MEL_EXN_ID: Stdlib.Exit
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+        MEL_EXN_ID: Stdlib.Exit$extension
       });
   }
   Caml_io.caml_ml_flush(Stdlib.stdout);
@@ -1366,8 +1366,8 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
 function highlight_dumb(ppf, lb, loc) {
   const pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit, {
-        MEL_EXN_ID: Stdlib.Exit
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Exit$extension, {
+        MEL_EXN_ID: Stdlib.Exit$extension
       });
   }
   const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
@@ -1506,7 +1506,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn){
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+        if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
           norepeat = false;
         } else {
           throw exn;
@@ -1522,7 +1522,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn$1){
         const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
+        if (exn$1.MEL_EXN_ID === Stdlib.Exit$extension) {
           return false;
         }
         throw exn$1;
@@ -1538,7 +1538,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn$2){
         const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-        if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
+        if (exn$2.MEL_EXN_ID === Stdlib.Exit$extension) {
           return false;
         }
         throw exn$2;
@@ -1945,7 +1945,7 @@ function error_of_printer(loc, print, x) {
 }
 
 register_error_of_exn(function (msg) {
-  if (msg.MEL_EXN_ID === Stdlib.Sys_error) {
+  if (msg.MEL_EXN_ID === Stdlib.Sys_error$extension) {
     return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, {
       TAG: /* Format */ 0,
       _0: {
@@ -2424,7 +2424,7 @@ function get_pre_docs(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -2437,7 +2437,7 @@ function mark_pre_docs(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -2461,7 +2461,7 @@ function get_post_docs(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -2474,7 +2474,7 @@ function mark_post_docs(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -2488,7 +2488,7 @@ function get_info(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return;
     }
     throw exn;
@@ -2510,7 +2510,7 @@ function get_text(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return /* [] */ 0;
     }
     throw exn;
@@ -2532,7 +2532,7 @@ function get_pre_extra_text(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return /* [] */ 0;
     }
     throw exn;
@@ -2554,7 +2554,7 @@ function get_post_extra_text(pos) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return /* [] */ 0;
     }
     throw exn;
@@ -4593,8 +4593,8 @@ const yyact = [
     return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-        MEL_EXN_ID: Stdlib.End_of_file
+    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+        MEL_EXN_ID: Stdlib.End_of_file$extension
       });
   }),
   (function (__caml_parser_env) {
@@ -9267,14 +9267,14 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     if (_2) {
       if (_2.tl) {
-        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-            MEL_EXN_ID: Stdlib__Parsing.Parse_error
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error$extension, {
+            MEL_EXN_ID: Stdlib__Parsing.Parse_error$extension
           });
       }
       return _2.hd;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-        MEL_EXN_ID: Stdlib__Parsing.Parse_error
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.Parse_error$extension
       });
   }),
   (function (__caml_parser_env) {
@@ -9284,14 +9284,14 @@ const yyact = [
     const _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     if (_2) {
       if (_2.tl) {
-        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-            MEL_EXN_ID: Stdlib__Parsing.Parse_error
+        throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error$extension, {
+            MEL_EXN_ID: Stdlib__Parsing.Parse_error$extension
           });
       }
       return _2.hd;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error, {
-        MEL_EXN_ID: Stdlib__Parsing.Parse_error
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.Parse_error$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.Parse_error$extension
       });
   }),
   (function (__caml_parser_env) {
@@ -10591,44 +10591,44 @@ const yyact = [
     };
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   })
@@ -10726,7 +10726,7 @@ try {
 }
 catch (raw_exn$1){
   const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
+  if (exn$2.MEL_EXN_ID === Stdlib.Not_found$extension) {
     tmp = "";
   } else {
     throw exn$2;
@@ -10830,7 +10830,7 @@ function query(loc, str) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       let exit = 0;
       let v$1;
       try {
@@ -10839,7 +10839,7 @@ function query(loc, str) {
       }
       catch (raw_exn$1){
         const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
+        if (exn$1.MEL_EXN_ID === Stdlib.Not_found$extension) {
           return {
             TAG: /* Dir_bool */ 0,
             _0: false
@@ -12345,7 +12345,7 @@ function token(lexbuf) {
         }
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+          if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
             return {
               TAG: /* LIDENT */ 11,
               _0: s
@@ -12385,7 +12385,7 @@ function token(lexbuf) {
         }
         catch (raw_exn$1){
           const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.MEL_EXN_ID === Stdlib.Failure) {
+          if (exn$1.MEL_EXN_ID === Stdlib.Failure$extension) {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: {
@@ -12411,7 +12411,7 @@ function token(lexbuf) {
         }
         catch (raw_exn$2){
           const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-          if (exn$2.MEL_EXN_ID === Stdlib.Failure) {
+          if (exn$2.MEL_EXN_ID === Stdlib.Failure$extension) {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: {
@@ -12432,7 +12432,7 @@ function token(lexbuf) {
         }
         catch (raw_exn$3){
           const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-          if (exn$3.MEL_EXN_ID === Stdlib.Failure) {
+          if (exn$3.MEL_EXN_ID === Stdlib.Failure$extension) {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: {
@@ -12453,7 +12453,7 @@ function token(lexbuf) {
         }
         catch (raw_exn$4){
           const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-          if (exn$4.MEL_EXN_ID === Stdlib.Failure) {
+          if (exn$4.MEL_EXN_ID === Stdlib.Failure$extension) {
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
                 _1: {
@@ -13506,7 +13506,7 @@ function wrap(parsing_fun, lexbuf) {
         }
         throw err;
       }
-      if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error && err.MEL_EXN_ID !== Escape_error) {
+      if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error$extension && err.MEL_EXN_ID !== Escape_error) {
         throw err;
       }
       

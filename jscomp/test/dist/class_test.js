@@ -141,11 +141,13 @@ Mt.from_pair_suites("Class_test", {
 });
 
 module.exports = {
+  point$class: point,
   point,
   p,
   zero,
   three,
   x0,
+  point2$class: point2,
   point2,
   one,
   two,

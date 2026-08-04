@@ -81,22 +81,26 @@ eq("File \"jscomp/test/exception_repr_test.ml\", line 26, characters 7-14", Stdl
     MEL_EXN_ID: Hello
   })).startsWith("Exception_repr_test.Hello"), true);
 
-eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Exception_def.A, {
-    MEL_EXN_ID: Exception_def.A,
+eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Exception_def.A$extension, {
+    MEL_EXN_ID: Exception_def.A$extension,
     _1: 3
   })));
 
 Mt.from_pair_suites("Exception_repr_test", suites.contents);
 
-const AAA = Exception_def.A;
+const AAA = Exception_def.A$extension;
 
 module.exports = {
   suites,
   test_id,
   eq,
+  Hi$extension: Hi,
   Hi,
+  Hello$extension: Hello,
   Hello,
+  A$extension: A,
   A,
+  AAA$extension: AAA,
   AAA,
 }
 /*  Not a pure module */

@@ -47,33 +47,40 @@ let print_es6_export f s export =
         P.string f s);
       P.string f L.comma)
 
-let export_name cxt id =
-  let id_name = Ident.name id in
-  let s = Ident.convert id_name in
-  let export, cxt = Js_pp.Scope.str_of_ident cxt id in
-  let is_default = id_name = L.default in
+let export_name cxt (field : Runtime_fields.t) =
+  let name = Runtime_fields.name field in
+  let s = Ident.convert name in
+  let export, cxt = Js_pp.Scope.str_of_ident cxt field.id in
+  let is_default = name = L.default in
   let s = if is_default then L.default else s in
   (s, export, is_default, cxt)
 
-let iter_exports cxt f idents ~add_esmodule ~print_export =
+let iter_exports cxt f fields ~add_esmodule ~print_export =
   let first = ref true in
   let print_one s export =
     if !first then first := false else P.newline f;
     print_export f s export
   in
-  List.fold_left idents ~init:cxt ~f:(fun cxt id ->
-      let s, export, is_default, cxt = export_name cxt id in
+  List.fold_left fields ~init:cxt ~f:(fun cxt (field : Runtime_fields.t) ->
+      let s, export, is_default, cxt = export_name cxt field in
       print_one s export;
+      (* Fields whose name is mangled to keep OCaml namespaces apart are also
+         exported under their plain OCaml name, so that JavaScript code written
+         against it keeps working. Skipped when another export answers to that
+         name already. *)
+      (match Runtime_fields.compat_alias ~fields field with
+      | Some alias -> print_one (Ident.convert alias) export
+      | None -> ());
       if add_esmodule && is_default then (
         P.newline f;
         print_export f "__esModule" "true");
       cxt)
 
 (* Print exports in CommonJS format *)
-let module_exports cxt f (idents : Ident.t list) =
-  match idents with
+let module_exports cxt f (fields : Runtime_fields.t list) =
+  match fields with
   | [] -> cxt
-  | idents ->
+  | fields ->
       P.at_least_two_lines f;
       P.string f L.module_;
       P.string f L.dot;
@@ -82,19 +89,19 @@ let module_exports cxt f (idents : Ident.t list) =
       P.string f L.eq;
       P.space f;
       P.brace_vgroup f 1 (fun () ->
-          iter_exports cxt f idents ~add_esmodule:true
+          iter_exports cxt f fields ~add_esmodule:true
             ~print_export:print_commonjs_export)
 
 (** Print module in ES6 format, it is ES6, trailing comma is valid ES6 code *)
-let es6_export cxt f (idents : Ident.t list) =
-  match idents with
+let es6_export cxt f (fields : Runtime_fields.t list) =
+  match fields with
   | [] -> cxt
-  | idents ->
+  | fields ->
       P.at_least_two_lines f;
       P.string f L.export;
       P.space f;
       P.brace_vgroup f 1 (fun () ->
-          iter_exports cxt f idents ~add_esmodule:false
+          iter_exports cxt f fields ~add_esmodule:false
             ~print_export:print_es6_export)
 
 type module_ = { id : Ident.t; path : string; default : bool }

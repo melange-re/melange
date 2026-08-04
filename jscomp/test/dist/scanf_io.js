@@ -105,7 +105,7 @@ function get_lines(fname) {
   }
   catch (raw_s){
     const s = Caml_js_exceptions.internalToOCamlException(raw_s);
-    if (s.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (s.MEL_EXN_ID === Stdlib__Scanf.Scan_failure$extension) {
       const s$1 = Curry._2(Stdlib__Printf.sprintf({
         TAG: /* Format */ 0,
         _0: {
@@ -132,7 +132,7 @@ function get_lines(fname) {
           _1: s$1
         });
     }
-    if (s.MEL_EXN_ID === Stdlib.End_of_file) {
+    if (s.MEL_EXN_ID === Stdlib.End_of_file$extension) {
       const s$2 = Curry._1(Stdlib__Printf.sprintf({
         TAG: /* Format */ 0,
         _0: {
@@ -191,7 +191,7 @@ function add_digest_ib(ob, ib) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file$extension) {
       return;
     }
     throw exn;

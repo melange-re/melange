@@ -115,8 +115,8 @@ const yyact = [
     return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
   }),
   (function (__caml_parser_env) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit, {
-        MEL_EXN_ID: Stdlib__Parsing.YYexit,
+    throw new Caml_js_exceptions.MelangeError(Stdlib__Parsing.YYexit$extension, {
+        MEL_EXN_ID: Stdlib__Parsing.YYexit$extension,
         _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
       });
   })

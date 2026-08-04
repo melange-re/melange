@@ -44,8 +44,8 @@ function from_tokens(lst) {
       l.contents = match.tl;
       return match.hd;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-        MEL_EXN_ID: Stdlib.End_of_file
+    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+        MEL_EXN_ID: Stdlib.End_of_file$extension
       });
   };
 }

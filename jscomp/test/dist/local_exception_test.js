@@ -26,10 +26,13 @@ const d = new Caml_js_exceptions.MelangeError(D, {
   });
 
 module.exports = {
+  A$extension: A,
   A,
   v,
+  B$extension: B,
   B,
   u,
+  D$extension: D,
   D,
   d,
 }

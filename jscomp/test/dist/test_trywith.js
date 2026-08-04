@@ -11,7 +11,7 @@ function ff(g, x) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID !== Stdlib.Not_found$extension) {
       throw exn;
     }
     
@@ -21,7 +21,7 @@ function ff(g, x) {
   }
   catch (raw_exn$1){
     const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.MEL_EXN_ID !== Stdlib.Out_of_memory) {
+    if (exn$1.MEL_EXN_ID !== Stdlib.Out_of_memory$extension) {
       throw exn$1;
     }
     
@@ -31,7 +31,7 @@ function ff(g, x) {
   }
   catch (raw_exn$2){
     const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-    if (exn$2.MEL_EXN_ID !== Stdlib.Sys_error) {
+    if (exn$2.MEL_EXN_ID !== Stdlib.Sys_error$extension) {
       throw exn$2;
     }
     
@@ -41,7 +41,7 @@ function ff(g, x) {
   }
   catch (raw_exn$3){
     const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-    if (exn$3.MEL_EXN_ID !== Stdlib.Invalid_argument) {
+    if (exn$3.MEL_EXN_ID !== Stdlib.Invalid_argument$extension) {
       throw exn$3;
     }
     
@@ -51,7 +51,7 @@ function ff(g, x) {
   }
   catch (raw_exn$4){
     const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-    if (exn$4.MEL_EXN_ID !== Stdlib.End_of_file) {
+    if (exn$4.MEL_EXN_ID !== Stdlib.End_of_file$extension) {
       throw exn$4;
     }
     
@@ -61,7 +61,7 @@ function ff(g, x) {
   }
   catch (raw_exn$5){
     const exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
-    if (exn$5.MEL_EXN_ID !== Stdlib.Match_failure) {
+    if (exn$5.MEL_EXN_ID !== Stdlib.Match_failure$extension) {
       throw exn$5;
     }
     
@@ -71,7 +71,7 @@ function ff(g, x) {
   }
   catch (raw_exn$6){
     const exn$6 = Caml_js_exceptions.internalToOCamlException(raw_exn$6);
-    if (exn$6.MEL_EXN_ID !== Stdlib.Stack_overflow) {
+    if (exn$6.MEL_EXN_ID !== Stdlib.Stack_overflow$extension) {
       throw exn$6;
     }
     
@@ -81,7 +81,7 @@ function ff(g, x) {
   }
   catch (raw_exn$7){
     const exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
-    if (exn$7.MEL_EXN_ID !== Stdlib.Sys_blocked_io) {
+    if (exn$7.MEL_EXN_ID !== Stdlib.Sys_blocked_io$extension) {
       throw exn$7;
     }
     
@@ -91,7 +91,7 @@ function ff(g, x) {
   }
   catch (raw_exn$8){
     const exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$8);
-    if (exn$8.MEL_EXN_ID !== Stdlib.Assert_failure) {
+    if (exn$8.MEL_EXN_ID !== Stdlib.Assert_failure$extension) {
       throw exn$8;
     }
     
@@ -101,7 +101,7 @@ function ff(g, x) {
   }
   catch (raw_exn$9){
     const exn$9 = Caml_js_exceptions.internalToOCamlException(raw_exn$9);
-    if (exn$9.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
+    if (exn$9.MEL_EXN_ID === Stdlib.Undefined_recursive_module$extension) {
       return;
     }
     throw exn$9;
@@ -109,8 +109,8 @@ function ff(g, x) {
 }
 
 function u(param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 

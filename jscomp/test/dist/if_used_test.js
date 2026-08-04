@@ -36,6 +36,7 @@ const point = CamlinternalOO.make_class(shared, point_init);
 const p = Curry._2(point[0], undefined, 7);
 
 module.exports = {
+  point$class: point,
   point,
   p,
 }

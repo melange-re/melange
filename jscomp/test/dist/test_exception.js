@@ -16,27 +16,27 @@ function f(param) {
 }
 
 function g(param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }
 
 function h(param) {
-  throw new Caml_js_exceptions.MelangeError(Test_common.U, {
-      MEL_EXN_ID: Test_common.U,
+  throw new Caml_js_exceptions.MelangeError(Test_common.U$extension, {
+      MEL_EXN_ID: Test_common.U$extension,
       _1: 3
     });
 }
 
 function x(param) {
-  throw new Caml_js_exceptions.MelangeError(Test_common.H, {
-      MEL_EXN_ID: Test_common.H
+  throw new Caml_js_exceptions.MelangeError(Test_common.H$extension, {
+      MEL_EXN_ID: Test_common.H$extension
     });
 }
 
 function xx(param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-      MEL_EXN_ID: Stdlib.Invalid_argument,
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+      MEL_EXN_ID: Stdlib.Invalid_argument$extension,
       _1: "x"
     });
 }
@@ -48,12 +48,14 @@ const a = new Caml_js_exceptions.MelangeError(Nullary, {
   });
 
 module.exports = {
+  Local$extension: Local,
   Local,
   f,
   g,
   h,
   x,
   xx,
+  Nullary$extension: Nullary,
   Nullary,
   a,
 }
