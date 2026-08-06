@@ -320,7 +320,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e; e0; e1 ] ->
           ensure_value_unit cxt.continuation (Js_of_lam_array.set_array e e0 e1)
       | _ -> assert false)
-  | Pccall prim -> Lam_dispatch_primitive.translate loc prim.prim_name args
+  | Pccall ccall -> Lam_dispatch_primitive.translate loc ccall args
   (* Lam_compile_external_call.translate loc cxt prim args *)
   (* Test if the argument is a block or an immediate integer *)
   | Pjs_object_create _ -> assert false
@@ -374,7 +374,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"bswap64"
         args
   | Pduprecord (Record_regular | Record_extension | Record_inlined _) ->
-      Lam_dispatch_primitive.translate loc "caml_obj_dup" args
+      Lam_dispatch_primitive.translate loc Lam_ccall.obj_dup args
   | Plazyforce
     (* FIXME: we don't inline lazy force or at least
      let buckle handle it

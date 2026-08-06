@@ -1343,9 +1343,9 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
   match
     List.split_map (met :: obj :: args) ~f:(fun x ->
         match x with
-        | Lprim { primitive = Pccall { prim_name; _ }; args = []; _ }
+        | Lprim { primitive = Pccall ccall; args = []; _ }
         (* nullary external call*) ->
-            ([], E.var (Ident.create_js prim_name))
+            ([], E.var (Ident.create_js (Lam_ccall.name ccall)))
         | _ -> (
             match compile_lambda new_cxt x with
             | { value = None; _ } -> assert false

@@ -663,13 +663,14 @@ let not_ ~loc x : t =
   | _ -> prim ~primitive:Pnot ~args:[ x ] ~loc
 
 let has_boolean_type = function
+  | Lprim { primitive = Pccall ccall; loc; _ }
+    when Lam_ccall.returns_boolean ccall ->
+      Some loc
   | Lprim
       {
         primitive =
           ( Pnot | Psequand | Psequor | Pisout _ | Pintcomp _ | Pis_not_none
-          | Pfloatcomp _
-          | Pccall { prim_name = "caml_string_equal" | "caml_string_notequal" }
-            );
+          | Pfloatcomp _ );
         loc;
         _;
       } ->
