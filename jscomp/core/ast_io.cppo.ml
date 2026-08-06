@@ -117,7 +117,7 @@ let read_magic ic =
 let set_input_lexbuf () =
   let set_input_lexbuf fn =
     (* set input lexbuf for error messages. *)
-    let source = Io.read_file fn in
+    let source = match Io.read_file fn with Ok s -> s | Error exn -> raise exn in
     let lexbuf = Lexing.from_string source in
     Location.input_lexbuf := Some lexbuf;
     Ocaml_common.Location.input_lexbuf := Some lexbuf;

@@ -219,7 +219,9 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
         Format.pp_print_list ~pp_sep:Format.pp_print_newline
           Lam_group.pp_group fmt groups;
         Format.pp_print_flush fmt ();
-        Io.write_file f (Buffer.contents buf)
+        (match Io.write_file f (Buffer.contents buf) with
+        | Ok () -> ()
+        | Error exn -> raise exn)
 
   in
 #endif
