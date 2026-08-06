@@ -68,12 +68,17 @@ type keyed_cmj_value = {
   nested_call_summary : nested_call_summary;
 }
 
+type program_optimization =
+  | Optimized
+  | Unoptimized of { all_module_aliases : bool }
+
 type t = {
   values : keyed_cmj_value array;
   pure : bool;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
+  program_optimization : program_optimization;
 }
 
 val make :
@@ -82,6 +87,7 @@ val make :
   package_spec:Js_packages_info.t ->
   case:Js_packages_info.file_case ->
   delayed_program:J.deps_program ->
+  program_optimization:program_optimization ->
   t
 
 val query_by_name : t -> string -> keyed_cmj_value
