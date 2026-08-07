@@ -150,7 +150,8 @@ let values_of_export =
   ->
     Ident.Hashtbl.clear arity_cache;
     Ident.Hashtbl.clear nested_call_summary_cache;
-    List.fold_left meta.exports ~init:String.Map.empty ~f:(fun acc x ->
+    List.fold_left meta.exports ~init:String.Map.empty ~f:(fun acc field ->
+        let x = Runtime_fields.id field in
         let arity =
           memoize arity_cache x (fun () ->
               match Ident.Hashtbl.find meta.ident_tbl x with
@@ -252,7 +253,8 @@ let values_of_export =
           when Lam_call_summary.is_unknown summary ->
             acc
         | _, _, _ ->
-            String.Map.add acc ~key:(Ident.name x)
+            String.Map.add acc
+              ~key:(Runtime_fields.name field)
               ~data:
                 {
                   Js_cmj_format.arity;

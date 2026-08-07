@@ -107,7 +107,7 @@ type number =
   | Uint of int32
 
 type ident_info = Js_op.ident_info
-type exports = Ident.t list
+type exports = Runtime_fields.t list
 type tag_info = Lam.Tag_info.t
 type property_name = string
 

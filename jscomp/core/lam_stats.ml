@@ -42,7 +42,7 @@ open Import
 
 type t = {
   export_idents : Ident.Set.t;
-  exports : Ident.t list; (* It is kept since order matters? *)
+  exports : Runtime_fields.t list;
   ident_tbl : Lam_id_kind.t Ident.Hashtbl.t;
       (** we don't need count arities for all identifiers, for identifiers
           for sure it's not a function, there is no need to count them *)
@@ -80,14 +80,12 @@ let print (v : t) =
                (Pp.concat ~sep:(Pp.text "; ")
                   (List.map
                      ~f:(fun export ->
-                       Pp.text (Format.asprintf "%a" Ident.print export))
+                       Pp.text
+                         (Format.asprintf "%a" Ident.print
+                            (Runtime_fields.id export)))
                      v.exports));
            ]);
     ]
 
-let make ~export_idents ~export_ident_sets : t =
-  {
-    ident_tbl = Ident.Hashtbl.create 31;
-    exports = export_idents;
-    export_idents = export_ident_sets;
-  }
+let make ~exports ~export_idents : t =
+  { ident_tbl = Ident.Hashtbl.create 31; exports; export_idents }
