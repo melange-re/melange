@@ -115,24 +115,29 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       ~output_info:(Js_packages_state.get_output_info () |> List.hd)
   in
 
-  let export_idents = Translmod.get_export_identifiers() in
-  let export_ident_sets = Ident.Set.of_list export_idents in
+  let export_fields = Translmod.get_export_fields() in
+  let export_idents =
+    Ident.Set.of_list (List.map export_fields ~f:Runtime_fields.id)
+  in
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
 #ifndef MELANGE_RELEASE_BUILD
-    List.iter export_idents ~f:(fun id ->
+    List.iter export_fields ~f:(fun field ->
+      let id = Runtime_fields.id field in
       Log.warn
         ~loc:(Loc.of_pos __POS__)
         (Pp.textf "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)));
 #endif
     Lam_compile_env.reset ();
   in
-  let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
+  let lam, may_required_modules = Lam_convert.convert export_idents lam in
 
   let lam = _d "initial"  lam in
   let lam  = Lam_pass_deep_flatten.deep_flatten lam in
   let lam = _d  "flatten0" lam in
-  let meta: Lam_stats.t = Lam_stats.make ~export_idents ~export_ident_sets in
+  let meta : Lam_stats.t =
+    Lam_stats.make ~exports:export_fields ~export_idents
+  in
   let () = Lam_pass_collect.collect_info meta lam in
   let lam =
     let lam =
@@ -244,7 +249,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
 #endif
   let js : J.program =
     { exports = meta.exports
-    ; export_set = Ident.Set.of_list meta.exports
+    ; export_set = meta.export_idents
     ; block = body
     }
   in

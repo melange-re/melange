@@ -72,56 +72,51 @@ open Import
 *)
 
 type t = {
-  export_list : Ident.t list;
+  export_list : Runtime_fields.t list;
   export_set : Ident.Set.t;
-  export_map : Lam.t Ident.Map.t;
-  (* not used in code generation, mostly used
-      for store some information in cmj files *)
   groups : Lam_group.t list;
       (* all code to be compiled later = original code + rebound coercions *)
 }
 
-let export_map t = t.export_map
+let export_map t =
+  List.fold_left t.groups ~init:Ident.Map.empty ~f:(fun export_map -> function
+    | Lam_group.Single (_, id, lam) when Ident.Set.mem id t.export_set ->
+        Ident.Map.add ~key:id ~data:lam export_map
+    | _ -> export_map)
+
 let groups t = t.groups
+let ids_of_exports fields = List.map fields ~f:Runtime_fields.id
 
 let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
     (reverse_input : Lam_group.t list) =
-  let (original_exports : Ident.t list) = meta.exports in
-  let (original_export_set : Ident.Set.t) = meta.export_idents in
+  let (original_exports : Runtime_fields.t list) = meta.exports in
   let len = List.length original_exports in
   let tbl = String.Hashtbl.create len in
-  let ({ export_list; export_set; _ } as result) =
+  let result =
     List.fold_right2
-      ~f:(fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
+      ~f:(fun (original_export : Runtime_fields.t) (lam : Lam.t) (acc : t) ->
+        let original_export_id = Runtime_fields.id original_export in
         let original_name = Ident.name original_export_id in
+        let runtime_name = Runtime_fields.name original_export in
         let already_present =
-          let already_present = String.Hashtbl.mem tbl original_name in
-          String.Hashtbl.replace tbl ~key:original_name ~data:();
+          let already_present = String.Hashtbl.mem tbl runtime_name in
+          String.Hashtbl.replace tbl ~key:runtime_name ~data:();
           already_present
         in
         if already_present then
-          Mel_exception.error (Mel_duplicate_exports original_name);
+          Mel_exception.error (Mel_duplicate_exports runtime_name);
+        let export_field id = Runtime_fields.with_id original_export id in
         match lam with
         | Lvar id | Lmutvar id ->
             if Ident.name id = original_name then
-              {
-                acc with
-                export_list = id :: acc.export_list;
-                export_set =
-                  (if Ident.stamp id = Ident.stamp original_export_id then
-                     acc.export_set
-                   else
-                     Ident.Set.add id
-                       (Ident.Set.remove original_export_id acc.export_set));
-              }
+              { acc with export_list = export_field id :: acc.export_list }
             else
               let newid = Ident.rename original_export_id in
               let kind : Lam_compat.let_kind = Alias in
               Lam_util.alias_ident_or_global meta newid id NA;
               {
                 acc with
-                export_list = newid :: acc.export_list;
-                export_map = Ident.Map.add ~key:newid ~data:lam acc.export_map;
+                export_list = export_field newid :: acc.export_list;
                 groups =
                   Single
                     ( (match lam with
@@ -165,35 +160,16 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
                       }));
             {
               acc with
-              export_list = newid :: acc.export_list;
-              export_map = Ident.Map.add ~key:newid ~data:lam acc.export_map;
+              export_list = export_field newid :: acc.export_list;
               groups = Single (Strict, newid, lam) :: acc.groups;
             })
       original_exports lambda_exports
-      ~init:
-        {
-          export_list = [];
-          export_set = original_export_set;
-          export_map = Ident.Map.empty;
-          groups = [];
-        }
+      ~init:{ export_list = []; export_set = Ident.Set.empty; groups = [] }
   in
-
-  let export_map, coerced_input =
-    List.fold_left
-      ~f:(fun (export_map, acc) (x : Lam_group.t) ->
-        ( (match x with
-          | Single (_, id, lam) when Ident.Set.mem id export_set ->
-              Ident.Map.add ~key:id ~data:lam export_map
-              (* relies on the Invariant that [eoid] can not be bound before
-                  FIX: such invariant may not hold
-              *)
-          | _ -> export_map),
-          x :: acc ))
-      ~init:(result.export_map, result.groups)
-      reverse_input
-  in
-  { result with export_map; groups = Lam_dce.remove export_list coerced_input }
+  let export_ids = ids_of_exports result.export_list in
+  let export_set = Ident.Set.of_list export_ids in
+  let coerced_input = List.rev_append reverse_input result.groups in
+  { result with export_set; groups = Lam_dce.remove export_ids coerced_input }
 
 (* TODO: more flattening,
     - also for function compilation, flattening should be done first
@@ -215,11 +191,8 @@ let rec flatten (acc : Lam_group.t list) (lam : Lam.t) :
       flatten (Lam_group.nop_cons res l) r
   | x -> (x, acc)
 
-(* Invarinat to hold:
-    [export_map] is sound, for every rebinded export id, its key is indeed in
-    [export_map] since we know its old bindings are no longer valid, i.e
-    Lam_stats.t is not valid
-*)
+(* Export identifiers can be rebound above, so update both representations in
+   [Lam_stats.t] from the completed export list. *)
 let coerce_and_group_big_lambda (meta : Lam_stats.t) lam : t * Lam_stats.t =
   match flatten [] lam with
   | Lprim { primitive = Pmakeblock _; args = lambda_exports; _ }, reverse_input
@@ -237,13 +210,3 @@ let coerce_and_group_big_lambda (meta : Lam_stats.t) lam : t * Lam_stats.t =
          TODO: FIXME later
       *)
       assert false
-(* {
-     export_list = meta.exports;
-     export_set = meta.export_idents;
-     export_map = Ident.Map.empty ;
-     (* not used in code generation, mostly used
-         for store some information in cmj files *)
-     groups = [Nop lam] ;
-     (* all code to be compiled later = original code + rebound coercions *)
-   }
-   , meta *)
