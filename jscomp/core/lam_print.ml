@@ -487,13 +487,11 @@ let lambda ppf v =
      lambda ppf lam;
      fprintf ppf "; lambda-failure" *)
 
-let serialize (filename : string) (lam : Lam.t) : unit =
-  let old = Format.get_margin () in
-  let () = Format.set_margin 10000 in
+let serialize (filename : string) (lam : Lam.t) : (unit, exn) result =
   let buf = Buffer.create 65536 in
   let fmt = Format.formatter_of_buffer buf in
+  Format.pp_set_margin fmt 10000;
   (* lambda_as_module env fmt lambda; *)
   lambda fmt lam;
   Format.pp_print_flush fmt ();
-  Io.write_file_exn filename (Buffer.contents buf);
-  Format.set_margin old
+  Io.write_file filename (Buffer.contents buf)

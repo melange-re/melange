@@ -31,7 +31,13 @@ let dump =
       incr log_counter;
       Log.warn ~loc:(Loc.of_pos __POS__)
         (Pp.textf "[TIME:]%s: %f" ext (Sys.time () *. 1000.));
-      Lam_print.serialize
-        (Filename.new_extension !Location.input_name
-           ~ext:(Printf.sprintf ".%02d%s.lam" !log_counter ext))
-        lam)
+      let filename =
+        Filename.new_extension !Location.input_name
+          ~ext:(Printf.sprintf ".%02d%s.lam" !log_counter ext)
+      in
+      match Lam_print.serialize filename lam with
+      | Ok () -> ()
+      | Error exn ->
+          Log.warn ~loc:(Loc.of_pos __POS__)
+            (Pp.textf "Failed to write lambda dump %S: %s" filename
+               (Printexc.to_string exn)))
