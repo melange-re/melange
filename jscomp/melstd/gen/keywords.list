@@ -391,6 +391,7 @@ Node
 NodeFilter
 NodeIterator
 NodeList
+NodeRange
 NotRestoredReasonDetails
 NotRestoredReasons
 Notification
@@ -401,6 +402,7 @@ OfflineAudioCompletionEvent
 OfflineAudioContext
 OffscreenCanvas
 OffscreenCanvasRenderingContext2D
+OpaqueRange
 Option
 Origin
 OscillatorNode
@@ -435,6 +437,7 @@ PeriodicSyncManager
 PeriodicWave
 PermissionStatus
 Permissions
+PermissionsPolicy
 PictureInPictureEvent
 PictureInPictureWindow
 Plugin
