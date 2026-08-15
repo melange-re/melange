@@ -9,41 +9,47 @@ const Stdlib = require("melange/stdlib.js");
 const E = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A.E");
 
 const A = {
+  E$extension: E,
   E
 };
 
 const B = {
+  F$extension: E,
   F: E
 };
 
 const A0 = /* @__PURE__ */ Caml_exceptions.create("Exception_rebind_test.A0");
 
-const u0 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-    MEL_EXN_ID: Stdlib.Invalid_argument,
+const u0 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+    MEL_EXN_ID: Stdlib.Invalid_argument$extension,
     _1: "x"
   });
 
-const u1 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-    MEL_EXN_ID: Stdlib.Invalid_argument,
+const u1 = new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+    MEL_EXN_ID: Stdlib.Invalid_argument$extension,
     _1: "x"
   });
 
-const u2 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+const u2 = new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   });
 
-const H = Exception_def.A;
+const H = Exception_def.A$extension;
 
-const H0 = Stdlib.Invalid_argument;
+const H0 = Stdlib.Invalid_argument$extension;
 
-const H1 = Stdlib.Invalid_argument;
+const H1 = Stdlib.Invalid_argument$extension;
 
 module.exports = {
   A,
   B,
+  H$extension: H,
   H,
+  A0$extension: A0,
   A0,
+  H0$extension: H0,
   H0,
+  H1$extension: H1,
   H1,
   u0,
   u1,

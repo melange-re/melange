@@ -70,7 +70,7 @@ function chop_extension(locOpt, name) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument$extension) {
       return Curry._2(Stdlib__Format.ksprintf(Stdlib.invalid_arg, {
         TAG: /* Format */ 0,
         _0: {
@@ -107,7 +107,7 @@ function chop_extension_if_any(fname) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    if (exn.MEL_EXN_ID === Stdlib.Invalid_argument$extension) {
       return fname;
     }
     throw exn;

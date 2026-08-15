@@ -36,8 +36,8 @@ const A = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.A");
 
 const B = /* @__PURE__ */ Caml_exceptions.create("Gpr_1501_test.B");
 
-eq("File \"jscomp/test/gpr_1501_test.ml\", line 14, characters 7-14", "Not_found", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+eq("File \"jscomp/test/gpr_1501_test.ml\", line 14, characters 7-14", "Not_found", Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   })));
 
 eq("File \"jscomp/test/gpr_1501_test.ml\", line 15, characters 7-14", /Gpr_1501_test.A\/[0-9]+/.test(Stdlib__Printexc.to_string(new Caml_js_exceptions.MelangeError(A, {
@@ -55,7 +55,9 @@ module.exports = {
   suites,
   test_id,
   eq,
+  A$extension: A,
   A,
+  B$extension: B,
   B,
 }
 /*  Not a pure module */

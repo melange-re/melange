@@ -148,7 +148,9 @@ module.exports = {
   test_id,
   eq,
   magic,
+  c1$class: c1,
   c1,
+  c2$class: c2,
   c2,
   e,
 }

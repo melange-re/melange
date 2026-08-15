@@ -148,8 +148,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       const l = param._0;
@@ -164,8 +164,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       let tmp = param._2;
@@ -561,8 +561,8 @@ function Make(Ord) {
     while (true) {
       const param = _param;
       if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-            MEL_EXN_ID: Stdlib.Not_found
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+            MEL_EXN_ID: Stdlib.Not_found$extension
           });
       }
       const v = param._1;

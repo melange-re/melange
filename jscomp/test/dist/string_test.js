@@ -69,7 +69,7 @@ function rev_split_by_char(c, s) {
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+      if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
         return {
           hd: Stdlib__String.sub(s, i, s.length - i | 0),
           tl: l
@@ -98,7 +98,7 @@ function xsplit(delim, s) {
       }
       catch (raw_exn){
         const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+        if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
           return {
             hd: Stdlib__String.sub(s, 0, i),
             tl: l

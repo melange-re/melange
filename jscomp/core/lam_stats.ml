@@ -42,7 +42,10 @@ open Import
 
 type t = {
   export_idents : Ident.Set.t;
-  exports : Ident.t list; (* It is kept since order matters? *)
+  exports : Runtime_fields.t list;
+      (** The compilation unit's runtime fields, in the order of the module
+          block. Each carries the namespace it comes from, which decides the
+          name it is exported under (see {!Runtime_fields}). *)
   ident_tbl : Lam_id_kind.t Ident.Hashtbl.t;
       (** we don't need count arities for all identifiers, for identifiers
           for sure it's not a function, there is no need to count them *)
@@ -79,8 +82,8 @@ let print (v : t) =
              Pp.box
                (Pp.concat ~sep:(Pp.text "; ")
                   (List.map
-                     ~f:(fun export ->
-                       Pp.text (Format.asprintf "%a" Ident.print export))
+                     ~f:(fun (export : Runtime_fields.t) ->
+                       Pp.text (Format.asprintf "%a" Ident.print export.id))
                      v.exports));
            ]);
     ]

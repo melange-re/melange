@@ -9,7 +9,7 @@ const Scan_failure = /* @__PURE__ */ Caml_exceptions.create("Test_static_catch_i
 
 function scanf_bad_input(ib, x) {
   let s;
-  if (x.MEL_EXN_ID === Scan_failure || x.MEL_EXN_ID === Stdlib.Failure) {
+  if (x.MEL_EXN_ID === Scan_failure || x.MEL_EXN_ID === Stdlib.Failure$extension) {
     s = x._1;
   } else {
     throw x;
@@ -21,6 +21,7 @@ function scanf_bad_input(ib, x) {
 }
 
 module.exports = {
+  Scan_failure$extension: Scan_failure,
   Scan_failure,
   scanf_bad_input,
 }

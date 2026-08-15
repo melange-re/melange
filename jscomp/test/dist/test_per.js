@@ -16,15 +16,15 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function failwith(s) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Failure, {
-      MEL_EXN_ID: Stdlib.Failure,
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Failure$extension, {
+      MEL_EXN_ID: Stdlib.Failure$extension,
       _1: s
     });
 }
 
 function invalid_arg(s) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-      MEL_EXN_ID: Stdlib.Invalid_argument,
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+      MEL_EXN_ID: Stdlib.Invalid_argument$extension,
       _1: s
     });
 }
@@ -102,8 +102,8 @@ function $caret(s1, s2) {
 
 function char_of_int(n) {
   if (n < 0 || n > 255) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "char_of_int"
       });
   }
@@ -125,8 +125,8 @@ function bool_of_string(param) {
     case "true" :
       return true;
     default:
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-          MEL_EXN_ID: Stdlib.Invalid_argument,
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+          MEL_EXN_ID: Stdlib.Invalid_argument$extension,
           _1: "bool_of_string"
         });
   }
@@ -245,8 +245,8 @@ function output_string(oc, s) {
 
 function output(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "output"
       });
   }
@@ -255,8 +255,8 @@ function output(oc, s, ofs, len) {
 
 function output_substring(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "output_substring"
       });
   }
@@ -313,8 +313,8 @@ function open_in_bin(name) {
 
 function input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "input"
       });
   }
@@ -330,8 +330,8 @@ function unsafe_really_input(ic, s, _ofs, _len) {
     }
     const r = Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
     if (r === 0) {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-          MEL_EXN_ID: Stdlib.End_of_file
+      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+          MEL_EXN_ID: Stdlib.End_of_file$extension
         });
     }
     _len = len - r | 0;
@@ -342,8 +342,8 @@ function unsafe_really_input(ic, s, _ofs, _len) {
 
 function really_input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "really_input"
       });
   }
@@ -382,8 +382,8 @@ function input_line(chan) {
       if (accu) {
         return build_result(Caml_bytes.caml_create_bytes(len), len, accu);
       }
-      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-          MEL_EXN_ID: Stdlib.End_of_file
+      throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+          MEL_EXN_ID: Stdlib.End_of_file$extension
         });
     }
     if (n > 0) {
@@ -536,6 +536,7 @@ const max_int = 2147483647;
 module.exports = {
   failwith,
   invalid_arg,
+  Exit$extension: Exit,
   Exit,
   min,
   max,

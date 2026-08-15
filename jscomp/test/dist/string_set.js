@@ -225,8 +225,8 @@ function find(x, _tree) {
   while (true) {
     const tree = _tree;
     if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         });
     }
     const v = tree._1;

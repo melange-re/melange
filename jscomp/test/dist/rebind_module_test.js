@@ -4,7 +4,7 @@
 const Rebind_module = require("./rebind_module.js");
 
 function x(v) {
-  if (v.MEL_EXN_ID === Rebind_module.AA) {
+  if (v.MEL_EXN_ID === Rebind_module.AA$extension) {
     return 0;
   } else {
     return 1;

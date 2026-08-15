@@ -24,8 +24,8 @@ function assoc3(x, _l) {
       _l = l.tl;
       continue;
     }
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   };
 }
@@ -57,7 +57,7 @@ function add_help(speclist) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       add1 = {
         hd: [
           "-help",
@@ -80,7 +80,7 @@ function add_help(speclist) {
   }
   catch (raw_exn$1){
     const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn$1.MEL_EXN_ID === Stdlib.Not_found$extension) {
       add2 = {
         hd: [
           "--help",
@@ -100,8 +100,11 @@ function add_help(speclist) {
 }
 
 module.exports = {
+  Bad$extension: Bad,
   Bad,
+  Help$extension: Help,
   Help,
+  Stop$extension: Stop,
   Stop,
   assoc3,
   help_action,

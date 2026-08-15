@@ -120,8 +120,11 @@ module.exports = {
   suites,
   test_id,
   eq,
+  comparable$class: comparable,
   comparable,
+  money$class: money,
   money,
+  money2$class: money2,
   money2,
   min,
 }

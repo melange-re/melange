@@ -1925,7 +1925,7 @@ function scan_elems$2(ib, accu) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure$extension) {
       Curry._1(Stdlib__Scanf.bscanf(ib, {
         TAG: /* Format */ 0,
         _0: {
@@ -1937,7 +1937,7 @@ function scan_elems$2(ib, accu) {
       }), undefined);
       return accu;
     }
-    if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
+    if (exn.MEL_EXN_ID === Stdlib.End_of_file$extension) {
       return accu;
     }
     throw exn;
@@ -2428,7 +2428,7 @@ function scan_elems$5(ib, scan_elem, accu) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
+    if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure$extension) {
       return accu;
     }
     throw exn;
@@ -3898,10 +3898,10 @@ function test44(param) {
   }));
 }
 
-Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-    MEL_EXN_ID: Stdlib.End_of_file
-  }))(test43, undefined) && Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-    MEL_EXN_ID: Stdlib.End_of_file
+Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+    MEL_EXN_ID: Stdlib.End_of_file$extension
+  }))(test43, undefined) && Testing.test_raises_this_exc(new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+    MEL_EXN_ID: Stdlib.End_of_file$extension
   }))(test44, undefined);
 
 function test45(param) {
@@ -4512,8 +4512,8 @@ function next_char(ob, param) {
   const s = Stdlib__Buffer.contents(ob);
   const len = s.length;
   if (len === 0) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file, {
-        MEL_EXN_ID: Stdlib.End_of_file
+    throw new Caml_js_exceptions.MelangeError(Stdlib.End_of_file$extension, {
+        MEL_EXN_ID: Stdlib.End_of_file$extension
       });
   }
   const c = Caml_string.get(s, 0);

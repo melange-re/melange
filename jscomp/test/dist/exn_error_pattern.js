@@ -9,11 +9,11 @@ const Stdlib = require("melange/stdlib.js");
 
 function f(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.MEL_EXN_ID === Stdlib.Not_found) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 0;
-    } else if (match.MEL_EXN_ID === Stdlib.Invalid_argument || match.MEL_EXN_ID === Stdlib.Stack_overflow) {
+    } else if (match.MEL_EXN_ID === Stdlib.Invalid_argument$extension || match.MEL_EXN_ID === Stdlib.Stack_overflow$extension) {
       return 1;
-    } else if (match.MEL_EXN_ID === Stdlib.Sys_error) {
+    } else if (match.MEL_EXN_ID === Stdlib.Sys_error$extension) {
       return 2;
     } else {
       return;
@@ -28,9 +28,9 @@ const B = /* @__PURE__ */ Caml_exceptions.create("Exn_error_pattern.B");
 
 function g(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.MEL_EXN_ID === Stdlib.Not_found || match.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    if (match.MEL_EXN_ID === Stdlib.Not_found$extension || match.MEL_EXN_ID === Stdlib.Invalid_argument$extension) {
       return 0;
-    } else if (match.MEL_EXN_ID === Stdlib.Sys_error) {
+    } else if (match.MEL_EXN_ID === Stdlib.Sys_error$extension) {
       return 2;
     } else if (match.MEL_EXN_ID === A || match.MEL_EXN_ID === B) {
       return match._1;
@@ -53,21 +53,21 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   })), 0);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-    MEL_EXN_ID: Stdlib.Invalid_argument,
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+    MEL_EXN_ID: Stdlib.Invalid_argument$extension,
     _1: ""
   })), 1);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Stack_overflow, {
-    MEL_EXN_ID: Stdlib.Stack_overflow
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Stack_overflow$extension, {
+    MEL_EXN_ID: Stdlib.Stack_overflow$extension
   })), 1);
 
-eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Sys_error, {
-    MEL_EXN_ID: Stdlib.Sys_error,
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f(new Caml_js_exceptions.MelangeError(Stdlib.Sys_error$extension, {
+    MEL_EXN_ID: Stdlib.Sys_error$extension,
     _1: ""
   })), 2);
 
@@ -86,7 +86,9 @@ Mt.from_pair_suites("Exn_error_pattern", suites.contents);
 
 module.exports = {
   f,
+  A$extension: A,
   A,
+  B$extension: B,
   B,
   g,
   suites,

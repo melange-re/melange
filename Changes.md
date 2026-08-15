@@ -1,3 +1,15 @@
+Unreleased
+---------------
+
+- BREAKING(code generation): name a module's runtime fields after the OCaml
+  namespace they come from, so that e.g. an exception `Foo` and a module `Foo`
+  can coexist in a structure instead of failing with `Foo are exported as
+  twice`. Extension constructors are emitted as `Foo$extension` and classes as
+  `foo$class`; values and modules keep their name. Mangled fields are also
+  exposed under their plain name when nothing else in the module claims it, so
+  JavaScript callers keep working
+
+
 7.0.1-55 2026-07-12
 ---------------
 

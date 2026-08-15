@@ -77,7 +77,7 @@ try {
 }
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
+  if (exn.MEL_EXN_ID === Stdlib.Match_failure$extension) {
     h = 2;
   } else {
     throw exn;
@@ -132,8 +132,8 @@ const f006 = {
 const f007 = {
   LAZY_DONE: false,
   VAL: (function () {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   })
 };
@@ -142,8 +142,8 @@ const f008 = {
   LAZY_DONE: false,
   VAL: (function () {
     console.log("hi");
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   })
 };

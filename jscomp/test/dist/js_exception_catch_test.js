@@ -66,7 +66,7 @@ try {
 }
 catch (raw_x){
   const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-  if (x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+  if (x.MEL_EXN_ID === Js__Js_exn.Error$extension) {
     add_test("File \"jscomp/test/js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
       return {
         TAG: /* Ok */ 4,
@@ -100,9 +100,9 @@ function test(f) {
   }
   catch (raw_e){
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.MEL_EXN_ID === Stdlib.Not_found) {
+    if (e.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return "Not_found";
-    } else if (e.MEL_EXN_ID === Stdlib.Invalid_argument) {
+    } else if (e.MEL_EXN_ID === Stdlib.Invalid_argument$extension) {
       if (e._1 === "x") {
         return "Invalid_argument";
       } else {
@@ -122,7 +122,7 @@ function test(f) {
       } else {
         return "C";
       }
-    } else if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    } else if (e.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       return "Js_error";
     } else {
       return "Any";
@@ -135,8 +135,8 @@ eq("File \"jscomp/test/js_exception_catch_test.ml\", line 43, characters 5-12", 
 }), "No_error");
 
 eq("File \"jscomp/test/js_exception_catch_test.ml\", line 44, characters 5-12", test(function (param) {
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     });
 }), "Not_found");
 
@@ -209,8 +209,11 @@ module.exports = {
   eq,
   false_,
   true_,
+  A$extension: A,
   A,
+  B$extension: B,
   B,
+  C$extension: C,
   C,
   test,
 }

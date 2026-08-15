@@ -35,8 +35,8 @@ function f_small(u) {
         y: u.y
       });
   } else {
-    return new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-        MEL_EXN_ID: Stdlib.Not_found
+    return new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+        MEL_EXN_ID: Stdlib.Not_found$extension
       });
   }
 }
@@ -199,8 +199,8 @@ eq("File \"jscomp/test/large_record_duplication_test.ml\", line 270, characters 
 
 eq("File \"jscomp/test/large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
 
-eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-    MEL_EXN_ID: Stdlib.Not_found
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+    MEL_EXN_ID: Stdlib.Not_found$extension
   })), undefined);
 
 Mt.from_pair_suites("Large_record_duplication_test", suites.contents);
@@ -237,6 +237,7 @@ module.exports = {
   eq,
   v0,
   f0,
+  Small$extension: Small,
   Small,
   f_small,
   h,
@@ -244,6 +245,7 @@ module.exports = {
   f1,
   v2,
   f2,
+  A0$extension: A0,
   A0,
   f3,
   get_x0: get_x0$2,

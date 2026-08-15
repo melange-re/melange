@@ -929,6 +929,7 @@ if (Caml_oo_curry.js1(291536121, 2, v) !== 56) {
 
 module.exports = {
   raw_object,
+  raw_class$class: raw_class,
   raw_class,
   v,
 }

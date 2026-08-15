@@ -41,7 +41,7 @@
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -58,6 +58,7 @@
   console.log(a0);
   
   module.exports = {
+    A$extension: A,
     A,
   }
   /* a0 Not a pure module */
@@ -101,7 +102,7 @@ Raise `null` / `undefined`
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -123,7 +124,7 @@ Raise `null` / `undefined`
   }
   catch (raw_x$1){
     const x$1 = Caml_js_exceptions.internalToOCamlException(raw_x$1);
-    if (x$1.MEL_EXN_ID === A || x$1.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x$1.MEL_EXN_ID === A || x$1.MEL_EXN_ID === Js__Js_exn.Error$extension) {
       a1 = x$1._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -140,6 +141,7 @@ Raise `null` / `undefined`
   console.log(a0, a1);
   
   module.exports = {
+    A$extension: A,
     A,
   }
   /* a0 Not a pure module */
@@ -193,6 +195,7 @@ Raise `null` / `undefined`
   console.log(a0);
   
   module.exports = {
+    A$extension: A,
     A,
   }
   /* a0 Not a pure module */
@@ -248,6 +251,7 @@ Re-throw
   console.log(a0);
   
   module.exports = {
+    A$extension: A,
     A,
   }
   /* a0 Not a pure module */
@@ -286,6 +290,7 @@ Exception without raising
     });
   
   module.exports = {
+    A$extension: A,
     A,
     _a,
   }

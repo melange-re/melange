@@ -45,10 +45,10 @@ function test_js_error4(param) {
   }
   catch (raw_e){
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.MEL_EXN_ID === Stdlib.Not_found) {
+    if (e.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 2;
     }
-    if (e.MEL_EXN_ID === Stdlib.Invalid_argument && e._1 === "x") {
+    if (e.MEL_EXN_ID === Stdlib.Invalid_argument$extension && e._1 === "x") {
       return 3;
     }
     if (e.MEL_EXN_ID === A) {
@@ -73,7 +73,7 @@ function f(g) {
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+    if (exn.MEL_EXN_ID === Stdlib.Not_found$extension) {
       return 1;
     }
     throw exn;
@@ -88,8 +88,11 @@ module.exports = {
   suites,
   test_id,
   eq,
+  A$extension: A,
   A,
+  B$extension: B,
   B,
+  C$extension: C,
   C,
   test_js_error4,
   f,

@@ -38,8 +38,8 @@ function assert_bool(b) {
   if (b) {
     return;
   }
-  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-      MEL_EXN_ID: Stdlib.Invalid_argument,
+  throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+      MEL_EXN_ID: Stdlib.Invalid_argument$extension,
       _1: "Assertion Failure."
     });
 }
@@ -74,7 +74,7 @@ function andThenTest(param) {
 const h = Promise.resolve();
 
 function assertIsNotFound(x) {
-  const match = Caml_exceptions.caml_is_extension(x) && x.MEL_EXN_ID === Stdlib.Not_found ? 0 : undefined;
+  const match = Caml_exceptions.caml_is_extension(x) && x.MEL_EXN_ID === Stdlib.Not_found$extension ? 0 : undefined;
   if (match !== undefined) {
     return h;
   }
@@ -89,8 +89,8 @@ function assertIsNotFound(x) {
 }
 
 function catchTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.then(fail).catch(assertIsNotFound);
 }
@@ -105,8 +105,8 @@ function orResolvedTest(param) {
 }
 
 function orRejectedTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.catch(function (param) {
     return Promise.resolve(22);
@@ -125,8 +125,8 @@ function orElseResolvedTest(param) {
 }
 
 function orElseRejectedResolveTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.catch(function (param) {
     return Promise.resolve(22);
@@ -136,15 +136,15 @@ function orElseRejectedResolveTest(param) {
 }
 
 function orElseRejectedRejectTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.catch(function (param) {
-    return Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Stack_overflow, {
-        MEL_EXN_ID: Stdlib.Stack_overflow
+    return Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Stack_overflow$extension, {
+        MEL_EXN_ID: Stdlib.Stack_overflow$extension
       }));
   }).then(fail).catch(function (error) {
-    const match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
+    const match = Caml_exceptions.caml_is_extension(error) && error.MEL_EXN_ID === Stdlib.Stack_overflow$extension ? 0 : undefined;
     if (match !== undefined) {
       return h;
     }
@@ -167,8 +167,8 @@ function resolveTest(param) {
 }
 
 function rejectTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.catch(assertIsNotFound);
 }
@@ -181,8 +181,8 @@ function thenCatchChainResolvedTest(param) {
 }
 
 function thenCatchChainRejectedTest(param) {
-  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   return p.then(fail).catch(assertIsNotFound);
 }
@@ -205,14 +205,14 @@ function allResolvedTest(param) {
 }
 
 function is_not_found(error) {
-  return error.MEL_EXN_ID === Stdlib.Not_found;
+  return error.MEL_EXN_ID === Stdlib.Not_found$extension;
 }
 
 function allRejectTest(param) {
   const p1 = Promise.resolve(1);
   const p2 = Promise.resolve(3);
-  const p3 = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-      MEL_EXN_ID: Stdlib.Not_found
+  const p3 = Promise.reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+      MEL_EXN_ID: Stdlib.Not_found$extension
     }));
   const promises = [
     p1,
@@ -220,7 +220,7 @@ function allRejectTest(param) {
     p3
   ];
   return Promise.all(promises).then(fail).catch(function (error) {
-    assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
+    assert_bool(error.MEL_EXN_ID === Stdlib.Not_found$extension);
     return h;
   });
 }
@@ -241,11 +241,11 @@ function raceTest(param) {
 
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
-      reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
+      reject(new Caml_js_exceptions.MelangeError(Stdlib.Not_found$extension, {
+          MEL_EXN_ID: Stdlib.Not_found$extension
         }));
     })).catch(function (error) {
-    assert_bool(error.MEL_EXN_ID === Stdlib.Not_found);
+    assert_bool(error.MEL_EXN_ID === Stdlib.Not_found$extension);
     return h;
   });
 }

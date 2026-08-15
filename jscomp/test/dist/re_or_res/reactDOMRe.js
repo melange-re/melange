@@ -71,8 +71,8 @@ function hydrateToElementWithClassName(reactElement, className) {
 function hydrateToElementWithId(reactElement, id) {
   const element = document.getElementById(id);
   if (element == null) {
-    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
-        MEL_EXN_ID: Stdlib.Invalid_argument,
+    throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument$extension, {
+        MEL_EXN_ID: Stdlib.Invalid_argument$extension,
         _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML.")
       });
   }
