@@ -91,10 +91,13 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
 (* Serialization .. *)
 let marshal_header_size = 16
 
-let from_file name : t =
+let from_file_exn name : t =
   let s = Io.read_file_exn name in
   let _digest = Digest.substring s 0 marshal_header_size in
   Marshal.from_string s marshal_header_size
+
+let from_file name : (t, exn) result =
+  match from_file_exn name with cmj -> Ok cmj | exception exn -> Error exn
 
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
@@ -189,8 +192,13 @@ type cmj_load_info = {
       *)
 }
 
-let load_unit unit_name : cmj_load_info =
+type load_error = Missing_cmj of string | Cannot_load_cmj of exn
+
+let load_unit unit_name : (cmj_load_info, load_error) result =
   let file = Artifact_extension.append_extension unit_name Cmj in
   match Initialization.find_in_path_exn file with
-  | f -> { cmj_table = from_file f }
-  | exception Not_found -> Mel_exception.error (Cmj_not_found unit_name)
+  | filename -> (
+      match from_file filename with
+      | Ok cmj_table -> Ok { cmj_table }
+      | Error exn -> Error (Cannot_load_cmj exn))
+  | exception Not_found -> Error (Missing_cmj unit_name)

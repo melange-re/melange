@@ -87,7 +87,8 @@ val make :
 val query_by_name : t -> string -> keyed_cmj_value
 val single_na : arity
 val call_summary_unknown : nested_call_summary
-val from_file : string -> t
+val from_file_exn : string -> t
+val from_file : string -> (t, exn) result
 
 (* Note writing the file if its content is not changed *)
 val to_file : string -> t -> unit
@@ -98,4 +99,6 @@ type cmj_load_info = {
       (* package_path : path; *)
 }
 
-val load_unit : string -> cmj_load_info
+type load_error = Missing_cmj of string | Cannot_load_cmj of exn
+
+val load_unit : string -> (cmj_load_info, load_error) result
