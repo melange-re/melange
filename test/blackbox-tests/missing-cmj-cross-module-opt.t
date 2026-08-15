@@ -20,5 +20,8 @@ missing installed CMJ dependency.
 
   $ melc -I installed --mel-cross-module-opt --mel-stop-after-cmj \
   >   src/errors.ml -o app/errors.cmj
+  File "src/errors.ml", line 1:
+  Warning 55 [inlining-impossible]: Cannot inline:
+    missing CMJ file for module Classify; continuing without cross-module optimization
   $ ls app/errors.cmj
   app/errors.cmj

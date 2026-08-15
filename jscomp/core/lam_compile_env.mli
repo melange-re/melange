@@ -79,7 +79,8 @@ val query_external_id_info :
     2. there's no `.cmj` file available. This can happen if we're compiling a
     dune virtual library where one of the modules uses a binding from any of
     its virtual modules. Because we're programming against the interface file
-    at this point, we must emit the deoptimized expression too. *)
+    at this point, we must emit the deoptimized expression too. When
+    cross-module optimization is enabled, this case emits warning 55. *)
 
 val external_id_is_relative : Ident.t -> bool option
 (** Returns [None] when the identifier is not a registered JS external module. *)

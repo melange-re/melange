@@ -43,6 +43,10 @@ type external_id_info = { is_relative : bool }
 
 let external_id_tbl : external_id_info Ident.Hashtbl.t = Ident.Hashtbl.create 31
 
+(* Several optimization passes can query the same module. *)
+let missing_cmj_warnings : unit Lam_module_ident.Hashtbl.t =
+  Lam_module_ident.Hashtbl.create 7
+
 (* For each compilation we need reset to make it re-entrant *)
 let reset () =
   Translmod.reset ();
@@ -50,6 +54,7 @@ let reset () =
   (* This is needed in the playground since one no_export can make it true
      In the payground, it seems we need reset more states *)
   Lam_module_ident.Hashtbl.clear cached_tbl;
+  Lam_module_ident.Hashtbl.clear missing_cmj_warnings;
   Ident.Hashtbl.clear external_id_tbl
 
 let register_external_id id module_name =
@@ -106,7 +111,20 @@ let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
 
 let query_external_id_info ~dynamic_import module_id name =
   try Some (query_external_id_info_exn ~dynamic_import module_id name)
-  with Mel_exception.Error (Cmj_not_found _) -> None
+  with Mel_exception.Error (Cmj_not_found unit_name) ->
+    let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
+    if
+      !Js_config.cross_module_inline
+      && not (Lam_module_ident.Hashtbl.mem missing_cmj_warnings oid)
+    then (
+      Lam_module_ident.Hashtbl.replace missing_cmj_warnings ~key:oid ~data:();
+      Location.prerr_warning Location.none
+        (Warnings.Inlining_impossible
+           (Printf.sprintf
+              "missing CMJ file for module %s; continuing without cross-module \
+               optimization"
+              unit_name)));
+    None
 
 let external_id_is_relative id =
   match Ident.Hashtbl.find external_id_tbl id with

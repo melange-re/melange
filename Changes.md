@@ -1,3 +1,10 @@
+Unreleased
+----------
+
+- compiler: warn when `--mel-cross-module-opt` cannot find a dependency's
+  `.cmj` file ([#1857](https://github.com/melange-re/melange/pull/1857))
+
+
 7.0.1-55 2026-07-12
 ---------------
 
