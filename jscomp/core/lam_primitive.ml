@@ -74,7 +74,7 @@ type t =
   (* Force lazy values *)
   | Plazyforce
   (* External call *)
-  | Pccall of { prim_name : string }
+  | Pccall of Lam_ccall.t
   | Pjs_call of {
       prim_name : string;
       arg_types :
@@ -295,9 +295,9 @@ let eq_approx (lhs : t) (rhs : t) =
   (* | Pjs_is_instance_array -> rhs = Pjs_is_instance_array *)
   | Pcaml_obj_length -> rhs = Pcaml_obj_length
   (* | Pcaml_obj_set_length -> rhs = Pcaml_obj_set_length *)
-  | Pccall { prim_name = n0 } -> (
+  | Pccall ccall0 -> (
       match rhs with
-      | Pccall { prim_name = n1 } -> String.equal n0 n1
+      | Pccall ccall1 -> Lam_ccall.equal ccall0 ccall1
       | _ -> false)
   | Pfield (n0, info0) -> (
       match rhs with

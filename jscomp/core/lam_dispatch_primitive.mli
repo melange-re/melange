@@ -26,5 +26,5 @@ open Import
 
 (** Compile lambda primitives (note this is different external c calls) *)
 
-val translate : Location.t -> string -> J.expression list -> J.expression
+val translate : Location.t -> Lam_ccall.t -> J.expression list -> J.expression
 (** @return None when the primitives are not handled in  pre-processing *)

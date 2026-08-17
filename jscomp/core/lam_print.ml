@@ -101,7 +101,7 @@ let primitive ppf (prim : Lam_primitive.t) =
       fprintf ppf "%s%i" instr n
   | Pduprecord rep -> fprintf ppf "duprecord %a" record_rep rep
   | Plazyforce -> fprintf ppf "force"
-  | Pccall p -> fprintf ppf "%s" p.prim_name
+  | Pccall ccall -> fprintf ppf "%s" (Lam_ccall.name ccall)
   | Pjs_call { prim_name; _ } -> fprintf ppf "%s[js]" prim_name
   | Pjs_object_create _ -> fprintf ppf "[js.obj]"
   | Praise -> fprintf ppf "raise"
