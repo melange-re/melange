@@ -29,7 +29,7 @@ module Global = struct
     Translcore.wrap_single_field_record :=
       Transl_single_field_record.wrap_single_field_record;
     Translmod.eval_rec_bindings := Compile_rec_module.eval_rec_bindings;
-    Translmod.mangle_ident := Ident.mangle;
+    Translmod.mangle_name := Ident.convert;
     Typemod.should_hide := Typemod_hide.should_hide;
     Matching.make_test_sequence_variant_constant :=
       Polyvar_pattern_match.make_test_sequence_variant_constant;
