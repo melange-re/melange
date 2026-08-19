@@ -82,6 +82,8 @@ buildDunePackage {
     makeWrapper
   ];
   propagatedBuildInputs = [
+    csexp
+    dune-action-trace
     dune-build-info
     cmdliner
     ppxlib_gt_0_37

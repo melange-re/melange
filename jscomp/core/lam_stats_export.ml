@@ -287,12 +287,12 @@ let get_dependent_module_effect (maybe_pure : string option)
    TODO: check that we don't do this in browser environment
 *)
 let export_to_cmj ~case meta ~effect_ export_map
-    ~(delayed_program : J.deps_program) =
+    ~(delayed_program : J.deps_program) ~program_optimization =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect_
     ~package_spec:(Js_packages_state.get_packages_info_for_cmj ())
-    ~case ~delayed_program
+    ~case ~delayed_program ~program_optimization
 (* FIXME: make sure [-o] would not change its case
    add test for ns/non-ns
 *)
