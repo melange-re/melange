@@ -58,6 +58,23 @@ dependency of a CMJ that refers to it.
     --------------------------------  Namespace__Dep
     --------------------------------  Virtual_dep
 
+Dependencies used only by erased type declarations are not implementation
+dependencies in the CMJ.
+
+  $ cat > type_dependency.ml <<'EOF'
+  > type t = int
+  > EOF
+  $ melc --bs-no-bin-annot --mel-stop-after-cmj type_dependency.ml \
+  >   -o type_dependency.cmj
+  $ cat > type_only_import.ml <<'EOF'
+  > type t = Type_dependency.t
+  > EOF
+  $ melc -I . --bs-no-bin-annot --mel-stop-after-cmj type_only_import.ml \
+  >   -o type_only_import.cmj
+  $ melobjinfo type_only_import.cmj
+  File type_only_import.cmj
+  Implementations imported:
+
 Dependency rows are immediate, rather than the transitive closure. Leaf is
 reported by Dep, but not by Implementation_imports above.
 
@@ -65,6 +82,19 @@ reported by Dep, but not by Implementation_imports above.
   File dep.cmj
   Implementations imported:
     --------------------------------  Leaf
+
+Cross-module optimization preserves the implementation dependencies needed to
+build the resulting CMJ.
+
+  $ cat > optimized_import.ml <<'EOF'
+  > let value = Dep.value
+  > EOF
+  $ melc -I . --mel-cross-module-opt --bs-no-bin-annot \
+  >   --mel-stop-after-cmj optimized_import.ml -o optimized_import.cmj
+  $ melobjinfo optimized_import.cmj
+  File optimized_import.cmj
+  Implementations imported:
+    --------------------------------  Dep
 
 Multiple inputs are reported in argument order, including files with no
 dependencies.
@@ -75,6 +105,18 @@ dependencies.
   File dep.cmj
   Implementations imported:
     --------------------------------  Leaf
+
+If one input is malformed, the diagnostic identifies it without discarding
+the output for preceding inputs.
+
+  $ touch malformed.cmj
+  $ melobjinfo standalone.cmj malformed.cmj >output 2>error
+  [124]
+  $ cat output
+  File standalone.cmj
+  Implementations imported:
+  $ sed 's/malformed.cmj:.*/malformed.cmj: <error>/' error
+  melobjinfo: malformed.cmj: <error>
 
 Runtime dependencies are reported separately from implementation imports.
 
@@ -91,6 +133,7 @@ Runtime dependencies are reported separately from implementation imports.
 
 JavaScript dependencies include package and relative module specifiers. Named
 and default exports, whether statically or dynamically imported, are retained.
+Module specifiers are sorted and deduplicated.
 
   $ cat > javascript_imports.ml <<'EOF'
   > external named_export : int = "named" [@@mel.module "package-name"]
@@ -101,11 +144,16 @@ and default exports, whether statically or dynamically imported, are retained.
   >   [@@mel.module "dynamic-package"]
   > external dynamic_named : int = "named"
   >   [@@mel.module "dynamic-named-package"]
+  > external duplicate_named : int = "named" [@@mel.module "same-package"]
+  > external duplicate_default : int = "default"
+  >   [@@mel.module "same-package"]
   > let named_export = named_export
   > let relative = relative
   > let default_export = default_export
   > let dynamic_default : int Js.promise = Js.import dynamic_default
   > let dynamic_named : int Js.promise = Js.import dynamic_named
+  > let duplicate_named = duplicate_named
+  > let duplicate_default = duplicate_default
   > EOF
   $ melc --ppx melppx --bs-no-bin-annot --mel-stop-after-cmj \
   >   javascript_imports.ml -o javascript_imports.cmj
@@ -117,6 +165,7 @@ and default exports, whether statically or dynamically imported, are retained.
     dynamic-named-package
     dynamic-package
     package-name
+    same-package
   Implementations imported:
 
 Dynamic imports of Melange modules remain implementation dependencies.
