@@ -7,6 +7,14 @@ type dependencies = {
   external_ : string list;
 }
 
+let sort_uniq_dependencies { ml; runtime; external_ } =
+  let sort_uniq = List.sort_uniq String.compare in
+  {
+    ml = sort_uniq ml;
+    runtime = sort_uniq runtime;
+    external_ = sort_uniq external_;
+  }
+
 let dependencies (cmj : Js_cmj_format.t) =
   List.fold_right
     (fun (module_id : J.module_id) dependencies ->
@@ -18,6 +26,7 @@ let dependencies (cmj : Js_cmj_format.t) =
           { dependencies with external_ = name :: dependencies.external_ })
     cmj.delayed_program.modules
     { ml = []; runtime = []; external_ = [] }
+  |> sort_uniq_dependencies
 
 let print_names heading names =
   match names with
@@ -32,22 +41,30 @@ let print_implementation name =
   Printf.printf "  --------------------------------  %s\n" name
 
 let print_file file =
-  let cmj = Js_cmj_format.from_file file in
-  let { ml; runtime; external_ } = dependencies cmj in
-  Printf.printf "File %s\n" file;
-  print_names "Runtime modules imported" runtime;
-  print_names "JavaScript modules imported" external_;
-  Printf.printf "Implementations imported:\n";
-  List.iter print_implementation ml
+  try
+    let cmj = Js_cmj_format.from_file file in
+    let { ml; runtime; external_ } = dependencies cmj in
+    Printf.printf "File %s\n" file;
+    print_names "Runtime modules imported" runtime;
+    print_names "JavaScript modules imported" external_;
+    (* Keep this section unconditional and last: ocamlobjinfo-compatible parsers
+       use it to delimit the implementation imports for each file. *)
+    Printf.printf "Implementations imported:\n";
+    List.iter print_implementation ml;
+    Ok ()
+  with exn -> Error (Printf.sprintf "%s: %s" file (Printexc.to_string exn))
+
+let rec print_files = function
+  | [] -> `Ok ()
+  | file :: files -> (
+      match print_file file with
+      | Ok () -> print_files files
+      | Error message -> `Error (false, message))
 
 let run files =
   match files with
   | [] -> `Error (true, "at least one CMJ file is required")
-  | _ -> (
-      try
-        List.iter print_file files;
-        `Ok ()
-      with exn -> `Error (false, Printexc.to_string exn))
+  | _ -> print_files files
 
 let files =
   let doc = "CMJ files to inspect." in
