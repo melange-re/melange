@@ -7,13 +7,14 @@ type dependencies = {
   external_ : string list;
 }
 
-let sort_uniq_dependencies { ml; runtime; external_ } =
+let sort_uniq_dependencies =
   let sort_uniq = List.sort_uniq String.compare in
-  {
-    ml = sort_uniq ml;
-    runtime = sort_uniq runtime;
-    external_ = sort_uniq external_;
-  }
+  fun { ml; runtime; external_ } ->
+    {
+      ml = sort_uniq ml;
+      runtime = sort_uniq runtime;
+      external_ = sort_uniq external_;
+    }
 
 let dependencies (cmj : Js_cmj_format.t) =
   List.fold_right
