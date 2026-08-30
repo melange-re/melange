@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+- CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
+  dependencies stored in `.cmj` files
+  ([#1858](https://github.com/melange-re/melange/pull/1858))
 - compiler: warn when `--mel-cross-module-opt` cannot find a dependency's
   `.cmj` file ([#1857](https://github.com/melange-re/melange/pull/1857))
 
