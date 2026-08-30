@@ -1,3 +1,11 @@
+Unreleased
+----------
+
+- CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
+  dependencies stored in `.cmj` files
+  ([#1859](https://github.com/melange-re/melange/pull/1859))
+
+
 7.0.1-55 2026-07-12
 ---------------
 
@@ -740,4 +748,3 @@
 - Initial public release
 
 This is the only release of Melange that supports OCaml 4.12.
-
