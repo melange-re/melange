@@ -30,7 +30,6 @@ type nested_call_summary =
   | Call_summary of Lam_call_summary.t
   | Call_summary_submodule of nested_call_summary array
 
-(* TODO: add a magic number *)
 type cmj_value = {
   arity : arity;
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
@@ -89,34 +88,52 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
   }
 
 (* Serialization .. *)
-let marshal_header_size = 16
+(* Increment the suffix whenever the representation or interpretation of the
+   marshalled object graph rooted at [t] changes incompatibly. This includes
+   changes to transitively referenced types and to the OCaml Marshal format. *)
+let magic_number = "MelangeCMJ001"
+let magic_number_size = String.length magic_number
+let digest_size = 16
+let marshal_header_size = magic_number_size + digest_size
+let invalid_format name = Mel_exception.error (Cmj_invalid_format name)
 
 let from_file name : t =
   let s = Io.read_file name in
-  let _digest = Digest.substring s 0 marshal_header_size in
-  Marshal.from_string s marshal_header_size
+  let size = String.length s in
+  if size < marshal_header_size then invalid_format name;
+  let actual_magic = String.sub s ~pos:0 ~len:magic_number_size in
+  if not (String.equal actual_magic magic_number) then invalid_format name;
+  let expected_digest = String.sub s ~pos:magic_number_size ~len:digest_size in
+  let actual_digest =
+    Digest.substring s marshal_header_size (size - marshal_header_size)
+  in
+  if not (Digest.equal expected_digest actual_digest) then invalid_format name;
+  match Marshal.from_string s marshal_header_size with
+  | cmj -> cmj
+  | exception (Failure _ | Invalid_argument _) -> invalid_format name
 
 (* This may cause some build system always rebuild
    maybe should not be turned on by default *)
 let to_file =
-  let for_sure_not_changed name header =
+  let for_sure_not_changed name digest =
     match Sys.file_exists name with
     | true ->
-        let holder =
-          Io.with_file_in_fd name ~f:(fun fd ->
-              let buf = Bytes.create marshal_header_size in
-              let _len = Unix.read fd buf 0 marshal_header_size in
-              Bytes.unsafe_to_string buf)
-        in
-        String.equal holder header
+        Io.with_file_in name ~f:(fun ic ->
+            match
+              let actual_magic = really_input_string ic magic_number_size in
+              String.equal actual_magic magic_number
+              && Digest.equal (Digest.input ic) digest
+              && Digest.equal (Digest.channel ic (-1)) digest
+            with
+            | unchanged -> unchanged
+            | exception End_of_file -> false)
     | false -> false
   in
   fun name (v : t) ->
     let s = Marshal.to_string v [] in
     let cur_digest = Digest.string s in
-    let header = cur_digest in
-    if not (for_sure_not_changed name header) then
-      Io.write_filev name [ header; s ]
+    if not (for_sure_not_changed name cur_digest) then
+      Io.write_filev name [ magic_number; cur_digest; s ]
 
 let keyComp (a : string) b = String.compare a b.name
 

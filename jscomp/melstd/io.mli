@@ -22,6 +22,7 @@
 *)
 
 (* Read *)
+val with_file_in : ?binary:bool -> string -> f:(in_channel -> 'a) -> 'a
 val with_file_in_fd : string -> f:(Unix.file_descr -> 'a) -> 'a
 val read_file : ?binary:bool -> string -> string
 
