@@ -131,6 +131,28 @@ let external_id_is_relative id =
   | { is_relative } -> Some is_relative
   | exception Not_found -> None
 
+let resolve_external_call_summary ~dynamic_import ident name
+    ~arity:direct_arity =
+  let direct_external arity ~relocatable =
+    Lam_call_summary.Direct_external
+      { dynamic_import; id = ident; name; arity; relocatable }
+  in
+  match external_id_is_relative ident with
+  | Some is_relative -> (
+      match direct_arity with
+      | Some arity -> direct_external arity ~relocatable:(not is_relative)
+      | None -> Lam_call_summary.Unknown)
+  | None -> (
+      match query_external_id_info ~dynamic_import ident name with
+      | Some { arity; call_summary; _ } -> (
+          if not (Lam_call_summary.is_unknown call_summary) then call_summary
+          else
+            match arity with
+            | Single arity when not (Lam_arity.first_arity_na arity) ->
+                direct_external arity ~relocatable:true
+            | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+      | None -> Lam_call_summary.Unknown)
+
 let is_relative_external_id id =
   match external_id_is_relative id with
   | Some true -> true
