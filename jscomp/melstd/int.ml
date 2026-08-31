@@ -29,6 +29,16 @@ module T = struct
 end
 
 include T
+
+(** {[
+     (power_2_above 16 63 = 64)
+       (power_2_above 16 76 = 128)
+   ]} *)
+let rec power_2_above x n =
+  if x >= n then x
+  else if x * 2 > Sys.max_array_length then x
+  else power_2_above (x * 2) n
+
 module Map = MoreLabels.Map.Make (T)
 module Set = MoreLabels.Set.Make (T)
 module Hashtbl = MoreLabels.Hashtbl.Make (T)

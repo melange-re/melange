@@ -38,17 +38,8 @@ type t = {
 let key_index_by_ident (h : t) (key : Ident.t) =
   Mel_ident.hash key land (Array.length h.data - 1)
 
-(** {[
-     (power_2_above 16 63 = 64)
-       (power_2_above 16 76 = 128)
-   ]} *)
-let rec power_2_above x n =
-  if x >= n then x
-  else if x * 2 > Sys.max_array_length then x
-  else power_2_above (x * 2) n
-
 let create initial_size =
-  let s = power_2_above 8 initial_size in
+  let s = Int.power_2_above 8 initial_size in
   { size = 0; data = Array.make s Empty; mask_size = 0 }
 
 let iter_and_unmask h ~f =
