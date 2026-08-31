@@ -560,12 +560,8 @@ module rec Parse : PARSER = struct
         in
         Expect.token env T_RCURLY;
         let trailing =
-          match (expression, Peek.token env) with
-          | (true, _)
-          | (_, (T_RCURLY | T_EOF)) ->
-            Eat.trailing_comments env
-          | _ when Peek.is_line_terminator env -> Eat.comments_until_next_line env
-          | _ -> []
+          Parser_common.trailing_comments_after_delimiter
+            ~consume_all:expression env
         in
         let comments =
           Flow_ast_utils.mk_comments_with_internal_opt ~leading ~trailing ~internal ()

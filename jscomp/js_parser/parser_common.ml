@@ -328,6 +328,23 @@ module type MATCH_PATTERN = sig
   val match_pattern : env -> (Loc.t, Loc.t) MatchPattern.t
 end
 
+let trailing_comments_after_delimiter ?(consume_all = false) env =
+  let consume_all =
+    consume_all
+    ||
+    match Peek.token env with
+    | Token.T_EOF
+    | Token.T_RCURLY ->
+      true
+    | _ -> false
+  in
+  if consume_all then
+    Eat.trailing_comments env
+  else if Peek.is_line_terminator env then
+    Eat.comments_until_next_line env
+  else
+    []
+
 let identifier_name_raw env =
   let open Token in
   let name =

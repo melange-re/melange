@@ -67,12 +67,8 @@ module Statement
       Implicit { trailing = Eat.trailing_comments env; remove_trailing = (fun x _ -> x) }
     | T_SEMICOLON ->
       Eat.token env;
-      (match Peek.token env with
-      | T_EOF
-      | T_RCURLY ->
-        Explicit (Eat.trailing_comments env)
-      | _ when Peek.is_line_terminator env -> Explicit (Eat.comments_until_next_line env)
-      | _ -> Explicit [])
+      Explicit
+        (Parser_common.trailing_comments_after_delimiter env)
     | _ when Peek.is_line_terminator env ->
       Implicit (Comment_attachment.trailing_and_remover_after_last_line env)
     | _ ->

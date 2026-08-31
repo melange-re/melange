@@ -259,14 +259,7 @@ end = struct
         in
         let internal = internal @ Peek.comments env in
         Expect.token env T_RCURLY;
-        let trailing =
-          match Peek.token env with
-          | T_EOF
-          | T_RCURLY ->
-            Eat.trailing_comments env
-          | _ when Peek.is_line_terminator env -> Eat.comments_until_next_line env
-          | _ -> []
-        in
+        let trailing = Parser_common.trailing_comments_after_delimiter env in
         let comments =
           Flow_ast_utils.mk_comments_with_internal_opt ~leading ~trailing ~internal ()
         in

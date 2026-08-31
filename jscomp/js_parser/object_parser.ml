@@ -941,14 +941,7 @@ module Object
         (key, annot, value, [])
       | T_SEMICOLON ->
         Eat.token env;
-        let trailing =
-          match Peek.token env with
-          | T_EOF
-          | T_RCURLY ->
-            Eat.trailing_comments env
-          | _ when Peek.is_line_terminator env -> Eat.comments_until_next_line env
-          | _ -> []
-        in
+        let trailing = Parser_common.trailing_comments_after_delimiter env in
         (key, annot, value, trailing)
       | _ ->
         let remover =
@@ -1856,12 +1849,8 @@ module Object
             exit_class env;
             Expect.token env T_RCURLY;
             let trailing =
-              match (expression, Peek.token env) with
-              | (true, _)
-              | (_, (T_RCURLY | T_EOF)) ->
-                Eat.trailing_comments env
-              | _ when Peek.is_line_terminator env -> Eat.comments_until_next_line env
-              | _ -> []
+              Parser_common.trailing_comments_after_delimiter
+                ~consume_all:expression env
             in
             { Ast.Class.Body.body; comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () }
           ) else (
@@ -2113,14 +2102,7 @@ module Object
         let leading = Peek.comments env in
         if Eat.maybe env T_LCURLY then (
           let body = elements env [] in
-          let trailing =
-            match Peek.token env with
-            | T_RCURLY
-            | T_EOF ->
-              Eat.trailing_comments env
-            | _ when Peek.is_line_terminator env -> Eat.comments_until_next_line env
-            | _ -> []
-          in
+          let trailing = Parser_common.trailing_comments_after_delimiter env in
           Expect.token env T_RCURLY;
           { Body.body; comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () }
         ) else (
