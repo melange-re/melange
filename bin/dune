@@ -17,3 +17,9 @@
  (package melange)
  (modules melppx)
  (libraries melange.ppx ppxlib))
+
+(executable
+ (public_name melobjinfo)
+ (package melange)
+ (modules melobjinfo)
+ (libraries cmdliner melangelib))
