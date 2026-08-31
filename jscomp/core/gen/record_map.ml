@@ -26,20 +26,9 @@ and mkBodyApply =
 and mkStructuralTy (ty : Ast.core_type) allNames =
   match ty.ptyp_desc with
   | Ptyp_constr ({ txt = def; _ }, []) -> (
-      let basic = isSupported def allNames in
-      match basic with
-      | `no -> skip_obj
-      | `yes _ | `exclude _ ->
-          let code =
-            match basic with
-            | `yes name ->
-                Ast_helper.Exp.(
-                  field
-                    (ident { txt = Lident "_self"; loc })
-                    { txt = Lident name; loc })
-            | `exclude name -> Ast_helper.Exp.ident { txt = Lident name; loc }
-            | _ -> assert false
-          in
+      match Record_common.structural_method def allNames with
+      | None -> skip_obj
+      | Some code ->
           {
             eta = [%expr fun _self arg -> [%e code] _self arg];
             beta =
@@ -58,19 +47,12 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
            (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:"."))
   | Ptyp_tuple xs ->
       let len = List.length xs in
-      let args0 = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let args0 = Record_common.indexed_names len in
       let vbs = mkBodyApply xs allNames args0 in
-      let args =
-        Ast_helper.Pat.tuple
-          (Array.map ~f:(fun s -> Ast_helper.Pat.var { txt = s; loc }) args0
-          |> Array.to_list)
-      in
+      let args = Record_common.tuple_pattern args0 in
       let body =
         Ast_helper.Exp.(
-          let_ Nonrecursive vbs
-            (tuple
-               (Array.map ~f:(fun s -> ident { txt = Lident s; loc }) args0
-               |> Array.to_list)))
+          let_ Nonrecursive vbs (Record_common.tuple_expression args0))
       in
       {
         eta = [%expr fun _self [%p args] -> [%e body]];
@@ -109,21 +91,9 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
           (Exp.ident { txt = Lident "v"; loc }))
   | Pcstr_tuple tys -> (
       let len = List.length tys in
-      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let args = Record_common.indexed_names len in
       let pat_exp =
-        Ast_helper.(
-          Pat.construct
-            { txt = Lident branch.pcd_name.txt; loc }
-            (Some
-               (match tys with
-               | [] -> assert false
-               | _ :: [] -> Ast_helper.Pat.var { txt = args.(0); loc }
-               | tys ->
-                   Ast_helper.Pat.tuple
-                     (List.mapi
-                        ~f:(fun idx _ ->
-                          Ast_helper.Pat.var { txt = args.(idx); loc })
-                        tys))))
+        Record_common.constructor_pattern branch.pcd_name.txt args
       in
       match mkBodyApply tys allNames args with
       | [] ->
@@ -137,37 +107,14 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
               (Exp.ident { txt = Lident "v"; loc }))
       | vbs ->
           let exp =
-            Ast_helper.Exp.(
-              construct
-                { txt = Lident branch.pcd_name.txt; loc }
-                (Some
-                   (match tys with
-                   | [] -> assert false
-                   | _ :: [] -> ident { txt = Lident args.(0); loc }
-                   | tys ->
-                       tuple
-                         (List.mapi
-                            ~f:(fun idx _ ->
-                              ident { txt = Lident args.(idx); loc })
-                            tys))))
+            Record_common.constructor_expression branch.pcd_name.txt args
           in
           Ast_helper.Exp.(case pat_exp (let_ Nonrecursive vbs exp)))
   | Pcstr_record lbdcls -> (
       let len = List.length lbdcls in
-      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let args = Record_common.indexed_names len in
       let pat_exp =
-        Ast_helper.(
-          Pat.construct
-            { txt = Lident branch.pcd_name.txt; loc }
-            (Some
-               (Ast_helper.Pat.record
-                  (List.mapi
-                     ~f:(fun idx { Ast.pld_name; _ } ->
-                       let { Asttypes.txt = name; loc } = pld_name in
-                       ( { pld_name with txt = Ppxlib.Longident.Lident name },
-                         Ast_helper.Pat.var { txt = args.(idx); loc } ))
-                     lbdcls)
-                  Closed)))
+        Record_common.constructor_record_pattern branch.pcd_name.txt lbdcls args
       in
       match
         mkBodyApply
@@ -185,18 +132,8 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
               (Exp.ident { txt = Lident "v"; loc }))
       | vbs ->
           let exp =
-            Ast_helper.Exp.(
-              construct
-                { txt = Lident branch.pcd_name.txt; loc }
-                (Some
-                   (record
-                      (List.mapi
-                         ~f:(fun idx { Ast.pld_name; _ } ->
-                           let { Asttypes.txt = name; loc } = pld_name in
-                           ( { pld_name with txt = Ppxlib.Longident.Lident name },
-                             ident { txt = Lident args.(idx); loc } ))
-                         lbdcls)
-                      None)))
+            Record_common.constructor_record_expression branch.pcd_name.txt
+              lbdcls args
           in
           Ast_helper.Exp.(case pat_exp (let_ Nonrecursive vbs exp)))
 
@@ -213,17 +150,8 @@ let mkBody (tdcl : Ast.type_declaration) allNames =
       (mkStructuralTy ty allNames).eta
   | Ptype_record lbdcls ->
       let len = List.length lbdcls in
-      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
-      let pat_exp =
-        Ast_helper.Pat.record
-          (List.mapi
-             ~f:(fun idx { Ast.pld_name; _ } ->
-               let { Asttypes.txt = name; loc } = pld_name in
-               ( { pld_name with txt = Ppxlib.Longident.Lident name },
-                 Ast_helper.Pat.var { txt = args.(idx); loc } ))
-             lbdcls)
-          Closed
-      in
+      let args = Record_common.indexed_names len in
+      let pat_exp = Record_common.record_pattern lbdcls args in
       let vbs =
         mkBodyApply
           (List.map ~f:(fun { Ast.pld_type = ty; _ } -> ty) lbdcls)
@@ -231,15 +159,7 @@ let mkBody (tdcl : Ast.type_declaration) allNames =
       in
       let body =
         Ast_helper.Exp.(
-          let_ Nonrecursive vbs
-            (record
-               (List.mapi
-                  ~f:(fun idx { Ast.pld_name; _ } ->
-                    let { Asttypes.txt = name; loc } = pld_name in
-                    ( { pld_name with txt = Ppxlib.Longident.Lident name },
-                      ident { txt = Lident args.(idx); loc } ))
-                  lbdcls)
-               None))
+          let_ Nonrecursive vbs (Record_common.record_expression lbdcls args))
       in
       [%expr fun _self [%p pat_exp] -> [%e body]]
   | Ptype_open -> failwith "unknown"
@@ -260,36 +180,14 @@ let make type_declaration =
     List.map ~f:(fun typedef -> mkMethod typedef names) type_declarations
   in
   let type_iter =
-    let record =
-      Parsetree.Ptype_record
-        (List.map
-           ~f:(fun name ->
-             Ast_helper.(
-               Type.field { txt = name; loc }
-                 (Typ.constr { txt = Lident "fn"; loc }
-                    [ Typ.constr { txt = Lident name; loc } [] ])))
-           (StringSet.to_seq customNames |> List.of_seq))
-    in
-    let iter = Ast_helper.Type.mk ~kind:record { txt = "iter"; loc } in
-    let fn =
-      Ast_helper.Type.mk
-        ~params:[ ([%type: 'a], (NoVariance, NoInjectivity)) ]
-        ~manifest:[%type: iter -> 'a -> 'a] { txt = "fn"; loc }
-    in
-    Ast_helper.Str.type_ Recursive [ iter; fn ]
+    Record_common.traversal_types customNames ~iter_params:[]
+      ~field_type:(fun name ->
+        Ast_helper.Typ.constr { txt = Lident "fn"; loc }
+          [ Ast_helper.Typ.constr { txt = Lident name; loc } [] ])
+      ~fn_params:[ ([%type: 'a], (NoVariance, NoInjectivity)) ]
+      ~fn_manifest:[%type: iter -> 'a -> 'a]
   in
-  let let_super =
-    let super =
-      Ast_helper.Exp.record
-        (List.map
-           ~f:(fun s ->
-             let lid = { Asttypes.txt = Ppxlib.Longident.Lident s; loc } in
-             (lid, Ast_helper.Exp.ident lid))
-           (StringSet.to_seq customNames |> List.of_seq))
-        None
-    in
-    [%stri let super : iter = [%e super]]
-  in
+  let let_super = Record_common.super customNames [%type: iter] in
 
   [%str
     open J
