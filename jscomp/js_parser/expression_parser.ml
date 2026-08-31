@@ -1499,60 +1499,20 @@ module Expression
 
   and match_expression env ~match_keyword_loc ~leading ~arg =
     let case env =
-      let leading = Peek.comments env in
-      let case_match_root_loc = Peek.loc env |> Loc.start_loc in
-      let invalid_prefix_case =
-        if Peek.token env = T_CASE then (
-          let loc = Peek.loc env in
-          Eat.token env;
-          Some loc
-        ) else
-          None
-      in
-      let pattern = Parse.match_pattern env in
-      let guard =
-        if Eat.maybe env T_IF then (
-          Expect.token env T_LPAREN;
-          let test = Parse.expression env in
-          Expect.token env T_RPAREN;
-          Some test
-        ) else
-          None
-      in
-      let invalid_infix_colon =
-        if Peek.token env = T_COLON then (
-          let loc = Peek.loc env in
-          Eat.token env;
-          Some loc
-        ) else (
-          Expect.token env T_ARROW;
-          None
-        )
-      in
-      let body = assignment env in
-      let invalid_suffix_semicolon =
-        match Peek.token env with
-        | T_EOF
-        | T_RCURLY ->
-          None
-        | T_SEMICOLON ->
-          let loc = Peek.loc env in
-          Eat.token env;
-          Some loc
-        | _ ->
-          Expect.token env T_COMMA;
-          None
-      in
-      let trailing = Eat.trailing_comments env in
-      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
-      let invalid_syntax =
-        {
-          Match.Case.InvalidSyntax.invalid_prefix_case;
-          invalid_infix_colon;
-          invalid_suffix_semicolon;
-        }
-      in
-      { Match.Case.pattern; body; guard; comments; invalid_syntax; case_match_root_loc }
+      Parser_common.match_case env ~parse_pattern:Parse.match_pattern
+        ~parse_expression:Parse.expression ~parse_body:assignment
+        ~parse_suffix:(fun env ->
+          match Peek.token env with
+          | T_EOF
+          | T_RCURLY ->
+            None
+          | T_SEMICOLON ->
+            let loc = Peek.loc env in
+            Eat.token env;
+            Some loc
+          | _ ->
+            Expect.token env T_COMMA;
+            None)
     in
     let rec case_list env acc =
       match Peek.token env with

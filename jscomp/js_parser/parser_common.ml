@@ -328,6 +328,50 @@ module type MATCH_PATTERN = sig
   val match_pattern : env -> (Loc.t, Loc.t) MatchPattern.t
 end
 
+let match_case env ~parse_pattern ~parse_expression ~parse_body ~parse_suffix =
+  let leading = Peek.comments env in
+  let case_match_root_loc = Peek.loc env |> Loc.start_loc in
+  let invalid_prefix_case =
+    if Peek.token env = Token.T_CASE then (
+      let loc = Peek.loc env in
+      Eat.token env;
+      Some loc
+    ) else
+      None
+  in
+  let pattern = parse_pattern env in
+  let guard =
+    if Eat.maybe env Token.T_IF then (
+      Expect.token env Token.T_LPAREN;
+      let test = parse_expression env in
+      Expect.token env Token.T_RPAREN;
+      Some test
+    ) else
+      None
+  in
+  let invalid_infix_colon =
+    if Peek.token env = Token.T_COLON then (
+      let loc = Peek.loc env in
+      Eat.token env;
+      Some loc
+    ) else (
+      Expect.token env Token.T_ARROW;
+      None
+    )
+  in
+  let body = parse_body env in
+  let invalid_suffix_semicolon = parse_suffix env in
+  let trailing = Eat.trailing_comments env in
+  let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
+  let invalid_syntax =
+    {
+      Match.Case.InvalidSyntax.invalid_prefix_case;
+      invalid_infix_colon;
+      invalid_suffix_semicolon;
+    }
+  in
+  { Match.Case.pattern; body; guard; comments; invalid_syntax; case_match_root_loc }
+
 let identifier_name_raw env =
   let open Token in
   let name =

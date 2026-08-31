@@ -593,48 +593,14 @@ module Statement
   and match_statement env =
     let open Match in
     let case env =
-      let leading = Peek.comments env in
-      let case_match_root_loc = Peek.loc env |> Loc.start_loc in
-      let invalid_prefix_case =
-        if Peek.token env = T_CASE then (
-          let loc = Peek.loc env in
-          Eat.token env;
-          Some loc
-        ) else
-          None
-      in
-      let pattern = Parse.match_pattern env in
-      let guard =
-        if Eat.maybe env T_IF then (
-          Expect.token env T_LPAREN;
-          let test = Parse.expression env in
-          Expect.token env T_RPAREN;
-          Some test
-        ) else
-          None
-      in
-      let invalid_infix_colon =
-        if Peek.token env = T_COLON then (
-          let loc = Peek.loc env in
-          Eat.token env;
-          Some loc
-        ) else (
-          Expect.token env T_ARROW;
-          None
-        )
-      in
-      let body = Parse.statement ~allow_sequence:false (env |> with_in_match_statement true) in
-      ignore @@ Eat.maybe env T_COMMA;
-      let trailing = Eat.trailing_comments env in
-      let comments = Flow_ast_utils.mk_comments_opt ~leading ~trailing () in
-      let invalid_syntax =
-        {
-          Case.InvalidSyntax.invalid_prefix_case;
-          invalid_infix_colon;
-          invalid_suffix_semicolon = None;
-        }
-      in
-      { Case.pattern; body; guard; comments; invalid_syntax; case_match_root_loc }
+      Parser_common.match_case env ~parse_pattern:Parse.match_pattern
+        ~parse_expression:Parse.expression
+        ~parse_body:(fun env ->
+          Parse.statement ~allow_sequence:false
+            (env |> with_in_match_statement true))
+        ~parse_suffix:(fun env ->
+          ignore @@ Eat.maybe env T_COMMA;
+          None)
     in
     let rec case_list env acc =
       match Peek.token env with
