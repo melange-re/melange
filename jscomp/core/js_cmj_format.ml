@@ -92,7 +92,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
 let marshal_header_size = 16
 
 let from_file name : t =
-  let s = Io.read_file name in
+  let s = Io.read_file_exn name in
   let _digest = Digest.substring s 0 marshal_header_size in
   Marshal.from_string s marshal_header_size
 
@@ -116,7 +116,7 @@ let to_file =
     let cur_digest = Digest.string s in
     let header = cur_digest in
     if not (for_sure_not_changed name header) then
-      Io.write_filev name [ header; s ]
+      Io.write_filev_exn name [ header; s ]
 
 let keyComp (a : string) b = String.compare a b.name
 
