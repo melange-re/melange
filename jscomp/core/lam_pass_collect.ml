@@ -58,39 +58,14 @@ let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     alias propgation - and toplevel identifiers, this needs to be exported
 *)
 let collect_info =
-  let direct_external ~dynamic_import id name arity ~relocatable =
-    Lam_call_summary.Direct_external
-      { dynamic_import; id; name; arity; relocatable }
-  in
-  let find_external ~dynamic_import ident name ~arity:direct_arity =
-    match Lam_compile_env.external_id_is_relative ident with
-    | Some is_relative -> (
-        match direct_arity with
-        | Some arity ->
-            direct_external ~dynamic_import ident name arity
-              ~relocatable:(not is_relative)
-        | None -> Lam_call_summary.Unknown)
-    | None -> (
-        match
-          Lam_compile_env.query_external_id_info ~dynamic_import ident name
-        with
-        | Some ({ arity; call_summary; _ } as _info) -> (
-            if not (Lam_call_summary.is_unknown call_summary) then call_summary
-            else
-              match arity with
-              | Single arity when not (Lam_arity.first_arity_na arity) ->
-                  direct_external ~dynamic_import ident name arity
-                    ~relocatable:true
-              | Single _ | Submodule _ -> Lam_call_summary.Unknown)
-        | None -> Lam_call_summary.Unknown)
-  in
   let find_ident (meta : Lam_stats.t) ident =
     match Ident.Hashtbl.find meta.ident_tbl ident with
     | FunctionId { call_summary; _ } -> call_summary
     | _ | (exception Not_found) -> Lam_call_summary.Unknown
   in
   let summarize meta lam =
-    Lam_call_summary.of_lambda lam ~find_ident:(find_ident meta) ~find_external
+    Lam_call_summary.of_lambda lam ~find_ident:(find_ident meta)
+      ~find_external:Lam_compile_env.resolve_external_call_summary
   in
   let rec collect_bind (meta : Lam_stats.t) rec_flag (ident : Ident.t)
       (lam : Lam.t) =
@@ -155,7 +130,8 @@ let collect_info =
           if Lam_arity.first_arity_na arity then None else Some arity
         in
         let call_summary =
-          find_external ~dynamic_import module_id field_name ~arity:direct_arity
+          Lam_compile_env.resolve_external_call_summary ~dynamic_import
+            module_id field_name ~arity:direct_arity
         in
         if Lam_call_summary.is_unknown call_summary then (
           collect meta lam;

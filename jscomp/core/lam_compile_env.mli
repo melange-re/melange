@@ -85,6 +85,13 @@ val query_external_id_info :
 val external_id_is_relative : Ident.t -> bool option
 (** Returns [None] when the identifier is not a registered JS external module. *)
 
+val resolve_external_call_summary :
+  dynamic_import:bool ->
+  Ident.t ->
+  string ->
+  arity:Lam_arity.t option ->
+  Lam_call_summary.t
+
 val lambda_is_relocatable : Lam.t -> bool
 val is_pure_module : Lam_module_ident.t -> bool
 
