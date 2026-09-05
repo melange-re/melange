@@ -401,8 +401,23 @@ let poly_var_value_access (e : t) =
            { expr = e; field = Js_dump_lit.polyvar_value; pos = Some 1l })
 
 let extension_access (e : t) ?name (pos : int32) : t =
-  let name = match name with Some name -> name | None -> noncons_pos pos in
-  record_access e name pos
+  match e.expression_desc with
+  | Array { items = l; _ } (* Float i -- should not appear here *)
+  | Caml_block { fields = l; _ }
+    when no_side_effect e -> (
+      match List.nth l (Int32.to_int pos) with
+      | x -> x
+      | exception Failure _ ->
+          let name =
+            match name with Some n -> n | None -> "_" ^ Int32.to_string pos
+          in
+          make_expression
+            (Static_index { expr = e; field = name; pos = Some pos }))
+  | _ ->
+      let name =
+        match name with Some n -> n | None -> "_" ^ Int32.to_string pos
+      in
+      make_expression (Static_index { expr = e; field = name; pos = Some pos })
 
 let string_index ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
@@ -499,8 +514,7 @@ let record_assign (e : t) (pos : int32) (name : string) (value : t) =
            (Static_index { expr = e; field = name; pos = Some pos }))
         value
 
-let extension_assign (e : t) (pos : int32) name (value : t) =
-  record_assign e pos name value
+let extension_assign = record_assign
 
 (* This is a property access not external module *)
 
