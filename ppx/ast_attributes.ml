@@ -178,24 +178,16 @@ let iter_process_mel_as_cst =
                 match Ast_payload.is_single_int payload with
                 | Some v -> inner rest (Some (Int v))
                 | None -> (
-                    match payload with
-                    | PStr
-                        [
-                          {
-                            pstr_desc =
-                              Pstr_eval
-                                ( {
-                                    pexp_desc =
-                                      Pexp_constant
-                                        (Pconst_string
-                                           (s, _, ((None | Some "json") as dec)));
-                                    pexp_loc;
-                                    _;
-                                  },
-                                  _ );
-                            _;
-                          };
-                        ] -> (
+                    match Ast_payload.as_expression payload with
+                    | Some
+                        {
+                          pexp_desc =
+                            Pexp_constant
+                              (Pconst_string
+                                 (s, _, ((None | Some "json") as dec)));
+                          pexp_loc;
+                          _;
+                        } -> (
                         match dec with
                         | None ->
                             inner rest (Some (External_arg_spec.Arg_cst.Str s))
@@ -212,8 +204,8 @@ let iter_process_mel_as_cst =
                                   "`[@mel.as {json| ... |json}]' only supports \
                                    JavaScript literals");
                             inner rest (Some (Js_literal s)))
-                    | _ -> Error.err ~loc Expect_int_or_string_or_json_literal))
-            )
+                    | Some _ | None ->
+                        Error.err ~loc Expect_int_or_string_or_json_literal)))
         | _ -> inner rest st)
     | [] -> st
   in
@@ -321,19 +313,12 @@ let partition_by_mel_ffi_attribute =
       :: rest -> (
         match st with
         | None -> (
-            match attr_payload with
-            | PStr
-                [
-                  {
-                    pstr_desc =
-                      Pstr_eval ({ pexp_desc = Pexp_constant const; _ }, _);
-                    _;
-                  };
-                ] -> (
+            match Ast_payload.as_expression attr_payload with
+            | Some { pexp_desc = Pexp_constant const; _ } -> (
                 match const with
                 | Pconst_string (s, _, _) -> inner rest acc (Some s)
                 | _ -> inner rest (x :: acc) st)
-            | _ ->
+            | Some _ | None ->
                 Location.raise_errorf ~loc
                   "`[@mel.internal.ffi \"..\"]' annotation must be a string")
         | Some _ ->

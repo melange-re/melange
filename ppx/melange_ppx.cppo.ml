@@ -213,8 +213,8 @@ module Time = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        match payload with
-        | PStr [ { pstr_desc = Pstr_eval (e, _); _ } ] ->
+        match Ast_payload.as_expression payload with
+        | Some e ->
             let locString =
               match loc.loc_ghost with
               | true -> "GHOST LOC"
@@ -248,7 +248,7 @@ module Time = struct
                           }]
                         [%e Exp.constant (Pconst_string (locString, loc, None))]]
                     (Exp.ident ~loc { loc; txt = Lident "timed" })))
-        | _ ->
+        | None ->
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
       in
@@ -310,23 +310,15 @@ module Obj = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        match payload with
-        | PStr
-            [
-              {
-                pstr_desc =
-                  Pstr_eval
-                    ( ({ pexp_desc = Pexp_record (label_exprs, None); _ } as e),
-                      _ );
-                _;
-              };
-            ] ->
+        match Ast_payload.as_expression payload with
+        | Some ({ pexp_desc = Pexp_record (label_exprs, None); _ } as e) ->
             {
               e with
               pexp_desc =
                 Ast_object.record_as_js_object ~loc:e.pexp_loc label_exprs;
             }
-        | _ -> Location.raise_errorf ~loc "%%mel.obj requires a record literal"
+        | Some _ | None ->
+            Location.raise_errorf ~loc "%%mel.obj requires a record literal"
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
@@ -777,14 +769,8 @@ module Mapper = struct
                           ({ pcd_attributes; _ } : constructor_declaration) ->
                         List.iter
                           ~f:(fun ({ attr_payload; _ } as attr) ->
-                            match attr_payload with
-                            | PStr
-                                [
-                                  {
-                                    pstr_desc = Pstr_eval ({ pexp_desc; _ }, _);
-                                    _;
-                                  };
-                                ] -> (
+                            match Ast_payload.as_expression attr_payload with
+                            | Some { pexp_desc; _ } -> (
                                 match pexp_desc with
                                 | Pexp_construct ({ loc = _; txt = Lident ("true" | "false") }, None)
                                 | Pexp_ident { loc = _; txt = Lident ("null" | "undefined") }
@@ -792,7 +778,7 @@ module Mapper = struct
                                     Mel_ast_invariant.mark_used_mel_attribute
                                       attr
                                 | _ -> ())
-                            | _ -> ())
+                            | None -> ())
                           pcd_attributes)
                       cstrs
                 | _ -> ())

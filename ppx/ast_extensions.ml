@@ -92,21 +92,13 @@ let handle_debugger ~loc payload =
 
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
     ?is_function (x : payload) =
-  match x with
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ( ({
-                   pexp_desc = Pexp_constant (Pconst_string (str, _, delimiter));
-                   pexp_loc = loc;
-                   _;
-                 } as e),
-                _ );
-          _;
-        };
-      ] ->
+  match Ast_payload.as_expression x with
+  | Some
+      ({
+         pexp_desc = Pexp_constant (Pconst_string (str, _, delimiter));
+         pexp_loc = loc;
+         _;
+       } as e) ->
       let () =
         let check_errors = Melange_ffi.Flow_ast_utils.Check { delimiter } in
         match kind with
