@@ -54,28 +54,11 @@ let destruct =
   fun e -> inner e []
 
 (** destruct {[ A.B.let open C in (a,b)]} *)
-let destruct_open_tuple =
-  let rec inner e acc : (t list * expression list * _) option =
-    match e with
-    | {
-     pexp_desc =
-       Pexp_open
-         ( {
-             popen_override = override;
-             popen_expr = { pmod_desc = Pmod_ident ident; _ };
-             _;
-           },
-           cont );
-     pexp_loc = loc;
-     pexp_attributes = attributes;
-     _;
-    } ->
-        inner cont ({ override; ident; loc; attributes } :: acc)
-    | { pexp_desc = Pexp_tuple es; pexp_attributes; _ } ->
-        Some (acc, es, pexp_attributes)
-    | _ -> None
-  in
-  fun e -> inner e []
+let destruct_open_tuple e =
+  match destruct e with
+  | { pexp_desc = Pexp_tuple es; pexp_attributes; _ }, opens ->
+      Some (opens, es, pexp_attributes)
+  | _ -> None
 
 let restore_exp xs qualifiers =
   List.fold_left qualifiers ~init:xs
