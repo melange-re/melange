@@ -123,14 +123,7 @@ let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
     (fail : lam option) (arg : lam)
     (int_lambda_list : (int * (string * lam)) list)
     (_names : Lambda.switch_names option) =
-  let int_lambda_list = convert int_lambda_list in
-  match (int_lambda_list, fail) with
-  | (_, act) :: rest, None | rest, Some act ->
-      List.fold_right rest ~init:act
-        ~f:(fun (hash_names, act1) (acc : lam) ->
-          let predicate = or_list arg hash_names in
-          Lifthenelse (predicate, act1, acc))
-  | [], None -> assert false
+  make_test_sequence_variant_constant fail arg int_lambda_list
 
 let call_switcher_variant_constr (loc : Lambda.scoped_location)
     (fail : lam option) (arg : lam) int_lambda_list
