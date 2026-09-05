@@ -79,12 +79,7 @@ let make len init =
   done;
   b
 
-let make_float len =
-  let b = Caml_array_extern.new_uninitialized len in
-  for i = 0 to len - 1 do
-    b.!(i) <- 0.
-  done;
-  b
+let make_float len = make len 0.
 
 let blit a1 i1 a2 i2 len =
   if i2 <= i1 then
