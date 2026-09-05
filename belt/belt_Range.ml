@@ -28,22 +28,24 @@ let forEachU s f action =
   done
 
 let forEach s f action = forEachU s f (fun[@u] a -> action a)
-let rec everyU s f p = if s > f then true else (p s [@u]) && everyU (s + 1) f p
-let every s f p = everyU s f (fun[@u] a -> p a)
 
 let rec everyByAux s f ~step p =
   if s > f then true else (p s [@u]) && everyByAux (s + step) f ~step p
+
+let everyU s f p = everyByAux s f ~step:1 p
+let every s f p = everyU s f (fun[@u] a -> p a)
 
 let everyByU s f ~step p =
   if step > 0 then everyByAux s f ~step p
   else true (* return empty range [true]*)
 
 let everyBy s f ~step p = everyByU s f ~step (fun[@u] a -> p a)
-let rec someU s f p = if s > f then false else (p s [@u]) || someU (s + 1) f p
-let some s f p = someU s f (fun[@u] a -> p a)
 
 let rec someByAux s f ~step p =
   if s > f then false else (p s [@u]) || someByAux (s + step) f ~step p
+
+let someU s f p = someByAux s f ~step:1 p
+let some s f p = someU s f (fun[@u] a -> p a)
 
 let someByU s f ~step p =
   if step > 0 then someByAux s f ~step p
