@@ -29,46 +29,8 @@ open Import
     set the bit of corresponding [id] if [id] is hit.
     As an optimization step if [mask_and_check_all_hit],
     there is no need to iter such lambda any more *)
-let hit_mask : Hash_set_ident_mask.t -> Lam.t -> bool =
-  let rec hit_opt mask (x : Lam.t option) =
-    match x with None -> false | Some a -> hit mask a
-  and hit_var mask (id : Ident.t) =
-    Hash_set_ident_mask.mask_and_check_all_hit mask id
-  and hit_list_snd : 'a. Hash_set_ident_mask.t -> ('a * Lam.t) list -> bool =
-   fun mask x -> List.exists ~f:(fun (_, x) -> hit mask x) x
-  and hit_list mask xs = List.exists ~f:(hit mask) xs
-  and hit mask (l : Lam.t) =
-    match l with
-    | Lvar id | Lmutvar id -> hit_var mask id
-    | Lassign (id, e) -> hit_var mask id || hit mask e
-    | Lstaticcatch (e1, (_, _), e2) -> hit mask e1 || hit mask e2
-    | Ltrywith (e1, _exn, e2) -> hit mask e1 || hit mask e2
-    | Lfunction { body; params = _; _ } -> hit mask body
-    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
-        hit mask arg || hit mask body
-    | Lletrec (decl, body) -> hit mask body || hit_list_snd mask decl
-    | Lfor (_v, e1, e2, _dir, e3) -> hit mask e1 || hit mask e2 || hit mask e3
-    | Lconst _ -> false
-    | Lapply { ap_func; ap_args; _ } ->
-        hit mask ap_func || hit_list mask ap_args
-    | Lglobal_module _ (* playsafe *) -> false
-    | Lprim { args; _ } -> hit_list mask args
-    | Lswitch (arg, sw) ->
-        hit mask arg
-        || hit_list_snd mask sw.sw_consts
-        || hit_list_snd mask sw.sw_blocks
-        || hit_opt mask sw.sw_failaction
-    | Lstringswitch (arg, cases, default) ->
-        hit mask arg || hit_list_snd mask cases || hit_opt mask default
-    | Lstaticraise (_, args) -> hit_list mask args
-    | Lifthenelse (e1, e2, e3) -> hit mask e1 || hit mask e2 || hit mask e3
-    | Lsequence (e1, e2) -> hit mask e1 || hit mask e2
-    | Lwhile (e1, e2) -> hit mask e1 || hit mask e2
-    | Lsend (_k, met, obj, args, _) ->
-        hit mask met || hit mask obj || hit_list mask args
-    | Lifused (_v, e) -> hit mask e
-  in
-  fun mask l -> hit mask l
+let hit_mask mask lam =
+  Lam_iter.exists_ident lam ~f:(Hash_set_ident_mask.mask_and_check_all_hit mask)
 
 type bindings = (Ident.t * Lam.t) Nonempty_list.t
 
