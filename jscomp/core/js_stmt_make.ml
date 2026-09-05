@@ -74,21 +74,12 @@ let define_variable ?comment ?ident_info ~kind (v : Ident.t)
         comment;
       }
 
-let int_switch ?(comment : string option)
-    ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
-    (e : J.expression) (clauses : (int * J.case_clause) list) : t =
-  match e.expression_desc with
-  | Number (Int { i; _ }) -> (
-      let continuation =
-        match
-          List.find_map
-            ~f:(fun (switch_case, (x : J.case_clause)) ->
-              if switch_case = Int32.to_int i then Some x.switch_body else None)
-            clauses
-        with
-        | Some case -> case
-        | None -> ( match default with Some x -> x | None -> assert false)
-      in
+type switch_resolution =
+  | Resolved_switch of J.block
+  | Dynamic_switch of J.statement_desc
+
+let make_switch ?comment ?declaration = function
+  | Resolved_switch continuation -> (
       match (declaration, continuation) with
       | ( Some (kind, did),
           [
@@ -113,80 +104,58 @@ let int_switch ?(comment : string option)
       | Some (kind, did), _ ->
           block (declare_variable ?comment ~kind did :: continuation)
       | None, _ -> block continuation)
-  | _ -> (
+  | Dynamic_switch statement_desc -> (
       match declaration with
       | Some (kind, did) ->
           block
-            [
-              declare_variable ?comment ~kind did;
-              {
-                statement_desc = J.Int_switch { expr = e; clauses; default };
-                comment;
-              };
-            ]
-      | None ->
-          {
-            statement_desc = J.Int_switch { expr = e; clauses; default };
-            comment;
-          })
+            [ declare_variable ?comment ~kind did; { statement_desc; comment } ]
+      | None -> { statement_desc; comment })
+
+let int_switch ?(comment : string option)
+    ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
+    (e : J.expression) (clauses : (int * J.case_clause) list) : t =
+  let resolution =
+    match e.expression_desc with
+    | Number (Int { i; _ }) ->
+        let continuation =
+          match
+            List.find_map
+              ~f:(fun (switch_case, (x : J.case_clause)) ->
+                if switch_case = Int32.to_int i then Some x.switch_body
+                else None)
+              clauses
+          with
+          | Some case -> case
+          | None -> ( match default with Some x -> x | None -> assert false)
+        in
+        Resolved_switch continuation
+    | _ -> Dynamic_switch (J.Int_switch { expr = e; clauses; default })
+  in
+  make_switch ?comment ?declaration resolution
 
 let string_switch ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : J.string_clause list) : t =
-  match e.expression_desc with
-  | Str txt | Unicode txt -> (
-      let continuation =
-        match
-          List.find_map
-            ~f:(fun (switch_case, (x : J.case_clause)) ->
-              match switch_case with
-              | Lambda.String s -> if s = txt then Some x.switch_body else None
-              | Bool _ | Null | Undefined | Int _ -> None)
-            clauses
-        with
-        | Some case -> case
-        | None -> ( match default with Some x -> x | None -> assert false)
-      in
-      match (declaration, continuation) with
-      | ( Some (kind, did),
-          [
-            {
-              statement_desc =
-                Exp
-                  {
-                    expression_desc =
-                      Bin
-                        {
-                          op = Eq;
-                          expr1 = { expression_desc = Var (Id id); _ };
-                          expr2 = e0;
-                        };
-                    _;
-                  };
-              _;
-            };
-          ] )
-        when Ident.same did id ->
-          define_variable ?comment ~kind id e0
-      | Some (kind, did), _ ->
-          block @@ (declare_variable ?comment ~kind did :: continuation)
-      | None, _ -> block continuation)
-  | _ -> (
-      match declaration with
-      | Some (kind, did) ->
-          block
-            [
-              declare_variable ?comment ~kind did;
-              {
-                statement_desc = String_switch { expr = e; clauses; default };
-                comment;
-              };
-            ]
-      | None ->
-          {
-            statement_desc = String_switch { expr = e; clauses; default };
-            comment;
-          })
+  let resolution =
+    match e.expression_desc with
+    | Str txt | Unicode txt ->
+        let continuation =
+          match
+            List.find_map
+              ~f:(fun (switch_case, (x : J.case_clause)) ->
+                match switch_case with
+                | Lambda.String s ->
+                    if s = txt then Some x.switch_body else None
+                | Bool _ | Null | Undefined | Int _ -> None)
+              clauses
+          with
+          | Some case -> case
+          | None -> ( match default with Some x -> x | None -> assert false)
+        in
+        Resolved_switch continuation
+    | _ -> Dynamic_switch (String_switch { expr = e; clauses; default })
+  in
+  make_switch ?comment ?declaration resolution
 
 let rec block_last_is_return_throw_or_continue (x : J.block) =
   match x with
