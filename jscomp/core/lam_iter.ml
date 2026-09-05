@@ -61,3 +61,9 @@ let inner_exists (l : Lam.t) ~(f : Lam.t -> bool) =
   | Lassign (_id, e) -> f e
   | Lsend (_k, met, obj, args, _loc) -> f met || f obj || List.exists ~f args
   | Lifused (_v, e) -> f e
+
+let rec exists_ident (lam : Lam.t) ~(f : Ident.t -> bool) =
+  match lam with
+  | Lvar id | Lmutvar id -> f id
+  | Lassign (id, expression) -> f id || exists_ident expression ~f
+  | _ -> inner_exists lam ~f:(exists_ident ~f)
