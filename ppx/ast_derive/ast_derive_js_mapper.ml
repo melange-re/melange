@@ -128,6 +128,14 @@ let derive_structure =
   let single_non_rec_value name exp =
     Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
   in
+  let not_applicable ~loc =
+    [
+      [%stri
+        [%%ocaml.error
+        [%e
+          Exp.constant (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+    ]
+  in
   let handle_tdcl ~createType (tdcl : type_declaration) =
     let core_type = U.core_type_of_type_declaration tdcl in
     let name = tdcl.ptype_name.txt in
@@ -232,38 +240,21 @@ let derive_structure =
               ]
             in
             if createType then newTypeStr :: v else v
-        | None ->
-            let loc = tdcl.ptype_loc in
-            [
-              [%stri
-                [%%ocaml.error
-                [%e
-                  Exp.constant
-                    (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-            ])
-    | Ptype_variant _ctors ->
-        let loc = tdcl.ptype_loc in
-        [
-          [%stri
-            [%%ocaml.error
-            [%e
-              Exp.constant
-                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-        ]
-    | Ptype_open ->
-        let loc = tdcl.ptype_loc in
-        [
-          [%stri
-            [%%ocaml.error
-            [%e
-              Exp.constant
-                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-        ]
+        | None -> not_applicable ~loc)
+    | Ptype_variant _ | Ptype_open -> not_applicable ~loc
   in
   fun ~newType:createType (tdcls : type_declaration list) ->
     List.concat_map ~f:(handle_tdcl ~createType) tdcls
 
 let derive_signature =
+  let not_applicable ~loc =
+    [
+      [%sigi:
+        [%%ocaml.error
+        [%e
+          Exp.constant (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+    ]
+  in
   let handle_tdcl ~createType tdcl =
     let core_type = U.core_type_of_type_declaration tdcl in
     let name = tdcl.ptype_name.txt in
@@ -307,33 +298,8 @@ let derive_signature =
             in
             newTypeStr
             +? [ toJsType ty1; Sig.value (Val.mk patFromJs (ty1 ->~ ty2)) ]
-        | None ->
-            let loc = tdcl.ptype_loc in
-            [
-              [%sigi:
-                [%%ocaml.error
-                [%e
-                  Exp.constant
-                    (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-            ])
-    | Ptype_variant _ ->
-        let loc = tdcl.ptype_loc in
-        [
-          [%sigi:
-            [%%ocaml.error
-            [%e
-              Exp.constant
-                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-        ]
-    | Ptype_open ->
-        let loc = tdcl.ptype_loc in
-        [
-          [%sigi:
-            [%%ocaml.error
-            [%e
-              Exp.constant
-                (Pconst_string (U.notApplicable derivingName, loc, None))]]];
-        ]
+        | None -> not_applicable ~loc)
+    | Ptype_variant _ | Ptype_open -> not_applicable ~loc
   in
   fun ~newType:createType tdcls ->
     List.concat_map ~f:(handle_tdcl ~createType) tdcls
