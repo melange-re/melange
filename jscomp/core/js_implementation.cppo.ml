@@ -69,10 +69,8 @@ let output_prefix ?(f = Filename.remove_extension) name =
 
 let after_parsing_sig ppf fname ast =
   let outputprefix = output_prefix fname in
-  if !Js_config.as_pp then (
-    output_string stdout Config.ast_intf_magic_number;
-    output_value stdout (!Location.input_name : string);
-    output_value stdout ast);
+  if !Js_config.as_pp then
+    Ml_binary.output Mli stdout ~input_name:!Location.input_name ast;
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else (
     Lam_compile_env.reset ();
@@ -174,10 +172,8 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
-  if !Js_config.as_pp then (
-    output_string stdout Config.ast_impl_magic_number;
-    output_value stdout (!Location.input_name : string);
-    output_value stdout ast);
+  if !Js_config.as_pp then
+    Ml_binary.output Ml stdout ~input_name:!Location.input_name ast;
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else (
     let modulename = module_name outputprefix in
