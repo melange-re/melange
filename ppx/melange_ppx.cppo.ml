@@ -336,6 +336,79 @@ module Obj = struct
 end
 
 module Mapper = struct
+  type inline_literal_value =
+    | Inline_string of string * string option
+    | Inline_int of string
+    | Inline_int64 of string
+    | Inline_float of string
+    | Inline_bool of bool
+
+  type inline_literal =
+    | Inline_literal of inline_literal_value
+    | Invalid_delimited_string
+    | Not_inline_literal
+
+  let classify_inline_literal (expression : expression) =
+    match expression.pexp_desc with
+    | Pexp_constant (Pconst_string (s, _, None)) ->
+        Inline_literal (Inline_string (s, None))
+    | Pexp_constant (Pconst_string (s, loc, Some delim)) -> (
+        match
+          Melange_ffi.Utf8_string.transform ~loc ~delim
+            (Ocaml_common.Ast_helper.Exp.constant
+#if OCAML_VERSION >= (5, 3, 0)
+               {
+                 pconst_desc = Pconst_string (s, loc, Some delim);
+                 pconst_loc = loc;
+               }
+#else
+               (Pconst_string (s, loc, Some delim))
+#endif
+                 )
+            s
+        with
+        | {
+         pexp_desc =
+#if OCAML_VERSION >= (5, 3, 0)
+           Pexp_constant { pconst_desc = Pconst_string (s, _, delim); _ };
+#else
+           Pexp_constant (Pconst_string (s, _, delim));
+#endif
+         _;
+        } ->
+            Inline_literal (Inline_string (s, delim))
+        | _ -> Invalid_delimited_string)
+    | Pexp_constant (Pconst_integer (s, None)) -> Inline_literal (Inline_int s)
+    | Pexp_constant (Pconst_integer (s, Some 'L')) ->
+        Inline_literal (Inline_int64 s)
+    | Pexp_constant (Pconst_float (s, None)) -> Inline_literal (Inline_float s)
+    | Pexp_construct ({ txt = Lident (("true" | "false") as value); _ }, None)
+      ->
+        Inline_literal (Inline_bool (value = "true"))
+    | _ -> Not_inline_literal
+
+  let inline_literal_ffi = function
+    | Inline_string (value, delimiter) ->
+        Melange_ffi.External_ffi_types.inline_string_primitive value
+          ?op:delimiter
+    | Inline_int value ->
+        Melange_ffi.External_ffi_types.inline_int_primitive
+          (Int32.of_string value)
+    | Inline_int64 value ->
+        Melange_ffi.External_ffi_types.inline_int64_primitive
+          (Int64.of_string value)
+    | Inline_float value ->
+        Melange_ffi.External_ffi_types.inline_float_primitive value
+    | Inline_bool value ->
+        Melange_ffi.External_ffi_types.inline_bool_primitive value
+
+  let inline_literal_type ~loc = function
+    | Inline_string _ -> [%type: string]
+    | Inline_int _ -> [%type: int]
+    | Inline_int64 _ -> [%type: int64]
+    | Inline_float _ -> [%type: float]
+    | Inline_bool _ -> [%type: bool]
+
   let mapper =
     let pval_ffi ~pval_name ~pval_type ~pval_loc ffi =
       {
@@ -598,125 +671,51 @@ module Mapper = struct
             in
             let pvb_expr = self#expression pvb_expr in
             let pvb_attributes = self#attributes attrs in
-            match
-              ( Ast_attributes.has_inline_payload pvb_attributes,
-                pvb_expr.pexp_desc )
-            with
-            | Some attr, Pexp_constant (Pconst_string (s, _, None)) ->
-                succeed attr pvb_attributes;
-                let loc = pvb_loc in
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      (pval_ffi
-                        ~pval_name
-                        ~pval_type:[%type: string]
-                        ~pval_loc:loc
-                        (Melange_ffi.External_ffi_types.inline_string_primitive s));
-                }
-            | Some attr, Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
-                match
-                  Melange_ffi.Utf8_string.transform ~loc ~delim:dec
-                    (Ocaml_common.Ast_helper.Exp.constant
-#if OCAML_VERSION >= (5, 3, 0)
-                       {
-                         pconst_desc = Pconst_string (s, loc, Some dec);
-                         pconst_loc = loc;
-                       }
-#else
-                       (Pconst_string (s, loc, Some dec))
-#endif
-                         )
-                    s
-                with
-                | {
-                 pexp_desc =
-#if OCAML_VERSION >= (5, 3, 0)
-                   Pexp_constant { pconst_desc = Pconst_string (s, _, dec); _ };
-#else
-                   Pexp_constant (Pconst_string (s, _, dec));
-#endif
-                 _;
-                } ->
-                    succeed attr pvb_attributes;
+            let value_item () =
+              {
+                str with
+                pstr_desc =
+                  Pstr_value
+                    ( Nonrecursive,
+                      Ast_tuple_pattern_flatten.value_bindings_mapper self
+                        [
+                          {
+                            pvb_pat;
+                            pvb_expr;
+                            pvb_attributes;
+                            pvb_loc;
+                            pvb_constraint;
+                          };
+                        ] );
+              }
+            in
+            match Ast_attributes.has_inline_payload pvb_attributes with
+            | Some attr -> (
+                match classify_inline_literal pvb_expr with
+                | Inline_literal literal ->
+                    (* Preserve conversion-before-warning behavior for integers. *)
+                    let ffi =
+                      match literal with
+                      | Inline_int _ | Inline_int64 _ ->
+                          let ffi = inline_literal_ffi literal in
+                          succeed attr pvb_attributes;
+                          ffi
+                      | Inline_string _ | Inline_float _ | Inline_bool _ ->
+                          succeed attr pvb_attributes;
+                          inline_literal_ffi literal
+                    in
+                    let loc = pvb_loc in
                     {
                       str with
                       pstr_desc =
                         Pstr_primitive
-                          (pval_ffi
-                            ~pval_name
-                            ~pval_type:[%type: string]
-                            ~pval_loc:pvb_loc
-                            (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
-                   );
+                          (pval_ffi ~pval_name
+                             ~pval_type:(inline_literal_type ~loc literal)
+                             ~pval_loc:loc ffi);
                     }
-                | _ -> str)
-            | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
-                let s = Int32.of_string s in
-                succeed attr pvb_attributes;
-                let loc = pvb_loc in
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      (pval_ffi
-                       ~pval_name
-                       ~pval_type:[%type: int]
-                       ~pval_loc:loc
-                       (Melange_ffi.External_ffi_types.inline_int_primitive s))
-                }
-            | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
-                let s = Int64.of_string s in
-                succeed attr pvb_attributes;
-                let loc = pvb_loc in
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      (pval_ffi
-                        ~pval_name
-                        ~pval_type:[%type: int64]
-                        ~pval_loc:loc
-                        (Melange_ffi.External_ffi_types.inline_int64_primitive s))
-                }
-            | Some attr, Pexp_constant (Pconst_float (s, None)) ->
-                succeed attr pvb_attributes;
-                let loc = pvb_loc in
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      (pval_ffi
-                        ~pval_name
-                        ~pval_type:[%type: float]
-                        ~pval_loc:loc
-                        (Melange_ffi.External_ffi_types.inline_float_primitive s));
-                }
-            | ( Some attr,
-                Pexp_construct
-                  ({ txt = Lident (("true" | "false") as bool); _ }, None) ) ->
-                succeed attr pvb_attributes;
-                let loc = pvb_loc in
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_primitive
-                      (pval_ffi
-                        ~pval_name
-                        ~pval_type:[%type: bool]
-                        ~pval_loc:loc
-                        (Melange_ffi.External_ffi_types.inline_bool_primitive (bool = "true")));
-                }
-            | _ ->
-                {
-                  str with
-                  pstr_desc =
-                    Pstr_value
-                      ( Nonrecursive,
-                        Ast_tuple_pattern_flatten.value_bindings_mapper self
-                          [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc; pvb_constraint } ] );
-                })
+                | Invalid_delimited_string -> str
+                | Not_inline_literal -> value_item ())
+            | None -> value_item ())
         | Pstr_value (r, vbs) ->
             {
               str with
@@ -830,162 +829,57 @@ module Mapper = struct
               | None -> value_desc_orig
             in
             let pval_attributes = self#attributes attrs in
+            let value_item_with_unboxable () =
+              super#signature_item
+                {
+                  sigi with
+                  psig_desc =
+                    Psig_value
+                      {
+                        value_desc with
+                        pval_attributes =
+                          Ast_attributes.unboxable_type_in_prim_decl
+                          :: pval_attributes;
+                      };
+                }
+            in
             match Ast_attributes.rs_externals pval_attributes pval_prim with
             | true -> Ast_external.handleExternalInSig self value_desc sigi
-            | false ->
-              (match Ast_attributes.has_inline_payload pval_attributes with
-              | Some
-                  ({
-                     attr_payload =
-                       PStr
-                         [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ];
-                     _;
-                   } as attr) -> (
-                  match pexp_desc with
-                  | Pexp_constant (Pconst_string (s, _, None)) ->
-                      succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_prim = Ast_external.pval_prim_default;
-                              pval_attributes = [
-                                Ast_attributes.mel_ffi
-                                  (Melange_ffi.External_ffi_types.inline_string_primitive s);
-                              ]
-                            };
-                      }
-                  | Pexp_constant (Pconst_string (s, loc, Some dec)) -> (
-                      match
-                        Melange_ffi.Utf8_string.transform ~loc ~delim:dec
-                          (Ocaml_common.Ast_helper.Exp.constant
-#if OCAML_VERSION >= (5, 3, 0)
-                             {
-                               pconst_desc = Pconst_string (s, loc, Some dec);
-                               pconst_loc = loc;
-                             }
-#else
-                             (Pconst_string (s, loc, Some dec))
-#endif
-                               )
-                          s
-                      with
-                      | {
-                       pexp_desc =
-                         Pexp_constant
-#if OCAML_VERSION >= (5, 3, 0)
-                           { pconst_desc = Pconst_string (s, _, dec); _ };
-#else
-                           (Pconst_string (s, _, dec));
-#endif
+            | false -> (
+                match Ast_attributes.has_inline_payload pval_attributes with
+                | Some
+                    ({
+                       attr_payload =
+                         PStr [ { pstr_desc = Pstr_eval (expression, _); _ } ];
                        _;
-                      } ->
-                          succeed attr pval_attributes;
-                          {
-                            sigi with
-                            psig_desc =
-                              Psig_value
-                                {
-                                  value_desc with
-                                  pval_attributes = [
-                                    Ast_attributes.mel_ffi
-                                      (Melange_ffi.External_ffi_types.inline_string_primitive s ?op:dec)
-                                  ];
-                                  pval_prim = Ast_external.pval_prim_default;
-                                };
-                          }
-                      | _ -> sigi)
-                  | Pexp_constant (Pconst_integer (s, None)) ->
-                      succeed attr pval_attributes;
-                      let s = Int32.of_string s in
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_attributes = [
-                                Ast_attributes.mel_ffi
-                                  (Melange_ffi.External_ffi_types.inline_int_primitive s)
-                              ];
-                              pval_prim = Ast_external.pval_prim_default;
-                            };
-                      }
-                  | Pexp_constant (Pconst_integer (s, Some 'L')) ->
-                      let s = Int64.of_string s in
-                      succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_attributes = [
-                                Ast_attributes.mel_ffi
-                                  (Melange_ffi.External_ffi_types.inline_int64_primitive s)
-                              ];
-                              pval_prim = Ast_external.pval_prim_default;
-                            };
-                      }
-                  | Pexp_constant (Pconst_float (s, None)) ->
-                      succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_attributes = [
-                                  Ast_attributes.mel_ffi
-                                    (Melange_ffi.External_ffi_types.inline_float_primitive s)
-                              ];
-                              pval_prim = Ast_external.pval_prim_default;
-                            };
-                      }
-                  | Pexp_construct
-                      ({ txt = Lident (("true" | "false") as txt); _ }, None) ->
-                      succeed attr pval_attributes;
-                      {
-                        sigi with
-                        psig_desc =
-                          Psig_value
-                            {
-                              value_desc with
-                              pval_attributes = [
-                                Ast_attributes.mel_ffi
-                                  (Melange_ffi.External_ffi_types.inline_bool_primitive
-                                    (txt = "true"))];
-                              pval_prim = Ast_external.pval_prim_default;
-                            };
-                      }
-                  | _ ->
-                      super#signature_item
+                     } as attr) -> (
+                    match classify_inline_literal expression with
+                    | Inline_literal literal ->
+                        (* Only int64 conversion preceded attribute warnings here. *)
+                        let ffi =
+                          match literal with
+                          | Inline_int64 _ ->
+                              let ffi = inline_literal_ffi literal in
+                              succeed attr pval_attributes;
+                              ffi
+                          | Inline_string _ | Inline_int _ | Inline_float _
+                          | Inline_bool _ ->
+                              succeed attr pval_attributes;
+                              inline_literal_ffi literal
+                        in
                         {
                           sigi with
                           psig_desc =
                             Psig_value
                               {
                                 value_desc with
-                                pval_attributes =
-                                  Ast_attributes.unboxable_type_in_prim_decl
-                                  :: pval_attributes;
+                                pval_prim = Ast_external.pval_prim_default;
+                                pval_attributes = [ Ast_attributes.mel_ffi ffi ];
                               };
-                        })
-              | Some _ | None ->
-                  super#signature_item
-                    {
-                      sigi with
-                      psig_desc =
-                        Psig_value
-                          {
-                            value_desc with
-                            pval_attributes =
-                              Ast_attributes.unboxable_type_in_prim_decl
-                              :: pval_attributes;
-                          };
-                    }))
+                        }
+                    | Invalid_delimited_string -> sigi
+                    | Not_inline_literal -> value_item_with_unboxable ())
+                | Some _ | None -> value_item_with_unboxable ()))
         | Psig_attribute
             ({
                attr_name =
