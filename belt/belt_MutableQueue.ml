@@ -59,48 +59,23 @@ let peekUndefined q =
 let peekExn q =
   match q.first with None -> raise Not_found | Some v -> v.content
 
-let pop q =
-  match q.first with
-  | None -> None
-  | Some x ->
-      let next = x.next in
-      if next = None then (
-        (* only one element*)
-        clear q;
-        Some x.content)
-      else (
-        q.length <- q.length - 1;
-        q.first <- next;
-        Some x.content)
+let popAux q x =
+  let next = x.next in
+  if next = None then clear q
+  else (
+    q.length <- q.length - 1;
+    q.first <- next);
+  x.content
+
+let pop q = match q.first with None -> None | Some x -> Some (popAux q x)
 
 let popExn q =
-  (* TO fix *)
-  match q.first with
-  | None -> raise Not_found
-  | Some x ->
-      let next = x.next in
-      if next = None then (
-        (* only one element*)
-        clear q;
-        x.content)
-      else (
-        q.length <- q.length - 1;
-        q.first <- next;
-        x.content)
+  match q.first with None -> raise Not_found | Some x -> popAux q x
 
 let popUndefined q =
   match q.first with
   | None -> Js.undefined
-  | Some x ->
-      let next = x.next in
-      if next = None then (
-        (* only one element*)
-        clear q;
-        Js.Undefined.return x.content)
-      else (
-        q.length <- q.length - 1;
-        q.first <- next;
-        Js.Undefined.return x.content)
+  | Some x -> Js.Undefined.return (popAux q x)
 
 let rec copyAux qRes prev cell =
   match cell with
