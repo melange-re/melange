@@ -36,27 +36,29 @@ let ffi_of_labels labels =
          }
          :: arg_kinds))
 
+let local_module_name = "J"
+let local_fun_name = "unsafe_expr"
+
+let local_external ~loc ~ffi ~pval_type (body : expression -> expression) :
+    expression_desc =
+  Pexp_letmodule
+    ( { txt = Some local_module_name; loc },
+      Mod.structure ~loc
+        [
+          Str.primitive ~loc
+            {
+              pval_name = { txt = local_fun_name; loc };
+              pval_type;
+              pval_loc = loc;
+              pval_prim = Ast_external.pval_prim_default;
+              pval_attributes = [ Ast_attributes.mel_ffi ffi ];
+            };
+        ],
+      body
+        (Exp.ident ~loc
+           { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
+
 let ocaml_object_as_js_object =
-  let local_module_name = "J" in
-  let local_fun_name = "unsafe_expr" in
-  let local_extern_cont_to_obj ~loc ~ffi ~pval_type (cb : expression -> 'a) =
-    Pexp_letmodule
-      ( { txt = Some local_module_name; loc },
-        Mod.structure ~loc
-          [
-            Str.primitive ~loc
-              {
-                pval_name = { txt = local_fun_name; loc };
-                pval_type;
-                pval_loc = loc;
-                pval_prim = Ast_external.pval_prim_default;
-                pval_attributes = [ Ast_attributes.mel_ffi ffi ];
-              };
-          ],
-        cb
-          (Exp.ident ~loc
-             { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
-  in
   let generate_val_method_pair ~loc (mapper : Ast_traverse.map) ~mutable_
       (val_name : string Asttypes.loc) =
     let result = Typ.var ~loc val_name.txt in
@@ -273,35 +275,13 @@ let ocaml_object_as_js_object =
             label_type acc)
         labels label_types ~init:public_obj_type
     in
-    local_extern_cont_to_obj ~loc ~ffi:(ffi_of_labels labels)
+    local_external ~loc ~ffi:(ffi_of_labels labels)
       (fun e ->
         Exp.apply ~loc e
           (List.map2 ~f:(fun l expr -> (Labelled l.txt, expr)) labels exprs))
       ~pval_type
 
 let record_as_js_object =
-  let local_module_name = "J" in
-  let local_fun_name = "unsafe_expr" in
-  let local_external_obj ~loc ~ffi ~pval_type args : expression_desc =
-    Pexp_letmodule
-      ( { txt = Some local_module_name; loc },
-        Mod.structure ~loc
-          [
-            Str.primitive ~loc
-              {
-                pval_name = { txt = local_fun_name; loc };
-                pval_type;
-                pval_loc = loc;
-                pval_prim = [ ""; "" ];
-                pval_attributes = [ Ast_attributes.mel_ffi ffi ];
-              };
-          ],
-        Exp.apply
-          (Exp.ident ~loc
-             { loc; txt = Ldot (Lident local_module_name, local_fun_name) })
-          (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args)
-          ~loc )
-  in
   (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
    {[
@@ -345,6 +325,7 @@ let record_as_js_object =
                 "`%%mel.obj' literals only support simple labels")
         label_exprs ~init:([], [], 0)
     in
-    local_external_obj ~loc ~ffi:(ffi_of_labels labels)
-      ~pval_type:(from_labels ~loc arity labels)
-      args
+    local_external ~loc ~ffi:(ffi_of_labels labels)
+      ~pval_type:(from_labels ~loc arity labels) (fun e ->
+        Exp.apply ~loc e
+          (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args))
