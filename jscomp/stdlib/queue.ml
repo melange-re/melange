@@ -68,26 +68,25 @@ let peek_opt q =
 let top =
   peek
 
+let[@inline] remove_first q next =
+  match next with
+  | Nil -> clear q
+  | Cons _ ->
+    q.length <- q.length - 1;
+    q.first <- next
+
 let take q =
   match q.first with
   | Nil -> raise Empty
-  | Cons { content; next = Nil } ->
-    clear q;
-    content
   | Cons { content; next } ->
-    q.length <- q.length - 1;
-    q.first <- next;
+    remove_first q next;
     content
 
 let take_opt q =
   match q.first with
   | Nil -> None
-  | Cons { content; next = Nil } ->
-    clear q;
-    Some content
   | Cons { content; next } ->
-    q.length <- q.length - 1;
-    q.first <- next;
+    remove_first q next;
     Some content
 
 let pop =
@@ -96,11 +95,7 @@ let pop =
 let drop q =
   match q.first with
   | Nil -> raise Empty
-  | Cons { content = _; next = Nil } ->
-    clear q
-  | Cons { content = _; next } ->
-    q.length <- q.length - 1;
-    q.first <- next
+  | Cons { content = _; next } -> remove_first q next
 
 let copy =
   let rec copy q_res prev cell =
