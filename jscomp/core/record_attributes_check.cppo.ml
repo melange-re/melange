@@ -102,58 +102,40 @@ let find_with_default xs ~default =
 module Types = Data_types
 #endif
 
+let label_name (lbl : Types.label_description) =
+  find_with_default lbl.lbl_attributes ~default:lbl.lbl_name
+
+let label_names fields =
+  Array.map
+    ~f:(fun ((lbl : Types.label_description), _) -> label_name lbl)
+    fields
+
 let fld_record (lbl : Types.label_description) =
   Lambda.Fld_record
-    {
-      name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name;
-      mutable_flag = lbl.lbl_mut;
-    }
+    { name = label_name lbl; mutable_flag = lbl.lbl_mut }
 
 let fld_record_set (lbl : Types.label_description) =
-  Lambda.Fld_record_set
-    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
+  Lambda.Fld_record_set (label_name lbl)
 
 let fld_record_inline (lbl : Types.label_description) =
-  Lambda.Fld_record_inline
-    { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
+  Lambda.Fld_record_inline { name = label_name lbl }
 
 let fld_record_inline_set (lbl : Types.label_description) =
-  Lambda.Fld_record_inline_set
-    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
+  Lambda.Fld_record_inline_set (label_name lbl)
 
 let fld_record_extension (lbl : Types.label_description) =
-  Lambda.Fld_record_extension
-    { name = find_with_default lbl.lbl_attributes ~default:lbl.lbl_name }
+  Lambda.Fld_record_extension { name = label_name lbl }
 
 let fld_record_extension_set (lbl : Types.label_description) =
-  Lambda.Fld_record_extension_set
-    (find_with_default lbl.lbl_attributes ~default:lbl.lbl_name)
+  Lambda.Fld_record_extension_set (label_name lbl)
 
-let blk_record fields =
-  let all_labels_info =
-    Array.map
-      ~f:(fun (lbl, _) ->
-        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
-      fields
-  in
-  Lambda.Blk_record all_labels_info
+let blk_record fields = Lambda.Blk_record (label_names fields)
 
 let blk_record_ext ~is_exn fields =
-  let all_labels_info =
-    Array.map
-      ~f:(fun ((lbl : Types.label_description), _) ->
-        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
-      fields
-  in
-  Lambda.Blk_record_ext { fields = all_labels_info; exn = is_exn }
+  Lambda.Blk_record_ext { fields = label_names fields; exn = is_exn }
 
 let blk_record_inlined fields name num_nonconst attrs =
-  let fields =
-    Array.map
-      ~f:(fun ((lbl : Types.label_description), _) ->
-        find_with_default lbl.Types.lbl_attributes ~default:lbl.lbl_name)
-      fields
-  in
+  let fields = label_names fields in
   Lambda.Blk_record_inlined { fields; name; num_nonconst; attributes = attrs }
 
 let check_mel_attributes_inclusion (attrs1 : Parsetree.attributes)
