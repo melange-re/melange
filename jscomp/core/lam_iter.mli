@@ -23,3 +23,4 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val inner_exists : Lam.t -> f:(Lam.t -> bool) -> bool
+val exists_ident : Lam.t -> f:(Ident.t -> bool) -> bool
