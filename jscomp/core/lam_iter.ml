@@ -24,7 +24,7 @@
 
 open Import
 
-let inner_exists (l : Lam.t) ~(f : Lam.t -> bool) =
+let exists (l : Lam.t) ~(f : Lam.t -> bool) =
   match l with
   | Lvar _ | Lmutvar _ | Lglobal_module _ | Lconst _ -> false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
@@ -67,6 +67,6 @@ let exists_ident (lam : Lam.t) ~(f : Ident.t -> bool) =
     match lam with
     | Lvar id | Lmutvar id -> f id
     | Lassign (id, expression) -> f id || loop expression
-    | lam -> inner_exists lam ~f:loop
+    | lam -> exists lam ~f:loop
   in
   loop lam

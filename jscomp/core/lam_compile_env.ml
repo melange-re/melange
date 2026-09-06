@@ -166,7 +166,7 @@ let rec lambda_is_relocatable (lam : Lam.t) =
       false
   | _ ->
       not
-        (Lam_iter.inner_exists lam ~f:(fun lam ->
+        (Lam_iter.exists lam ~f:(fun lam ->
              not (lambda_is_relocatable lam)))
 
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
