@@ -31,6 +31,7 @@ val ident_or_record_as_config :
     compiling FFI attributes and built-in ppx *)
 
 val assert_strings : loc:Location.t -> payload -> label list
+val as_expression : payload -> expression option
 val is_single_string : payload -> (string * string option) option
 val is_single_int : payload -> int option
 val as_ident : payload -> Longident.t loc option

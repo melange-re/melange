@@ -24,41 +24,27 @@
 
 open Import
 
-let is_single_string =
-  (* TODO also need detect empty phrase case *)
-  function
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ( { pexp_desc = Pexp_constant (Pconst_string (name, _, dec)); _ },
-                _ );
-          _;
-        };
-      ] ->
+let as_expression = function
+  | PStr [ { pstr_desc = Pstr_eval (expression, _); _ } ] -> Some expression
+  | _ -> None
+
+(* TODO also need detect empty phrase case *)
+let is_single_string payload =
+  match as_expression payload with
+  | Some { pexp_desc = Pexp_constant (Pconst_string (name, _, dec)); _ } ->
       Some (name, dec)
   | _ -> None
 
 (* TODO also need detect empty phrase case *)
-let is_single_int = function
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ({ pexp_desc = Pexp_constant (Pconst_integer (name, _)); _ }, _);
-          _;
-        };
-      ] ->
+let is_single_int payload =
+  match as_expression payload with
+  | Some { pexp_desc = Pexp_constant (Pconst_integer (name, _)); _ } ->
       Some (int_of_string name)
   | _ -> None
 
-let as_ident = function
-  | PStr
-      [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident; _ }, _); _ } ]
-    ->
-      Some ident
+let as_ident payload =
+  match as_expression payload with
+  | Some { pexp_desc = Pexp_ident ident; _ } -> Some ident
   | _ -> None
 
 (* None means punning is hit
@@ -148,8 +134,8 @@ let assert_strings ~loc payload : string list =
       Location.raise_errorf ~loc "Expected a string or tuple of strings"
 
 let extract_mel_as_ident ~loc payload =
-  match payload with
-  | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ] -> (
+  match as_expression payload with
+  | Some { pexp_desc; _ } -> (
       match pexp_desc with
       | Pexp_constant (Pconst_string (name, _, _))
       | Pexp_construct ({ txt = Lident name; _ }, _)
