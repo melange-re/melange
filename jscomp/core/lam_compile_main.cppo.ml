@@ -112,7 +112,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     Js_pass_debug.dump
       ~output_dir:(Filename.dirname output_prefix)
       ~package_info
-      ~output_info:(Js_packages_state.get_output_info () |> List.hd)
+      ~output_info:(Js_packages_state.get_output_info () |> Nonempty_list.hd)
   in
 
   let export_idents = Translmod.get_export_identifiers() in
@@ -341,7 +341,7 @@ let lambda_as_module =
       (* We use `-mel-module-type` to emit a single JS file after `.cmj`
          generation. In this case, we don't want the `package_info` from the
          `.cmj`, because the suffix and paths will be different. *)
-      List.iter ~f:(fun (output_info : Js_packages_info.output_info) ->
+      Nonempty_list.iter ~f:(fun (output_info : Js_packages_info.output_info) ->
         let basename = make_basename output_info.suffix in
         let target_file = Filename.dirname output_prefix // basename in
         if not !Clflags.dont_write_files then
