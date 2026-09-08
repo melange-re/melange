@@ -79,6 +79,11 @@ let labels_of_fun =
   in
   fun params body -> labels_of_fun [] params body
 
+let tyvars_of_positive_arity_fun ~loc method_name params body =
+  labels_of_fun params body |> Nonempty_list.of_list_exn
+  |> Nonempty_list.mapi ~f:(fun i label ->
+      (label, Typ.var ~loc (method_name ^ string_of_int i)))
+
 let to_method_callback_type ~loc (mapper : Ast_traverse.map)
     (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   let meth_type =
@@ -109,22 +114,17 @@ let generate_method_type =
     in
     match arity_of_fun params body with
     | 0 -> to_method_callback_type ~loc mapper Nolabel self_type result
-    | _n -> (
-        let tyvars =
-          List.mapi
-            ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
-            (labels_of_fun params body)
+    | _n ->
+        let ((label, x) :: rest) =
+          tyvars_of_positive_arity_fun ~loc method_name params body
         in
-        match tyvars with
-        | (label, x) :: rest ->
-            let method_rest =
-              List.fold_right
-                ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
-                rest ~init:result
-            in
-            to_method_callback_type ~loc mapper Nolabel self_type
-              (Typ.arrow ~loc label x method_rest)
-        | _ -> assert false)
+        let method_rest =
+          List.fold_right
+            ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+            rest ~init:result
+        in
+        to_method_callback_type ~loc mapper Nolabel self_type
+          (Typ.arrow ~loc label x method_rest)
 
 let to_method_type ~loc ~kind (mapper : Ast_traverse.map)
     (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
@@ -170,20 +170,14 @@ let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
   | 0 ->
       to_method_type ~loc mapper Nolabel [%type: unit]
         (Typ.var ~loc method_name)
-  | _ -> (
-      let tyvars =
-        List.mapi
-          ~f:(fun i x ->
-            (x, Typ.var ~loc (Format.sprintf "%s%d" method_name i)))
-          (labels_of_fun params body)
+  | _ ->
+      let ((label, x) :: rest) =
+        tyvars_of_positive_arity_fun ~loc method_name params body
       in
-      match tyvars with
-      | (label, x) :: rest ->
-          let method_rest =
-            let init = Typ.var ~loc method_name in
-            List.fold_right
-              ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
-              rest ~init
-          in
-          to_method_type ~loc mapper label x method_rest
-      | [] -> assert false)
+      let method_rest =
+        let init = Typ.var ~loc method_name in
+        List.fold_right
+          ~f:(fun (label, v) acc -> Typ.arrow ~loc label v acc)
+          rest ~init
+      in
+      to_method_type ~loc mapper label x method_rest
