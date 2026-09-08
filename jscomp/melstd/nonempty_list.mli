@@ -37,3 +37,7 @@ val mapi : 'a t -> f:(int -> 'a -> 'b) -> 'b t
 val map_last : 'a t -> f:(bool -> 'a -> 'b) -> 'b t
 (** [map_last xs ~f] passes [true] to [f] for the last element and [false] for
     every other element. *)
+
+val stable_group : 'a list -> equal:('a -> 'a -> bool) -> 'a t list
+(** [stable_group xs ~equal] groups equal elements into nonempty lists while
+    preserving their order within each group. *)

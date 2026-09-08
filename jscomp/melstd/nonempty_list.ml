@@ -55,3 +55,20 @@ let map_last (x :: xs) ~f =
   | _ ->
       let x = f false x in
       x :: List.map_last xs ~f
+
+let stable_group =
+  let rec group (equal : 'a -> 'a -> bool) = function
+    | [] -> []
+    | x :: xs -> aux equal x (group equal xs)
+  and aux equal (x : 'a) (groups : 'a t list) : 'a t list =
+    match groups with
+    | [] ->
+        let group = x :: [] in
+        List.cons group []
+    | (y0 :: yrest as group) :: groups ->
+        if equal x y0 then
+          let group = x :: List.cons y0 yrest in
+          List.cons group groups
+        else List.cons group (aux equal x groups)
+  in
+  fun xs ~equal -> List.rev (group equal xs)

@@ -54,22 +54,6 @@ val length_ge : 'a list -> int -> bool
    TODO: input checking *)
 
 val length_larger_than_n : 'a list -> 'a list -> int -> bool
-
-val stable_group : 'a list -> equal:('a -> 'a -> bool) -> 'a list list
-(**
-    [stable_group eq lst]
-    Example:
-    Input:
-   {[
-     stable_group (=) [1;2;3;4;3]
-   ]}
-    Output:
-   {[
-     [[1];[2];[4];[3;3]]
-   ]}
-    TODO: this is O(n^2) behavior
-    which could be improved later *)
-
 val rev_iter : 'a list -> f:('a -> unit) -> unit
 
 val for_all2_no_exn : 'a list -> 'b list -> f:('a -> 'b -> bool) -> bool
