@@ -514,24 +514,7 @@ let record_assign (e : t) (pos : int32) (name : string) (value : t) =
            (Static_index { expr = e; field = name; pos = Some pos }))
         value
 
-let extension_assign (e : t) (pos : int32) name (value : t) =
-  match e.expression_desc with
-  | Array _
-  (*
-     Temporary block -- address not held
-     Optimize cases like this which is really rare 
-     {[
-       (ref x) :=  3
-     ]}
-  *)
-  | Caml_block _
-    when no_side_effect e ->
-      value
-  | _ ->
-      assign
-        (make_expression
-           (Static_index { expr = e; field = name; pos = Some pos }))
-        value
+let extension_assign = record_assign
 
 (* This is a property access not external module *)
 
