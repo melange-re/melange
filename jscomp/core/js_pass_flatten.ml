@@ -44,9 +44,8 @@ let flatten_map =
         match x.statement_desc with
         | Exp ({ expression_desc = Seq _; _ } as v) ->
             S.block
-              (List.rev_map
-                 ~f:(fun x -> self.statement self x)
-                 (Js_analyzer.rev_flatten_seq v))
+              (Nonempty_list.to_list_rev_map (Js_analyzer.rev_flatten_seq v)
+                 ~f:(fun x -> self.statement self (S.exp x)))
         | Exp { expression_desc = Caml_block { fields = args; _ }; _ } ->
             S.block
               (List.map ~f:(fun arg -> self.statement self (S.exp arg)) args)
@@ -76,18 +75,15 @@ let flatten_map =
                     expr2 = { expression_desc = Seq _; _ } as v;
                   };
               _;
-            } -> (
-            let block = Js_analyzer.rev_flatten_seq v in
-            match block with
-            | { statement_desc = Exp last_one; _ } :: rest_rev ->
-                S.block
-                  (List.fold_left rest_rev
-                     ~init:[ self.statement self (S.exp (E.assign a last_one)) ]
-                     ~f:(fun acc x -> self.statement self x :: acc))
-                (* TODO: here we introduce a block, should avoid it *)
-                (* super#statement *)
-                (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
-            | _ -> assert false)
+            } ->
+            let (last_one :: rest_rev) = Js_analyzer.rev_flatten_seq v in
+            S.block
+              (List.fold_left rest_rev
+                 ~init:[ self.statement self (S.exp (E.assign a last_one)) ]
+                 ~f:(fun acc x -> self.statement self (S.exp x) :: acc))
+            (* TODO: here we introduce a block, should avoid it *)
+            (* super#statement *)
+            (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
         | Return
             {
               expression_desc = Cond { pred = a; then_ = b; else_ = c };
@@ -104,16 +100,13 @@ let flatten_map =
                   };
               comment;
             }
-        | Return ({ expression_desc = Seq _; _ } as v) -> (
-            let block = Js_analyzer.rev_flatten_seq v in
-            match block with
-            | { statement_desc = Exp last_one; _ } :: rest_rev ->
-                super.statement self
-                  (S.block
-                     (List.fold_left rest_rev
-                        ~init:[ S.return_stmt last_one ]
-                        ~f:(fun acc x -> self.statement self x :: acc)))
-            | _ -> assert false)
+        | Return ({ expression_desc = Seq _; _ } as v) ->
+            let (last_one :: rest_rev) = Js_analyzer.rev_flatten_seq v in
+            super.statement self
+              (S.block
+                 (List.fold_left rest_rev
+                    ~init:[ S.return_stmt last_one ]
+                    ~f:(fun acc x -> self.statement self (S.exp x) :: acc)))
         | Block [ x ] -> self.statement self x
         | _ -> super.statement self x);
     block =
