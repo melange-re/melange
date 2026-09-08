@@ -6,7 +6,7 @@
  (kind ppx_rewriter)
  (preprocess
   (pps ppxlib.metaquot))
- (libraries melange_ffi ppxlib js_parser))
+ (libraries melange_ffi melstd ppxlib js_parser))
 
 (rule
  (targets melange_ppx.ml)
