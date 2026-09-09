@@ -29,4 +29,7 @@ let tl (_ :: xs) = xs
 let of_list = function [] -> None | x :: xs -> Some (x :: xs)
 let of_list_exn = function [] -> assert false | x :: xs -> x :: xs
 let to_list (x :: xs) = List.cons x xs
-let map (x :: xs) ~f = f x :: List.map xs ~f
+
+let map (x :: xs) ~f =
+  let x = f x in
+  x :: List.map xs ~f

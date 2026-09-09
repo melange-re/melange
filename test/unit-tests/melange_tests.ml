@@ -6,6 +6,7 @@ let () =
       ("vec", Test_vec.suite);
       ("path", Test_path.suite);
       ("list", Test_list.suite);
+      ("nonempty list", Test_nonempty_list.suite);
       ("string", Test_string.suite);
       ("filename", Test_filename.suite);
       ("modulename", Test_modulename.suite);
