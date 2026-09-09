@@ -30,3 +30,10 @@ val of_list : 'a list -> 'a t option
 val of_list_exn : 'a list -> 'a t
 val to_list : 'a t -> 'a list
 val map : 'a t -> f:('a -> 'b) -> 'b t
+val iter : 'a t -> f:('a -> unit) -> unit
+val to_list_rev_map : 'a t -> f:('a -> 'b) -> 'b list
+val mapi : 'a t -> f:(int -> 'a -> 'b) -> 'b t
+
+val map_last : 'a t -> f:(bool -> 'a -> 'b) -> 'b t
+(** [map_last xs ~f] passes [true] to [f] for the last element and [false] for
+    every other element. *)

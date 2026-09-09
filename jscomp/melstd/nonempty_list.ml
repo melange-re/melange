@@ -33,3 +33,25 @@ let to_list (x :: xs) = List.cons x xs
 let map (x :: xs) ~f =
   let x = f x in
   x :: List.map xs ~f
+
+let iter (x :: xs) ~f =
+  f x;
+  List.iter xs ~f
+
+let to_list_rev_map (x :: xs) ~f =
+  let x = f x in
+  let init = List.cons x [] in
+  List.fold_left xs ~init ~f:(fun acc x ->
+      let x = f x in
+      List.cons x acc)
+
+let mapi (x :: xs) ~f =
+  let x = f 0 x in
+  x :: List.mapi xs ~f:(fun i x -> f (i + 1) x)
+
+let map_last (x :: xs) ~f =
+  match xs with
+  | [] -> f true x :: []
+  | _ ->
+      let x = f false x in
+      x :: List.map_last xs ~f
