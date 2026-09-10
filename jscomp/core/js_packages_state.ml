@@ -37,7 +37,7 @@ let set_output_info ~suffix module_system =
 
 let get_packages_info () = !packages_info
 
-let get_output_info () =
+let get_output_info () : Js_packages_info.output_info Melstd.Nonempty_list.t =
   match !output_info with
   | Some info -> [ info ]
   | None -> Js_packages_info.assemble_output_info !packages_info

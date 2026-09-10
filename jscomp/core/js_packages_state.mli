@@ -29,4 +29,4 @@ val get_packages_info : unit -> Js_packages_info.t
 val get_packages_info_for_cmj : unit -> Js_packages_info.t
 val update_npm_package_path : ?module_name:string -> string -> unit
 val set_output_info : suffix:Js_suffix.t -> Module_system.t -> unit
-val get_output_info : unit -> Js_packages_info.output_info list
+val get_output_info : unit -> Js_packages_info.output_info Nonempty_list.t

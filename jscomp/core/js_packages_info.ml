@@ -32,7 +32,7 @@ type batch_info = { path : string; output_info : output_info }
 
 type package_info =
   | Empty
-  | Batch_compilation of batch_info list
+  | Batch_compilation of batch_info Nonempty_list.t
   | Separate_emission of { module_path : string; module_name : string option }
 
 type t = { name : string option; info : package_info }
@@ -84,7 +84,7 @@ let dump_packages_info (fmt : Format.formatter) ({ name; info } : t) =
           (Format.pp_print_list
              ~pp_sep:(fun fmt () -> Format.pp_print_space fmt ())
              dump_package_info)
-          xs
+          (Nonempty_list.to_list xs)
   in
   Format.fprintf fmt "@[%a;@  @[%a@]@]" dump_package_name name dump_info info
 
@@ -98,6 +98,18 @@ type info_query =
   | Package_script
   | Package_not_found
   | Package_found of path_info
+
+let find_batch_info (module_systems : batch_info Nonempty_list.t)
+    (module_system : Module_system.t) =
+  let compatible k =
+    Module_system.compatible ~dep:k.output_info.module_system module_system
+  in
+  let rec find = function
+    | [] -> raise Not_found
+    | k :: ks -> if compatible k then k else find ks
+  in
+  let (k :: ks) = module_systems in
+  if compatible k then k else find ks
 
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
@@ -118,13 +130,7 @@ let query_package_infos (t : t) (module_system : Module_system.t) : info_query =
           Package_found
             { rel_path = module_path; pkg_rel_path = module_path; module_name })
   | Batch_compilation module_systems -> (
-      match
-        List.find
-          ~f:(fun k ->
-            Module_system.compatible ~dep:k.output_info.module_system
-              module_system)
-          module_systems
-      with
+      match find_batch_info module_systems module_system with
       | k ->
           let pkg_rel_path =
             match t.name with
@@ -137,14 +143,9 @@ let query_package_infos (t : t) (module_system : Module_system.t) : info_query =
           | Some _ -> Package_not_found
           | None -> Package_script))
 
-let get_js_path (module_systems : batch_info list)
+let get_js_path (module_systems : batch_info Nonempty_list.t)
     (module_system : Module_system.t) : string =
-  let k =
-    List.find
-      ~f:(fun k ->
-        Module_system.compatible ~dep:k.output_info.module_system module_system)
-      module_systems
-  in
+  let k = find_batch_info module_systems module_system in
   k.path
 
 (* XXX(anmonteiro): used for es6-global, which we also need to fix. *)
@@ -160,7 +161,7 @@ let add_npm_package_path (t : t) ?module_name s =
         match t.info with
         | Empty -> []
         | Separate_emission _ -> []
-        | Batch_compilation xs -> xs
+        | Batch_compilation xs -> Nonempty_list.to_list xs
       in
       let new_info =
         match String.split ~keep_empty:true s ~sep:':' with
@@ -238,11 +239,11 @@ let module_case t ~output_prefix =
 let default_output_info =
   { suffix = Js_suffix.default; module_system = Module_system.default }
 
-let assemble_output_info (t : t) =
+let assemble_output_info (t : t) : output_info Nonempty_list.t =
   match t.info with
   | Empty -> [ default_output_info ]
   | Batch_compilation infos ->
-      List.map ~f:(fun { output_info; _ } -> output_info) infos
+      Nonempty_list.map ~f:(fun { output_info; _ } -> output_info) infos
   | Separate_emission _ ->
       (* Combination of `-mel-package-output -just-dir` and the absence of
          `-mel-module-type` *)
