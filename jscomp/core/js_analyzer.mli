@@ -53,7 +53,7 @@ val no_side_effect_statement : J.statement -> bool
 val eq_expression : J.expression -> J.expression -> bool
 val eq_statement : J.statement -> J.statement -> bool
 val eq_block : J.block -> J.block -> bool
-val rev_flatten_seq : J.expression -> J.block
+val rev_flatten_seq : J.expression -> J.expression Nonempty_list.t
 
 val rev_toplevel_flatten : J.block -> J.block
 (** return the block in reverse order *)

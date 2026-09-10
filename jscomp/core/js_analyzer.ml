@@ -259,12 +259,12 @@ and eq_statement ({ statement_desc = x0; _ } : J.statement)
       false
 
 let rev_flatten_seq (x : J.expression) =
-  let rec aux acc (x : J.expression) : J.block =
+  let rec aux acc (x : J.expression) =
     match x.expression_desc with
     | Seq (a, b) -> aux (aux acc a) b
-    | _ -> { statement_desc = Exp x; comment = None } :: acc
+    | _ -> x :: acc
   in
-  aux [] x
+  aux [] x |> Nonempty_list.of_list_exn
 
 (* TODO: optimization,
     counter the number to know if needed do a loop gain instead of doing a diff
