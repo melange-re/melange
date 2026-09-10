@@ -538,8 +538,9 @@ and compile_general_cases :
     J.block =
   let group_apply cases ~f:callback =
     List.concat_map
-      ~f:(fun group -> List.map_last group ~f:callback)
-      (List.stable_group cases ~equal:(fun (_, lam) (_, lam1) ->
+      ~f:(fun group ->
+        Nonempty_list.map_last group ~f:callback |> Nonempty_list.to_list)
+      (Nonempty_list.stable_group cases ~equal:(fun (_, lam) (_, lam1) ->
            Lam.eq_approx lam lam1))
   in
   let morph_declare_to_assign (cxt : Lam_compile_context.t) k =

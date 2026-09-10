@@ -87,6 +87,30 @@ let test_map_last () =
     [ (true, 4) ]
     (List.rev !visited)
 
+let test_stable_group () =
+  let stable_group xs =
+    Nonempty_list.stable_group xs ~equal:( = )
+    |> List.map ~f:Nonempty_list.to_list
+  in
+  let check input expected =
+    Alcotest.(check (list (list int))) __LOC__ expected (stable_group input)
+  in
+  check [] [];
+  check [ 1 ] [ [ 1 ] ];
+  check [ 1; 1; 1 ] [ [ 1; 1; 1 ] ];
+  check [ 1; 2; 3 ] [ [ 1 ]; [ 2 ]; [ 3 ] ];
+  check [ 1; 2; 3; 4; 3 ] [ [ 1 ]; [ 2 ]; [ 4 ]; [ 3; 3 ] ];
+  let grouped =
+    Nonempty_list.stable_group
+      [ (1, "first"); (2, "middle"); (1, "last") ]
+      ~equal:(fun (x, _) (y, _) -> x = y)
+    |> List.map ~f:Nonempty_list.to_list
+  in
+  Alcotest.(check (list (list (pair int string))))
+    "preserves order within groups"
+    [ [ (2, "middle") ]; [ (1, "first"); (1, "last") ] ]
+    grouped
+
 let suite =
   [
     ("map", `Quick, test_map);
@@ -94,4 +118,5 @@ let suite =
     ("to_list_rev_map", `Quick, test_to_list_rev_map);
     ("mapi", `Quick, test_mapi);
     ("map_last", `Quick, test_map_last);
+    ("stable_group", `Quick, test_stable_group);
   ]

@@ -20,12 +20,6 @@ let test_concat_map () =
     (List.concat_map ~f:(fun x -> [ x; succ x ]) [ 1; 2; 3 ])
     [ 1; 2; 2; 3; 3; 4 ]
 
-let test_stable_group () =
-  Alcotest.(check (list (list int)))
-    __LOC__
-    (List.stable_group [ 1; 2; 3; 4; 3 ] ~equal:( = ))
-    [ [ 1 ]; [ 2 ]; [ 4 ]; [ 3; 3 ] ]
-
 let test_map_last () =
   let f b _v = if b then 1 else 0 in
   Alcotest.(check (list int)) __LOC__ (List.map_last [] ~f) [];
@@ -104,7 +98,6 @@ let test_length_ge () =
 let suite =
   [
     ("concat_map", `Quick, test_concat_map);
-    ("stable_group", `Quick, test_stable_group);
     ("map_last", `Quick, test_map_last);
     ("map", `Quick, test_map);
     ("append", `Quick, test_append);

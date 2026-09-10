@@ -359,19 +359,6 @@ let rec length_larger_than_n xs ys n =
   | _ :: xs, _ :: ys -> length_larger_than_n xs ys n
   | [], _ -> false
 
-let stable_group =
-  let rec group (eq : 'a -> 'a -> bool) lst =
-    match lst with [] -> [] | x :: xs -> aux eq x (group eq xs)
-  and aux eq (x : 'a) (xss : 'a list list) : 'a list list =
-    match xss with
-    | [] -> [ [ x ] ]
-    | (y0 :: _ as y) :: ys ->
-        (* cannot be empty *)
-        if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
-    | _ :: _ -> assert false
-  in
-  fun lst ~equal -> group equal lst |> rev
-
 let rec rev_iter l ~f =
   match l with
   | [] -> ()
