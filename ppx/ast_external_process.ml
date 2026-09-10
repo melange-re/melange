@@ -174,7 +174,8 @@ module External_desc = struct
     external_module_name : External_ffi_types.External_module_name.t option;
     module_as_val : External_ffi_types.External_module_name.t option;
     variadic : bool; (* mutable *)
-    scopes : string list;
+    (* [None] means no [@mel.scope]; [Some] contains at least one string literal. *)
+    scopes : string Nonempty_list.t option;
     new_name : bool;
     return_wrapper : External_ffi_types.return_wrapper;
   }
@@ -187,7 +188,7 @@ module External_desc = struct
       external_module_name = None;
       module_as_val = None;
       variadic = false;
-      scopes = [];
+      scopes = None;
       new_name = false;
       return_wrapper = Return_unset;
     }
@@ -303,9 +304,8 @@ let parse_external_attributes =
                       Location.raise_errorf ~loc
                         "`[%@mel.scope ..]' expects a tuple of strings in its \
                          payload"
-                  (* We need err on empty scope, so we can tell the difference
-               between unset/set *)
-                  | scopes -> ({ st with scopes }, mk_obj))
+                  | scope :: scopes ->
+                      ({ st with scopes = Some (scope :: scopes) }, mk_obj))
               | "mel.variadic" -> ({ st with variadic = true }, mk_obj)
               | "mel.send" ->
                   check_name ~loc txt payload;
@@ -399,7 +399,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
    variadic = false;
    new_name = false;
    return_wrapper = Return_unset;
-   scopes = [];
+   scopes = None;
    _ (* wrapper does not work with @obj
     TODO: better error message *);
   } ->
@@ -630,18 +630,23 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
     (arg_type_specs :
       External_arg_spec.Arg_label.t External_arg_spec.Param.t list) :
     External_ffi_types.External_spec.t =
+  let ffi_scopes =
+    match st.scopes with
+    | None -> []
+    | Some scopes -> Nonempty_list.to_list scopes
+  in
   match st with
   | {
    kind = Set_index;
    external_module_name = None;
    module_as_val = None;
    variadic = false;
-   scopes;
+   scopes = _;
    new_name = false;
    return_wrapper = _;
   } -> (
       match arg_type_specs_length with
-      | 3 -> Js_set_index { scopes }
+      | 3 -> Js_set_index { scopes = ffi_scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> \
@@ -655,12 +660,12 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    external_module_name = None;
    module_as_val = None;
    variadic = false;
-   scopes;
+   scopes = _;
    new_name = false;
    return_wrapper = _;
   } -> (
       match arg_type_specs_length with
-      | 2 -> Js_get_index { scopes }
+      | 2 -> Js_get_index { scopes = ffi_scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> \
@@ -674,7 +679,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    module_as_val = Some external_module_name;
    new_name;
    external_module_name = None;
-   scopes = [];
+   scopes = None;
    (* module as var does not need scopes *)
    variadic;
    return_wrapper = _;
@@ -701,7 +706,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    new_name = false;
    external_module_name = None;
    variadic;
-   scopes;
+   scopes = _;
    return_wrapper = _;
   } -> (
       let name = Lazy.force prim_name_or_pval_prim in
@@ -709,27 +714,31 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       | 0 ->
           (* {[ external ff : int -> int [@bs] = "" [@@module "xx"] ]}
              FIXME: variadic is not supported here *)
-          Js_var { name; external_module_name = None; scopes }
-      | _ -> Js_call { variadic; name; external_module_name = None; scopes })
+          Js_var { name; external_module_name = None; scopes = ffi_scopes }
+      | _ ->
+          Js_call
+            { variadic; name; external_module_name = None; scopes = ffi_scopes }
+      )
   | {
    kind = Val;
    module_as_val = None;
    new_name = false;
    external_module_name = Some _ as external_module_name;
    variadic;
-   scopes;
+   scopes = _;
    return_wrapper = _;
   } -> (
       let name = Lazy.force prim_name_or_pval_prim in
       match arg_type_specs_length with
       | 0 ->
           (* {[ external ff : int = "" [@@module "xx"] ]} *)
-          Js_var { name; external_module_name; scopes }
-      | _ -> Js_call { variadic; name; external_module_name; scopes })
+          Js_var { name; external_module_name; scopes = ffi_scopes }
+      | _ ->
+          Js_call { variadic; name; external_module_name; scopes = ffi_scopes })
   | {
    kind = Send;
    variadic;
-   scopes;
+   scopes = _;
    module_as_val = None;
    new_name;
    external_module_name = None;
@@ -749,7 +758,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
             {
               variadic;
               name = Lazy.force prim_name_or_pval_prim;
-              scopes;
+              scopes = ffi_scopes;
               self_idx = mel_send_this_index arg_type_specs arg_types_ty;
               new_ = new_name;
             })
@@ -762,7 +771,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    module_as_val = None;
    kind = Val;
    variadic;
-   scopes;
+   scopes = _;
    return_wrapper = _;
   } ->
       Js_new
@@ -770,7 +779,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
           name = Lazy.force prim_name_or_pval_prim;
           external_module_name;
           variadic;
-          scopes;
+          scopes = ffi_scopes;
         }
   | { new_name = true; _ } ->
       Error.err ~loc
@@ -783,10 +792,12 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    external_module_name = None;
    variadic = false;
    return_wrapper = _;
-   scopes;
+   scopes = _;
   } -> (
       match arg_type_specs_length with
-      | 2 -> Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
+      | 2 ->
+          Js_set
+            { name = Lazy.force prim_name_or_pval_prim; scopes = ffi_scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set]' requires a function of two arguments")
@@ -801,10 +812,12 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    external_module_name = None;
    variadic = false;
    return_wrapper = _;
-   scopes;
+   scopes = _;
   } -> (
       match arg_type_specs_length with
-      | 1 -> Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
+      | 1 ->
+          Js_get
+            { name = Lazy.force prim_name_or_pval_prim; scopes = ffi_scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.get]' requires a function of only one argument")
