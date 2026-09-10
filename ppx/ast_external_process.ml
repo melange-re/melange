@@ -169,13 +169,14 @@ module External_desc = struct
     in
     Format.pp_print_string fmt s
 
+  type scopes = No_mel_scope | String_literals of string Nonempty_list.t
+
   type desc = {
     kind : kind;
     external_module_name : External_ffi_types.External_module_name.t option;
     module_as_val : External_ffi_types.External_module_name.t option;
     variadic : bool; (* mutable *)
-    (* [None] means no [@mel.scope]; [Some] contains at least one string literal. *)
-    scopes : string Nonempty_list.t option;
+    scopes : scopes;
     new_name : bool;
     return_wrapper : External_ffi_types.return_wrapper;
   }
@@ -188,7 +189,7 @@ module External_desc = struct
       external_module_name = None;
       module_as_val = None;
       variadic = false;
-      scopes = None;
+      scopes = No_mel_scope;
       new_name = false;
       return_wrapper = Return_unset;
     }
@@ -305,7 +306,8 @@ let parse_external_attributes =
                         "`[%@mel.scope ..]' expects a tuple of strings in its \
                          payload"
                   | scope :: scopes ->
-                      ({ st with scopes = Some (scope :: scopes) }, mk_obj))
+                      ( { st with scopes = String_literals (scope :: scopes) },
+                        mk_obj ))
               | "mel.variadic" -> ({ st with variadic = true }, mk_obj)
               | "mel.send" ->
                   check_name ~loc txt payload;
@@ -399,7 +401,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
    variadic = false;
    new_name = false;
    return_wrapper = Return_unset;
-   scopes = None;
+   scopes = No_mel_scope;
    _ (* wrapper does not work with @obj
     TODO: better error message *);
   } ->
@@ -632,8 +634,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
     External_ffi_types.External_spec.t =
   let ffi_scopes =
     match st.scopes with
-    | None -> []
-    | Some scopes -> Nonempty_list.to_list scopes
+    | No_mel_scope -> []
+    | String_literals scopes -> Nonempty_list.to_list scopes
   in
   match st with
   | {
@@ -679,7 +681,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    module_as_val = Some external_module_name;
    new_name;
    external_module_name = None;
-   scopes = None;
+   scopes = No_mel_scope;
    (* module as var does not need scopes *)
    variadic;
    return_wrapper = _;
