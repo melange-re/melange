@@ -240,7 +240,7 @@ let implementation ~parser ppf fname =
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
   Initialization.Perfile.init_path ();
-  let cmj = Js_cmj_format.from_file fname in
+  let cmj = Js_cmj_format.from_file_exn fname in
   (* NOTE(anmonteiro): If we're generating JS from a `.cmj`, we take the
      resulting JS extension from the `-o FILENAME.EXT1.EXT2` argument. In this
      case, we need to make sure we're removing all the extensions from the

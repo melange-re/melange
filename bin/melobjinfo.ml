@@ -42,18 +42,23 @@ let print_implementation name =
   Printf.printf "  --------------------------------  %s\n" name
 
 let print_file file =
-  try
-    let cmj = Js_cmj_format.from_file file in
-    let { ml; runtime; external_ } = dependencies cmj in
-    Printf.printf "File %s\n" file;
-    print_names "Runtime modules imported" runtime;
-    print_names "JavaScript modules imported" external_;
-    (* Keep this section unconditional and last: ocamlobjinfo-compatible parsers
-       use it to delimit the implementation imports for each file. *)
-    Printf.printf "Implementations imported:\n";
-    List.iter print_implementation ml;
-    Ok ()
-  with exn -> Error (Printf.sprintf "%s: %s" file (Printexc.to_string exn))
+  let error exn =
+    Error (Printf.sprintf "%s: %s" file (Printexc.to_string exn))
+  in
+  match Js_cmj_format.from_file file with
+  | Error exn -> error exn
+  | Ok cmj -> (
+      try
+        let { ml; runtime; external_ } = dependencies cmj in
+        Printf.printf "File %s\n" file;
+        print_names "Runtime modules imported" runtime;
+        print_names "JavaScript modules imported" external_;
+        (* Keep this section unconditional and last: ocamlobjinfo-compatible
+           parsers use it to delimit the implementation imports for each file. *)
+        Printf.printf "Implementations imported:\n";
+        List.iter print_implementation ml;
+        Ok ()
+      with exn -> error exn)
 
 let rec print_files = function
   | [] -> `Ok ()
