@@ -1,5 +1,6 @@
 open Cmdliner
 open Melangelib
+module Nonempty_list = Melstd.Nonempty_list
 
 type dependencies = {
   ml : string list;
@@ -55,17 +56,18 @@ let print_file file =
     Ok ()
   with exn -> Error (Printf.sprintf "%s: %s" file (Printexc.to_string exn))
 
-let rec print_files = function
-  | [] -> `Ok ()
-  | file :: files -> (
-      match print_file file with
-      | Ok () -> print_files files
-      | Error message -> `Error (false, message))
+let rec print_files (file :: files : string Nonempty_list.t) =
+  match print_file file with
+  | Error message -> `Error (false, message)
+  | Ok () -> (
+      match files with
+      | [] -> `Ok ()
+      | next :: rest -> print_files (next :: rest))
 
 let run files =
   match files with
   | [] -> `Error (true, "at least one CMJ file is required")
-  | _ -> print_files files
+  | file :: files -> print_files (file :: files)
 
 let files =
   let doc = "CMJ files to inspect." in

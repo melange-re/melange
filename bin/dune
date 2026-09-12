@@ -18,4 +18,4 @@
  (public_name melobjinfo)
  (package melange)
  (modules melobjinfo)
- (libraries cmdliner melangelib))
+ (libraries cmdliner melstd melangelib))
