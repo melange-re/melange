@@ -1,4 +1,4 @@
-(lang dune 3.21)
+(lang dune 3.24)
 
 (maintenance_intent "(latest)")
 
@@ -7,8 +7,6 @@
 (using menhir 3.0)
 
 (using melange 1.0)
-
-(using directory-targets 0.1)
 
 (generate_opam_files true)
 
@@ -35,6 +33,9 @@
    (and (>= "5.5") (< "5.6")))
   (cmdliner
    (>= "1.1.0"))
+  csexp
+  (dune-action-trace
+   (>= "3.24"))
   dune-build-info
   (cppo :build)
   (alcotest :with-test)

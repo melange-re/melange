@@ -34,4 +34,5 @@ val export_to_cmj :
   Lam.t Ident.Map.t ->
   (* FIXME: this is a leaky abstraction *)
   delayed_program:J.deps_program ->
+  program_optimization:Js_cmj_format.program_optimization ->
   Js_cmj_format.t

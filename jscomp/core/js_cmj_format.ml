@@ -50,12 +50,17 @@ type keyed_cmj_value = {
   nested_call_summary : nested_call_summary;
 }
 
+type program_optimization =
+  | Optimized
+  | Unoptimized of { all_module_aliases : bool }
+
 type t = {
   values : keyed_cmj_value array;
   pure : bool;
   package_spec : Js_packages_info.t;
   case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
+  program_optimization : program_optimization;
 }
 
 let to_sorted_array_with_f_seq ~(f : String.Map.key -> 'a -> 'b)
@@ -71,7 +76,7 @@ let to_sorted_array_with_f_seq ~(f : String.Map.key -> 'a -> 'b)
   arr
 
 let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
-    ~delayed_program : t =
+    ~delayed_program ~program_optimization : t =
   {
     values =
       to_sorted_array_with_f_seq values ~f:(fun k (v : cmj_value) ->
@@ -86,6 +91,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
     package_spec;
     case;
     delayed_program;
+    program_optimization;
   }
 
 (* Serialization .. *)

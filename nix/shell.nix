@@ -9,6 +9,7 @@
   curl,
   ocamlPackages,
   git,
+  hyperfine,
   python3,
   mocha,
   release-mode ? false,
@@ -31,6 +32,7 @@ mkShell {
       nodejs
       yarn
       mocha
+      hyperfine
       js_of_ocaml-compiler
     ]
     ++ lib.optionals release-mode ([
