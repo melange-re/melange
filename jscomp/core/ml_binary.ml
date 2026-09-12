@@ -29,3 +29,13 @@ type _ kind = Ml : Parsetree.structure kind | Mli : Parsetree.signature kind
 let magic_of_kind : type a. a kind -> string = function
   | Ml -> Config.ast_impl_magic_number
   | Mli -> Config.ast_intf_magic_number
+
+let to_strings (type a) (kind : a kind) ~input_name (ast : a) =
+  [
+    magic_of_kind kind;
+    Marshal.to_string (input_name : string) [];
+    Marshal.to_string ast [];
+  ]
+
+let output kind channel ~input_name ast =
+  List.iter ~f:(output_string channel) (to_strings kind ~input_name ast)
