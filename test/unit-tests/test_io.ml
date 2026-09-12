@@ -41,6 +41,34 @@ let test_read_file_with_zero_reported_size () =
               Alcotest.(check string) "contents" "contents" contents
           | Error exn -> raise exn))
 
+let test_cleanup_preserves_original_error () =
+  let path = Filename.temp_file "melange-io" ".txt" in
+  let raise_original_error () : unit = failwith "original error" in
+  Fun.protect
+    ~finally:(fun () -> Sys.remove path)
+    (fun () ->
+      try
+        Io.with_file_in_fd path ~f:(fun fd ->
+            Unix.close fd;
+            raise_original_error ());
+        Alcotest.fail "expected an exception"
+      with
+      | Failure message ->
+          Alcotest.(check string) "error" "original error" message
+      | exn ->
+          Alcotest.failf "unexpected exception: %s" (Printexc.to_string exn))
+
+let test_cleanup_error_propagates () =
+  let path = Filename.temp_file "melange-io" ".txt" in
+  Fun.protect
+    ~finally:(fun () -> Sys.remove path)
+    (fun () ->
+      match Io.with_file_in_fd path ~f:Unix.close with
+      | exception Unix.Unix_error (EBADF, _, _) -> ()
+      | exception exn ->
+          Alcotest.failf "unexpected exception: %s" (Printexc.to_string exn)
+      | () -> Alcotest.fail "expected cleanup to fail")
+
 let suite =
   [
     Alcotest.test_case "read_file returns errors" `Quick test_read_file_error;
@@ -49,4 +77,8 @@ let suite =
       test_write_filev_error;
     Alcotest.test_case "read zero-size streams" `Quick
       test_read_file_with_zero_reported_size;
+    Alcotest.test_case "preserve errors during cleanup" `Quick
+      test_cleanup_preserves_original_error;
+    Alcotest.test_case "propagate cleanup errors" `Quick
+      test_cleanup_error_propagates;
   ]

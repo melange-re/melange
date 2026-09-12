@@ -26,9 +26,10 @@ let protectx x ~f ~finally =
   | y ->
       finally x;
       y
-  | exception e ->
-      finally x;
-      raise e
+  | exception exn ->
+      let backtrace = Printexc.get_raw_backtrace () in
+      (match finally x with () | (exception _) -> ());
+      Printexc.raise_with_backtrace exn backtrace
 
 let with_file_in ?(binary = true) fn ~f =
   protectx
@@ -98,9 +99,10 @@ let read_file_exn =
               read_all_generic t buffer)
   in
   let read_file_chan ?binary fn =
-    match with_file_in fn ~f:read_all_unless_large ?binary with
-    | Ok x -> x
-    | Error () -> file_too_big ()
+    with_file_in fn ?binary ~f:(fun channel ->
+        match read_all_unless_large channel with
+        | Ok contents -> contents
+        | Error () -> file_too_big ())
   in
   let read_all_fd =
     let rec unix_read fd buf pos len =
