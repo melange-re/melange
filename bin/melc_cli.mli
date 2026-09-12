@@ -49,6 +49,7 @@ type t = {
   bs_cmi_only : bool;
   bs_no_version_header : bool;
   bs_cross_module_opt : bool option;
+  action_trace : bool;
   bs_diagnose : bool;
   where : bool;
   verbose : bool;

@@ -6,6 +6,8 @@
   melange_compiler_libs
   melange_ffi
   ppxlib.ast
+  csexp
+  dune-action-trace
   dune-build-info))
 
 (rule

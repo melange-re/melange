@@ -50,6 +50,7 @@ type t = {
   bs_cmi_only : bool;
   bs_no_version_header : bool;
   bs_cross_module_opt : bool option;
+  action_trace : bool;
   bs_diagnose : bool;
   where : bool;
   verbose : bool;
@@ -340,6 +341,10 @@ module Internal = struct
               [ "bs-no-cross-module-opt"; "mel-no-cross-module-opt" ] );
         ])
 
+  let action_trace =
+    let doc = "*internal* Emit compiler spans into Dune's action trace" in
+    repeatable_flag (Arg.info [ "mel-action-trace" ] ~doc)
+
   let bs_diagnose =
     let doc = "*internal* More verbose output" in
     repeatable_flag (Arg.info [ "bs-diagnose"; "mel-diagnose" ] ~doc)
@@ -469,12 +474,13 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     open_modules bs_package_output mel_module_system bs_syntax_only
     bs_package_name bs_module_name as_ppx as_pp no_alias_deps bs_gentype
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
-    bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
-    bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
-    dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives nolabels principal rectypes short_paths unsafe warn_help
-    warn_error bs_stop_after_cmj runtime filenames _c store_occurrences =
+    bs_no_version_header bs_cross_module_opt action_trace bs_diagnose where
+    verbose keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc
+    impl intf intf_suffix cmi_file g opaque preamble strict_sequence
+    strict_formats dtypedtree dparsetree drawlambda dsource version pp absname
+    bin_annot i nopervasives nolabels principal rectypes short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime filenames _c
+    store_occurrences =
   {
     include_dirs;
     hidden_include_dirs;
@@ -500,6 +506,7 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     bs_cmi_only;
     bs_no_version_header;
     bs_cross_module_opt;
+    action_trace;
     bs_diagnose;
     where;
     verbose;
@@ -549,7 +556,7 @@ let cmd =
     $ Internal.bs_gentype $ unboxed_types $ Internal.bs_unsafe_empty_array
     $ Internal.nostdlib $ color $ Internal.bs_eval $ Internal.bs_cmi_only
     $ Internal.bs_no_version_header $ Internal.bs_cross_module_opt
-    $ Internal.bs_diagnose $ where $ verbose $ keep_locs
+    $ Internal.action_trace $ Internal.bs_diagnose $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.cmi_file $ Internal.g $ Internal.opaque
