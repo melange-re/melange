@@ -33,6 +33,23 @@ let dispatch_with_default dispatches s =
   | Some r -> Lam_compile_const.translate_arg_cst r
   | None -> E.str s
 
+let dispatch_switch arg dispatches =
+  E.of_block
+    [
+      S.string_switch arg
+        (List.map
+           ~f:(fun (i, r) ->
+             ( Lambda.String i,
+               {
+                 J.switch_body =
+                   [ S.return_stmt (Lam_compile_const.translate_arg_cst r) ];
+                 should_break = false;
+                 (* FIXME: if true, still print break*)
+                 comment = None;
+               } ))
+           dispatches);
+    ]
+
 (* we need destruct [undefined] when input is optional *)
 let eval (arg : J.expression)
     (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list) : E.t
@@ -59,24 +76,7 @@ let eval (arg : J.expression)
               };
         }
     | Str s -> dispatch_with_default dispatches s
-    | _ ->
-        E.of_block
-          [
-            S.string_switch arg
-              (List.map
-                 ~f:(fun (i, r) ->
-                   ( Lambda.String i,
-                     {
-                       J.switch_body =
-                         [
-                           S.return_stmt (Lam_compile_const.translate_arg_cst r);
-                         ];
-                       should_break = false;
-                       (* FIXME: if true, still print break*)
-                       comment = None;
-                     } ))
-                 dispatches);
-          ]
+    | _ -> dispatch_switch arg dispatches
 
 let eval_descr (arg : J.expression)
     (dispatches : (string * Melange_ffi.External_arg_spec.Arg_cst.t) list) =
@@ -93,25 +93,7 @@ let eval_descr (arg : J.expression)
       match dispatches with
       | [] -> Splice2 (E.poly_var_tag_access arg, E.poly_var_value_access arg)
       | dispatches ->
-          let k =
-            E.of_block
-              [
-                S.string_switch
-                  (E.poly_var_tag_access arg)
-                  (List.map
-                     ~f:(fun (i, r) ->
-                       let r = Lam_compile_const.translate_arg_cst r in
-                       ( Lambda.String i,
-                         J.
-                           {
-                             switch_body = [ S.return_stmt r ];
-                             should_break = false;
-                             (* FIXME: if true, still print break*)
-                             comment = None;
-                           } ))
-                     dispatches);
-              ]
-          in
+          let k = dispatch_switch (E.poly_var_tag_access arg) dispatches in
           Splice2 (k, E.poly_var_value_access arg))
 
 (* FIXME:
