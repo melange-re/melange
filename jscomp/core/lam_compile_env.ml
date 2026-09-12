@@ -94,39 +94,33 @@ let add_js_module
       register_external_id module_id module_name;
       module_id
 
-let query_external_id_info_exn ~dynamic_import (module_id : Ident.t)
-    (name : string) : Js_cmj_format.keyed_cmj_value =
+let query_external_id_info ~dynamic_import (module_id : Ident.t) name =
   let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
-  let cmj_table =
-    match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
-    | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table
-    | Some (External _) -> assert false
-    | None ->
-        let cmj_load_info =
-          Js_cmj_format.load_unit_exn (Ident.name module_id)
-        in
-        Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
-          ~data:(Ml { cmj_load_info; id = module_id });
-        cmj_load_info.cmj_table
-  in
-  Js_cmj_format.query_by_name cmj_table name
-
-let query_external_id_info ~dynamic_import module_id name =
-  try Some (query_external_id_info_exn ~dynamic_import module_id name)
-  with Mel_exception.Error (Cmj_not_found unit_name) ->
-    let oid = Lam_module_ident.of_ml ~dynamic_import module_id in
-    if
-      !Js_config.cross_module_inline
-      && not (Lam_module_ident.Hashtbl.mem missing_cmj_warnings oid)
-    then (
-      Lam_module_ident.Hashtbl.replace missing_cmj_warnings ~key:oid ~data:();
-      Location.prerr_warning Location.none
-        (Warnings.Inlining_impossible
-           (Printf.sprintf
-              "missing CMJ file for module %s; continuing without cross-module \
-               optimization"
-              unit_name)));
-    None
+  match Lam_module_ident.Hashtbl.find_opt cached_tbl oid with
+  | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) ->
+      Some (Js_cmj_format.query_by_name cmj_table name)
+  | Some (External _) -> assert false
+  | None -> (
+      match Js_cmj_format.load_unit (Ident.name module_id) with
+      | Ok ({ cmj_table; _ } as cmj_load_info) ->
+          Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
+            ~data:(Ml { cmj_load_info; id = module_id });
+          Some (Js_cmj_format.query_by_name cmj_table name)
+      | Error (Js_cmj_format.Missing_cmj unit_name) ->
+          if
+            !Js_config.cross_module_inline
+            && not (Lam_module_ident.Hashtbl.mem missing_cmj_warnings oid)
+          then (
+            Lam_module_ident.Hashtbl.replace missing_cmj_warnings ~key:oid
+              ~data:();
+            Location.prerr_warning Location.none
+              (Warnings.Inlining_impossible
+                 (Printf.sprintf
+                    "missing CMJ file for module %s; continuing without \
+                     cross-module optimization"
+                    unit_name)));
+          None
+      | Error (Js_cmj_format.Cannot_load_cmj exn) -> raise exn)
 
 let external_id_is_relative id =
   match Ident.Hashtbl.find external_id_tbl id with
