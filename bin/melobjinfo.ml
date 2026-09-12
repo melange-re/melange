@@ -44,7 +44,7 @@ let print_implementation name =
 
 let print_file file =
   try
-    let cmj = Js_cmj_format.from_file file in
+    let cmj = Js_cmj_format.from_file_exn file in
     let { ml; runtime; external_ } = dependencies cmj in
     Printf.printf "File %s\n" file;
     print_names "Runtime modules imported" runtime;
