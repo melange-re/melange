@@ -94,10 +94,7 @@ let to_method_callback =
               (Typ.constr ~loc
                  {
                    loc;
-                   txt =
-                     Ldot
-                       ( Ast_literal.js_meth_callback,
-                         Format.sprintf "arity%s" arity_s );
+                   txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ arity_s);
                  }
                  [ Typ.any ~loc () ]) );
         ] )

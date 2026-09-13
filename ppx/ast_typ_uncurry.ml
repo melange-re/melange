@@ -94,7 +94,7 @@ let to_method_callback_type ~loc (mapper : Ast_traverse.map)
   let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
   Typ.constr
     {
-      txt = Ldot (Ast_literal.js_meth_callback, Format.sprintf "arity%d" arity);
+      txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ string_of_int arity);
       loc;
     }
     [ meth_type ]
