@@ -355,11 +355,12 @@ let rec fromArrayAux a i res =
 
 let fromArray a = fromArrayAux a (A.length a - 1) []
 
-let toArray (x : _ t) =
-  let len = length x in
+let toArrayWithLength (x : _ t) len =
   let arr = A.makeUninitializedUnsafe len in
   fillAux arr 0 x;
   arr
+
+let toArray x = toArrayWithLength x (length x)
 
 let shuffle xs =
   let v = toArray xs in
@@ -453,7 +454,7 @@ let rec reduceReverseUnsafeU l accu f =
 let reduceReverseU (type a b) (l : a list) (acc : b) f =
   let len = length l in
   if len < 1000 then reduceReverseUnsafeU l acc f
-  else A.reduceReverseU (toArray l) acc f
+  else A.reduceReverseU (toArrayWithLength l len) acc f
 
 let reduceReverse l accu f = reduceReverseU l accu (fun[@u] a b -> f a b)
 
