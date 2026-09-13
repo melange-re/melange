@@ -124,7 +124,7 @@ module Curry_gen = struct
   let pp_optimize_curry cxt (len : int) =
     let cxt = pp_curry_dot cxt in
     string cxt "__";
-    string cxt (Printf.sprintf "%d" len);
+    string cxt (string_of_int len);
     cxt
 
   let pp_app_any cxt =
@@ -135,7 +135,7 @@ module Curry_gen = struct
   let pp_app cxt (len : int) =
     let cxt = pp_curry_dot cxt in
     string cxt "_";
-    string cxt (Printf.sprintf "%d" len);
+    string cxt (string_of_int len);
     cxt
 end
 
