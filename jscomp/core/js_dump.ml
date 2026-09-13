@@ -404,7 +404,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       let optimize len ~p cxt v =
         if p then try_optimize_curry cxt len function_id else vident cxt v
       in
-      let len = List.length l in
+      let len = Js_fun_env.get_length env in
       (* length *)
       match fn_state with
       | Name_top { name = i; property } | Name_non_top { name = i; property } ->
