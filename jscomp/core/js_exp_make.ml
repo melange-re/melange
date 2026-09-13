@@ -544,8 +544,8 @@ let bytes_length ?loc ?comment (e : t) : t =
 
 let function_length ?loc ?comment (e : t) : t =
   match e.expression_desc with
-  | Fun { method_; params; _ } ->
-      let params_length = List.length params in
+  | Fun { method_; env; _ } ->
+      let params_length = Js_fun_env.get_length env in
       int ?comment
         (Int32.of_int (if method_ then params_length - 1 else params_length))
   | _ ->
