@@ -43,9 +43,7 @@ let print_implementation name =
   Printf.printf "  --------------------------------  %s\n" name
 
 let print_file =
-  let error file exn =
-    Error (Printf.sprintf "%s: %s" file (Printexc.to_string exn))
-  in
+  let error file exn = Error (file ^ ": " ^ Printexc.to_string exn) in
   fun file ->
     match Js_cmj_format.from_file file with
     | Error exn -> error file exn
