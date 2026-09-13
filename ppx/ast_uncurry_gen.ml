@@ -95,8 +95,7 @@ let to_method_callback =
               (Typ.constr ~loc
                  {
                    loc;
-                   txt =
-                     Ast_literal.arity_type Ast_literal.js_meth_callback ~arity;
+                   txt = Ast_literal.arity_type Ast_literal.Callback ~arity;
                  }
                  [ Typ.any ~loc () ]) );
         ] )

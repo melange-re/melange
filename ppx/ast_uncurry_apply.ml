@@ -110,8 +110,8 @@ let generic_apply =
                               txt =
                                 Ast_literal.arity_type
                                   (match kind with
-                                  | `oo -> Ast_literal.js_meth
-                                  | `generic -> Ast_literal.js_fn)
+                                  | `oo -> Ast_literal.Meth
+                                  | `generic -> Ast_literal.Fn)
                                   ~arity;
                               loc;
                             }
