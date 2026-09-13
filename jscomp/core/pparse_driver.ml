@@ -3,9 +3,7 @@ open Import
 (* Optionally preprocess a source file *)
 let call_external_preprocessor sourcefile pp =
   let tmpfile = Filename.temp_file "ocamlpp" "" in
-  let comm =
-    Printf.sprintf "%s %s > %s" pp (Filename.quote sourcefile) tmpfile
-  in
+  let comm = pp ^ " " ^ Filename.quote sourcefile ^ " > " ^ tmpfile in
   if Ccomp.command comm <> 0 then (
     Misc.remove_file tmpfile;
     Cmd_ast_exception.cannot_run comm);
