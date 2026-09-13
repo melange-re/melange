@@ -510,10 +510,9 @@ let to_seqi a =
   in
   aux 0
 
-let of_rev_list = function
+let of_rev_list len = function
     [] -> [||]
-  | hd::tl as l ->
-      let len = list_length 0 l in
+  | hd::tl ->
       let a = make len hd in
       let rec fill i = function
           [] -> a
@@ -522,5 +521,9 @@ let of_rev_list = function
       fill (len-2) tl
 
 let of_seq i =
-  let l = Seq.fold_left (fun acc x -> x::acc) [] i in
-  of_rev_list l
+  let rec loop len rev i =
+    match i () with
+    | Seq.Nil -> of_rev_list len rev
+    | Seq.Cons (x, i) -> loop (len + 1) (x :: rev) i
+  in
+  loop 0 [] i
