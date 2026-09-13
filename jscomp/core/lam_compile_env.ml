@@ -204,12 +204,13 @@ let is_pure_module (oid : Lam_module_ident.t) =
       | Some (Ml { cmj_load_info = { cmj_table; _ }; id = _ }) -> cmj_table.pure
       | Some (External _) -> false
       | None -> (
-          match Js_cmj_format.load_unit_exn (Lam_module_ident.name oid) with
-          | cmj_load_info ->
+          match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
+          | Ok cmj_load_info ->
               Lam_module_ident.Hashtbl.replace cached_tbl ~key:oid
                 ~data:(Ml { cmj_load_info; id = oid.id });
               cmj_load_info.cmj_table.pure
-          | exception _ -> false))
+          | Error (Js_cmj_format.Missing_cmj _) -> false
+          | Error (Js_cmj_format.Cannot_load_cmj exn) -> raise exn))
 
 let add = Lam_module_ident.Hash_set.add
 
