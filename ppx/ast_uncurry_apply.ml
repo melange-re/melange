@@ -111,7 +111,7 @@ let generic_apply =
                                   ( (match kind with
                                     | `oo -> Ast_literal.js_meth
                                     | `generic -> Ast_literal.js_fn),
-                                    Format.sprintf "arity%s" arity_s );
+                                    "arity" ^ arity_s );
                               loc;
                             }
                             [ Typ.any ~loc () ]))
