@@ -25,3 +25,5 @@
 type _ kind = Ml : Parsetree.structure kind | Mli : Parsetree.signature kind
 
 val magic_of_kind : 'a kind -> string
+val to_strings : 'a kind -> input_name:string -> 'a -> string list
+val output : 'a kind -> out_channel -> input_name:string -> 'a -> unit
