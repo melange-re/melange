@@ -662,8 +662,7 @@ module Array = struct
     aux 0
 
   (* mostly duplicated from array.ml *)
-  let of_rev_list l =
-    let len = List.length l in
+  let of_rev_list len l =
     let a = create len in
     let rec fill i = function
         [] -> a
@@ -673,8 +672,12 @@ module Array = struct
 
   (* duplicated from array.ml *)
   let of_seq i =
-    let l = Seq.fold_left (fun acc x -> x::acc) [] i in
-    of_rev_list l
+    let rec loop len rev i =
+      match i () with
+      | Seq.Nil -> of_rev_list len rev
+      | Seq.Cons (x, i) -> loop (len + 1) (x :: rev) i
+    in
+    loop 0 [] i
 
 
   let map_to_array f a =
