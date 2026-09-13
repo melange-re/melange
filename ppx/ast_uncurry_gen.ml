@@ -82,7 +82,8 @@ let to_method_callback =
       in
       (body, rev_extra_args)
     in
-    let arity_s = string_of_int (List.length rev_extra_args) in
+    let arity = List.length rev_extra_args in
+    let arity_s = string_of_int arity in
     Pexp_apply
       ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
         [
@@ -94,7 +95,8 @@ let to_method_callback =
               (Typ.constr ~loc
                  {
                    loc;
-                   txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ arity_s);
+                   txt =
+                     Ast_literal.arity_type Ast_literal.js_meth_callback ~arity;
                  }
                  [ Typ.any ~loc () ]) );
         ] )

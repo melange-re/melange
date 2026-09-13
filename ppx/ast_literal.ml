@@ -24,6 +24,7 @@
 
 open Import
 
+let arity_type path ~arity = Ldot (path, "arity" ^ string_of_int arity)
 let hidden_field n = Lident ("I" ^ n)
 let js = Lident "Js"
 let js_fn = Ldot (js, "Fn")

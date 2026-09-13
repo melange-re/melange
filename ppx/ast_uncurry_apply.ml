@@ -95,7 +95,8 @@ let generic_apply =
               },
             [ (Nolabel, fn) ] )
     | args ->
-        let arity_s = string_of_int (List.length args) in
+        let arity = List.length args in
+        let arity_s = string_of_int arity in
         opaque_full_apply ~loc
           (Exp.apply ~loc
              (Exp.apply ~loc
@@ -107,11 +108,11 @@ let generic_apply =
                          (Typ.constr ~loc
                             {
                               txt =
-                                Ldot
-                                  ( (match kind with
-                                    | `oo -> Ast_literal.js_meth
-                                    | `generic -> Ast_literal.js_fn),
-                                    "arity" ^ arity_s );
+                                Ast_literal.arity_type
+                                  (match kind with
+                                  | `oo -> Ast_literal.js_meth
+                                  | `generic -> Ast_literal.js_fn)
+                                  ~arity;
                               loc;
                             }
                             [ Typ.any ~loc () ]))

@@ -24,6 +24,7 @@
 
 open Import
 
+val arity_type : Longident.t -> arity:int -> Longident.t
 val hidden_field : string -> Longident.t
 val js_fn : Longident.t
 val js_internal : Longident.t
