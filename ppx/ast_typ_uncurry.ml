@@ -173,8 +173,7 @@ let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
   | _ -> (
       let tyvars =
         List.mapi
-          ~f:(fun i x ->
-            (x, Typ.var ~loc (Format.sprintf "%s%d" method_name i)))
+          ~f:(fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
           (labels_of_fun params body)
       in
       match tyvars with
