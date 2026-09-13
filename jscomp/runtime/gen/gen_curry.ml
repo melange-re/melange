@@ -123,12 +123,11 @@ let __%d o =
     args_string args_number args_number args_string args_number args_string
 
 let () =
-  print_endline
-  @@ Printf.sprintf "%s\n%s\n%s" prelude
-       (String.concat ~sep:"\n"
-          (List.init ~len:number ~f:(fun i -> generate_apply (i + 1))))
-       (String.concat ~sep:"\n"
-          (List.init ~len:8 ~f:(fun i -> generate_fun (i + 1))))
+  Printf.printf "%s\n%s\n%s\n%!" prelude
+    (String.concat ~sep:"\n"
+       (List.init ~len:number ~f:(fun i -> generate_apply (i + 1))))
+    (String.concat ~sep:"\n"
+       (List.init ~len:8 ~f:(fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml curry_gen.ml > ../jscomp/runtime/curry.ml" *)

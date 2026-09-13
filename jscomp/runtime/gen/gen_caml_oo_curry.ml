@@ -52,10 +52,9 @@ let js%d label cacheid %s =
     args_number args_string args_number (List.hd args) args_string
 
 let () =
-  print_endline
-  @@ Printf.sprintf "%s\n%s" prelude
-       (String.concat ~sep:"\n"
-          (List.init ~len:number ~f:(fun i -> generate_fun (i + 1))))
+  Printf.printf "%s\n%s\n%!" prelude
+    (String.concat ~sep:"\n"
+       (List.init ~len:number ~f:(fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml caml_oo_curry_gen.ml > ../jscomp/runtime/caml_oo_curry.ml" *)
