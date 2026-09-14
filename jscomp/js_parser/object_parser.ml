@@ -1405,7 +1405,7 @@ module Object
             is_bodyless_method
             && kind <> Class.Method.Get
             && kind <> Class.Method.Set
-            && List.length decorators = 0
+            && decorators = []
             &&
             match return with
             | Function.ReturnAnnot.Missing _ -> is_d_ts env
