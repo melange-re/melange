@@ -25,20 +25,25 @@
 open Import
 open Ast_helper
 
+type local_primitive = Raw_expr | Raw_stmt | Debugger
+
 let local_external_apply =
   let local_module_name = "J" in
   let local_fun_name = "unsafe_expr" in
-  fun ~loc
-    ~(pval_prim : string list)
-    ~(pval_type : core_type)
-    (arg : expression)
-  ->
+  let any_to_any () = Typ.arrow Nolabel (Typ.any ()) (Typ.any ()) in
+  fun ~loc (primitive : local_primitive) (arg : expression) ->
+    let primitive_name, pval_type =
+      match primitive with
+      | Raw_expr -> ("#raw_expr", any_to_any ())
+      | Raw_stmt -> ("#raw_stmt", any_to_any ())
+      | Debugger -> ("#debugger", Typ.arrow Nolabel (Typ.any ()) [%type: unit])
+    in
     Pexp_letmodule
       ( { txt = Some local_module_name; loc },
         Mod.structure ~loc
           [
             Str.primitive ~loc
-              (Val.mk ~loc ~prim:pval_prim
+              (Val.mk ~loc ~prim:[ primitive_name ]
                  { txt = local_fun_name; loc }
                  pval_type);
           ],
@@ -60,13 +65,7 @@ let handle_external ~loc x =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
     in
-    {
-      str_exp with
-      pexp_desc =
-        local_external_apply ~loc ~pval_prim:[ "#raw_expr" ]
-          ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-          str_exp;
-    }
+    { str_exp with pexp_desc = local_external_apply ~loc Raw_expr str_exp }
   in
   let empty =
     (* FIXME: the empty delimiter does not make sense*)
@@ -84,10 +83,7 @@ let handle_external ~loc x =
 
 let handle_debugger ~loc payload =
   match payload with
-  | PStr [] ->
-      local_external_apply ~loc ~pval_prim:[ "#debugger" ]
-        ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
-        [%expr ()]
+  | PStr [] -> local_external_apply ~loc Debugger [%expr ()]
   | _ -> Location.raise_errorf ~loc "`%%mel.debugger' doesn't take payload"
 
 let raw_as_string_exp_exn ~(kind : Melange_ffi.Js_raw_info.raw_kind)
@@ -145,10 +141,7 @@ let handle_raw ~kind ~loc payload =
   | Some exp ->
       {
         exp with
-        pexp_desc =
-          local_external_apply ~loc ~pval_prim:[ "#raw_expr" ]
-            ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-            exp;
+        pexp_desc = local_external_apply ~loc Raw_expr exp;
         pexp_attributes =
           (if !is_function then
              Ast_attributes.internal_expansive :: exp.pexp_attributes
@@ -159,11 +152,5 @@ let handle_raw_structure ~loc payload =
   match raw_as_string_exp_exn ~kind:Raw_program payload with
   | Some exp ->
       Ast_helper.Str.eval
-        {
-          exp with
-          pexp_desc =
-            local_external_apply ~loc ~pval_prim:[ "#raw_stmt" ]
-              ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
-              exp;
-        }
+        { exp with pexp_desc = local_external_apply ~loc Raw_stmt exp }
   | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
