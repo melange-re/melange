@@ -46,7 +46,7 @@ val var : ?loc:Location.t -> ?comment:string -> J.ident -> t
 val js_global : ?loc:Location.t -> ?comment:string -> string -> t
 
 val runtime_var_dot :
-  ?loc:Location.t -> ?comment:string -> string -> string -> t
+  ?loc:Location.t -> ?comment:string -> Js_runtime_modules.t -> string -> t
 
 (* val runtime_var_vid : string -> string -> J.vident *)
 
@@ -83,9 +83,13 @@ val external_var :
 val ml_module_as_var :
   ?loc:Location.t -> ?comment:string -> dynamic_import:bool -> Ident.t -> t
 
-val runtime_call : module_name:string -> fn_name:string -> t list -> t
-val pure_runtime_call : module_name:string -> fn_name:string -> t list -> t
-val runtime_ref : string -> string -> t
+val runtime_call :
+  module_name:Js_runtime_modules.t -> fn_name:string -> t list -> t
+
+val pure_runtime_call :
+  module_name:Js_runtime_modules.t -> fn_name:string -> t list -> t
+
+val runtime_ref : Js_runtime_modules.t -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
 val str : ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
