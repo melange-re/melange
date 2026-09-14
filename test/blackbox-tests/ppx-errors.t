@@ -243,6 +243,19 @@ Demonstrate PPX error messages
 
   $ cat > x.ml <<EOF
   > type t
+  > external x : t = "x"
+  > [@@mel.module "package"] [@@mel.module]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 3, characters 25-39:
+  3 | [@@mel.module "package"] [@@mel.module]
+                               ^^^^^^^^^^^^^^
+  Error: Conflicting FFI attributes: `@mel.module' can't be specified both with
+         and without a payload
+  [2]
+
+  $ cat > x.ml <<EOF
+  > type t
   > external x : t = "x" [@@mel.scope]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
