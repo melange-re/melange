@@ -24,13 +24,13 @@
 
 open Import
 
-val arity_type : Longident.t -> arity:int -> Longident.t
+type arity_kind = Fn | Meth | Callback
+
+val arity_type : arity_kind -> arity:int -> Longident.t
 val hidden_field : string -> Longident.t
 val js_fn : Longident.t
 val js_internal : Longident.t
 val js_internal_full_apply : Longident.t
-val js_meth : Longident.t
-val js_meth_callback : Longident.t
 val js_null : Longident.t
 val js_nullable : Longident.t
 val js_obj : Longident.t

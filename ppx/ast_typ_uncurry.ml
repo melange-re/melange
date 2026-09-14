@@ -93,7 +93,7 @@ let to_method_callback_type ~loc (mapper : Ast_traverse.map)
   in
   let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
   Typ.constr
-    { txt = Ast_literal.arity_type Ast_literal.js_meth_callback ~arity; loc }
+    { txt = Ast_literal.arity_type Ast_literal.Callback ~arity; loc }
     [ meth_type ]
 
 let generate_method_type =
@@ -137,8 +137,8 @@ let to_method_type ~loc ~kind (mapper : Ast_traverse.map)
           txt =
             Ast_literal.arity_type
               (match kind with
-              | `uncurry -> Ast_literal.js_fn
-              | `oo -> Ast_literal.js_meth)
+              | `uncurry -> Ast_literal.Fn
+              | `oo -> Ast_literal.Meth)
               ~arity:0;
           loc;
         }
@@ -149,8 +149,8 @@ let to_method_type ~loc ~kind (mapper : Ast_traverse.map)
           txt =
             Ast_literal.arity_type
               (match kind with
-              | `uncurry -> Ast_literal.js_fn
-              | `oo -> Ast_literal.js_meth)
+              | `uncurry -> Ast_literal.Fn
+              | `oo -> Ast_literal.Meth)
               ~arity:n;
           loc;
         }

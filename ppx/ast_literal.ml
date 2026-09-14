@@ -24,15 +24,27 @@
 
 open Import
 
-let arity_type path ~arity = Ldot (path, "arity" ^ string_of_int arity)
+type arity_kind = Fn | Meth | Callback
+
 let hidden_field n = Lident ("I" ^ n)
 let js = Lident "Js"
 let js_fn = Ldot (js, "Fn")
 let js_internal = Ldot (js, "Internal")
 let js_internal_full_apply = Ldot (js_internal, "opaqueFullApply")
 let js_oo = Ldot (js, "OO")
-let js_meth = Ldot (js_oo, "Meth")
-let js_meth_callback = Ldot (js_oo, "Callback")
+
+let arity_type =
+  let js_meth = Ldot (js_oo, "Meth") in
+  let js_meth_callback = Ldot (js_oo, "Callback") in
+  fun kind ~arity ->
+    let path =
+      match kind with
+      | Fn -> js_fn
+      | Meth -> js_meth
+      | Callback -> js_meth_callback
+    in
+    Ldot (path, "arity" ^ string_of_int arity)
+
 let js_null = Ldot (js, "null")
 let js_nullable = Ldot (js, "nullable")
 let js_obj = Ldot (js, "t")
