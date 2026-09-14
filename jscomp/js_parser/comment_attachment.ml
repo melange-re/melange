@@ -33,13 +33,11 @@ class ['loc] trailing_comments_remover ~after_pos =
     method! syntax comments =
       let open Syntax in
       let { trailing; _ } = comments in
-      let trailing' =
-        List.filter (fun (loc, _) -> Loc.(pos_cmp loc.start after_pos < 0)) trailing
-      in
-      if List.length trailing = List.length trailing' then
+      let keep (loc, _) = Loc.(pos_cmp loc.start after_pos < 0) in
+      if List.for_all keep trailing then
         comments
       else
-        { comments with trailing = trailing' }
+        { comments with trailing = List.filter keep trailing }
 
     method! array _loc expr =
       let open Ast.Expression.Array in
