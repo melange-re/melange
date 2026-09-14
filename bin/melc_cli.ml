@@ -270,7 +270,7 @@ module Internal = struct
       let parse m =
         match Module_system.of_string m with
         | Some module_system -> Ok module_system
-        | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
+        | None -> Error (`Msg ("Invalid module system " ^ m))
       in
       let print fmt ms = Format.fprintf fmt "%s" (Module_system.to_string ms) in
       Arg.conv ~docv:"module system" (parse, print)
