@@ -243,6 +243,32 @@ Demonstrate PPX error messages
 
   $ cat > x.ml <<EOF
   > type t
+  > external x : t = "package"
+  > [@@mel.module] [@@mel.scope "nested"]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", lines 2-3, characters 0-37:
+  2 | external x : t = "package"
+  3 | [@@mel.module] [@@mel.scope "nested"]
+  Error: Conflicting FFI attributes: `@mel.scope' can't be used when
+         `@mel.module' has no payload
+  [2]
+
+  $ cat > x.ml <<EOF
+  > type t
+  > external set : t -> t -> unit = "set"
+  > [@@mel.new] [@@mel.set]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 3, characters 12-23:
+  3 | [@@mel.new] [@@mel.set]
+                  ^^^^^^^^^^^
+  Error: Conflicting FFI attributes: Found an attribute that can't be used with
+         `@mel.new'
+  [2]
+
+  $ cat > x.ml <<EOF
+  > type t
   > external x : t = "x" [@@mel.scope]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
