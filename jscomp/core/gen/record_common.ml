@@ -1,5 +1,21 @@
 open Node_types
 
+module Container = struct
+  type t = Option | List | Nonempty_list
+
+  let of_longident (longident : Ppxlib.Longident.t) =
+    match longident with
+    | Lident "option" -> Some Option
+    | Lident "list" -> Some List
+    | Ldot (Lident "Nonempty_list", "t") -> Some Nonempty_list
+    | _ -> None
+
+  let traversal_name = function
+    | Option -> "option"
+    | List -> "list"
+    | Nonempty_list -> "nonempty_list"
+end
+
 let indexed_names len = Array.init len ~f:(fun i -> "_x" ^ string_of_int i)
 let ident name = Ast_helper.Exp.ident { txt = Lident name; loc }
 let ident_at name loc = Ast_helper.Exp.ident { txt = Lident name; loc }
