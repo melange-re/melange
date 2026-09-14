@@ -96,7 +96,6 @@ let generic_apply =
             [ (Nolabel, fn) ] )
     | args ->
         let arity = List.length args in
-        let arity_s = string_of_int arity in
         opaque_full_apply ~loc
           (Exp.apply ~loc
              (Exp.apply ~loc
@@ -116,7 +115,7 @@ let generic_apply =
                               loc;
                             }
                             [ Typ.any ~loc () ]))
-                      { txt = Ast_literal.hidden_field arity_s; loc } );
+                      { txt = Ast_literal.hidden_field ~arity; loc } );
                 ])
              args)
 

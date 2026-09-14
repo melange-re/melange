@@ -27,7 +27,8 @@ open Import
 type arity_kind = Fn | Meth | Callback
 
 val arity_type : arity_kind -> arity:int -> Longident.t
-val hidden_field : string -> Longident.t
+val hidden_field : arity:int -> Longident.t
+val fn_hidden_field : arity:int -> Longident.t
 val js_fn : Longident.t
 val js_internal : Longident.t
 val js_internal_full_apply : Longident.t
