@@ -25,15 +25,19 @@
 open Import
 open Ast_helper
 
-let process_args ~loc self args ~init:(arity, rev_args) =
-  let rec loop arity rev_args = function
+let process_args =
+  let rec loop ~loc self args ~arity rev_args =
+    match args with
     | [] -> (arity, rev_args)
-    | { pparam_desc = Pparam_newtype _; _ } :: args -> loop arity rev_args args
+    | { pparam_desc = Pparam_newtype _; _ } :: args ->
+        loop ~loc self args ~arity rev_args
     | { pparam_desc = Pparam_val (arg_label, _, arg); _ } :: args ->
         Error.optional_err ~loc arg_label;
-        loop (arity + 1) ((arg_label, self#pattern arg) :: rev_args) args
+        loop ~loc self args ~arity:(arity + 1)
+          ((arg_label, self#pattern arg) :: rev_args)
   in
-  loop arity rev_args args
+  fun ~loc self args ~init:(arity, rev_args) ->
+    loop ~loc self args ~arity rev_args
 
 let rec aux ~loc self acc (body : expression) =
   match Ast_attributes.process_attributes_rev body.pexp_attributes with
