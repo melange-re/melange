@@ -123,44 +123,22 @@ let generate_method_type =
         to_method_callback_type ~loc mapper Nolabel self_type
           (Typ.arrow ~loc label x method_rest)
 
-let to_method_type ~loc ~kind (mapper : Ast_traverse.map)
+let to_arity_type ~loc ~kind (mapper : Ast_traverse.map)
     (label : Asttypes.arg_label) (first_arg : core_type) (typ : core_type) =
   let typ = mapper#core_type typ in
   let meth_type =
     let first_arg = mapper#core_type first_arg in
     Typ.arrow ~loc label first_arg typ
   in
-  match Option.get (Ast_core_type.get_uncurry_arity meth_type) with
-  | 0 ->
-      Typ.constr
-        {
-          txt =
-            Ast_literal.arity_type
-              (match kind with
-              | `uncurry -> Ast_literal.Fn
-              | `oo -> Ast_literal.Meth)
-              ~arity:0;
-          loc;
-        }
-        [ typ ]
-  | n ->
-      Typ.constr
-        {
-          txt =
-            Ast_literal.arity_type
-              (match kind with
-              | `uncurry -> Ast_literal.Fn
-              | `oo -> Ast_literal.Meth)
-              ~arity:n;
-          loc;
-        }
-        [ meth_type ]
+  let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
+  let wrapped = if arity = 0 then typ else meth_type in
+  Typ.constr { txt = Ast_literal.arity_type kind ~arity; loc } [ wrapped ]
 
 let to_uncurry_type ~loc mapper label first_arg typ =
-  to_method_type ~loc ~kind:`uncurry mapper label first_arg typ
+  to_arity_type ~loc ~kind:Ast_literal.Fn mapper label first_arg typ
 
 let to_method_type ~loc mapper label first_arg typ =
-  to_method_type ~loc ~kind:`oo mapper label first_arg typ
+  to_arity_type ~loc ~kind:Ast_literal.Meth mapper label first_arg typ
 
 let generate_arg_type ~loc (mapper : Ast_traverse.map) method_name params body =
   match arity_of_fun params body with
