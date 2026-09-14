@@ -25,28 +25,28 @@
 open Import
 open Ast_helper
 
-let process_args =
-  let rec loop ~loc self args ~arity rev_args =
+let process_function =
+  let rec process_args ~loc self args ~arity rev_args =
     match args with
     | [] -> (arity, rev_args)
     | { pparam_desc = Pparam_newtype _; _ } :: args ->
-        loop ~loc self args ~arity rev_args
+        process_args ~loc self args ~arity rev_args
     | { pparam_desc = Pparam_val (arg_label, _, arg); _ } :: args ->
         Error.optional_err ~loc arg_label;
-        loop ~loc self args ~arity:(arity + 1)
+        process_args ~loc self args ~arity:(arity + 1)
           ((arg_label, self#pattern arg) :: rev_args)
   in
-  fun ~loc self args ~init:(arity, rev_args) ->
-    loop ~loc self args ~arity rev_args
-
-let rec aux ~loc self acc (body : expression) =
-  match Ast_attributes.process_attributes_rev body.pexp_attributes with
-  | Nothing, _ -> (
-      match body.pexp_desc with
-      | Pexp_function (args, _, Pfunction_body body) ->
-          aux ~loc self (process_args ~loc self args ~init:acc) body
-      | _ -> (self#expression body, acc))
-  | _, _ -> (self#expression body, acc)
+  let rec aux ~loc self ((arity, rev_args) as acc) (body : expression) =
+    match Ast_attributes.process_attributes_rev body.pexp_attributes with
+    | Nothing, _ -> (
+        match body.pexp_desc with
+        | Pexp_function (args, _, Pfunction_body body) ->
+            aux ~loc self (process_args ~loc self args ~arity rev_args) body
+        | _ -> (self#expression body, acc))
+    | _, _ -> (self#expression body, acc)
+  in
+  fun ~loc self args body ->
+    aux ~loc self (process_args ~loc self args ~arity:0 []) body
 
 (* Handling `fun [@this]` used in `object [@u] end` *)
 let to_method_callback =
@@ -75,7 +75,7 @@ let to_method_callback =
       Error.err ~loc:first_arg.ppat_loc Mel_this_simple_pattern;
     let body, arity =
       let result, (arity, rev_extra_args) =
-        aux ~loc self (process_args ~loc self args ~init:(0, [])) body
+        process_function ~loc self args body
       in
       let body =
         Ast_builder.Default.pexp_function ~loc
@@ -105,9 +105,7 @@ let to_method_callback =
         ] )
 
 let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
-  let result, (arity, rev_extra_args) =
-    aux ~loc self (process_args ~loc self args ~init:(0, [])) body
-  in
+  let result, (arity, rev_extra_args) = process_function ~loc self args body in
   let arity =
     match rev_extra_args with
     | [
