@@ -224,7 +224,7 @@ Demonstrate PPX error messages
   File "x.ml", line 3, characters 13-24:
   3 | [@@mel.send] [@@mel.get]
                    ^^^^^^^^^^^
-  Error: Conflicting FFI attributes: `[@mel.send]' and `[@mel.get]' can't be
+  Error: Conflicting FFI attributes: `[@mel.get]' and `[@mel.get]' can't be
          specified at the same time
   [2]
 
