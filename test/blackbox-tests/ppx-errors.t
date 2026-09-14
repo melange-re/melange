@@ -258,12 +258,13 @@ Demonstrate PPX error messages
   > [@@mel.module] [@@mel.scope "nested"]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml >errors.log 2>&1
-  [125]
+  [2]
   $ sed -E 's/(line )[0-9]+(, characters )[0-9]+-[0-9]+(: Assertion failed)/\1<line>\2<chars>\3/' errors.log
-  Fatal error: exception File "ppx/ast_external_process.ml", line <line>, characters <chars>: Assertion failed
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
+  File "x.ml", lines 2-3, characters 0-37:
+  2 | external x : t = "package"
+  3 | [@@mel.module] [@@mel.scope "nested"]
+  Error: Conflicting FFI attributes: `@mel.scope' can't be used when
+         `@mel.module' has no payload
 
   $ cat > x.ml <<EOF
   > type 'a t
@@ -353,9 +354,9 @@ Demonstrate PPX error messages
   > [@@mel.new] [@@mel.set]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 2-3, characters 0-23:
-  2 | external set : t -> t -> unit = "set"
+  File "x.ml", line 3, characters 12-23:
   3 | [@@mel.new] [@@mel.set]
+                  ^^^^^^^^^^^
   Error: Conflicting FFI attributes: Found an attribute that can't be used with
          `@mel.new'
   [2]
