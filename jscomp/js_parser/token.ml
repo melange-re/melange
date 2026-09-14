@@ -773,7 +773,7 @@ let value_of_token =
   | T_UNKNOWN_TYPE -> "unknown"
   | T_NEVER_TYPE -> "never"
   | T_UNDEFINED_TYPE -> "undefined"
-let quote_token_value value = Printf.sprintf "token `%s`" value
+let quote_token_value value = "token `" ^ value ^ "`"
 let explanation_of_token ?(use_article= false) token =
   let (value, article) =
     match token with

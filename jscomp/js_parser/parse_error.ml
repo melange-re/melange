@@ -770,11 +770,10 @@ module PP =
           "Unexpected token `=`. Initializers are not allowed in a `declare opaque type`."
       | DuplicateConstructor -> "Classes may only have one constructor"
       | DuplicateExport export ->
-          Printf.sprintf "Duplicate export for `%s`" export
+          "Duplicate export for `" ^ export ^ "`"
       | DuplicatePrivateFields name ->
-          Printf.sprintf
-            "Private fields may only be declared once. `#%s` is declared more than once."
-            name
+          "Private fields may only be declared once. `#" ^ name
+            ^ "` is declared more than once."
       | ElementAfterRestElement ->
           "Rest element must be final element of an array pattern"
       | EnumInvalidEllipsis { trailing_comma } ->
@@ -785,42 +784,37 @@ module PP =
             "The `...` must come after all enum members. Move it to the end of the enum body."
       | EnumInvalidExplicitType { enum_name; supplied_type } ->
           let suggestion =
-            Printf.sprintf
-              "Use one of `boolean`, `number`, `string`, `symbol`, or `bigint` in enum `%s`."
-              enum_name in
+            "Use one of `boolean`, `number`, `string`, `symbol`, or `bigint` in enum `"
+              ^ enum_name ^ "`." in
           (match supplied_type with
            | Some supplied_type ->
-               Printf.sprintf "Enum type `%s` is not valid. %s" supplied_type
-                 suggestion
+               "Enum type `" ^ supplied_type ^ "` is not valid. " ^ suggestion
            | None ->
-               Printf.sprintf "Supplied enum type is not valid. %s"
-                 suggestion)
+               "Supplied enum type is not valid. " ^ suggestion)
       | EnumInvalidExport ->
           "Cannot export an enum with `export type`, try `export enum E {}` or `module.exports = E;` instead."
       | EnumInvalidInitializerSeparator { member_name } ->
-          Printf.sprintf
-            "Enum member names and initializers are separated with `=`. Replace `%s:` with `%s =`."
-            member_name member_name
+          "Enum member names and initializers are separated with `=`. Replace `"
+            ^ member_name ^ ":` with `" ^ member_name ^ " =`."
       | EnumInvalidMemberInitializer
           { enum_name; explicit_type; member_name } ->
           (match explicit_type with
            | Some (Flow_ast.Statement.EnumDeclaration.Symbol) ->
-               Printf.sprintf
-                 "Symbol enum members cannot be initialized. Use `%s,` in enum `%s`."
-                 member_name enum_name
+               "Symbol enum members cannot be initialized. Use `" ^ member_name
+                 ^ ",` in enum `" ^ enum_name ^ "`."
            | Some t ->
                let type_str = Flow_ast_utils.string_of_enum_explicit_type t in
                Printf.sprintf
                  "Enum `%s` has type `%s`, so the initializer of `%s` needs to be a %s literal."
                  enum_name type_str member_name type_str
            | None ->
-               Printf.sprintf
-                 "The enum member initializer for `%s` needs to be a literal (either a boolean, number, bigint, or string) in enum `%s`."
-                 member_name enum_name)
+               "The enum member initializer for `" ^ member_name
+                 ^ "` needs to be a literal (either a boolean, number, bigint, or string) in enum `"
+                 ^ enum_name ^ "`.")
       | EnumInvalidMemberSeparator ->
           "Enum members are separated with `,`. Replace `;` with `,`."
       | ExpectedJSXClosingTag name ->
-          Printf.sprintf "Expected corresponding JSX closing tag for %s" name
+          "Expected corresponding JSX closing tag for " ^ name
       | ExpectedPatternFoundExpression ->
           "Expected an object pattern, array pattern, or an identifier but found an expression instead"
       | ExportSpecifierMissingComma ->
@@ -844,7 +838,7 @@ module PP =
             then
               " `break` statements are not required in `match` statements, as unlike `switch` statements, `match` statement cases do not fall-through by default."
             else "" in
-          Printf.sprintf "Illegal break statement.%s" extra
+          "Illegal break statement." ^ extra
       | IllegalContinue -> "Illegal continue statement"
       | IllegalReturn -> "Illegal return statement"
       | IllegalUnicodeEscape -> "Illegal Unicode escape"
@@ -857,8 +851,7 @@ module PP =
             ^
             "It cannot be used with `import type` or `import typeof` statements"
       | IndexSignatureInvalidModifier modifier ->
-          Printf.sprintf
-            "`%s` modifier cannot be used with index signatures." modifier
+          "`" ^ modifier ^ "` modifier cannot be used with index signatures."
       | InexactInsideExact ->
           "Explicit inexact syntax cannot appear inside an explicit exact object type"
       | InexactInsideNonObject ->
@@ -884,8 +877,7 @@ module PP =
             if has_bracket
             then "Remove the period."
             else "Indexed access uses bracket notation." in
-          Printf.sprintf "Invalid indexed access. %s Use the format `T[K]`."
-            msg
+          "Invalid indexed access. " ^ msg ^ " Use the format `T[K]`."
       | InvalidJSXAttributeValue ->
           "JSX value should be either an expression or a quoted JSX text"
       | InvalidLHSInAssignment -> "Invalid left-hand side in assignment"
@@ -897,8 +889,7 @@ module PP =
           "Invalid optional indexed access. Indexed access uses bracket notation. Use the format `T?.[K]`."
       | InvalidRegExp -> "Invalid regular expression"
       | InvalidRegExpFlags flags ->
-          Printf.sprintf "Invalid flags supplied to RegExp constructor '%s'"
-            flags
+          "Invalid flags supplied to RegExp constructor '" ^ flags ^ "'"
       | InvalidSciBigInt ->
           "A bigint literal cannot use exponential notation"
       | InvalidTypeof ->
@@ -915,9 +906,8 @@ module PP =
       | MatchNonLastRest kind ->
           let kind =
             match kind with | `Object -> "object" | `Array -> "array" in
-          Printf.sprintf
-            "In match %s pattern, the rest must be the last element in the pattern"
-            kind
+          "In match " ^ kind
+            ^ " pattern, the rest must be the last element in the pattern"
       | MatchEmptyArgument -> "`match` argument must not be empty"
       | MatchSpreadArgument ->
           "`match` argument cannot contain spread elements"
@@ -927,8 +917,7 @@ module PP =
           "`yield` is not yet supported in `match` expressions"
       | MethodInDestructuring -> "Object pattern can't contain methods"
       | MissingJSXClosingTag name ->
-          Printf.sprintf "JSX element %s has no corresponding closing tag."
-            name
+          "JSX element " ^ name ^ " has no corresponding closing tag."
       | MissingTypeParam -> "Expected at least one type parameter."
       | MissingTypeParamDefault ->
           "Type parameter declaration needs a default, since a preceding type parameter declaration has a default."
@@ -941,9 +930,8 @@ module PP =
       | NoUninitializedDestructuring ->
           "Destructuring assignment must be initialized"
       | NullishCoalescingUnexpectedLogical operator ->
-          Printf.sprintf
-            "Unexpected token `%s`. Parentheses are required to combine `??` with `&&` or `||` expressions."
-            operator
+          "Unexpected token `" ^ operator
+            ^ "`. Parentheses are required to combine `??` with `&&` or `||` expressions."
       | OptionalChainNew ->
           "An optional chain may not be used in a `new` expression."
       | OptionalChainTemplate ->
@@ -973,7 +961,7 @@ module PP =
       | RecordPropertyAnnotationRequired ->
           "Record properties must have a type annotation."
       | Redeclaration (what, name) ->
-          Printf.sprintf "%s '%s' has already been declared" what name
+          what ^ " '" ^ name ^ "' has already been declared"
       | SetterArity -> "Setter should have exactly one parameter"
       | SetterMayNotHaveThisParam ->
           "A setter cannot have a `this` parameter."
@@ -1023,10 +1011,9 @@ module PP =
       | TrailingCommaAfterRestElement ->
           "A trailing comma is not permitted after the rest element"
       | UnboundPrivate name ->
-          Printf.sprintf
-            "Private fields must be declared before they can be referenced. `#%s` has not been declared."
-            name
-      | Unexpected unexpected -> Printf.sprintf "Unexpected %s" unexpected
+          "Private fields must be declared before they can be referenced. `#"
+            ^ name ^ "` has not been declared."
+      | Unexpected unexpected -> "Unexpected " ^ unexpected
       | UnexpectedEOS -> "Unexpected end of input"
       | UnexpectedExplicitInexactInObject ->
           "Explicit inexact syntax must come at the end of an object type"
@@ -1046,8 +1033,7 @@ module PP =
       | UnexpectedSuperCall ->
           "`super()` is only valid in a class constructor"
       | UnexpectedTokenWithSuggestion (token, suggestion) ->
-          Printf.sprintf "Unexpected token `%s`. Did you mean `%s`?" token
-            suggestion
+          "Unexpected token `" ^ token ^ "`. Did you mean `" ^ suggestion ^ "`?"
       | UnexpectedTypeAlias -> "Type aliases are not allowed in untyped mode"
       | UnexpectedTypeAnnotation ->
           "Type annotations are not allowed in untyped mode"
@@ -1061,8 +1047,8 @@ module PP =
           "Interfaces are not allowed in untyped mode"
       | UnexpectedVariance -> "Unexpected variance sigil"
       | UnexpectedWithExpected (unexpected, expected) ->
-          Printf.sprintf "Unexpected %s, expected %s" unexpected expected
-      | UnknownLabel label -> Printf.sprintf "Undefined label '%s'" label
+          "Unexpected " ^ unexpected ^ ", expected " ^ expected
+      | UnknownLabel label -> "Undefined label '" ^ label ^ "'"
       | UnsupportedDecorator ->
           "Found a decorator in an unsupported position."
       | UnterminatedRegExp -> "Invalid regular expression: missing /"

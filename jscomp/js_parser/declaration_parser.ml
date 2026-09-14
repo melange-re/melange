@@ -402,7 +402,7 @@ module Declaration (Parse : Parser_common.PARSER) (Type : Parser_common.TYPE) :
           Ok (param_loc, Ast.Type.Function.Param.Labeled { name; annot = annot_type; optional })
         | Ast.Type.Missing _ ->
           let (_, { Identifier.name = param_name; _ }) = name in
-          Error (Printf.sprintf "parameter '%s' is missing a type annotation" param_name))
+          Error ("parameter '" ^ param_name ^ "' is missing a type annotation"))
       | (_, Pattern.Object { Pattern.Object.annot = Ast.Type.Available _; _ })
       | (_, Pattern.Array { Pattern.Array.annot = Ast.Type.Available _; _ }) ->
         Ok (param_loc, Ast.Type.Function.Param.Destructuring argument)

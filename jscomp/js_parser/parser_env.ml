@@ -1369,7 +1369,7 @@ module Expect = struct
       match t with
       | Token.T_IDENTIFIER { raw; _ } when raw = name -> ()
       | _ ->
-        let expected = Printf.sprintf "the identifier `%s`" name in
+        let expected = "the identifier `" ^ name ^ "`" in
         error_unexpected ~expected env
     end;
     Eat.token env
