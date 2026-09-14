@@ -171,10 +171,14 @@ module External_desc = struct
 
   type scopes = No_mel_scope | String_literals of string Nonempty_list.t
 
+  type module_binding =
+    | No_module
+    | Import_from of External_ffi_types.External_module_name.t
+    | Module_as_value of External_ffi_types.External_module_name.t
+
   type desc = {
     kind : kind;
-    external_module_name : External_ffi_types.External_module_name.t option;
-    module_as_val : External_ffi_types.External_module_name.t option;
+    module_binding : module_binding;
     variadic : bool; (* mutable *)
     scopes : scopes;
     new_name : bool;
@@ -186,8 +190,7 @@ module External_desc = struct
   let init =
     {
       kind = Val;
-      external_module_name = None;
-      module_as_val = None;
+      module_binding = No_module;
       variadic = false;
       scopes = No_mel_scope;
       new_name = false;
@@ -226,6 +229,19 @@ let parse_external_attributes =
              (Format.asprintf
                 "`[%@%a]' and `[%@%a]' can't be specified at the same time"
                 External_desc.pp_kind st_kind External_desc.pp_kind kind))
+  in
+  let assign_module_binding ~loc (st : External_desc.desc)
+      (module_binding : External_desc.module_binding) =
+    match (st.module_binding, module_binding) with
+    | _, No_module -> st
+    | No_module, _
+    | Import_from _, Import_from _
+    | Module_as_value _, Module_as_value _ ->
+        { st with module_binding }
+    | Import_from _, Module_as_value _ | Module_as_value _, Import_from _ ->
+        Error.err ~loc
+          (Conflict_ffi_attribute
+             "`@mel.module' can't be specified both with and without a payload")
   in
   fun (prim_name_check : string)
     (prim_name_or_pval_prim : string Lazy.t)
@@ -267,33 +283,22 @@ let parse_external_attributes =
               | "mel.module" -> (
                   match Ast_payload.assert_strings ~loc payload with
                   | [ bundle ] ->
-                      ( {
-                          st with
-                          External_desc.external_module_name =
-                            Some { bundle; module_bind_name = Phint_nothing };
-                        },
+                      ( assign_module_binding ~loc st
+                          (Import_from
+                             { bundle; module_bind_name = Phint_nothing }),
                         mk_obj )
                   | [ bundle; bind_name ] ->
-                      ( {
-                          st with
-                          external_module_name =
-                            Some
-                              {
-                                bundle;
-                                module_bind_name = Phint_name bind_name;
-                              };
-                        },
+                      ( assign_module_binding ~loc st
+                          (Import_from
+                             { bundle; module_bind_name = Phint_name bind_name }),
                         mk_obj )
                   | [] ->
-                      ( {
-                          st with
-                          module_as_val =
-                            Some
-                              {
-                                bundle = Lazy.force prim_name_or_pval_prim;
-                                module_bind_name = Phint_nothing;
-                              };
-                        },
+                      ( assign_module_binding ~loc st
+                          (Module_as_value
+                             {
+                               bundle = Lazy.force prim_name_or_pval_prim;
+                               module_bind_name = Phint_nothing;
+                             }),
                         mk_obj )
                   | _ ->
                       Location.raise_errorf ~loc
@@ -396,8 +401,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
   match st with
   | {
    kind = Val;
-   external_module_name = None;
-   module_as_val = None;
+   module_binding = No_module;
    variadic = false;
    new_name = false;
    return_wrapper = Return_unset;
@@ -640,8 +644,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
   match st with
   | {
    kind = Set_index;
-   external_module_name = None;
-   module_as_val = None;
+   module_binding = No_module;
    variadic = false;
    scopes = _;
    new_name = false;
@@ -659,8 +662,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that conflicts with `[@mel.set_index]'")
   | {
    kind = Get_index;
-   external_module_name = None;
-   module_as_val = None;
+   module_binding = No_module;
    variadic = false;
    scopes = _;
    new_name = false;
@@ -678,9 +680,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that conflicts with `@mel.get_index'")
   | {
    kind = Val;
-   module_as_val = Some external_module_name;
+   module_binding = Module_as_value external_module_name;
    new_name;
-   external_module_name = None;
    scopes = No_mel_scope;
    (* module as var does not need scopes *)
    variadic;
@@ -690,7 +691,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       | [], false -> Js_module_as_var external_module_name
       | _, false -> Js_module_as_fn { variadic; external_module_name }
       | _, true -> Js_module_as_class external_module_name)
-  | { module_as_val = Some _; kind = Send as kind; _ } ->
+  | { module_binding = Module_as_value _; kind = Send as kind; _ } ->
       let reason =
         match kind with
         | Get_index ->
@@ -704,9 +705,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       Error.err ~loc (Conflict_ffi_attribute reason)
   | {
    kind = Val;
-   module_as_val = None;
+   module_binding = No_module;
    new_name = false;
-   external_module_name = None;
    variadic;
    scopes = _;
    return_wrapper = _;
@@ -723,9 +723,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       )
   | {
    kind = Val;
-   module_as_val = None;
+   module_binding = Import_from external_module_name;
    new_name = false;
-   external_module_name = Some _ as external_module_name;
    variadic;
    scopes = _;
    return_wrapper = _;
@@ -734,16 +733,26 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       match arg_type_specs_length with
       | 0 ->
           (* {[ external ff : int = "" [@@module "xx"] ]} *)
-          Js_var { name; external_module_name; scopes = ffi_scopes }
+          Js_var
+            {
+              name;
+              external_module_name = Some external_module_name;
+              scopes = ffi_scopes;
+            }
       | _ ->
-          Js_call { variadic; name; external_module_name; scopes = ffi_scopes })
+          Js_call
+            {
+              variadic;
+              name;
+              external_module_name = Some external_module_name;
+              scopes = ffi_scopes;
+            })
   | {
    kind = Send;
    variadic;
    scopes = _;
-   module_as_val = None;
+   module_binding = No_module;
    new_name;
-   external_module_name = None;
    return_wrapper = _;
   } -> (
       (* PR #2162 - since when we assemble arguments the first argument in
@@ -769,8 +778,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
         "Found an attribute that can't be used with `[%@mel.send]'"
   | {
    new_name = true;
-   external_module_name;
-   module_as_val = None;
+   module_binding = No_module;
    kind = Val;
    variadic;
    scopes = _;
@@ -779,7 +787,22 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       Js_new
         {
           name = Lazy.force prim_name_or_pval_prim;
-          external_module_name;
+          external_module_name = None;
+          variadic;
+          scopes = ffi_scopes;
+        }
+  | {
+   new_name = true;
+   module_binding = Import_from external_module_name;
+   kind = Val;
+   variadic;
+   scopes = _;
+   return_wrapper = _;
+  } ->
+      Js_new
+        {
+          name = Lazy.force prim_name_or_pval_prim;
+          external_module_name = Some external_module_name;
           variadic;
           scopes = ffi_scopes;
         }
@@ -789,9 +812,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that can't be used with `@mel.new'")
   | {
    kind = Set;
-   module_as_val = None;
+   module_binding = No_module;
    new_name = false;
-   external_module_name = None;
    variadic = false;
    return_wrapper = _;
    scopes = _;
@@ -809,9 +831,8 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that can't be used with `[@mel.set]'")
   | {
    kind = Get;
-   module_as_val = None;
+   module_binding = No_module;
    new_name = false;
-   external_module_name = None;
    variadic = false;
    return_wrapper = _;
    scopes = _;
