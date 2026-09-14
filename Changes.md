@@ -6,6 +6,10 @@ Unreleased
   ([#1858](https://github.com/melange-re/melange/pull/1858))
 - compiler: warn when `--mel-cross-module-opt` cannot find a dependency's
   `.cmj` file ([#1857](https://github.com/melange-re/melange/pull/1857))
+- Belt.List: avoid redundant length traversals in `reduceReverse` and
+  `reduceReverse2` for long lists
+  ([#1921](https://github.com/melange-re/melange/pull/1921),
+  [#1924](https://github.com/melange-re/melange/pull/1924))
 
 
 7.0.1-55 2026-07-12

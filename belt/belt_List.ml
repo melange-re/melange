@@ -501,7 +501,7 @@ let rec reduceReverse2UnsafeU l1 l2 accu f =
 let reduceReverse2U (type a b c) (l1 : a list) (l2 : b list) (acc : c) f =
   let len = length l1 in
   if len < 1000 then reduceReverse2UnsafeU l1 l2 acc f
-  else A.reduceReverse2U (toArray l1) (toArray l2) acc f
+  else A.reduceReverse2U (toArrayWithLength l1 len) (toArray l2) acc f
 
 let reduceReverse2 l1 l2 acc f =
   reduceReverse2U l1 l2 acc (fun[@u] a b c -> f a b c)
