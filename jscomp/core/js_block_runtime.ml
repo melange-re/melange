@@ -26,10 +26,10 @@ open Import
 
 let check_additional_id =
   let caml_js_exceptions_id =
-    Some (Ident.create_persistent Js_runtime_modules.caml_js_exceptions)
+    Some (Js_runtime_modules.ident Js_runtime_modules.caml_js_exceptions)
   in
-  let option_id = Some (Ident.create_persistent Js_runtime_modules.option)
-  and curry_id = Some (Ident.create_persistent Js_runtime_modules.curry) in
+  let option_id = Some (Js_runtime_modules.ident Js_runtime_modules.option)
+  and curry_id = Some (Js_runtime_modules.ident Js_runtime_modules.curry) in
   fun (x : J.expression) : Ident.t option ->
     match x.expression_desc with
     | Optional_block (_, false) -> option_id
@@ -45,7 +45,7 @@ let check_additional_id =
 
 let check_additional_statement_id =
   let js_exceptions_id =
-    Some (Ident.create_persistent Js_runtime_modules.caml_js_exceptions)
+    Some (Js_runtime_modules.ident Js_runtime_modules.caml_js_exceptions)
   in
   fun (x : J.statement) : Ident.t option ->
     match x.statement_desc with Throw _ -> js_exceptions_id | _ -> None

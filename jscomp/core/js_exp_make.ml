@@ -92,16 +92,17 @@ let call ?loc ?comment ~info e0 args : t =
 let flat_call ?loc ?comment e0 es : t =
   make_expression ?loc ?comment (FlatCall { expr = e0; args = es })
 
-let runtime_var_dot ?loc ?comment (x : string) (e1 : string) : J.expression =
+let runtime_var_dot ?loc ?comment (module_name : Js_runtime_modules.t)
+    (field : string) : J.expression =
   make_expression ?loc ?comment
     (Var
        (Qualified
           ( {
-              id = Ident.create_persistent x;
+              id = Js_runtime_modules.ident module_name;
               kind = Runtime;
               dynamic_import = false;
             },
-            Some e1 )))
+            Some field )))
 
 let ml_var_dot ?loc ?comment ~dynamic_import (id : Ident.t) e : J.expression =
   make_expression ?loc ?comment

@@ -24,32 +24,31 @@
 
 open Import
 
-type t = Ident.t
+type t
 
-let ident t = t
-let make = Ident.create_persistent
-let exceptions = make "Caml_exceptions"
-let io = make "Caml_io"
-let sys = make "Caml_sys"
-let lexer = make "Caml_lexer"
-let parser = make "Caml_parser"
-let obj_runtime = make "Caml_obj"
-let array = make "Caml_array"
-let format = make "Caml_format"
-let string = make "Caml_string"
-let bytes = make "Caml_bytes"
-let float = make "Caml_float"
-let hash_primitive = make "Caml_hash_primitive"
-let hash = make "Caml_hash"
-let oo = make "Caml_oo"
-let curry = make "Curry"
-let caml_oo_curry = make "Caml_oo_curry"
-let caml_primitive = make "Caml"
-let int64 = make "Caml_int64"
-let md5 = make "Caml_md5"
-let int32 = make "Caml_int32"
-let option = make "Caml_option"
-let module_ = make "Caml_module"
-let external_polyfill = make "Caml_external_polyfill"
-let caml_js_exceptions = make "Caml_js_exceptions"
-let caml_splice_call = make "Caml_splice_call"
+val ident : t -> Ident.t
+val exceptions : t
+val io : t
+val sys : t
+val lexer : t
+val parser : t
+val obj_runtime : t
+val array : t
+val format : t
+val string : t
+val bytes : t
+val float : t
+val hash_primitive : t
+val hash : t
+val oo : t
+val curry : t
+val caml_oo_curry : t
+val caml_primitive : t
+val int64 : t
+val md5 : t
+val int32 : t
+val option : t
+val module_ : t
+val external_polyfill : t
+val caml_js_exceptions : t
+val caml_splice_call : t

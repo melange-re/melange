@@ -114,23 +114,29 @@ let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
 let flush cxt () = Js_pp.flush cxt.pp ()
 
 module Curry_gen = struct
+  let curry_id = Js_runtime_modules.ident Js_runtime_modules.curry
+
   let pp_curry_dot cxt =
-    string cxt Js_runtime_modules.curry;
-    string cxt L.dot
+    let cxt = ident cxt curry_id in
+    string cxt L.dot;
+    cxt
 
   let pp_optimize_curry cxt (len : int) =
-    pp_curry_dot cxt;
+    let cxt = pp_curry_dot cxt in
     string cxt "__";
-    string cxt (Printf.sprintf "%d" len)
+    string cxt (Printf.sprintf "%d" len);
+    cxt
 
   let pp_app_any cxt =
-    pp_curry_dot cxt;
-    string cxt "app"
+    let cxt = pp_curry_dot cxt in
+    string cxt "app";
+    cxt
 
   let pp_app cxt (len : int) =
-    pp_curry_dot cxt;
+    let cxt = pp_curry_dot cxt in
     string cxt "_";
-    string cxt (Printf.sprintf "%d" len)
+    string cxt (Printf.sprintf "%d" len);
+    cxt
 end
 
 let semi cxt = string cxt L.semi
@@ -353,7 +359,7 @@ let pp_var_assign_this cxt id =
    Note that {!pp_function} could print both statement and expression when [No_name] is given
 *)
 let rec try_optimize_curry cxt len function_id =
-  Curry_gen.pp_optimize_curry cxt len;
+  let cxt = Curry_gen.pp_optimize_curry cxt len in
   paren_group cxt 1 (fun () -> expression ~level:1 cxt function_id)
 
 and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
@@ -599,13 +605,13 @@ and expression_desc cxt ~(level : int) x : cxt =
                       | _ -> arguments cxt el)
               | _, _ ->
                   let len = List.length el in
-                  if 1 <= len && len <= 8 then (
-                    Curry_gen.pp_app cxt len;
-                    paren_group cxt 0 (fun () -> arguments cxt (e :: el)))
-                  else (
-                    Curry_gen.pp_app_any cxt;
+                  if 1 <= len && len <= 8 then
+                    let cxt = Curry_gen.pp_app cxt len in
+                    paren_group cxt 0 (fun () -> arguments cxt (e :: el))
+                  else
+                    let cxt = Curry_gen.pp_app_any cxt in
                     paren_group cxt 0 (fun () ->
-                        arguments cxt [ e; E.array Mutable el ]))))
+                        arguments cxt [ e; E.array Mutable el ])))
   | FlatCall { expr = e; args = el } ->
       group cxt 0 (fun () ->
           let cxt = expression ~level:15 cxt e in
