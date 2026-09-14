@@ -26,9 +26,11 @@ open Import
 
 type arity_kind = Fn | Meth | Callback
 
-let hidden_field n = Lident ("I" ^ n)
 let js = Lident "Js"
 let js_fn = Ldot (js, "Fn")
+let hidden_field_name arity = "I" ^ string_of_int arity
+let hidden_field ~arity = Lident (hidden_field_name arity)
+let fn_hidden_field ~arity = Ldot (js_fn, hidden_field_name arity)
 let js_internal = Ldot (js, "Internal")
 let js_internal_full_apply = Ldot (js_internal, "opaqueFullApply")
 let js_oo = Ldot (js, "OO")
