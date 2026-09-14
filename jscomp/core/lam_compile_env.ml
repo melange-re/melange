@@ -115,10 +115,8 @@ let query_external_id_info ~dynamic_import (module_id : Ident.t) name =
               ~data:();
             Location.prerr_warning Location.none
               (Warnings.Inlining_impossible
-                 (Printf.sprintf
-                    "missing CMJ file for module %s; continuing without \
-                     cross-module optimization"
-                    unit_name)));
+                 ("missing CMJ file for module " ^ unit_name
+                ^ "; continuing without cross-module optimization")));
           None
       | Error (Js_cmj_format.Cannot_load_cmj exn) -> raise exn)
 
