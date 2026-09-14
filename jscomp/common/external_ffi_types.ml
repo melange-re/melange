@@ -24,11 +24,28 @@
 
 open Import
 
-module Literals = struct
-  let setter_suffix = "#="
-  (* let gentype_import = "genType.import" *)
+module Operator = struct
+  type t = Pipe | Method | Property | Setter
 
-  let infix_ops = [ "|."; setter_suffix; "##" ]
+  let of_string = function
+    | "|." -> Some Pipe
+    | "##" -> Some Method
+    | "#@" -> Some Property
+    | "#=" -> Some Setter
+    | _ -> None
+
+  let to_string = function
+    | Pipe -> "|."
+    | Method -> "##"
+    | Property -> "#@"
+    | Setter -> "#="
+
+  let is_infix = function Pipe | Method | Setter -> true | Property -> false
+end
+
+module Literals = struct
+  let setter_suffix = Operator.to_string Operator.Setter
+  (* let gentype_import = "genType.import" *)
 end
 
 module Module_bind_name = struct
