@@ -24,6 +24,7 @@
 
 open Import
 open Ast_helper
+module Operator = Melange_ffi.External_ffi_types.Operator
 
 let bound =
   let ocaml_obj_id = "__ocaml_internal_obj" in
@@ -43,7 +44,7 @@ let bound =
           (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
 type app_pattern = {
-  op : string;
+  op : Operator.t;
   loc : Location.t; (* locatoin is the location of whole expression #4451 *)
   args : expression list;
 }
@@ -54,14 +55,19 @@ let view_as_app =
         Error.err_if_label ~loc:x.pexp_loc label;
         x)
   in
-  fun fn (s : string list) ->
+  fun fn is_operator ->
     match fn.pexp_desc with
-    | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
-      when List.mem op ~set:s ->
-        Some { op; loc = fn.pexp_loc; args = check_and_discard args }
+    | Pexp_apply
+        ({ pexp_desc = Pexp_ident { txt = Lident operator; _ }; _ }, args) -> (
+        match Operator.of_string operator with
+        | Some op when is_operator op ->
+            Some { op; loc = fn.pexp_loc; args = check_and_discard args }
+        | Some _ | None -> None)
     | _ -> None
 
-let inner_ops = [ "##"; "#@" ]
+let is_inner_operator = function
+  | Operator.Method | Operator.Property -> true
+  | Operator.Pipe | Operator.Setter -> false
 
 let app_exp_mapper =
   let rec exclude_with_val =
@@ -97,7 +103,7 @@ let app_exp_mapper =
   ->
     (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
-    match view_as_app fn inner_ops with
+    match view_as_app fn is_inner_operator with
     | Some
         {
           op;
@@ -107,17 +113,20 @@ let app_exp_mapper =
         {
           e with
           pexp_desc =
-            (if op = "##" then
-               Ast_uncurry_apply.method_apply ~loc self obj name args
-             else Ast_uncurry_apply.property_apply ~loc self obj name args);
+            (match op with
+            | Operator.Method ->
+                Ast_uncurry_apply.method_apply ~loc self obj name args
+            | Operator.Property ->
+                Ast_uncurry_apply.property_apply ~loc self obj name args
+            | Operator.Pipe | Operator.Setter -> assert false);
         }
     | Some { op; loc; _ } ->
-        Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
+        let operator = Operator.to_string op in
+        Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form"
+          operator operator
     | None -> (
-        match
-          view_as_app e Melange_ffi.External_ffi_types.Literals.infix_ops
-        with
-        | Some { op = "|."; args = [ a_; f_ ]; loc } -> (
+        match view_as_app e Operator.is_infix with
+        | Some { op = Operator.Pipe; args = [ a_; f_ ]; loc } -> (
             (*
         a |. f
         a |. f b c [@u]  --> f a b c [@u]
@@ -239,7 +248,7 @@ let app_exp_mapper =
                     | _ ->
                         Ast_helper.Exp.apply ~loc ~attrs:e.pexp_attributes f
                           [ (Nolabel, a) ])))
-        | Some { op = "##"; loc; args = [ obj; rest ] } -> (
+        | Some { op = Operator.Method; loc; args = [ obj; rest ] } -> (
             (* - obj##property
              - obj#(method a b )
              we should warn when we discard attributes
@@ -295,8 +304,8 @@ let app_exp_mapper =
            end
          ]}
       *)
-        | Some { op = "#="; loc; args = [ obj; arg ] } -> (
-            match view_as_app obj [ "##" ] with
+        | Some { op = Operator.Setter; loc; args = [ obj; arg ] } -> (
+            match view_as_app obj (fun op -> op = Operator.Method) with
             | Some
                 {
                   args =
@@ -324,13 +333,14 @@ let app_exp_mapper =
                   }
                   [%type: unit]
             | _ -> assert false)
-        | Some { op = "|."; loc; _ } ->
+        | Some { op = Operator.Pipe; loc; _ } ->
             Location.raise_errorf ~loc
               "invalid |. syntax, it can only be used as binary operator"
-        | Some { op = "##"; loc; _ } ->
+        | Some { op = Operator.Method; loc; _ } ->
             Location.raise_errorf ~loc
               "Js object ## expect syntax like obj##(paint (a,b)) "
-        | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
+        | Some { op; _ } ->
+            Location.raise_errorf "invalid %s syntax" (Operator.to_string op)
         | None -> (
             match
               exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried

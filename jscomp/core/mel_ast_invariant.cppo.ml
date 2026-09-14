@@ -117,10 +117,12 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
           match a.pexp_desc with
           | Pexp_constant const -> check_constant ~loc:a.pexp_loc ~kind:Expr const
           | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; loc }; _ }, _)
-            ->
-              if
-                List.mem op ~set:Melange_ffi.External_ffi_types.Literals.infix_ops
-              then print_unprocessed_alert ~loc
+            -> (
+              match Melange_ffi.External_ffi_types.Operator.of_string op with
+              | Some op
+                when Melange_ffi.External_ffi_types.Operator.is_infix op ->
+                  print_unprocessed_alert ~loc
+              | Some _ | None -> ())
           | _ -> super.expr self a);
       value_description = (fun self v ->
           match v with
