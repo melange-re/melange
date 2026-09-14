@@ -5,7 +5,7 @@ Test the interaction between `[@@mel.new]` and `[@@mel.send]`
   > type blue
   > type red
   > external blue : blue = "path/to/blue.js" [@@mel.module]
-  > external red : blue -> string -> red = "Red" [@@mel.send] [@@mel.new]
+  > external red : blue -> string -> red = "Red" [@@mel.new] [@@mel.send]
   > let _ = red blue "foo"
   > EOF
   $ melc -ppx melppx x.ml
