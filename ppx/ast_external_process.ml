@@ -165,7 +165,7 @@ module External_desc = struct
       | Get_index -> "mel.get_index"
       | Set -> "mel.set"
       | Get -> "mel.get"
-      | Send -> "mel.get"
+      | Send -> "mel.send"
     in
     Format.pp_print_string fmt s
 
