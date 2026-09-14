@@ -217,6 +217,19 @@ Demonstrate PPX error messages
 
   $ cat > x.ml <<EOF
   > type t
+  > external get : t -> string = "get"
+  > [@@mel.send] [@@mel.get]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 3, characters 13-24:
+  3 | [@@mel.send] [@@mel.get]
+                   ^^^^^^^^^^^
+  Error: Conflicting FFI attributes: `[@mel.get]' and `[@mel.get]' can't be
+         specified at the same time
+  [2]
+
+  $ cat > x.ml <<EOF
+  > type t
   > external x : t = "x" [@@mel.scope]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
