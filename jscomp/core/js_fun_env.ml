@@ -68,8 +68,7 @@ let no_tailcall x =
 
 let mark_unused t i = t.used_mask.(i) <- true
 let get_unused t i = t.used_mask.(i)
-
-(* let get_length t = Array.length t.used_mask *)
+let get_length t = Array.length t.used_mask
 
 (* let to_string env =
    String.concat ","
