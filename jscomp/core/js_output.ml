@@ -42,20 +42,6 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
-(** This can be merged with
-    {!output_of_block_and_expression} *)
-let output_of_expression (continuation : continuation) (exp : J.expression)
-    ~(no_effects : bool Lazy.t) =
-  match continuation with
-  | EffectCall Not_tail ->
-      if Lazy.force no_effects then dummy
-      else { block = []; value = Some exp; output_finished = False }
-  | Declare (kind, n) -> make [ S.define_variable ~kind n exp ]
-  | Assign n -> make [ S.assign n exp ]
-  | EffectCall (Maybe_tail_is_return _) ->
-      make [ S.return_stmt exp ] ~output_finished:True
-  | NeedValue _ -> { block = []; value = Some exp; output_finished = False }
-
 let output_of_block_and_expression (continuation : continuation)
     (block : J.block) exp : t =
   match continuation with
@@ -65,6 +51,12 @@ let output_of_block_and_expression (continuation : continuation)
   | Declare (kind, n) -> make (block @ [ S.define_variable ~kind n exp ])
   | Assign n -> make (block @ [ S.assign n exp ])
   | NeedValue _ -> make block ~value:exp
+
+let output_of_expression (continuation : continuation) (exp : J.expression)
+    ~(no_effects : bool Lazy.t) =
+  match continuation with
+  | EffectCall Not_tail when Lazy.force no_effects -> dummy
+  | _ -> output_of_block_and_expression continuation [] exp
 
 let block_with_opt_expr block (x : J.expression option) : J.block =
   match x with
