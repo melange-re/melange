@@ -435,13 +435,13 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
          if the function does not capture any variable, then the context is empty
       *)
       let inner_cxt = sub_scope outer_cxt set_env in
-      let param_body () : unit =
+      let param_body inner_cxt : cxt =
         if is_method then (
           match l with
           | [] -> assert false
           | this :: arguments ->
               let cxt =
-                paren_group cxt 1 (fun () ->
+                paren_group inner_cxt 1 (fun () ->
                     formal_parameter_list inner_cxt arguments)
               in
               space cxt;
@@ -453,34 +453,39 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
                   function_body ~return_unit cxt b))
         else
           let cxt =
-            paren_group cxt 1 (fun () -> formal_parameter_list inner_cxt l)
+            paren_group inner_cxt 1 (fun () ->
+                formal_parameter_list inner_cxt l)
           in
           space cxt;
           brace_vgroup cxt 1 (fun () -> function_body ~return_unit cxt b)
       in
-      (match fn_state with
-      | Is_return ->
-          return_sp cxt;
-          string cxt L.function_;
-          space cxt;
-          param_body ()
-      | No_name { single_arg } ->
-          (* see # 1692, add a paren for annoymous function for safety  *)
-          cond_paren_group cxt (not single_arg) (fun () ->
-              string cxt L.function_;
-              space cxt;
-              param_body ())
-      | Name_non_top { name = x; property } ->
-          ignore (pp_assign ~property inner_cxt x : cxt);
-          string cxt L.function_;
-          space cxt;
-          param_body ();
-          semi cxt
-      | Name_top { name = x; property = _ } ->
-          string cxt L.function_;
-          space cxt;
-          ignore (ident inner_cxt x : cxt);
-          param_body ());
+      let (_ : cxt) =
+        match fn_state with
+        | Is_return ->
+            return_sp cxt;
+            string cxt L.function_;
+            space cxt;
+            param_body inner_cxt
+        | No_name { single_arg } ->
+            (* see # 1692, add a paren for annoymous function for safety  *)
+            cond_paren_group cxt (not single_arg) (fun () ->
+                string cxt L.function_;
+                space cxt;
+                param_body inner_cxt)
+        | Name_non_top { name = x; property } ->
+            let inner_cxt = pp_assign ~property inner_cxt x in
+            string inner_cxt L.function_;
+            space inner_cxt;
+            let inner_cxt = param_body inner_cxt in
+            semi inner_cxt;
+            inner_cxt
+        | Name_top { name = x; property = _ } ->
+            string cxt L.function_;
+            space cxt;
+            let inner_cxt = ident inner_cxt x in
+            param_body inner_cxt
+      in
+      (* Do not propagate the function-local scope past its lexical boundary. *)
       outer_cxt
 
 (* Assume the cond would not change the context, since it can be either [int]
@@ -1286,9 +1291,9 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                   space cxt;
                   brace_block cxt b))
 
-and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
+and function_body (cxt : cxt) ~return_unit (b : J.block) : cxt =
   match b with
-  | [] -> ()
+  | [] -> cxt
   | [ s ] -> (
       match s.statement_desc with
       | If
@@ -1303,17 +1308,14 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
                 };
               ];
           } ->
-          ignore
-            (statement ~top:false cxt
-               { s with statement_desc = If { pred = bool; then_; else_ = [] } }
-              : cxt)
-      | Return { expression_desc = Undefined _; _ } -> ()
-      | Return exp when return_unit ->
-          ignore (statement ~top:false cxt (S.exp exp) : cxt)
-      | _ -> ignore (statement ~top:false cxt s : cxt))
+          statement ~top:false cxt
+            { s with statement_desc = If { pred = bool; then_; else_ = [] } }
+      | Return { expression_desc = Undefined _; _ } -> cxt
+      | Return exp when return_unit -> statement ~top:false cxt (S.exp exp)
+      | _ -> statement ~top:false cxt s)
   | [ s; { statement_desc = Return { expression_desc = Undefined _; _ }; _ } ]
     ->
-      ignore (statement ~top:false cxt s : cxt)
+      statement ~top:false cxt s
   | s :: r ->
       let cxt = statement ~top:false cxt s in
       newline cxt;
