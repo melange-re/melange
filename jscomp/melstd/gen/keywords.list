@@ -218,6 +218,7 @@ HTMLBRElement
 HTMLBaseElement
 HTMLBodyElement
 HTMLButtonElement
+HTMLCameraElement
 HTMLCanvasElement
 HTMLCollection
 HTMLDListElement
@@ -255,6 +256,7 @@ HTMLMediaElement
 HTMLMenuElement
 HTMLMetaElement
 HTMLMeterElement
+HTMLMicrophoneElement
 HTMLModElement
 HTMLOListElement
 HTMLObjectElement
