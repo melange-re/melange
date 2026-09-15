@@ -78,7 +78,7 @@ let generate_case ?arity ~args_number args_array args =
 let number = 8
 
 let generate_apply arity =
-  let vars = List.init ~len:(arity + 1) ~f:(fun i -> Printf.sprintf "'a%d" i) in
+  let vars = List.init ~len:(arity + 1) ~f:(fun i -> "'a" ^ string_of_int i) in
   let ty =
     match vars with
     | [] -> assert false
@@ -89,9 +89,7 @@ let generate_apply arity =
     ty arity
 
 let generate_fun args_number =
-  let args_array =
-    Array.init args_number ~f:(fun i -> Printf.sprintf "a%d" i)
-  in
+  let args_array = Array.init args_number ~f:(fun i -> "a" ^ string_of_int i) in
   let args = Array.to_list args_array in
   let args_string = String.concat ~sep:" " args in
 
@@ -124,11 +122,12 @@ let __%d o =
 
 let () =
   print_endline
-  @@ Printf.sprintf "%s\n%s\n%s" prelude
-       (String.concat ~sep:"\n"
-          (List.init ~len:number ~f:(fun i -> generate_apply (i + 1))))
-       (String.concat ~sep:"\n"
-          (List.init ~len:8 ~f:(fun i -> generate_fun (i + 1))))
+    (prelude ^ "\n"
+    ^ String.concat ~sep:"\n"
+        (List.init ~len:number ~f:(fun i -> generate_apply (i + 1)))
+    ^ "\n"
+    ^ String.concat ~sep:"\n"
+        (List.init ~len:8 ~f:(fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml curry_gen.ml > ../jscomp/runtime/curry.ml" *)
