@@ -62,7 +62,7 @@ let ident_or_record_as_config =
     let msg =
       match more with
       | "" -> base_error
-      | s -> Format.sprintf "%s %s" base_error s
+      | s -> String.concat ~sep:" " [ base_error; s ]
     in
     Error msg
   in

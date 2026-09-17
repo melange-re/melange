@@ -98,8 +98,7 @@ let err =
       | Invalid_mel_unwrap_type ->
           "Invalid type for `@mel.unwrap'. Type must be an inline variant \
            (closed), and each constructor must have an argument."
-      | Conflict_ffi_attribute str ->
-          Format.sprintf "Conflicting FFI attributes: %s" str
+      | Conflict_ffi_attribute str -> "Conflicting FFI attributes: " ^ str
       | Mel_this_simple_pattern ->
           "`@mel.this' expects a simple pattern: an optionally constrained \
            variable (or wildcard)")
