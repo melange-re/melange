@@ -225,7 +225,8 @@ module Time = struct
                     loc_start.pos_lnum,
                     loc_start.pos_cnum - loc_start.pos_bol )
                 in
-                Printf.sprintf "%s %d" (Filename.basename file) lnum
+                String.concat ~sep:" "
+                  [ Filename.basename file; string_of_int lnum ]
             in
             Exp.sequence ~loc
               [%expr
