@@ -36,7 +36,7 @@ let ident_or_record_as_config =
       let base =
         "Unsupported attribute payload. Expected a configuration record literal"
       in
-      match more with "" -> base | s -> base ^ " " ^ s
+      match more with "" -> base | s -> String.concat ~sep:" " [ base; s ]
     in
     Location.raise_errorf ~loc "%s" msg
   in

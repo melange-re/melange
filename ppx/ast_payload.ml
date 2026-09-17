@@ -59,7 +59,11 @@ let ident_or_record_as_config =
     "Unsupported attribute payload. Expected a configuration record literal"
   in
   let error more =
-    let msg = match more with "" -> base_error | s -> base_error ^ " " ^ s in
+    let msg =
+      match more with
+      | "" -> base_error
+      | s -> String.concat ~sep:" " [ base_error; s ]
+    in
     Error msg
   in
   fun payload
