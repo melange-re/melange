@@ -14,7 +14,7 @@ let temp_ppx_file () =
 let apply_rewriter fn_in ppx =
   let fn_out = temp_ppx_file () in
   let comm =
-    Printf.sprintf "%s %s %s" ppx (Filename.quote fn_in) (Filename.quote fn_out)
+    String.concat ~sep:" " [ ppx; Filename.quote fn_in; Filename.quote fn_out ]
   in
   let ok = Ccomp.command comm = 0 in
   if not ok then Cmd_ast_exception.cannot_run comm;
