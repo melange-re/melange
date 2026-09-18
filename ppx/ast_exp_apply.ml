@@ -55,7 +55,7 @@ let view_as_app =
         Error.err_if_label ~loc:x.pexp_loc label;
         x)
   in
-  fun fn is_operator ->
+  fun fn ~is_operator ->
     match fn.pexp_desc with
     | Pexp_apply
         ({ pexp_desc = Pexp_ident { txt = Lident operator; _ }; _ }, args) -> (
@@ -103,7 +103,7 @@ let app_exp_mapper =
   ->
     (* - (f##paint) 1 2
      - (f#@paint) 1 2 *)
-    match view_as_app fn is_inner_operator with
+    match view_as_app fn ~is_operator:is_inner_operator with
     | Some
         {
           op;
@@ -125,7 +125,7 @@ let app_exp_mapper =
         Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form"
           operator operator
     | None -> (
-        match view_as_app e Operator.is_infix with
+        match view_as_app e ~is_operator:Operator.is_infix with
         | Some { op = Operator.Pipe; args = [ a_; f_ ]; loc } -> (
             (*
         a |. f
@@ -305,7 +305,9 @@ let app_exp_mapper =
          ]}
       *)
         | Some { op = Operator.Setter; loc; args = [ obj; arg ] } -> (
-            match view_as_app obj (fun op -> op = Operator.Method) with
+            match
+              view_as_app obj ~is_operator:(fun op -> op = Operator.Method)
+            with
             | Some
                 {
                   args =
