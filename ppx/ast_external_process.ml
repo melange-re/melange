@@ -1142,6 +1142,7 @@ end
 
 let handle_attributes_as_string ~loc (typ : core_type) (attrs : attribute list)
     (pval_name : string) (prim_name : string) =
+  let wrapper_loc = typ.ptyp_loc in
   let typ, loc, wrapper =
     match typ.ptyp_desc with
     | Ptyp_constr
@@ -1150,8 +1151,9 @@ let handle_attributes_as_string ~loc (typ : core_type) (attrs : attribute list)
           loc,
           Some
             (fun x ->
-              Ast_helper.Typ.constr
-                { txt = Ldot (Ast_literal.js_fn, arity); loc }
+              let arity_loc = { loc with loc_ghost = true } in
+              Ast_helper.Typ.constr ~loc:wrapper_loc
+                { txt = Ldot (Ast_literal.js_fn, arity); loc = arity_loc }
                 [ x ]) )
     | _ -> (typ, loc, None)
   in
