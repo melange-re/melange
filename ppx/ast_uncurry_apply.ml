@@ -28,11 +28,10 @@ open Ast_helper
 let js_property loc obj (name : string) =
   let helper_loc = Ast_location.ghost loc in
   Pexp_send
-    ( [%expr
-        [%e
-          Exp.ident ~loc:helper_loc
-            { txt = Ast_literal.unsafe_downgrade; loc = helper_loc }]
-          [%e obj]],
+    ( Exp.apply ~loc:helper_loc
+        (Exp.ident ~loc:helper_loc
+           { txt = Ast_literal.unsafe_downgrade; loc = helper_loc })
+        [ (Nolabel, obj) ],
       { loc = helper_loc; txt = name } )
 
 let generic_apply =
