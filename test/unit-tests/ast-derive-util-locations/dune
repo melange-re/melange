@@ -1,0 +1,5 @@
+(test
+ (name test_ast_derive_util_locations)
+ (package melange)
+ (flags :standard -open Melstd -open Melange_compiler_libs)
+ (libraries alcotest str melange.ppx melangelib))
