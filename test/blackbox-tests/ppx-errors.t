@@ -422,3 +422,24 @@ Demonstrate PPX error messages
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
+Invalid `mel.as` payloads point at the payload expression
+
+  $ cat > x.ml <<'EOF'
+  > let[@mel.as (foo + bar)] value = 1
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 1, characters 12-23:
+  1 | let[@mel.as (foo + bar)] value = 1
+                  ^^^^^^^^^^^
+  Error: Invalid `@mel.as' payload. Expected string or simple ident.
+  [2]
+
+  $ cat > x.mli <<'EOF'
+  > module[@mel.as (foo + bar)] M : sig end
+  > EOF
+  $ melc -ppx melppx x.mli
+  File "x.mli", line 1, characters 15-26:
+  1 | module[@mel.as (foo + bar)] M : sig end
+                     ^^^^^^^^^^^
+  Error: Invalid `@mel.as' payload. Expected string or simple ident.
+  [2]
