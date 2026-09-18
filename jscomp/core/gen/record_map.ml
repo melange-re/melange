@@ -43,8 +43,8 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
       higher_order_constr "nonempty_list" base allNames
   | Ptyp_constr ({ txt; _ }, _) ->
       failwith
-        (Format.asprintf "unsupported high order type %s"
-           (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:"."))
+        ("unsupported high order type "
+        ^ (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:"."))
   | Ptyp_tuple xs ->
       let len = List.length xs in
       let args0 = Record_common.indexed_names len in
