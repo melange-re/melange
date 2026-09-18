@@ -135,13 +135,13 @@ let assert_strings ~loc payload : string list =
 
 let extract_mel_as_ident ~loc payload =
   match as_expression payload with
-  | Some { pexp_desc; _ } -> (
+  | Some { pexp_desc; pexp_loc } -> (
       match pexp_desc with
       | Pexp_constant (Pconst_string (name, _, _))
       | Pexp_construct ({ txt = Lident name; _ }, _)
       | Pexp_ident { txt = Lident name; _ } ->
           name
       | _ ->
-          Location.raise_errorf ~loc
+          Location.raise_errorf ~loc:pexp_loc
             "Invalid `%@mel.as' payload. Expected string or simple ident.")
   | _ -> Location.raise_errorf ~loc "Invalid attribute payload."
