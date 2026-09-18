@@ -1,5 +1,12 @@
 (test
  (name melange_tests)
  (package melange)
+ (modules (:standard \ test_uncurry_parameter_locations))
  (flags :standard -open Melstd -open Melange_compiler_libs)
  (libraries alcotest str melange.ppx melangelib))
+
+(test
+ (name test_uncurry_parameter_locations)
+ (package melange)
+ (modules test_uncurry_parameter_locations)
+ (libraries alcotest melange.ppx ppxlib))
