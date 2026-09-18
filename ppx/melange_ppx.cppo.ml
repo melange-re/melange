@@ -152,20 +152,26 @@ module Private = struct
   end
 
   let rule =
-    let expand (stru : structure) =
+    let expand ~loc (stru : structure) =
       Typemod_hide.check stru;
-      let last_loc = (List.hd stru).pstr_loc in
-      let first_loc = (List.hd stru).pstr_loc in
-      let loc = { first_loc with loc_end = last_loc.loc_end } in
-      Str.open_
-        (Opn.mk ~override:Override
-           (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru))
+      let structure_loc =
+        match stru with
+        | [] -> loc
+        | first :: rest ->
+            let last =
+              List.fold_left rest ~init:first ~f:(fun _ item -> item)
+            in
+            { first.pstr_loc with loc_end = last.pstr_loc.loc_end }
+      in
+      Str.open_ ~loc
+        (Opn.mk ~loc ~override:Override
+           (Mod.structure ~loc:structure_loc ~attrs:Typemod_hide.attrs stru))
     in
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         match payload with
-        | PStr work -> expand work
+        | PStr work -> expand ~loc work
         | PSig _ | PTyp _ | PPat _ ->
             Location.raise_errorf ~loc "private extension is not support"
       in
