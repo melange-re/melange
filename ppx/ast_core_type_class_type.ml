@@ -27,6 +27,8 @@ open Ast_helper
 
 exception Local of Location.t * string
 
+let ghost_loc loc = { loc with Location.loc_ghost = true }
+
 let process_getter_setter ~not_getter_setter
     ~(get : core_type -> _ -> attributes -> _) ~set loc name
     (attrs : attribute list) (ty : core_type) (acc : _ list) =
@@ -38,7 +40,10 @@ let process_getter_setter ~not_getter_setter
         match st.set with
         | Some `No_get -> acc
         | None | Some `Get ->
-            let lift txt = Typ.constr ~loc { txt; loc } [ ty ] in
+            let lift txt =
+              let loc = ty.ptyp_loc in
+              Typ.constr ~loc { txt; loc = ghost_loc loc } [ ty ]
+            in
             let null, undefined =
               match st with
               | { get = Some (null, undefined); _ } -> (null, undefined)
