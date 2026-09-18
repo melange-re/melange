@@ -313,16 +313,20 @@ let app_exp_mapper =
                   _;
                 } ->
                 sane_property_name_check pexp_loc name;
+                let generated_loc = { loc with loc_ghost = true } in
                 Exp.constraint_ ~loc
                   {
                     e with
+                    pexp_loc = generated_loc;
                     pexp_desc =
-                      Ast_uncurry_apply.method_apply ~loc self obj
+                      Ast_uncurry_apply.method_apply ~loc:generated_loc self obj
                         (name
                        ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
                         [ (Nolabel, arg) ];
                   }
-                  [%type: unit]
+                  (Typ.constr ~loc:generated_loc
+                     { txt = Lident "unit"; loc = generated_loc }
+                     [])
             | _ -> assert false)
         | Some { op = "|."; loc; _ } ->
             Location.raise_errorf ~loc
