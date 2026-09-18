@@ -13,4 +13,5 @@ let () =
       ("unicode", Test_unicode.suite);
       ("scc", Test_scc.suite);
       ("io", Test_io.suite);
+      ("ppx locations", Test_ppx_locations.suite);
     ]

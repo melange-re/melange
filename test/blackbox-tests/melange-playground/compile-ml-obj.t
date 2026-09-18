@@ -139,11 +139,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 44
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 46
         },
         "kind": "core_type",
         "hint": "'a1"
@@ -151,11 +151,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 44
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 46
         },
         "kind": "core_type",
         "hint": "'a1"
@@ -163,11 +163,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 30
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 36
         },
         "kind": "core_type",
         "hint": "'a0"
@@ -175,11 +175,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 30
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 36
         },
         "kind": "core_type",
         "hint": "'a0"
@@ -211,11 +211,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 44
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 46
         },
         "kind": "core_type",
         "hint": "'a1"
@@ -227,7 +227,7 @@
         },
         "end": {
           "line": 1,
-          "col": 41
+          "col": 48
         },
         "kind": "core_type",
         "hint": "age:'a1 -> < age : 'a1; name : 'a0 > Js.t"
@@ -235,11 +235,11 @@
       {
         "start": {
           "line": 1,
-          "col": 21
+          "col": 30
         },
         "end": {
           "line": 1,
-          "col": 48
+          "col": 36
         },
         "kind": "core_type",
         "hint": "'a0"
@@ -251,7 +251,7 @@
         },
         "end": {
           "line": 1,
-          "col": 27
+          "col": 48
         },
         "kind": "core_type",
         "hint": "name:'a0 -> age:'a1 -> < age : 'a1; name : 'a0 > Js.t"
