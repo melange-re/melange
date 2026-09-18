@@ -512,3 +512,16 @@ Invalid `mel.as` payloads point at the payload expression
                    ^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
+
+Optional uncurried arguments point at the argument expression
+
+  $ cat > x.ml <<'EOF'
+  > let f ?x () = x
+  > let _ = f ?x:None () [@u]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 2, characters 13-17:
+  2 | let _ = f ?x:None () [@u]
+                   ^^^^
+  Error: Uncurried function doesn't support optional arguments yet
+  [2]
