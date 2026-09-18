@@ -87,14 +87,13 @@ let to_method_callback =
       in
       (body, arity)
     in
-    let arity_s = string_of_int arity in
     Pexp_apply
       ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
         [
           ( Nolabel,
             Exp.constraint_ ~loc
               (Exp.record ~loc
-                 [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
+                 [ ({ loc; txt = Ast_literal.hidden_field ~arity }, body) ]
                  None)
               (Typ.constr ~loc
                  {
@@ -124,8 +123,4 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
       None (Pfunction_body result)
   in
   Pexp_record
-    ( [
-        ( { txt = Ldot (Ast_literal.js_fn, "I" ^ string_of_int arity); loc },
-          body );
-      ],
-      None )
+    ([ ({ txt = Ast_literal.fn_hidden_field ~arity; loc }, body) ], None)
