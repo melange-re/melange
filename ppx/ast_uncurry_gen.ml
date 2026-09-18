@@ -70,6 +70,7 @@ let to_method_callback =
     | _ -> false
   in
   fun ~loc (self : Ast_traverse.map) args body ->
+    let generated_loc = Ast_location.ghost loc in
     let first_arg = self#pattern (first_arg args) in
     if not (is_single_variable_pattern_conservative first_arg) then
       Error.err ~loc:first_arg.ppat_loc Mel_this_simple_pattern;
@@ -78,7 +79,7 @@ let to_method_callback =
         process_function ~loc self args body
       in
       let body =
-        Ast_builder.Default.pexp_function ~loc
+        Ast_builder.Default.pexp_function ~loc:generated_loc
           (List.rev_map
              ~f:(fun (label, pparam_loc, p) ->
                { pparam_desc = Pparam_val (label, None, p); pparam_loc })
@@ -88,19 +89,26 @@ let to_method_callback =
       (body, arity)
     in
     Pexp_apply
-      ( Exp.ident ~loc { loc; txt = Ast_literal.unsafe_to_method },
+      ( Exp.ident ~loc:generated_loc
+          { loc = generated_loc; txt = Ast_literal.unsafe_to_method },
         [
           ( Nolabel,
-            Exp.constraint_ ~loc
-              (Exp.record ~loc
-                 [ ({ loc; txt = Ast_literal.hidden_field ~arity }, body) ]
+            Exp.constraint_ ~loc:generated_loc
+              (Exp.record ~loc:generated_loc
+                 [
+                   ( {
+                       loc = generated_loc;
+                       txt = Ast_literal.hidden_field ~arity;
+                     },
+                     body );
+                 ]
                  None)
-              (Typ.constr ~loc
+              (Typ.constr ~loc:generated_loc
                  {
-                   loc;
+                   loc = generated_loc;
                    txt = Ast_literal.arity_type Ast_literal.Callback ~arity;
                  }
-                 [ Typ.any ~loc () ]) );
+                 [ Typ.any ~loc:generated_loc () ]) );
         ] )
 
 let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
