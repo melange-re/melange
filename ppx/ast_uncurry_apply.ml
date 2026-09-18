@@ -35,7 +35,7 @@ let js_property loc obj (name : string) =
           Exp.ident ~loc:helper_loc
             { txt = Ast_literal.unsafe_downgrade; loc = helper_loc }]
           [%e obj]],
-      { loc; txt = name } )
+      { loc = helper_loc; txt = name } )
 
 let generic_apply =
   (* we use the trick
@@ -105,16 +105,18 @@ let generic_apply =
               },
             [ (Nolabel, fn) ] )
     | args ->
+        let generated_loc = ghost_loc loc in
         let arity = List.length args in
-        opaque_full_apply ~loc
-          (Exp.apply ~loc
-             (Exp.apply ~loc
-                (Exp.ident ~loc { txt = Ast_literal.opaque; loc })
+        opaque_full_apply ~loc:generated_loc
+          (Exp.apply ~loc:generated_loc
+             (Exp.apply ~loc:generated_loc
+                (Exp.ident ~loc:generated_loc
+                   { txt = Ast_literal.opaque; loc = generated_loc })
                 [
                   ( Nolabel,
-                    Exp.field ~loc
-                      (Exp.constraint_ ~loc fn
-                         (Typ.constr ~loc
+                    Exp.field ~loc:generated_loc
+                      (Exp.constraint_ ~loc:generated_loc fn
+                         (Typ.constr ~loc:generated_loc
                             {
                               txt =
                                 Ast_literal.arity_type
@@ -122,15 +124,18 @@ let generic_apply =
                                   | `oo -> Ast_literal.Meth
                                   | `generic -> Ast_literal.Fn)
                                   ~arity;
-                              loc;
+                              loc = generated_loc;
                             }
-                            [ Typ.any ~loc () ]))
-                      { txt = Ast_literal.hidden_field ~arity; loc } );
+                            [ Typ.any ~loc:generated_loc () ]))
+                      {
+                        txt = Ast_literal.hidden_field ~arity;
+                        loc = generated_loc;
+                      } );
                 ])
              args)
 
 let method_apply ~loc (self : Ast_traverse.map) obj name args =
-  let f ~loc obj = Exp.mk ~loc (js_property loc obj name) in
+  let f ~loc obj = Exp.mk ~loc:(ghost_loc loc) (js_property loc obj name) in
   generic_apply ~loc ~kind:`oo self obj args ~f
 
 let generic_apply ~loc (self : Ast_traverse.map) obj args
@@ -142,4 +147,4 @@ let uncurry_fn_apply ~loc self fn args =
 
 let property_apply ~loc self obj name args =
   generic_apply ~loc self obj args ~f:(fun ~loc obj ->
-      Exp.mk ~loc (js_property loc obj name))
+      Exp.mk ~loc:(ghost_loc loc) (js_property loc obj name))
