@@ -72,7 +72,7 @@ let flatten_tuple_pattern_vb =
                 ( false,
                   {
                     pvb_pat = pat;
-                    pvb_expr = Ast_open_cxt.restore_exp exp wholes;
+                    pvb_expr = Ast_open_cxt.restore_generated_exp exp wholes;
                     pvb_attributes;
                     pvb_loc = binding_loc;
                     pvb_constraint;
