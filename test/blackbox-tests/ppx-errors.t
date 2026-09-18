@@ -416,9 +416,38 @@ Demonstrate PPX error messages
   > [@@mel.module "path"] [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 1-2, characters 0-38:
+  File "x.ml", line 1, characters 21-33:
   1 | external join : ?foo:string array -> string = "join"
-  2 | [@@mel.module "path"] [@@mel.variadic]
+                           ^^^^^^^^^^^^
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
+  $ cat > x.ml <<EOF
+  > external f : _ -> unit = "f" [@@mel.variadic]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 13-14:
+  1 | external f : _ -> unit = "f" [@@mel.variadic]
+                   ^
+  Error: `[@mel.variadic]' expects its last argument to be an array
+  [2]
+
+  $ cat > x.ml <<EOF
+  > external f : string list -> unit = "f" [@@mel.variadic]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 13-24:
+  1 | external f : string list -> unit = "f" [@@mel.variadic]
+                   ^^^^^^^^^^^
+  Error: `[@mel.variadic]' expects its last argument to be an array
+  [2]
+
+  $ cat > x.ml <<EOF
+  > external f : int -> unit = "f" [@@mel.variadic]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 13-16:
+  1 | external f : int -> unit = "f" [@@mel.variadic]
+                   ^^^
+  Error: `[@mel.variadic]' expects its last argument to be an array
+  [2]
