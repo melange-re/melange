@@ -122,3 +122,36 @@ record field access not yet supported
   Error: `hello world' is not a valid syntax of interpolated identifer
   [2]
 
+Generated string expressions retain their source locations
+
+  $ cat > x.ml <<'EOF'
+  > let x : int = {j|literal|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 1, characters 17-24:
+  1 | let x : int = {j|literal|j}
+                       ^^^^^^^
+  Error: This constant has type string but an expression was expected of type
+           int
+  [2]
+
+  $ cat > x.ml <<'EOF'
+  > let name = "world"
+  > let x : int = {j|hello $name|j}
+  > EOF
+  $ melc -ppx melppx x.ml
+  File "x.ml", line 2, characters 17-28:
+  2 | let x : int = {j|hello $name|j}
+                       ^^^^^^^^^^^
+  Error: This expression has type string but an expression was expected of type
+           int
+  [2]
+
+Generated concatenations satisfy ppxlib's containment checks
+
+  $ cat > locations.ml <<'EOF'
+  > let first = "hello"
+  > let second = "world"
+  > let greeting = {j|$first, $second!|j}
+  > EOF
+  $ melc -ppx 'melppx -locations-check' -c locations.ml > /dev/null
