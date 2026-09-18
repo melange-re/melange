@@ -422,3 +422,15 @@ Demonstrate PPX error messages
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
+Optional uncurried arguments point at the argument expression
+
+  $ cat > x.ml <<'EOF'
+  > let f ?x () = x
+  > let _ = f ?x:None () [@u]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 2, characters 13-17:
+  2 | let _ = f ?x:None () [@u]
+                   ^^^^
+  Error: Uncurried function doesn't support optional arguments yet
+  [2]

@@ -79,7 +79,7 @@ let generic_apply =
       let args =
         List.map
           ~f:(fun (lbl, e) ->
-            Error.optional_err ~loc lbl;
+            Error.optional_err ~loc:e.pexp_loc lbl;
             (lbl, self#expression e))
           args
       in
