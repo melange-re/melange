@@ -36,11 +36,10 @@ let of_string x =
           | '.' ->
               raise
                 (Invalid_argument
-                   (Printf.sprintf "File extension %s cannot end with '.'" x))
+                   ("File extension " ^ x ^ " cannot end with '.'"))
           | _ -> x)
       | _c ->
           raise
-            (Invalid_argument
-               (Printf.sprintf "File extension %s must start with '.'" x)))
+            (Invalid_argument ("File extension " ^ x ^ " must start with '.'")))
 
 let default = ".js"
