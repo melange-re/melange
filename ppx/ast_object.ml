@@ -38,47 +38,66 @@ let ffi_of_labels labels =
 
 let local_module_name = "J"
 let local_fun_name = "unsafe_expr"
+let ghost_loc loc = { loc with loc_ghost = true }
+
+let ghost_core_type =
+  let mapper =
+    object
+      inherit Ast_traverse.map
+      method! location = ghost_loc
+    end
+  in
+  mapper#core_type
 
 let local_external ~loc ~ffi ~pval_type (body : expression -> expression) :
     expression_desc =
+  let scaffold_loc = ghost_loc loc in
+  let body =
+    body
+      (Exp.ident ~loc:scaffold_loc
+         {
+           txt = Ldot (Lident local_module_name, local_fun_name);
+           loc = scaffold_loc;
+         })
+  in
   Pexp_letmodule
-    ( { txt = Some local_module_name; loc },
-      Mod.structure ~loc
+    ( { txt = Some local_module_name; loc = scaffold_loc },
+      Mod.structure ~loc:scaffold_loc
         [
-          Str.primitive ~loc
+          Str.primitive ~loc:scaffold_loc
             {
-              pval_name = { txt = local_fun_name; loc };
+              pval_name = { txt = local_fun_name; loc = scaffold_loc };
               pval_type;
-              pval_loc = loc;
+              pval_loc = scaffold_loc;
               pval_prim = Ast_external.pval_prim_default;
               pval_attributes = [ Ast_attributes.mel_ffi ffi ];
             };
         ],
-      body
-        (Exp.ident ~loc
-           { txt = Ldot (Lident local_module_name, local_fun_name); loc }) )
+      { body with pexp_loc = ghost_loc body.pexp_loc } )
 
 let ocaml_object_as_js_object =
   let generate_val_method_pair ~loc (mapper : Ast_traverse.map) ~mutable_
       (val_name : string Asttypes.loc) =
-    let result = Typ.var ~loc val_name.txt in
+    let result = Typ.var ~loc:(ghost_loc loc) val_name.txt in
     let base =
       match mutable_ with
       | Mutable ->
+          let setter_loc = ghost_loc val_name.loc in
           [
-            Of.tag ~loc
+            Of.tag ~loc:setter_loc
               {
-                val_name with
                 txt =
                   val_name.txt
                   ^ Melange_ffi.External_ffi_types.Literals.setter_suffix;
+                loc = setter_loc;
               }
-              (Ast_typ_uncurry.to_method_type ~loc mapper Nolabel result
-                 [%type: unit]);
+              (ghost_core_type
+                 (Ast_typ_uncurry.to_method_type ~loc mapper Nolabel result
+                    [%type: unit]));
           ]
       | Immutable -> []
     in
-    (result, Of.tag ~loc val_name result :: base)
+    (result, Of.tag ~loc:val_name.loc val_name result :: base)
   in
   fun ~loc
     (mapper : Ast_traverse.map)
@@ -128,11 +147,21 @@ let ocaml_object_as_js_object =
                   let method_type =
                     Ast_typ_uncurry.generate_arg_type ~loc:x.pcf_loc mapper
                       label.txt args e
+                    |> ghost_core_type
                   in
-                  ( Of.tag ~loc label method_type :: label_attr_types,
+                  let internal_field =
                     match public_flag with
                     | Public ->
-                        Of.tag ~loc label method_type :: public_label_attr_types
+                        Of.tag ~loc:(ghost_loc label.loc)
+                          { label with loc = ghost_loc label.loc }
+                          method_type
+                    | Private -> Of.tag ~loc:label.loc label method_type
+                  in
+                  ( internal_field :: label_attr_types,
+                    match public_flag with
+                    | Public ->
+                        Of.tag ~loc:label.loc label method_type
+                        :: public_label_attr_types
                     | Private -> public_label_attr_types ))
               | Pexp_poly (_, Some _) ->
                   Location.raise_errorf ~loc
@@ -162,12 +191,12 @@ let ocaml_object_as_js_object =
         clfs ~init:([], [])
     in
     let internal_obj_type =
-      Ast_core_type.to_js_type ~loc
-        (Typ.object_ ~loc internal_label_attr_types Closed)
+      Ast_core_type.to_js_type ~loc:(ghost_loc loc)
+        (Typ.object_ ~loc:(ghost_loc loc) internal_label_attr_types Closed)
     in
     let public_obj_type =
-      Ast_core_type.to_js_type ~loc
-        (Typ.object_ ~loc public_label_attr_types Closed)
+      Ast_core_type.to_js_type ~loc:(ghost_loc loc)
+        (Typ.object_ ~loc:(ghost_loc loc) public_label_attr_types Closed)
     in
     let labels, label_types, exprs, _ =
       List.fold_right
@@ -193,6 +222,7 @@ let ocaml_object_as_js_object =
                   let label_type =
                     Ast_typ_uncurry.generate_method_type ?alias_type x.pcf_loc
                       mapper label.txt params e
+                    |> ghost_core_type
                   in
                   ( label :: labels,
                     label_type :: label_types,
@@ -228,7 +258,8 @@ let ocaml_object_as_js_object =
                                assert false
                          in
                          (* the first argument is `this` *)
-                         Ast_uncurry_gen.to_method_callback ~loc mapper
+                         Ast_uncurry_gen.to_method_callback
+                           ~loc:(ghost_loc x.pcf_loc) mapper
                            [
                              {
                                pparam_desc = Pparam_val (Nolabel, None, self_pat);
@@ -271,7 +302,8 @@ let ocaml_object_as_js_object =
     let pval_type =
       List.fold_right2
         ~f:(fun label label_type acc ->
-          Typ.arrow ~loc (Labelled label.Asttypes.txt) label_type acc)
+          Typ.arrow ~loc:(ghost_loc loc) (Labelled label.Asttypes.txt)
+            label_type acc)
         labels label_types ~init:public_obj_type
     in
     local_external ~loc ~ffi:(ffi_of_labels labels)
@@ -290,26 +322,23 @@ let record_as_js_object =
   let from_labels ~loc arity labels args : core_type =
     let tyvars =
       List.map2
-        ~f:(fun name (_, expression) -> Typ.var ~loc:expression.pexp_loc name)
+        ~f:(fun name (_, expression) ->
+          Typ.var ~loc:(ghost_loc expression.pexp_loc) name)
         (List.init ~len:arity ~f:(fun i -> "a" ^ string_of_int i))
         args
     in
     let result_type =
-      Ast_core_type.to_js_type ~loc
-        (Typ.object_ ~loc
+      Ast_core_type.to_js_type ~loc:(ghost_loc loc)
+        (Typ.object_ ~loc:(ghost_loc loc)
            (List.map2
-              ~f:(fun x ((_, expression), tyvar) ->
-                let field_loc =
-                  { x.loc with loc_end = expression.pexp_loc.loc_end }
-                in
-                Of.tag ~loc:field_loc x tyvar)
+              ~f:(fun x (_, tyvar) -> Of.tag ~loc:x.loc x tyvar)
               labels (List.combine args tyvars))
            Closed)
     in
     List.fold_right2
       ~f:(fun label (* {loc ; txt = label } *) tyvar acc ->
         let arrow_loc = { loc with loc_start = label.loc.loc_start } in
-        Typ.arrow ~loc:arrow_loc (Labelled label.txt) tyvar acc)
+        Typ.arrow ~loc:(ghost_loc arrow_loc) (Labelled label.txt) tyvar acc)
       labels tyvars ~init:result_type
   in
   fun ~loc
