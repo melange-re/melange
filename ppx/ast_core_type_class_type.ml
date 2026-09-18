@@ -38,7 +38,10 @@ let process_getter_setter ~not_getter_setter
         match st.set with
         | Some `No_get -> acc
         | None | Some `Get ->
-            let lift txt = Typ.constr ~loc { txt; loc } [ ty ] in
+            let lift txt =
+              let loc = ty.ptyp_loc in
+              Typ.constr ~loc { txt; loc = Ast_location.ghost loc } [ ty ]
+            in
             let null, undefined =
               match st with
               | { get = Some (null, undefined); _ } -> (null, undefined)
