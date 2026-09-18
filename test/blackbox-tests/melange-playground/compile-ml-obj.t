@@ -30,12 +30,12 @@
       },
       {
         "start": {
-          "line": 0,
-          "col": -1
+          "line": 1,
+          "col": 58
         },
         "end": {
-          "line": 0,
-          "col": -1
+          "line": 1,
+          "col": 68
         },
         "kind": "expression",
         "hint": "< age : int; name : string > Js.t -> < age : int; name : string >"
