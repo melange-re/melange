@@ -31,6 +31,14 @@ let single_string_payload_error ~loc =
     (Pconst_string
        ("Melange requires a single string in `external` payloads", loc, None))
 
+let ghost loc = { loc with Location.loc_ghost = true }
+
+let ghost_locations =
+  object
+    inherit Ast_traverse.map
+    method! location = ghost
+  end
+
 let handleExternalInSig (self : Ast_traverse.map) (prim : value_description)
     (sigi : signature_item) : signature_item =
   let loc = prim.pval_loc in
@@ -100,17 +108,17 @@ let handleExternalInStru (self : Ast_traverse.map) (prim : value_description)
       | false -> external_result
       | true ->
           let open Ast_helper in
+          let ghost_loc = ghost loc in
+          let external_result =
+            ghost_locations#structure_item external_result
+          in
+          let signature_prim =
+            ghost_locations#value_description
+              { prim with pval_type; pval_prim = []; pval_attributes }
+          in
           Str.include_ ~loc
-            (Incl.mk ~loc
-               (Mod.constraint_ ~loc
-                  (Mod.structure ~loc [ external_result ])
-                  (Mty.signature ~loc
-                     [
-                       Sig.value ~loc
-                         {
-                           prim with
-                           pval_type;
-                           pval_prim = [];
-                           pval_attributes;
-                         };
-                     ]))))
+            (Incl.mk ~loc:ghost_loc
+               (Mod.constraint_ ~loc:ghost_loc
+                  (Mod.structure ~loc:ghost_loc [ external_result ])
+                  (Mty.signature ~loc:ghost_loc
+                     [ Sig.value ~loc:ghost_loc signature_prim ]))))
