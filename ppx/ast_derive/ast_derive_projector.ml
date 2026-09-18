@@ -63,9 +63,6 @@ let derive_structure tdcls =
               | Pcstr_record _ -> assert false
             in
             let little_con_name = String.uncapitalize_ascii con_name in
-            let vars =
-              List.mapi ~f:(fun x _ -> "param_" ^ string_of_int x) pcd_args
-            in
             let annotate_type =
               match pcd_res with None -> core_type | Some x -> x
             in
@@ -73,7 +70,7 @@ let derive_structure tdcls =
               [
                 Vb.mk
                   (Pat.var { loc; txt = little_con_name })
-                  (match vars with
+                  (match pcd_args with
                   | [] ->
                       (*TODO: add a prefix, better inter-op with FFI *)
                       Exp.constraint_
@@ -81,7 +78,12 @@ let derive_structure tdcls =
                            { loc; txt = Longident.Lident con_name }
                            None)
                         annotate_type
-                  | vars ->
+                  | _ :: _ ->
+                      let vars =
+                        List.mapi
+                          ~f:(fun x _ -> "param_" ^ string_of_int x)
+                          pcd_args
+                      in
                       let exp =
                         Exp.constraint_
                           (Exp.construct
