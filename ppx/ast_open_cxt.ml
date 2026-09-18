@@ -60,10 +60,20 @@ let destruct_open_tuple e =
       Some (opens, es, pexp_attributes)
   | _ -> None
 
-let restore_exp ?loc:restored_loc xs qualifiers =
+let restore_exp_with ?loc:restored_loc ~generated xs qualifiers =
   List.fold_left qualifiers ~init:xs
     ~f:(fun x { override; ident; loc; attributes } ->
       let loc = Option.value restored_loc ~default:loc in
+      let ident, loc, attributes =
+        if generated then
+          ( { ident with loc = Ast_location.ghost ident.loc },
+            Ast_location.ghost loc,
+            Ast_location.mapper#attributes attributes )
+        else (ident, loc, attributes)
+      in
       Exp.open_ ~loc ~attrs:attributes
         (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident ident))
         x)
+
+let restore_exp ?loc = restore_exp_with ?loc ~generated:false
+let restore_generated_exp ?loc = restore_exp_with ?loc ~generated:true
