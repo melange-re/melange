@@ -10,13 +10,9 @@
   >   [@@mel.variadic]
   > EOF
   $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
-  File "x.ml", lines 2-7, characters 0-18:
-  2 | external
-  3 |   f :
+  File "x.ml", line 4, characters 16-24:
   4 |   int -> int -> int arra -> (int [@mel.this]) -> unit
-  5 |   = ""
-  6 |   [@@mel.send]
-  7 |   [@@mel.variadic]
+                      ^^^^^^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
@@ -29,13 +25,9 @@
   >   [@@mel.variadic]
   > EOF
   $ melc -ppx 'melppx -alert -deprecated' -alert -unprocessed x.ml
-  File "x.ml", lines 1-6, characters 0-18:
-  1 | external
-  2 |   f2 :
+  File "x.ml", line 3, characters 19-28:
   3 |   int -> int -> ?y:int array -> (int [@mel.this]) -> unit
-  4 |   = ""
-  5 |   [@@mel.send]
-  6 |   [@@mel.variadic]
+                         ^^^^^^^^^
   Error: `[@mel.variadic]' cannot be applied to an optionally labelled argument
   [2]
 
