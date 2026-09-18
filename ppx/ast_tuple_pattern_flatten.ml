@@ -55,17 +55,27 @@ let flatten_tuple_pattern_vb =
         | Some (wholes, es, tuple_attributes) when List.same_length es xs ->
             Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
             (* will be dropped*)
+            let binding_loc = Ast_location.ghost vb.pvb_loc in
+            let ghost_attributes =
+              Ast_location.mapper#attributes pvb_attributes
+            in
             List.fold_right2
-              ~f:(fun pat exp acc ->
-                {
-                  pvb_pat = pat;
-                  pvb_expr = Ast_open_cxt.restore_exp exp wholes;
-                  pvb_attributes;
-                  pvb_loc = vb.pvb_loc;
-                  pvb_constraint;
-                }
-                :: acc)
-              xs es ~init:acc
+              ~f:(fun pat exp (keep_source_attributes, acc) ->
+                let pvb_attributes =
+                  if keep_source_attributes then pvb_attributes
+                  else ghost_attributes
+                in
+                ( false,
+                  {
+                    pvb_pat = pat;
+                    pvb_expr = Ast_open_cxt.restore_exp exp wholes;
+                    pvb_attributes;
+                    pvb_loc = binding_loc;
+                    pvb_constraint;
+                  }
+                  :: acc ))
+              xs es ~init:(true, acc)
+            |> snd
         | _ ->
             {
               pvb_pat;
