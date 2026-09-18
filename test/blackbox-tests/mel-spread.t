@@ -59,9 +59,8 @@ Unary polyvariants (no payload) aren't supported
   > let () = foo `foo
   > EOF
   $ melc -ppx melppx x.ml
-  File "x.ml", line 1, characters 16-24:
+  File "x.ml", line 1, characters 18-22:
   1 | external foo : ([ `foo ][@mel.spread]) -> unit = "someFnCall"
-                      ^^^^^^^^
+                        ^^^^
   Error: Invalid type for `[@mel.spread]'
   [2]
-
