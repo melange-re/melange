@@ -324,16 +324,20 @@ let app_exp_mapper =
                   _;
                 } ->
                 sane_property_name_check pexp_loc name;
+                let generated_loc = Ast_location.ghost loc in
                 Exp.constraint_ ~loc
                   {
                     e with
+                    pexp_loc = generated_loc;
                     pexp_desc =
-                      Ast_uncurry_apply.method_apply ~loc self obj
+                      Ast_uncurry_apply.method_apply ~loc:generated_loc self obj
                         (name
                        ^ Melange_ffi.External_ffi_types.Literals.setter_suffix)
                         [ (Nolabel, arg) ];
                   }
-                  [%type: unit]
+                  (Typ.constr ~loc:generated_loc
+                     { txt = Lident "unit"; loc = generated_loc }
+                     [])
             | _ -> Location.raise_errorf ~loc "invalid #= syntax")
         | Some { op = Operator.Pipe; loc; _ } ->
             Location.raise_errorf ~loc
