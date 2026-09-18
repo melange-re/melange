@@ -232,11 +232,17 @@ let app_exp_mapper =
                     { transformed with pexp_loc = loc }
                 | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
                     (_ :: _ as wholes) ) ->
-                    let fn = Ast_open_cxt.restore_exp e wholes in
+                    let generated_loc = ghost_loc loc in
+                    let fn =
+                      Ast_open_cxt.restore_generated_exp ~loc:generated_loc e
+                        wholes
+                    in
                     let args =
                       List.map
                         ~f:(fun (lab, exp) ->
-                          (lab, Ast_open_cxt.restore_exp exp wholes))
+                          ( lab,
+                            Ast_open_cxt.restore_generated_exp
+                              ~loc:generated_loc exp wholes ))
                         args
                     in
                     Mel_ast_invariant.warn_discarded_unused_attributes
