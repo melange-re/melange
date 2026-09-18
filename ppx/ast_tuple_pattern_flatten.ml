@@ -30,6 +30,57 @@ let ghost_locations =
     method! location loc = { loc with loc_ghost = true }
   end
 
+let ghost loc = { loc with loc_ghost = true }
+
+let module_field_bindings ~loc ~module_name lid_pats pvb_expr pvb_constraint =
+  (* Constrain and unpack the package once so that all selected fields share
+     the same module identity and are limited by the package signature. *)
+  let module_name_loc = { loc; txt = Some module_name } in
+  let pats, exprs =
+    List.split
+      (List.map
+         ~f:(fun (lid, pat) ->
+           match lid.txt with
+           | Lident field ->
+               ( pat,
+                 Ast_helper.Exp.ident ~loc:lid.loc
+                   { lid with txt = Ldot (Lident module_name, field) } )
+           | _ ->
+               Location.raise_errorf ~loc:lid.loc
+                 "Pattern matching on modules requires simple labels")
+         lid_pats)
+  in
+  let pvb_expr =
+    match pvb_constraint with
+    | Pvc_constraint { locally_abstract_univars = []; typ } ->
+        Ast_helper.Exp.constraint_ ~loc pvb_expr typ
+    | Pvc_coercion { ground; coercion } ->
+        Ast_helper.Exp.coerce ~loc pvb_expr ground coercion
+    | Pvc_constraint { locally_abstract_univars = _ :: _; typ } ->
+        (* The parser only accepts locally abstract binders on variable
+           patterns. A preceding PPX can still construct this AST, but its
+           abstract field types cannot soundly escape the local unpack. *)
+        Location.raise_errorf ~loc:typ.ptyp_loc
+          "Locally abstract type constraints are not supported when pattern \
+           matching on modules"
+  in
+  let tuple_or_single make_tuple = function
+    | [ x ] -> x
+    | xs -> make_tuple ~loc xs
+  in
+  let pvb_pat =
+    tuple_or_single (fun ~loc xs -> Ast_helper.Pat.tuple ~loc xs) pats
+  in
+  let fields =
+    tuple_or_single (fun ~loc xs -> Ast_helper.Exp.tuple ~loc xs) exprs
+  in
+  let pvb_expr =
+    Ast_helper.Exp.letmodule ~loc module_name_loc
+      (Ast_helper.Mod.unpack ~loc pvb_expr)
+      fields
+  in
+  (pvb_pat, pvb_expr)
+
 (*
   [let (a,b) = M.N.(c,d) ]
   =>
@@ -55,8 +106,8 @@ let flatten_tuple_pattern_vb =
     let pvb_constraint =
       Option.map ~f:self#value_constraint vb.pvb_constraint
     in
-    match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
-    | Ppat_tuple xs, _ when List.for_all ~f:is_simple_pattern xs -> (
+    match (pvb_pat.ppat_desc, pvb_expr.pexp_desc, pvb_constraint) with
+    | Ppat_tuple xs, _, _ when List.for_all ~f:is_simple_pattern xs -> (
         match Ast_open_cxt.destruct_open_tuple pvb_expr with
         | Some (wholes, es, tuple_attributes) when List.same_length es xs ->
             Mel_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
@@ -89,7 +140,30 @@ let flatten_tuple_pattern_vb =
               pvb_constraint;
             }
             :: acc)
-    | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
+    | ( Ppat_record (lid_pats, _),
+        Pexp_pack { pmod_desc = Pmod_ident id; _ },
+        Some pvb_constraint ) ->
+        let loc = ghost vb.pvb_loc in
+        let module_name =
+          match id.txt with
+          | Lident name | Ldot (_, name) -> name
+          | Lapply _ -> "Melange_module"
+        in
+        let pvb_pat, pvb_expr =
+          module_field_bindings ~loc ~module_name lid_pats pvb_expr
+            pvb_constraint
+        in
+        {
+          pvb_pat;
+          pvb_expr;
+          pvb_attributes;
+          pvb_loc = vb.pvb_loc;
+          pvb_constraint = None;
+        }
+        :: acc
+    | ( Ppat_record (lid_pats, _),
+        Pexp_pack { pmod_desc = Pmod_ident id; _ },
+        None ) ->
         List.map
           ~f:(fun (lid, pat) ->
             match lid.txt with
@@ -108,7 +182,7 @@ let flatten_tuple_pattern_vb =
                   "Pattern matching on modules requires simple labels")
           lid_pats
         @ acc
-    | _ ->
+    | _, _, _ ->
         {
           pvb_pat;
           pvb_expr;
