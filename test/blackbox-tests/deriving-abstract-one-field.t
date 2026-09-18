@@ -40,3 +40,21 @@ Record with one field also works fine
   > EOF
   $ dune build ./.x.objs/melange/x.cmi
 
+Generated constructors point back to the type name
+
+  $ rm x.mli
+  $ cat > x.ml <<'EOF'
+  > type chartDataItemType = { height: int; foo: string } [@@deriving jsProperties]
+  > let make = chartDataItemType
+  > EOF
+  $ melc -ppx 'melppx -locations-check' -w -32 -c x.ml > /dev/null
+  $ dune build ./.x.objs/melange/x.cmj
+  $ ocamlmerlin single locate -position 2:15 -verbosity 0 \
+  > -filename x.ml < x.ml | jq '.value'
+  {
+    "file": "$TESTCASE_ROOT/x.ml",
+    "pos": {
+      "line": 1,
+      "col": 5
+    }
+  }
