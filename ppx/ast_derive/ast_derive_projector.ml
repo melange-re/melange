@@ -63,7 +63,6 @@ let derive_structure tdcls =
               | Pcstr_record _ -> assert false
             in
             let little_con_name = String.uncapitalize_ascii con_name in
-            let arity = List.length pcd_args in
             let annotate_type =
               match pcd_res with None -> core_type | Some x -> x
             in
@@ -71,38 +70,41 @@ let derive_structure tdcls =
               [
                 Vb.mk
                   (Pat.var { loc; txt = little_con_name })
-                  (if arity = 0 then
-                     (*TODO: add a prefix, better inter-op with FFI *)
-                     Exp.constraint_
-                       (Exp.construct
-                          { loc; txt = Longident.Lident con_name }
-                          None)
-                       annotate_type
-                   else
-                     let vars =
-                       List.init ~len:arity ~f:(fun x ->
-                           "param_" ^ string_of_int x)
-                     in
-                     let exp =
-                       Exp.constraint_
-                         (Exp.construct { loc; txt = Longident.Lident con_name }
-                         @@ Some
-                              (if arity = 1 then
-                                 Exp.ident { loc; txt = Lident (List.hd vars) }
-                               else
-                                 Exp.tuple
-                                   (List.map
-                                      ~f:(fun x ->
-                                        Exp.ident { loc; txt = Lident x })
-                                      vars)))
-                         annotate_type
-                     in
-                     List.fold_right
-                       ~f:(fun var b ->
-                         Ast_builder.Default.pexp_fun ~loc Nolabel None
-                           (Pat.var { loc; txt = var })
-                           b)
-                       vars ~init:exp);
+                  (match pcd_args with
+                  | [] ->
+                      (*TODO: add a prefix, better inter-op with FFI *)
+                      Exp.constraint_
+                        (Exp.construct
+                           { loc; txt = Longident.Lident con_name }
+                           None)
+                        annotate_type
+                  | _ :: _ ->
+                      let vars =
+                        List.mapi
+                          ~f:(fun x _ -> "param_" ^ string_of_int x)
+                          pcd_args
+                      in
+                      let exp =
+                        Exp.constraint_
+                          (Exp.construct
+                             { loc; txt = Longident.Lident con_name }
+                          @@ Some
+                               (match vars with
+                               | [ var ] -> Exp.ident { loc; txt = Lident var }
+                               | vars ->
+                                   Exp.tuple
+                                     (List.map
+                                        ~f:(fun x ->
+                                          Exp.ident { loc; txt = Lident x })
+                                        vars)))
+                          annotate_type
+                      in
+                      List.fold_right
+                        ~f:(fun var b ->
+                          Ast_builder.Default.pexp_fun ~loc Nolabel None
+                            (Pat.var { loc; txt = var })
+                            b)
+                        vars ~init:exp);
               ])
           constructor_declarations
     | Ptype_abstract | Ptype_open ->
