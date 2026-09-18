@@ -66,7 +66,7 @@ let ocaml_object_as_js_object =
       match mutable_ with
       | Mutable ->
           [
-            Of.tag
+            Of.tag ~loc
               {
                 val_name with
                 txt =
@@ -78,7 +78,7 @@ let ocaml_object_as_js_object =
           ]
       | Immutable -> []
     in
-    (result, Of.tag val_name result :: base)
+    (result, Of.tag ~loc val_name result :: base)
   in
   fun ~loc
     (mapper : Ast_traverse.map)
@@ -129,10 +129,10 @@ let ocaml_object_as_js_object =
                     Ast_typ_uncurry.generate_arg_type ~loc:x.pcf_loc mapper
                       label.txt args e
                   in
-                  ( Of.tag label method_type :: label_attr_types,
+                  ( Of.tag ~loc label method_type :: label_attr_types,
                     match public_flag with
                     | Public ->
-                        Of.tag label method_type :: public_label_attr_types
+                        Of.tag ~loc label method_type :: public_label_attr_types
                     | Private -> public_label_attr_types ))
               | Pexp_poly (_, Some _) ->
                   Location.raise_errorf ~loc
@@ -271,8 +271,7 @@ let ocaml_object_as_js_object =
     let pval_type =
       List.fold_right2
         ~f:(fun label label_type acc ->
-          Typ.arrow ~loc:label.Asttypes.loc (Labelled label.Asttypes.txt)
-            label_type acc)
+          Typ.arrow ~loc (Labelled label.Asttypes.txt) label_type acc)
         labels label_types ~init:public_obj_type
     in
     local_external ~loc ~ffi:(ffi_of_labels labels)
@@ -288,19 +287,29 @@ let record_as_js_object =
      '_x'_
    ]}
    will be recognized as a invalid program *)
-  let from_labels ~loc arity labels : core_type =
+  let from_labels ~loc arity labels args : core_type =
     let tyvars =
-      List.init ~len:arity ~f:(fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+      List.map2
+        ~f:(fun name (_, expression) -> Typ.var ~loc:expression.pexp_loc name)
+        (List.init ~len:arity ~f:(fun i -> "a" ^ string_of_int i))
+        args
     in
     let result_type =
       Ast_core_type.to_js_type ~loc
         (Typ.object_ ~loc
-           (List.map2 ~f:(fun x y -> Of.tag x y) labels tyvars)
+           (List.map2
+              ~f:(fun x ((_, expression), tyvar) ->
+                let field_loc =
+                  { x.loc with loc_end = expression.pexp_loc.loc_end }
+                in
+                Of.tag ~loc:field_loc x tyvar)
+              labels (List.combine args tyvars))
            Closed)
     in
     List.fold_right2
       ~f:(fun label (* {loc ; txt = label } *) tyvar acc ->
-        Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
+        let arrow_loc = { loc with loc_start = label.loc.loc_start } in
+        Typ.arrow ~loc:arrow_loc (Labelled label.txt) tyvar acc)
       labels tyvars ~init:result_type
   in
   fun ~loc
@@ -326,6 +335,6 @@ let record_as_js_object =
         label_exprs ~init:([], [], 0)
     in
     local_external ~loc ~ffi:(ffi_of_labels labels)
-      ~pval_type:(from_labels ~loc arity labels) (fun e ->
+      ~pval_type:(from_labels ~loc arity labels args) (fun e ->
         Exp.apply ~loc e
           (List.map ~f:(fun (l, a) -> (Asttypes.Labelled l, a)) args))

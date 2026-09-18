@@ -475,8 +475,32 @@ let process_obj (loc : Location.t) (prim_name : string)
                       | Nolabel -> param_type.label)
                   | None -> param_type.label)
             in
-            let loc = param_type.loc in
             let ty = param_type.ty in
+            let param_loc = param_type.loc in
+            let field_loc = { param_loc with loc_end = ty.ptyp_loc.loc_end } in
+            let name_loc =
+              let source_name, prefix_length =
+                match param_type.label with
+                | Labelled name -> (name, 0)
+                | Optional name -> (name, 1)
+                | Nolabel -> ("", 0)
+              in
+              let loc_start =
+                {
+                  field_loc.loc_start with
+                  pos_cnum = field_loc.loc_start.pos_cnum + prefix_length;
+                }
+              in
+              {
+                field_loc with
+                loc_start;
+                loc_end =
+                  {
+                    loc_start with
+                    pos_cnum = loc_start.pos_cnum + String.length source_name;
+                  };
+              }
+            in
             match arg_label with
             | Nolabel -> (
                 match ty.ptyp_desc with
@@ -514,7 +538,9 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        ty
                       :: result_types )
                 | Int _ ->
                     let s = Melange_ffi.Lam_methname.translate name in
@@ -523,9 +549,10 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag
-                        { Asttypes.txt = name; loc }
-                        [%type: int]
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        (let loc = ty.ptyp_loc in
+                         [%type: int])
                       :: result_types )
                 | Poly_var { spread = false; _ } ->
                     let s = Melange_ffi.Lam_methname.translate name in
@@ -534,9 +561,10 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag
-                        { Asttypes.txt = name; loc }
-                        [%type: string]
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        (let loc = ty.ptyp_loc in
+                         [%type: string])
                       :: result_types )
                 | Fn_uncurry_arity _ ->
                     Location.raise_errorf ~loc:ty.ptyp_loc
@@ -544,7 +572,7 @@ let process_obj (loc : Location.t) (prim_name : string)
                 | Extern_unit -> assert false
                 | Poly_var _ ->
                     raise
-                      (Location.raise_errorf ~loc
+                      (Location.raise_errorf ~loc:param_loc
                          "`[%@mel.obj]' must not be used with labelled \
                           polymorphic variants carrying payloads"
                          name))
@@ -570,10 +598,13 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag
-                        { Asttypes.txt = name; loc }
-                        (Ast_helper.Typ.constr ~loc
-                           { txt = Ast_literal.js_undefined; loc }
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
+                           {
+                             txt = Ast_literal.js_undefined;
+                             loc = Location.none;
+                           }
                            [ ty ])
                       :: result_types )
                 | Int _ ->
@@ -585,11 +616,17 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag
-                        { Asttypes.txt = name; loc }
-                        (Ast_helper.Typ.constr ~loc
-                           { txt = Ast_literal.js_undefined; loc }
-                           [ [%type: int] ])
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
+                           {
+                             txt = Ast_literal.js_undefined;
+                             loc = Location.none;
+                           }
+                           [
+                             (let loc = ty.ptyp_loc in
+                              [%type: int]);
+                           ])
                       :: result_types )
                 | Poly_var { spread = false; _ } ->
                     let s = Melange_ffi.Lam_methname.translate name in
@@ -600,22 +637,28 @@ let process_obj (loc : Location.t) (prim_name : string)
                         arg_type = obj_arg_type;
                       },
                       param_type :: arg_types,
-                      Ast_helper.Of.tag
-                        { Asttypes.txt = name; loc }
-                        (Ast_helper.Typ.constr ~loc
-                           { txt = Ast_literal.js_undefined; loc }
-                           [ [%type: string] ])
+                      Ast_helper.Of.tag ~loc:field_loc
+                        { Asttypes.txt = name; loc = name_loc }
+                        (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
+                           {
+                             txt = Ast_literal.js_undefined;
+                             loc = Location.none;
+                           }
+                           [
+                             (let loc = ty.ptyp_loc in
+                              [%type: string]);
+                           ])
                       :: result_types )
                 | Arg_cst _ ->
-                    Location.raise_errorf ~loc
+                    Location.raise_errorf ~loc:param_loc
                       "`[%@mel.as ..]' is not supported within optionally \
                        labelled arguments yet"
                 | Fn_uncurry_arity _ ->
-                    Location.raise_errorf ~loc
+                    Location.raise_errorf ~loc:param_loc
                       "`[%@mel.uncurry]' can't be used within `[@mel.obj]'"
                 | Extern_unit -> assert false
                 | Poly_var _ ->
-                    Location.raise_errorf ~loc
+                    Location.raise_errorf ~loc:param_loc
                       "`[%@mel.obj]' must not be used with optionally labelled \
                        polymorphic variants carrying payloads"
                       name)
