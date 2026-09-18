@@ -26,7 +26,7 @@ open Import
 
 type t
 
-val restore_exp : expression -> t list -> expression
+val restore_exp : ?loc:location -> expression -> t list -> expression
 val destruct : expression -> expression * t list
 
 val destruct_open_tuple :
