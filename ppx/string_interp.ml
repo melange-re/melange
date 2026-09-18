@@ -255,15 +255,14 @@ let rec handle_segments =
     Some "js"
   in
   let merge_loc (l : Location.t) (r : Location.t) =
-    if l.loc_ghost then r
-    else if r.loc_ghost then l
-    else { loc_start = l.loc_start; loc_end = r.loc_end; loc_ghost = false }
+    { loc_start = l.loc_start; loc_end = r.loc_end; loc_ghost = true }
   in
   let aux loc { start; finish; content } =
     match content with
     | String content ->
         let loc = update border start finish loc in
-        Exp.constant (Pconst_string (content, loc, escaped_js_delimiter))
+        let loc = { loc with loc_ghost = true } in
+        Exp.constant ~loc (Pconst_string (content, loc, escaped_js_delimiter))
     | Var { loffset = soffset; roffset = foffset; content = _; lident } ->
         let loc =
           {
@@ -272,17 +271,22 @@ let rec handle_segments =
             loc_end = update_position (foffset + border) finish loc.loc_start;
           }
         in
+        let loc = { loc with loc_ghost = true } in
         Exp.ident ~loc { loc; txt = lident }
   in
-  let concat_exp a_loc x ~(lhs : expression) =
-    let loc = merge_loc a_loc lhs.pexp_loc in
-    Exp.apply
-      (Exp.ident { txt = concat_ident; loc })
-      [ (Nolabel, lhs); (Nolabel, aux loc x) ]
+  let concat_exp loc x ~(lhs : expression) =
+    let rhs = aux loc x in
+    let loc = merge_loc lhs.pexp_loc rhs.pexp_loc in
+    let helper_loc = { loc with loc_ghost = true } in
+    Exp.apply ~loc
+      (Exp.ident ~loc:helper_loc { txt = concat_ident; loc = helper_loc })
+      [ (Nolabel, lhs); (Nolabel, rhs) ]
   in
   fun loc rev_segments ->
     match rev_segments with
-    | [] -> Exp.constant (Pconst_string ("", loc, escaped_js_delimiter))
+    | [] ->
+        let loc = { loc with loc_ghost = true } in
+        Exp.constant ~loc (Pconst_string ("", loc, escaped_js_delimiter))
     | [ segment ] -> aux loc segment (* string literal *)
     | { content = String ""; _ } :: rest -> handle_segments loc rest
     | a :: rest -> concat_exp loc a ~lhs:(handle_segments loc rest)
