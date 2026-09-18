@@ -341,8 +341,9 @@ let app_exp_mapper =
         | Some { op = Operator.Method; loc; _ } ->
             Location.raise_errorf ~loc
               "Js object ## expect syntax like obj##(paint (a,b)) "
-        | Some { op; _ } ->
-            Location.raise_errorf "invalid %s syntax" (Operator.to_string op)
+        | Some { op; loc; _ } ->
+            Location.raise_errorf ~loc "invalid %s syntax"
+              (Operator.to_string op)
         | None -> (
             match
               exclude_with_val e.pexp_attributes Ast_attributes.is_uncurried
