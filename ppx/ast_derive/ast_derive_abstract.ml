@@ -143,8 +143,13 @@ let derive_getters_setters =
   fun ~light tdcl ->
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
-        let loc = tdcl.ptype_loc in
-        let core_type = Ast_derive_util.core_type_of_type_declaration tdcl in
+        let core_type =
+          let core_type =
+            Ast_location.mapper#core_type
+              (Ast_derive_util.core_type_of_type_declaration tdcl)
+          in
+          { core_type with ptyp_loc = Ast_location.ghost tdcl.ptype_name.loc }
+        in
         List.fold_right
           ~f:(fun
               {
@@ -156,6 +161,7 @@ let derive_getters_setters =
               }
               acc
             ->
+            let loc = Ast_location.ghost label_loc in
             let prim_as_name =
               match
                 Ast_attributes.iter_process_mel_string_as pld_attributes
@@ -164,6 +170,7 @@ let derive_getters_setters =
               | Some new_name -> new_name
             in
             let prim = [ prim_as_name ] in
+            let getter_type = Ast_location.mapper#core_type pld_type in
             let acc =
               let name =
                 if light then pld_name
@@ -172,7 +179,7 @@ let derive_getters_setters =
               match Ast_attributes.has_mel_optional pld_attributes with
               | true ->
                   Val.mk ~loc:pld_loc name ~attrs:get_optional_attrs ~prim
-                    [%type: [%t core_type] -> [%t pld_type]]
+                    [%type: [%t core_type] -> [%t getter_type]]
                   :: acc
               | false ->
                   Val.mk ~loc:pld_loc name
@@ -185,16 +192,19 @@ let derive_getters_setters =
                             (Js_get { name = prim_as_name; scopes = [] }))
                       :: get_attrs)
                     ~prim:Ast_external.pval_prim_default
-                    [%type: [%t core_type] -> [%t pld_type]]
+                    [%type: [%t core_type] -> [%t getter_type]]
                   :: acc
             in
             match pld_mutable with
             | Mutable ->
-                let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
+                let setter_type =
+                  Ast_location.mapper#core_type
+                    (get_pld_type pld_type ~attrs:pld_attributes)
+                in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
                   ~attrs:set_attrs ~prim
-                  [%type: [%t core_type] -> [%t pld_type] -> unit]
+                  [%type: [%t core_type] -> [%t setter_type] -> unit]
                 :: acc
             | Immutable -> acc)
           label_declarations ~init:[]
