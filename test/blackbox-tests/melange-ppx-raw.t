@@ -40,3 +40,15 @@ Show expressions in `%mel.raw` get wrapped in parentheses with proper syntax
   // after
     ));
   /*  Not a pure module */
+
+Generated local primitives have well-nested locations
+
+  $ cat > locations.ml <<EOF
+  > let raw_expr = [%mel.raw {| 1 |}]
+  > let external_value = [%mel.external browser_global]
+  > let regex = [%mel.re "/b/ig"]
+  > let () = [%mel.debugger]
+  > [%%mel.raw {| console.log("ok") |}]
+  > let node = [%mel.node __filename]
+  > EOF
+  $ melc -ppx 'melppx -locations-check' -c locations.ml > /dev/null
