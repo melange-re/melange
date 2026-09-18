@@ -378,6 +378,17 @@ type param_type = {
   loc : location;
 }
 
+let ghost_loc loc = { loc with loc_ghost = true }
+
+let ghost_core_type =
+  let mapper =
+    object
+      inherit Ast_traverse.map
+      method! location = ghost_loc
+    end
+  in
+  mapper#core_type
+
 let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
     core_type =
   List.fold_right
@@ -433,9 +444,6 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                 in
                 let ty = param_type.ty in
                 let param_loc = param_type.loc in
-                let field_loc =
-                  { param_loc with loc_end = ty.ptyp_loc.loc_end }
-                in
                 let name_loc =
                   let source_name, prefix_length =
                     match param_type.label with
@@ -445,12 +453,12 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                   in
                   let loc_start =
                     {
-                      field_loc.loc_start with
-                      pos_cnum = field_loc.loc_start.pos_cnum + prefix_length;
+                      param_loc.loc_start with
+                      pos_cnum = param_loc.loc_start.pos_cnum + prefix_length;
                     }
                   in
                   {
-                    field_loc with
+                    param_loc with
                     loc_start;
                     loc_end =
                       {
@@ -459,6 +467,11 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                           loc_start.pos_cnum + String.length source_name;
                       };
                   }
+                in
+                let object_field name ty =
+                  Ast_helper.Of.tag ~loc:name_loc
+                    { Asttypes.txt = name; loc = name_loc }
+                    (ghost_core_type ty)
                 in
                 match arg_label with
                 | Nolabel -> (
@@ -497,10 +510,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
-                            ty
-                          :: result_types )
+                          object_field name ty :: result_types )
                     | Int _ ->
                         let s = Melange_ffi.Lam_methname.translate name in
                         ( {
@@ -508,8 +518,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
+                          object_field name
                             (let loc = ty.ptyp_loc in
                              [%type: int])
                           :: result_types )
@@ -520,8 +529,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
+                          object_field name
                             (let loc = ty.ptyp_loc in
                              [%type: string])
                           :: result_types )
@@ -557,8 +565,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
+                          object_field name
                             (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
                                {
                                  txt = Ast_literal.js_undefined;
@@ -575,8 +582,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
+                          object_field name
                             (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
                                {
                                  txt = Ast_literal.js_undefined;
@@ -596,8 +602,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
                             arg_type = obj_arg_type;
                           },
                           param_type :: arg_types,
-                          Ast_helper.Of.tag ~loc:field_loc
-                            { Asttypes.txt = name; loc = name_loc }
+                          object_field name
                             (Ast_helper.Typ.constr ~loc:ty.ptyp_loc
                                {
                                  txt = Ast_literal.js_undefined;
@@ -631,9 +636,14 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
           (* TODO: do we need do some error checking here *)
           (* result type cannot be labeled *)
           | Ptyp_any ->
+              let loc = ghost_loc loc in
               Ast_core_type.to_js_type ~loc
                 (Typ.object_ ~loc result_types Closed)
           | _ -> result_type
+        in
+        let new_arg_types_ty =
+          List.map new_arg_types_ty ~f:(fun param_type ->
+              { param_type with loc = ghost_loc param_type.loc })
         in
         ( mk_fn_type new_arg_types_ty result,
           External_ffi_types.ffi_obj_create arg_kinds )
