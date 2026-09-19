@@ -575,7 +575,14 @@ let nat_of_string_exn =
     if acc < 0 then invalid_arg s else acc
 
 let convert_lfunction_params_and_body params body =
-  let just_params = List.map ~f:fst params in
+  let params_length = ref 0 in
+  let just_params =
+    List.map
+      ~f:(fun param ->
+        incr params_length;
+        fst param)
+      params
+  in
   let new_map, body =
     rename_optional_parameters Ident.Map.empty just_params body
   in
@@ -586,7 +593,7 @@ let convert_lfunction_params_and_body params body =
         ~f:(fun x -> Ident.Map.find_default x new_map ~default:x)
         just_params
   in
-  params, body
+  params, !params_length, body
 
 let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     Lam.t * Lam_module_ident.Hash_set.t =
@@ -820,7 +827,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             ap_status = App_na;
           }
     | Lfunction { params; body = l; attr = attr1; _ } -> (
-        let params, body =
+        let params, params_length, body =
           let body = convert_aux ~dynamic_import l in
           convert_lfunction_params_and_body params body
         in
@@ -828,11 +835,11 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
            `Lfunction` nodes in the AST on OCaml 5.2 and up. *)
         match body with
         | Lfunction { arity = arity'; params = params'; body; attr = attr2 }
-          when List.length params + List.length params' <= Lambda.max_arity() ->
-          let arity = (List.length params) + arity' in
+          when params_length + List.length params' <= Lambda.max_arity() ->
+          let arity = params_length + arity' in
           Lam.function_ ~arity ~params:(params @ params') ~body ~attr:attr2
         | body ->
-          Lam.function_ ~attr:attr1 ~arity:(List.length params) ~params ~body)
+          Lam.function_ ~attr:attr1 ~arity:params_length ~params ~body)
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body
