@@ -147,7 +147,8 @@ let pp_deps_program =
       P.string f
         (match program.side_effect with
         | None -> no_side_effect
-        | Some v -> Printf.sprintf "/* %s Not a pure module */" v);
+        | Some v ->
+            String.concat ~sep:" " [ "/*"; v; "Not a pure module"; "*/" ]);
       P.newline f;
       P.flush f ()
 
