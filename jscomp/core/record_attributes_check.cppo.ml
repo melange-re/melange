@@ -106,9 +106,8 @@ let label_name (lbl : Types.label_description) =
   find_with_default lbl.lbl_attributes ~default:lbl.lbl_name
 
 let label_names fields =
-  Array.map
+  Array.map fields
     ~f:(fun ((lbl : Types.label_description), _) -> label_name lbl)
-    fields
 
 let fld_record (lbl : Types.label_description) =
   Lambda.Fld_record
