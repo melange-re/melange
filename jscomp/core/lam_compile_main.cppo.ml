@@ -80,13 +80,13 @@ let no_side_effects (rest : Lam_group.t list) : string option =
       (match kind with
       | Strict | Variable ->
         if not @@ Lam_analysis.no_side_effects body
-        then Some (Printf.sprintf "%s" (Ident.name id))
+        then Some (Ident.name id)
         else None
       | StrictOpt | Alias -> None)
     | Recursive bindings ->
       List.find_map bindings ~f:(fun (id,lam) ->
         if not @@ Lam_analysis.no_side_effects lam
-        then Some (Printf.sprintf "%s" (Ident.name id))
+        then Some (Ident.name id)
         else None)
     | Nop lam ->
       if not @@ Lam_analysis.no_side_effects lam
