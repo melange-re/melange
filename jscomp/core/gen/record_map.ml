@@ -37,14 +37,13 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
                 [%expr [%e code] _self [%e x]]);
             meth = Some code;
           })
-  | Ptyp_constr ({ txt = Lident (("option" | "list") as list); _ }, [ base ]) ->
-      higher_order_constr list base allNames
-  | Ptyp_constr ({ txt = Ldot (Lident "Nonempty_list", "t"); _ }, [ base ]) ->
-      higher_order_constr "nonempty_list" base allNames
-  | Ptyp_constr ({ txt; _ }, _) ->
-      failwith
-        (Format.asprintf "unsupported high order type %s"
-           (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:"."))
+  | Ptyp_constr ({ txt; _ }, args) -> (
+      match (Record_common.Container.of_longident txt, args) with
+      | Some container, [ base ] -> higher_order_constr container base allNames
+      | _ ->
+          failwith
+            (Format.asprintf "unsupported high order type %s"
+               (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:".")))
   | Ptyp_tuple xs ->
       let len = List.length xs in
       let args0 = Record_common.indexed_names len in
@@ -65,18 +64,20 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
       }
   | _ -> assert false
 
-and higher_order_constr list base allNames =
+and higher_order_constr container base allNames =
   let inner = mkStructuralTy base allNames in
   if inner == skip_obj then inner
   else
     let inner_code = Option.value inner.meth ~default:inner.eta in
-    let list = Ast_helper.Exp.ident { txt = Lident list; loc } in
+    let traversal =
+      Record_common.ident (Record_common.Container.traversal_name container)
+    in
     {
-      eta = [%expr fun _self arg -> [%e list] [%e inner_code] _self arg];
+      eta = [%expr fun _self arg -> [%e traversal] [%e inner_code] _self arg];
       beta =
         (fun x ->
           let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
-          [%expr [%e list] [%e inner_code] _self [%e x]]);
+          [%expr [%e traversal] [%e inner_code] _self [%e x]]);
       meth = None;
     }
 
