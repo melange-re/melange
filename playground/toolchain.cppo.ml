@@ -101,12 +101,12 @@ let warning_error_to_js (error : Location.report) : Js.t =
   let kind, type_ =
     match error.kind with
     | Location.Report_error -> ("Error", "error")
-    | Report_warning w -> (Printf.sprintf "Warning: %s" w, "warning")
+    | Report_warning w -> ("Warning: " ^ w, "warning")
     | Report_warning_as_error w ->
-        (Printf.sprintf "Error: (warning %s)" w, "warning_as_error")
-    | Report_alert w -> (Printf.sprintf "Alert: %s" w, "alert")
+        ("Error: (warning " ^ w ^ ")", "warning_as_error")
+    | Report_alert w -> ("Alert: " ^ w, "alert")
     | Report_alert_as_error w ->
-        (Printf.sprintf "Error: (alert %s)" w, "alert_as_error")
+        ("Error: (alert " ^ w ^ ")", "alert_as_error")
   in
 #if OCAML_VERSION >= (5,3,0)
   let txt = Format.asprintf "@[%a@]" Format_doc.Doc.format error.main.txt in
