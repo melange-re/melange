@@ -54,7 +54,7 @@ buildDunePackage {
     &&
       # for some reason `-Wtrigraphs` was enabled in nixpkgs recently for
       # x86_64-darwin?
-      !(stdenv.isDarwin && stdenv.isx86_64);
+      !(stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isx86_64);
 
   postCheck = ''
     dune build @melange-runtime-tests --profile=release --display=short
