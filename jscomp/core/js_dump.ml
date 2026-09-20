@@ -692,11 +692,11 @@ and expression_desc cxt ~(level : int) x : cxt =
         match v with
         | Float { f } -> Js_number.caml_float_literal_to_js_string f
         (* attach string here for float constant folding?*)
-        | Int { i; c = Some c } -> Format.asprintf "/* %C */%ld" c i
+        | Int { i; c = Some c } -> Printf.sprintf "/* %C */%ld" c i
         | Int { i; c = None } ->
             Int32.to_string
               i (* check , js convention with ocaml lexical convention *)
-        | Uint i -> Format.asprintf "%lu" i
+        | Uint i -> Printf.sprintf "%lu" i
       in
       let need_paren =
         if s.[0] = '-' then
