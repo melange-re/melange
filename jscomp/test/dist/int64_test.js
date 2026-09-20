@@ -9,9 +9,9 @@ const Ext_array_test = require("./ext_array_test.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Array = require("melange/array.js");
-const Stdlib__Format = require("melange/format.js");
 const Stdlib__Int32 = require("melange/int32.js");
 const Stdlib__Int64 = require("melange/int64.js");
+const Stdlib__Printf = require("melange/printf.js");
 
 function f(u, v) {
   return u > v;
@@ -2107,7 +2107,7 @@ const suites = Stdlib.$at({
   }
 }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
   return [
-    Curry._1(Stdlib__Format.asprintf({
+    Curry._1(Stdlib__Printf.sprintf({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String_literal */ 11,
@@ -2132,7 +2132,7 @@ const suites = Stdlib.$at({
   ];
 }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
   return [
-    Curry._1(Stdlib__Format.asprintf({
+    Curry._1(Stdlib__Printf.sprintf({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String_literal */ 11,
@@ -2157,7 +2157,7 @@ const suites = Stdlib.$at({
   ];
 }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
   return [
-    Curry._1(Stdlib__Format.asprintf({
+    Curry._1(Stdlib__Printf.sprintf({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String_literal */ 11,
