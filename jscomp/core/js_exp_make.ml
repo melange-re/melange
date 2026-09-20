@@ -519,14 +519,22 @@ let extension_assign = record_assign
 
 (* This is a property access not external module *)
 
-let array_length ?loc ?comment (e : t) : t =
-  match e.expression_desc with
-  (* TODO: use array instead? *)
-  | (Array { items = l; _ } | Caml_block { fields = l; _ })
-    when no_side_effect e ->
-      int ?comment (Int32.of_int (List.length l))
-  | _ ->
-      make_expression ?loc ?comment (Length { expr = e; length_object = Array })
+let array_length =
+  let fallback ?loc ?comment e =
+    make_expression ?loc ?comment (Length { expr = e; length_object = Array })
+  in
+  let rec loop loc comment e length = function
+    | [] -> int ?comment (Int32.of_int length)
+    | item :: items ->
+        if no_side_effect item then loop loc comment e (length + 1) items
+        else fallback ?loc ?comment e
+  in
+  fun ?loc ?comment (e : t) : t ->
+    match e.expression_desc with
+    (* TODO: use array instead? *)
+    | Array { items; _ } | Caml_block { fields = items; _ } ->
+        loop loc comment e 0 items
+    | _ -> fallback ?loc ?comment e
 
 let string_length ?loc ?comment (e : t) : t =
   match e.expression_desc with
