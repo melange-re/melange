@@ -29,7 +29,7 @@ let is_relocatable = function
   | Direct_primitive primitive -> Lam_primitive.is_relocatable primitive
   | Direct_external { relocatable; _ } -> relocatable
 
-let params_matching_arity (params : Ident.t list) (args : Lam.t list) =
+let params_matching_arity =
   let rec loop arity params args =
     match (params, args) with
     | [], [] -> Some arity
@@ -38,7 +38,7 @@ let params_matching_arity (params : Ident.t list) (args : Lam.t list) =
         loop (arity + 1) params args
     | _ -> None
   in
-  loop 0 params args
+  fun (params : Ident.t list) (args : Lam.t list) -> loop 0 params args
 
 let rec of_lambda ~find_ident ~find_external lam =
   match lam with
