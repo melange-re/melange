@@ -92,8 +92,29 @@ module/exception and value/class collisions and in both module systems.
   >   end
   >   let delete () = 9
   > end
+  > module Structured : sig
+  >   exception Clash of int
+  >   val value : int
+  >   module Clash : sig val value : int end
+  >   val captured : int
+  > end = struct
+  >   open struct let value = 10 end
+  >   let captured = value
+  >   let value = 11
+  >   module Clash = struct let value = 12 end
+  >   include struct exception Clash of int end
+  > end
+  > module Mixed = struct
+  >   type t = ..
+  >   type t += Clash of int
+  >   module type S = sig end
+  >   external item : int -> int = "%identity"
+  >   class item = object method value = 11 end
+  >   module Clash = struct let value = 12 end
+  >   let tail = 13
+  > end
   > EOF
-  $ melc -ppx melppx priorities.ml -o priorities.js
+  $ melc -ppx melppx -bs-package-output . priorities.ml -o priorities.js
   $ melc -bs-module-type es6 priorities.cmj -o priorities.mjs
   $ node <<'EOF'
   > const assert = require("node:assert/strict");
@@ -110,7 +131,9 @@ module/exception and value/class collisions and in both module systems.
   > EOF
 
 An identically named module alias must not capture an exception path during
-cross-unit path normalization.
+cross-unit path normalization. Direct structure coercion must account for hidden
+open bindings, shadowing, and included exceptions. Primitives and module types
+must not reserve runtime fields.
 
   $ cat > consumer.ml <<EOF
   > let module_value = Priorities.Aliased.Item.x
@@ -132,29 +155,49 @@ cross-unit path normalization.
   > let class_value = (new Priorities.Class_only.item)#value
   > let recursive_value = Priorities.Recursive.delete ()
   > let recursive_class_value = (new Priorities.Recursive.delete)#value
+  > let structured =
+  >   let caught =
+  >     try raise (Priorities.Structured.Clash 13) with
+  >     | Priorities.Structured.Clash value -> value
+  >   in
+  >   (Priorities.Structured.captured, Priorities.Structured.value,
+  >    Priorities.Structured.Clash.value, caught)
+  > let mixed =
+  >   let matched = match Priorities.Mixed.Clash 10 with
+  >     | Priorities.Mixed.Clash value -> value
+  >     | _ -> assert false
+  >   in
+  >   (matched, (new Priorities.Mixed.item)#value,
+  >    Priorities.Mixed.Clash.value, Priorities.Mixed.item Priorities.Mixed.tail)
   > EOF
-  $ melc -ppx melppx -I . consumer.ml -o consumer.js
-  $ node <<'EOF'
-  > const assert = require("node:assert/strict");
-  > const priorities = require("./priorities.js");
-  > const consumer = require("./consumer.js");
-  > assert.equal(consumer.module_value, 3);
-  > assert.equal(consumer.exception_value.MEL_EXN_ID, priorities.Aliased.Item);
-  > assert.equal(consumer.present_module, 4);
-  > assert.equal(consumer.present, "present");
-  > assert.deepEqual(Object.keys(priorities.Present), ["Item", "Item$1"]);
-  > assert.equal(consumer.narrow, "narrow");
-  > assert.deepEqual(Object.keys(priorities.Narrow), ["Clash"]);
-  > assert.equal(consumer.reordered_module, 5);
-  > assert.equal(consumer.reordered, "reordered");
-  > assert.equal(consumer.composed, "composed");
-  > assert.equal(consumer.class_value, 6);
-  > assert.equal(consumer.recursive_value, 9);
-  > assert.equal(consumer.recursive_class_value, 8);
-  > assert.equal(priorities.item, 1);
-  > assert.ok(Object.hasOwn(priorities, "item$1"));
-  > assert.equal(priorities.direct, 2);
-  > assert.ok(Object.hasOwn(priorities, "direct$1"));
+  $ melc -ppx melppx -I . -bs-package-output . consumer.ml -o consumer.js
+  $ melc -bs-module-type es6 -I . consumer.cmj -o consumer.mjs
+  $ node --input-type=module <<'EOF'
+  > import assert from "node:assert/strict";
+  > for (const suffix of ["js", "mjs"]) {
+  >   const priorities = await import(`./priorities.${suffix}`).then(m => m.default ?? m);
+  >   const consumer = await import(`./consumer.${suffix}`).then(m => m.default ?? m);
+  >   assert.equal(consumer.module_value, 3);
+  >   assert.equal(consumer.exception_value.MEL_EXN_ID, priorities.Aliased.Item);
+  >   assert.equal(consumer.present_module, 4);
+  >   assert.equal(consumer.present, "present");
+  >   assert.deepEqual(Object.keys(priorities.Present), ["Item", "Item$1"]);
+  >   assert.equal(consumer.narrow, "narrow");
+  >   assert.deepEqual(Object.keys(priorities.Narrow), ["Clash"]);
+  >   assert.equal(consumer.reordered_module, 5);
+  >   assert.equal(consumer.reordered, "reordered");
+  >   assert.equal(consumer.composed, "composed");
+  >   assert.equal(consumer.class_value, 6);
+  >   assert.equal(consumer.recursive_value, 9);
+  >   assert.equal(consumer.recursive_class_value, 8);
+  >   assert.equal(priorities.item, 1);
+  >   assert.ok(Object.hasOwn(priorities, "item$1"));
+  >   assert.equal(priorities.direct, 2);
+  >   assert.ok(Object.hasOwn(priorities, "direct$1"));
+  >   assert.deepEqual(consumer.structured, [10, 11, 12, 13]);
+  >   assert.deepEqual(consumer.mixed, [10, 11, 12, 13]);
+  >   assert.deepEqual(Object.keys(priorities.Mixed), ["Clash$1", "item", "Clash", "tail"]);
+  > }
   > EOF
 
 A restrictive interface reads a collision-resolved source field and publishes
