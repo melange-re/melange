@@ -41,7 +41,7 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
       | Some container, [ base ] -> higher_order_constr container base allNames
       | _ ->
           failwith
-            (Format.asprintf "unsupported high order type %s"
+            (Printf.sprintf "unsupported high order type %s"
                (txt |> Ppxlib.Longident.flatten_exn |> String.concat ~sep:".")))
   | Ptyp_tuple xs ->
       let len = List.length xs in
