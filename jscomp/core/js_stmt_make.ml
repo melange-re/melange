@@ -78,7 +78,8 @@ type switch_resolution =
   | Resolved_switch of J.block
   | Dynamic_switch of J.statement_desc
 
-let make_switch ?comment ?declaration = function
+let make_switch ?comment ?declaration resolution =
+  match resolution with
   | Resolved_switch continuation -> (
       match (declaration, continuation) with
       | ( Some (kind, did),
