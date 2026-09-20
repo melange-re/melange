@@ -10,6 +10,8 @@ Unreleased
   `reduceReverse2` for long lists
   ([#1921](https://github.com/melange-re/melange/pull/1921),
   [#1924](https://github.com/melange-re/melange/pull/1924))
+- compiler: resolve exception paths in the correct namespace
+  ([#1996](https://github.com/melange-re/melange/pull/1996))
 
 
 7.0.1-55 2026-07-12
