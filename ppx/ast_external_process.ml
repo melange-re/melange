@@ -1102,13 +1102,13 @@ module From_attributes = struct
                     (if is_variadic && not is_mel_this_and_send then
                        match arg_label with
                        | Optional _ ->
-                           Location.raise_errorf ~loc
+                           Location.raise_errorf ~loc:ty.ptyp_loc
                              "`[%@mel.variadic]' cannot be applied to an \
                               optionally labelled argument"
                        | Labelled _ | Nolabel -> (
                            match ty.ptyp_desc with
                            | Ptyp_any ->
-                               Location.raise_errorf
+                               Location.raise_errorf ~loc:ty.ptyp_loc
                                  "`[%@mel.variadic]' expects its last argument \
                                   to be an array"
                            | _ -> (
@@ -1119,11 +1119,11 @@ module From_attributes = struct
                                        ({ txt = Lident "array"; _ }, [ _ ]) ->
                                        ()
                                    | _ ->
-                                       Location.raise_errorf ~loc
+                                       Location.raise_errorf ~loc:ty.ptyp_loc
                                          "`[%@mel.variadic]' expects its last \
                                           argument to be an array")
                                | _ ->
-                                   Location.raise_errorf ~loc
+                                   Location.raise_errorf ~loc:ty.ptyp_loc
                                      "`[%@mel.variadic]' expects its last \
                                       argument to be an array")));
                     let ( (arg_label : External_arg_spec.Arg_label.t),
