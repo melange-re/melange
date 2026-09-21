@@ -26,22 +26,41 @@ open Import
 open Ast_helper
 
 let derivingName = "accessors"
+let ghost loc = { loc with Location.loc_ghost = true }
+
+let ghost_locations =
+  object
+    inherit Ast_traverse.map
+    method! location = ghost
+  end
 
 let derive_structure tdcls =
   let handle_tdcl tdcl =
-    let core_type = Ast_derive_util.core_type_of_type_declaration tdcl in
+    let core_type =
+      ghost_locations#core_type
+        (Ast_derive_util.core_type_of_type_declaration tdcl)
+    in
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         List.map
-          ~f:(fun { pld_name = { loc; txt = pld_label } as pld_name; _ } ->
+          ~f:(fun
+              {
+                pld_name = { loc = source_loc; txt = pld_label } as pld_name;
+                _;
+              }
+            ->
+            let loc = ghost source_loc in
+            let pld_name = { pld_name with loc } in
             let txt = "param" in
-            Str.value Nonrecursive
+            Str.value ~loc Nonrecursive
               [
-                Vb.mk (Pat.var pld_name)
-                  (Exp.fun_ Nolabel None
-                     (Pat.constraint_ (Pat.var { txt; loc }) core_type)
-                     (Exp.field
-                        (Exp.ident { txt = Lident txt; loc })
+                Vb.mk ~loc (Pat.var ~loc pld_name)
+                  (Exp.fun_ ~loc Nolabel None
+                     (Pat.constraint_ ~loc
+                        (Pat.var ~loc { txt; loc })
+                        core_type)
+                     (Exp.field ~loc
+                        (Exp.ident ~loc { txt = Lident txt; loc })
                         { txt = Longident.Lident pld_label; loc }));
               ])
           label_declarations
@@ -49,13 +68,14 @@ let derive_structure tdcls =
         List.map
           ~f:(fun
               {
-                pcd_name = { loc; txt = con_name };
+                pcd_name = { loc = source_loc; txt = con_name };
                 pcd_args;
                 pcd_loc = _;
                 pcd_res;
                 _;
               }
             ->
+            let loc = ghost source_loc in
             (* TODO: add type annotations *)
             let pcd_args =
               match pcd_args with
@@ -64,17 +84,19 @@ let derive_structure tdcls =
             in
             let little_con_name = String.uncapitalize_ascii con_name in
             let annotate_type =
-              match pcd_res with None -> core_type | Some x -> x
+              match pcd_res with
+              | None -> core_type
+              | Some core_type -> ghost_locations#core_type core_type
             in
-            Str.value Nonrecursive
+            Str.value ~loc Nonrecursive
               [
-                Vb.mk
-                  (Pat.var { loc; txt = little_con_name })
+                Vb.mk ~loc
+                  (Pat.var ~loc { loc; txt = little_con_name })
                   (match pcd_args with
                   | [] ->
                       (*TODO: add a prefix, better inter-op with FFI *)
-                      Exp.constraint_
-                        (Exp.construct
+                      Exp.constraint_ ~loc
+                        (Exp.construct ~loc
                            { loc; txt = Longident.Lident con_name }
                            None)
                         annotate_type
@@ -85,35 +107,36 @@ let derive_structure tdcls =
                           pcd_args
                       in
                       let exp =
-                        Exp.constraint_
-                          (Exp.construct
+                        Exp.constraint_ ~loc
+                          (Exp.construct ~loc
                              { loc; txt = Longident.Lident con_name }
                           @@ Some
                                (match vars with
-                               | [ var ] -> Exp.ident { loc; txt = Lident var }
+                               | [ var ] ->
+                                   Exp.ident ~loc { loc; txt = Lident var }
                                | vars ->
-                                   Exp.tuple
+                                   Exp.tuple ~loc
                                      (List.map
                                         ~f:(fun x ->
-                                          Exp.ident { loc; txt = Lident x })
+                                          Exp.ident ~loc { loc; txt = Lident x })
                                         vars)))
                           annotate_type
                       in
                       List.fold_right
                         ~f:(fun var b ->
                           Ast_builder.Default.pexp_fun ~loc Nolabel None
-                            (Pat.var { loc; txt = var })
+                            (Pat.var ~loc { loc; txt = var })
                             b)
                         vars ~init:exp);
               ])
           constructor_declarations
     | Ptype_abstract | Ptype_open ->
-        let loc = tdcl.ptype_loc in
+        let loc = tdcl.ptype_name.loc in
         [
           [%stri
             [%%ocaml.error
             [%e
-              Exp.constant
+              Exp.constant ~loc
                 (Pconst_string
                    (Ast_derive_util.notApplicable derivingName, loc, None))]]];
         ]
@@ -122,47 +145,60 @@ let derive_structure tdcls =
 
 let derive_signature tdcls =
   let handle_tdcl tdcl =
-    let core_type = Ast_derive_util.core_type_of_type_declaration tdcl in
+    let core_type =
+      ghost_locations#core_type
+        (Ast_derive_util.core_type_of_type_declaration tdcl)
+    in
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         List.map
-          ~f:(fun { pld_name; pld_type; pld_loc; _ } ->
-            let loc = pld_loc in
-            Sig.value (Val.mk pld_name [%type: [%t core_type] -> [%t pld_type]]))
+          ~f:(fun
+              { pld_name = { loc = source_loc; _ } as pld_name; pld_type; _ } ->
+            let loc = ghost source_loc in
+            let pld_name = { pld_name with loc } in
+            let pld_type = ghost_locations#core_type pld_type in
+            Sig.value ~loc
+              (Val.mk ~loc pld_name [%type: [%t core_type] -> [%t pld_type]]))
           label_declarations
     | Ptype_variant constructor_declarations ->
         List.map
           ~f:(fun
               {
-                pcd_name = { loc; txt = con_name };
+                pcd_name = { loc = source_loc; txt = con_name };
                 pcd_args;
                 pcd_loc = _;
                 pcd_res;
                 _;
               }
             ->
+            let loc = ghost source_loc in
             let pcd_args =
               match pcd_args with
-              | Pcstr_tuple pcd_args -> pcd_args
+              | Pcstr_tuple pcd_args ->
+                  List.map
+                    ~f:(fun core_type -> ghost_locations#core_type core_type)
+                    pcd_args
               | Pcstr_record _ -> assert false
             in
             let annotate_type =
-              match pcd_res with Some x -> x | None -> core_type
+              match pcd_res with
+              | Some core_type -> ghost_locations#core_type core_type
+              | None -> core_type
             in
-            Sig.value
-              (Val.mk
+            Sig.value ~loc
+              (Val.mk ~loc
                  { loc; txt = String.uncapitalize_ascii con_name }
                  (List.fold_right
                     ~f:(fun x acc -> [%type: [%t x] -> [%t acc]])
                     pcd_args ~init:annotate_type)))
           constructor_declarations
     | Ptype_open | Ptype_abstract ->
-        let loc = tdcl.ptype_loc in
+        let loc = tdcl.ptype_name.loc in
         [
           [%sigi:
             [%%ocaml.error
             [%e
-              Exp.constant
+              Exp.constant ~loc
                 (Pconst_string
                    (Ast_derive_util.notApplicable derivingName, loc, None))]]];
         ]
