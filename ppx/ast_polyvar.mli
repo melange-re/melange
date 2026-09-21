@@ -31,7 +31,10 @@ val map_row_fields_into_ints :
 (** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
-  row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t
+  row_field list ->
+  type_loc:Location.t ->
+  modifier_loc:Location.t ->
+  Melange_ffi.External_arg_spec.t
 
 val map_row_fields_into_spread :
   row_field list -> loc:Location.t -> Melange_ffi.External_arg_spec.t
