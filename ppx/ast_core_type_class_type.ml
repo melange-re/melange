@@ -114,7 +114,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                              `%@mel.meth'"
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
-                    Of.tag name ~attrs (self#core_type core_type)
+                    Of.tag ~loc:meth_.pof_loc name ~attrs
+                      (self#core_type core_type)
                   in
                   let set ty name attrs =
                     let attrs, core_type =
@@ -127,7 +128,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                              `%@mel.meth'"
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
-                    Of.tag name ~attrs
+                    let loc = meth_.pof_loc in
+                    Of.tag ~loc name ~attrs
                       (Ast_typ_uncurry.to_method_type ~loc self Nolabel
                          core_type [%type: unit])
                   in
@@ -142,7 +144,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                       | Method attr, attrs -> (attrs, attr +> ty)
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
-                    Of.tag label ~attrs (self#core_type core_type)
+                    Of.tag ~loc:meth_.pof_loc label ~attrs
+                      (self#core_type core_type)
                   in
                   process_getter_setter ~not_getter_setter ~get ~set loc label
                     meth_.pof_attributes core_type acc)
