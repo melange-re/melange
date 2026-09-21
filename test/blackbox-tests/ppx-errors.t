@@ -220,13 +220,13 @@ Demonstrate PPX error messages
   > external x : t = "x"
   > [@@mel.module "package"] [@@mel.module]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml >errors.log 2>&1
-  [125]
-  $ sed -E 's/(line )[0-9]+(, characters )[0-9]+-[0-9]+(: Assertion failed)/\1<line>\2<chars>\3/' errors.log
-  Fatal error: exception File "ppx/ast_external_process.ml", line <line>, characters <chars>: Assertion failed
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 3, characters 25-39:
+  3 | [@@mel.module "package"] [@@mel.module]
+                               ^^^^^^^^^^^^^^
+  Error: Conflicting FFI attributes: `@mel.module' can't be specified both with
+         and without a payload
+  [2]
 
   $ cat > x.ml <<EOF
   > type t
