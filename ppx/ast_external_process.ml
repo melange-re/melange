@@ -172,13 +172,12 @@ module External_desc = struct
   type scopes = No_mel_scope | String_literals of string Nonempty_list.t
 
   type module_binding =
-    | No_module
     | Import_from of External_ffi_types.External_module_name.t
     | Module_as_value of External_ffi_types.External_module_name.t
 
   type desc = {
     kind : kind;
-    module_binding : module_binding;
+    module_binding : module_binding option;
     variadic : bool; (* mutable *)
     scopes : scopes;
     new_name : bool;
@@ -190,7 +189,7 @@ module External_desc = struct
   let init =
     {
       kind = Val;
-      module_binding = No_module;
+      module_binding = None;
       variadic = false;
       scopes = No_mel_scope;
       new_name = false;
@@ -233,12 +232,12 @@ let parse_external_attributes =
   let assign_module_binding ~loc (st : External_desc.desc)
       (module_binding : External_desc.module_binding) =
     match (st.module_binding, module_binding) with
-    | _, No_module -> st
-    | No_module, _
-    | Import_from _, Import_from _
-    | Module_as_value _, Module_as_value _ ->
-        { st with module_binding }
-    | Import_from _, Module_as_value _ | Module_as_value _, Import_from _ ->
+    | None, _
+    | Some (Import_from _), Import_from _
+    | Some (Module_as_value _), Module_as_value _ ->
+        { st with module_binding = Some module_binding }
+    | Some (Import_from _), Module_as_value _
+    | Some (Module_as_value _), Import_from _ ->
         Error.err ~loc
           (Conflict_ffi_attribute
              "`@mel.module' can't be specified both with and without a payload")
@@ -401,7 +400,7 @@ let process_obj (loc : Location.t) (st : External_desc.desc)
   match st with
   | {
    kind = Val;
-   module_binding = No_module;
+   module_binding = None;
    variadic = false;
    new_name = false;
    return_wrapper = Return_unset;
@@ -644,7 +643,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
   match st with
   | {
    kind = Set_index;
-   module_binding = No_module;
+   module_binding = None;
    variadic = false;
    scopes = _;
    new_name = false;
@@ -662,7 +661,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that conflicts with `[@mel.set_index]'")
   | {
    kind = Get_index;
-   module_binding = No_module;
+   module_binding = None;
    variadic = false;
    scopes = _;
    new_name = false;
@@ -680,7 +679,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that conflicts with `@mel.get_index'")
   | {
    kind = Val;
-   module_binding = Module_as_value external_module_name;
+   module_binding = Some (Module_as_value external_module_name);
    new_name;
    scopes = No_mel_scope;
    (* module as var does not need scopes *)
@@ -691,7 +690,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       | [], false -> Js_module_as_var external_module_name
       | _, false -> Js_module_as_fn { variadic; external_module_name }
       | _, true -> Js_module_as_class external_module_name)
-  | { module_binding = Module_as_value _; kind = Send as kind; _ } ->
+  | { module_binding = Some (Module_as_value _); kind = Send as kind; _ } ->
       let reason =
         match kind with
         | Get_index ->
@@ -705,7 +704,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       Error.err ~loc (Conflict_ffi_attribute reason)
   | {
    kind = Val;
-   module_binding = No_module;
+   module_binding = None;
    new_name = false;
    variadic;
    scopes = _;
@@ -723,7 +722,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
       )
   | {
    kind = Val;
-   module_binding = Import_from external_module_name;
+   module_binding = Some (Import_from external_module_name);
    new_name = false;
    variadic;
    scopes = _;
@@ -751,7 +750,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
    kind = Send;
    variadic;
    scopes = _;
-   module_binding = No_module;
+   module_binding = None;
    new_name;
    return_wrapper = _;
   } -> (
@@ -778,7 +777,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
         "Found an attribute that can't be used with `[%@mel.send]'"
   | {
    new_name = true;
-   module_binding = No_module;
+   module_binding = None;
    kind = Val;
    variadic;
    scopes = _;
@@ -793,7 +792,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
         }
   | {
    new_name = true;
-   module_binding = Import_from external_module_name;
+   module_binding = Some (Import_from external_module_name);
    kind = Val;
    variadic;
    scopes = _;
@@ -812,7 +811,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that can't be used with `@mel.new'")
   | {
    kind = Set;
-   module_binding = No_module;
+   module_binding = None;
    new_name = false;
    variadic = false;
    return_wrapper = _;
@@ -831,7 +830,7 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
            "Found an attribute that can't be used with `[@mel.set]'")
   | {
    kind = Get;
-   module_binding = No_module;
+   module_binding = None;
    new_name = false;
    variadic = false;
    return_wrapper = _;
