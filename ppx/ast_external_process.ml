@@ -205,7 +205,7 @@ module External_desc = struct
     return_wrapper : External_ffi_types.return_wrapper;
   }
 
-  type t = Obj of desc | External of desc
+  type t = Obj | External of desc
 
   let init =
     {
@@ -276,7 +276,8 @@ let parse_external_attributes =
           (Conflict_ffi_attribute
              "`@mel.module' can't be specified both with and without a payload")
   in
-  fun (prim_name_check : string)
+  fun ~loc
+    (prim_name_check : string)
     (prim_name_or_pval_prim : string Lazy.t)
     (prim_attributes : attribute list)
   ->
@@ -392,7 +393,21 @@ let parse_external_attributes =
         prim_attributes
     in
     ( attrs,
-      match mk_obj with true -> External_desc.Obj st | false -> External st )
+      match mk_obj with
+      | false -> External_desc.External st
+      | true -> (
+          match st with
+          | {
+           operation = Value;
+           module_binding = None;
+           variadic = false;
+           return_wrapper = Return_unset;
+           scopes = No_mel_scope;
+          } ->
+              External_desc.Obj
+          | _ ->
+              Location.raise_errorf ~loc
+                "Found an attribute that conflicts with `[%@mel.obj]'") )
 
 let is_user_option ty =
   match ty.ptyp_desc with
@@ -428,208 +443,194 @@ let mk_fn_type (new_arg_types_ty : param_type list) (result : core_type) :
       })
     new_arg_types_ty ~init:result
 
-let process_obj (loc : Location.t) (st : External_desc.desc)
-    (prim_name : string) (arg_types_ty : param_type list)
-    (result_type : core_type) : core_type * External_ffi_types.t =
-  match st with
-  | {
-   operation = Value;
-   module_binding = None;
-   variadic = false;
-   return_wrapper = Return_unset;
-   scopes = No_mel_scope;
-   _ (* wrapper does not work with @obj
-    TODO: better error message *);
-  } ->
-      if String.length prim_name > 0 then
-        Location.raise_errorf ~loc
-          "`[%@mel.obj]' requires its `external' payload to be the empty string"
-      else
-        let arg_kinds, new_arg_types_ty, (result_types : object_field list) =
-          List.fold_right
-            ~f:(fun
-                param_type
-                (arg_labels, (arg_types : param_type list), result_types)
-              ->
-              let new_arg_label, new_arg_types, output_tys =
-                let arg_label =
-                  match (param_type.label, param_type.ty.ptyp_desc) with
-                  | Nolabel, _ | _, Ptyp_any -> param_type.label
-                  | _, _ -> (
-                      match
-                        Ast_attributes.iter_process_mel_string_as
-                          param_type.ty.ptyp_attributes
-                      with
-                      | Some name -> (
-                          match param_type.label with
-                          | Labelled _ -> Labelled name
-                          | Optional _ -> Optional name
-                          | Nolabel -> param_type.label)
-                      | None -> param_type.label)
-                in
-                let loc = param_type.loc in
-                let ty = param_type.ty in
-                match arg_label with
-                | Nolabel -> (
-                    match ty.ptyp_desc with
-                    | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
-                        ( External_arg_spec.empty_kind Extern_unit,
-                          param_type :: arg_types,
-                          result_types )
-                    | _ ->
-                        Location.raise_errorf ~loc:ty.ptyp_loc
-                          "`[%@mel.obj]' external declaration arguments must \
-                           be one of:\n\
-                           - a labelled argument\n\
-                           - an optionally labelled argument\n\
-                           - `unit' as the final argument")
-                | Labelled name -> (
-                    let obj_arg_type = refine_obj_arg_type ~nolabel:false ty in
-                    match obj_arg_type with
-                    | Ignore ->
-                        ( External_arg_spec.empty_kind obj_arg_type,
-                          param_type :: arg_types,
-                          result_types )
-                    | Arg_cst _ ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label = External_arg_spec.Obj_label.obj s;
-                            arg_type = obj_arg_type;
-                          },
-                          arg_types,
-                          (* ignored in [arg_types], reserved in [result_types] *)
-                          result_types )
-                    | Nothing | Unwrap _ ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label = External_arg_spec.Obj_label.obj s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
-                          :: result_types )
-                    | Int _ ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label = External_arg_spec.Obj_label.obj s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag
-                            { Asttypes.txt = name; loc }
-                            [%type: int]
-                          :: result_types )
-                    | Poly_var { spread = false; _ } ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label = External_arg_spec.Obj_label.obj s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag
-                            { Asttypes.txt = name; loc }
-                            [%type: string]
-                          :: result_types )
-                    | Fn_uncurry_arity _ ->
-                        Location.raise_errorf ~loc:ty.ptyp_loc
-                          "`[%@mel.uncurry]' can't be used within `[@mel.obj]'"
-                    | Extern_unit -> assert false
-                    | Poly_var _ ->
-                        raise
-                          (Location.raise_errorf ~loc
-                             "`[%@mel.obj]' must not be used with labelled \
-                              polymorphic variants carrying payloads"
-                             name))
-                | Optional name -> (
-                    let obj_arg_type = get_opt_arg_type ty in
-                    match obj_arg_type with
-                    | Ignore ->
-                        ( External_arg_spec.empty_kind obj_arg_type,
-                          param_type :: arg_types,
-                          result_types )
-                    | Nothing | Unwrap _ ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        (* XXX(anmonteiro): it's unsafe to just read the type
+let process_obj (loc : Location.t) (prim_name : string)
+    (arg_types_ty : param_type list) (result_type : core_type) :
+    core_type * External_ffi_types.t =
+  if String.length prim_name > 0 then
+    Location.raise_errorf ~loc
+      "`[%@mel.obj]' requires its `external' payload to be the empty string"
+  else
+    let arg_kinds, new_arg_types_ty, (result_types : object_field list) =
+      List.fold_right
+        ~f:(fun
+            param_type
+            (arg_labels, (arg_types : param_type list), result_types)
+          ->
+          let new_arg_label, new_arg_types, output_tys =
+            let arg_label =
+              match (param_type.label, param_type.ty.ptyp_desc) with
+              | Nolabel, _ | _, Ptyp_any -> param_type.label
+              | _, _ -> (
+                  match
+                    Ast_attributes.iter_process_mel_string_as
+                      param_type.ty.ptyp_attributes
+                  with
+                  | Some name -> (
+                      match param_type.label with
+                      | Labelled _ -> Labelled name
+                      | Optional _ -> Optional name
+                      | Nolabel -> param_type.label)
+                  | None -> param_type.label)
+            in
+            let loc = param_type.loc in
+            let ty = param_type.ty in
+            match arg_label with
+            | Nolabel -> (
+                match ty.ptyp_desc with
+                | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
+                    ( External_arg_spec.empty_kind Extern_unit,
+                      param_type :: arg_types,
+                      result_types )
+                | _ ->
+                    Location.raise_errorf ~loc:ty.ptyp_loc
+                      "`[%@mel.obj]' external declaration arguments must be \
+                       one of:\n\
+                       - a labelled argument\n\
+                       - an optionally labelled argument\n\
+                       - `unit' as the final argument")
+            | Labelled name -> (
+                let obj_arg_type = refine_obj_arg_type ~nolabel:false ty in
+                match obj_arg_type with
+                | Ignore ->
+                    ( External_arg_spec.empty_kind obj_arg_type,
+                      param_type :: arg_types,
+                      result_types )
+                | Arg_cst _ ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label = External_arg_spec.Obj_label.obj s;
+                        arg_type = obj_arg_type;
+                      },
+                      arg_types,
+                      (* ignored in [arg_types], reserved in [result_types] *)
+                      result_types )
+                | Nothing | Unwrap _ ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label = External_arg_spec.Obj_label.obj s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
+                      :: result_types )
+                | Int _ ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label = External_arg_spec.Obj_label.obj s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag
+                        { Asttypes.txt = name; loc }
+                        [%type: int]
+                      :: result_types )
+                | Poly_var { spread = false; _ } ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label = External_arg_spec.Obj_label.obj s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag
+                        { Asttypes.txt = name; loc }
+                        [%type: string]
+                      :: result_types )
+                | Fn_uncurry_arity _ ->
+                    Location.raise_errorf ~loc:ty.ptyp_loc
+                      "`[%@mel.uncurry]' can't be used within `[@mel.obj]'"
+                | Extern_unit -> assert false
+                | Poly_var _ ->
+                    raise
+                      (Location.raise_errorf ~loc
+                         "`[%@mel.obj]' must not be used with labelled \
+                          polymorphic variants carrying payloads"
+                         name))
+            | Optional name -> (
+                let obj_arg_type = get_opt_arg_type ty in
+                match obj_arg_type with
+                | Ignore ->
+                    ( External_arg_spec.empty_kind obj_arg_type,
+                      param_type :: arg_types,
+                      result_types )
+                | Nothing | Unwrap _ ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    (* XXX(anmonteiro): it's unsafe to just read the type
                              of the labelled argument declaration, since it
                              could be `'a` in the implementation, and e.g.
                              `bool` in the interface. See
                              https://github.com/melange-re/melange/pull/58 for
                              a test case. *)
-                        ( {
-                            arg_label =
-                              External_arg_spec.Obj_label.optional
-                                ~for_sure_no_nested_option:false s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag
-                            { Asttypes.txt = name; loc }
-                            (Ast_helper.Typ.constr ~loc
-                               { txt = Ast_literal.js_undefined; loc }
-                               [ ty ])
-                          :: result_types )
-                    | Int _ ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label =
-                              External_arg_spec.Obj_label.optional
-                                ~for_sure_no_nested_option:true s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag
-                            { Asttypes.txt = name; loc }
-                            (Ast_helper.Typ.constr ~loc
-                               { txt = Ast_literal.js_undefined; loc }
-                               [ [%type: int] ])
-                          :: result_types )
-                    | Poly_var { spread = false; _ } ->
-                        let s = Melange_ffi.Lam_methname.translate name in
-                        ( {
-                            arg_label =
-                              External_arg_spec.Obj_label.optional
-                                ~for_sure_no_nested_option:true s;
-                            arg_type = obj_arg_type;
-                          },
-                          param_type :: arg_types,
-                          Ast_helper.Of.tag
-                            { Asttypes.txt = name; loc }
-                            (Ast_helper.Typ.constr ~loc
-                               { txt = Ast_literal.js_undefined; loc }
-                               [ [%type: string] ])
-                          :: result_types )
-                    | Arg_cst _ ->
-                        Location.raise_errorf ~loc
-                          "`[%@mel.as ..]' is not supported within optionally \
-                           labelled arguments yet"
-                    | Fn_uncurry_arity _ ->
-                        Location.raise_errorf ~loc
-                          "`[%@mel.uncurry]' can't be used within `[@mel.obj]'"
-                    | Extern_unit -> assert false
-                    | Poly_var _ ->
-                        Location.raise_errorf ~loc
-                          "`[%@mel.obj]' must not be used with optionally \
-                           labelled polymorphic variants carrying payloads"
-                          name)
-              in
-              (new_arg_label :: arg_labels, new_arg_types, output_tys))
-            arg_types_ty ~init:([], [], [])
-        in
-        let result =
-          let open Ast_helper in
-          match result_type.ptyp_desc with
-          (* TODO: do we need do some error checking here *)
-          (* result type cannot be labeled *)
-          | Ptyp_any ->
-              Ast_core_type.to_js_type ~loc
-                (Typ.object_ ~loc result_types Closed)
-          | _ -> result_type
-        in
-        ( mk_fn_type new_arg_types_ty result,
-          External_ffi_types.ffi_obj_create arg_kinds )
-  | _ ->
-      Location.raise_errorf ~loc
-        "Found an attribute that conflicts with `[%@mel.obj]'"
+                    ( {
+                        arg_label =
+                          External_arg_spec.Obj_label.optional
+                            ~for_sure_no_nested_option:false s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag
+                        { Asttypes.txt = name; loc }
+                        (Ast_helper.Typ.constr ~loc
+                           { txt = Ast_literal.js_undefined; loc }
+                           [ ty ])
+                      :: result_types )
+                | Int _ ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label =
+                          External_arg_spec.Obj_label.optional
+                            ~for_sure_no_nested_option:true s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag
+                        { Asttypes.txt = name; loc }
+                        (Ast_helper.Typ.constr ~loc
+                           { txt = Ast_literal.js_undefined; loc }
+                           [ [%type: int] ])
+                      :: result_types )
+                | Poly_var { spread = false; _ } ->
+                    let s = Melange_ffi.Lam_methname.translate name in
+                    ( {
+                        arg_label =
+                          External_arg_spec.Obj_label.optional
+                            ~for_sure_no_nested_option:true s;
+                        arg_type = obj_arg_type;
+                      },
+                      param_type :: arg_types,
+                      Ast_helper.Of.tag
+                        { Asttypes.txt = name; loc }
+                        (Ast_helper.Typ.constr ~loc
+                           { txt = Ast_literal.js_undefined; loc }
+                           [ [%type: string] ])
+                      :: result_types )
+                | Arg_cst _ ->
+                    Location.raise_errorf ~loc
+                      "`[%@mel.as ..]' is not supported within optionally \
+                       labelled arguments yet"
+                | Fn_uncurry_arity _ ->
+                    Location.raise_errorf ~loc
+                      "`[%@mel.uncurry]' can't be used within `[@mel.obj]'"
+                | Extern_unit -> assert false
+                | Poly_var _ ->
+                    Location.raise_errorf ~loc
+                      "`[%@mel.obj]' must not be used with optionally labelled \
+                       polymorphic variants carrying payloads"
+                      name)
+          in
+          (new_arg_label :: arg_labels, new_arg_types, output_tys))
+        arg_types_ty ~init:([], [], [])
+    in
+    let result =
+      let open Ast_helper in
+      match result_type.ptyp_desc with
+      (* TODO: do we need do some error checking here *)
+      (* result type cannot be labeled *)
+      | Ptyp_any ->
+          Ast_core_type.to_js_type ~loc (Typ.object_ ~loc result_types Closed)
+      | _ -> result_type
+    in
+    ( mk_fn_type new_arg_types_ty result,
+      External_ffi_types.ffi_obj_create arg_kinds )
 
 let mel_send_this_index arg_type_specs arg_types =
   let find_index ~f:p =
@@ -1066,14 +1067,14 @@ module From_attributes = struct
             "`[%@mel.uncurry]' cannot be applied to the return type"
         else
           let unused_attrs, external_desc =
-            parse_external_attributes prim_name prim_name_or_pval_name
+            parse_external_attributes ~loc prim_name prim_name_or_pval_name
               prim_attributes
           in
           match external_desc with
-          | Obj external_desc ->
+          | Obj ->
               (* warn unused attributes here ? *)
               let new_type, spec =
-                process_obj loc external_desc prim_name arg_types_ty result_type
+                process_obj loc prim_name arg_types_ty result_type
               in
               {
                 pval_type = new_type;
