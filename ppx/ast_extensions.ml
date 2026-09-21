@@ -27,29 +27,50 @@ open Ast_helper
 
 type local_primitive = Raw_expr | Raw_stmt | Debugger
 
+let ghost_expression =
+  let mapper =
+    object
+      inherit Ast_traverse.map
+      method! location loc = { loc with loc_ghost = true }
+    end
+  in
+  fun exp -> mapper#expression exp
+
 let local_external_apply =
   let local_module_name = "J" in
   let local_fun_name = "unsafe_expr" in
-  let any_to_any = Typ.arrow Nolabel (Typ.any ()) (Typ.any ()) in
+  let any_to_any ~loc =
+    Typ.arrow ~loc Nolabel (Typ.any ~loc ()) (Typ.any ~loc ())
+  in
   fun ~loc (primitive : local_primitive) (arg : expression) ->
+    let ghost_loc = { loc with loc_ghost = true } in
     let primitive_name, pval_type =
       match primitive with
-      | Raw_expr -> ("#raw_expr", any_to_any)
-      | Raw_stmt -> ("#raw_stmt", any_to_any)
-      | Debugger -> ("#debugger", Typ.arrow Nolabel (Typ.any ()) [%type: unit])
+      | Raw_expr -> ("#raw_expr", any_to_any ~loc:ghost_loc)
+      | Raw_stmt -> ("#raw_stmt", any_to_any ~loc:ghost_loc)
+      | Debugger ->
+          ( "#debugger",
+            Typ.arrow ~loc:ghost_loc Nolabel
+              (Typ.any ~loc:ghost_loc ())
+              (Typ.constr ~loc:ghost_loc
+                 { txt = Lident "unit"; loc = ghost_loc }
+                 []) )
     in
     Pexp_letmodule
-      ( { txt = Some local_module_name; loc },
-        Mod.structure ~loc
+      ( { txt = Some local_module_name; loc = ghost_loc },
+        Mod.structure ~loc:ghost_loc
           [
-            Str.primitive ~loc
-              (Val.mk ~loc ~prim:[ primitive_name ]
-                 { txt = local_fun_name; loc }
+            Str.primitive ~loc:ghost_loc
+              (Val.mk ~loc:ghost_loc ~prim:[ primitive_name ]
+                 { txt = local_fun_name; loc = ghost_loc }
                  pval_type);
           ],
-        Exp.apply ~loc
-          (Exp.ident ~loc
-             { txt = Ldot (Lident local_module_name, local_fun_name); loc })
+        Exp.apply ~loc:ghost_loc
+          (Exp.ident ~loc:ghost_loc
+             {
+               txt = Ldot (Lident local_module_name, local_fun_name);
+               loc = ghost_loc;
+             })
           [ (Asttypes.Nolabel, arg) ] )
 
 (*
@@ -61,6 +82,7 @@ let local_external_apply =
 ]}
 *)
 let handle_external ~loc x =
+  let ghost_loc = { loc with loc_ghost = true } in
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
@@ -73,13 +95,20 @@ let handle_external ~loc x =
       { txt = Ldot (Ldot (Lident "Js", "Undefined"), "empty"); loc }
   in
   let undefined_typeof =
-    Exp.ident { loc; txt = Ldot (Lident "Js", "undefinedToOption") }
+    Exp.ident ~loc:ghost_loc
+      { loc = ghost_loc; txt = Ldot (Lident "Js", "undefinedToOption") }
   in
-  let typeof = Exp.ident { loc; txt = Ldot (Lident "Js", "typeof") } in
-  [%expr
-    [%e undefined_typeof]
-      (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
-       else [%e raw_exp])]
+  let typeof =
+    Exp.ident ~loc:ghost_loc
+      { loc = ghost_loc; txt = Ldot (Lident "Js", "typeof") }
+  in
+  let exp =
+    [%expr
+      [%e undefined_typeof]
+        (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
+         else [%e raw_exp])]
+  in
+  { (ghost_expression exp) with pexp_loc = loc }
 
 let handle_debugger ~loc payload =
   match payload with
@@ -141,6 +170,7 @@ let handle_raw ~kind ~loc payload =
   | Some exp ->
       {
         exp with
+        pexp_loc = loc;
         pexp_desc = local_external_apply ~loc Raw_expr exp;
         pexp_attributes =
           (if !is_function then
@@ -151,6 +181,6 @@ let handle_raw ~kind ~loc payload =
 let handle_raw_structure ~loc payload =
   match raw_as_string_exp_exn ~kind:Raw_program payload with
   | Some exp ->
-      Ast_helper.Str.eval
+      Ast_helper.Str.eval ~loc
         { exp with pexp_desc = local_external_apply ~loc Raw_stmt exp }
   | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
