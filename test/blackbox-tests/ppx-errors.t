@@ -257,14 +257,13 @@ Demonstrate PPX error messages
   > external x : t = "package"
   > [@@mel.module] [@@mel.scope "nested"]
   > EOF
-  $ melc -ppx melppx -alert -unprocessed x.ml >errors.log 2>&1
-  [2]
-  $ sed -E 's/(line )[0-9]+(, characters )[0-9]+-[0-9]+(: Assertion failed)/\1<line>\2<chars>\3/' errors.log
+  $ melc -ppx melppx -alert -unprocessed x.ml
   File "x.ml", lines 2-3, characters 0-37:
   2 | external x : t = "package"
   3 | [@@mel.module] [@@mel.scope "nested"]
   Error: Conflicting FFI attributes: `@mel.scope' can't be used when
          `@mel.module' has no payload
+  [2]
 
   $ cat > x.ml <<EOF
   > type 'a t
