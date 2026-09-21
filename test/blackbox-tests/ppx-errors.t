@@ -349,6 +349,19 @@ Demonstrate PPX error messages
 
   $ cat > x.ml <<EOF
   > type t
+  > external set : t -> t -> unit = "set"
+  > [@@mel.new] [@@mel.set]
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", lines 2-3, characters 0-23:
+  2 | external set : t -> t -> unit = "set"
+  3 | [@@mel.new] [@@mel.set]
+  Error: Conflicting FFI attributes: Found an attribute that can't be used with
+         `@mel.new'
+  [2]
+
+  $ cat > x.ml <<EOF
+  > type t
   > external red : string -> t = "some-module"
   > [@@mel.new "payload"] [@@mel.module]
   > EOF
