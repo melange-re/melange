@@ -329,7 +329,8 @@ module Obj = struct
 end
 
 module Mapper = struct
-  let inline_literal ~loc (expression : expression) =
+  let inline_literal (expression : expression) =
+    let loc = expression.pexp_loc in
     let make typ ffi = Some (typ, ffi) in
     let string ~loc value delimiter =
       make [%type: string]
@@ -664,7 +665,7 @@ module Mapper = struct
             in
             match Ast_attributes.has_inline_payload pvb_attributes with
             | Some attr -> (
-                match inline_literal ~loc:pvb_loc pvb_expr with
+                match inline_literal pvb_expr with
                 | Some (pval_type, ffi) ->
                     succeed attr pvb_attributes;
                     {
@@ -803,7 +804,7 @@ module Mapper = struct
                 | Some ({ attr_payload; _ } as attr) -> (
                     match
                       Ast_payload.as_expression attr_payload
-                      |> Option.bind ~f:(inline_literal ~loc:pval_loc)
+                      |> Option.bind ~f:inline_literal
                     with
                     | Some (_, ffi) ->
                         succeed attr pval_attributes;
