@@ -6,8 +6,8 @@ const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Curry = require("melange.js/curry.js");
 const Exception_def = require("./exception_def.js");
 const Mt = require("./mt.js");
-const Stdlib__Format = require("melange/format.js");
 const Stdlib__Printexc = require("melange/printexc.js");
+const Stdlib__Printf = require("melange/printf.js");
 
 const suites = {
   contents: /* [] */ 0
@@ -44,7 +44,7 @@ Stdlib__Printexc.register_printer(function (s) {
   if (s.MEL_EXN_ID === Hi) {
     return "hey";
   } else if (s.MEL_EXN_ID === A) {
-    return Curry._1(Stdlib__Format.asprintf({
+    return Curry._1(Stdlib__Printf.sprintf({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String_literal */ 11,
