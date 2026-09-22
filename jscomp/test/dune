@@ -69,6 +69,19 @@
    -o
    %{targets})))
 
+(rule
+ (target stdlib_56_fun_test.ml)
+ (deps
+  (:source stdlib_56_fun_test.cppo.ml))
+ (action
+  (run
+   %{bin:cppo}
+   -V
+   OCAML:%{ocaml_version}
+   %{source}
+   -o
+   %{target})))
+
 (melange.emit
  (target dist)
  (alias melange-runtime-tests)

@@ -35,7 +35,12 @@ val spawn : (unit -> 'a) -> 'a t
     current domain.
 
     @raise Failure if the program has insufficient resources to create another
-    domain. *)
+    domain.
+
+    In native OCaml, an option [S] can be passed to OCAMLRUNPARAM to configure
+    the minimum system stack size for new threads, which can be useful for
+    threads that call FFI code that needs a larger system stack. This option
+    does not apply to Melange's JavaScript backend. *)
 
 val join : 'a t -> 'a Js.Promise.t
 (** [join d] blocks until domain [d] runs to completion. If [d] results in a
