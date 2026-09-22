@@ -58,3 +58,10 @@ let[@inline never] fetch_and_add r n =
 
 let incr r = ignore (fetch_and_add r 1)
 let decr r = ignore (fetch_and_add r (-1))
+
+let rec update f r =
+  let old_value = get r in
+  let new_value = f old_value in
+  if old_value == new_value then ()
+  else if compare_and_set r old_value new_value then ()
+  else update f r

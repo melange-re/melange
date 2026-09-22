@@ -70,6 +70,23 @@ val incr : int t -> unit
 (** [decr r] atomically decrements the value of [r] by [1]. *)
 val decr : int t -> unit
 
+(** [update f r] computes a new value for [r] by applying [f] to its
+    current value, sets this new value or retries (calling [f] again)
+    if [r] was concurrently changed to a physically different value.
+
+    Remark: no [set] is performed when [f] returns a value that is
+    physically equal to its input, the update terminates immediately.
+
+    Example:
+{[
+let global_list = Atomic.make []
+let global_push elem = Atomic.update (List.cons elem) global_list
+]}
+
+    @since 5.6
+*)
+val update : ('a -> 'a) -> 'a t -> unit
+
 #if OCAML_VERSION >= (5,4,0)
 (** Atomic "locations", such as record fields.
 
@@ -97,6 +114,59 @@ module Loc : sig
   external fetch_and_add : int t -> int -> int = "%atomic_fetch_add_loc"
   val incr : int t -> unit
   val decr : int t -> unit
+#ifndef MELANGE
+  (* Atomic-location loads are not yet supported by the JavaScript backend. *)
+  val update : ('a -> 'a) -> 'a t -> unit
+#endif
+end
+#endif
+
+#if defined MELANGE || OCAML_VERSION >= (5,6,0)
+(** A bare-bones submodules of atomic arrays. *)
+module Array : sig
+  type !'a t
+
+  val make :
+    int -> 'a -> 'a t
+
+  val init :
+    int -> (int -> 'a) -> 'a t
+
+  val length :
+    'a t -> int
+
+  (** The API below mirrors the API to access {{!t}atomic references},
+      see the documentation above for more information. *)
+
+  val unsafe_get :
+    'a t -> int -> 'a
+  val get :
+    'a t -> int -> 'a
+
+  val unsafe_set :
+    'a t -> int -> 'a -> unit
+  val set :
+    'a t -> int -> 'a -> unit
+
+  val unsafe_exchange :
+    'a t -> int -> 'a -> 'a
+  val exchange :
+    'a t -> int -> 'a -> 'a
+
+  val unsafe_compare_and_set :
+    'a t -> int -> 'a -> 'a -> bool
+  val compare_and_set :
+    'a t -> int -> 'a -> 'a -> bool
+
+  val unsafe_fetch_and_add :
+    int t -> int -> int -> int
+  val fetch_and_add :
+    int t -> int -> int -> int
+
+  val unsafe_update :
+    ('a -> 'a) -> 'a t -> int -> unit
+  val update :
+    ('a -> 'a) -> 'a t -> int -> unit
 end
 #endif
 
@@ -200,5 +270,12 @@ end
     - : int option = Some 1
     # pop st
     - : int option = None
+    ]}
+
+    The simple retry-loop pattern of [push] can be expressed
+    with {!Atomic.update} instead:
+
+    {[
+    let push stack elt = Atomic.update (fun li -> elt :: li) stack
     ]}
   *)

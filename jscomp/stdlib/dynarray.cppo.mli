@@ -144,6 +144,11 @@ val append_array : 'a t -> 'a array -> unit
     ]}
 *)
 
+val append_iarray : 'a t -> 'a Iarray.t -> unit
+(** Like {!append_array} but with an immutable array.
+
+    @since 5.6 *)
+
 val append_list : 'a t -> 'a list -> unit
 (** Like {!append_array} but with a list. *)
 
@@ -453,7 +458,22 @@ val of_array : 'a array -> 'a t
 val to_array : 'a t -> 'a array
 (** [to_array a] returns a fixed-sized array corresponding to the
     dynamic array [a]. This always allocate a new array and copies
-    elements into it. *)
+    elements into it.
+
+    @since 5.6 *)
+
+val of_iarray : 'a Iarray.t -> 'a t
+(** [of_iarray a] returns a dynamic array corresponding to the
+    immutable array [a]. Operates in [O(n)] time in the length of [a] by making
+    a copy.
+
+    @since 5.6 *)
+
+val to_iarray : 'a t -> 'a Iarray.t
+(** [to_iarray a] returns an immutable array corresponding to the dynamic array
+    [a]. This always allocates a new array and copies elements into it.
+
+    @since 5.6 *)
 
 val of_list : 'a list -> 'a t
 (** [of_list l] is the array containing the elements of [l] in

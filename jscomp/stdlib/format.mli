@@ -1249,6 +1249,26 @@ val pp_print_array:
   @since 5.1
 *)
 
+val pp_print_iarray:
+  ?pp_sep:(formatter -> unit -> unit) ->
+  (formatter -> 'a -> unit) -> (formatter -> 'a Iarray.t -> unit)
+(** [pp_print_iarray ?pp_sep pp_v ppf a] prints items of immutable array [a],
+  using [pp_v] to print each item, and calling [pp_sep] between items ([pp_sep]
+  defaults to {!pp_print_cut}). Does nothing on empty arrays.
+
+  @since 5.6
+*)
+
+val pp_print_dynarray:
+  ?pp_sep:(formatter -> unit -> unit) ->
+  (formatter -> 'a -> unit) -> (formatter -> 'a Dynarray.t -> unit)
+(** [pp_print_dynarray ?pp_sep pp_v ppf a] prints items of dynarray [a],
+  using [pp_v] to print each item, and calling [pp_sep] between items ([pp_sep]
+  defaults to {!pp_print_cut}). Does nothing on empty arrays.
+
+  @since 5.6
+*)
+
 val pp_print_seq:
   ?pp_sep:(formatter -> unit -> unit) ->
   (formatter -> 'a -> unit) -> (formatter -> 'a Seq.t -> unit)
@@ -1650,7 +1670,7 @@ val ldprintf :
       a formatter (into which formatting happens), and the pair itself.
       When printing is done it returns [()].
 
-    - [Format.printf "l = [@[<hov>%a@]]@." ... l] is like [printf], but
+    - [Format.printf "l: [@[<hov>%a@]]@." ... l] is like [printf], but
       with additional formatting instructions (denoted with "@"). The pair
       "[@\[<hov>]" and "[@\]]" is a "horizontal-or-vertical box".
 
@@ -1726,13 +1746,14 @@ val ldprintf :
 
   These printers can now be used with "%a" inside other printers.
 
-  {[ # Format.printf "some rectangle: %a@."
+  {[
+  # Format.printf "some rectangle: %a@."
         (Format.pp_print_option pp_rectangle)
         (Some {ll={x=1.; y=2.}; ur={x=42.; y=500.12345}})
   some rectangle: { l={ x=1.000; y=2.000 }; ur={ x=42.000; y=500.123 } }
 
   # Format.printf "no rectangle: %a@."
-        (Format.pp_option pp_rectangle)
+        (Format.pp_print_option pp_rectangle)
         None
   no rectangle:
   ]}
@@ -1750,6 +1771,6 @@ val ldprintf :
   An example of such a library is {{: https://erratique.ch/software/fmt} Fmt}.
 
   Automatic deriving of pretty-printers from type definitions is also possible,
-  using {{: ppx_deriving.show} https://github.com/ocaml-ppx/ppx_deriving}
+  using {{: https://github.com/ocaml-ppx/ppx_deriving} ppx_deriving.show}
   or similar ppx derivers.
 *)
