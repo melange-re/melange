@@ -173,6 +173,34 @@
   (run cppo -D=MELANGE %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
+ (deps fun.cppo.ml)
+ (target fun.ml)
+ (action
+  (run
+   cppo
+   -D=MELANGE
+   %{env:CPPO_FLAGS=}
+   -V
+   OCAML:%{ocaml_version}
+   %{deps}
+   -o
+   %{target})))
+
+(rule
+ (deps fun.cppo.mli)
+ (target fun.mli)
+ (action
+  (run
+   cppo
+   -D=MELANGE
+   %{env:CPPO_FLAGS=}
+   -V
+   OCAML:%{ocaml_version}
+   %{deps}
+   -o
+   %{target})))
+
+(rule
  (deps lexing.cppo.ml)
  (target lexing.ml)
  (action

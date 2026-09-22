@@ -74,6 +74,7 @@ external poll_actions : unit -> unit = "%poll"
 #endif
 
 external file_exists: string -> bool = "caml_sys_file_exists"
+external filepath_exists: string -> bool = "caml_sys_filepath_exists"
 external is_directory : string -> bool = "caml_sys_is_directory"
 external is_regular_file : string -> bool = "caml_sys_is_regular_file"
 external remove: string -> unit = "caml_sys_remove"
@@ -215,7 +216,7 @@ external runtime_warnings_enabled: unit -> bool =
 
 (* The version string is found in file ../VERSION *)
 
-let ocaml_version = "5.5.0+dev2-2026-01-22"
+let ocaml_version = "5.6.0+dev0-2026-01-26"
 
 let development_version = true
 
@@ -232,9 +233,9 @@ type ocaml_release_info = {
 
 let ocaml_release = {
   major = 5;
-  minor = 5;
+  minor = 6;
   patchlevel = 0;
-  extra = Some (Plus, "dev2-2026-01-22")
+  extra = Some (Plus, "dev0-2026-01-26")
 }
 
 (* Optimization *)
