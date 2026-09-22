@@ -17,7 +17,7 @@
 
 (** Dynamic arrays.
 
-    The {!Array} module provide arrays of fixed length. {!Dynarray}
+    The {!Array} module provides arrays of fixed length. {!Dynarray}
     provides arrays whose length can change over time, by adding or
     removing elements at the end of the array.
 
@@ -143,6 +143,11 @@ val append_array : 'a t -> 'a array -> unit
       assert (Dynarray.to_list a = [1; 2; 3; 4])
     ]}
 *)
+
+val append_iarray : 'a t -> 'a Iarray.t -> unit
+(** Like {!append_array} but with an immutable array.
+
+    @since 5.6 *)
 
 val append_list : 'a t -> 'a list -> unit
 (** Like {!append_array} but with a list. *)
@@ -433,6 +438,42 @@ val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
     @since 5.3
 *)
 
+(** {1:sorting Sorting}
+
+    Sorting functions iterate over their arguments; it is
+    a programming error to change their length during the iteration,
+    see the {{!section:iteration} Iteration} section above. *)
+
+val stable_sort_sub : ('a -> 'a -> int) -> 'a t -> pos:int -> len:int -> unit
+(**[stable_sort_sub cmp a ~pos ~len] sorts the subarray of the array [a]
+   delimited by the start position [pos] and by the length [len]. The data
+   in this subarray is sorted in increasing order according to the comparison
+   function [cmp]. The data outside of this subarray is unaffected. The
+   sorting algorithm is stable; it is the same as in {!stable_sort}.
+
+   @raise Invalid_argument if [pos] and [len] do not
+   designate a valid subarray of [a]; that is, if
+   [pos < 0], or [len < 0], or [pos + len > length a].
+
+   @since 5.6
+*)
+
+val stable_sort : ('a -> 'a -> int) -> 'a t -> unit
+(** Sorts an array in increasing order according to a comparison function.
+   The comparison function must return 0 if its arguments compare as equal,
+   a positive integer if the first is greater, and a negative integer if the
+   first is smaller. The algorithm is stable and sorts in place, using Merge
+   Sort if the array's length is greater than 5, and Insertion Sort
+   otherwise.
+
+   @since 5.6
+*)
+
+val sort : ('a -> 'a -> int) -> 'a t -> unit
+(** An alias for stable_sort.
+
+   @since 5.6
+*)
 
 (** {1:conversions Conversions to other data structures}
 
@@ -453,7 +494,22 @@ val of_array : 'a array -> 'a t
 val to_array : 'a t -> 'a array
 (** [to_array a] returns a fixed-sized array corresponding to the
     dynamic array [a]. This always allocate a new array and copies
-    elements into it. *)
+    elements into it.
+
+    @since 5.6 *)
+
+val of_iarray : 'a Iarray.t -> 'a t
+(** [of_iarray a] returns a dynamic array corresponding to the
+    immutable array [a]. Operates in [O(n)] time in the length of [a] by making
+    a copy.
+
+    @since 5.6 *)
+
+val to_iarray : 'a t -> 'a Iarray.t
+(** [to_iarray a] returns an immutable array corresponding to the dynamic array
+    [a]. This always allocates a new array and copies elements into it.
+
+    @since 5.6 *)
 
 val of_list : 'a list -> 'a t
 (** [of_list l] is the array containing the elements of [l] in
