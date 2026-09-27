@@ -703,7 +703,10 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | "#raw_stmt" -> (
         match convert_args args with
         | [ Lconst (Const_string { s = code; _ }) ] ->
-            let kind = Melange_ffi.Classify_function.classify_stmt ~loc code in
+            let kind, bindings =
+              Melange_ffi.Classify_function.classify_stmt ~loc code
+            in
+            Lam_compile_env.register_local_js_bindings bindings;
             Lam.prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
               ~args:[] ~loc
@@ -831,6 +834,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           let body = convert_aux ~dynamic_import l in
           convert_lfunction_params_and_body params body
         in
+        List.iter params ~f:Lam_compile_env.register_local_js_binding;
         (* because of ocaml/ocaml#12236, `fun a -> fun b -> ..` becomes 2
            `Lfunction` nodes in the AST on OCaml 5.2 and up. *)
         match body with
@@ -847,6 +851,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
 #if OCAML_VERSION >= (5,2,0)
         let bindings =
           List.map ~f:(fun {Lambda.id; def} ->
+            Lam_compile_env.register_local_js_binding id;
             let lambda = match def.attr.smuggled_lambda with
               | true -> def.body
               | false -> (Lfunction def)
@@ -854,7 +859,11 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             id, convert_aux lambda) bindings
         in
 #else
-        let bindings = List.map_snd ~f:convert_aux bindings in
+        let bindings =
+          List.map bindings ~f:(fun (id, lambda) ->
+            Lam_compile_env.register_local_js_binding id;
+            id, convert_aux lambda)
+        in
 #endif
         let body = convert_aux body in
         let lam = Lam.letrec bindings body in
@@ -895,10 +904,13 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Int.Hashtbl.add exit_map ~key:i ~data:id;
         convert_aux b
     | Lstaticcatch (b, (i, ids), handler) ->
+        List.iter ids ~f:(fun (id, _) ->
+          Lam_compile_env.register_local_js_binding id);
         Lam.staticcatch (convert_aux b)
           (i, List.map ~f:fst ids)
           (convert_aux handler)
     | Ltrywith (b, id, handler) ->
+        Lam_compile_env.register_local_js_binding id;
         let body = convert_aux b in
         let handler = convert_aux handler in
         if exception_id_destructed handler id then
@@ -915,6 +927,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lsequence (a, b) -> Lam.seq (convert_aux a) (convert_aux b)
     | Lwhile (b, body) -> Lam.while_ (convert_aux b) (convert_aux body)
     | Lfor (id, from_, to_, dir, loop) ->
+        Lam_compile_env.register_local_js_binding id;
         Lam.for_ id (convert_aux from_) (convert_aux to_) dir (convert_aux loop)
     | Lassign (id, body) -> Lam.assign id (convert_aux body)
     | Lsend (kind, a, b, ls, outer_loc) -> (
@@ -959,6 +972,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lifused (v, e) -> Lam.ifused v (convert_aux e)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
       Lam.t =
+    Lam_compile_env.register_local_js_binding id;
     let e = convert_aux e in
     match kind, e with
     | Alias, Lvar u ->
@@ -1016,6 +1030,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               }
         | _ -> Lam.let_ kind id e new_body)
   and convert_mutlet id (e : Lambda.lambda) body : Lam.t =
+    Lam_compile_env.register_local_js_binding id;
     let new_e = convert_aux e in
     let new_body = convert_aux body in
     Lam.mutlet id new_e new_body
