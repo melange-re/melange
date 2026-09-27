@@ -82,12 +82,20 @@ let values_of_export =
       Lam_call_summary.of_lambda lambda ~find_ident:(find_ident_summary meta)
         ~find_external:Lam_compile_env.resolve_external_call_summary
     in
-    if Lam_call_summary.is_relocatable call_summary then call_summary
+    if
+      Lam_call_summary.is_relocatable
+        ~bound_names:(Lam_compile_env.get_local_js_bindings ())
+        call_summary
+    then call_summary
     else Lam_call_summary.Unknown
   in
   let nested_call_summary_of_summary summary =
     Js_cmj_format.Call_summary
-      (if Lam_call_summary.is_relocatable summary then summary
+      (if
+         Lam_call_summary.is_relocatable
+           ~bound_names:(Lam_compile_env.get_local_js_bindings ())
+           summary
+       then summary
        else Lam_call_summary.Unknown)
   in
   let nested_call_summary_cache = Ident.Hashtbl.create 32 in
