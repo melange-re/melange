@@ -58,3 +58,161 @@ the call to localHelper into main.js, where the helper is not defined.
   > EOF
   ReferenceError: localHelper is not defined
   [1]
+
+Other declaration forms, scoped externals, and nested OCaml modules have the
+same restriction. A binding declared after the external must also be tracked.
+OCaml bindings renamed with mel.as must be included too.
+
+  $ cat > locals.ml <<'EOF'
+  > external late : int -> int = "localLet"
+  > let via_late x = late x
+  > let[@mel.as localExpr] local_expr = [%mel.raw {|x => x + 1|}]
+  > external via_named : int -> int = "localExpr"
+  > [%%mel.raw {|
+  > var localVar = x => x + 1;
+  > let localLet = x => x + 1;
+  > const {Math: localObject} = {Math: x => x + 1};
+  > const [localArray] = [x => x + 1];
+  > const localValue = 1;
+  > const Helpers = {run: x => x + 1};
+  > class LocalClass { constructor(x) { this.value = x + 1; } }
+  > if (true) { var hoistedVar = x => x + 1; }
+  > function inner(Math) { var parseInt = null; }
+  > { let Math = null; }
+  > for (let Math of []) {}
+  > try {} catch (Math) {}
+  > |}]
+  > external via_var : int -> int = "localVar"
+  > external via_object : int -> int = "localObject"
+  > external via_array : int -> int = "localArray"
+  > external local_value : int = "localValue"
+  > let via_value x = x + local_value
+  > external via_scope : int -> int = "run" [@@mel.scope "Helpers"]
+  > external via_hoisted : int -> int = "hoistedVar"
+  > type counter
+  > external make : int -> counter = "LocalClass" [@@mel.new]
+  > external get : counter -> int = "value" [@@mel.get]
+  > external abs : int -> int = "abs" [@@mel.scope "Math"]
+  > let global_abs x = abs x
+  > module Nested = struct
+  >   let run x = via_var x
+  > end
+  > EOF
+
+  $ cat > locals.mli <<'EOF'
+  > val via_late : int -> int
+  > val via_named : int -> int
+  > val localExpr : int -> int
+  > val via_var : int -> int
+  > val via_object : int -> int
+  > val via_array : int -> int
+  > val via_value : int -> int
+  > val via_scope : int -> int
+  > val via_hoisted : int -> int
+  > type counter
+  > val make : int -> counter
+  > val get : counter -> int
+  > val global_abs : int -> int
+  > module Nested : sig val run : int -> int end
+  > EOF
+
+  $ cat > reexport.ml <<'EOF'
+  > let run = Locals.via_var
+  > module Nested = Locals.Nested
+  > EOF
+
+  $ cat > checks.ml <<'EOF'
+  > let via_late x = Locals.via_late x
+  > let via_named x = Locals.via_named x
+  > let via_var x = Locals.via_var x
+  > let via_object x = Locals.via_object x
+  > let via_array x = Locals.via_array x
+  > let via_value x = Locals.via_value x
+  > let via_scope x = Locals.via_scope x
+  > let via_hoisted x = Locals.via_hoisted x
+  > let via_new x = Locals.get (Locals.make x)
+  > let via_nested x = Locals.Nested.run x
+  > let via_reexport x = Reexport.run x
+  > let via_nested_reexport x = Reexport.Nested.run x
+  > EOF
+
+Names private to JavaScript functions, blocks, loops, or catch handlers must not
+prevent calls to genuine globals from being optimized. Destructuring keys are
+not bindings either.
+
+  $ cat > globals.ml <<'EOF'
+  > let abs x = Locals.global_abs x
+  > EOF
+
+A caller can also shadow a global used by the original module. Neither a direct
+call nor a local alias should capture that caller-local binding.
+
+  $ cat > shadow.ml <<'EOF'
+  > [%%mel.raw {|const Math = {abs: x => 999};|}]
+  > let direct x = Locals.global_abs x
+  > let alias = Locals.global_abs
+  > let indirect x = alias x
+  > EOF
+
+  $ cat > check.cjs <<'EOF'
+  > const assert = require("node:assert/strict");
+  > const checks = require("./_build/default/dist/checks.js");
+  > for (const [name, run] of Object.entries(checks)) {
+  >   try {
+  >     assert.equal(run(41), 42);
+  >     console.log(name + ": ok");
+  >   } catch (error) {
+  >     console.log(name + ": " + error.name);
+  >   }
+  > }
+  > const shadow = require("./_build/default/dist/shadow.js");
+  > console.log("shadow: " + shadow.direct(-42) + ", " + shadow.indirect(-42));
+  > const globals = require("node:fs").readFileSync(
+  >   "./_build/default/dist/globals.js", "utf8");
+  > assert.match(globals, /Math\.abs\(x\)/);
+  > console.log("global call optimized");
+  > EOF
+
+  $ dune build @melange
+  $ node check.cjs
+  via_late: ReferenceError
+  via_named: ReferenceError
+  via_var: ReferenceError
+  via_object: ReferenceError
+  via_array: ReferenceError
+  via_value: ok
+  via_scope: ReferenceError
+  via_hoisted: ReferenceError
+  via_new: ReferenceError
+  via_nested: ok
+  via_reexport: ReferenceError
+  via_nested_reexport: ok
+  shadow: 999, 999
+  global call optimized
+
+The same cases must work with cross-module function inlining enabled.
+
+  $ cat > dune <<EOF
+  > (melange.emit
+  >  (target dist)
+  >  (emit_stdlib false)
+  >  (preprocess (pps melange.ppx))
+  >  (compile_flags :standard --mel-cross-module-opt))
+  > EOF
+
+  $ dune build @melange
+  $ node check.cjs
+  via_late: ReferenceError
+  via_named: ReferenceError
+  via_var: ReferenceError
+  via_object: ReferenceError
+  via_array: ReferenceError
+  via_value: ReferenceError
+  via_scope: ReferenceError
+  via_hoisted: ReferenceError
+  via_new: ReferenceError
+  via_nested: ok
+  via_reexport: ReferenceError
+  via_nested_reexport: ok
+  shadow: 999, 999
+  global call optimized
