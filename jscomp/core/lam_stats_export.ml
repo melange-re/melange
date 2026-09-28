@@ -77,18 +77,23 @@ let values_of_export =
     | FunctionId { call_summary; _ } -> call_summary
     | _ | (exception Not_found) -> Lam_call_summary.Unknown
   in
+  let relocatable_summary call_summary =
+    if
+      Lam_call_summary.is_relocatable
+        ~bound_names:(Lam_compile_env.get_local_js_bindings ())
+        call_summary
+    then call_summary
+    else Lam_call_summary.Unknown
+  in
   let summarize meta lambda =
     let call_summary =
       Lam_call_summary.of_lambda lambda ~find_ident:(find_ident_summary meta)
         ~find_external:Lam_compile_env.resolve_external_call_summary
     in
-    if Lam_call_summary.is_relocatable call_summary then call_summary
-    else Lam_call_summary.Unknown
+    relocatable_summary call_summary
   in
   let nested_call_summary_of_summary summary =
-    Js_cmj_format.Call_summary
-      (if Lam_call_summary.is_relocatable summary then summary
-       else Lam_call_summary.Unknown)
+    Js_cmj_format.Call_summary (relocatable_summary summary)
   in
   let nested_call_summary_cache = Ident.Hashtbl.create 32 in
   let rec nested_call_summary_of_lambda (meta : Lam_stats.t) seen = function

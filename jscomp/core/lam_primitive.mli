@@ -177,4 +177,4 @@ type t =
   | Psetfield_computed
 
 val eq_approx : t -> t -> bool
-val is_relocatable : t -> bool
+val is_relocatable : bound_names:String.Set.t -> t -> bool

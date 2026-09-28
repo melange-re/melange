@@ -11,7 +11,7 @@ type t =
 
 val print : Format.formatter -> t -> unit
 val is_unknown : t -> bool
-val is_relocatable : t -> bool
+val is_relocatable : bound_names:Melstd.String.Set.t -> t -> bool
 
 val of_lambda :
   find_ident:(Ident.t -> t) ->

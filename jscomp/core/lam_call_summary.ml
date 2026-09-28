@@ -24,9 +24,10 @@ let is_unknown = function
   | Unknown -> true
   | Direct_primitive _ | Direct_external _ -> false
 
-let is_relocatable = function
+let is_relocatable ~bound_names = function
   | Unknown -> true
-  | Direct_primitive primitive -> Lam_primitive.is_relocatable primitive
+  | Direct_primitive primitive ->
+      Lam_primitive.is_relocatable ~bound_names primitive
   | Direct_external { relocatable; _ } -> relocatable
 
 let params_match_args (params : Ident.t list) (args : Lam.t list) =
