@@ -108,12 +108,7 @@ let simplify_alias =
         nested_call_summary_at_path nested_call_summary path
     | None -> Lam_call_summary.Unknown
   in
-  let primitive_summary_is_safe_to_inline primitive =
-    Lam_primitive.is_relocatable
-      ~bound_names:(Lam_compile_env.get_local_js_bindings ())
-      primitive
-    &&
-    match primitive with
+  let primitive_summary_is_safe_to_inline = function
     | Lam_primitive.Pccall _ | Pjs_call _ | Pjs_object_create _ -> false
     | _ -> true
   in
