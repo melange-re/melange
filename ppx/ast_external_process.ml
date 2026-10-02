@@ -155,6 +155,8 @@ let get_opt_arg_type (ptyp : core_type) : External_arg_spec.t =
 *)
 
 module External_desc = struct
+  type operation_attribute = New | Send | Set | Get | Set_index | Get_index
+
   type operation =
     | Value
     | New
@@ -164,6 +166,15 @@ module External_desc = struct
     | Get
     | Set_index
     | Get_index
+
+  let operation_of_attribute (attribute : operation_attribute) : operation =
+    match attribute with
+    | New -> New
+    | Send -> Send
+    | Set -> Set
+    | Get -> Get
+    | Set_index -> Set_index
+    | Get_index -> Get_index
 
   let pp_operation fmt t =
     let s =
@@ -234,22 +245,23 @@ let parse_external_attributes =
          "Found an attribute that can't be used with `@mel.new'")
   in
   let assign_operation ~loc (st : External_desc.desc)
-      (operation : External_desc.operation) =
-    match (st.operation, operation) with
-    | _, Value -> st
-    | Value, operation -> { st with operation }
+      (attribute : External_desc.operation_attribute) =
+    match (st.operation, attribute) with
+    | Value, attribute ->
+        { st with operation = External_desc.operation_of_attribute attribute }
     | New, New | Send_new, New -> st
-    | New, (Send | Send_new) | Send, New -> { st with operation = Send_new }
+    | New, Send | Send, New -> { st with operation = Send_new }
     | New, (Set | Get | Set_index | Get_index)
     | (Set | Get | Set_index | Get_index), New ->
         conflict_with_new ~loc
-    | st_operation, operation ->
+    | st_operation, attribute ->
         Error.err ~loc
           (Conflict_ffi_attribute
              (Format.asprintf
                 "`[%@%a]' and `[%@%a]' can't be specified at the same time"
                 External_desc.pp_operation st_operation
-                External_desc.pp_operation operation))
+                External_desc.pp_operation
+                (External_desc.operation_of_attribute attribute)))
   in
   let assign_module_binding ~loc (st : External_desc.desc)
       (module_binding : External_desc.module_binding) =
