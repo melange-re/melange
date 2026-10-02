@@ -32,7 +32,7 @@ let transitive_closure (initial_idents : Ident.t list)
       Ident.Hashtbl.replace visited ~key:id ~data:();
       match Ident.Hashtbl.find ident_freevars id with
       | exception Not_found ->
-          Format.ksprintf
+          Printf.ksprintf
             (fun s -> failwith (__LOC__ ^ s))
             "%s/%d not found" (Ident.name id) (Ident.stamp id)
       | e -> Ident.Set.iter ~f:dfs e)
