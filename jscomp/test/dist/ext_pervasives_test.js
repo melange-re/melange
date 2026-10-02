@@ -8,6 +8,7 @@ const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Arg = require("melange/arg.js");
 const Stdlib__Format = require("melange/format.js");
+const Stdlib__Printf = require("melange/printf.js");
 
 function $$finally(v, action, f) {
   let e;
@@ -69,7 +70,7 @@ function is_pos_pow(n) {
 }
 
 function failwithf(loc, fmt) {
-  return Stdlib__Format.ksprintf((function (s) {
+  return Stdlib__Printf.ksprintf((function (s) {
     const s$1 = loc + s;
     throw new Caml_js_exceptions.MelangeError("Failure", {
         MEL_EXN_ID: "Failure",
@@ -79,11 +80,11 @@ function failwithf(loc, fmt) {
 }
 
 function invalid_argf(fmt) {
-  return Stdlib__Format.ksprintf(Stdlib.invalid_arg, fmt);
+  return Stdlib__Printf.ksprintf(Stdlib.invalid_arg, fmt);
 }
 
 function bad_argf(fmt) {
-  return Stdlib__Format.ksprintf((function (x) {
+  return Stdlib__Printf.ksprintf((function (x) {
     throw new Caml_js_exceptions.MelangeError(Stdlib__Arg.Bad, {
         MEL_EXN_ID: Stdlib__Arg.Bad,
         _1: x

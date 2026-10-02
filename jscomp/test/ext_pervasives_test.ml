@@ -59,12 +59,12 @@ let  is_pos_pow n =
     else raise M.E in 
   try aux 0 n  with M.E -> -1
 
-let failwithf ~loc fmt = Format.ksprintf (fun s -> failwith (loc ^ s))
+let failwithf ~loc fmt = Printf.ksprintf (fun s -> failwith (loc ^ s))
     fmt
     
-let invalid_argf fmt = Format.ksprintf invalid_arg fmt
+let invalid_argf fmt = Printf.ksprintf invalid_arg fmt
 
-let bad_argf fmt = Format.ksprintf (fun x -> raise (Arg.Bad x ) ) fmt
+let bad_argf fmt = Printf.ksprintf (fun x -> raise (Arg.Bad x ) ) fmt
 
 
 
@@ -78,4 +78,3 @@ let hash_variant s =
   accu := !accu land (1 lsl 31 - 1);
   (* make it signed for 64 bits architectures *)
   if !accu > 0x3FFFFFFF then !accu - (1 lsl 31) else !accu
-
