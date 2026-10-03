@@ -27,6 +27,15 @@
               self: super: {
                 ocamlPackages = super.ocaml-ng.ocamlPackages_5_6.overrideScope (
                   self: super: {
+                    # Match the Outcometree types used by compiler-libs.
+                    ocaml = super.ocaml.overrideAttrs (_: {
+                      src = pkgs.fetchFromGitHub {
+                        owner = "ocaml";
+                        repo = "ocaml";
+                        rev = "949b8c2086e1037389f41a76ad54f6b199ab031e";
+                        hash = "sha256-eraxPzSP2GpaD8O4iXBO+SlzW/emdTkIvmRw7jnIT0E=";
+                      };
+                    });
                     pp = super.pp.overrideAttrs (_: {
                       doCheck = false;
                       buildInputs = [ ];
@@ -34,21 +43,27 @@
                     sedlex = super.sedlex.override {
                       ppxlib = self.ppxlib_gt_0_37;
                     };
-                    js_of_ocaml-compiler = super.js_of_ocaml-compiler.override {
-                      inherit (self) sedlex;
-                      ppxlib = self.ppxlib_gt_0_37;
-                    };
+                    js_of_ocaml-compiler =
+                      (super.js_of_ocaml-compiler.override {
+                        inherit (self) sedlex;
+                        ppxlib = self.ppxlib_gt_0_37;
+                      }).overrideAttrs
+                        (old: {
+                          patches = (old.patches or [ ]) ++ [ ./nix/js-of-ocaml-5.6-hints.patch ];
+                        });
                     js_of_ocaml = super.js_of_ocaml.override {
                       inherit (self) js_of_ocaml-compiler;
                       ppxlib = self.ppxlib_gt_0_37;
                     };
                     reason = super.reason.overrideAttrs (old: {
-                      postPatch = (old.postPatch or "") + ''
-                        substituteInPlace src/vendored-omp/src/config/gen.ml \
-                          --replace-fail '     | (5, 5) -> "55"' \
-                            '     | (5, 5) -> "55"
-                             | (5, 6) -> "55"'
-                      '';
+                      version = "3.18.0+git";
+                      src = pkgs.fetchFromGitHub {
+                        owner = "reasonml";
+                        repo = "reason";
+                        rev = "19bad260aff7a124aaec54797642cfa4a6aaaae0";
+                        hash = "sha256-yHPMYnWJ7sMYekT366q+0KM0xuiptDFOq40iasmEiIU=";
+                      };
+                      patches = (old.patches or [ ]) ++ [ ./nix/reason-ocaml-5.6.patch ];
                     });
                   }
                 );

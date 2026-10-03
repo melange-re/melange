@@ -17,8 +17,8 @@
        sum3/279 =
          (function param/284
            (let
-             (b/282 =a (field_imm :[]/1 param/284)
-              a/281 =a (field_imm :[]/0 param/284))
+             (b/282 =a (field_int :[]/1 param/284)
+              a/281 =a (field_int :[]/0 param/284))
              (function c/283[int] : int (+ (+ a/281 b/282) c/283))))
        sum4/285 =
          (function a/287[int]

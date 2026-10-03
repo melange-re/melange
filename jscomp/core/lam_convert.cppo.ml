@@ -318,7 +318,11 @@ let lam_prim =
     | Pbytessetu -> Lam.prim ~primitive:Pbytessetu ~args ~loc
     | Pbytesrefs -> Lam.prim ~primitive:Pbytesrefs ~args ~loc
     | Pbytessets -> Lam.prim ~primitive:Pbytessets ~args ~loc
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pisint _ -> Lam.prim ~primitive:Pisint ~args ~loc
+#else
     | Pisint -> Lam.prim ~primitive:Pisint ~args ~loc
+#endif
     | Pisout -> (
         match args with
         | [ range; Lprim { primitive = Poffsetint i; args = [ x ]; _ } ] ->
@@ -360,6 +364,20 @@ let lam_prim =
         match x with
         | Pint32 | Pnativeint -> List.hd args
         | Pint64 -> Lam.prim ~primitive:Pintofint64 ~args ~loc)
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pbintoffloat x -> (
+        match x with
+        | Pint32 | Pnativeint -> Lam.prim ~primitive:Pintoffloat ~args ~loc
+        | Pint64 ->
+            Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_of_float" })
+              ~args ~loc)
+    | Pfloatofbint x -> (
+        match x with
+        | Pint32 | Pnativeint -> Lam.prim ~primitive:Pfloatofint ~args ~loc
+        | Pint64 ->
+            Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_to_float" })
+              ~args ~loc)
+#endif
     | Pnegbint x -> (
         match x with
         | Pnativeint | Pint32 -> Lam.prim ~primitive:Pnegint ~args ~loc
