@@ -1,0 +1,36 @@
+Adapt Reason's OCaml 5.6 outcome tree to the compiler-libs rebase.
+Package constraints now store identifier components instead of dotted strings.
+
+diff --git a/src/vendored-omp/src/ast_56.ml b/src/vendored-omp/src/ast_56.ml
+--- a/src/vendored-omp/src/ast_56.ml
++++ b/src/vendored-omp/src/ast_56.ml
+@@ -156,4 +156,4 @@
+   and out_package (*IF_CURRENT = Outcometree.out_package *) = {
+     opack_path: out_ident;
+-    opack_constraints: (string * out_type) list;
++    opack_constraints: (string list * out_type) list;
+   }
+diff --git a/src/vendored-omp/src/migrate_parsetree_55_56_migrate.ml b/src/vendored-omp/src/migrate_parsetree_55_56_migrate.ml
+--- a/src/vendored-omp/src/migrate_parsetree_55_56_migrate.ml
++++ b/src/vendored-omp/src/migrate_parsetree_55_56_migrate.ml
+@@ -304,7 +304,7 @@
+     {
+       Ast_56.Outcometree.opack_path = (copy_out_ident opack_path);
+       Ast_56.Outcometree.opack_constraints =
+-        (List.map (fun x -> let (x0, x1) = x in (x0, (copy_out_type x1)))
++        (List.map (fun (x0, x1) -> (String.split_on_char '.' x0, copy_out_type x1))
+            opack_constraints)
+     }
+ and (copy_out_variant :
+diff --git a/src/vendored-omp/src/migrate_parsetree_56_55_migrate.ml b/src/vendored-omp/src/migrate_parsetree_56_55_migrate.ml
+--- a/src/vendored-omp/src/migrate_parsetree_56_55_migrate.ml
++++ b/src/vendored-omp/src/migrate_parsetree_56_55_migrate.ml
+@@ -304,7 +304,7 @@
+     {
+       Ast_55.Outcometree.opack_path = (copy_out_ident opack_path);
+       Ast_55.Outcometree.opack_constraints =
+-        (List.map (fun x -> let (x0, x1) = x in (x0, (copy_out_type x1)))
++        (List.map (fun (x0, x1) -> (String.concat "." x0, copy_out_type x1))
+            opack_constraints)
+     }
+ and (copy_out_variant :

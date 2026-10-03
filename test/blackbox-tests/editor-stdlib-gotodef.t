@@ -41,12 +41,24 @@ Get definition of `Something` in `Something.foo`
 
   $ ocamlmerlin single locate -position 2:13 -verbosity 0 \
   > -filename main.ml < main.ml | jq '.value'
-  "'Something' seems to originate from 'Something' whose ML file could not be found"
+  {
+    "file": "$TESTCASE_ROOT/lib/something.ml",
+    "pos": {
+      "line": 1,
+      "col": 0
+    }
+  }
 
 
 Get definition of `Stack` in `Stack.foo`
 
   $ ocamlmerlin single locate -position 1:13 -verbosity 0 \
   > -filename main.ml < main.ml | jq '.value'
-  "'Stack' seems to originate from 'Stack' whose ML file could not be found"
+  {
+    "file": "$TESTCASE_ROOT/lib/stack.ml",
+    "pos": {
+      "line": 1,
+      "col": 0
+    }
+  }
 
