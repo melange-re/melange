@@ -66,6 +66,9 @@ jobs:
         run: |
           rm -rf ~/.opam/repo/default ~/.opam/repo/default.tar.gz
           opam update
+          # Match dune_3 in flake.lock; Git metadata is required by dune subst.
+          opam pin add dune.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add dune-build-info.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template
