@@ -43,6 +43,19 @@
 
 (ocamllex simple_lexer_test)
 
+(rule
+ (targets array_bounds_test.ml)
+ (deps array_bounds_test.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
 (melange.emit
  (target dist)
  (alias melange-runtime-tests)
