@@ -136,7 +136,7 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
           | { pval_attributes; pval_loc; _ } ->
               (match has_mel_attributes pval_attributes with
               | true -> print_unprocessed_alert ~loc:pval_loc
-              | false -> super.value_description self v)
+              | false -> super.value_description self v));
 #else
           let { Parsetree.pval_attributes; pval_loc; _ } = v in
           match has_mel_attributes pval_attributes with
