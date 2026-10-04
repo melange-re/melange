@@ -154,7 +154,7 @@ let get_opt_arg_type (ptyp : core_type) : External_arg_spec.t =
    two external files to the same module name
 *)
 
-module External_desc = struct
+module External_attributes = struct
   type operation_attribute = New | Send | Set | Get | Set_index | Get_index
 
   type operation =
@@ -244,11 +244,14 @@ let parse_external_attributes =
       (Conflict_ffi_attribute
          "Found an attribute that can't be used with `@mel.new'")
   in
-  let assign_operation ~loc (st : External_desc.desc)
-      (attribute : External_desc.operation_attribute) =
+  let assign_operation ~loc (st : External_attributes.desc)
+      (attribute : External_attributes.operation_attribute) =
     match (st.operation, attribute) with
     | Value, attribute ->
-        { st with operation = External_desc.operation_of_attribute attribute }
+        {
+          st with
+          operation = External_attributes.operation_of_attribute attribute;
+        }
     | New, New | Send_new, New -> st
     | New, Send | Send, New -> { st with operation = Send_new }
     | New, (Set | Get | Set_index | Get_index)
@@ -259,12 +262,12 @@ let parse_external_attributes =
           (Conflict_ffi_attribute
              (Format.asprintf
                 "`[%@%a]' and `[%@%a]' can't be specified at the same time"
-                External_desc.pp_operation st_operation
-                External_desc.pp_operation
-                (External_desc.operation_of_attribute attribute)))
+                External_attributes.pp_operation st_operation
+                External_attributes.pp_operation
+                (External_attributes.operation_of_attribute attribute)))
   in
-  let assign_module_binding ~loc (st : External_desc.desc)
-      (module_binding : External_desc.module_binding) =
+  let assign_module_binding ~loc (st : External_attributes.desc)
+      (module_binding : External_attributes.module_binding) =
     match (st.module_binding, module_binding) with
     | None, _
     | Some (Import_from _), Import_from _
@@ -389,12 +392,12 @@ let parse_external_attributes =
             in
             (attrs, st, mk_obj)
           with Not_handled_external_attribute -> (attr :: attrs, st, mk_obj))
-        ~init:([], External_desc.init, false)
+        ~init:([], External_attributes.init, false)
         prim_attributes
     in
     ( attrs,
       match mk_obj with
-      | false -> External_desc.External st
+      | false -> External_attributes.External st
       | true -> (
           match st with
           | {
@@ -404,7 +407,7 @@ let parse_external_attributes =
            return_wrapper = Return_unset;
            scopes = No_mel_scope;
           } ->
-              External_desc.Obj
+              External_attributes.Obj
           | _ ->
               Location.raise_errorf ~loc
                 "Found an attribute that conflicts with `[%@mel.obj]'") )
@@ -664,17 +667,145 @@ let mel_send_this_index arg_type_specs arg_types =
         arg_type_specs
       |> Option.get
 
-let external_desc_of_non_obj ~loc (st : External_desc.desc)
+module External_desc = struct
+  type target =
+    | Named of {
+        external_module_name : External_ffi_types.External_module_name.t option;
+        scopes : string list;
+      }
+    | Module_as_value of External_ffi_types.External_module_name.t
+
+  type call = { target : target; variadic : bool }
+  type send = { scopes : string list; variadic : bool }
+
+  type operation =
+    | Value of call
+    | New of call
+    | Send of send
+    | Send_new of send
+    | Get of string list
+    | Set of string list
+    | Get_index of string list
+    | Set_index of string list
+
+  type t = {
+    operation : operation;
+    return_wrapper : External_ffi_types.return_wrapper;
+  }
+
+  let named_call ~scopes ~variadic external_module_name =
+    { target = Named { external_module_name; scopes }; variadic }
+
+  let of_attributes ~loc (st : External_attributes.desc) : t =
+    let scopes =
+      match st.scopes with
+      | No_mel_scope -> []
+      | String_literals scopes -> Nonempty_list.to_list scopes
+    in
+    let operation =
+      match st with
+      | { operation = Set_index; module_binding = None; variadic = false; _ } ->
+          Set_index scopes
+      | { operation = Set_index; _ } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "Found an attribute that conflicts with `[@mel.set_index]'")
+      | { operation = Get_index; module_binding = None; variadic = false; _ } ->
+          Get_index scopes
+      | { operation = Get_index; _ } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "Found an attribute that conflicts with `@mel.get_index'")
+      | {
+       operation = Value;
+       module_binding = Some (Module_as_value external_module_name);
+       scopes = No_mel_scope;
+       variadic;
+       _;
+      } ->
+          Value { target = Module_as_value external_module_name; variadic }
+      | {
+       operation = New;
+       module_binding = Some (Module_as_value external_module_name);
+       scopes = No_mel_scope;
+       variadic;
+       _;
+      } ->
+          New { target = Module_as_value external_module_name; variadic }
+      | {
+       operation = Send | Send_new;
+       module_binding = Some (Module_as_value _);
+       _;
+      } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "`@mel.send' doesn't import from a module. `@mel.module' is not \
+                necessary here.")
+      | { operation = Value; module_binding = None; variadic; _ } ->
+          Value (named_call ~scopes ~variadic None)
+      | {
+       operation = Value;
+       module_binding = Some (Import_from module_name);
+       variadic;
+       _;
+      } ->
+          Value (named_call ~scopes ~variadic (Some module_name))
+      | { operation = Send; module_binding = None; variadic; _ } ->
+          Send { scopes; variadic }
+      | { operation = Send_new; module_binding = None; variadic; _ } ->
+          Send_new { scopes; variadic }
+      | { operation = Send | Send_new; _ } ->
+          Location.raise_errorf ~loc
+            "Found an attribute that can't be used with `[%@mel.send]'"
+      | { operation = New; module_binding = None; variadic; _ } ->
+          New (named_call ~scopes ~variadic None)
+      | {
+       operation = New;
+       module_binding = Some (Import_from module_name);
+       variadic;
+       _;
+      } ->
+          New (named_call ~scopes ~variadic (Some module_name))
+      | {
+       operation = New;
+       module_binding = Some (Module_as_value _);
+       scopes = String_literals _;
+       _;
+      } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "Found an attribute that can't be used with `@mel.new'")
+      | { operation = Set; module_binding = None; variadic = false; _ } ->
+          Set scopes
+      | { operation = Set; _ } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "Found an attribute that can't be used with `[@mel.set]'")
+      | { operation = Get; module_binding = None; variadic = false; _ } ->
+          Get scopes
+      | { operation = Get; _ } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "Found an attribute that can't be used with `[@mel.get]'")
+      | {
+       operation = Value;
+       module_binding = Some (Module_as_value _);
+       scopes = String_literals _;
+       _;
+      } ->
+          Error.err ~loc
+            (Conflict_ffi_attribute
+               "`@mel.scope' can't be used when `@mel.module' has no payload")
+    in
+    { operation; return_wrapper = st.return_wrapper }
+end
+
+let external_spec_of_desc ~loc (st : External_desc.t)
     (prim_name_or_pval_prim : string Lazy.t) arg_type_specs_length arg_types_ty
     (arg_type_specs :
       External_arg_spec.Arg_label.t External_arg_spec.Param.t list) :
     External_ffi_types.External_spec.t =
-  let ffi_scopes =
-    match st.scopes with
-    | No_mel_scope -> []
-    | String_literals scopes -> Nonempty_list.to_list scopes
-  in
-  let send ~variadic ~new_ : External_ffi_types.External_spec.t =
+  let send ~scopes ~variadic ~new_ : External_ffi_types.External_spec.t =
     (* PR #2162 - since when we assemble arguments the first argument in
        [@@send] is ignored *)
     match arg_type_specs with
@@ -689,205 +820,61 @@ let external_desc_of_non_obj ~loc (st : External_desc.desc)
           {
             variadic;
             name = Lazy.force prim_name_or_pval_prim;
-            scopes = ffi_scopes;
+            scopes;
             self_idx = mel_send_this_index arg_type_specs arg_types_ty;
             new_;
           }
   in
-  match st with
-  | {
-   operation = Set_index;
-   module_binding = None;
-   variadic = false;
-   scopes = _;
-   return_wrapper = _;
-  } -> (
+  match st.operation with
+  | Set_index scopes -> (
       match arg_type_specs_length with
-      | 3 -> Js_set_index { scopes = ffi_scopes }
+      | 3 -> Js_set_index { scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> \
              'key -> 'value -> unit'")
-  | { operation = Set_index; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "Found an attribute that conflicts with `[@mel.set_index]'")
-  | {
-   operation = Get_index;
-   module_binding = None;
-   variadic = false;
-   scopes = _;
-   return_wrapper = _;
-  } -> (
+  | Get_index scopes -> (
       match arg_type_specs_length with
-      | 2 -> Js_get_index { scopes = ffi_scopes }
+      | 2 -> Js_get_index { scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> \
              'key -> 'value'")
-  | { operation = Get_index; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "Found an attribute that conflicts with `@mel.get_index'")
-  | {
-   operation = Value;
-   module_binding = Some (Module_as_value external_module_name);
-   scopes = No_mel_scope;
-   (* module as var does not need scopes *)
-   variadic;
-   return_wrapper = _;
-  } -> (
+  | Value { target = Module_as_value external_module_name; variadic } -> (
       match arg_types_ty with
       | [] -> Js_module_as_var external_module_name
       | _ -> Js_module_as_fn { variadic; external_module_name })
-  | {
-   operation = New;
-   module_binding = Some (Module_as_value external_module_name);
-   scopes = No_mel_scope;
-   variadic = _;
-   return_wrapper = _;
-  } ->
+  | New { target = Module_as_value external_module_name; variadic = _ } ->
       Js_module_as_class external_module_name
-  | {
-   module_binding = Some (Module_as_value _);
-   operation = Send | Send_new;
-   _;
-  } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "`@mel.send' doesn't import from a module. `@mel.module' is not \
-            necessary here.")
-  | {
-   operation = Value;
-   module_binding = None;
-   variadic;
-   scopes = _;
-   return_wrapper = _;
-  } -> (
+  | Value { target = Named { external_module_name; scopes }; variadic } -> (
       let name = Lazy.force prim_name_or_pval_prim in
       match arg_type_specs_length with
       | 0 ->
-          (* {[ external ff : int -> int [@bs] = "" [@@module "xx"] ]}
-             FIXME: variadic is not supported here *)
-          Js_var { name; external_module_name = None; scopes = ffi_scopes }
-      | _ ->
-          Js_call
-            { variadic; name; external_module_name = None; scopes = ffi_scopes }
-      )
-  | {
-   operation = Value;
-   module_binding = Some (Import_from external_module_name);
-   variadic;
-   scopes = _;
-   return_wrapper = _;
-  } -> (
-      let name = Lazy.force prim_name_or_pval_prim in
-      match arg_type_specs_length with
-      | 0 ->
-          (* {[ external ff : int = "" [@@module "xx"] ]} *)
-          Js_var
-            {
-              name;
-              external_module_name = Some external_module_name;
-              scopes = ffi_scopes;
-            }
-      | _ ->
-          Js_call
-            {
-              variadic;
-              name;
-              external_module_name = Some external_module_name;
-              scopes = ffi_scopes;
-            })
-  | { operation = Send; variadic; module_binding = None; _ } ->
-      send ~variadic ~new_:false
-  | { operation = Send_new; variadic; module_binding = None; _ } ->
-      send ~variadic ~new_:true
-  | { operation = Send | Send_new; _ } ->
-      Location.raise_errorf ~loc
-        "Found an attribute that can't be used with `[%@mel.send]'"
-  | {
-   operation = New;
-   module_binding = None;
-   variadic;
-   scopes = _;
-   return_wrapper = _;
-  } ->
+          (* FIXME: variadic is not supported here. *)
+          Js_var { name; external_module_name; scopes }
+      | _ -> Js_call { variadic; name; external_module_name; scopes })
+  | Send { scopes; variadic } -> send ~scopes ~variadic ~new_:false
+  | Send_new { scopes; variadic } -> send ~scopes ~variadic ~new_:true
+  | New { target = Named { external_module_name; scopes }; variadic } ->
       Js_new
         {
           name = Lazy.force prim_name_or_pval_prim;
-          external_module_name = None;
+          external_module_name;
           variadic;
-          scopes = ffi_scopes;
+          scopes;
         }
-  | {
-   operation = New;
-   module_binding = Some (Import_from external_module_name);
-   variadic;
-   scopes = _;
-   return_wrapper = _;
-  } ->
-      Js_new
-        {
-          name = Lazy.force prim_name_or_pval_prim;
-          external_module_name = Some external_module_name;
-          variadic;
-          scopes = ffi_scopes;
-        }
-  | {
-   operation = New;
-   module_binding = Some (Module_as_value _);
-   scopes = String_literals _;
-   _;
-  } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "Found an attribute that can't be used with `@mel.new'")
-  | {
-   operation = Set;
-   module_binding = None;
-   variadic = false;
-   return_wrapper = _;
-   scopes = _;
-  } -> (
+  | Set scopes -> (
       match arg_type_specs_length with
-      | 2 ->
-          Js_set
-            { name = Lazy.force prim_name_or_pval_prim; scopes = ffi_scopes }
+      | 2 -> Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set]' requires a function of two arguments")
-  | { operation = Set; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "Found an attribute that can't be used with `[@mel.set]'")
-  | {
-   operation = Get;
-   module_binding = None;
-   variadic = false;
-   return_wrapper = _;
-   scopes = _;
-  } -> (
+  | Get scopes -> (
       match arg_type_specs_length with
-      | 1 ->
-          Js_get
-            { name = Lazy.force prim_name_or_pval_prim; scopes = ffi_scopes }
+      | 1 -> Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.get]' requires a function of only one argument")
-  | { operation = Get; _ } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "Found an attribute that can't be used with `[@mel.get]'")
-  | {
-   operation = Value;
-   module_binding = Some (Module_as_value _);
-   scopes = String_literals _;
-   _;
-  } ->
-      Error.err ~loc
-        (Conflict_ffi_attribute
-           "`@mel.scope' can't be used when `@mel.module' has no payload")
 
 module From_attributes = struct
   type t = {
@@ -1066,11 +1053,11 @@ module From_attributes = struct
           Location.raise_errorf ~loc
             "`[%@mel.uncurry]' cannot be applied to the return type"
         else
-          let unused_attrs, external_desc =
+          let unused_attrs, attributes =
             parse_external_attributes ~loc prim_name prim_name_or_pval_name
               prim_attributes
           in
-          match external_desc with
+          match attributes with
           | Obj ->
               (* warn unused attributes here ? *)
               let new_type, spec =
@@ -1082,9 +1069,9 @@ module From_attributes = struct
                 pval_attributes = unused_attrs;
                 dont_inline_cross_module = false;
               }
-          | External external_desc ->
+          | External external_attributes ->
               let has_mel_send =
-                External_desc.is_send external_desc.operation
+                External_attributes.is_send external_attributes.operation
               in
               let arg_type_specs, new_arg_types_ty, (arg_type_specs_length, _) =
                 let (init
@@ -1103,7 +1090,7 @@ module From_attributes = struct
                     let ty = param_type.ty in
                     let is_variadic =
                       (i = 0 || (i = 1 && last_was_mel_this))
-                      && external_desc.variadic
+                      && external_attributes.variadic
                     in
                     let is_mel_this_and_send =
                       has_mel_send
@@ -1179,10 +1166,14 @@ module From_attributes = struct
                       | _ -> (i + 1, is_mel_this_and_send) ))
                   arg_types_ty ~init
               in
+              (* Keep modifier validation after argument validation so competing
+                 diagnostics retain their existing precedence. *)
+              let external_desc =
+                External_desc.of_attributes ~loc external_attributes
+              in
               let ffi =
-                external_desc_of_non_obj ~loc external_desc
-                  prim_name_or_pval_name arg_type_specs_length arg_types_ty
-                  arg_type_specs
+                external_spec_of_desc ~loc external_desc prim_name_or_pval_name
+                  arg_type_specs_length arg_types_ty arg_type_specs
               in
               let relative = check_ffi ~loc ffi in
               (* result type can not be labeled *)
