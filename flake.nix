@@ -6,7 +6,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs/5.5";
+      url = "github:melange-re/melange-compiler-libs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -24,20 +24,34 @@
           system:
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
-              self: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_5.overrideScope (
+              _: super: {
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_6.overrideScope (
                   self: super: {
-                    pp = super.pp.overrideAttrs (_: {
-                      doCheck = false;
-                      buildInputs = [ ];
-                    });
+                    # Keep these on Melange's ppxlib when branching for older OCaml versions.
                     sedlex = super.sedlex.override {
                       ppxlib = self.ppxlib_gt_0_37;
                     };
-                    js_of_ocaml-compiler = super.js_of_ocaml-compiler.override {
-                      inherit (self) sedlex;
-                      ppxlib = self.ppxlib_gt_0_37;
-                    };
+                    js_of_ocaml-compiler =
+                      (super.js_of_ocaml-compiler.override {
+                        inherit (self) sedlex;
+                        ppxlib = self.ppxlib_gt_0_37;
+                      }).overrideAttrs
+                        (old: {
+                          # ocsigen/js_of_ocaml#2488: consume OCaml 5.6 bytecode hints.
+                          patches = (old.patches or [ ]) ++ [
+                            (pkgs.fetchpatch {
+                              name = "js_of_ocaml-bytecode-hints.patch";
+                              url = "https://github.com/ocsigen/js_of_ocaml/compare/b169c0f0b677744d0fa044ac6e1a19f75889ef0a...6d2301902e8919e3a7f5cb81ab579ed2f3b116da.diff";
+                              hash = "sha256-5KEh2OuGgHvoolkVHhLyT44pqt/dtCOXcexMeIn/Jic=";
+                            })
+                          ];
+                          postPatch = (old.postPatch or "") + ''
+                            # Adapt the PR to OCaml's final hint constructor name.
+                            substituteInPlace compiler/lib/ocaml_compiler.ml \
+                              --replace-fail "Hint_int_array -> Some Hint_int_array" \
+                                "Hint_immediate_result -> Some Hint_int_array"
+                          '';
+                        });
                     js_of_ocaml = super.js_of_ocaml.override {
                       inherit (self) js_of_ocaml-compiler;
                       ppxlib = self.ppxlib_gt_0_37;

@@ -318,12 +318,22 @@ let lam_prim =
     | Pbytessetu -> Lam.prim ~primitive:Pbytessetu ~args ~loc
     | Pbytesrefs -> Lam.prim ~primitive:Pbytesrefs ~args ~loc
     | Pbytessets -> Lam.prim ~primitive:Pbytessets ~args ~loc
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pisint _ -> Lam.prim ~primitive:Pisint ~args ~loc
+#else
     | Pisint -> Lam.prim ~primitive:Pisint ~args ~loc
+#endif
     | Pisout -> (
         match args with
         | [ range; Lprim { primitive = Poffsetint i; args = [ x ]; _ } ] ->
             Lam.prim ~primitive:(Pisout i) ~args:[ range; x ] ~loc
         | _ -> Lam.prim ~primitive:(Pisout 0) ~args ~loc)
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pcheckbound ->
+        Lam.prim
+          ~primitive:(Pccall { prim_name = "caml_array_check_bound" })
+          ~args ~loc
+#endif
     | Pintoffloat -> Lam.prim ~primitive:Pintoffloat ~args ~loc
     | Pfloatofint -> Lam.prim ~primitive:Pfloatofint ~args ~loc
     | Pnegfloat -> Lam.prim ~primitive:Pnegfloat ~args ~loc
@@ -332,6 +342,10 @@ let lam_prim =
     | Pmulfloat -> Lam.prim ~primitive:Pmulfloat ~args ~loc
     | Pdivfloat -> Lam.prim ~primitive:Pdivfloat ~args ~loc
     | Pintcomp x -> Lam.prim ~primitive:(Pintcomp x) ~args ~loc
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pphyscomp CPeq -> Lam.prim ~primitive:(Pintcomp Ceq) ~args ~loc
+    | Pphyscomp CPneq -> Lam.prim ~primitive:(Pintcomp Cne) ~args ~loc
+#endif
     | Poffsetint x -> Lam.prim ~primitive:(Poffsetint x) ~args ~loc
     | Poffsetref x -> Lam.prim ~primitive:(Poffsetref x) ~args ~loc
     | Pfloatcomp x -> Lam.prim ~primitive:(Pfloatcomp x) ~args ~loc
@@ -350,6 +364,20 @@ let lam_prim =
         match x with
         | Pint32 | Pnativeint -> List.hd args
         | Pint64 -> Lam.prim ~primitive:Pintofint64 ~args ~loc)
+#if OCAML_VERSION >= (5, 6, 0)
+    | Pbintoffloat x -> (
+        match x with
+        | Pint32 | Pnativeint -> Lam.prim ~primitive:Pintoffloat ~args ~loc
+        | Pint64 ->
+            Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_of_float" })
+              ~args ~loc)
+    | Pfloatofbint x -> (
+        match x with
+        | Pint32 | Pnativeint -> Lam.prim ~primitive:Pfloatofint ~args ~loc
+        | Pint64 ->
+            Lam.prim ~primitive:(Pccall { prim_name = "caml_int64_to_float" })
+              ~args ~loc)
+#endif
     | Pnegbint x -> (
         match x with
         | Pnativeint | Pint32 -> Lam.prim ~primitive:Pnegint ~args ~loc
@@ -444,6 +472,37 @@ let lam_prim =
     | Pbbswap i -> Lam.prim ~primitive:(Pbbswap i) ~args ~loc
     | Pbswap16 -> Lam.prim ~primitive:Pbswap16 ~args ~loc
     | Pduparray _ -> assert false
+#if OCAML_VERSION >= (5, 6, 0)
+    | Patomic_fetch_add -> (
+        match args with
+        | [ ptr_arg; offset_arg; increment_arg ] ->
+            let ptr_id = Ident.create_local "atomic_ptr" in
+            let offset_id = Ident.create_local "atomic_offset" in
+            let increment_id = Ident.create_local "atomic_increment" in
+            let current_id = Ident.create_local "atomic_current" in
+            let ptr = Lam.var ptr_id in
+            let offset = Lam.var offset_id in
+            let increment = Lam.var increment_id in
+            let current = Lam.var current_id in
+            Lam.let_ Strict ptr_id ptr_arg
+              (Lam.let_ Strict offset_id offset_arg
+                 (Lam.let_ Strict increment_id increment_arg
+                    (Lam.let_ Strict current_id
+                       (Lam.prim ~primitive:Pfield_computed
+                          ~args:[ ptr; offset ] ~loc)
+                       (Lam.seq
+                          (Lam.prim ~primitive:Psetfield_computed
+                             ~args:
+                               [
+                                 ptr;
+                                 offset;
+                                 Lam.prim ~primitive:Paddint
+                                   ~args:[ current; increment ] ~loc;
+                               ]
+                             ~loc)
+                          current))))
+        | _ -> assert false)
+#endif
 #if OCAML_VERSION >= (5, 1, 0)
     | Prunstack | Pperform | Presume | Preperform
 #if OCAML_VERSION < (5, 4, 0)
