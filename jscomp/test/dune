@@ -25,6 +25,19 @@
 
 (include_subdirs unqualified)
 
+(rule
+ (targets ocaml56_primitives_test.ml)
+ (deps ocaml56_primitives_test.cppo.ml)
+ (action
+  (run
+   cppo
+   -V
+   OCAML:%{ocaml_version}
+   %{env:CPPO_FLAGS=}
+   %{deps}
+   -o
+   %{targets})))
+
 ;; same as above but no preprocessing with reason-react-ppx
 
 (library
