@@ -23,7 +23,7 @@ jobs:
           - ubuntu-26.04-arm
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - ocaml-base-compiler.5.5.0
+          - ocaml-variants.5.6.0+trunk
 
     runs-on: ${{ matrix.os }}
 
@@ -33,6 +33,13 @@ jobs:
         with:
           submodules: "recursive"
           path: melange
+
+      - name: Checkout js_of_ocaml with OCaml 5.6 support
+        uses: actions/checkout@v7
+        with:
+          repository: ocsigen/js_of_ocaml
+          ref: 8b46f0628091b73513141a010c3ac3914a872395
+          path: js_of_ocaml
 
       - name: Use Node
         uses: actions/setup-node@v7
@@ -69,6 +76,11 @@ jobs:
           # Match dune_3 in flake.lock; Git metadata is required by dune subst.
           opam pin add dune.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
           opam pin add dune-build-info.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add ppxlib https://github.com/ocaml-ppx/ppxlib/archive/377fee7793ee12d82772c619efee7985ea31f53f.tar.gz -y --no-action
+          opam pin add reason https://github.com/reasonml/reason/archive/02024f3641892afa2fd26a10e4ad9bf74904cb71.tar.gz -y --no-action
+          patch -d ../js_of_ocaml -p1 < nix/js-of-ocaml-5.6-hints.patch
+          opam pin add js_of_ocaml-compiler.dev ../js_of_ocaml --kind=path -y --no-action
+          opam pin add js_of_ocaml.dev ../js_of_ocaml --kind=path -y --no-action
           make opam-install-test
 
       - name: Clone melange-opam-template
