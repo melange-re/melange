@@ -42,36 +42,9 @@
 (rule
  (deps
   (package melange)
-  %{bin:js_of_ocaml}
-  (:some-mini-stdlib-cmi
-   %{lib:melange:__private__/melange_mini_stdlib/melange/melange_mini_stdlib.cmj})
-  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
-  (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
-  (:some-belt-cmi %{lib:melange.belt:melange/belt.cmi})
-  (:some-dom-cmi %{lib:melange:dom/melange/dom.cmi}))
- (target cmi-files.txt)
- (action
-  (progn
-   (bash
-    "find $(dirname %{some-mini-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
-   (bash
-    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
-   (bash
-    "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
-   (bash
-    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
-   (bash
-    "find $(dirname %{some-dom-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
-
-(rule
- (deps
-  cmi-files.txt
-  %{bin:js_of_ocaml}
-  %{lib:melange:js/melange/js.cmi}
-  %{lib:melange:melange/stdlib.cmi}
-  %{lib:melange.belt:melange/belt.cmi}
-  %{lib:melange:dom/melange/dom.cmi})
+  %{bin:ocamlfind}
+  %{bin:js_of_ocaml})
  (alias playground-cmijs)
  (target melange-cmijs.js)
  (action
-  (bash "cat %{dep:cmi-files.txt} | xargs js_of_ocaml build-fs -o %{target}")))
+  (run bash %{dep:build_fs.sh} %{target})))

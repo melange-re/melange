@@ -3,6 +3,7 @@
   lib,
   buildDunePackage,
   cppo,
+  findlib,
   nodejs,
   js_of_ocaml,
   js_of_ocaml-compiler,
@@ -42,6 +43,7 @@ buildDunePackage {
   doCheck = true;
   nativeBuildInputs = [
     cppo
+    findlib
     nodejs
     js_of_ocaml
   ];
