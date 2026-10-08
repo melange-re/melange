@@ -24,5 +24,5 @@
 
 let version =
   match Build_info.V1.version () with
-  | None -> Format.asprintf "n/a (%s)" Git_commit.short_version
+  | None -> Printf.sprintf "n/a (%s)" Git_commit.short_version
   | Some v -> Build_info.V1.Version.to_string v
