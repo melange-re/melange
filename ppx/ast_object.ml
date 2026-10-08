@@ -138,9 +138,14 @@ let ocaml_object_as_js_object =
           | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
               | Pexp_poly
-                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                  ( {
+                      pexp_desc = Pexp_function (_, _, Pfunction_cases _);
+                      pexp_loc;
+                      _;
+                    },
                     None ) ->
-                  assert false
+                  Location.raise_errorf ~loc:pexp_loc
+                    "Function cases are not supported in JS object methods"
               | Pexp_poly
                   ( { pexp_desc = Pexp_function (args, _, Pfunction_body e); _ },
                     None ) -> (
@@ -205,9 +210,14 @@ let ocaml_object_as_js_object =
           | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
               match e.pexp_desc with
               | Pexp_poly
-                  ( { pexp_desc = Pexp_function (_, _, Pfunction_cases _); _ },
+                  ( {
+                      pexp_desc = Pexp_function (_, _, Pfunction_cases _);
+                      pexp_loc;
+                      _;
+                    },
                     None ) ->
-                  assert false
+                  Location.raise_errorf ~loc:pexp_loc
+                    "Function cases are not supported in JS object methods"
               | Pexp_poly
                   ( ({
                        pexp_desc = Pexp_function (params, _, Pfunction_body e);
