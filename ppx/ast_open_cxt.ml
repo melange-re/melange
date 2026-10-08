@@ -32,6 +32,14 @@ type t = {
   attributes : attributes;
 }
 
+let ghost loc = { loc with loc_ghost = true }
+
+let ghost_locations =
+  object
+    inherit Ast_traverse.map
+    method! location = ghost
+  end
+
 let destruct =
   let rec inner e acc =
     match e with
@@ -60,9 +68,19 @@ let destruct_open_tuple e =
       Some (opens, es, pexp_attributes)
   | _ -> None
 
-let restore_exp xs qualifiers =
+let restore_exp_with ~generated xs qualifiers =
   List.fold_left qualifiers ~init:xs
     ~f:(fun x { override; ident; loc; attributes } ->
+      let ident, loc, attributes =
+        if generated then
+          ( { ident with loc = ghost ident.loc },
+            ghost loc,
+            ghost_locations#attributes attributes )
+        else (ident, loc, attributes)
+      in
       Exp.open_ ~loc ~attrs:attributes
         (Ast_helper.Opn.mk ~override (Ast_helper.Mod.ident ident))
         x)
+
+let restore_exp = restore_exp_with ~generated:false
+let restore_generated_exp = restore_exp_with ~generated:true
