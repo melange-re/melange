@@ -27,6 +27,10 @@ open Import
 type t
 
 val restore_exp : expression -> t list -> expression
+
+val restore_generated_exp : expression -> t list -> expression
+(** Restore copied open qualifiers with generated locations. *)
+
 val destruct : expression -> expression * t list
 
 val destruct_open_tuple :
