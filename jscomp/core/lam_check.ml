@@ -34,13 +34,13 @@ let check file lam =
   let success = ref true in
   let use (id : Ident.t) =
     if not @@ Ident.Hashtbl.mem defined_variables id then (
-      Format.eprintf "[SANITY]:%s/%d used before defined in %s@."
+      Printf.eprintf "[SANITY]:%s/%d used before defined in %s\n%!"
         (Ident.name id) (Ident.stamp id) file;
       success := false)
   in
   let def (id : Ident.t) =
     if Ident.Hashtbl.mem defined_variables id then (
-      Format.eprintf "[SANITY]:%s/%d bound twice in %s@." (Ident.name id)
+      Printf.eprintf "[SANITY]:%s/%d bound twice in %s\n%!" (Ident.name id)
         (Ident.stamp id) file;
       success := false)
     else Ident.Hashtbl.replace defined_variables ~key:id ~data:()
