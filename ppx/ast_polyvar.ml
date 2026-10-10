@@ -45,16 +45,16 @@ let map_row_fields_into_ints =
   let process_mel_as ~attrs i =
     Option.value (Ast_attributes.iter_process_mel_int_as attrs) ~default:i
   in
-  fun (row_fields : row_field list) ~loc ->
+  fun (row_fields : row_field list) ->
     let case, _, result =
       List.fold_left row_fields ~init:(`Nothing, 0, [])
-        ~f:(fun (nullary, i, acc) { prf_desc; prf_attributes; _ } ->
+        ~f:(fun (nullary, i, acc) { prf_desc; prf_attributes; prf_loc } ->
           let nullary, txt =
             match (nullary, prf_desc) with
             | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) -> (`Null, txt)
             | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
                 (`NonNull, txt)
-            | _ -> Error.err ~loc Invalid_mel_int_type
+            | _ -> Error.err ~loc:prf_loc Invalid_mel_int_type
           in
           let i = process_mel_as ~attrs:prf_attributes i in
           (nullary, i + 1, (txt, External_arg_spec.Arg_cst.Int i) :: acc))
@@ -87,7 +87,7 @@ let map_row_fields_into_strings =
             | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) -> (`Null, txt)
             | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
                 (`NonNull, txt)
-            | _ -> Error.err ~loc Invalid_mel_string_type
+            | _ -> Error.err ~loc:tag.prf_loc Invalid_mel_string_type
           in
           (nullary, process_mel_as tag ~txt ~has_mel_as :: acc))
         row_fields ~init:(`Nothing, [])
@@ -101,7 +101,7 @@ let map_row_fields_into_strings =
     | `NonNull, has_mel_as ->
         Poly_var { descr = (if has_mel_as then result else []); spread = true }
 
-let map_row_fields_into_spread (row_fields : row_field list) ~loc =
+let map_row_fields_into_spread (row_fields : row_field list) =
   let result =
     List.map row_fields ~f:(function
       | { prf_desc = Rtag ({ txt; _ }, false, [ _ ]); prf_attributes; _ } ->
@@ -109,11 +109,11 @@ let map_row_fields_into_spread (row_fields : row_field list) ~loc =
             match Ast_attributes.iter_process_mel_as_cst prf_attributes with
             | Some x -> x
             | None -> Str txt )
-      | _ -> Error.err ~loc Invalid_mel_spread_type)
+      | { prf_loc; _ } -> Error.err ~loc:prf_loc Invalid_mel_spread_type)
   in
   External_arg_spec.Poly_var { descr = result; spread = true }
 
-let infer_mel_as ~loc row_fields =
+let infer_mel_as row_fields =
   let has_mel_as = ref false in
   let result =
     List.filter_map row_fields ~f:(function
@@ -123,7 +123,7 @@ let infer_mel_as ~loc row_fields =
               has_mel_as := true;
               Some (txt, x)
           | None -> None)
-      | _ -> Error.err ~loc Invalid_mel_spread_type)
+      | { prf_loc; _ } -> Error.err ~loc:prf_loc Invalid_mel_spread_type)
   in
   match !has_mel_as with
   | true -> External_arg_spec.Poly_var { descr = result; spread = false }

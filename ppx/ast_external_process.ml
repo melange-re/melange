@@ -59,19 +59,19 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
   | Int -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
-          Ast_polyvar.map_row_fields_into_ints row_fields ~loc:ptyp.ptyp_loc
+          Ast_polyvar.map_row_fields_into_ints row_fields
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_int_type)
   | Spread -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
-          Ast_polyvar.map_row_fields_into_spread row_fields ~loc:ptyp.ptyp_loc
+          Ast_polyvar.map_row_fields_into_spread row_fields
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
   | Unwrap -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, _) when variant_unwrap row_fields ->
           (* Unwrap attribute can only be attached to things like
              `[a of a0 | b of b0]` *)
-          Unwrap (Ast_polyvar.infer_mel_as ~loc:ptyp.ptyp_loc row_fields)
+          Unwrap (Ast_polyvar.infer_mel_as row_fields)
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_unwrap_type)
   | Uncurry opt_arity -> (
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
@@ -89,7 +89,7 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
       | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
           if nolabel then Extern_unit else Nothing
       | Ptyp_variant (row_fields, Closed, None) ->
-          Ast_polyvar.infer_mel_as ~loc:ptyp.ptyp_loc row_fields
+          Ast_polyvar.infer_mel_as row_fields
       | _ -> Nothing)
 
 (* is_optional = false *)
