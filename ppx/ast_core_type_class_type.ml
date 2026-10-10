@@ -29,6 +29,17 @@ exception Local of Location.t * string
 
 let ghost_loc loc = { loc with Location.loc_ghost = true }
 
+let ghost_locations =
+  object
+    inherit Ast_traverse.map
+    method! location loc = ghost_loc loc
+  end
+
+let setter_type (mapper : Ast_traverse.map) (ty : core_type) =
+  let loc = ghost_loc ty.ptyp_loc in
+  Ast_typ_uncurry.to_method_type ~loc mapper Nolabel ty
+    (Typ.constr ~loc { txt = Lident "unit"; loc } [])
+
 let process_getter_setter ~not_getter_setter
     ~(get : core_type -> _ -> attributes -> _) ~set loc name
     (attrs : attribute list) (ty : core_type) (acc : _ list) =
@@ -60,8 +71,17 @@ let process_getter_setter ~not_getter_setter
       in
       match st.set with
       | None -> get_acc
-      | Some _ ->
-          set ty
+      | Some set_kind ->
+          let loc, name, ty, pctf_attributes =
+            match set_kind with
+            | `No_get -> (loc, name, ty, pctf_attributes)
+            | `Get ->
+                ( ghost_loc loc,
+                  { name with loc = ghost_loc name.loc },
+                  ghost_locations#core_type ty,
+                  ghost_locations#attributes pctf_attributes )
+          in
+          set ~loc ty
             ({
                name with
                txt =
@@ -122,7 +142,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                     Of.tag ~loc:meth_.pof_loc name ~attrs
                       (self#core_type core_type)
                   in
-                  let set ty name attrs =
+                  let set ~loc ty name attrs =
                     let attrs, core_type =
                       match Ast_attributes.process_attributes_rev attrs with
                       | Nothing, attrs -> (attrs, ty)
@@ -133,10 +153,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                              `%@mel.meth'"
                       | Meth_callback attr, attrs -> (attrs, attr +> ty)
                     in
-                    let loc = meth_.pof_loc in
-                    Of.tag ~loc name ~attrs
-                      (Ast_typ_uncurry.to_method_type ~loc self Nolabel
-                         core_type [%type: unit])
+                    Of.tag ~loc name ~attrs (setter_type self core_type)
                   in
                   let not_getter_setter ty =
                     let attrs, core_type =
@@ -202,16 +219,11 @@ let handle_class_type_fields =
             pctf_attributes;
           }
         in
-        let set ty name pctf_attributes =
+        let set ~loc ty name pctf_attributes =
           {
-            ctf with
+            pctf_loc = loc;
             pctf_desc =
-              Pctf_method
-                ( name,
-                  private_flag,
-                  virtual_flag,
-                  Ast_typ_uncurry.to_method_type ~loc self Nolabel ty
-                    [%type: unit] );
+              Pctf_method (name, private_flag, virtual_flag, setter_type self ty);
             pctf_attributes;
           }
         in
