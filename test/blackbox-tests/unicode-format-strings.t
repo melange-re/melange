@@ -49,7 +49,9 @@ concatenation isn't a literal
   > let () = Js.log (Format.sprintf {j|你 $(x) %s|j} "xx")
   > EOF
   $ dune build @mel
-  File "x.ml", line 1:
+  File "x.ml", line 2, characters 35-46:
+  2 | let () = Js.log (Format.sprintf {j|你 $(x) %s|j} "xx")
+                                         ^^^^^^^^^^^
   Error: This expression has type string but an expression was expected of type
            ('a -> 'b, unit, string) format =
              ('a -> 'b, unit, string, string, string, string) format6
