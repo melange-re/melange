@@ -215,6 +215,7 @@ module Time = struct
       let handler ~ctxt:_ { txt = payload; loc } =
         match Ast_payload.as_expression payload with
         | Some e ->
+            let ghost_loc = { loc with loc_ghost = true } in
             let locString =
               match loc.loc_ghost with
               | true -> "GHOST LOC"
@@ -228,27 +229,33 @@ module Time = struct
                 String.concat ~sep:" "
                   [ Filename.basename file; string_of_int lnum ]
             in
+            let console_call method_name =
+              Exp.apply ~loc:ghost_loc
+                (Exp.ident ~loc:ghost_loc
+                   {
+                     loc = ghost_loc;
+                     txt =
+                       Ldot (Ldot (Lident "Js", "Console"), method_name);
+                   })
+                [
+                  ( Nolabel,
+                    Exp.constant ~loc:ghost_loc
+                      (Pconst_string (locString, ghost_loc, None)) );
+                ]
+            in
             Exp.sequence ~loc
-              [%expr
-                [%e
-                  Exp.ident ~loc
-                    {
-                      loc;
-                      txt = Ldot (Ldot (Lident "Js", "Console"), "timeStart");
-                    }]
-                  [%e Exp.constant (Pconst_string (locString, loc, None))]]
-              (Exp.let_ ~loc Nonrecursive
-                 [ Vb.mk ~loc (Pat.var ~loc { loc; txt = "timed" }) e ]
-                 (Exp.sequence ~loc
-                    [%expr
-                      [%e
-                        Exp.ident ~loc
-                          {
-                            loc;
-                            txt = Ldot (Ldot (Lident "Js", "Console"), "timeEnd");
-                          }]
-                        [%e Exp.constant (Pconst_string (locString, loc, None))]]
-                    (Exp.ident ~loc { loc; txt = Lident "timed" })))
+              (console_call "timeStart")
+              (Exp.let_ ~loc:ghost_loc Nonrecursive
+                 [
+                   Vb.mk ~loc:ghost_loc
+                     (Pat.var ~loc:ghost_loc
+                        { loc = ghost_loc; txt = "timed" })
+                     e;
+                 ]
+                 (Exp.sequence ~loc:ghost_loc
+                    (console_call "timeEnd")
+                    (Exp.ident ~loc:ghost_loc
+                       { loc = ghost_loc; txt = Lident "timed" })))
         | None ->
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
