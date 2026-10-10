@@ -197,9 +197,13 @@ module Re = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
+        let ghost_loc = { loc with loc_ghost = true } in
+        let exp = Ast_extensions.handle_raw ~kind:Raw_re ~loc payload in
         Exp.constraint_ ~loc
-          (Ast_extensions.handle_raw ~kind:Raw_re ~loc payload)
-          (Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } [])
+          { exp with pexp_loc = ghost_loc }
+          (Typ.constr ~loc:ghost_loc
+             { txt = Ast_literal.js_re_id; loc = ghost_loc }
+             [])
       in
 
       let extender = Extension.V3.declare label Expression extractor handler in
@@ -271,21 +275,33 @@ module Node = struct
               txt =
                 Lident
                   (("__filename" | "__dirname" | "_module" | "require") as name);
-              loc;
+              loc = payload_loc;
             } ->
-            let exp = Ast_extensions.handle_external ~loc (strip name) in
+            let ghost_loc = { payload_loc with loc_ghost = true } in
+            let exp =
+              Ast_extensions.handle_external ~loc:ghost_loc (strip name)
+            in
             let typ =
               Ast_core_type.lift_option_type
                 (match name with
                 | "_module" ->
-                   Typ.constr ~loc
-                     { txt = Ldot (Lident "Node", "node_module"); loc }
-                     []
+                    Typ.constr ~loc:ghost_loc
+                      {
+                        txt = Ldot (Lident "Node", "node_module");
+                        loc = ghost_loc;
+                      }
+                      []
                 | "require" ->
-                   Typ.constr ~loc
-                     { txt = Ldot (Lident "Node", "node_require"); loc }
-                     []
-                | _ -> [%type: string])
+                    Typ.constr ~loc:ghost_loc
+                      {
+                        txt = Ldot (Lident "Node", "node_require");
+                        loc = ghost_loc;
+                      }
+                      []
+                | _ ->
+                    Typ.constr ~loc:ghost_loc
+                      { txt = Lident "string"; loc = ghost_loc }
+                      [])
             in
             Exp.constraint_ ~loc exp typ
         | Some _ | None -> (
