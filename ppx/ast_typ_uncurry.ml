@@ -92,8 +92,12 @@ let to_method_callback_type ~loc (mapper : Ast_traverse.map)
     Typ.arrow ~loc label first_arg typ
   in
   let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
-  Typ.constr
-    { txt = Ast_literal.arity_type Ast_literal.Callback ~arity; loc }
+  let arity_loc = { loc with loc_ghost = true } in
+  Typ.constr ~loc
+    {
+      txt = Ast_literal.arity_type Ast_literal.Callback ~arity;
+      loc = arity_loc;
+    }
     [ meth_type ]
 
 let generate_method_type =
@@ -132,7 +136,10 @@ let to_arity_type ~loc ~kind (mapper : Ast_traverse.map)
   in
   let arity = Option.get (Ast_core_type.get_uncurry_arity meth_type) in
   let wrapped = if arity = 0 then typ else meth_type in
-  Typ.constr { txt = Ast_literal.arity_type kind ~arity; loc } [ wrapped ]
+  let arity_loc = { loc with loc_ghost = true } in
+  Typ.constr ~loc
+    { txt = Ast_literal.arity_type kind ~arity; loc = arity_loc }
+    [ wrapped ]
 
 let to_uncurry_type ~loc mapper label first_arg typ =
   to_arity_type ~loc ~kind:Ast_literal.Fn mapper label first_arg typ
