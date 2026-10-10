@@ -26,19 +26,23 @@ open Import
 open Ast_helper
 module U = Ast_derive_util
 
-let js_field o m =
-  let loc = o.pexp_loc in
-  [%expr [%e Exp.ident { txt = Lident "##"; loc }] [%e o] [%e Exp.ident m]]
-
 let noloc = Location.none
+let ghost loc = { loc with Location.loc_ghost = true }
+
+let ghost_locations =
+  object
+    inherit Ast_traverse.map
+    method! location = ghost
+  end
+
+let js_field ~loc o m =
+  [%expr
+    [%e Exp.ident ~loc { txt = Lident "##"; loc }] [%e o] [%e Exp.ident ~loc m]]
 
 (* [eraseType] will be instrumented, be careful about the name conflict*)
 let eraseTypeLit = "_eraseType"
-let eraseTypeExp = Exp.ident { loc = noloc; txt = Lident eraseTypeLit }
-
-let eraseType x =
-  let loc = noloc in
-  [%expr [%e eraseTypeExp] [%e x]]
+let eraseTypeExp ~loc = Exp.ident ~loc { loc; txt = Lident eraseTypeLit }
+let eraseType ~loc x = [%expr [%e eraseTypeExp ~loc] [%e x]]
 
 let eraseTypeStr =
   let loc = noloc in
@@ -57,7 +61,7 @@ let unsafeIndexGet =
        ~attrs:[ Ast_attributes.mel_get_index ]
        [%type: _ -> _ -> _])
 
-let unsafeIndexGetExp = Exp.ident { loc = noloc; txt = Lident unsafeIndex }
+let unsafeIndexGetExp ~loc = Exp.ident ~loc { loc; txt = Lident unsafeIndex }
 
 (* JavaScript has allowed trailing commas in array literals since the beginning,
    and later added them to object literals (ECMAScript 5) and most recently (ECMAScript 2017)
@@ -105,68 +109,78 @@ let buildMap =
     in
     (data, revData, !has_mel_as)
 
-let ( ->~ ) a b =
-  let loc = noloc in
-  [%type: [%t a] -> [%t b]]
+let arrow ~loc a b = [%type: [%t a] -> [%t b]]
 
 let raiseWhenNotFound =
   let jsMapperRt = Longident.Lident "Js__Js_mapper_runtime" in
-  fun x ->
-    let loc = noloc in
+  fun ~loc x ->
     [%expr
       [%e
-        Exp.ident
-          {
-            loc = noloc;
-            txt = Longident.Ldot (jsMapperRt, "raiseWhenNotFound");
-          }]
+        Exp.ident ~loc
+          { loc; txt = Longident.Ldot (jsMapperRt, "raiseWhenNotFound") }]
         [%e x]]
 
 let derivingName = "jsConverter"
 
 let derive_structure =
-  let single_non_rec_value name exp =
-    Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
+  let single_non_rec_value ~loc name exp =
+    Str.value ~loc Nonrecursive [ Vb.mk ~loc (Pat.var ~loc name) exp ]
   in
   let not_applicable ~loc =
     [
       [%stri
         [%%ocaml.error
         [%e
-          Exp.constant (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+          Exp.constant ~loc
+            (Pconst_string (U.notApplicable derivingName, loc, None))]]];
     ]
   in
   let handle_tdcl ~createType (tdcl : type_declaration) =
-    let core_type = U.core_type_of_type_declaration tdcl in
+    let source_loc = tdcl.ptype_name.loc in
+    let loc = ghost source_loc in
+    let core_type =
+      let core_type =
+        ghost_locations#core_type (U.core_type_of_type_declaration tdcl)
+      in
+      { core_type with ptyp_loc = loc }
+    in
     let name = tdcl.ptype_name.txt in
     let toJs = name ^ "ToJs" in
     let fromJs = name ^ "FromJs" in
-    let loc = tdcl.ptype_loc in
     let patToJs = { Asttypes.loc; txt = toJs } in
     let patFromJs = { Asttypes.loc; txt = fromJs } in
     let param = "param" in
 
-    let ident_param = { Asttypes.txt = Longident.Lident param; loc } in
-    let pat_param = { Asttypes.loc; txt = param } in
-    let exp_param = Exp.ident ident_param in
+    let exp_param ~loc =
+      Exp.ident ~loc { Asttypes.txt = Longident.Lident param; loc }
+    in
+    let pat_param ~loc = Pat.var ~loc { Asttypes.loc; txt = param } in
     let newType, newTdcl =
       U.new_type_of_type_declaration tdcl ("abs_" ^ name)
     in
+    let newType =
+      let newType = ghost_locations#core_type newType in
+      { newType with ptyp_loc = loc }
+    in
+    let newTdcl =
+      let newTdcl = ghost_locations#type_declaration newTdcl in
+      { newTdcl with ptype_loc = loc }
+    in
     let newTypeStr =
       (* Abstract type *)
-      { pstr_loc = loc; pstr_desc = Pstr_type (Nonrecursive, [ newTdcl ]) }
+      Str.type_ ~loc Nonrecursive [ newTdcl ]
     in
     let toJsBody body =
-      Str.value Nonrecursive
+      Str.value ~loc Nonrecursive
         [
-          Vb.mk (Pat.var patToJs)
-            (Exp.fun_ Nolabel None
-               (Pat.constraint_ (Pat.var pat_param) core_type)
+          Vb.mk ~loc (Pat.var ~loc patToJs)
+            (Exp.fun_ ~loc Nolabel None
+               (Pat.constraint_ ~loc (pat_param ~loc) core_type)
                body);
         ]
     in
-    let ( +> ) a ty = Exp.constraint_ (eraseType a) ty in
-    let ( +: ) a ty = eraseType (Exp.constraint_ a ty) in
+    let ( +> ) a ty = Exp.constraint_ ~loc (eraseType ~loc a) ty in
+    let ( +: ) a ty = eraseType ~loc (Exp.constraint_ ~loc a ty) in
     let coerceResultToNewType e = if createType then e +> newType else e in
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
@@ -176,32 +190,36 @@ let derive_structure =
                (Ast_object.record_as_js_object ~loc
                   (List.map
                      ~f:(fun { pld_name = { loc; txt }; _ } ->
+                       let loc = ghost loc in
                        let label =
                          { Asttypes.loc; txt = Longident.Lident txt }
                        in
-                       (label, Exp.field exp_param label))
+                       (label, Exp.field ~loc (exp_param ~loc) label))
                      label_declarations)))
         in
         let toJs = toJsBody exp in
         let obj_exp =
-          Exp.record
+          Exp.record ~loc
             (List.map
                ~f:(fun { pld_name = { loc; txt }; _ } ->
+                 let loc = ghost loc in
                  let label = { Asttypes.loc; txt = Longident.Lident txt } in
-                 (label, js_field exp_param label))
+                 (label, js_field ~loc (exp_param ~loc) label))
                label_declarations)
             None
         in
         let fromJs =
-          Str.value Nonrecursive
+          Str.value ~loc Nonrecursive
             [
-              Vb.mk (Pat.var patFromJs)
-                (Exp.fun_ Nolabel None (Pat.var pat_param)
+              Vb.mk ~loc (Pat.var ~loc patFromJs)
+                (Exp.fun_ ~loc Nolabel None (pat_param ~loc)
                    (if createType then
-                      Exp.let_ Nonrecursive
-                        [ Vb.mk (Pat.var pat_param) (exp_param +: newType) ]
-                        (Exp.constraint_ obj_exp core_type)
-                    else Exp.constraint_ obj_exp core_type));
+                      Exp.let_ ~loc Nonrecursive
+                        [
+                          Vb.mk ~loc (pat_param ~loc) (exp_param ~loc +: newType);
+                        ]
+                        (Exp.constraint_ ~loc obj_exp core_type)
+                    else Exp.constraint_ ~loc obj_exp core_type));
             ]
         in
         let rest = [ toJs; fromJs ] in
@@ -210,38 +228,49 @@ let derive_structure =
         match Ast_polyvar.is_enum_polyvar tdcl with
         | Some row_fields ->
             let map, revMap = ("_map", "_revMap") in
-            let expMap = Exp.ident { loc; txt = Lident map } in
-            let revExpMap = Exp.ident { loc; txt = Lident revMap } in
+            let expMap () = Exp.ident ~loc { loc; txt = Lident map } in
+            let revExpMap () = Exp.ident ~loc { loc; txt = Lident revMap } in
             let data, revData, has_mel_as = buildMap row_fields in
 
             let v =
               [
                 eraseTypeStr;
                 unsafeIndexGet;
-                single_non_rec_value { loc; txt = map }
+                single_non_rec_value ~loc { loc; txt = map }
                   (Ast_extensions.handle_raw ~kind:Raw_exp ~loc
-                     (PStr [ Str.eval (Exp.constant (Const.string data)) ]));
-                single_non_rec_value { loc; txt = revMap }
+                     (PStr
+                        [
+                          Str.eval ~loc (Exp.constant ~loc (Const.string data));
+                        ]));
+                single_non_rec_value ~loc { loc; txt = revMap }
                   (if has_mel_as then
                      Ast_extensions.handle_raw ~kind:Raw_exp ~loc
-                       (PStr [ Str.eval (Exp.constant (Const.string revData)) ])
-                   else expMap);
+                       (PStr
+                          [
+                            Str.eval ~loc
+                              (Exp.constant ~loc (Const.string revData));
+                          ])
+                   else expMap ());
                 toJsBody
                   (if has_mel_as then
-                     [%expr [%e unsafeIndexGetExp] [%e expMap] [%e exp_param]]
-                   else [%expr [%e eraseTypeExp] [%e exp_param]]);
-                single_non_rec_value patFromJs
-                  (Exp.fun_ Nolabel None (Pat.var pat_param)
+                     [%expr
+                       [%e unsafeIndexGetExp ~loc] [%e expMap ()]
+                         [%e exp_param ~loc]]
+                   else eraseType ~loc (exp_param ~loc));
+                single_non_rec_value ~loc patFromJs
+                  (Exp.fun_ ~loc Nolabel None (pat_param ~loc)
                      (let result =
                         [%expr
-                          [%e unsafeIndexGetExp] [%e revExpMap] [%e exp_param]]
+                          [%e unsafeIndexGetExp ~loc] [%e revExpMap ()]
+                            [%e exp_param ~loc]]
                       in
-                      if createType then raiseWhenNotFound result else result));
+                      if createType then raiseWhenNotFound ~loc result
+                      else result));
               ]
             in
             if createType then newTypeStr :: v else v
-        | None -> not_applicable ~loc)
-    | Ptype_variant _ | Ptype_open -> not_applicable ~loc
+        | None -> not_applicable ~loc:source_loc)
+    | Ptype_variant _ | Ptype_open -> not_applicable ~loc:source_loc
   in
   fun ~newType:createType (tdcls : type_declaration list) ->
     List.concat_map ~f:(handle_tdcl ~createType) tdcls
@@ -252,41 +281,62 @@ let derive_signature =
       [%sigi:
         [%%ocaml.error
         [%e
-          Exp.constant (Pconst_string (U.notApplicable derivingName, loc, None))]]];
+          Exp.constant ~loc
+            (Pconst_string (U.notApplicable derivingName, loc, None))]]];
     ]
   in
   let handle_tdcl ~createType tdcl =
-    let core_type = U.core_type_of_type_declaration tdcl in
+    let source_loc = tdcl.ptype_name.loc in
+    let loc = ghost source_loc in
+    let core_type =
+      let core_type =
+        ghost_locations#core_type (U.core_type_of_type_declaration tdcl)
+      in
+      { core_type with ptyp_loc = loc }
+    in
     let name = tdcl.ptype_name.txt in
     let toJs = name ^ "ToJs" in
     let fromJs = name ^ "FromJs" in
-    let loc = tdcl.ptype_loc in
     let patToJs = { Asttypes.loc; txt = toJs } in
     let patFromJs = { Asttypes.loc; txt = fromJs } in
     let toJsType result =
-      Sig.value (Val.mk patToJs [%type: [%t core_type] -> [%t result]])
+      Sig.value ~loc (Val.mk ~loc patToJs (arrow ~loc core_type result))
     in
     let newType, newTdcl =
       U.new_type_of_type_declaration tdcl ("abs_" ^ name)
     in
-    let newTypeStr = Sig.type_ Nonrecursive [ newTdcl ] in
+    let newType =
+      let newType = ghost_locations#core_type newType in
+      { newType with ptyp_loc = loc }
+    in
+    let newTdcl =
+      let newTdcl = ghost_locations#type_declaration newTdcl in
+      { newTdcl with ptype_loc = loc }
+    in
+    let newTypeStr = Sig.type_ ~loc Nonrecursive [ newTdcl ] in
     let ( +? ) v rest = if createType then v :: rest else rest in
     match tdcl.ptype_kind with
     | Ptype_record label_declarations ->
         let objType flag =
           Ast_core_type.to_js_type ~loc
-            (Typ.object_
+            (Typ.object_ ~loc
                (List.map
-                  ~f:(fun { pld_name; pld_type; _ } -> Of.tag pld_name pld_type)
+                  ~f:(fun { pld_name; pld_type; _ } ->
+                    let field_loc = ghost pld_name.loc in
+                    let pld_name = { pld_name with loc = field_loc } in
+                    let pld_type = ghost_locations#core_type pld_type in
+                    Of.tag ~loc:field_loc pld_name pld_type)
                   label_declarations)
                flag)
         in
         newTypeStr
         +? [
              toJsType (if createType then newType else objType Closed);
-             Sig.value
-               (Val.mk patFromJs
-                  ((if createType then newType else objType Open) ->~ core_type));
+             Sig.value ~loc
+               (Val.mk ~loc patFromJs
+                  (arrow ~loc
+                     (if createType then newType else objType Open)
+                     core_type));
            ]
     | Ptype_abstract -> (
         match Ast_polyvar.is_enum_polyvar tdcl with
@@ -297,9 +347,12 @@ let derive_signature =
               else Ast_core_type.lift_option_type core_type
             in
             newTypeStr
-            +? [ toJsType ty1; Sig.value (Val.mk patFromJs (ty1 ->~ ty2)) ]
-        | None -> not_applicable ~loc)
-    | Ptype_variant _ | Ptype_open -> not_applicable ~loc
+            +? [
+                 toJsType ty1;
+                 Sig.value ~loc (Val.mk ~loc patFromJs (arrow ~loc ty1 ty2));
+               ]
+        | None -> not_applicable ~loc:source_loc)
+    | Ptype_variant _ | Ptype_open -> not_applicable ~loc:source_loc
   in
   fun ~newType:createType tdcls ->
     List.concat_map ~f:(handle_tdcl ~createType) tdcls
