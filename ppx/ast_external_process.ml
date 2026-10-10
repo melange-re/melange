@@ -46,7 +46,7 @@ let variant_unwrap =
 (* TODO: [nolabel] is only used once turn Nothing into Unit, refactor later *)
 let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
   let ptyp_desc = ptyp.ptyp_desc in
-  let { Ast_attributes.Param_modifier.kind = spec; loc = _loc } =
+  let { Ast_attributes.Param_modifier.kind = spec; loc = modifier_loc } =
     Ast_attributes.iter_process_mel_param_modifier ptyp.ptyp_attributes
   in
   match spec with
@@ -54,7 +54,8 @@ let spec_of_ptyp ~(nolabel : bool) (ptyp : core_type) : External_arg_spec.t =
   | String -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
-          Ast_polyvar.map_row_fields_into_strings row_fields ~loc:ptyp.ptyp_loc
+          Ast_polyvar.map_row_fields_into_strings row_fields
+            ~type_loc:ptyp.ptyp_loc ~modifier_loc
       | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
   | Int -> (
       match ptyp_desc with

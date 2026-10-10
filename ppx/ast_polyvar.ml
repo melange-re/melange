@@ -77,7 +77,7 @@ let map_row_fields_into_strings =
     in
     (txt, External_arg_spec.Arg_cst.Str name)
   in
-  fun (row_fields : row_field list) ~loc ->
+  fun (row_fields : row_field list) ~type_loc ~modifier_loc ->
     let has_mel_as = ref false in
     let case, result =
       List.fold_right
@@ -87,15 +87,15 @@ let map_row_fields_into_strings =
             | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) -> (`Null, txt)
             | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
                 (`NonNull, txt)
-            | _ -> Error.err ~loc Invalid_mel_string_type
+            | _ -> Error.err ~loc:type_loc Invalid_mel_string_type
           in
           (nullary, process_mel_as tag ~txt ~has_mel_as :: acc))
         row_fields ~init:(`Nothing, [])
     in
     match (case, !has_mel_as) with
-    | `Nothing, _ -> Error.err ~loc Invalid_mel_string_type
+    | `Nothing, _ -> Error.err ~loc:type_loc Invalid_mel_string_type
     | `Null, false ->
-        Mel_ast_invariant.warn ~loc Redundant_mel_string;
+        Mel_ast_invariant.warn ~loc:modifier_loc Redundant_mel_string;
         External_arg_spec.Nothing
     | `Null, true -> Poly_var { descr = result; spread = false }
     | `NonNull, has_mel_as ->
