@@ -13,4 +13,5 @@ let () =
       ("unicode", Test_unicode.suite);
       ("scc", Test_scc.suite);
       ("io", Test_io.suite);
+      ("accessor locations", Test_accessor_locations.suite);
     ]
