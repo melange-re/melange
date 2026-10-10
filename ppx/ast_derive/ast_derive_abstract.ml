@@ -69,7 +69,7 @@ let derive_js_constructor =
               Ast_attributes.has_mel_optional x.pld_attributes)
             label_declarations
         in
-        let loc = tdcl.ptype_loc in
+        let loc = tdcl.ptype_name.loc in
         let makeType, labels =
           List.fold_right
             ~f:(fun
@@ -116,8 +116,7 @@ let derive_js_constructor =
         | Private -> []
         | Public ->
             [
-              Val.mk ~loc
-                { loc; txt = tdcl.ptype_name.txt }
+              Val.mk ~loc:tdcl.ptype_loc tdcl.ptype_name
                 ~attrs:
                   [
                     Ast_attributes.mel_ffi
@@ -206,19 +205,35 @@ let derive_getters_setters =
 let derive_js_constructor_str tdcls =
   List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
-      List.map ~f:Str.primitive value_descriptions @ sts)
+      List.map
+        ~f:(fun value ->
+          Str.primitive ~loc:{ value.pval_loc with loc_ghost = true } value)
+        value_descriptions
+      @ sts)
 
 let derive_js_constructor_sig tdcls =
   List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_js_constructor tdcl in
-      List.map ~f:Sig.value value_descriptions @ sts)
+      List.map
+        ~f:(fun value ->
+          Sig.value ~loc:{ value.pval_loc with loc_ghost = true } value)
+        value_descriptions
+      @ sts)
 
 let derive_getters_setters_str ~light tdcls =
   List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters tdcl ~light in
-      List.map ~f:Str.primitive value_descriptions @ sts)
+      List.map
+        ~f:(fun value ->
+          Str.primitive ~loc:{ value.pval_loc with loc_ghost = true } value)
+        value_descriptions
+      @ sts)
 
 let derive_getters_setters_sig ~light tdcls =
   List.fold_right tdcls ~init:[] ~f:(fun tdcl sts ->
       let value_descriptions = derive_getters_setters ~light tdcl in
-      List.map ~f:Sig.value value_descriptions @ sts)
+      List.map
+        ~f:(fun value ->
+          Sig.value ~loc:{ value.pval_loc with loc_ghost = true } value)
+        value_descriptions
+      @ sts)
