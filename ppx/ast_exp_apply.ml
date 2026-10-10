@@ -334,7 +334,7 @@ let app_exp_mapper =
                         [ (Nolabel, arg) ];
                   }
                   [%type: unit]
-            | _ -> assert false)
+            | _ -> Location.raise_errorf ~loc "invalid #= syntax")
         | Some { op = Operator.Pipe; loc; _ } ->
             Location.raise_errorf ~loc
               "invalid |. syntax, it can only be used as binary operator"
