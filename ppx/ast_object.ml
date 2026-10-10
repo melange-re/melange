@@ -232,7 +232,7 @@ let ocaml_object_as_js_object =
                            [
                              {
                                pparam_desc = Pparam_val (Nolabel, None, self_pat);
-                               pparam_loc = x.pcf_loc;
+                               pparam_loc = self_pat.ppat_loc;
                              };
                            ]
                            f);

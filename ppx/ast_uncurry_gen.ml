@@ -31,10 +31,10 @@ let process_function =
     | [] -> (arity, rev_args)
     | { pparam_desc = Pparam_newtype _; _ } :: args ->
         process_args ~loc self args ~arity rev_args
-    | { pparam_desc = Pparam_val (arg_label, _, arg); _ } :: args ->
-        Error.optional_err ~loc arg_label;
+    | { pparam_desc = Pparam_val (arg_label, _, arg); pparam_loc } :: args ->
+        Error.optional_err ~loc:pparam_loc arg_label;
         process_args ~loc self args ~arity:(arity + 1)
-          ((arg_label, self#pattern arg) :: rev_args)
+          ((arg_label, pparam_loc, self#pattern arg) :: rev_args)
   in
   let rec aux ~loc self ((arity, rev_args) as acc) (body : expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
@@ -80,8 +80,8 @@ let to_method_callback =
       let body =
         Ast_builder.Default.pexp_function ~loc
           (List.rev_map
-             ~f:(fun (label, p) ->
-               { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
+             ~f:(fun (label, pparam_loc, p) ->
+               { pparam_desc = Pparam_val (label, None, p); pparam_loc })
              rev_extra_args)
           None (Pfunction_body result)
       in
@@ -108,7 +108,7 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
   let arity =
     match rev_extra_args with
     | [
-     (_, { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ });
+     (_, _, { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ });
     ] ->
         0
     | _ -> arity
@@ -117,8 +117,8 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
   let body =
     Ast_builder.Default.pexp_function ~loc
       (List.rev_map
-         ~f:(fun (label, p) ->
-           { pparam_desc = Pparam_val (label, None, p); pparam_loc = loc })
+         ~f:(fun (label, pparam_loc, p) ->
+           { pparam_desc = Pparam_val (label, None, p); pparam_loc })
          rev_extra_args)
       None (Pfunction_body result)
   in
