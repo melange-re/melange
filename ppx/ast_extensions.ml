@@ -27,15 +27,6 @@ open Ast_helper
 
 type local_primitive = Raw_expr | Raw_stmt | Debugger
 
-let ghost_expression =
-  let mapper =
-    object
-      inherit Ast_traverse.map
-      method! location loc = { loc with loc_ghost = true }
-    end
-  in
-  fun exp -> mapper#expression exp
-
 let local_external_apply =
   let local_module_name = "J" in
   let local_fun_name = "unsafe_expr" in
@@ -43,7 +34,7 @@ let local_external_apply =
     Typ.arrow ~loc Nolabel (Typ.any ~loc ()) (Typ.any ~loc ())
   in
   fun ~loc (primitive : local_primitive) (arg : expression) ->
-    let ghost_loc = { loc with loc_ghost = true } in
+    let ghost_loc = Ast_location.ghost loc in
     let primitive_name, pval_type =
       match primitive with
       | Raw_expr -> ("#raw_expr", any_to_any ~loc:ghost_loc)
@@ -82,7 +73,7 @@ let local_external_apply =
 ]}
 *)
 let handle_external ~loc x =
-  let ghost_loc = { loc with loc_ghost = true } in
+  let ghost_loc = Ast_location.ghost loc in
   let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
@@ -108,7 +99,7 @@ let handle_external ~loc x =
         (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
          else [%e raw_exp])]
   in
-  { (ghost_expression exp) with pexp_loc = loc }
+  { (Ast_location.mapper#expression exp) with pexp_loc = loc }
 
 let handle_debugger ~loc payload =
   match payload with
