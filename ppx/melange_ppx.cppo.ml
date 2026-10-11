@@ -203,7 +203,7 @@ module Re = struct
     let rule label =
       let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let ghost_loc = { loc with loc_ghost = true } in
+        let ghost_loc = Ast_location.ghost loc in
         let exp = Ast_extensions.handle_raw ~kind:Raw_re ~loc payload in
         Exp.constraint_ ~loc
           { exp with pexp_loc = ghost_loc }
@@ -283,7 +283,7 @@ module Node = struct
                   (("__filename" | "__dirname" | "_module" | "require") as name);
               loc = payload_loc;
             } ->
-            let ghost_loc = { payload_loc with loc_ghost = true } in
+            let ghost_loc = Ast_location.ghost payload_loc in
             let exp =
               Ast_extensions.handle_external ~loc:ghost_loc (strip name)
             in
