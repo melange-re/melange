@@ -25,9 +25,16 @@
 open Import
 open Ast_helper
 
+let ghost_loc loc = { loc with loc_ghost = true }
+
 let js_property loc obj (name : string) =
+  let helper_loc = ghost_loc loc in
   Pexp_send
-    ( [%expr [%e Exp.ident { txt = Ast_literal.unsafe_downgrade; loc }] [%e obj]],
+    ( [%expr
+        [%e
+          Exp.ident ~loc:helper_loc
+            { txt = Ast_literal.unsafe_downgrade; loc = helper_loc }]
+          [%e obj]],
       { loc; txt = name } )
 
 let generic_apply =
@@ -36,6 +43,7 @@ let generic_apply =
      avoid some syntactic transformation, e.g ` e |. (f g [@bs])` `opaque` is
      to avoid it being inspected in the type level *)
   let opaque_full_apply ~loc e =
+    let helper_loc = ghost_loc loc in
     Pexp_constraint
       ( Exp.apply ~loc
           ~attrs:
@@ -51,7 +59,8 @@ let generic_apply =
                * known at compile time. *)
               Ast_attributes.ignored_extra_argument;
             ]
-          (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
+          (Exp.ident ~loc:helper_loc
+             { txt = Ast_literal.js_internal_full_apply; loc = helper_loc })
           [ (Nolabel, e) ],
         Typ.any ~loc () )
   in
@@ -84,14 +93,15 @@ let generic_apply =
     in
     match args with
     | [] ->
+        let helper_loc = ghost_loc loc in
         Pexp_apply
-          ( Exp.ident
+          ( Exp.ident ~loc:helper_loc
               {
                 txt =
                   (match kind with
                   | `oo -> Ldot (Ldot (Ast_literal.js_oo, "Internal"), "run")
                   | `generic -> Ldot (Ast_literal.js_internal, "run"));
-                loc;
+                loc = helper_loc;
               },
             [ (Nolabel, fn) ] )
     | args ->
