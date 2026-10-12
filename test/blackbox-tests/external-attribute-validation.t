@@ -67,9 +67,9 @@ The invalid variadic argument takes precedence over the getter conflict.
   > external get : int -> int = "value" [@@mel.get] [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", line 1, characters 0-64:
+  File "x.ml", line 1, characters 15-18:
   1 | external get : int -> int = "value" [@@mel.get] [@@mel.variadic]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     ^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
@@ -93,9 +93,9 @@ The same precedence applies to a send with a module binding.
   > [@@mel.send] [@@mel.module "package"] [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 1-2, characters 0-54:
+  File "x.ml", line 1, characters 16-19:
   1 | external send : int -> int = "run"
-  2 | [@@mel.send] [@@mel.module "package"] [@@mel.variadic]
+                      ^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
@@ -106,9 +106,9 @@ And to a whole-module import with a scope.
   > [@@mel.module] [@@mel.scope "nested"] [@@mel.variadic]
   > EOF
   $ melc -ppx melppx -alert -unprocessed x.ml
-  File "x.ml", lines 1-2, characters 0-54:
+  File "x.ml", line 1, characters 16-19:
   1 | external call : int -> int = "package"
-  2 | [@@mel.module] [@@mel.scope "nested"] [@@mel.variadic]
+                      ^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
 
