@@ -34,11 +34,15 @@ let bound =
     | Pexp_constraint (e, _) -> needs_bound e
     | _ -> true
   in
-  fun e ~loc ~f:(cb : expression -> expression) ->
+  fun e ~loc ~opens ~f:(cb : expression -> expression) ->
     let generated_loc = Ast_location.ghost loc in
-    match needs_bound e with
-    | false -> cb (Ast_location.mapper#expression e)
-    | true ->
+    let body bounded_obj_arg =
+      Ast_open_cxt.restore_exp ~loc:generated_loc (cb bounded_obj_arg) opens
+    in
+    let always_bind = match opens with [] -> false | _ :: _ -> true in
+    match (always_bind, needs_bound e) with
+    | false, false -> body (Ast_location.mapper#expression e)
+    | _ ->
         let binding_loc = Ast_location.ghost e.pexp_loc in
         Exp.let_ ~loc:generated_loc Nonrecursive
           [
@@ -47,7 +51,7 @@ let bound =
                  { txt = ocaml_obj_id; loc = binding_loc })
               e;
           ]
-          (cb
+          (body
              (Exp.ident ~loc:binding_loc
                 { txt = Lident ocaml_obj_id; loc = binding_loc }))
 
@@ -179,7 +183,7 @@ let app_exp_mapper =
                     wholes ) ->
                     let generated_loc = Ast_location.ghost loc in
                     let transformed =
-                      bound a ~loc ~f:(fun bounded_obj_arg ->
+                      bound a ~loc ~opens:wholes ~f:(fun bounded_obj_arg ->
                           {
                             f with
                             pexp_desc =
@@ -216,10 +220,6 @@ let app_exp_mapper =
                             pexp_attributes = tuple_attrs;
                             pexp_loc = generated_loc;
                           })
-                    in
-                    let transformed =
-                      Ast_open_cxt.restore_exp ~loc:generated_loc transformed
-                        wholes
                     in
                     { transformed with pexp_loc = loc }
                 | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
