@@ -512,3 +512,35 @@ Invalid `mel.as` payloads point at the payload expression
                    ^^^
   Error: `[@mel.variadic]' expects its last argument to be an array
   [2]
+
+Invalid polymorphic variant fields point at the offending field
+
+  $ cat > x.ml <<'EOF'
+  > external f : ([ `A | `B of int ] [@mel.int]) -> unit = "f"
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 21-30:
+  1 | external f : ([ `A | `B of int ] [@mel.int]) -> unit = "f"
+                           ^^^^^^^^^
+  Error: Invalid type for `[@mel.int]'
+  [2]
+
+  $ cat > x.ml <<'EOF'
+  > external f : ([ `A | `B of int ] [@mel.string]) -> unit = "f"
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 16-18:
+  1 | external f : ([ `A | `B of int ] [@mel.string]) -> unit = "f"
+                      ^^
+  Error: Invalid type for `[@mel.string]'
+  [2]
+
+  $ cat > x.ml <<'EOF'
+  > external f : ([ `A | `B of int ] [@mel.spread]) -> unit = "f"
+  > EOF
+  $ melc -ppx melppx -alert -unprocessed x.ml
+  File "x.ml", line 1, characters 16-18:
+  1 | external f : ([ `A | `B of int ] [@mel.spread]) -> unit = "f"
+                      ^^
+  Error: Invalid type for `[@mel.spread]'
+  [2]
