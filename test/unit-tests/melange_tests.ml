@@ -3,6 +3,7 @@ let () =
     [
       ("array", Test_array.suite);
       ("ident mask", Test_ident_mask.suite);
+      ("local JS bindings", Test_local_js_bindings.suite);
       ("vec", Test_vec.suite);
       ("path", Test_path.suite);
       ("list", Test_list.suite);
