@@ -120,7 +120,9 @@ module Win32 : SYSDEPS = struct
   let current_dir_name = "."
   let parent_dir_name = ".."
   let dir_sep = "\\"
-  let is_dir_sep s i = let c = s.[i] in c = '/' || c = '\\' || c = ':'
+  let is_dir_sep s i =
+    let c = s.[i] in
+    c = '/' || c = '\\' || c = ':' && i = 1
   let is_relative n =
     (String.length n < 1 || n.[0] <> '/')
     && (String.length n < 1 || n.[0] <> '\\')
@@ -196,7 +198,9 @@ Quoting commands for execution by cmd.exe is difficult.
     String.iter
       (fun c ->
         match c with
-        | '(' | ')' | '!' | '^' | '%' | '\"' | '<' | '>' | '&' | '|' ->
+        | '\n' | '\r' ->
+            failwith ("Filename.quote_command: cannot escape newline in " ^ s)
+        | '(' | ')' | '!' | '^' | '%' | ':' | '\"' | '<' | '>' | '&' | '|' ->
             Buffer.add_char b '^'; Buffer.add_char b c
         | _ ->
             Buffer.add_char b c)
@@ -210,10 +214,13 @@ Quoting commands for execution by cmd.exe is difficult.
         String.map (function '/' -> '\\' | c -> c) f
       else f
     in
-    if String.exists (function '\"' | '%' -> true | _ -> false) f then
+    if String.exists (function
+              | '\n' | '\r' | '\"' | '%' -> true
+              | _ -> false) f then
       failwith ("Filename.quote_command: bad file name " ^ f)
     else if String.exists (function
-              | ' ' | '(' | ')' | '!' | '^' | '&' -> true
+              | ' ' | '\t' | '(' | ')' | '^' | '<' | '>' | '&' | '|' | '!'
+                  -> true
               | _ -> false) f then
       String.concat "" ["\""; f; "\""]
     else
