@@ -147,6 +147,21 @@ let () =
           eq 0 !calls;
           eq [ 1; 2; 3 ] (List.of_seq (Seq.take 3 fresh));
           eq 3 !calls );
+      ( "sequence ranges terminate at integer endpoints",
+        fun () ->
+          let range first last =
+            Seq.ints_in_range ~first ~last |> Seq.take 4 |> List.of_seq
+          in
+          eq [ max_int ] (range max_int max_int);
+          eq [ max_int - 2; max_int - 1; max_int ]
+            (range (max_int - 2) max_int);
+          eq [ min_int ] (range min_int min_int);
+          eq [ min_int; min_int + 1; min_int + 2 ]
+            (range min_int (min_int + 2));
+          eq [] (range max_int min_int);
+          let endpoint = Seq.ints_in_range ~first:max_int ~last:max_int in
+          eq [ max_int ] (List.of_seq (Seq.take 2 endpoint));
+          eq [ max_int ] (List.of_seq (Seq.take 2 endpoint)) );
       ( "dynarray immutable-array conversions copy",
         fun () ->
           let source = Iarray.of_list [ 1; 2 ] in
