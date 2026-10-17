@@ -45,24 +45,36 @@ let convert_mel_error_function =
   in
   fun ~loc (self : Ast_traverse.map) attrs (cases : case list) ->
     let open Ast_helper in
+    let generated_loc = Ast_location.ghost loc in
     let txt = "match" in
-    let txt_expr = Exp.ident ~loc { txt = Lident txt; loc } in
-    let none = Exp.construct ~loc { txt = Ast_literal.predef_none; loc } None in
+    let txt_expr =
+      Exp.ident ~loc:generated_loc { txt = Lident txt; loc = generated_loc }
+    in
+    let none =
+      Exp.construct ~loc:generated_loc
+        { txt = Ast_literal.predef_none; loc = generated_loc }
+        None
+    in
     check_cases cases;
     Exp.fun_ ~attrs ~loc Nolabel None
-      (Pat.var ~loc { txt; loc })
-      (Exp.ifthenelse ~loc
-         [%expr
-           [%e Exp.ident ~loc { txt = isCamlExceptionOrOpenVariant; loc }]
-             [%e txt_expr]]
-         (Exp.match_ ~loc
-            (Exp.constraint_ ~loc
-               [%expr
-                 [%e Exp.ident ~loc { txt = obj_magic; loc }] [%e txt_expr]]
-               [%type: exn])
+      (Pat.var ~loc:generated_loc { txt; loc = generated_loc })
+      (Exp.ifthenelse ~loc:generated_loc
+         (Exp.apply ~loc:generated_loc
+            (Exp.ident ~loc:generated_loc
+               { txt = isCamlExceptionOrOpenVariant; loc = generated_loc })
+            [ (Nolabel, txt_expr) ])
+         (Exp.match_ ~loc:generated_loc
+            (Exp.constraint_ ~loc:generated_loc
+               (Exp.apply ~loc:generated_loc
+                  (Exp.ident ~loc:generated_loc
+                     { txt = obj_magic; loc = generated_loc })
+                  [ (Nolabel, txt_expr) ])
+               (Typ.constr ~loc:generated_loc
+                  { txt = Lident "exn"; loc = generated_loc }
+                  []))
             (List.map
                ~f:(fun ({ pc_rhs; _ } as x) ->
-                 let loc = pc_rhs.pexp_loc in
+                 let loc = Ast_location.ghost pc_rhs.pexp_loc in
                  {
                    x with
                    pc_rhs =
@@ -71,5 +83,5 @@ let convert_mel_error_function =
                        (Some pc_rhs);
                  })
                (self#cases cases)
-            @ [ Exp.case (Pat.any ~loc ()) none ]))
+            @ [ Exp.case (Pat.any ~loc:generated_loc ()) none ]))
          (Some none))
