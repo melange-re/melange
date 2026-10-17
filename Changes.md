@@ -12,6 +12,8 @@ Unreleased
   [#1924](https://github.com/melange-re/melange/pull/1924))
 - compiler: resolve exception paths in the correct namespace
   ([#1996](https://github.com/melange-re/melange/pull/1996))
+- Update OCaml Stdlib to OCaml 5.6
+  ([#2015](https://github.com/melange-re/melange/pull/2015))
 
 
 7.0.1-55 2026-07-12
