@@ -71,6 +71,9 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Pt_constructor_access { cstr_name } ->
           Const_pointer
             (Js_exp_make.variant_pos ~constr:cstr_name (Int32.of_int i))
+#if OCAML_VERSION >= (5,6,0)
+      | Pt_atomic_field { name } -> Const_pointer name
+#endif
       | Pt_variant { name } -> Const_pointer name
       | Pt_na -> Const_int { i = Int32.of_int i; comment = None })
 #if OCAML_VERSION >= (5,5,0)
