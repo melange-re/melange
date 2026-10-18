@@ -130,6 +130,24 @@ function is_singleton(param) {
   }
 }
 
+function singleton_to_binding(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return [
+      param.v,
+      param.d
+    ];
+  }
+  
+}
+
 function add(x, data, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
@@ -781,7 +799,7 @@ function merge$1(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          413,
+          418,
           10
         ]
       });
@@ -1156,6 +1174,7 @@ const IntMap = {
   split,
   is_empty,
   is_singleton,
+  singleton_to_binding,
   mem,
   equal,
   compare: compare$1,

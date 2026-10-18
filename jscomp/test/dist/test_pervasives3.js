@@ -126,6 +126,8 @@ const Stdlib$1 = {
   map: Stdlib__List.map,
   mapi: Stdlib__List.mapi,
   rev_map: Stdlib__List.rev_map,
+  append_map: Stdlib__List.append_map,
+  rev_append_map: Stdlib__List.rev_append_map,
   filter_map: Stdlib__List.filter_map,
   filter_mapi: Stdlib__List.filter_mapi,
   concat_map: Stdlib__List.concat_map,

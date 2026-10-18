@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Caml_option = require("melange.js/caml_option.js");
 const Curry = require("melange.js/curry.js");
 const ReasonReactOptimizedCreateClass = require("./reasonReactOptimizedCreateClass.js");
 const Stdlib = require("melange/stdlib.js");
@@ -345,7 +344,7 @@ function element(keyOpt, refOpt, component) {
   };
   const jsElementWrapped = component.jsElementWrapped;
   if (jsElementWrapped !== undefined) {
-    return Curry._2(Caml_option.valFromOption(jsElementWrapped), key, ref);
+    return Curry._2(jsElementWrapped, key, ref);
   } else {
     return React.createElement(component.reactClassInternal, {
       key,

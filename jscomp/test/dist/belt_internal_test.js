@@ -15,11 +15,10 @@ function copy(n) {
   if (n === undefined) {
     return n;
   }
-  const match = Caml_option.valFromOption(n);
-  const v = match.value;
-  const h = match.height;
-  const l = match.left;
-  const r = match.right;
+  const v = n.value;
+  const h = n.height;
+  const l = n.left;
+  const r = n.right;
   return {
     value: v,
     height: h,
