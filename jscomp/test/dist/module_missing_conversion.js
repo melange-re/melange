@@ -35,6 +35,8 @@ const XX = {
   fold_right: Stdlib__Array.fold_right,
   iter2: Stdlib__Array.iter2,
   map2: Stdlib__Array.map2,
+  fold_left2: Stdlib__Array.fold_left2,
+  fold_right2: Stdlib__Array.fold_right2,
   for_all: Stdlib__Array.for_all,
   exists: Stdlib__Array.exists,
   for_all2: Stdlib__Array.for_all2,

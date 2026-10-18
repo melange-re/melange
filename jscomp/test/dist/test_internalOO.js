@@ -164,6 +164,24 @@ function is_singleton(param) {
   }
 }
 
+function singleton_to_binding(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return [
+      param.v,
+      param.d
+    ];
+  }
+  
+}
+
 function add(x, data, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
     return {
@@ -815,7 +833,7 @@ function merge$1(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          413,
+          418,
           10
         ]
       });
@@ -1190,6 +1208,7 @@ const Vars = {
   split,
   is_empty,
   is_singleton,
+  singleton_to_binding,
   mem,
   equal,
   compare: compare$1,
@@ -1323,6 +1342,24 @@ function is_singleton$1(param) {
   } else {
     return false;
   }
+}
+
+function singleton_to_binding$1(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return [
+      param.v,
+      param.d
+    ];
+  }
+  
 }
 
 function add$1(x, data, m) {
@@ -1976,7 +2013,7 @@ function merge$3(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          413,
+          418,
           10
         ]
       });
@@ -2351,6 +2388,7 @@ const Meths = {
   split: split$1,
   is_empty: is_empty$1,
   is_singleton: is_singleton$1,
+  singleton_to_binding: singleton_to_binding$1,
   mem: mem$1,
   equal: equal$1,
   compare: compare$3,
@@ -2484,6 +2522,24 @@ function is_singleton$2(param) {
   } else {
     return false;
   }
+}
+
+function singleton_to_binding$2(param) {
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return;
+  }
+  let tmp = param.l;
+  if (!/* tag */ (typeof tmp !== "object" && typeof tmp !== "function")) {
+    return;
+  }
+  let tmp$1 = param.r;
+  if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+    return [
+      param.v,
+      param.d
+    ];
+  }
+  
 }
 
 function add$2(x, data, m) {
@@ -3137,7 +3193,7 @@ function merge$5(f, s1, s2) {
         MEL_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/stdlib/map.ml",
-          413,
+          418,
           10
         ]
       });
@@ -3512,6 +3568,7 @@ const Labs = {
   split: split$2,
   is_empty: is_empty$2,
   is_singleton: is_singleton$2,
+  singleton_to_binding: singleton_to_binding$2,
   mem: mem$2,
   equal: equal$2,
   compare: compare$5,
