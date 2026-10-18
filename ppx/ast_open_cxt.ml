@@ -78,5 +78,5 @@ let restore_exp_with ?loc:restored_loc ~generated xs qualifiers =
 let restore_exp ?loc xs qualifiers =
   restore_exp_with ?loc ~generated:false xs qualifiers
 
-let restore_generated_exp xs qualifiers =
-  restore_exp_with ~generated:true xs qualifiers
+let restore_generated_exp ?loc xs qualifiers =
+  restore_exp_with ?loc ~generated:true xs qualifiers
