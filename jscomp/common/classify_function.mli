@@ -32,4 +32,5 @@ val classify_exp :
   (Js_parser.Loc.t, Js_parser.Loc.t) Js_parser.Flow_ast.Expression.t' ->
   Js_raw_info.exp
 
-val classify_stmt : loc:Location.t -> string -> Js_raw_info.stmt
+val classify_stmt :
+  loc:Location.t -> string -> Js_raw_info.stmt * Melstd.String.Set.t
