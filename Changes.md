@@ -14,6 +14,9 @@ Unreleased
   ([#1996](https://github.com/melange-re/melange/pull/1996))
 - Update OCaml Stdlib to OCaml 5.6
   ([#2015](https://github.com/melange-re/melange/pull/2015))
+- runtime: fix 64-bit integer decoding in `Bytes` and `String` for both
+  byte orders, as reproduced in
+  [#2028](https://github.com/melange-re/melange/pull/2028)
 
 
 7.0.1-55 2026-07-12
