@@ -14,4 +14,5 @@ let () =
       ("scc", Test_scc.suite);
       ("io", Test_io.suite);
       ("ppx locations", Test_ppx_locations.suite);
+      ("accessor locations", Test_accessor_locations.suite);
     ]
