@@ -19,16 +19,16 @@ This external triggers the `redundant` alert
   foo("foo");
   /*  Not a pure module */
 
-Invalid uses still report the annotated type
+Invalid uses point at the offending field
 
   $ cat > x.ml <<'EOF'
   > external foo : ([ `foo | `bar of int ][@mel.string]) -> unit = "foo"
   > EOF
 
   $ melc -ppx melppx x.ml
-  File "x.ml", line 1, characters 16-38:
+  File "x.ml", line 1, characters 18-22:
   1 | external foo : ([ `foo | `bar of int ][@mel.string]) -> unit = "foo"
-                      ^^^^^^^^^^^^^^^^^^^^^^
+                        ^^^^
   Error: Invalid type for `[@mel.string]'
   [2]
 
