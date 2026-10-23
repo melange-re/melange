@@ -257,18 +257,12 @@ let get64 str idx =
   let res =
     Caml_int64.of_int32 (unsafe_chr b8)
     <<<~ 56
-    ||~ Caml_int64.of_int32 (unsafe_chr b7)
-    <<<~ 48
-    ||~ Caml_int64.of_int32 (unsafe_chr b6)
-    <<<~ 40
-    ||~ Caml_int64.of_int32 (unsafe_chr b5)
-    <<<~ 32
-    ||~ Caml_int64.of_int32 (unsafe_chr b4)
-    <<<~ 24
-    ||~ Caml_int64.of_int32 (unsafe_chr b3)
-    <<<~ 16
-    ||~ Caml_int64.of_int32 (unsafe_chr b2)
-    <<<~ 8
+    ||~ (Caml_int64.of_int32 (unsafe_chr b7) <<<~ 48)
+    ||~ (Caml_int64.of_int32 (unsafe_chr b6) <<<~ 40)
+    ||~ (Caml_int64.of_int32 (unsafe_chr b5) <<<~ 32)
+    ||~ (Caml_int64.of_int32 (unsafe_chr b4) <<<~ 24)
+    ||~ (Caml_int64.of_int32 (unsafe_chr b3) <<<~ 16)
+    ||~ (Caml_int64.of_int32 (unsafe_chr b2) <<<~ 8)
     ||~ Caml_int64.of_int32 (unsafe_chr b1)
   in
   Caml_int64.unsafe_to_int64 res
