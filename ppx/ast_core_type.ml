@@ -30,7 +30,10 @@ let lift_option_type ({ ptyp_loc; _ } as ty) =
     { txt = Lident "option" (* Ast_literal.predef_option *); loc = ptyp_loc }
     [ ty ]
 
-let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
+let to_js_type ~loc x =
+  Typ.constr ~loc
+    { txt = Ast_literal.js_obj; loc = Ast_location.ghost loc }
+    [ x ]
 
 (**
    {[ unit -> 'b ]} return arity 0
