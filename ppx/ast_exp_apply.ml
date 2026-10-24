@@ -34,14 +34,26 @@ let bound =
     | Pexp_constraint (e, _) -> needs_bound e
     | _ -> true
   in
-  fun e ~f:(cb : expression -> expression) ->
-    match needs_bound e with
-    | false -> cb e
-    | true ->
-        let loc = e.pexp_loc in
-        Exp.let_ ~loc Nonrecursive
-          [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
-          (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
+  fun e ~loc ~opens ~f:(cb : expression -> expression) ->
+    let generated_loc = Ast_location.ghost loc in
+    let body bounded_obj_arg =
+      Ast_open_cxt.restore_exp ~loc:generated_loc (cb bounded_obj_arg) opens
+    in
+    let always_bind = match opens with [] -> false | _ :: _ -> true in
+    match (always_bind, needs_bound e) with
+    | false, false -> body (Ast_location.mapper#expression e)
+    | _ ->
+        let binding_loc = Ast_location.ghost e.pexp_loc in
+        Exp.let_ ~loc:generated_loc Nonrecursive
+          [
+            Vb.mk ~loc:binding_loc
+              (Pat.var ~loc:binding_loc
+                 { txt = ocaml_obj_id; loc = binding_loc })
+              e;
+          ]
+          (body
+             (Exp.ident ~loc:binding_loc
+                { txt = Lident ocaml_obj_id; loc = binding_loc }))
 
 type app_pattern = {
   op : Operator.t;
@@ -169,53 +181,60 @@ let app_exp_mapper =
                       _;
                     },
                     wholes ) ->
-                    Ast_open_cxt.restore_exp
-                      (bound a ~f:(fun bounded_obj_arg ->
-                           {
-                             f with
-                             pexp_desc =
-                               Pexp_tuple
-                                 (List.map
-                                    ~f:(fun fn ->
-                                      match fn.pexp_desc with
-                                      | Pexp_construct (ctor, None) ->
-                                          {
-                                            fn with
-                                            pexp_desc =
-                                              Pexp_construct
-                                                (ctor, Some bounded_obj_arg);
-                                          }
-                                      | Pexp_apply (fn, args) ->
-                                          Mel_ast_invariant
-                                          .warn_discarded_unused_attributes
-                                            fn.pexp_attributes;
-                                          {
-                                            pexp_desc =
-                                              Pexp_apply
-                                                ( {
-                                                    fn with
-                                                    pexp_attributes = [];
-                                                  },
-                                                  (Nolabel, bounded_obj_arg)
-                                                  :: args );
-                                            pexp_attributes = [];
-                                            pexp_loc_stack = fn.pexp_loc_stack;
-                                            pexp_loc = fn.pexp_loc;
-                                          }
-                                      | _ ->
-                                          let loc = fn.pexp_loc in
-                                          [%expr [%e fn] [%e bounded_obj_arg]])
-                                    xs);
-                             pexp_attributes = tuple_attrs;
-                           }))
-                      wholes
+                    let generated_loc = Ast_location.ghost loc in
+                    let transformed =
+                      bound a ~loc ~opens:wholes ~f:(fun bounded_obj_arg ->
+                          {
+                            f with
+                            pexp_desc =
+                              Pexp_tuple
+                                (List.map
+                                   ~f:(fun fn ->
+                                     match fn.pexp_desc with
+                                     | Pexp_construct (ctor, None) ->
+                                         {
+                                           fn with
+                                           pexp_desc =
+                                             Pexp_construct
+                                               (ctor, Some bounded_obj_arg);
+                                           pexp_loc = generated_loc;
+                                         }
+                                     | Pexp_apply (fn, args) ->
+                                         Mel_ast_invariant
+                                         .warn_discarded_unused_attributes
+                                           fn.pexp_attributes;
+                                         {
+                                           pexp_desc =
+                                             Pexp_apply
+                                               ( { fn with pexp_attributes = [] },
+                                                 (Nolabel, bounded_obj_arg)
+                                                 :: args );
+                                           pexp_attributes = [];
+                                           pexp_loc_stack = fn.pexp_loc_stack;
+                                           pexp_loc = generated_loc;
+                                         }
+                                     | _ ->
+                                         Exp.apply ~loc:generated_loc fn
+                                           [ (Nolabel, bounded_obj_arg) ])
+                                   xs);
+                            pexp_attributes = tuple_attrs;
+                            pexp_loc = generated_loc;
+                          })
+                    in
+                    { transformed with pexp_loc = loc }
                 | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
                     (_ :: _ as wholes) ) ->
-                    let fn = Ast_open_cxt.restore_exp e wholes in
+                    let generated_loc = Ast_location.ghost loc in
+                    let fn =
+                      Ast_open_cxt.restore_generated_exp ~loc:generated_loc e
+                        wholes
+                    in
                     let args =
                       List.map
                         ~f:(fun (lab, exp) ->
-                          (lab, Ast_open_cxt.restore_exp exp wholes))
+                          ( lab,
+                            Ast_open_cxt.restore_generated_exp
+                              ~loc:generated_loc exp wholes ))
                         args
                     in
                     Mel_ast_invariant.warn_discarded_unused_attributes
