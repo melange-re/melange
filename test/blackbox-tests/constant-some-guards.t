@@ -1,4 +1,5 @@
 Known constant Some values do not need presence guards. Presence must remain distinct from payload truthiness.
+A deeper payload can retain its own guard after the outer guard is removed.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -36,10 +37,10 @@ Known constant Some values do not need presence guards. Presence must remain dis
   > console.log('payload truthiness and effects: ok');
   > EOF
   $ node check.cjs
-  number presence guard: true
-  zero presence guard: true
-  false_payload presence guard: true
-  nested presence guard: true
+  number presence guard: false
+  zero presence guard: false
+  false_payload presence guard: false
+  nested presence guard: false
   deeper presence guard: true
   absent presence guard: false
   payload truthiness and effects: ok
