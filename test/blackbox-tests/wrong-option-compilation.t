@@ -16,8 +16,7 @@
   
   
   function foo(a) {
-    const a$1 = a;
-    if (a$1) {
+    if (a) {
       return "it's true";
     } else {
       return "it's false";
@@ -52,8 +51,7 @@
   
   
   function foo(a) {
-    const a$1 = a;
-    if (a$1) {
+    if (a) {
       return "it's true";
     } else {
       return "it's false";
