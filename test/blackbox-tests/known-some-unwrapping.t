@@ -1,4 +1,4 @@
-Known Some payloads need no wrap/unwrap round trip. The initial snapshot records redundant calls.
+Known Some payloads need no wrap/unwrap round trip.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -41,6 +41,6 @@ Known Some payloads need no wrap/unwrap round trip. The initial snapshot records
   > console.log('nested options, identity, effects and capture: ok');
   > EOF
   $ node check.cjs
-  nested wrap: true unwrap: true
-  poly wrap: true unwrap: true
+  nested wrap: false unwrap: false
+  poly wrap: false unwrap: false
   nested options, identity, effects and capture: ok
