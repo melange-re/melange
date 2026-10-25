@@ -30,47 +30,19 @@ Known constant Some values do not need presence guards. Presence must remain dis
   >   assert.equal(t.payload_truthiness(a, b), a || b ? 'a' : 'b');
   > EOF
   function number(param) {
-    const opt = 42;
-    if (opt !== undefined) {
-      return opt;
-    } else {
-      return 0;
-    }
+    return 42;
   }
   function zero(param) {
-    const opt = 0;
-    if (opt !== undefined) {
-      return opt;
-    } else {
-      return 42;
-    }
+    return 0;
   }
   function false_payload(param) {
-    const opt = false;
-    if (opt !== undefined) {
-      return opt;
-    } else {
-      return true;
-    }
+    return false;
   }
   function nested(param) {
-    const opt = Caml_option.some(undefined);
-    if (opt !== undefined) {
-      if (Caml_option.valFromOption(opt) !== undefined) {
-        return 2;
-      } else {
-        return 1;
-      }
-    } else {
-      return 0;
-    }
+    return 1;
   }
   function deeper(param) {
-    const opt = Caml_option.some(Caml_option.some(undefined));
-    if (opt === undefined) {
-      return 0;
-    }
-    const match = Caml_option.valFromOption(opt);
+    const match = Caml_option.some(undefined);
     if (match !== undefined && Caml_option.valFromOption(match) === undefined) {
       return 3;
     } else {
