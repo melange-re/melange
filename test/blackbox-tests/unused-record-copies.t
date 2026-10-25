@@ -1,5 +1,5 @@
 Unused fresh record copies can discard their field writes while preserving effects.
-Cover both sides of the frontend copy threshold; the initial snapshot retains large copies.
+Cover both sides of the frontend copy threshold, retaining used and escaping copies.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -61,6 +61,6 @@ Cover both sides of the frontend copy threshold; the initial snapshot retains la
   > EOF
   $ node check.cjs
   19 unused clone: false effects: base,update1,update2
-  20 unused clone: true effects: base,update2,update1
-  21 unused clone: true effects: base,update2,update1
+  20 unused clone: false effects: base,update2,update1
+  21 unused clone: false effects: base,update2,update1
   used copies, mutations, escapes and exceptions: ok
