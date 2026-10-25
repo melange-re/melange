@@ -64,6 +64,7 @@ type t = {
   g : bool;
   opaque : bool;
   preamble : string option;
+  source_map : string option;
   strict_sequence : bool;
   strict_formats : bool;
   dtypedtree : bool;

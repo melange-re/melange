@@ -152,6 +152,7 @@ let pp_deps_program =
       P.newline f;
       P.flush f ()
 
-let dump_deps_program ~package_info ~output_info ~output_prefix x
+let dump_deps_program ?source_map ~package_info ~output_info ~output_prefix x
     (oc : Unix.file_descr) =
-  pp_deps_program ~package_info ~output_info ~output_prefix (P.from_fd oc) x
+  pp_deps_program ~package_info ~output_info ~output_prefix
+    (P.from_fd ?source_map oc) x

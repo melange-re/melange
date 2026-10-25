@@ -546,6 +546,7 @@ and vident cxt (v : J.vident) =
 (* The higher the level, the more likely that inner has to add parens *)
 and expression ~level cxt (exp : J.expression) : cxt =
   pp_comment_option cxt exp.comment;
+  Option.iter exp.loc ~f:(Js_pp.mark_location cxt.pp);
   expression_desc cxt ~level exp.expression_desc
 
 and expression_desc cxt ~(level : int) x : cxt =
@@ -1011,8 +1012,11 @@ and pp_comment_option cxt comment =
 (* and pp_loc_option f loc =  *)
 and statement ~top cxt ({ statement_desc = s; comment; _ } : J.statement) : cxt
     =
+  Js_pp.unmapped cxt.pp;
   pp_comment_option cxt comment;
-  statement_desc top cxt s
+  let cxt = statement_desc top cxt s in
+  Js_pp.unmapped cxt.pp;
+  cxt
 
 and statement_desc top cxt (s : J.statement_desc) : cxt =
   match s with

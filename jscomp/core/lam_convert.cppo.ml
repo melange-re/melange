@@ -24,6 +24,10 @@
 
 open Import
 
+let source_location loc =
+  Js_source_map.location (Debuginfo.Scoped_location.to_location loc)
+
+
 let lam_extension_id =
   let lam_caml_id : Lam_primitive.t =
     let caml_id_field_info : Lambda.field_dbg_info =
@@ -881,7 +885,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         Lam.apply (convert_aux fn)
           (convert_args args)
           {
-            ap_loc = Debuginfo.Scoped_location.to_location loc;
+            ap_loc = source_location loc;
             ap_inlined;
             ap_status = App_na;
           }
@@ -919,7 +923,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         let lam = Lam.letrec bindings body in
         Lam_scc.scc (Nonempty_list.of_list_exn bindings) lam body
     | Lprim (Pccall a, args, loc) ->
-        convert_ccall ~dynamic_import a args (Debuginfo.Scoped_location.to_location loc)
+        convert_ccall ~dynamic_import a args (source_location loc)
     | Lprim (Pgetglobal id, args, _) ->
         let args = convert_args ~dynamic_import args in
         if Ident.is_predef id then
@@ -931,7 +935,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           Lam.global_module ~dynamic_import id)
     | Lprim (primitive, args, loc) ->
         let args = convert_args ~dynamic_import args in
-        lam_prim ~primitive ~args ~loc:(Debuginfo.Scoped_location.to_location loc)
+        lam_prim ~primitive ~args ~loc:(source_location loc)
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
@@ -1013,7 +1017,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
             | _ -> assert false)
         | b ->
             Lam.send kind a b ls
-              ~loc:(Debuginfo.Scoped_location.to_location outer_loc))
+              ~loc:(source_location outer_loc))
     | Levent (e, _ev) -> convert_aux e
     | Lifused (v, e) -> Lam.ifused v (convert_aux e)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
@@ -1088,7 +1092,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         }
       when Ident.same param inner_arg ->
         Lam.prim ~primitive ~args:[ x ]
-          ~loc:(Debuginfo.Scoped_location.to_location outer_loc)
+          ~loc:(source_location outer_loc)
     | Lapply
         {
           ap_func =
@@ -1100,18 +1104,18 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
       when List.for_all2_no_exn inner_args params ~f:lam_is_var
            && List.length_larger_than_n inner_args args 1 ->
         Lam.prim ~primitive ~args:(args @ [ x ])
-          ~loc:(Debuginfo.Scoped_location.to_location outer_loc)
+          ~loc:(source_location outer_loc)
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply ap_func (ap_args @ [ x ])
           {
-            ap_loc = Debuginfo.Scoped_location.to_location outer_loc;
+            ap_loc = source_location outer_loc;
             ap_inlined = ap_info.ap_inlined;
             ap_status = App_na;
           }
     | _ ->
         Lam.apply f [ x ]
           {
-            ap_loc = Debuginfo.Scoped_location.to_location outer_loc;
+            ap_loc = source_location outer_loc;
             ap_inlined = Default_inline;
             ap_status = App_na;
           }

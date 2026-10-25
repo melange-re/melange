@@ -1,5 +1,5 @@
 Source Map v3 output must preserve decoded locations and executable stack traces.
-The initial snapshot records the missing compiler option.
+Maps retain exact locations through preprocessing and separate compilation.
 
   $ . ./setup.sh
   $ cat > check.cjs <<'EOF'
@@ -21,10 +21,7 @@ The initial snapshot records the missing compiler option.
   > }
   > function success(result) { assert.equal(result.status, 0, result.stderr); }
   > const first = compile('input.ml', 'out/linked.js', 'file');
-  > if (first.status !== 0) {
-  >   console.log('source maps unavailable; compiler exit:', first.status);
-  >   process.exit(0);
-  > }
+  > success(first);
   > function payload(file, inline = false) {
   >   if (!inline) return JSON.parse(fs.readFileSync(file + '.map', 'utf8'));
   >   const encoded = fs.readFileSync(file, 'utf8').match(/sourceMappingURL=data:application\/json[^,]*,([^\s]+)/)[1];
@@ -120,4 +117,8 @@ The initial snapshot records the missing compiler option.
   > console.log('Dune inline maps: ok');
   > EOF
   $ node check.cjs
-  source maps unavailable; compiler exit: 124
+  linked, inline, hidden, ESM, Unicode columns, cmj and stack traces: ok
+  preprocessor directives and Reason: ok
+  cross-module inlining with a saved source snapshot: ok
+  CRLF, preambles, multiple sources, escaped paths and empty modules: ok
+  Dune inline maps: ok

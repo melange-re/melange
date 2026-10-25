@@ -91,10 +91,45 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
 (* Serialization .. *)
 let marshal_header_size = 16
 
+(* Keep the primary marshalled record unchanged: readers predating source maps
+   ignore the optional, versioned trailer. *)
+let source_map_magic = "\nMELANGE_SOURCE_MAP_V1\n"
+
+let source_snapshots name (v : t) =
+  let filenames = ref String.Set.empty in
+  let iter =
+    {
+      Js_record_iter.super with
+      expression =
+        (fun self (e : J.expression) ->
+          Option.iter e.loc ~f:(fun (loc : Location.t) ->
+              let name = loc.loc_start.pos_fname in
+              if name <> "" && name <> "_none_" then
+                filenames := String.Set.add name !filenames);
+          Js_record_iter.super.expression self e);
+    }
+  in
+  iter.block iter v.delayed_program.program.block;
+  Js_source_map.capture ~source_dir:(Filename.dirname name)
+    (String.Set.elements !filenames)
+
 let from_file_exn name : t =
   let s = Io.read_file_exn name in
   let _digest = Digest.substring s 0 marshal_header_size in
-  Marshal.from_string s marshal_header_size
+  let cmj = Marshal.from_string s marshal_header_size in
+  (if !Js_config.source_map <> None then
+     let offset =
+       marshal_header_size
+       + Marshal.total_size (Bytes.unsafe_of_string s) marshal_header_size
+     in
+     let magic_length = String.length source_map_magic in
+     if
+       String.length s >= offset + magic_length
+       && String.sub s ~pos:offset ~len:magic_length = source_map_magic
+     then
+       Js_source_map.register ~source_dir:(Filename.dirname name)
+         (Marshal.from_string s (offset + magic_length)));
+  cmj
 
 let from_file name : (t, exn) result =
   match from_file_exn name with cmj -> Ok cmj | exception exn -> Error exn
@@ -116,6 +151,12 @@ let to_file =
   in
   fun name (v : t) ->
     let s = Marshal.to_string v [] in
+    let s =
+      match !Js_config.source_map with
+      | None -> s
+      | Some _ ->
+          s ^ source_map_magic ^ Marshal.to_string (source_snapshots name v) []
+    in
     let cur_digest = Digest.string s in
     let header = cur_digest in
     if not (for_sure_not_changed name header) then

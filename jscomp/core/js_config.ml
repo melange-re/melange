@@ -75,3 +75,4 @@ let no_export = ref false
 let as_ppx = ref false
 let as_pp = ref false
 let preamble = ref None
+let source_map : string option ref = ref None

@@ -75,6 +75,9 @@ let rec remove_pure_sub_exp (x : t) =
 (* let mk ?loc ?comment exp : t =
    {expression_desc = exp ; comment  } *)
 
+let with_source_location loc (e : t) =
+  if !Js_config.source_map = None then e else { e with loc = Some loc }
+
 let var ?loc ?comment id : t = make_expression ?loc ?comment (Var (Id id))
 
 (* only used in property access,

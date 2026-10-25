@@ -67,6 +67,8 @@ val bracket_group : t -> int -> (unit -> 'a) -> 'a
 val bracket_vgroup : t -> int -> (unit -> 'a) -> 'a
 val newline : t -> unit
 val at_least_two_lines : t -> unit
-val from_fd : Unix.file_descr -> t
+val from_fd : ?source_map:Js_source_map.t -> Unix.file_descr -> t
+val mark_location : t -> Location.t -> unit
+val unmapped : t -> unit
 val from_buffer : Buffer.t -> t
 val flush : t -> unit -> unit

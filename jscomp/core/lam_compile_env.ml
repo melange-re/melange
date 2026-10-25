@@ -49,6 +49,7 @@ let missing_cmj_warnings : unit Lam_module_ident.Hashtbl.t =
 
 (* For each compilation we need reset to make it re-entrant *)
 let reset () =
+  Js_source_map.reset ();
   Translmod.reset ();
   Js_config.no_export := false;
   (* This is needed in the playground since one no_export can make it true
