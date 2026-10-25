@@ -39,6 +39,10 @@ module Binop = struct
     | Le
     | Gt
     | Ge
+    | Float_lt
+    | Float_le
+    | Float_gt
+    | Float_ge
     | Bor
     | Bxor
     | Band
@@ -62,6 +66,11 @@ module Binop = struct
     | Le, Le -> true
     | Gt, Gt -> true
     | Ge, Ge -> true
+    | Float_lt, Float_lt
+    | Float_le, Float_le
+    | Float_gt, Float_gt
+    | Float_ge, Float_ge ->
+        true
     | Bor, Bor -> true
     | Bxor, Bxor -> true
     | Band, Band -> true
@@ -81,7 +90,7 @@ module Binop = struct
     | Or -> (3, 3, 3)
     | And -> (4, 4, 4)
     | EqEqEq | NotEqEq -> (8, 8, 9)
-    | Gt | Ge | Lt | Le (* | InstanceOf *) -> (9, 9, 10)
+    | Gt | Ge | Lt | Le | Float_lt | Float_le | Float_gt | Float_ge -> (9, 9, 10)
     | Bor -> (5, 5, 5)
     | Bxor -> (6, 6, 6)
     | Band -> (7, 7, 7)
@@ -107,10 +116,10 @@ module Binop = struct
     | And -> "&&"
     | EqEqEq -> "==="
     | NotEqEq -> "!=="
-    | Lt -> "<"
-    | Le -> "<="
-    | Gt -> ">"
-    | Ge -> ">="
+    | Lt | Float_lt -> "<"
+    | Le | Float_le -> "<="
+    | Gt | Float_gt -> ">"
+    | Ge | Float_ge -> ">="
   (* | InstanceOf -> "instanceof" *)
 end
 

@@ -37,6 +37,10 @@ module Binop : sig
     | Le
     | Gt
     | Ge
+    | Float_lt
+    | Float_le
+    | Float_gt
+    | Float_ge
     | Bor
     | Bxor
     | Band

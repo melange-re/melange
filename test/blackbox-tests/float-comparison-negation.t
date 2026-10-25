@@ -1,5 +1,5 @@
 Negating ordered float comparisons must preserve unordered (NaN) results.
-The initial snapshot records the bug; every mismatch count should become zero.
+Both typed float primitives and JavaScript comparisons retain logical negation.
 
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
@@ -49,12 +49,12 @@ The initial snapshot records the bug; every mismatch count should become zero.
   > console.log("effectful NaN:", t.effectful(NaN, 0));
   > assert.equal(t.effects.contents, 2);
   > EOF
-  nlt mismatches: 13
-  js_nlt mismatches: 13
-  nle mismatches: 13
-  js_nle mismatches: 13
-  ngt mismatches: 13
-  js_ngt mismatches: 13
-  nge mismatches: 13
-  js_nge mismatches: 13
-  effectful NaN: false
+  nlt mismatches: 0
+  js_nlt mismatches: 0
+  nle mismatches: 0
+  js_nle mismatches: 0
+  ngt mismatches: 0
+  js_ngt mismatches: 0
+  nge mismatches: 0
+  js_nge mismatches: 0
+  effectful NaN: true
