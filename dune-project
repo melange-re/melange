@@ -44,7 +44,10 @@
    (>= 20201214))
   (reason-react-ppx
    (and :with-test :post))
-  (merlin :with-test)))
+  (merlin :with-test))
+ (depopts
+  (dune-action-trace
+   (>= "3.24"))))
 
 (package
  (name melange-playground)
