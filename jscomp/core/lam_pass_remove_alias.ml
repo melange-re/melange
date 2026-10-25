@@ -294,7 +294,7 @@ let simplify_alias =
           _;
         } as x -> (
         match Ident.Hashtbl.find meta.ident_tbl v with
-        | OptionalBlock (l, _) -> l
+        | OptionalBlock (l, _) | Normal_optional (Lvar _ as l) -> l
         | _ | (exception Not_found) ->
             if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
