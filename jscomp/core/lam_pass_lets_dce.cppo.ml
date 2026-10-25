@@ -226,7 +226,55 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
   let subst : Lam.t Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
   let string_table : string Ident.Hashtbl.t = Ident.Hashtbl.create 32 in
   let used v = (count_var v).times > 0 in
+  let discard_record_writes ~discard_result id body =
+    let { Count.times; captured } = count_var id in
+    (* Only remove a fresh copy when every use is the receiver of one of
+       these initial field writes (and an ignored return of the copy).
+       Other reads, aliases, escapes and captures
+       prevent the rewrite. The prefix walk stops as soon as all uses are
+       accounted for, without rescanning the remaining continuation. *)
+    let rec loop writes (body : Lam.t) =
+      if writes = times then Some body
+      else
+        match body with
+        | Lvar result
+          when discard_result && writes + 1 = times && Ident.same result id ->
+            Some Lam.unit
+        | Lsequence
+            ( Lprim
+                { primitive = Psetfield _; args = [ Lvar receiver; value ]; _ },
+              rest )
+          when Ident.same id receiver ->
+            Option.map
+              (loop (writes + 1) rest)
+              ~f:(fun rest -> Lam.seq value rest)
+        | _ -> None
+    in
+    if captured || times = 0 then None else loop 0 body
+  in
   let rec simplif (lam : Lam.t) =
+    let lam =
+      match lam with
+      | Lsequence
+          ( Llet
+              ( (Strict | StrictOpt),
+                id,
+                Lprim { primitive = Pduprecord _; args = [ base ]; _ },
+                body ),
+            rest ) -> (
+          match discard_record_writes ~discard_result:true id body with
+          | Some body -> Lam.seq base (Lam.seq body rest)
+          | None -> lam)
+      | Llet
+          ( (Strict | StrictOpt),
+            id,
+            Lprim { primitive = Pduprecord _; args = [ base ]; _ },
+            body ) -> (
+          match discard_record_writes ~discard_result:false id body with
+          | Some body -> Lam.seq base body
+          | None -> lam)
+      | _ -> lam
+    in
     match lam with
     | Lvar v -> Ident.Hashtbl.find_default subst v ~default:lam
     | Lmutvar _ -> lam
