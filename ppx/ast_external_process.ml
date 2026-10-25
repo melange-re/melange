@@ -915,6 +915,12 @@ let external_spec_of_desc ~loc (st : External_desc.t)
           Location.raise_errorf ~loc
             "`[%@mel.set]' requires a function of two arguments")
   | Get scopes -> (
+      (match arg_type_specs with
+      | [ { arg_type = Extern_unit; _ } ] ->
+          Location.raise_errorf ~loc
+            "`[%@mel.get]' requires an object argument, not an erased unit \
+             argument"
+      | _ -> ());
       match arg_type_specs_length with
       | 1 -> Js_get { name = Lazy.force prim_name_or_pval_prim; scopes }
       | _ ->
