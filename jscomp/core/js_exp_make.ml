@@ -963,7 +963,7 @@ let int32_unsigned_to_int n =
   let i = Int32.to_int n in
   if i < 0 then i + 0x1_0000_0000 else i
 
-let js_comp cmp ?loc ?comment e0 e1 =
+let ordered_comp cmp ?loc ?comment e0 e1 =
   let jsop =
     match cmp with
     | Lam_compat.Integer_comparison.Ceq -> Js_op.Binop.EqEqEq (* comparison *)
@@ -974,6 +974,20 @@ let js_comp cmp ?loc ?comment e0 e1 =
     | Cge -> Ge
   in
   bin ?loc ?comment jsop e0 e1
+
+(* JavaScript comparisons can receive NaN. Keep them distinct from ordered
+   integer comparisons so logical negation cannot reverse the relation. *)
+let js_comp cmp ?loc ?comment e0 e1 =
+  let op =
+    match cmp with
+    | Lam_compat.Integer_comparison.Ceq -> Js_op.Binop.EqEqEq
+    | Cne -> NotEqEq
+    | Clt -> Float_lt
+    | Cgt -> Float_gt
+    | Cle -> Float_le
+    | Cge -> Float_ge
+  in
+  bin ?loc ?comment op e0 e1
 
 let rec int_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
     (e1 : t) =
@@ -1044,7 +1058,7 @@ let rec int_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
   | Cne, Caml_block _, Number _
   | Cne, Number _, Caml_block _ ->
       true_
-  | _ -> js_comp ?loc ?comment cmp e0 e1
+  | _ -> ordered_comp ?loc ?comment cmp e0 e1
 
 let bool_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
     (e1 : t) =
@@ -1063,30 +1077,31 @@ let bool_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
       match cmp with
       | Clt -> seq rest false_
       | Cge -> seq rest true_
-      | Cle | Cgt | Ceq | Cne -> js_comp ?loc ?comment cmp e0 e1)
+      | Cle | Cgt | Ceq | Cne -> ordered_comp ?loc ?comment cmp e0 e1)
   | rest, { expression_desc = Bool true; _ }
   | { expression_desc = Bool false; _ }, rest -> (
       match cmp with
       | Cle -> seq rest true_
       | Cgt -> seq rest false_
-      | Clt | Cge | Ceq | Cne -> js_comp ?loc ?comment cmp e0 e1)
-  | _, _ -> js_comp ?loc ?comment cmp e0 e1
+      | Clt | Cge | Ceq | Cne -> ordered_comp ?loc ?comment cmp e0 e1)
+  | _, _ -> ordered_comp ?loc ?comment cmp e0 e1
 
 let float_comp cmp ?loc ?comment e0 e1 =
-  let jsop =
+  let op, negated =
     match cmp with
-    | Lam_compat.Float_comparison.CFeq -> Js_op.Binop.EqEqEq
-    | CFneq -> NotEqEq
-    | CFlt -> Lt
-    | CFnlt -> Ge
-    | CFgt -> Gt
-    | CFngt -> Le
-    | CFle -> Le
-    | CFnle -> Gt
-    | CFge -> Ge
-    | CFnge -> Lt
+    | Lam_compat.Float_comparison.CFeq -> (Js_op.Binop.EqEqEq, false)
+    | CFneq -> (NotEqEq, false)
+    | CFlt -> (Float_lt, false)
+    | CFnlt -> (Float_lt, true)
+    | CFgt -> (Float_gt, false)
+    | CFngt -> (Float_gt, true)
+    | CFle -> (Float_le, false)
+    | CFnle -> (Float_le, true)
+    | CFge -> (Float_ge, false)
+    | CFnge -> (Float_ge, true)
   in
-  bin ?loc ?comment jsop e0 e1
+  let comparison = bin ?loc ?comment op e0 e1 in
+  if negated then not comparison else comparison
 
 let rec int32_lsr ?loc ?comment (e1 : J.expression) (e2 : J.expression) :
     J.expression =
