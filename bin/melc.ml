@@ -246,6 +246,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       g;
       opaque;
       preamble;
+      source_map;
       strict_sequence;
       strict_formats;
       dtypedtree;
@@ -377,6 +378,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
     Js_config.preamble := preamble;
+    Js_config.source_map := source_map;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 #if OCAML_VERSION >= (5,2,0)

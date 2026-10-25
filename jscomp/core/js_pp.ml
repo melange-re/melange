@@ -36,6 +36,7 @@ type kind = File_descr of Unix.file_descr | Buffer of Buffer.t
 
 type t = {
   kind : kind;
+  source_map : Js_source_map.t option;
   mutable indent_level : int;
   mutable column : int;
   mutable line : int;
@@ -44,6 +45,7 @@ type t = {
 }
 
 let output_string_len t s len =
+  Option.iter t.source_map ~f:(fun map -> Js_source_map.advance map s len);
   if len = 0 then ()
   else (
     (match t.kind with
@@ -74,6 +76,7 @@ let output_string_len t s len =
 let output_string t s = output_string_len t s (String.length s)
 
 let output_string_no_newline_len t s len =
+  Option.iter t.source_map ~f:(fun map -> Js_source_map.advance map s len);
   if len = 0 then ()
   else (
     (match t.kind with
@@ -100,9 +103,10 @@ let output_indent t =
 
 let flush _t = ()
 
-let from_fd fd =
+let from_fd ?source_map fd =
   {
     kind = File_descr fd;
+    source_map;
     line = 0;
     column = 0;
     indent_level = 0;
@@ -112,11 +116,17 @@ let from_fd fd =
 let from_buffer buf =
   {
     kind = Buffer buf;
+    source_map = None;
     line = 0;
     column = 0;
     indent_level = 0;
     last_new_line = false;
   }
+
+let mark_location t loc =
+  Option.iter t.source_map ~f:(fun map -> Js_source_map.mark map loc)
+
+let unmapped t = Option.iter t.source_map ~f:Js_source_map.unmapped
 
 let string t s =
   let len = String.length s in

@@ -32,6 +32,7 @@ val dump_program :
 (** only used for debugging purpose *)
 
 val dump_deps_program :
+  ?source_map:Js_source_map.t ->
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->

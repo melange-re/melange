@@ -65,6 +65,7 @@ type t = {
   g : bool;
   opaque : bool;
   preamble : string option;
+  source_map : string option;
   strict_sequence : bool;
   strict_formats : bool;
   dtypedtree : bool;
@@ -189,6 +190,16 @@ let color =
 let preamble =
   let doc = "a string to be pre-prended to the generated javascript" in
   Arg.(value & opt (some string) None & info [ "preamble" ] ~doc)
+
+let source_map =
+  let doc =
+    "Emit Source Map v3 output (file, inline, or hidden). Enable during both \
+     compilation and JavaScript emission."
+  in
+  let modes =
+    Arg.enum [ ("file", "file"); ("inline", "inline"); ("hidden", "hidden") ]
+  in
+  Arg.(value & opt (some modes) None & info [ "mel-source-map" ] ~doc)
 
 let where =
   let doc = "Print location of standard library and exit" in
@@ -471,10 +482,11 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     unboxed_types bs_unsafe_empty_array nostdlib color bs_eval bs_cmi_only
     bs_no_version_header bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix cmi_file g opaque preamble strict_sequence strict_formats
-    dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives nolabels principal rectypes short_paths unsafe warn_help
-    warn_error bs_stop_after_cmj runtime filenames _c store_occurrences =
+    intf_suffix cmi_file g opaque preamble source_map strict_sequence
+    strict_formats dtypedtree dparsetree drawlambda dsource version pp absname
+    bin_annot i nopervasives nolabels principal rectypes short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime filenames _c
+    store_occurrences =
   {
     include_dirs;
     hidden_include_dirs;
@@ -515,6 +527,7 @@ let parse include_dirs hidden_include_dirs alerts warnings output_name ppx
     g;
     opaque;
     preamble;
+    source_map;
     strict_sequence;
     strict_formats;
     dtypedtree;
@@ -553,7 +566,7 @@ let cmd =
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.cmi_file $ Internal.g $ Internal.opaque
-    $ preamble $ Internal.strict_sequence $ Internal.strict_formats
+    $ preamble $ source_map $ Internal.strict_sequence $ Internal.strict_formats
     $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
     $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
     $ Internal.nopervasives $ Internal.nolabels $ Internal.principal

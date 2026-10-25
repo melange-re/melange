@@ -81,6 +81,8 @@ Melange has first class support in Dune.
 [VSCode OCaml Platform](https://github.com/ocamllabs/vscode-ocaml-platform)
 extension is recommended.
 
+See [Source maps](docs/source-maps.md) for JavaScript debugging support.
+
 ## Community
 
 - There's a [`#melange` channel](https://discord.gg/mArvFMQKnK) in the

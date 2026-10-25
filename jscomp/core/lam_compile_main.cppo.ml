@@ -313,14 +313,25 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       delayed_program)
 ;;
 
-let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
+let write_program ~package_info ~output_info ~output_prefix lambda_output file fd =
+  let source_map = Option.map !Js_config.source_map ~f:(fun _ ->
+    Js_source_map.create ~file) in
+  Js_dump_program.dump_deps_program ?source_map
+    ~package_info ~output_info ~output_prefix lambda_output fd;
+  Option.iter source_map ~f:(fun map ->
+    let comment =
+      match !Js_config.source_map with
+      | Some "inline" -> Js_source_map.inline_comment map
+      | Some ("file" | "hidden" as mode) ->
+        Io.write_filev_exn (file ^ ".map") [Js_source_map.to_json map];
+        if mode = "file" then Js_source_map.file_comment map file else ""
+      | _ -> assert false
+    in
+    Io.write fd comment ~off:0 ~len:(String.length comment))
+
+let write_to_file ~package_info ~output_info ~output_prefix lambda_output file =
   Io.with_file_out_fd file ~f:(fun fd ->
-    Js_dump_program.dump_deps_program
-      ~package_info
-      ~output_info
-      ~output_prefix
-      lambda_output
-      fd)
+    write_program ~package_info ~output_info ~output_prefix lambda_output file fd)
 
 let lambda_as_module =
   let (//) = Paths.(//) in
@@ -330,11 +341,15 @@ let lambda_as_module =
     in
     match (!Js_config.js_stdout, !Clflags.output_name) with
     | (true, None) ->
-      Js_dump_program.dump_deps_program
+      (match !Js_config.source_map with
+       | Some ("file" | "hidden") ->
+         raise (Arg.Bad "file and hidden source maps require -o <filename>.js")
+       | _ -> ());
+      write_program
         ~package_info
         ~output_info:Js_packages_info.default_output_info
         ~output_prefix
-        lambda_output Unix.stdout
+        lambda_output (output_prefix ^ ".js") Unix.stdout
     | false, None ->
       raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
     | (_, Some _) ->

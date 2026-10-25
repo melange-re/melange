@@ -323,3 +323,4 @@ val for_sure_js_null_undefined : J.expression -> bool
 val is_null_undefined : ?loc:Location.t -> ?comment:string -> t -> t
 val resolve_and_apply : string -> t list -> t
 val make_exception : string -> t
+val with_source_location : Location.t -> t -> t

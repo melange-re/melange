@@ -240,7 +240,7 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
                 apply_with_arity fn ~arity:(Lam_arity.extract_arity x) args)
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation args_code
-        expression
+        (E.with_source_location appinfo.ap_info.ap_loc expression)
 
 (*
     The second return values are values which need to be wrapped using
@@ -1655,9 +1655,10 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       | _ ->
           Js_output.output_of_block_and_expression lambda_cxt.continuation
             args_code
-            (E.call
-               ~info:(call_info_of_apply_status appinfo.ap_info.ap_status)
-               fn_code args))
+            (E.with_source_location appinfo.ap_info.ap_loc
+               (E.call
+                  ~info:(call_info_of_apply_status appinfo.ap_info.ap_status)
+                  fn_code args)))
 
 and compile_prim (prim_info : Lam.prim_info)
     (lambda_cxt : Lam_compile_context.t) =
@@ -1679,7 +1680,7 @@ and compile_prim (prim_info : Lam.prim_info)
       with
       | { block; value = Some v; _ } ->
           Js_output.make
-            (block @ [ S.throw_stmt v ])
+            (block @ [ S.throw_stmt (E.with_source_location prim_info.loc v) ])
             ~value:E.undefined ~output_finished:True
       (* FIXME -- breaks invariant when NeedValue, reason is that js [throw] is statement
          while ocaml it's an expression, we should remove such things in lambda optimizations
@@ -1988,7 +1989,8 @@ and compile_prim (prim_info : Lam.prim_info)
         Lam_compile_dynamic_import.wrap_module_value module_id module_value
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (List.concat args_block) exp
+        (List.concat args_block)
+        (E.with_source_location loc exp)
   | { primitive; args; loc } ->
       let args_block, args_expr =
         match args with
@@ -2007,7 +2009,8 @@ and compile_prim (prim_info : Lam.prim_info)
         Lam_compile_primitive.translate loc lambda_cxt primitive args_expr
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (List.concat args_block) exp
+        (List.concat args_block)
+        (E.with_source_location loc exp)
 
 and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
     Js_output.t =
