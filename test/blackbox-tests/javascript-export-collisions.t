@@ -2,6 +2,16 @@ JavaScript export names must be unique after mangling, including nested modules.
 The initial snapshots expose overwritten properties and duplicate ESM exports.
 
   $ . ./setup.sh
+  $ cat > dune-project <<'EOF'
+  > (lang dune 3.8)
+  > (using melange 0.1)
+  > EOF
+  $ cat > dune <<'EOF'
+  > (melange.emit (target runtime) (alias runtime) (modules) (libraries melange.js))
+  > EOF
+  $ dune build @runtime
+  $ export NODE_PATH="$PWD/_build/default/runtime/node_modules"
+  $ test -f "$NODE_PATH/melange.js/caml_exceptions.js"
   $ cat > unicode.ml <<'EOF'
   > let café = 1
   > let cafè = 2
