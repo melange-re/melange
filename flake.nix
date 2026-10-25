@@ -25,24 +25,7 @@
           let
             pkgs = nixpkgs.legacyPackages.${system}.extend (
               _: super: {
-                ocamlPackages = super.ocaml-ng.ocamlPackages_5_6.overrideScope (
-                  self: super: {
-                    # Keep these on Melange's ppxlib when branching for older OCaml versions.
-                    sedlex = super.sedlex.override {
-                      ppxlib = self.ppxlib_gt_0_37;
-                    };
-                    js_of_ocaml-compiler = (
-                      super.js_of_ocaml-compiler.override {
-                        inherit (self) sedlex;
-                        ppxlib = self.ppxlib_gt_0_37;
-                      }
-                    );
-                    js_of_ocaml = super.js_of_ocaml.override {
-                      inherit (self) js_of_ocaml-compiler;
-                      ppxlib = self.ppxlib_gt_0_37;
-                    };
-                  }
-                );
+                ocamlPackages = super.ocaml-ng.ocamlPackages_5_6;
               }
             );
           in
