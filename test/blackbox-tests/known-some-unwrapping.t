@@ -33,15 +33,12 @@ Known Some payloads need no wrap/unwrap round trip.
   > console.log(t.poly.toString());
   > EOF
   function nested(y) {
-    const match = Caml_option.some(y);
-    const n = Caml_option.valFromOption(match);
-    if (n !== undefined) {
-      return n;
+    if (y !== undefined) {
+      return y;
     } else {
       return 0;
     }
   }
   function poly(y) {
-    const v = Caml_option.some(y);
-    return [Caml_option.valFromOption(v)];
+    return [y];
   }
