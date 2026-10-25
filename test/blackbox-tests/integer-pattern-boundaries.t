@@ -1,5 +1,5 @@
 Integer matching uses the signed 32-bit target range and normalized constants.
-The initial snapshot records wrong branches at the upper limit and wrapped aliases.
+Upper-bound ranges and guarded wrapped aliases select the intended branches.
 
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
@@ -41,16 +41,16 @@ The initial snapshot records wrong branches at the upper limit and wrapped alias
   > console.log('lower limit, int32 and emitted literal controls: ok');
   > EOF
   $ node check.cjs
-  high [false,false,false,false]
-  record [false,false,false,false]
-  tuple [false,false,false,false]
-  variant [false,false,false,false]
-  array [false,false,false,false]
-  distinct [0,0,0,0]
-  wrapped_hex 0 1
-  wrapped_octal 0 1
-  wrapped_binary 0 1
-  wrapped_negative 2
+  high [false,true,true,true]
+  record [false,true,true,true]
+  tuple [false,true,true,true]
+  variant [false,true,true,true]
+  array [false,true,true,true]
+  distinct [0,1,2,3]
+  wrapped_hex 2 1
+  wrapped_octal 2 1
+  wrapped_binary 2 1
+  wrapped_negative 1
   lower limit, int32 and emitted literal controls: ok
 
 Normalization must also make duplicate-case diagnostics consistent.
@@ -59,3 +59,7 @@ Normalization must also make duplicate-case diagnostics consistent.
   > let f = function 0xFFFF_FFFF -> 1 | -1 -> 2 | _ -> 0
   > EOF
   $ melc -w +11 duplicate.ml -o duplicate.js
+  File "duplicate.ml", line 1, characters 36-38:
+  1 | let f = function 0xFFFF_FFFF -> 1 | -1 -> 2 | _ -> 0
+                                          ^^
+  Warning 11 [redundant-case]: this match case is unused.
