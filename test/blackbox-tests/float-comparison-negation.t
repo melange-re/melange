@@ -9,7 +9,7 @@ The initial snapshot records the bug; every mismatch count should become zero.
   > let nge (x : float) y = not (x >= y)
   > let double_negation (x : float) y = not (not (x < y))
   > let branch (x : float) y = if x < y then 0 else 1
-  > let integer x y = not (x < y)
+  > let integer (x : int) y = not (x < y)
   > external js_lt : float -> float -> bool = "#unsafe_lt"
   > let js_nlt x y = not (js_lt x y)
   > external js_le : float -> float -> bool = "#unsafe_le"
@@ -19,7 +19,7 @@ The initial snapshot records the bug; every mismatch count should become zero.
   > external js_ge : float -> float -> bool = "#unsafe_ge"
   > let js_nge x y = not (js_ge x y)
   > let effects = ref 0
-  > let operand x = incr effects; x
+  > let operand (x : float) = incr effects; x
   > let effectful x y = not (operand x < operand y)
   > EOF
   $ melc input.ml -o input.js
@@ -57,4 +57,4 @@ The initial snapshot records the bug; every mismatch count should become zero.
   js_ngt mismatches: 13
   nge mismatches: 13
   js_nge mismatches: 13
-  effectful NaN: true
+  effectful NaN: false
