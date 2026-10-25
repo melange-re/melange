@@ -35,7 +35,7 @@ open Import
 *)
 let annotate (meta : Lam_stats.t) rec_flag (k : Ident.t) (arity : Lam_arity.t)
     lambda call_summary =
-  Ident.Hashtbl.add meta.ident_tbl ~key:k
+  Ident.Hashtbl.replace meta.ident_tbl ~key:k
     ~data:(FunctionId { arity; lambda = Some (lambda, rec_flag); call_summary })
 
 (* see #3609
@@ -148,7 +148,8 @@ let collect_info =
             so -- it would still iterate internally
         *)
         List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
+          ~f:(fun p ->
+            Ident.Hashtbl.replace meta.ident_tbl ~key:p ~data:Parameter)
           params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam (summarize meta lam);
@@ -169,7 +170,8 @@ let collect_info =
     | Lfunction { params; body = l; _ } ->
         (* functor ? *)
         List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
+          ~f:(fun p ->
+            Ident.Hashtbl.replace meta.ident_tbl ~key:p ~data:Parameter)
           params;
         collect meta l
     | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->

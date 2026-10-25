@@ -17,9 +17,9 @@ let anonymous () =
   let meta = fresh_meta () in
   let params = Stdlib.List.init 64 (fun _ -> Ident.create_local "arg") in
   collect_repeatedly meta (make_function params);
-  (* Baseline: recollecting the same function retains every old parameter entry. *)
+  (* Recollecting a function should retain only its current metadata. *)
   Alcotest.(check int)
-    "parameter entries" (64 * rounds)
+    "parameter entries" 64
     (Ident.Hashtbl.length meta.ident_tbl)
 
 let bound () =
@@ -29,10 +29,10 @@ let bound () =
   let lambda = Lam.let_ Strict fn (make_function [ arg ]) (Lam.var fn) in
   collect_repeatedly meta lambda;
   Alcotest.(check int)
-    "parameter bindings" rounds
+    "parameter bindings" 1
     (List.length (Ident.Hashtbl.find_all meta.ident_tbl arg));
   Alcotest.(check int)
-    "function bindings" rounds
+    "function bindings" 1
     (List.length (Ident.Hashtbl.find_all meta.ident_tbl fn));
   let second = Ident.create_local "second" in
   Lam_pass_collect.collect_info meta
