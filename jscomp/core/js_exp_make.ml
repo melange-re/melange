@@ -721,6 +721,8 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
   | (Number _ | Array _ | Caml_block _), _, _ when no_side_effect pred ->
       ifso (* a block can not be false in OCAML, CF - relies on flow inference*)
   | Bool true, _, _ -> ifso
+  | Bin { op = EqEqEq | NotEqEq; _ }, Bool true, Bool false -> pred
+  | Bin { op = EqEqEq | NotEqEq; _ }, Bool false, Bool true -> not pred
   | _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }, _
     when Js_analyzer.eq_expression ifnot1 ifnot ->
       (* {[
