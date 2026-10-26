@@ -434,8 +434,17 @@ and eq_option l1 l2 =
 
 and eq_approx_list ls ls1 = List.for_all2_no_exn ls ls1 ~f:eq_approx
 
+let has_remapped_representation = function
+  | Constant.Const_int { comment; _ } ->
+      Option.is_some (Constant.modifier_of_pointer_info comment)
+  | _ -> false
+
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
+  | Lconst constant when has_remapped_representation constant ->
+      (* Constructor indices and emitted values differ under [mel.as].
+         Keep the switch until its cases use the emitted representation. *)
+      Lswitch (lam, lam_switch)
   | Lconst (Const_int { i; _ }) -> (
       match List.assoc (Int32.to_int i) lam_switch.sw_consts with
       | v -> v
@@ -526,6 +535,11 @@ end
 let prim ~primitive:(prim : Lam_primitive.t) ~args ~loc : t =
   let default () : t = Lprim { primitive = prim; args; loc } in
   match args with
+  | [ Lconst a ] when has_remapped_representation a -> default ()
+  | [ Lconst a; Lconst b ]
+    when has_remapped_representation a || has_remapped_representation b ->
+      (* The JavaScript simplifier can fold these after [mel.as] is applied. *)
+      default ()
   | [ Lconst a ] -> (
       match (prim, a) with
       | Pnegint, Const_int { i; _ } -> Lift.int (Int32.neg i)

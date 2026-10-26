@@ -43,12 +43,12 @@ The identity external exposes the explicitly chosen integer representation.
   > t.loop(4);
   > console.log('loop:', ...indices);
   > EOF
-  arithmetic: 1 1 -1 1 2 2 0 0 1 0
-  values: 2 2 1 7
-  matches: -1 20 10 20 70
-  constructors: 0 1 2
-  conditions: 2 1
-  character: 98
+  arithmetic: 2 2 -2 2 1 4 1 1 0 1
+  values: 2 2 0 7
+  matches: 20 20 10 20 70
+  constructors: 0 2 7
+  conditions: 1 2
+  character: 99
   read
   effect: 7
-  loop: 0 1 2 3
+  loop: 0 1 2
