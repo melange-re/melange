@@ -2100,7 +2100,8 @@ and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
           ( Lprim
               {
                 primitive = Psubint;
-                args = [ new_finish; Lconst (Const_int { i = 1l; _ }) ];
+                args =
+                  [ new_finish; Lconst (Const_int { i = 1l; comment = None }) ];
                 _;
               }
           | Lprim { primitive = Poffsetint -1; args = [ new_finish ]; _ } ) ) ->
