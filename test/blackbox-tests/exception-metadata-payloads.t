@@ -1,5 +1,5 @@
 ReScript #6979: cover exception metadata payloads.
-The printed cases characterize the current incorrect behavior.
+Payload fields remain enumerable even when they overlap Error metadata.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -76,6 +76,13 @@ The printed cases characterize the current incorrect behavior.
   >       const metadata=m.metadata("n","m","s",1), caughtMetadata=m.caught_metadata("n","m","s",1);
   >       check(`6979/${ext}`, "metadata field payload matching", () => [m.metadata_match(metadata),m.metadata_match(caughtMetadata)], [["n","m","s",1],["n","m","s",1]]);
   >       check(`6979/${ext}`, "metadata fields raised/unraised equality", () => [m.equal(metadata,caughtMetadata),m.equal(caughtMetadata,metadata)], [true,true]);
+  >       for (const key of ["name", "message", "stack", "cause"]) {
+  >         assert.equal(Object.prototype.propertyIsEnumerable.call(metadata, key), true);
+  >         assert.equal(Object.prototype.propertyIsEnumerable.call(caughtMetadata, key), true);
+  >         assert.equal(Object.prototype.propertyIsEnumerable.call(exn, key), false);
+  >       }
+  >       assert.equal(m.hash(metadata), m.hash(caughtMetadata));
+  >       assert.equal(metadata instanceof Error, true);
   >       for(const [name,values] of [["name",["changed","m","s",1]],["message",["n","changed","s",1]],["stack",["n","m","changed",1]],["cause",["n","m","s",2]]])
   >         check(`6979/${ext}`, `metadata payload ${name} differs`, () => m.equal(caughtMetadata,m.caught_metadata(...values)), false);
   >     console.log(ext, "controls: ok");
@@ -83,13 +90,13 @@ The printed cases characterize the current incorrect behavior.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  6979/js metadata payload name differs true
-  6979/js metadata payload message differs true
-  6979/js metadata payload stack differs true
-  6979/js metadata payload cause differs true
+  6979/js metadata payload name differs false
+  6979/js metadata payload message differs false
+  6979/js metadata payload stack differs false
+  6979/js metadata payload cause differs false
   js controls: ok
-  6979/mjs metadata payload name differs true
-  6979/mjs metadata payload message differs true
-  6979/mjs metadata payload stack differs true
-  6979/mjs metadata payload cause differs true
+  6979/mjs metadata payload name differs false
+  6979/mjs metadata payload message differs false
+  6979/mjs metadata payload stack differs false
+  6979/mjs metadata payload cause differs false
   mjs controls: ok
