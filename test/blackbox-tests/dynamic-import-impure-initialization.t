@@ -1,5 +1,5 @@
 ReScript #6232: dynamic-only imports do not initialize impure modules eagerly.
-Mixed references currently lose the static dependency when the dynamic use comes first.
+Mixed references retain the static dependency in either order.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -87,18 +87,16 @@ Mixed references currently lose the static dependency when the dynamic use comes
   >     assert.deepEqual(events, ["lazy", "throw"]);
   >     for (const [file, name] of [["dynamic_first", "mixed a"], ["static_first", "mixed b"]]) {
   >       const mixed = await import(path + file + "." + ext);
-  >       let result;
-  >       try { result = mixed.read(); }
-  >       catch (e) { if (!(e instanceof ReferenceError)) throw e; result = "ReferenceError"; }
+  >       const result = mixed.read();
+  >       assert.equal(result, 42);
   >       console.log(ext, file, "eager", events.filter(event => event === name).length, "read", result);
   >       assert.equal(await mixed.load(), 42);
   >       assert.equal(events.filter(event => event === name).length, 1);
   >     }
   >     for (const file of ["ffi_dynamic_first", "ffi_static_first"]) {
   >       const ffi = await import(path + file + "." + ext);
-  >       let result;
-  >       try { result = ffi.read(); }
-  >       catch (e) { if (!(e instanceof ReferenceError)) throw e; result = "ReferenceError"; }
+  >       const result = ffi.read();
+  >       assert.equal(result, 43);
   >       console.log(ext, file, "read", result);
   >       assert.equal(await ffi.load(), 42);
   >     }
@@ -110,14 +108,14 @@ Mixed references currently lose the static dependency when the dynamic use comes
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js dynamic_first eager 0 read ReferenceError
+  js dynamic_first eager 1 read 42
   js static_first eager 1 read 42
-  js ffi_dynamic_first read ReferenceError
+  js ffi_dynamic_first read 43
   js ffi_static_first read 43
   js: ok
-  mjs dynamic_first eager 0 read ReferenceError
+  mjs dynamic_first eager 1 read 42
   mjs static_first eager 1 read 42
-  mjs ffi_dynamic_first read ReferenceError
+  mjs ffi_dynamic_first read 43
   mjs ffi_static_first read 43
   mjs: ok
 
@@ -126,13 +124,13 @@ The dependency requirement must survive cross-module optimization too.
   $ echo '(--mel-cross-module-opt)' > flags.sexp
   $ dune build @melange
   $ node check.cjs
-  js dynamic_first eager 0 read ReferenceError
+  js dynamic_first eager 1 read 42
   js static_first eager 1 read 42
-  js ffi_dynamic_first read ReferenceError
+  js ffi_dynamic_first read 43
   js ffi_static_first read 43
   js: ok
-  mjs dynamic_first eager 0 read ReferenceError
+  mjs dynamic_first eager 1 read 42
   mjs static_first eager 1 read 42
-  mjs ffi_dynamic_first read ReferenceError
+  mjs ffi_dynamic_first read 43
   mjs ffi_static_first read 43
   mjs: ok
