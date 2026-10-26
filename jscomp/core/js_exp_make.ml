@@ -684,6 +684,20 @@ let or_ ?loc ?comment (e1 : t) (e2 : t) =
       Bin { op = Or; expr1 = l; expr2 = { expression_desc = Var j; _ } as r } )
     when Js_analyzer.same_vident i j ->
       { e2 with expression_desc = Bin { op = Or; expr1 = r; expr2 = l } }
+  | ( Bin
+        {
+          op = EqEqEq;
+          expr1 = { expression_desc = Var (Id i); _ };
+          expr2 = { expression_desc = Undefined _; _ };
+        },
+      Bin
+        {
+          op = NotEqEq;
+          expr1 = { expression_desc = Var (Id j); _ };
+          expr2 = { expression_desc = Str _ | Number _ | Unicode _; _ };
+        } )
+    when Ident.same i j ->
+      e2
   | _, _ -> bin ?loc ?comment Or e1 e2
 
 (* return a value of type boolean *)

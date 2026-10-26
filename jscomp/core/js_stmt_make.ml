@@ -222,6 +222,13 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
         | ( [ { statement_desc = Return ret_ifso; _ } ],
             [ { statement_desc = Return ret_ifnot; _ } ] ) ->
             return_stmt (E.econd e ret_ifso ret_ifnot)
+        | { statement_desc = If { pred; then_; else_ = [] }; _ } :: rest, _
+          when E.or_ (E.not e) pred == pred
+               && block_last_is_return_throw_or_continue ifnot
+               && Js_analyzer.eq_block ifnot then_ ->
+            (* [or_] returned the inner test unchanged: it subsumes the outer
+               failure check, and both failures exit. *)
+            aux ?comment pred ifnot rest
         | _, [ { statement_desc = Return _; _ } ] ->
             block
               ({

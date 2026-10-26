@@ -80,5 +80,5 @@ Option record fields with constant payloads should not need redundant None check
   > })().catch(e=>{console.error(e);process.exitCode=1;});
   > EOF
   $ node check.cjs
-  CommonJS redundant undefined checks: 1
-  ESM redundant undefined checks: 1
+  CommonJS redundant undefined checks: 0
+  ESM redundant undefined checks: 0
