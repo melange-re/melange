@@ -441,9 +441,10 @@ let has_remapped_representation = function
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
-  | Lconst constant when has_remapped_representation constant ->
-      (* Constructor indices and emitted values differ under [mel.as].
-         Keep the switch until its cases use the emitted representation. *)
+  | Lconst constant
+    when lam_switch.sw_names = None && has_remapped_representation constant ->
+      (* Integer switches compare emitted values, which may differ from the
+         constructor indices under [mel.as]. Variant switches still use indices. *)
       Lswitch (lam, lam_switch)
   | Lconst (Const_int { i; _ }) -> (
       match List.assoc (Int32.to_int i) lam_switch.sw_consts with
