@@ -285,7 +285,7 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
     let a_type = Js.typeof a in
     if
       a_type = "string" || a_type = "number" || a_type = "bigint"
-      || a_type = "boolean" || a_type = "undefined"
+      || a_type = "boolean" || a_type = "undefined" || a_type = "symbol"
       || a == [%raw {|null|}]
     then false
     else
@@ -294,8 +294,8 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
         raise (Invalid_argument "equal: functional value")
         (* first, check using reference equality *)
       else if
-        (* a_type = "object" || "symbol" *)
-        b_type = "number" || b_type = "bigint" || b_type = "undefined"
+        b_type = "string" || b_type = "number" || b_type = "bigint"
+        || b_type = "boolean" || b_type = "undefined" || b_type = "symbol"
         || b == [%raw {|null|}]
       then false
       else
@@ -307,19 +307,38 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
         else if tag_a = 251 (* abstract_tag *) then
           raise (Invalid_argument "equal: abstract value")
         else if tag_a <> tag_b then false
-        else
+        else if O.isArray a then
+          O.isArray b
+          &&
           let len_a = Obj.size a in
           let len_b = Obj.size b in
-          if len_a = len_b then
-            if O.isArray a then
-              aux_equal_length
-                (Obj.magic a : Obj.t array)
-                (Obj.magic b : Obj.t array)
-                0 len_a
-            else if [%raw {|a instanceof Date && b instanceof Date|}] then
-              not (Js.unsafe_gt a b || Js.unsafe_lt a b)
-            else aux_obj_equal a b
-          else false
+          len_a = len_b
+          && aux_equal_length
+               (Obj.magic a : Obj.t array)
+               (Obj.magic b : Obj.t array)
+               0 len_a
+        else if O.isArray b then false
+        else if [%raw {|a instanceof Date || b instanceof Date|}] then
+          [%raw {|a instanceof Date && b instanceof Date|}]
+          && not (Js.unsafe_gt a b || Js.unsafe_lt a b)
+        else if [%raw {|a instanceof Error || b instanceof Error|}] then
+          if
+            Caml_exceptions.caml_is_extension a
+            && Caml_exceptions.caml_is_extension b
+          then
+            (* A raised OCaml exception has an Error wrapper, while an
+               unraised exception is an ordinary object. Compare their
+               exception constructors and payloads in either representation. *)
+            aux_obj_equal a b
+          else
+            [%raw {|a instanceof Error && b instanceof Error|}]
+            && caml_equal (O.get_value a "name") (O.get_value b "name")
+            && caml_equal (O.get_value a "message") (O.get_value b "message")
+            && caml_equal (O.get_value a "cause") (O.get_value b "cause")
+            (* Keep enumerable fields significant, including for consistency
+               with polymorphic hashing. Stack traces are not compared. *)
+            && aux_obj_equal a b
+        else aux_obj_equal a b
 
 and aux_equal_length (a : Obj.t array) (b : Obj.t array) i same_length =
   if i = same_length then true
