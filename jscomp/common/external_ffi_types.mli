@@ -44,7 +44,11 @@ module Module_bind_name : sig
 end
 
 module External_module_name : sig
-  type t = { bundle : string; module_bind_name : Module_bind_name.t }
+  type t = {
+    bundle : string;
+    module_bind_name : Module_bind_name.t;
+    import_attributes : (string * string) list;
+  }
 
   val equal : t -> t -> bool
 end

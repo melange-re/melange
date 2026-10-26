@@ -64,7 +64,7 @@ let register_external_id id module_name =
 (** We should not provide "#moduleid" as output
     since when we print it in the end, it will
     be escaped quite ugly *)
-let add_js_module
+let add_js_module ?(import_attributes = [])
     (hint_name : Melange_ffi.External_ffi_types.Module_bind_name.t) module_name
     ~default ~dynamic_import =
   let lam_module_ident : Lam_module_ident.t =
@@ -79,8 +79,8 @@ let add_js_module
       in
       Ident.create_local local_name
     in
-    Lam_module_ident.external_ module_id ~dynamic_import ~name:module_name
-      ~default
+    Lam_module_ident.external_ ~import_attributes module_id ~dynamic_import
+      ~name:module_name ~default
   in
   match Lam_module_ident.Hashtbl.find_opt cached_tbl lam_module_ident with
   | Some (Ml { id; cmj_load_info = _ }) -> id

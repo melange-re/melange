@@ -230,6 +230,45 @@ let return_wrapper ~loc (txt : string) : External_ffi_types.return_wrapper =
 let parse_external_attributes =
   (* : attribute list * external_desc *)
   let exception Not_handled_external_attribute in
+  let parse_import_attributes ~loc payload =
+    let invalid () =
+      Location.raise_errorf ~loc
+        "`[%@mel.import_attributes]' expects a list of string pairs"
+    in
+    let string e =
+      match e.pexp_desc with
+      | Pexp_constant (Pconst_string (s, _, _)) -> s
+      | _ -> invalid ()
+    in
+    let rec pairs e =
+      match e.pexp_desc with
+      | Pexp_construct ({ txt = Lident "[]"; _ }, None) -> []
+      | Pexp_construct
+          ( { txt = Lident "::"; _ },
+            Some { pexp_desc = Pexp_tuple [ head; tail ]; _ } ) -> (
+          match head.pexp_desc with
+          | Pexp_tuple [ key; value ] ->
+              (string key, string value) :: pairs tail
+          | _ -> invalid ())
+      | _ -> invalid ()
+    in
+    let attributes =
+      match Ast_payload.as_expression payload with
+      | Some expression -> pairs expression
+      | None -> invalid ()
+    in
+    let sorted =
+      List.sort attributes ~cmp:(fun (a, _) (b, _) -> String.compare a b)
+    in
+    let rec check = function
+      | (a, _) :: (b, _) :: _ when String.equal a b ->
+          Location.raise_errorf ~loc "Duplicate import attribute %S" a
+      | _ :: rest -> check rest
+      | [] -> ()
+    in
+    check sorted;
+    sorted
+  in
   let check_name ~loc attr_name payload =
     match payload with
     | PStr [] -> ()
@@ -289,6 +328,7 @@ let parse_external_attributes =
      `[@@set]`, `[@@get]` , `[@@new]`
      `[@@mel.send.pipe]` does not use it
   *)
+    let import_attributes = ref None in
     let attrs, st, mk_obj =
       List.fold_left
         ~f:(fun
@@ -318,17 +358,32 @@ let parse_external_attributes =
           try
             let st, mk_obj =
               match txt with
+              | "mel.import_attributes" ->
+                  if Option.is_some !import_attributes then
+                    Location.raise_errorf ~loc
+                      "Duplicate `[%@mel.import_attributes]'";
+                  import_attributes :=
+                    Some (loc, parse_import_attributes ~loc payload);
+                  (st, mk_obj)
               | "mel.module" -> (
                   match Ast_payload.assert_strings ~loc payload with
                   | [ bundle ] ->
                       ( assign_module_binding ~loc st
                           (Import_from
-                             { bundle; module_bind_name = Phint_nothing }),
+                             {
+                               bundle;
+                               module_bind_name = Phint_nothing;
+                               import_attributes = [];
+                             }),
                         mk_obj )
                   | [ bundle; bind_name ] ->
                       ( assign_module_binding ~loc st
                           (Import_from
-                             { bundle; module_bind_name = Phint_name bind_name }),
+                             {
+                               bundle;
+                               module_bind_name = Phint_name bind_name;
+                               import_attributes = [];
+                             }),
                         mk_obj )
                   | [] ->
                       ( assign_module_binding ~loc st
@@ -336,6 +391,7 @@ let parse_external_attributes =
                              {
                                bundle = Lazy.force prim_name_or_pval_prim;
                                module_bind_name = Phint_nothing;
+                               import_attributes = [];
                              }),
                         mk_obj )
                   | _ ->
@@ -395,6 +451,23 @@ let parse_external_attributes =
           with Not_handled_external_attribute -> (attr :: attrs, st, mk_obj))
         ~init:([], External_attributes.init, false)
         prim_attributes
+    in
+    let st =
+      match !import_attributes with
+      | None -> st
+      | Some (loc, import_attributes) ->
+          let module_binding =
+            match st.module_binding with
+            | Some (Import_from module_) ->
+                External_attributes.Import_from
+                  { module_ with import_attributes }
+            | Some (Module_as_value module_) ->
+                Module_as_value { module_ with import_attributes }
+            | None ->
+                Location.raise_errorf ~loc
+                  "`[%@mel.import_attributes]' requires `[%@mel.module]'"
+          in
+          { st with module_binding = Some module_binding }
     in
     ( attrs,
       match mk_obj with

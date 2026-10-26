@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+- FFI: support `[@@mel.import_attributes [("type", "json")]]` alongside
+  `[@@mel.module]` for ES module imports and supported dynamic imports.
+  Static CommonJS `require` calls ignore import attributes.
 - CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
   dependencies stored in `.cmj` files
   ([#1858](https://github.com/melange-re/melange/pull/1858))

@@ -62,11 +62,16 @@ module Module_bind_name = struct
 end
 
 module External_module_name = struct
-  type t = { bundle : string; module_bind_name : Module_bind_name.t }
+  type t = {
+    bundle : string;
+    module_bind_name : Module_bind_name.t;
+    import_attributes : (string * string) list;
+  }
 
   let equal t1 t2 =
     String.equal t1.bundle t2.bundle
     && Module_bind_name.equal t1.module_bind_name t2.module_bind_name
+    && t1.import_attributes = t2.import_attributes
 end
 
 type arg_type = External_arg_spec.t

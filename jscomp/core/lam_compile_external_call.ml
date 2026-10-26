@@ -54,13 +54,13 @@ let splice_obj_fn_apply obj name args =
    bundle *)
 
 let external_var
-    ({ bundle; module_bind_name } : External_ffi_types.External_module_name.t)
-    ~dynamic_import =
+    ({ bundle; module_bind_name; import_attributes } :
+      External_ffi_types.External_module_name.t) ~dynamic_import =
   let id =
-    Lam_compile_env.add_js_module module_bind_name bundle ~default:false
-      ~dynamic_import
+    Lam_compile_env.add_js_module ~import_attributes module_bind_name bundle
+      ~default:false ~dynamic_import
   in
-  E.external_var id ~external_name:bundle ~dynamic_import
+  E.external_var ~import_attributes id ~external_name:bundle ~dynamic_import
 
 (* let handle_external_opt
      (module_name : External_ffi_types.external_module_name option)
@@ -275,28 +275,28 @@ let translate_scoped_module_val
     (module_name : External_ffi_types.External_module_name.t option)
     (fn : string) (scopes : string list) ~dynamic_import =
   match module_name with
-  | Some { bundle; module_bind_name } -> (
+  | Some { bundle; module_bind_name; import_attributes } -> (
       match scopes with
       | [] ->
           let default = fn = Js_dump_lit.default in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle ~default
-              ~dynamic_import
+            Lam_compile_env.add_js_module ~import_attributes module_bind_name
+              bundle ~default ~dynamic_import
           in
-          E.external_var_field ~dynamic_import ~external_name:bundle ~field:fn
-            ~default id
+          E.external_var_field ~import_attributes ~dynamic_import
+            ~external_name:bundle ~field:fn ~default id
       | x :: rest ->
           let default =
             (* TODO: what happens when scope contains "default"? *)
             false
           in
           let id =
-            Lam_compile_env.add_js_module module_bind_name bundle ~default
-              ~dynamic_import
+            Lam_compile_env.add_js_module ~import_attributes module_bind_name
+              bundle ~default ~dynamic_import
           in
           let init =
-            E.external_var_field ~dynamic_import ~external_name:bundle ~field:x
-              ~default id
+            E.external_var_field ~import_attributes ~dynamic_import
+              ~external_name:bundle ~field:x ~default id
           in
           let expr = List.fold_left rest ~init ~f:E.dot in
           E.dot expr fn)

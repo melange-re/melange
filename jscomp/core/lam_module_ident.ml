@@ -29,10 +29,19 @@ module T = struct
 
   let equal (x : t) y =
     match x.kind with
-    | External { name = x_kind; default = x_default } -> (
+    | External
+        { name = x_kind; default = x_default; import_attributes = x_attributes }
+      -> (
         match y.kind with
-        | External { name = y_kind; default = y_default } ->
-            String.equal x_kind y_kind && Bool.equal x_default y_default
+        | External
+            {
+              name = y_kind;
+              default = y_default;
+              import_attributes = y_attributes;
+            } ->
+            String.equal x_kind y_kind
+            && Bool.equal x_default y_default
+            && x_attributes = y_attributes
         | _ -> false)
     | Ml | Runtime -> Ident.equal x.id y.id
 
@@ -51,9 +60,9 @@ module T = struct
   *)
   let hash (x : t) =
     match x.kind with
-    | External { name = x_kind; default = _ } ->
+    | External { name = x_kind; default = _; import_attributes } ->
         (* The hash collision is rare? *)
-        Hashtbl.hash x_kind
+        Hashtbl.hash (x_kind, import_attributes)
     | Ml | Runtime -> Ident.hash x.id
 end
 
@@ -81,10 +90,10 @@ include T
 let of_ml ~dynamic_import id = { id; kind = Ml; dynamic_import }
 let of_runtime id = { id; kind = Runtime; dynamic_import = false }
 
-let external_ ~dynamic_import id ~name ~default =
-  { id; kind = External { name; default }; dynamic_import }
+let external_ ?(import_attributes = []) ~dynamic_import id ~name ~default =
+  { id; kind = External { name; default; import_attributes }; dynamic_import }
 
 let name (x : t) : string =
   match x.kind with
   | Ml | Runtime -> Ident.name x.id
-  | External { name = v; default = _ } -> v
+  | External { name = v; _ } -> v
