@@ -113,7 +113,6 @@ val method_ :
   J.block ->
   t
 
-val record_copy : t -> t
 val econd : ?loc:Location.t -> ?comment:string -> t -> t -> t -> t
 val int : ?loc:Location.t -> ?comment:string -> ?c:char -> int32 -> t
 val uint32 : ?loc:Location.t -> ?comment:string -> int32 -> t
@@ -266,6 +265,7 @@ val array :
 val optional_block : J.expression -> J.expression
 val optional_not_nest_block : J.expression -> J.expression
 
+
 val record_copy : t -> t
 
 val make_block :
@@ -281,7 +281,6 @@ val make_block :
 
 val seq : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val fuse_to_seq : t Nonempty_list.t -> t
-val record_copy : t -> t
 val obj : ?loc:Location.t -> ?comment:string -> J.property_map -> t
 val true_ : t
 val false_ : t
