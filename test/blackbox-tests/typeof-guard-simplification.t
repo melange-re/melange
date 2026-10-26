@@ -21,6 +21,22 @@ ReScript #7134: cover typeof guard simplification.
   > let undefined_neq_typeof x = if bool_type x && x != Obj.magic Js.undefined then 3 else 4
   > let redundant_bool x = bool_type x && x == Obj.magic true
   > let contradictory x = string_type x && x == Obj.magic true
+  > let guard_boolean_0_0_1 x = (Js.typeof x = "boolean") && (x == Obj.magic true)
+  > let guard_boolean_0_0_0 x = (Js.typeof x = "boolean") || (x == Obj.magic true)
+  > let guard_boolean_0_1_1 x = (Js.typeof x = "boolean") && (x != Obj.magic true)
+  > let guard_boolean_0_1_0 x = (Js.typeof x = "boolean") || (x != Obj.magic true)
+  > let guard_boolean_1_0_1 x = (Js.typeof x <> "boolean") && (x == Obj.magic true)
+  > let guard_boolean_1_0_0 x = (Js.typeof x <> "boolean") || (x == Obj.magic true)
+  > let guard_boolean_1_1_1 x = (Js.typeof x <> "boolean") && (x != Obj.magic true)
+  > let guard_boolean_1_1_0 x = (Js.typeof x <> "boolean") || (x != Obj.magic true)
+  > let guard_string_0_0_1 x = (Js.typeof x = "string") && (x == Obj.magic true)
+  > let guard_string_0_0_0 x = (Js.typeof x = "string") || (x == Obj.magic true)
+  > let guard_string_0_1_1 x = (Js.typeof x = "string") && (x != Obj.magic true)
+  > let guard_string_0_1_0 x = (Js.typeof x = "string") || (x != Obj.magic true)
+  > let guard_string_1_0_1 x = (Js.typeof x <> "string") && (x == Obj.magic true)
+  > let guard_string_1_0_0 x = (Js.typeof x <> "string") || (x == Obj.magic true)
+  > let guard_string_1_1_1 x = (Js.typeof x <> "string") && (x != Obj.magic true)
+  > let guard_string_1_1_0 x = (Js.typeof x <> "string") || (x != Obj.magic true)
   > external effect_call : int -> bool = "auditEffect"
   > let and_false () = effect_call 1 && false
   > let or_true () = effect_call 2 || true
@@ -51,6 +67,28 @@ ReScript #7134: cover typeof guard simplification.
   >       hits=[]; check(`7134/${ext}`, "and false keeps effect", () => [m.and_false(),hits], [false,[1]]);
   >       hits=[]; check(`7134/${ext}`, "or true keeps effect", () => [m.or_true(),hits], [true,[2]]);
   >       hits=[]; check(`7134/${ext}`, "compound keeps effect", () => [m.composed(true),hits], [true,[3]]);
+  >     assert.deepEqual(inputs.map(m.guard_boolean_0_0_1), inputs.map(x => (typeof x === "boolean") && (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_0_0_0), inputs.map(x => (typeof x === "boolean") || (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_0_1_1), inputs.map(x => (typeof x === "boolean") && (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_0_1_0), inputs.map(x => (typeof x === "boolean") || (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_1_0_1), inputs.map(x => (typeof x !== "boolean") && (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_1_0_0), inputs.map(x => (typeof x !== "boolean") || (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_1_1_1), inputs.map(x => (typeof x !== "boolean") && (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_boolean_1_1_0), inputs.map(x => (typeof x !== "boolean") || (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_0_0_1), inputs.map(x => (typeof x === "string") && (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_0_0_0), inputs.map(x => (typeof x === "string") || (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_0_1_1), inputs.map(x => (typeof x === "string") && (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_0_1_0), inputs.map(x => (typeof x === "string") || (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_1_0_1), inputs.map(x => (typeof x !== "string") && (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_1_0_0), inputs.map(x => (typeof x !== "string") || (x === true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_1_1_1), inputs.map(x => (typeof x !== "string") && (x !== true)));
+  >     assert.deepEqual(inputs.map(m.guard_string_1_1_0), inputs.map(x => (typeof x !== "string") || (x !== true)));
+  >     const savedEffect = globalThis.auditEffect;
+  >     globalThis.auditEffect = () => { throw new Error("effect"); };
+  >     assert.throws(() => m.and_false(), /effect/);
+  >     assert.throws(() => m.or_true(), /effect/);
+  >     assert.throws(() => m.composed(true), /effect/);
+  >     globalThis.auditEffect = savedEffect;
   >     const js = require("node:fs").readFileSync("./_build/default/out/input." + ext, "utf8");
   >     for (const name of ["redundant_bool", "contradictory"]) {
   >       const fn = js.slice(js.indexOf("function " + name + "("));
@@ -61,9 +99,9 @@ ReScript #7134: cover typeof guard simplification.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js redundant_bool typeof guard: true
-  js contradictory typeof guard: true
+  js redundant_bool typeof guard: false
+  js contradictory typeof guard: false
   js controls: ok
-  mjs redundant_bool typeof guard: true
-  mjs contradictory typeof guard: true
+  mjs redundant_bool typeof guard: false
+  mjs contradictory typeof guard: false
   mjs controls: ok
