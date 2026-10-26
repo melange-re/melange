@@ -29,6 +29,13 @@ The identity external exposes the explicitly chosen integer representation.
   > external other_int : other -> int = "%identity"
   > let zero = other_int One + 0
   > let ordinary = (2 lor 4) + 1
+  > let make = function 0 -> A | 1 -> B | 2 -> C | _ -> A
+  > type gate = Open [@mel.as true] | Closed [@mel.as false]
+  > external to_bool : gate -> bool = "%identity"
+  > let bools = [|if to_bool Open then 1 else 2; if to_bool Closed then 1 else 2|]
+  > let character () = let text = "abcd" in text.[to_int B]
+  > external record : int -> unit = "recordIndex"
+  > let loop limit = for i = 0 to limit - to_int B do record i done
   > EOF
   $ dune build @melange
   $ cat > check.cjs <<'EOF'
@@ -44,10 +51,13 @@ The identity external exposes the explicitly chosen integer representation.
   >     assert.equal(t.effectful(), 7);
   >     assert.equal(reads, 1);
   >     assert.equal(t.ordinary, 7);
-  >     console.log(format + ': ' + JSON.stringify([t.constants, t.cast_match(), t.zero]));
+  >     const indices = [];
+  >     global.recordIndex = i => indices.push(i);
+  >     t.loop(4);
+  >     console.log(format + ': ' + JSON.stringify([t.constants, t.cast_match(), t.zero, [0,1,2].map(t.make), t.bools, t.character(), indices]));
   >   }
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  CommonJS: [[1,1,-1,1,2,2,0,0,1,0],-1,1]
-  ESM: [[1,1,-1,1,2,2,0,0,1,0],-1,1]
+  CommonJS: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
+  ESM: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
