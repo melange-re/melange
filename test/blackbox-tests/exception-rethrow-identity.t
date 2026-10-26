@@ -15,6 +15,7 @@ Inspecting a caught exception must not change the value that is rethrown.
   $ cat > input.ml <<'EOF'
   > external throw : unit -> 'a = "identityThrow"
   > external observe : exn -> unit = "identityObserve"
+  > external invoke : (unit -> unit) -> unit = "identityInvoke"
   > exception Known of int
   > let known = Known 42
   > let direct () = try throw () with e -> raise e
@@ -22,13 +23,14 @@ Inspecting a caught exception must not change the value that is rethrown.
   > let inspected () = try throw () with e -> observe e; raise e
   > let aliased () = try throw () with e -> let same = e in observe same; raise same
   > let nested () = try unmatched () with e -> observe e; raise e
-  > let captured () = try throw () with e -> observe e; (fun () -> raise e) ()
+  > let captured () = try throw () with e -> observe e; invoke (fun () -> raise e)
   > let replacement () = try throw () with _ -> raise (Known 99)
   > let payload () = try throw () with Js.Exn.Error err -> Obj.magic err
   > EOF
   $ dune build @melange
   $ cat > check.cjs <<'EOF'
   > const assert = require('node:assert/strict');
+  > global.identityInvoke = f => f();
   > (async () => {
   >   for (const [format,t] of [['CommonJS',require('./_build/default/out/input.js')], ['ESM',await import('./_build/default/out/input.mjs')]]) {
   >     const values = [new Error('identity'), {custom:true}, null, undefined, 7];
