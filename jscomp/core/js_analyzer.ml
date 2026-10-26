@@ -100,6 +100,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
   match x with
   | Undefined _ | Null | Bool _ | Var _ | Unicode _ | Module _ -> true
   | Fun _ -> true
+  | Tagged_template _ -> false
   | Number _ -> true (* Can be refined later *)
   | Static_index
       { expr = obj; field = (_name : string); pos = (_pos : int32 option) } ->
@@ -129,8 +130,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
       no_side_effect e
   | Bin { op; expr1 = a; expr2 = b } ->
       op <> Eq && no_side_effect a && no_side_effect b
-  | Tagged_template _ | Js_not _ | Cond _ | FlatCall _ | Call _ | New _
-  | Raw_js_code _
+  | Js_not _ | Cond _ | FlatCall _ | Call _ | New _ | Raw_js_code _
   (* | Caml_block_set_tag _  *)
   (* actually true? *) ->
       false
