@@ -1185,12 +1185,17 @@ let rec is_out ?comment (e : t) (range : t) : t =
       is_out ?comment e range
   | _, _ -> int_comp ?comment Cgt (to_uint32 e) range
 
-let rec float_add ?loc ?comment (e1 : t) (e2 : t) =
+(* Float operations also receive integer literals after [float_of_int] is
+   erased. Do not wrap these constants or reassociate IEEE arithmetic. *)
+let float_add ?loc ?comment e1 e2 = bin ?loc ?comment Plus e1 e2
+let float_minus ?loc ?comment e1 e2 = bin ?loc ?comment Minus e1 e2
+
+let rec unchecked_int32_add ?loc ?comment (e1 : t) (e2 : t) =
   match (e1.expression_desc, e2.expression_desc) with
   | Number (Int { i; _ }), Number (Int { i = j; _ }) ->
       int ?comment (Int32.add i j)
   | _, Number (Int { i = j; c }) when j < 0l ->
-      float_minus ?comment e1
+      unchecked_int32_minus ?comment e1
         { e2 with expression_desc = Number (Int { i = Int32.neg j; c }) }
   | ( Bin
         {
@@ -1221,24 +1226,21 @@ let rec float_add ?loc ?comment (e1 : t) (e2 : t) =
 
 (* bin ?loc ?comment Plus e1 e2 *)
 (* associative is error prone due to overflow *)
-and float_minus ?loc ?comment (e1 : t) (e2 : t) : t =
+and unchecked_int32_minus ?loc ?comment (e1 : t) (e2 : t) : t =
   match (e1.expression_desc, e2.expression_desc) with
   | Number (Int { i; _ }), Number (Int { i = j; _ }) ->
       int ?comment (Int32.sub i j)
   | _ -> bin ?loc ?comment Minus e1 e2
 (* bin ?loc ?comment Minus e1 e2 *)
 
-let unchecked_int32_add ?loc ?comment e1 e2 = float_add ?loc ?comment e1 e2
-let int32_add ?loc ?comment e1 e2 = to_int32 ?loc (float_add ?comment e1 e2)
+let int32_add ?loc ?comment e1 e2 =
+  to_int32 ?loc (unchecked_int32_add ?comment e1 e2)
 
 let offset e1 (offset : int) =
   if offset = 0 then e1 else int32_add e1 (small_int offset)
 
 let int32_minus ?loc ?comment e1 e2 : J.expression =
-  to_int32 ?loc (float_minus ?comment e1 e2)
-
-let unchecked_int32_minus ?loc ?comment e1 e2 : J.expression =
-  float_minus ?loc ?comment e1 e2
+  to_int32 ?loc (unchecked_int32_minus ?comment e1 e2)
 
 let float_div ?loc ?comment e1 e2 = bin ?loc ?comment Div e1 e2
 let float_notequal ?loc ?comment e1 e2 = bin ?loc ?comment NotEqEq e1 e2

@@ -1,5 +1,5 @@
 Float arithmetic on converted int32 constants must not use wrapping integer folds.
-ReScript #6422. The observations below record the unfixed compiler's results.
+ReScript #6422. Float arithmetic preserves IEEE results; integer arithmetic wraps.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -73,5 +73,5 @@ ReScript #6422. The observations below record the unfixed compiler's results.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js {"low":1147483648,"high":-1147483649,"identityLow":1147483648,"identityHigh":-1147483649,"dynamicMin":2147483653,"rounded":9007199254740994,"combined":-1147483649}
-  mjs {"low":1147483648,"high":-1147483649,"identityLow":1147483648,"identityHigh":-1147483649,"dynamicMin":2147483653,"rounded":9007199254740994,"combined":-1147483649}
+  js {"low":-3147483648,"high":3147483647,"identityLow":-3147483648,"identityHigh":3147483647,"dynamicMin":-2147483643,"rounded":9007199254740992,"combined":3147483647}
+  mjs {"low":-3147483648,"high":3147483647,"identityLow":-3147483648,"identityHigh":3147483647,"dynamicMin":-2147483643,"rounded":9007199254740992,"combined":3147483647}
