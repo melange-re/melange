@@ -55,7 +55,7 @@ Pure boolean expressions should not keep otherwise unused array allocations aliv
   > })().catch(e=>{console.error(e);process.exitCode=1;});
   > EOF
   $ node check.cjs
-  CommonJS retained pure allocations: 3
-  CommonJS retained ignored negation: true
-  ESM retained pure allocations: 3
-  ESM retained ignored negation: true
+  CommonJS retained pure allocations: 0
+  CommonJS retained ignored negation: false
+  ESM retained pure allocations: 0
+  ESM retained ignored negation: false
