@@ -81,6 +81,10 @@ let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
           Some
             {
               Js_dump_import_export.id = x.id;
+              import_attributes =
+                (match x.kind with
+                | External { import_attributes; _ } -> import_attributes
+                | Ml | Runtime -> []);
               path =
                 Js_name_of_module_id.string_of_module_id ~package_info
                   ~output_info ~output_dir x;

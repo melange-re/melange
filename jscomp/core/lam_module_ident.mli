@@ -38,7 +38,12 @@ val of_runtime : Ident.t -> t
 val hash : t -> int
 
 val external_ :
-  dynamic_import:bool -> Ident.t -> name:string -> default:bool -> t
+  ?import_attributes:(string * string) list ->
+  dynamic_import:bool ->
+  Ident.t ->
+  name:string ->
+  default:bool ->
+  t
 
 module Hashtbl : Hashtbl.S with type key = t
 

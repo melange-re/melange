@@ -98,7 +98,15 @@ type int_op =
     ~0xff -> -256
     design; make sure each operation type is consistent
 *)
-type kind = Ml | Runtime | External of { name : string; default : bool }
+type kind =
+  | Ml
+  | Runtime
+  | External of {
+      name : string;
+      default : bool;
+      import_attributes : (string * string) list;
+    }
+
 type property = Lam_group.let_kind = Strict | Alias | StrictOpt | Variable
 
 type number =

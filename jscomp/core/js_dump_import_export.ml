@@ -97,12 +97,18 @@ let es6_export cxt f (idents : Ident.t list) =
           iter_exports cxt f idents ~add_esmodule:false
             ~print_export:print_es6_export)
 
-type module_ = { id : Ident.t; path : string; default : bool }
+type module_ = {
+  id : Ident.t;
+  path : string;
+  default : bool;
+  import_attributes : (string * string) list;
+}
 
 (** Node style imports *)
 let requires cxt f modules =
   P.at_least_two_lines f;
-  List.fold_left modules ~init:cxt ~f:(fun cxt { id; path = file; default } ->
+  List.fold_left modules ~init:cxt
+    ~f:(fun cxt { id; path = file; default; import_attributes = _ } ->
       let s, cxt = Js_pp.Scope.str_of_ident cxt id in
       P.string f L.const;
       P.space f;
@@ -120,9 +126,23 @@ let requires cxt f modules =
       cxt)
 
 (** ES6 module style imports *)
+let attributes f = function
+  | [] -> ()
+  | attributes ->
+      P.string f " with ";
+      P.group f 0 (fun () ->
+          P.string f "{";
+          List.iteri attributes ~f:(fun i (key, value) ->
+              if i > 0 then P.string f ", ";
+              Js_dump_string.pp_string f key;
+              P.string f ": ";
+              Js_dump_string.pp_string f value);
+          P.string f "}")
+
 let imports cxt f modules =
   P.at_least_two_lines f;
-  List.fold_left modules ~init:cxt ~f:(fun cxt { id; path = file; default } ->
+  List.fold_left modules ~init:cxt
+    ~f:(fun cxt { id; path = file; default; import_attributes } ->
       let s, cxt = Js_pp.Scope.str_of_ident cxt id in
       P.string f L.import;
       P.space f;
@@ -143,6 +163,7 @@ let imports cxt f modules =
         P.string f L.from;
         P.space f;
         Js_dump_string.pp_string f file);
+      attributes f import_attributes;
       P.string f L.semi;
       P.newline f;
       cxt)

@@ -27,6 +27,7 @@
 val reset : unit -> unit
 
 val add_js_module :
+  ?import_attributes:(string * string) list ->
   Melange_ffi.External_ffi_types.Module_bind_name.t ->
   string ->
   default:bool ->

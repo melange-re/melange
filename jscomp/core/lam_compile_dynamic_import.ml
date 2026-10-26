@@ -27,11 +27,29 @@ module E = Js_exp_make
 module S = Js_stmt_make
 
 let wrap_module_value =
+  let attribute_object attributes =
+    if List.exists attributes ~f:(fun (key, _) -> String.equal key "__proto__")
+    then
+      E.call
+        ~info:{ arity = Full; call_info = Call_na }
+        (E.dot (E.js_global "Object") "fromEntries")
+        [
+          E.array Immutable
+            (List.map attributes ~f:(fun (key, value) ->
+                 E.array Immutable [ E.str key; E.str value ]));
+        ]
+    else E.obj (List.map attributes ~f:(fun (key, value) -> (key, E.str value)))
+  in
   let import_of_module module_ =
+    let arguments =
+      match module_.J.kind with
+      | External { import_attributes = _ :: _ as attributes; _ } ->
+          [ E.module_ module_; E.obj [ ("with", attribute_object attributes) ] ]
+      | External _ | Ml | Runtime -> [ E.module_ module_ ]
+    in
     E.call
       ~info:{ arity = Full; call_info = Call_na }
-      (E.js_global "import")
-      [ E.module_ module_ ]
+      (E.js_global "import") arguments
   in
   let wrap_then import value =
     let arg = Ident.create "m" in

@@ -114,21 +114,22 @@ let ml_var_dot ?loc ?comment ~dynamic_import (id : Ident.t) e : J.expression =
      var http = require("http")
    ]}
 *)
-let external_var_field ?loc ?comment ~external_name:name ~dynamic_import
-    (id : Ident.t) ~field ~default : t =
+let external_var_field ?(import_attributes = []) ?loc ?comment
+    ~external_name:name ~dynamic_import (id : Ident.t) ~field ~default : t =
   make_expression ?loc ?comment
     (Var
        (Qualified
-          ( Lam_module_ident.external_ id ~dynamic_import ~name ~default,
+          ( Lam_module_ident.external_ ~import_attributes id ~dynamic_import
+              ~name ~default,
             Some field )))
 
-let external_var ?loc ?comment ~external_name ~dynamic_import (id : Ident.t) : t
-    =
+let external_var ?(import_attributes = []) ?loc ?comment ~external_name
+    ~dynamic_import (id : Ident.t) : t =
   make_expression ?loc ?comment
     (Var
        (Qualified
-          ( Lam_module_ident.external_ id ~dynamic_import ~name:external_name
-              ~default:false,
+          ( Lam_module_ident.external_ ~import_attributes id ~dynamic_import
+              ~name:external_name ~default:false,
             None )))
 
 let ml_module_as_var ?loc ?comment ~dynamic_import (id : Ident.t) : t =

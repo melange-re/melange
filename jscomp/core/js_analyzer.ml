@@ -31,8 +31,9 @@ let same_vident (x : J.vident) (y : J.vident) =
       let same_kind (x : J.kind) (y : J.kind) =
         match (x, y) with
         | Ml, Ml | Runtime, Runtime -> true
-        | External { name = u; _ }, External { name = v; _ } ->
-            u = v (* not comparing Default since we will do it later *)
+        | ( External { name = u; import_attributes = a; _ },
+            External { name = v; import_attributes = b; _ } ) ->
+            u = v && a = b (* not comparing Default since we will do it later *)
         | _, _ -> false
       in
       Ident.same x.id y.id && same_kind x.kind y.kind

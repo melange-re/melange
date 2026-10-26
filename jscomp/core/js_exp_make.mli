@@ -61,6 +61,7 @@ val ml_var_dot :
 *)
 
 val external_var_field :
+  ?import_attributes:(string * string) list ->
   ?loc:Location.t ->
   ?comment:string ->
   external_name:string ->
@@ -73,6 +74,7 @@ val external_var_field :
     Used in the FFI *)
 
 val external_var :
+  ?import_attributes:(string * string) list ->
   ?loc:Location.t ->
   ?comment:string ->
   external_name:string ->

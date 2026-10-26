@@ -413,7 +413,7 @@ let eq_approx (lhs : t) (rhs : t) =
   | Psetfield_computed -> rhs = Psetfield_computed
 
 let external_module_name_is_relative
-    ({ bundle; module_bind_name = _ } :
+    ({ bundle; module_bind_name = _; import_attributes = _ } :
       External_ffi_types.External_module_name.t) =
   Paths.is_relative_module_specifier bundle
 
