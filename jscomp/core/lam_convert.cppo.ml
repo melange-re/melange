@@ -117,10 +117,12 @@ let lam_is_var (x : Lam.t) (y : Ident.t) =
     also we only check [int] *)
 let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option =
   match sw_consts with
-  | (a, Lconst (Const_int { i = a0; comment = _ }))
-    :: (b, Lconst (Const_int { i = b0; comment = _ }))
+  | (a, Lconst (Const_int { i = a0; comment = ac }))
+    :: (b, Lconst (Const_int { i = b0; comment = bc }))
     :: rest
     when sw_names = None
+         && Lam.Constant.modifier_of_pointer_info ac = None
+         && Lam.Constant.modifier_of_pointer_info bc = None
          && no_over_flow a && no_over_flow_int32 a0 && no_over_flow b
          && no_over_flow_int32 b0 ->
       let a = Int32.of_int a in
@@ -131,8 +133,9 @@ let happens_to_be_diff (sw_consts : (int * Lam.t) list) sw_names : int32 option 
           List.for_all
             ~f:(fun (x, lam) ->
               match lam with
-              | Lam.Lconst (Const_int { i = x0; comment = _ })
-                when no_over_flow_int32 x0 && no_over_flow x ->
+              | Lam.Lconst (Const_int { i = x0; comment })
+                when Lam.Constant.modifier_of_pointer_info comment = None
+                     && no_over_flow_int32 x0 && no_over_flow x ->
                   let x = Int32.of_int x in
                   Int32.sub x0 x = diff
               | _ -> false)

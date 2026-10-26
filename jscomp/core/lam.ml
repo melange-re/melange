@@ -715,6 +715,8 @@ let rec eval_const_as_bool (v : Constant.t) : bool =
 
 let if_ (a : t) (b : t) (c : t) : t =
   match a with
+  | Lconst constant when has_remapped_representation constant ->
+      Lifthenelse (a, b, c)
   | Lconst v -> if eval_const_as_bool v then b else c
   | _ -> (
       match (b, c) with

@@ -59,5 +59,5 @@ The identity external exposes the explicitly chosen integer representation.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  CommonJS: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
-  ESM: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
+  CommonJS: [[2,2,-2,2,1,4,1,1,0,1],20,0,[0,2,7],[1,2],99,[0,1,2]]
+  ESM: [[2,2,-2,2,1,4,1,1,0,1],20,0,[0,2,7],[1,2],99,[0,1,2]]

@@ -404,7 +404,8 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
         | exception Not_found-> Lam.prim ~primitive ~args:[ l'; r' ] ~loc
         | l_s -> (
             match r with
-            | Lconst (Const_int { i; _ }) ->
+            | Lconst (Const_int { i; comment })
+              when Lam.Constant.modifier_of_pointer_info comment = None ->
                 let i = Int32.to_int i in
                 if i < String.length l_s && i >= 0 then
                   Lam.const (Const_char l_s.[i])
