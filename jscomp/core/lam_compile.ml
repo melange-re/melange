@@ -700,6 +700,20 @@ and compile_cases =
         compile_string_cases ~get_cstr_name cxt switch_exp modifier_table
           default
     | None ->
+        let table, default =
+          match default with
+          | Complete -> (
+              (* V8 can abort while building a jump table ending at
+                 INT32_MAX. A complete switch can use that arm as its
+                 default instead. *)
+              let max_int = Int32.to_int Int32.max_int in
+              match List.assoc_opt max_int table with
+              | Some action ->
+                  ( List.filter table ~f:(fun (i, _) -> i <> max_int),
+                    Default action )
+              | None -> (table, default))
+          | Default _ | NonComplete -> (table, default)
+        in
         compile_general_cases ~get_cstr_name
           (fun i ->
             match get_cstr_name i with
