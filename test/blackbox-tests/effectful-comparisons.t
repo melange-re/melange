@@ -41,21 +41,21 @@ Constant comparison results must retain evaluation of their operands.
   >   console.log(name, result, calls, thrown);
   > }
   > JS
-  eq_array false 0 false
-  eq_array_rev false 0 false
-  neq_array true 0 false
-  neq_array_rev true 0 false
-  eq_typeof false 0 false
-  neq_typeof true 0 false
-  eq_record false 0 false
-  neq_record true 0 false
-  nullable_array false 0 false
-  nullable_record false 0 false
-  eq_some false 0 false
-  eq_some_rev false 0 false
+  eq_array false 1 hit
+  eq_array_rev false 1 hit
+  neq_array true 1 hit
+  neq_array_rev true 1 hit
+  eq_typeof false 1 hit
+  neq_typeof true 1 hit
+  eq_record false 1 hit
+  neq_record true 1 hit
+  nullable_array false 1 hit
+  nullable_record false 1 hit
+  eq_some false 1 hit
+  eq_some_rev false 1 hit
   neq_some true 1 hit
-  physical_some false 0 false
-  physical_some_rev false 0 false
+  physical_some false 1 hit
+  physical_some_rev false 1 hit
   and_false false 1 hit
   or_true true 1 hit
   skip_and false 0 false
