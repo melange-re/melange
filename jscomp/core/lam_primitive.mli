@@ -26,6 +26,7 @@ open Import
 
 module Record_representation : sig
   type t =
+    | Record_object
     | Record_regular
     | Record_inlined of {
         tag : int;

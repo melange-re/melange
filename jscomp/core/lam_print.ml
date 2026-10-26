@@ -41,6 +41,7 @@ let rec struct_const ppf (cst : Lam.Constant.t) =
 
 let record_rep ppf (r : Lam_primitive.Record_representation.t) =
   match r with
+  | Record_object -> fprintf ppf "object"
   | Record_regular -> fprintf ppf "regular"
   | Record_inlined { tag = i; _ } -> fprintf ppf "inlined %d" i
   | Record_extension -> fprintf ppf "ext"

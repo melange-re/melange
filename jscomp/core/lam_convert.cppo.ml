@@ -291,7 +291,16 @@ let lam_prim =
     | Psetfield (id, _, _initialization_or_assignment, info) ->
         Lam.prim ~primitive:(Psetfield (id, info)) ~args ~loc
     | Psetfloatfield _ | Pfloatfield _ -> assert false
-    | Pduprecord (repr, _) ->
+    | Pduprecord ((Record_regular | Record_float), _, Blk_record fields)
+      when not
+        (let rec indexed i =
+           i = Array.length fields
+           || (String.equal fields.(i) (string_of_int i) && indexed (i + 1))
+         in
+         indexed 0)
+           && not (Array.exists fields ~f:(fun field -> String.equal field "__proto__")) ->
+        Lam.prim ~primitive:(Pduprecord Record_object) ~args ~loc
+    | Pduprecord (repr, _, _) ->
         Lam.prim ~primitive:(Pduprecord (convert_record_repr repr)) ~args ~loc
     | Praise _ -> Lam.prim ~primitive:Praise ~args ~loc
     | Psequand -> Lam.prim ~primitive:Psequand ~args ~loc

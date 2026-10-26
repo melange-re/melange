@@ -213,7 +213,7 @@ let exp_need_paren (e : J.expression) =
           | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ );
         _;
       }
-  | Object _ ->
+  | Record_copy _ | Object _ ->
       true
   | Raw_js_code { code_info = Stmt _; _ }
   | Length _ | Call _ | Caml_block_tag _ | Seq _ | Static_index _ | Cond _
@@ -915,6 +915,12 @@ and expression_desc cxt ~(level : int) x : cxt =
         group cxt 1 (fun () -> expression ~level:3 cxt e2)
       in
       if level > 2 then paren_vgroup cxt 1 action else action ()
+  | Record_copy e ->
+      cond_paren_group cxt (level > 1) (fun () ->
+          string cxt "{...";
+          let cxt = expression ~level:1 cxt e in
+          string cxt "}";
+          cxt)
   | Object lst ->
       (* #1946 object literal is easy to be
          interpreted as block statement
