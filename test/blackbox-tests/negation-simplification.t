@@ -65,8 +65,8 @@ Relational leaves must retain their NaN behavior.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js outer negations: true, true, true, true
+  js outer negations: false, false, false, false
   js short circuit and NaN controls: ok
-  mjs outer negations: true, true, true, true
+  mjs outer negations: false, false, false, false
   mjs short circuit and NaN controls: ok
 

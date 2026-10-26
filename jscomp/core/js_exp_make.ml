@@ -686,12 +686,38 @@ let or_ ?loc ?comment (e1 : t) (e2 : t) =
       { e2 with expression_desc = Bin { op = Or; expr1 = r; expr2 = l } }
   | _, _ -> bin ?loc ?comment Or e1 e2
 
+(* Push a negation only through boolean-valued comparisons. Each expression
+   is visited once and remains in its original short-circuit position. In
+   particular, do not complement relational operators: their operands may
+   be NaN. Avoid distributing conjunctions/disjunctions, which can duplicate
+   both effects and compiler work. *)
+let rec push_negation (e : t) : t option =
+  match e.expression_desc with
+  | Bool b -> Some (bool (Stdlib.not b))
+  | Bin { op = (EqEqEq | NotEqEq) as op; expr1; expr2 } ->
+      let op : J.binop = if op = EqEqEq then NotEqEq else EqEqEq in
+      Some { e with expression_desc = Bin { op; expr1; expr2 } }
+  | Bin { op = (And | Or) as op; expr1; expr2 } -> (
+      match push_negation expr1 with
+      | None -> None
+      | Some expr1 -> (
+          match push_negation expr2 with
+          | None -> None
+          | Some expr2 ->
+              let op : J.binop = if op = And then Or else And in
+              Some { e with expression_desc = Bin { op; expr1; expr2 } }))
+  | _ -> None
+
 (* return a value of type boolean *)
 (* TODO:
      when comparison with Int
      it is right that !(x > 3 ) -> x <= 3 *)
 let not (e : t) : t =
   match e.expression_desc with
+  | Bin { op = And | Or; _ } -> (
+      match push_negation e with
+      | Some e -> e
+      | None -> make_expression (Js_not e))
   | Number (Int { i; _ }) -> bool (i = 0l)
   | Js_not e -> e
   | Bool b -> if b then false_ else true_
