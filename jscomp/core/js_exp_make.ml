@@ -1379,7 +1379,7 @@ let for_sure_js_null_undefined (x : t) =
 let is_null_undefined ?loc ?comment (x : t) : t =
   match x.expression_desc with
   | Null | Undefined _ -> true_
-  | Number _ | Array _ | Caml_block _ when no_side_effect x -> false_
+  | (Number _ | Array _ | Caml_block _) when no_side_effect x -> false_
   | _ -> make_expression ?loc ?comment (Is_null_or_undefined x)
 
 let eq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
