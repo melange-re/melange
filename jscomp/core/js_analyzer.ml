@@ -125,11 +125,14 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
   | Char_of_int e
   | Char_to_int e
   | Caml_block_tag { expr = e; _ }
+  | Js_not e
   | Typeof e ->
       no_side_effect e
   | Bin { op; expr1 = a; expr2 = b } ->
       op <> Eq && no_side_effect a && no_side_effect b
-  | Js_not _ | Cond _ | FlatCall _ | Call _ | New _ | Raw_js_code _
+  | Cond { pred; then_; else_ } ->
+      no_side_effect pred && no_side_effect then_ && no_side_effect else_
+  | FlatCall _ | Call _ | New _ | Raw_js_code _
   (* | Caml_block_set_tag _  *)
   (* actually true? *) ->
       false
