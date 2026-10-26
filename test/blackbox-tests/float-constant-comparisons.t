@@ -60,5 +60,5 @@ Physical comparisons of float constants should fold using their numeric values.
   > })().catch(e=>{console.error(e);process.exitCode=1;});
   > EOF
   $ node check.cjs
-  CommonJS remaining constant comparisons: 9
-  ESM remaining constant comparisons: 9
+  CommonJS remaining constant comparisons: 0
+  ESM remaining constant comparisons: 0
