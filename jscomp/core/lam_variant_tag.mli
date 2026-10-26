@@ -23,3 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val process_tag_name : Parsetree.attributes -> string option
+
+val check_representations :
+  Import.Types.constructor_declaration list ->
+  Import.Types.constructor_declaration list ->
+  string option

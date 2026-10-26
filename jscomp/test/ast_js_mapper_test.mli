@@ -9,7 +9,7 @@ val searchForSureExists : (int * 'a) array -> int -> 'a
 
 type a =
   | A0
-  | A1
+  | A1 [@mel.as 3]
   | A2
   | A3
 
