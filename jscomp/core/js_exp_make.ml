@@ -691,52 +691,50 @@ let simplify_typeof_guard (op : J.binop) (guard : t) (test : t) =
   | _ -> None
 
 let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
-  match simplify_typeof_guard And e1 e2 with
-  | Some simplified -> simplified
-  | None -> (
-      match (e1.expression_desc, e2.expression_desc) with
-      | Var i, Var j when Js_analyzer.same_vident i j -> e1
-      | Var i, Bin { op = And; expr1 = { expression_desc = Var j; _ }; _ }
-        when Js_analyzer.same_vident i j ->
-          e2
-      | ( Var i,
-          Bin
-            { op = And; expr1 = l; expr2 = { expression_desc = Var j; _ } as r }
-        )
-        when Js_analyzer.same_vident i j ->
-          { e2 with expression_desc = Bin { op = And; expr1 = r; expr2 = l } }
-      | ( Bin
-            {
-              op = NotEqEq;
-              expr1 = { expression_desc = Var i; _ };
-              expr2 = { expression_desc = Undefined _; _ };
-            },
-          Bin
-            {
-              op = EqEqEq;
-              expr1 = { expression_desc = Var j; _ };
-              expr2 = { expression_desc = Str _ | Number _ | Unicode _; _ };
-            } )
-        when Js_analyzer.same_vident i j ->
-          e2
-      | _, _ -> bin ?loc ?comment And e1 e2)
+  match (e1.expression_desc, e2.expression_desc) with
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _ -> (
+      match simplify_typeof_guard And e1 e2 with
+      | Some simplified -> simplified
+      | None -> bin ?loc ?comment And e1 e2)
+  | Var i, Var j when Js_analyzer.same_vident i j -> e1
+  | Var i, Bin { op = And; expr1 = { expression_desc = Var j; _ }; _ }
+    when Js_analyzer.same_vident i j ->
+      e2
+  | ( Var i,
+      Bin { op = And; expr1 = l; expr2 = { expression_desc = Var j; _ } as r } )
+    when Js_analyzer.same_vident i j ->
+      { e2 with expression_desc = Bin { op = And; expr1 = r; expr2 = l } }
+  | ( Bin
+        {
+          op = NotEqEq;
+          expr1 = { expression_desc = Var i; _ };
+          expr2 = { expression_desc = Undefined _; _ };
+        },
+      Bin
+        {
+          op = EqEqEq;
+          expr1 = { expression_desc = Var j; _ };
+          expr2 = { expression_desc = Str _ | Number _ | Unicode _; _ };
+        } )
+    when Js_analyzer.same_vident i j ->
+      e2
+  | _, _ -> bin ?loc ?comment And e1 e2
 
 let or_ ?loc ?comment (e1 : t) (e2 : t) =
-  match simplify_typeof_guard Or e1 e2 with
-  | Some simplified -> simplified
-  | None -> (
-      match (e1.expression_desc, e2.expression_desc) with
-      | Var i, Var j when Js_analyzer.same_vident i j -> e1
-      | Var i, Bin { op = Or; expr1 = { expression_desc = Var j; _ }; _ }
-        when Js_analyzer.same_vident i j ->
-          e2
-      | ( Var i,
-          Bin
-            { op = Or; expr1 = l; expr2 = { expression_desc = Var j; _ } as r }
-        )
-        when Js_analyzer.same_vident i j ->
-          { e2 with expression_desc = Bin { op = Or; expr1 = r; expr2 = l } }
-      | _, _ -> bin ?loc ?comment Or e1 e2)
+  match (e1.expression_desc, e2.expression_desc) with
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _ -> (
+      match simplify_typeof_guard Or e1 e2 with
+      | Some simplified -> simplified
+      | None -> bin ?loc ?comment Or e1 e2)
+  | Var i, Var j when Js_analyzer.same_vident i j -> e1
+  | Var i, Bin { op = Or; expr1 = { expression_desc = Var j; _ }; _ }
+    when Js_analyzer.same_vident i j ->
+      e2
+  | ( Var i,
+      Bin { op = Or; expr1 = l; expr2 = { expression_desc = Var j; _ } as r } )
+    when Js_analyzer.same_vident i j ->
+      { e2 with expression_desc = Bin { op = Or; expr1 = r; expr2 = l } }
+  | _, _ -> bin ?loc ?comment Or e1 e2
 
 (* return a value of type boolean *)
 (* TODO:
@@ -767,27 +765,15 @@ let not_empty_branch (x : t) =
   | _ -> true
 
 let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
-  let simplified =
-    match (ifso.expression_desc, ifnot.expression_desc) with
-    | _, Bool false -> simplify_typeof_guard And pred ifso
-    | Bool true, _ -> simplify_typeof_guard Or pred ifnot
-    | _ -> None
-  in
-  match simplified with
-  | Some simplified -> simplified
-  | None -> (
-      match
-        (pred.expression_desc, ifso.expression_desc, ifnot.expression_desc)
-      with
-      | Bool false, _, _ -> ifnot
-      | Number (Int { i = 0l; _ }), _, _ -> ifnot
-      | (Number _ | Array _ | Caml_block _), _, _ when no_side_effect pred ->
-          ifso
-          (* a block can not be false in OCAML, CF - relies on flow inference*)
-      | Bool true, _, _ -> ifso
-      | _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }, _
-        when Js_analyzer.eq_expression ifnot1 ifnot ->
-          (* {[
+  match (pred.expression_desc, ifso.expression_desc, ifnot.expression_desc) with
+  | Bool false, _, _ -> ifnot
+  | Number (Int { i = 0l; _ }), _, _ -> ifnot
+  | (Number _ | Array _ | Caml_block _), _, _ when no_side_effect pred ->
+      ifso (* a block can not be false in OCAML, CF - relies on flow inference*)
+  | Bool true, _, _ -> ifso
+  | _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }, _
+    when Js_analyzer.eq_expression ifnot1 ifnot ->
+      (* {[
            if b then (if p1 then branch_code0 else branch_code1)
            else branch_code1
          ]}
@@ -796,28 +782,39 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
            if b && p1 then branch_code0 else branch_code1
          ]}
       *)
-          econd (and_ pred pred1) ifso1 ifnot
-      | _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }, _
-        when Js_analyzer.eq_expression ifso1 ifnot ->
-          econd (and_ pred (not pred1)) ifnot1 ifnot
-      | _, _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }
-        when Js_analyzer.eq_expression ifso ifso1 ->
-          econd (or_ pred pred1) ifso ifnot1
-      | _, _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }
-        when Js_analyzer.eq_expression ifso ifnot1 ->
-          econd (or_ pred (not pred1)) ifso ifso1
-      | Js_not e, _, _ when not_empty_branch ifnot ->
-          econd ?comment e ifnot ifso
-      | ( _,
-          Seq (a, { expression_desc = Undefined _; _ }),
-          Seq (b, { expression_desc = Undefined _; _ }) ) ->
-          seq (econd ?comment pred a b) undefined
-      | _ ->
-          if Js_analyzer.eq_expression ifso ifnot then
-            if no_side_effect pred then ifso else seq ?comment pred ifso
-          else
-            make_expression ?loc ?comment
-              (Cond { pred; then_ = ifso; else_ = ifnot }))
+      econd (and_ pred pred1) ifso1 ifnot
+  | _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }, _
+    when Js_analyzer.eq_expression ifso1 ifnot ->
+      econd (and_ pred (not pred1)) ifnot1 ifnot
+  | _, _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }
+    when Js_analyzer.eq_expression ifso ifso1 ->
+      econd (or_ pred pred1) ifso ifnot1
+  | _, _, Cond { pred = pred1; then_ = ifso1; else_ = ifnot1 }
+    when Js_analyzer.eq_expression ifso ifnot1 ->
+      econd (or_ pred (not pred1)) ifso ifso1
+  | Js_not e, _, _ when not_empty_branch ifnot -> econd ?comment e ifnot ifso
+  | ( _,
+      Seq (a, { expression_desc = Undefined _; _ }),
+      Seq (b, { expression_desc = Undefined _; _ }) ) ->
+      seq (econd ?comment pred a b) undefined
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _, Bool false -> (
+      match simplify_typeof_guard And pred ifso with
+      | Some simplified -> simplified
+      | None ->
+          make_expression ?loc ?comment
+            (Cond { pred; then_ = ifso; else_ = ifnot }))
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bool true, Bin _ -> (
+      match simplify_typeof_guard Or pred ifnot with
+      | Some simplified -> simplified
+      | None ->
+          make_expression ?loc ?comment
+            (Cond { pred; then_ = ifso; else_ = ifnot }))
+  | _ ->
+      if Js_analyzer.eq_expression ifso ifnot then
+        if no_side_effect pred then ifso else seq ?comment pred ifso
+      else
+        make_expression ?loc ?comment
+          (Cond { pred; then_ = ifso; else_ = ifnot })
 
 let rec float_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
