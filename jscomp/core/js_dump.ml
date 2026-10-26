@@ -783,6 +783,7 @@ and expression_desc cxt ~(level : int) x : cxt =
            E.runtime_call ~module_name:Js_runtime_modules.option ~fn_name:"some"
              [ e ])
   | Caml_block { fields = el; tag_info = Blk_module fields; _ } ->
+      Js_export_check.module_fields fields;
       expression_desc cxt ~level
         (Object (List.map_combine fields el ~f:(fun x -> Ident.convert x)))
   (*name convention of Record is slight different from modules*)

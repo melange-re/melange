@@ -97,6 +97,7 @@ let after_parsing_sig ppf fname ast =
     if !Clflags.dump_typedtree then
       Format.fprintf ppf "%a@." Printtyped.interface tsg;
     let sg = tsg.sig_type in
+    Js_export_check.signature ~top:true tsg.sig_final_env sg;
     if !Clflags.print_types then
       Printtyp.wrap_printing_env ~error:false initial_env (fun () ->
           Format.fprintf Format.std_formatter "%a@."
@@ -206,6 +207,8 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       Typemod.type_implementation fname outputprefix modulename env ast
 #endif
     in
+    Js_export_check.signature ~top:true typedtree.str_final_env
+      implementation.signature;
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
       implementation;

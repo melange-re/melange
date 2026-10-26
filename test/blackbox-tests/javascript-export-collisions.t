@@ -1,5 +1,5 @@
 JavaScript export names must be unique after mangling, including nested modules.
-The initial snapshots expose overwritten properties and duplicate ESM exports.
+Reject collisions in implementations, interfaces, module types and functors.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -17,11 +17,19 @@ The initial snapshots expose overwritten properties and duplicate ESM exports.
   > let cafè = 2
   > EOF
   $ melc unicode.ml -o unicode.js
-  $ if test -f unicode.js; then node -p 'JSON.stringify(Object.values(require("./unicode.js")))'; fi
+  File "unicode.ml", line 2, characters 4-9:
+  2 | let cafè = 2
+          ^^^^^
+  Error: JavaScript export name "caf$unknown$unknown" is shared by value `café` and value `cafè`
   [2]
+  $ if test -f unicode.js; then node -p 'JSON.stringify(Object.values(require("./unicode.js")))'; fi
   $ melc -mel-module-type es6 unicode.ml -o unicode.mjs
+  File "unicode.ml", line 2, characters 4-9:
+  2 | let cafè = 2
+          ^^^^^
+  Error: JavaScript export name "caf$unknown$unknown" is shared by value `café` and value `cafè`
+  [2]
   $ if test -f unicode.mjs; then node --check unicode.mjs >/dev/null 2>&1; echo "ESM syntax status: $?"; fi
-  ESM syntax status: 1
 
   $ cat > nested.ml <<'EOF'
   > module Nested = struct
@@ -30,14 +38,23 @@ The initial snapshots expose overwritten properties and duplicate ESM exports.
   > end
   > EOF
   $ melc nested.ml -o nested.js
+  File "nested.ml", line 3, characters 2-37:
+  3 |   module M = struct let value = 3 end
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: JavaScript export name "M" is shared by extension constructor `M` and module `M`
+  [2]
   $ if test -f nested.js; then node -p 'typeof require("./nested.js").Nested.M'; fi
-  object
 
   $ cat > contract.mli <<'EOF'
   > val café : int
   > val cafè : int
   > EOF
   $ melc -c contract.mli
+  File "contract.mli", line 2, characters 0-15:
+  2 | val cafè : int
+      ^^^^^^^^^^^^^^^
+  Error: JavaScript export name "caf$unknown$unknown" is shared by value `café` and value `cafè`
+  [2]
 
   $ cat > module_type.ml <<'EOF'
   > module type S = sig
@@ -46,6 +63,11 @@ The initial snapshots expose overwritten properties and duplicate ESM exports.
   > end
   > EOF
   $ melc module_type.ml -o module_type.js
+  File "module_type.ml", line 3, characters 2-17:
+  3 |   val cafè : int
+        ^^^^^^^^^^^^^^^
+  Error: JavaScript export name "caf$unknown$unknown" is shared by value `café` and value `cafè`
+  [2]
 
   $ cat > functor_exports.ml <<'EOF'
   > module F (X : sig end) = struct
@@ -54,6 +76,11 @@ The initial snapshots expose overwritten properties and duplicate ESM exports.
   > end
   > EOF
   $ melc functor_exports.ml -o functor_exports.js
+  File "functor_exports.ml", line 3, characters 6-11:
+  3 |   let cafè = 2
+            ^^^^^
+  Error: JavaScript export name "caf$unknown$unknown" is shared by value `café` and value `cafè`
+  [2]
 
   $ cat > default_marker.ml <<'EOF'
   > let default = 1

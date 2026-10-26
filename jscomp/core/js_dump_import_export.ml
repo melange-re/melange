@@ -49,10 +49,9 @@ let print_es6_export f s export =
 
 let export_name cxt id =
   let id_name = Ident.name id in
-  let s = Ident.convert id_name in
+  let s = Js_export_check.name ~top:true id_name in
   let export, cxt = Js_pp.Scope.str_of_ident cxt id in
   let is_default = id_name = L.default in
-  let s = if is_default then L.default else s in
   (s, export, is_default, cxt)
 
 let iter_exports cxt f idents ~add_esmodule ~print_export =
