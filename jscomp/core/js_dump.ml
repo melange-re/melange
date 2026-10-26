@@ -202,6 +202,7 @@ let raw_snippet_exp_simple_enough (s : string) =
 (* e = function(x){...}(x);  is good *)
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
+  | Spread _ -> false
   (* | Caml_uninitialized_obj _  *)
   | Call { expr = { expression_desc = Fun _ | Raw_js_code _; _ }; _ } -> true
   | Raw_js_code { code_info = Exp _; _ }
@@ -220,7 +221,7 @@ let exp_need_paren (e : J.expression) =
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined _ | Null
   | Str _ | Unicode _ | Module _ | Array _ | Optional_block _ | Caml_block _
-  | Spread _ | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
+  | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
 (* Print as underscore for unused vars, may not be

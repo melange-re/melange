@@ -165,8 +165,6 @@ and expression_desc =
   (* [int_op] will guarantee return [int32] bits
      https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators *)
   (* | Int32_bin of int_op * expression * expression *)
-  | Spread of expression
-      (** Argument-list spread; iteration may have effects. *)
   | FlatCall of { expr : expression; args : expression }
   (* f.apply(null,args) -- Fully applied guaranteed
      TODO: once we know args's shape --
@@ -198,6 +196,8 @@ and expression_desc =
         All exported declarations have to be OCaml identifiers
      2. Javascript dot (need to be preserved/or using quote)
   *)
+  | Spread of expression
+      (** Argument-list spread; iteration may have effects. *)
   | New of { expr : expression; args : expression list }
   | Var of vident
   | Fun of {
