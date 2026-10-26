@@ -73,23 +73,23 @@ The first cases characterize current incorrect results.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js error messages true true
-  js error causes true true
-  js error kinds true true
-  js error/object true true
-  js symbols true true
-  js symbol/string true false
-  js symbol/object true true
-  js date/object true true
-  js array/object true true
+  js error messages false false
+  js error causes false false
+  js error kinds false false
+  js error/object false false
+  js symbols false false
+  js symbol/string false false
+  js symbol/object false false
+  js date/object false false
+  js array/object false false
   js OCaml equality controls: ok
-  mjs error messages true true
-  mjs error causes true true
-  mjs error kinds true true
-  mjs error/object true true
-  mjs symbols true true
-  mjs symbol/string true false
-  mjs symbol/object true true
-  mjs date/object true true
-  mjs array/object true true
+  mjs error messages false false
+  mjs error causes false false
+  mjs error kinds false false
+  mjs error/object false false
+  mjs symbols false false
+  mjs symbol/string false false
+  mjs symbol/object false false
+  mjs date/object false false
+  mjs array/object false false
   mjs OCaml equality controls: ok
