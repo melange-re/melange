@@ -458,7 +458,8 @@ let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   | Undefined _, Optional_block _
   | Optional_block _, Undefined _
   | Null, Undefined _
-  | Undefined _, Null ->
+  | Undefined _, Null
+    when no_side_effect e0 && no_side_effect e1 ->
       false_
   | Null, Null | Undefined _, Undefined _ -> true_
   | _ ->
@@ -1036,13 +1037,15 @@ let rec int_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
               info = call_info;
             };
       }
-  | Ceq, Optional_block _, Undefined _ | Ceq, Undefined _, Optional_block _ ->
+  | (Ceq, Optional_block _, Undefined _ | Ceq, Undefined _, Optional_block _)
+    when no_side_effect e0 && no_side_effect e1 ->
       false_
   | Ceq, _, _ -> int_equal e0 e1
   | Cne, Optional_block _, Undefined _
   | Cne, Undefined _, Optional_block _
   | Cne, Caml_block _, Number _
-  | Cne, Number _, Caml_block _ ->
+  | Cne, Number _, Caml_block _
+    when no_side_effect e0 && no_side_effect e1 ->
       true_
   | _ -> js_comp ?loc ?comment cmp e0 e1
 
@@ -1376,18 +1379,20 @@ let for_sure_js_null_undefined (x : t) =
 let is_null_undefined ?loc ?comment (x : t) : t =
   match x.expression_desc with
   | Null | Undefined _ -> true_
-  | Number _ | Array _ | Caml_block _ -> false_
+  | (Number _ | Array _ | Caml_block _) when no_side_effect x -> false_
   | _ -> make_expression ?loc ?comment (Is_null_or_undefined x)
 
 let eq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
   match (a.expression_desc, b.expression_desc) with
   | ( (Null | Undefined _),
       ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
-      | Array _ | Caml_block _ ) ) ->
+      | Array _ | Caml_block _ ) )
+    when no_side_effect b ->
       false_
   | ( ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ),
-      (Null | Undefined _) ) ->
+      (Null | Undefined _) )
+    when no_side_effect a ->
       false_
   | Null, Undefined _ | Undefined _, Null -> false_
   | Null, Null | Undefined _, Undefined _ -> true_
@@ -1397,11 +1402,13 @@ let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
   match (a.expression_desc, b.expression_desc) with
   | ( (Null | Undefined _),
       ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
-      | Array _ | Caml_block _ ) ) ->
+      | Array _ | Caml_block _ ) )
+    when no_side_effect b ->
       true_
   | ( ( Char_of_int _ | Char_to_int _ | Bool _ | Number _ | Typeof _ | Fun _
       | Array _ | Caml_block _ ),
-      (Null | Undefined _) ) ->
+      (Null | Undefined _) )
+    when no_side_effect a ->
       true_
   | Null, Undefined _ | Undefined _, Null -> true_
   | Null, Null | Undefined _, Undefined _ -> false_

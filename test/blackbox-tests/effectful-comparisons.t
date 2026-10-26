@@ -63,7 +63,7 @@ Constant comparison results must retain evaluation of their operands.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  CommonJS calls: 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1
-  CommonJS throws: 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1
-  ESM calls: 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1
-  ESM throws: 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1
+  CommonJS calls: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  CommonJS throws: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  ESM calls: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  ESM throws: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
