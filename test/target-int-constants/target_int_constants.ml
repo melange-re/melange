@@ -16,11 +16,10 @@ let modes () =
       Alcotest.(check int)
         "native hexadecimal literal" 0xFFFF_FFFF (integer "0xFFFF_FFFF");
       Config.bs_only := true;
-      (* Baseline: target typing still uses the host integer representation. *)
+      (* Only Melange normalizes ordinary integers to the target representation. *)
       Alcotest.(check int)
-        "Melange hexadecimal literal" 0xFFFF_FFFF (integer "0xFFFF_FFFF");
-      Alcotest.(check int)
-        "Melange decimal literal" 4294967296 (integer "4294967296");
+        "Melange hexadecimal literal" (-1) (integer "0xFFFF_FFFF");
+      Alcotest.(check int) "Melange decimal literal" 0 (integer "4294967296");
       Config.bs_only := false;
       Alcotest.(check int)
         "native decimal literal after mode switch" 4294967296
