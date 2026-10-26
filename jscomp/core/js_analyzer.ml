@@ -117,6 +117,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
           the block is mutable does not mean this operation is non-pure
       *)
       List.for_all ~f:no_side_effect xs
+  | Record_copy x -> no_side_effect x
   | Optional_block (x, _) -> no_side_effect x
   | Object kvs -> List.for_all ~f:(fun (_, x) -> no_side_effect x) kvs
   | String_append { prefix = a; suffix = b } | Seq (a, b) ->

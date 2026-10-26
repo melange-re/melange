@@ -27,6 +27,7 @@ module External_ffi_types = Melange_ffi.External_ffi_types
 
 module Record_representation = struct
   type t =
+    | Record_object
     | Record_regular
     | Record_inlined of {
         tag : int;
@@ -40,7 +41,7 @@ module Record_representation = struct
 
   let equal p0 p1 =
     match (p0, p1) with
-    | Record_regular, Record_regular -> true
+    | Record_object, Record_object | Record_regular, Record_regular -> true
     | ( Record_inlined
           {
             tag = tag0;

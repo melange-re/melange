@@ -598,6 +598,8 @@ let rec string_append ?loc ?comment (e : t) (el : t) : t =
   | _, _ ->
       make_expression ?loc ?comment (String_append { prefix = e; suffix = el })
 
+let record_copy e : t = make_expression (Record_copy e)
+
 let obj ?loc ?comment properties : t =
   make_expression ?loc ?comment (Object properties)
 

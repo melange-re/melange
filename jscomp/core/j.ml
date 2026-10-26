@@ -253,6 +253,7 @@ and expression_desc =
      last step since "|0" can potentially be optimized
   *)
   | Number of number
+  | Record_copy of expression
   | Object of property_map
   | Undefined of { is_unit : bool }
   | Null
