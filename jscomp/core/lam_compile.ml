@@ -779,6 +779,25 @@ and compile_switch =
       | None -> None
     in
     let tag_name = get_tag_name sw_names in
+    let direct_tag_dispatch =
+      sw_consts = [] && sw_blocks <> []
+      && (match (sw_num_default, sw_blocks_default) with
+        | Default a, Default b -> Lam.eq_approx a b
+        | _ -> false)
+      &&
+      match sw_names with
+      | None -> false
+      | Some { consts; blocks } ->
+          (* Ordinary integer constants have no TAG property. Remapped
+             constants may be nullish, and remapped tags may be undefined. *)
+          Array.for_all consts ~f:(fun { Lambda.as_modifier; _ } ->
+              Option.is_none as_modifier)
+          && Array.for_all blocks ~f:(function
+            | { Lambda.cstr_name = { as_modifier = None; _ }; tag_name = None }
+              ->
+                true
+            | _ -> false)
+    in
     let compile_whole (cxt : Lam_compile_context.t) =
       let[@ocaml.warning "-partial-match"] {
                                          Js_output.block;
@@ -795,6 +814,9 @@ and compile_switch =
       else if sw_blocks_full && sw_blocks = [] then
         compile_cases cxt e sw_consts sw_num_default
           ~get_cstr_name:get_const_name
+      else if direct_tag_dispatch then
+        compile_cases cxt (E.tag ~name:tag_name e) sw_blocks sw_blocks_default
+          ~get_cstr_name:get_block_name
       else
         (* [e] will be used twice  *)
         let dispatch e =

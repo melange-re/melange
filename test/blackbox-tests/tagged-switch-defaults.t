@@ -74,5 +74,5 @@ Tagged switches may omit type dispatch only when constant values cannot match a 
   > })().catch(e=>{console.error(e);process.exitCode=1;});
   > EOF
   $ node check.cjs
-  CommonJS ordinary switch type guards: 2
-  ESM ordinary switch type guards: 2
+  CommonJS ordinary switch type guards: 0
+  ESM ordinary switch type guards: 0
