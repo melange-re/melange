@@ -550,6 +550,9 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args ~loc : t =
           Lift.bool (Lam_compat.Integer_comparison.cmp_int64 cmp a b)
       | Pintcomp cmp, Const_int a, Const_int b ->
           Lift.bool (Lam_compat.Integer_comparison.cmp_int32 cmp a.i b.i)
+      | Pintcomp ((Ceq | Cne) as cmp), Const_float a, Const_float b ->
+          let equal = float_of_string a = float_of_string b in
+          Lift.bool (if cmp = Ceq then equal else not equal)
       | Pfloatcomp cmp, Const_float a, Const_float b ->
           (* FIXME: could raise? *)
           Lift.bool
