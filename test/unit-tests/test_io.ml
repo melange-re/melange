@@ -103,6 +103,17 @@ let test_read_file_with_zero_reported_size () =
               Alcotest.(check string) "contents" "contents" contents
           | Error exn -> raise exn))
 
+let test_read_directory_with_zero_reported_size () =
+  let path = "/proc/self" in
+  let { Unix.st_kind; st_size; _ } = Unix.stat path in
+  Alcotest.(check bool) "directory" true (st_kind = Unix.S_DIR);
+  Alcotest.(check int) "reported size" 0 st_size;
+  match Io.read_file path with
+  | Error (Unix.Unix_error (EISDIR, _, _)) -> ()
+  | Error exn ->
+      Alcotest.failf "expected EISDIR, got %s" (Printexc.to_string exn)
+  | Ok contents -> Alcotest.failf "expected EISDIR, got %S" contents
+
 let test_cleanup_preserves_original_error () =
   let path = Filename.temp_file "melange-io" ".txt" in
   let raise_original_error () : unit = failwith "original error" in
@@ -132,6 +143,14 @@ let test_cleanup_error_propagates () =
       | () -> Alcotest.fail "expected cleanup to fail")
 
 let suite =
+  let procfs_tests =
+    if Sys.file_exists "/proc/self" then
+      [
+        Alcotest.test_case "read zero-size directories" `Quick
+          test_read_directory_with_zero_reported_size;
+      ]
+    else []
+  in
   [
     Alcotest.test_case "read and write files" `Quick test_read_and_write_file;
     Alcotest.test_case "read and write filev" `Quick test_read_and_write_filev;
@@ -143,3 +162,4 @@ let suite =
     Alcotest.test_case "propagate cleanup errors" `Quick
       test_cleanup_error_propagates;
   ]
+  @ procfs_tests
