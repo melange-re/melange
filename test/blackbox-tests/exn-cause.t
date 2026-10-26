@@ -233,7 +233,7 @@ Re-throw
   catch (raw_e){
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === A) {
-      throw e;
+      throw raw_e;
     }
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
@@ -253,7 +253,7 @@ Re-throw
   /* a0 Not a pure module */
   $ node _build/default/js-out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
   $TESTCASE_ROOT/_build/default/js-out/x.js:20
-      throw e;
+      throw raw_e;
       ^
   
   Error [MelangeError]: Melange__X.A/1

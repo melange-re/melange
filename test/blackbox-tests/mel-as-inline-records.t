@@ -34,7 +34,7 @@ Test `@mel.as` in inline records / record extensions
         console.log("name:", exn.renamed);
         return;
       }
-      throw exn;
+      throw raw_exn;
     }
   }
   

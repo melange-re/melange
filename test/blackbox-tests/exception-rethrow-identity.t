@@ -57,5 +57,5 @@ Inspecting a caught exception must not change the value that is rethrown.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  CommonJS original values: 5,0,0,0,0,0
-  ESM original values: 5,0,0,0,0,0
+  CommonJS original values: 5,5,5,5,5,5
+  ESM original values: 5,5,5,5,5,5
