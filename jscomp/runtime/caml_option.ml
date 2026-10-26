@@ -70,3 +70,21 @@ type poly = {
 (** [input] is optional polymorphic variant *)
 let option_unwrap (x : poly option) =
   match x with None -> Obj.repr x | Some x -> x.value
+
+(* The input is a fresh array of option-encoded arguments. Trim before unwrapping
+   so Some undefined, Some None, and Some unit still count as supplied values. *)
+let trailing_args (args : Obj.t array) =
+  let len = ref (Caml_array_extern.length args) in
+  while
+    len.contents > 0
+    && Caml_array_extern.unsafe_get args (len.contents - 1) == Obj.repr None
+  do
+    len.contents <- len.contents - 1
+  done;
+  let result = Caml_array_extern.new_uninitialized len.contents in
+  for i = 0 to len.contents - 1 do
+    let value = Caml_array_extern.unsafe_get args i in
+    Caml_array_extern.unsafe_set result i
+      (if value == Obj.repr None then value else valFromOption value)
+  done;
+  result

@@ -38,3 +38,5 @@ val option_unwrap : poly option -> Obj.t
 (** When it is None, return none
     When it is (Some (`a 3)) return 3
 *)
+
+val trailing_args : Obj.t array -> Obj.t array
