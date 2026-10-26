@@ -62,3 +62,36 @@ let process_tag_name attrs =
       | _ -> ());
   !st
 
+let check_representations left right =
+  let is_constant (c : Types.constructor_declaration) =
+    match c.cd_args with Cstr_tuple [] -> true | _ -> false
+  in
+  let value index (c : Types.constructor_declaration) =
+    match Record_attributes_check.find_mel_as_name c.cd_attributes with
+    | None -> Lambda.Int index
+    | Some (Int n) -> Int (Int32.to_int (Int32.of_int n))
+    | Some value -> value
+  in
+  let tag_field (c : Types.constructor_declaration) =
+    Option.value (process_tag_name c.cd_attributes) ~default:"TAG"
+  in
+  let rec loop const_index block_index left right =
+    match left, right with
+    | [], [] -> None
+    | (a : Types.constructor_declaration) :: left,
+      (b : Types.constructor_declaration) :: right ->
+        let constant = is_constant a in
+        let index = if constant then const_index else block_index in
+        let name = Ident.name a.cd_id in
+        (* The list constructors have a fixed runtime representation. *)
+        let same =
+          name = "[]" || name = "::"
+          || (value index a = value index b
+             && (constant || tag_field a = tag_field b))
+        in
+        if not same then Some name
+        else if constant then loop (const_index + 1) block_index left right
+        else loop const_index (block_index + 1) left right
+    | _ -> assert false
+  in
+  loop 0 0 left right

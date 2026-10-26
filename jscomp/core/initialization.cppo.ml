@@ -57,6 +57,8 @@ module Global = struct
     (* Turn on [-no-alias-deps] by default -- double check *)
     Builtin_attributes.check_bs_attributes_inclusion :=
       Record_attributes_check.check_mel_attributes_inclusion;
+    Includecore.check_variant_representation :=
+      Lam_variant_tag.check_representations;
     Builtin_attributes.check_duplicated_labels :=
       Record_attributes_check.check_duplicated_labels;
     Lambda.fld_record := Record_attributes_check.fld_record;
