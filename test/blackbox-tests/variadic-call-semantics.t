@@ -1,5 +1,5 @@
 ReScript #7030: cover variadic call semantics.
-The printed cases characterize the current incorrect behavior.
+Native spread preserves receivers and evaluates method lookup before arguments.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -22,6 +22,8 @@ The printed cases characterize the current incorrect behavior.
   > external args : unit -> int array = "auditArgs"
   > let literal () = global 1 [|2; 3|]
   > let dynamic xs = global 1 xs
+  > let conditional choose a b = global 1 (if choose then a else b)
+  > let sequence a = global 1 (ignore (next 9); a)
   > let scope_literal () = scoped 1 [|2; 3|]
   > let scope_dynamic xs = scoped 1 xs
   > let send_dynamic obj xs = method_ obj 1 xs
@@ -58,14 +60,27 @@ The printed cases characterize the current incorrect behavior.
   >       hits=[];check(`7030/${ext}`, "argument order", () => [m.effects(),hits], [6,[1,"array"]]);
   >       const getter={get call(){hits.push("getter");return function(...xs){return xs.length;};}};
   >       hits=[];check(`7030/${ext}`, "method lookup before arguments", () => [m.send_effects(getter),hits], [3,["getter",1,"array"]]);
+  >     assert.equal(m.conditional(true, [2, 3], [7]), 6);
+  >     assert.equal(m.conditional(false, [2, 3], [7]), 8);
+  >     hits = [];
+  >     assert.equal(m.sequence([2, 3]), 6);
+  >     assert.deepEqual(hits, [9]);
+  >     assert.equal(Number.isNaN(m.dynamic(new Array(2))), true);
+  >     const throwing = {get call() { throw new Error("lookup"); }};
+  >     hits = [];
+  >     assert.throws(() => m.send_effects(throwing), /lookup/);
+  >     assert.deepEqual(hits, []);
+  >     const args = [100];
+  >     args[Symbol.iterator] = function* () { yield 2; yield 3; };
+  >     assert.equal(m.dynamic(args), 6); // Native spread uses the array iterator.
   >     console.log(ext, "controls: ok");
   >   }
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  7030/js scoped dynamic receiver -1
-  7030/js method lookup before arguments [3,[1,"array","getter"]]
+  7030/js scoped dynamic receiver 3
+  7030/js method lookup before arguments [3,["getter",1,"array"]]
   js controls: ok
-  7030/mjs scoped dynamic receiver -1
-  7030/mjs method lookup before arguments [3,[1,"array","getter"]]
+  7030/mjs scoped dynamic receiver 3
+  7030/mjs method lookup before arguments [3,["getter",1,"array"]]
   mjs controls: ok

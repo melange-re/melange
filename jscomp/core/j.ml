@@ -165,6 +165,8 @@ and expression_desc =
   (* [int_op] will guarantee return [int32] bits
      https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators *)
   (* | Int32_bin of int_op * expression * expression *)
+  | Spread of expression
+      (** Argument-list spread; iteration may have effects. *)
   | FlatCall of { expr : expression; args : expression }
   (* f.apply(null,args) -- Fully applied guaranteed
      TODO: once we know args's shape --

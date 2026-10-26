@@ -27,20 +27,16 @@ module External_arg_spec = Melange_ffi.External_arg_spec
 module External_ffi_types = Melange_ffi.External_ffi_types
 module E = Js_exp_make
 
+let spread_last args =
+  match List.rev args with
+  | last :: rest -> List.rev_append rest [ E.spread last ]
+  | [] -> assert false
+
 let splice_fn_apply fn args =
-  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
-    ~fn_name:"spliceApply"
-    [ fn; E.array Immutable args ]
+  E.call ~info:{ arity = Full; call_info = Call_na } fn (spread_last args)
 
-let splice_fn_new_apply fn args =
-  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
-    ~fn_name:"spliceNewApply"
-    [ fn; E.array Immutable args ]
-
-let splice_obj_fn_apply obj name args =
-  E.runtime_call ~module_name:Js_runtime_modules.caml_splice_call
-    ~fn_name:"spliceObjApply"
-    [ obj; E.str name; E.array Immutable args ]
+let splice_fn_new_apply fn args = E.new_ fn (spread_last args)
+let splice_obj_fn_apply obj name args = splice_fn_apply (E.dot obj name) args
 
 (*
    [bind_name] is a hint to the compiler to generate

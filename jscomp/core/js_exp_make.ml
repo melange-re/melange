@@ -89,6 +89,8 @@ let call ?loc ?comment ~info e0 args : t =
 
 (* TODO: optimization when es is known at compile time
     to be an array *)
+let spread e : t = make_expression (Spread e)
+
 let flat_call ?loc ?comment e0 es : t =
   make_expression ?loc ?comment (FlatCall { expr = e0; args = es })
 

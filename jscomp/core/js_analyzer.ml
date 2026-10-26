@@ -129,6 +129,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
       no_side_effect e
   | Bin { op; expr1 = a; expr2 = b } ->
       op <> Eq && no_side_effect a && no_side_effect b
+  | Spread _ -> false
   | Js_not _ | Cond _ | FlatCall _ | Call _ | New _ | Raw_js_code _
   (* | Caml_block_set_tag _  *)
   (* actually true? *) ->

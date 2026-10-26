@@ -113,6 +113,7 @@ val method_ :
   J.block ->
   t
 
+val spread : t -> t
 val econd : ?loc:Location.t -> ?comment:string -> t -> t -> t -> t
 val int : ?loc:Location.t -> ?comment:string -> ?c:char -> int32 -> t
 val uint32 : ?loc:Location.t -> ?comment:string -> int32 -> t

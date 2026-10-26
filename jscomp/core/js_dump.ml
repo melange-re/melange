@@ -220,7 +220,7 @@ let exp_need_paren (e : J.expression) =
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined _ | Null
   | Str _ | Unicode _ | Module _ | Array _ | Optional_block _ | Caml_block _
-  | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
+  | Spread _ | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
       false
 
 (* Print as underscore for unused vars, may not be
@@ -617,6 +617,9 @@ and expression_desc cxt ~(level : int) x : cxt =
                     let cxt = Curry_gen.pp_app_any cxt in
                     paren_group cxt 0 (fun () ->
                         arguments cxt [ e; E.array Mutable el ])))
+  | Spread e ->
+      string cxt "...";
+      expression ~level:1 cxt e
   | FlatCall { expr = e; args = el } ->
       group cxt 0 (fun () ->
           let cxt = expression ~level:15 cxt e in
