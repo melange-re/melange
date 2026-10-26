@@ -86,5 +86,5 @@ ReScript #6741. Runtime behavior is correct before the optimization.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js conditional branches: 1, 1, 1, 1, 1, 0
-  mjs conditional branches: 1, 1, 1, 1, 1, 0
+  js conditional branches: 0, 0, 0, 0, 0, 0
+  mjs conditional branches: 0, 0, 0, 0, 0, 0
