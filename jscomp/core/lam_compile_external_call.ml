@@ -66,6 +66,11 @@ let external_var
    | None -> None
 *)
 
+let explicit_argument (arg : E.t) =
+  match arg.expression_desc with
+  | Undefined { is_unit = true } -> E.undefined
+  | _ -> arg
+
 let append_list x xs =
   match x with
   | Js_of_lam_variant.Splice0 -> xs
@@ -122,22 +127,31 @@ let rec ocaml_to_js_eff =
   fun ~arg_label ~arg_type raw_arg ->
     let arg =
       match arg_label with
-      | External_arg_spec.Arg_label.Arg_label | Arg_empty -> raw_arg
-      | Arg_optional ->
-          Js_of_lam_option.get_default_undefined_from_optional raw_arg
+      | External_arg_spec.Arg_label.Arg_label | Arg_empty ->
+          explicit_argument raw_arg
+      | Arg_optional -> (
+          let value =
+            Js_of_lam_option.get_default_undefined_from_optional raw_arg
+          in
+          match value.expression_desc with
+          | Undefined { is_unit = true } -> E.undefined
+          | _ -> value)
     in
     match arg_type with
     | External_arg_spec.Arg_cst _ | Fn_uncurry_arity _ -> assert false
     (* has to be preprocessed by {!Lam} module first *)
-    | Extern_unit ->
-        let splice =
-          match arg_label with
-          | Arg_empty -> Js_of_lam_variant.Splice0
-          | Arg_optional | Arg_label -> Splice1 E.unit
-        in
-        ( splice,
-          if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
-        (* leave up later to decide *)
+    | Extern_unit -> (
+        match arg_label with
+        | Arg_empty ->
+            ( Js_of_lam_variant.Splice0,
+              if Js_analyzer.no_side_effect_expression arg then [] else [ arg ]
+            )
+        | Arg_optional | Arg_label ->
+            let value =
+              if Js_analyzer.no_side_effect_expression arg then E.undefined
+              else E.seq arg E.undefined
+            in
+            (Splice1 value, []))
     | Ignore ->
         ( Splice0,
           if Js_analyzer.no_side_effect_expression arg then [] else [ arg ] )
@@ -167,74 +181,108 @@ let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 type specs = External_arg_spec.Arg_label.t External_arg_spec.Param.t list
 type exprs = E.t list
 
-module Trailing_undefined = struct
-  type t = Trailing | Trailing_empty | None
+(* Keep presence information attached to each emitted argument, after ignored
+   parameters, constants, and variant expansions have changed the positions. *)
+type assembled_arg =
+  | Required of E.t
+  | Optional of { raw : E.t; arg_type : External_arg_spec.t; value : E.t }
 
-  let strip =
-    let rec has_undefined_trailing_args arg_types args =
-      match (arg_types, args) with
-      | ( [ External_arg_spec.{ Param.arg_label = Arg_label.Arg_optional; _ } ],
-          [ { J.expression_desc = Undefined { is_unit = false }; _ } ] ) ->
-          Trailing
-      | ( [ { arg_label = Arg_optional; _ }; { arg_label = Arg_empty; _ } ],
-          [ { expression_desc = Undefined { is_unit = false }; _ } ] ) ->
-          (* NOTE(anmonteiro: this is the case where the trailing `unit` argument
-           is ignored, e.g. `external foo: int -> unit -> unit` => `foo(42)` *)
-          Trailing_empty
-      | _ :: arg_types, _ :: args -> has_undefined_trailing_args arg_types args
-      | _, _ -> None
-    in
-    let rec strip_undefined_trailing_args arg_types args =
-      match (arg_types, args) with
-      | ( External_arg_spec.{ Param.arg_label = Arg_label.Arg_optional; _ }
-          :: arg_types,
-          { J.expression_desc = Undefined { is_unit = false }; _ } :: args ) ->
-          strip_undefined_trailing_args arg_types args
-      | _ -> args
-    in
-    fun (arg_types : specs) (args : exprs) ->
-      match has_undefined_trailing_args arg_types args with
-      | Trailing ->
-          strip_undefined_trailing_args (List.rev arg_types) (List.rev args)
-          |> List.rev
-      | Trailing_empty ->
-          let[@ocaml.warning "-8"] (empty :: tl) = List.rev arg_types in
-          assert (empty.arg_label = Arg_empty);
-          strip_undefined_trailing_args tl (List.rev args) |> List.rev
-      | None -> args
-end
+let optional_is_present (raw : E.t) =
+  match raw.expression_desc with
+  | Optional_block _ | Number _ | Str _ | Unicode _ | Bool _ | Null -> true
+  | _ -> false
 
-(* TODO: fix splice,
-   we need a static guarantee that it is static array construct
-   otherwise, we should provide a good error message here,
-   no compiler failure here
-   Invariant : Array encoding
-   @return arguments and effect *)
 let assemble_args_no_splice =
-  let rec aux (labels : specs) (args : exprs) : exprs * exprs =
+  let value = function Required value | Optional { value; _ } -> value in
+  let boxed_optional = function
+    | Required _ -> assert false
+    | Optional { raw; arg_type; value } -> (
+        if Js_of_lam_option.is_none_static raw.expression_desc then E.undefined
+        else if optional_is_present raw then E.optional_block value
+        else
+          match arg_type with
+          | Nothing | Extern_unit -> raw
+          | _ ->
+              (* Transform a present value while retaining the option wrapper.
+                 Capture first so effectful optional expressions run once. *)
+              let id = Ident.create_local "optional" in
+              let var = E.var id in
+              let converted, eff =
+                ocaml_to_js_eff ~arg_label:Arg_optional ~arg_type var
+              in
+              let converted =
+                match converted with
+                | Splice1 x -> x
+                | Splice0 | Splice2 _ -> assert false
+              in
+              assert (eff = []);
+              let result =
+                E.econd
+                  (Js_of_lam_option.is_not_none var)
+                  (E.optional_block converted)
+                  E.undefined
+              in
+              E.call
+                ~info:{ arity = Full; call_info = Call_na }
+                (E.ocaml_fun ~return_unit:false [ id ]
+                   [ Js_stmt_make.return_stmt result ])
+                [ raw ])
+  in
+  let rec aux (labels : specs) (args : exprs) =
     match (labels, args) with
-    | [], _ ->
-        assert (args = []);
-        ([], [])
+    | [], [] -> ([], [])
     | { arg_type = Arg_cst cst; _ } :: labels, args ->
-        (* can not be Optional *)
         let accs, eff = aux labels args in
-        (Lam_compile_const.translate_arg_cst cst :: accs, eff)
+        (Required (Lam_compile_const.translate_arg_cst cst) :: accs, eff)
     | { arg_label; arg_type } :: labels, arg :: args ->
         let accs, eff = aux labels args in
         let acc, new_eff = ocaml_to_js_eff ~arg_label ~arg_type arg in
-        (append_list acc accs, List.append new_eff eff)
-    | _ :: _, [] -> assert false
+        let accs =
+          match (arg_label, acc) with
+          | Arg_optional, Splice1 value ->
+              Optional { raw = arg; arg_type; value } :: accs
+          | _, Splice0 -> accs
+          | _, Splice1 x -> Required x :: accs
+          | _, Splice2 (x, y) -> Required x :: Required y :: accs
+        in
+        (accs, List.append new_eff eff)
+    | _ -> assert false
   in
-  fun (args : exprs) (arg_types : specs) : (exprs * E.t option) ->
-    let args, eff = aux arg_types args in
-    let args = Trailing_undefined.strip arg_types args in
+  let rec trim = function
+    | Optional { raw; _ } :: rest
+      when Js_of_lam_option.is_none_static raw.expression_desc ->
+        trim rest
+    | rest -> rest
+  in
+  let rec split_optional acc = function
+    | (Optional _ as arg) :: rest -> split_optional (arg :: acc) rest
+    | prefix -> (List.rev prefix, acc)
+  in
+  fun ?(omit_optional = true)
+    (args : exprs)
+    (arg_types : specs)
+    :
+    (exprs * E.t option)
+  ->
+    let assembled, eff = aux arg_types args in
+    let reversed = trim (List.rev assembled) in
+    let args =
+      if not omit_optional then List.map assembled ~f:value
+      else
+        match reversed with
+        | Optional { raw; _ } :: _ when not (optional_is_present raw) ->
+            let prefix, optional = split_optional [] reversed in
+            List.map prefix ~f:value
+            @ [
+                E.spread
+                  (E.runtime_call ~module_name:Js_runtime_modules.option
+                     ~fn_name:"trailing_args"
+                     [ E.array Immutable (List.map optional ~f:boxed_optional) ]);
+              ]
+        | _ -> List.rev_map reversed ~f:value
+    in
     ( args,
-      match eff with
-      | [] -> None
-      | x :: xs ->
-          (* FIXME: the order of effects? *)
-          Some (E.fuse_to_seq (x :: xs)) )
+      match eff with [] -> None | x :: xs -> Some (E.fuse_to_seq (x :: xs)) )
 
 let assemble_args_has_splice (arg_types : specs) (args : exprs) :
     exprs * E.t option * bool =
@@ -251,7 +299,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
         let accs, eff = aux labels args in
         match (args, (arg : E.t)) with
         | [], { expression_desc = Array { items = ls; _ }; _ } ->
-            (List.append ls accs, eff)
+            (List.append (List.map ls ~f:explicit_argument) accs, eff)
         | _ ->
             if args = [] then dynamic := true;
             let acc, new_eff = ocaml_to_js_eff ~arg_type ~arg_label arg in
@@ -470,7 +518,9 @@ let translate_ffi :
            | EffectCall _ | NeedValue _ -> ());
            E.new_ fn args)
     | Js_get { name; scopes } ->
-        let args, cur_eff = assemble_args_no_splice args arg_types in
+        let args, cur_eff =
+          assemble_args_no_splice ~omit_optional:false args arg_types
+        in
         add_eff cur_eff
           (match args with
           | [ obj ] ->
@@ -480,7 +530,9 @@ let translate_ffi :
         (* Note these assertion happens in call site *)
     | Js_set { name; scopes } ->
         (* assert (js_splice = false) ;  *)
-        let args, cur_eff = assemble_args_no_splice args arg_types in
+        let args, cur_eff =
+          assemble_args_no_splice ~omit_optional:false args arg_types
+        in
         add_eff cur_eff
           (match (args, arg_types) with
           | [ obj; v ], _ ->
@@ -488,13 +540,17 @@ let translate_ffi :
               E.assign (E.dot obj name) v
           | _ -> assert false)
     | Js_get_index { scopes } ->
-        let args, cur_eff = assemble_args_no_splice args arg_types in
+        let args, cur_eff =
+          assemble_args_no_splice ~omit_optional:false args arg_types
+        in
         add_eff cur_eff
           (match args with
           | [ obj; v ] -> E.array_index (translate_scoped_access scopes obj) v
           | _ -> assert false)
     | Js_set_index { scopes } ->
-        let args, cur_eff = assemble_args_no_splice args arg_types in
+        let args, cur_eff =
+          assemble_args_no_splice ~omit_optional:false args arg_types
+        in
         add_eff cur_eff
           (match args with
           | [ obj; v; value ] ->

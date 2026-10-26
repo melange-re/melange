@@ -46,3 +46,4 @@ val is_not_none : J.expression -> J.expression
 val null_to_opt : J.expression -> J.expression
 val undef_to_opt : J.expression -> J.expression
 val null_undef_to_opt : J.expression -> J.expression
+val is_none_static : J.expression_desc -> bool
