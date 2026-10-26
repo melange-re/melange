@@ -196,6 +196,8 @@ and expression_desc =
         All exported declarations have to be OCaml identifiers
      2. Javascript dot (need to be preserved/or using quote)
   *)
+  | Spread of expression
+      (** Argument-list spread; iteration may have effects. *)
   | New of { expr : expression; args : expression list }
   | Var of vident
   | Fun of {

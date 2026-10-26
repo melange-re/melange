@@ -202,6 +202,7 @@ let raw_snippet_exp_simple_enough (s : string) =
 (* e = function(x){...}(x);  is good *)
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
+  | Spread _ -> false
   (* | Caml_uninitialized_obj _  *)
   | Call { expr = { expression_desc = Fun _ | Raw_js_code _; _ }; _ } -> true
   | Raw_js_code { code_info = Exp _; _ }
@@ -617,6 +618,9 @@ and expression_desc cxt ~(level : int) x : cxt =
                     let cxt = Curry_gen.pp_app_any cxt in
                     paren_group cxt 0 (fun () ->
                         arguments cxt [ e; E.array Mutable el ])))
+  | Spread e ->
+      string cxt "...";
+      expression ~level:1 cxt e
   | FlatCall { expr = e; args = el } ->
       group cxt 0 (fun () ->
           let cxt = expression ~level:15 cxt e in

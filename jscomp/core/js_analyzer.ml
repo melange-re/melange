@@ -98,6 +98,7 @@ let free_variables_of_expression st =
 
 let rec no_side_effect_expression_desc (x : J.expression_desc) =
   match x with
+  | Spread _ -> false
   | Undefined _ | Null | Bool _ | Var _ | Unicode _ | Module _ -> true
   | Fun _ -> true
   | Number _ -> true (* Can be refined later *)
