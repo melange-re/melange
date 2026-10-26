@@ -266,6 +266,8 @@ val array :
 val optional_block : J.expression -> J.expression
 val optional_not_nest_block : J.expression -> J.expression
 
+val record_copy : t -> t
+
 val make_block :
   ?loc:Location.t ->
   ?comment:string ->
