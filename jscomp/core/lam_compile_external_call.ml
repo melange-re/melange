@@ -122,7 +122,7 @@ let rec ocaml_to_js_eff =
           Js_of_lam_option.option_unwrap raw_arg
       | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
     in
-    (Js_of_lam_variant.Splice1 (explicit_argument single_arg), [])
+    (Js_of_lam_variant.Splice1 single_arg, [])
   in
   fun ~arg_label ~arg_type raw_arg ->
     let arg =

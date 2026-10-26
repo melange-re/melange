@@ -47,6 +47,7 @@ Presence is preserved through argument conversion and runtime omission.
   > let nested_none () = capture ~x:None ()
   > external polymorphic : 'a -> int = "auditCount"
   > external variadic_unit : unit array -> int = "auditCount" [@@mel.variadic]
+  > let dynamic_generic x = polymorphic x
   > let generic_unit () = polymorphic ()
   > let literal_unit_array () = variadic_unit [|()|]
   > let dynamic_unit_array values = variadic_unit values
@@ -99,6 +100,7 @@ Presence is preserved through argument conversion and runtime omission.
   >     assert.equal(m.effectful_unit(), 1);
   >     assert.deepEqual(hits, ["unit"]);
   >     assert.equal(m.generic_unit(), 1);
+  >     assert.equal(m.dynamic_generic(undefined), 1);
   >     assert.equal(m.literal_unit_array(), 1);
   >     assert.equal(m.dynamic_unit_array([undefined]), 1);
   >     assert.equal(m.dynamic_unit_array([]), 0);
