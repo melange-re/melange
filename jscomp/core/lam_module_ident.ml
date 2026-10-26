@@ -59,21 +59,23 @@ end
 
 module Hashtbl = Hashtbl.Make (T)
 
-(* use `(t, unit) Hashtbl.t` as a hash set, but because keeping the exact key
-   matters in this module (because of the ident stamp), `replace` is a no-op if
-   the key already exists *)
+(* Keep the first identifier stamp, but combine dependency requirements:
+   a static reference must win over a dynamic reference in either order. *)
 module Hash_set = struct
   include Hashtbl
 
-  type t = unit Hashtbl.t
+  type t = T.t Hashtbl.t
 
-  let add t k =
+  let add (t : t) k =
     match find t k with
-    | () -> ()
-    | exception Not_found -> replace t ~key:k ~data:()
+    | previous when previous.dynamic_import && not k.dynamic_import ->
+        let dependency = { previous with dynamic_import = false } in
+        replace t ~key:dependency ~data:dependency
+    | _ -> ()
+    | exception Not_found -> replace t ~key:k ~data:k
 
-  let to_list t = to_seq_keys t |> List.of_seq
-  let iter ~f t = iter ~f:(fun ~key ~data:_ -> f key) t
+  let to_list t = to_seq_values t |> List.of_seq
+  let iter ~f t = iter ~f:(fun ~key:_ ~data -> f data) t
 end
 
 include T

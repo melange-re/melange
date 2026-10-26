@@ -900,7 +900,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         | body ->
           Lam.function_ ~attr:attr1 ~arity:params_length ~params ~body)
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
-        convert_let kind id e body
+        convert_let ~dynamic_import kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body
     | Lletrec (bindings, body) ->
 #if OCAML_VERSION >= (5,2,0)
@@ -1014,21 +1014,22 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         | b ->
             Lam.send kind a b ls
               ~loc:(Debuginfo.Scoped_location.to_location outer_loc))
-    | Levent (e, _ev) -> convert_aux e
-    | Lifused (v, e) -> Lam.ifused v (convert_aux e)
-  and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
-      Lam.t =
-    let e = convert_aux e in
+    | Levent (e, _ev) -> convert_aux ~dynamic_import e
+    | Lifused (v, e) -> Lam.ifused v (convert_aux ~dynamic_import e)
+  and convert_let ~dynamic_import (kind : Lam_compat.let_kind) id
+      (e : Lambda.lambda) body : Lam.t =
+    (* First-class module packing can introduce a let inside [Js.import]. *)
+    let e = convert_aux ~dynamic_import e in
     match kind, e with
     | Alias, Lvar u ->
         let new_u =
           Ident.Hashtbl.find_default alias_tbl u ~default:u in
         Ident.Hashtbl.add alias_tbl ~key:id ~data:new_u;
         if Ident.Set.mem id exports then
-          Lam.let_ kind id (Lam.var new_u) (convert_aux body)
-        else convert_aux body
+          Lam.let_ kind id (Lam.var new_u) (convert_aux ~dynamic_import body)
+        else convert_aux ~dynamic_import body
     | _, _ -> (
-        let new_body = convert_aux body in
+        let new_body = convert_aux ~dynamic_import body in
         (*
             reverse engineering cases as {[
            (let (switcher/1013 =a (-1+ match/1012))
