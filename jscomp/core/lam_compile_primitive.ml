@@ -232,7 +232,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       Js_of_lam_string.bytes_of_string (List.hd args)
   | Pbytes_to_string -> Js_of_lam_string.bytes_to_string (List.hd args)
   | Pstringlength -> E.string_length (List.hd args)
-  | Pbyteslength -> E.bytes_length (List.hd args)
+  | Pbyteslength -> E.array_length (List.hd args)
   (* This should only be Pbyteset(u|s), which in js, is an int array
      Bytes is an int array in javascript
   *)

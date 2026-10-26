@@ -20,7 +20,7 @@ Byte-length folding must preserve construction effects and exceptions.
   >   catch (e) { console.log(e === error); }
   > }
   > JS
-  2 []
-  did not throw
-  undefined []
-  did not throw
+  2 [1,2]
+  true
+  undefined [1,2]
+  true
