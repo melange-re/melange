@@ -31,4 +31,5 @@ val size : Lam.t -> int
 val ok_to_inline_fun_when_app : Lam.lfunction -> Lam.t list -> bool
 val small_inline_size : int
 val exit_inline_size : int
+val contains_tagged_template : Lam.t -> bool
 val safe_to_inline : Lam.t -> bool

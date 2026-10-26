@@ -265,25 +265,33 @@ let destruct_pattern (body : Lam.t) params args =
       | Some _ | None -> false)
   | _ -> false
 
+(* Duplicating a template site changes its observable frozen-array identity. *)
+let rec contains_tagged_template (lam : Lam.t) =
+  match lam with
+  | Lprim { primitive = Pccall { prim_name = "caml_js_tagged_template" }; _ } ->
+      true
+  | _ -> Lam_iter.exists lam ~f:contains_tagged_template
+
 (* Hints to inlining *)
 let ok_to_inline_fun_when_app (m : Lam.lfunction) (args : Lam.t list) =
-  match m.attr.inline with
-  | Hint_inline | Unroll _ -> false
-  | Always_inline -> true
-  | Never_inline -> false
-  | Default_inline -> (
-      match m with
-      | { body; params; _ } ->
-          let s = size body in
-          s < small_inline_size
-          || destruct_pattern body params args
-          || (args_all_const args && s < 10 && no_side_effects body))
+  (match m.attr.inline with
+    | Hint_inline | Unroll _ -> false
+    | Always_inline -> true
+    | Never_inline -> false
+    | Default_inline -> (
+        match m with
+        | { body; params; _ } ->
+            let s = size body in
+            s < small_inline_size
+            || destruct_pattern body params args
+            || (args_all_const args && s < 10 && no_side_effects body)))
+  && not (contains_tagged_template m.body)
 
 (* TODO:  We can relax this a bit later,
     but decide whether to inline it later in the call site *)
 let safe_to_inline (lam : Lam.t) =
   match lam with
-  | Lfunction _ -> true
+  | Lfunction { body; _ } -> not (contains_tagged_template body)
   | Lconst
       ( Const_pointer _
       | Const_int { comment = Pt_constructor _; _ }

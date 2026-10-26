@@ -220,7 +220,8 @@ let exp_need_paren (e : J.expression) =
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined _ | Null
   | Str _ | Unicode _ | Module _ | Array _ | Optional_block _ | Caml_block _
-  | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _ | New _ ->
+  | Tagged_template _ | FlatCall _ | Typeof _ | Number _ | Js_not _ | Bool _
+  | New _ ->
       false
 
 (* Print as underscore for unused vars, may not be
@@ -578,6 +579,58 @@ and expression_desc cxt ~(level : int) x : cxt =
            when List.length_equal el i
          ]}
       *)
+  | Tagged_template { tag; strings; values } ->
+      cond_paren_group cxt (level > 15) (fun () ->
+          let cxt = expression ~level:15 cxt tag in
+          string cxt "`";
+          let fragment (e : J.expression) =
+            let encoded =
+              match e.expression_desc with
+              | Str s ->
+                  let s = Js_dump_string.escape_to_string s in
+                  String.sub s ~pos:1 ~len:(String.length s - 2)
+              | Unicode s -> s
+              | _ -> assert false
+            in
+            (* The ordinary string printer already escaped backslashes.
+               Preserve escape pairs and quote only template delimiters. *)
+            let buffer = Buffer.create (String.length encoded) in
+            let rec loop i =
+              if i < String.length encoded then
+                match encoded.[i] with
+                | '\\' when i + 1 < String.length encoded ->
+                    Buffer.add_substring buffer encoded i 2;
+                    loop (i + 2)
+                | '`' ->
+                    Buffer.add_string buffer "\\`";
+                    loop (i + 1)
+                | '$'
+                  when i + 1 < String.length encoded && encoded.[i + 1] = '{' ->
+                    Buffer.add_string buffer "\\$";
+                    loop (i + 1)
+                | c ->
+                    Buffer.add_char buffer c;
+                    loop (i + 1)
+            in
+            loop 0;
+            string cxt (Buffer.contents buffer)
+          in
+          let rec interleave cxt strings values =
+            match (strings, values) with
+            | [ s ], [] ->
+                fragment s;
+                cxt
+            | s :: strings, value :: values ->
+                fragment s;
+                string cxt "${";
+                let cxt = expression ~level:0 cxt value in
+                string cxt "}";
+                interleave cxt strings values
+            | _ -> assert false
+          in
+          let cxt = interleave cxt strings values in
+          string cxt "`";
+          cxt)
   | Call { expr = e; args = el; info } ->
       cond_paren_group cxt (level > 15) (fun () ->
           group cxt 0 (fun () ->

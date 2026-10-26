@@ -55,6 +55,32 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
     =
   let[@inline] call m = E.runtime_call ~module_name:m ~fn_name:prim_name args in
   match prim_name with
+  | "caml_js_tagged_template" -> (
+      match args with
+      | [
+       tag;
+       { expression_desc = Array { items = strings; _ }; _ };
+       { expression_desc = Array { items = values; _ }; _ };
+      ]
+        when List.length strings = List.length values + 1
+             && List.for_all strings ~f:(fun (s : J.expression) ->
+                 match s.expression_desc with
+                 | Str _ | Unicode _ -> true
+                 | _ -> false) ->
+          (* Applying a first-class tag must not accidentally use a module or
+             property access as its JavaScript receiver. *)
+          let tag =
+            { tag with expression_desc = Seq (E.zero_int_literal, tag) }
+          in
+          {
+            J.expression_desc = Tagged_template { tag; strings; values };
+            loc = Some loc;
+            comment = None;
+          }
+      | _ ->
+          Location.raise_errorf ~loc
+            "Js.TaggedTemplate.apply requires literal string and value arrays, \
+             with one more string than values")
   | "caml_add_float" -> (
       match args with
       | [ e0; e1 ] -> E.float_add e0 e1 (* TODO float plus*)

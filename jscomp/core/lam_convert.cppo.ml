@@ -767,6 +767,9 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
               ~args:[] ~loc
         | _ -> assert false)
+    | "#tagged_template" ->
+        Lam.prim ~primitive:(Pccall { prim_name = "caml_js_tagged_template" })
+          ~args:(convert_args args) ~loc
     | "#debugger" ->
         (* ATT: Currently, the arity is one due to PPX *)
         Lam.prim ~primitive:Pdebugger ~args:[] ~loc

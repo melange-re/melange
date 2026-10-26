@@ -500,6 +500,7 @@ let simplify_alias =
                         if List.same_length ap_args params (* && false *) then
                           if
                             is_a_functor
+                            && not (Lam_analysis.contains_tagged_template body)
                             (* && (Ident.Set.mem v meta.export_idents) && false *)
                           then
                             (* TODO: check l1 if it is exported,
@@ -557,7 +558,8 @@ let simplify_alias =
                     | _ -> normal ())))
         | exception Not_found -> normal ())
     | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
-      when List.same_length params args ->
+      when List.same_length params args
+           && not (Lam_analysis.contains_tagged_template body) ->
         simpl meta (Lam_beta_reduce.propagate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)
         (*          args = [Lprim {primitive = Pmakeblock _; args; _}]; _} *)
