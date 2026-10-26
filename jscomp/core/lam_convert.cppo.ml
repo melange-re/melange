@@ -106,6 +106,19 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
   in
   hit l
 
+let preserve_exception_rethrows ~caught ~raw handler =
+  let rec rewrite aliases (lam : Lam.t) : Lam.t =
+    match lam with
+    | Lprim ({ primitive = Praise; args = [ Lvar id ]; _ } as prim)
+      when Ident.Set.mem id aliases ->
+        Lam.prim ~primitive:Praise ~args:[ Lam.var raw ] ~loc:prim.loc
+    | Llet (kind, alias, (Lvar id as value), body)
+      when Ident.Set.mem id aliases ->
+        Lam.let_ kind alias value (rewrite (Ident.Set.add alias aliases) body)
+    | _ -> Lam.inner_map lam (rewrite aliases)
+  in
+  rewrite (Ident.Set.singleton caught) handler
+
 let abs_int x = if x < 0 then -x else x
 let no_over_flow x = abs_int x < 0x1fff_ffff
 let no_over_flow_int32 x = Int32.abs x < 0x1fff_ffffl
@@ -962,6 +975,11 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
         let handler = convert_aux handler in
         if exception_id_destructed handler id then
           let newId = Ident.create_local ("raw_" ^ Ident.name id) in
+          (* Pattern inspection needs a Melange exception, but rethrowing the
+             caught value must preserve the original JavaScript identity. *)
+          let handler =
+            preserve_exception_rethrows ~caught:id ~raw:newId handler
+          in
           Lam.try_ body newId
             (Lam.let_ StrictOpt id
                (Lam.prim ~primitive:Pwrap_exn ~args:[ Lam.var newId ] ~loc:Location.none)
