@@ -66,6 +66,11 @@ let external_var
    | None -> None
 *)
 
+let explicit_argument (arg : E.t) =
+  match arg.expression_desc with
+  | Undefined { is_unit = true } -> E.undefined
+  | _ -> arg
+
 let append_list x xs =
   match x with
   | Js_of_lam_variant.Splice0 -> xs
@@ -117,12 +122,13 @@ let rec ocaml_to_js_eff =
           Js_of_lam_option.option_unwrap raw_arg
       | _ -> Js_of_lam_variant.eval_as_unwrap raw_arg
     in
-    (Js_of_lam_variant.Splice1 single_arg, [])
+    (Js_of_lam_variant.Splice1 (explicit_argument single_arg), [])
   in
   fun ~arg_label ~arg_type raw_arg ->
     let arg =
       match arg_label with
-      | External_arg_spec.Arg_label.Arg_label | Arg_empty -> raw_arg
+      | External_arg_spec.Arg_label.Arg_label | Arg_empty ->
+          explicit_argument raw_arg
       | Arg_optional -> (
           let value =
             Js_of_lam_option.get_default_undefined_from_optional raw_arg
@@ -293,7 +299,7 @@ let assemble_args_has_splice (arg_types : specs) (args : exprs) :
         let accs, eff = aux labels args in
         match (args, (arg : E.t)) with
         | [], { expression_desc = Array { items = ls; _ }; _ } ->
-            (List.append ls accs, eff)
+            (List.append (List.map ls ~f:explicit_argument) accs, eff)
         | _ ->
             if args = [] then dynamic := true;
             let acc, new_eff = ocaml_to_js_eff ~arg_type ~arg_label arg in
