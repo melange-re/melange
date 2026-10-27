@@ -52,5 +52,12 @@ let wrap_module_value =
     let module_ = { module_id with J.dynamic_import = true } in
     let import = import_of_module module_ in
     match module_value with
-    | Some value -> wrap_then import value
+    | Some value ->
+        let value =
+          match module_id.kind with
+          | Ml | Runtime ->
+              if value = Js_dump_lit.default then value else Ident.convert value
+          | External _ -> value
+        in
+        wrap_then import value
     | None -> import
