@@ -28,7 +28,7 @@ ReScript #6739: constant float-to-int conversion must agree with runtime ToInt32
   > global.auditFloat = () => { throw failure; };
   > try { m.convert_effectful(); } catch (error) { console.log('throws', error === failure); }
   > JS
-  constants false int32 true
+  constants true int32 true
   in range true
   runtime [ true, true, true ]
   effect -1044676288 calls 1
