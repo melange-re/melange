@@ -1917,78 +1917,101 @@ and compile_prim (prim_info : Lam.prim_info)
         (List.concat args_block @ block)
         exp
   | { primitive = Pimport; args = [] | _ :: _ :: _; _ } -> assert false
-  | { primitive = Pimport; args = [ mod_ ]; loc } ->
-      let module_id, module_value, args_block =
-        match mod_ with
-        | (( Lglobal_module _ | Lmutvar _ | Lvar _
-           | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ) as mod_)
-        | Lsequence ((Lprim _ as mod_), Lconst (Const_js_undefined _)) ->
-            let args_block, args_expr =
-              match
-                compile_lambda
-                  { lambda_cxt with continuation = NeedValue Not_tail }
-                  mod_
-              with
-              | { block; value = Some b; _ } -> ([ block ], b)
-              | { value = None; _ } -> assert false
-            in
+  | { primitive = Pimport; args = [ mod_ ]; loc } -> (
+      match Lam_compile_dynamic_import.prepare_external mod_ with
+      | Some (module_id, receiver, value) ->
+          let body =
+            compile_lambda
+              {
+                lambda_cxt with
+                continuation =
+                  EffectCall
+                    (Maybe_tail_is_return
+                       (Tail_with_name { label = None; in_staticcatch = false }));
+                jmp_table = Lam_compile_context.empty_handler_map;
+              }
+              value
+            |> Js_output.output_as_block
+          in
+          Js_output.output_of_expression lambda_cxt.continuation
+            ~no_effects:(lazy false)
+            (Lam_compile_dynamic_import.wrap_callback module_id receiver body)
+      | None ->
+          let module_id, module_value, args_block =
+            match mod_ with
+            | (( Lglobal_module _ | Lmutvar _ | Lvar _
+               | Lprim { primitive = Pfield _ | Pjs_call _ | Pccall _; _ } ) as
+               mod_)
+            | Lsequence ((Lprim _ as mod_), Lconst (Const_js_undefined _)) ->
+                let args_block, args_expr =
+                  match
+                    compile_lambda
+                      { lambda_cxt with continuation = NeedValue Not_tail }
+                      mod_
+                  with
+                  | { block; value = Some b; _ } -> ([ block ], b)
+                  | { value = None; _ } -> assert false
+                in
 
-            let module_id, module_value =
-              match args_expr.expression_desc with
-              | J.Var (J.Qualified (module_id, value)) -> (module_id, value)
-              | _ ->
-                  Location.raise_errorf ~loc
-                    "Invalid argument: Dynamic import requires a module or \
-                     module value that is a file as argument. Passing a value \
-                     or local module is not allowed."
-            in
-            (module_id, module_value, args_block)
-        | Lfunction
-            {
-              attr = { stub = true; _ };
-              body =
-                ( (Lprim _ as body)
-                | Lsequence ((Lprim _ as body), Lconst (Const_js_undefined _)) );
-              _;
-            } ->
-            let args_block, args_expr =
-              let new_cxt =
-                { lambda_cxt with continuation = NeedValue Not_tail }
-              in
-              match compile_lambda new_cxt body with
-              | { block; value = Some b; _ } -> ([ block ], b)
-              | { value = None; _ } -> assert false
-            in
+                let module_id, module_value =
+                  match args_expr.expression_desc with
+                  | J.Var (J.Qualified (module_id, value)) -> (module_id, value)
+                  | _ ->
+                      Location.raise_errorf ~loc
+                        "Invalid argument: Dynamic import requires a module or \
+                         module value that is a file as argument. Passing a \
+                         value or local module is not allowed."
+                in
+                (module_id, module_value, args_block)
+            | Lfunction
+                {
+                  attr = { stub = true; _ };
+                  body =
+                    ( (Lprim _ as body)
+                    | Lsequence
+                        ((Lprim _ as body), Lconst (Const_js_undefined _)) );
+                  _;
+                } ->
+                let args_block, args_expr =
+                  let new_cxt =
+                    { lambda_cxt with continuation = NeedValue Not_tail }
+                  in
+                  match compile_lambda new_cxt body with
+                  | { block; value = Some b; _ } -> ([ block ], b)
+                  | { value = None; _ } -> assert false
+                in
 
-            let module_id, module_value =
-              match args_expr.expression_desc with
-              | J.Call
-                  {
-                    expr =
+                let module_id, module_value =
+                  match args_expr.expression_desc with
+                  | J.Call
                       {
-                        expression_desc = J.Var (J.Qualified (module_id, value));
+                        expr =
+                          {
+                            expression_desc =
+                              J.Var (J.Qualified (module_id, value));
+                            _;
+                          };
                         _;
-                      };
-                    _;
-                  } ->
-                  (module_id, value)
-              | _ ->
-                  Location.raise_errorf ~loc
-                    "Invalid argument: Dynamic import requires a module or \
-                     module value that is a file as argument. Passing a value \
-                     or local module is not allowed."
-            in
-            (module_id, module_value, args_block)
-        | _ ->
-            Location.raise_errorf ~loc
-              "Invalid argument: unsupported argument to dynamic import. If \
-               you believe this should be supported, please open an issue."
-      in
-      let exp =
-        Lam_compile_dynamic_import.wrap_module_value module_id module_value
-      in
-      Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (List.concat args_block) exp
+                      } ->
+                      (module_id, value)
+                  | _ ->
+                      Location.raise_errorf ~loc
+                        "Invalid argument: Dynamic import requires a module or \
+                         module value that is a file as argument. Passing a \
+                         value or local module is not allowed."
+                in
+                (module_id, module_value, args_block)
+            | _ ->
+                Location.raise_errorf ~loc
+                  "Invalid argument: unsupported argument to dynamic import. \
+                   If you believe this should be supported, please open an \
+                   issue."
+          in
+          let exp =
+            Lam_compile_dynamic_import.wrap_module_value module_id module_value
+          in
+          Js_output.output_of_block_and_expression lambda_cxt.continuation
+            (List.concat args_block) exp)
   | { primitive; args; loc } ->
       let args_block, args_expr =
         match args with

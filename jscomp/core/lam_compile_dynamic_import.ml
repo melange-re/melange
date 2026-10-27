@@ -25,6 +25,125 @@
 open Import
 module E = Js_exp_make
 module S = Js_stmt_make
+module Arg = Melange_ffi.External_arg_spec
+
+(* Resolve an external before compiling its adapter. The outermost JavaScript
+   call may be an option or variadic runtime helper, not the imported function. *)
+let prepare_external value =
+  let rec find_call = function
+    | Lam.Lprim
+        ({
+           primitive =
+             Pjs_call
+               {
+                 ffi =
+                   ( Js_call { external_module_name = Some _; _ }
+                   | Js_new { external_module_name = Some _; _ }
+                   | Js_module_as_fn _ | Js_module_as_class _
+                   | Js_var { external_module_name = Some _; _ } );
+                 _;
+               };
+           _;
+         } as call) ->
+        Some call
+    | Lfunction { attr = { stub = true; _ }; body; _ }
+    | Lsequence (body, Lconst (Const_js_undefined _))
+    | Lprim
+        {
+          primitive =
+            Popaque | Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt;
+          args = [ body ];
+          _;
+        } ->
+        find_call body
+    | _ -> None
+  in
+  match find_call value with
+  | None -> None
+  | Some
+      ({ primitive = Pjs_call { prim_name; arg_types; ffi; _ }; loc; _ } as call)
+    ->
+      let module_, name, scopes, variadic, new_, is_value =
+        match ffi with
+        | Js_call
+            { external_module_name = Some module_; name; scopes; variadic } ->
+            (module_, name, scopes, variadic, false, false)
+        | Js_new { external_module_name = Some module_; name; scopes; variadic }
+          ->
+            (module_, name, scopes, variadic, true, false)
+        | Js_var { external_module_name = Some module_; name; scopes } ->
+            (module_, name, scopes, false, false, true)
+        | Js_module_as_fn { external_module_name = module_; variadic } ->
+            (module_, "default", [], variadic, false, false)
+        | Js_module_as_class module_ ->
+            (module_, "default", [], false, true, false)
+        | _ -> assert false
+      in
+      let module_id =
+        match
+          (Lam_compile_external_call.external_var module_ ~dynamic_import:true)
+            .expression_desc
+        with
+        | J.Var (J.Qualified (module_id, _)) -> module_id
+        | _ -> assert false
+      in
+      let receiver = Ident.create "m" in
+      let get =
+        Lam.prim ~loc
+          ~primitive:
+            (Pjs_call
+               {
+                 prim_name;
+                 arg_types = [ Arg.dummy ];
+                 ffi = Js_get { name; scopes };
+                 dynamic_import = false;
+               })
+          ~args:[ Lam.var receiver ]
+      in
+      let needs_arguments =
+        variadic || new_
+        || List.exists arg_types ~f:(fun { Arg.Param.arg_type; arg_label } ->
+            match (arg_type, arg_label) with
+            | Nothing, (Arg.Arg_label.Arg_empty | Arg_label) -> false
+            | _ -> true)
+      in
+      let identity =
+        (not needs_arguments)
+        && match value with Lprim p when p == call -> p.args = [] | _ -> false
+      in
+      let rec rebind args = function
+        | Lam.Lprim p when p == call ->
+            if is_value then get
+            else
+              Lam_ffi.handle_mel_non_obj_ffi (Arg.dummy :: arg_types)
+                Return_identity
+                (Js_send { name; scopes; variadic; new_; self_idx = 0 })
+                (Lam.var receiver :: args) ~loc prim_name ~dynamic_import:false
+        | value -> Lam.inner_map value (rebind args)
+      in
+      let adapted =
+        if identity then get
+        else
+          match value with
+          (* Curried externals also need their declared arity: the JavaScript
+             function's length may differ because of default/rest parameters. *)
+          | Lfunction _ -> rebind call.args value
+          | _ when is_value -> rebind [] value
+          | _ ->
+              (* Uncurried externals are represented as an unapplied primitive,
+               rather than an eta-expanded Lambda function. *)
+              let params =
+                List.filter_map arg_types ~f:(fun { Arg.Param.arg_type; _ } ->
+                    match arg_type with
+                    | Arg_cst _ -> None
+                    | _ -> Some (Ident.create "arg"))
+              in
+              Lam.function_ ~attr:Lambda.default_function_attribute
+                ~arity:(List.length params) ~params
+                ~body:(rebind (List.map params ~f:Lam.var) value)
+      in
+      Some (module_id, receiver, adapted)
+  | Some _ -> assert false
 
 let wrap_module_value =
   let import_of_module module_ =
@@ -54,3 +173,9 @@ let wrap_module_value =
     match module_value with
     | Some value -> wrap_then import value
     | None -> import
+
+let wrap_callback module_id arg body =
+  E.call
+    ~info:{ arity = Full; call_info = Call_na }
+    (E.dot (wrap_module_value module_id None) "then")
+    [ E.ocaml_fun ~return_unit:false [ arg ] body ]
