@@ -14,11 +14,22 @@ This records the unsound baseline and the supported object APIs a fix must prese
   > let read_nullable (o : nullable) = Js.Nullable.toOption o##x
   > let write_nullable (o : nullable) = o##x #= 4
   > EOF
-  $ melc -ppx melppx -o input.js input.ml
+  $ cat > dune-project <<'EOF'
+  > (lang dune 3.9)
+  > (using melange 0.1)
+  > EOF
+  $ cat > dune <<'EOF'
+  > (melange.emit
+  >  (target out)
+  >  (modules input)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx)))
+  > EOF
+  $ dune build @melange
   $ cat > check.cjs <<'EOF'
   > const assert = require("node:assert/strict");
   > globalThis.auditObject = {x: 1};
-  > const m = require("./input.js");
+  > const m = require("./_build/default/out/input.js");
   > assert.equal(m.result, "hello");
   > console.log("declared int, actual", typeof m.result);
   > const ordinary = {x: 1};
