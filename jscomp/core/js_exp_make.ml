@@ -648,8 +648,54 @@ let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
      be careful for side effect
 *)
 
+(* Only inspect adjacent predicates over a local variable. No recursive
+   distribution, property reads, or truthiness assumptions are involved. *)
+let simplify_typeof_guard (op : J.binop) (guard : t) (test : t) =
+  let literal_type = function
+    | J.Bool _ -> Some "boolean"
+    | Str _ | Unicode _ -> Some "string"
+    | Number _ -> Some "number"
+    | Null -> Some "object"
+    | Undefined _ -> Some "undefined"
+    | _ -> None
+  in
+  match (guard.expression_desc, test.expression_desc) with
+  | ( Bin
+        {
+          op = (EqEqEq | NotEqEq) as guard_op;
+          expr1 =
+            { expression_desc = Typeof { expression_desc = Var (Id i); _ }; _ };
+          expr2 = { expression_desc = Str typ; _ };
+        },
+      Bin
+        {
+          op = (EqEqEq | NotEqEq) as test_op;
+          expr1 = { expression_desc = Var (Id j); _ };
+          expr2 = literal;
+        } )
+    when Ident.same i j && not (Ident.is_js_or_global i) -> (
+      match literal_type literal.expression_desc with
+      | None -> None
+      | Some literal_type -> (
+          let guard_at_literal =
+            Bool.equal (guard_op = EqEqEq) (String.equal typ literal_type)
+          in
+          match (op, test_op = EqEqEq, guard_at_literal) with
+          | And, true, true -> Some test
+          | And, true, false -> Some false_
+          | And, false, false -> Some guard
+          | Or, true, true -> Some guard
+          | Or, false, true -> Some true_
+          | Or, false, false -> Some test
+          | _ -> None))
+  | _ -> None
+
 let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
   match (e1.expression_desc, e2.expression_desc) with
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _ -> (
+      match simplify_typeof_guard And e1 e2 with
+      | Some simplified -> simplified
+      | None -> bin ?loc ?comment And e1 e2)
   | Var i, Var j when Js_analyzer.same_vident i j -> e1
   | Var i, Bin { op = And; expr1 = { expression_desc = Var j; _ }; _ }
     when Js_analyzer.same_vident i j ->
@@ -676,6 +722,10 @@ let and_ ?loc ?comment (e1 : t) (e2 : t) : t =
 
 let or_ ?loc ?comment (e1 : t) (e2 : t) =
   match (e1.expression_desc, e2.expression_desc) with
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _ -> (
+      match simplify_typeof_guard Or e1 e2 with
+      | Some simplified -> simplified
+      | None -> bin ?loc ?comment Or e1 e2)
   | Var i, Var j when Js_analyzer.same_vident i j -> e1
   | Var i, Bin { op = Or; expr1 = { expression_desc = Var j; _ }; _ }
     when Js_analyzer.same_vident i j ->
@@ -747,6 +797,18 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
       Seq (a, { expression_desc = Undefined _; _ }),
       Seq (b, { expression_desc = Undefined _; _ }) ) ->
       seq (econd ?comment pred a b) undefined
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bin _, Bool false -> (
+      match simplify_typeof_guard And pred ifso with
+      | Some simplified -> simplified
+      | None ->
+          make_expression ?loc ?comment
+            (Cond { pred; then_ = ifso; else_ = ifnot }))
+  | Bin { expr1 = { expression_desc = Typeof _; _ }; _ }, Bool true, Bin _ -> (
+      match simplify_typeof_guard Or pred ifnot with
+      | Some simplified -> simplified
+      | None ->
+          make_expression ?loc ?comment
+            (Cond { pred; then_ = ifso; else_ = ifnot }))
   | _ ->
       if Js_analyzer.eq_expression ifso ifnot then
         if no_side_effect pred then ifso else seq ?comment pred ifso
