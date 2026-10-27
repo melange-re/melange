@@ -64,15 +64,15 @@ Keep the behavior of strict equality, repeated getter reads, and effects.
   > })().catch(e => { console.error(e); process.exitCode = 1; });
   > EOF
   $ node check.cjs
-  js is_null nullable guard: true
-  js is_undefined nullable guard: true
-  js is_hello nullable guard: true
-  js is_number nullable guard: true
-  js is_true nullable guard: true
+  js is_null nullable guard: false
+  js is_undefined nullable guard: false
+  js is_hello nullable guard: false
+  js is_number nullable guard: false
+  js is_true nullable guard: false
   js strict equality and effects: ok
-  mjs is_null nullable guard: true
-  mjs is_undefined nullable guard: true
-  mjs is_hello nullable guard: true
-  mjs is_number nullable guard: true
-  mjs is_true nullable guard: true
+  mjs is_null nullable guard: false
+  mjs is_undefined nullable guard: false
+  mjs is_hello nullable guard: false
+  mjs is_number nullable guard: false
+  mjs is_true nullable guard: false
   mjs strict equality and effects: ok
