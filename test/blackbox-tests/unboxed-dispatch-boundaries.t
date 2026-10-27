@@ -31,6 +31,17 @@ Melange rejects that representation and keeps ordinary constructor dispatch dist
   > let () = Array.iter same_body [|Literal; Text "literal"; Number 0|]
   > let effects = !counter
   > EOF
-  $ melc -ppx melppx -o valid.js valid.ml
-  $ node -e 'const assert = require("node:assert/strict"); const m = require("./valid.js"); assert.deepEqual(m.folded, ["literal constructor", "text payload", "number"]); assert.deepEqual(m.dynamic, m.folded); assert.equal(m.integer, 42); assert.equal(m.text, "literal"); assert.equal(m.effects, 3); console.log("folded/runtime dispatch, unboxing and effects: ok");'
+  $ cat > dune-project <<'EOF'
+  > (lang dune 3.9)
+  > (using melange 0.1)
+  > EOF
+  $ cat > dune <<'EOF'
+  > (melange.emit
+  >  (target out)
+  >  (modules valid)
+  >  (libraries melange)
+  >  (preprocess (pps melange.ppx)))
+  > EOF
+  $ dune build @melange
+  $ node -e 'const assert = require("node:assert/strict"); const m = require("./_build/default/out/valid.js"); assert.deepEqual(m.folded, ["literal constructor", "text payload", "number"]); assert.deepEqual(m.dynamic, m.folded); assert.equal(m.integer, 42); assert.equal(m.text, "literal"); assert.equal(m.effects, 3); console.log("folded/runtime dispatch, unboxing and effects: ok");'
   folded/runtime dispatch, unboxing and effects: ok
