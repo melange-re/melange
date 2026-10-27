@@ -27,6 +27,12 @@ val ocaml_to_js_eff :
   arg_type:Melange_ffi.External_arg_spec.t ->
   J.expression ->
   Js_of_lam_variant.arg_expression * J.expression list
+
+val external_var :
+  Melange_ffi.External_ffi_types.External_module_name.t ->
+  dynamic_import:bool ->
+  J.expression
+
 (** Compile ocaml external function call to JS IR. *)
 
 val translate_ffi :

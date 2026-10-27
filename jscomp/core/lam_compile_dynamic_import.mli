@@ -23,3 +23,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val wrap_module_value : J.module_id -> string option -> J.expression
+
+val prepare_external : Lam.t -> (J.module_id * Ident.t * Lam.t) option
+(** Retain the external's argument and result adapters, using the resolved
+    module namespace as their receiver. Uncurried identity bindings remain raw
+    values. *)
+
+val wrap_callback : J.module_id -> Ident.t -> J.block -> J.expression
