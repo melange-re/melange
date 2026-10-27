@@ -42,8 +42,11 @@ Foreign property names are literal JavaScript names and must remain unchanged.
   >     const m = await import("./_build/default/out/input." + ext);
   >     assert.equal(events.length, ext === "js" ? 0 : 3);
   >     const values = [await m.$$case(), await m.$$await(), await m.prime()];
+  >     assert.deepEqual(values, [42,42,42]);
   >     console.log(ext, "mangled values", values.map(x => x === 42).join(","));
   >     const op = await m.operator();
+  >     assert.equal(typeof op, "function");
+  >     assert.equal(op(2,3), 5);
   >     console.log(ext, "operator", typeof op === "function" && op(2,3) === 5);
   >     assert.equal(await m.ffi_case(), 43);
   >     assert.equal(events.length, ext === "js" ? 3 : 6);
@@ -54,18 +57,18 @@ Foreign property names are literal JavaScript names and must remain unchanged.
   $ echo '()' > flags.sexp
   $ dune build @melange
   $ node check.cjs
-  js mangled values false,false,false
-  js operator false
+  js mangled values true,true,true
+  js operator true
   js literal FFI names and lazy loading: ok
-  mjs mangled values false,false,false
-  mjs operator false
+  mjs mangled values true,true,true
+  mjs operator true
   mjs literal FFI names and lazy loading: ok
   $ echo '(--mel-cross-module-opt)' > flags.sexp
   $ dune build @melange
   $ node check.cjs
-  js mangled values false,false,false
-  js operator false
+  js mangled values true,true,true
+  js operator true
   js literal FFI names and lazy loading: ok
-  mjs mangled values false,false,false
-  mjs operator false
+  mjs mangled values true,true,true
+  mjs operator true
   mjs literal FFI names and lazy loading: ok
