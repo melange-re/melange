@@ -1,5 +1,5 @@
 ReScript #6739: constant float-to-int conversion must agree with runtime ToInt32.
-The baseline uses a host conversion outside its defined signed-int32 range.
+Out-of-range constants retain the JavaScript conversion instead of a host fold.
 
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
@@ -33,6 +33,8 @@ The baseline uses a host conversion outside its defined signed-int32 range.
   >   for (const ext of ["js", "mjs"]) {
   >     const m = await import("./_build/default/out/input." + ext);
   >     const expected = m.values.map(x => x | 0);
+  >     assert.deepEqual(m.constants, expected);
+  >     assert.equal(m.int32_constant, expected[0]);
   >     assert.deepEqual(m.safe_constants, m.safe_values.map(x => x | 0));
   >     for (const x of [...m.values, ...m.safe_values, NaN, Infinity, -Infinity, Number.MIN_VALUE, -Number.MIN_VALUE]) {
   >       for (const convert of [m.runtime, m.arithmetic, m.int32]) assert.equal(convert(x), x | 0);
@@ -50,7 +52,7 @@ The baseline uses a host conversion outside its defined signed-int32 range.
   > })().catch(e => {console.error(e);process.exitCode=1;});
   > EOF
   $ node check.cjs
-  js out-of-range constants agree: false
+  js out-of-range constants agree: true
   js runtime, in-range constants and effects: ok
-  mjs out-of-range constants agree: false
+  mjs out-of-range constants agree: true
   mjs runtime, in-range constants and effects: ok
