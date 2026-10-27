@@ -1,0 +1,117 @@
+ReScript #8582: dynamically imported externals retain their FFI adapters.
+The baseline records failures; the fix changes these observations to assertions.
+
+  $ . ./setup.sh
+  $ cat > dune-project <<'EOF'
+  > (lang dune 3.9)
+  > (using melange 0.1)
+  > EOF
+  $ cat > dune <<'EOF'
+  > (melange.emit
+  >  (target out)
+  >  (modules input)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx))
+  >  (compile_flags :standard (:include flags.sexp))
+  >  (module_systems (commonjs js) (es6 mjs)))
+  > EOF
+  $ mkdir -p node_modules/audit-adapted-ffi
+  $ cat > node_modules/audit-adapted-ffi/index.js <<'EOF'
+  > "use strict";
+  > globalThis.auditLoads = (globalThis.auditLoads || 0) + 1;
+  > exports.sum = function(...args) { return args.reduce((a, b) => a + b, 0); };
+  > exports.unwrap = function(x) { return String(x); };
+  > exports.optional = function(x, n) { return x === undefined ? n : -1; };
+  > exports.nullable = function(x) { return x === 0 ? null : x === 1 ? undefined : 8; };
+  > exports.unit = function() { return arguments.length; };
+  > exports.raw = function(x) { return x + 1; };
+  > exports.scope = { nested: { sum: exports.sum, raw: exports.raw } };
+  > EOF
+  $ cat > input.ml <<'EOF'
+  > external sum : int array -> int = "sum"
+  >   [@@mel.module "audit-adapted-ffi"] [@@mel.variadic]
+  > external unwrap : ([ `Text of string | `Int of int ][@mel.unwrap]) -> string = "unwrap"
+  >   [@@mel.module "audit-adapted-ffi"]
+  > external optional : ?x:int option -> int -> int = "optional"
+  >   [@@mel.module "audit-adapted-ffi"]
+  > external nullable : int -> int option = "nullable"
+  >   [@@mel.module "audit-adapted-ffi"] [@@mel.return nullable]
+  > external unit_call : unit -> int = "unit" [@@mel.module "audit-adapted-ffi"]
+  > external raw : int -> int = "raw" [@@mel.module "audit-adapted-ffi"]
+  > let use promise f = Js.Promise.then_ (fun fn -> Js.Promise.resolve (f fn)) promise
+  > let run_sum () = use (Js.import sum) (fun fn -> fn [|1; 2; 3|])
+  > let run_unwrap () = use (Js.import unwrap) (fun fn -> fn (`Text "payload"))
+  > let run_optional () = use (Js.import optional) (fun fn -> fn ~x:None 7)
+  > let run_nullable () = use (Js.import nullable) (fun fn ->
+  >   Array.map (fun n -> match fn n with None -> -1 | Some n -> n) [|0; 1; 2|])
+  > let run_unit () = use (Js.import unit_call) (fun fn -> fn ())
+  > let load_raw () = Js.import raw
+  > EOF
+  $ cat > scoped.ml <<'EOF'
+  > external sum : int array -> int = "sum"
+  >   [@@mel.module "audit-adapted-ffi"] [@@mel.scope ("scope", "nested")] [@@mel.variadic]
+  > let load () = Js.import sum
+  > external raw : int -> int = "raw"
+  >   [@@mel.module "audit-adapted-ffi"] [@@mel.scope ("scope", "nested")]
+  > let load_raw () = Js.import raw
+  > EOF
+  $ cat > check.cjs <<'EOF'
+  > "use strict";
+  > const assert = require("node:assert/strict");
+  > const fs = require("node:fs");
+  > (async () => {
+  >   for (const ext of ["js", "mjs"]) {
+  >     const m = await import("./_build/default/out/input." + ext);
+  >     if (ext === "js") assert.equal(globalThis.auditLoads, undefined);
+  >     const cases = [
+  >       ["sum", 6], ["unwrap", "payload"], ["optional", 7],
+  >       ["nullable", [-1, -1, 8]], ["unit", 0]
+  >     ];
+  >     for (const [name, expected] of cases) {
+  >       let correct = false;
+  >       try { assert.deepEqual(await m["run_" + name](), expected); correct = true; }
+  >       catch (_) {}
+  >       console.log(ext, name, correct ? "correct" : "incorrect");
+  >     }
+  >     const target = await import("audit-adapted-ffi");
+  >     assert.equal(await m.load_raw(), target.raw);
+  >     assert.equal(globalThis.auditLoads, 1);
+  >     const source = fs.readFileSync("./_build/default/out/input." + ext, "utf8");
+  >     assert.doesNotMatch(source, /require\("audit-adapted-ffi"\)/);
+  >     assert.doesNotMatch(source, /import .* from "audit-adapted-ffi"/);
+  >     console.log(ext, "identity and lazy loading: ok");
+  >   }
+  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > EOF
+  $ echo '()' > flags.sexp
+  $ dune build @melange
+  $ node check.cjs
+  js sum incorrect
+  js unwrap incorrect
+  js optional incorrect
+  js nullable incorrect
+  js unit incorrect
+  js identity and lazy loading: ok
+  mjs sum incorrect
+  mjs unwrap incorrect
+  mjs optional incorrect
+  mjs nullable incorrect
+  mjs unit incorrect
+  mjs identity and lazy loading: ok
+  $ melc -ppx melppx -o scoped.js scoped.ml > scoped.log 2>&1; echo $?
+  2
+  $ echo '(--mel-cross-module-opt)' > flags.sexp
+  $ dune build @melange
+  $ node check.cjs
+  js sum incorrect
+  js unwrap incorrect
+  js optional incorrect
+  js nullable incorrect
+  js unit incorrect
+  js identity and lazy loading: ok
+  mjs sum incorrect
+  mjs unwrap incorrect
+  mjs optional incorrect
+  mjs nullable incorrect
+  mjs unit incorrect
+  mjs identity and lazy loading: ok
