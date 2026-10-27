@@ -9,7 +9,7 @@ Argument and result conversions agree with the declared OCaml function type.
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
-  >  (modules input)
+  >  (modules input scoped)
   >  (libraries melange.js)
   >  (preprocess (pps melange.ppx))
   >  (compile_flags :standard (:include flags.sexp))
@@ -151,6 +151,9 @@ Argument and result conversions agree with the declared OCaml function type.
   >     const target = await import("audit-adapted-ffi");
   >     assert.equal(await m.load_raw(), target.raw);
   >     assert.equal(globalThis.auditLoads, 1);
+  >     const scoped = await import("./_build/default/out/scoped." + ext);
+  >     assert.equal((await scoped.load())([1,2,3]), 6);
+  >     assert.equal((await scoped.load_raw())(2), 3);
   >     const source = fs.readFileSync("./_build/default/out/input." + ext, "utf8");
   >     assert.doesNotMatch(source, /require\("audit-adapted-ffi"\)/);
   >     assert.doesNotMatch(source, /import .* from "audit-adapted-ffi"/);
@@ -199,8 +202,6 @@ Argument and result conversions agree with the declared OCaml function type.
   mjs module_class correct
   mjs nullable_value correct
   mjs identity and lazy loading: ok
-  $ melc -ppx melppx -o scoped.js scoped.ml
-  $ node -e 'const assert = require("node:assert/strict"); const s = require("./scoped.js"); Promise.all([s.load(), s.load_raw()]).then(([sum, raw]) => {assert.equal(sum([1,2,3]),6); assert.equal(raw(2),3);}).catch(e=>{console.error(e);process.exitCode=1;})'
   $ echo '(--mel-cross-module-opt)' > flags.sexp
   $ dune build @melange
   $ node check.cjs
