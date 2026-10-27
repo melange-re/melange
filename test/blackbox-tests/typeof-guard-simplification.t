@@ -1,4 +1,4 @@
-ReScript #7134: cover typeof guard simplification.
+ReScript #7134/#7141: cover typeof guards around boolean, string, and number literals.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -37,6 +37,8 @@ ReScript #7134: cover typeof guard simplification.
   > let guard_string_1_0_0 x = (Js.typeof x <> "string") || (x == Obj.magic true)
   > let guard_string_1_1_1 x = (Js.typeof x <> "string") && (x != Obj.magic true)
   > let guard_string_1_1_0 x = (Js.typeof x <> "string") || (x != Obj.magic true)
+  > let literal_string x = string_type x && x == Obj.magic "abc"
+  > let literal_number x = Js.typeof x = "number" && x == Obj.magic 123
   > external effect_call : int -> bool = "auditEffect"
   > let and_false () = effect_call 1 && false
   > let or_true () = effect_call 2 || true
@@ -64,6 +66,9 @@ ReScript #7134: cover typeof guard simplification.
   >         check(`7134/${ext}`, name, () => inputs.map(m[name]), inputs.map(x=>typeof x==="boolean"?3:4));
   >       check(`7134/${ext}`, "redundant boolean guard", () => inputs.map(m.redundant_bool), inputs.map(x=>x===true));
   >       check(`7134/${ext}`, "contradictory guard", () => inputs.map(m.contradictory), inputs.map(()=>false));
+  >       const literals = [...inputs, "abc", 123, NaN, Infinity, Symbol(), 123n];
+  >       assert.deepEqual(literals.map(m.literal_string), literals.map(x => x === "abc"));
+  >       assert.deepEqual(literals.map(m.literal_number), literals.map(x => x === 123));
   >       hits=[]; check(`7134/${ext}`, "and false keeps effect", () => [m.and_false(),hits], [false,[1]]);
   >       hits=[]; check(`7134/${ext}`, "or true keeps effect", () => [m.or_true(),hits], [true,[2]]);
   >       hits=[]; check(`7134/${ext}`, "compound keeps effect", () => [m.composed(true),hits], [true,[3]]);
