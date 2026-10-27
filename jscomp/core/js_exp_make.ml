@@ -747,6 +747,28 @@ let rec econd ?loc ?comment (pred : t) (ifso : t) (ifnot : t) : t =
       Seq (a, { expression_desc = Undefined _; _ }),
       Seq (b, { expression_desc = Undefined _; _ }) ) ->
       seq (econd ?comment pred a b) undefined
+  | ( Is_null_or_undefined { expression_desc = Var (Id id); _ },
+      Bin
+        {
+          op = EqEqEq;
+          expr1 = { expression_desc = Var (Id other); _ };
+          expr2 = { expression_desc = Null | Undefined _; _ };
+        },
+      Bool false )
+    when Ident.same id other && Bool.not (Ident.is_js_or_global id) ->
+      ifso
+  | ( Is_null_or_undefined { expression_desc = Var (Id id); _ },
+      Bool false,
+      Bin
+        {
+          op = EqEqEq;
+          expr1 = { expression_desc = Var (Id other); _ };
+          expr2 = { expression_desc = Str _ | Unicode _ | Number _ | Bool _; _ };
+        } )
+    when Ident.same id other && Bool.not (Ident.is_js_or_global id) ->
+      (* A strict literal comparison already rejects nullish values. Only
+         combine reads of a local variable, never getters or effectful calls. *)
+      ifnot
   | _ ->
       if Js_analyzer.eq_expression ifso ifnot then
         if no_side_effect pred then ifso else seq ?comment pred ifso
