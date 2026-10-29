@@ -55,7 +55,17 @@ behavior together so annotations can be added without changing option semantics.
   >   assert (!calls = 3);
   >   assert (Option.map record_call (Some ()) = Some ());
   >   assert (Option.bind (Some None) (fun x -> Some (record_call x)) = Some None);
-  >   assert (!calls = 5)
+  >   assert (!calls = 5);
+  >   let order = ref "" in
+  >   let mark label x = order := !order ^ label; x in
+  >   let o = mark "a" (Some 7) in
+  >   let default = mark "b" 0 in
+  >   assert (Option.value o ~default = 7);
+  >   assert (!order = "ab");
+  >   order := "";
+  >   assert (Option.value (mark "a" (Some 7)) ~default:(mark "b" 0) = 7);
+  >   (* OCaml leaves application argument order unspecified. Both run once. *)
+  >   assert (!order = "ab" || !order = "ba")
   > EOF
   $ dune build @melange
   $ cat _build/default/out/main.js
