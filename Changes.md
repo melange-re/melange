@@ -17,6 +17,10 @@ Unreleased
 - runtime: fix 64-bit integer decoding in `Bytes` and `String` for both
   byte orders, as reproduced in
   [#2028](https://github.com/melange-re/melange/pull/2028)
+- BREAKING(Js.Typed_array): require `map` and `mapi` callbacks to return
+  the array's numeric element type
+  ([#2139](https://github.com/melange-re/melange/pull/2139),
+  [#2140](https://github.com/melange-re/melange/pull/2140))
 
 
 7.0.1-55 2026-07-12
@@ -761,4 +765,3 @@ Unreleased
 - Initial public release
 
 This is the only release of Melange that supports OCaml 4.12.
-
