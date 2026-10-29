@@ -1,6 +1,5 @@
-Option helpers currently exceed the small-function export threshold, even when
-cross-module optimization is enabled. Keep the generated code and runtime
-behavior together so annotations can be added without changing option semantics.
+Option helpers inline across modules when cross-module optimization is enabled,
+preserving nested options and the effects of callbacks and eager defaults.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -63,47 +62,65 @@ behavior together so annotations can be added without changing option semantics.
   'use strict';
   
   const Caml_option = require("melange.js/caml_option.js");
-  const Stdlib__Option = require("melange/option.js");
+  const Curry = require("melange.js/curry.js");
   
   function mapped(o) {
-    return Stdlib__Option.map((function (x) {
-      return x + 1 | 0;
-    }), o);
+    if (o !== undefined) {
+      return Caml_option.some(Curry._1((function (x) {
+        return x + 1 | 0;
+      }), Caml_option.valFromOption(o)));
+    }
+    
   }
   
   function bound(o) {
-    return Stdlib__Option.bind(o, (function (x) {
+    if (o !== undefined) {
+      let x = Caml_option.valFromOption(o);
       return x + 2 | 0;
-    }));
+    }
+    
   }
   
   function folded(o) {
-    return Stdlib__Option.fold(0, (function (x) {
+    if (o !== undefined) {
+      let x = Caml_option.valFromOption(o);
       return x + 3 | 0;
-    }), o);
+    } else {
+      return 0;
+    }
   }
   
   function value(o) {
-    return Stdlib__Option.value(o, 0);
+    if (o !== undefined) {
+      return Caml_option.valFromOption(o);
+    } else {
+      return 0;
+    }
   }
   
   function join_some(o) {
-    return Stdlib__Option.join(Caml_option.some(o));
+    return o;
   }
   
   function each(o, f) {
-    Stdlib__Option.iter(f, o);
+    if (o !== undefined) {
+      return Curry._1(f, Caml_option.valFromOption(o));
+    }
+    
   }
   
   function identity(o) {
-    return Stdlib__Option.map((function (x) {
-      return x;
-    }), o);
+    if (o !== undefined) {
+      return Caml_option.some(Curry._1((function (x) {
+        return x;
+      }), Caml_option.valFromOption(o)));
+    }
+    
   }
   
-  const known = Stdlib__Option.value(Stdlib__Option.map((function (x) {
-    return x + 1 | 0;
-  }), 2), 0);
+  const o = 3;
+  
+  const known = o !== undefined ? Caml_option.valFromOption(o) : 0;
   
   module.exports = {
     mapped,
@@ -115,6 +132,6 @@ behavior together so annotations can be added without changing option semantics.
     identity,
     known,
   }
-  /* known Not a pure module */
+  /* No side effect */
   $ node _build/default/out/checks.js
   $ node _build/default/out/checks.mjs

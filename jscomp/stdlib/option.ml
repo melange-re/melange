@@ -17,17 +17,17 @@ type 'a t = 'a option = None | Some of 'a
 
 let none = None
 let some v = Some v
-let value o ~default = match o with Some v -> v | None -> default
+let[@inline always] value o ~default = match o with Some v -> v | None -> default
 let get = function Some v -> v | None -> invalid_arg "option is None"
-let bind o f = match o with None -> None | Some v -> f v
-let join = function Some o -> o | None -> None
-let map f o = match o with None -> None | Some v -> Some (f v)
+let[@inline always] bind o f = match o with None -> None | Some v -> f v
+let[@inline always] join = function Some o -> o | None -> None
+let[@inline always] map f o = match o with None -> None | Some v -> Some (f v)
 let product o0 o1 = match o0, o1 with
 | None, _ | _, None -> None
 | Some v0, Some v1 -> Some (v0, v1)
 
-let fold ~none ~some = function Some v -> some v | None -> none
-let iter f = function Some v -> f v | None -> ()
+let[@inline always] fold ~none ~some = function Some v -> some v | None -> none
+let[@inline always] iter f = function Some v -> f v | None -> ()
 let is_none = function None -> true | Some _ -> false
 let is_some = function None -> false | Some _ -> true
 
