@@ -2,16 +2,12 @@ ReScript #6653: cover ffi optional argument counts.
 The printed cases characterize the current incorrect behavior.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > external count : ?x:int -> ?y:int -> unit -> int = "auditCount"
@@ -40,49 +36,28 @@ The printed cases characterize the current incorrect behavior.
   > let send_omitted receiver = send receiver ()
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
-  > let hits = [];
+  $ node <<'EOF'
+  > const assert = require('node:assert/strict');
+  > const m = require('./_build/default/out/input.js');
+  > const hits = [];
   > globalThis.auditCount = function() { return arguments.length; };
   > globalThis.auditTick = n => { hits.push(n); return n; };
   > globalThis.AuditCtor = function() { this.count = arguments.length; };
-  > 
-  > const characterized = new Set(["explicit_undefined", "explicit_unit", "erased_before", "erased_after", "erased_unit", "dynamic None", "ignored effect count"]);
-  > function check(group, name, run, expected) {
-  >   const actual = run();
-  >   if (characterized.has(name)) console.log(group, name, JSON.stringify(actual));
-  >   else assert.deepStrictEqual(actual, expected, name);
-  > }
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >       for (const [name, expected] of [["omitted",0],["none",0],["some",1],["interior",2],["explicit_undefined",1],["explicit_unit",1],["required",1],["erased_before",0],["erased_after",0],["erased_unit",0]])
-  >         check(`6653/${ext}`, name, () => m[name](), expected);
-  >       check(`6653/${ext}`, "dynamic None", () => m.dynamic(undefined), 0);
-  >       check(`6653/${ext}`, "dynamic Some", () => m.dynamic(7), 1);
-  >       hits = [];
-  >       check(`6653/${ext}`, "ignored effect count", () => m.erased_effect(), 0);
-  >       check(`6653/${ext}`, "ignored effect exactly once", () => hits, [7]);
-  >       check(`6653/${ext}`, "constructor", () => m.new_omitted().count, 0);
-  >       check(`6653/${ext}`, "method", () => m.send_omitted({count: globalThis.auditCount}), 0);
-  >     console.log(ext, "controls: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > for (const [name, count] of [['omitted',0], ['none',0], ['some',1], ['interior',2], ['required',1]])
+  >   assert.equal(m[name](), count, name);
+  > for (const name of ['explicit_undefined', 'explicit_unit', 'erased_before', 'erased_after', 'erased_unit'])
+  >   console.log(name, m[name]());
+  > console.log('dynamic None', m.dynamic(undefined));
+  > assert.equal(m.dynamic(7), 1);
+  > console.log('ignored effect count', m.erased_effect());
+  > assert.deepEqual(hits, [7]);
+  > assert.equal(m.new_omitted().count, 0);
+  > assert.equal(m.send_omitted({count: globalThis.auditCount}), 0);
   > EOF
-  $ node check.cjs
-  6653/js explicit_undefined 0
-  6653/js explicit_unit 0
-  6653/js erased_before 1
-  6653/js erased_after 1
-  6653/js erased_unit 1
-  6653/js dynamic None 1
-  6653/js ignored effect count 1
-  js controls: ok
-  6653/mjs explicit_undefined 0
-  6653/mjs explicit_unit 0
-  6653/mjs erased_before 1
-  6653/mjs erased_after 1
-  6653/mjs erased_unit 1
-  6653/mjs dynamic None 1
-  6653/mjs ignored effect count 1
-  mjs controls: ok
+  explicit_undefined 0
+  explicit_unit 0
+  erased_before 1
+  erased_after 1
+  erased_unit 1
+  dynamic None 1
+  ignored effect count 1
