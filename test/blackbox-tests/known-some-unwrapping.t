@@ -1,10 +1,7 @@
 Known Some payloads need no wrap/unwrap round trip. The initial snapshot records redundant calls.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.8)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit (target output) (alias melange))
   > EOF
@@ -21,7 +18,7 @@ Known Some payloads need no wrap/unwrap round trip. The initial snapshot records
   > let deep = Some (Some None)
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const t = require('./_build/default/output/input.js');
   > assert.equal(t.nested(undefined), 0);
@@ -38,9 +35,6 @@ Known Some payloads need no wrap/unwrap round trip. The initial snapshot records
   >   const code = t[name].toString();
   >   console.log(name, 'wrap:', /\.some\(/.test(code), 'unwrap:', /\.valFromOption\(/.test(code));
   > }
-  > console.log('nested options, identity, effects and capture: ok');
   > EOF
-  $ node check.cjs
   nested wrap: true unwrap: true
   poly wrap: true unwrap: true
-  nested options, identity, effects and capture: ok
