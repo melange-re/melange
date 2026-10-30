@@ -3,10 +3,7 @@ Fresh processes load separately compiled modules in opposite orders. Generative
 functor applications must still create distinct constructors within one runtime.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -54,44 +51,38 @@ functor applications must still create distinct constructors within one runtime.
   >   wrong_extension || wrong_exception
   > EOF
   $ dune build @melange
-  $ cat > run.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
+  $ cat > run.mjs <<'EOF'
+  > import assert from 'node:assert/strict';
   > const [ext, order] = process.argv.slice(2);
   > const events = [];
   > globalThis.auditInit = name => events.push(name);
-  > (async () => {
-  >   const loader = await import(`./_build/default/out/loader.${ext}`);
-  >   assert.deepEqual(events, []);
-  >   const values = {};
-  >   for (const name of order) values[name] = await loader["load_" + name]();
-  >   assert.deepEqual(events, [...order]);
-  >   const a = await import(`./_build/default/out/a.${ext}`);
-  >   const b = await import(`./_build/default/out/b.${ext}`);
-  >   const matcher = await import(`./_build/default/out/matcher.${ext}`);
-  >   assert.equal(matcher.extension(values.a), 1);
-  >   assert.equal(matcher.extension(values.b), 2);
-  >   assert.equal(matcher.exception_(a.exn_value), 11);
-  >   assert.equal(matcher.exception_(b.exn_value), 22);
-  >   assert.equal(matcher.generative(), false);
-  >   assert.equal(matcher.generative(), false);
-  >   assert.deepEqual(events, [...order]);
-  >   console.log(JSON.stringify([values.a.MEL_EXN_ID, values.b.MEL_EXN_ID, a.exn_value.MEL_EXN_ID, b.exn_value.MEL_EXN_ID]));
-  > })().catch(e => {console.error(e);process.exitCode=1;});
+  > const loader = await import(`./_build/default/out/loader.${ext}`);
+  > assert.deepEqual(events, []);
+  > const values = {};
+  > for (const name of order) values[name] = await loader["load_" + name]();
+  > assert.deepEqual(events, [...order]);
+  > const a = await import(`./_build/default/out/a.${ext}`);
+  > const b = await import(`./_build/default/out/b.${ext}`);
+  > const matcher = await import(`./_build/default/out/matcher.${ext}`);
+  > assert.equal(matcher.extension(values.a), 1);
+  > assert.equal(matcher.extension(values.b), 2);
+  > assert.equal(matcher.exception_(a.exn_value), 11);
+  > assert.equal(matcher.exception_(b.exn_value), 22);
+  > assert.equal(matcher.generative(), false);
+  > assert.equal(matcher.generative(), false);
+  > assert.deepEqual(events, [...order]);
+  > console.log(JSON.stringify([values.a.MEL_EXN_ID, values.b.MEL_EXN_ID, a.exn_value.MEL_EXN_ID, b.exn_value.MEL_EXN_ID]));
   > EOF
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > const {spawnSync} = require("node:child_process");
   > for (const ext of ["js", "mjs"]) {
   >   const ids = ["ab", "ba"].map(order => {
-  >     const r = spawnSync(process.execPath, ["run.cjs", ext, order], {encoding:"utf8"});
+  >     const r = spawnSync(process.execPath, ["run.mjs", ext, order], {encoding:"utf8"});
   >     assert.equal(r.status, 0, r.stderr);
   >     return JSON.parse(r.stdout);
   >   });
   >   assert.deepEqual(ids[0], ids[1]);
   >   assert.equal(new Set(ids[0]).size, 4);
-  >   console.log(ext, "load order, matching, rebinding and generativity: ok");
   > }
   > EOF
-  $ node check.cjs
-  js load order, matching, rebinding and generativity: ok
-  mjs load order, matching, rebinding and generativity: ok
