@@ -119,8 +119,8 @@ end
   \
   external keys : t -> int Js.iterator = "keys" [@@mel.send]\
   \
-  external map : f:(elt  -> 'b [@mel.uncurry]) -> (t[@mel.this]) -> 'b typed_array = "map" [@@mel.send]\
-  external mapi : f:(elt -> int ->  'b [@mel.uncurry]) -> (t[@mel.this]) -> 'b typed_array = "map" [@@mel.send]\
+  external map : f:(elt -> elt [@mel.uncurry]) -> (t[@mel.this]) -> t = "map" [@@mel.send]\
+  external mapi : f:(elt -> int -> elt [@mel.uncurry]) -> (t[@mel.this]) -> t = "map" [@@mel.send]\
   \
   external reduce : f:('b -> elt  -> 'b [@mel.uncurry]) -> init:'b -> (t[@mel.this]) -> 'b = "reduce" [@@mel.send]\
   external reducei : f:('b -> elt -> int -> 'b [@mel.uncurry]) -> init:'b -> (t[@mel.this]) -> 'b = "reduce" [@@mel.send]\
