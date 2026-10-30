@@ -2,7 +2,7 @@ Variant interfaces must agree with implementations on runtime representation.
 ReScript #6513. Baseline characterizes incorrectly accepted mismatches.
 
   $ . ./setup.sh
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert=require('node:assert/strict');
   > const fs=require('node:fs');
   > const {spawnSync}=require('node:child_process');
@@ -35,9 +35,7 @@ ReScript #6513. Baseline characterizes incorrectly accepted mismatches.
   >   const p=spawnSync('melc',['-alert','-unused','-ppx','melppx','valid.ml'],{encoding:'utf8'});
   >   assert.equal(p.status,0,p.stderr);
   > }
-  > console.log('equivalent and abstract signatures: ok');
   > EOF
-  $ node check.cjs
   string_tag: accepted
   integer_tag: accepted
   boolean_tag: accepted
@@ -46,4 +44,3 @@ ReScript #6513. Baseline characterizes incorrectly accepted mismatches.
   block_tag: accepted
   tag_field: accepted
   inline_record: accepted
-  equivalent and abstract signatures: ok
