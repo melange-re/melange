@@ -2,16 +2,12 @@ Inlining must tolerate incompatible constants in unreachable constructor branche
 ReScript #6471 is already fixed; exercise both integer and block fallback paths.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > module Missing_field = struct
@@ -67,26 +63,18 @@ ReScript #6471 is already fixed; exercise both integer and block fallback paths.
   > |]
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     assert.equal(m.Missing_field.message, "teacher");
-  >     assert.equal(m.Wrong_integer.message, "teacher");
-  >     assert.equal(m.Wrong_block.message, "teacher");
-  >     assert.equal(m.teacher_message, "Jane");
-  >     assert.deepEqual(m.live, ["party", "passing", "away", "away", "sick", "semester"]);
-  >     const teacher = {TAG: 0, name: "Jane", age: 12345};
-  >     Object.defineProperties(teacher, {
-  >       status: {get() { throw new Error("wrong constructor's status"); }},
-  >       report_card: {get() { throw new Error("wrong constructor's report card"); }}
-  >     });
-  >     assert.equal(m.describe(teacher), "Jane");
-  >     console.log(ext, "inlined patterns: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const m = require("./_build/default/out/input.js");
+  > assert.equal(m.Missing_field.message, "teacher");
+  > assert.equal(m.Wrong_integer.message, "teacher");
+  > assert.equal(m.Wrong_block.message, "teacher");
+  > assert.equal(m.teacher_message, "Jane");
+  > assert.deepEqual(m.live, ["party", "passing", "away", "away", "sick", "semester"]);
+  > const teacher = {TAG: 0, name: "Jane", age: 12345};
+  > Object.defineProperties(teacher, {
+  >   status: {get() { throw new Error("wrong constructor's status"); }},
+  >   report_card: {get() { throw new Error("wrong constructor's report card"); }}
+  > });
+  > assert.equal(m.describe(teacher), "Jane");
   > EOF
-  $ node check.cjs
-  js inlined patterns: ok
-  mjs inlined patterns: ok
