@@ -4,10 +4,7 @@ Empty property names are valid. Ordinary OCaml strings retain byte semantics,
 including UTF-8 source bytes; this differs from ReScript Unicode strings.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -48,30 +45,22 @@ including UTF-8 source bytes; this differs from ReScript Unicode strings.
   > let mangle () = switch + name' + type_
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
-  > const {execFileSync} = require("node:child_process");
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const file = "./_build/default/out/input." + ext;
-  >     execFileSync(process.execPath, ["--check", file]);
-  >     const m = await import(file);
-  >     assert.equal(m.read_alias({value: 42}), 42);
-  >     const r = m.record();
-  >     assert.deepEqual(r, {Upper:1, "a-b":2, default:3, "\xce\xbb":4, "1st":5, 'a"b\\c':6, "":7});
-  >     assert.equal(m.read(r), 28);
-  >     assert.equal(m.get_dash(r), 2);
-  >     assert.equal(m.get_unicode(r), 4);
-  >     assert.equal(m.get_empty(r), 7);
-  >     m.set_escaped(r, 11);
-  >     assert.equal(r['a"b\\c'], 11);
-  >     const receiver = {base: 10, "a-b"(x) {return this.base + x;}};
-  >     assert.equal(m.send_dash(receiver, 2), 12);
-  >     assert.equal(m.mangle(), 27);
-  >     console.log(ext, "foreign property names and local mangling: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  $ node --input-type=module <<'EOF'
+  > import assert from "node:assert/strict";
+  > for (const ext of ["js", "mjs"]) {
+  >   const file = "./_build/default/out/input." + ext;
+  >   const m = await import(file);
+  >   assert.equal(m.read_alias({value: 42}), 42);
+  >   const r = m.record();
+  >   assert.deepEqual(r, {Upper:1, "a-b":2, default:3, "\xce\xbb":4, "1st":5, 'a"b\\c':6, "":7});
+  >   assert.equal(m.read(r), 28);
+  >   assert.equal(m.get_dash(r), 2);
+  >   assert.equal(m.get_unicode(r), 4);
+  >   assert.equal(m.get_empty(r), 7);
+  >   m.set_escaped(r, 11);
+  >   assert.equal(r['a"b\\c'], 11);
+  >   const receiver = {base: 10, "a-b"(x) {return this.base + x;}};
+  >   assert.equal(m.send_dash(receiver, 2), 12);
+  >   assert.equal(m.mangle(), 27);
+  > }
   > EOF
-  $ node check.cjs
-  js foreign property names and local mangling: ok
-  mjs foreign property names and local mangling: ok
