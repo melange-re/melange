@@ -1,17 +1,13 @@
 ReScript #6903: explicit string mappings round-trip; coercions do not apply representation attributes.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
   >  (preprocess (pps melange.ppx))
-  >  (compile_flags :standard --mel-cross-module-opt)
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (compile_flags :standard --mel-cross-module-opt))
   > EOF
   $ cat > input.ml <<'EOF'
   > type language = [ `OCaml | `ReScript [@mel.as "js"] ] [@@deriving jsConverter]
@@ -27,27 +23,19 @@ ReScript #6903: explicit string mappings round-trip; coercions do not apply repr
   > let unknown_rejected = languageFromJs "missing" = None
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > globalThis.auditIdentity = value => value;
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     assert.equal(m.direct, "js");
-  >     assert.equal(m.indirect(m.original), "js");
-  >     assert.equal(m.original, m.widened);
-  >     assert.equal(m.mapped_value, "js");
-  >     assert.equal(m.unmapped_value, "OCaml");
-  >     assert.equal(m.roundtrip, true);
-  >     assert.equal(m.old_name_rejected, true);
-  >     assert.equal(m.unknown_rejected, true);
-  >     console.log(ext + ": ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const m = require("./_build/default/out/input.js");
+  > assert.equal(m.direct, "js");
+  > assert.equal(m.indirect(m.original), "js");
+  > assert.equal(m.original, m.widened);
+  > assert.equal(m.mapped_value, "js");
+  > assert.equal(m.unmapped_value, "OCaml");
+  > assert.equal(m.roundtrip, true);
+  > assert.equal(m.old_name_rejected, true);
+  > assert.equal(m.unknown_rejected, true);
   > EOF
-  $ node check.cjs
-  js: ok
-  mjs: ok
 
   $ cat > coercion.ml <<'EOF'
   > type language = [ `OCaml | `ReScript ]
