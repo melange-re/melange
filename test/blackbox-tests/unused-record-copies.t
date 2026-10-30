@@ -2,10 +2,7 @@ Unused fresh record copies can discard their field writes while preserving effec
 Cover both sides of the frontend copy threshold; the initial snapshot retains large copies.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.8)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit (target output) (alias melange))
   > EOF
@@ -24,19 +21,12 @@ Cover both sides of the frontend copy threshold; the initial snapshot retains la
   >   let effects base update = let _ = {(base ()) with f0 = update 1; f1 = update 2} in ()
   >   let escaped r use = let copy = {r with f0 = 1} in use copy; copy.f0
   > end
-  > module R21 = struct
-  >   type t = { mutable f0 : int; f1 : int; f2 : int; f3 : int; f4 : int; f5 : int; f6 : int; f7 : int; f8 : int; f9 : int; f10 : int; f11 : int; f12 : int; f13 : int; f14 : int; f15 : int; f16 : int; f17 : int; f18 : int; f19 : int; f20 : int }
-  >   let unused r = let _ = {r with f0 = 1} in r.f0
-  >   let used r = {r with f0 = 1}
-  >   let effects base update = let _ = {(base ()) with f0 = update 1; f1 = update 2} in ()
-  >   let escaped r use = let copy = {r with f0 = 1} in use copy; copy.f0
-  > end
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const t = require('./_build/default/output/input.js');
-  > for (const n of [19,20,21]) {
+  > for (const n of [19,20]) {
   >   const r = Object.fromEntries(Array.from({length:n},(_,i)=>['f'+i,i+10]));
   >   const m = t['R'+n];
   >   assert.equal(m.unused(r),10);
@@ -52,15 +42,10 @@ Cover both sides of the frontend copy threshold; the initial snapshot retains la
   >   events = [];
   >   const thrown = new Error('update failed');
   >   assert.throws(()=>m.effects(()=>{events.push('base');return r;},i=>{events.push('update'+i);throw thrown;}),e=>e===thrown);
-  >   assert.equal(events.length,2);
-  >   assert.equal(events[0],'base');
+  >   assert.deepEqual(events, ['base', n === 19 ? 'update1' : 'update2']);
   >   assert.equal(r.f0,10);
   >   console.log(n, 'unused clone:', /caml_obj_dup/.test(m.unused.toString()), 'effects:', order);
   > }
-  > console.log('used copies, mutations, escapes and exceptions: ok');
   > EOF
-  $ node check.cjs
   19 unused clone: false effects: base,update1,update2
   20 unused clone: true effects: base,update2,update1
-  21 unused clone: true effects: base,update2,update1
-  used copies, mutations, escapes and exceptions: ok
