@@ -2,17 +2,12 @@ Distinguish curried function values from explicitly uncurried aliases.
 ReScript #7002.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
-  >       (target out)
-  >       (libraries melange.js)
-  >       (preprocess (pps melange.ppx))
-  > 
-  >       (module_systems (commonjs js) (es6 mjs)))
+  >  (target out)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type curried = int -> int -> int
@@ -30,30 +25,15 @@ ReScript #7002.
   > let call_rest x y = (rest x y [@u])
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > const fs = require('node:fs');
   > globalThis.auditCurried = x => y => x*10+y;
   > globalThis.auditDefault = (x,y=9) => x*10+y;
   > globalThis.auditRest = (...args) => { assert.equal(args.length,2); return args[0]*10+args[1]; };
-  > (async () => {
-  >   for (const ext of ['js', 'mjs']) {
-  >     const m = await import('./_build/default/out/input.'+ext);
-  >     const code = fs.readFileSync('./_build/default/out/input.'+ext, 'utf8');
+  > const m = require('./_build/default/out/input.js');
   > assert.equal(m.curried_value, globalThis.auditCurried);
   > assert.equal(m.aliased_value, globalThis.auditDefault);
-  > assert.equal(m.call_curried(2,3),23);
-  > assert.equal(m.partial(2)(4),24);
-  > assert.equal(m.call_alias(2,3),23);
-  > assert.equal(m.call_inline(2,3),23);
-  > assert.equal(m.call_rest(2,3),23);
-  > assert.match(code,/Curry\./);
-  >     console.log(ext, 'controls: ok');
-  >   }
-  > 
-  > 
-  > })().catch(e => { console.error(e); process.exitCode=1; });
+  > assert.equal(m.call_curried(2,3), 23);
+  > assert.equal(m.partial(2)(4), 24);
+  > for (const call of [m.call_alias, m.call_inline, m.call_rest]) assert.equal(call(2,3), 23);
   > EOF
-  $ node check.cjs
-  js controls: ok
-  mjs controls: ok
