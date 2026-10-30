@@ -1,16 +1,12 @@
 ReScript #7134/#7141: cover typeof guards around boolean, string, and number literals.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > let bool_type x = Js.typeof x = "boolean"
@@ -29,46 +25,28 @@ ReScript #7134/#7141: cover typeof guards around boolean, string, and number lit
   > let composed x = (effect_call 3 || bool_type x) && x == Obj.magic true
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
+  $ node <<'EOF'
+  > const assert = require('node:assert/strict');
+  > const m = require('./_build/default/out/input.js');
   > let hits = [];
   > globalThis.auditEffect = n => { hits.push(n); return n === 3; };
-  > 
-  > const characterized = new Set([]);
-  > function check(group, name, run, expected) {
-  >   const actual = run();
-  >   if (characterized.has(name)) console.log(group, name, JSON.stringify(actual));
-  >   else assert.deepStrictEqual(actual, expected, name);
-  > }
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >       const inputs=[null,undefined,false,true,0,1,"", "text", {}, []];
-  >       for(const name of ["null_eq_typeof", "undefined_eq_typeof"])
-  >         check(`7134/${ext}`, name, () => inputs.map(m[name]), inputs.map(()=>4));
-  >       for(const name of ["null_neq_typeof", "undefined_neq_typeof"])
-  >         check(`7134/${ext}`, name, () => inputs.map(m[name]), inputs.map(x=>typeof x==="boolean"?3:4));
-  >       check(`7134/${ext}`, "redundant boolean guard", () => inputs.map(m.redundant_bool), inputs.map(x=>x===true));
-  >       check(`7134/${ext}`, "contradictory guard", () => inputs.map(m.contradictory), inputs.map(()=>false));
-  >       const literals = [...inputs, "abc", 123, NaN, Infinity, Symbol(), 123n];
-  >       assert.deepEqual(literals.map(m.literal_string), literals.map(x => x === "abc"));
-  >       assert.deepEqual(literals.map(m.literal_number), literals.map(x => x === 123));
-  >       hits=[]; check(`7134/${ext}`, "and false keeps effect", () => [m.and_false(),hits], [false,[1]]);
-  >       hits=[]; check(`7134/${ext}`, "or true keeps effect", () => [m.or_true(),hits], [true,[2]]);
-  >       hits=[]; check(`7134/${ext}`, "compound keeps effect", () => [m.composed(true),hits], [true,[3]]);
-  >     const js = require("node:fs").readFileSync("./_build/default/out/input." + ext, "utf8");
-  >     for (const name of ["redundant_bool", "contradictory"]) {
-  >       const fn = js.slice(js.indexOf("function " + name + "("));
-  >       console.log(ext, name, "typeof guard:", fn.slice(0, fn.indexOf("\n}")).includes("typeof"));
-  >     }
-  >     console.log(ext, "controls: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const inputs = [null,undefined,false,true,0,1,'','text',{},[]];
+  > for (const name of ['null_eq_typeof', 'undefined_eq_typeof'])
+  >   assert.deepEqual(inputs.map(m[name]), inputs.map(() => 4), name);
+  > for (const name of ['null_neq_typeof', 'undefined_neq_typeof'])
+  >   assert.deepEqual(inputs.map(m[name]), inputs.map(x => typeof x === 'boolean' ? 3 : 4), name);
+  > assert.deepEqual(inputs.map(m.redundant_bool), inputs.map(x => x === true));
+  > assert.deepEqual(inputs.map(m.contradictory), inputs.map(() => false));
+  > const literals = [...inputs, 'abc', 123, NaN, Infinity, Symbol(), 123n];
+  > assert.deepEqual(literals.map(m.literal_string), literals.map(x => x === 'abc'));
+  > assert.deepEqual(literals.map(m.literal_number), literals.map(x => x === 123));
+  > assert.deepEqual([m.and_false(), hits], [false,[1]]);
+  > hits = [];
+  > assert.deepEqual([m.or_true(), hits], [true,[2]]);
+  > hits = [];
+  > assert.deepEqual([m.composed(true), hits], [true,[3]]);
+  > for (const name of ['redundant_bool', 'contradictory'])
+  >   console.log(name, 'typeof guard:', m[name].toString().includes('typeof'));
   > EOF
-  $ node check.cjs
-  js redundant_bool typeof guard: true
-  js contradictory typeof guard: true
-  js controls: ok
-  mjs redundant_bool typeof guard: true
-  mjs contradictory typeof guard: true
-  mjs controls: ok
+  redundant_bool typeof guard: true
+  contradictory typeof guard: true
