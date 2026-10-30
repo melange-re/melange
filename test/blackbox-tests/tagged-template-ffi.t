@@ -1,10 +1,7 @@
 Tagged-template FFI preserves native template semantics, including call-site identity.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -62,10 +59,8 @@ Tagged-template FFI preserves native template semantics, including call-site ide
   > let again x = Input.apply x
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > "use strict";
-  > const assert = require("node:assert/strict");
-  > const {execFileSync} = require("node:child_process");
+  $ node --input-type=module <<'EOF'
+  > import assert from 'node:assert/strict';
   > let calls = 0, hits = [];
   > globalThis.templateNext = n => {hits.push(n); return n;};
   > globalThis.templateGetTag = () => {hits.push(0); return globalThis.auditTag;};
@@ -80,118 +75,78 @@ Tagged-template FFI preserves native template semantics, including call-site ide
   >   marker: {},
   >   tag(strings, ...values) { return {receiver: this.marker, strings, values}; }
   > };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const file = "./_build/default/out/input." + ext;
-  >     execFileSync(process.execPath, ["--check", file]);
-  >     const m = await import(file);
-  >     const consumer = await import("./_build/default/out/consumer." + ext);
-  >     const first = m.apply(1);
-  >     assert.equal(first.strings, consumer.apply(1).strings);
-  >     assert.equal(first.strings, consumer.again(1).strings);
-  >     assert.equal(m.forced(1).strings, m.forced_again(1).strings);
-  >     assert.equal(m.factory()(1).strings, m.factory()(2).strings);
-  >     assert.notEqual(m.site_one(1).strings, m.site_two(1).strings);
-  >     assert.notEqual(m.choose_direct(true, 1).strings, m.choose_direct(false, 1).strings);
-  >     assert.notEqual(m.choose(true, 1).strings, m.choose(false, 1).strings);
-  >     assert.deepEqual([...m.unicode_call(1).strings], ["λ", ""]);
-  >     assert.deepEqual([...m.imported_call(1).strings], ["import:", ""]);
-  >     hits = [];
-  >     assert.deepEqual(m.effects().values, [1, 2]);
-  >     assert.deepEqual(hits, [1, 2]);
-  >     hits = [];
-  >     assert.deepEqual(m.dynamic(true).values, [1, 2]);
-  >     assert.deepEqual(hits, [0, 1, 2]);
-  >     for (const flag of [false, true]) assert.deepEqual(m.selected(flag, 4).values, [4]);
-  >     const getTag = globalThis.templateGetTag, getError = {};
-  >     globalThis.templateGetTag = () => {throw getError;};
-  >     hits = [];
-  >     assert.throws(() => m.dynamic(true), e => e === getError);
-  >     assert.deepEqual(hits, []);
-  >     globalThis.templateGetTag = getTag;
-  >     assert.deepEqual([...first.strings], ["value:", ""]);
-  >     assert.deepEqual(first.values, [1]);
-  >     assert.equal(first.strings, m.apply(2).strings);
-  >     assert.equal(first.strings, m.apply_again(3).strings);
-  >     const escaped = m.escaped_call("x");
-  >     assert.deepEqual([...escaped.strings], ["line\n", "`\${literal}\\end"]);
-  >     assert.deepEqual([...escaped.strings.raw], ["line\\n", "\\`\\${literal}\\\\end"]);
-  >     const object = {};
-  >     const multi = m.multiple_call(7, object);
-  >     assert.deepEqual([...multi.strings], ["a", "b", "c"]);
-  >     assert.deepEqual(multi.values, [7, object]);
-  >     assert.equal(multi.values[1], object);
-  >     const received = m.receiver_call(9);
-  >     assert.equal(received.receiver, globalThis.auditScope.marker);
-  >     assert.deepEqual(received.values, [9]);
-  >     const empty = m.empty_call();
-  >     assert.deepEqual([...empty.strings], [""]);
-  >     assert.deepEqual(empty.values, []);
-  >     const before = calls;
-  >     m.discard(1);
-  >     assert.equal(calls, before + 1);
-  >     const saved = globalThis.auditTag, thrown = {};
-  >     globalThis.auditTag = () => { throw thrown; };
-  >     assert.throws(() => m.discard(2), e => e === thrown);
-  >     globalThis.auditTag = saved;
-  >     console.log(ext, "native templates, effects, raw strings and site identity: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > for (const ext of ["js", "mjs"]) {
+  >   const file = "./_build/default/out/input." + ext;
+  >   const m = await import(file);
+  >   const consumer = await import("./_build/default/out/consumer." + ext);
+  >   const first = m.apply(1);
+  >   assert.equal(first.strings, consumer.apply(1).strings);
+  >   assert.equal(first.strings, consumer.again(1).strings);
+  >   assert.equal(m.forced(1).strings, m.forced_again(1).strings);
+  >   assert.equal(m.factory()(1).strings, m.factory()(2).strings);
+  >   assert.notEqual(m.site_one(1).strings, m.site_two(1).strings);
+  >   assert.notEqual(m.choose_direct(true, 1).strings, m.choose_direct(false, 1).strings);
+  >   assert.notEqual(m.choose(true, 1).strings, m.choose(false, 1).strings);
+  >   assert.deepEqual([...m.unicode_call(1).strings], ["λ", ""]);
+  >   assert.deepEqual([...m.imported_call(1).strings], ["import:", ""]);
+  >   hits = [];
+  >   assert.deepEqual(m.effects().values, [1, 2]);
+  >   assert.deepEqual(hits, [1, 2]);
+  >   hits = [];
+  >   assert.deepEqual(m.dynamic(true).values, [1, 2]);
+  >   assert.deepEqual(hits, [0, 1, 2]);
+  >   for (const flag of [false, true]) assert.deepEqual(m.selected(flag, 4).values, [4]);
+  >   const getTag = globalThis.templateGetTag, getError = {};
+  >   globalThis.templateGetTag = () => {throw getError;};
+  >   hits = [];
+  >   assert.throws(() => m.dynamic(true), e => e === getError);
+  >   assert.deepEqual(hits, []);
+  >   globalThis.templateGetTag = getTag;
+  >   assert.deepEqual([...first.strings], ["value:", ""]);
+  >   assert.deepEqual(first.values, [1]);
+  >   assert.equal(first.strings, m.apply(2).strings);
+  >   assert.equal(first.strings, m.apply_again(3).strings);
+  >   const escaped = m.escaped_call("x");
+  >   assert.deepEqual([...escaped.strings], ["line\n", "`\${literal}\\end"]);
+  >   assert.deepEqual([...escaped.strings.raw], ["line\\n", "\\`\\${literal}\\\\end"]);
+  >   const object = {};
+  >   const multi = m.multiple_call(7, object);
+  >   assert.deepEqual([...multi.strings], ["a", "b", "c"]);
+  >   assert.deepEqual(multi.values, [7, object]);
+  >   assert.equal(multi.values[1], object);
+  >   const received = m.receiver_call(9);
+  >   assert.equal(received.receiver, globalThis.auditScope.marker);
+  >   assert.deepEqual(received.values, [9]);
+  >   const empty = m.empty_call();
+  >   assert.deepEqual([...empty.strings], [""]);
+  >   assert.deepEqual(empty.values, []);
+  >   const before = calls;
+  >   m.discard(1);
+  >   assert.equal(calls, before + 1);
+  >   const saved = globalThis.auditTag, thrown = {};
+  >   globalThis.auditTag = () => { throw thrown; };
+  >   assert.throws(() => m.discard(2), e => e === thrown);
+  >   globalThis.auditTag = saved;
+  > }
   > EOF
-  $ node check.cjs
-  js native templates, effects, raw strings and site identity: ok
-  mjs native templates, effects, raw strings and site identity: ok
 
 Unsupported uses must produce diagnostics rather than compiler assertions.
 
-  $ cat > dynamic.ml <<'EOF'
-  > external tag : (int, string) Js.TaggedTemplate.t = "tag"
-  > let call strings values = Js.TaggedTemplate.apply tag strings values
+  $ node <<'EOF'
+  > const assert = require('node:assert/strict');
+  > const fs = require('node:fs');
+  > const {spawnSync} = require('node:child_process');
+  > const cases = {
+  >   dynamic: 'let call strings values = Js.TaggedTemplate.apply tag strings values',
+  >   count: 'let call x = Js.TaggedTemplate.apply tag [|"only"|] [|x|]',
+  >   fragment: 'let call fragment x = Js.TaggedTemplate.apply tag [|fragment; ""|] [|x|]',
+  >   partial: 'let call = Js.TaggedTemplate.apply tag',
+  >   wrong_type: 'let call = Js.TaggedTemplate.apply tag [|""; ""|] [|"string"|]',
+  > };
+  > for (const [name, source] of Object.entries(cases)) {
+  >   fs.writeFileSync(name + '.ml', 'external tag : (int, string) Js.TaggedTemplate.t = "tag"\n' + source + '\n');
+  >   const result = spawnSync('melc', ['-color', 'never', '-ppx', 'melppx', '-o', name + '.js', name + '.ml'], {encoding:'utf8'});
+  >   assert.equal(result.status, 2, result.stderr);
+  >   assert.match(result.stderr, name === 'wrong_type' ? /type string but an expression was expected of type\s+int/ : /requires literal string and value arrays, with one more string than values/);
+  > }
   > EOF
-  $ melc -ppx melppx -o dynamic.js dynamic.ml
-  File "dynamic.ml", line 2, characters 26-68:
-  2 | let call strings values = Js.TaggedTemplate.apply tag strings values
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: Js.TaggedTemplate.apply requires literal string and value arrays, with one more string than values
-  [2]
-  $ cat > count.ml <<'EOF'
-  > external tag : (int, string) Js.TaggedTemplate.t = "tag"
-  > let call x = Js.TaggedTemplate.apply tag [|"only"|] [|x|]
-  > EOF
-  $ melc -ppx melppx -o count.js count.ml
-  File "count.ml", line 2, characters 13-57:
-  2 | let call x = Js.TaggedTemplate.apply tag [|"only"|] [|x|]
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: Js.TaggedTemplate.apply requires literal string and value arrays, with one more string than values
-  [2]
-  $ cat > fragment.ml <<'EOF'
-  > external tag : (int, string) Js.TaggedTemplate.t = "tag"
-  > let call fragment x = Js.TaggedTemplate.apply tag [|fragment; ""|] [|x|]
-  > EOF
-  $ melc -ppx melppx -o fragment.js fragment.ml
-  File "fragment.ml", line 2, characters 22-72:
-  2 | let call fragment x = Js.TaggedTemplate.apply tag [|fragment; ""|] [|x|]
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: Js.TaggedTemplate.apply requires literal string and value arrays, with one more string than values
-  [2]
-  $ cat > partial.ml <<'EOF'
-  > external tag : (int, string) Js.TaggedTemplate.t = "tag"
-  > let call = Js.TaggedTemplate.apply tag
-  > EOF
-  $ melc -ppx melppx -o partial.js partial.ml
-  File "partial.ml", line 2, characters 11-38:
-  2 | let call = Js.TaggedTemplate.apply tag
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: Js.TaggedTemplate.apply requires literal string and value arrays, with one more string than values
-  [2]
-  $ cat > wrong_type.ml <<'EOF'
-  > external tag : (int, string) Js.TaggedTemplate.t = "tag"
-  > let call = Js.TaggedTemplate.apply tag [|""; ""|] [|"string"|]
-  > EOF
-  $ melc -ppx melppx -o wrong_type.js wrong_type.ml
-  File "wrong_type.ml", line 2, characters 52-60:
-  2 | let call = Js.TaggedTemplate.apply tag [|""; ""|] [|"string"|]
-                                                          ^^^^^^^^
-  Error: This constant has type string but an expression was expected of type
-           int
-  [2]
