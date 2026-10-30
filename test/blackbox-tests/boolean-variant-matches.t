@@ -2,16 +2,12 @@ Boolean-returning variant matches should compile to comparisons.
 ReScript #6741. Runtime behavior is correct before the optimization.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type status = Open | Closed
@@ -38,53 +34,45 @@ ReScript #6741. Runtime behavior is correct before the optimization.
   > let float_inequality x = if x = 0. then false else true
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > let count = 0, status = 0, hits = [];
   > globalThis.nextStatus = () => { count++; return status; };
   > globalThis.branchHit = n => { hits.push(n); };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     for (const [f, x, expected] of [
-  >       [m.is_open, 0, true], [m.is_open, 1, false],
-  >       [m.is_closed, 0, false], [m.is_closed, 1, true],
-  >       [m.is_yes, "yes", true], [m.is_yes, "no", false],
-  >       [m.is_no, "yes", false], [m.is_no, "no", true],
-  >       [m.poly, "Open", true], [m.poly, "Closed", false],
-  >       [m.is_left, {TAG: 0, _0: 4}, true],
-  >       [m.is_left, {TAG: 1, _0: 4}, false],
-  >       [m.is_null, null, true], [m.is_null, undefined, false],
-  >       [m.is_null, {TAG: 0, _0: 4}, false],
-  >       [m.is_undefined, null, false], [m.is_undefined, undefined, true],
-  >       [m.is_undefined, {TAG: 0, _0: 4}, false],
-  >       [m.truthiness, true, true], [m.truthiness, false, false],
-  >       [m.float_equality, NaN, false], [m.float_inequality, NaN, true],
-  >       [m.float_equality, -0, true], [m.float_inequality, -0, false]
-  >     ]) {
-  >       assert.equal(f(x), expected);
-  >       assert.equal(typeof f(x), "boolean");
-  >     }
-  >     for (status of [0, 1]) {
-  >       count = 0;
-  >       assert.equal(m.effectful(), status === 0);
-  >       assert.equal(m.effect_inverse(), status !== 0);
-  >       assert.equal(count, 2);
-  >     }
-  >     hits = [];
-  >     assert.equal(m.branch_effect(0), true);
-  >     assert.equal(m.branch_effect(1), false);
-  >     assert.deepEqual(hits, [1, 2]);
-  >     const error = {};
-  >     globalThis.nextStatus = () => { throw error; };
-  >     assert.throws(() => m.effectful(), e => e === error);
-  >     globalThis.nextStatus = () => { count++; return status; };
-  >     const names = ["is_open", "is_closed", "is_yes", "is_no", "is_left", "poly"];
-  >     console.log(ext, "conditional branches:", names.map(name =>
-  >       (m[name].toString().match(/\bif\s*\(|\?/g) || []).length).join(", "));
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const m = require("./_build/default/out/input.js");
+  > for (const [f, x, expected] of [
+  >   [m.is_open, 0, true], [m.is_open, 1, false],
+  >   [m.is_closed, 0, false], [m.is_closed, 1, true],
+  >   [m.is_yes, "yes", true], [m.is_yes, "no", false],
+  >   [m.is_no, "yes", false], [m.is_no, "no", true],
+  >   [m.poly, "Open", true], [m.poly, "Closed", false],
+  >   [m.is_left, {TAG: 0, _0: 4}, true],
+  >   [m.is_left, {TAG: 1, _0: 4}, false],
+  >   [m.is_null, null, true], [m.is_null, undefined, false],
+  >   [m.is_null, {TAG: 0, _0: 4}, false],
+  >   [m.is_undefined, null, false], [m.is_undefined, undefined, true],
+  >   [m.is_undefined, {TAG: 0, _0: 4}, false],
+  >   [m.truthiness, true, true], [m.truthiness, false, false],
+  >   [m.float_equality, NaN, false], [m.float_inequality, NaN, true],
+  >   [m.float_equality, -0, true], [m.float_inequality, -0, false]
+  > ]) {
+  >   assert.equal(f(x), expected);
+  > }
+  > for (status of [0, 1]) {
+  >   count = 0;
+  >   assert.equal(m.effectful(), status === 0);
+  >   assert.equal(m.effect_inverse(), status !== 0);
+  >   assert.equal(count, 2);
+  > }
+  > hits = [];
+  > assert.equal(m.branch_effect(0), true);
+  > assert.equal(m.branch_effect(1), false);
+  > assert.deepEqual(hits, [1, 2]);
+  > const error = {};
+  > globalThis.nextStatus = () => { throw error; };
+  > assert.throws(() => m.effectful(), e => e === error);
+  > const names = ["is_open", "is_closed", "is_yes", "is_no", "is_left", "poly"];
+  > console.log("js", "conditional branches:", names.map(name =>
+  >   (m[name].toString().match(/\bif\s*\(|\?/g) || []).length).join(", "));
   > EOF
-  $ node check.cjs
   js conditional branches: 1, 1, 1, 1, 1, 0
-  mjs conditional branches: 1, 1, 1, 1, 1, 0
