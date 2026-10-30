@@ -2,10 +2,7 @@ JavaScript export names must be unique after mangling, including nested modules.
 The initial snapshots expose overwritten properties and duplicate ESM exports.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.8)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit (target runtime) (alias runtime) (modules) (libraries melange.js))
   > EOF
@@ -86,14 +83,11 @@ Shadowing, nonemitted primitives, and interface-hidden bindings remain valid.
   > EOF
   $ melc -c hidden.mli
   $ melc -I . -w -32 hidden.ml -o hidden.js
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const safe = require('./safe.js');
   > assert.equal(safe.value, 2);
   > assert.equal(safe.Nested.M.value, 3);
   > assert.equal(safe.$$__esModule, 2);
   > assert.deepEqual(Object.values(require('./hidden.js')), [1]);
-  > console.log('safe exports: ok');
   > EOF
-  $ node check.cjs
-  safe exports: ok

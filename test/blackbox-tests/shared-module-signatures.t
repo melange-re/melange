@@ -2,7 +2,7 @@ Shared module signatures must not cause exponential work during export checking.
 The timeout bounds a regression that would otherwise walk over 2^64 signatures.
 
   $ . ./setup.sh
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const fs = require('node:fs');
   > const {spawnSync} = require('node:child_process');
@@ -17,7 +17,4 @@ The timeout bounds a regression that would otherwise walk over 2^64 signatures.
   >   assert.ifError(result.error);
   >   assert.equal(result.status, 0, result.stderr);
   > }
-  > console.log('shared signatures in interfaces, implementations and functors: ok');
   > EOF
-  $ node check.cjs
-  shared signatures in interfaces, implementations and functors: ok
