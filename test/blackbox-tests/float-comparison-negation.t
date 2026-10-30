@@ -32,29 +32,24 @@ The initial snapshot records the bug; every mismatch count should become zero.
   > ];
   > const values = [NaN, -Infinity, -1, -0, 0, 1, Infinity];
   > for (const [name, expected] of comparisons) {
-  >   let failures = 0;
+  >   let ml = 0, ffi = 0;
   >   for (const a of values) for (const b of values) {
-  >     failures += t[name](a, b) !== expected(a, b);
-  >     assert.equal(t.double_negation(a, b), a < b);
-  >     assert.equal(t.branch(a, b), a < b ? 0 : 1);
+  >     ml += t[name](a, b) !== expected(a, b);
+  >     ffi += t["js_" + name](a, b) !== expected(a, b);
   >   }
-  >   console.log(name, "mismatches:", failures);
-  >   let jsFailures = 0;
-  >   for (const a of values) for (const b of values)
-  >     jsFailures += t["js_" + name](a, b) !== expected(a, b);
-  >   console.log("js_" + name, "mismatches:", jsFailures);
+  >   console.log(name, ml, ffi);
+  > }
+  > for (const a of values) for (const b of values) {
+  >   assert.equal(t.double_negation(a, b), a < b);
+  >   assert.equal(t.branch(a, b), a < b ? 0 : 1);
   > }
   > assert.equal(t.integer(1, 2), false);
   > assert.equal(t.integer(2, 1), true);
   > console.log("effectful NaN:", t.effectful(NaN, 0));
   > assert.equal(t.effects.contents, 2);
   > EOF
-  nlt mismatches: 13
-  js_nlt mismatches: 13
-  nle mismatches: 13
-  js_nle mismatches: 13
-  ngt mismatches: 13
-  js_ngt mismatches: 13
-  nge mismatches: 13
-  js_nge mismatches: 13
+  nlt 13 13
+  nle 13 13
+  ngt 13 13
+  nge 13 13
   effectful NaN: false
