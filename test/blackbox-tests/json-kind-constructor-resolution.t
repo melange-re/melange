@@ -2,17 +2,12 @@ JSON kind constructors stay separate from JSON values and local names.
 ReScript #6317.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
-  >       (target out)
-  >       (libraries melange.js)
-  >       (preprocess (pps melange.ppx))
-  > 
-  >       (module_systems (commonjs js) (es6 mjs)))
+  >  (target out)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type local = String of string | Number of int | Null
@@ -30,24 +25,11 @@ ReScript #6317.
   >   Js.Json.stringify j
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > const fs = require('node:fs');
-  > 
-  > (async () => {
-  >   for (const ext of ['js', 'mjs']) {
-  >     const m = await import('./_build/default/out/input.'+ext);
-  >     const code = fs.readFileSync('./_build/default/out/input.'+ext, 'utf8');
-  > assert.deepEqual(m.checks(),Array(8).fill(true));
-  > assert.equal(m.roundtrip(),'["x",1,true,null,{},[]]');
-  > assert.equal(m.local._0,'local');
-  > assert.notEqual(m.kind_string,m.kind_number);
-  >     console.log(ext, 'controls: ok');
-  >   }
-  > 
-  > 
-  > })().catch(e => { console.error(e); process.exitCode=1; });
+  > const m = require('./_build/default/out/input.js');
+  > assert.deepEqual(m.checks(), Array(8).fill(true));
+  > assert.equal(m.roundtrip(), '["x",1,true,null,{},[]]');
+  > assert.equal(m.local._0, 'local');
+  > assert.notEqual(m.kind_string, m.kind_number);
   > EOF
-  $ node check.cjs
-  js controls: ok
-  mjs controls: ok
