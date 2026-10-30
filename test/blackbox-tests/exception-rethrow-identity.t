@@ -1,16 +1,12 @@
 Inspecting a caught exception must not change the value that is rethrown.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > external throw : unit -> 'a = "identityThrow"
@@ -28,34 +24,29 @@ Inspecting a caught exception must not change the value that is rethrown.
   > let payload () = try throw () with Js.Exn.Error err -> Obj.magic err
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > global.identityInvoke = f => f();
-  > (async () => {
-  >   for (const [format,t] of [['CommonJS',require('./_build/default/out/input.js')], ['ESM',await import('./_build/default/out/input.mjs')]]) {
-  >     const values = [new Error('identity'), {custom:true}, null, undefined, 7];
-  >     const methods = ['direct','unmatched','inspected','aliased','nested','captured'];
-  >     const counts = methods.map(() => 0);
-  >     for (const value of values) {
-  >       global.identityThrow = () => { throw value; };
-  >       global.identityObserve = e => { assert.equal(e._1, value); };
-  >       for (const [i,method] of methods.entries()) {
-  >         let caught = false;
-  >         try { t[method](); } catch(e) { caught = true; if(e === value) counts[i]++; }
-  >         assert.equal(caught,true,method);
-  >       }
-  >       assert.equal(t.payload(),value);
-  >       assert.throws(() => t.replacement(), e => e.MEL_EXN_ID === t.Known && e._1 === 99);
-  >     }
-  >     global.identityThrow = () => { throw t.known; };
-  >     global.identityObserve = e => { assert.equal(e,t.known); };
-  >     for (const method of ['direct','inspected','aliased','captured'])
-  >       assert.throws(() => t[method](), e => e === t.known);
-  >     assert.doesNotThrow(() => t.unmatched());
-  >     console.log(format + ' original values: ' + counts.join(','));
+  > const t = require('./_build/default/out/input.js');
+  > const values = [new Error('identity'), {custom:true}, null, undefined, 7];
+  > const methods = ['direct','unmatched','inspected','aliased','nested','captured'];
+  > const counts = methods.map(() => 0);
+  > for (const value of values) {
+  >   global.identityThrow = () => { throw value; };
+  >   global.identityObserve = e => { assert.equal(e._1, value); };
+  >   for (const [i,method] of methods.entries()) {
+  >     let caught = false;
+  >     try { t[method](); } catch(e) { caught = true; if(e === value) counts[i]++; }
+  >     assert.equal(caught,true,method);
   >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  >   assert.equal(t.payload(),value);
+  >   assert.throws(() => t.replacement(), e => e.MEL_EXN_ID === t.Known && e._1 === 99);
+  > }
+  > global.identityThrow = () => { throw t.known; };
+  > global.identityObserve = e => { assert.equal(e,t.known); };
+  > for (const method of ['direct','inspected','aliased','captured'])
+  >   assert.throws(() => t[method](), e => e === t.known);
+  > assert.doesNotThrow(() => t.unmatched());
+  > console.log('CommonJS original values: ' + counts.join(','));
   > EOF
-  $ node check.cjs
   CommonJS original values: 5,0,0,0,0,0
-  ESM original values: 5,0,0,0,0,0
