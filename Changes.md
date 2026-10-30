@@ -21,6 +21,10 @@ Unreleased
   the array's numeric element type
   ([#2139](https://github.com/melange-re/melange/pull/2139),
   [#2140](https://github.com/melange-re/melange/pull/2140))
+- compiler: preserve byte-construction effects and exceptions when folding
+  `Bytes.length`, including when its result is ignored
+  ([#2058](https://github.com/melange-re/melange/pull/2058),
+  [#2059](https://github.com/melange-re/melange/pull/2059))
 
 
 7.0.1-55 2026-07-12

@@ -544,13 +544,6 @@ let string_length ?loc ?comment (e : t) : t =
       make_expression ?loc ?comment
         (Length { expr = e; length_object = String })
 
-(* TODO: use [Buffer] instead? *)
-let bytes_length ?loc ?comment (e : t) : t =
-  match e.expression_desc with
-  | Array { items = l; _ } -> int ?comment (Int32.of_int (List.length l))
-  | _ ->
-      make_expression ?loc ?comment (Length { expr = e; length_object = Bytes })
-
 let function_length ?loc ?comment (e : t) : t =
   match e.expression_desc with
   | Fun { method_; env; _ } ->

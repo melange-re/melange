@@ -134,7 +134,6 @@ val dot : ?loc:Location.t -> ?comment:string -> t -> string -> t
 val module_access : t -> string -> int32 -> t
 val array_length : ?loc:Location.t -> ?comment:string -> t -> t
 val string_length : ?loc:Location.t -> ?comment:string -> t -> t
-val bytes_length : ?loc:Location.t -> ?comment:string -> t -> t
 val function_length : ?loc:Location.t -> ?comment:string -> t -> t
 val char_to_int : ?loc:Location.t -> ?comment:string -> t -> t
 
