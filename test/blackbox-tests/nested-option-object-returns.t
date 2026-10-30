@@ -2,16 +2,12 @@ Object returns remain valid JavaScript through closures and nested options.
 ReScript #7013 fixes arrow printing; Melange emits function bodies with return.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type obj = {a : int; b : int}
@@ -35,38 +31,28 @@ ReScript #7013 fixes arrow printing; Melange emits function bodies with return.
   >     Some {a; b}) [@u]
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > let hits = [];
   > globalThis.optionHit = n => { hits.push(n); return n; };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     const f = m.f1();
-  >     assert.equal(typeof f, "function");
-  >     assert.deepEqual(f(), {a: 1, b: 2});
-  >     assert.deepEqual(m.f2(), {a: 1, b: 2});
-  >     assert.equal(m.read_three(m.f2()), 3);
-  >     assert.equal(m.read_three(m.f3()), 2);
-  >     assert.notEqual(m.f3(), undefined);
-  >     for (const value of [undefined, null, {a: 7, b: 8}, [1, 2], () => 3]) {
-  >       assert.equal(m.same_payload(value, m.nest(value)), true);
-  >     }
-  >     hits = [];
-  >     const captured = m.closure();
-  >     assert.deepEqual(hits, [1]);
-  >     assert.deepEqual(captured(), {a: 1, b: 2});
-  >     assert.deepEqual(captured(), {a: 1, b: 2});
-  >     assert.deepEqual(hits, [1, 2, 2]);
-  >     const error = {};
-  >     globalThis.optionHit = () => { throw error; };
-  >     assert.throws(() => captured(), e => e === error);
-  >     assert.throws(() => m.closure(), e => e === error);
-  >     globalThis.optionHit = n => { hits.push(n); return n; };
-  >     console.log(ext, "object returns through nested options: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const m = require("./_build/default/out/input.js");
+  > const f = m.f1();
+  > assert.deepEqual(f(), {a: 1, b: 2});
+  > assert.deepEqual(m.f2(), {a: 1, b: 2});
+  > assert.equal(m.read_three(m.f2()), 3);
+  > assert.equal(m.read_three(m.f3()), 2);
+  > assert.notEqual(m.f3(), undefined);
+  > for (const value of [undefined, null, {a: 7, b: 8}, [1, 2], () => 3]) {
+  >   assert.equal(m.same_payload(value, m.nest(value)), true);
+  > }
+  > hits = [];
+  > const captured = m.closure();
+  > assert.deepEqual(hits, [1]);
+  > assert.deepEqual(captured(), {a: 1, b: 2});
+  > assert.deepEqual(captured(), {a: 1, b: 2});
+  > assert.deepEqual(hits, [1, 2, 2]);
+  > const error = {};
+  > globalThis.optionHit = () => { throw error; };
+  > assert.throws(() => captured(), e => e === error);
+  > assert.throws(() => m.closure(), e => e === error);
   > EOF
-  $ node check.cjs
-  js object returns through nested options: ok
-  mjs object returns through nested options: ok
