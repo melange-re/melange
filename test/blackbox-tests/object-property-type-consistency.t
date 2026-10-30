@@ -14,10 +14,7 @@ This records the unsound baseline and the supported object APIs a fix must prese
   > let read_nullable (o : nullable) = Js.Nullable.toOption o##x
   > let write_nullable (o : nullable) = o##x #= 4
   > EOF
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -26,7 +23,7 @@ This records the unsound baseline and the supported object APIs a fix must prese
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > globalThis.auditObject = {x: 1};
   > const m = require("./_build/default/out/input.js");
@@ -44,15 +41,12 @@ This records the unsound baseline and the supported object APIs a fix must prese
   >   m.write_nullable(object);
   >   assert.equal(m.read_nullable(object), 4);
   > }
-  > console.log("mutable, write-only and nullable controls: ok");
   > EOF
-  $ node check.cjs
   declared int, actual string
-  mutable, write-only and nullable controls: ok
 
 Closed rows reject unrelated writes, read-only writes, and the upstream coercion.
 
-  $ cat > reject.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > const fs = require("node:fs");
   > const {spawnSync} = require("node:child_process");
@@ -67,7 +61,4 @@ Closed rows reject unrelated writes, read-only writes, and the upstream coercion
   >   assert.ok(r.stderr.includes("type"), r.stderr);
   >   assert.ok(!r.stderr.includes("Assert_failure"), r.stderr);
   > }
-  > console.log("closed-row invalid writes rejected");
   > EOF
-  $ node reject.cjs
-  closed-row invalid writes rejected
