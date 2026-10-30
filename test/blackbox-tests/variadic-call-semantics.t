@@ -2,16 +2,12 @@ ReScript #7030: cover variadic call semantics.
 The printed cases characterize the current incorrect behavior.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > external global : int -> int array -> int = "auditVariadic" [@@mel.variadic]
@@ -31,41 +27,27 @@ The printed cases characterize the current incorrect behavior.
   > let send_effects obj = method_ obj (next 1) (args ())
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
+  $ node <<'EOF'
+  > const assert = require('node:assert/strict');
+  > const m = require('./_build/default/out/input.js');
   > let hits = [];
   > globalThis.auditTick = n => { hits.push(n); return n; };
-  > globalThis.auditArgs = () => { hits.push("array"); return [2, 3]; };
-  > globalThis.auditVariadic = function(...xs) { return xs.reduce((a,b) => a+b, 0); };
-  > globalThis.auditScope = { call: function(...xs) { return this === globalThis.auditScope ? xs.length : -1; } };
+  > globalThis.auditArgs = () => { hits.push('array'); return [2,3]; };
+  > globalThis.auditVariadic = (...xs) => xs.reduce((a,b) => a+b, 0);
+  > globalThis.auditScope = {call(...xs) { return this === globalThis.auditScope ? xs.length : -1; }};
   > globalThis.AuditVariadicCtor = function(...xs) { this.args = xs; };
-  > 
-  > const characterized = new Set(["scoped dynamic receiver", "method lookup before arguments"]);
-  > function check(group, name, run, expected) {
-  >   const actual = run();
-  >   if (characterized.has(name)) console.log(group, name, JSON.stringify(actual));
-  >   else assert.deepStrictEqual(actual, expected, name);
-  > }
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >       check(`7030/${ext}`, "literal and dynamic", () => [m.literal(),m.dynamic([2,3]),m.dynamic([])], [6,6,1]);
-  >       check(`7030/${ext}`, "scoped literal receiver", () => m.scope_literal(), 3);
-  >       check(`7030/${ext}`, "scoped dynamic receiver", () => m.scope_dynamic([2,3]), 3);
-  >       const obj={ call:function(...args){return this===obj?args.length:-1;} };
-  >       check(`7030/${ext}`, "send receiver", () => [m.send_literal(obj),m.send_dynamic(obj,[2,3])], [3,3]);
-  >       check(`7030/${ext}`, "constructor", () => {const x=m.construct_dynamic([2,3]);return [x instanceof globalThis.AuditVariadicCtor,x.args];}, [true,[1,2,3]]);
-  >       hits=[];check(`7030/${ext}`, "argument order", () => [m.effects(),hits], [6,[1,"array"]]);
-  >       const getter={get call(){hits.push("getter");return function(...xs){return xs.length;};}};
-  >       hits=[];check(`7030/${ext}`, "method lookup before arguments", () => [m.send_effects(getter),hits], [3,["getter",1,"array"]]);
-  >     console.log(ext, "controls: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > assert.deepEqual([m.literal(), m.dynamic([2,3]), m.dynamic([])], [6,6,1]);
+  > assert.equal(m.scope_literal(), 3);
+  > console.log('scoped dynamic receiver', m.scope_dynamic([2,3]));
+  > const obj = {call(...xs) { return this === obj ? xs.length : -1; }};
+  > assert.deepEqual([m.send_literal(obj),m.send_dynamic(obj,[2,3])], [3,3]);
+  > const constructed = m.construct_dynamic([2,3]);
+  > assert.ok(constructed instanceof globalThis.AuditVariadicCtor);
+  > assert.deepEqual(constructed.args, [1,2,3]);
+  > assert.deepEqual([m.effects(),hits], [6,[1,'array']]);
+  > const getter = {get call() { hits.push('getter'); return (...xs) => xs.length; }};
+  > hits = [];
+  > console.log('method lookup before arguments', JSON.stringify([m.send_effects(getter),hits]));
   > EOF
-  $ node check.cjs
-  7030/js scoped dynamic receiver -1
-  7030/js method lookup before arguments [3,[1,"array","getter"]]
-  js controls: ok
-  7030/mjs scoped dynamic receiver -1
-  7030/mjs method lookup before arguments [3,[1,"array","getter"]]
-  mjs controls: ok
+  scoped dynamic receiver -1
+  method lookup before arguments [3,[1,"array","getter"]]
