@@ -137,6 +137,23 @@ external unsafe_ge : 'a -> 'a -> bool = "#unsafe_ge"
 type 'a t
 (** This used to be mark a Js object type. *)
 
+module TaggedTemplate : sig
+  type ('a, 'b) t
+  (** A JavaScript tag receiving interpolation values of type ['a] and
+      returning ['b]. Bind tags as values with the usual FFI attributes. *)
+
+  external apply : ('a, 'b) t -> string array -> 'a array -> 'b
+    = "#tagged_template"
+  (** [apply tag strings values] emits a native tagged template. Both arrays
+      must be literal arrays, every string must be a literal, and there must
+      be one more string than value. Apply all three arguments together.
+
+      Strings are cooked fragments; [.raw] contains their generated JavaScript
+      escapes. The tag is called without a receiver. Use JavaScript [bind]
+      first if the tag needs one. Tag effects and template-site identity are
+      preserved, including across module boundaries. *)
+end
+
 (**/**)
 
 module Fn : sig

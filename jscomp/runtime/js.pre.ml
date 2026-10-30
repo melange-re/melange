@@ -69,6 +69,13 @@ module Fn = struct
   type 'a arity22 = { i22 : 'a [@internal] }
 end
 
+module TaggedTemplate = struct
+  type ('a, 'b) t
+
+  external apply : ('a, 'b) t -> string array -> 'a array -> 'b
+    = "#tagged_template"
+end
+
 module Internal = struct
   external opaqueFullApply : 'a -> 'a = "#full_apply"
 

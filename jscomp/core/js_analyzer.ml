@@ -100,6 +100,7 @@ let rec no_side_effect_expression_desc (x : J.expression_desc) =
   match x with
   | Undefined _ | Null | Bool _ | Var _ | Unicode _ | Module _ -> true
   | Fun _ -> true
+  | Tagged_template _ -> false
   | Number _ -> true (* Can be refined later *)
   | Static_index
       { expr = obj; field = (_name : string); pos = (_pos : int32 option) } ->
@@ -223,6 +224,7 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | Typeof _, _
   | Js_not _, _
   | Cond _, _
+  | Tagged_template _, _
   | FlatCall _, _
   | New _, _
   | Fun _, _

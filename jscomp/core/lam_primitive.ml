@@ -297,7 +297,10 @@ let eq_approx (lhs : t) (rhs : t) =
   (* | Pcaml_obj_set_length -> rhs = Pcaml_obj_set_length *)
   | Pccall { prim_name = n0 } -> (
       match rhs with
-      | Pccall { prim_name = n1 } -> String.equal n0 n1
+    | Pccall { prim_name = n1 } ->
+        (* Distinct template sites must keep distinct frozen string arrays,
+           even when their tag, fragments, and values are identical. *)
+        n0 <> "caml_js_tagged_template" && String.equal n0 n1
       | _ -> false)
   | Pfield (n0, info0) -> (
       match rhs with
