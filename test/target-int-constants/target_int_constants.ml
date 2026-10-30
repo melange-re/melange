@@ -12,19 +12,15 @@ let modes () =
   Fun.protect
     ~finally:(fun () -> Config.bs_only := previous)
     (fun () ->
-      Config.bs_only := false;
-      Alcotest.(check int)
-        "native hexadecimal literal" 0xFFFF_FFFF (integer "0xFFFF_FFFF");
-      Config.bs_only := true;
+      let check mode label expected text =
+        Config.bs_only := mode;
+        Alcotest.(check int) label expected (integer text)
+      in
+      check false "native hexadecimal literal" 0xFFFF_FFFF "0xFFFF_FFFF";
       (* Baseline: target typing still uses the host integer representation. *)
-      Alcotest.(check int)
-        "Melange hexadecimal literal" 0xFFFF_FFFF (integer "0xFFFF_FFFF");
-      Alcotest.(check int)
-        "Melange decimal literal" 4294967296 (integer "4294967296");
-      Config.bs_only := false;
-      Alcotest.(check int)
-        "native decimal literal after mode switch" 4294967296
-        (integer "4294967296"))
+      check true "Melange hexadecimal literal" 0xFFFF_FFFF "0xFFFF_FFFF";
+      check true "Melange decimal literal" 4294967296 "4294967296";
+      check false "native decimal after mode switch" 4294967296 "4294967296")
 
 let () =
   Alcotest.run "Target integer constants"

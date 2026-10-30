@@ -24,7 +24,7 @@ The initial snapshot records wrong branches at the upper limit and wrapped alias
   15 | let literals = 0xFFFF_FFFF, -0xFFFF_FFFF, 4294967296
                                                  ^^^^^^^^^^
   Warning 107 [melange-literal-int-overflow]: Integer literal exceeds the range of representable integers of type int
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const t = require('./input.js');
   > const high = [2147483644, 2147483645, 2147483646, 2147483647];
@@ -38,9 +38,7 @@ The initial snapshot records wrong branches at the upper limit and wrapped alias
   > assert.equal(t.low(-2147483645),false);
   > for (const x of high) assert.equal(t.int32_high(x),x>=2147483645);
   > assert.deepEqual(t.literals,[-1,1,0]);
-  > console.log('lower limit, int32 and emitted literal controls: ok');
   > EOF
-  $ node check.cjs
   high [false,false,false,false]
   record [false,false,false,false]
   tuple [false,false,false,false]
@@ -51,7 +49,6 @@ The initial snapshot records wrong branches at the upper limit and wrapped alias
   wrapped_octal 0 1
   wrapped_binary 0 1
   wrapped_negative 2
-  lower limit, int32 and emitted literal controls: ok
 
 Normalization must also make duplicate-case diagnostics consistent.
 
