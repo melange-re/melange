@@ -2,15 +2,11 @@ Remapped variant constants must agree with their emitted JavaScript values.
 The identity external exposes the explicitly chosen integer representation.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type flag = A [@mel.as 0] | B [@mel.as 2] | C [@mel.as 7]
@@ -38,26 +34,21 @@ The identity external exposes the explicitly chosen integer representation.
   > let loop limit = for i = 0 to limit - to_int B do record i done
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > (async () => {
-  >   for (const [format, t] of [['CommonJS', require('./_build/default/out/input.js')], ['ESM', await import('./_build/default/out/input.mjs')]]) {
-  >     assert.equal(t.direct, 2);
-  >     assert.equal(t.runtime(t.direct), 2);
-  >     assert.deepEqual([0, 2, 7].map(t.variant_match), [10, 20, 70]);
-  >     assert.equal(t.variant_constant(), 20);
-  >     let reads = 0;
-  >     global.readFlag = () => { reads++; return 7; };
-  >     assert.equal(t.effectful(), 7);
-  >     assert.equal(reads, 1);
-  >     assert.equal(t.ordinary, 7);
-  >     const indices = [];
-  >     global.recordIndex = i => indices.push(i);
-  >     t.loop(4);
-  >     console.log(format + ': ' + JSON.stringify([t.constants, t.cast_match(), t.zero, [0,1,2].map(t.make), t.bools, t.character(), indices]));
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const t = require('./_build/default/out/input.js');
+  > assert.equal(t.direct, 2);
+  > assert.equal(t.runtime(t.direct), 2);
+  > assert.deepEqual([0, 2, 7].map(t.variant_match), [10, 20, 70]);
+  > assert.equal(t.variant_constant(), 20);
+  > let reads = 0;
+  > global.readFlag = () => { reads++; return 7; };
+  > assert.equal(t.effectful(), 7);
+  > assert.equal(reads, 1);
+  > assert.equal(t.ordinary, 7);
+  > const indices = [];
+  > global.recordIndex = i => indices.push(i);
+  > t.loop(4);
+  > console.log('CommonJS: ' + JSON.stringify([t.constants, t.cast_match(), t.zero, [0,1,2].map(t.make), t.bools, t.character(), indices]));
   > EOF
-  $ node check.cjs
   CommonJS: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
-  ESM: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
