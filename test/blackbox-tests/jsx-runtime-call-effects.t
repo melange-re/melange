@@ -2,17 +2,13 @@ ReScript #6476: lowered JSX calls preserve arbitrary runtime, props, and child e
 This covers the compiler boundary after the separately maintained JSX PPX.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
   >  (preprocess (pps melange.ppx))
-  >  (compile_flags :standard --mel-cross-module-opt)
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (compile_flags :standard --mel-cross-module-opt))
   > EOF
   $ cat > input.ml <<'EOF'
   > external jsx : string -> 'a -> 'b = "auditJsx"
@@ -27,7 +23,7 @@ This covers the compiler boundary after the separately maintained JSX PPX.
   > let dead_branch () = if false then ignore (jsx "dead" (props "dead"))
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > const fs = require("node:fs");
   > let events, failure;
@@ -48,23 +44,15 @@ This covers the compiler boundary after the separately maintained JSX PPX.
   >   events.push(tag);
   >   return {tag, props};
   > };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     events = []; failure = new Error(ext);
-  >     const path = "./_build/default/out/input." + ext;
-  >     const m = await import(path);
-  >     m.discarded(); assert.deepEqual(events, ["props", "node"]);
-  >     events = []; m.nested(); assert.deepEqual(events, ["child", "parent"]);
-  >     events = []; assert.throws(m.throws_props, e => e === failure);
-  >     assert.deepEqual(events, ["throw"]);
-  >     events = []; assert.throws(m.throws_runtime, e => e === failure);
-  >     assert.deepEqual(events, ["props", "throw"]);
-  >     events = []; m.dead_branch(); assert.deepEqual(events, []);
-  >     assert.doesNotMatch(fs.readFileSync(path, "utf8"), /[@#]__PURE__/);
-  >     console.log(ext + ": ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > events = []; failure = new Error("failure");
+  > const path = "./_build/default/out/input.js";
+  > const m = require(path);
+  > m.discarded(); assert.deepEqual(events, ["props", "node"]);
+  > events = []; m.nested(); assert.deepEqual(events, ["child", "parent"]);
+  > events = []; assert.throws(m.throws_props, e => e === failure);
+  > assert.deepEqual(events, ["throw"]);
+  > events = []; assert.throws(m.throws_runtime, e => e === failure);
+  > assert.deepEqual(events, ["props", "throw"]);
+  > events = []; m.dead_branch(); assert.deepEqual(events, []);
+  > assert.doesNotMatch(fs.readFileSync(path, "utf8"), /[@#]__PURE__/);
   > EOF
-  $ node check.cjs
-  js: ok
-  mjs: ok

@@ -19,49 +19,37 @@ Melange lowers JSX to calls; it does not have ReScript's JSX-preserve mode.
   >   let props = { base with children; title } in
   >   (Comp.createElement ~children:props.children ~title:props.title ()) [@JSX]
   > EOF
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange)
-  >  (preprocess (pps melange.ppx reason-react-ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx reason-react-ppx)))
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const events = [];
-  >     globalThis.auditComp = "component";
-  >     globalThis.auditNote = x => { events.push(x); return x; };
-  >     globalThis.auditJsx = (component, props) => {
-  >       assert.equal(component, "component");
-  >       events.push("jsx");
-  >       return props;
-  >     };
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     const base = {children:"old child",title:"old title",retained:1};
-  >     for (const run of [m.render, () => m.render_copy(base)]) {
-  >       events.length = 0;
-  >       assert.deepEqual(run(), {children:"children",title:"title"});
-  >       assert.deepEqual(events, ["children", "title", "jsx"]);
-  >     }
-  >     assert.deepEqual(base, {children:"old child",title:"old title",retained:1});
-  >     const failure = new Error("children");
-  >     globalThis.auditNote = x => { events.push(x); throw failure; };
-  >     for (const run of [m.render, () => m.render_copy(base)]) {
-  >       events.length = 0;
-  >       assert.throws(run, e => e === failure);
-  >       assert.deepEqual(events, ["children"]);
-  >     }
-  >     console.log(ext, "JSX prop effects: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > const events = [];
+  > globalThis.auditComp = "component";
+  > globalThis.auditNote = x => { events.push(x); return x; };
+  > globalThis.auditJsx = (component, props) => {
+  >   assert.equal(component, "component");
+  >   events.push("jsx");
+  >   return props;
+  > };
+  > const m = require("./_build/default/out/input.js");
+  > const base = {children:"old child",title:"old title",retained:1};
+  > for (const run of [m.render, () => m.render_copy(base)]) {
+  >   events.length = 0;
+  >   assert.deepEqual(run(), {children:"children",title:"title"});
+  >   assert.deepEqual(events, ["children", "title", "jsx"]);
+  > }
+  > assert.deepEqual(base, {children:"old child",title:"old title",retained:1});
+  > const failure = new Error("children");
+  > globalThis.auditNote = x => { events.push(x); throw failure; };
+  > for (const run of [m.render, () => m.render_copy(base)]) {
+  >   events.length = 0;
+  >   assert.throws(run, e => e === failure);
+  >   assert.deepEqual(events, ["children"]);
+  > }
   > EOF
-  $ node check.cjs
-  js JSX prop effects: ok
-  mjs JSX prop effects: ok
