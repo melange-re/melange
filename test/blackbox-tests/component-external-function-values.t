@@ -2,17 +2,14 @@ Lowered JSX preserves imported component identity and does not invoke components
 ReScript #6880.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
-  >       (target out)
-  >       (libraries melange.js)
-  >       (preprocess (pps melange.ppx))
-  >       (runtime_deps component.cjs)
-  >       (module_systems (commonjs js) (es6 mjs)))
+  >  (target out)
+  >  (libraries melange.js)
+  >  (preprocess (pps melange.ppx))
+  >  (runtime_deps component.cjs)
+  >  (module_systems (commonjs js) (es6 mjs)))
   > EOF
   $ cat > component.cjs <<'EOF'
   > exports.component=function(){ throw new Error('component invoked while constructing element'); };
@@ -29,27 +26,14 @@ ReScript #6880.
   > let render_inline id = jsx inline {id}
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require('node:assert/strict');
-  > const fs = require('node:fs');
-  > globalThis.auditJsx=(component,props)=>({component,props});
-  > (async () => {
-  >   for (const ext of ['js', 'mjs']) {
-  >     const m = await import('./_build/default/out/input.'+ext);
-  >     const code = fs.readFileSync('./_build/default/out/input.'+ext, 'utf8');
-  > const fixture=require('./_build/default/out/component.cjs');
-  > assert.equal(m.component,fixture.component);
-  > for(const f of [m.render,m.render_inline]) {
-  >   const rendered=f('hello');
-  >   assert.equal(rendered.component,fixture.component);
-  >   assert.deepEqual(rendered.props,{id:'hello'});
+  $ node --input-type=module <<'EOF'
+  > import assert from 'node:assert/strict';
+  > import fixture from './_build/default/out/component.cjs';
+  > globalThis.auditJsx = (component,props) => ({component,props});
+  > for (const ext of ['js', 'mjs']) {
+  >   const m = await import('./_build/default/out/input.' + ext);
+  >   assert.equal(m.component, fixture.component);
+  >   for (const render of [m.render, m.render_inline])
+  >     assert.deepEqual(render('hello'), {component:fixture.component, props:{id:'hello'}});
   > }
-  >     console.log(ext, 'controls: ok');
-  >   }
-  > 
-  > 
-  > })().catch(e => { console.error(e); process.exitCode=1; });
   > EOF
-  $ node check.cjs
-  js controls: ok
-  mjs controls: ok
