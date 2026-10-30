@@ -1,7 +1,7 @@
 ReScript #8955 / #9050: typed-array modules keep distinct nominal types.
 
   $ . ./setup.sh
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > const fs = require("node:fs");
   > const {spawnSync} = require("node:child_process");
@@ -17,10 +17,7 @@ ReScript #8955 / #9050: typed-array modules keep distinct nominal types.
   > const r = spawnSync("melc", ["-ppx", "melppx", "-o", "wrong_case.js", "wrong_case.ml"], {encoding:"utf8"});
   > assert.equal(r.status, 2, r.stderr);
   > assert.ok(r.stderr.includes("Int8Array.t") && r.stderr.includes("Uint8Array.t"), r.stderr);
-  > console.log("six cross-type assignments and the wrong variant payload rejected");
   > EOF
-  $ node check.cjs
-  six cross-type assignments and the wrong variant payload rejected
 
 Valid arrays retain their JavaScript class, signedness, and constructor dispatch.
 
@@ -34,5 +31,4 @@ Valid arrays retain their JavaScript class, signedness, and constructor dispatch
   > let classes = [|classify (I8 i8); classify (U8 u8)|]
   > EOF
   $ melc -ppx melppx -o valid.js valid.ml
-  $ node -e 'const assert = require("node:assert/strict"); const m = require("./valid.js"); assert.ok(m.i8 instanceof Int8Array); assert.ok(m.copy_i8 instanceof Int8Array); assert.ok(m.u8 instanceof Uint8Array); assert.ok(m.copy_u8 instanceof Uint8Array); assert.equal(m.copy_i8[0], -1); assert.equal(m.copy_u8[0], 255); assert.deepEqual(m.classes, ["i8", "u8"]); console.log("typed-array runtime controls: ok");'
-  typed-array runtime controls: ok
+  $ node -e 'const assert = require("node:assert/strict"); const m = require("./valid.js"); assert.ok(m.i8 instanceof Int8Array); assert.ok(m.copy_i8 instanceof Int8Array); assert.ok(m.u8 instanceof Uint8Array); assert.ok(m.copy_u8 instanceof Uint8Array); assert.equal(m.copy_i8[0], -1); assert.equal(m.copy_u8[0], 255); assert.deepEqual(m.classes, ["i8", "u8"]);'
