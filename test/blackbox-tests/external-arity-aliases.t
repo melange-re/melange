@@ -2,10 +2,7 @@ External aliases preserve arity and remain function values until applied.
 ReScript #6881; Melange's explicit [@u] calls already handle aliased types.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -61,14 +58,11 @@ ReScript #6881; Melange's explicit [@u] calls already handle aliased types.
   > let call_present () = optional ~x:7 ~y:3 ()
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
+  $ node --input-type=module <<'EOF'
+  > import assert from "node:assert/strict";
   > globalThis.arityCalls = 0;
-  > globalThis.combine = function(a, b) {
-  >   assert.equal(arguments.length, 2);
-  >   globalThis.arityCalls++;
-  >   return a * 10 + b;
-  > };
+  > const fixture = (await import("./_build/default/out/arity-fixture.cjs")).default;
+  > globalThis.combine = fixture;
   > globalThis.unary = function(a) {
   >   assert.equal(arguments.length, 1);
   >   globalThis.arityCalls++;
@@ -79,28 +73,21 @@ ReScript #6881; Melange's explicit [@u] calls already handle aliased types.
   >   assert.equal(arguments.length, 2);
   >   return (x === undefined ? 0 : x) * 10 + y;
   > };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const before = globalThis.arityCalls;
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     const fixture = require("./_build/default/out/arity-fixture.cjs");
-  >     assert.equal(globalThis.arityCalls, before);
-  >     assert.equal(m.alias_value, globalThis.combine);
-  >     assert.equal(m.direct_value, globalThis.combine);
-  >     assert.equal(m.imported_value, fixture.combine);
-  >     assert.equal(m.default_value, fixture.default);
-  >     const binary = ["call_alias", "call_direct", "call_curried_alias", "call_curried_direct",
-  >       "call_scoped", "call_imported", "call_imported_direct", "call_default", "call_default_direct"];
-  >     for (const name of binary) assert.equal(m[name](2, 3), 23);
-  >     assert.equal(m.call_unary_alias(4), 5);
-  >     assert.equal(m.call_unary_direct(4), 5);
-  >     assert.equal(globalThis.arityCalls - before, binary.length + 2);
-  >     assert.equal(m.call_missing(), 3);
-  >     assert.equal(m.call_present(), 73);
-  >     console.log(ext, "external arity and function values: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > for (const ext of ["js", "mjs"]) {
+  >   const before = globalThis.arityCalls;
+  >   const m = await import("./_build/default/out/input." + ext);
+  >   assert.equal(globalThis.arityCalls, before);
+  >   assert.equal(m.alias_value, globalThis.combine);
+  >   assert.equal(m.direct_value, globalThis.combine);
+  >   assert.equal(m.imported_value, fixture.combine);
+  >   assert.equal(m.default_value, fixture.default);
+  >   const binary = ["call_alias", "call_direct", "call_curried_alias", "call_curried_direct",
+  >     "call_scoped", "call_imported", "call_imported_direct", "call_default", "call_default_direct"];
+  >   for (const name of binary) assert.equal(m[name](2, 3), 23);
+  >   assert.equal(m.call_unary_alias(4), 5);
+  >   assert.equal(m.call_unary_direct(4), 5);
+  >   assert.equal(globalThis.arityCalls - before, binary.length + 2);
+  >   assert.equal(m.call_missing(), 3);
+  >   assert.equal(m.call_present(), 73);
+  > }
   > EOF
-  $ node check.cjs
-  js external arity and function values: ok
-  mjs external arity and function values: ok
