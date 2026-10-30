@@ -2,10 +2,7 @@ ReScript #8582: dynamically imported externals retain their FFI adapters.
 The baseline records failures; the fix changes these observations to assertions.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -17,7 +14,6 @@ The baseline records failures; the fix changes these observations to assertions.
   > EOF
   $ mkdir -p node_modules/audit-adapted-ffi
   $ cat > node_modules/audit-adapted-ffi/index.js <<'EOF'
-  > "use strict";
   > globalThis.auditLoads = (globalThis.auditLoads || 0) + 1;
   > exports.sum = function(...args) { return args.reduce((a, b) => a + b, 0); };
   > exports.unwrap = function(x) { return String(x); };
@@ -55,63 +51,47 @@ The baseline records failures; the fix changes these observations to assertions.
   >   [@@mel.module "audit-adapted-ffi"] [@@mel.scope ("scope", "nested")]
   > let load_raw () = Js.import raw
   > EOF
-  $ cat > check.cjs <<'EOF'
-  > "use strict";
-  > const assert = require("node:assert/strict");
-  > const fs = require("node:fs");
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     if (ext === "js") assert.equal(globalThis.auditLoads, undefined);
-  >     const cases = [
-  >       ["sum", 6], ["unwrap", "payload"], ["optional", 7],
-  >       ["nullable", [-1, -1, 8]], ["unit", 0]
-  >     ];
-  >     for (const [name, expected] of cases) {
-  >       let correct = false;
-  >       try { assert.deepEqual(await m["run_" + name](), expected); correct = true; }
-  >       catch (_) {}
-  >       console.log(ext, name, correct ? "correct" : "incorrect");
-  >     }
-  >     const target = await import("audit-adapted-ffi");
-  >     assert.equal(await m.load_raw(), target.raw);
-  >     assert.equal(globalThis.auditLoads, 1);
-  >     const source = fs.readFileSync("./_build/default/out/input." + ext, "utf8");
-  >     assert.doesNotMatch(source, /require\("audit-adapted-ffi"\)/);
-  >     assert.doesNotMatch(source, /import .* from "audit-adapted-ffi"/);
-  >     console.log(ext, "identity and lazy loading: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  $ cat > check.mjs <<'EOF'
+  > import assert from 'node:assert/strict';
+  > import fs from 'node:fs';
+  > for (const ext of ["js", "mjs"]) {
+  >   const m = await import("./_build/default/out/input." + ext);
+  >   if (ext === "js") assert.equal(globalThis.auditLoads, undefined);
+  >   for (const name of ["sum", "unwrap", "optional", "nullable", "unit"])
+  >     console.log(ext, name, JSON.stringify(await m["run_" + name]()));
+  >   const target = await import("audit-adapted-ffi");
+  >   assert.equal(await m.load_raw(), target.raw);
+  >   assert.equal(globalThis.auditLoads, 1);
+  >   const source = fs.readFileSync("./_build/default/out/input." + ext, "utf8");
+  >   assert.doesNotMatch(source, /require\("audit-adapted-ffi"\)/);
+  >   assert.doesNotMatch(source, /import .* from "audit-adapted-ffi"/);
+  > }
   > EOF
   $ echo '()' > flags.sexp
   $ dune build @melange
-  $ node check.cjs
-  js sum incorrect
-  js unwrap incorrect
-  js optional incorrect
-  js nullable incorrect
-  js unit incorrect
-  js identity and lazy loading: ok
-  mjs sum incorrect
-  mjs unwrap incorrect
-  mjs optional incorrect
-  mjs nullable incorrect
-  mjs unit incorrect
-  mjs identity and lazy loading: ok
+  $ node check.mjs
+  js sum undefined
+  js unwrap "[object Object]"
+  js optional -1
+  js nullable [0,1,2]
+  js unit 1
+  mjs sum undefined
+  mjs unwrap "[object Object]"
+  mjs optional -1
+  mjs nullable [0,1,2]
+  mjs unit 1
   $ melc -ppx melppx -o scoped.js scoped.ml > scoped.log 2>&1; echo $?
   2
   $ echo '(--mel-cross-module-opt)' > flags.sexp
   $ dune build @melange
-  $ node check.cjs
-  js sum incorrect
-  js unwrap incorrect
-  js optional incorrect
-  js nullable incorrect
-  js unit incorrect
-  js identity and lazy loading: ok
-  mjs sum incorrect
-  mjs unwrap incorrect
-  mjs optional incorrect
-  mjs nullable incorrect
-  mjs unit incorrect
-  mjs identity and lazy loading: ok
+  $ node check.mjs
+  js sum undefined
+  js unwrap "[object Object]"
+  js optional -1
+  js nullable [0,1,2]
+  js unit 1
+  mjs sum undefined
+  mjs unwrap "[object Object]"
+  mjs optional -1
+  mjs nullable [0,1,2]
+  mjs unit 1
