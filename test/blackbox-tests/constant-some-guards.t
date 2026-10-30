@@ -1,10 +1,7 @@
 Known constant Some values do not need presence guards. Presence must remain distinct from payload truthiness.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.8)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.8)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit (target output) (alias melange))
   > EOF
@@ -21,7 +18,7 @@ Known constant Some values do not need presence guards. Presence must remain dis
   >   match a, b with _, Some true | Some true, _ -> "a" | _ -> "b"
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require('node:assert/strict');
   > const t = require('./_build/default/output/input.js');
   > for (const [name, expected] of [['number', 42], ['zero', 0], ['false_payload', false], ['nested', 1], ['deeper', 3], ['absent', 2]]) {
@@ -33,13 +30,10 @@ Known constant Some values do not need presence guards. Presence must remain dis
   > assert.equal(calls, 1);
   > for (const a of [false, true]) for (const b of [false, true])
   >   assert.equal(t.payload_truthiness(a, b), a || b ? 'a' : 'b');
-  > console.log('payload truthiness and effects: ok');
   > EOF
-  $ node check.cjs
   number presence guard: true
   zero presence guard: true
   false_payload presence guard: true
   nested presence guard: true
   deeper presence guard: true
   absent presence guard: false
-  payload truthiness and effects: ok
