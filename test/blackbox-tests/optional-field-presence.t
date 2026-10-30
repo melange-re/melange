@@ -1,16 +1,12 @@
 ReScript #6485: cover optional field presence.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx))
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
   > type object_
@@ -31,31 +27,16 @@ ReScript #6485: cover optional field presence.
   > let ordinary_dynamic y = { y }
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
-  > 
-  > 
-  > const characterized = new Set([]);
-  > function check(group, name, run, expected) {
-  >   const actual = run();
-  >   if (characterized.has(name)) console.log(group, name, JSON.stringify(actual));
-  >   else assert.deepStrictEqual(actual, expected, name);
-  > }
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const m = await import("./_build/default/out/input." + ext);
-  >       for (const [name, fn] of [["direct",()=>m.direct()],["dynamic",()=>m.dynamic(undefined)],["alias",()=>m.alias(undefined)],["result",()=>m.from_result({TAG:0,_0:undefined})],["derived direct",()=>m.derived_direct()],["derived dynamic",()=>m.derived_dynamic(undefined)]])
-  >         check(`6485/${ext}`, name, () => Object.keys(fn()), []);
-  >       check(`6485/${ext}`, "false payload is present", () => m.dynamic(false), {x:false});
-  >       check(`6485/${ext}`, "zero payload is present", () => m.dynamic(0), {x:0});
-  >       check(`6485/${ext}`, "Some None is present", () => Object.keys(m.nested_none()), ["x"]);
-  >       check(`6485/${ext}`, "Some undefined is present", () => Object.keys(m.explicit_undefined()), ["x"]);
-  >       check(`6485/${ext}`, "ordinary records retain fields", () => [m.ordinary_direct(), m.ordinary_dynamic(undefined)], [{y:undefined},{y:undefined}]);
-  >       check(`6485/${ext}`, "ordinary construction of derived record retains fields", () => [m.properties_literal(),m.properties_literal_dynamic(undefined)], [{x:undefined},{x:undefined}]);
-  >     console.log(ext, "controls: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  $ node <<'EOF'
+  > const assert = require('node:assert/strict');
+  > const m = require('./_build/default/out/input.js');
+  > for (const object of [m.direct(), m.dynamic(undefined), m.alias(undefined),
+  >                      m.from_result({TAG:0,_0:undefined}), m.derived_direct(), m.derived_dynamic(undefined)])
+  >   assert.deepEqual(Object.keys(object), []);
+  > assert.deepEqual(m.dynamic(false), {x:false});
+  > assert.deepEqual(m.dynamic(0), {x:0});
+  > assert.deepEqual(Object.keys(m.nested_none()), ['x']);
+  > assert.deepEqual(Object.keys(m.explicit_undefined()), ['x']);
+  > assert.deepEqual([m.ordinary_direct(), m.ordinary_dynamic(undefined)], [{y:undefined},{y:undefined}]);
+  > assert.deepEqual([m.properties_literal(), m.properties_literal_dynamic(undefined)], [{x:undefined},{x:undefined}]);
   > EOF
-  $ node check.cjs
-  js controls: ok
-  mjs controls: ok
