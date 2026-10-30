@@ -28,11 +28,8 @@ Valid polymorphic and scoped getters still read their receiver once.
   > EOF
   $ melc -ppx melppx valid.ml -o valid.js
   $ node <<'EOF'
-  > const assert = require('node:assert/strict');
   > const t = require('./valid.js');
   > let reads = 0;
-  > assert.deepEqual(t.read({get value() { ++reads; return 3; }, nested: {value: 4}}), [3, 4]);
-  > assert.equal(reads, 1);
-  > console.log('valid getters: ok');
+  > console.log(t.read({get value() { ++reads; return 3; }, nested: {value: 4}}), reads);
   > EOF
-  valid getters: ok
+  [ 3, 4 ] 1
