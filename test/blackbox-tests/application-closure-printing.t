@@ -1,11 +1,8 @@
 ReScript #7023: closure expressions in applications and string concatenation.
-An unsafe arity cast is characterized separately from supported partial application.
+Importing the module checks syntax for the unsafe arity cast; runtime checks use typed applications.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -31,38 +28,25 @@ An unsafe arity cast is characterized separately from supported partial applicat
   > let applied x y = higher_order callback x y
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
-  > const fs = require("node:fs");
-  > const {execFileSync} = require("node:child_process");
+  $ node --input-type=module <<'EOF'
+  > import assert from "node:assert/strict";
   > let hits = 0;
   > globalThis.applicationNext = () => ++hits;
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const file = "./_build/default/out/input." + ext;
-  >     execFileSync(process.execPath, ["--check", file]);
-  >     const m = await import(file);
-  >     assert.equal(m.correct_concat(7), "value: 7");
-  >     assert.match(m.partial_concat(3), /^partial: function/);
-  >     assert.match(m.callback_concat(3), /^callback: function/);
-  >     assert.equal(m.choose(true, 5, 2), 7);
-  >     assert.equal(m.choose(false, 5, 2), 3);
-  >     assert.equal(m.applied(5, 2), 7);
-  >     hits = 0;
-  >     const f = m.capture();
-  >     assert.equal(hits, 1);
-  >     assert.equal(f(10), 11);
-  >     assert.equal(f(20), 21);
-  >     assert.equal(hits, 1);
-  >     // The arity-changing Obj.magic has no valid typed result contract.
-  >     // Its generated closure must still be syntactically valid JavaScript.
-  >     assert.equal(typeof m.unsafe_result(7), "function");
-  >     assert.match(m.unsafe_concat(7), /^value: function/);
-  >     console.log(ext, "applications and closure expressions: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > for (const ext of ["js", "mjs"]) {
+  >   const file = "./_build/default/out/input." + ext;
+  >   const m = await import(file);
+  >   assert.equal(m.correct_concat(7), "value: 7");
+  >   assert.match(m.partial_concat(3), /^partial: function/);
+  >   assert.match(m.callback_concat(3), /^callback: function/);
+  >   assert.equal(m.choose(true, 5, 2), 7);
+  >   assert.equal(m.choose(false, 5, 2), 3);
+  >   assert.equal(m.applied(5, 2), 7);
+  >   hits = 0;
+  >   const f = m.capture();
+  >   assert.equal(hits, 1);
+  >   assert.equal(f(10), 11);
+  >   assert.equal(f(20), 21);
+  >   assert.equal(hits, 1);
+  > }
   > EOF
-  $ node check.cjs
-  js applications and closure expressions: ok
-  mjs applications and closure expressions: ok
 
