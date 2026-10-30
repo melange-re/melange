@@ -3,10 +3,7 @@ Exercise the semantics a dedicated FFI feature must preserve, including observab
 tag effects, receiver binding, frozen raw strings, and per-site array identity.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
@@ -35,9 +32,8 @@ tag effects, receiver binding, frozen raw strings, and per-site array identity.
   > let empty_call () = (empty () [@u])
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
-  > const assert = require("node:assert/strict");
-  > const {execFileSync} = require("node:child_process");
+  $ node --input-type=module <<'EOF'
+  > import assert from "node:assert/strict";
   > let calls = 0;
   > globalThis.auditTag = (strings, ...values) => {
   >   calls++;
@@ -49,44 +45,37 @@ tag effects, receiver binding, frozen raw strings, and per-site array identity.
   >   marker: {},
   >   tag(strings, ...values) { return {receiver: this.marker, strings, values}; }
   > };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     const file = "./_build/default/out/input." + ext;
-  >     execFileSync(process.execPath, ["--check", file]);
-  >     const m = await import(file);
-  >     const first = m.apply(1);
-  >     assert.deepEqual([...first.strings], ["value:", ""]);
-  >     assert.deepEqual(first.values, [1]);
-  >     assert.equal(first.strings, m.apply(2).strings);
-  >     assert.equal(first.strings, m.apply_again(3).strings);
-  >     const escaped = m.escaped_call("x");
-  >     assert.deepEqual([...escaped.strings], ["line\n", "`\${literal}\\end"]);
-  >     assert.deepEqual([...escaped.strings.raw], ["line\\n", "\\`\\${literal}\\\\end"]);
-  >     const object = {};
-  >     const multi = m.multiple_call(7, object);
-  >     assert.deepEqual([...multi.strings], ["a", "b", "c"]);
-  >     assert.deepEqual(multi.values, [7, object]);
-  >     assert.equal(multi.values[1], object);
-  >     const received = m.receiver_call(9);
-  >     assert.equal(received.receiver, globalThis.auditScope.marker);
-  >     assert.deepEqual(received.values, [9]);
-  >     const empty = m.empty_call();
-  >     assert.deepEqual([...empty.strings], [""]);
-  >     assert.deepEqual(empty.values, []);
-  >     const before = calls;
-  >     m.discard(1);
-  >     assert.equal(calls, before + 1);
-  >     const saved = globalThis.auditTag, thrown = {};
-  >     globalThis.auditTag = () => { throw thrown; };
-  >     assert.throws(() => m.discard(2), e => e === thrown);
-  >     globalThis.auditTag = saved;
-  >     console.log(ext, "native templates, effects, raw strings and site identity: ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > for (const ext of ["js", "mjs"]) {
+  >   const file = "./_build/default/out/input." + ext;
+  >   const m = await import(file);
+  >   const first = m.apply(1);
+  >   assert.deepEqual([...first.strings], ["value:", ""]);
+  >   assert.deepEqual(first.values, [1]);
+  >   assert.equal(first.strings, m.apply(2).strings);
+  >   assert.equal(first.strings, m.apply_again(3).strings);
+  >   const escaped = m.escaped_call("x");
+  >   assert.deepEqual([...escaped.strings], ["line\n", "`\${literal}\\end"]);
+  >   assert.deepEqual([...escaped.strings.raw], ["line\\n", "\\`\\${literal}\\\\end"]);
+  >   const object = {};
+  >   const multi = m.multiple_call(7, object);
+  >   assert.deepEqual([...multi.strings], ["a", "b", "c"]);
+  >   assert.deepEqual(multi.values, [7, object]);
+  >   assert.equal(multi.values[1], object);
+  >   const received = m.receiver_call(9);
+  >   assert.equal(received.receiver, globalThis.auditScope.marker);
+  >   assert.deepEqual(received.values, [9]);
+  >   const empty = m.empty_call();
+  >   assert.deepEqual([...empty.strings], [""]);
+  >   assert.deepEqual(empty.values, []);
+  >   const before = calls;
+  >   m.discard(1);
+  >   assert.equal(calls, before + 1);
+  >   const saved = globalThis.auditTag, thrown = {};
+  >   globalThis.auditTag = () => { throw thrown; };
+  >   assert.throws(() => m.discard(2), e => e === thrown);
+  >   globalThis.auditTag = saved;
+  > }
   > EOF
-  $ node check.cjs
-  js native templates, effects, raw strings and site identity: ok
-  mjs native templates, effects, raw strings and site identity: ok
 
 The dedicated FFI annotation is not recognized on the baseline compiler.
 
