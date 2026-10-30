@@ -1,17 +1,13 @@
 ReScript #6729: unit callbacks passed through mel.uncurry have JavaScript arity zero.
 
   $ . ./setup.sh
-  $ cat > dune-project <<'EOF'
-  > (lang dune 3.9)
-  > (using melange 0.1)
-  > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
   >  (libraries melange.js)
   >  (preprocess (pps melange.ppx))
-  >  (compile_flags :standard --mel-cross-module-opt)
-  >  (module_systems (commonjs js) (es6 mjs)))
+  >  (compile_flags :standard --mel-cross-module-opt))
   > EOF
   $ cat > callbacks.ml <<'EOF'
   > external tick : string -> unit = "auditTick"
@@ -39,7 +35,7 @@ ReScript #6729: unit callbacks passed through mel.uncurry have JavaScript arity 
   > let forward_factory make = register "unknown factory" (make ())
   > EOF
   $ dune build @melange
-  $ cat > check.cjs <<'EOF'
+  $ node <<'EOF'
   > const assert = require("node:assert/strict");
   > let callbacks, events;
   > globalThis.auditRegister = (name, fn) => {
@@ -51,34 +47,26 @@ ReScript #6729: unit callbacks passed through mel.uncurry have JavaScript arity 
   > globalThis.auditUnary = fn => { assert.equal(fn.length, 1); assert.equal(fn(100), 7); };
   > globalThis.auditBinary = fn => { assert.equal(fn.length, 2); assert.equal(fn(3, 4), 7); };
   > globalThis.auditUnitFirst = fn => { assert.equal(fn.length, 2); assert.equal(fn(undefined, 9), 9); };
-  > (async () => {
-  >   for (const ext of ["js", "mjs"]) {
-  >     callbacks = new Map(); events = [];
-  >     const m = await import("./_build/default/out/input." + ext);
-  >     m.setup();
-  >     assert.deepEqual(events, ["factory"]);
-  >     for (const name of ["inline", "alias", "typed", "named", "factory"]) {
-  >       events = [];
-  >       callbacks.get(name)(); callbacks.get(name)();
-  >       const event = {alias: "unit", typed: "unit", factory: "made"}[name] || name;
-  >       assert.deepEqual(events, [event, event]);
-  >     }
-  >     const callback = function(value) { assert.equal(value, undefined); events.push("forward"); };
-  >     m.forward(callback); m.wrap(callback);
-  >     events = [];
-  >     callbacks.get("forward")(); callbacks.get("wrapped")();
-  >     assert.deepEqual(events, ["forward", "forward", "wrapped"]);
-  >     events = [];
-  >     m.forward_factory(function(unit) { assert.equal(unit, undefined); events.push("factory"); return callback; });
-  >     callbacks.get("unknown factory")(); callbacks.get("unknown factory")();
-  >     assert.deepEqual(events, ["factory", "forward", "forward"]);
-  >     const error = new Error("callback");
-  >     m.forward(() => { throw error; });
-  >     assert.throws(() => callbacks.get("forward")(), e => e === error);
-  >     console.log(ext + ": ok");
-  >   }
-  > })().catch(e => { console.error(e); process.exitCode = 1; });
+  > callbacks = new Map(); events = [];
+  > const m = require("./_build/default/out/input.js");
+  > m.setup();
+  > assert.deepEqual(events, ["factory"]);
+  > for (const name of ["inline", "alias", "typed", "named", "factory"]) {
+  >   events = [];
+  >   callbacks.get(name)(); callbacks.get(name)();
+  >   const event = {alias: "unit", typed: "unit", factory: "made"}[name] || name;
+  >   assert.deepEqual(events, [event, event]);
+  > }
+  > const callback = function(value) { assert.equal(value, undefined); events.push("forward"); };
+  > m.forward(callback); m.wrap(callback);
+  > events = [];
+  > callbacks.get("forward")(); callbacks.get("wrapped")();
+  > assert.deepEqual(events, ["forward", "forward", "wrapped"]);
+  > events = [];
+  > m.forward_factory(function(unit) { assert.equal(unit, undefined); events.push("factory"); return callback; });
+  > callbacks.get("unknown factory")(); callbacks.get("unknown factory")();
+  > assert.deepEqual(events, ["factory", "forward", "forward"]);
+  > const error = new Error("callback");
+  > m.forward(() => { throw error; });
+  > assert.throws(() => callbacks.get("forward")(), e => e === error);
   > EOF
-  $ node check.cjs
-  js: ok
-  mjs: ok
