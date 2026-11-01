@@ -64,7 +64,7 @@ labels remain inferred, including under polymorphic bindings and local types.
   }
   /* reordered Not a pure module */
 
-The PPX currently suppresses warning 20 in user arguments and callees,
+Applications inside user arguments and callees still trigger warning 20,
 including when nested inside another generated uncurried call.
 
   $ cat > rejected.ml <<'EOF'
@@ -83,6 +83,36 @@ including when nested inside another generated uncurried call.
   >   (obj ())##m ((obj ())##n ((failwith "boom") 123))
   > EOF
   $ melc -ppx melppx -w +20 -warn-error +20 -c rejected.ml > /dev/null
+  File "rejected.ml", line 3, characters 33-36:
+  3 |   (obj ())##m ((failwith "boom") 123)
+                                       ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  
+  File "rejected.ml", line 5, characters 34-37:
+  5 |   (obj ())#@fn ((failwith "boom") 123)
+                                        ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  
+  File "rejected.ml", line 7, characters 25-28:
+  7 |   (fn ((failwith "boom") 123) [@u])
+                               ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  
+  File "rejected.ml", line 9, characters 22-25:
+  9 |   (((failwith "boom") 123) : < .. > Js.t)##m 1
+                            ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  
+  File "rejected.ml", line 11, characters 22-25:
+  11 |   (((failwith "boom") 123) 1 [@u])
+                             ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  
+  File "rejected.ml", line 13, characters 46-49:
+  13 |   (obj ())##m ((obj ())##n ((failwith "boom") 123))
+                                                     ^^^
+  Error (warning 20 [ignored-extra-argument]): this argument will not be used by the function.
+  [2]
 
 The caller can still disable warning 20.
 

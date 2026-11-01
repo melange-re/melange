@@ -46,6 +46,7 @@ val mel_get_index : attribute
 val mel_get_arity : attribute
 val mel_set : attribute
 val internal_expansive : attribute
+val internal_uncurried : attribute
 val mel_return_undefined : attribute
 
 module Param_modifier : sig
@@ -72,7 +73,6 @@ val iter_process_mel_as_cst :
   attribute list -> Melange_ffi.External_arg_spec.Arg_cst.t option
 
 val unboxable_type_in_prim_decl : attribute
-val ignored_extra_argument : attribute
 val unused_type_declaration : attribute
 val has_mel_as_payload : attribute list -> attribute list * attribute option
 val mel_ffi : Melange_ffi.External_ffi_types.t -> attribute
