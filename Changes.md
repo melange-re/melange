@@ -41,6 +41,10 @@ Unreleased
   conversions for overflow and nonfinite values
   ([#2125](https://github.com/melange-re/melange/pull/2125),
   [#2127](https://github.com/melange-re/melange/pull/2127))
+- compiler: preserve floating-point boundaries and IEEE rounding instead
+  of applying wrapping integer arithmetic during constant folding
+  ([#2068](https://github.com/melange-re/melange/pull/2068),
+  [#2071](https://github.com/melange-re/melange/pull/2071))
 
 
 7.0.1-55 2026-07-12
