@@ -36,16 +36,14 @@
   1 | let () = ref 0 |. incr
                      ^^
   Error (alert unprocessed): `[@mel.*]' attributes found in external declaration. Did you forget to preprocess with `melange.ppx'?
-  
   File "x.ml", line 2, characters 12-14:
   2 | let () = foo##bar
                   ^^
   Error (alert unprocessed): `[@mel.*]' attributes found in external declaration. Did you forget to preprocess with `melange.ppx'?
-  
   File "x.ml", line 1, characters 15-17:
   1 | let () = ref 0 |. incr
                      ^^
-  Error: |. is not a valid value identifier.
+  Error: '|.' is not a valid value identifier.
   [1]
 
   $ cat > x.ml <<EOF
@@ -57,7 +55,6 @@
   1 | let x = fun [@u] () -> 42
                     ^
   Error (alert unprocessed): Found uncurried (`[@u]') attribute. Did you forget to preprocess with `melange.ppx'?
-  
   File "x.ml", line 2, characters 16-17:
   2 | let y = (x () [@u])
                       ^
@@ -78,7 +75,6 @@ Make it non-fatal
   1 | let x = fun [@u] () -> 42
                     ^
   Alert unprocessed: Found uncurried (`[@u]') attribute. Did you forget to preprocess with `melange.ppx'?
-  
   File "x.ml", line 2, characters 16-17:
   2 | let y = (x () [@u])
                       ^

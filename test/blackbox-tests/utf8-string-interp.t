@@ -9,7 +9,6 @@ Test edge cases on unicode string interpolation
   1 | let x = {j| Hello, $()|j}
               ^^^^^^^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
-  
   File "x.ml", line 1, characters 19-22:
   1 | let x = {j| Hello, $()|j}
                          ^^^
@@ -24,7 +23,6 @@ Test edge cases on unicode string interpolation
   1 | let x = {j| Hello, $(   )|j}
               ^^^^^^^^^^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
-  
   File "x.ml", line 1, characters 19-25:
   1 | let x = {j| Hello, $(   )|j}
                          ^^^^^^
@@ -42,7 +40,8 @@ Test edge cases on unicode string interpolation
   File "x.ml", line 3, characters 15-16:
   3 |   {j| Hello, $(y)|j}
                      ^
-  Error: The value y has type int but an expression was expected of type string
+  Error: This expression has type int but an expression was expected of type
+           string
   [2]
 
   $ cat > x.ml <<'EOF'
@@ -84,7 +83,6 @@ take uppercase variables into account
   4 | let x = {j|Hello, $M.world|j}
               ^^^^^^^^^^^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
-  
   File "x.ml", line 4, characters 21-22:
   4 | let x = {j|Hello, $M.world|j}
                            ^
@@ -115,7 +113,6 @@ record field access not yet supported
   1 | let x = {j|$(hello world)|j}
               ^^^^^^^^^^^^^^^^^^^^
   Warning 108 [melange-uninterpreted-delimiters]: Uninterpreted delimiters j
-  
   File "x.ml", line 1, characters 14-28:
   1 | let x = {j|$(hello world)|j}
                     ^^^^^^^^^^^^^^

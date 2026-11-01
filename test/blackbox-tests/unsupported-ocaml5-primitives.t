@@ -11,8 +11,8 @@ Demonstrate OCaml 5 primitives that are currently unsupported in Melange
   > EOF
 
   $ melc x.ml
-  File "x.ml", line 3, characters 9-31:
-  3 | let () = perform (Obj.magic ())
-               ^^^^^^^^^^^^^^^^^^^^^^
-  Error: OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not currently supported in Melange
+  File "x.ml", line 2, characters 0-42:
+  2 | external perform : 'a t -> 'a = "%perform"
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Unknown builtin primitive "%perform"
   [2]
