@@ -29,4 +29,4 @@ ReScript #9160 exposed the analogous problem in its %todo expansion.
   > const m = require('./_build/default/out/input.js');
   > console.log(m.baseline, m.shadow_js, m.shadow_obj, m.get([7], 0));
   > EOF
-  1 undefined 2 7
+  1 1 1 7

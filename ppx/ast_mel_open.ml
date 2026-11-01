@@ -25,10 +25,20 @@
 open Import
 
 let convert_mel_error_function =
-  let isCamlExceptionOrOpenVariant : Longident.t =
-    Ldot (Ldot (Lident "Js", "Exn"), "isCamlExceptionOrOpenVariant")
+  let primitive ~loc name result =
+    let open Ast_helper in
+    (* Keep the helper's scope outside user patterns and expressions. *)
+    Exp.letmodule ~loc
+      { txt = Some "Primitive"; loc }
+      (Mod.structure ~loc
+         [
+           Str.primitive ~loc
+             (Val.mk ~loc ~prim:[ name ] { txt = "run"; loc }
+                (Typ.arrow ~loc Nolabel (Typ.var ~loc "a")
+                   (Typ.constr ~loc { txt = Lident result; loc } [])));
+         ])
+      (Exp.ident ~loc { txt = Ldot (Lident "Primitive", "run"); loc })
   in
-  let obj_magic : Longident.t = Ldot (Lident "Obj", "magic") in
   let check_cases =
     let rec check_pat pat =
       match pat.ppat_desc with
@@ -60,18 +70,12 @@ let convert_mel_error_function =
       (Pat.var ~loc:generated_loc { txt; loc = generated_loc })
       (Exp.ifthenelse ~loc:generated_loc
          (Exp.apply ~loc:generated_loc
-            (Exp.ident ~loc:generated_loc
-               { txt = isCamlExceptionOrOpenVariant; loc = generated_loc })
+            (primitive ~loc:generated_loc "caml_is_extension" "bool")
             [ (Nolabel, txt_expr) ])
          (Exp.match_ ~loc:generated_loc
-            (Exp.constraint_ ~loc:generated_loc
-               (Exp.apply ~loc:generated_loc
-                  (Exp.ident ~loc:generated_loc
-                     { txt = obj_magic; loc = generated_loc })
-                  [ (Nolabel, txt_expr) ])
-               (Typ.constr ~loc:generated_loc
-                  { txt = Lident "exn"; loc = generated_loc }
-                  []))
+            (Exp.apply ~loc:generated_loc
+               (primitive ~loc:generated_loc "%identity" "exn")
+               [ (Nolabel, txt_expr) ])
             (List.map
                ~f:(fun ({ pc_rhs; _ } as x) ->
                  let loc = Ast_location.ghost pc_rhs.pexp_loc in
