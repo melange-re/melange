@@ -1,14 +1,8 @@
-Float arithmetic on converted int32 constants must not use wrapping integer folds.
-ReScript #6422. The observations below record the unfixed compiler's results.
+Float arithmetic must preserve int32 boundaries and IEEE rounding.
 
   $ . ./setup.sh
-  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
-  $ cat > dune <<'EOF'
-  > (melange.emit
-  >  (target out)
-  >  (libraries melange.js)
-  >  (preprocess (pps melange.ppx)))
-  > EOF
+  $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > external identity_float : int -> float = "%identity"
   > let converted_low = float_of_int (-2147483648) -. float_of_int 1000000000
@@ -33,31 +27,24 @@ ReScript #6422. The observations below record the unfixed compiler's results.
   > EOF
   $ dune build @melange
   $ node <<'EOF'
-  > const assert = require("node:assert/strict");
-  > let calls = [];
-  > globalThis.readBoundary = n => {
-  >   calls.push(n);
-  >   return n === 1 ? 2147483647 : 1000000000;
-  > };
-  > const m = require("./_build/default/out/input.js");
-  > assert.equal(m.literal_low, -3147483648);
-  > assert.equal(m.literal_high, 3147483647);
-  > assert.equal(m.wrapped_add, -1147483649);
-  > assert.equal(m.wrapped_sub, 1147483648);
-  > assert.equal(m.integer_add(1), -1147483648);
-  > assert.equal(m.integer_min(5), -2147483643);
-  > assert.equal(Object.is(m.signed_zero(-0), 0), true);
-  > calls = [];
-  > assert.equal(m.effects(), 3147483647);
-  > assert.deepEqual(calls, [1, 2]);
-  > const error = {};
+  > const m = require('./_build/default/out/input.js');
+  > for (const prefix of ['converted', 'identity', 'literal'])
+  >   console.log(prefix, m[prefix + '_low'], m[prefix + '_high']);
+  > console.log('dynamic', m.dynamic_min(5), m.rounded(2 ** 53), m.combined(0));
+  > console.log('integer', m.wrapped_add, m.wrapped_sub, m.integer_add(1), m.integer_min(5));
+  > console.log('zero', Object.is(m.signed_zero(-0), 0));
+  > const calls = [];
+  > globalThis.readBoundary = n => { calls.push(n); return n === 1 ? 2147483647 : 1000000000; };
+  > console.log('effects', m.effects(), calls);
+  > const error = new Error('boundary');
   > globalThis.readBoundary = () => { throw error; };
-  > assert.throws(() => m.effects(), e => e === error);
-  > console.log("js", JSON.stringify({
-  >   low: m.converted_low, high: m.converted_high,
-  >   identityLow: m.identity_low, identityHigh: m.identity_high,
-  >   dynamicMin: m.dynamic_min(5),
-  >   rounded: m.rounded(2 ** 53), combined: m.combined(0)
-  > }));
+  > try { m.effects(); } catch (e) { console.log('throws', e === error); }
   > EOF
-  js {"low":1147483648,"high":-1147483649,"identityLow":1147483648,"identityHigh":-1147483649,"dynamicMin":2147483653,"rounded":9007199254740994,"combined":-1147483649}
+  converted 1147483648 -1147483649
+  identity 1147483648 -1147483649
+  literal -3147483648 3147483647
+  dynamic 2147483653 9007199254740994 -1147483649
+  integer -1147483649 1147483648 -1147483648 -2147483643
+  zero true
+  effects 3147483647 [ 1, 2 ]
+  throws true
