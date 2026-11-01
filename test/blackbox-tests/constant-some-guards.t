@@ -1,6 +1,8 @@
 Known constant Some values do not need presence guards. Presence must remain distinct from payload truthiness.
 
   $ . ./setup.sh
+  $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > let number () = let opt = Some 42 in match opt with Some x -> x | None -> 0
   > let zero () = let opt = Some 0 in match opt with Some x -> x | None -> 42
@@ -13,10 +15,10 @@ Known constant Some values do not need presence guards. Presence must remain dis
   >   let a = Some val1 in let b = Some val2 in
   >   match a, b with _, Some true | Some true, _ -> "a" | _ -> "b"
   > EOF
-  $ melc input.ml -o input.js
+  $ dune build @melange
   $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > const t = require('./input.js');
+  > const t = require('./_build/default/out/input.js');
   > for (const [name, expected] of [['number', 42], ['zero', 0], ['false_payload', false], ['nested', 1], ['deeper', 3], ['absent', 2]]) {
   >   assert.equal(t[name](), expected);
   >   console.log(t[name].toString());
