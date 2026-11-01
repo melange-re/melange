@@ -127,5 +127,5 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   switch [1,2]
   switch [1,3]
   switch [1,4]
-  bounds 2
+  bounds 3
   method 3 setter [2,0]

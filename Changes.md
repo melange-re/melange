@@ -7,7 +7,8 @@ Unreleased
   [#2154](https://github.com/melange-re/melange/pull/2154))
 
 - compiler: finish evaluating each operand before executing statements from
-  later operands, preserving mutable reads in calls, tuples, arrays and records
+  later operands, preserving mutable reads in calls, collections and loop bounds
+  while retaining JavaScript method receivers
   ([#2141](https://github.com/melange-re/melange/pull/2141),
   [#2142](https://github.com/melange-re/melange/pull/2142))
 - CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
