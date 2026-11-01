@@ -67,6 +67,26 @@ let call_info_of_apply_status = function
   | App_uncurry -> { arity = Full; call_info = Call_na }
   | App_na -> { arity = NA; call_info = Call_ml }
 
+let compile_args compile args =
+  let args = List.map args ~f:(fun arg -> (arg, compile arg)) in
+  List.fold_right args ~init:([], [])
+    ~f:(fun (arg, (output : Js_output.t)) (blocks, values) ->
+      match output.value with
+      | None -> assert false
+      | Some value ->
+          (* Finish each operand before executing the next operand's statements.
+             A side-effect-free expression can still read mutable state. *)
+          let block, value =
+            match (blocks, arg) with
+            | [], _ | _, (Lam.Lvar _ | Lconst _ | Lfunction _) ->
+                (output.block, value)
+            | _ ->
+                let id = Ident.create_tmp () in
+                ( output.block @ [ S.define_variable ~kind:Strict id value ],
+                  E.var id )
+          in
+          (List.append block blocks, value :: values))
+
 let apply_with_arity =
   let rec apply_with_arity (fn : J.expression) (arity : int list)
       (args : E.t list) (len : int) : E.t =
@@ -214,17 +234,8 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
         |> Option.value ~default:Js_cmj_format.single_na
       in
       let args_code, args =
-        let dummy = ([], []) in
-        if ap_args = [] then dummy
-        else
-          let arg_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-          List.fold_right
-            ~f:(fun arg_lambda (args_code, args) ->
-              match compile_lambda arg_cxt arg_lambda with
-              | { block; value = Some b; _ } ->
-                  (List.append block args_code, b :: args)
-              | _ -> assert false)
-            ap_args ~init:dummy
+        let arg_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
+        compile_args (compile_lambda arg_cxt) ap_args
       in
 
       let fn = E.ml_var_dot ~dynamic_import module_id field_name in
@@ -1342,15 +1353,14 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
     (args : Lam.t list) (lambda_cxt : Lam_compile_context.t) =
   let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
   match
-    List.split_map (met :: obj :: args) ~f:(fun x ->
+    compile_args
+      (fun x ->
         match x with
         | Lprim { primitive = Pccall { prim_name; _ }; args = []; _ }
         (* nullary external call*) ->
-            ([], E.var (Ident.create_js prim_name))
-        | _ -> (
-            match compile_lambda new_cxt x with
-            | { value = None; _ } -> assert false
-            | { block; value = Some b; _ } -> (block, b)))
+            Js_output.make [] ~value:(E.var (Ident.create_js prim_name))
+        | _ -> compile_lambda new_cxt x)
+      (met :: obj :: args)
   with
   | _, ([] | [ _ ]) -> assert false
   | args_code, label :: nobj :: args -> (
@@ -1361,8 +1371,7 @@ and compile_send (meth_kind : Lam_compat.meth_kind) (met : Lam.t) (obj : Lam.t)
           | Some (obj_code, v) -> ([ obj_code ], E.var v)
         in
         Js_output.output_of_block_and_expression lambda_cxt.continuation
-          (List.concat args_code @ obj_code)
-          (k cobj)
+          (args_code @ obj_code) (k cobj)
       in
       match meth_kind with
       | Self ->
@@ -1592,12 +1601,7 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       let ap_func = appinfo.ap_func in
       let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
       let[@ocaml.warning "-partial-match"] args_code, fn_code :: args =
-        List.fold_right (ap_func :: appinfo.ap_args) ~init:([], [])
-          ~f:(fun x (args_code, fn_code) ->
-            match compile_lambda new_cxt x with
-            | { block; value = Some b; _ } ->
-                (List.append block args_code, b :: fn_code)
-            | { value = None; _ } -> assert false)
+        compile_args (compile_lambda new_cxt) (ap_func :: appinfo.ap_args)
       in
       match (ap_func, lambda_cxt.continuation) with
       | ( Lvar fn_id,
@@ -1899,23 +1903,14 @@ and compile_prim (prim_info : Lam.prim_info)
   | { primitive = Pjs_fn_make _; args = [] | _ :: _ :: _; _ } -> assert false
   | { primitive = Pjs_object_create labels; args; _ } ->
       let args_block, args_expr =
-        match args with
-        | [] -> ([], [])
-        | _ :: _ ->
-            let new_cxt =
-              { lambda_cxt with continuation = NeedValue Not_tail }
-            in
-            List.split_map args ~f:(fun x ->
-                match compile_lambda new_cxt x with
-                | { block; value = Some b; _ } -> (block, b)
-                | { value = None; _ } -> assert false)
+        let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
+        compile_args (compile_lambda new_cxt) args
       in
       let block, exp =
         Lam_compile_external_obj.assemble_obj_args labels args_expr
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (List.concat args_block @ block)
-        exp
+        (args_block @ block) exp
   | { primitive = Pimport; args = [] | _ :: _ :: _; _ } -> assert false
   | { primitive = Pimport; args = [ mod_ ]; loc } ->
       let module_id, module_value, args_block =
@@ -1991,23 +1986,15 @@ and compile_prim (prim_info : Lam.prim_info)
         (List.concat args_block) exp
   | { primitive; args; loc } ->
       let args_block, args_expr =
-        match args with
-        | [] -> ([], [])
-        | _ :: _ ->
-            let new_cxt =
-              { lambda_cxt with continuation = NeedValue Not_tail }
-            in
-            List.split_map args ~f:(fun x ->
-                match compile_lambda new_cxt x with
-                | { block; value = Some b; _ } -> (block, b)
-                | { value = None; _ } -> assert false)
+        let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
+        compile_args (compile_lambda new_cxt) args
       in
       let exp =
         (* TODO: all can be done in [compile_primitive] *)
         Lam_compile_primitive.translate loc lambda_cxt primitive args_expr
       in
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        (List.concat args_block) exp
+        args_block exp
 
 and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
     Js_output.t =
