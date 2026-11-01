@@ -49,6 +49,10 @@ Unreleased
   rethrowing after inspection or aliasing
   ([#2054](https://github.com/melange-re/melange/pull/2054),
   [#2055](https://github.com/melange-re/melange/pull/2055))
+- compiler: eliminate redundant wrapping and unwrapping of known `Some`
+  values with immutable variable payloads
+  ([#2038](https://github.com/melange-re/melange/pull/2038),
+  [#2039](https://github.com/melange-re/melange/pull/2039))
 
 
 7.0.1-55 2026-07-12
