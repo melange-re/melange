@@ -56,6 +56,10 @@ Unreleased
 - compiler: remove redundant presence checks for constant `Some` values
   ([#2040](https://github.com/melange-re/melange/pull/2040),
   [#2041](https://github.com/melange-re/melange/pull/2041))
+- PPX: preserve warning 20 (`ignored-extra-argument`) in user arguments
+  and callee expressions of uncurried calls
+  ([#2156](https://github.com/melange-re/melange/pull/2156),
+  [#2153](https://github.com/melange-re/melange/pull/2153))
 
 
 7.0.1-55 2026-07-12
