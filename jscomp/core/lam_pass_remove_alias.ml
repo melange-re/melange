@@ -305,7 +305,9 @@ let simplify_alias =
           l2,
           l3 ) -> (
         match Ident.Hashtbl.find meta.ident_tbl id with
-        | ImmutableBlock _ | MutableBlock _ | Normal_optional _ -> simpl meta l2
+        | ImmutableBlock _ | MutableBlock _ | Normal_optional _
+        | Constant (Const_some _) ->
+            simpl meta l2
         | OptionalBlock (l, Null) ->
             Lam.if_
               (Lam.not_ ~loc:Location.none

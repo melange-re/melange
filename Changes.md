@@ -53,6 +53,9 @@ Unreleased
   values with immutable variable payloads
   ([#2038](https://github.com/melange-re/melange/pull/2038),
   [#2039](https://github.com/melange-re/melange/pull/2039))
+- compiler: remove redundant presence checks for constant `Some` values
+  ([#2040](https://github.com/melange-re/melange/pull/2040),
+  [#2041](https://github.com/melange-re/melange/pull/2041))
 
 
 7.0.1-55 2026-07-12
