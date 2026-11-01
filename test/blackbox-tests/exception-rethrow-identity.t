@@ -40,9 +40,9 @@ Inspecting a caught exception must not change the value that is rethrown.
   > assert.doesNotThrow(t.unmatched);
   > EOF
   direct true true true true true
-  unmatched false false false false false
-  inspected false false false false false
-  aliased false false false false false
-  nested false false false false false
-  captured false false false false false
+  unmatched true true true true true
+  inspected true true true true true
+  aliased true true true true true
+  nested true true true true true
+  captured true true true true true
   known true true true true
