@@ -1,10 +1,6 @@
 Known constant Some values do not need presence guards. Presence must remain distinct from payload truthiness.
 
   $ . ./setup.sh
-  $ printf '%s\n' '(lang dune 3.8)' '(using melange 0.1)' > dune-project
-  $ cat > dune <<'EOF'
-  > (melange.emit (target output) (alias melange))
-  > EOF
   $ cat > input.ml <<'EOF'
   > let number () = let opt = Some 42 in match opt with Some x -> x | None -> 0
   > let zero () = let opt = Some 0 in match opt with Some x -> x | None -> 42
@@ -17,13 +13,13 @@ Known constant Some values do not need presence guards. Presence must remain dis
   >   let a = Some val1 in let b = Some val2 in
   >   match a, b with _, Some true | Some true, _ -> "a" | _ -> "b"
   > EOF
-  $ dune build @melange
+  $ melc input.ml -o input.js
   $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > const t = require('./_build/default/output/input.js');
+  > const t = require('./input.js');
   > for (const [name, expected] of [['number', 42], ['zero', 0], ['false_payload', false], ['nested', 1], ['deeper', 3], ['absent', 2]]) {
   >   assert.equal(t[name](), expected);
-  >   console.log(name, 'presence guard:', /!== undefined/.test(t[name].toString()));
+  >   console.log(t[name].toString());
   > }
   > let calls = 0;
   > assert.equal(t.effects(x => { calls++; return x; }), 0);
@@ -31,9 +27,54 @@ Known constant Some values do not need presence guards. Presence must remain dis
   > for (const a of [false, true]) for (const b of [false, true])
   >   assert.equal(t.payload_truthiness(a, b), a || b ? 'a' : 'b');
   > EOF
-  number presence guard: true
-  zero presence guard: true
-  false_payload presence guard: true
-  nested presence guard: true
-  deeper presence guard: true
-  absent presence guard: false
+  function number(param) {
+    const opt = 42;
+    if (opt !== undefined) {
+      return opt;
+    } else {
+      return 0;
+    }
+  }
+  function zero(param) {
+    const opt = 0;
+    if (opt !== undefined) {
+      return opt;
+    } else {
+      return 42;
+    }
+  }
+  function false_payload(param) {
+    const opt = false;
+    if (opt !== undefined) {
+      return opt;
+    } else {
+      return true;
+    }
+  }
+  function nested(param) {
+    const opt = Caml_option.some(undefined);
+    if (opt !== undefined) {
+      if (Caml_option.valFromOption(opt) !== undefined) {
+        return 2;
+      } else {
+        return 1;
+      }
+    } else {
+      return 0;
+    }
+  }
+  function deeper(param) {
+    const opt = Caml_option.some(Caml_option.some(undefined));
+    if (opt === undefined) {
+      return 0;
+    }
+    const match = Caml_option.valFromOption(opt);
+    if (match !== undefined && Caml_option.valFromOption(match) === undefined) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
+  function absent(param) {
+    return 2;
+  }
