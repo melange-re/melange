@@ -43,19 +43,6 @@ let generic_apply =
     let helper_loc = Ast_location.ghost loc in
     Pexp_constraint
       ( Exp.apply ~loc
-          ~attrs:
-            [
-              (* Ignore warning 20 (`ignored-extra-argument`) on expressions such
-               * as:
-               *
-               *   external x : < .. > Js.t = ""
-               *   let () = x##fn "hello"
-               *
-               * OCaml thinks the extra argument is unused because we're
-               * producing * an uncurried call to a JS function whose arity isn't
-               * known at compile time. *)
-              Ast_attributes.ignored_extra_argument;
-            ]
           (Exp.ident ~loc:helper_loc
              { txt = Ast_literal.js_internal_full_apply; loc = helper_loc })
           [ (Nolabel, e) ],
@@ -104,9 +91,11 @@ let generic_apply =
     | args ->
         let generated_loc = Ast_location.ghost loc in
         let arity = List.length args in
+        (* Keep warning 20 enabled in user callee and argument expressions. *)
         opaque_full_apply ~loc:generated_loc
           (Exp.apply ~loc:generated_loc
              (Exp.apply ~loc:generated_loc
+                ~attrs:[ Ast_attributes.internal_uncurried ]
                 (Exp.ident ~loc:generated_loc
                    { txt = Ast_literal.opaque; loc = generated_loc })
                 [
