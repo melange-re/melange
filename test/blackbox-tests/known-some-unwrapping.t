@@ -1,6 +1,8 @@
 Known Some payloads need no wrap/unwrap round trip.
 
   $ . ./setup.sh
+  $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > let nested y = match Some y with Some (Some n) -> n | Some None -> 0 | None -> -1
   > let poly y = match Some y with Some v -> [|v|] | None -> [||]
@@ -13,10 +15,10 @@ Known Some payloads need no wrap/unwrap round trip.
   >   match opt with Some v -> v | None -> Some 8
   > let deep = Some (Some None)
   > EOF
-  $ melc input.ml -o input.js
+  $ dune build @melange
   $ node <<'EOF'
   > const assert = require('node:assert/strict');
-  > const t = require('./input.js');
+  > const t = require('./_build/default/out/input.js');
   > assert.equal(t.nested(undefined), 0);
   > assert.equal(t.nested(7), 7);
   > for (const payload of [undefined, null, false, 0, {}, t.deep]) {
