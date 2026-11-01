@@ -532,7 +532,12 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args ~loc : t =
       (* | Pfloatofint, ( (Const_int a)) *)
       (*   -> Lift.float (float_of_int a) *)
       | Pintoffloat, Const_float a ->
-          Lift.int (Int32.of_float (float_of_string a))
+          let value = float_of_string a in
+          (* Outside this range the host conversion is unspecified, while
+             JavaScript uses ToInt32. Keep its runtime conversion instead. *)
+          if value >= -2147483648. && value <= 2147483647. then
+            Lift.int (Int32.of_float value)
+          else default ()
       (* | Pnegfloat -> Lift.float (-. a) *)
       (* | Pabsfloat -> Lift.float (abs_float a) *)
       | Pstringlength, Const_string { s; unicode = false } ->
