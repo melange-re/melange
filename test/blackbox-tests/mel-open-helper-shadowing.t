@@ -11,6 +11,7 @@ ReScript #9160 exposed the analogous problem in its %todo expansion.
   > (melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))
   > EOF
   $ cat > input.ml <<'EOF'
+  > [@@@warning "-32"]
   > let baseline = (function [@mel.open] Not_found -> 1) Not_found
   > let shadow_js =
   >   let module Js = struct
