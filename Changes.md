@@ -37,6 +37,10 @@ Unreleased
   receiver instead of crashing the compiler
   ([#2036](https://github.com/melange-re/melange/pull/2036),
   [#2037](https://github.com/melange-re/melange/pull/2037))
+- compiler: make constant float-to-int conversions agree with runtime
+  conversions for overflow and nonfinite values
+  ([#2125](https://github.com/melange-re/melange/pull/2125),
+  [#2127](https://github.com/melange-re/melange/pull/2127))
 
 
 7.0.1-55 2026-07-12
