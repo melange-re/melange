@@ -29,6 +29,10 @@ Unreleased
   keeping literal FFI names unchanged
   ([#2123](https://github.com/melange-re/melange/pull/2123),
   [#2124](https://github.com/melange-re/melange/pull/2124))
+- compiler: preserve calls and exceptions when simplifying comparisons
+  against null, undefined, and `None`
+  ([#2052](https://github.com/melange-re/melange/pull/2052),
+  [#2053](https://github.com/melange-re/melange/pull/2053))
 
 
 7.0.1-55 2026-07-12
