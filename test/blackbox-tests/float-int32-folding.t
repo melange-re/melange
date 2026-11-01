@@ -40,10 +40,10 @@ Float arithmetic must preserve int32 boundaries and IEEE rounding.
   > globalThis.readBoundary = () => { throw error; };
   > try { m.effects(); } catch (e) { console.log('throws', e === error); }
   > EOF
-  converted 1147483648 -1147483649
-  identity 1147483648 -1147483649
+  converted -3147483648 3147483647
+  identity -3147483648 3147483647
   literal -3147483648 3147483647
-  dynamic 2147483653 9007199254740994 -1147483649
+  dynamic -2147483643 9007199254740992 3147483647
   integer -1147483649 1147483648 -1147483648 -2147483643
   zero true
   effects 3147483647 [ 1, 2 ]
