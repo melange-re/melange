@@ -76,15 +76,15 @@ Locations are broken when using emojis (this is also the case in OCaml)
   File "./x.ml", line 1, characters 60-61:
   1 | let q = "💩💩💩💩💩💩💩💩💩💩" ^ ("a" ^ 3 ^ "b")
                                                                   ^
-  Error: The constant 3 has type int but an expression was expected of type
-           string
+  Error: This expression has type "int" but an expression was expected of type
+           "string"
   [2]
 
   $ dune build @mel
   File "x.ml", line 1, characters 60-61:
   1 | let q = "💩💩💩💩💩💩💩💩💩💩" ^ ("a" ^ 3 ^ "b")
                                                                   ^
-  Error: The constant 3 has type int but an expression was expected of type
+  Error: This expression has type int but an expression was expected of type
            string
   [1]
 
