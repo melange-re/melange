@@ -1,6 +1,8 @@
 Constant comparison results must retain evaluation of their operands.
 
   $ . ./setup.sh
+  $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > external hit : unit -> int = "comparisonHit"
   > external option_hit : unit -> int option = "comparisonOptionHit"
@@ -25,9 +27,9 @@ Constant comparison results must retain evaluation of their operands.
   > let skip_and () = false && hit () = 1
   > let skip_or () = true || hit () = 1
   > EOF
-  $ melc -ppx melppx input.ml -o input.js
+  $ dune build @melange
   $ node <<'JS'
-  > const t = require('./input.js');
+  > const t = require('./_build/default/out/input.js');
   > for (const [name, compare] of Object.entries(t)) {
   >   let calls = 0, thrown = false;
   >   global.comparisonHit = () => { calls++; return 1; };
