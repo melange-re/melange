@@ -3,7 +3,8 @@ Unreleased
 
 - compiler: recheck mutable pattern assumptions after failed guards and lazy
   patterns, preventing invalid constructor payloads from reaching later branches
-  ([#2143](https://github.com/melange-re/melange/pull/2143))
+  ([#2143](https://github.com/melange-re/melange/pull/2143),
+  [#2148](https://github.com/melange-re/melange/pull/2148))
 
 7.0.1-51 2026-07-12
 ---------------
