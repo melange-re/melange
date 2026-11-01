@@ -47,6 +47,14 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   >   ((r := 1; let k = next () in k + k + !r),
   >    (try r := 2; let k = next () in k + k + !r
   >     with Exit -> r := 3; !r))
+  > let bounds next =
+  >   let r = ref 0 in
+  >   let sum = ref 0 in
+  >   for i = (r := 1; let k = next () in k + k + !r)
+  >       to (r := 2; let k = next () in k + k + !r) do
+  >     sum := !sum + i
+  >   done;
+  >   !sum
   > EOF
   $ cat > native.ml <<'EOF'
   > let () =
@@ -59,7 +67,8 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   >   assert (Input.bare next = (1, 2));
   >   assert (Input.sequenced next = (1, 2));
   >   for n = 0 to 2 do assert (Input.branching next (fun () -> n) = (1, n+2)) done;
-  >   assert (Input.caught next = (1, 2))
+  >   assert (Input.caught next = (1, 2));
+  >   assert (Input.bounds next = 3)
   > EOF
   $ ocamlc -o native.exe input.ml native.ml
   $ ./native.exe
@@ -71,6 +80,17 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   >   let r = ref 0 in
   >   make ~x:(r := 1; let k = next () in k + k + !r)
   >     ~y:(r := 2; let k = next () in k + k + !r)
+  > let method_ next =
+  >   let r = ref 0 in
+  >   let make : int -> < get : (int -> int [@mel.meth]) > Js.t =
+  >     [%mel.raw {|v => ({v, get(x) { return this.v + x }})|}] in
+  >   (r := 1; let k = next () in make (k + k + !r))##get
+  >     (r := 2; let k = next () in k + k + !r)
+  > let setter next a b =
+  >   let r = ref 0 in
+  >   (r := 1; let k = next () in if k + k + !r = 1 then a else b)##value #=
+  >     (r := 2; let k = next () in k + k + !r);
+  >   (a##value, b##value)
   > EOF
   $ cat > dune <<'EOF'
   > (melange.emit (target out) (modules input ffi) (libraries melange)
@@ -86,6 +106,9 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   > console.log('callee', m.callee(next), 'bare', JSON.stringify(m.bare(next)));
   > console.log('ffi', JSON.stringify(require('./_build/default/out/ffi.js').object_(next)));
   > for (let n = 0; n < 3; n++) console.log('switch', JSON.stringify(m.branching(next, () => n)));
+  > console.log('bounds', m.bounds(next));
+  > const ffi = require('./_build/default/out/ffi.js');
+  > console.log('method', ffi.method_(next), 'setter', JSON.stringify(ffi.setter(next, {value: 0}, {value: 0})));
   > assert.deepEqual(m.sequenced(next), [1,2]);
   > const failure = new Error('operand');
   > for (const name of ['tuple', 'array', 'record', 'sequenced']) {
@@ -104,3 +127,5 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   switch [2,2]
   switch [3,3]
   switch [4,4]
+  bounds 2
+  method 3 setter [2,0]
