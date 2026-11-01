@@ -168,7 +168,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 3, characters 12-15:
   3 | let rec x = A x;;
                   ^^^
-  Error: This kind of expression is not allowed as right-hand side of let rec
+  Error: This kind of expression is not allowed as right-hand side of `let rec'
   [2]
 
   $ cat > x.ml <<'EOF'
@@ -179,7 +179,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 2, characters 12-19:
   2 | let rec x = {x = y} and y = 3L;;
                   ^^^^^^^
-  Error: This kind of expression is not allowed as right-hand side of let rec
+  Error: This kind of expression is not allowed as right-hand side of `let rec'
   [2]
 
   $ cat > x.ml <<'EOF'
@@ -190,7 +190,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 2, characters 12-15:
   2 | let rec y = A y;;
                   ^^^
-  Error: This kind of expression is not allowed as right-hand side of let rec
+  Error: This kind of expression is not allowed as right-hand side of `let rec'
   [2]
 
   $ melc -ppx melppx -bs-eval 'external f : int = "%identity"' 2>&1 | grep -v File
@@ -274,6 +274,6 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 5, characters 9-12:
   5 |   push a "3" |. ignore
                ^^^
-  Error: This constant has type string but an expression was expected of type
+  Error: This expression has type string but an expression was expected of type
            int
   [2]

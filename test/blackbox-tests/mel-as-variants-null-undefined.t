@@ -99,15 +99,15 @@ Test `@mel.as` in variant constructors
   'use strict';
   
   
-  function f(s) {
-    if (!/* tag */ (s === null || typeof s !== "object" && typeof s !== "function")) {
-      if (s.TAG === /* Null_has_payload */ null) {
-        return s._0;
+  function f(param) {
+    if (!/* tag */ (param === null || typeof param !== "object" && typeof param !== "function")) {
+      if (param.TAG === /* Null_has_payload */ null) {
+        return param._0;
       } else {
-        return String(s._0);
+        return String(param._0);
       }
     }
-    switch (s) {
+    switch (param) {
       case /* Null_no_payload */ null :
         return "null";
       case /* Undefined_no_payload */ undefined :
