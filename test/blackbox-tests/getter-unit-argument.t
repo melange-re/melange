@@ -6,15 +6,22 @@ A getter needs an object argument; an erased unit argument must be diagnosed.
   > let result = get ()
   > EOF
   $ melc -alert -unprocessed -ppx melppx invalid.ml -o invalid.js 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "invalid.ml", line LINE, characters RANGE:
+  1 | external get : unit -> 'a = "value" [@@mel.get]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.get]' requires an object argument, not an erased unit argument
 
 An interface must reject the invalid declaration before any call is compiled.
 
   $ head -n 1 invalid.ml > invalid.mli
   $ melc -alert -unprocessed -ppx melppx -c invalid.mli
+  File "invalid.mli", line 1, characters 0-47:
+  1 | external get : unit -> 'a = "value" [@@mel.get]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.get]' requires an object argument, not an erased unit argument
+  [2]
 
 Valid polymorphic and scoped getters still read their receiver once.
 
