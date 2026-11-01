@@ -67,10 +67,12 @@ let call_info_of_apply_status = function
   | App_uncurry -> { arity = Full; call_info = Call_na }
   | App_na -> { arity = NA; call_info = Call_ml }
 
-let compile_args compile args =
-  let args = List.map args ~f:(fun arg -> (arg, compile arg)) in
+let compile_args ?(method_callee = false) compile args =
+  let args =
+    List.mapi args ~f:(fun i arg -> (method_callee && i = 0, arg, compile arg))
+  in
   List.fold_right args ~init:([], [])
-    ~f:(fun (arg, (output : Js_output.t)) (blocks, values) ->
+    ~f:(fun (method_callee, arg, (output : Js_output.t)) (blocks, values) ->
       match output.value with
       | None -> assert false
       | Some value ->
@@ -82,8 +84,20 @@ let compile_args compile args =
                 (output.block, value)
             | _ ->
                 let id = Ident.create_tmp () in
-                ( output.block @ [ S.define_variable ~kind:Strict id value ],
-                  E.var id )
+                let held, value =
+                  match value.expression_desc with
+                  | Static_index access when method_callee ->
+                      (* Keep the receiver in the call so it is passed as [this]. *)
+                      ( access.expr,
+                        {
+                          value with
+                          expression_desc =
+                            Static_index { access with expr = E.var id };
+                        } )
+                  | _ -> (value, E.var id)
+                in
+                ( output.block @ [ S.define_variable ~kind:Strict id held ],
+                  value )
           in
           (List.append block blocks, value :: values))
 
@@ -1195,42 +1209,19 @@ and compile_for (id : J.for_ident) (start : Lam.t) (finish : Lam.t)
     (direction : J.for_direction) (body : Lam.t)
     (lambda_cxt : Lam_compile_context.t) =
   let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-  let block =
-    match (compile_lambda new_cxt start, compile_lambda new_cxt finish) with
-    | { value = None; _ }, _ | _, { value = None; _ } -> assert false
-    | { block = b1; value = Some e1; _ }, { block = b2; value = Some e2; _ }
-      -> (
-        (* order b1 -- (e1 -- b2 -- e2)
-            in most cases we can shift it into such scenarios
-            b1, b2, [e1, e2]
-            - b2 is Empty
-            - e1 is pure
-            we can guarantee e1 is pure, if it literally contains a side effect call,
-            put it in the beginning
-        *)
-        let block_body =
-          Js_output.output_as_block
-            (compile_lambda
-               { lambda_cxt with continuation = EffectCall Not_tail }
-               body)
-        in
-        match (b1, b2) with
-        | _, [] -> b1 @ [ S.for_ (Some e1) e2 id direction block_body ]
-        | _, _
-          when Js_analyzer.no_side_effect_expression e1
-               (*
-                     e1 > b2 > e2
-                     re-order
-                     b2 > e1 > e2
-                   *)
-          ->
-            List.append b1 (b2 @ [ S.for_ (Some e1) e2 id direction block_body ])
-        | _, _ ->
-            List.append b1
-              (S.define_variable ~kind:Variable id e1
-              :: (b2 @ [ S.for_ None e2 id direction block_body ])))
+  let block, bounds = compile_args (compile_lambda new_cxt) [ start; finish ] in
+  let block_body =
+    Js_output.output_as_block
+      (compile_lambda
+         { lambda_cxt with continuation = EffectCall Not_tail }
+         body)
   in
-  Js_output.output_of_block_and_expression lambda_cxt.continuation block E.unit
+  match bounds with
+  | [ start; finish ] ->
+      Js_output.output_of_block_and_expression lambda_cxt.continuation
+        (block @ [ S.for_ (Some start) finish id direction block_body ])
+        E.unit
+  | _ -> assert false
 
 and compile_assign id (lambda : Lam.t) (lambda_cxt : Lam_compile_context.t) =
   let block =
@@ -1601,7 +1592,16 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       let ap_func = appinfo.ap_func in
       let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
       let[@ocaml.warning "-partial-match"] args_code, fn_code :: args =
-        compile_args (compile_lambda new_cxt) (ap_func :: appinfo.ap_args)
+        let rec is_method (lam : Lam.t) =
+          match lam with
+          | Lprim { primitive = Pjs_unsafe_downgrade { setter = false; _ }; _ }
+            ->
+              true
+          | Lprim { primitive = Popaque; args = [ fn ]; _ } -> is_method fn
+          | _ -> false
+        in
+        compile_args ~method_callee:(is_method ap_func) (compile_lambda new_cxt)
+          (ap_func :: appinfo.ap_args)
       in
       match (ap_func, lambda_cxt.continuation) with
       | ( Lvar fn_id,
