@@ -54,5 +54,11 @@ Get definition of `Stack` in `Stack.foo`
 
   $ ocamlmerlin single locate -position 1:13 -verbosity 0 \
   > -filename main.ml < main.ml | jq '.value'
-  "Several source files in your path have the same name, and merlin doesn't know which is the right one: $TESTCASE_ROOT/lib/stack.ml, MELANGE_ROOT/install/default/lib/melange/stack.mli, MELANGE_ROOT/install/default/lib/melange/stack.ml"
+  {
+    "file": "$TESTCASE_ROOT/lib/stack.ml",
+    "pos": {
+      "line": 1,
+      "col": 0
+    }
+  }
 
