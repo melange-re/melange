@@ -33,6 +33,10 @@ Unreleased
   against null, undefined, and `None`
   ([#2052](https://github.com/melange-re/melange/pull/2052),
   [#2053](https://github.com/melange-re/melange/pull/2053))
+- PPX: report an error for `[@@mel.get]` externals with an erased unit
+  receiver instead of crashing the compiler
+  ([#2036](https://github.com/melange-re/melange/pull/2036),
+  [#2037](https://github.com/melange-re/melange/pull/2037))
 
 
 7.0.1-55 2026-07-12
