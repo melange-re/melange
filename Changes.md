@@ -6,6 +6,10 @@ Unreleased
   ([#2150](https://github.com/melange-re/melange/pull/2150),
   [#2154](https://github.com/melange-re/melange/pull/2154))
 
+- compiler: finish evaluating each operand before executing statements from
+  later operands, preserving mutable reads in calls, tuples, arrays and records
+  ([#2141](https://github.com/melange-re/melange/pull/2141),
+  [#2142](https://github.com/melange-re/melange/pull/2142))
 - CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
   dependencies stored in `.cmj` files
   ([#1858](https://github.com/melange-re/melange/pull/1858))
