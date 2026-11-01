@@ -25,6 +25,10 @@ Unreleased
   `Bytes.length`, including when its result is ignored
   ([#2058](https://github.com/melange-re/melange/pull/2058),
   [#2059](https://github.com/melange-re/melange/pull/2059))
+- compiler: preserve escaped OCaml export names in dynamic imports while
+  keeping literal FFI names unchanged
+  ([#2123](https://github.com/melange-re/melange/pull/2123),
+  [#2124](https://github.com/melange-re/melange/pull/2124))
 
 
 7.0.1-55 2026-07-12

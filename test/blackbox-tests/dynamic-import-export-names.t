@@ -25,5 +25,5 @@ property names. The three OCaml imports should return 42, 42, and 5.
   >   console.log(ext, await m.reserved(), await m.prime(), op?.(2, 3), await m.foreign());
   > }
   > JS
-  js undefined undefined undefined 43
-  mjs undefined undefined undefined 43
+  js 42 42 5 43
+  mjs 42 42 5 43
