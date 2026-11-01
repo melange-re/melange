@@ -7,3 +7,16 @@
   %{bin:jq}
   %{bin:ocamlmerlin}
   %{lib:melange.belt:melange/belt.cmj}))
+
+; These fixtures require syntax or compiler flags absent from older frontends.
+(cram
+ (applies_to labeled-tuples labeled-tuples.t ocaml-14200 ocaml-14200.t)
+ (enabled_if (>= %{ocaml_version} 5.4)))
+
+(cram
+ (applies_to unicode-identifiers unicode-identifiers.t)
+ (enabled_if (>= %{ocaml_version} 5.3)))
+
+(cram
+ (applies_to hidden-deps hidden-deps.t)
+ (enabled_if (>= %{ocaml_version} 5.2)))
