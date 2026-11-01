@@ -57,4 +57,4 @@ pattern. Each failure check should be true; valid later branches still return 3 
   > EOF
   $ melc -w -a -o input.js input.ml
   $ node -e 'const m = require("./input.js"); console.log(JSON.stringify(m.checks()), JSON.stringify(m.controls()))'
-  [false,false,false,false,false] [3,8]
+  [true,true,true,true,true] [3,8]
