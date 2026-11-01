@@ -1,5 +1,4 @@
 ReScript #6739: constant float-to-int conversion must agree with runtime ToInt32.
-The baseline uses a host conversion outside its defined signed-int32 range.
 
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
@@ -14,30 +13,23 @@ The baseline uses a host conversion outside its defined signed-int32 range.
   > external note : float -> float = "auditFloat"
   > let convert_effectful () = int_of_float (note 22130921800000.)
   > EOF
-  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
-  $ cat > dune <<'EOF'
-  > (melange.emit
-  >  (target out)
-  >  (modules input)
-  >  (libraries melange)
-  >  (preprocess (pps melange.ppx)))
-  > EOF
-  $ dune build @melange
-  $ node <<'EOF'
-  > const assert = require("node:assert/strict");
-  > const m = require("./_build/default/out/input.js");
+  $ melc -ppx melppx input.ml -o input.js
+  $ node <<'JS'
+  > const m = require('./input.js');
   > const expected = m.values.map(x => x | 0);
-  > assert.deepEqual(m.safe_constants, m.safe_values.map(x => x | 0));
-  > for (const x of [...m.values, ...m.safe_values, NaN, Infinity, -Infinity, Number.MIN_VALUE, -Number.MIN_VALUE]) {
-  >   for (const convert of [m.runtime, m.arithmetic, m.int32]) assert.equal(convert(x), x | 0);
-  > }
-  > console.log("js", "out-of-range constants agree:", m.constants.every((x,i) => x === expected[i]), "int32:", m.int32_constant === expected[0]);
+  > console.log('constants', m.constants.every((x,i) => x === expected[i]), 'int32', m.int32_constant === expected[0]);
+  > console.log('in range', m.safe_constants.every((x,i) => x === (m.safe_values[i] | 0)));
+  > const values = [...m.values, ...m.safe_values, NaN, Infinity, -Infinity, Number.MIN_VALUE, -Number.MIN_VALUE];
+  > console.log('runtime', [m.runtime, m.arithmetic, m.int32].map(convert => values.every(x => convert(x) === (x | 0))));
   > let count = 0;
-  > globalThis.auditFloat = x => {count++; return x;};
-  > assert.equal(m.convert_effectful(), expected[0]);
-  > assert.equal(count, 1);
-  > const failure = new Error("conversion input");
-  > globalThis.auditFloat = () => {throw failure;};
-  > assert.throws(() => m.convert_effectful(), e => e === failure);
-  > EOF
-  js out-of-range constants agree: false int32: true
+  > global.auditFloat = x => { count++; return x; };
+  > console.log('effect', m.convert_effectful(), 'calls', count);
+  > const failure = new Error('conversion input');
+  > global.auditFloat = () => { throw failure; };
+  > try { m.convert_effectful(); } catch (error) { console.log('throws', error === failure); }
+  > JS
+  constants false int32 true
+  in range true
+  runtime [ true, true, true ]
+  effect -1044676288 calls 1
+  throws true
