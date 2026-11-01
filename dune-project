@@ -52,7 +52,7 @@
  (allow_empty)
  (depends
   ocaml
-  (js_of_ocaml :dev)
+  (js_of_ocaml (and :dev (< "6.5")))
   (reason :dev)
   (melange (= :version))
   (ppxlib :dev)
