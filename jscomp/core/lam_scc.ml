@@ -24,36 +24,30 @@
 
 open Import
 
-(**
-    [hit_mask mask lambda] iters through the lambda
-    set the bit of corresponding [id] if [id] is hit.
-    As an optimization step if [mask_and_check_all_hit],
-    there is no need to iter such lambda any more *)
-let hit_mask mask lam =
-  Lam_iter.exists_ident lam ~f:(Hash_set_ident_mask.mask_and_check_all_hit mask)
-
 type bindings = (Ident.t * Lam.t) Nonempty_list.t
 
 let preprocess_deps groups : _ * Ident.t array * Vec_int.t array =
   let len = List.length groups in
   let domain : _ Ident.Ordered_hash_map.t = Ident.Ordered_hash_map.create len in
-  let mask = Hash_set_ident_mask.create len in
-  List.iter
-    ~f:(fun (x, lam) ->
-      Ident.Ordered_hash_map.add domain ~key:x ~data:lam;
-      Hash_set_ident_mask.add_unmask mask x)
-    groups;
+  List.iter groups ~f:(fun (id, lam) ->
+      Ident.Ordered_hash_map.add domain ~key:id ~data:lam);
   let int_mapping = Ident.Ordered_hash_map.to_sorted_array domain in
   let node_vec =
     Array.init (Array.length int_mapping) ~f:(fun _ -> Vec_int.empty ())
   in
+  let seen = Array.make len (-1) in
   Ident.Ordered_hash_map.iter domain ~f:(fun _id lam key_index ->
-      let base_key = node_vec.(key_index) in
-      ignore (hit_mask mask lam);
-      Hash_set_ident_mask.iter_and_unmask mask ~f:(fun ident hit ->
-          if hit then
-            let key = Ident.Ordered_hash_map.rank domain ident in
-            Vec_int.push base_key key));
+      let deps = node_vec.(key_index) in
+      (* Collect only identifiers that occur, without scanning every binding
+         after each body. Remember the last body to reference each identifier
+         so repeated occurrences do not add duplicate edges. *)
+      ignore
+        (Lam_iter.exists_ident lam ~f:(fun id ->
+             let dep = Ident.Ordered_hash_map.rank domain id in
+             if dep >= 0 && seen.(dep) <> key_index then (
+               seen.(dep) <- key_index;
+               Vec_int.push deps dep);
+             Vec_int.length deps = len)));
   (domain, int_mapping, node_vec)
 
 let sort_single_binding_group =
