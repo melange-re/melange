@@ -15,8 +15,7 @@ An acyclic chain in a recursive binding group should still fold to a constant.
   
   
   function answer(param) {
-    let x = 41;
-    return x + 1 | 0;
+    return 42;
   }
   
   module.exports = {

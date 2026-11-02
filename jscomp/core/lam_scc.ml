@@ -44,7 +44,9 @@ let preprocess_deps groups : _ * Ident.t array * Vec_int.t array =
       Hash_set_ident_mask.add_unmask mask x)
     groups;
   let int_mapping = Ident.Ordered_hash_map.to_sorted_array domain in
-  let node_vec = Array.make (Array.length int_mapping) (Vec_int.empty ()) in
+  let node_vec =
+    Array.init (Array.length int_mapping) ~f:(fun _ -> Vec_int.empty ())
+  in
   Ident.Ordered_hash_map.iter domain ~f:(fun _id lam key_index ->
       let base_key = node_vec.(key_index) in
       ignore (hit_mask mask lam);
