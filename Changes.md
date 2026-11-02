@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: collect recursive-binding dependencies without scanning the entire
+  group for each binding
+  ([#2152](https://github.com/melange-re/melange/pull/2152))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),
