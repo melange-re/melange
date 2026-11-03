@@ -417,24 +417,24 @@ let external_module_name_is_relative
       External_ffi_types.External_module_name.t) =
   Paths.is_relative_module_specifier bundle
 
-let external_module_name_option_is_relative = function
-  | Some module_name -> external_module_name_is_relative module_name
-  | None -> false
-
-let external_spec_uses_relative_module
+let external_spec_is_relocatable ~bound_names
     (ffi : External_ffi_types.External_spec.t) =
   let open External_ffi_types.External_spec in
   match ffi with
-  | Js_var { external_module_name; _ }
-  | Js_call { external_module_name; _ }
-  | Js_new { external_module_name; _ } ->
-      external_module_name_option_is_relative external_module_name
+  | Js_var { name; scopes; external_module_name }
+  | Js_call { name; scopes; external_module_name; _ }
+  | Js_new { name; scopes; external_module_name; _ } -> (
+      match external_module_name with
+      | Some module_name -> not (external_module_name_is_relative module_name)
+      | None ->
+          let root = match scopes with [] -> name | root :: _ -> root in
+          not (String.Set.mem root bound_names))
   | Js_module_as_var external_module_name
   | Js_module_as_fn { external_module_name; _ }
   | Js_module_as_class external_module_name ->
-      external_module_name_is_relative external_module_name
-  | Js_send _ | Js_set _ | Js_get _ | Js_get_index _ | Js_set_index _ -> false
+      not (external_module_name_is_relative external_module_name)
+  | Js_send _ | Js_set _ | Js_get _ | Js_get_index _ | Js_set_index _ -> true
 
-let is_relocatable = function
-  | Pjs_call { ffi; _ } -> not (external_spec_uses_relative_module ffi)
+let is_relocatable ~bound_names = function
+  | Pjs_call { ffi; _ } -> external_spec_is_relocatable ~bound_names ffi
   | _ -> true

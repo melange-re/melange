@@ -151,7 +151,12 @@ let resolve_external_call_summary ~dynamic_import ident name ~arity:direct_arity
   | None -> (
       match query_external_id_info ~dynamic_import ident name with
       | Some { arity; call_summary; _ } -> (
-          if not (Lam_call_summary.is_unknown call_summary) then call_summary
+          if
+            (* An imported global must not capture a local binding here. *)
+            (not (Lam_call_summary.is_unknown call_summary))
+            && Lam_call_summary.is_relocatable
+                 ~bound_names:(get_local_js_bindings ()) call_summary
+          then call_summary
           else
             match arity with
             | Single arity when not (Lam_arity.first_arity_na arity) ->
@@ -168,7 +173,10 @@ let rec lambda_is_relocatable (lam : Lam.t) =
   match lam with
   | Lglobal_module { id; dynamic_import = _ } ->
       not (is_relative_external_id id)
-  | Lprim { primitive; _ } when not (Lam_primitive.is_relocatable primitive) ->
+  | Lprim { primitive; _ }
+    when not
+           (Lam_primitive.is_relocatable ~bound_names:(get_local_js_bindings ())
+              primitive) ->
       false
   | _ ->
       not (Lam_iter.exists lam ~f:(fun lam -> not (lambda_is_relocatable lam)))
