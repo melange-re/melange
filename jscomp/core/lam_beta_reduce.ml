@@ -209,7 +209,12 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
                 let p = Ident.rename old_param in
                 ((p, arg) :: rest_bindings, Lam.var p :: acc)
             | _ ->
-                if can_move_reads && Lam_analysis.no_side_effects arg then
+                let can_substitute =
+                  match arg with
+                  | Lfunction _ -> true
+                  | _ -> can_move_reads && Lam_analysis.no_side_effects arg
+                in
+                if can_substitute then
                   match Ident.Map.find old_param map with
                   | stat ->
                       if Lam_var_stats.top_and_used_zero_or_one stat then
