@@ -1,9 +1,9 @@
-Type inference for the shared-field proposal for
+Type inference for the shared-field implementation of
 https://github.com/melange-re/melange/issues/674.
 
-The proposal is not yet implemented in melange.ppx. These tests model its
-types and spell out the proposed expansion of `f () [@u]`, using the existing
-uncurried application primitives.
+These tests model the types and spell out the expansion of `f () [@u]`, using
+the uncurried application primitives. The source syntax is exercised in
+uncurry-unit-application.t.
 
   $ . ./setup.sh
   $ cat > shared_field.mli <<'EOF'
@@ -61,8 +61,8 @@ In source syntax, this is `let call f = f () [@u]`, followed by
 
 Annotating the helper's parameter supplies the arity before field selection.
 The callback alias retains arity1 when its argument is instantiated to unit.
-With the proposed PPX change, the corresponding source would define
-`type 'a callback = ('a -> unit) [@u]` and use
+The corresponding source defines
+`type 'a callback = ('a -> unit) [@u]` and uses
 `let call (f : unit callback) = f () [@u]`.
 
 Writing `(unit -> unit) [@u]` directly would still select arity0.

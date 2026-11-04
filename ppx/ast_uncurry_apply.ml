@@ -60,21 +60,22 @@ let generic_apply =
       f ~loc obj
     in
     let args =
-      let args =
-        List.map
-          ~f:(fun (lbl, e) ->
-            Error.optional_err ~loc:e.pexp_loc lbl;
-            (lbl, self#expression e))
-          args
-      in
+      List.map
+        ~f:(fun (lbl, e) ->
+          Error.optional_err ~loc:e.pexp_loc lbl;
+          (lbl, self#expression e))
+        args
+    in
+    let unit_arg =
       match args with
       | [
        ( Nolabel,
          { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
       ] ->
-          []
-      | _ -> args
+          true
+      | _ -> false
     in
+    let args = if kind = `oo && unit_arg then [] else args in
     match args with
     | [] ->
         let helper_loc = Ast_location.ghost loc in
@@ -91,34 +92,69 @@ let generic_apply =
     | args ->
         let generated_loc = Ast_location.ghost loc in
         let arity = List.length args in
-        (* Keep warning 20 enabled in user callee and argument expressions. *)
-        opaque_full_apply ~loc:generated_loc
-          (Exp.apply ~loc:generated_loc
-             (Exp.apply ~loc:generated_loc
-                ~attrs:[ Ast_attributes.internal_uncurried ]
-                (Exp.ident ~loc:generated_loc
-                   { txt = Ast_literal.opaque; loc = generated_loc })
-                [
-                  ( Nolabel,
-                    Exp.field ~loc:generated_loc
-                      (Exp.constraint_ ~loc:generated_loc fn
-                         (Typ.constr ~loc:generated_loc
-                            {
-                              txt =
-                                Ast_literal.arity_type
-                                  (match kind with
-                                  | `oo -> Ast_literal.Meth
-                                  | `generic -> Ast_literal.Fn)
-                                  ~arity;
-                              loc = generated_loc;
-                            }
-                            [ Typ.any ~loc:generated_loc () ]))
-                      {
-                        txt = Ast_literal.hidden_field ~arity;
-                        loc = generated_loc;
-                      } );
-                ])
-             args)
+        let fn =
+          if kind = `generic && unit_arg then
+            (* The receiver's type selects arity0 or arity1. An unknown
+               receiver defaults to the last [Js.Fn.Call] declaration. *)
+            fn
+          else
+            Exp.constraint_ ~loc:generated_loc fn
+              (Typ.constr ~loc:generated_loc
+                 {
+                   txt =
+                     Ast_literal.arity_type
+                       (match kind with
+                       | `oo -> Ast_literal.Meth
+                       | `generic -> Ast_literal.Fn)
+                       ~arity;
+                   loc = generated_loc;
+                 }
+                 [ Typ.any ~loc:generated_loc () ])
+        in
+        let shared_call = kind = `generic && arity = 1 in
+        let apply fn =
+          (* Keep warning 20 enabled in user callee and argument expressions. *)
+          opaque_full_apply ~loc:generated_loc
+            (Exp.apply ~loc:generated_loc
+               (Exp.apply ~loc:generated_loc
+                  ~attrs:[ Ast_attributes.internal_uncurried ]
+                  (Exp.ident ~loc:generated_loc
+                     { txt = Ast_literal.opaque; loc = generated_loc })
+                  [
+                    ( Nolabel,
+                      Exp.field ~loc:generated_loc
+                        ~attrs:
+                          (if shared_call then
+                             [ Ast_attributes.internal_field_disambiguation ]
+                           else [])
+                        fn
+                        {
+                          txt =
+                            (match kind with
+                            | `oo -> Ast_literal.hidden_field ~arity
+                            | `generic -> Ast_literal.fn_hidden_field ~arity);
+                          loc = generated_loc;
+                        } );
+                  ])
+               args)
+        in
+        if shared_call then
+          (* Hide ambiguity warnings only on the generated field access.
+             Evaluate user code outside that warning scope, exactly once. *)
+          let name = "melange$fn" in
+          Pexp_let
+            ( Nonrecursive,
+              [
+                Vb.mk ~loc:generated_loc
+                  (Pat.var ~loc:generated_loc
+                     { txt = name; loc = generated_loc })
+                  fn;
+              ],
+              Exp.mk ~loc:generated_loc
+                (apply
+                   (Exp.ident ~loc:generated_loc
+                      { txt = Lident name; loc = generated_loc })) )
+        else apply fn
 
 let method_apply ~loc (self : Ast_traverse.map) obj name args =
   let f ~loc obj =

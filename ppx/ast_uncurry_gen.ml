@@ -130,5 +130,37 @@ let to_uncurry_fn ~loc (self : Ast_traverse.map) args body : expression_desc =
          rev_extra_args)
       None (Pfunction_body result)
   in
-  Pexp_record
-    ([ ({ txt = Ast_literal.fn_hidden_field ~arity; loc }, body) ], None)
+  if arity <= 1 then
+    (* A local module view selects the constructor while preserving contextual
+       typing. An expression constraint would prevent the expected argument
+       and result types from reaching the function body. *)
+    let helper_loc = Ast_location.ghost loc in
+    (* [$] prevents this binding from shadowing a source module. *)
+    let module_name = "Melange$Fn" in
+    Pexp_letmodule
+      ( { txt = Some module_name; loc = helper_loc },
+        Mod.constraint_ ~loc:helper_loc
+          (Mod.ident ~loc:helper_loc
+             { txt = Ast_literal.js_fn; loc = helper_loc })
+          (Mty.ident ~loc:helper_loc
+             {
+               txt = Ldot (Ast_literal.js_fn, "Arity" ^ string_of_int arity);
+               loc = helper_loc;
+             }),
+        Exp.record ~loc:helper_loc
+          ~attrs:
+            [
+              Attr.mk ~loc:helper_loc
+                {
+                  txt = "mel.internal.arity" ^ string_of_int arity;
+                  loc = helper_loc;
+                }
+                (PStr []);
+            ]
+          [
+            ({ txt = Ldot (Lident module_name, "Call"); loc = helper_loc }, body);
+          ]
+          None )
+  else
+    Pexp_record
+      ([ ({ txt = Ast_literal.fn_hidden_field ~arity; loc }, body) ], None)

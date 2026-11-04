@@ -24,5 +24,7 @@
 
 open Import
 
+val prepare_for_translation : Typedtree.structure -> Typedtree.structure
+
 val wrap_single_field_record :
   Location.t -> string -> Lambda.lambda -> Lambda.lambda
