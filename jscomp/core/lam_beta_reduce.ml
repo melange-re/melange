@@ -66,6 +66,8 @@ module Beta_reduce = struct
       | _ :: _ -> raise_notrace Not_simple_apply
     in
     match (body : Lam.t) with
+    (* An ordinary call evaluates both arguments, even when the body does not. *)
+    | Lprim { primitive = Psequand | Psequor; _ } -> None
     | Lprim { primitive; args = ap_args; loc = ap_loc }
     (* There is no lambda in primitive *) -> (
         (* catch a special case of primitives *)
@@ -192,6 +194,12 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
   match Beta_reduce.simple_beta_reduce params body args with
   | Some x -> x
   | None ->
+      (* A side-effect-free argument can read mutable state. Keep its value
+         before the body or another argument can change that state. *)
+      let can_move_reads =
+        Lam_analysis.no_side_effects body
+        && List.for_all args ~f:Lam_analysis.no_side_effects
+      in
       let rest_bindings, rev_new_params =
         List.fold_left2
           ~f:(fun (rest_bindings, acc) old_param arg ->
@@ -201,7 +209,7 @@ let propagate_beta_reduce_with_map (meta : Lam_stats.t)
                 let p = Ident.rename old_param in
                 ((p, arg) :: rest_bindings, Lam.var p :: acc)
             | _ ->
-                if Lam_analysis.no_side_effects arg then
+                if can_move_reads && Lam_analysis.no_side_effects arg then
                   match Ident.Map.find old_param map with
                   | stat ->
                       if Lam_var_stats.top_and_used_zero_or_one stat then

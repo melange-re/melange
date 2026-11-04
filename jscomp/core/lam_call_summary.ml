@@ -65,6 +65,8 @@ and of_eta_wrapper ~find_ident ~find_external params body =
   | None -> Unknown
   | Some matching_arity -> (
       match body with
+      (* Calling a wrapper is eager, unlike the primitive itself. *)
+      | Lam.Lprim { primitive = Psequand | Psequor; _ } -> Unknown
       | Lam.Lprim { primitive; _ } -> Direct_primitive primitive
       | Lam.Lapply
           {
