@@ -44,8 +44,21 @@
 (* internal types for FFI, these types are not used by normal users
     Absent cmi file when looking up module alias. *)
 module Fn = struct
-  type 'a arity0 = { i0 : unit -> 'a [@internal] }
-  type 'a arity1 = { i1 : 'a [@internal] }
+  type 'a arity1 = { call : 'a [@internal] }
+
+  (* The last [Call] label is the fallback for a callee of unknown type. *)
+  type 'a arity0 = { call : unit -> 'a [@internal] }
+
+  (* Restrict construction to its syntactic arity without constraining the
+     function expression, so its expected parameter and result types flow in. *)
+  module type Arity0 = sig
+    type nonrec 'a arity0 = 'a arity0 = { call : unit -> 'a [@internal] }
+  end
+
+  module type Arity1 = sig
+    type nonrec 'a arity1 = 'a arity1 = { call : 'a [@internal] }
+  end
+
   type 'a arity2 = { i2 : 'a [@internal] }
   type 'a arity3 = { i3 : 'a [@internal] }
   type 'a arity4 = { i4 : 'a [@internal] }

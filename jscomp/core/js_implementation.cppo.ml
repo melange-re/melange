@@ -206,7 +206,6 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       Typemod.type_implementation fname outputprefix modulename env ast
 #endif
     in
-    let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
       implementation;
     if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
@@ -218,7 +217,9 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       let js_program =
         let lambda =
           let program =
-            Translmod.transl_implementation modulename typedtree_coercion
+            Translmod.transl_implementation modulename
+              ( Transl_single_field_record.prepare_for_translation typedtree,
+                coercion )
           in
           Lambda_simplif.simplify_lambda program.code
           |> print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda

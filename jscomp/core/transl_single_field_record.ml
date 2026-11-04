@@ -23,6 +23,123 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Import
+open Typedtree
+
+(* Once typing has selected arity0, recover its original [#run] lowering.
+   Keeping the synthetic unit argument until JavaScript printing would inhibit
+   optimizations that depend on the argument count, including tail calls. *)
+let zero_arity_callee expression =
+  match expression.exp_desc with
+  | Texp_apply
+      ( {
+          exp_desc =
+            Texp_apply
+              ( {
+                  exp_desc =
+                    Texp_ident (_, _, { val_kind = Val_prim primitive; _ });
+                  _;
+                },
+                [
+                  (Nolabel, Arg { exp_desc = Texp_field (callee, _, label); _ });
+                ] );
+          _;
+        },
+        [ (Nolabel, Arg { exp_desc = Texp_construct (_, constructor, []); _ }) ]
+      )
+    when primitive.prim_name = "%opaque"
+         && label.lbl_name = "Call"
+         && constructor.cstr_name = "()" -> (
+      match Types.get_desc label.lbl_res with
+      | Tconstr (Pdot (_, "arity0"), _, _) -> Some callee
+      | _ -> None)
+  | _ -> None
+
+(* Keep the shared field name throughout typing, including the saved typedtree.
+   Immediately before translation, restore the construction marker consumed by
+   [wrap_single_field_record]. Record construction stays non-expansive and can
+   still occur on the right-hand side of a recursive binding. *)
+let prepare_for_translation structure =
+  let callees = ref Ident.Map.empty in
+  let rewrite expression =
+    match expression.Typedtree.exp_desc with
+    | Texp_record
+        ({
+           fields = [| (label, definition) |];
+           representation = Record_unboxed _;
+           extended_expression = None;
+         } as record) -> (
+        let name =
+          List.find_map expression.exp_attributes ~f:(fun attribute ->
+              match attribute.Parsetree.attr_name.txt with
+              | "mel.internal.arity0" -> Some "I0"
+              | "mel.internal.arity1" -> Some "I1"
+              | _ -> None)
+        in
+        match name with
+        | None -> expression
+        | Some lbl_name ->
+            {
+              expression with
+              exp_desc =
+                Texp_record
+                  {
+                    record with
+                    fields = [| ({ label with lbl_name }, definition) |];
+                  };
+            })
+    | Texp_apply
+        ( ({
+             exp_desc =
+               Texp_ident
+                 (path, name, ({ val_kind = Val_prim primitive; _ } as value));
+             _;
+           } as fn),
+          [ (Nolabel, Arg argument) ] )
+      when primitive.prim_name = "#full_apply" -> (
+        match zero_arity_callee argument with
+        | None -> expression
+        | Some callee ->
+            let value =
+              {
+                value with
+                val_kind =
+                  Val_prim (Primitive.simple ~name:"#run" ~arity:1 ~alloc:true);
+              }
+            in
+            let fn = { fn with exp_desc = Texp_ident (path, name, value) } in
+            {
+              expression with
+              exp_desc = Texp_apply (fn, [ (Nolabel, Arg callee) ]);
+            })
+    | _ -> expression
+  in
+  let expr self expression =
+    match expression.exp_desc with
+    | Texp_let
+        ( Nonrecursive,
+          [
+            {
+              vb_pat =
+                { pat_desc = Tpat_var (id, { txt = "melange$fn"; _ }, _); _ };
+              vb_expr = callee;
+              _;
+            };
+          ],
+          body ) ->
+        (* The temporary isolates warnings during typing. Inline its single use
+           before translation to preserve FFI receivers and evaluation order. *)
+        let callee = self.Tast_mapper.expr self callee in
+        let previous = !callees in
+        callees := Ident.Map.add ~key:id ~data:callee !callees;
+        let body = self.expr self body in
+        callees := previous;
+        body
+    | Texp_ident (Pident id, _, _) ->
+        Ident.Map.find_default id !callees ~default:expression
+    | _ -> rewrite (Tast_mapper.default.expr self expression)
+  in
+  let mapper = { Tast_mapper.default with expr } in
+  mapper.structure mapper structure
 
 let wrap_single_field_record loc lbl_name (lambda : Lambda.lambda) =
   match String.length lbl_name with
