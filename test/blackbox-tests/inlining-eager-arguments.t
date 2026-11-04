@@ -2,6 +2,7 @@ Inlining must evaluate call arguments before the body, including unused argument
 and arguments used by short-circuit operators. Their relative order is unspecified.
 
   $ . ./setup.sh
+  $ echo 'let both a b = a && b' > helper.ml
   $ cat > input.ml <<'EOF'
   > let both a b = a && b
   > let either a b = a || b
@@ -15,6 +16,7 @@ and arguments used by short-circuit operators. Their relative order is unspecifi
   >   ignore (flipped (tick ()) false);
   >   ignore ((fun a b -> a && b) false (tick ()));
   >   ignore (apply both false (tick ()));
+  >   ignore (Helper.both false (tick ()));
   >   print_int !calls; print_newline ();
   >   (try ignore (both false (raise Exit)); print_endline "skipped"
   >    with Exit -> print_endline "raised");
@@ -26,13 +28,14 @@ and arguments used by short-circuit operators. Their relative order is unspecifi
   >   ignore (first (tick ()) (tick ()));
   >   print_int !calls; print_newline ()
   > EOF
-  $ ocamlc -o input.exe input.ml
+  $ ocamlc -o input.exe helper.ml input.ml
   $ ./input.exe
-  5
+  6
   raised
   1
-  7
-  $ melc input.ml > input.js
+  8
+  $ melc --mel-cross-module-opt helper.ml > helper.js
+  $ melc --mel-cross-module-opt -I . input.ml > input.js
   $ node input.js
   0
   skipped
