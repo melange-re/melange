@@ -10,6 +10,7 @@
   mocha,
   melange-compiler-libs-vendor-dir,
   doCheck ? true,
+  enableActionTrace ? true,
 }:
 
 with ocamlPackages;
@@ -86,6 +87,10 @@ buildDunePackage {
     cmdliner
     ppxlib_gt_0_37
     menhirLib
+  ]
+  ++ lib.optionals enableActionTrace [
+    csexp
+    dune-action-trace
   ];
   meta.mainProgram = "melc";
 }
