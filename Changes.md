@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: preserve option boxing and unwrapping for constructors represented
+  by JavaScript `undefined`, including constants and nested options
+  ([#2161](https://github.com/melange-re/melange/pull/2161))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

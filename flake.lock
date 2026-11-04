@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793563121,
-        "narHash": "sha256-RtkPI6yNw1Lg6VJDsLmPB4HbvUO9lYr3DykzkIOiiaQ=",
+        "lastModified": 1793786269,
+        "narHash": "sha256-P1nTXzMQ0f16A0QdLRoT/LNKBlnVAtkowbPme5QaiLM=",
         "owner": "melange-re",
         "repo": "melange-compiler-libs",
-        "rev": "8b8f820324e91a595d62c701cd155521b3bca594",
+        "rev": "9de6ac42183545df90868f6f70e52ed82aa47b49",
         "type": "github"
       },
       "original": {
