@@ -1,0 +1,75 @@
+Option helpers currently exceed the small-function export threshold, even when
+cross-module optimization is enabled. Keep the generated code and runtime
+behavior together so annotations can be added without changing option semantics.
+
+  $ . ./setup.sh
+  $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
+  $ cat > dune <<'EOF'
+  > (melange.emit
+  >  (target out)
+  >  (libraries melange)
+  >  (compile_flags :standard --mel-cross-module-opt)
+  >  (module_systems (commonjs js) (es6 mjs)))
+  > EOF
+  $ cat > main.ml <<'EOF'
+  > let mapped o = Option.map (fun x -> x + 1) o
+  > let bound o = Option.bind o (fun x -> Some (x + 2))
+  > let folded o = Option.fold ~none:0 ~some:(fun x -> x + 3) o
+  > let value o = Option.value o ~default:0
+  > let join_some o = Option.join (Some o)
+  > let each o f = Option.iter f o
+  > let identity o = Option.map (fun x -> x) o
+  > let known = Option.value (Option.map (fun x -> x + 1) (Some 2)) ~default:0
+  > EOF
+  $ cat > checks.ml <<'EOF'
+  > let () =
+  >   assert (Main.mapped (Some 2) = Some 3);
+  >   assert (Main.mapped None = None);
+  >   assert (Main.bound (Some 2) = Some 4);
+  >   assert (Main.bound None = None);
+  >   assert (Main.folded (Some 2) = 5);
+  >   assert (Main.folded None = 0);
+  >   assert (Main.value (Some 7) = 7);
+  >   assert (Main.value None = 0);
+  >   assert (Main.join_some None = None);
+  >   assert (Main.join_some (Some ()) = Some ());
+  >   assert (Main.identity (Some None) = Some None);
+  >   assert (Main.identity (Some ()) = Some ());
+  >   assert (Main.identity (Some (Some None)) = Some (Some None));
+  >   assert (Main.known = 3);
+  >   let visits = ref 0 in
+  >   Main.each None (fun _ -> incr visits);
+  >   Main.each (Some 4) (fun x -> visits := !visits + x);
+  >   assert (!visits = 4);
+  >   let calls = ref 0 in
+  >   let record_call x = incr calls; x in
+  >   assert (Option.value (Some 7) ~default:(record_call 0) = 7);
+  >   assert (Option.value None ~default:(record_call 0) = 0);
+  >   assert (Option.fold ~none:(record_call 0) ~some:(fun x -> x) (Some 7) = 7);
+  >   assert (!calls = 3);
+  >   assert (Option.map record_call None = None);
+  >   assert (Option.bind None (fun x -> Some (record_call x)) = None);
+  >   assert (!calls = 3);
+  >   assert (Option.map record_call (Some ()) = Some ());
+  >   assert (Option.bind (Some None) (fun x -> Some (record_call x)) = Some None);
+  >   assert (!calls = 5);
+  >   let order = ref "" in
+  >   let mark label x = order := !order ^ label; x in
+  >   let o = mark "a" (Some 7) in
+  >   let default = mark "b" 0 in
+  >   assert (Option.value o ~default = 7);
+  >   assert (!order = "ab");
+  >   order := "";
+  >   assert (Option.value (mark "a" (Some 7)) ~default:(mark "b" 0) = 7);
+  >   (* OCaml leaves application argument order unspecified. Both run once. *)
+  >   assert (!order = "ab" || !order = "ba")
+  > EOF
+  $ dune build @melange
+  $ node <<'EOF'
+  > const code = require('node:fs').readFileSync('_build/default/out/main.js', 'utf8');
+  > const calls = code.match(/Stdlib__Option\.\w+/g) || [];
+  > console.log([...new Set(calls)].sort().join(', '));
+  > EOF
+  Stdlib__Option.bind, Stdlib__Option.fold, Stdlib__Option.iter, Stdlib__Option.join, Stdlib__Option.map, Stdlib__Option.value
+  $ node _build/default/out/checks.js
+  $ node _build/default/out/checks.mjs
