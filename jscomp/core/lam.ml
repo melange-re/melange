@@ -311,12 +311,13 @@ let rec apply fn args (ap_info : ap_info) : t =
               args =
                 [
                   Lprim
-                    ({ primitive = _; args = inner_args; _ } as primitive_call);
+                    ({ primitive; args = inner_args; _ } as primitive_call);
                 ];
               _;
             };
         _;
-      } -> (
+      }
+    when primitive <> Psequand && primitive <> Psequor -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
           let loc = ap_info.ap_loc in
@@ -331,9 +332,10 @@ let rec apply fn args (ap_info : ap_info) : t =
   | Lfunction
       {
         params;
-        body = Lprim ({ primitive = _; args = inner_args; _ } as primitive_call);
+        body = Lprim ({ primitive; args = inner_args; _ } as primitive_call);
         _;
-      } -> (
+      }
+    when primitive <> Psequand && primitive <> Psequor -> (
       match is_eta_conversion_exn params inner_args args with
       | args -> Lprim { primitive_call with args; loc = ap_info.ap_loc }
       | exception _ -> Lapply { ap_func = fn; ap_args = args; ap_info })
@@ -342,10 +344,11 @@ let rec apply fn args (ap_info : ap_info) : t =
         params;
         body =
           Lsequence
-            ( Lprim ({ primitive = _; args = inner_args; _ } as primitive_call),
+            ( Lprim ({ primitive; args = inner_args; _ } as primitive_call),
               (Lconst _ as const) );
         _;
-      } -> (
+      }
+    when primitive <> Psequand && primitive <> Psequor -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
           Lsequence

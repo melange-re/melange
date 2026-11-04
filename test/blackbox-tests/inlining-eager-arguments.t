@@ -40,7 +40,7 @@ and arguments used by short-circuit operators. Their relative order is unspecifi
   1
   10
   $ node _build/default/out/input.js
+  8
+  raised
   1
-  skipped
-  11
-  3
+  10
