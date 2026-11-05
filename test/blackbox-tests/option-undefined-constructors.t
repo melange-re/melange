@@ -25,6 +25,9 @@ when constructing Some and when unwrapping it before matching.
   >   run unboxed [None; Some (C U); make (C U); Some (C N); Some (C S)];
   >   run nested [None; Some None; Some (Some U); make (make U); Some (Some N)]
   > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
+  $ dune build @melange
   $ ocamlc -o input.exe input.ml
   $ ./input.exe
   0 1 1 1 2 3
@@ -34,8 +37,7 @@ when constructing Some and when unwrapping it before matching.
   0 1 1 1 2 3
   0 1 1 2 3
   0 1 2 2 3
-  $ melc -ppx melppx input.ml > input.js
-  $ node input.js
+  $ node _build/default/out/input.js
   0 0 undefined 0 2 3
   0 0 undefined 0 2 3
   1 1 undefined 1 2 3
