@@ -89,6 +89,9 @@ and translate_some =
     match x with
     | Const_some v -> is_some_none_aux v (acc + 1)
     | Const_module_alias | Const_js_undefined _ -> Nest (acc, x)
+    | Const_int { comment; _ }
+      when Lam.Constant.modifier_of_pointer_info comment = Some Undefined ->
+        Nest (acc, x)
     | _ -> Unnest
   in
   let rec nested_some_none n none =

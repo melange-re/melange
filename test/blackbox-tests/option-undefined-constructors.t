@@ -38,10 +38,10 @@ when constructing Some and when unwrapping it before matching.
   0 1 1 2 3
   0 1 2 2 3
   $ node _build/default/out/input.js
-  0 0 undefined 0 2 3
-  0 0 undefined 0 2 3
-  1 1 undefined 1 2 3
-  3 3 undefined 3 1 3
-  0 0 undefined 0 2 3
-  0 0 undefined 2 3
-  0 1 0 undefined 3
+  0 1 1 1 2 3
+  0 1 1 1 2 3
+  1 1 1 1 2 3
+  3 1 1 1 1 3
+  0 1 1 1 2 3
+  0 1 1 2 3
+  0 1 2 2 3
