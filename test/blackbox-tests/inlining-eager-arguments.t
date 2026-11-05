@@ -17,6 +17,8 @@ and arguments used by short-circuit operators. Their relative order is unspecifi
   >   ignore ((fun a b -> a && b) false (tick ()));
   >   ignore (apply both false (tick ()));
   >   ignore (Helper.both false (tick ()));
+  >   ignore ((fun a b -> not (a && b)) false (tick ()));
+  >   ignore ((fun a b -> ignore (a && b)) false (tick ()));
   >   print_int !calls; print_newline ();
   >   (try ignore (both false (raise Exit)); print_endline "skipped"
   >    with Exit -> print_endline "raised");
@@ -28,16 +30,17 @@ and arguments used by short-circuit operators. Their relative order is unspecifi
   >   ignore (first (tick ()) (tick ()));
   >   print_int !calls; print_newline ()
   > EOF
+  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
+  $ echo '(melange.emit (target out) (libraries melange) (compile_flags :standard --mel-cross-module-opt))' > dune
+  $ dune build @melange
   $ ocamlc -o input.exe helper.ml input.ml
   $ ./input.exe
-  6
+  8
   raised
   1
-  8
-  $ melc --mel-cross-module-opt helper.ml > helper.js
-  $ melc --mel-cross-module-opt -I . input.ml > input.js
-  $ node input.js
-  0
+  10
+  $ node _build/default/out/input.js
+  1
   skipped
   11
-  2
+  3
