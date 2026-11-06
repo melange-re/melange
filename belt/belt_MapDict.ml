@@ -23,10 +23,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module N = Belt_internalAVLtree
-module A = Belt_Array
+module A = Array
 
 type ('key, 'a, 'id) t = ('key, 'a) N.t
-type ('key, 'id) cmp = ('key, 'id) Belt_Id.cmp
+type ('key, 'id) cmp = ('key, 'id) Id.cmp
 
 let empty = None
 let fromArray = N.fromArray
@@ -76,7 +76,7 @@ let rec set (t : _ t) newK newD ~cmp =
   | None -> N.singleton newK newD
   | Some n ->
       let k = n.N.key in
-      let c = ((Belt_Id.getCmpInternal cmp) newK k [@u]) in
+      let c = ((Id.getCmpInternal cmp) newK k [@u]) in
       if c = 0 then Some (N.updateValue n newD)
       else
         let l, r, v = (n.N.left, n.N.right, n.N.value) in
@@ -91,7 +91,7 @@ let rec updateU (t : _ t) newK f ~cmp : _ t =
       match f None [@u] with None -> t | Some newD -> N.singleton newK newD)
   | Some n ->
       let k = n.N.key in
-      let c = ((Belt_Id.getCmpInternal cmp) newK k [@u]) in
+      let c = ((Id.getCmpInternal cmp) newK k [@u]) in
       if c = 0 then
         match f (Some n.N.value) [@u] with
         | None -> (
@@ -132,7 +132,7 @@ let update t newK f ~cmp = updateU t newK (fun[@u] a -> f a) ~cmp
 
 let rec removeAux0 n x ~cmp =
   let { N.left = l; key = v; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+  let c = ((Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then
     match (l, r) with
     | None, _ -> r
@@ -168,7 +168,7 @@ let mergeMany h arr ~cmp =
 
 let rec splitAuxPivot n x pres ~cmp =
   let { N.left = l; key = v; value = d; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+  let c = ((Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then (
     pres.contents <- Some d;
     (l, r))

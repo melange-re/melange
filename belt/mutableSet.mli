@@ -37,7 +37,7 @@ module String = Belt_MutableSetString
     than the generic type *)
 
 type ('k, 'id) t
-type ('k, 'id) id = ('k, 'id) Belt_Id.comparable
+type ('k, 'id) id = ('k, 'id) Id.comparable
 
 val make : id:('value, 'id) id -> ('value, 'id) t
 val fromArray : 'k array -> id:('k, 'id) id -> ('k, 'id) t

@@ -1,6 +1,14 @@
 Unreleased
 ----------
 
+- BREAKING(Belt): rename the `Belt` compilation units so that `Belt.X` is an
+  alias of `Belt__X` (e.g. `Belt__Belt_Array` is now `Belt__Array`). Type errors
+  now print `Belt.MutableStack.t` instead of `Belt__Belt_MutableStack.t`.
+  Compiled artifacts (`.cmi`, `.cmj`) and generated JavaScript file names for
+  `melange.belt` change, for example `melange.belt/belt_Array.js` is now
+  `melange.belt/array.js`; rebuild dependent code. Source code is unaffected
+  ([#1154](https://github.com/melange-re/melange/issues/1154))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

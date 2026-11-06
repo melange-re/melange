@@ -111,14 +111,14 @@
     The specialized modules {i Belt.Set.Int}, {i Belt.Set.String} are in general more
     efficient.
 
-    Currently, both {i Belt_Set} and {i Belt.Set} are accessible to users for some
+    Currently, both {i Belt__Set} and {i Belt.Set} are accessible to users for some
     technical reasons,
     we {b strongly recommend} users stick to qualified import, {i Belt.Set}, we may hide
-    the internal, {i i.e}, {i Belt_Set} in the future
+    the internal, {i i.e}, {i Belt__Set} in the future
 
 *)
 
-module Id = Belt_Id
+module Id = Id
 (** {!Belt.Id}
 
     Provide utilities to create identified comparators or hashes for
@@ -129,13 +129,13 @@ module Id = Belt_Id
     comparison functions won't mix
 *)
 
-module Array = Belt_Array
+module Array = Array
 (** {!Belt.Array}
 
     {b mutable array}: Utilities functions
 *)
 
-module SortArray = Belt_SortArray
+module SortArray = SortArray
 (** {!Belt.SortArray}
 
     The top level provides some generic sort related utilities.
@@ -144,31 +144,31 @@ module SortArray = Belt_SortArray
     {!Belt.SortArray.Int} and {!Belt.SortArray.String}
 *)
 
-module MutableQueue = Belt_MutableQueue
+module MutableQueue = MutableQueue
 (** {!Belt.MutableQueue}
 
     An FIFO(first in first out) queue data structure
 *)
 
-module MutableStack = Belt_MutableStack
+module MutableStack = MutableStack
 (** {!Belt.MutableStack}
 
     An FILO(first in last out) stack data structure
 *)
 
-module List = Belt_List
+module List = List
 (** {!Belt.List}
 
     Utilities for List data type
 *)
 
-module Range = Belt_Range
+module Range = Range
 (** {!Belt.Range}
 
     Utilities for a closed range [(from, start)]
 *)
 
-module Set = Belt_Set
+module Set = Set
 (** {!Belt.Set}
 
     The top level provides generic {b immutable} set operations.
@@ -181,7 +181,7 @@ module Set = Belt_Set
 
 *)
 
-module Map = Belt_Map
+module Map = Map
 (** {!Belt.Map},
 
     The top level provides generic {b immutable} map operations.
@@ -193,7 +193,7 @@ module Map = Belt_Map
     which  is more verbose but slightly more efficient
 *)
 
-module MutableSet = Belt_MutableSet
+module MutableSet = MutableSet
 (** {!Belt.MutableSet}
 
     The top level provides generic {b mutable} set operations.
@@ -202,7 +202,7 @@ module MutableSet = Belt_MutableSet
     {!Belt.MutableSet.Int} and {!Belt.MutableSet.String}
 *)
 
-module MutableMap = Belt_MutableMap
+module MutableMap = MutableMap
 (** {!Belt.MutableMap}
 
     The top level provides generic {b mutable} map operations.
@@ -212,7 +212,7 @@ module MutableMap = Belt_MutableMap
 
 *)
 
-module HashSet = Belt_HashSet
+module HashSet = HashSet
 (** {!Belt.HashSet}
 
     The top level provides generic {b mutable} hash set operations.
@@ -221,7 +221,7 @@ module HashSet = Belt_HashSet
     {!Belt.HashSet.Int} and {!Belt.HashSet.String}
 *)
 
-module HashMap = Belt_HashMap
+module HashMap = HashMap
 (** {!Belt.HashMap}
 
     The top level provides generic {b mutable} hash map operations.
@@ -230,7 +230,7 @@ module HashMap = Belt_HashMap
     {!Belt.HashMap.Int} and {!Belt.HashMap.String}
 *)
 
-module Option = Belt_Option
+module Option = Option
 (** {!Belt.Option}
 
     Utilities for option data type.
@@ -241,18 +241,18 @@ module Option = Belt_Option
     Utilities for result data type.
 *)
 
-module Result = Belt_Result
+module Result = Result
 
 (** {!Belt.Int}
 
     Utilities for Int.
 *)
 
-module Int = Belt_Int
+module Int = Int
 
 (** {!Belt.Float}
 
     Utilities for Float.
 *)
 
-module Float = Belt_Float
+module Float = Float

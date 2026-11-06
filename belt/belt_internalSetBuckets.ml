@@ -34,7 +34,7 @@ module C = Belt_internalBucketsType
 type 'a bucket = { mutable key : 'a; mutable next : 'a bucket C.opt }
 and ('hash, 'eq, 'a) t = ('hash, 'eq, 'a bucket) C.container
 
-module A = Belt_Array
+module A = Array
 
 let rec copy (x : _ t) : _ t =
   { hash = x.hash; eq = x.eq; size = x.size; buckets = copyBuckets x.buckets }

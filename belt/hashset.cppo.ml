@@ -19,7 +19,7 @@ let hash (s : key) =
 
 module N = Belt_internalSetBuckets
 module C = Belt_internalBucketsType
-module A = Belt_Array
+module A = Array
 
 type t = (unit, unit, key) N.t
 

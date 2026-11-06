@@ -87,7 +87,7 @@ type ('a, 'id) t
 
 (** The type of hash tables from type ['a] to type ['b]. *)
 
-type ('a, 'id) id = ('a, 'id) Belt_Id.hashable
+type ('a, 'id) id = ('a, 'id) Id.hashable
 
 val make : hintSize:int -> id:('a, 'id) id -> ('a, 'id) t
 val clear : ('a, 'id) t -> unit

@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (** This module is {!Belt.MutableSet} specialized with key type to be a primitive type.
-    It is more efficient in general, the  API is the same with {!Belt_MutableSet} except its key type is fixed,
+    It is more efficient in general, the  API is the same with {!MutableSet} except its key type is fixed,
     and identity is not needed(using the built-in one)
 *)
 
@@ -37,7 +37,7 @@ module S = Belt_SortArrayString
   [%error "unknown type"]
 #endif
 module N = Belt_internalAVLset
-module A = Belt_Array
+module A = Array
 
 type value = I.value
 (** The type of the set elements. *)

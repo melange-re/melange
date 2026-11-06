@@ -31,7 +31,7 @@ module String = Belt_MutableMapString
 *)
 
 type ('k, 'v, 'id) t
-type ('key, 'id) id = ('key, 'id) Belt_Id.comparable
+type ('key, 'id) id = ('key, 'id) Id.comparable
 
 val make : id:('k, 'id) id -> ('k, 'a, 'id) t
 val clear : _ t -> unit

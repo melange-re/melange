@@ -32,10 +32,10 @@ type 'value node = {
 
 and 'value t = 'value node option
 
-module A = Belt_Array
-module S = Belt_SortArray
+module A = Array
+module S = SortArray
 
-type ('a, 'b) cmp = ('a, 'b) Belt_Id.cmp
+type ('a, 'b) cmp = ('a, 'b) Id.cmp
 
 (* Sets are represented by balanced binary trees (the heights of the
    children differ by at most 2 *)
@@ -379,13 +379,13 @@ let rec has (t : _ t) x ~cmp =
   | None -> false
   | Some n ->
       let v = n.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       c = 0 || has ~cmp (if c < 0 then n.left else n.right) x
 
 let rec compareAux e1 e2 ~cmp =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
-      let c = ((Belt_Id.getCmpInternal cmp) h1.value h2.value [@u]) in
+      let c = ((Id.getCmpInternal cmp) h1.value h2.value [@u]) in
       if c = 0 then
         compareAux ~cmp
           (h1.right |. stackAllLeft t1)
@@ -408,7 +408,7 @@ let rec subset (s1 : _ t) (s2 : _ t) ~cmp =
   | Some t1, Some t2 ->
       let { left = l1; value = v1; right = r1; _ } = t1 in
       let { left = l2; value = v2; right = r2; _ } = t2 in
-      let c = ((Belt_Id.getCmpInternal cmp) v1 v2 [@u]) in
+      let c = ((Id.getCmpInternal cmp) v1 v2 [@u]) in
       if c = 0 then subset ~cmp l1 l2 && subset ~cmp r1 r2
       else if c < 0 then subset ~cmp (create l1 v1 None) l2 && subset ~cmp r1 s2
       else subset ~cmp (create None v1 r1) r2 && subset ~cmp l1 s2
@@ -418,7 +418,7 @@ let rec get (n : _ t) x ~cmp =
   | None -> None
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Some v else get ~cmp (if c < 0 then t.left else t.right) x
 
 let rec getUndefined (n : _ t) x ~cmp =
@@ -426,7 +426,7 @@ let rec getUndefined (n : _ t) x ~cmp =
   | None -> Js.Undefined.empty
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Js.Undefined.return v
       else getUndefined ~cmp (if c < 0 then t.left else t.right) x
 
@@ -435,7 +435,7 @@ let rec getExn (n : _ t) x ~cmp =
   | None -> raise Not_found
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then v else getExn ~cmp (if c < 0 then t.left else t.right) x
 
 (******************************************************************)
@@ -518,7 +518,7 @@ let rec addMutate ~cmp (t : _ t) x =
   | None -> singleton x
   | Some nt ->
       let k = nt.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
+      let c = ((Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then t
       else
         let { left = l; right = r; _ } = nt in
@@ -535,7 +535,7 @@ let fromArray (xs : _ array) ~cmp =
     let next =
       ref
         (S.strictlySortedLengthU xs (fun[@u] x y ->
-             ((Belt_Id.getCmpInternal cmp) x y [@u]) < 0))
+             ((Id.getCmpInternal cmp) x y [@u]) < 0))
     in
     let result =
       ref

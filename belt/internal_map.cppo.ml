@@ -8,8 +8,8 @@ type key = int
 #endif
 
 module N = Belt_internalAVLtree
-module A = Belt_Array
-module S = Belt_SortArray
+module A = Array
+module S = SortArray
 
 
 

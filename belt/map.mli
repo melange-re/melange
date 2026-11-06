@@ -65,30 +65,30 @@ type ('key, 'value, 'identity) t
     ['identity] the identity of the collection
 *)
 
-type ('key, 'id) id = ('key, 'id) Belt_Id.comparable
+type ('key, 'id) id = ('key, 'id) Id.comparable
 (** The identity needed for making an empty map*)
 
 (*
     How we retain soundness:
     The only way to create a value of type [_ t] from scratch
-    is through [empty] which requires [_ Belt_Id.t]
-    The only way to create [_ Belt_Id.t] is using [Belt_Id.Make] which
+    is through [empty] which requires [_ Id.t]
+    The only way to create [_ Id.t] is using [Id.Make] which
     will create a fresh type [id] per module
 
     Generic operations over tree without [cmp] are still exported
     (for efficient reasons) so that [data] does not need be boxed and unboxed.
 
     The soundness is guaranteed in two aspects:
-    When create a value of [_ t] it needs both [_ Belt_Id.t] and [_ t0].
-    [_ Belt_Id.t] is an abstract type. Note [add0] requires [_ Belt_Id.cmp] which
-    is also an abstract type which can only come from [_ Belt_Id.t]
+    When create a value of [_ t] it needs both [_ Id.t] and [_ t0].
+    [_ Id.t] is an abstract type. Note [add0] requires [_ Id.cmp] which
+    is also an abstract type which can only come from [_ Id.t]
 
     When destructing a value of [_ t], the ['id] parameter is threaded.
 
 *)
 
-(* should not export [Belt_Id.compare].
-   should only export [Belt_Id.t] or [Belt_Id.cmp] instead *)
+(* should not export [Id.compare].
+   should only export [Id.t] or [Id.cmp] instead *)
 
 val make : id:('k, 'id) id -> ('k, 'v, 'id) t
 (** [make ~id] creates a new map by taking in the comparator

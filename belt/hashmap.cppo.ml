@@ -32,7 +32,7 @@ let hash (s : key) =
 
 module N = Belt_internalBuckets
 module C = Belt_internalBucketsType
-module A = Belt_Array
+module A = Array
 
 
 type 'b t = (unit, unit, key,'b) N.t

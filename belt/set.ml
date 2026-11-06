@@ -26,8 +26,8 @@ module Int = Belt_SetInt
 module String = Belt_SetString
 module Dict = Belt_SetDict
 
-type ('value, 'id) id = ('value, 'id) Belt_Id.comparable
-type ('value, 'id) cmp = ('value, 'id) Belt_Id.cmp
+type ('value, 'id) id = ('value, 'id) Id.comparable
+type ('value, 'id) cmp = ('value, 'id) Id.cmp
 type ('value, 'id) t = { cmp : ('value, 'id) cmp; data : ('value, 'id) Dict.t }
 
 let fromArray (type value identity) data ~(id : (value, identity) id) =

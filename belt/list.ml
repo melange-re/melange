@@ -62,7 +62,7 @@
 
 type 'a t = 'a list
 
-module A = Belt_Array
+module A = Array
 
 external mutableCell : 'a -> 'a t -> 'a t = "#makemutablelist"
 
@@ -378,7 +378,7 @@ let shuffle xs =
 (* type json = J.t  *)
 (* let toJson x f =    *)
 (*   let len = length x in *)
-(*   let arr = Belt_Array.makeUninitializedUnsafe len in *)
+(*   let arr = Array.makeUninitializedUnsafe len in *)
 (*   fillAuxMap arr 0 x f; *)
 (*   J.array arr *)
 
@@ -599,7 +599,7 @@ let setAssoc xs x k eq = setAssocU xs x k (fun[@u] a b -> eq a b)
 
 let sortU xs cmp =
   let arr = toArray xs in
-  Belt_SortArray.stableSortInPlaceByU arr cmp;
+  SortArray.stableSortInPlaceByU arr cmp;
   fromArray arr
 
 let sort xs cmp = sortU xs (fun[@u] x y -> cmp x y)

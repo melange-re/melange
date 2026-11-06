@@ -25,11 +25,11 @@
 module Int = Belt_MutableSetInt
 module String = Belt_MutableSetString
 module N = Belt_internalAVLset
-module A = Belt_Array
-module Sort = Belt_SortArray
+module A = Array
+module Sort = SortArray
 
-type ('k, 'id) id = ('k, 'id) Belt_Id.comparable
-type ('key, 'id) cmp = ('key, 'id) Belt_Id.cmp
+type ('k, 'id) id = ('k, 'id) Id.comparable
+type ('key, 'id) cmp = ('key, 'id) Id.cmp
 type ('value, 'id) t = { cmp : ('value, 'id) cmp; mutable data : 'value N.t }
 
 let rec remove0 nt x ~cmp =
@@ -61,7 +61,7 @@ let remove d v =
   match oldRoot with
   | None -> ()
   | Some oldRoot2 ->
-      let newRoot = remove0 ~cmp:(Belt_Id.getCmpInternal d.cmp) oldRoot2 v in
+      let newRoot = remove0 ~cmp:(Id.getCmpInternal d.cmp) oldRoot2 v in
       if newRoot != oldRoot then d.data <- newRoot
 
 let rec removeMany0 t xs i len ~cmp =
@@ -77,11 +77,11 @@ let removeMany d xs =
   | None -> ()
   | Some nt ->
       let len = A.length xs in
-      d.data <- removeMany0 nt xs 0 len ~cmp:(Belt_Id.getCmpInternal d.cmp)
+      d.data <- removeMany0 nt xs 0 len ~cmp:(Id.getCmpInternal d.cmp)
 
 let rec removeCheck0 nt x removed ~cmp =
   let k = nt.N.value in
-  let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
+  let c = ((Id.getCmpInternal cmp) x k [@u]) in
   if c = 0 then (
     let () = removed.contents <- true in
     let { N.left = l; right = r; _ } = nt in
@@ -134,7 +134,7 @@ let rec addCheck0 t x added ~cmp =
 let addCheck m e =
   let oldRoot = m.data in
   let added = ref false in
-  let newRoot = addCheck0 ~cmp:(Belt_Id.getCmpInternal m.cmp) oldRoot e added in
+  let newRoot = addCheck0 ~cmp:(Id.getCmpInternal m.cmp) oldRoot e added in
   if newRoot != oldRoot then m.data <- newRoot;
   added.contents
 
@@ -194,7 +194,7 @@ let getExn d x = N.getExn ~cmp:d.cmp d.data x
 let split d key =
   let arr = N.toArray d.data in
   let cmp = d.cmp in
-  let i = Sort.binarySearchByU arr key (Belt_Id.getCmpInternal cmp) in
+  let i = Sort.binarySearchByU arr key (Id.getCmpInternal cmp) in
   let len = A.length arr in
   if i < 0 then
     let next = -i - 1 in
@@ -228,7 +228,7 @@ let intersect a b : _ t =
       let tmp = A.makeUninitializedUnsafe totalSize in
       ignore (N.fillArray dataa0 0 tmp);
       ignore (N.fillArray datab0 sizea tmp);
-      let p = Belt_Id.getCmpInternal cmp in
+      let p = Id.getCmpInternal cmp in
       if
         (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0
         || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@u]) < 0
@@ -250,7 +250,7 @@ let diff a b : _ t =
       let tmp = A.makeUninitializedUnsafe totalSize in
       ignore (N.fillArray dataa0 0 tmp);
       ignore (N.fillArray datab0 sizea tmp);
-      let p = Belt_Id.getCmpInternal cmp in
+      let p = Id.getCmpInternal cmp in
       if
         (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0
         || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@u]) < 0
@@ -272,7 +272,7 @@ let union a b =
       let tmp = A.makeUninitializedUnsafe totalSize in
       ignore (N.fillArray dataa0 0 tmp);
       ignore (N.fillArray datab0 sizea tmp);
-      let p = Belt_Id.getCmpInternal cmp in
+      let p = Id.getCmpInternal cmp in
       if (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0 then
         { data = N.fromSortedArrayAux tmp 0 totalSize; cmp }
       else

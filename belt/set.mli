@@ -72,7 +72,7 @@ type ('value, 'identity) t
     ['identity] the identity of the collection
 *)
 
-type ('value, 'id) id = ('value, 'id) Belt_Id.comparable
+type ('value, 'id) id = ('value, 'id) Id.comparable
 (** The identity needed for making a set from scratch
 *)
 

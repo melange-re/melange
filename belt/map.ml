@@ -26,8 +26,8 @@ module Dict = Belt_MapDict
     more efficient
 *)
 
-type ('key, 'id) id = ('key, 'id) Belt_Id.comparable
-type ('key, 'id) cmp = ('key, 'id) Belt_Id.cmp
+type ('key, 'id) id = ('key, 'id) Id.comparable
+type ('key, 'id) cmp = ('key, 'id) Id.cmp
 type ('k, 'v, 'id) t = { cmp : ('k, 'id) cmp; data : ('k, 'v, 'id) Dict.t }
 
 let fromArray (type k idx) data ~(id : (k, idx) id) =
