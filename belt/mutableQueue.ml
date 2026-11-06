@@ -14,7 +14,7 @@
 (*                                                                        *)
 (**************************************************************************)
 (* Adapted significantly by ReScript Authors                          *)
-module A = Belt_Array
+module A = Array
 
 type 'a node = { content : 'a; mutable next : 'a cell }
 and 'a cell = 'a node option

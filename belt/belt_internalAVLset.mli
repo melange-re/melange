@@ -36,7 +36,7 @@ and 'value node = {
   mutable right : 'value t; [@mel.as "r"]
 }
 
-type ('a, 'b) cmp = ('a, 'b) Belt_Id.cmp
+type ('a, 'b) cmp = ('a, 'b) Id.cmp
 
 val copy : 'a t -> 'a t
 val create : 'a t -> 'a -> 'a t -> 'a t

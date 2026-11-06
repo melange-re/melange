@@ -24,10 +24,10 @@ type ('k, 'v) node = {
 
 and ('key, 'a) t = ('key, 'a) node option
 
-type ('k, 'id) cmp = ('k, 'id) Belt_Id.cmp
+type ('k, 'id) cmp = ('k, 'id) Id.cmp
 
-module A = Belt_Array
-module S = Belt_SortArray
+module A = Array
+module S = SortArray
 
 let treeHeight (n : _ t) = match n with None -> 0 | Some n -> n.height
 
@@ -527,7 +527,7 @@ let fromSortedArrayUnsafe arr = fromSortedArrayAux arr 0 (A.length arr)
 let rec compareAux e1 e2 ~kcmp ~vcmp =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
-      let c = ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@u]) in
+      let c = ((Id.getCmpInternal kcmp) h1.key h2.key [@u]) in
       if c = 0 then
         let cx = (vcmp h1.value h2.value [@u]) in
         if cx = 0 then
@@ -541,7 +541,7 @@ let rec eqAux e1 e2 ~kcmp ~veq =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
       if
-        ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@u]) = 0
+        ((Id.getCmpInternal kcmp) h1.key h2.key [@u]) = 0
         && (veq h1.value h2.value [@u])
       then
         eqAux ~kcmp ~veq (stackAllLeft h1.right t1) (stackAllLeft h2.right t2)
@@ -569,7 +569,7 @@ let rec get n x ~cmp =
   | None -> None
   | Some n (* Node(l, v, d, r, _) *) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Some n.value
       else get ~cmp (if c < 0 then n.left else n.right) x
 
@@ -578,7 +578,7 @@ let rec getUndefined n x ~cmp =
   | None -> Js.undefined
   | Some n ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Js.Undefined.return n.value
       else getUndefined ~cmp (if c < 0 then n.left else n.right) x
 
@@ -587,7 +587,7 @@ let rec getExn n x ~cmp =
   | None -> raise Not_found
   | Some n (* Node(l, v, d, r, _)*) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then n.value
       else getExn ~cmp (if c < 0 then n.left else n.right) x
 
@@ -596,7 +596,7 @@ let rec getWithDefault n x def ~cmp =
   | None -> def
   | Some n (* Node(l, v, d, r, _)*) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then n.value
       else getWithDefault ~cmp (if c < 0 then n.left else n.right) x def
 
@@ -605,7 +605,7 @@ let rec has n x ~cmp =
   | None -> false
   | Some n (* Node(l, v, d, r, _) *) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
+      let c = ((Id.getCmpInternal cmp) x v [@u]) in
       c = 0 || has ~cmp (if c < 0 then n.left else n.right) x
 
 (******************************************************************)
@@ -682,7 +682,7 @@ let rec updateMutate (t : _ t) x data ~cmp =
   | None -> singleton x data
   | Some nt ->
       let k = nt.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
+      let c = ((Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then (
         nt.value <- data;
         Some nt)
@@ -701,7 +701,7 @@ let fromArray (xs : _ array) ~cmp =
     let next =
       ref
         (S.strictlySortedLengthU xs (fun[@u] (x0, _) (y0, _) ->
-             ((Belt_Id.getCmpInternal cmp) x0 y0 [@u]) < 0))
+             ((Id.getCmpInternal cmp) x0 y0 [@u]) < 0))
     in
     let result =
       ref

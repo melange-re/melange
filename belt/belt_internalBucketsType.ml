@@ -30,7 +30,7 @@ type ('hash, 'eq, 'c) container = {
   eq : 'eq;
 }
 
-module A = Belt_Array
+module A = Array
 
 external toOpt : 'a opt -> 'a option = "#undefined_to_opt"
 external return : 'a -> 'a opt = "%identity"

@@ -84,25 +84,25 @@
 
 (rule
  (target belt_SetString.ml)
- (deps belt_Set.cppo.ml)
+ (deps set.cppo.ml)
  (action
   (run cppo -D TYPE_STRING %{deps} -o %{target})))
 
 (rule
  (target belt_SetString.mli)
- (deps belt_Set.cppo.mli)
+ (deps set.cppo.mli)
  (action
   (run cppo -D TYPE_STRING %{deps} -o %{target})))
 
 (rule
  (target belt_SetInt.ml)
- (deps belt_Set.cppo.ml)
+ (deps set.cppo.ml)
  (action
   (run cppo -D TYPE_INT %{deps} -o %{target})))
 
 (rule
  (target belt_SetInt.mli)
- (deps belt_Set.cppo.mli)
+ (deps set.cppo.mli)
  (action
   (run cppo -D TYPE_INT %{deps} -o %{target})))
 

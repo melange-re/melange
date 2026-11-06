@@ -6,7 +6,7 @@ module I = Belt_internalSetString
   [%error "unknown type"]
 #endif
 module N = Belt_internalAVLset
-module A = Belt_Array
+module A = Array
 
 type value = I.value
 type t = I.t

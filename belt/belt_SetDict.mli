@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type ('value, 'identity) t
-type ('value, 'id) cmp = ('value, 'id) Belt_Id.cmp
+type ('value, 'id) cmp = ('value, 'id) Id.cmp
 
 val empty : ('value, 'id) t
 val fromArray : 'value array -> cmp:('value, 'id) cmp -> ('value, 'id) t

@@ -9,7 +9,7 @@ module I = Belt_internalMapInt
 #endif
 
 module N = Belt_internalAVLtree
-module A = Belt_Array
+module A = Array
 
 type 'a t = (key, 'a) N.t
 

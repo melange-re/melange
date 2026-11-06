@@ -25,15 +25,15 @@
 module Int = Belt_MutableMapInt
 module String = Belt_MutableMapString
 module N = Belt_internalAVLtree
-module A = Belt_Array
+module A = Array
 
-type ('key, 'id) id = ('key, 'id) Belt_Id.comparable
-type ('key, 'id) cmp = ('key, 'id) Belt_Id.cmp
+type ('key, 'id) id = ('key, 'id) Id.comparable
+type ('key, 'id) cmp = ('key, 'id) Id.cmp
 type ('k, 'v, 'id) t = { cmp : ('k, 'id) cmp; mutable data : ('k, 'v) N.t }
 
 let rec removeMutateAux nt x ~cmp =
   let k = nt.N.key in
-  let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
+  let c = ((Id.getCmpInternal cmp) x k [@u]) in
   if c = 0 then
     let { N.left = l; right = r; _ } = nt in
     match (l, r) with
@@ -87,7 +87,7 @@ let rec updateDone t x f ~cmp =
       match f None [@u] with Some data -> N.singleton x data | None -> t)
   | Some nt ->
       let k = nt.N.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
+      let c = ((Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then (
         match f (Some nt.value) [@u] with
         | None -> (

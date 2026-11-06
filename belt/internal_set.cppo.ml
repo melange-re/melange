@@ -10,7 +10,7 @@ module S = Belt_SortArrayInt
 
 
 module N = Belt_internalAVLset
-module A = Belt_Array
+module A = Array
 
 
 type t = value N.t

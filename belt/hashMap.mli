@@ -79,7 +79,7 @@ module String = Belt_HashMapString
 type ('key, 'value, 'id) t
 (** The type of hash tables from type ['key] to type ['value]. *)
 
-type ('a, 'id) id = ('a, 'id) Belt_Id.hashable
+type ('a, 'id) id = ('a, 'id) Id.hashable
 
 val make : hintSize:int -> id:('key, 'id) id -> ('key, 'value, 'id) t
 (*TODO: allow randomization for security *)

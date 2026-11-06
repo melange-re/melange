@@ -8,7 +8,7 @@ type key = string
   [%error "unknown type"]
 #endif
 module N = Belt_internalAVLtree
-module A = Belt_Array
+module A = Array
 
 
 
