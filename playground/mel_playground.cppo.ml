@@ -365,6 +365,7 @@ let () =
 
   Clflags.binary_annotations := false;
   Clflags.color := None;
+  Clflags.real_paths := false;
   Location.warning_reporter := playground_warning_reporter;
   Ocaml_common.Location.alert_reporter := playground_alert_reporter;
   Location.alert_reporter := playground_alert_reporter;
