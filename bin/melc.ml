@@ -261,7 +261,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       nolabels;
       principal;
       rectypes;
-      short_paths;
+      short_paths = _;
       unsafe;
       warn_help;
       warn_error;
@@ -363,7 +363,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if nolabels then Clflags.classic := nolabels;
     if principal then Clflags.principal := principal;
     if rectypes then Clflags.recursive_types := rectypes;
-    if short_paths then Clflags.real_paths := false;
+    Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
     List.iter ~f:(Melc_warnings.parse_warnings ~warn_error:true) warn_error ;

@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: print types with short paths by default in `melc` and the
+  playground, so errors show `Js.Date.t` instead of `Js__Js_date.t`; the
+  `-short-paths` flag is still accepted
+  ([#1154](https://github.com/melange-re/melange/issues/1154))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

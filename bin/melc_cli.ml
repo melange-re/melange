@@ -436,7 +436,7 @@ module Internal = struct
     repeatable_flag (Arg.info [ "rectypes" ] ~doc)
 
   let short_paths =
-    let doc = "*internal* Shorten paths in types" in
+    let doc = "*internal* Shorten paths in types (default, kept for compat)" in
     repeatable_flag (Arg.info [ "short-paths" ] ~doc)
 
   let runtime =
