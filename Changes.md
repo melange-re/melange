@@ -1,6 +1,15 @@
 Unreleased
 ----------
 
+- BREAKING(runtime): rename the `Js` compilation units so that `Js.X` is an
+  alias of `Js__X` (e.g. `Js__Js_date` is now `Js__Date`). Type errors now print
+  `Js.Date.t` instead of `Js.Date.t = Js__Js_date.t`. Compiled artifacts
+  (`.cmi`, `.cmj`) and generated JavaScript file names for the `melange.js`
+  runtime change, for example `melange.js/js_exn.js` is now
+  `melange.js/exn.js`, and `Js.Exn.Error` is now named `Js.Exn.Error` instead
+  of `Js__Js_exn.Error`; rebuild dependent code
+  ([#1154](https://github.com/melange-re/melange/issues/1154))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

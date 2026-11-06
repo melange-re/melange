@@ -51,8 +51,8 @@
    (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target}))))
 
 (rule
- (target js_typed_array.ml)
- (deps js_typed_array.cppo.ml)
+ (target typed_array.ml)
+ (deps typed_array.cppo.ml)
  (action
   (run cppo %{deps} -o %{target})))
 
