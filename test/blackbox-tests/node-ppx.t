@@ -23,12 +23,12 @@ Test `[%mel.node ... ]`
   'use strict';
   
   const Caml_option = require("melange.js/caml_option.js");
-  const Js__Js_undefined = require("melange.js/js_undefined.js");
+  const Js__Undefined = require("melange.js/undefined.js");
   const Stdlib__Option = require("melange/option.js");
   
   const $$require = Stdlib__Option.get(Caml_option.undefined_to_opt(typeof require === "undefined" ? undefined : require));
   
-  const main = Js__Js_undefined.getExn($$require.main);
+  const main = Js__Undefined.getExn($$require.main);
   
   console.log(main.exports);
   

@@ -29,7 +29,7 @@
   
   const Caml_exceptions = require("melange.js/caml_exceptions.js");
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-  const Js__Js_exn = require("melange.js/js_exn.js");
+  const Js__Exn = require("melange.js/exn.js");
   
   const A = /* @__PURE__ */ Caml_exceptions.create("Melange__X.A");
   
@@ -41,7 +41,7 @@
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Exn.$$Error) {
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -89,7 +89,7 @@ Raise `null` / `undefined`
   
   const Caml_exceptions = require("melange.js/caml_exceptions.js");
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-  const Js__Js_exn = require("melange.js/js_exn.js");
+  const Js__Exn = require("melange.js/exn.js");
   
   const A = /* @__PURE__ */ Caml_exceptions.create("Melange__X.A");
   
@@ -101,7 +101,7 @@ Raise `null` / `undefined`
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x.MEL_EXN_ID === A || x.MEL_EXN_ID === Js__Exn.$$Error) {
       a0 = x._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -123,7 +123,7 @@ Raise `null` / `undefined`
   }
   catch (raw_x$1){
     const x$1 = Caml_js_exceptions.internalToOCamlException(raw_x$1);
-    if (x$1.MEL_EXN_ID === A || x$1.MEL_EXN_ID === Js__Js_exn.$$Error) {
+    if (x$1.MEL_EXN_ID === A || x$1.MEL_EXN_ID === Js__Exn.$$Error) {
       a1 = x$1._1;
     } else {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {

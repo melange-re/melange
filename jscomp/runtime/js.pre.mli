@@ -177,98 +177,98 @@ end
 (**/**)
 
 (*MODULE_ALIASES*)
-module Exn = Js_exn
+module Exn = Exn
 (** Utilities for dealing with Js exceptions *)
 
-module String = Js_string
+module String = String
 (** Bindings to the functions in [String.prototype] *)
 
-module Null = Js_null
+module Null = Null
 (** Utility functions on  {!type-null} *)
 
-module Undefined = Js_undefined
+module Undefined = Undefined
 (** Utility functions on {!type-undefined} *)
 
-module Nullable = Js_nullable
+module Nullable = Nullable
 (** Utility functions on {!type-nullable} *)
 
-module Array = Js_array
+module Array = Array
 (** Bindings to the functions in [Array.prototype] *)
 
-module Re = Js_re
+module Re = Re
 (** Bindings to the functions in [RegExp.prototype] *)
 
-module Promise = Js_promise
+module Promise = Promise
 (** Bindings to JS [Promise] functions *)
 
-module Date = Js_date
+module Date = Date
 (** Bindings to the functions in JS's [Date.prototype] *)
 
-module Dict = Js_dict
+module Dict = Dict
 (** Utility functions to treat a JS object as a dictionary *)
 
-module Global = Js_global
+module Global = Global
 (** Bindings to functions in the JS global namespace *)
 
-module Json = Js_json
+module Json = Json
 (** Utility functions to manipulate JSON values *)
 
-module Math = Js_math
+module Math = Math
 (** Bindings to the functions in the [Math] object *)
 
-module Obj = Js_obj
+module Obj = Obj
 (** Utility functions on `Js.t` JS objects *)
 
-module Typed_array = Js_typed_array
+module Typed_array = Typed_array
 (** Bindings to the functions in [TypedArray.prototype] *)
 
-module Types = Js_types
+module Types = Types
 (** Utility functions for runtime reflection on JS types *)
 
-module Float = Js_float
+module Float = Float
 (** Bindings to functions in JavaScript's [Number] that deal with floats *)
 
-module Int = Js_int
+module Int = Int
 (** Bindings to functions in JavaScript's [Number] that deal with ints *)
 
-module Bigint = Js_bigint
+module Bigint = Bigint
 (** Bindings to functions in JavaScript's [BigInt] *)
 
-module Console = Js_console
+module Console = Console
 (* Bindings to functions in the [console] object *)
 
-module Set = Js_set
+module Set = Set
 (** Bindings to functions in [Set] *)
 
-module WeakSet = Js_weakset
+module WeakSet = WeakSet
 (** Bindings to functions in [WeakSet] *)
 
-module Map = Js_map
+module Map = Map
 (** Bindings to functions in [Map] *)
 
-module WeakMap = Js_weakmap
+module WeakMap = WeakMap
 (** Bindings to functions in [WeakMap] *)
 
-module Iterator = Js_iterator
+module Iterator = Iterator
 (** Bindings to functions on [Iterator] *)
 
-module Blob = Js_blob
+module Blob = Blob
 (** Bindings to Blob *)
 
-module File = Js_file
+module File = File
 (** Bindings to File *)
 
-module ReadableStream = Js_readableStream
+module ReadableStream = ReadableStream
 (** Bindings to ReadableStream *)
 
-module FormData = Js_formData
+module FormData = FormData
 (** Bindings to FormData *)
 
-module Fetch = Js_fetch
+module Fetch = Fetch
 (** Abstract types for Fetch *)
 
 (**/**)
 
-module OO = Js_OO
+module OO = OO
 
 (**/**)

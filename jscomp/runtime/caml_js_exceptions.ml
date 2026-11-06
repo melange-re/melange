@@ -51,7 +51,7 @@ let internalAnyToExn : 'a -> exn =
  fun any ->
   if Caml_exceptions.caml_is_extension any then Obj.magic any
   else
-    let exn = internalMakeExn "Js__Js_exn.Error/1" in
+    let exn = internalMakeExn "Js.Exn.Error/1" in
     set exn "_1" any;
     exn
 
