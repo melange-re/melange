@@ -19,9 +19,9 @@ Recursive records must have the same JavaScript representation as ordinary recor
   $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
   $ dune build @melange
   $ node _build/default/out/input.js
-  false true 1
-  false true 2
-  false true 3
+  true true 1
+  true true 2
+  true true 3
   true false 4
-  false true 7
+  true true 7
   false true false true
