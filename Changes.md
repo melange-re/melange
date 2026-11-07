@@ -50,6 +50,8 @@ Unreleased
   `Bytes.length`, including when its result is ignored
   ([#2058](https://github.com/melange-re/melange/pull/2058),
   [#2059](https://github.com/melange-re/melange/pull/2059))
+- runtime: convert only the requested byte range in `Digest.subbytes`, avoiding
+  a full-buffer conversion for each digest slice.
 - compiler: preserve escaped OCaml export names in dynamic imports while
   keeping literal FFI names unchanged
   ([#2123](https://github.com/melange-re/melange/pull/2123),

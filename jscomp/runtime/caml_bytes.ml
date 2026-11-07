@@ -103,7 +103,7 @@ let string_of_large_bytes (bytes : bytes) i len =
       let next = if s_len.contents < 1024 then s_len.contents else seg in
       let tmp_bytes = new_uninitialized next in
       for k = 0 to next - 1 do
-        tmp_bytes.![k] <- bytes.![k + offset.contents]
+        tmp_bytes.![k] <- bytes.![i + k + offset.contents]
       done;
       s.contents <-
         s.contents
