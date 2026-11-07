@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+- runtime: read signed and endian-specific integers directly from strings,
+  avoiding a full-source copy for each fixed-width read.
+
 - runtime: decode native-endian string integers from character codes and provide
   the unchecked string integer primitives
   ([#2178](https://github.com/melange-re/melange/pull/2178)).
