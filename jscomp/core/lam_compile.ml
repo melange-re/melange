@@ -1991,7 +1991,7 @@ and compile_prim (prim_info : Lam.prim_info)
         let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
         let prepare =
           match primitive with
-          | Pjs_call { arg_types; dynamic_import = false; _ } ->
+          | Pjs_call { arg_types; dynamic_import = false; _ } when args <> [] ->
               Lam_compile_external_call.hold_spread_args arg_types
           | _ -> Fun.id
         in
