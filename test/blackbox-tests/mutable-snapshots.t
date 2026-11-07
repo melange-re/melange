@@ -20,8 +20,18 @@ Immutable values must retain the mutable state observed at construction.
   > let tail () = let r = ref 0 in let bump before = incr r; (before, !r) in bump !r
   > let () = Printf.printf "%d %d %d\n" (tuple ()) (record ()) (variant ()); closures (); let a,b=tail() in Printf.printf "%d %d\n" a b
   > EOF
+  $ cat > foreign.ml <<'EOF'
+  > [%%mel.raw {|globalThis.snapshotValue=1;globalThis.snapshotSet=()=>{globalThis.snapshotValue=2;};|}]
+  > external value : int = "snapshotValue"
+  > external set : unit -> unit = "snapshotSet"
+  > external imported : int = "value" [@@mel.module "./foreign.cjs"]
+  > external set_imported : unit -> unit = "set" [@@mel.module "./foreign.cjs"]
+  > let global () = let p=(value,"x") in set(); fst p
+  > let imported () = let p=(imported,"x") in set_imported(); fst p
+  > let () = Printf.printf "%d %d\n" (global()) (imported())
+  > EOF
   $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
-  $ echo '(melange.emit (target out) (libraries melange))' > dune
+  $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
   $ dune build @melange
   $ ocamlc -o input.exe input.ml
   $ ./input.exe
@@ -32,3 +42,6 @@ Immutable values must retain the mutable state observed at construction.
   2 2 2
   3 3 3 
   0 1
+  $ echo 'exports.value=1;exports.set=()=>{exports.value=2;};' > _build/default/out/foreign.cjs
+  $ node _build/default/out/foreign.js
+  2 1
