@@ -310,20 +310,6 @@ type fn_exp_state =
 
 let default_fn_exp_state = No_name { single_arg = false }
 
-let block_has_all_int_fields =
-  let exception Local of bool in
-  fun fields ->
-    let len = Array.length fields in
-    let r = ref true in
-    try
-      for i = 0 to len - 1 do
-        let k_eq_v = string_of_int i = Array.unsafe_get fields i in
-        r := !r && k_eq_v;
-        if not !r then raise_notrace (Local false)
-      done;
-      !r
-    with Local r -> r
-
 let pp_assign =
   let pp_var_assign cxt id =
     string cxt L.let_;
@@ -787,7 +773,7 @@ and expression_desc cxt ~(level : int) x : cxt =
         (Object (List.map_combine fields el ~f:(fun x -> Ident.convert x)))
   (*name convention of Record is slight different from modules*)
   | Caml_block { fields = el; mutable_flag; tag_info = Blk_record fields; _ } ->
-      if block_has_all_int_fields fields then
+      if Lam.Tag_info.record_is_array fields then
         expression_desc cxt ~level (Array { items = el; mutable_flag })
       else
         expression_desc cxt ~level

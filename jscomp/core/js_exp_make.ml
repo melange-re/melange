@@ -248,6 +248,9 @@ let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
      for other it is [[]]
   *)
   match info with
+  | Blk_record fields when Lam.Tag_info.record_is_array fields ->
+      make_expression ?loc ?comment
+        (Array { items = []; mutable_flag = Mutable })
   | Blk_record _ | Blk_module _ | Blk_constructor _ | Blk_record_inlined _
   | Blk_poly_var | Blk_extension _ | Blk_record_ext _ ->
       make_expression ?loc ?comment (Object [])
