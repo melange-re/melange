@@ -3,7 +3,8 @@ Unreleased
 
 - compiler: distinguish JavaScript global names when comparing identifiers,
   preserving branches that return different globals such as `null` and `undefined`
-  ([#2185](https://github.com/melange-re/melange/pull/2185))
+  ([#2185](https://github.com/melange-re/melange/pull/2185),
+  [#2186](https://github.com/melange-re/melange/pull/2186))
 
 - runtime: respect the length argument to `output_substring` when the offset is
   nonzero ([#2193](https://github.com/melange-re/melange/issues/2193),
