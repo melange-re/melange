@@ -42,7 +42,11 @@ let of_bytes = B.to_string
 let to_bytes = B.of_string
 let sub s ofs len =
   if ofs = 0 && length s = len then s else
-  B.sub (bos s) ofs len |> bts
+  if ofs < 0 || len < 0 || ofs > length s - len then
+    invalid_arg "String.sub / Bytes.sub"
+  else
+    (* Avoid converting the whole source to bytes for each substring. *)
+    Js.String.slice ~start:ofs ~end_:(ofs + len) s
 let blit =
   B.blit_string
 
