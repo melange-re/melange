@@ -117,7 +117,10 @@ Test `@mel.as` in variant constructors
     }
   }
   
-  console.log(String(83));
+  console.log(f({
+    TAG: /* Undefined_has_payload */ undefined,
+    _0: 83
+  }));
   
   console.log("null payload");
   
