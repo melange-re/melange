@@ -23,7 +23,8 @@ Unreleased
   byte orders, as reproduced in
   [#2028](https://github.com/melange-re/melange/pull/2028)
 - runtime: construct `String.to_seq` and `String.to_seqi` lazily, reading only
-  the characters consumed instead of copying the whole input.
+  the characters consumed instead of copying the whole input
+  ([#2182](https://github.com/melange-re/melange/pull/2182)).
 - BREAKING(Js.Typed_array): require `map` and `mapi` callbacks to return
   the array's numeric element type
   ([#2139](https://github.com/melange-re/melange/pull/2139),
