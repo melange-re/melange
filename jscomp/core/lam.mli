@@ -99,6 +99,11 @@ val var : ident -> t
 val mutvar : ident -> t
 val global_module : dynamic_import:bool -> ident -> t
 val const : Constant.t -> t
+
+val can_delay : t -> bool
+(** No effects or mutable reads; safe to evaluate after a call. *)
+
+val can_inline_primitive : Lam_primitive.t -> t list -> bool
 val apply : t -> t list -> ap_info -> t
 
 val function_ :
