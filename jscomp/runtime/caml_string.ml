@@ -36,3 +36,34 @@ let get s i =
 
 let make n (ch : char) : string =
   Caml_string_extern.of_char ch |. Caml_string_extern.repeat n
+
+external ( .![] ) : string -> int -> int = "charCodeAt" [@@mel.send]
+
+let get16u s i = s.![i] lor (s.![i + 1] lsl 8)
+
+let get16 s i =
+  if i < 0 || i > Caml_string_extern.length s - 2 then
+    raise (Invalid_argument "index out of bounds");
+  get16u s i
+
+let get32u s i =
+  Caml_int32_extern.of_int
+    (s.![i]
+    lor (s.![i + 1] lsl 8)
+    lor (s.![i + 2] lsl 16)
+    lor (s.![i + 3] lsl 24))
+
+let get32 s i =
+  if i < 0 || i > Caml_string_extern.length s - 4 then
+    raise (Invalid_argument "index out of bounds");
+  get32u s i
+
+let get64u s i =
+  let lo = Caml_int32_extern.to_int (get32u s i) in
+  let hi = Caml_int32_extern.to_int (get32u s (i + 4)) in
+  Caml_int64.unsafe_to_int64 (Caml_int64.mk ~lo ~hi)
+
+let get64 s i =
+  if i < 0 || i > Caml_string_extern.length s - 8 then
+    raise (Invalid_argument "index out of bounds");
+  get64u s i
