@@ -279,9 +279,11 @@ let subst_map assigned substitution =
               List.fold_left
                 ~f:(fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
-                  | Var (Id id) when not (Ident.Set.mem id assigned) ->
+                  | Var (Id id)
+                    when not (Ident.is_js id || Ident.Set.mem id assigned) ->
                       (i + 1, x :: e, acc)
-                  | Var (Qualified _)
+                  | Var (Qualified ({ kind = Ml | Runtime; _ }, _))
+                  | Var (Qualified (_, None))
                   | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined _ ->
                       (i + 1, x :: e, acc)
                   | _ ->
