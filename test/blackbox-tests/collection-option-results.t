@@ -39,26 +39,26 @@ Collection lookups must distinguish absent elements from stored None values.
   $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
   $ dune build @melange
   $ node _build/default/out/input.js
-  missing
+  present: None
   present: 1
   missing
   0
   present: 1
-  missing
+  present: None
   missing
   0
-  missing
+  present: None
   present: 2
   missing
   missing
+  present: None
+  present: None
+  present: None
+  present: None
   missing
+  present: None
   missing
-  missing
-  missing
-  missing
-  missing
-  missing
-  missing
+  present: None
   missing
   present: 3
   present: None

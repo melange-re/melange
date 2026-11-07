@@ -28,11 +28,16 @@ type ('k, 'v) t
 
 external make : unit -> ('k, 'v) t = "WeakMap" [@@mel.new]
 
-external get : key:'k Js.dict -> (('k, 'v) t[@mel.this]) -> 'v option = "get"
-[@@mel.send]
-
 external has : key:'k Js.dict -> (('k, 'v) t[@mel.this]) -> bool = "has"
 [@@mel.send]
+
+let get ~key m =
+  let module Raw = struct
+    external get : ('k, 'v) t -> 'k Js.dict -> 'v = "get" [@@mel.send]
+  end in
+  let present = has ~key m in
+  let value = Raw.get m key in
+  if present then Some value else None
 
 external set :
   key:'k Js.dict -> value:'v -> (('k, 'v) t[@mel.this]) -> ('k, 'v) t = "set"
