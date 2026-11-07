@@ -32,8 +32,13 @@ external toArray : ('k, 'v) t -> ('k * 'v) array = "from" [@@mel.scope "Array"]
 external size : ('k, 'v) t -> int = "size" [@@mel.get]
 external has : key:'k -> (('k, 'v) t[@mel.this]) -> bool = "has" [@@mel.send]
 
-external get : key:'k -> (('k, 'v) t[@mel.this]) -> 'v option = "get"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
+let get ~key m =
+  let module Raw = struct
+    external get : ('k, 'v) t -> 'k -> 'v = "get" [@@mel.send]
+  end in
+  let present = has ~key m in
+  let value = Raw.get m key in
+  if present then Some value else None
 
 external set : key:'k -> value:'v -> (('k, 'v) t[@mel.this]) -> ('k, 'v) t
   = "set"

@@ -56,9 +56,14 @@ external fill : value:'a -> ?start:int -> ?end_:int -> ('a t[@mel.this]) -> 'a t
 external flat : ('a t t[@mel.this]) -> 'a t = "flat" [@@mel.send]
 (* ES2019 *)
 
-external pop : 'a t -> 'a option = "pop"
-[@@mel.send] [@@mel.return undefined_to_opt]
 (** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop *)
+let pop a =
+  let module Raw = struct
+    external call : 'a t -> 'a = "pop" [@@mel.send]
+  end in
+  let present = length a > 0 in
+  let value = Raw.call a in
+  if present then Some value else None
 
 external push : value:'a -> ('a t[@mel.this]) -> int = "push" [@@mel.send]
 
@@ -71,8 +76,13 @@ external toReversed : 'a t -> 'a t = "toReversed"
 
 external reverseInPlace : 'a t -> 'a t = "reverse" [@@mel.send]
 
-external shift : 'a t -> 'a option = "shift"
-[@@mel.send] [@@mel.return undefined_to_opt]
+let shift a =
+  let module Raw = struct
+    external call : 'a t -> 'a = "shift" [@@mel.send]
+  end in
+  let present = length a > 0 in
+  let value = Raw.call a in
+  if present then Some value else None
 
 external toSorted : 'a t -> 'a t = "toSorted"
 [@@mel.send]
@@ -140,9 +150,15 @@ external join : ?sep:string -> ('a t[@mel.this]) -> string = "join" [@@mel.send]
 
 (** Accessor functions *)
 
-external at : index:int -> ('a t[@mel.this]) -> 'a option = "at"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
 (** ES2022 *)
+let at ~index a =
+  let module Raw = struct
+    external call : 'a t -> int -> 'a = "at" [@@mel.send]
+  end in
+  let len = length a in
+  let present = if index >= 0 then index < len else index >= -len in
+  let value = Raw.call a index in
+  if present then Some value else None
 
 external indexOf : value:'a -> ?start:int -> ('a t[@mel.this]) -> int
   = "indexOf"
@@ -183,27 +199,58 @@ external filteri :
   f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a t = "filter"
 [@@mel.send]
 
-external find : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
-  = "find"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
-(* ES2015 *)
+let find ~f a =
+  let module Raw = struct
+    external call : 'a t -> (('a -> bool)[@mel.uncurry]) -> unit = "find"
+    [@@mel.send]
+  end in
+  let found = ref None in
+  Raw.call a (fun x ->
+      if f x then (
+        found.contents <- Some x;
+        true)
+      else false);
+  found.contents
 
-external findi :
-  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
-  = "find"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
-(* ES2015 *)
+let findi ~f a =
+  let module Raw = struct
+    external call : 'a t -> (('a -> int -> bool)[@mel.uncurry]) -> unit = "find"
+    [@@mel.send]
+  end in
+  let found = ref None in
+  Raw.call a (fun x i ->
+      if f x i then (
+        found.contents <- Some x;
+        true)
+      else false);
+  found.contents
 
-external findLast :
-  f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option = "findLast"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
-(* ES2015 *)
+let findLast ~f a =
+  let module Raw = struct
+    external call : 'a t -> (('a -> bool)[@mel.uncurry]) -> unit = "findLast"
+    [@@mel.send]
+  end in
+  let found = ref None in
+  Raw.call a (fun x ->
+      if f x then (
+        found.contents <- Some x;
+        true)
+      else false);
+  found.contents
 
-external findLasti :
-  f:(('a -> int -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> 'a option
-  = "findLast"
-[@@mel.send] [@@mel.return { undefined_to_opt }]
-(* ES2015 *)
+let findLasti ~f a =
+  let module Raw = struct
+    external call : 'a t -> (('a -> int -> bool)[@mel.uncurry]) -> unit
+      = "findLast"
+    [@@mel.send]
+  end in
+  let found = ref None in
+  Raw.call a (fun x i ->
+      if f x i then (
+        found.contents <- Some x;
+        true)
+      else false);
+  found.contents
 
 external findIndex : f:(('a -> bool)[@mel.uncurry]) -> ('a t[@mel.this]) -> int
   = "findIndex"

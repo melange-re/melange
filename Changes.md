@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- Js.Array, Js.Map and Js.WeakMap: distinguish absent elements from stored
+  undefined values when returning options
+  ([#2169](https://github.com/melange-re/melange/pull/2169))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),
