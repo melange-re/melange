@@ -2,7 +2,8 @@ Unreleased
 ----------
 
 - runtime: decode native-endian string integers from character codes and provide
-  the unchecked string integer primitives.
+  the unchecked string integer primitives
+  ([#2178](https://github.com/melange-re/melange/pull/2178)).
 
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
