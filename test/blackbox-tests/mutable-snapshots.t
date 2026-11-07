@@ -39,9 +39,9 @@ Immutable values must retain the mutable state observed at construction.
   0 1 2 
   0 1
   $ node _build/default/out/input.js
-  2 2 2
-  3 3 3 
+  1 1 1
+  0 1 2 
   0 1
   $ echo 'exports.value=1;exports.set=()=>{exports.value=2;};' > _build/default/out/foreign.cjs
   $ node _build/default/out/foreign.js
-  2 1
+  1 1

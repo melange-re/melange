@@ -185,7 +185,32 @@ let find_substitute_field substitution id i =
               if i < Array.length fields then Some fields.(i) else None)
             else List.nth_opt block_fields.fields i)
 
-let subst_map substitution =
+let assigned_variables js =
+  let assigned = ref Ident.Set.empty in
+  let add id = assigned := Ident.Set.add id !assigned in
+  let super = Js_record_iter.super in
+  let iter =
+    {
+      super with
+      expression =
+        (fun self e ->
+          (match e.expression_desc with
+          | Bin { op = Eq; expr1 = { expression_desc = Var (Id id); _ }; _ } ->
+              add id
+          | _ -> ());
+          super.expression self e);
+      statement =
+        (fun self s ->
+          (match s.statement_desc with
+          | ForRange { for_ident; _ } -> add for_ident
+          | _ -> ());
+          super.statement self s);
+    }
+  in
+  iter.program iter js;
+  !assigned
+
+let subst_map assigned substitution =
   {
     super with
     statement =
@@ -254,9 +279,12 @@ let subst_map substitution =
               List.fold_left
                 ~f:(fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
-                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _
-                  | Undefined _ ->
-                      (* TODO: check the optimization *)
+                  | Var (Id id)
+                    when not (Ident.is_js id || Ident.Set.mem id assigned) ->
+                      (i + 1, x :: e, acc)
+                  | Var (Qualified ({ kind = Ml | Runtime; _ }, _))
+                  | Var (Qualified (_, None))
+                  | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined _ ->
                       (i + 1, x :: e, acc)
                   | _ ->
                       (* tradeoff,
@@ -333,7 +361,7 @@ let subst_map substitution =
 *)
 
 let program (js : J.program) =
-  let obj = subst_map (Ident.Hashtbl.create 32) in
+  let obj = subst_map (assigned_variables js) (Ident.Hashtbl.create 32) in
   let js = obj.program obj js in
   mark_dead_code js
 (* |> mark_dead_code *)
