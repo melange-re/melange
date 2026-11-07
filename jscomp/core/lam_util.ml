@@ -48,7 +48,8 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
       arg (* TODO: optimize here -- it's safe to do substitution here *)
   | _, _, Lprim { primitive; args = [ Lvar w ]; loc; _ }
     when Ident.same w param
-         && (function Lam_primitive.Pmakeblock _ -> false | _ -> true)
+         && (function
+              | Lam_primitive.Pmakeblock _ | Pjs_call _ -> false | _ -> true)
               primitive
          (* don't inline inside a block *) ->
       Lam.prim ~primitive ~args:[ arg ] ~loc
@@ -60,7 +61,9 @@ let refine_let ~kind param (arg : Lam.t) (l : Lam.t) : Lam.t =
   (*     Ext_log.err "@[substitution << @]@."; *)
   (* v *)
   | _, _, Lapply { ap_func = fn; ap_args = [ Lvar w ]; ap_info }
-    when Ident.same w param && not (Lam_hit.hit_variable param fn) ->
+    when Ident.same w param
+         && (not (Lam_hit.hit_variable param fn))
+         && (Lam.can_delay fn || Lam.can_delay arg) ->
       (* does not work for multiple args since
           evaluation order unspecified, does not apply
           for [js] in general, since the scope of js ir is loosen
