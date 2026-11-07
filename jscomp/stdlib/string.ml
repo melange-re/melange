@@ -88,10 +88,25 @@ let fold_right f x a =
   B.fold_right f (bos x) a
 let fold_left f a x =
   B.fold_left f a (bos x)
-let exists f s =
-  B.exists f (bos s)
-let for_all f s =
-  B.for_all f (bos s)
+(* duplicated in bytes.ml *)
+let exists p s =
+  let n = length s in
+  let rec loop i =
+    if i = n then false
+    else if p (unsafe_get s i) then true
+    else loop (succ i)
+  in
+  loop 0
+
+(* duplicated in bytes.ml *)
+let for_all p s =
+  let n = length s in
+  let rec loop i =
+    if i = n then true
+    else if p (unsafe_get s i) then loop (succ i)
+    else false
+  in
+  loop 0
 
 (* Beware: we cannot use B.trim or B.escape because they always make a
    copy, but String.mli spells out some cases where we are not allowed
