@@ -2,6 +2,7 @@ let () =
   Alcotest.run "Melange unit tests"
     [
       ("array", Test_array.suite);
+      ("ident", Test_ident.suite);
       ("ident mask", Test_ident_mask.suite);
       ("vec", Test_vec.suite);
       ("path", Test_path.suite);

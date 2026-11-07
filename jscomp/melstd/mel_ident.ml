@@ -33,7 +33,13 @@ end
 include T
 
 let name = Ident.name
-let same = Ident.same
+
+let same x y =
+  (* JavaScript globals share stamp zero, so their names determine identity. *)
+  if is_js x || is_js y then
+    is_js x && is_js y && String.equal (name x) (name y)
+  else Ident.same x y
+
 let create_local = Ident.create_local
 let create_persistent = Ident.create_persistent
 let rename = Ident.rename

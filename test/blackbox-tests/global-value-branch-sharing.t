@@ -19,6 +19,6 @@ A null/undefined/string match from melange-re/melange#2087.
   > EOF
   $ dune build --disable-promotion @melange
   $ node _build/default/out/input.js
-  undefined
+  null
   undefined
   hello
