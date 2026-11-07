@@ -29,6 +29,14 @@ val ocaml_to_js_eff :
   Js_of_lam_variant.arg_expression * J.expression list
 (** Compile ocaml external function call to JS IR. *)
 
+val hold_spread_args :
+  Melange_ffi.External_arg_spec.Arg_label.t
+  Melange_ffi.External_arg_spec.Param.t
+  list ->
+  Js_output.t list ->
+  Js_output.t list
+(** Capture event-style arguments before expanding their tag and payload. *)
+
 val translate_ffi :
   Lam_compile_context.t ->
   Melange_ffi.External_arg_spec.Arg_label.t

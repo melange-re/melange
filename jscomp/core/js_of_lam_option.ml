@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Import
 module E = Js_exp_make
 
 type option_unwrap_time = Static_unwrapped | Runtime_maybe_unwrapped
@@ -75,7 +76,8 @@ let get_default_undefined_from_optional (arg : J.expression) : J.expression =
     match desc with
     | Optional_block (x, _) -> x (* invariant: option encoding *)
     | _ ->
-        if Js_analyzer.is_okay_to_duplicate arg then
+        if match desc with Var (Id id) -> not (Ident.is_js id) | _ -> false
+        then
           (* FIXME: no need do such inlining*)
           E.econd (is_not_none arg) (val_from_option arg) E.undefined
         else
