@@ -19,8 +19,10 @@ Explicit lets evaluate their right-hand sides before effectful callees and FFI l
   > external install : unit -> int = "install" [@@mel.scope "globalThis"]
   > external hook : int -> int = "hook" [@@mel.scope "globalThis"]
   > let test () = let x=install() in hook x
+  > let call x = hook x
   > let () = Printf.printf "%d\n" (test())
   > EOF
+  $ sed 's/(test())/(call (install()))/' ffi.ml > wrapper.ml
   $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
   $ dune build @melange
@@ -34,4 +36,6 @@ Explicit lets evaluate their right-hand sides before effectful callees and FFI l
   argument
   callee
   $ node _build/default/out/ffi.js
+  1
+  $ node _build/default/out/wrapper.js
   1
