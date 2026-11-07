@@ -50,3 +50,4 @@ type t =
   | Blk_module_export
 
 val equal : t -> t -> bool
+val record_is_array : string array -> bool

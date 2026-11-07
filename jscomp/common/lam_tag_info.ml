@@ -92,3 +92,17 @@ let equal (x : t) y =
   | Blk_class -> ( match y with Blk_class -> true | _ -> false)
   | Blk_module_export -> (
       match y with Blk_module_export -> true | _ -> false)
+
+let record_is_array =
+  let exception Local of bool in
+  fun fields ->
+    let len = Array.length fields in
+    let r = ref true in
+    try
+      for i = 0 to len - 1 do
+        let k_eq_v = string_of_int i = Array.unsafe_get fields i in
+        r := !r && k_eq_v;
+        if not !r then raise_notrace (Local false)
+      done;
+      !r
+    with Local r -> r

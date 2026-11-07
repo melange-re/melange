@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: initialize recursive records with consecutive numeric field names
+  as arrays, matching their nonrecursive representation
+  ([#2171](https://github.com/melange-re/melange/pull/2171))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),
