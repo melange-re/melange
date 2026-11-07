@@ -69,7 +69,8 @@ module Beta_reduce = struct
     (* An ordinary call evaluates both arguments, even when the body does not. *)
     | Lprim { primitive = Psequand | Psequor; _ } -> None
     | Lprim { primitive; args = ap_args; loc = ap_loc }
-    (* There is no lambda in primitive *) -> (
+    (* There is no lambda in primitive *)
+      when Lam.can_inline_primitive primitive args -> (
         (* catch a special case of primitives *)
         let () =
           List.iter2
@@ -100,7 +101,8 @@ module Beta_reduce = struct
             as f;
           ap_args;
           ap_info;
-        } -> (
+        }
+      when List.for_all args ~f:Lam.can_delay -> (
         let () =
           List.iter2
             ~f:(fun p a ->

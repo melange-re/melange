@@ -296,6 +296,19 @@ let rec is_eta_conversion_exn params inner_args outer_args : t list =
   | [], [], [] -> []
   | _, _, _ -> raise_notrace Not_simple_form
 
+let rec can_delay (arg : t) =
+  match arg with
+  | Lvar _ | Lconst _ | Lfunction _ | Lglobal_module _ -> true
+  | Lprim { primitive = Pmakeblock _ | Psome | Psome_not_nest; args; _ } ->
+      List.for_all args ~f:can_delay
+  | _ -> false
+
+let can_inline_primitive primitive args =
+  match (primitive : Lam_primitive.t) with
+  | Psequand | Psequor -> false
+  | Pjs_call _ -> List.for_all args ~f:can_delay
+  | _ -> true
+
 (* FIXME: more robust inlining check later, we should inline it before we add stub code*)
 let rec apply fn args (ap_info : ap_info) : t =
   match fn with
@@ -310,14 +323,13 @@ let rec apply fn args (ap_info : ap_info) : t =
                 | Pis_null | Pis_null_undefined | Pjs_typeof ) as wrap;
               args =
                 [
-                  Lprim
-                    ({ primitive; args = inner_args; _ } as primitive_call);
+                  Lprim ({ primitive; args = inner_args; _ } as primitive_call);
                 ];
               _;
             };
         _;
       }
-    when primitive <> Psequand && primitive <> Psequor -> (
+    when can_inline_primitive primitive args -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
           let loc = ap_info.ap_loc in
@@ -335,7 +347,7 @@ let rec apply fn args (ap_info : ap_info) : t =
         body = Lprim ({ primitive; args = inner_args; _ } as primitive_call);
         _;
       }
-    when primitive <> Psequand && primitive <> Psequor -> (
+    when can_inline_primitive primitive args -> (
       match is_eta_conversion_exn params inner_args args with
       | args -> Lprim { primitive_call with args; loc = ap_info.ap_loc }
       | exception _ -> Lapply { ap_func = fn; ap_args = args; ap_info })
@@ -348,7 +360,7 @@ let rec apply fn args (ap_info : ap_info) : t =
               (Lconst _ as const) );
         _;
       }
-    when primitive <> Psequand && primitive <> Psequor -> (
+    when can_inline_primitive primitive args -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
           Lsequence
