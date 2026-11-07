@@ -51,7 +51,8 @@ Unreleased
   ([#2058](https://github.com/melange-re/melange/pull/2058),
   [#2059](https://github.com/melange-re/melange/pull/2059))
 - runtime: convert only the requested byte range in `Digest.subbytes`, avoiding
-  a full-buffer conversion for each digest slice.
+  a full-buffer conversion for each digest slice
+  ([#2184](https://github.com/melange-re/melange/pull/2184)).
 - compiler: preserve escaped OCaml export names in dynamic imports while
   keeping literal FFI names unchanged
   ([#2123](https://github.com/melange-re/melange/pull/2123),
