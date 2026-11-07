@@ -626,9 +626,21 @@ let is_empty s = Int.equal (length s) 0
 
 (** {1 Iterators} *)
 
-let to_seq s = bos s |> B.to_seq
+let to_seq s =
+  let len = length s in
+  let rec aux i () =
+    if i = len then Seq.Nil
+    else Seq.Cons (unsafe_get s i, aux (i + 1))
+  in
+  aux 0
 
-let to_seqi s = bos s |> B.to_seqi
+let to_seqi s =
+  let len = length s in
+  let rec aux i () =
+    if i = len then Seq.Nil
+    else Seq.Cons ((i, unsafe_get s i), aux (i + 1))
+  in
+  aux 0
 
 let of_seq g = B.of_seq g |> bts
 
