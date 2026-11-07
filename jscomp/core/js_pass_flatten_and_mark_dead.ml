@@ -281,8 +281,8 @@ let subst_map assigned substitution =
                   match x.expression_desc with
                   | Var (Id id) when not (Ident.Set.mem id assigned) ->
                       (i + 1, x :: e, acc)
-                  | Var (Qualified _) | Number _ | Str _ | Unicode _
-                  | J.Bool _ | Undefined _ ->
+                  | Var (Qualified _)
+                  | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined _ ->
                       (i + 1, x :: e, acc)
                   | _ ->
                       (* tradeoff,
