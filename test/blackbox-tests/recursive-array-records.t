@@ -7,11 +7,12 @@ Recursive records must have the same JavaScript representation as ordinary recor
   > type sparse = { self : sparse [@mel.as "0"]; value : int [@mel.as "2"] }
   > let rec a = {next=a;value=1}
   > let rec b = {next=c;value=2} and c = {next=b;value=3}
+  > let make value = let rec r={next=r;value} in r
   > let copy={a with value=4}
   > let rec object_={self=object_;value=5}
   > let rec sparse={self=sparse;value=6}
   > let () =
-  >  List.iter (fun r -> Printf.printf "%b %b %d\n" (Js.Array.isArray r) (r.next.next==r) r.value) [a;b;c;copy];
+  >  List.iter (fun r -> Printf.printf "%b %b %d\n" (Js.Array.isArray r) (r.next.next==r) r.value) [a;b;c;copy;make 7];
   >  Printf.printf "%b %b %b %b\n" (Js.Array.isArray object_) (object_.self==object_) (Js.Array.isArray sparse) (sparse.self==sparse)
   > EOF
   $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
@@ -22,4 +23,5 @@ Recursive records must have the same JavaScript representation as ordinary recor
   false true 2
   false true 3
   true false 4
+  false true 7
   false true false true
