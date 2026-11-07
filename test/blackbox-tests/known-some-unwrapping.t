@@ -2,7 +2,7 @@ Known Some payloads need no wrap/unwrap round trip.
 
   $ . ./setup.sh
   $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
-  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
+  $ echo '(melange.emit (target out) (emit_stdlib false) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > let nested y = match Some y with Some (Some n) -> n | Some None -> 0 | None -> -1
   > let poly y = match Some y with Some v -> [|v|] | None -> [||]

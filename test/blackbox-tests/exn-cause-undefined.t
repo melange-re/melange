@@ -7,6 +7,8 @@
   $ cat > dune <<EOF
   > (melange.emit
   >  (target out)
+  >  (emit_stdlib false)
+  >  (libraries melange.js)
   >  (preprocess (pps melange.ppx)))
   > EOF
   $ cat > x.ml <<EOF

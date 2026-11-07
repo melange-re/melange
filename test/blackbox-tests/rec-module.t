@@ -8,7 +8,9 @@ Test an edge of recursive modules with an inner component that is mangled
 
   $ cat > dune <<EOF
   > (melange.emit
-  >  (target out))
+  >  (target out)
+  >  (emit_stdlib false)
+  >  (libraries melange.js))
   > EOF
 
 `Date` gets mangled to `$$Date` in generated JS
