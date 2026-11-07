@@ -33,9 +33,11 @@
     message = /* tag */ typeof tmp !== "object" && typeof tmp !== "function" || tmp.TAG === /* Vacations */ 0 ? "a" : "b";
   }
   
+  const Test1_message = message;
+  
   const Test1 = {
     person1,
-    message
+    message: Test1_message
   };
   
   module.exports = {
