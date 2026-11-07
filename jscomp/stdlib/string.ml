@@ -650,16 +650,41 @@ external get_uint16_ne : string -> int -> int = "%caml_string_get16"
 external get_int32_ne : string -> int -> int32 = "%caml_string_get32"
 external get_int64_ne : string -> int -> int64 = "%caml_string_get64"
 
-let get_int8 s i = B.get_int8 (bos s) i
-let get_uint16_le s i = B.get_uint16_le (bos s) i
-let get_uint16_be s i = B.get_uint16_be (bos s) i
-let get_int16_ne s i = B.get_int16_ne (bos s) i
-let get_int16_le s i = B.get_int16_le (bos s) i
-let get_int16_be s i = B.get_int16_be (bos s) i
-let get_int32_le s i = B.get_int32_le (bos s) i
-let get_int32_be s i = B.get_int32_be (bos s) i
-let get_int64_le s i = B.get_int64_le (bos s) i
-let get_int64_be s i = B.get_int64_be (bos s) i
+external swap16 : int -> int = "%bswap16"
+external swap32 : int32 -> int32 = "%bswap_int32"
+external swap64 : int64 -> int64 = "%bswap_int64"
+
+(* Duplicated in bytes.ml: converting a string to bytes would copy its entirety
+   for every fixed-width read. *)
+let get_int8 s i =
+  (get_uint8 s i lsl (Sys.int_size - 8)) asr (Sys.int_size - 8)
+
+let get_uint16_le s i =
+  if Sys.big_endian then swap16 (get_uint16_ne s i) else get_uint16_ne s i
+
+let get_uint16_be s i =
+  if Sys.big_endian then get_uint16_ne s i else swap16 (get_uint16_ne s i)
+
+let get_int16_ne s i =
+  (get_uint16_ne s i lsl (Sys.int_size - 16)) asr (Sys.int_size - 16)
+
+let get_int16_le s i =
+  (get_uint16_le s i lsl (Sys.int_size - 16)) asr (Sys.int_size - 16)
+
+let get_int16_be s i =
+  (get_uint16_be s i lsl (Sys.int_size - 16)) asr (Sys.int_size - 16)
+
+let get_int32_le s i =
+  if Sys.big_endian then swap32 (get_int32_ne s i) else get_int32_ne s i
+
+let get_int32_be s i =
+  if Sys.big_endian then get_int32_ne s i else swap32 (get_int32_ne s i)
+
+let get_int64_le s i =
+  if Sys.big_endian then swap64 (get_int64_ne s i) else get_int64_ne s i
+
+let get_int64_be s i =
+  if Sys.big_endian then get_int64_ne s i else swap64 (get_int64_ne s i)
 
 (* Spellchecking *)
 
