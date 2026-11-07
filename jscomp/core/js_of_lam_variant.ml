@@ -86,8 +86,7 @@ let eval_descr (arg : J.expression)
         fields = [ { expression_desc = Str s; _ }; cb ];
         tag_info = Blk_poly_var;
         _;
-      }
-    when Js_analyzer.no_side_effect_expression cb ->
+      } ->
       Splice2 (dispatch_with_default dispatches s, cb)
   | _ -> (
       match dispatches with
