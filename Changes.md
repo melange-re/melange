@@ -12,7 +12,8 @@ Unreleased
 - compiler: warn when `--mel-cross-module-opt` cannot find a dependency's
   `.cmj` file ([#1857](https://github.com/melange-re/melange/pull/1857))
 - runtime: let `String.exists` and `String.for_all` short-circuit without first
-  copying the entire input to bytes.
+  copying the entire input to bytes
+  ([#2181](https://github.com/melange-re/melange/pull/2181)).
 - Belt.List: avoid redundant length traversals in `reduceReverse` and
   `reduceReverse2` for long lists
   ([#1921](https://github.com/melange-re/melange/pull/1921),
