@@ -454,7 +454,7 @@ let caml_format_float fmt x =
   let f = parse_format fmt in
   let prec = if f.prec < 0 then 6 else f.prec in
   let x =
-    if x < 0. then (
+    if Caml_float.caml_signbit_float x then (
       f.sign <- -1;
       -.x)
     else x
