@@ -86,6 +86,8 @@ jobs:
 
       - name: Build and run the opam template
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        env:
+          OPAMSWITCH: ${{ github.workspace }}
         run: |
           git clone --depth 1 https://github.com/melange-re/melange-opam-template.git "$RUNNER_TEMP/melange-opam-template"
           cd "$RUNNER_TEMP/melange-opam-template"
