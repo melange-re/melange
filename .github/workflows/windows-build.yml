@@ -45,6 +45,8 @@ jobs:
           curl --fail --location https://raw.githubusercontent.com/ocaml/opam-repository/bcc2da6752351c6d9fc2f77401ddc7d764ab9732/packages/ocaml-compiler/ocaml-compiler.5.6/opam -o "$package/opam"
           sed -i 's@archive/5.6.tar.gz@archive/ff7a95dcc5a56e363a2b53b497ed8c49846813e3.tar.gz@' "$package/opam"
           printf '\npatches: ["ocaml-windows-unix.patch"]\n' >> "$package/opam"
+          checksum=$(sha256sum .github/patches/ocaml-windows-unix.patch | cut -d ' ' -f 1)
+          printf 'extra-files: [["ocaml-windows-unix.patch" "sha256=%s"]]\n' "$checksum" >> "$package/opam"
           cp .github/patches/ocaml-windows-unix.patch "$package/files/"
           printf 'OCAML_WINDOWS_REPOSITORY=%s\n' "$(cygpath -m "$repository")" >> "$GITHUB_ENV"
 
@@ -93,13 +95,21 @@ jobs:
           npm run bundle
           node ./_build/default/src/node/src/Hello.mjs
 
+      - name: Collect opam build logs
+        if: failure()
+        run: |
+          mkdir -p ci-logs
+          for log in "$OPAMROOT"/log/*.out; do
+            if [ -f "$log" ]; then cp "$log" ci-logs/; fi
+          done
+
       - name: Upload build logs
         if: failure()
         uses: actions/upload-artifact@v6
         with:
           name: windows-build-logs
           path: |
-            C:/.opam/log/*
+            ci-logs
             _build/log
             _build/default/test/**/*.corrected
             _build/default/test/unit-tests/_build/_tests/**
