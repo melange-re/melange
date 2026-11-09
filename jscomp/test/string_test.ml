@@ -87,5 +87,30 @@ let string_of_chars  x = String.concat "" @@ List.map string_of_char  x
   "find_3", (fun _ -> Eq( -1, Ext_string_test.find "_index_js" ~sub:"__"));
   "of_char", (fun _ -> Eq( string_of_char '0', String.make 1 '0'));
   "of_chars", (fun _ -> Eq( string_of_chars ['0' ;'1'; '2'], "012"));
+  "sub_ranges", (fun _ ->
+      Eq (["abc"; "a"; "b"; "bc"; ""; ""; ""],
+          List.map (fun (ofs, len) -> String.sub "abc" ofs len)
+            [0, 3; 0, 1; 1, 1; 1, 2; 0, 0; 1, 0; 3, 0]));
+  "sub_empty", (fun _ -> Eq ("", String.sub "" 0 0));
+  "sub_binary", (fun _ ->
+      Eq ("\000\127\128\255", String.sub "x\000\127\128\255y" 1 4));
+  "sub_utf16", (fun _ ->
+      let s = {js|a😺b|js} in
+      Eq ([{js|😺|js}; Js.String.fromCharCode 0xd83d;
+           Js.String.fromCharCode 0xde3a; "b"],
+          [String.sub s 1 2; String.sub s 1 1;
+           String.sub s 2 1; String.sub s 3 1]));
+  "sub_invalid_ranges", (fun _ ->
+      Ok (List.for_all (fun (s, ofs, len) ->
+        match String.sub s ofs len with
+        | _ -> false
+        | exception Invalid_argument msg -> msg = "String.sub / Bytes.sub")
+        ["", 0, 1; "", 1, 0;
+         "abc", -1, 1; "abc", 0, -1; "abc", 4, 0; "abc", 2, 2;
+         "abc", max_int, 1; "abc", 1, max_int;
+         "abc", max_int, max_int; "abc", min_int, 0; "abc", 0, min_int]));
+  "split_on_char", (fun _ ->
+      Eq ([[""]; ["abc"]; [""; ""]; [""; "a"; ""; "b"; ""]],
+          List.map (String.split_on_char '\n') [""; "abc"; "\n"; "\na\n\nb\n"]));
   "hash", (fun _ -> Eq( String.hash "hello", 840920576))
 ]

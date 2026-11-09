@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- runtime: avoid copying the entire source in `String.sub`, fixing quadratic
+  `String.split_on_char` performance on strings with many fields
+  ([#2177](https://github.com/melange-re/melange/pull/2177))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),
