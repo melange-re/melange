@@ -21,7 +21,6 @@ jobs:
           - macos-latest
           - ubuntu-latest
           - ubuntu-26.04-arm
-          # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
           - ocaml-variants.5.6.0+trunk
 
