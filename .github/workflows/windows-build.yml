@@ -29,7 +29,8 @@ jobs:
 
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: UCRT64
+          msystem: MINGW64
+          release: false
           path-type: inherit
           install: tree jq diffutils
 
@@ -48,22 +49,26 @@ jobs:
           npm install --global mocha
 
       - name: Build and install
+        id: build
         run: |
           opam exec -- dune build -p melange,melange-playground @install
           opam exec -- dune install melange melange-playground
 
       - name: Run unit and blackbox tests
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: opam exec -- dune runtest -p melange,melange-playground
 
       - name: Run JavaScript runtime tests
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
           opam exec -- dune build @melange-runtime-tests --profile=release
           mocha "jscomp/test/dist/**/*_test.*js"
 
       - name: Build and run the opam template
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
-          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git
-          cd melange-opam-template
+          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git "$RUNNER_TEMP/melange-opam-template"
+          cd "$RUNNER_TEMP/melange-opam-template"
           opam install reason-react -y
           npm install
           opam exec -- dune build @react @node --profile=release --display=short
