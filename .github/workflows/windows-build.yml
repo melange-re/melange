@@ -1,0 +1,81 @@
+name: Windows Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and test (Windows)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          path-type: inherit
+          install: tree jq diffutils
+
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ocaml-variants.5.6.0+trunk
+          windows-environment: msys2
+
+      - name: Install dependencies
+        run: |
+          # Match the versions used by the Unix opam jobs.
+          opam pin add dune.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add dune-build-info.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add reason https://github.com/reasonml/reason/archive/02024f3641892afa2fd26a10e4ad9bf74904cb71.tar.gz -y --no-action
+          opam install . --deps-only --with-test -y
+          npm install --global mocha
+
+      - name: Build and install
+        run: |
+          opam exec -- dune build -p melange,melange-playground @install
+          opam exec -- dune install melange melange-playground
+
+      - name: Run unit and blackbox tests
+        run: opam exec -- dune runtest -p melange,melange-playground
+
+      - name: Run JavaScript runtime tests
+        run: |
+          opam exec -- dune build @melange-runtime-tests --profile=release
+          mocha "jscomp/test/dist/**/*_test.*js"
+
+      - name: Build and run the opam template
+        run: |
+          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git
+          cd melange-opam-template
+          opam install reason-react -y
+          npm install
+          opam exec -- dune build @react @node --profile=release --display=short
+          npm run bundle
+          node ./_build/default/src/node/src/Hello.mjs
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: windows-build-logs
+          path: |
+            _build/log
+            _build/default/test/**/*.corrected
+            _build/default/test/unit-tests/_build/_tests/**
