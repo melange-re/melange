@@ -5,17 +5,19 @@ let eq loc x y =
   suites := 
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
+let os_adapt = Ext_filename_test.simple_convert_node_path_to_os_path
+
 let test = Ext_filename_test.node_relative_path true 
 let () =
   eq __LOC__ 
-    (let (//) = Ext_filename_test.combine in 
+    (let (//) a b = Ext_filename_test.combine (os_adapt a) (os_adapt b) in
      ("/tmp"// "subdir/file.txt",
       "/tmp"// "/a/tmp.txt",
       "/a/tmp.txt" // "subdir/file.txt"      
     ))
-    ("/tmp/subdir/file.txt",
-     "/a/tmp.txt",
-     "/a/tmp.txt/subdir/file.txt"      
+    (os_adapt "/tmp/subdir/file.txt",
+     os_adapt "/a/tmp.txt",
+     os_adapt "/a/tmp.txt/subdir/file.txt"
     )
 
   ;    
@@ -71,7 +73,7 @@ let () =
     ".txt";
 
   eq __LOC__
-    (Array.map Ext_filename_test.normalize_absolute_path
+    (Array.map (fun path -> Ext_filename_test.normalize_absolute_path (os_adapt path))
        [|
          "/gsho/./..";
          "/a/b/../c../d/e/f";
@@ -84,7 +86,7 @@ let () =
          "/a.txt/";
          "/a.txt"
        |])
-     [|
+     (Array.map os_adapt [|
        "/";
        "/a/c../d/e/f";
        "/a/d/e/f";
@@ -95,7 +97,7 @@ let () =
        "/a";
        "/a.txt";
        "/a.txt"
-     |] 
+     |])
   ;
 
   

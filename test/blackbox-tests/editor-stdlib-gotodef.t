@@ -1,7 +1,7 @@
 Test go to definition with modules that overlap with stdlib ones
 
-  $ export BUILD_PATH_PREFIX_MAP="MELANGE_ROOT=$(dirname $INSIDE_DUNE):$BUILD_PATH_PREFIX_MAP"
   $ . ./setup.sh
+  $ add_build_path_prefix_map MELANGE_ROOT "$(dirname "$INSIDE_DUNE" | normalize_paths)"
   $ cat >dune-project <<EOF
   > (lang dune 3.8)
   > (using melange 0.1)
@@ -40,7 +40,7 @@ Test go to definition with modules that overlap with stdlib ones
 Get definition of `Something` in `Something.foo`
 
   $ ocamlmerlin single locate -position 2:13 -verbosity 0 \
-  > -filename main.ml < main.ml | jq '.value'
+  > -filename main.ml < main.ml | jq '.value' | normalize_paths
   {
     "file": "$TESTCASE_ROOT/lib/something.ml",
     "pos": {
@@ -53,7 +53,7 @@ Get definition of `Something` in `Something.foo`
 Get definition of `Stack` in `Stack.foo`
 
   $ ocamlmerlin single locate -position 1:13 -verbosity 0 \
-  > -filename main.ml < main.ml | jq '.value'
+  > -filename main.ml < main.ml | jq '.value' | normalize_paths
   {
     "file": "$TESTCASE_ROOT/lib/stack.ml",
     "pos": {

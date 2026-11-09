@@ -36,7 +36,7 @@
   > EOF
 
   $ dune build @melange
-  $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
+  $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at' | normalize_paths
   $TESTCASE_ROOT/_build/default/out/node_modules/melange.js/caml_module.js:9
       throw new Caml_js_exceptions.MelangeError("Undefined_recursive_module", {
       ^

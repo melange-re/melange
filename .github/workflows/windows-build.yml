@@ -72,7 +72,7 @@ jobs:
         id: build
         run: |
           opam exec -- dune build -p melange,melange-playground @install
-          opam exec -- dune install melange melange-playground
+          opam install . --assume-built -y
 
       - name: Run unit and blackbox tests
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}

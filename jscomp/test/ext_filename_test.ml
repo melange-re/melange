@@ -165,7 +165,7 @@ let node_relative_path node_modules_shorten (file1 : t)
            most path separator are a single char
         *)
         let curr_char = String.unsafe_get file2 i  in
-        if curr_char = os_path_separator_char || curr_char = '.' then
+        if curr_char = os_path_separator_char || curr_char = '/' || curr_char = '.' then
           skip (i + 1)
         else i
         (*

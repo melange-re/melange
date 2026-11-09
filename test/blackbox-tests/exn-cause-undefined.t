@@ -31,7 +31,7 @@
   }
   /*  Not a pure module */
 
-  $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
+  $ node _build/default/out/x.js 2>&1 | grep -v Node | grep -vE '\s+at' | normalize_paths
   
   $TESTCASE_ROOT/_build/default/out/x.js:11
     throw exn;
