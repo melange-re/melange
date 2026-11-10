@@ -24,4 +24,4 @@
 
 (** A pass to mark some declarations in JS IR as dead code *)
 
-val program : J.program -> J.program
+val program : assigned:Import.Ident.Set.t -> J.program -> J.program

@@ -81,7 +81,8 @@ let inline_call =
                    (f a4 b4 c4 (fold_right3 arest brest crest ~init:acc ~f)))))
     | _, _, _ -> invalid_arg "fold_right3"
   in
-  fun (immutable_list : bool list)
+  fun ~assigned
+    (immutable_list : bool list)
     params
     (args : J.expression list)
     processed_blocks
@@ -91,7 +92,9 @@ let inline_call =
         List.fold_right2
           ~f:(fun param (arg : J.expression) (map, acc) ->
             match arg.expression_desc with
-            | Var (Id id) -> (Ident.Map.add ~key:param ~data:id map, acc)
+            | Var (Id id) when not (Ident.is_js id || Ident.Set.mem id assigned)
+              ->
+                (Ident.Map.add ~key:param ~data:id map, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
           params args
           ~init:(Ident.Map.empty, processed_blocks)
@@ -100,7 +103,9 @@ let inline_call =
           ~init:(Ident.Map.empty, processed_blocks)
           ~f:(fun param arg mask (map, acc) ->
             match (mask, arg.expression_desc) with
-            | true, Var (Id id) -> (Ident.Map.add ~key:param ~data:id map, acc)
+            | true, Var (Id id)
+              when not (Ident.is_js id || Ident.Set.mem id assigned) ->
+                (Ident.Map.add ~key:param ~data:id map, acc)
             | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
     in
     if Ident.Map.is_empty map then block
@@ -135,7 +140,7 @@ let inline_call =
 *)
 let super = Js_record_map.super
 
-let subst (export_set : Ident.Set.t)
+let subst ~assigned (export_set : Ident.Set.t)
     (stats : J.variable_declaration Ident.Hashtbl.t) =
   {
     super with
@@ -217,7 +222,7 @@ let subst (export_set : Ident.Set.t)
                   self.block self block
                   (* see #278 before changes*)
                 in
-                inline_call no_tailcall params args processed_blocks
+                inline_call ~assigned no_tailcall params args processed_blocks
                 (* Ext_list.fold_right2
                    params args  processed_blocks
                    (fun param arg acc ->
@@ -255,13 +260,13 @@ let subst (export_set : Ident.Set.t)
               self.block self block
               (* see #278 before changes*)
             in
-            inline_call no_tailcall params args processed_blocks
+            inline_call ~assigned no_tailcall params args processed_blocks
         | x :: xs -> self.statement self x :: self.block self xs
         | [] -> []);
   }
 
-let tailcall_inline (program : J.program) =
+let tailcall_inline ~assigned (program : J.program) =
   let stats = Js_pass_get_used.get_stats program in
   let export_set = program.export_set in
-  let obj = subst export_set stats in
+  let obj = subst ~assigned export_set stats in
   obj.program obj program

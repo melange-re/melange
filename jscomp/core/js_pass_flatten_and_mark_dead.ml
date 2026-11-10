@@ -185,31 +185,6 @@ let find_substitute_field substitution id i =
               if i < Array.length fields then Some fields.(i) else None)
             else List.nth_opt block_fields.fields i)
 
-let assigned_variables js =
-  let assigned = ref Ident.Set.empty in
-  let add id = assigned := Ident.Set.add id !assigned in
-  let super = Js_record_iter.super in
-  let iter =
-    {
-      super with
-      expression =
-        (fun self e ->
-          (match e.expression_desc with
-          | Bin { op = Eq; expr1 = { expression_desc = Var (Id id); _ }; _ } ->
-              add id
-          | _ -> ());
-          super.expression self e);
-      statement =
-        (fun self s ->
-          (match s.statement_desc with
-          | ForRange { for_ident; _ } -> add for_ident
-          | _ -> ());
-          super.statement self s);
-    }
-  in
-  iter.program iter js;
-  !assigned
-
 let subst_map assigned substitution =
   {
     super with
@@ -360,8 +335,8 @@ let subst_map assigned substitution =
     there is no need to add another pass
 *)
 
-let program (js : J.program) =
-  let obj = subst_map (assigned_variables js) (Ident.Hashtbl.create 32) in
+let program ~assigned (js : J.program) =
+  let obj = subst_map assigned (Ident.Hashtbl.create 32) in
   let js = obj.program obj js in
   mark_dead_code js
 (* |> mark_dead_code *)

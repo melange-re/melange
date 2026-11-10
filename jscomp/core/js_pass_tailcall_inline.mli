@@ -35,4 +35,4 @@
     ]}
 *)
 
-val tailcall_inline : J.program -> J.program
+val tailcall_inline : assigned:Import.Ident.Set.t -> J.program -> J.program

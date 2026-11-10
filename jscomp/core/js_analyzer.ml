@@ -24,6 +24,31 @@
 
 open Import
 
+let assigned_variables js =
+  let assigned = ref Ident.Set.empty in
+  let add id = assigned := Ident.Set.add id !assigned in
+  let super = Js_record_iter.super in
+  let iter =
+    {
+      super with
+      expression =
+        (fun self e ->
+          (match e.expression_desc with
+          | Bin { op = Eq; expr1 = { expression_desc = Var (Id id); _ }; _ } ->
+              add id
+          | _ -> ());
+          super.expression self e);
+      statement =
+        (fun self s ->
+          (match s.statement_desc with
+          | ForRange { for_ident; _ } -> add for_ident
+          | _ -> ());
+          super.statement self s);
+    }
+  in
+  iter.program iter js;
+  !assigned
+
 let same_vident (x : J.vident) (y : J.vident) =
   match (x, y) with
   | Id x0, Id y0 -> Ident.same x0 y0

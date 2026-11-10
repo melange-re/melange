@@ -2,7 +2,7 @@ Unreleased
 ----------
 
 - compiler: preserve mutable values captured by immutable tuples, records,
-  variants and loop closures
+  variants, loop closures and inlined function arguments
   ([#2168](https://github.com/melange-re/melange/pull/2168),
   [#2172](https://github.com/melange-re/melange/pull/2172))
 
