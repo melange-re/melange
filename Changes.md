@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- compiler: preserve exceptions raised through `Fun.protect` and
+  `Printexc.raise_with_backtrace`
+  ([#2194](https://github.com/melange-re/melange/issues/2194),
+  [#2198](https://github.com/melange-re/melange/pull/2198),
+  [#2200](https://github.com/melange-re/melange/pull/2200))
+
 - runtime: avoid copying the entire source in `String.sub`, fixing quadratic
   `String.split_on_char` performance on strings with many fields
   ([#2177](https://github.com/melange-re/melange/pull/2177))

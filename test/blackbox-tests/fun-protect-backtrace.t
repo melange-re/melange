@@ -31,17 +31,13 @@ Fun.protect must preserve exceptions from work and wrap exceptions from finally.
   backtrace
   Failure backtrace
 
-The missing caml_restore_raw_backtrace primitive currently replaces these
-exceptions with an unexpected JavaScript error.
+Melange must preserve the same exceptions and backtrace-argument effects.
 
   $ dune build @melange
-  File "input.ml", line 8, characters 2-69:
-  8 |   Printexc.raise_with_backtrace (Failure "direct") (get_backtrace ())
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Warning 106 [melange-unimplemented-primitive]: Unimplemented primitive used: caml_restore_raw_backtrace
   $ node _build/default/out/input.js
   finally
-  unexpected exception
-  unexpected exception
-  unexpected exception
-  unexpected exception
+  Failure work
+  Finally_raised (Failure finally)
+  Finally_raised (Failure finally)
+  backtrace
+  Failure backtrace
