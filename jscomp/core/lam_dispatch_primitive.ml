@@ -228,6 +228,11 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
   | "caml_get_exception_raw_backtrace" | "caml_record_backtrace"
   | "caml_convert_raw_backtrace" | "caml_get_current_callstack" ->
       E.unit
+  | "caml_restore_raw_backtrace" -> (
+      (* Ignore the backtrace without dropping argument effects. *)
+      match args with
+      | [ exn; backtrace ] -> E.seq exn (E.seq backtrace E.unit)
+      | _ -> assert false)
   (* unit -> unit
      _ -> unit
      major_slice : int -> int
