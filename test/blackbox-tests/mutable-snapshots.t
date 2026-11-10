@@ -28,7 +28,10 @@ Immutable values must retain the mutable state observed at construction.
   > external set_imported : unit -> unit = "set" [@@mel.module "./foreign.cjs"]
   > let global () = let p=(value,"x") in set(); fst p
   > let imported () = let p=(imported,"x") in set_imported(); fst p
-  > let () = Printf.printf "%d %d\n" (global()) (imported())
+  > let tail () = let report before = set(); (before, value) in report value
+  > let () = let a,b=tail() in Printf.printf "%d %d\n" a b;
+  >   ([%mel.raw "globalThis.snapshotValue=1"] : unit);
+  >   Printf.printf "%d %d\n" (global()) (imported())
   > EOF
   $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
   $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
@@ -44,4 +47,5 @@ Immutable values must retain the mutable state observed at construction.
   0 1
   $ echo 'exports.value=1;exports.set=()=>{exports.value=2;};' > _build/default/out/foreign.cjs
   $ node _build/default/out/foreign.js
+  2 2
   2 1
