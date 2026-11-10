@@ -420,6 +420,33 @@ let global_dummy = Dummy.fresh ()
    parameter helps us to avoid this assumption. *)
 
 module Error = struct
+#ifdef MELANGE
+  let[@inline never] index_out_of_bounds fname ~i ~length =
+    if length = 0 then
+      invalid_arg
+        ("Dynarray." ^ fname ^ ": index " ^ string_of_int i
+         ^ " out of bounds (empty dynarray)")
+    else
+      invalid_arg
+        ("Dynarray." ^ fname ^ ": index " ^ string_of_int i
+         ^ " out of bounds (0.." ^ string_of_int (length - 1) ^ ")")
+
+  let[@inline never] negative_length_requested fname n =
+    invalid_arg
+      ("Dynarray." ^ fname ^ ": negative length " ^ string_of_int n
+       ^ " requested")
+
+  let[@inline never] negative_capacity_requested fname n =
+    invalid_arg
+      ("Dynarray." ^ fname ^ ": negative capacity " ^ string_of_int n
+       ^ " requested")
+
+  let[@inline never] requested_length_out_of_bounds fname requested_length =
+    invalid_arg
+      ("Dynarray." ^ fname ^ ": cannot grow to requested length "
+       ^ string_of_int requested_length ^ " (max_array_length is "
+       ^ string_of_int Sys.max_array_length ^ ")")
+#else
   let[@inline never] index_out_of_bounds fname ~i ~length =
     if length = 0 then
       Printf.ksprintf invalid_arg
@@ -444,6 +471,7 @@ module Error = struct
     Printf.ksprintf invalid_arg
       "Dynarray.%s: cannot grow to requested length %d (max_array_length is %d)"
       fname requested_length Sys.max_array_length
+#endif
 
   (* When observing an invalid state ([missing_element],
      [invalid_length]), we do not give the name of the calling function
@@ -454,6 +482,28 @@ module Error = struct
   let invalid_state_description =
     "Invalid dynarray (unsynchronized concurrent length change)"
 
+#ifdef MELANGE
+  let[@inline never] missing_element ~i ~length =
+    invalid_arg
+      (invalid_state_description ^ ": missing element at position "
+       ^ string_of_int i ^ " < length " ^ string_of_int length)
+
+  let[@inline never] invalid_length ~length ~capacity =
+    invalid_arg
+      (invalid_state_description ^ ": length " ^ string_of_int length
+       ^ " > capacity " ^ string_of_int capacity)
+
+  let[@inline never] invalid_subarray fname ~pos ~len ~length =
+    invalid_arg
+      ("Dynarray." ^ fname ^ ": subarray (" ^ string_of_int pos ^ ".."
+       ^ string_of_int (pos + len - 1) ^ ") out of bounds (0.."
+       ^ string_of_int (length - 1) ^ ")")
+
+  let[@inline never] length_change_during_iteration fname ~expected ~observed =
+    invalid_arg
+      ("Dynarray." ^ fname ^ ": a length change from " ^ string_of_int expected
+       ^ " to " ^ string_of_int observed ^ " occurred during iteration")
+#else
   let[@inline never] missing_element ~i ~length =
     Printf.ksprintf invalid_arg
       "%s: missing element at position %d < length %d"
@@ -475,6 +525,7 @@ module Error = struct
     Printf.ksprintf invalid_arg
       "Dynarray.%s: a length change from %d to %d occurred during iteration"
       fname expected observed
+#endif
 
   (* When an [Empty] element is observed unexpectedly at index [i],
      it may be either an out-of-bounds access or an invalid-state situation
@@ -485,6 +536,15 @@ module Error = struct
     else
       index_out_of_bounds fname ~i ~length
 
+#ifdef MELANGE
+  let[@inline never] empty_dynarray fname =
+    invalid_arg ("Dynarray." ^ fname ^ ": empty array")
+
+  let[@inline never] different_lengths f ~length1 ~length2 =
+    invalid_arg
+      ("Dynarray." ^ f ^ ": array length mismatch: " ^ string_of_int length1
+       ^ " <> " ^ string_of_int length2)
+#else
   let[@inline never] empty_dynarray fname =
     Printf.ksprintf invalid_arg
       "Dynarray.%s: empty array" fname
@@ -493,6 +553,7 @@ module Error = struct
     Printf.ksprintf invalid_arg
       "Dynarray.%s: array length mismatch: %d <> %d"
       f length1 length2
+#endif
 end
 
 (* Detecting iterator invalidation.
@@ -802,6 +863,21 @@ let blit_assume_room
 let blit ~src ~src_pos ~dst ~dst_pos ~len =
   let src_length = length src in
   let dst_length = length dst in
+#ifdef MELANGE
+  if len < 0 then
+    invalid_arg
+      ("Dynarray.blit: invalid blit length (" ^ string_of_int len ^ ")");
+  if src_pos < 0 || src_pos + len > src_length then
+    invalid_arg
+      ("Dynarray.blit: invalid source region (" ^ string_of_int src_pos
+       ^ ".." ^ string_of_int (src_pos + len)
+       ^ ") in source dynarray of length " ^ string_of_int src_length);
+  if dst_pos < 0 || dst_pos > dst_length then
+    invalid_arg
+      ("Dynarray.blit: invalid target region (" ^ string_of_int dst_pos
+       ^ ".." ^ string_of_int (dst_pos + len)
+       ^ ") in target dynarray of length " ^ string_of_int dst_length);
+#else
   if len < 0 then
     Printf.ksprintf invalid_arg
       "Dynarray.blit: invalid blit length (%d)"
@@ -816,6 +892,7 @@ let blit ~src ~src_pos ~dst ~dst_pos ~len =
       "Dynarray.blit: invalid target region (%d..%d) \
        in target dynarray of length %d"
       dst_pos (dst_pos + len) dst_length;
+#endif
   ensure_capacity dst (dst_pos + len);
   blit_assume_room
     src src_pos src_length

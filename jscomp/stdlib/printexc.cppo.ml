@@ -19,7 +19,13 @@ type t = exn = ..
 
 let printers = Atomic.make []
 
+#ifdef MELANGE
+let locfmt file line char_start char_end msg =
+  "File \"" ^ file ^ "\", line " ^ string_of_int line ^ ", characters "
+  ^ string_of_int char_start ^ "-" ^ string_of_int char_end ^ ": " ^ msg
+#else
 let locfmt = format_of_string "File \"%s\", line %d, characters %d-%d: %s"
+#endif
 
 let fields : exn -> string = [%raw{|function(x){
   var s = ""
@@ -51,12 +57,21 @@ let use_printers x =
 let to_string_default = function
   | Out_of_memory -> "Out of memory"
   | Stack_overflow -> "Stack overflow"
+#ifdef MELANGE
+  | Match_failure(file, line, char) ->
+      locfmt file line char (char+5) "Pattern matching failed"
+  | Assert_failure(file, line, char) ->
+      locfmt file line char (char+6) "Assertion failed"
+  | Undefined_recursive_module(file, line, char) ->
+      locfmt file line char (char+6) "Undefined recursive module"
+#else
   | Match_failure(file, line, char) ->
       sprintf locfmt file line char (char+5) "Pattern matching failed"
   | Assert_failure(file, line, char) ->
       sprintf locfmt file line char (char+6) "Assertion failed"
   | Undefined_recursive_module(file, line, char) ->
       sprintf locfmt file line char (char+6) "Undefined recursive module"
+#endif
   | x ->
       let constructor = exn_slot_name x in
       constructor ^ fields  x

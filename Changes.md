@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- stdlib: build the messages of `Printexc.to_string`, the `Fun.Todo` printer
+  and the `Dynarray` errors without `Printf`, so that programs which use
+  `Fun`, `Domain`, `Hashtbl`, `Printexc.to_string` or `Dynarray` no longer
+  bundle `CamlinternalFormat`
+  ([#2195](https://github.com/melange-re/melange/pull/2195))
+
 - runtime: avoid copying the entire source in `String.sub`, fixing quadratic
   `String.split_on_char` performance on strings with many fields
   ([#2177](https://github.com/melange-re/melange/pull/2177))

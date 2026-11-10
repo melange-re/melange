@@ -47,18 +47,27 @@ type implem = string * int
 
 let string_of_todo (t : todo) =
   let (file, line) : implem = Obj.magic t in
+#ifdef MELANGE
+  "File \"" ^ String.escaped (match file with "" -> "-" | _ -> file)
+  ^ "\", line " ^ string_of_int line
+#else
   Printf.sprintf
     "File %S, line %d"
     (match file with "" -> "-" | _ -> file)
     line
+#endif
 
 exception Todo = Todo
 
 let () =
   Printexc.register_printer @@ function
     | Todo info ->
+#ifdef MELANGE
+        Some ("Fun.Todo\n" ^ string_of_todo info)
+#else
         Some (
           Printf.sprintf "Fun.Todo\n%s" (string_of_todo info))
+#endif
     | _ -> None
 
 external todo : unit -> _ = "%todo"
