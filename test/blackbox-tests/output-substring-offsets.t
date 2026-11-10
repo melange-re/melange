@@ -24,11 +24,11 @@ output_substring takes an offset and a length (melange-re/melange#2193).
   [ef]
   [cdefgh]
 
-Melange currently interprets the length as an end offset.
+Melange must output the same substring as native OCaml.
 
   $ dune build --disable-promotion @melange
   $ node _build/default/out/input.js
   [abc]
-  [c]
-  []
-  [cdef]
+  [cde]
+  [ef]
+  [cdefgh]

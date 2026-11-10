@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- runtime: respect the length argument to `output_substring` when the offset is
+  nonzero ([#2193](https://github.com/melange-re/melange/issues/2193),
+  [#2197](https://github.com/melange-re/melange/pull/2197),
+  [#2199](https://github.com/melange-re/melange/pull/2199))
+
 - compiler: preserve exceptions raised through `Fun.protect` and
   `Printexc.raise_with_backtrace`
   ([#2194](https://github.com/melange-re/melange/issues/2194),
