@@ -24,7 +24,7 @@ Optional object fields must read their getter once, including nested options.
   $ dune build @melange
   $ node _build/default/out/input.js
   absent 1
-  threw 2
-  threw 2
-  threw 2
-  threw 2
+  number 1
+  undefined 1
+  object 1
+  null 1

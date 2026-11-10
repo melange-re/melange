@@ -117,13 +117,14 @@ let assemble_obj_args
                   Obj_optional { name = label; for_sure_no_nested_option };
                 _;
                } -> (
-                   (* Need make sure whether assignment is effectful or not
-                      to avoid code duplication
-                   *)
+                   (* Presence testing and unwrapping both read [arg]. A JS
+                      property can run a getter, so capture it only once. *)
                    let st, arg =
-                     match S.named_expression arg with
-                     | None -> ([], arg)
-                     | Some (st, id) -> ([ st ], E.var id)
+                     match arg.expression_desc with
+                     | Var (Id id) when not (Ident.is_js id) -> ([], arg)
+                     | _ ->
+                         let id = Ident.create_tmp () in
+                         ([ S.define_variable ~kind:Strict id arg ], E.var id)
                    in
                    (* FIXME: see #2503 *)
                    let acc, new_eff =
