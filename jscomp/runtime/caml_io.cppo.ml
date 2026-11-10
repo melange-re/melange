@@ -88,7 +88,7 @@ let node_std_output  : string -> bool =
 let caml_ml_output (oc : out_channel) (str : string) offset len  =
   let str =
     if offset = 0 && len =Caml_string_extern.length str then str
-    else Caml_string_extern.slice str offset len in
+    else Caml_string_extern.slice str offset (offset + len) in
   if [%raw{| (typeof process !== "undefined") && process.stdout && process.stdout.write |}] &&
      oc == stdout then
     ([%raw{| process.stdout.write |}] : string -> unit [@u] ) str [@u]
