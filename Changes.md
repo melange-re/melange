@@ -46,7 +46,7 @@ Unreleased
   ([#2177](https://github.com/melange-re/melange/pull/2177))
 
 - compiler: evaluate polymorphic variant FFI arguments and optional getters
-  once when converting their values for JavaScript
+  once when converting their values for JavaScript calls and object construction
   ([#2170](https://github.com/melange-re/melange/pull/2170),
    [#2176](https://github.com/melange-re/melange/pull/2176))
 
