@@ -194,7 +194,7 @@ external ( .![] ) : string -> int -> int32 = "charCodeAt" [@@mel.send]
 
 let caml_md5_string (s : string) start len =
   let module Array = Caml_array_extern (* reuse the sugar .. *) in
-  let s = Caml_string_extern.slice s start len in
+  let s = Caml_string_extern.slice s start (start + len) in
   let n = Caml_string_extern.length s in
   let () =
     state.(0) <- seed_a;

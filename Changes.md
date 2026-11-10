@@ -19,6 +19,11 @@ Unreleased
 - CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
   dependencies stored in `.cmj` files
   ([#1858](https://github.com/melange-re/melange/pull/1858))
+- runtime: honor both offset and length when hashing substrings with
+  `Digest.substring` and `Digest.subbytes`
+  ([#2192](https://github.com/melange-re/melange/issues/2192),
+  [#2196](https://github.com/melange-re/melange/pull/2196),
+  [#2183](https://github.com/melange-re/melange/pull/2183)).
 - compiler: warn when `--mel-cross-module-opt` cannot find a dependency's
   `.cmj` file ([#1857](https://github.com/melange-re/melange/pull/1857))
 - Belt.List: avoid redundant length traversals in `reduceReverse` and
