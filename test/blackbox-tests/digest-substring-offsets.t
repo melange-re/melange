@@ -20,10 +20,10 @@ Native OCaml hashes "cde", "cde", and "ef".
   a256e6b336afdc38c564789c399b516c
   feb78cc258bdc76867354f01c22dbe43
 
-Melange currently treats len as an end offset, hashing "c", "c", and "".
+Melange must hash the same substrings as native OCaml.
 
   $ dune build @melange
   $ node _build/default/out/input.js
-  4a8a08f09d37b73795649038408b5f33
-  4a8a08f09d37b73795649038408b5f33
-  d41d8cd98f00b204e9800998ecf8427e
+  a256e6b336afdc38c564789c399b516c
+  a256e6b336afdc38c564789c399b516c
+  feb78cc258bdc76867354f01c22dbe43
