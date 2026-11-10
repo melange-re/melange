@@ -26,6 +26,9 @@ open Import
 
 (** Analyzing utilities for [J] module *)
 
+val assigned_variables : J.program -> Ident.Set.t
+(** Variables assigned in the program, including loop counters. *)
+
 (** for example, whether it has side effect or not. *)
 
 val free_variables_of_statement : J.statement -> Ident.Set.t

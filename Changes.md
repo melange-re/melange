@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: preserve mutable values captured by immutable tuples, records,
+  variants, loop closures and inlined function arguments
+  ([#2168](https://github.com/melange-re/melange/pull/2168),
+  [#2172](https://github.com/melange-re/melange/pull/2172))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

@@ -248,13 +248,14 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     ; block = body
     }
   in
+  let assigned = Js_analyzer.assigned_variables js in
   js
   |> _j "initial"
   |> Js_pass_flatten.program
   |> _j "flatten"
-  |> Js_pass_tailcall_inline.tailcall_inline
+  |> Js_pass_tailcall_inline.tailcall_inline ~assigned
   |> _j "inline_and_shake"
-  |> Js_pass_flatten_and_mark_dead.program
+  |> Js_pass_flatten_and_mark_dead.program ~assigned
   |> _j "flatten_and_mark_dead"
   |> Js_pass_scope.program
   |> Js_shake.shake_program
