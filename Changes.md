@@ -39,6 +39,9 @@ Unreleased
   ([#1996](https://github.com/melange-re/melange/pull/1996))
 - Update OCaml Stdlib to OCaml 5.6
   ([#2015](https://github.com/melange-re/melange/pull/2015))
+- runtime: decode and validate UTF directly from strings, avoiding full-source
+  copies and quadratic Unicode preprocessing in edit distance and spellchecking
+  ([#2180](https://github.com/melange-re/melange/pull/2180)).
 - runtime: fix 64-bit integer decoding in `Bytes` and `String` for both
   byte orders, as reproduced in
   [#2028](https://github.com/melange-re/melange/pull/2028)
