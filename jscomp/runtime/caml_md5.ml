@@ -257,4 +257,4 @@ let caml_md5_string (s : string) start len =
     |]
 
 let caml_md5_bytes (s : bytes) start len =
-  caml_md5_string (Caml_bytes.bytes_to_string s) start len
+  caml_md5_string (Caml_bytes.string_of_large_bytes s start len) 0 len
