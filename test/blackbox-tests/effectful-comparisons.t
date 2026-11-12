@@ -2,7 +2,7 @@ Constant comparison results must retain evaluation of their operands.
 
   $ . ./setup.sh
   $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
-  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
+  $ echo '(melange.emit (target out) (emit_stdlib false) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > external hit : unit -> int = "comparisonHit"
   > external option_hit : unit -> int option = "comparisonOptionHit"

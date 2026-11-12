@@ -6,7 +6,9 @@
 
   $ cat > dune <<EOF
   > (melange.emit
-  >   (target out))
+  >  (target out)
+  >  (emit_stdlib false)
+  >  (libraries melange.js))
   > EOF
 
   $ cat > x.ml <<EOF

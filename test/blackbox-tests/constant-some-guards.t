@@ -2,7 +2,7 @@ Known constant Some values do not need presence guards. Presence must remain dis
 
   $ . ./setup.sh
   $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
-  $ echo '(melange.emit (target out) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
+  $ echo '(melange.emit (target out) (emit_stdlib false) (libraries melange.js) (preprocess (pps melange.ppx)))' > dune
   $ cat > input.ml <<'EOF'
   > let number () = let opt = Some 42 in match opt with Some x -> x | None -> 0
   > let zero () = let opt = Some 0 in match opt with Some x -> x | None -> 42
