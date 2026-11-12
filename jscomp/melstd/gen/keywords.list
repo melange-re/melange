@@ -114,6 +114,7 @@ CSSViewTransitionRule
 CanvasCaptureMediaStreamTrack
 CanvasFilter
 CanvasGradient
+CanvasPaintEvent
 CanvasPattern
 CanvasRenderingContext2D
 CaretPosition
@@ -172,6 +173,8 @@ DragEvent
 DynamicsCompressorNode
 EditContext
 Element
+ElementGeometryUpdateEvent
+ElementImage
 ElementInternals
 EncodedAudioChunk
 EncodedVideoChunk
@@ -677,6 +680,7 @@ TransformStreamDefaultController
 TransitionEvent
 TreeWalker
 TrustedHTML
+TrustedHTMLParserOptions
 TrustedScript
 TrustedScriptURL
 TrustedTypePolicy
