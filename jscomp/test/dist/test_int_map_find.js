@@ -3,14 +3,7 @@
 
 const Caml = require("melange.js/caml.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib__List = require("melange/list.js");
-
-const compare = Caml.caml_int_compare;
-
-const funarg = {
-  compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -107,7 +100,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -139,7 +132,7 @@ function add(x, data, m) {
 }
 
 Stdlib__List.fold_left((function (acc, param) {
-  return Curry._3(add, param[0], param[1], acc);
+  return add(param[0], param[1], acc);
 }), /* Empty */ 0, {
   hd: [
     10,
@@ -165,4 +158,4 @@ Stdlib__List.fold_left((function (acc, param) {
     }
   }
 });
-/* IntMap Not a pure module */
+/*  Not a pure module */

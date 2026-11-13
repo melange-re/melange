@@ -5,7 +5,6 @@ const Belt__Belt_Array = require("melange.belt/belt_Array.js");
 const Belt__Belt_MutableQueue = require("melange.belt/belt_MutableQueue.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -26,7 +25,7 @@ function b(loc, x) {
 
 function does_raise(f, q) {
   try {
-    Curry._1(f, q);
+    f(q);
     return false;
   }
   catch (exn){

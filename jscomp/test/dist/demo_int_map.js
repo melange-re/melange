@@ -2,16 +2,7 @@
 'use strict';
 
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
-
-function compare(x, y) {
-  return x - y | 0;
-}
-
-const funarg = {
-  compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -108,7 +99,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = x - v | 0;
   if (c === 0) {
     if (d === data) {
       return m;
@@ -147,7 +138,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = x - param.v | 0;
     if (c === 0) {
       return param.d;
     }
@@ -159,12 +150,12 @@ function find(x, _param) {
 function test(param) {
   let m = /* Empty */ 0;
   for (let i = 0; i <= 1000000; ++i) {
-    m = Curry._3(add, i, i, m);
+    m = add(i, i, m);
   }
   for (let i$1 = 0; i$1 <= 1000000; ++i$1) {
-    Curry._2(find, i$1, m);
+    find(i$1, m);
   }
 }
 
 test();
-/* IntMap Not a pure module */
+/*  Not a pure module */

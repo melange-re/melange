@@ -48,7 +48,7 @@ function invalid_argument(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
   if (tmp) {
@@ -63,10 +63,6 @@ function invalid_argument(f) {
       ]
     });
 }
-
-const funarg = {
-  compare: Stdlib__Int.compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -216,7 +212,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -255,7 +251,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -273,7 +269,7 @@ function find_first(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -288,7 +284,7 @@ function find_first(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -310,7 +306,7 @@ function find_first_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -325,7 +321,7 @@ function find_first_opt(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -349,7 +345,7 @@ function find_last(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -364,7 +360,7 @@ function find_last(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -386,7 +382,7 @@ function find_last_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -401,7 +397,7 @@ function find_last_opt(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -422,7 +418,7 @@ function find_opt(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -437,7 +433,7 @@ function mem(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -556,7 +552,7 @@ function remove(x, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -578,7 +574,7 @@ function remove(x, m) {
 
 function update(x, f, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    const data = Curry._1(f, undefined);
+    const data = f(undefined);
     if (data !== undefined) {
       return {
         TAG: /* Node */ 0,
@@ -596,9 +592,9 @@ function update(x, f, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
-    const data$1 = Curry._1(f, Caml_option.some(d));
+    const data$1 = f(Caml_option.some(d));
     if (data$1 === undefined) {
       return merge(l, r);
     }
@@ -649,99 +645,123 @@ function add_to_list(x, data, m) {
   return update(x, add, m);
 }
 
-function iter(f, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return;
-    }
-    iter(f, param.l);
-    Curry._2(f, param.v, param.d);
-    _param = param.r;
-    continue;
+function iter(f, param) {
+  const f$1 = Curry.__2(f);
+  const iter$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return;
+      }
+      iter$1(param.l);
+      f$1(param.v, param.d);
+      _param = param.r;
+      continue;
+    };
   };
+  iter$1(param);
 }
 
 function map(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+  const f$1 = Curry.__1(f);
+  const map$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map$1(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map$1(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return map$1(param);
 }
 
 function mapi(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = mapi(f, param.l);
-  const d$p = Curry._2(f, v, param.d);
-  const r$p = mapi(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v,
-    d: d$p,
-    r: r$p,
-    h: param.h
-  };
-}
-
-function fold(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
-}
-
-function for_all(p, _param) {
-  while (true) {
-    const param = _param;
+  const f$1 = Curry.__2(f);
+  const mapi$1 = function (param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return true;
+      return /* Empty */ 0;
     }
-    if (!Curry._2(p, param.v, param.d)) {
-      return false;
-    }
-    if (!for_all(p, param.l)) {
-      return false;
-    }
-    _param = param.r;
-    continue;
+    const v = param.v;
+    const l$p = mapi$1(param.l);
+    const d$p = f$1(v, param.d);
+    const r$p = mapi$1(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return mapi$1(param);
 }
 
-function exists(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return false;
-    }
-    if (Curry._2(p, param.v, param.d)) {
-      return true;
-    }
-    if (exists(p, param.l)) {
-      return true;
-    }
-    _param = param.r;
-    continue;
+function fold(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$1 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$1(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
+  return fold$1(m, accu);
+}
+
+function for_all(p, param) {
+  const p$1 = Curry.__2(p);
+  const for_all$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return true;
+      }
+      if (!p$1(param.v, param.d)) {
+        return false;
+      }
+      if (!for_all$1(param.l)) {
+        return false;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return for_all$1(param);
+}
+
+function exists(p, param) {
+  const p$1 = Curry.__2(p);
+  const exists$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return false;
+      }
+      if (p$1(param.v, param.d)) {
+        return true;
+      }
+      if (exists$1(param.l)) {
+        return true;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return exists$1(param);
 }
 
 function add_min_binding(k, x, param) {
@@ -809,7 +829,7 @@ function split(x, param) {
   const d = param.d;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -834,131 +854,151 @@ function split(x, param) {
 }
 
 function merge$1(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+  const f$1 = Curry.__3(f);
+  const merge$2 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+        return /* Empty */ 0;
+      }
+      
+    } else {
+      const v1 = s1.v;
+      if (s1.h >= height(s2)) {
+        const match = split(v1, s2);
+        return concat_or_join(merge$2(s1.l, match[0]), v1, f$1(v1, Caml_option.some(s1.d), match[1]), merge$2(s1.r, match[2]));
+      }
+      
+    }
     if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-      return /* Empty */ 0;
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/stdlib/map.ml",
+            418,
+            10
+          ]
+        });
     }
-    
-  } else {
-    const v1 = s1.v;
-    if (s1.h >= height(s2)) {
-      const match = split(v1, s2);
-      return concat_or_join(merge$1(f, s1.l, match[0]), v1, Curry._3(f, v1, Caml_option.some(s1.d), match[1]), merge$1(f, s1.r, match[2]));
-    }
-    
-  }
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/stdlib/map.ml",
-          418,
-          10
-        ]
-      });
-  }
-  const v2 = s2.v;
-  const match$1 = split(v2, s1);
-  return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
+    const v2 = s2.v;
+    const match$1 = split(v2, s1);
+    return concat_or_join(merge$2(match$1[0], s2.l), v2, f$1(v2, match$1[1], Caml_option.some(s2.d)), merge$2(match$1[2], s2.r));
+  };
+  return merge$2(s1, s2);
 }
 
 function union(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
-    return s2;
-  }
-  const d1 = s1.d;
-  const v1 = s1.v;
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    return s1;
-  }
-  const d2 = s2.d;
-  const v2 = s2.v;
-  if (s1.h >= s2.h) {
-    const match = split(v1, s2);
-    const d2$1 = match[1];
-    const l = union(f, s1.l, match[0]);
-    const r = union(f, s1.r, match[2]);
-    if (d2$1 !== undefined) {
-      return concat_or_join(l, v1, Curry._3(f, v1, d1, Caml_option.valFromOption(d2$1)), r);
-    } else {
-      return join(l, v1, d1, r);
+  const f$1 = Curry.__3(f);
+  const union$1 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      return s2;
     }
-  }
-  const match$1 = split(v2, s1);
-  const d1$1 = match$1[1];
-  const l$1 = union(f, match$1[0], s2.l);
-  const r$1 = union(f, match$1[2], s2.r);
-  if (d1$1 !== undefined) {
-    return concat_or_join(l$1, v2, Curry._3(f, v2, Caml_option.valFromOption(d1$1), d2), r$1);
-  } else {
-    return join(l$1, v2, d2, r$1);
-  }
+    const d1 = s1.d;
+    const v1 = s1.v;
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+      return s1;
+    }
+    const d2 = s2.d;
+    const v2 = s2.v;
+    if (s1.h >= s2.h) {
+      const match = split(v1, s2);
+      const d2$1 = match[1];
+      const l = union$1(s1.l, match[0]);
+      const r = union$1(s1.r, match[2]);
+      if (d2$1 !== undefined) {
+        return concat_or_join(l, v1, f$1(v1, d1, Caml_option.valFromOption(d2$1)), r);
+      } else {
+        return join(l, v1, d1, r);
+      }
+    }
+    const match$1 = split(v2, s1);
+    const d1$1 = match$1[1];
+    const l$1 = union$1(match$1[0], s2.l);
+    const r$1 = union$1(match$1[2], s2.r);
+    if (d1$1 !== undefined) {
+      return concat_or_join(l$1, v2, f$1(v2, Caml_option.valFromOption(d1$1), d2), r$1);
+    } else {
+      return join(l$1, v2, d2, r$1);
+    }
+  };
+  return union$1(s1, s2);
 }
 
 function filter(p, m) {
-  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = m.r;
-  const d = m.d;
-  const v = m.v;
-  const l = m.l;
-  const l$p = filter(p, l);
-  const pvd = Curry._2(p, v, d);
-  const r$p = filter(p, r);
-  if (pvd) {
-    if (l === l$p && r === r$p) {
-      return m;
-    } else {
-      return join(l$p, v, d, r$p);
+  const p$1 = Curry.__2(p);
+  const filter$1 = function (m) {
+    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+      return /* Empty */ 0;
     }
-  } else {
-    return concat(l$p, r$p);
-  }
+    const r = m.r;
+    const d = m.d;
+    const v = m.v;
+    const l = m.l;
+    const l$p = filter$1(l);
+    const pvd = p$1(v, d);
+    const r$p = filter$1(r);
+    if (pvd) {
+      if (l === l$p && r === r$p) {
+        return m;
+      } else {
+        return join(l$p, v, d, r$p);
+      }
+    } else {
+      return concat(l$p, r$p);
+    }
+  };
+  return filter$1(m);
 }
 
 function filter_map(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = filter_map(f, param.l);
-  const fvd = Curry._2(f, v, param.d);
-  const r$p = filter_map(f, param.r);
-  if (fvd !== undefined) {
-    return join(l$p, v, Caml_option.valFromOption(fvd), r$p);
-  } else {
-    return concat(l$p, r$p);
-  }
+  const f$1 = Curry.__2(f);
+  const filter_map$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const v = param.v;
+    const l$p = filter_map$1(param.l);
+    const fvd = f$1(v, param.d);
+    const r$p = filter_map$1(param.r);
+    if (fvd !== undefined) {
+      return join(l$p, v, Caml_option.valFromOption(fvd), r$p);
+    } else {
+      return concat(l$p, r$p);
+    }
+  };
+  return filter_map$1(param);
 }
 
 function partition(p, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return [
-      /* Empty */ 0,
-      /* Empty */ 0
-    ];
-  }
-  const d = param.d;
-  const v = param.v;
-  const match = partition(p, param.l);
-  const lf = match[1];
-  const lt = match[0];
-  const pvd = Curry._2(p, v, d);
-  const match$1 = partition(p, param.r);
-  const rf = match$1[1];
-  const rt = match$1[0];
-  if (pvd) {
-    return [
-      join(lt, v, d, rt),
-      concat(lf, rf)
-    ];
-  } else {
-    return [
-      concat(lt, rt),
-      join(lf, v, d, rf)
-    ];
-  }
+  const p$1 = Curry.__2(p);
+  const partition$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return [
+        /* Empty */ 0,
+        /* Empty */ 0
+      ];
+    }
+    const d = param.d;
+    const v = param.v;
+    const match = partition$1(param.l);
+    const lf = match[1];
+    const lt = match[0];
+    const pvd = p$1(v, d);
+    const match$1 = partition$1(param.r);
+    const rf = match$1[1];
+    const rt = match$1[0];
+    if (pvd) {
+      return [
+        join(lt, v, d, rt),
+        concat(lf, rf)
+      ];
+    } else {
+      return [
+        concat(lt, rt),
+        join(lf, v, d, rf)
+      ];
+    }
+  };
+  return partition$1(param);
 }
 
 function cons_enum(_m, _e) {
@@ -981,6 +1021,7 @@ function cons_enum(_m, _e) {
 }
 
 function compare(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -996,11 +1037,11 @@ function compare(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg.compare, e1._0, e2._0);
+    const c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    const c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = cmp$1(e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -1011,6 +1052,7 @@ function compare(cmp, m1, m2) {
 }
 
 function equal(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -1026,10 +1068,10 @@ function equal(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
+    if (e1._0 !== e2._0) {
       return false;
     }
-    if (!Curry._2(cmp, e1._1, e2._1)) {
+    if (!cmp$1(e1._1, e2._1)) {
       return false;
     }
     _e2 = cons_enum(e2._2, e2._3);
@@ -1163,7 +1205,7 @@ function to_seq_from(low, m) {
       const r = m.r;
       const d = m.d;
       const v = m.v;
-      const n = Curry._2(funarg.compare, v, low);
+      const n = Caml.caml_int_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -1240,10 +1282,6 @@ const Int_map = {
   to_seq_from,
   add_seq,
   of_seq
-};
-
-const funarg$1 = {
-  compare: Stdlib__Int.compare
 };
 
 function height$1(param) {
@@ -1337,7 +1375,7 @@ function add$1(x, t) {
   const r = t.r;
   const v = t.v;
   const l = t.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return t;
   }
@@ -1501,7 +1539,7 @@ function split$1(x, param) {
   const r = param.r;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -1570,7 +1608,7 @@ function mem$1(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -1586,7 +1624,7 @@ function remove$1(x, t) {
   const r = t.r;
   const v = t.v;
   const l = t.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       return r;
@@ -1699,7 +1737,7 @@ function split_bis(x, param) {
   const r = param.r;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return /* Found */ 0;
   }
@@ -1713,7 +1751,7 @@ function split_bis(x, param) {
       TAG: /* NotFound */ 0,
       _0: match._0,
       _1: (function (param) {
-        return join$1(Curry._1(rl, undefined), v, r);
+        return join$1(rl(), v, r);
       })
     };
   }
@@ -1749,7 +1787,7 @@ function disjoint(_s1, _s2) {
     if (!disjoint(s1.l, match._0)) {
       return false;
     }
-    _s2 = Curry._1(match._1, undefined);
+    _s2 = match._1();
     _s1 = s1.r;
     continue;
   };
@@ -1811,7 +1849,7 @@ function compare$1(s1, s2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg$1.compare, e1._0, e2._0);
+    const c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -1840,7 +1878,7 @@ function subset(_s1, _s2) {
     }
     const r2 = s2.r;
     const l2 = s2.l;
-    const c = Curry._2(funarg$1.compare, v1, s2.v);
+    const c = Caml.caml_int_compare(v1, s2.v);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -1883,23 +1921,27 @@ function iter$1(f, _param) {
       return;
     }
     iter$1(f, param.l);
-    Curry._1(f, param.v);
+    f(param.v);
     _param = param.r;
     continue;
   };
 }
 
-function fold$1(f, _s, _accu) {
-  while (true) {
-    const accu = _accu;
-    const s = _s;
-    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-      return accu;
-    }
-    _accu = Curry._2(f, s.v, fold$1(f, s.l, accu));
-    _s = s.r;
-    continue;
+function fold$1(f, s, accu) {
+  const f$1 = Curry.__2(f);
+  const fold$2 = function (_s, _accu) {
+    while (true) {
+      const accu = _accu;
+      const s = _s;
+      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+        return accu;
+      }
+      _accu = f$1(s.v, fold$2(s.l, accu));
+      _s = s.r;
+      continue;
+    };
   };
+  return fold$2(s, accu);
 }
 
 function for_all$1(p, _param) {
@@ -1908,7 +1950,7 @@ function for_all$1(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return true;
     }
-    if (!Curry._1(p, param.v)) {
+    if (!p(param.v)) {
       return false;
     }
     if (!for_all$1(p, param.l)) {
@@ -1925,7 +1967,7 @@ function exists$1(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    if (Curry._1(p, param.v)) {
+    if (p(param.v)) {
       return true;
     }
     if (exists$1(p, param.l)) {
@@ -1944,7 +1986,7 @@ function filter$1(p, t) {
   const v = t.v;
   const l = t.l;
   const l$p = filter$1(p, l);
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const r$p = filter$1(p, r);
   if (pv) {
     if (l === l$p && r === r$p) {
@@ -1968,7 +2010,7 @@ function partition$1(p, param) {
   const match = partition$1(p, param.l);
   const lf = match[1];
   const lt = match[0];
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const match$1 = partition$1(p, param.r);
   const rf = match$1[1];
   const rt = match$1[0];
@@ -2022,7 +2064,7 @@ function find$1(x, _param) {
         });
     }
     const v = param.v;
-    const c = Curry._2(funarg$1.compare, x, v);
+    const c = Caml.caml_int_compare(x, v);
     if (c === 0) {
       return v;
     }
@@ -2040,7 +2082,7 @@ function find_first$1(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.l;
       while (true) {
@@ -2050,7 +2092,7 @@ function find_first$1(f, _param) {
           return v0;
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
           continue;
@@ -2071,7 +2113,7 @@ function find_first_opt$1(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.l;
       while (true) {
@@ -2081,7 +2123,7 @@ function find_first_opt$1(f, _param) {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
           continue;
@@ -2104,7 +2146,7 @@ function find_last$1(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.r;
       while (true) {
@@ -2114,7 +2156,7 @@ function find_last$1(f, _param) {
           return v0;
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
           continue;
@@ -2135,7 +2177,7 @@ function find_last_opt$1(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.r;
       while (true) {
@@ -2145,7 +2187,7 @@ function find_last_opt$1(f, _param) {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
           continue;
@@ -2166,7 +2208,7 @@ function find_opt$1(x, _param) {
       return;
     }
     const v = param.v;
-    const c = Curry._2(funarg$1.compare, x, v);
+    const c = Caml.caml_int_compare(x, v);
     if (c === 0) {
       return Caml_option.some(v);
     }
@@ -2176,7 +2218,7 @@ function find_opt$1(x, _param) {
 }
 
 function try_join(l, v, r) {
-  if ((Caml_obj.caml_equal(l, /* Empty */ 0) || Curry._2(funarg$1.compare, max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */ 0) || Curry._2(funarg$1.compare, v, min_elt(r)) < 0)) {
+  if ((Caml_obj.caml_equal(l, /* Empty */ 0) || max_elt(l) < v) && (Caml_obj.caml_equal(r, /* Empty */ 0) || v < min_elt(r))) {
     return join$1(l, v, r);
   } else {
     return union$1(l, add$1(v, r));
@@ -2184,20 +2226,24 @@ function try_join(l, v, r) {
 }
 
 function map$1(f, t) {
-  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = t.r;
-  const v = t.v;
-  const l = t.l;
-  const l$p = map$1(f, l);
-  const v$p = Curry._1(f, v);
-  const r$p = map$1(f, r);
-  if (l === l$p && v === v$p && r === r$p) {
-    return t;
-  } else {
-    return try_join(l$p, v$p, r$p);
-  }
+  const f$1 = Curry.__1(f);
+  const map$2 = function (t) {
+    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+      return /* Empty */ 0;
+    }
+    const r = t.r;
+    const v = t.v;
+    const l = t.l;
+    const l$p = map$2(l);
+    const v$p = f$1(v);
+    const r$p = map$2(r);
+    if (l === l$p && v === v$p && r === r$p) {
+      return t;
+    } else {
+      return try_join(l$p, v$p, r$p);
+    }
+  };
+  return map$2(t);
 }
 
 function filter_map$1(f, t) {
@@ -2208,7 +2254,7 @@ function filter_map$1(f, t) {
   const v = t.v;
   const l = t.l;
   const l$p = filter_map$1(f, l);
-  const v$p = Curry._1(f, v);
+  const v$p = f(v);
   const r$p = filter_map$1(f, r);
   if (v$p === undefined) {
     if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
@@ -2250,7 +2296,7 @@ function of_list$1(l) {
   const x3 = match$2.hd;
   if (match$3) {
     if (match$3.tl) {
-      let l$1 = Stdlib__List.sort_uniq(funarg$1.compare, l);
+      let l$1 = Stdlib__List.sort_uniq(Stdlib__Int.compare, l);
       const sub = function (n, l) {
         switch (n) {
           case 0 :
@@ -2439,7 +2485,7 @@ function to_seq_from$1(low, s) {
       }
       const r = s.r;
       const v = s.v;
-      const n = Curry._2(funarg$1.compare, v, low);
+      const n = Caml.caml_int_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -2516,8 +2562,6 @@ const Int_set = {
   of_seq: of_seq$1
 };
 
-const compare$2 = Stdlib__Int.compare;
-
 function left_child(i) {
   return (i << 1) + 1 | 0;
 }
@@ -2542,7 +2586,7 @@ function add$2(h, x) {
       }
       const p = parent_node(i$1);
       const y = Stdlib__Dynarray.get(h, p);
-      if (Curry._2(compare$2, x, y) >= 0) {
+      if (x >= y) {
         return Stdlib__Dynarray.set(h, i$1, x);
       }
       Stdlib__Dynarray.set(h, i$1, y);
@@ -2578,7 +2622,7 @@ function get_min_elt(h) {
 }
 
 function lt(h, i, j) {
-  return Curry._2(compare$2, Stdlib__Dynarray.get(h, i), Stdlib__Dynarray.get(h, j)) < 0;
+  return Stdlib__Dynarray.get(h, i) < Stdlib__Dynarray.get(h, j);
 }
 
 function sift_down(h, len, _i, x) {
@@ -2591,7 +2635,7 @@ function sift_down(h, len, _i, x) {
     const right = right_child(i);
     const smallest = right >= len || lt(h, left, right) ? left : right;
     const y = Stdlib__Dynarray.get(h, smallest);
-    if (Curry._2(compare$2, y, x) >= 0) {
+    if (y >= x) {
       return Stdlib__Dynarray.set(h, i, x);
     }
     Stdlib__Dynarray.set(h, i, y);
@@ -2674,10 +2718,6 @@ const Min_queue = {
   fold_unordered: Stdlib__Dynarray.fold_left
 };
 
-const funarg$2 = {
-  compare: Stdlib__Int.compare
-};
-
 function left_child$1(i) {
   return (i << 1) + 1 | 0;
 }
@@ -2702,7 +2742,7 @@ function add$3(h, x) {
       }
       const p = parent_node$1(i$1);
       const y = Stdlib__Dynarray.get(h, p);
-      if (Curry._2(funarg$2.compare, y, x) >= 0) {
+      if (y >= x) {
         return Stdlib__Dynarray.set(h, i$1, x);
       }
       Stdlib__Dynarray.set(h, i$1, y);
@@ -2740,7 +2780,7 @@ function get_min_elt$1(h) {
 function lt$1(h, i, j) {
   const y = Stdlib__Dynarray.get(h, j);
   const x = Stdlib__Dynarray.get(h, i);
-  return Curry._2(funarg$2.compare, y, x) < 0;
+  return y < x;
 }
 
 function sift_down$1(h, len, _i, x) {
@@ -2753,7 +2793,7 @@ function sift_down$1(h, len, _i, x) {
     const right = right_child$1(i);
     const smallest = right >= len || lt$1(h, left, right) ? left : right;
     const y = Stdlib__Dynarray.get(h, smallest);
-    if (Curry._2(funarg$2.compare, x, y) >= 0) {
+    if (x >= y) {
       return Stdlib__Dynarray.set(h, i, x);
     }
     Stdlib__Dynarray.set(h, i, y);
@@ -2837,7 +2877,7 @@ const Max_queue = {
 };
 
 function drain(pop) {
-  const x = Curry._1(pop, undefined);
+  const x = pop();
   if (x !== undefined) {
     return {
       hd: Caml_option.valFromOption(x),
@@ -3337,12 +3377,19 @@ Mt.from_suites("Stdlib_56_test", {
               hd: [
                 "map and set singleton extraction",
                 (function (param) {
-                  eq(undefined, Curry._1(singleton_to_binding, /* Empty */ 0));
+                  eq(undefined, undefined);
                   eq([
                     1,
                     "one"
-                  ], Curry._1(singleton_to_binding, Curry._2(singleton, 1, "one")));
-                  eq(undefined, Curry._1(singleton_to_binding, Curry._1(of_list, {
+                  ], singleton_to_binding({
+                    TAG: /* Node */ 0,
+                    l: /* Empty */ 0,
+                    v: 1,
+                    d: "one",
+                    r: /* Empty */ 0,
+                    h: 1
+                  }));
+                  eq(undefined, singleton_to_binding(of_list({
                     hd: [
                       1,
                       "one"
@@ -3355,9 +3402,15 @@ Mt.from_suites("Stdlib_56_test", {
                       tl: /* [] */ 0
                     }
                   })));
-                  eq(undefined, Curry._1(singleton_to_elt, /* Empty */ 0));
-                  eq(1, Curry._1(singleton_to_elt, Curry._1(singleton$1, 1)));
-                  eq(undefined, Curry._1(singleton_to_elt, Curry._1(of_list$1, {
+                  eq(undefined, undefined);
+                  eq(1, singleton_to_elt({
+                    TAG: /* Node */ 0,
+                    l: /* Empty */ 0,
+                    v: 1,
+                    r: /* Empty */ 0,
+                    h: 1
+                  }));
+                  eq(undefined, singleton_to_elt(of_list$1({
                     hd: 1,
                     tl: {
                       hd: 2,
@@ -3370,7 +3423,7 @@ Mt.from_suites("Stdlib_56_test", {
                 hd: [
                   "set operations preserve physical identity",
                   (function (param) {
-                    const s = Curry._1(of_list$1, {
+                    const s = of_list$1({
                       hd: 1,
                       tl: {
                         hd: 2,
@@ -3386,7 +3439,7 @@ Mt.from_suites("Stdlib_56_test", {
                         }
                       }
                     });
-                    if (Curry._2(union$1, s, s) !== s) {
+                    if (union$1(s, s) !== s) {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
@@ -3396,7 +3449,7 @@ Mt.from_suites("Stdlib_56_test", {
                           ]
                         });
                     }
-                    if (Curry._2(inter, s, s) !== s) {
+                    if (inter(s, s) !== s) {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
@@ -3406,7 +3459,7 @@ Mt.from_suites("Stdlib_56_test", {
                           ]
                         });
                     }
-                    if (!Curry._1(is_empty$1, Curry._2(diff, s, s))) {
+                    if (!is_empty$1(diff(s, s))) {
                       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                           MEL_EXN_ID: "Assert_failure",
                           _1: [
@@ -3416,7 +3469,7 @@ Mt.from_suites("Stdlib_56_test", {
                           ]
                         });
                     }
-                    const t = Curry._1(of_list$1, {
+                    const t = of_list$1({
                       hd: 3,
                       tl: {
                         hd: 4,
@@ -3444,14 +3497,14 @@ Mt.from_suites("Stdlib_56_test", {
                           }
                         }
                       }
-                    }, Curry._1(elements, Curry._2(union$1, s, t)));
+                    }, elements_aux(/* [] */ 0, union$1(s, t)));
                     eq({
                       hd: 3,
                       tl: {
                         hd: 4,
                         tl: /* [] */ 0
                       }
-                    }, Curry._1(elements, Curry._2(inter, s, t)));
+                    }, elements_aux(/* [] */ 0, inter(s, t)));
                     eq({
                       hd: 1,
                       tl: {
@@ -3461,7 +3514,7 @@ Mt.from_suites("Stdlib_56_test", {
                           tl: /* [] */ 0
                         }
                       }
-                    }, Curry._1(elements, Curry._2(diff, s, t)));
+                    }, elements_aux(/* [] */ 0, diff(s, t)));
                   })
                 ],
                 tl: {
@@ -3496,7 +3549,7 @@ Mt.from_suites("Stdlib_56_test", {
                         return Stdlib__Seq.ints_in_range(3, 2, param);
                       }));
                       const repeated = Stdlib__Seq.repeat(7);
-                      if (Curry._1(repeated, undefined) !== Curry._1(repeated, undefined)) {
+                      if (repeated() !== repeated()) {
                         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
                             MEL_EXN_ID: "Assert_failure",
                             _1: [
@@ -3567,157 +3620,232 @@ Mt.from_suites("Stdlib_56_test", {
                   ],
                   tl: {
                     hd: [
-                      "dynarray immutable-array conversions copy",
+                      "sequence ranges terminate at integer endpoints",
                       (function (param) {
-                        const source = Stdlib__Array.of_list({
-                          hd: 1,
-                          tl: {
-                            hd: 2,
-                            tl: /* [] */ 0
-                          }
-                        });
-                        const dynamic = Stdlib__Dynarray.of_iarray(source);
-                        const snapshot = Stdlib__Dynarray.to_iarray(dynamic);
-                        if (snapshot === Stdlib__Dynarray.to_iarray(dynamic)) {
-                          throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                              MEL_EXN_ID: "Assert_failure",
-                              _1: [
-                                "jscomp/test/stdlib_56_test.ml",
-                                155,
-                                10
-                              ]
-                            });
-                        }
-                        Stdlib__Dynarray.set(dynamic, 0, 9);
-                        Stdlib__Dynarray.append_iarray(dynamic, source);
-                        Stdlib__Dynarray.append_iarray(dynamic, Stdlib__Array.of_list(/* [] */ 0));
+                        const range = function (first, last) {
+                          return Stdlib__List.of_seq(Stdlib__Seq.take(4, (function (param) {
+                            return Stdlib__Seq.ints_in_range(first, last, param);
+                          })));
+                        };
                         eq({
-                          hd: 1,
-                          tl: {
-                            hd: 2,
-                            tl: /* [] */ 0
-                          }
-                        }, Stdlib__Iarray.to_list(source));
+                          hd: Stdlib.max_int,
+                          tl: /* [] */ 0
+                        }, range(Stdlib.max_int, Stdlib.max_int));
                         eq({
-                          hd: 1,
+                          hd: Stdlib.max_int - 2 | 0,
                           tl: {
-                            hd: 2,
-                            tl: /* [] */ 0
-                          }
-                        }, Stdlib__Iarray.to_list(snapshot));
-                        eq({
-                          hd: 9,
-                          tl: {
-                            hd: 2,
+                            hd: Stdlib.max_int - 1 | 0,
                             tl: {
-                              hd: 1,
-                              tl: {
-                                hd: 2,
-                                tl: /* [] */ 0
-                              }
+                              hd: Stdlib.max_int,
+                              tl: /* [] */ 0
                             }
                           }
-                        }, Stdlib__Dynarray.to_list(dynamic));
-                        eq(/* [] */ 0, Stdlib__Dynarray.to_list(Stdlib__Dynarray.of_iarray(Stdlib__Array.of_list(/* [] */ 0))));
-                        const floats = Stdlib__Dynarray.of_iarray(Stdlib__Array.of_list({
-                          hd: 1.5,
-                          tl: {
-                            hd: 2.5,
-                            tl: /* [] */ 0
-                          }
-                        }));
-                        const saved = Stdlib__Dynarray.to_iarray(floats);
-                        Stdlib__Dynarray.set(floats, 0, 3.5);
+                        }, range(Stdlib.max_int - 2 | 0, Stdlib.max_int));
                         eq({
-                          hd: 1.5,
+                          hd: Stdlib.min_int,
+                          tl: /* [] */ 0
+                        }, range(Stdlib.min_int, Stdlib.min_int));
+                        eq({
+                          hd: Stdlib.min_int,
                           tl: {
-                            hd: 2.5,
-                            tl: /* [] */ 0
+                            hd: Stdlib.min_int + 1 | 0,
+                            tl: {
+                              hd: Stdlib.min_int + 2 | 0,
+                              tl: /* [] */ 0
+                            }
                           }
-                        }, Stdlib__Iarray.to_list(saved));
+                        }, range(Stdlib.min_int, Stdlib.min_int + 2 | 0));
+                        eq(/* [] */ 0, range(Stdlib.max_int, Stdlib.min_int));
+                        const endpoint = function (param) {
+                          return Stdlib__Seq.ints_in_range(Stdlib.max_int, Stdlib.max_int, param);
+                        };
+                        eq({
+                          hd: Stdlib.max_int,
+                          tl: /* [] */ 0
+                        }, Stdlib__List.of_seq(Stdlib__Seq.take(2, endpoint)));
+                        eq({
+                          hd: Stdlib.max_int,
+                          tl: /* [] */ 0
+                        }, Stdlib__List.of_seq(Stdlib__Seq.take(2, endpoint)));
                       })
                     ],
                     tl: {
                       hd: [
-                        "dynarray sorting is stable and preserves capacity",
+                        "dynarray immutable-array conversions copy",
                         (function (param) {
-                          const cmp = function (param, param$1) {
-                            return Caml.caml_int_compare(param[0], param$1[0]);
-                          };
-                          Stdlib__List.iter((function (sort) {
-                            Stdlib__List.iter((function (n) {
-                              const values = Stdlib__List.init(n, (function (i) {
-                                return [
-                                  (n - i | 0) % 3,
-                                  i
-                                ];
-                              }));
-                              const a = Stdlib__Dynarray.of_list(values);
-                              Stdlib__Dynarray.ensure_capacity(a, 32);
-                              const capacity = a.arr.length;
-                              Curry._2(sort, cmp, a);
-                              eq(Stdlib__List.stable_sort(cmp, values), Stdlib__Dynarray.to_list(a));
-                              eq(n, a.length);
-                              eq(capacity, a.arr.length);
-                            }), {
-                              hd: 0,
-                              tl: {
-                                hd: 1,
-                                tl: {
-                                  hd: 5,
-                                  tl: {
-                                    hd: 6,
-                                    tl: {
-                                      hd: 17,
-                                      tl: /* [] */ 0
-                                    }
-                                  }
-                                }
-                              }
-                            });
-                          }), {
-                            hd: Stdlib__Dynarray.stable_sort,
+                          const source = Stdlib__Array.of_list({
+                            hd: 1,
                             tl: {
-                              hd: Stdlib__Dynarray.sort,
+                              hd: 2,
                               tl: /* [] */ 0
                             }
                           });
+                          const dynamic = Stdlib__Dynarray.of_iarray(source);
+                          const snapshot = Stdlib__Dynarray.to_iarray(dynamic);
+                          if (snapshot === Stdlib__Dynarray.to_iarray(dynamic)) {
+                            throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                MEL_EXN_ID: "Assert_failure",
+                                _1: [
+                                  "jscomp/test/stdlib_56_test.ml",
+                                  170,
+                                  10
+                                ]
+                              });
+                          }
+                          Stdlib__Dynarray.set(dynamic, 0, 9);
+                          Stdlib__Dynarray.append_iarray(dynamic, source);
+                          Stdlib__Dynarray.append_iarray(dynamic, Stdlib__Array.of_list(/* [] */ 0));
+                          eq({
+                            hd: 1,
+                            tl: {
+                              hd: 2,
+                              tl: /* [] */ 0
+                            }
+                          }, Stdlib__Iarray.to_list(source));
+                          eq({
+                            hd: 1,
+                            tl: {
+                              hd: 2,
+                              tl: /* [] */ 0
+                            }
+                          }, Stdlib__Iarray.to_list(snapshot));
+                          eq({
+                            hd: 9,
+                            tl: {
+                              hd: 2,
+                              tl: {
+                                hd: 1,
+                                tl: {
+                                  hd: 2,
+                                  tl: /* [] */ 0
+                                }
+                              }
+                            }
+                          }, Stdlib__Dynarray.to_list(dynamic));
+                          eq(/* [] */ 0, Stdlib__Dynarray.to_list(Stdlib__Dynarray.of_iarray(Stdlib__Array.of_list(/* [] */ 0))));
+                          const floats = Stdlib__Dynarray.of_iarray(Stdlib__Array.of_list({
+                            hd: 1.5,
+                            tl: {
+                              hd: 2.5,
+                              tl: /* [] */ 0
+                            }
+                          }));
+                          const saved = Stdlib__Dynarray.to_iarray(floats);
+                          Stdlib__Dynarray.set(floats, 0, 3.5);
+                          eq({
+                            hd: 1.5,
+                            tl: {
+                              hd: 2.5,
+                              tl: /* [] */ 0
+                            }
+                          }, Stdlib__Iarray.to_list(saved));
                         })
                       ],
                       tl: {
                         hd: [
-                          "dynarray subarray sorting preserves surrounding elements",
+                          "dynarray sorting is stable and preserves capacity",
                           (function (param) {
-                            const a = Stdlib__Dynarray.of_list({
-                              hd: 99,
-                              tl: {
-                                hd: 5,
+                            const cmp = function (param, param$1) {
+                              return Caml.caml_int_compare(param[0], param$1[0]);
+                            };
+                            Stdlib__List.iter((function (sort) {
+                              Stdlib__List.iter((function (n) {
+                                const values = Stdlib__List.init(n, (function (i) {
+                                  return [
+                                    (n - i | 0) % 3,
+                                    i
+                                  ];
+                                }));
+                                const a = Stdlib__Dynarray.of_list(values);
+                                Stdlib__Dynarray.ensure_capacity(a, 32);
+                                const capacity = a.arr.length;
+                                Curry._2(sort, cmp, a);
+                                eq(Stdlib__List.stable_sort(cmp, values), Stdlib__Dynarray.to_list(a));
+                                eq(n, a.length);
+                                eq(capacity, a.arr.length);
+                              }), {
+                                hd: 0,
                                 tl: {
-                                  hd: 3,
+                                  hd: 1,
                                   tl: {
-                                    hd: 4,
+                                    hd: 5,
                                     tl: {
-                                      hd: 1,
+                                      hd: 6,
                                       tl: {
-                                        hd: 2,
+                                        hd: 17,
+                                        tl: /* [] */ 0
+                                      }
+                                    }
+                                  }
+                                }
+                              });
+                            }), {
+                              hd: Stdlib__Dynarray.stable_sort,
+                              tl: {
+                                hd: Stdlib__Dynarray.sort,
+                                tl: /* [] */ 0
+                              }
+                            });
+                          })
+                        ],
+                        tl: {
+                          hd: [
+                            "dynarray subarray sorting preserves surrounding elements",
+                            (function (param) {
+                              const a = Stdlib__Dynarray.of_list({
+                                hd: 99,
+                                tl: {
+                                  hd: 5,
+                                  tl: {
+                                    hd: 3,
+                                    tl: {
+                                      hd: 4,
+                                      tl: {
+                                        hd: 1,
                                         tl: {
-                                          hd: 4,
+                                          hd: 2,
                                           tl: {
-                                            hd: 88,
-                                            tl: /* [] */ 0
+                                            hd: 4,
+                                            tl: {
+                                              hd: 88,
+                                              tl: /* [] */ 0
+                                            }
                                           }
                                         }
                                       }
                                     }
                                   }
                                 }
-                              }
-                            });
-                            Stdlib__Dynarray.ensure_capacity(a, 32);
-                            Stdlib__Dynarray.stable_sort_sub(Stdlib__Float.compare, a, 1, 6);
-                            eq({
-                              hd: 99,
-                              tl: {
+                              });
+                              Stdlib__Dynarray.ensure_capacity(a, 32);
+                              Stdlib__Dynarray.stable_sort_sub(Stdlib__Float.compare, a, 1, 6);
+                              eq({
+                                hd: 99,
+                                tl: {
+                                  hd: 1,
+                                  tl: {
+                                    hd: 2,
+                                    tl: {
+                                      hd: 3,
+                                      tl: {
+                                        hd: 4,
+                                        tl: {
+                                          hd: 4,
+                                          tl: {
+                                            hd: 5,
+                                            tl: {
+                                              hd: 88,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }, Stdlib__Dynarray.to_list(a));
+                              Stdlib__Dynarray.stable_sort_sub(Stdlib__Float.compare, a, 0, 8);
+                              eq({
                                 hd: 1,
                                 tl: {
                                   hd: 2,
@@ -3731,118 +3859,9 @@ Mt.from_suites("Stdlib_56_test", {
                                           hd: 5,
                                           tl: {
                                             hd: 88,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }, Stdlib__Dynarray.to_list(a));
-                            Stdlib__Dynarray.stable_sort_sub(Stdlib__Float.compare, a, 0, 8);
-                            eq({
-                              hd: 1,
-                              tl: {
-                                hd: 2,
-                                tl: {
-                                  hd: 3,
-                                  tl: {
-                                    hd: 4,
-                                    tl: {
-                                      hd: 4,
-                                      tl: {
-                                        hd: 5,
-                                        tl: {
-                                          hd: 88,
-                                          tl: {
-                                            hd: 99,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }, Stdlib__Dynarray.to_list(a));
-                          })
-                        ],
-                        tl: {
-                          hd: [
-                            "dynarray subarray sorting validates bounds before comparisons",
-                            (function (param) {
-                              const a = Stdlib__Dynarray.of_list({
-                                hd: 3,
-                                tl: {
-                                  hd: 2,
-                                  tl: {
-                                    hd: 1,
-                                    tl: /* [] */ 0
-                                  }
-                                }
-                              });
-                              Stdlib__Dynarray.ensure_capacity(a, 16);
-                              const calls = {
-                                contents: 0
-                              };
-                              const cmp = function (x, y) {
-                                calls.contents = calls.contents + 1 | 0;
-                                return Caml.caml_int_compare(x, y);
-                              };
-                              Stdlib__List.iter((function (param) {
-                                const len = param[1];
-                                const pos = param[0];
-                                invalid_argument(function (param) {
-                                  Stdlib__Dynarray.stable_sort_sub(cmp, a, pos, len);
-                                });
-                              }), {
-                                hd: [
-                                  -1,
-                                  1
-                                ],
-                                tl: {
-                                  hd: [
-                                    0,
-                                    -1
-                                  ],
-                                  tl: {
-                                    hd: [
-                                      4,
-                                      0
-                                    ],
-                                    tl: {
-                                      hd: [
-                                        2,
-                                        2
-                                      ],
-                                      tl: {
-                                        hd: [
-                                          Stdlib.max_int,
-                                          1
-                                        ],
-                                        tl: {
-                                          hd: [
-                                            1,
-                                            Stdlib.max_int
-                                          ],
-                                          tl: {
-                                            hd: [
-                                              Stdlib.max_int,
-                                              Stdlib.max_int
-                                            ],
                                             tl: {
-                                              hd: [
-                                                Stdlib.min_int,
-                                                0
-                                              ],
-                                              tl: {
-                                                hd: [
-                                                  0,
-                                                  Stdlib.min_int
-                                                ],
-                                                tl: /* [] */ 0
-                                              }
+                                              hd: 99,
+                                              tl: /* [] */ 0
                                             }
                                           }
                                         }
@@ -3850,37 +3869,13 @@ Mt.from_suites("Stdlib_56_test", {
                                     }
                                   }
                                 }
-                              });
-                              eq(0, calls.contents);
-                              eq({
-                                hd: 3,
-                                tl: {
-                                  hd: 2,
-                                  tl: {
-                                    hd: 1,
-                                    tl: /* [] */ 0
-                                  }
-                                }
                               }, Stdlib__Dynarray.to_list(a));
                             })
                           ],
                           tl: {
                             hd: [
-                              "dynarray subarray sorting handles empty and singleton ranges",
+                              "dynarray subarray sorting validates bounds before comparisons",
                               (function (param) {
-                                const cmp = function (param, param$1) {
-                                  throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                      MEL_EXN_ID: "Assert_failure",
-                                      _1: [
-                                        "jscomp/test/stdlib_56_test.ml",
-                                        208,
-                                        24
-                                      ]
-                                    });
-                                };
-                                const empty = Stdlib__Dynarray.create();
-                                Stdlib__Dynarray.ensure_capacity(empty, 16);
-                                Stdlib__Dynarray.stable_sort_sub(cmp, empty, 0, 0);
                                 const a = Stdlib__Dynarray.of_list({
                                   hd: 3,
                                   tl: {
@@ -3891,34 +3886,76 @@ Mt.from_suites("Stdlib_56_test", {
                                     }
                                   }
                                 });
+                                Stdlib__Dynarray.ensure_capacity(a, 16);
+                                const calls = {
+                                  contents: 0
+                                };
+                                const cmp = function (x, y) {
+                                  calls.contents = calls.contents + 1 | 0;
+                                  return Caml.caml_int_compare(x, y);
+                                };
                                 Stdlib__List.iter((function (param) {
-                                  Stdlib__Dynarray.stable_sort_sub(cmp, a, param[0], param[1]);
+                                  const len = param[1];
+                                  const pos = param[0];
+                                  invalid_argument(function (param) {
+                                    Stdlib__Dynarray.stable_sort_sub(cmp, a, pos, len);
+                                  });
                                 }), {
                                   hd: [
-                                    0,
-                                    0
+                                    -1,
+                                    1
                                   ],
                                   tl: {
                                     hd: [
-                                      3,
-                                      0
+                                      0,
+                                      -1
                                     ],
                                     tl: {
                                       hd: [
-                                        0,
-                                        1
+                                        4,
+                                        0
                                       ],
                                       tl: {
                                         hd: [
                                           2,
-                                          1
+                                          2
                                         ],
-                                        tl: /* [] */ 0
+                                        tl: {
+                                          hd: [
+                                            Stdlib.max_int,
+                                            1
+                                          ],
+                                          tl: {
+                                            hd: [
+                                              1,
+                                              Stdlib.max_int
+                                            ],
+                                            tl: {
+                                              hd: [
+                                                Stdlib.max_int,
+                                                Stdlib.max_int
+                                              ],
+                                              tl: {
+                                                hd: [
+                                                  Stdlib.min_int,
+                                                  0
+                                                ],
+                                                tl: {
+                                                  hd: [
+                                                    0,
+                                                    Stdlib.min_int
+                                                  ],
+                                                  tl: /* [] */ 0
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
                                       }
                                     }
                                   }
                                 });
-                                eq(/* [] */ 0, Stdlib__Dynarray.to_list(empty));
+                                eq(0, calls.contents);
                                 eq({
                                   hd: 3,
                                   tl: {
@@ -3933,200 +3970,268 @@ Mt.from_suites("Stdlib_56_test", {
                             ],
                             tl: {
                               hd: [
-                                "dynarray sorting detects length changes during comparison",
+                                "dynarray subarray sorting handles empty and singleton ranges",
                                 (function (param) {
-                                  Stdlib__List.iter((function (sort) {
-                                    Stdlib__List.iter((function (change_length) {
-                                      const a = Stdlib__Dynarray.of_list({
+                                  const cmp = function (param, param$1) {
+                                    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                        MEL_EXN_ID: "Assert_failure",
+                                        _1: [
+                                          "jscomp/test/stdlib_56_test.ml",
+                                          223,
+                                          24
+                                        ]
+                                      });
+                                  };
+                                  const empty = Stdlib__Dynarray.create();
+                                  Stdlib__Dynarray.ensure_capacity(empty, 16);
+                                  Stdlib__Dynarray.stable_sort_sub(cmp, empty, 0, 0);
+                                  const a = Stdlib__Dynarray.of_list({
+                                    hd: 3,
+                                    tl: {
+                                      hd: 2,
+                                      tl: {
+                                        hd: 1,
+                                        tl: /* [] */ 0
+                                      }
+                                    }
+                                  });
+                                  Stdlib__List.iter((function (param) {
+                                    Stdlib__Dynarray.stable_sort_sub(cmp, a, param[0], param[1]);
+                                  }), {
+                                    hd: [
+                                      0,
+                                      0
+                                    ],
+                                    tl: {
+                                      hd: [
+                                        3,
+                                        0
+                                      ],
+                                      tl: {
+                                        hd: [
+                                          0,
+                                          1
+                                        ],
+                                        tl: {
+                                          hd: [
+                                            2,
+                                            1
+                                          ],
+                                          tl: /* [] */ 0
+                                        }
+                                      }
+                                    }
+                                  });
+                                  eq(/* [] */ 0, Stdlib__Dynarray.to_list(empty));
+                                  eq({
+                                    hd: 3,
+                                    tl: {
+                                      hd: 2,
+                                      tl: {
+                                        hd: 1,
+                                        tl: /* [] */ 0
+                                      }
+                                    }
+                                  }, Stdlib__Dynarray.to_list(a));
+                                })
+                              ],
+                              tl: {
+                                hd: [
+                                  "dynarray sorting detects length changes during comparison",
+                                  (function (param) {
+                                    Stdlib__List.iter((function (sort) {
+                                      Stdlib__List.iter((function (change_length) {
+                                        const a = Stdlib__Dynarray.of_list({
+                                          hd: 3,
+                                          tl: {
+                                            hd: 2,
+                                            tl: {
+                                              hd: 1,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        });
+                                        const changed = {
+                                          contents: false
+                                        };
+                                        invalid_argument(function (param) {
+                                          Curry._2(sort, (function (x, y) {
+                                            if (!changed.contents) {
+                                              changed.contents = true;
+                                              change_length(a);
+                                            }
+                                            return Caml.caml_int_compare(x, y);
+                                          }), a);
+                                        });
+                                        if (changed.contents) {
+                                          return;
+                                        }
+                                        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                                            MEL_EXN_ID: "Assert_failure",
+                                            _1: [
+                                              "jscomp/test/stdlib_56_test.ml",
+                                              250,
+                                              18
+                                            ]
+                                          });
+                                      }), {
+                                        hd: (function (a) {
+                                          Stdlib__Dynarray.add_last(a, 4);
+                                        }),
+                                        tl: {
+                                          hd: (function (a) {
+                                            Stdlib__Dynarray.truncate(a, 0);
+                                          }),
+                                          tl: /* [] */ 0
+                                        }
+                                      });
+                                    }), {
+                                      hd: Stdlib__Dynarray.stable_sort,
+                                      tl: {
+                                        hd: Stdlib__Dynarray.sort,
+                                        tl: {
+                                          hd: (function (cmp, a) {
+                                            Stdlib__Dynarray.stable_sort_sub(cmp, a, 0, 3);
+                                          }),
+                                          tl: /* [] */ 0
+                                        }
+                                      }
+                                    });
+                                  })
+                                ],
+                                tl: {
+                                  hd: [
+                                    "priority queues copy immutable arrays",
+                                    (function (param) {
+                                      const source = Stdlib__Array.of_list({
+                                        hd: 3,
+                                        tl: {
+                                          hd: 1,
+                                          tl: {
+                                            hd: 2,
+                                            tl: {
+                                              hd: 1,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        }
+                                      });
+                                      const min_queue = heapify(Stdlib__Dynarray.of_iarray(source));
+                                      const max_queue = heapify$1(Stdlib__Dynarray.of_iarray(source));
+                                      eq({
+                                        hd: 1,
+                                        tl: {
+                                          hd: 1,
+                                          tl: {
+                                            hd: 2,
+                                            tl: {
+                                              hd: 3,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        }
+                                      }, drain(function (param) {
+                                        return pop_min(min_queue);
+                                      }));
+                                      eq({
                                         hd: 3,
                                         tl: {
                                           hd: 2,
                                           tl: {
                                             hd: 1,
-                                            tl: /* [] */ 0
+                                            tl: {
+                                              hd: 1,
+                                              tl: /* [] */ 0
+                                            }
                                           }
                                         }
-                                      });
-                                      const changed = {
-                                        contents: false
-                                      };
-                                      invalid_argument(function (param) {
-                                        Curry._2(sort, (function (x, y) {
-                                          if (!changed.contents) {
-                                            changed.contents = true;
-                                            Curry._1(change_length, a);
-                                          }
-                                          return Caml.caml_int_compare(x, y);
-                                        }), a);
-                                      });
-                                      if (changed.contents) {
-                                        return;
-                                      }
-                                      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                                          MEL_EXN_ID: "Assert_failure",
-                                          _1: [
-                                            "jscomp/test/stdlib_56_test.ml",
-                                            235,
-                                            18
-                                          ]
-                                        });
-                                    }), {
-                                      hd: (function (a) {
-                                        Stdlib__Dynarray.add_last(a, 4);
-                                      }),
-                                      tl: {
-                                        hd: (function (a) {
-                                          Stdlib__Dynarray.truncate(a, 0);
-                                        }),
-                                        tl: /* [] */ 0
-                                      }
-                                    });
-                                  }), {
-                                    hd: Stdlib__Dynarray.stable_sort,
-                                    tl: {
-                                      hd: Stdlib__Dynarray.sort,
-                                      tl: {
-                                        hd: (function (cmp, a) {
-                                          Stdlib__Dynarray.stable_sort_sub(cmp, a, 0, 3);
-                                        }),
-                                        tl: /* [] */ 0
-                                      }
-                                    }
-                                  });
-                                })
-                              ],
-                              tl: {
-                                hd: [
-                                  "priority queues copy immutable arrays",
-                                  (function (param) {
-                                    const source = Stdlib__Array.of_list({
-                                      hd: 3,
-                                      tl: {
-                                        hd: 1,
-                                        tl: {
-                                          hd: 2,
-                                          tl: {
-                                            hd: 1,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      }
-                                    });
-                                    const min_queue = Curry._1(of_iarray, source);
-                                    const max_queue = Curry._1(of_iarray$1, source);
-                                    eq({
-                                      hd: 1,
-                                      tl: {
-                                        hd: 1,
-                                        tl: {
-                                          hd: 2,
-                                          tl: {
-                                            hd: 3,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      }
-                                    }, drain(function (param) {
-                                      return Curry._1(pop_min, min_queue);
-                                    }));
-                                    eq({
-                                      hd: 3,
-                                      tl: {
-                                        hd: 2,
+                                      }, drain(function (param) {
+                                        return pop_min$1(max_queue);
+                                      }));
+                                      eq({
+                                        hd: 3,
                                         tl: {
                                           hd: 1,
                                           tl: {
-                                            hd: 1,
-                                            tl: /* [] */ 0
+                                            hd: 2,
+                                            tl: {
+                                              hd: 1,
+                                              tl: /* [] */ 0
+                                            }
                                           }
                                         }
-                                      }
-                                    }, drain(function (param) {
-                                      return Curry._1(pop_min$1, max_queue);
-                                    }));
-                                    eq({
-                                      hd: 3,
-                                      tl: {
-                                        hd: 1,
-                                        tl: {
-                                          hd: 2,
-                                          tl: {
-                                            hd: 1,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      }
-                                    }, Stdlib__Iarray.to_list(source));
-                                  })
-                                ],
-                                tl: {
-                                  hd: [
-                                    "format immutable and dynamic arrays",
-                                    (function (param) {
-                                      const pp_sep = function (ppf, param) {
-                                        Stdlib__Format.pp_print_string(ppf, ";");
-                                      };
-                                      const partial_arg = pp_sep;
-                                      const pp_iarray = function (param, param$1) {
-                                        return Stdlib__Format.pp_print_iarray(partial_arg, Stdlib__Format.pp_print_int, param, param$1);
-                                      };
-                                      const partial_arg$1 = pp_sep;
-                                      const pp_dynarray = function (param, param$1) {
-                                        return Stdlib__Format.pp_print_dynarray(partial_arg$1, Stdlib__Format.pp_print_int, param, param$1);
-                                      };
-                                      eq("1;2;3", Curry._2(Stdlib__Format.asprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* Alpha */ 15,
-                                          _0: /* End_of_format */ 0
-                                        },
-                                        _1: "%a"
-                                      }), pp_iarray, Stdlib__Array.of_list({
-                                        hd: 1,
-                                        tl: {
-                                          hd: 2,
-                                          tl: {
-                                            hd: 3,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      })));
-                                      eq("", Curry._2(Stdlib__Format.asprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* Alpha */ 15,
-                                          _0: /* End_of_format */ 0
-                                        },
-                                        _1: "%a"
-                                      }), pp_iarray, Stdlib__Array.of_list(/* [] */ 0)));
-                                      eq("1;2;3", Curry._2(Stdlib__Format.asprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* Alpha */ 15,
-                                          _0: /* End_of_format */ 0
-                                        },
-                                        _1: "%a"
-                                      }), pp_dynarray, Stdlib__Dynarray.of_list({
-                                        hd: 1,
-                                        tl: {
-                                          hd: 2,
-                                          tl: {
-                                            hd: 3,
-                                            tl: /* [] */ 0
-                                          }
-                                        }
-                                      })));
-                                      eq("", Curry._2(Stdlib__Format.asprintf({
-                                        TAG: /* Format */ 0,
-                                        _0: {
-                                          TAG: /* Alpha */ 15,
-                                          _0: /* End_of_format */ 0
-                                        },
-                                        _1: "%a"
-                                      }), pp_dynarray, Stdlib__Dynarray.create()));
+                                      }, Stdlib__Iarray.to_list(source));
                                     })
                                   ],
-                                  tl: /* [] */ 0
+                                  tl: {
+                                    hd: [
+                                      "format immutable and dynamic arrays",
+                                      (function (param) {
+                                        const pp_sep = function (ppf, param) {
+                                          Stdlib__Format.pp_print_string(ppf, ";");
+                                        };
+                                        const partial_arg = pp_sep;
+                                        const pp_iarray = function (param, param$1) {
+                                          return Stdlib__Format.pp_print_iarray(partial_arg, Stdlib__Format.pp_print_int, param, param$1);
+                                        };
+                                        const partial_arg$1 = pp_sep;
+                                        const pp_dynarray = function (param, param$1) {
+                                          return Stdlib__Format.pp_print_dynarray(partial_arg$1, Stdlib__Format.pp_print_int, param, param$1);
+                                        };
+                                        eq("1;2;3", Curry._2(Stdlib__Format.asprintf({
+                                          TAG: /* Format */ 0,
+                                          _0: {
+                                            TAG: /* Alpha */ 15,
+                                            _0: /* End_of_format */ 0
+                                          },
+                                          _1: "%a"
+                                        }), pp_iarray, Stdlib__Array.of_list({
+                                          hd: 1,
+                                          tl: {
+                                            hd: 2,
+                                            tl: {
+                                              hd: 3,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        })));
+                                        eq("", Curry._2(Stdlib__Format.asprintf({
+                                          TAG: /* Format */ 0,
+                                          _0: {
+                                            TAG: /* Alpha */ 15,
+                                            _0: /* End_of_format */ 0
+                                          },
+                                          _1: "%a"
+                                        }), pp_iarray, Stdlib__Array.of_list(/* [] */ 0)));
+                                        eq("1;2;3", Curry._2(Stdlib__Format.asprintf({
+                                          TAG: /* Format */ 0,
+                                          _0: {
+                                            TAG: /* Alpha */ 15,
+                                            _0: /* End_of_format */ 0
+                                          },
+                                          _1: "%a"
+                                        }), pp_dynarray, Stdlib__Dynarray.of_list({
+                                          hd: 1,
+                                          tl: {
+                                            hd: 2,
+                                            tl: {
+                                              hd: 3,
+                                              tl: /* [] */ 0
+                                            }
+                                          }
+                                        })));
+                                        eq("", Curry._2(Stdlib__Format.asprintf({
+                                          TAG: /* Format */ 0,
+                                          _0: {
+                                            TAG: /* Alpha */ 15,
+                                            _0: /* End_of_format */ 0
+                                          },
+                                          _1: "%a"
+                                        }), pp_dynarray, Stdlib__Dynarray.create()));
+                                      })
+                                    ],
+                                    tl: /* [] */ 0
+                                  }
                                 }
                               }
                             }
@@ -4154,4 +4259,4 @@ module.exports = {
   Max_queue,
   drain,
 }
-/* Int_map Not a pure module */
+/*  Not a pure module */

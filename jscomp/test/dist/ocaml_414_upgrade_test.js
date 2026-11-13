@@ -2,13 +2,12 @@
 'use strict';
 
 const Belt__Belt_Array = require("melange.belt/belt_Array.js");
-const Curry = require("melange.js/curry.js");
 
 const N = {};
 
 function forEach(xs, f) {
   Belt__Belt_Array.forEach(xs, (function (x) {
-    Curry._1(f.i, x);
+    f.i(x);
   }));
 }
 

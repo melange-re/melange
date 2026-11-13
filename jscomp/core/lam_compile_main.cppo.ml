@@ -161,6 +161,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     let lam = Lam_pass_remove_alias.simplify_alias meta lam  in
     let lam = Lam_pass_deep_flatten.deep_flatten lam in
     let ()  = Lam_pass_collect.collect_info meta lam in
+    let () = Lam_param_arity.infer meta lam in
     let lam =
       lam
       |> _d "alpha_before"
@@ -169,6 +170,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       |> Lam_pass_exits.simplify_exits
     in
     let () = Lam_pass_collect.collect_info meta lam in
+    let () = Lam_param_arity.infer meta lam in
 
 
     lam
@@ -176,6 +178,8 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     |>  Lam_pass_remove_alias.simplify_alias meta
     |> _d "alpha_conversion"
     |>  Lam_pass_alpha_conversion.alpha_conversion meta
+    |> _d "hoist_curry"
+    |> Lam_pass_hoist_curry.hoist_curry
     |> _d  "before-simplify_lets"
     (* we should investigate a better way to put different passes : )*)
     |> Lam_pass_lets_dce.simplify_lets

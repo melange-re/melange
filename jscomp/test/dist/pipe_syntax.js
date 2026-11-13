@@ -38,8 +38,8 @@ function f1(a, b, c, d) {
 
 function f2(a, b, c, d) {
   const __ocaml_internal_obj = Curry._1(a, b);
-  const u = Curry._1(c, __ocaml_internal_obj);
-  const v = Curry._1(d, __ocaml_internal_obj);
+  const u = c(__ocaml_internal_obj);
+  const v = d(__ocaml_internal_obj);
   return u + v | 0;
 }
 
@@ -47,7 +47,7 @@ function f3(a, b, c, d, e) {
   const __ocaml_internal_obj = Curry._1(a, b);
   const u = Curry._2(c, __ocaml_internal_obj, d);
   const v = Curry._3(d, __ocaml_internal_obj, 1, 2);
-  const h = Curry._1(e, __ocaml_internal_obj);
+  const h = e(__ocaml_internal_obj);
   return (u + v | 0) + h | 0;
 }
 

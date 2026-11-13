@@ -92,7 +92,7 @@ Mt.from_suites("Stdlib_56_fun_test", {
         };
         let val;
         try {
-          val = Curry._1(f, undefined);
+          val = f();
         }
         catch (raw_exn){
           const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);

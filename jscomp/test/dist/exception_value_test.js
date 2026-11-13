@@ -3,7 +3,6 @@
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Js__Js_exn = require("melange.js/js_exn.js");
 const Stdlib = require("melange/stdlib.js");
 
@@ -46,7 +45,7 @@ const u = new Caml_js_exceptions.MelangeError(A, {
 
 function test_not_found(f, param) {
   try {
-    return Curry._1(f, undefined);
+    return f();
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);

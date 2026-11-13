@@ -277,7 +277,7 @@ const suites = Stdlib.$at(cases("int32_to_float", (function (prim) {
     (function (param) {
       let evaluations = 0;
       evaluations = evaluations + 1 | 0;
-      const converted = Curry._1(of_float, 42.875);
+      const converted = of_float(42.875);
       return {
         TAG: /* Eq */ 0,
         _0: [

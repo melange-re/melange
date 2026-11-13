@@ -286,7 +286,8 @@ let safe_to_inline (lam : Lam.t) =
   | Lfunction _ -> true
   | Lconst
       ( Const_pointer _
-      | Const_int { comment = Pt_constructor _; _ }
+      | Const_int
+          { comment = Pt_constructor _ | Pt_recursive_module_shape _; _ }
       | Const_js_true | Const_js_false | Const_js_undefined _ ) ->
       true
   | _ -> false

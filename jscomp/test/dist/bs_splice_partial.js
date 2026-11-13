@@ -28,7 +28,7 @@ function test_hi__2(x) {
 
 function test_cb(x) {
   Curry._1(x.cb("hI", 1, 2, 3), 3);
-  Curry._1(x.cb("hI", 1, 2, 3), 3);
+  x.cb("hI", 1, 2, 3)(3);
   return x.cb2("hI", 1, 2, 3)(3);
 }
 

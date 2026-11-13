@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_format = require("melange.js/caml_format.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Lexing = require("melange/lexing.js");
 
@@ -53,7 +52,7 @@ function __ocaml_lex_lexeme_rec(lexbuf, ___ocaml_lex_state) {
       case 9 :
         return /* EOF */ 7;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }

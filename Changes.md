@@ -103,6 +103,11 @@ Unreleased
   and callee expressions of uncurried calls
   ([#2156](https://github.com/melange-re/melange/pull/2156),
   [#2157](https://github.com/melange-re/melange/pull/2157))
+- compiler: emit direct calls in more cases where function arity is known
+- compiler: hoist repeated `Curry.__n` calls out of loops and recursive
+  functions
+- compiler: inline cross-module functor applications with closed arguments,
+  including calls to functions from argument modules
 
 
 7.0.1-55 2026-07-12

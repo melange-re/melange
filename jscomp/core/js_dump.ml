@@ -401,21 +401,23 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
          *)
          | Id id -> not (List.exists ~f:(fun x -> Ident.same x id) l)
          | Qualified _ -> true -> (
-      let optimize len ~p cxt v =
-        if p then try_optimize_curry cxt len function_id else vident cxt v
-      in
       let len = Js_fun_env.get_length env in
       (* length *)
+      let optimize cxt =
+        if arity = NA && len <= Js_runtime_modules.curry_max_arity then
+          try_optimize_curry cxt len function_id
+        else vident cxt v
+      in
       match fn_state with
       | Name_top { name = i; property } | Name_non_top { name = i; property } ->
           let cxt = pp_assign ~property cxt i in
-          let cxt = optimize len ~p:(arity = NA && len <= 8) cxt v in
+          let cxt = optimize cxt in
           semi cxt;
           cxt
       | Is_return ->
           return_sp cxt;
-          optimize len ~p:(arity = NA && len <= 8) cxt v
-      | No_name _ -> optimize len ~p:(arity = NA && len <= 8) cxt v)
+          optimize cxt
+      | No_name _ -> optimize cxt)
   | _ ->
       let set_env =
         (* identifiers will be printed following*)
@@ -610,7 +612,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                       | _ -> arguments cxt el)
               | _, _ ->
                   let len = List.length el in
-                  if 1 <= len && len <= 8 then
+                  if 1 <= len && len <= Js_runtime_modules.curry_max_arity then
                     let cxt = Curry_gen.pp_app cxt len in
                     paren_group cxt 0 (fun () -> arguments cxt (e :: el))
                   else

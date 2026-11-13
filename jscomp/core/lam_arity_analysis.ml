@@ -29,7 +29,7 @@ let arity_of_var (meta : Lam_stats.t) (v : Ident.t) =
       if it's not from function parameter, we should warn
   *)
   match Ident.Hashtbl.find_opt meta.ident_tbl v with
-  | Some (FunctionId { arity; _ }) -> arity
+  | Some (FunctionId { arity; _ } | Parameter arity) -> arity
   | Some _ | None -> Lam_arity.na
 
 let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
@@ -51,12 +51,12 @@ let rec field_element (meta : Lam_stats.t) (lam : Lam.t) (i : int) =
 let rec get_cmj_arity (arity : Js_cmj_format.arity) (path : int list) :
     Lam_arity.t =
   match (path, arity) with
-  | [], Js_cmj_format.Single arity -> arity
+  | [], arity -> Js_cmj_format.call_arity arity
   | i :: rest, Submodule arities ->
       if i >= 0 && i < Array.length arities then
         get_cmj_arity (Array.unsafe_get arities i) rest
       else Lam_arity.na
-  | [], Submodule _ | _ :: _, Js_cmj_format.Single _ -> Lam_arity.na
+  | _ :: _, (Single _ | Functor _) -> Lam_arity.na
 
 let external_field_path (lam : Lam.t) :
     (Ident.t * bool * string * int list) option =

@@ -87,7 +87,7 @@ function createClass(debugName) {
       const curReasonState = curTotalState.reasonState;
       const self = $$this.self(curReasonState, component.retainedProps);
       if (component.didMount !== anyToUnit) {
-        return Curry._1(component.didMount, self);
+        return component.didMount(self);
       }
       
     }),
@@ -116,7 +116,7 @@ function createClass(debugName) {
         send: oldSelf_send,
         onUnmount: oldSelf_onUnmount
       };
-      Curry._1(newComponent.didUpdate, {
+      newComponent.didUpdate({
         oldSelf,
         newSelf
       });
@@ -129,12 +129,12 @@ function createClass(debugName) {
       const curState = thisJs.state;
       const curReasonState = curState.reasonState;
       if (component.willUnmount !== anyToUnit) {
-        Curry._1(component.willUnmount, $$this.self(curReasonState, component.retainedProps));
+        component.willUnmount($$this.self(curReasonState, component.retainedProps));
       }
       const subs = $$this.subscriptions;
       if (subs !== null) {
         subs.forEach(function (unsubscribe) {
-          Curry._1(unsubscribe, undefined);
+          unsubscribe();
         });
         return;
       }
@@ -165,7 +165,7 @@ function createClass(debugName) {
         send: oldSelf_send,
         onUnmount: oldSelf_onUnmount
       };
-      Curry._1(newComponent.willUpdate, {
+      newComponent.willUpdate({
         oldSelf,
         newSelf
       });
@@ -219,7 +219,7 @@ function createClass(debugName) {
         send: oldSelf_send,
         onUnmount: oldSelf_onUnmount
       };
-      return Curry._1(newComponent.shouldUpdate, {
+      return newComponent.shouldUpdate({
         oldSelf,
         newSelf
       });
@@ -259,7 +259,7 @@ function createClass(debugName) {
       const partialStateApplication = Curry._1(component.reducer, action);
       thisJs.setState((function (curTotalState, param) {
         const curReasonState = curTotalState.reasonState;
-        const reasonStateUpdate = Curry._1(partialStateApplication, curReasonState);
+        const reasonStateUpdate = partialStateApplication(curReasonState);
         if (reasonStateUpdate === /* NoUpdate */ 0) {
           return null;
         }
@@ -291,7 +291,7 @@ function createClass(debugName) {
           return null;
         }
       }), $$this.handleMethod(function (param, self) {
-        Curry._1(sideEffects.contents, self);
+        sideEffects.contents(self);
       }));
     }),
     render: (function () {
@@ -355,7 +355,7 @@ function element(keyOpt, refOpt, component) {
 }
 
 function wrapReasonForJs(component, jsPropsToReason) {
-  const uncurriedJsPropsToReason = Curry.__1(jsPropsToReason);
+  const uncurriedJsPropsToReason = jsPropsToReason;
   component.reactClassInternal.prototype.jsPropsToReason = uncurriedJsPropsToReason;
   return component.reactClassInternal;
 }

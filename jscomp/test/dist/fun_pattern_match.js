@@ -3,7 +3,6 @@
 
 const Caml = require("melange.js/caml.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 
 function f(param, v) {
   return ((((param.x0 + param.x1 | 0) + param.x2 | 0) + param.x3 | 0) + param.x4 | 0) + v | 0;
@@ -66,7 +65,7 @@ function r(param) {
 
 const match = r();
 
-const v = Curry._1(match.VAL, undefined);
+const v = match.VAL();
 
 console.log(v);
 

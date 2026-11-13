@@ -42,6 +42,7 @@ val hash_primitive : t
 val hash : t
 val oo : t
 val curry : t
+val curry_max_arity : int
 val caml_oo_curry : t
 val caml_primitive : t
 val int64 : t

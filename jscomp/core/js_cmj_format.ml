@@ -24,7 +24,10 @@
 
 open Import
 
-type arity = Single of Lam_arity.t | Submodule of arity array
+type arity =
+  | Single of Lam_arity.t
+  | Submodule of arity array
+  | Functor of { arity : Lam_arity.t; result : arity array }
 
 type nested_call_summary =
   | Call_summary of Lam_call_summary.t
@@ -40,6 +43,11 @@ type cmj_value = {
 }
 
 let single_na = Single Lam_arity.na
+
+let call_arity = function
+  | Single arity | Functor { arity; _ } -> arity
+  | Submodule _ -> Lam_arity.na
+
 let call_summary_unknown = Call_summary Lam_call_summary.Unknown
 
 type keyed_cmj_value = {

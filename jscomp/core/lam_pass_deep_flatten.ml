@@ -117,6 +117,57 @@ let lambda_of_groups ~(rev_bindings : Lam_group.t list) (result : Lam.t) : Lam.t
     return value are in reverse order, but handled by [lambda_of_groups]
 *)
 let deep_flatten =
+  let lift_recursive_modules (bindings : (Ident.t * Lam.t) list) =
+    let is_simple_block (lam : Lam.t) =
+      match lam with
+      | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
+          List.for_all args ~f:(fun (arg : Lam.t) ->
+              match arg with Lvar _ | Lconst _ -> true | _ -> false)
+      | _ -> false
+    in
+    let rec lift acc (lam : Lam.t) =
+      match lam with
+      | Llet (_, id, (Lfunction _ as value), body) ->
+          lift ((id, value) :: acc) body
+      | Llet (_, id, value, body) when is_simple_block value ->
+          lift ((id, value) :: acc) body
+      | Lletrec (bindings, body)
+        when List.for_all bindings ~f:(fun (_, (value : Lam.t)) ->
+                 match value with Lfunction _ -> true | _ -> false) ->
+          lift (List.rev_append bindings acc) body
+      | lam -> if is_simple_block lam then Some (acc, lam) else None
+    in
+    let lifted, blocks =
+      List.fold_right bindings ~init:([], Ident.Map.empty)
+        ~f:(fun (id, (arg : Lam.t)) (lifted, blocks) ->
+          match lift [] arg with
+          | Some (inner_rev, block) ->
+              let group = (id, block) :: inner_rev in
+              ( List.rev_append group lifted,
+                List.fold_left group ~init:blocks
+                  ~f:(fun blocks (id, (value : Lam.t)) ->
+                    match value with
+                    | Lprim { primitive = Pmakeblock _; args; _ } ->
+                        Ident.Map.add blocks ~key:id ~data:(Array.of_list args)
+                    | _ -> blocks) )
+          | None -> ((id, arg) :: lifted, blocks))
+    in
+    if Ident.Map.is_empty blocks then None
+    else
+      let rec resolve (lam : Lam.t) : Lam.t =
+        match Lam.inner_map lam resolve with
+        | Lprim { primitive = Pfield (i, _); args = [ Lvar m ]; _ } as field
+          -> (
+            match Ident.Map.find_opt m blocks with
+            | Some args when 0 <= i && i < Array.length args -> args.(i)
+            | Some _ | None -> field)
+        | lam -> lam
+      in
+      Some (List.map_snd lifted ~f:resolve)
+  in
+  let split_recursive_modules lifted body =
+    Lam_scc.scc (Nonempty_list.of_list_exn lifted) (Lam.letrec lifted body) body
+  in
   let rec flatten (acc : Lam_group.t list) (lam : Lam.t) :
       Lam.t * Lam_group.t list =
     match lam with
@@ -211,8 +262,11 @@ let deep_flatten =
                   body
             | None -> flatten (Single (kind, id, res) :: accux) body)
         | _ -> flatten (Single (kind, id, res) :: accux) body)
-    | Lletrec (bind_args, body) ->
-        flatten (Recursive (List.map_snd bind_args ~f:aux) :: acc) body
+    | Lletrec (bind_args, body) -> (
+        let bind_args = List.map_snd bind_args ~f:aux in
+        match lift_recursive_modules bind_args with
+        | Some lifted -> (split_recursive_modules lifted (aux body), acc)
+        | None -> flatten (Recursive bind_args :: acc) body)
     | Lsequence (l, r) ->
         let res, l = flatten acc l in
         flatten (Lam_group.nop_cons res l) r
@@ -222,39 +276,39 @@ let deep_flatten =
     | Llet _ | Lmutlet _ ->
         let res, groups = flatten [] lam in
         lambda_of_groups res ~rev_bindings:groups
-    | Lletrec (bind_args, body) ->
+    | Lletrec (bind_args, body) -> (
         (* Attention: don't mess up with internal {let rec} *)
-        let rec iter bind_args groups set =
-          match bind_args with
-          | [] -> (List.rev groups, set)
-          | (id, arg) :: rest ->
-              iter rest ((id, aux arg) :: groups) (Ident.Set.add id set)
-        in
-        let groups, collections = iter bind_args [] Ident.Set.empty in
-        (* Try to extract some value definitions from recursive values as [wrap],
-            it will stop whenever it find it could not move forward
-           {[
-              let rec x =
-                 let y = 1 in
-                 let z = 2 in
-                 ...
-           ]}
-        *)
-        let rev_bindings, rev_wrap, _ =
-          List.fold_left
-            ~f:(fun (inner_recursive_bindings, wrap, stop) (id, lam) ->
-              if stop || Lam_hit.hit_variables collections lam then
-                ((id, lam) :: inner_recursive_bindings, wrap, true)
-              else
-                ( inner_recursive_bindings,
-                  Lam_group.Single (Strict, id, lam) :: wrap,
-                  false ))
-            ~init:([], [], false) groups
-        in
-        lambda_of_groups
-          ~rev_bindings:rev_wrap
-            (* These bindings are extracted from [letrec] *)
-          (Lam.letrec (List.rev rev_bindings) (aux body))
+        let groups = List.map_snd bind_args ~f:aux in
+        match lift_recursive_modules groups with
+        | Some lifted -> split_recursive_modules lifted (aux body)
+        | None ->
+            let collections =
+              Ident.Set.of_list (List.map groups ~f:(fun (id, _) -> id))
+            in
+            (* Try to extract some value definitions from recursive values as [wrap],
+                it will stop whenever it find it could not move forward
+               {[
+                  let rec x =
+                     let y = 1 in
+                     let z = 2 in
+                     ...
+               ]}
+            *)
+            let rev_bindings, rev_wrap, _ =
+              List.fold_left
+                ~f:(fun (inner_recursive_bindings, wrap, stop) (id, lam) ->
+                  if stop || Lam_hit.hit_variables collections lam then
+                    ((id, lam) :: inner_recursive_bindings, wrap, true)
+                  else
+                    ( inner_recursive_bindings,
+                      Lam_group.Single (Strict, id, lam) :: wrap,
+                      false ))
+                ~init:([], [], false) groups
+            in
+            lambda_of_groups
+              ~rev_bindings:rev_wrap
+                (* These bindings are extracted from [letrec] *)
+              (Lam.letrec (List.rev rev_bindings) (aux body)))
     | Lsequence (l, r) -> Lam.seq (aux l) (aux r)
     | Lconst _ -> lam
     | Lvar _ | Lmutvar _ ->

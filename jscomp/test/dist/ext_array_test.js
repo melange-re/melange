@@ -67,7 +67,7 @@ function filter(f, a) {
       return reverse_of_list(acc);
     }
     const v = a[i];
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       _i = i + 1 | 0;
       _acc = {
         hd: v,
@@ -91,7 +91,7 @@ function filter_map(f, a) {
       return reverse_of_list(acc);
     }
     const v = a[i];
-    const v$1 = Curry._1(f, v);
+    const v$1 = f(v);
     if (v$1 !== undefined) {
       _i = i + 1 | 0;
       _acc = {
@@ -138,7 +138,7 @@ function tolist_aux(a, f, _i, _res) {
       return res;
     }
     const v = a[i];
-    const v$1 = Curry._1(f, v);
+    const v$1 = f(v);
     _res = v$1 !== undefined ? ({
         hd: Caml_option.valFromOption(v$1),
         tl: res
@@ -157,11 +157,12 @@ function to_list_map_acc(f, a, acc) {
 }
 
 function of_list_map(f, a) {
+  const f$1 = Curry.__1(f);
   if (!a) {
     return [];
   }
   const tl = a.tl;
-  const hd = Curry._1(f, a.hd);
+  const hd = f$1(a.hd);
   const len = Stdlib__List.length(tl) + 1 | 0;
   const arr = Caml_array.make(len, hd);
   let _i = 1;
@@ -172,7 +173,7 @@ function of_list_map(f, a) {
     if (!param) {
       return arr;
     }
-    arr[i] = Curry._1(f, param.hd);
+    arr[i] = f$1(param.hd);
     _param = param.tl;
     _i = i + 1 | 0;
     continue;
@@ -180,6 +181,7 @@ function of_list_map(f, a) {
 }
 
 function rfind_with_index(arr, cmp, v) {
+  const cmp$1 = Curry.__2(cmp);
   const len = arr.length;
   let _i = len - 1 | 0;
   while (true) {
@@ -187,7 +189,7 @@ function rfind_with_index(arr, cmp, v) {
     if (i < 0) {
       return i;
     }
-    if (Curry._2(cmp, arr[i], v)) {
+    if (cmp$1(arr[i], v)) {
       return i;
     }
     _i = i - 1 | 0;
@@ -211,6 +213,7 @@ function rfind_and_split(arr, cmp, v) {
 }
 
 function find_with_index(arr, cmp, v) {
+  const cmp$1 = Curry.__2(cmp);
   const len = arr.length;
   let _i = 0;
   while (true) {
@@ -218,7 +221,7 @@ function find_with_index(arr, cmp, v) {
     if (i >= len) {
       return -1;
     }
-    if (Curry._2(cmp, arr[i], v)) {
+    if (cmp$1(arr[i], v)) {
       return i;
     }
     _i = i + 1 | 0;
@@ -249,7 +252,7 @@ function exists(p, a) {
     if (i === n) {
       return false;
     }
-    if (Curry._1(p, a[i])) {
+    if (p(a[i])) {
       return true;
     }
     _i = i + 1 | 0;
@@ -261,16 +264,18 @@ function is_empty(arr) {
   return arr.length === 0;
 }
 
-function unsafe_loop(_index, len, p, xs, ys) {
+function unsafe_loop(index, len, p, xs, ys) {
+  const p$1 = Curry.__2(p);
+  let _index = index;
   while (true) {
-    const index = _index;
-    if (index >= len) {
+    const index$1 = _index;
+    if (index$1 >= len) {
       return true;
     }
-    if (!Curry._2(p, xs[index], ys[index])) {
+    if (!p$1(xs[index$1], ys[index$1])) {
       return false;
     }
-    _index = index + 1 | 0;
+    _index = index$1 + 1 | 0;
     continue;
   };
 }

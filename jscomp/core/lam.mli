@@ -90,6 +90,7 @@ and t = private
 *)
 
 val inner_map : t -> (t -> t) -> t
+val result_expression : t -> t
 
 (**************************************************************)
 

@@ -2,8 +2,10 @@
 'use strict';
 
 const Caml = require("melange.js/caml.js");
-const Curry = require("melange.js/curry.js");
+const Caml_obj = require("melange.js/caml_obj.js");
 const Stdlib__Set = require("melange/set.js");
+
+let A = {};
 
 function compare(t1, t2) {
   if (t1.TAG === /* Leaf */ 0) {
@@ -15,15 +17,15 @@ function compare(t1, t2) {
   } else if (t2.TAG === /* Leaf */ 0) {
     return -1;
   } else {
-    return Curry._2(ASet.compare, t1._0, t2._0);
+    return ASet.compare(t1._0, t2._0);
   }
 }
 
-const A = {
-  compare
-};
-
 const ASet = Stdlib__Set.Make(A);
+
+Caml_obj.update_dummy(A, {
+  compare
+});
 
 const X0 = {};
 

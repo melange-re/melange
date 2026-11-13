@@ -5,7 +5,6 @@ const Caml_bytes = require("melange.js/caml_bytes.js");
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_string = require("melange.js/caml_string.js");
-const Curry = require("melange.js/curry.js");
 const Ext_bytes_test = require("./ext_bytes_test.js");
 const Stdlib__Bytes = require("melange/bytes.js");
 const Stdlib__List = require("melange/list.js");
@@ -31,7 +30,7 @@ function split_by(keep_emptyOpt, is_delim, str) {
         };
       }
     }
-    if (Curry._1(is_delim, Caml_string.get(str, pos))) {
+    if (is_delim(Caml_string.get(str, pos))) {
       const new_len = (last_pos - pos | 0) - 1 | 0;
       if (new_len !== 0 || keep_empty) {
         const v = Stdlib__String.sub(str, pos + 1 | 0, new_len);
@@ -207,7 +206,7 @@ function unsafe_for_all_range(s, _start, finish, p) {
     if (start > finish) {
       return true;
     }
-    if (!Curry._1(p, s.charCodeAt(start))) {
+    if (!p(s.charCodeAt(start))) {
       return false;
     }
     _start = start + 1 | 0;

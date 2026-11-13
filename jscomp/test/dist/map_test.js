@@ -7,13 +7,6 @@ const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
-const Stdlib__String = require("melange/string.js");
-
-const compare = Caml.caml_int_compare;
-
-const Int = {
-  compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -110,7 +103,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(Int.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -160,7 +153,8 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare$1(cmp, m1, m2) {
+function compare(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -176,11 +170,11 @@ function compare$1(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(Int.compare, e1._0, e2._0);
+    const c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    const c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = cmp$1(e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -191,6 +185,7 @@ function compare$1(cmp, m1, m2) {
 }
 
 function equal(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -206,10 +201,10 @@ function equal(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(Int.compare, e1._0, e2._0) !== 0) {
+    if (e1._0 !== e2._0) {
       return false;
     }
-    if (!Curry._2(cmp, e1._1, e2._1)) {
+    if (!cmp$1(e1._1, e2._1)) {
       return false;
     }
     _e2 = cons_enum(e2._2, e2._3);
@@ -231,10 +226,6 @@ function of_list(bs) {
     return add(param[0], param[1], m);
   }), /* Empty */ 0, bs);
 }
-
-const funarg = {
-  compare: Stdlib__String.compare
-};
 
 function height$1(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -331,7 +322,7 @@ function add$1(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -370,7 +361,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -382,7 +373,7 @@ function find(x, _param) {
 const int_map_suites_0 = [
   "add",
   (function (param) {
-    const v = Curry._1(of_list, {
+    const v = of_list({
       hd: [
         1,
         /* '1' */49
@@ -403,7 +394,7 @@ const int_map_suites_0 = [
     });
     return {
       TAG: /* Eq */ 0,
-      _0: Curry._1(cardinal, v),
+      _0: cardinal(v),
       _1: 3
     };
   })
@@ -413,7 +404,7 @@ const int_map_suites_1 = {
   hd: [
     "equal",
     (function (param) {
-      const v = Curry._1(of_list, {
+      const v = of_list({
         hd: [
           1,
           /* '1' */49
@@ -432,7 +423,7 @@ const int_map_suites_1 = {
           }
         }
       });
-      const u = Curry._1(of_list, {
+      const u = of_list({
         hd: [
           2,
           /* '3' */51
@@ -453,7 +444,7 @@ const int_map_suites_1 = {
       });
       return {
         TAG: /* Eq */ 0,
-        _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
+        _0: compare(Caml.caml_int_compare, u, v),
         _1: 0
       };
     })
@@ -462,7 +453,7 @@ const int_map_suites_1 = {
     hd: [
       "equal2",
       (function (param) {
-        const v = Curry._1(of_list, {
+        const v = of_list({
           hd: [
             1,
             /* '1' */49
@@ -481,7 +472,7 @@ const int_map_suites_1 = {
             }
           }
         });
-        const u = Curry._1(of_list, {
+        const u = of_list({
           hd: [
             2,
             /* '3' */51
@@ -503,7 +494,7 @@ const int_map_suites_1 = {
         return {
           TAG: /* Eq */ 0,
           _0: true,
-          _1: Curry._3(equal, (function (x, y) {
+          _1: equal((function (x, y) {
             return x === y;
           }), u, v)
         };
@@ -515,11 +506,11 @@ const int_map_suites_1 = {
         (function (param) {
           let m = /* Empty */ 0;
           for (let i = 0; i <= 10000; ++i) {
-            m = Curry._3(add$1, String(i), String(i), m);
+            m = add$1(String(i), String(i), m);
           }
           let v = -1;
           for (let i$1 = 0; i$1 <= 10000; ++i$1) {
-            if (Curry._2(find, String(i$1), m) !== String(i$1)) {
+            if (find(String(i$1), m) !== String(i$1)) {
               v = i$1;
             }
             
@@ -542,4 +533,4 @@ const int_map_suites = {
 };
 
 Mt.from_pair_suites("Map_test", int_map_suites);
-/* Int_map Not a pure module */
+/*  Not a pure module */
