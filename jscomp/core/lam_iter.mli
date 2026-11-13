@@ -24,3 +24,4 @@
 
 val exists : Lam.t -> f:(Lam.t -> bool) -> bool
 val exists_ident : Lam.t -> f:(Ident.t -> bool) -> bool
+val iter : Lam.t -> f:(Lam.t -> unit) -> unit

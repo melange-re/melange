@@ -72,7 +72,7 @@ function does_raise(f, s) {
     if (exn.MEL_EXN_ID === Stdlib__Stack.Empty) {
       return true;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

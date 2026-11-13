@@ -9,12 +9,6 @@ const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
 const Stdlib__Seq = require("melange/seq.js");
 
-const compare = Caml.caml_int_compare;
-
-const funarg = {
-  compare
-};
-
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
@@ -163,7 +157,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -202,7 +196,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -369,7 +363,7 @@ function find_opt(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -384,7 +378,7 @@ function mem(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -503,7 +497,7 @@ function remove(x, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -543,7 +537,7 @@ function update(x, f, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     const data$1 = Curry._1(f, Caml_option.some(d));
     if (data$1 === undefined) {
@@ -756,7 +750,7 @@ function split(x, param) {
   const d = param.d;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -927,7 +921,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare$1(cmp, m1, m2) {
+function compare(cmp, m1, m2) {
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -943,7 +937,7 @@ function compare$1(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg.compare, e1._0, e2._0);
+    const c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -973,7 +967,7 @@ function equal(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
+    if (e1._0 !== e2._0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -1110,7 +1104,7 @@ function to_seq_from(low, m) {
       const r = m.r;
       const d = m.d;
       const v = m.v;
-      const n = Curry._2(funarg.compare, v, low);
+      const n = Caml.caml_int_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -1143,139 +1137,57 @@ function to_seq_from(low, m) {
 
 const empty = /* Empty */ 0;
 
-const add$1 = add;
-
-const add_to_list$1 = add_to_list;
-
-const update$1 = update;
-
-const singleton$1 = singleton;
-
-const remove$1 = remove;
-
-const merge$2 = merge$1;
-
-const union$1 = union;
-
-const cardinal$1 = cardinal;
-
-const bindings$1 = bindings;
-
-const min_binding$1 = min_binding;
-
-const min_binding_opt$1 = min_binding_opt;
-
-const max_binding$1 = max_binding;
-
-const max_binding_opt$1 = max_binding_opt;
-
 const choose = min_binding;
 
 const choose_opt = min_binding_opt;
 
-const find$1 = find;
-
-const find_opt$1 = find_opt;
-
-const find_first$1 = find_first;
-
-const find_first_opt$1 = find_first_opt;
-
-const find_last$1 = find_last;
-
-const find_last_opt$1 = find_last_opt;
-
-const iter$1 = iter;
-
-const fold$1 = fold;
-
-const map$1 = map;
-
-const mapi$1 = mapi;
-
-const filter$1 = filter;
-
-const filter_map$1 = filter_map;
-
-const partition$1 = partition;
-
-const split$1 = split;
-
-const is_empty$1 = is_empty;
-
-const is_singleton$1 = is_singleton;
-
-const singleton_to_binding$1 = singleton_to_binding;
-
-const mem$1 = mem;
-
-const equal$1 = equal;
-
-const compare$2 = compare$1;
-
-const for_all$1 = for_all;
-
-const exists$1 = exists;
-
 const to_list = bindings;
-
-const of_list$1 = of_list;
-
-const to_seq$1 = to_seq;
-
-const to_rev_seq$1 = to_rev_seq;
-
-const to_seq_from$1 = to_seq_from;
-
-const add_seq$1 = add_seq;
-
-const of_seq$1 = of_seq;
 
 module.exports = {
   empty,
-  add: add$1,
-  add_to_list: add_to_list$1,
-  update: update$1,
-  singleton: singleton$1,
-  remove: remove$1,
-  merge: merge$2,
-  union: union$1,
-  cardinal: cardinal$1,
-  bindings: bindings$1,
-  min_binding: min_binding$1,
-  min_binding_opt: min_binding_opt$1,
-  max_binding: max_binding$1,
-  max_binding_opt: max_binding_opt$1,
+  add,
+  add_to_list,
+  update,
+  singleton,
+  remove,
+  merge: merge$1,
+  union,
+  cardinal,
+  bindings,
+  min_binding,
+  min_binding_opt,
+  max_binding,
+  max_binding_opt,
   choose,
   choose_opt,
-  find: find$1,
-  find_opt: find_opt$1,
-  find_first: find_first$1,
-  find_first_opt: find_first_opt$1,
-  find_last: find_last$1,
-  find_last_opt: find_last_opt$1,
-  iter: iter$1,
-  fold: fold$1,
-  map: map$1,
-  mapi: mapi$1,
-  filter: filter$1,
-  filter_map: filter_map$1,
-  partition: partition$1,
-  split: split$1,
-  is_empty: is_empty$1,
-  is_singleton: is_singleton$1,
-  singleton_to_binding: singleton_to_binding$1,
-  mem: mem$1,
-  equal: equal$1,
-  compare: compare$2,
-  for_all: for_all$1,
-  exists: exists$1,
+  find,
+  find_opt,
+  find_first,
+  find_first_opt,
+  find_last,
+  find_last_opt,
+  iter,
+  fold,
+  map,
+  mapi,
+  filter,
+  filter_map,
+  partition,
+  split,
+  is_empty,
+  is_singleton,
+  singleton_to_binding,
+  mem,
+  equal,
+  compare,
+  for_all,
+  exists,
   to_list,
-  of_list: of_list$1,
-  to_seq: to_seq$1,
-  to_rev_seq: to_rev_seq$1,
-  to_seq_from: to_seq_from$1,
-  add_seq: add_seq$1,
-  of_seq: of_seq$1,
+  of_list,
+  to_seq,
+  to_rev_seq,
+  to_seq_from,
+  add_seq,
+  of_seq,
 }
-/* include Not a pure module */
+/* No side effect */

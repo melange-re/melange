@@ -70,7 +70,7 @@ function memo_fib_init($$class) {
         Stdlib__Hashtbl.add(self$2[cache], x, v);
         return v;
       }
-      throw exn;
+      throw raw_exn;
     }
   }));
   return function (env, self) {

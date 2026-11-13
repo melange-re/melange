@@ -16,7 +16,7 @@ function test_js_error(param) {
       console.log(err._1.stack);
       return;
     }
-    throw err;
+    throw raw_err;
   }
   return Caml_option.some(e);
 }
@@ -29,9 +29,9 @@ function test_js_error2(param) {
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
-      throw e;
+      throw raw_e;
     }
-    throw e;
+    throw raw_e;
   }
 }
 
@@ -46,7 +46,7 @@ function example1(param) {
       console.log(err._1.stack);
       return;
     }
-    throw err;
+    throw raw_err;
   }
   return Caml_option.some(v);
 }
@@ -60,7 +60,7 @@ function example2(param) {
     if (exn.MEL_EXN_ID === Js__Js_exn.$$Error) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

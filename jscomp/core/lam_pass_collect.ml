@@ -67,8 +67,35 @@ let collect_info =
     Lam_call_summary.of_lambda lam ~find_ident:(find_ident meta)
       ~find_external:Lam_compile_env.resolve_external_call_summary
   in
-  let rec collect_bind (meta : Lam_stats.t) rec_flag (ident : Ident.t)
-      (lam : Lam.t) =
+  let add_params (meta : Lam_stats.t) params =
+    List.iter params ~f:(fun p ->
+        Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:(Parameter Lam_arity.na))
+  in
+  let functor_result (lam : Lam.t) =
+    let rec element_of_arity : Js_cmj_format.arity -> Lam_id_kind.Element.t =
+      function
+      | Single arity | Functor { arity; _ } -> Function arity
+      | Submodule arities ->
+          ImmutableBlock (Array.map arities ~f:element_of_arity)
+    in
+    match lam with
+    | Lapply { ap_func; ap_args; _ } -> (
+        match Lam_arity_analysis.external_field_path ap_func with
+        | Some (id, dynamic_import, name, []) -> (
+            match
+              Lam_compile_env.query_external_id_info ~dynamic_import id name
+            with
+            | Some
+                { arity = Functor { arity = Arity_info ([ n ], _); result }; _ }
+              when List.length ap_args = n ->
+                Some (Array.map result ~f:element_of_arity)
+            | Some { arity = Single _ | Submodule _ | Functor _; _ } | None ->
+                None)
+        | Some (_, _, _, _ :: _) | None -> None)
+    | _ -> None
+  in
+  let rec collect_bind (meta : Lam_stats.t) rec_flag
+      (mutability : Asttypes.mutable_flag) (ident : Ident.t) (lam : Lam.t) =
     match lam with
     | Lconst v ->
         Ident.Hashtbl.replace meta.ident_tbl ~key:ident ~data:(Constant v)
@@ -147,18 +174,29 @@ let collect_info =
             -- since collect meta would iter everywhere,
             so -- it would still iterate internally
         *)
-        List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
-          params;
+        add_params meta params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam (summarize meta lam);
         collect meta body
-    | x ->
+    | x -> (
         collect meta x;
-        if Ident.Set.mem ident meta.export_idents then
-          annotate meta rec_flag ident
-            (Lam_arity_analysis.get_arity meta x)
-            lam (summarize meta lam)
+        let is_export_id = Ident.Set.mem ident meta.export_idents in
+        match mutability with
+        | Mutable ->
+            (* a later [Lassign] may change the arity *)
+            if is_export_id then
+              annotate meta rec_flag ident
+                (Lam_arity_analysis.get_arity meta x)
+                lam (summarize meta lam)
+        | Immutable -> (
+            match functor_result x with
+            | Some fields ->
+                Ident.Hashtbl.replace meta.ident_tbl ~key:ident
+                  ~data:(ImmutableBlock fields)
+            | None ->
+                let arity = Lam_arity_analysis.get_arity meta x in
+                if is_export_id || not (Lam_arity.first_arity_na arity) then
+                  annotate meta rec_flag ident arity lam (summarize meta lam)))
   and collect meta (lam : Lam.t) =
     match lam with
     | Lconst _ -> ()
@@ -168,19 +206,21 @@ let collect_info =
         List.iter ~f:(collect meta) ll
     | Lfunction { params; body = l; _ } ->
         (* functor ? *)
-        List.iter
-          ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
-          params;
+        add_params meta params;
         collect meta l
-    | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->
-        collect_bind meta Lam_non_rec ident arg;
+    | Llet (_, ident, arg, body) ->
+        collect_bind meta Lam_non_rec Immutable ident arg;
+        collect meta body
+    | Lmutlet (ident, arg, body) ->
+        collect_bind meta Lam_non_rec Mutable ident arg;
         collect meta body
     | Lletrec (bindings, body) ->
         (match bindings with
-        | [ (ident, arg) ] -> collect_bind meta Lam_self_rec ident arg
+        | [ (ident, arg) ] -> collect_bind meta Lam_self_rec Immutable ident arg
         | _ ->
             List.iter
-              ~f:(fun (ident, arg) -> collect_bind meta Lam_rec ident arg)
+              ~f:(fun (ident, arg) ->
+                collect_bind meta Lam_rec Immutable ident arg)
               bindings);
         collect meta body
     | Lglobal_module _ -> ()

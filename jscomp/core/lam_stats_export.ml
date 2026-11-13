@@ -128,7 +128,26 @@ let values_of_export =
         let arity =
           memoize arity_cache x (fun () ->
               match Ident.Hashtbl.find meta.ident_tbl x with
-              | FunctionId { arity; _ } -> Js_cmj_format.Single arity
+              | FunctionId { arity; _ } -> (
+                  match Ident.Map.find_opt x export_map with
+                  | Some
+                      (Lfunction { body; attr = { is_a_functor = true; _ }; _ })
+                    -> (
+                      match Lam.result_expression body with
+                      | Lprim
+                          { primitive = Pmakeblock (_, _, Immutable); args; _ }
+                        ->
+                          Js_cmj_format.Functor
+                            {
+                              arity;
+                              result =
+                                Array.of_list_map args
+                                  ~f:
+                                    (arity_of_lambda meta
+                                       (Ident.Set.singleton x));
+                            }
+                      | _ -> Js_cmj_format.Single arity)
+                  | Some _ | None -> Js_cmj_format.Single arity)
               | ImmutableBlock elems ->
                   (* FIXME: field name for dumping *)
                   Submodule

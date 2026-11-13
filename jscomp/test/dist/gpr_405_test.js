@@ -15,21 +15,21 @@ function Make(funarg) {
   });
   const find_default = function (htbl, x) {
     try {
-      return Curry._2(H.find, htbl, x);
+      return H.find(htbl, x);
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return false;
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   const min_cutset = function (gr, first_node) {
-    const n_labels = Curry._1(H.create, 97);
-    const l_labels = Curry._1(H.create, 97);
-    const already_processed = Curry._1(H.create, 97);
-    const on_the_stack = Curry._1(H.create, 97);
+    const n_labels = H.create(97);
+    const l_labels = H.create(97);
+    const already_processed = H.create(97);
+    const on_the_stack = H.create(97);
     const cut_set = {
       contents: /* [] */ 0
     };
@@ -57,11 +57,11 @@ function Make(funarg) {
             ]
           });
       }
-      Curry._3(H.add, on_the_stack, top, true);
-      Curry._3(H.add, n_labels, top, counter.contents);
+      H.add(on_the_stack, top, true);
+      H.add(n_labels, top, counter.contents);
       counter.contents = counter.contents + 1 | 0;
-      Curry._3(H.add, l_labels, top, 0);
-      Curry._3(H.add, already_processed, top, true);
+      H.add(l_labels, top, 0);
+      H.add(already_processed, top, true);
       let _successors = Curry._2(funarg.succ, gr, top);
       let _top = top;
       let _rest_of_stack = rest_of_stack;
@@ -80,19 +80,19 @@ function Make(funarg) {
               tl: rest_of_stack$1
             });
           }
-          const x = find_default(on_the_stack, successor) ? Curry._2(H.find, n_labels, successor) : Curry._2(H.find, l_labels, successor);
-          Curry._3(H.add, l_labels, top$1, Caml.caml_int_max(Curry._2(H.find, l_labels, top$1), x));
+          const x = find_default(on_the_stack, successor) ? H.find(n_labels, successor) : H.find(l_labels, successor);
+          H.add(l_labels, top$1, Caml.caml_int_max(H.find(l_labels, top$1), x));
           _successors = successors.tl;
           continue;
         }
-        if (Curry._2(H.find, l_labels, top$1) === Curry._2(H.find, n_labels, top$1)) {
+        if (H.find(l_labels, top$1) === H.find(n_labels, top$1)) {
           cut_set.contents = {
             hd: top$1,
             tl: cut_set.contents
           };
-          Curry._3(H.add, l_labels, top$1, 0);
+          H.add(l_labels, top$1, 0);
         }
-        if (Curry._2(H.find, l_labels, top$1) > Curry._2(H.find, n_labels, top$1)) {
+        if (H.find(l_labels, top$1) > H.find(n_labels, top$1)) {
           throw new Caml_js_exceptions.MelangeError(Stdlib.Invalid_argument, {
               MEL_EXN_ID: Stdlib.Invalid_argument,
               _1: "Graph.Mincut: graph not reducible"
@@ -103,8 +103,8 @@ function Make(funarg) {
         }
         const match = rest_of_stack$1.hd;
         const new_top = match[0];
-        Curry._3(H.add, on_the_stack, top$1, false);
-        Curry._3(H.add, l_labels, new_top, Caml.caml_int_max(Curry._2(H.find, l_labels, top$1), Curry._2(H.find, l_labels, new_top)));
+        H.add(on_the_stack, top$1, false);
+        H.add(l_labels, new_top, Caml.caml_int_max(H.find(l_labels, top$1), H.find(l_labels, new_top)));
         _rest_of_stack = rest_of_stack$1.tl;
         _top = new_top;
         _successors = match[1];

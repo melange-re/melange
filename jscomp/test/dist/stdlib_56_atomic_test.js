@@ -22,7 +22,7 @@ function invalid_argument_message(f) {
     if (message.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return message._1;
     }
-    throw message;
+    throw raw_message;
   }
 }
 
