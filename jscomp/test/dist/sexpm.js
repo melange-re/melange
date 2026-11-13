@@ -514,35 +514,6 @@ function _return_atom(last, k, t) {
   });
 }
 
-function read1int(i, k, t) {
-  if (t.i === t.len) {
-    return _refill(t, (function (param) {
-      return read1int(i, k, param);
-    }), _error_eof);
-  }
-  const c = _get(t);
-  if (_is_digit(c)) {
-    return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
-  } else {
-    return Curry._1(_error(t, {
-      TAG: /* Format */ 0,
-      _0: {
-        TAG: /* String_literal */ 11,
-        _0: "unexpected char '",
-        _1: {
-          TAG: /* Char */ 0,
-          _0: {
-            TAG: /* String_literal */ 11,
-            _0: "' when reading byte",
-            _1: /* End_of_format */ 0
-          }
-        }
-      },
-      _1: "unexpected char '%c' when reading byte"
-    }), c);
-  }
-}
-
 function read2int(i, k, t) {
   if (t.i === t.len) {
     return _refill(t, (function (param) {
@@ -551,7 +522,37 @@ function read2int(i, k, t) {
   }
   const c = _get(t);
   if (_is_digit(c)) {
-    return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
+    let i$1 = Math.imul(10, i) + (c - /* '0' */48 | 0) | 0;
+    const read1int = function (i, t) {
+      if (t.i === t.len) {
+        return _refill(t, (function (param) {
+          return read1int(i, param);
+        }), _error_eof);
+      }
+      const c = _get(t);
+      if (_is_digit(c)) {
+        let param = Math.imul(10, i) + (c - /* '0' */48 | 0) | 0;
+        return Curry._1(k, param);
+      } else {
+        return Curry._1(_error(t, {
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* String_literal */ 11,
+            _0: "unexpected char '",
+            _1: {
+              TAG: /* Char */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "' when reading byte",
+                _1: /* End_of_format */ 0
+              }
+            }
+          },
+          _1: "unexpected char '%c' when reading byte"
+        }), c);
+      }
+    };
+    return read1int(i$1, t);
   } else {
     return Curry._1(_error(t, {
       TAG: /* Format */ 0,
@@ -568,77 +569,6 @@ function read2int(i, k, t) {
         }
       },
       _1: "unexpected char '%c' when reading byte"
-    }), c);
-  }
-}
-
-function escaped(k, t) {
-  if (t.i === t.len) {
-    return _refill(t, (function (param) {
-      return escaped(k, param);
-    }), _error_eof);
-  }
-  const c = _get(t);
-  if (c >= 92) {
-    if (c < 117) {
-      switch (c) {
-        case 92 :
-          return Curry._1(k, /* '\\' */92);
-        case 98 :
-          return Curry._1(k, /* '\b' */8);
-        case 110 :
-          return Curry._1(k, /* '\n' */10);
-        case 114 :
-          return Curry._1(k, /* '\r' */13);
-        case 93 :
-        case 94 :
-        case 95 :
-        case 96 :
-        case 97 :
-        case 99 :
-        case 100 :
-        case 101 :
-        case 102 :
-        case 103 :
-        case 104 :
-        case 105 :
-        case 106 :
-        case 107 :
-        case 108 :
-        case 109 :
-        case 111 :
-        case 112 :
-        case 113 :
-        case 115 :
-          break;
-        case 116 :
-          return Curry._1(k, /* '\t' */9);
-      }
-    }
-    
-  } else if (c === 34) {
-    return Curry._1(k, /* '"' */34);
-  }
-  if (_is_digit(c)) {
-    return read2int(c - /* '0' */48 | 0, (function (n) {
-      return Curry._1(k, Stdlib__Char.chr(n));
-    }), t);
-  } else {
-    return Curry._1(_error(t, {
-      TAG: /* Format */ 0,
-      _0: {
-        TAG: /* String_literal */ 11,
-        _0: "unexpected escaped char '",
-        _1: {
-          TAG: /* Char */ 0,
-          _0: {
-            TAG: /* Char_literal */ 12,
-            _0: /* '\'' */39,
-            _1: /* End_of_format */ 0
-          }
-        }
-      },
-      _1: "unexpected escaped char '%c'"
     }), c);
   }
 }
@@ -655,27 +585,82 @@ function quoted(k, t) {
       return _return_atom(undefined, k, t);
     }
     if (c === 92) {
-      return escaped((function (c) {
+      let k$1 = function (c) {
         Stdlib__Buffer.add_char(t.atom, c);
         return quoted(k, t);
-      }), t);
+      };
+      const k$2 = Curry.__1(k$1);
+      const escaped = function (t) {
+        if (t.i === t.len) {
+          return _refill(t, escaped, _error_eof);
+        }
+        const c = _get(t);
+        if (c >= 92) {
+          if (c < 117) {
+            switch (c) {
+              case 92 :
+                return k$2(/* '\\' */92);
+              case 98 :
+                return k$2(/* '\b' */8);
+              case 110 :
+                return k$2(/* '\n' */10);
+              case 114 :
+                return k$2(/* '\r' */13);
+              case 93 :
+              case 94 :
+              case 95 :
+              case 96 :
+              case 97 :
+              case 99 :
+              case 100 :
+              case 101 :
+              case 102 :
+              case 103 :
+              case 104 :
+              case 105 :
+              case 106 :
+              case 107 :
+              case 108 :
+              case 109 :
+              case 111 :
+              case 112 :
+              case 113 :
+              case 115 :
+                break;
+              case 116 :
+                return k$2(/* '\t' */9);
+            }
+          }
+          
+        } else if (c === 34) {
+          return k$2(/* '"' */34);
+        }
+        if (_is_digit(c)) {
+          return read2int(c - /* '0' */48 | 0, (function (n) {
+            return k$2(Stdlib__Char.chr(n));
+          }), t);
+        } else {
+          return Curry._1(_error(t, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "unexpected escaped char '",
+              _1: {
+                TAG: /* Char */ 0,
+                _0: {
+                  TAG: /* Char_literal */ 12,
+                  _0: /* '\'' */39,
+                  _1: /* End_of_format */ 0
+                }
+              }
+            },
+            _1: "unexpected escaped char '%c'"
+          }), c);
+        }
+      };
+      return escaped(t);
     }
     Stdlib__Buffer.add_char(t.atom, c);
-    continue;
-  };
-}
-
-function skip_comment(k, t) {
-  while (true) {
-    if (t.i === t.len) {
-      return _refill(t, (function (param) {
-        return skip_comment(k, param);
-      }), _error_eof);
-    }
-    const match = _get(t);
-    if (match === 10) {
-      return Curry._2(k, undefined, undefined);
-    }
     continue;
   };
 }
@@ -768,9 +753,24 @@ function expr(k, t) {
 function expr_starting_with(c, k, t) {
   if (c >= 42) {
     if (c === 59) {
-      return skip_comment((function (param, param$1) {
+      let k$1 = function (param, param$1) {
         return expr(k, t);
-      }), t);
+      };
+      const skip_comment = function (t) {
+        while (true) {
+          if (t.i === t.len) {
+            return _refill(t, skip_comment, _error_eof);
+          }
+          const match = _get(t);
+          if (match === 10) {
+            let param;
+            let param$1;
+            return Curry._2(k$1, param, param$1);
+          }
+          continue;
+        };
+      };
+      return skip_comment(t);
     }
     if (c === 92) {
       return _error(t, {
@@ -1124,34 +1124,6 @@ function MakeDecode(funarg) {
       VAL: s
     });
   };
-  const read1int = function (i, k, t) {
-    if (t.i === t.len) {
-      return _refill(t, (function (param) {
-        return read1int(i, k, param);
-      }), _error_eof);
-    }
-    const c = _get(t);
-    if (_is_digit(c)) {
-      return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
-    } else {
-      return Curry._1(_error(t, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "unexpected char '",
-          _1: {
-            TAG: /* Char */ 0,
-            _0: {
-              TAG: /* String_literal */ 11,
-              _0: "' when reading byte",
-              _1: /* End_of_format */ 0
-            }
-          }
-        },
-        _1: "unexpected char '%c' when reading byte"
-      }), c);
-    }
-  };
   const read2int = function (i, k, t) {
     if (t.i === t.len) {
       return _refill(t, (function (param) {
@@ -1160,7 +1132,37 @@ function MakeDecode(funarg) {
     }
     const c = _get(t);
     if (_is_digit(c)) {
-      return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
+      let i$1 = Math.imul(10, i) + (c - /* '0' */48 | 0) | 0;
+      const read1int = function (i, t) {
+        if (t.i === t.len) {
+          return _refill(t, (function (param) {
+            return read1int(i, param);
+          }), _error_eof);
+        }
+        const c = _get(t);
+        if (_is_digit(c)) {
+          let param = Math.imul(10, i) + (c - /* '0' */48 | 0) | 0;
+          return Curry._1(k, param);
+        } else {
+          return Curry._1(_error(t, {
+            TAG: /* Format */ 0,
+            _0: {
+              TAG: /* String_literal */ 11,
+              _0: "unexpected char '",
+              _1: {
+                TAG: /* Char */ 0,
+                _0: {
+                  TAG: /* String_literal */ 11,
+                  _0: "' when reading byte",
+                  _1: /* End_of_format */ 0
+                }
+              }
+            },
+            _1: "unexpected char '%c' when reading byte"
+          }), c);
+        }
+      };
+      return read1int(i$1, t);
     } else {
       return Curry._1(_error(t, {
         TAG: /* Format */ 0,
@@ -1177,76 +1179,6 @@ function MakeDecode(funarg) {
           }
         },
         _1: "unexpected char '%c' when reading byte"
-      }), c);
-    }
-  };
-  const escaped = function (k, t) {
-    if (t.i === t.len) {
-      return _refill(t, (function (param) {
-        return escaped(k, param);
-      }), _error_eof);
-    }
-    const c = _get(t);
-    if (c >= 92) {
-      if (c < 117) {
-        switch (c) {
-          case 92 :
-            return Curry._1(k, /* '\\' */92);
-          case 98 :
-            return Curry._1(k, /* '\b' */8);
-          case 110 :
-            return Curry._1(k, /* '\n' */10);
-          case 114 :
-            return Curry._1(k, /* '\r' */13);
-          case 93 :
-          case 94 :
-          case 95 :
-          case 96 :
-          case 97 :
-          case 99 :
-          case 100 :
-          case 101 :
-          case 102 :
-          case 103 :
-          case 104 :
-          case 105 :
-          case 106 :
-          case 107 :
-          case 108 :
-          case 109 :
-          case 111 :
-          case 112 :
-          case 113 :
-          case 115 :
-            break;
-          case 116 :
-            return Curry._1(k, /* '\t' */9);
-        }
-      }
-      
-    } else if (c === 34) {
-      return Curry._1(k, /* '"' */34);
-    }
-    if (_is_digit(c)) {
-      return read2int(c - /* '0' */48 | 0, (function (n) {
-        return Curry._1(k, Stdlib__Char.chr(n));
-      }), t);
-    } else {
-      return Curry._1(_error(t, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* String_literal */ 11,
-          _0: "unexpected escaped char '",
-          _1: {
-            TAG: /* Char */ 0,
-            _0: {
-              TAG: /* Char_literal */ 12,
-              _0: /* '\'' */39,
-              _1: /* End_of_format */ 0
-            }
-          }
-        },
-        _1: "unexpected escaped char '%c'"
       }), c);
     }
   };
@@ -1262,26 +1194,82 @@ function MakeDecode(funarg) {
         return _return_atom(undefined, k, t);
       }
       if (c === 92) {
-        return escaped((function (c) {
+        let k$1 = function (c) {
           Stdlib__Buffer.add_char(t.atom, c);
           return quoted(k, t);
-        }), t);
+        };
+        const k$2 = Curry.__1(k$1);
+        const escaped = function (t) {
+          if (t.i === t.len) {
+            return _refill(t, escaped, _error_eof);
+          }
+          const c = _get(t);
+          if (c >= 92) {
+            if (c < 117) {
+              switch (c) {
+                case 92 :
+                  return k$2(/* '\\' */92);
+                case 98 :
+                  return k$2(/* '\b' */8);
+                case 110 :
+                  return k$2(/* '\n' */10);
+                case 114 :
+                  return k$2(/* '\r' */13);
+                case 93 :
+                case 94 :
+                case 95 :
+                case 96 :
+                case 97 :
+                case 99 :
+                case 100 :
+                case 101 :
+                case 102 :
+                case 103 :
+                case 104 :
+                case 105 :
+                case 106 :
+                case 107 :
+                case 108 :
+                case 109 :
+                case 111 :
+                case 112 :
+                case 113 :
+                case 115 :
+                  break;
+                case 116 :
+                  return k$2(/* '\t' */9);
+              }
+            }
+            
+          } else if (c === 34) {
+            return k$2(/* '"' */34);
+          }
+          if (_is_digit(c)) {
+            return read2int(c - /* '0' */48 | 0, (function (n) {
+              return k$2(Stdlib__Char.chr(n));
+            }), t);
+          } else {
+            return Curry._1(_error(t, {
+              TAG: /* Format */ 0,
+              _0: {
+                TAG: /* String_literal */ 11,
+                _0: "unexpected escaped char '",
+                _1: {
+                  TAG: /* Char */ 0,
+                  _0: {
+                    TAG: /* Char_literal */ 12,
+                    _0: /* '\'' */39,
+                    _1: /* End_of_format */ 0
+                  }
+                }
+              },
+              _1: "unexpected escaped char '%c'"
+            }), c);
+          }
+        };
+        return escaped(t);
       }
       Stdlib__Buffer.add_char(t.atom, c);
-      continue;
-    };
-  };
-  const skip_comment = function (k, t) {
-    while (true) {
-      if (t.i === t.len) {
-        return _refill(t, (function (param) {
-          return skip_comment(k, param);
-        }), _error_eof);
-      }
-      const match = _get(t);
-      if (match === 10) {
-        return Curry._2(k, undefined, undefined);
-      }
       continue;
     };
   };
@@ -1371,9 +1359,24 @@ function MakeDecode(funarg) {
   const expr_starting_with = function (c, k, t) {
     if (c >= 42) {
       if (c === 59) {
-        return skip_comment((function (param, param$1) {
+        let k$1 = function (param, param$1) {
           return expr(k, t);
-        }), t);
+        };
+        const skip_comment = function (t) {
+          while (true) {
+            if (t.i === t.len) {
+              return _refill(t, skip_comment, _error_eof);
+            }
+            const match = _get(t);
+            if (match === 10) {
+              let param;
+              let param$1;
+              return Curry._2(k$1, param, param$1);
+            }
+            continue;
+          };
+        };
+        return skip_comment(t);
       }
       if (c === 92) {
         return _error(t, {

@@ -12,6 +12,7 @@ const Stdlib__List = require("melange/list.js");
 const Stdlib__String = require("melange/string.js");
 
 function split_by(keep_emptyOpt, is_delim, str) {
+  const is_delim$1 = Curry.__1(is_delim);
   const keep_empty = keep_emptyOpt !== undefined ? keep_emptyOpt : false;
   const len = str.length;
   let _acc = /* [] */ 0;
@@ -31,7 +32,7 @@ function split_by(keep_emptyOpt, is_delim, str) {
         };
       }
     }
-    if (Curry._1(is_delim, Caml_string.get(str, pos))) {
+    if (is_delim$1(Caml_string.get(str, pos))) {
       const new_len = (last_pos - pos | 0) - 1 | 0;
       if (new_len !== 0 || keep_empty) {
         const v = Stdlib__String.sub(str, pos + 1 | 0, new_len);
@@ -201,16 +202,18 @@ function escaped(s) {
   }
 }
 
-function unsafe_for_all_range(s, _start, finish, p) {
+function unsafe_for_all_range(s, start, finish, p) {
+  const p$1 = Curry.__1(p);
+  let _start = start;
   while (true) {
-    const start = _start;
-    if (start > finish) {
+    const start$1 = _start;
+    if (start$1 > finish) {
       return true;
     }
-    if (!Curry._1(p, s.charCodeAt(start))) {
+    if (!p$1(s.charCodeAt(start$1))) {
       return false;
     }
-    _start = start + 1 | 0;
+    _start = start$1 + 1 | 0;
     continue;
   };
 }

@@ -3177,49 +3177,53 @@ function test34(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 787, characters 5-12", test34());
 
 function scan_elems$9(scan_elem, accu, ib) {
-  return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-    return accu;
-  }), {
-    TAG: /* Format */ 0,
-    _0: {
-      TAG: /* Reader */ 19,
-      _0: /* End_of_format */ 0
-    },
-    _1: "%r"
-  }), (function (ib) {
-    return Curry._2(scan_elem, ib, (function (elem) {
-      const accu$1 = {
-        hd: elem,
-        tl: accu
-      };
-      return Curry._1(Stdlib__Scanf.bscanf(ib, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* Char_literal */ 12,
-          _0: /* ' ' */32,
-          _1: {
-            TAG: /* Scan_char_set */ 20,
-            _0: 1,
-            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-            _2: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: /* End_of_format */ 0
+  const scan_elems$10 = function (accu, ib) {
+    return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
+      return accu;
+    }), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Reader */ 19,
+        _0: /* End_of_format */ 0
+      },
+      _1: "%r"
+    }), (function (ib) {
+      let param = function (elem) {
+        const accu$1 = {
+          hd: elem,
+          tl: accu
+        };
+        return Curry._1(Stdlib__Scanf.bscanf(ib, {
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
+              TAG: /* Scan_char_set */ 20,
+              _0: 1,
+              _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+              _2: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: /* End_of_format */ 0
+              }
             }
+          },
+          _1: " %1[;] "
+        }), (function (param) {
+          if (param === "") {
+            return accu$1;
+          } else {
+            return scan_elems$10(accu$1, ib);
           }
-        },
-        _1: " %1[;] "
-      }), (function (param) {
-        if (param === "") {
-          return accu$1;
-        } else {
-          return scan_elems$9(scan_elem, accu$1, ib);
-        }
-      }));
+        }));
+      };
+      return Curry._2(scan_elem, ib, param);
+    }), (function (l) {
+      return l;
     }));
-  }), (function (l) {
-    return l;
-  }));
+  };
+  return scan_elems$10(accu, ib);
 }
 
 function scan_list$4(scan_elem, ib) {
@@ -3452,40 +3456,44 @@ function test35(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 940, characters 5-12", test340() && test35());
 
 function read_elems(read_elem, accu, ib) {
-  return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-    return accu;
-  }), {
-    TAG: /* Format */ 0,
-    _0: {
-      TAG: /* Reader */ 19,
+  const read_elem$1 = Curry.__1(read_elem);
+  const read_elems$1 = function (accu, ib) {
+    return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
+      return accu;
+    }), {
+      TAG: /* Format */ 0,
       _0: {
-        TAG: /* Char_literal */ 12,
-        _0: /* ' ' */32,
-        _1: {
-          TAG: /* Scan_char_set */ 20,
-          _0: 1,
-          _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-          _2: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
+        TAG: /* Reader */ 19,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: /* End_of_format */ 0
+            }
           }
         }
+      },
+      _1: "%r %1[;] "
+    }), read_elem$1(function (elem) {
+      return {
+        hd: elem,
+        tl: accu
+      };
+    }), (function (accu, s) {
+      if (s === "") {
+        return accu;
+      } else {
+        return read_elems$1(accu, ib);
       }
-    },
-    _1: "%r %1[;] "
-  }), Curry._1(read_elem, (function (elem) {
-    return {
-      hd: elem,
-      tl: accu
-    };
-  })), (function (accu, s) {
-    if (s === "") {
-      return accu;
-    } else {
-      return read_elems(read_elem, accu, ib);
-    }
-  }));
+    }));
+  };
+  return read_elems$1(accu, ib);
 }
 
 function read_list(read_elem, ib) {

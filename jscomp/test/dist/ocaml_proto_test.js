@@ -246,17 +246,19 @@ function pop_last(param) {
     });
 }
 
-function apply_until(f, _param) {
+function apply_until(f, param) {
+  const f$1 = Curry.__1(f);
+  let _param = param;
   while (true) {
-    const param = _param;
-    if (!param) {
+    const param$1 = _param;
+    if (!param$1) {
       return;
     }
-    const x = Curry._1(f, param.hd);
+    const x = f$1(param$1.hd);
     if (x !== undefined) {
       return x;
     }
-    _param = param.tl;
+    _param = param$1.tl;
     continue;
   };
 }
@@ -282,6 +284,7 @@ function string_of_string_list(l) {
 }
 
 function string_fold_lefti(f, e0, s) {
+  const f$1 = Curry.__3(f);
   const len = s.length;
   let _acc = e0;
   let _i = 0;
@@ -292,7 +295,7 @@ function string_fold_lefti(f, e0, s) {
       return acc;
     }
     _i = i + 1 | 0;
-    _acc = Curry._3(f, acc, i, s.charCodeAt(i));
+    _acc = f$1(acc, i, s.charCodeAt(i));
     continue;
   };
 }
@@ -4015,34 +4018,21 @@ function find(x, _param) {
   };
 }
 
-function map$1(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map$1(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map$1(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+function fold(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$1 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$1(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
-}
-
-function fold(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
+  return fold$1(m, accu);
 }
 
 function min_value(param) {
@@ -4106,14 +4096,32 @@ function string_of_option(f, x) {
 }
 
 function reset(g) {
-  return map$1((function (core) {
+  let f = function (core) {
     return {
       core,
       index: undefined,
       lowlink: undefined,
       on_stack: false
     };
-  }), g);
+  };
+  const f$1 = Curry.__1(f);
+  const map = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
+  };
+  return map(g);
 }
 
 function strong_connect(g, sccs, stack, index, v) {

@@ -135,65 +135,76 @@ function pr(param) {
 }
 
 function map(f, l) {
-  return {
-    LAZY_DONE: false,
-    VAL: (function () {
-      const match = CamlinternalLazy.force(l);
-      return {
-        TAG: /* Cons */ 0,
-        _0: Curry._1(f, match._0),
-        _1: map(f, match._1)
-      };
-    })
+  const f$1 = Curry.__1(f);
+  const map$1 = function (l) {
+    return {
+      LAZY_DONE: false,
+      VAL: (function () {
+        const match = CamlinternalLazy.force(l);
+        return {
+          TAG: /* Cons */ 0,
+          _0: f$1(match._0),
+          _1: map$1(match._1)
+        };
+      })
+    };
   };
+  return map$1(l);
 }
 
 function merge(cmp, l1, l2) {
-  return {
-    LAZY_DONE: false,
-    VAL: (function () {
-      const match = CamlinternalLazy.force(l1);
-      const match$1 = CamlinternalLazy.force(l2);
-      const ll2 = match$1._1;
-      const x2 = match$1._0;
-      const ll1 = match._1;
-      const x1 = match._0;
-      const c = Curry._2(cmp, x1, x2);
-      if (c === 0) {
-        return {
-          TAG: /* Cons */ 0,
-          _0: x1,
-          _1: merge(cmp, ll1, ll2)
-        };
-      } else if (c < 0) {
-        return {
-          TAG: /* Cons */ 0,
-          _0: x1,
-          _1: merge(cmp, ll1, l2)
-        };
-      } else {
-        return {
-          TAG: /* Cons */ 0,
-          _0: x2,
-          _1: merge(cmp, l1, ll2)
-        };
-      }
-    })
+  const cmp$1 = Curry.__2(cmp);
+  const merge$1 = function (l1, l2) {
+    return {
+      LAZY_DONE: false,
+      VAL: (function () {
+        const match = CamlinternalLazy.force(l1);
+        const match$1 = CamlinternalLazy.force(l2);
+        const ll2 = match$1._1;
+        const x2 = match$1._0;
+        const ll1 = match._1;
+        const x1 = match._0;
+        const c = cmp$1(x1, x2);
+        if (c === 0) {
+          return {
+            TAG: /* Cons */ 0,
+            _0: x1,
+            _1: merge$1(ll1, ll2)
+          };
+        } else if (c < 0) {
+          return {
+            TAG: /* Cons */ 0,
+            _0: x1,
+            _1: merge$1(ll1, l2)
+          };
+        } else {
+          return {
+            TAG: /* Cons */ 0,
+            _0: x2,
+            _1: merge$1(l1, ll2)
+          };
+        }
+      })
+    };
   };
+  return merge$1(l1, l2);
 }
 
-function iter_interval(f, _l, _param) {
+function iter_interval(f, l, param) {
+  const f$1 = Curry.__1(f);
+  let _l = l;
+  let _param = param;
   while (true) {
-    const param = _param;
-    const l = _l;
-    const stop = param[1];
+    const param$1 = _param;
+    const l$1 = _l;
+    const stop = param$1[1];
     if (stop === 0) {
       return;
     }
-    const start = param[0];
-    const match = CamlinternalLazy.force(l);
+    const start = param$1[0];
+    const match = CamlinternalLazy.force(l$1);
     if (start <= 0) {
-      Curry._1(f, match._0);
+      f$1(match._0);
     }
     _param = [
       start - 1 | 0,

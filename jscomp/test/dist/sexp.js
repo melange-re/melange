@@ -163,6 +163,7 @@ function $great$great$eq(e, f) {
 }
 
 function map_opt(f, l) {
+  const f$1 = Curry.__1(f);
   let _acc = /* [] */ 0;
   let _l = l;
   while (true) {
@@ -171,7 +172,7 @@ function map_opt(f, l) {
     if (!l$1) {
       return Stdlib__List.rev(acc);
     }
-    const y = Curry._1(f, l$1.hd);
+    const y = f$1(l$1.hd);
     if (y === undefined) {
       return;
     }
@@ -186,17 +187,19 @@ function map_opt(f, l) {
 
 function list_any(f, e) {
   if (e.NAME === "List") {
-    let _l = e.VAL;
+    let l = e.VAL;
+    const f$1 = Curry.__1(f);
+    let _l = l;
     while (true) {
-      const l = _l;
-      if (!l) {
+      const l$1 = _l;
+      if (!l$1) {
         return;
       }
-      const res = Curry._1(f, l.hd);
+      const res = f$1(l$1.hd);
       if (res !== undefined) {
         return res;
       }
-      _l = l.tl;
+      _l = l$1.tl;
       continue;
     };
   }
@@ -205,21 +208,24 @@ function list_any(f, e) {
 
 function list_all(f, e) {
   if (e.NAME === "List") {
-    let _acc = /* [] */ 0;
-    let _l = e.VAL;
+    let acc = /* [] */ 0;
+    let l = e.VAL;
+    const f$1 = Curry.__1(f);
+    let _acc = acc;
+    let _l = l;
     while (true) {
-      const l = _l;
-      const acc = _acc;
-      if (!l) {
-        return Stdlib__List.rev(acc);
+      const l$1 = _l;
+      const acc$1 = _acc;
+      if (!l$1) {
+        return Stdlib__List.rev(acc$1);
       }
-      const tl = l.tl;
-      const y = Curry._1(f, l.hd);
+      const tl = l$1.tl;
+      const y = f$1(l$1.hd);
       if (y !== undefined) {
         _l = tl;
         _acc = {
           hd: Caml_option.valFromOption(y),
-          tl: acc
+          tl: acc$1
         };
         continue;
       }

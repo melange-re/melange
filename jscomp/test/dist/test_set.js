@@ -435,102 +435,126 @@ function Make(Ord) {
       continue;
     };
   };
-  const iter = function (f, _param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return;
-      }
-      iter(f, param._0);
-      Curry._1(f, param._1);
-      _param = param._2;
-      continue;
+  const iter = function (f, param) {
+    const f$1 = Curry.__1(f);
+    const iter$1 = function (_param) {
+      while (true) {
+        const param = _param;
+        if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+          return;
+        }
+        iter$1(param._0);
+        f$1(param._1);
+        _param = param._2;
+        continue;
+      };
     };
+    iter$1(param);
   };
-  const fold = function (f, _s, _accu) {
-    while (true) {
-      const accu = _accu;
-      const s = _s;
-      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-        return accu;
-      }
-      _accu = Curry._2(f, s._1, fold(f, s._0, accu));
-      _s = s._2;
-      continue;
+  const fold = function (f, s, accu) {
+    const f$1 = Curry.__2(f);
+    const fold$1 = function (_s, _accu) {
+      while (true) {
+        const accu = _accu;
+        const s = _s;
+        if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+          return accu;
+        }
+        _accu = f$1(s._1, fold$1(s._0, accu));
+        _s = s._2;
+        continue;
+      };
     };
+    return fold$1(s, accu);
   };
-  const for_all = function (p, _param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return true;
-      }
-      if (!Curry._1(p, param._1)) {
-        return false;
-      }
-      if (!for_all(p, param._0)) {
-        return false;
-      }
-      _param = param._2;
-      continue;
+  const for_all = function (p, param) {
+    const p$1 = Curry.__1(p);
+    const for_all$1 = function (_param) {
+      while (true) {
+        const param = _param;
+        if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+          return true;
+        }
+        if (!p$1(param._1)) {
+          return false;
+        }
+        if (!for_all$1(param._0)) {
+          return false;
+        }
+        _param = param._2;
+        continue;
+      };
     };
+    return for_all$1(param);
   };
-  const exists = function (p, _param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return false;
-      }
-      if (Curry._1(p, param._1)) {
-        return true;
-      }
-      if (exists(p, param._0)) {
-        return true;
-      }
-      _param = param._2;
-      continue;
+  const exists = function (p, param) {
+    const p$1 = Curry.__1(p);
+    const exists$1 = function (_param) {
+      while (true) {
+        const param = _param;
+        if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+          return false;
+        }
+        if (p$1(param._1)) {
+          return true;
+        }
+        if (exists$1(param._0)) {
+          return true;
+        }
+        _param = param._2;
+        continue;
+      };
     };
+    return exists$1(param);
   };
   const filter = function (p, param) {
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return /* Empty */ 0;
-    }
-    const v = param._1;
-    const l$p = filter(p, param._0);
-    const pv = Curry._1(p, v);
-    const r$p = filter(p, param._2);
-    if (pv) {
-      return join(l$p, v, r$p);
-    } else {
-      return concat(l$p, r$p);
-    }
+    const p$1 = Curry.__1(p);
+    const filter$1 = function (param) {
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return /* Empty */ 0;
+      }
+      const v = param._1;
+      const l$p = filter$1(param._0);
+      const pv = p$1(v);
+      const r$p = filter$1(param._2);
+      if (pv) {
+        return join(l$p, v, r$p);
+      } else {
+        return concat(l$p, r$p);
+      }
+    };
+    return filter$1(param);
   };
   const partition = function (p, param) {
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return [
-        /* Empty */ 0,
-        /* Empty */ 0
-      ];
-    }
-    const v = param._1;
-    const match = partition(p, param._0);
-    const lf = match[1];
-    const lt = match[0];
-    const pv = Curry._1(p, v);
-    const match$1 = partition(p, param._2);
-    const rf = match$1[1];
-    const rt = match$1[0];
-    if (pv) {
-      return [
-        join(lt, v, rt),
-        concat(lf, rf)
-      ];
-    } else {
-      return [
-        concat(lt, rt),
-        join(lf, v, rf)
-      ];
-    }
+    const p$1 = Curry.__1(p);
+    const partition$1 = function (param) {
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return [
+          /* Empty */ 0,
+          /* Empty */ 0
+        ];
+      }
+      const v = param._1;
+      const match = partition$1(param._0);
+      const lf = match[1];
+      const lt = match[0];
+      const pv = p$1(v);
+      const match$1 = partition$1(param._2);
+      const rf = match$1[1];
+      const rt = match$1[0];
+      if (pv) {
+        return [
+          join(lt, v, rt),
+          concat(lf, rf)
+        ];
+      } else {
+        return [
+          concat(lt, rt),
+          join(lf, v, rf)
+        ];
+      }
+    };
+    return partition$1(param);
   };
   const cardinal = function (param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {

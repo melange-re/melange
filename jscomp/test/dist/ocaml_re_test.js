@@ -1766,18 +1766,19 @@ function is_charset(_param) {
 }
 
 function split(s, cm) {
-  let _t = s;
   let f = function (i, j) {
     Caml_bytes.set(cm, i, /* '\001' */1);
     Caml_bytes.set(cm, j + 1 | 0, /* '\001' */1);
   };
+  const f$1 = Curry.__2(f);
+  let _t = s;
   while (true) {
     const t = _t;
     if (!t) {
       return;
     }
     const match = t.hd;
-    Curry._2(f, match[0], match[1]);
+    f$1(match[0], match[1]);
     _t = t.tl;
     continue;
   };

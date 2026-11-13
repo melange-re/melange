@@ -798,46 +798,57 @@ function try_finally(work, cleanup) {
 }
 
 function map_end(f, l1, l2) {
-  if (l1) {
-    return {
-      hd: Curry._1(f, l1.hd),
-      tl: map_end(f, l1.tl, l2)
-    };
-  } else {
-    return l2;
-  }
+  const f$1 = Curry.__1(f);
+  const map_end$1 = function (l1, l2) {
+    if (l1) {
+      return {
+        hd: f$1(l1.hd),
+        tl: map_end$1(l1.tl, l2)
+      };
+    } else {
+      return l2;
+    }
+  };
+  return map_end$1(l1, l2);
 }
 
 function map_left_right(f, param) {
-  if (!param) {
-    return /* [] */ 0;
-  }
-  const res = Curry._1(f, param.hd);
-  return {
-    hd: res,
-    tl: map_left_right(f, param.tl)
+  const f$1 = Curry.__1(f);
+  const map_left_right$1 = function (param) {
+    if (!param) {
+      return /* [] */ 0;
+    }
+    const res = f$1(param.hd);
+    return {
+      hd: res,
+      tl: map_left_right$1(param.tl)
+    };
   };
+  return map_left_right$1(param);
 }
 
-function for_all2(pred, _l1, _l2) {
+function for_all2(pred, l1, l2) {
+  const pred$1 = Curry.__2(pred);
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    if (!l1) {
-      if (l2) {
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    if (!l1$1) {
+      if (l2$1) {
         return false;
       } else {
         return true;
       }
     }
-    if (!l2) {
+    if (!l2$1) {
       return false;
     }
-    if (!Curry._2(pred, l1.hd, l2.hd)) {
+    if (!pred$1(l1$1.hd, l2$1.hd)) {
       return false;
     }
-    _l2 = l2.tl;
-    _l1 = l1.tl;
+    _l2 = l2$1.tl;
+    _l1 = l1$1.tl;
     continue;
   };
 }
@@ -897,25 +908,28 @@ function split_last(param) {
     });
 }
 
-function samelist(pred, _l1, _l2) {
+function samelist(pred, l1, l2) {
+  const pred$1 = Curry.__2(pred);
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    if (!l1) {
-      if (l2) {
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    if (!l1$1) {
+      if (l2$1) {
         return false;
       } else {
         return true;
       }
     }
-    if (!l2) {
+    if (!l2$1) {
       return false;
     }
-    if (!Curry._2(pred, l1.hd, l2.hd)) {
+    if (!pred$1(l1$1.hd, l2$1.hd)) {
       return false;
     }
-    _l2 = l2.tl;
-    _l1 = l1.tl;
+    _l2 = l2$1.tl;
+    _l1 = l1$1.tl;
     continue;
   };
 }

@@ -14,11 +14,12 @@ const Stdlib__Lexing = require("melange/lexing.js");
 const Stdlib__List = require("melange/list.js");
 
 function get_tokens(lex, str) {
+  const lex$1 = Curry.__1(lex);
   const buf = Stdlib__Lexing.from_string(undefined, str);
   let _acc = /* [] */ 0;
   while (true) {
     const acc = _acc;
-    const v = Curry._1(lex, buf);
+    const v = lex$1(buf);
     if (Caml_obj.caml_equal(v, /* EOF */ 7)) {
       return Stdlib__List.rev(acc);
     }

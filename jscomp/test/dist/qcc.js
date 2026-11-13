@@ -112,8 +112,9 @@ function symstr(n) {
 }
 
 function symitr(f) {
+  const f$1 = Curry.__2(f);
   for (let i = 0, i_finish = syms.contents; i < i_finish; ++i) {
-    Curry._2(f, i, Caml_array.get(symtab, i));
+    f$1(i, Caml_array.get(symtab, i));
   }
 }
 

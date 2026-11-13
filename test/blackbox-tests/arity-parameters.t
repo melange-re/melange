@@ -59,15 +59,18 @@ arity
   const Curry = require("melange.js/curry.js");
   
   function sum(h, xs) {
-    const go = function (f, _acc, _param) {
+    const go = function (f, acc, param) {
+      const f$1 = Curry.__2(f);
+      let _acc = acc;
+      let _param = param;
       while (true) {
-        const param = _param;
-        const acc = _acc;
-        if (!param) {
-          return acc;
+        const param$1 = _param;
+        const acc$1 = _acc;
+        if (!param$1) {
+          return acc$1;
         }
-        _param = param.tl;
-        _acc = Curry._2(f, acc, param.hd);
+        _param = param$1.tl;
+        _acc = f$1(acc$1, param$1.hd);
         continue;
       };
     };

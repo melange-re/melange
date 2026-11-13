@@ -52,15 +52,19 @@ function length(x) {
 }
 
 function map(f, x) {
-  if (/* tag */ typeof x !== "object" && typeof x !== "function") {
-    return /* Nil */ 0;
-  } else {
-    return {
-      TAG: /* Cons */ 0,
-      _0: Curry._1(f, x._0),
-      _1: map(f, x._1)
-    };
-  }
+  const f$1 = Curry.__1(f);
+  const map$1 = function (x) {
+    if (/* tag */ typeof x !== "object" && typeof x !== "function") {
+      return /* Nil */ 0;
+    } else {
+      return {
+        TAG: /* Cons */ 0,
+        _0: f$1(x._0),
+        _1: map$1(x._1)
+      };
+    }
+  };
+  return map$1(x);
 }
 
 function f(x) {

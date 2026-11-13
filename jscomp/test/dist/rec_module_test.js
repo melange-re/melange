@@ -729,113 +729,137 @@ function subset(_s1, _s2) {
   };
 }
 
-function iter(f, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return;
-    }
-    iter(f, param.l);
-    Curry._1(f, param.v);
-    _param = param.r;
-    continue;
+function iter(f, param) {
+  const f$1 = Curry.__1(f);
+  const iter$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return;
+      }
+      iter$1(param.l);
+      f$1(param.v);
+      _param = param.r;
+      continue;
+    };
   };
+  iter$1(param);
 }
 
-function fold(f, _s, _accu) {
-  while (true) {
-    const accu = _accu;
-    const s = _s;
-    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-      return accu;
-    }
-    _accu = Curry._2(f, s.v, fold(f, s.l, accu));
-    _s = s.r;
-    continue;
+function fold(f, s, accu) {
+  const f$1 = Curry.__2(f);
+  const fold$1 = function (_s, _accu) {
+    while (true) {
+      const accu = _accu;
+      const s = _s;
+      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+        return accu;
+      }
+      _accu = f$1(s.v, fold$1(s.l, accu));
+      _s = s.r;
+      continue;
+    };
   };
+  return fold$1(s, accu);
 }
 
-function for_all(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return true;
-    }
-    if (!Curry._1(p, param.v)) {
-      return false;
-    }
-    if (!for_all(p, param.l)) {
-      return false;
-    }
-    _param = param.r;
-    continue;
+function for_all(p, param) {
+  const p$1 = Curry.__1(p);
+  const for_all$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return true;
+      }
+      if (!p$1(param.v)) {
+        return false;
+      }
+      if (!for_all$1(param.l)) {
+        return false;
+      }
+      _param = param.r;
+      continue;
+    };
   };
+  return for_all$1(param);
 }
 
-function exists(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return false;
-    }
-    if (Curry._1(p, param.v)) {
-      return true;
-    }
-    if (exists(p, param.l)) {
-      return true;
-    }
-    _param = param.r;
-    continue;
+function exists(p, param) {
+  const p$1 = Curry.__1(p);
+  const exists$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return false;
+      }
+      if (p$1(param.v)) {
+        return true;
+      }
+      if (exists$1(param.l)) {
+        return true;
+      }
+      _param = param.r;
+      continue;
+    };
   };
+  return exists$1(param);
 }
 
 function filter(p, t) {
-  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = t.r;
-  const v = t.v;
-  const l = t.l;
-  const l$p = filter(p, l);
-  const pv = Curry._1(p, v);
-  const r$p = filter(p, r);
-  if (pv) {
-    if (l === l$p && r === r$p) {
-      return t;
-    } else {
-      return join(l$p, v, r$p);
+  const p$1 = Curry.__1(p);
+  const filter$1 = function (t) {
+    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+      return /* Empty */ 0;
     }
-  } else {
-    return concat(l$p, r$p);
-  }
+    const r = t.r;
+    const v = t.v;
+    const l = t.l;
+    const l$p = filter$1(l);
+    const pv = p$1(v);
+    const r$p = filter$1(r);
+    if (pv) {
+      if (l === l$p && r === r$p) {
+        return t;
+      } else {
+        return join(l$p, v, r$p);
+      }
+    } else {
+      return concat(l$p, r$p);
+    }
+  };
+  return filter$1(t);
 }
 
 function partition(p, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return [
-      /* Empty */ 0,
-      /* Empty */ 0
-    ];
-  }
-  const v = param.v;
-  const match = partition(p, param.l);
-  const lf = match[1];
-  const lt = match[0];
-  const pv = Curry._1(p, v);
-  const match$1 = partition(p, param.r);
-  const rf = match$1[1];
-  const rt = match$1[0];
-  if (pv) {
-    return [
-      join(lt, v, rt),
-      concat(lf, rf)
-    ];
-  } else {
-    return [
-      concat(lt, rt),
-      join(lf, v, rf)
-    ];
-  }
+  const p$1 = Curry.__1(p);
+  const partition$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return [
+        /* Empty */ 0,
+        /* Empty */ 0
+      ];
+    }
+    const v = param.v;
+    const match = partition$1(param.l);
+    const lf = match[1];
+    const lt = match[0];
+    const pv = p$1(v);
+    const match$1 = partition$1(param.r);
+    const rf = match$1[1];
+    const rt = match$1[0];
+    if (pv) {
+      return [
+        join(lt, v, rt),
+        concat(lf, rf)
+      ];
+    } else {
+      return [
+        concat(lt, rt),
+        join(lf, v, rf)
+      ];
+    }
+  };
+  return partition$1(param);
 }
 
 function cardinal(param) {
@@ -894,21 +918,23 @@ function find_first(f, _param) {
     }
     const v = param.v;
     if (Curry._1(f, v)) {
+      let param$1 = param.l;
+      const f$1 = Curry.__1(f);
       let _v0 = v;
-      let _param$1 = param.l;
+      let _param$1 = param$1;
       while (true) {
-        const param$1 = _param$1;
+        const param$2 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
           return v0;
         }
-        const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
-          _param$1 = param$1.l;
+        const v$1 = param$2.v;
+        if (f$1(v$1)) {
+          _param$1 = param$2.l;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$1.r;
+        _param$1 = param$2.r;
         continue;
       };
     }
@@ -925,21 +951,23 @@ function find_first_opt(f, _param) {
     }
     const v = param.v;
     if (Curry._1(f, v)) {
+      let param$1 = param.l;
+      const f$1 = Curry.__1(f);
       let _v0 = v;
-      let _param$1 = param.l;
+      let _param$1 = param$1;
       while (true) {
-        const param$1 = _param$1;
+        const param$2 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
           return Caml_option.some(v0);
         }
-        const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
-          _param$1 = param$1.l;
+        const v$1 = param$2.v;
+        if (f$1(v$1)) {
+          _param$1 = param$2.l;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$1.r;
+        _param$1 = param$2.r;
         continue;
       };
     }
@@ -958,21 +986,23 @@ function find_last(f, _param) {
     }
     const v = param.v;
     if (Curry._1(f, v)) {
+      let param$1 = param.r;
+      const f$1 = Curry.__1(f);
       let _v0 = v;
-      let _param$1 = param.r;
+      let _param$1 = param$1;
       while (true) {
-        const param$1 = _param$1;
+        const param$2 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
           return v0;
         }
-        const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
-          _param$1 = param$1.r;
+        const v$1 = param$2.v;
+        if (f$1(v$1)) {
+          _param$1 = param$2.r;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$1.l;
+        _param$1 = param$2.l;
         continue;
       };
     }
@@ -989,21 +1019,23 @@ function find_last_opt(f, _param) {
     }
     const v = param.v;
     if (Curry._1(f, v)) {
+      let param$1 = param.r;
+      const f$1 = Curry.__1(f);
       let _v0 = v;
-      let _param$1 = param.r;
+      let _param$1 = param$1;
       while (true) {
-        const param$1 = _param$1;
+        const param$2 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
+        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
           return Caml_option.some(v0);
         }
-        const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
-          _param$1 = param$1.r;
+        const v$1 = param$2.v;
+        if (f$1(v$1)) {
+          _param$1 = param$2.r;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$1.l;
+        _param$1 = param$2.l;
         continue;
       };
     }
@@ -1037,47 +1069,55 @@ function try_join(l, v, r) {
 }
 
 function map(f, t) {
-  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = t.r;
-  const v = t.v;
-  const l = t.l;
-  const l$p = map(f, l);
-  const v$p = Curry._1(f, v);
-  const r$p = map(f, r);
-  if (l === l$p && v === v$p && r === r$p) {
-    return t;
-  } else {
-    return try_join(l$p, v$p, r$p);
-  }
+  const f$1 = Curry.__1(f);
+  const map$1 = function (t) {
+    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+      return /* Empty */ 0;
+    }
+    const r = t.r;
+    const v = t.v;
+    const l = t.l;
+    const l$p = map$1(l);
+    const v$p = f$1(v);
+    const r$p = map$1(r);
+    if (l === l$p && v === v$p && r === r$p) {
+      return t;
+    } else {
+      return try_join(l$p, v$p, r$p);
+    }
+  };
+  return map$1(t);
 }
 
 function filter_map(f, t) {
-  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = t.r;
-  const v = t.v;
-  const l = t.l;
-  const l$p = filter_map(f, l);
-  const v$p = Curry._1(f, v);
-  const r$p = filter_map(f, r);
-  if (v$p === undefined) {
-    if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
-      return r$p;
-    } else if (/* tag */ typeof r$p !== "object" && typeof r$p !== "function") {
-      return l$p;
-    } else {
-      return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
+  const f$1 = Curry.__1(f);
+  const filter_map$1 = function (t) {
+    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+      return /* Empty */ 0;
     }
-  }
-  const v$p$1 = Caml_option.valFromOption(v$p);
-  if (l === l$p && v === v$p$1 && r === r$p) {
-    return t;
-  } else {
-    return try_join(l$p, v$p$1, r$p);
-  }
+    const r = t.r;
+    const v = t.v;
+    const l = t.l;
+    const l$p = filter_map$1(l);
+    const v$p = f$1(v);
+    const r$p = filter_map$1(r);
+    if (v$p === undefined) {
+      if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
+        return r$p;
+      } else if (/* tag */ typeof r$p !== "object" && typeof r$p !== "function") {
+        return l$p;
+      } else {
+        return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
+      }
+    }
+    const v$p$1 = Caml_option.valFromOption(v$p);
+    if (l === l$p && v === v$p$1 && r === r$p) {
+      return t;
+    } else {
+      return try_join(l$p, v$p$1, r$p);
+    }
+  };
+  return filter_map$1(t);
 }
 
 function of_list(l) {

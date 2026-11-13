@@ -13,16 +13,18 @@ const Stdlib__Printf = require("melange/printf.js");
 const Stdlib__Uchar = require("melange/uchar.js");
 
 function fold_uchars(f, acc) {
+  let u = Stdlib__Uchar.min;
+  const f$1 = Curry.__2(f);
   let _acc = acc;
-  let _u = Stdlib__Uchar.min;
+  let _u = u;
   while (true) {
-    const u = _u;
+    const u$1 = _u;
     const acc$1 = _acc;
-    const acc$2 = Curry._2(f, acc$1, u);
-    if (u === Stdlib__Uchar.max) {
+    const acc$2 = f$1(acc$1, u$1);
+    if (u$1 === Stdlib__Uchar.max) {
       return acc$2;
     }
-    _u = Stdlib__Uchar.succ(u);
+    _u = Stdlib__Uchar.succ(u$1);
     _acc = acc$2;
     continue;
   };

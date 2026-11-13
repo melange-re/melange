@@ -21,15 +21,19 @@ function cons(x, y) {
 }
 
 function map(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Nil */ 0;
-  } else {
-    return {
-      TAG: /* Cons */ 0,
-      _0: Curry._1(f, param._0),
-      _1: map(f, param._1)
-    };
-  }
+  const f$1 = Curry.__1(f);
+  const map$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Nil */ 0;
+    } else {
+      return {
+        TAG: /* Cons */ 0,
+        _0: f$1(param._0),
+        _1: map$1(param._1)
+      };
+    }
+  };
+  return map$1(param);
 }
 
 function sum(n) {

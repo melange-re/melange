@@ -178,6 +178,8 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     |>  Lam_pass_remove_alias.simplify_alias meta
     |> _d "alpha_conversion"
     |>  Lam_pass_alpha_conversion.alpha_conversion meta
+    |> _d "hoist_curry"
+    |> Lam_pass_hoist_curry.hoist_curry
     |> _d  "before-simplify_lets"
     (* we should investigate a better way to put different passes : )*)
     |> Lam_pass_lets_dce.simplify_lets
