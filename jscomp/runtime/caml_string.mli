@@ -24,3 +24,9 @@
 
 val get : string -> int -> char
 val make : int -> char -> string
+val get16 : string -> int -> int
+val get16u : string -> int -> int
+val get32 : string -> int -> int32
+val get32u : string -> int -> int32
+val get64 : string -> int -> int64
+val get64u : string -> int -> int64

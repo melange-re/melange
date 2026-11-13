@@ -251,13 +251,13 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:"get" args
   | Pstring_load_16 unsafe ->
       let fn = if unsafe then "get16u" else "get16" in
-      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
+      E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:fn args
   | Pstring_load_32 unsafe ->
       let fn = if unsafe then "get32u" else "get32" in
-      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
+      E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:fn args
   | Pstring_load_64 unsafe ->
       let fn = if unsafe then "get64u" else "get64" in
-      E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
+      E.runtime_call ~module_name:Js_runtime_modules.string ~fn_name:fn args
   | Pbytes_load_16 unsafe ->
       let fn = if unsafe then "get16u" else "get16" in
       E.runtime_call ~module_name:Js_runtime_modules.bytes ~fn_name:fn args
