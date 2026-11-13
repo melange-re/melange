@@ -13,7 +13,7 @@ function map(f, a) {
     return [];
   }
   const r = Caml_array.make(l, f$1(a[0]));
-  for (let i = 1; i < l; ++i) {
+  for (let i = 1, i_finish = l; i < i_finish; ++i) {
     r[i] = f$1(a[i]);
   }
   return r;
@@ -31,7 +31,7 @@ function init(l, f) {
       });
   }
   const res = Caml_array.make(l, f$1(0));
-  for (let i = 1; i < l; ++i) {
+  for (let i = 1, i_finish = l; i < i_finish; ++i) {
     res[i] = f$1(i);
   }
   return res;

@@ -27,10 +27,10 @@ function f(H) {
 
 function g(H, count) {
   const tbl = Curry._1(H.create, 17);
-  for (let i = 0; i <= count; ++i) {
+  for (let i = 0, i_finish = count; i <= i_finish; ++i) {
     Curry._3(H.replace, tbl, (i << 1), String(i));
   }
-  for (let i$1 = 0; i$1 <= count; ++i$1) {
+  for (let i$1 = 0, i_finish$1 = count; i$1 <= i_finish$1; ++i$1) {
     Curry._3(H.replace, tbl, (i$1 << 1), String(i$1));
   }
   const v = Curry._3(H.fold, (function (k, v, acc) {

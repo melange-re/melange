@@ -71,11 +71,11 @@ Mt.from_suites("Stdlib_56_updates_test", {
       "hashtable filtering stays consistent when callbacks raise",
       (function (param) {
         const bindings = function (h) {
-          return Stdlib__List.sort(Caml_obj.caml_compare, Stdlib__List.of_seq(Curry._1(Collision_table.to_seq, h)));
+          return Stdlib__List.sort(Caml_obj.caml_compare, Stdlib__List.of_seq(Collision_table.to_seq(h)));
         };
-        const h = Curry._1(Collision_table.create, 16);
+        const h = Collision_table.create(16);
         Stdlib__List.iter((function (k) {
-          Curry._3(Collision_table.add, h, k, k);
+          Collision_table.add(h, k, k);
         }), {
           hd: 0,
           tl: {
@@ -88,7 +88,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
         });
         for (let _for = 1; _for <= 4; ++_for) {
           try {
-            Curry._2(Collision_table.filter_map_inplace, (function (k, param) {
+            Collision_table.filter_map_inplace((function (k, param) {
               if (k === 2) {
                 return;
               }
@@ -112,7 +112,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
             }
             
           }
-          eq(2, Curry._1(Collision_table.length, h));
+          eq(2, Collision_table.length(h));
           eq({
             hd: [
               0,
@@ -127,9 +127,9 @@ Mt.from_suites("Stdlib_56_updates_test", {
             }
           }, bindings(h));
         }
-        const h$1 = Curry._1(Collision_table.create, 16);
+        const h$1 = Collision_table.create(16);
         Stdlib__List.iter((function (k) {
-          Curry._3(Collision_table.add, h$1, k, k);
+          Collision_table.add(h$1, k, k);
         }), {
           hd: 3,
           tl: {
@@ -141,7 +141,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
           }
         });
         try {
-          Curry._2(Collision_table.filter_map_inplace, (function (k, param) {
+          Collision_table.filter_map_inplace((function (k, param) {
             if (k === 1) {
               return 10;
             }
@@ -168,7 +168,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
           }
           
         }
-        eq(2, Curry._1(Collision_table.length, h$1));
+        eq(2, Collision_table.length(h$1));
         eq({
           hd: [
             1,
@@ -331,7 +331,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
               const fails = function (f) {
                 let tmp;
                 try {
-                  Curry._1(f, undefined);
+                  f();
                   tmp = false;
                 }
                 catch (raw_exn){
@@ -405,7 +405,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
                 const fails = function (f) {
                   let tmp;
                   try {
-                    Curry._1(f, undefined);
+                    f();
                     tmp = false;
                   }
                   catch (raw_exn){
@@ -625,7 +625,7 @@ Mt.from_suites("Stdlib_56_updates_test", {
                   const fails = function (f) {
                     let tmp;
                     try {
-                      Curry._1(f, undefined);
+                      f();
                       tmp = false;
                     }
                     catch (raw_exn){

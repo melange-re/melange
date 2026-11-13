@@ -143,10 +143,9 @@ let resolve_external_call_summary ~dynamic_import ident name
       | Some { arity; call_summary; _ } -> (
           if not (Lam_call_summary.is_unknown call_summary) then call_summary
           else
-            match arity with
-            | Single arity when not (Lam_arity.first_arity_na arity) ->
-                direct_external arity ~relocatable:true
-            | Single _ | Submodule _ -> Lam_call_summary.Unknown)
+            let arity = Js_cmj_format.call_arity arity in
+            if Lam_arity.first_arity_na arity then Lam_call_summary.Unknown
+            else direct_external arity ~relocatable:true)
       | None -> Lam_call_summary.Unknown)
 
 let is_relative_external_id id =

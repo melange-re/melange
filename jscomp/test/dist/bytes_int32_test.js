@@ -91,7 +91,7 @@ const suites = Stdlib__List.concat_map((function (offset) {
     };
     const encode = function (set) {
       const bytes = Stdlib__Bytes.make(4 + (offset << 1) | 0, /* '\170' */170);
-      Curry._3(set, bytes, offset, value);
+      set(bytes, offset, value);
       return bytes;
     };
     const test = function (name, f) {

@@ -133,7 +133,7 @@ function starts_with(xs, prefix, p) {
     return false;
   }
   try {
-    for (let i = 0; i < len2; ++i) {
+    for (let i = 0, i_finish = len2; i < i_finish; ++i) {
       if (!Curry._2(p, Caml_bytes.get(xs, i), Caml_bytes.get(prefix, i))) {
         throw new Caml_js_exceptions.MelangeError(H, {
             MEL_EXN_ID: H

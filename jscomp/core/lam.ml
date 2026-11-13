@@ -265,6 +265,19 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       Lsend (k, met, obj, args, loc)
   | Lifused (v, e) -> Lifused (v, f e)
 
+let rec result_expression (lam : t) =
+  match lam with
+  | Llet (_, _, _, body)
+  | Lmutlet (_, _, body)
+  | Lletrec (_, body)
+  | Lsequence (_, body) ->
+      result_expression body
+  | Lvar _ | Lmutvar _ | Lglobal_module _ | Lconst _ | Lapply _ | Lfunction _
+  | Lprim _ | Lswitch _ | Lstringswitch _ | Lstaticraise _ | Lstaticcatch _
+  | Ltrywith _ | Lifthenelse _ | Lwhile _ | Lfor _ | Lassign _ | Lsend _
+  | Lifused _ ->
+      lam
+
 exception Not_simple_form
 
 (*

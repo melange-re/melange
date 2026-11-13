@@ -460,7 +460,7 @@ test_utf(map, Stdlib__Uchar.utf_16_byte_length, Stdlib__Bytes.get_utf_16le_uchar
 function raises(f) {
   let tmp;
   try {
-    Curry._1(f, undefined);
+    f();
     tmp = false;
   }
   catch (raw_exn){

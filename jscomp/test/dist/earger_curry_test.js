@@ -14,7 +14,7 @@ function map(f, a) {
     return [];
   }
   const r = Caml_array.make(l, f$1(a[0]));
-  for (let i = 1; i < l; ++i) {
+  for (let i = 1, i_finish = l; i < i_finish; ++i) {
     r[i] = f$1(a[i]);
   }
   return r;
@@ -32,7 +32,7 @@ function init(l, f) {
       });
   }
   const res = Caml_array.make(l, f$1(0));
-  for (let i = 1; i < l; ++i) {
+  for (let i = 1, i_finish = l; i < i_finish; ++i) {
     res[i] = f$1(i);
   }
   return res;
@@ -139,9 +139,9 @@ const a = f(0)(3, 4);
 
 const b = f(0)(3, 5);
 
-const c = Curry._2(g(0), 3, 4);
+const c = g(0)(3, 4);
 
-const d = Curry._2(g(0), 3, 5);
+const d = g(0)(3, 5);
 
 eq("File \"jscomp/test/earger_curry_test.ml\", line 118, characters 7-14", a, 10);
 

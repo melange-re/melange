@@ -43,6 +43,10 @@ let hash_primitive = make "Caml_hash_primitive"
 let hash = make "Caml_hash"
 let oo = make "Caml_oo"
 let curry = make "Curry"
+
+(* [Curry.__n] and [Curry._n] exist up to this [n], see [number] in
+   [runtime/gen/gen_curry.ml] *)
+let curry_max_arity = 8
 let caml_oo_curry = make "Caml_oo_curry"
 let caml_primitive = make "Caml"
 let int64 = make "Caml_int64"

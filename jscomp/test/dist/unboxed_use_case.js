@@ -2,12 +2,11 @@
 'use strict';
 
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 
 function map_pair(r, param) {
   return [
-    Curry._1(r, param[0]),
-    Curry._1(r, param[1])
+    r(param[0]),
+    r(param[1])
   ];
 }
 
