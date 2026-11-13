@@ -161,6 +161,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
     let lam = Lam_pass_remove_alias.simplify_alias meta lam  in
     let lam = Lam_pass_deep_flatten.deep_flatten lam in
     let ()  = Lam_pass_collect.collect_info meta lam in
+    let () = Lam_param_arity.infer meta lam in
     let lam =
       lam
       |> _d "alpha_before"
@@ -169,6 +170,7 @@ let compile ~package_info (output_prefix: string) (lam: Lambda.lambda) =
       |> Lam_pass_exits.simplify_exits
     in
     let () = Lam_pass_collect.collect_info meta lam in
+    let () = Lam_param_arity.infer meta lam in
 
 
     lam

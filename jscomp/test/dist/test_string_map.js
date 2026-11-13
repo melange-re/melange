@@ -3,14 +3,7 @@
 
 const Caml = require("melange.js/caml.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
-
-const compare = Caml.caml_string_compare;
-
-const funarg = {
-  compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -107,7 +100,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -146,7 +139,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -157,7 +150,7 @@ function find(x, _param) {
 
 function timing(label, f) {
   console.time(label);
-  Curry._1(f, undefined);
+  f();
   console.timeEnd(label);
 }
 
@@ -167,12 +160,12 @@ function assertion_test(param) {
   };
   timing("building", (function (param) {
     for (let i = 0; i <= 1000000; ++i) {
-      m.contents = Curry._3(add, String(i), String(i), m.contents);
+      m.contents = add(String(i), String(i), m.contents);
     }
   }));
   timing("querying", (function (param) {
     for (let i = 0; i <= 1000000; ++i) {
-      Curry._2(find, String(i), m.contents);
+      find(String(i), m.contents);
     }
   }));
 }
@@ -180,4 +173,4 @@ function assertion_test(param) {
 module.exports = {
   assertion_test,
 }
-/* StringMap Not a pure module */
+/* No side effect */

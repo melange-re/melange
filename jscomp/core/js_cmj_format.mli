@@ -46,7 +46,10 @@ open Import
     ]}
 *)
 
-type arity = Single of Lam_arity.t | Submodule of arity array
+type arity =
+  | Single of Lam_arity.t
+  | Submodule of arity array
+  | Functor of { arity : Lam_arity.t; result : arity array }
 
 type nested_call_summary =
   | Call_summary of Lam_call_summary.t
@@ -86,6 +89,7 @@ val make :
 
 val query_by_name : t -> string -> keyed_cmj_value
 val single_na : arity
+val call_arity : arity -> Lam_arity.t
 val call_summary_unknown : nested_call_summary
 val from_file_exn : string -> t
 val from_file : string -> (t, exn) result
