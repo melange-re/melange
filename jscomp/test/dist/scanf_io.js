@@ -155,7 +155,7 @@ function get_lines(fname) {
           _1: s$2
         });
     }
-    throw s;
+    throw raw_s;
   }
 }
 
@@ -194,7 +194,7 @@ function add_digest_ib(ob, ib) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

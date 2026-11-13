@@ -3,16 +3,9 @@
 
 const Caml = require("melange.js/caml.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__List = require("melange/list.js");
-
-const compare = Caml.caml_int_compare;
-
-const funarg = {
-  compare
-};
 
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -109,7 +102,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -148,7 +141,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -158,7 +151,7 @@ function find(x, _param) {
 }
 
 const m = Stdlib__List.fold_left((function (acc, param) {
-  return Curry._3(add, param[0], param[1], acc);
+  return add(param[0], param[1], acc);
 }), /* Empty */ 0, {
   hd: [
     10,
@@ -184,12 +177,6 @@ const m = Stdlib__List.fold_left((function (acc, param) {
     }
   }
 });
-
-const compare$1 = Caml.caml_string_compare;
-
-const funarg$1 = {
-  compare: compare$1
-};
 
 function height$1(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -286,7 +273,7 @@ function add$1(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -325,7 +312,7 @@ function find$1(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -335,7 +322,7 @@ function find$1(x, _param) {
 }
 
 const s = Stdlib__List.fold_left((function (acc, param) {
-  return Curry._3(add$1, param[0], param[1], acc);
+  return add$1(param[0], param[1], acc);
 }), /* Empty */ 0, {
   hd: [
     "10",
@@ -368,7 +355,7 @@ Mt.from_pair_suites("Map_find_test", {
     (function (param) {
       return {
         TAG: /* Eq */ 0,
-        _0: Curry._2(find, 10, m),
+        _0: find(10, m),
         _1: /* 'a' */97
       };
     })
@@ -379,7 +366,7 @@ Mt.from_pair_suites("Map_find_test", {
       (function (param) {
         return {
           TAG: /* Eq */ 0,
-          _0: Curry._2(find$1, "10", s),
+          _0: find$1("10", s),
           _1: /* 'a' */97
         };
       })
@@ -387,4 +374,4 @@ Mt.from_pair_suites("Map_find_test", {
     tl: /* [] */ 0
   }
 });
-/* IntMap Not a pure module */
+/* m Not a pure module */

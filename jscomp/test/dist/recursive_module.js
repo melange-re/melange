@@ -116,7 +116,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib__Lazy.Undefined) {
     tmp = -1;
   } else {
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -196,7 +196,7 @@ catch (raw_exn$1){
   if (exn$1.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
     tmp$1 = 4;
   } else {
-    throw exn$1;
+    throw raw_exn$1;
   }
 }
 

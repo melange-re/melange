@@ -4,7 +4,6 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
 const CamlinternalLazy = require("melange/camlinternalLazy.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib__List = require("melange/list.js");
 
@@ -109,7 +108,10 @@ function fib(n) {
 }
 
 function zs(param) {
-  return Stdlib__List.hd(xs[0]);
+  return Stdlib__List.hd({
+    hd: 2,
+    tl: /* [] */ 0
+  });
 }
 
 const xs_0 = {
@@ -129,8 +131,6 @@ function fib2(n) {
     return fib2(n - 1 | 0) + fib2(n - 2 | 0) | 0;
   }
 }
-
-const two = 2;
 
 function fib3(n) {
   if (n === 0 || n === 1) {
@@ -499,7 +499,7 @@ const suites_1 = {
                           if (rec_variant_b.TAG === /* B */ 0) {
                             return {
                               TAG: /* Eq */ 0,
-                              _0: Curry._1(rec_variant_b_1, undefined),
+                              _0: rec_variant_b_1(),
                               _1: rec_variant_a
                             };
                           }
@@ -520,7 +520,7 @@ const suites_1 = {
                             if (rec_variant_a.TAG !== /* B */ 0) {
                               return {
                                 TAG: /* Eq */ 0,
-                                _0: Curry._1(rec_variant_a_1, undefined),
+                                _0: rec_variant_a_1(),
                                 _1: rec_variant_b
                               };
                             }
@@ -564,9 +564,9 @@ function fake_inline_minus(n) {
   return n + 1 | 0;
 }
 
-const fake_inline = fake_inline_minus;
-
-const fake_inline_inlie2 = fake_inline_minus(3);
+function fake_inline(n) {
+  return n + 1 | 0;
+}
 
 let u = [];
 
@@ -577,7 +577,11 @@ Caml_obj.update_dummy(u, [
 
 Mt.from_pair_suites("Rec_value_test", suites);
 
+const two = 2;
+
 const v$1 = 3;
+
+const fake_inline_inlie2 = 4;
 
 module.exports = {
   x,

@@ -194,7 +194,7 @@ function next(param) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
   if (c === undefined) {
@@ -1712,7 +1712,7 @@ function elfgen(outf) {
     symitr(function (i, s) {
       const g = Caml_array.get(globs, i);
       if (g.va < 0 && g.loc !== 0) {
-        return Curry._3(f, s, s.length, g.loc);
+        return f(s, s.length, g.loc);
       }
       
     });
@@ -1970,7 +1970,7 @@ function main(param) {
       };
       let stk = /* [] */ 0;
       opos.contents = 0;
-      Curry._1(c, stk);
+      c(stk);
       return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
       let _param;

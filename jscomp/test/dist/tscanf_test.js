@@ -1940,7 +1940,7 @@ function scan_elems$2(ib, accu) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2414,7 +2414,7 @@ test("File \"jscomp/test/tscanf_test.ml\", line 506, characters 5-12", test22())
 
 function scan_elems$5(ib, scan_elem, accu) {
   try {
-    return Curry._2(scan_elem, ib, (function (i, s) {
+    return Curry._1(scan_elem(ib), (function (i, s) {
       const accu$1 = {
         hd: i,
         tl: accu
@@ -2431,7 +2431,7 @@ function scan_elems$5(ib, scan_elem, accu) {
     if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       return accu;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2670,7 +2670,7 @@ function test28(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 609, characters 5-12", test28());
 
 function scan_elems$6(ib, scan_elem, accu) {
-  return Curry._3(scan_elem, ib, (function (i, s) {
+  return scan_elem(ib, (function (i, s) {
     const accu$1 = {
       hd: i,
       tl: accu
@@ -2839,7 +2839,7 @@ function scan_elem(fmt, ib, f, ek) {
 }
 
 function scan_elems$7(ib, scan_elem, accu) {
-  return Curry._3(scan_elem, ib, (function (i) {
+  return scan_elem(ib, (function (i) {
     const accu$1 = {
       hd: i,
       tl: accu
@@ -2941,10 +2941,10 @@ function scan_string_list(param) {
 }
 
 function test31(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1]")), {
       hd: 1,
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+    }) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -2957,7 +2957,7 @@ function test31(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
+    return Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -2978,10 +2978,10 @@ function test31(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 714, characters 5-12", test31());
 
 function test32(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
       hd: "1",
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+    }) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -2994,7 +2994,7 @@ function test32(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
+    return Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -3103,10 +3103,10 @@ function scan_string_list$1(param) {
 }
 
 function test33(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1 ]")), {
+  if (Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ 1 ]")), {
       hd: 1,
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
+    }) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -3119,7 +3119,7 @@ function test33(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
+    return Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -3140,10 +3140,10 @@ function test33(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 773, characters 5-12", test33());
 
 function test34(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
       hd: "1",
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+    }) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -3156,7 +3156,7 @@ function test34(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
+    return Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
       hd: "1",
       tl: {
         hd: "2",

@@ -285,7 +285,7 @@ function find(startOpt, sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -335,7 +335,7 @@ function rfind(sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

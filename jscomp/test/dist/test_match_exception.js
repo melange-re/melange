@@ -14,7 +14,7 @@ function f(g, x) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 3;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

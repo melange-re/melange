@@ -80,7 +80,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib.Match_failure) {
     h = 2;
   } else {
-    throw exn;
+    throw raw_exn;
   }
 }
 

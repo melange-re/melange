@@ -73,7 +73,7 @@ type t =
       call_summary : Lam_call_summary.t;
     }
   | Exception
-  | Parameter
+  | Parameter of Lam_arity.t
       (** For this case, it can help us determine whether it should be inlined or not *)
   | NA
       (** Not such information is associated with an identifier, it is immutable,
@@ -115,5 +115,5 @@ let print =
     | FunctionId { call_summary; _ } ->
         pp fmt "FunctionID(%a)" Lam_call_summary.print call_summary
     | Exception -> pp fmt "Exception"
-    | Parameter -> pp fmt "Parameter"
+    | Parameter _ -> pp fmt "Parameter"
     | NA -> pp fmt "NA"

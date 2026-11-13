@@ -81,11 +81,6 @@ let simplify_alias =
     | Lam.App_na -> { ap_info with ap_status = Lam.App_infer_full }
     | Lam.App_infer_full | Lam.App_uncurry -> ap_info
   in
-  let fully_applied_external arity args =
-    match arity with
-    | Js_cmj_format.Single arity -> fully_applied arity args
-    | Js_cmj_format.Submodule _ -> false
-  in
   let direct_external_field ~dynamic_import ident name ~loc =
     Lam.prim
       ~primitive:(Pfield (0, Fld_module { name }))
@@ -159,7 +154,7 @@ let simplify_alias =
     | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->
         Eval_false
-    | Constant _ | Module _ | FunctionId _ | Exception | Parameter | NA
+    | Constant _ | Module _ | FunctionId _ | Exception | Parameter _ | NA
     | OptionalBlock (_, (Undefined | Null | Null_undefined))
     | (exception Not_found) ->
         Eval_unknown
@@ -167,7 +162,7 @@ let simplify_alias =
   let parameter_arg_id (tbl : Lam_id_kind.t Ident.Hashtbl.t) = function
     | Lam.Lvar p | Lam.Lmutvar p -> (
         match Ident.Hashtbl.find tbl p with
-        | Parameter -> Some p
+        | Parameter _ -> Some p
         | _ | (exception Not_found) -> None)
     | _ -> None
   in
@@ -347,6 +342,24 @@ let simplify_alias =
     | Lletrec (bindings, body) ->
         let bindings = List.map_snd bindings ~f:(simpl meta) in
         Lam.letrec bindings (simpl meta body)
+    | Lapply
+        {
+          ap_func =
+            Llet
+              ( _,
+                _,
+                arg,
+                (Lprim
+                   {
+                     primitive = Pfield (_, Fld_module _);
+                     args = [ Lglobal_module _ ];
+                     _;
+                   } as fn) );
+          ap_args;
+          ap_info;
+        }
+      when Lam_analysis.no_side_effects arg ->
+        simpl meta (Lam.apply fn ap_args ap_info)
     (* complicated
            1. inline this function
            2. ...
@@ -377,7 +390,7 @@ let simplify_alias =
               _;
             }
           when Lam_primitive.is_relocatable primitive
-               && fully_applied_external arity args ->
+               && fully_applied (Js_cmj_format.call_arity arity) args ->
             Lam.prim ~primitive
               ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc

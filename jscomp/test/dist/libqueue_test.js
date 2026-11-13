@@ -51,7 +51,7 @@ function does_raise(f, q) {
     if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
