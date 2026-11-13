@@ -1,0 +1,14 @@
+diff --git a/otherlibs/unix/socketpair_win32.c b/otherlibs/unix/socketpair_win32.c
+--- a/otherlibs/unix/socketpair_win32.c
++++ b/otherlibs/unix/socketpair_win32.c
+@@ -40,7 +40,7 @@
+ /* from win32.c */
+-extern DWORD (WINAPI *caml_get_temp_path)(DWORD, LPWSTR);
+-extern INIT_ONCE caml_get_temp_path_init_once;
+-BOOL WINAPI caml_get_temp_path_init(PINIT_ONCE, PVOID, PVOID *);
++CAMLextern DWORD (WINAPI *caml_get_temp_path)(DWORD, LPWSTR);
++CAMLextern INIT_ONCE caml_get_temp_path_init_once;
++CAMLextern BOOL WINAPI caml_get_temp_path_init(PINIT_ONCE, PVOID, PVOID *);
+
+ /* Generate a unique path without creating a file first.
+    This avoids a TOCTOU race between file creation and socket binding. */

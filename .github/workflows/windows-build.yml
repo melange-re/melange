@@ -1,0 +1,117 @@
+name: Windows Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and test (Windows)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          release: false
+          path-type: inherit
+          install: tree jq diffutils
+
+      - name: Prepare the OCaml Windows patch
+        run: |
+          # OCaml#13450 introduced runtime imports without CAMLextern, which
+          # prevents loading the Unix DLL (flexdll RELOC_REL32 errors).
+          repository="$RUNNER_TEMP/ocaml-opam-repository"
+          package="$repository/packages/ocaml-compiler/ocaml-compiler.5.6"
+          mkdir -p "$package/files"
+          printf 'opam-version: "2.0"\n' > "$repository/repo"
+          curl --fail --location https://raw.githubusercontent.com/ocaml/opam-repository/bcc2da6752351c6d9fc2f77401ddc7d764ab9732/packages/ocaml-compiler/ocaml-compiler.5.6/opam -o "$package/opam"
+          sed -i 's@archive/5.6.tar.gz@archive/ff7a95dcc5a56e363a2b53b497ed8c49846813e3.tar.gz@' "$package/opam"
+          printf '\npatches: ["ocaml-windows-unix.patch"]\n' >> "$package/opam"
+          checksum=$(sha256sum .github/patches/ocaml-windows-unix.patch | cut -d ' ' -f 1)
+          printf 'extra-files: [["ocaml-windows-unix.patch" "sha256=%s"]]\n' "$checksum" >> "$package/opam"
+          cp .github/patches/ocaml-windows-unix.patch "$package/files/"
+          printf 'OCAML_WINDOWS_REPOSITORY=%s\n' "$(cygpath -m "$repository")" >> "$GITHUB_ENV"
+
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ocaml-variants.5.6.0+trunk
+          windows-environment: msys2
+          cache-prefix: windows-${{ hashFiles('.github/patches/ocaml-windows-unix.patch') }}
+          opam-repositories: |
+            windows: ${{ env.OCAML_WINDOWS_REPOSITORY }}
+            default: https://opam.ocaml.org
+
+      - name: Install dependencies
+        run: |
+          # Match the versions used by the Unix opam jobs.
+          opam pin add dune.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add dune-build-info.3.25.0~alpha0 git+https://github.com/anmonteiro/dune.git#d244859fa04e4b0156b36cb0cea1995fd051a43d -y --no-action
+          opam pin add reason https://github.com/reasonml/reason/archive/02024f3641892afa2fd26a10e4ad9bf74904cb71.tar.gz -y --no-action
+          opam install . --deps-only --with-test -y
+          npm install --global mocha
+
+      - name: Build and install
+        id: build
+        run: |
+          opam exec -- dune build -p melange,melange-playground @install
+          opam install . --assume-built -y
+
+      - name: Run unit and blackbox tests
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: opam exec -- dune runtest -p melange,melange-playground
+
+      - name: Run JavaScript runtime tests
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: |
+          opam exec -- dune build @melange-runtime-tests --profile=release
+          mocha "jscomp/test/dist/**/*_test.*js"
+
+      - name: Build and run the opam template
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        env:
+          OPAMSWITCH: ${{ github.workspace }}
+        run: |
+          git clone --depth 1 https://github.com/melange-re/melange-opam-template.git "$RUNNER_TEMP/melange-opam-template"
+          cd "$RUNNER_TEMP/melange-opam-template"
+          opam install reason-react -y
+          npm install
+          opam exec -- dune build @react @node --profile=release --display=short
+          npm run bundle
+          node ./_build/default/src/node/src/Hello.mjs
+
+      - name: Collect opam build logs
+        if: failure()
+        run: |
+          mkdir -p ci-logs
+          for log in "$OPAMROOT"/log/*.out; do
+            if [ -f "$log" ]; then cp "$log" ci-logs/; fi
+          done
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: windows-build-logs
+          path: |
+            ci-logs
+            _build/log
+            _build/default/test/**/*.corrected
+            _build/default/test/unit-tests/_build/_tests/**

@@ -16,7 +16,7 @@ Test that the location snippet appears in a ppx-processed compilation error
   > let x: nope = addOne 2
   > EOF
 
-  $ export DUNE_SANDBOX=symlink
+  $ export DUNE_SANDBOX="$melange_sandbox"
   $ dune build @melange
   File "foo.ml", line 1, characters 7-11:
   1 | let x: nope = addOne 2

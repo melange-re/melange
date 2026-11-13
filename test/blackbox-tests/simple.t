@@ -16,13 +16,11 @@ and example of using just the `-bs-module-type` flag when generating JS
 
   $ cd lib/
   $ melc $PKG_NAME -bs-package-output commonjs:./lib:.js -bs-stop-after-cmj -nopervasives a.ml
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ cd app/
   $ melc $PKG_NAME -bs-package-output commonjs:./app:.js -I ../lib b.ml -nopervasives -bs-stop-after-cmj
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
 The linking step shouldn't need package specs.
 Melange should just have a flag for module system, and you can define
@@ -32,13 +30,11 @@ Just used for the module system and extension in this phase
 
   $ cd output/lib
   $ melc $PKG_NAME -bs-package-output commonjs:./lib:.js -nopervasives ../../lib/a.cmj -o a.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ cd output/app/
   $ melc $PKG_NAME -bs-package-output commonjs:./app:.js -nopervasives -I ../../lib ../../app/b.cmj -o b.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
 B imports A with the correct paths
 

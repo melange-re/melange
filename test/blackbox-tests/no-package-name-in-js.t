@@ -22,26 +22,22 @@ Can't `-bs-module-type` and `-bs-package-output`
 Now compile for real
 
   $ melc -bs-package-output lib/ -bs-stop-after-cmj a.ml
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ cd app/
   $ melc -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
 The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
   $ cd output/lib
   $ melc -bs-module-type commonjs ../../lib/a.cmj -o a.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ cd output/app/
   $ melc -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
 B depends on A, so it should import a.js in the right path
 
@@ -65,13 +61,11 @@ Now generate ES6 imports and a `.mjs` extension from the same `.cmj`
 
   $ cd es6-output/lib
   $ melc -bs-module-type es6 ../../lib/a.cmj -o a.mjs
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ cd es6-output/app/
   $ melc -bs-module-type es6 -I ../../lib ../../app/b.cmj -o b.mjs
-  $ cd -
-  $TESTCASE_ROOT
+  $ cd - > /dev/null
 
   $ ls es6-output/app
   b.mjs
