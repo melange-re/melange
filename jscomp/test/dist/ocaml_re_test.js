@@ -1501,7 +1501,7 @@ function find_state(re, desc) {
       Curry._3(Re_automata_State.Table.add, re.states, desc, st);
       return st;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -1582,7 +1582,7 @@ function $$final(info, st, cat) {
       };
       return res;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -1603,7 +1603,7 @@ function find_initial_state(re, cat) {
       };
       return st;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -1727,7 +1727,7 @@ function trans_set(cache, cm, s) {
       cache.contents = add(v, l, cache.contents);
       return l;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -3322,7 +3322,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
         return false;
       }
-      throw raw_exn;
+      throw exn$1;
     }
   };
   const get = function (param) {
@@ -3346,6 +3346,35 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         _1: r
       };
     }
+  };
+  const branch$p = function (_left) {
+    while (true) {
+      const left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(Stdlib__List.rev(left));
+      }
+      _left = {
+        hd: piece(),
+        tl: left
+      };
+      continue;
+    };
+  };
+  const regexp$p = function (_left) {
+    while (true) {
+      const left = _left;
+      if (!accept(/* '|' */124)) {
+        return left;
+      }
+      _left = alt$1({
+        hd: left,
+        tl: {
+          hd: branch$p(/* [] */ 0),
+          tl: /* [] */ 0
+        }
+      });
+      continue;
+    };
   };
   const integer = function (param) {
     if (i.contents === l) {
@@ -3377,417 +3406,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         continue;
       };
     }
-  };
-  const $$char = function (param) {
-    if (i.contents === l) {
-      throw new Caml_js_exceptions.MelangeError(Parse_error, {
-          MEL_EXN_ID: Parse_error
-        });
-    }
-    const c = get();
-    if (c === /* '[' */91) {
-      if (accept(/* '=' */61)) {
-        throw new Caml_js_exceptions.MelangeError(Not_supported, {
-            MEL_EXN_ID: Not_supported
-          });
-      }
-      if (accept(/* ':' */58)) {
-        const compl$1 = accept(/* '^' */94);
-        let cls;
-        try {
-          cls = Stdlib__List.find(accept_s, {
-            hd: "alnum",
-            tl: {
-              hd: "ascii",
-              tl: {
-                hd: "blank",
-                tl: {
-                  hd: "cntrl",
-                  tl: {
-                    hd: "digit",
-                    tl: {
-                      hd: "lower",
-                      tl: {
-                        hd: "print",
-                        tl: {
-                          hd: "space",
-                          tl: {
-                            hd: "upper",
-                            tl: {
-                              hd: "word",
-                              tl: {
-                                hd: "punct",
-                                tl: {
-                                  hd: "graph",
-                                  tl: {
-                                    hd: "xdigit",
-                                    tl: /* [] */ 0
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-        catch (raw_exn){
-          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-            throw new Caml_js_exceptions.MelangeError(Parse_error, {
-                MEL_EXN_ID: Parse_error
-              });
-          }
-          throw raw_exn;
-        }
-        if (!accept_s(":]")) {
-          throw new Caml_js_exceptions.MelangeError(Parse_error, {
-              MEL_EXN_ID: Parse_error
-            });
-        }
-        const posix_class = posix_class_of_string(cls);
-        const re = compl$1 ? compl({
-            hd: posix_class,
-            tl: /* [] */ 0
-          }) : posix_class;
-        return {
-          NAME: "Set",
-          VAL: re
-        };
-      }
-      if (!accept(/* '.' */46)) {
-        return {
-          NAME: "Char",
-          VAL: c
-        };
-      }
-      if (i.contents === l) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-            MEL_EXN_ID: Parse_error
-          });
-      }
-      const c$1 = get();
-      if (!accept(/* '.' */46)) {
-        throw new Caml_js_exceptions.MelangeError(Not_supported, {
-            MEL_EXN_ID: Not_supported
-          });
-      }
-      if (!accept(/* ']' */93)) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-            MEL_EXN_ID: Parse_error
-          });
-      }
-      return {
-        NAME: "Char",
-        VAL: c$1
-      };
-    }
-    if (c !== /* '\\' */92) {
-      return {
-        NAME: "Char",
-        VAL: c
-      };
-    }
-    const c$2 = get();
-    if (c$2 >= 58) {
-      if (c$2 >= 123) {
-        return {
-          NAME: "Char",
-          VAL: c$2
-        };
-      }
-      switch (c$2) {
-        case 68 :
-          return {
-            NAME: "Set",
-            VAL: compl({
-              hd: digit,
-              tl: /* [] */ 0
-            })
-          };
-        case 83 :
-          return {
-            NAME: "Set",
-            VAL: compl({
-              hd: space,
-              tl: /* [] */ 0
-            })
-          };
-        case 87 :
-          return {
-            NAME: "Set",
-            VAL: compl({
-              hd: alnum,
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '_' */95,
-                      /* '_' */95
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: /* [] */ 0
-              }
-            })
-          };
-        case 58 :
-        case 59 :
-        case 60 :
-        case 61 :
-        case 62 :
-        case 63 :
-        case 64 :
-        case 91 :
-        case 92 :
-        case 93 :
-        case 94 :
-        case 95 :
-        case 96 :
-          return {
-            NAME: "Char",
-            VAL: c$2
-          };
-        case 98 :
-          return {
-            NAME: "Char",
-            VAL: /* '\b' */8
-          };
-        case 100 :
-          return {
-            NAME: "Set",
-            VAL: digit
-          };
-        case 110 :
-          return {
-            NAME: "Char",
-            VAL: /* '\n' */10
-          };
-        case 114 :
-          return {
-            NAME: "Char",
-            VAL: /* '\r' */13
-          };
-        case 115 :
-          return {
-            NAME: "Set",
-            VAL: space
-          };
-        case 116 :
-          return {
-            NAME: "Char",
-            VAL: /* '\t' */9
-          };
-        case 119 :
-          return {
-            NAME: "Set",
-            VAL: alt$1({
-              hd: alnum,
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '_' */95,
-                      /* '_' */95
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: /* [] */ 0
-              }
-            })
-          };
-        case 65 :
-        case 66 :
-        case 67 :
-        case 69 :
-        case 70 :
-        case 71 :
-        case 72 :
-        case 73 :
-        case 74 :
-        case 75 :
-        case 76 :
-        case 77 :
-        case 78 :
-        case 79 :
-        case 80 :
-        case 81 :
-        case 82 :
-        case 84 :
-        case 85 :
-        case 86 :
-        case 88 :
-        case 89 :
-        case 90 :
-        case 97 :
-        case 99 :
-        case 101 :
-        case 102 :
-        case 103 :
-        case 104 :
-        case 105 :
-        case 106 :
-        case 107 :
-        case 108 :
-        case 109 :
-        case 111 :
-        case 112 :
-        case 113 :
-        case 117 :
-        case 118 :
-        case 120 :
-        case 121 :
-        case 122 :
-          throw new Caml_js_exceptions.MelangeError(Parse_error, {
-              MEL_EXN_ID: Parse_error
-            });
-      }
-    } else {
-      if (c$2 >= 48) {
-        throw new Caml_js_exceptions.MelangeError(Not_supported, {
-            MEL_EXN_ID: Not_supported
-          });
-      }
-      return {
-        NAME: "Char",
-        VAL: c$2
-      };
-    }
-  };
-  const bracket = function (_s) {
-    while (true) {
-      const s = _s;
-      if (Caml_obj.caml_notequal(s, /* [] */ 0) && accept(/* ']' */93)) {
-        return s;
-      }
-      const match = $$char();
-      if (match.NAME === "Char") {
-        const c = match.VAL;
-        if (accept(/* '-' */45)) {
-          if (accept(/* ']' */93)) {
-            return {
-              hd: {
-                TAG: /* Set */ 0,
-                _0: single(c)
-              },
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '-' */45,
-                      /* '-' */45
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: s
-              }
-            };
-          }
-          const match$1 = $$char();
-          if (match$1.NAME !== "Char") {
-            return {
-              hd: {
-                TAG: /* Set */ 0,
-                _0: single(c)
-              },
-              tl: {
-                hd: {
-                  TAG: /* Set */ 0,
-                  _0: {
-                    hd: [
-                      /* '-' */45,
-                      /* '-' */45
-                    ],
-                    tl: /* [] */ 0
-                  }
-                },
-                tl: {
-                  hd: match$1.VAL,
-                  tl: s
-                }
-              }
-            };
-          }
-          _s = {
-            hd: {
-              TAG: /* Set */ 0,
-              _0: seq(c, match$1.VAL)
-            },
-            tl: s
-          };
-          continue;
-        }
-        _s = {
-          hd: {
-            TAG: /* Set */ 0,
-            _0: single(c)
-          },
-          tl: s
-        };
-        continue;
-      }
-      _s = {
-        hd: match.VAL,
-        tl: s
-      };
-      continue;
-    };
-  };
-  const branch$p = function (_left) {
-    while (true) {
-      const left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(Stdlib__List.rev(left));
-      }
-      _left = {
-        hd: piece(),
-        tl: left
-      };
-      continue;
-    };
-  };
-  const piece = function (param) {
-    const r = atom();
-    if (accept(/* '*' */42)) {
-      return greedy_mod(repn(r, 0, undefined));
-    }
-    if (accept(/* '+' */43)) {
-      return greedy_mod(repn(r, 1, undefined));
-    }
-    if (accept(/* '?' */63)) {
-      return greedy_mod(repn(r, 0, 1));
-    }
-    if (!accept(/* '{' */123)) {
-      return r;
-    }
-    const i$1 = integer();
-    if (i$1 !== undefined) {
-      const j = accept(/* ',' */44) ? integer() : i$1;
-      if (!accept(/* '}' */125)) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-            MEL_EXN_ID: Parse_error
-          });
-      }
-      if (j !== undefined && j < i$1) {
-        throw new Caml_js_exceptions.MelangeError(Parse_error, {
-            MEL_EXN_ID: Parse_error
-          });
-      }
-      return greedy_mod(repn(r, i$1, j));
-    }
-    i.contents = i.contents - 1 | 0;
-    return r;
   };
   const atom = function (param) {
     if (accept(/* '.' */46)) {
@@ -4038,21 +3656,403 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       };
     }
   };
-  const regexp$p = function (_left) {
+  const bracket = function (_s) {
     while (true) {
-      const left = _left;
-      if (!accept(/* '|' */124)) {
-        return left;
+      const s = _s;
+      if (Caml_obj.caml_notequal(s, /* [] */ 0) && accept(/* ']' */93)) {
+        return s;
       }
-      _left = alt$1({
-        hd: left,
-        tl: {
-          hd: branch$p(/* [] */ 0),
-          tl: /* [] */ 0
+      const match = $$char();
+      if (match.NAME === "Char") {
+        const c = match.VAL;
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
+            return {
+              hd: {
+                TAG: /* Set */ 0,
+                _0: single(c)
+              },
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '-' */45,
+                      /* '-' */45
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: s
+              }
+            };
+          }
+          const match$1 = $$char();
+          if (match$1.NAME !== "Char") {
+            return {
+              hd: {
+                TAG: /* Set */ 0,
+                _0: single(c)
+              },
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '-' */45,
+                      /* '-' */45
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: {
+                  hd: match$1.VAL,
+                  tl: s
+                }
+              }
+            };
+          }
+          _s = {
+            hd: {
+              TAG: /* Set */ 0,
+              _0: seq(c, match$1.VAL)
+            },
+            tl: s
+          };
+          continue;
         }
-      });
+        _s = {
+          hd: {
+            TAG: /* Set */ 0,
+            _0: single(c)
+          },
+          tl: s
+        };
+        continue;
+      }
+      _s = {
+        hd: match.VAL,
+        tl: s
+      };
       continue;
     };
+  };
+  const $$char = function (param) {
+    if (i.contents === l) {
+      throw new Caml_js_exceptions.MelangeError(Parse_error, {
+          MEL_EXN_ID: Parse_error
+        });
+    }
+    const c = get();
+    if (c === /* '[' */91) {
+      if (accept(/* '=' */61)) {
+        throw new Caml_js_exceptions.MelangeError(Not_supported, {
+            MEL_EXN_ID: Not_supported
+          });
+      }
+      if (accept(/* ':' */58)) {
+        const compl$1 = accept(/* '^' */94);
+        let cls;
+        try {
+          cls = Stdlib__List.find(accept_s, {
+            hd: "alnum",
+            tl: {
+              hd: "ascii",
+              tl: {
+                hd: "blank",
+                tl: {
+                  hd: "cntrl",
+                  tl: {
+                    hd: "digit",
+                    tl: {
+                      hd: "lower",
+                      tl: {
+                        hd: "print",
+                        tl: {
+                          hd: "space",
+                          tl: {
+                            hd: "upper",
+                            tl: {
+                              hd: "word",
+                              tl: {
+                                hd: "punct",
+                                tl: {
+                                  hd: "graph",
+                                  tl: {
+                                    hd: "xdigit",
+                                    tl: /* [] */ 0
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+        catch (raw_exn){
+          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+          if (exn.MEL_EXN_ID === Stdlib.Not_found) {
+            throw new Caml_js_exceptions.MelangeError(Parse_error, {
+                MEL_EXN_ID: Parse_error
+              });
+          }
+          throw exn;
+        }
+        if (!accept_s(":]")) {
+          throw new Caml_js_exceptions.MelangeError(Parse_error, {
+              MEL_EXN_ID: Parse_error
+            });
+        }
+        const posix_class = posix_class_of_string(cls);
+        const re = compl$1 ? compl({
+            hd: posix_class,
+            tl: /* [] */ 0
+          }) : posix_class;
+        return {
+          NAME: "Set",
+          VAL: re
+        };
+      }
+      if (!accept(/* '.' */46)) {
+        return {
+          NAME: "Char",
+          VAL: c
+        };
+      }
+      if (i.contents === l) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+            MEL_EXN_ID: Parse_error
+          });
+      }
+      const c$1 = get();
+      if (!accept(/* '.' */46)) {
+        throw new Caml_js_exceptions.MelangeError(Not_supported, {
+            MEL_EXN_ID: Not_supported
+          });
+      }
+      if (!accept(/* ']' */93)) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+            MEL_EXN_ID: Parse_error
+          });
+      }
+      return {
+        NAME: "Char",
+        VAL: c$1
+      };
+    }
+    if (c !== /* '\\' */92) {
+      return {
+        NAME: "Char",
+        VAL: c
+      };
+    }
+    const c$2 = get();
+    if (c$2 >= 58) {
+      if (c$2 >= 123) {
+        return {
+          NAME: "Char",
+          VAL: c$2
+        };
+      }
+      switch (c$2) {
+        case 68 :
+          return {
+            NAME: "Set",
+            VAL: compl({
+              hd: digit,
+              tl: /* [] */ 0
+            })
+          };
+        case 83 :
+          return {
+            NAME: "Set",
+            VAL: compl({
+              hd: space,
+              tl: /* [] */ 0
+            })
+          };
+        case 87 :
+          return {
+            NAME: "Set",
+            VAL: compl({
+              hd: alnum,
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '_' */95,
+                      /* '_' */95
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: /* [] */ 0
+              }
+            })
+          };
+        case 58 :
+        case 59 :
+        case 60 :
+        case 61 :
+        case 62 :
+        case 63 :
+        case 64 :
+        case 91 :
+        case 92 :
+        case 93 :
+        case 94 :
+        case 95 :
+        case 96 :
+          return {
+            NAME: "Char",
+            VAL: c$2
+          };
+        case 98 :
+          return {
+            NAME: "Char",
+            VAL: /* '\b' */8
+          };
+        case 100 :
+          return {
+            NAME: "Set",
+            VAL: digit
+          };
+        case 110 :
+          return {
+            NAME: "Char",
+            VAL: /* '\n' */10
+          };
+        case 114 :
+          return {
+            NAME: "Char",
+            VAL: /* '\r' */13
+          };
+        case 115 :
+          return {
+            NAME: "Set",
+            VAL: space
+          };
+        case 116 :
+          return {
+            NAME: "Char",
+            VAL: /* '\t' */9
+          };
+        case 119 :
+          return {
+            NAME: "Set",
+            VAL: alt$1({
+              hd: alnum,
+              tl: {
+                hd: {
+                  TAG: /* Set */ 0,
+                  _0: {
+                    hd: [
+                      /* '_' */95,
+                      /* '_' */95
+                    ],
+                    tl: /* [] */ 0
+                  }
+                },
+                tl: /* [] */ 0
+              }
+            })
+          };
+        case 65 :
+        case 66 :
+        case 67 :
+        case 69 :
+        case 70 :
+        case 71 :
+        case 72 :
+        case 73 :
+        case 74 :
+        case 75 :
+        case 76 :
+        case 77 :
+        case 78 :
+        case 79 :
+        case 80 :
+        case 81 :
+        case 82 :
+        case 84 :
+        case 85 :
+        case 86 :
+        case 88 :
+        case 89 :
+        case 90 :
+        case 97 :
+        case 99 :
+        case 101 :
+        case 102 :
+        case 103 :
+        case 104 :
+        case 105 :
+        case 106 :
+        case 107 :
+        case 108 :
+        case 109 :
+        case 111 :
+        case 112 :
+        case 113 :
+        case 117 :
+        case 118 :
+        case 120 :
+        case 121 :
+        case 122 :
+          throw new Caml_js_exceptions.MelangeError(Parse_error, {
+              MEL_EXN_ID: Parse_error
+            });
+      }
+    } else {
+      if (c$2 >= 48) {
+        throw new Caml_js_exceptions.MelangeError(Not_supported, {
+            MEL_EXN_ID: Not_supported
+          });
+      }
+      return {
+        NAME: "Char",
+        VAL: c$2
+      };
+    }
+  };
+  const piece = function (param) {
+    const r = atom();
+    if (accept(/* '*' */42)) {
+      return greedy_mod(repn(r, 0, undefined));
+    }
+    if (accept(/* '+' */43)) {
+      return greedy_mod(repn(r, 1, undefined));
+    }
+    if (accept(/* '?' */63)) {
+      return greedy_mod(repn(r, 0, 1));
+    }
+    if (!accept(/* '{' */123)) {
+      return r;
+    }
+    const i$1 = integer();
+    if (i$1 !== undefined) {
+      const j = accept(/* ',' */44) ? integer() : i$1;
+      if (!accept(/* '}' */125)) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+            MEL_EXN_ID: Parse_error
+          });
+      }
+      if (j !== undefined && j < i$1) {
+        throw new Caml_js_exceptions.MelangeError(Parse_error, {
+            MEL_EXN_ID: Parse_error
+          });
+      }
+      return greedy_mod(repn(r, i$1, j));
+    }
+    i.contents = i.contents - 1 | 0;
+    return r;
   };
   const res = regexp$p(branch$p(/* [] */ 0));
   if (i.contents !== l) {

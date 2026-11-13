@@ -40,18 +40,18 @@ function path_as_directory(x) {
 }
 
 function absolute_path(s) {
-  const s$1 = Curry._1(Stdlib__Filename.is_relative, s) ? Stdlib__Filename.concat(CamlinternalLazy.force(cwd), s) : s;
+  const s$1 = Stdlib__Filename.is_relative(s) ? Stdlib__Filename.concat(CamlinternalLazy.force(cwd), s) : s;
   const aux = function (_s) {
     while (true) {
       const s = _s;
-      const base = Curry._1(Stdlib__Filename.basename, s);
-      const dir = Curry._1(Stdlib__Filename.dirname, s);
+      const base = Stdlib__Filename.basename(s);
+      const dir = Stdlib__Filename.dirname(s);
       if (dir === s) {
         return dir;
       }
       if (base !== Stdlib__Filename.current_dir_name) {
         if (base === Stdlib__Filename.parent_dir_name) {
-          return Curry._1(Stdlib__Filename.dirname, aux(dir));
+          return Stdlib__Filename.dirname(aux(dir));
         } else {
           return Stdlib__Filename.concat(aux(dir), base);
         }
@@ -97,7 +97,7 @@ function chop_extension(locOpt, name) {
         _1: "Filename.chop_extension ( %s : %s )"
       }), loc, name);
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -110,15 +110,15 @@ function chop_extension_if_any(fname) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
 const os_path_separator_char = Stdlib__Filename.dir_sep.charCodeAt(0);
 
 function relative_path(file_or_dir_1, file_or_dir_2) {
-  const relevant_dir1 = file_or_dir_1.NAME === "File" ? Curry._1(Stdlib__Filename.dirname, file_or_dir_1.VAL) : file_or_dir_1.VAL;
-  const relevant_dir2 = file_or_dir_2.NAME === "File" ? Curry._1(Stdlib__Filename.dirname, file_or_dir_2.VAL) : file_or_dir_2.VAL;
+  const relevant_dir1 = file_or_dir_1.NAME === "File" ? Stdlib__Filename.dirname(file_or_dir_1.VAL) : file_or_dir_1.VAL;
+  const relevant_dir2 = file_or_dir_2.NAME === "File" ? Stdlib__Filename.dirname(file_or_dir_2.VAL) : file_or_dir_2.VAL;
   const dir1 = Ext_string_test.split(undefined, relevant_dir1, os_path_separator_char);
   const dir2 = Ext_string_test.split(undefined, relevant_dir2, os_path_separator_char);
   const go = function (_dir1, _dir2) {
@@ -163,7 +163,7 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
       }) : ({
         NAME: "Dir",
         VAL: absolute_path(file1.VAL)
-      })) + (node_sep + Curry._1(Stdlib__Filename.basename, file2));
+      })) + (node_sep + Stdlib__Filename.basename(file2));
   }
   const skip = function (_i) {
     while (true) {
@@ -200,7 +200,7 @@ function find_root_filename(_cwd, filename) {
     if (Caml_external_polyfill.resolve("caml_sys_file_exists")(Stdlib__Filename.concat(cwd, filename))) {
       return cwd;
     }
-    const cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
+    const cwd$p = Stdlib__Filename.dirname(cwd);
     if (cwd$p.length >= cwd.length) {
       return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", {
         TAG: /* Format */ 0,
@@ -238,12 +238,12 @@ const package_dir = {
 };
 
 function module_name_of_file(file) {
-  const s = Stdlib__Filename.chop_extension(Curry._1(Stdlib__Filename.basename, file));
+  const s = Stdlib__Filename.chop_extension(Stdlib__Filename.basename(file));
   return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s)));
 }
 
 function module_name_of_file_if_any(file) {
-  const s = chop_extension_if_any(Curry._1(Stdlib__Filename.basename, file));
+  const s = chop_extension_if_any(Stdlib__Filename.basename(file));
   return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s)));
 }
 
@@ -252,7 +252,7 @@ function combine(p1, p2) {
     return p2;
   } else if (p2 === "" || p2 === Stdlib__Filename.current_dir_name) {
     return p1;
-  } else if (Curry._1(Stdlib__Filename.is_relative, p2)) {
+  } else if (Stdlib__Filename.is_relative(p2)) {
     return Stdlib__Filename.concat(p1, p2);
   } else {
     return p2;
@@ -265,14 +265,14 @@ function split_aux(p) {
   while (true) {
     const acc = _acc;
     const p$1 = _p;
-    const dir = Curry._1(Stdlib__Filename.dirname, p$1);
+    const dir = Stdlib__Filename.dirname(p$1);
     if (dir === p$1) {
       return [
         dir,
         acc
       ];
     }
-    const new_path = Curry._1(Stdlib__Filename.basename, p$1);
+    const new_path = Stdlib__Filename.basename(p$1);
     if (new_path === Stdlib__Filename.dir_sep) {
       _p = dir;
       continue;

@@ -113,21 +113,17 @@ function elements(s) {
   return elements_aux(/* [] */ 0, s);
 }
 
-function iter(f, param) {
-  const f$1 = Curry.__1(f);
-  const iter$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return;
-      }
-      iter$1(param._0);
-      f$1(param._1);
-      _param = param._2;
-      continue;
-    };
+function iter(f, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return;
+    }
+    iter(f, param._0);
+    f(param._1);
+    _param = param._2;
+    continue;
   };
-  iter$1(param);
 }
 
 function fold(f, s, accu) {
@@ -147,46 +143,38 @@ function fold(f, s, accu) {
   return fold$1(s, accu);
 }
 
-function for_all(p, param) {
-  const p$1 = Curry.__1(p);
-  const for_all$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return true;
-      }
-      if (!p$1(param._1)) {
-        return false;
-      }
-      if (!for_all$1(param._0)) {
-        return false;
-      }
-      _param = param._2;
-      continue;
-    };
+function for_all(p, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return true;
+    }
+    if (!p(param._1)) {
+      return false;
+    }
+    if (!for_all(p, param._0)) {
+      return false;
+    }
+    _param = param._2;
+    continue;
   };
-  return for_all$1(param);
 }
 
-function exists(p, param) {
-  const p$1 = Curry.__1(p);
-  const exists$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return false;
-      }
-      if (p$1(param._1)) {
-        return true;
-      }
-      if (exists$1(param._0)) {
-        return true;
-      }
-      _param = param._2;
-      continue;
-    };
+function exists(p, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return false;
+    }
+    if (p(param._1)) {
+      return true;
+    }
+    if (exists(p, param._0)) {
+      return true;
+    }
+    _param = param._2;
+    continue;
   };
-  return exists$1(param);
 }
 
 function max_int3(a, b, c) {
@@ -406,54 +394,46 @@ function internal_concat(t1, t2) {
 }
 
 function filter(p, param) {
-  const p$1 = Curry.__1(p);
-  const filter$1 = function (param) {
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return /* Empty */ 0;
-    }
-    const v = param._1;
-    const l$p = filter$1(param._0);
-    const pv = p$1(v);
-    const r$p = filter$1(param._2);
-    if (pv) {
-      return internal_join(l$p, v, r$p);
-    } else {
-      return internal_concat(l$p, r$p);
-    }
-  };
-  return filter$1(param);
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return /* Empty */ 0;
+  }
+  const v = param._1;
+  const l$p = filter(p, param._0);
+  const pv = p(v);
+  const r$p = filter(p, param._2);
+  if (pv) {
+    return internal_join(l$p, v, r$p);
+  } else {
+    return internal_concat(l$p, r$p);
+  }
 }
 
 function partition(p, param) {
-  const p$1 = Curry.__1(p);
-  const partition$1 = function (param) {
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return [
-        /* Empty */ 0,
-        /* Empty */ 0
-      ];
-    }
-    const v = param._1;
-    const match = partition$1(param._0);
-    const lf = match[1];
-    const lt = match[0];
-    const pv = p$1(v);
-    const match$1 = partition$1(param._2);
-    const rf = match$1[1];
-    const rt = match$1[0];
-    if (pv) {
-      return [
-        internal_join(lt, v, rt),
-        internal_concat(lf, rf)
-      ];
-    } else {
-      return [
-        internal_concat(lt, rt),
-        internal_join(lf, v, rf)
-      ];
-    }
-  };
-  return partition$1(param);
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return [
+      /* Empty */ 0,
+      /* Empty */ 0
+    ];
+  }
+  const v = param._1;
+  const match = partition(p, param._0);
+  const lf = match[1];
+  const lt = match[0];
+  const pv = p(v);
+  const match$1 = partition(p, param._2);
+  const rf = match$1[1];
+  const rt = match$1[0];
+  if (pv) {
+    return [
+      internal_join(lt, v, rt),
+      internal_concat(lf, rf)
+    ];
+  } else {
+    return [
+      internal_concat(lt, rt),
+      internal_join(lf, v, rf)
+    ];
+  }
 }
 
 function of_sorted_list(l) {

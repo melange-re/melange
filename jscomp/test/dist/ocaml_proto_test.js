@@ -246,19 +246,17 @@ function pop_last(param) {
     });
 }
 
-function apply_until(f, param) {
-  const f$1 = Curry.__1(f);
-  let _param = param;
+function apply_until(f, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    const x = f$1(param$1.hd);
+    const x = f(param.hd);
     if (x !== undefined) {
       return x;
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
@@ -1620,7 +1618,7 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
       case 3 :
         return /* String_eof */ 0;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -1649,7 +1647,7 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
       case 2 :
         return /* Comment_eof */ 0;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -1682,7 +1680,7 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
       case 3 :
         return /* Comment_eof */ 0;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -1835,7 +1833,7 @@ function lexer(lexbuf) {
             _1: s$1
           });
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -2057,7 +2055,7 @@ function scope(scope$1, f) {
   const sub_scope = {
     items: /* [] */ 0
   };
-  Curry._1(f, sub_scope);
+  f(sub_scope);
   scope$1.items = {
     hd: {
       TAG: /* Scope */ 1,
@@ -4089,7 +4087,7 @@ function string_of_option(f, x) {
         }
       },
       _1: "Some(%s)"
-    }), Curry._1(f, Caml_option.valFromOption(x)));
+    }), f(Caml_option.valFromOption(x)));
   } else {
     return "None";
   }
@@ -7153,7 +7151,7 @@ function label_name_of_field_name(s) {
 }
 
 function module_of_file_name(file_name) {
-  const file_name$1 = Curry._1(Stdlib__Filename.basename, file_name);
+  const file_name$1 = Stdlib__Filename.basename(file_name);
   let dot_index;
   try {
     dot_index = Stdlib__String.rindex(file_name$1, /* '.' */46);
@@ -7856,7 +7854,7 @@ function compile(proto_definition) {
       }
     },
     _1: "(** %s Generated Types and Encoding *)"
-  }), Curry._1(Stdlib__Filename.basename, proto_file_name)));
+  }), Stdlib__Filename.basename(proto_file_name)));
   gen(all_ocaml_types, sc$1, Stdlib__List.map((function (m) {
     return [
       m.gen_sig,

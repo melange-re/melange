@@ -3,7 +3,6 @@
 
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Js__Js_exn = require("melange.js/js_exn.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
@@ -74,7 +73,7 @@ catch (raw_x){
       };
     }));
   } else {
-    throw raw_x;
+    throw x;
   }
 }
 
@@ -95,7 +94,7 @@ const C = /* @__PURE__ */ Caml_exceptions.create("Js_exception_catch_test.C");
 
 function test(f) {
   try {
-    Curry._1(f, undefined);
+    f();
     return "No_error";
   }
   catch (raw_e){

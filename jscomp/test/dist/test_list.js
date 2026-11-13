@@ -149,16 +149,14 @@ function rev_map(f, l) {
   };
 }
 
-function iter(f, param) {
-  const f$1 = Curry.__1(f);
-  let _param = param;
+function iter(f, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    f$1(param$1.hd);
-    _param = param$1.tl;
+    f(param.hd);
+    _param = param.tl;
     continue;
   };
 }
@@ -356,34 +354,30 @@ function fold_right2(f, l1, l2, accu) {
   return fold_right2$1(l1, l2, accu);
 }
 
-function for_all(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function for_all(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return true;
     }
-    if (!p$1(param$1.hd)) {
+    if (!p(param.hd)) {
       return false;
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
 
-function exists(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function exists(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return false;
     }
-    if (p$1(param$1.hd)) {
+    if (p(param.hd)) {
       return true;
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
@@ -572,17 +566,15 @@ function remove_assq(x, param) {
   }
 }
 
-function find(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function find(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (param$1) {
-      const x = param$1.hd;
-      if (p$1(x)) {
+    const param = _param;
+    if (param) {
+      const x = param.hd;
+      if (p(x)) {
         return x;
       }
-      _param = param$1.tl;
+      _param = param.tl;
       continue;
     }
     throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
@@ -592,7 +584,6 @@ function find(p, param) {
 }
 
 function find_all(p) {
-  const p$1 = Curry.__1(p);
   return function (param) {
     let _accu = /* [] */ 0;
     let _param = param;
@@ -604,7 +595,7 @@ function find_all(p) {
       }
       const l = param$1.tl;
       const x = param$1.hd;
-      if (p$1(x)) {
+      if (p(x)) {
         _param = l;
         _accu = {
           hd: x,
@@ -619,7 +610,6 @@ function find_all(p) {
 }
 
 function partition(p, l) {
-  const p$1 = Curry.__1(p);
   let _yes = /* [] */ 0;
   let _no = /* [] */ 0;
   let _param = l;
@@ -635,7 +625,7 @@ function partition(p, l) {
     }
     const l$1 = param.tl;
     const x = param.hd;
-    if (p$1(x)) {
+    if (p(x)) {
       _param = l$1;
       _yes = {
         hd: x,

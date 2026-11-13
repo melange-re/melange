@@ -12,7 +12,6 @@ const Caml_obj = require("melange.js/caml_obj.js");
 const Caml_string = require("melange.js/caml_string.js");
 const Caml_sys = require("melange.js/caml_sys.js");
 const CamlinternalFormatBasics = require("melange/camlinternalFormatBasics.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function failwith(s) {
@@ -515,17 +514,17 @@ const exit_function = {
 function at_exit(f) {
   const g = exit_function.contents;
   exit_function.contents = (function (param) {
-    Curry._1(f, undefined);
-    Curry._1(g, undefined);
+    f();
+    g();
   });
 }
 
 function do_at_exit(param) {
-  Curry._1(exit_function.contents, undefined);
+  exit_function.contents();
 }
 
 function exit(retcode) {
-  Curry._1(exit_function.contents, undefined);
+  exit_function.contents();
   return Caml_sys.caml_sys_exit(retcode);
 }
 

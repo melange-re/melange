@@ -375,7 +375,7 @@ Stdlib__Array.iteri(swap, map);
 
 function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
   const f = function (param, u) {
-    const utf_len$1 = Curry._1(utf_len, u);
+    const utf_len$1 = utf_len(u);
     const buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -438,7 +438,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
           ]
         });
     }
-    if (!Curry._1(utf_is_valid, buf)) {
+    if (!utf_is_valid(buf)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -470,7 +470,7 @@ function raises(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw raw_exn;
+      throw exn;
     }
   }
   if (tmp) {

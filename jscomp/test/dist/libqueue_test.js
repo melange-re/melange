@@ -3,7 +3,6 @@
 
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib__List = require("melange/list.js");
 const Stdlib__Queue = require("melange/queue.js");
 
@@ -43,7 +42,7 @@ const Q = {
 
 function does_raise(f, q) {
   try {
-    Curry._1(f, q);
+    f(q);
     return false;
   }
   catch (raw_exn){
@@ -51,7 +50,7 @@ function does_raise(f, q) {
     if (exn.MEL_EXN_ID === Stdlib__Queue.Empty) {
       return true;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 

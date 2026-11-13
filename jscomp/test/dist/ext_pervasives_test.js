@@ -64,7 +64,7 @@ function is_pos_pow(n) {
     if (exn.MEL_EXN_ID === E) {
       return -1;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 

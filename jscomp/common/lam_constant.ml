@@ -28,17 +28,21 @@ type pointer_info =
   | None
   | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
+  | Pt_recursive_module_shape of Lambda.recursive_module_shape
   | Some of string
 
 let comment_of_pointer_info = function
   | Some name -> Option.Some name
   | Pt_constructor { name = { Lambda.name; _ }; _ } -> Some name
   | Pt_assertfalse -> Some "assert_false"
+  | Pt_recursive_module_shape Function -> Some "Function"
+  | Pt_recursive_module_shape Lazy -> Some "Lazy"
+  | Pt_recursive_module_shape Class -> Some "Class"
   | None -> None
 
 let modifier_of_pointer_info = function
   | Pt_constructor { name = { as_modifier; _ }; _ } -> as_modifier
-  | Pt_assertfalse | Some _ | None -> None
+  | Pt_assertfalse | Pt_recursive_module_shape _ | Some _ | None -> None
 
 type t =
   | Const_js_null

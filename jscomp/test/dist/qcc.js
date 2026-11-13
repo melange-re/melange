@@ -65,8 +65,8 @@ const ungetch = match[1];
 const getch = match[0];
 
 function peekch(param) {
-  const ch = Curry._1(getch, undefined);
-  Curry._1(ungetch, ch);
+  const ch = getch();
+  ungetch(ch);
   return ch;
 }
 
@@ -127,11 +127,11 @@ const gpos = {
 const s = Caml_bytes.caml_create_bytes(100);
 
 function getq(param) {
-  const c = Curry._1(getch, undefined);
+  const c = getch();
   if (c !== 92 || peekch() !== /* 'n' */110) {
     return c;
   } else {
-    Curry._1(getch, undefined);
+    getch();
     return /* '\n' */10;
   }
 }
@@ -146,21 +146,21 @@ function isid(param) {
 
 function skip(_param) {
   while (true) {
-    const ch = Curry._1(getch, undefined);
+    const ch = getch();
     if (ch >= 14) {
       if (ch !== 32) {
         if (ch !== 47 || peekch() !== /* '*' */42) {
           return ch;
         } else {
-          let _param$1 = (Curry._1(getch, undefined), undefined);
+          let _param$1 = (getch(), undefined);
           while (true) {
-            const match = Curry._1(getch, undefined);
+            const match = getch();
             if (match !== 42) {
               _param$1 = undefined;
               continue;
             }
             if (peekch() === /* '/' */47) {
-              return skip((Curry._1(getch, undefined), undefined));
+              return skip((getch(), undefined));
             }
             _param$1 = undefined;
             continue;
@@ -195,7 +195,7 @@ function next(param) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
-      throw raw_exn;
+      throw exn;
     }
   }
   if (c === undefined) {
@@ -215,7 +215,7 @@ function next(param) {
         _e = e + 1 | 0;
         continue;
       }
-      Curry._1(getch, undefined);
+      getch();
       gpos.contents = e + 8 & -8;
       return {
         TAG: /* SLit */ 2,
@@ -236,14 +236,14 @@ function next(param) {
             _0: n
           };
         }
-        _n = (Math.imul(10, n) + Curry._1(getch, undefined) | 0) - 48 | 0;
+        _n = (Math.imul(10, n) + getch() | 0) - 48 | 0;
         continue;
       };
     }
     
   } else if (c === 39) {
     const ch = getq();
-    const qt = Curry._1(getch, undefined);
+    const qt = getch();
     if (qt !== /* '\'' */39) {
       throw new Caml_js_exceptions.MelangeError("Failure", {
           MEL_EXN_ID: "Failure",
@@ -268,7 +268,7 @@ function next(param) {
           _0: addsym(Stdlib__Bytes.to_string(Stdlib__Bytes.sub(s, 0, n$1 + 1 | 0)))
         };
       }
-      _ch = Curry._1(getch, undefined);
+      _ch = getch();
       _n$1 = n$1 + 1 | 0;
       continue;
     };
@@ -314,7 +314,7 @@ function next(param) {
       }
       const lop = param$1.hd;
       if (Caml_string.get(lop, 0) === c && Caml_string.get(lop, 1) === peekch()) {
-        Curry._1(getch, undefined);
+        getch();
         return {
           TAG: /* Op */ 0,
           _0: lop
@@ -333,8 +333,8 @@ const unnext = match$1[1];
 const next$1 = match$1[0];
 
 function nextis(t) {
-  const nt = Curry._1(next$1, undefined);
-  Curry._1(unnext, nt);
+  const nt = next$1();
+  unnext(nt);
   return Caml_obj.caml_equal(t, nt);
 }
 
@@ -883,7 +883,7 @@ function binary(stk, lvl) {
   const foldtst = function (_loc) {
     while (true) {
       const loc = _loc;
-      const o = Curry._1(next$1, undefined);
+      const o = next$1();
       if (o.TAG === /* Op */ 0) {
         if (lvlof(o._0) === lvl) {
           const loc$p = test(lvl - 8 | 0, loc);
@@ -891,10 +891,10 @@ function binary(stk, lvl) {
           _loc = loc$p;
           continue;
         }
-        Curry._1(unnext, o);
+        unnext(o);
         return loc;
       }
-      Curry._1(unnext, o);
+      unnext(o);
       return loc;
     };
   };
@@ -902,13 +902,13 @@ function binary(stk, lvl) {
   if (lvl < 8) {
     let _param;
     while (true) {
-      const o = Curry._1(next$1, undefined);
+      const o = next$1();
       if (o.TAG !== /* Op */ 0) {
-        return Curry._1(unnext, o);
+        return unnext(o);
       }
       const o$1 = o._0;
       if (lvlof(o$1) !== lvl) {
-        return Curry._1(unnext, o);
+        return unnext(o);
       }
       push(0);
       binary(stk, lvl - 1 | 0);
@@ -929,7 +929,7 @@ function binary(stk, lvl) {
 }
 
 function unary(stk) {
-  const i = Curry._1(next$1, undefined);
+  const i = next$1();
   switch (i.TAG) {
     case /* Op */ 0 :
       const o = i._0;
@@ -939,14 +939,14 @@ function unary(stk) {
           return patchlval();
         case "(" :
           expr(stk);
-          Curry._1(next$1, undefined);
+          next$1();
           return postfix(stk);
         case "*" :
-          Curry._1(next$1, undefined);
-          const t = Curry._1(next$1, undefined);
+          next$1();
+          const t = next$1();
           let match;
           if (Caml_obj.caml_equal(t, tokint)) {
-            match = Caml_obj.caml_equal(Curry._1(next$1, undefined), {
+            match = Caml_obj.caml_equal(next$1(), {
               TAG: /* Op */ 0,
               _0: "*"
             }) ? [
@@ -968,7 +968,7 @@ function unary(stk) {
               });
           }
           for (let _k = 1, _k_finish = match[1]; _k <= _k_finish; ++_k) {
-            Curry._1(next$1, undefined);
+            next$1();
           }
           unary(stk);
           return read(match[0]);
@@ -1069,9 +1069,9 @@ function unary(stk) {
 }
 
 function postfix(stk) {
-  const op = Curry._1(next$1, undefined);
+  const op = next$1();
   if (op.TAG !== /* Op */ 0) {
-    return Curry._1(unnext, op);
+    return unnext(op);
   }
   const op$1 = op._0;
   switch (op$1) {
@@ -1084,7 +1084,7 @@ function postfix(stk) {
               TAG: /* Op */ 0,
               _0: ")"
             })) {
-            Curry._1(next$1, undefined);
+            next$1();
             return Stdlib__List.iter(pop, l);
           }
           expr(stk);
@@ -1093,7 +1093,7 @@ function postfix(stk) {
               TAG: /* Op */ 0,
               _0: ","
             })) {
-            Curry._1(next$1, undefined);
+            next$1();
           }
           _rl = Stdlib__List.tl(rl);
           _l = {
@@ -1138,7 +1138,7 @@ function postfix(stk) {
     case "--" :
       break;
     default:
-      return Curry._1(unnext, op);
+      return unnext(op);
   }
   patchlval();
   out(4753857);
@@ -1189,12 +1189,12 @@ function expr(stk) {
   binary(stk, 10);
   let _param;
   while (true) {
-    const t = Curry._1(next$1, undefined);
+    const t = next$1();
     if (t.TAG !== /* Op */ 0) {
-      return Curry._1(unnext, t);
+      return unnext(t);
     }
     if (t._0 !== "=") {
-      return Curry._1(unnext, t);
+      return unnext(t);
     }
     patchlval();
     const ty = lval.contents[1];
@@ -1215,7 +1215,7 @@ function decl(g, _n, _stk) {
   while (true) {
     const stk = _stk;
     const n = _n;
-    const t = Curry._1(next$1, undefined);
+    const t = next$1();
     if (Caml_obj.caml_equal(t, tokint)) {
       const top = stk ? stk.hd[1] : 0;
       const vars = function (_n, _stk) {
@@ -1226,7 +1226,7 @@ function decl(g, _n, _stk) {
               TAG: /* Op */ 0,
               _0: "*"
             })) {
-            Curry._1(next$1, undefined);
+            next$1();
           };
           if (nextis({
               TAG: /* Op */ 0,
@@ -1237,7 +1237,7 @@ function decl(g, _n, _stk) {
               stk
             ];
           }
-          const s = Curry._1(next$1, undefined);
+          const s = next$1();
           if (s.TAG === /* Sym */ 3) {
             const s$1 = s._0;
             const n$p = n + 1 | 0;
@@ -1275,7 +1275,7 @@ function decl(g, _n, _stk) {
                 stk$p
               ];
             }
-            Curry._1(next$1, undefined);
+            next$1();
             _stk = stk$p;
             _n = n$p;
             continue;
@@ -1287,7 +1287,7 @@ function decl(g, _n, _stk) {
         };
       };
       const match = vars(0, stk);
-      Curry._1(next$1, undefined);
+      next$1();
       if (dbg.contents) {
         Curry._1(Stdlib__Printf.eprintf({
           TAG: /* Format */ 0,
@@ -1313,7 +1313,7 @@ function decl(g, _n, _stk) {
       _n = n + match[0] | 0;
       continue;
     }
-    Curry._1(unnext, t);
+    unnext(t);
     if (!g && n !== 0) {
       if ((n << 3) >= 256) {
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -1345,18 +1345,18 @@ const retl = {
 
 function stmt(brk, stk) {
   const pexpr = function (stk) {
-    Curry._1(next$1, undefined);
+    next$1();
     expr(stk);
-    Curry._1(next$1, undefined);
+    next$1();
   };
-  const t = Curry._1(next$1, undefined);
+  const t = next$1();
   if (Caml_obj.caml_equal(t, tokif)) {
     pexpr(stk);
     const loc = test(0, 0);
     stmt(brk, stk);
     let loc$1;
     if (nextis(tokelse)) {
-      Curry._1(next$1, undefined);
+      next$1();
       out(233);
       const l = opos.contents;
       le(32, 0);
@@ -1383,14 +1383,14 @@ function stmt(brk, stk) {
         loc$2
       ];
     } else {
-      Curry._1(next$1, undefined);
+      next$1();
       if (!nextis({
           TAG: /* Op */ 0,
           _0: ";"
         })) {
         expr(stk);
       }
-      Curry._1(next$1, undefined);
+      next$1();
       const top = opos.contents;
       if (nextis({
           TAG: /* Op */ 0,
@@ -1401,13 +1401,13 @@ function stmt(brk, stk) {
         expr(stk);
         bl.contents = test(0, 0);
       }
-      Curry._1(next$1, undefined);
+      next$1();
       out(233);
       const bdy = opos.contents;
       le(32, 0);
       const itr = opos.contents;
       expr(stk);
-      Curry._1(next$1, undefined);
+      next$1();
       out(233);
       le(32, (top - opos.contents | 0) - 4 | 0);
       match = [
@@ -1431,7 +1431,7 @@ function stmt(brk, stk) {
       })) {
       expr(stk);
     }
-    Curry._1(next$1, undefined);
+    next$1();
     out(233);
     const loc$3 = opos.contents;
     le(32, retl.contents);
@@ -1439,7 +1439,7 @@ function stmt(brk, stk) {
     return;
   }
   if (Caml_obj.caml_equal(t, tokbreak)) {
-    Curry._1(next$1, undefined);
+    next$1();
     const brkl = brk[0];
     const n = align.contents - brk[1] | 0;
     if (n < 0) {
@@ -1470,9 +1470,9 @@ function stmt(brk, stk) {
         return block(brk, stk);
     }
   }
-  Curry._1(unnext, t);
+  unnext(t);
   expr(stk);
-  Curry._1(next$1, undefined);
+  next$1();
 }
 
 function block(brk, stk) {
@@ -1485,7 +1485,7 @@ function block(brk, stk) {
     })) {
     stmt(brk, stk$p);
   };
-  Curry._1(next$1, undefined);
+  next$1();
   if (n !== 0) {
     out(4752324);
     out((n << 3));
@@ -1508,7 +1508,7 @@ function top(_param) {
       _param = undefined;
       continue;
     }
-    const f = Curry._1(next$1, undefined);
+    const f = next$1();
     if (f.TAG === /* Sym */ 3) {
       const f$1 = f._0;
       const g = Caml_array.get(globs, f$1);
@@ -1527,7 +1527,7 @@ function top(_param) {
           const stk = _stk;
           const n = _n;
           const regs = _regs;
-          const i = Curry._1(next$1, undefined);
+          const i = next$1();
           switch (i.TAG) {
             case /* Op */ 0 :
               if (i._0 === ")") {
@@ -1550,7 +1550,7 @@ function top(_param) {
                   TAG: /* Op */ 0,
                   _0: ","
                 })) {
-                Curry._1(next$1, undefined);
+                next$1();
               }
               const stk$p_0 = [
                 i._0,
@@ -1567,7 +1567,7 @@ function top(_param) {
           }
         };
       };
-      Curry._1(next$1, undefined);
+      next$1();
       align.contents = 0;
       out(85);
       out(4753893);
@@ -1590,7 +1590,7 @@ function top(_param) {
           }
         }
       }, 1, /* [] */ 0);
-      while (Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
+      while (Caml_obj.caml_notequal(next$1(), {
           TAG: /* Op */ 0,
           _0: "{"
         })) {
@@ -1976,7 +1976,7 @@ function main(param) {
     case "-lex" :
       let _param;
       while (true) {
-        const tok = Curry._1(next$1, undefined);
+        const tok = next$1();
         if (tok.TAG === /* Op */ 0) {
           if (tok._0 === "EOF!") {
             return Stdlib__Printf.printf({

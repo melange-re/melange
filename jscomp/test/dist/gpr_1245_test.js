@@ -41,14 +41,14 @@ function a0(f) {
 function a1(f) {
   const E = /* @__PURE__ */ Caml_exceptions.create("E");
   try {
-    return Curry._1(f, undefined);
+    return f();
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === E) {
       return 1;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 

@@ -94,6 +94,28 @@ let collect_info =
         | Some (_, _, _, _ :: _) | None -> None)
     | _ -> None
   in
+  let rec field_of_shape (meta : Lam_stats.t) (shape : Lam.Constant.t)
+      (element : Lam_id_kind.Element.t) : Lam_id_kind.Element.t =
+    match (shape, element) with
+    | ( Const_int { comment = Pt_recursive_module_shape Function; _ },
+        (Function _ as element) ) ->
+        element
+    | ( Const_int { comment = Pt_recursive_module_shape Function; _ },
+        SimpleForm lam ) ->
+        Function (Lam_arity_analysis.get_arity meta lam)
+    | ( Const_block
+          (_, Blk_constructor _, [ Const_block (_, Blk_array, components) ]),
+        ImmutableBlock elements )
+      when List.length components = Array.length elements ->
+        ImmutableBlock
+          (Array.map2 (Array.of_list components) elements
+             ~f:(fun (component : Lam.Constant.t) element ->
+               match component with
+               | Const_block (_, Blk_tuple, [ shape; Const_string _ ]) ->
+                   field_of_shape meta shape element
+               | _ -> NA))
+    | _ -> NA
+  in
   let rec collect_bind (meta : Lam_stats.t) rec_flag
       (mutability : Asttypes.mutable_flag) (ident : Ident.t) (lam : Lam.t) =
     match lam with
@@ -224,6 +246,21 @@ let collect_info =
               bindings);
         collect meta body
     | Lglobal_module _ -> ()
+    | Lprim
+        { primitive = Pupdate_mod; args = [ Lconst shape; Lvar m; value ]; _ }
+      -> (
+        collect meta value;
+        let result = Lam.result_expression value in
+        let element =
+          match functor_result result with
+          | Some fields -> Lam_id_kind.Element.ImmutableBlock fields
+          | None -> Lam_id_kind.Element.of_lambda result
+        in
+        match field_of_shape meta shape element with
+        | ImmutableBlock fields ->
+            Ident.Hashtbl.replace meta.ident_tbl ~key:m
+              ~data:(ImmutableBlock fields)
+        | NA | SimpleForm _ | Function _ -> ())
     | Lprim { args; _ } -> List.iter ~f:(collect meta) args
     | Lswitch (l, { sw_failaction; sw_consts; sw_blocks; _ }) ->
         collect meta l;

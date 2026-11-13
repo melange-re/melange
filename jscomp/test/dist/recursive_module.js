@@ -5,7 +5,6 @@ const Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_module = require("melange.js/caml_module.js");
 const CamlinternalLazy = require("melange/camlinternalLazy.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib = require("melange/stdlib.js");
 const Stdlib__Lazy = require("melange/lazy.js");
@@ -116,7 +115,7 @@ catch (raw_exn){
   if (exn.MEL_EXN_ID === Stdlib__Lazy.Undefined) {
     tmp = -1;
   } else {
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -188,7 +187,7 @@ eq("File \"jscomp/test/recursive_module.ml\", line 58, characters 6-13", Camlint
 let tmp$1;
 
 try {
-  Curry._1(Int3.u, 3);
+  Int3.u(3);
   tmp$1 = 3;
 }
 catch (raw_exn$1){
@@ -196,7 +195,7 @@ catch (raw_exn$1){
   if (exn$1.MEL_EXN_ID === Stdlib.Undefined_recursive_module) {
     tmp$1 = 4;
   } else {
-    throw raw_exn$1;
+    throw exn$1;
   }
 }
 

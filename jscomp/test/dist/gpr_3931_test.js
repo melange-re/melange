@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_module = require("melange.js/caml_module.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib__Array = require("melange/array.js");
 
 const PA = Caml_module.init_mod([
@@ -57,7 +56,7 @@ Caml_module.update_mod({
   print: print$1
 });
 
-Curry._1(PA.print, [
+PA.print([
   1,
   2
 ]);

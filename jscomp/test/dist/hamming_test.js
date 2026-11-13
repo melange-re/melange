@@ -190,21 +190,18 @@ function merge(cmp, l1, l2) {
   return merge$1(l1, l2);
 }
 
-function iter_interval(f, l, param) {
-  const f$1 = Curry.__1(f);
-  let _l = l;
-  let _param = param;
+function iter_interval(f, _l, _param) {
   while (true) {
-    const param$1 = _param;
-    const l$1 = _l;
-    const stop = param$1[1];
+    const param = _param;
+    const l = _l;
+    const stop = param[1];
     if (stop === 0) {
       return;
     }
-    const start = param$1[0];
-    const match = CamlinternalLazy.force(l$1);
+    const start = param[0];
+    const match = CamlinternalLazy.force(l);
     if (start <= 0) {
-      f$1(match._0);
+      f(match._0);
     }
     _param = [
       start - 1 | 0,

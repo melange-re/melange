@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_module = require("melange.js/caml_module.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -82,7 +81,7 @@ add([
     return {
       TAG: /* ThrowAny */ 7,
       _0: (function (param) {
-        Curry._1(Int3.u, 3);
+        Int3.u(3);
       })
     };
   })

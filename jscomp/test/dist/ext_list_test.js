@@ -9,31 +9,26 @@ const Ext_string_test = require("./ext_string_test.js");
 const Stdlib__Array = require("melange/array.js");
 const Stdlib__List = require("melange/list.js");
 
-function filter_map(f, xs) {
-  const f$1 = Curry.__1(f);
-  const filter_map$1 = function (_xs) {
-    while (true) {
-      const xs = _xs;
-      if (!xs) {
-        return /* [] */ 0;
-      }
-      const ys = xs.tl;
-      const z = f$1(xs.hd);
-      if (z !== undefined) {
-        return {
-          hd: Caml_option.valFromOption(z),
-          tl: filter_map$1(ys)
-        };
-      }
-      _xs = ys;
-      continue;
-    };
+function filter_map(f, _xs) {
+  while (true) {
+    const xs = _xs;
+    if (!xs) {
+      return /* [] */ 0;
+    }
+    const ys = xs.tl;
+    const z = f(xs.hd);
+    if (z !== undefined) {
+      return {
+        hd: Caml_option.valFromOption(z),
+        tl: filter_map(f, ys)
+      };
+    }
+    _xs = ys;
+    continue;
   };
-  return filter_map$1(xs);
 }
 
 function excludes(p, l) {
-  const p$1 = Curry.__1(p);
   const excluded = {
     contents: false
   };
@@ -46,7 +41,7 @@ function excludes(p, l) {
       }
       const l = param.tl;
       const x = param.hd;
-      if (p$1(x)) {
+      if (p(x)) {
         excluded.contents = true;
         _param = l;
         continue;
@@ -74,7 +69,6 @@ function excludes(p, l) {
 }
 
 function exclude_with_fact(p, l) {
-  const p$1 = Curry.__1(p);
   const excluded = {
     contents: undefined
   };
@@ -87,7 +81,7 @@ function exclude_with_fact(p, l) {
       }
       const l = param.tl;
       const x = param.hd;
-      if (p$1(x)) {
+      if (p(x)) {
         excluded.contents = Caml_option.some(x);
         _param = l;
         continue;
@@ -108,8 +102,6 @@ function exclude_with_fact(p, l) {
 }
 
 function exclude_with_fact2(p1, p2, l) {
-  const p1$1 = Curry.__1(p1);
-  const p2$1 = Curry.__1(p2);
   const excluded1 = {
     contents: undefined
   };
@@ -125,12 +117,12 @@ function exclude_with_fact2(p1, p2, l) {
       }
       const l = param.tl;
       const x = param.hd;
-      if (p1$1(x)) {
+      if (p1(x)) {
         excluded1.contents = Caml_option.some(x);
         _param = l;
         continue;
       }
-      if (p2$1(x)) {
+      if (p2(x)) {
         excluded2.contents = Caml_option.some(x);
         _param = l;
         continue;
@@ -324,18 +316,15 @@ function flat_map2(f, lx, ly) {
   };
 }
 
-function flat_map_aux(f, acc, append, lx) {
-  const f$1 = Curry.__1(f);
-  let _acc = acc;
-  let _lx = lx;
+function flat_map_aux(f, _acc, append, _lx) {
   while (true) {
-    const lx$1 = _lx;
-    const acc$1 = _acc;
-    if (!lx$1) {
-      return Stdlib__List.rev_append(acc$1, append);
+    const lx = _lx;
+    const acc = _acc;
+    if (!lx) {
+      return Stdlib__List.rev_append(acc, append);
     }
-    _lx = lx$1.tl;
-    _acc = Stdlib__List.rev_append(f$1(lx$1.hd), acc$1);
+    _lx = lx.tl;
+    _acc = Stdlib__List.rev_append(f(lx.hd), acc);
     continue;
   };
 }
@@ -554,6 +543,14 @@ function exclude_tail(x) {
   };
 }
 
+function group(cmp, lst) {
+  if (lst) {
+    return aux(cmp, lst.hd, group(cmp, lst.tl));
+  } else {
+    return /* [] */ 0;
+  }
+}
+
 function aux(cmp, x, xss) {
   const cmp$1 = Curry.__2(cmp);
   const aux$1 = function (x, xss) {
@@ -586,14 +583,6 @@ function aux(cmp, x, xss) {
   return aux$1(x, xss);
 }
 
-function group(cmp, lst) {
-  if (lst) {
-    return aux(cmp, lst.hd, group(cmp, lst.tl));
-  } else {
-    return /* [] */ 0;
-  }
-}
-
 function stable_group(cmp, lst) {
   return Stdlib__List.rev(group(cmp, lst));
 }
@@ -623,36 +612,32 @@ function drop(_n, _h) {
   };
 }
 
-function find_first_not(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function find_first_not(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    const a = param$1.hd;
-    if (!p$1(a)) {
+    const a = param.hd;
+    if (!p(a)) {
       return Caml_option.some(a);
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
 
-function for_all_opt(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function for_all_opt(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    const v = p$1(param$1.hd);
+    const v = p(param.hd);
     if (v !== undefined) {
       return v;
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
@@ -698,15 +683,11 @@ function map_acc(acc, f, l) {
 }
 
 function rev_iter(f, xs) {
-  const rev_iter$1 = function (xs) {
-    if (xs) {
-      rev_iter$1(xs.tl);
-      let param = xs.hd;
-      return Curry._1(f, param);
-    }
-    
-  };
-  rev_iter$1(xs);
+  if (xs) {
+    rev_iter(f, xs.tl);
+    return f(xs.hd);
+  }
+  
 }
 
 function for_all2_no_exn(p, l1, l2) {
@@ -735,42 +716,37 @@ function for_all2_no_exn(p, l1, l2) {
   };
 }
 
-function find_no_exn(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function find_no_exn(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    const x = param$1.hd;
-    if (p$1(x)) {
+    const x = param.hd;
+    if (p(x)) {
       return Caml_option.some(x);
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
 
-function find_opt(p, param) {
-  const p$1 = Curry.__1(p);
-  let _param = param;
+function find_opt(p, _param) {
   while (true) {
-    const param$1 = _param;
-    if (!param$1) {
+    const param = _param;
+    if (!param) {
       return;
     }
-    const v = p$1(param$1.hd);
+    const v = p(param.hd);
     if (v !== undefined) {
       return v;
     }
-    _param = param$1.tl;
+    _param = param.tl;
     continue;
   };
 }
 
 function split_map(f, xs) {
-  const f$1 = Curry.__1(f);
   let _bs = /* [] */ 0;
   let _cs = /* [] */ 0;
   let _xs = xs;
@@ -784,7 +760,7 @@ function split_map(f, xs) {
         Stdlib__List.rev(cs)
       ];
     }
-    const match = f$1(xs$1.hd);
+    const match = f(xs$1.hd);
     _xs = xs$1.tl;
     _cs = {
       hd: match[1],

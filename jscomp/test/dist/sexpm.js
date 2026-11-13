@@ -381,7 +381,7 @@ function to_file_seq(filename, seq) {
 
 function to_file(filename, t) {
   to_file_seq(filename, (function (k) {
-    Curry._1(k, t);
+    k(t);
   }));
 }
 

@@ -585,7 +585,7 @@ function std_include_flag(prefix) {
   if (no_std_include.contents) {
     return "";
   } else {
-    return prefix + Curry._1(Stdlib__Filename.quote, standard_library);
+    return prefix + Stdlib__Filename.quote(standard_library);
   }
 }
 
@@ -790,10 +790,10 @@ function try_finally(work, cleanup) {
     result = Curry._1(work, undefined);
   }
   catch (e){
-    Curry._1(cleanup, undefined);
+    cleanup();
     throw e;
   }
-  Curry._1(cleanup, undefined);
+  cleanup();
   return result;
 }
 
@@ -936,7 +936,7 @@ function samelist(pred, l1, l2) {
 
 function may(f, x) {
   if (x !== undefined) {
-    return Curry._1(f, Caml_option.valFromOption(x));
+    return f(Caml_option.valFromOption(x));
   }
   
 }
@@ -949,7 +949,7 @@ function may_map(f, x) {
 }
 
 function find_in_path(path, name) {
-  if (Curry._1(Stdlib__Filename.is_implicit, name)) {
+  if (Stdlib__Filename.is_implicit(name)) {
     let _param = path;
     while (true) {
       const param = _param;
@@ -978,8 +978,8 @@ function find_in_path_rel(path, name) {
   const simplify = function (_s) {
     while (true) {
       const s = _s;
-      const base = Curry._1(Stdlib__Filename.basename, s);
-      const dir = Curry._1(Stdlib__Filename.dirname, s);
+      const base = Stdlib__Filename.basename(s);
+      const dir = Stdlib__Filename.dirname(s);
       if (dir === s) {
         return dir;
       }
@@ -1155,12 +1155,12 @@ function chop_extension_if_any(fname) {
 }
 
 function chop_extensions(file) {
-  const dirname = Curry._1(Stdlib__Filename.dirname, file);
-  const basename = Curry._1(Stdlib__Filename.basename, file);
+  const dirname = Stdlib__Filename.dirname(file);
+  const basename = Stdlib__Filename.basename(file);
   try {
     const pos = Stdlib__String.index(basename, /* '.' */46);
     const basename$1 = Stdlib__String.sub(basename, 0, pos);
-    if (Curry._1(Stdlib__Filename.is_implicit, file) && dirname === Stdlib__Filename.current_dir_name) {
+    if (Stdlib__Filename.is_implicit(file) && dirname === Stdlib__Filename.current_dir_name) {
       return basename$1;
     } else {
       return Stdlib__Filename.concat(dirname, basename$1);
@@ -1618,7 +1618,7 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg, param);
+        return partial_arg(param);
       }
       throw raw_exn;
     }
@@ -1638,7 +1638,7 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg$1, param);
+        return partial_arg$1(param);
       }
       throw raw_exn;
     }
@@ -2688,7 +2688,7 @@ function print(ppf, w) {
 }
 
 function super_print(message, ppf, w) {
-  const msg = Curry._1(message, w);
+  const msg = message(w);
   const num = number(w);
   Curry._1(Stdlib__Format.fprintf(ppf)({
     TAG: /* Format */ 0,
@@ -3486,18 +3486,18 @@ function highlight_locations(ppf, locs) {
 }
 
 function absolute_path(s) {
-  const s$1 = Curry._1(Stdlib__Filename.is_relative, s) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), s) : s;
+  const s$1 = Stdlib__Filename.is_relative(s) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), s) : s;
   const aux = function (_s) {
     while (true) {
       const s = _s;
-      const base = Curry._1(Stdlib__Filename.basename, s);
-      const dir = Curry._1(Stdlib__Filename.dirname, s);
+      const base = Stdlib__Filename.basename(s);
+      const dir = Stdlib__Filename.dirname(s);
       if (dir === s) {
         return dir;
       }
       if (base !== Stdlib__Filename.current_dir_name) {
         if (base === Stdlib__Filename.parent_dir_name) {
-          return Curry._1(Stdlib__Filename.dirname, aux(dir));
+          return Stdlib__Filename.dirname(aux(dir));
         } else {
           return Stdlib__Filename.concat(aux(dir), base);
         }
@@ -3838,7 +3838,7 @@ function pp_ksprintf(before, k, fmt) {
   const ppf = Stdlib__Format.formatter_of_buffer(buf);
   Misc_Color.set_color_tag_handling(ppf);
   if (before !== undefined) {
-    Curry._1(before, ppf);
+    before(ppf);
   }
   return Stdlib__Format.kfprintf((function (param) {
     Stdlib__Format.pp_print_flush(ppf, undefined);
@@ -3894,7 +3894,7 @@ function error_of_exn$1(exn) {
     if (!param) {
       return;
     }
-    const r = Curry._1(param.hd, exn);
+    const r = param.hd(exn);
     if (r !== undefined) {
       return r;
     }
@@ -15567,7 +15567,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 183;
         continue;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -15623,7 +15623,7 @@ function string(lexbuf) {
         store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
         return string(lexbuf);
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -15805,7 +15805,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 132;
         continue;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -16298,7 +16298,7 @@ function token(lexbuf) {
             _2: curr(lexbuf)
           });
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -16318,7 +16318,7 @@ function skip_sharp_bang(lexbuf) {
       case 2 :
         return;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -16699,7 +16699,7 @@ function init$2(param) {
   comment_list.contents = /* [] */ 0;
   const match = preprocessor$1.contents;
   if (match !== undefined) {
-    return Curry._1(match[0], undefined);
+    return match[0]();
   }
   
 }

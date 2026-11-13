@@ -5,14 +5,12 @@ const Caml_bytes = require("melange.js/caml_bytes.js");
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_string = require("melange.js/caml_string.js");
-const Curry = require("melange.js/curry.js");
 const Ext_bytes_test = require("./ext_bytes_test.js");
 const Stdlib__Bytes = require("melange/bytes.js");
 const Stdlib__List = require("melange/list.js");
 const Stdlib__String = require("melange/string.js");
 
 function split_by(keep_emptyOpt, is_delim, str) {
-  const is_delim$1 = Curry.__1(is_delim);
   const keep_empty = keep_emptyOpt !== undefined ? keep_emptyOpt : false;
   const len = str.length;
   let _acc = /* [] */ 0;
@@ -32,7 +30,7 @@ function split_by(keep_emptyOpt, is_delim, str) {
         };
       }
     }
-    if (is_delim$1(Caml_string.get(str, pos))) {
+    if (is_delim(Caml_string.get(str, pos))) {
       const new_len = (last_pos - pos | 0) - 1 | 0;
       if (new_len !== 0 || keep_empty) {
         const v = Stdlib__String.sub(str, pos + 1 | 0, new_len);
@@ -202,18 +200,16 @@ function escaped(s) {
   }
 }
 
-function unsafe_for_all_range(s, start, finish, p) {
-  const p$1 = Curry.__1(p);
-  let _start = start;
+function unsafe_for_all_range(s, _start, finish, p) {
   while (true) {
-    const start$1 = _start;
-    if (start$1 > finish) {
+    const start = _start;
+    if (start > finish) {
       return true;
     }
-    if (!p$1(s.charCodeAt(start$1))) {
+    if (!p(s.charCodeAt(start))) {
       return false;
     }
-    _start = start$1 + 1 | 0;
+    _start = start + 1 | 0;
     continue;
   };
 }
@@ -288,7 +284,7 @@ function find(startOpt, sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 
@@ -338,7 +334,7 @@ function rfind(sub, s) {
     if (exn.MEL_EXN_ID === Local_exit) {
       return i;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 

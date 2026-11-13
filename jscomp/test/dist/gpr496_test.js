@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml = require("melange.js/caml.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -100,7 +99,7 @@ eq("File \"jscomp/test/gpr496_test.ml\", line 42, characters 12-19", expected, u
 eq("File \"jscomp/test/gpr496_test.ml\", line 44, characters 12-19", expected, expected2);
 
 function ff(x, y) {
-  return Caml.caml_int_min(x, Curry._1(y, undefined));
+  return Caml.caml_int_min(x, y());
 }
 
 eq("File \"jscomp/test/gpr496_test.ml\", line 48, characters 5-12", true < false ? true : false, false);

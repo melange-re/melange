@@ -16,7 +16,7 @@ catch (raw_e){
     console.log(e._1);
     hh = /* 'a' */97;
   } else {
-    throw raw_e;
+    throw e;
   }
 }
 

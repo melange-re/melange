@@ -35,7 +35,7 @@ function starts_with(xs, prefix, p) {
     if (exn.MEL_EXN_ID === H) {
       return false;
     }
-    throw raw_exn;
+    throw exn;
   }
 }
 

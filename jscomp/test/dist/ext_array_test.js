@@ -57,7 +57,6 @@ function reverse_of_list(l) {
 }
 
 function filter(f, a) {
-  const f$1 = Curry.__1(f);
   const arr_len = a.length;
   let _acc = /* [] */ 0;
   let _i = 0;
@@ -68,7 +67,7 @@ function filter(f, a) {
       return reverse_of_list(acc);
     }
     const v = a[i];
-    if (f$1(v)) {
+    if (f(v)) {
       _i = i + 1 | 0;
       _acc = {
         hd: v,
@@ -82,7 +81,6 @@ function filter(f, a) {
 }
 
 function filter_map(f, a) {
-  const f$1 = Curry.__1(f);
   const arr_len = a.length;
   let _acc = /* [] */ 0;
   let _i = 0;
@@ -93,7 +91,7 @@ function filter_map(f, a) {
       return reverse_of_list(acc);
     }
     const v = a[i];
-    const v$1 = f$1(v);
+    const v$1 = f(v);
     if (v$1 !== undefined) {
       _i = i + 1 | 0;
       _acc = {
@@ -132,23 +130,20 @@ function map2i(f, a, b) {
   }), a);
 }
 
-function tolist_aux(a, f, i, res) {
-  const f$1 = Curry.__1(f);
-  let _i = i;
-  let _res = res;
+function tolist_aux(a, f, _i, _res) {
   while (true) {
-    const res$1 = _res;
-    const i$1 = _i;
-    if (i$1 < 0) {
-      return res$1;
+    const res = _res;
+    const i = _i;
+    if (i < 0) {
+      return res;
     }
-    const v = a[i$1];
-    const v$1 = f$1(v);
+    const v = a[i];
+    const v$1 = f(v);
     _res = v$1 !== undefined ? ({
         hd: Caml_option.valFromOption(v$1),
-        tl: res$1
-      }) : res$1;
-    _i = i$1 - 1 | 0;
+        tl: res
+      }) : res;
+    _i = i - 1 | 0;
     continue;
   };
 }
@@ -250,7 +245,6 @@ function find_and_split(arr, cmp, v) {
 }
 
 function exists(p, a) {
-  const p$1 = Curry.__1(p);
   const n = a.length;
   let _i = 0;
   while (true) {
@@ -258,7 +252,7 @@ function exists(p, a) {
     if (i === n) {
       return false;
     }
-    if (p$1(a[i])) {
+    if (p(a[i])) {
       return true;
     }
     _i = i + 1 | 0;

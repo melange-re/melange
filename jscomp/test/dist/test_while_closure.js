@@ -3,7 +3,6 @@
 
 const Caml_array = require("melange.js/caml_array.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib__Array = require("melange/array.js");
 
 const v = {
@@ -28,7 +27,7 @@ function f(param) {
 f();
 
 Stdlib__Array.iter((function (x) {
-  Curry._1(x, undefined);
+  x();
 }), arr);
 
 console.log(String(v.contents));

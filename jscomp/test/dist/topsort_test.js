@@ -912,7 +912,7 @@ function split_bis(x, param) {
       TAG: /* NotFound */ 0,
       _0: match._0,
       _1: (function (param) {
-        return join(Curry._1(rl, undefined), v, r);
+        return join(rl(), v, r);
       })
     };
   }
@@ -948,7 +948,7 @@ function disjoint(_s1, _s2) {
     if (!disjoint(s1.l, match._0)) {
       return false;
     }
-    _s2 = Curry._1(match._1, undefined);
+    _s2 = match._1();
     _s1 = s1.r;
     continue;
   };
@@ -1075,21 +1075,17 @@ function subset(_s1, _s2) {
   };
 }
 
-function iter(f, param) {
-  const f$1 = Curry.__1(f);
-  const iter$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return;
-      }
-      iter$1(param.l);
-      f$1(param.v);
-      _param = param.r;
-      continue;
-    };
+function iter(f, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return;
+    }
+    iter(f, param.l);
+    f(param.v);
+    _param = param.r;
+    continue;
   };
-  iter$1(param);
 }
 
 function fold(f, s, accu) {
@@ -1109,103 +1105,87 @@ function fold(f, s, accu) {
   return fold$1(s, accu);
 }
 
-function for_all(p, param) {
-  const p$1 = Curry.__1(p);
-  const for_all$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return true;
-      }
-      if (!p$1(param.v)) {
-        return false;
-      }
-      if (!for_all$1(param.l)) {
-        return false;
-      }
-      _param = param.r;
-      continue;
-    };
+function for_all(p, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return true;
+    }
+    if (!p(param.v)) {
+      return false;
+    }
+    if (!for_all(p, param.l)) {
+      return false;
+    }
+    _param = param.r;
+    continue;
   };
-  return for_all$1(param);
 }
 
-function exists(p, param) {
-  const p$1 = Curry.__1(p);
-  const exists$1 = function (_param) {
-    while (true) {
-      const param = _param;
-      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-        return false;
-      }
-      if (p$1(param.v)) {
-        return true;
-      }
-      if (exists$1(param.l)) {
-        return true;
-      }
-      _param = param.r;
-      continue;
-    };
+function exists(p, _param) {
+  while (true) {
+    const param = _param;
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return false;
+    }
+    if (p(param.v)) {
+      return true;
+    }
+    if (exists(p, param.l)) {
+      return true;
+    }
+    _param = param.r;
+    continue;
   };
-  return exists$1(param);
 }
 
 function filter(p, t) {
-  const p$1 = Curry.__1(p);
-  const filter$1 = function (t) {
-    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-      return /* Empty */ 0;
-    }
-    const r = t.r;
-    const v = t.v;
-    const l = t.l;
-    const l$p = filter$1(l);
-    const pv = p$1(v);
-    const r$p = filter$1(r);
-    if (pv) {
-      if (l === l$p && r === r$p) {
-        return t;
-      } else {
-        return join(l$p, v, r$p);
-      }
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+    return /* Empty */ 0;
+  }
+  const r = t.r;
+  const v = t.v;
+  const l = t.l;
+  const l$p = filter(p, l);
+  const pv = p(v);
+  const r$p = filter(p, r);
+  if (pv) {
+    if (l === l$p && r === r$p) {
+      return t;
     } else {
-      return concat(l$p, r$p);
+      return join(l$p, v, r$p);
     }
-  };
-  return filter$1(t);
+  } else {
+    return concat(l$p, r$p);
+  }
 }
 
 function partition(p, param) {
-  const p$1 = Curry.__1(p);
-  const partition$1 = function (param) {
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return [
-        /* Empty */ 0,
-        /* Empty */ 0
-      ];
-    }
-    const v = param.v;
-    const match = partition$1(param.l);
-    const lf = match[1];
-    const lt = match[0];
-    const pv = p$1(v);
-    const match$1 = partition$1(param.r);
-    const rf = match$1[1];
-    const rt = match$1[0];
-    if (pv) {
-      return [
-        join(lt, v, rt),
-        concat(lf, rf)
-      ];
-    } else {
-      return [
-        concat(lt, rt),
-        join(lf, v, rf)
-      ];
-    }
-  };
-  return partition$1(param);
+  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+    return [
+      /* Empty */ 0,
+      /* Empty */ 0
+    ];
+  }
+  const v = param.v;
+  const match = partition(p, param.l);
+  const lf = match[1];
+  const lt = match[0];
+  const pv = p(v);
+  const match$1 = partition(p, param.r);
+  const rf = match$1[1];
+  const rt = match$1[0];
+  if (pv) {
+    return [
+      join(lt, v, rt),
+      concat(lf, rf)
+    ];
+  } else {
+    return [
+      concat(lt, rt),
+      join(lf, v, rf)
+    ];
+  }
 }
 
 function cardinal(param) {
@@ -1263,24 +1243,22 @@ function find_first(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
-      let param$1 = param.l;
-      const f$1 = Curry.__1(f);
+    if (f(v)) {
       let _v0 = v;
-      let _param$1 = param$1;
+      let _param$1 = param.l;
       while (true) {
-        const param$2 = _param$1;
+        const param$1 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return v0;
         }
-        const v$1 = param$2.v;
-        if (f$1(v$1)) {
-          _param$1 = param$2.l;
+        const v$1 = param$1.v;
+        if (f(v$1)) {
+          _param$1 = param$1.l;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$2.r;
+        _param$1 = param$1.r;
         continue;
       };
     }
@@ -1296,24 +1274,22 @@ function find_first_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
-      let param$1 = param.l;
-      const f$1 = Curry.__1(f);
+    if (f(v)) {
       let _v0 = v;
-      let _param$1 = param$1;
+      let _param$1 = param.l;
       while (true) {
-        const param$2 = _param$1;
+        const param$1 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return Caml_option.some(v0);
         }
-        const v$1 = param$2.v;
-        if (f$1(v$1)) {
-          _param$1 = param$2.l;
+        const v$1 = param$1.v;
+        if (f(v$1)) {
+          _param$1 = param$1.l;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$2.r;
+        _param$1 = param$1.r;
         continue;
       };
     }
@@ -1331,24 +1307,22 @@ function find_last(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
-      let param$1 = param.r;
-      const f$1 = Curry.__1(f);
+    if (f(v)) {
       let _v0 = v;
-      let _param$1 = param$1;
+      let _param$1 = param.r;
       while (true) {
-        const param$2 = _param$1;
+        const param$1 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return v0;
         }
-        const v$1 = param$2.v;
-        if (f$1(v$1)) {
-          _param$1 = param$2.r;
+        const v$1 = param$1.v;
+        if (f(v$1)) {
+          _param$1 = param$1.r;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$2.l;
+        _param$1 = param$1.l;
         continue;
       };
     }
@@ -1364,24 +1338,22 @@ function find_last_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
-      let param$1 = param.r;
-      const f$1 = Curry.__1(f);
+    if (f(v)) {
       let _v0 = v;
-      let _param$1 = param$1;
+      let _param$1 = param.r;
       while (true) {
-        const param$2 = _param$1;
+        const param$1 = _param$1;
         const v0 = _v0;
-        if (/* tag */ typeof param$2 !== "object" && typeof param$2 !== "function") {
+        if (/* tag */ typeof param$1 !== "object" && typeof param$1 !== "function") {
           return Caml_option.some(v0);
         }
-        const v$1 = param$2.v;
-        if (f$1(v$1)) {
-          _param$1 = param$2.r;
+        const v$1 = param$1.v;
+        if (f(v$1)) {
+          _param$1 = param$1.r;
           _v0 = v$1;
           continue;
         }
-        _param$1 = param$2.l;
+        _param$1 = param$1.l;
         continue;
       };
     }
@@ -1436,34 +1408,30 @@ function map(f, t) {
 }
 
 function filter_map(f, t) {
-  const f$1 = Curry.__1(f);
-  const filter_map$1 = function (t) {
-    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-      return /* Empty */ 0;
-    }
-    const r = t.r;
-    const v = t.v;
-    const l = t.l;
-    const l$p = filter_map$1(l);
-    const v$p = f$1(v);
-    const r$p = filter_map$1(r);
-    if (v$p === undefined) {
-      if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
-        return r$p;
-      } else if (/* tag */ typeof r$p !== "object" && typeof r$p !== "function") {
-        return l$p;
-      } else {
-        return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
-      }
-    }
-    const v$p$1 = Caml_option.valFromOption(v$p);
-    if (l === l$p && v === v$p$1 && r === r$p) {
-      return t;
+  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+    return /* Empty */ 0;
+  }
+  const r = t.r;
+  const v = t.v;
+  const l = t.l;
+  const l$p = filter_map(f, l);
+  const v$p = f(v);
+  const r$p = filter_map(f, r);
+  if (v$p === undefined) {
+    if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
+      return r$p;
+    } else if (/* tag */ typeof r$p !== "object" && typeof r$p !== "function") {
+      return l$p;
     } else {
-      return try_join(l$p, v$p$1, r$p);
+      return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
     }
-  };
-  return filter_map$1(t);
+  }
+  const v$p$1 = Caml_option.valFromOption(v$p);
+  if (l === l$p && v === v$p$1 && r === r$p) {
+    return t;
+  } else {
+    return try_join(l$p, v$p$1, r$p);
+  }
 }
 
 function of_list(l) {

@@ -132,6 +132,8 @@ function fib2(n) {
   }
 }
 
+const two = 2;
+
 function fib3(n) {
   if (n === 0 || n === 1) {
     return 1;
@@ -564,9 +566,9 @@ function fake_inline_minus(n) {
   return n + 1 | 0;
 }
 
-function fake_inline(n) {
-  return n + 1 | 0;
-}
+const fake_inline = fake_inline_minus;
+
+const fake_inline_inlie2 = fake_inline_minus(3);
 
 let u = [];
 
@@ -577,11 +579,7 @@ Caml_obj.update_dummy(u, [
 
 Mt.from_pair_suites("Rec_value_test", suites);
 
-const two = 2;
-
 const v$1 = 3;
-
-const fake_inline_inlie2 = 4;
 
 module.exports = {
   x,

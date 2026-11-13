@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 
 const delayed = {
   contents: (function (param) {
@@ -15,7 +14,7 @@ for (let i = 1; i <= 2; ++i) {
     if (j !== 0) {
       const prev = delayed.contents;
       delayed.contents = (function (param) {
-        Curry._1(prev, undefined);
+        prev();
         f(((n + 1 | 0) + i | 0) - i | 0, j - 1 | 0);
       });
       return;
@@ -35,5 +34,5 @@ for (let i = 1; i <= 2; ++i) {
   f(0, i);
 }
 
-Curry._1(delayed.contents, undefined);
+delayed.contents();
 /*  Not a pure module */

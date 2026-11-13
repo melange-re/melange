@@ -157,13 +157,12 @@ function $great$pipe$eq(e, f) {
 
 function $great$great$eq(e, f) {
   if (e !== undefined) {
-    return Curry._1(f, Caml_option.valFromOption(e));
+    return f(Caml_option.valFromOption(e));
   }
   
 }
 
 function map_opt(f, l) {
-  const f$1 = Curry.__1(f);
   let _acc = /* [] */ 0;
   let _l = l;
   while (true) {
@@ -172,7 +171,7 @@ function map_opt(f, l) {
     if (!l$1) {
       return Stdlib__List.rev(acc);
     }
-    const y = f$1(l$1.hd);
+    const y = f(l$1.hd);
     if (y === undefined) {
       return;
     }
@@ -187,19 +186,17 @@ function map_opt(f, l) {
 
 function list_any(f, e) {
   if (e.NAME === "List") {
-    let l = e.VAL;
-    const f$1 = Curry.__1(f);
-    let _l = l;
+    let _l = e.VAL;
     while (true) {
-      const l$1 = _l;
-      if (!l$1) {
+      const l = _l;
+      if (!l) {
         return;
       }
-      const res = f$1(l$1.hd);
+      const res = f(l.hd);
       if (res !== undefined) {
         return res;
       }
-      _l = l$1.tl;
+      _l = l.tl;
       continue;
     };
   }
@@ -208,24 +205,21 @@ function list_any(f, e) {
 
 function list_all(f, e) {
   if (e.NAME === "List") {
-    let acc = /* [] */ 0;
-    let l = e.VAL;
-    const f$1 = Curry.__1(f);
-    let _acc = acc;
-    let _l = l;
+    let _acc = /* [] */ 0;
+    let _l = e.VAL;
     while (true) {
-      const l$1 = _l;
-      const acc$1 = _acc;
-      if (!l$1) {
-        return Stdlib__List.rev(acc$1);
+      const l = _l;
+      const acc = _acc;
+      if (!l) {
+        return Stdlib__List.rev(acc);
       }
-      const tl = l$1.tl;
-      const y = f$1(l$1.hd);
+      const tl = l.tl;
+      const y = f(l.hd);
       if (y !== undefined) {
         _l = tl;
         _acc = {
           hd: Caml_option.valFromOption(y),
-          tl: acc$1
+          tl: acc
         };
         continue;
       }
@@ -291,8 +285,8 @@ function to_pair(e) {
 function to_pair_with(f1, f2, e) {
   return $great$great$eq(to_pair(e), (function (param) {
     const y = param[1];
-    return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-      return $great$great$eq(Curry._1(f2, y), (function (y) {
+    return $great$great$eq(f1(param[0]), (function (x) {
+      return $great$great$eq(f2(y), (function (y) {
         return [
           x,
           y
@@ -332,9 +326,9 @@ function to_triple_with(f1, f2, f3, e) {
   return $great$great$eq(to_triple(e), (function (param) {
     const z = param[2];
     const y = param[1];
-    return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-      return $great$great$eq(Curry._1(f2, y), (function (y) {
-        return $great$great$eq(Curry._1(f3, z), (function (z) {
+    return $great$great$eq(f1(param[0]), (function (x) {
+      return $great$great$eq(f2(y), (function (y) {
+        return $great$great$eq(f3(z), (function (z) {
           return [
             x,
             y,
@@ -466,7 +460,7 @@ function _get_variant(s, args, _l) {
     }
     const match = l.hd;
     if (Caml_obj.caml_equal(s, match[0])) {
-      return Curry._1(match[1], args);
+      return match[1](args);
     }
     _l = l.tl;
     continue;

@@ -241,7 +241,7 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg, param);
+        return partial_arg(param);
       }
       throw raw_exn;
     }
@@ -261,7 +261,7 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg$1, param);
+        return partial_arg$1(param);
       }
       throw raw_exn;
     }
@@ -1549,18 +1549,18 @@ function highlight_locations(ppf, locs) {
 
 function show_filename(file) {
   if (absname.contents) {
-    const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), file) : file;
+    const s = Stdlib__Filename.is_relative(file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), file) : file;
     const aux = function (_s) {
       while (true) {
         const s = _s;
-        const base = Curry._1(Stdlib__Filename.basename, s);
-        const dir = Curry._1(Stdlib__Filename.dirname, s);
+        const base = Stdlib__Filename.basename(s);
+        const dir = Stdlib__Filename.dirname(s);
         if (dir === s) {
           return dir;
         }
         if (base !== Stdlib__Filename.current_dir_name) {
           if (base === Stdlib__Filename.parent_dir_name) {
-            return Curry._1(Stdlib__Filename.dirname, aux(dir));
+            return Stdlib__Filename.dirname(aux(dir));
           } else {
             return Stdlib__Filename.concat(aux(dir), base);
           }
@@ -1910,7 +1910,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   const ppf = Stdlib__Format.formatter_of_buffer(buf);
   Misc_Color.set_color_tag_handling(ppf);
   if (before !== undefined) {
-    Curry._1(before, ppf);
+    before(ppf);
   }
   return Stdlib__Format.kfprintf((function (param) {
     Stdlib__Format.pp_print_flush(ppf, undefined);
@@ -2038,7 +2038,7 @@ function from_pair_suites(name, suites) {
         return Stdlib__List.iter((function (param) {
           const code = param[1];
           it(param[0], (function () {
-            let spec = Curry._1(code, undefined);
+            let spec = code();
             switch (spec.TAG) {
               case /* Eq */ 0 :
                 Assert.deepEqual(spec._0, spec._1);
@@ -2092,7 +2092,7 @@ function from_pair_suites(name, suites) {
       ]);
       return Stdlib__List.iter((function (param) {
         const name = param[0];
-        const fn = Curry._1(param[1], undefined);
+        const fn = param[1]();
         switch (fn.TAG) {
           case /* Eq */ 0 :
             console.log([
@@ -12310,7 +12310,7 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 183;
         continue;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -12366,7 +12366,7 @@ function string(lexbuf) {
         store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
         return string(lexbuf);
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -12548,7 +12548,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         ___ocaml_lex_state = 132;
         continue;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -13041,7 +13041,7 @@ function token(lexbuf) {
             _2: curr(lexbuf)
           });
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -13420,7 +13420,7 @@ function init$1(param) {
   comment_list.contents = /* [] */ 0;
   const match = preprocessor.contents;
   if (match !== undefined) {
-    return Curry._1(match[0], undefined);
+    return match[0]();
   }
   
 }

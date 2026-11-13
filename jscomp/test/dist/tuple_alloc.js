@@ -29,13 +29,13 @@ function incr2(param) {
 
 function f(a, b, d, e) {
   const h = Curry._1(a, b);
-  const u = Curry._1(d, h);
-  const v = Curry._1(e, h);
+  const u = d(h);
+  const v = e(h);
   return u + v | 0;
 }
 
 function kf(cb, v) {
-  Curry._1(cb, v);
+  cb(v);
   return v + v | 0;
 }
 

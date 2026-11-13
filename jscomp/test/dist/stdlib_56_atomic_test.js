@@ -14,7 +14,7 @@ const Stdlib__Obj = require("melange/obj.js");
 
 function invalid_argument_message(f) {
   try {
-    Curry._1(f, undefined);
+    f();
     return;
   }
   catch (raw_message){
@@ -22,7 +22,7 @@ function invalid_argument_message(f) {
     if (message.MEL_EXN_ID === Stdlib.Invalid_argument) {
       return message._1;
     }
-    throw raw_message;
+    throw message;
   }
 }
 
