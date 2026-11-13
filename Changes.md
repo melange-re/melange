@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- runtime: preserve the sign of negative zero in `string_of_float`,
+  `Float.to_string`, and decimal `Printf` / `Format` conversions
+  ([#2167](https://github.com/melange-re/melange/issues/2167),
+  [#2188](https://github.com/melange-re/melange/pull/2188),
+  [#2189](https://github.com/melange-re/melange/pull/2189))
+
 - compiler: distinguish JavaScript global names when comparing identifiers,
   preserving branches that return different globals such as `null` and `undefined`
   ([#2185](https://github.com/melange-re/melange/pull/2185),

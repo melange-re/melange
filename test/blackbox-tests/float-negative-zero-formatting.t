@@ -46,20 +46,19 @@ Native OCaml preserves the sign in decimal and hexadecimal formats.
   rounded: -0.00|0.00
   special: -inf|inf|nan
 
-Both JavaScript module systems currently lose the sign in decimal formats.
-Hexadecimal formatting and the other controls already match native OCaml.
+Both JavaScript module systems must match native OCaml.
 
   $ dune build @melange
   $ node _build/default/out/input.cjs > commonjs.output
   $ node _build/default/out/input.mjs > esm.output
   $ diff commonjs.output esm.output
   $ cat commonjs.output
-  literal: 0.|0.|0.000000|0.000000e+00|0.000000E+00|0|0|0.|-0x0p+0|-0X0P+0
-  parsed: 0.|0.|0.000000|0.000000e+00|0.000000E+00|0|0|0.|-0x0p+0|-0X0P+0
-  arithmetic: 0.|0.|0.000000|0.000000e+00|0.000000E+00|0|0|0.|-0x0p+0|-0X0P+0
+  literal: -0.|-0.|-0.000000|-0.000000e+00|-0.000000E+00|-0|-0|-0.|-0x0p+0|-0X0P+0
+  parsed: -0.|-0.|-0.000000|-0.000000e+00|-0.000000E+00|-0|-0|-0.|-0x0p+0|-0X0P+0
+  arithmetic: -0.|-0.|-0.000000|-0.000000e+00|-0.000000E+00|-0|-0|-0.|-0x0p+0|-0X0P+0
   positive zero: 0.|0.|0.000000|0.000000e+00|0.000000E+00|0|0|0.|0x0p+0|0X0P+0
   negative one: -1.|-1.|-1.000000|-1.000000e+00|-1.000000E+00|-1|-1|-1.|-0x1p+0|-0X1P+0
-  negative zero flags: [+000000.00]|[   0.00]|[0.00   ]|[0]|[+0e+00]|[+0]|[+0.]
+  negative zero flags: [-000000.00]|[  -0.00]|[-0.00  ]|[-0]|[-0e+00]|[-0]|[-0.]
   positive zero flags: [+000000.00]|[   0.00]|[0.00   ]|[0]|[+0e+00]|[+0]|[+0.]
   rounded: -0.00|0.00
   special: -inf|inf|nan
