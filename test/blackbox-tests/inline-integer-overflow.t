@@ -5,47 +5,47 @@ Inline integers must report overflow at the literal, including in interfaces.
   >   echo "let answer = $literal [@@mel.inline]" > input.ml
   >   melc -w -107 -alert -unprocessed -ppx melppx -c input.ml
   > done
-  Fatal error: exception Failure("Int32.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  Fatal error: exception Failure("Int32.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  [125]
+  File "input.ml", line 1, characters 13-23:
+  1 | let answer = 2147483648 [@@mel.inline]
+                   ^^^^^^^^^^
+  Error: Integer literal is out of range for type int
+  File "input.ml", line 1, characters 13-24:
+  1 | let answer = -2147483649 [@@mel.inline]
+                   ^^^^^^^^^^^
+  Error: Integer literal is out of range for type int
+  [2]
 
   $ for literal in 2147483648 -2147483649; do
   >   echo "val answer : int [@@mel.inline $literal]" > input.mli
   >   melc -w -107 -alert -unprocessed -ppx melppx -c input.mli
   > done
-  Fatal error: exception Failure("Int32.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  Fatal error: exception Failure("Int32.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  [125]
+  File "input.mli", line 1, characters 31-41:
+  1 | val answer : int [@@mel.inline 2147483648]
+                                     ^^^^^^^^^^
+  Error: Integer literal is out of range for type int
+  File "input.mli", line 1, characters 31-42:
+  1 | val answer : int [@@mel.inline -2147483649]
+                                     ^^^^^^^^^^^
+  Error: Integer literal is out of range for type int
+  [2]
 
 The same conversion path supports int64 literals.
 
   $ echo 'let answer = 9223372036854775808L [@@mel.inline]' > input.ml
   $ melc -w -107 -alert -unprocessed -ppx melppx -c input.ml
-  Fatal error: exception Failure("Int64.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  [125]
+  File "input.ml", line 1, characters 13-33:
+  1 | let answer = 9223372036854775808L [@@mel.inline]
+                   ^^^^^^^^^^^^^^^^^^^^
+  Error: Integer literal is out of range for type int64
+  [2]
 
   $ echo 'val answer : int64 [@@mel.inline -9223372036854775809L]' > input.mli
   $ melc -w -107 -alert -unprocessed -ppx melppx -c input.mli
-  Fatal error: exception Failure("Int64.of_string")
-  melc: internal error, uncaught exception:
-        Melangelib.Cmd_ast_exception.Error(_)
-        
-  [125]
+  File "input.mli", line 1, characters 33-54:
+  1 | val answer : int64 [@@mel.inline -9223372036854775809L]
+                                       ^^^^^^^^^^^^^^^^^^^^^
+  Error: Integer literal is out of range for type int64
+  [2]
 
 Boundary values and hexadecimal bit patterns retain their representations.
 
