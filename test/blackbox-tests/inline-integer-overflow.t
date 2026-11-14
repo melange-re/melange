@@ -3,7 +3,7 @@ Inline integers must report overflow at the literal, including in interfaces.
   $ . ./setup.sh
   $ for literal in 2147483648 -2147483649; do
   >   echo "let answer = $literal [@@mel.inline]" > input.ml
-  >   melc -ppx melppx -c input.ml
+  >   melc -w -107 -alert -unprocessed -ppx melppx -c input.ml
   > done
   Fatal error: exception Failure("Int32.of_string")
   melc: internal error, uncaught exception:
@@ -17,7 +17,7 @@ Inline integers must report overflow at the literal, including in interfaces.
 
   $ for literal in 2147483648 -2147483649; do
   >   echo "val answer : int [@@mel.inline $literal]" > input.mli
-  >   melc -ppx melppx -c input.mli
+  >   melc -w -107 -alert -unprocessed -ppx melppx -c input.mli
   > done
   Fatal error: exception Failure("Int32.of_string")
   melc: internal error, uncaught exception:
@@ -32,7 +32,7 @@ Inline integers must report overflow at the literal, including in interfaces.
 The same conversion path supports int64 literals.
 
   $ echo 'let answer = 9223372036854775808L [@@mel.inline]' > input.ml
-  $ melc -ppx melppx -c input.ml
+  $ melc -w -107 -alert -unprocessed -ppx melppx -c input.ml
   Fatal error: exception Failure("Int64.of_string")
   melc: internal error, uncaught exception:
         Melangelib.Cmd_ast_exception.Error(_)
@@ -40,7 +40,7 @@ The same conversion path supports int64 literals.
   [125]
 
   $ echo 'val answer : int64 [@@mel.inline -9223372036854775809L]' > input.mli
-  $ melc -ppx melppx -c input.mli
+  $ melc -w -107 -alert -unprocessed -ppx melppx -c input.mli
   Fatal error: exception Failure("Int64.of_string")
   melc: internal error, uncaught exception:
         Melangelib.Cmd_ast_exception.Error(_)
