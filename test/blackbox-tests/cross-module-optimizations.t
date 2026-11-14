@@ -31,7 +31,8 @@ Same module
   }
   
   function logPlusTwo(param) {
-    console.log(2 + param | 0);
+    const prim = 2 + param | 0;
+    console.log(prim);
   }
   
   module.exports = {
@@ -88,9 +89,10 @@ Different modules with cross-module-optimizations
   const Curry = require("melange.js/curry.js");
   
   function logPlusTwo(param) {
-    console.log(Curry._1((function (param) {
+    let prim = Curry._1((function (param) {
       return 2 + param | 0;
-    }), param));
+    }), param);
+    console.log(prim);
   }
   
   module.exports = {
@@ -205,9 +207,10 @@ with `--mel-cross-module-opt`
   const Curry = require("melange.js/curry.js");
   
   function logPlusTwo(param) {
-    console.log(Curry._1((function (param) {
+    let prim = Curry._1((function (param) {
       return 2 + param | 0;
-    }), param));
+    }), param);
+    console.log(prim);
   }
   
   module.exports = {

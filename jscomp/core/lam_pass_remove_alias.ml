@@ -119,7 +119,8 @@ let simplify_alias =
     match value with
     | Lam_id_kind.FunctionId
         { arity; call_summary = Lam_call_summary.Direct_primitive primitive; _ }
-      when fully_applied arity args ->
+      when fully_applied arity args && Lam.can_inline_primitive primitive args
+      ->
         Some primitive
     | _ -> None
   in
@@ -377,7 +378,8 @@ let simplify_alias =
               _;
             }
           when Lam_primitive.is_relocatable primitive
-               && fully_applied_external arity args ->
+               && fully_applied_external arity args
+               && Lam.can_inline_primitive primitive args ->
             Lam.prim ~primitive
               ~args:(List.map ~f:(simpl meta) args)
               ~loc:ap_info.ap_loc
