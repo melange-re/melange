@@ -361,6 +361,13 @@ module Mapper = struct
   let inline_literal (expression : expression) =
     let loc = expression.pexp_loc in
     let make typ ffi = Some (typ, ffi) in
+    let integer ~typ of_string s =
+      try of_string s
+      with Failure _ ->
+        Location.raise_errorf ~loc
+          "Integer literal is out of range for type %s"
+          typ
+    in
     let string ~loc value delimiter =
       make [%type: string]
         (Melange_ffi.External_ffi_types.inline_string_primitive value
@@ -398,11 +405,11 @@ module Mapper = struct
     | Pexp_constant (Pconst_integer (s, None)) ->
         make [%type: int]
           (Melange_ffi.External_ffi_types.inline_int_primitive
-             (Int32.of_string s))
+             (integer ~typ:"int" Int32.of_string s))
     | Pexp_constant (Pconst_integer (s, Some 'L')) ->
         make [%type: int64]
           (Melange_ffi.External_ffi_types.inline_int64_primitive
-             (Int64.of_string s))
+             (integer ~typ:"int64" Int64.of_string s))
     | Pexp_constant (Pconst_float (s, None)) ->
         make [%type: float]
           (Melange_ffi.External_ffi_types.inline_float_primitive s)
