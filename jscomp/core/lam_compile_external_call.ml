@@ -166,6 +166,44 @@ let rec ocaml_to_js_eff =
         | _, _ -> assert false)
     | Nothing -> (Splice1 arg, [])
 
+(* Event-style variants produce two JS arguments. Only a local variable or
+   a literal with separately emitted fields can be read twice safely. *)
+let hold_spread_arg (output : Js_output.t) =
+  match output.value with
+  | None -> assert false
+  | Some value -> (
+      match value.expression_desc with
+      | Var (Id id) when not (Ident.is_js id) -> output
+      | Caml_block
+          {
+            fields = [ { expression_desc = Str _; _ }; _ ];
+            tag_info = Blk_poly_var;
+            _;
+          } ->
+          output
+      | _ ->
+          let id = Ident.create_tmp () in
+          {
+            output with
+            block =
+              output.block
+              @ [ Js_stmt_make.define_variable ~kind:Strict id value ];
+            value = Some (E.var id);
+          })
+
+let rec hold_spread_args
+    (specs : External_arg_spec.Arg_label.t External_arg_spec.Param.t list)
+    outputs =
+  match (specs, outputs) with
+  | { arg_type = Arg_cst _; _ } :: rest, _ -> hold_spread_args rest outputs
+  | ( { arg_type = Poly_var { spread = true; _ } | Int { spread = true; _ }; _ }
+      :: rest,
+      output :: outputs ) ->
+      hold_spread_arg output :: hold_spread_args rest outputs
+  | _ :: rest, output :: outputs -> output :: hold_spread_args rest outputs
+  | [], outputs -> outputs
+  | _ :: _, [] -> assert false
+
 let add_eff eff e = match eff with None -> e | Some v -> E.seq v e
 
 type specs = External_arg_spec.Arg_label.t External_arg_spec.Param.t list
