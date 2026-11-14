@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- PPX: report located errors for out-of-range `[@@mel.inline]` integers in
+  implementations and interfaces instead of crashing
+  ([#2204](https://github.com/melange-re/melange/pull/2204),
+  [#2205](https://github.com/melange-re/melange/pull/2205)).
+
 - runtime: decode native-endian string integers directly from character codes,
   without copying the source, and provide the unchecked string integer primitives
   ([#2178](https://github.com/melange-re/melange/pull/2178)).
