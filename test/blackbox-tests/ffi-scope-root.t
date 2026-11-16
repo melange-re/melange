@@ -2,7 +2,7 @@ The first global scope is emitted as JavaScript source. Invalid roots must not
 become keywords or expressions such as subtraction (ReScript #9309 discussion).
 
   $ . ./setup.sh
-  $ for scope in class foo-bar 'foo bar' 1foo await '\u0063lass'; do
+  $ for scope in class foo-bar 'foo bar' 1foo await '\u0063lass' '\u0031foo'; do
   >   printf 'external value : int = "value" [@@mel.scope {|%s|}]\nlet value = value\n' "$scope" > invalid.ml
   >   melc -alert -unprocessed -ppx melppx invalid.ml -o invalid.js && sed -n '/^const value = /p' invalid.js
   > done
@@ -12,6 +12,7 @@ become keywords or expressions such as subtraction (ReScript #9309 discussion).
   const value = 1foo.value;
   const value = await.value;
   const value = \u0063lass.value;
+  const value = \u0031foo.value;
 
 Module scopes, receiver scopes, and later global scopes are property names.
 Keywords, punctuation and byte-string keys must keep working there.
