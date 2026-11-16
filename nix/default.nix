@@ -19,6 +19,13 @@ buildDunePackage {
   version = "dev";
   duneVersion = "3";
 
+  # Keep the compiler and its runtime libraries together to avoid an out/dev cycle.
+  outputs = [
+    "out"
+    "man"
+    "doc"
+  ];
+
   src =
     let
       fs = lib.fileset;
