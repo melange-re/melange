@@ -6,13 +6,35 @@ become keywords or expressions such as subtraction (ReScript #9309 discussion).
   >   printf 'external value : int = "value" [@@mel.scope {|%s|}]\nlet value = value\n' "$scope" > invalid.ml
   >   melc -alert -unprocessed -ppx melppx invalid.ml -o invalid.js && sed -n '/^const value = /p' invalid.js
   > done
-  const value = class.value;
-  const value = foo-bar.value;
-  const value = foo bar.value;
-  const value = 1foo.value;
-  const value = await.value;
-  const value = \u0063lass.value;
-  const value = \u0031foo.value;
+  File "invalid.ml", line 1, characters 0-54:
+  1 | external value : int = "value" [@@mel.scope {|class|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "class"
+  File "invalid.ml", line 1, characters 0-56:
+  1 | external value : int = "value" [@@mel.scope {|foo-bar|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "foo-bar"
+  File "invalid.ml", line 1, characters 0-56:
+  1 | external value : int = "value" [@@mel.scope {|foo bar|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "foo bar"
+  File "invalid.ml", line 1, characters 0-53:
+  1 | external value : int = "value" [@@mel.scope {|1foo|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "1foo"
+  File "invalid.ml", line 1, characters 0-54:
+  1 | external value : int = "value" [@@mel.scope {|await|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "await"
+  File "invalid.ml", line 1, characters 0-59:
+  1 | external value : int = "value" [@@mel.scope {|\u0063lass|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "\\u0063lass"
+  File "invalid.ml", line 1, characters 0-58:
+  1 | external value : int = "value" [@@mel.scope {|\u0031foo|}]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: Invalid JavaScript global scope "\\u0031foo"
+  [2]
 
 Module scopes, receiver scopes, and later global scopes are property names.
 Keywords, punctuation and byte-string keys must keep working there.
