@@ -139,9 +139,9 @@ const a = f(0)(3, 4);
 
 const b = f(0)(3, 5);
 
-const c = Curry._2(g(0), 3, 4);
+const c = g(0)(3, 4);
 
-const d = Curry._2(g(0), 3, 5);
+const d = g(0)(3, 5);
 
 eq("File \"jscomp/test/earger_curry_test.ml\", line 118, characters 7-14", a, 10);
 

@@ -103,7 +103,7 @@ function from_pair_suites(name, suites) {
         return Stdlib__List.iter((function (param) {
           const code = param[1];
           it(param[0], (function () {
-            return handleCode(Curry._1(code, undefined));
+            return handleCode(code());
           }));
         }), suites);
       }));
@@ -115,7 +115,7 @@ function from_pair_suites(name, suites) {
       ]);
       return Stdlib__List.iter((function (param) {
         const name = param[0];
-        const _fn = Curry._1(param[1], undefined);
+        const _fn = param[1]();
         switch (_fn.TAG) {
           case /* Eq */ 0 :
             console.log([

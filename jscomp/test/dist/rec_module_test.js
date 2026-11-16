@@ -17,13 +17,9 @@ function even(n) {
   } else if (n === 1) {
     return false;
   } else {
-    return Curry._1(B.odd, n - 1 | 0);
+    return odd(n - 1 | 0);
   }
 }
-
-const A = {
-  even
-};
 
 function odd(n) {
   if (n === 1) {
@@ -31,9 +27,13 @@ function odd(n) {
   } else if (n === 0) {
     return false;
   } else {
-    return Curry._1(A.even, n - 1 | 0);
+    return even(n - 1 | 0);
   }
 }
+
+const A = {
+  even
+};
 
 const B = {
   odd
@@ -45,18 +45,9 @@ function even$1(n) {
   } else if (n === 1) {
     return false;
   } else {
-    return Curry._1(BB.odd, n - 1 | 0);
+    return odd$1(n - 1 | 0);
   }
 }
-
-function x(param) {
-  return Curry._1(BB.y, undefined) + 3 | 0;
-}
-
-const AA = {
-  even: even$1,
-  x
-};
 
 function odd$1(n) {
   if (n === 1) {
@@ -64,13 +55,22 @@ function odd$1(n) {
   } else if (n === 0) {
     return false;
   } else {
-    return Curry._1(even$1, n - 1 | 0);
+    return even$1(n - 1 | 0);
   }
 }
 
 function y(param) {
   return 32;
 }
+
+function x(param) {
+  return 35;
+}
+
+const AA = {
+  even: even$1,
+  x
+};
 
 const BB = {
   odd: odd$1,
@@ -80,6 +80,24 @@ const BB = {
 const Even = {};
 
 const Odd = {};
+
+function cons_enum(_s, _e) {
+  while (true) {
+    const e = _e;
+    const s = _s;
+    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+      return e;
+    }
+    _e = {
+      TAG: /* More */ 0,
+      _0: s.v,
+      _1: s.r,
+      _2: e
+    };
+    _s = s.l;
+    continue;
+  };
+}
 
 function compare(t1, t2) {
   if (t1.TAG === /* Leaf */ 0) {
@@ -91,8 +109,34 @@ function compare(t1, t2) {
   } else if (t2.TAG === /* Leaf */ 0) {
     return -1;
   } else {
-    return Curry._2(ASet.compare, t1._0, t2._0);
+    return compare$1(t1._0, t2._0);
   }
+}
+
+function compare$1(s1, s2) {
+  let _e1 = cons_enum(s1, /* End */ 0);
+  let _e2 = cons_enum(s2, /* End */ 0);
+  while (true) {
+    const e2 = _e2;
+    const e1 = _e1;
+    if (/* tag */ typeof e1 !== "object" && typeof e1 !== "function") {
+      if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
+        return 0;
+      } else {
+        return -1;
+      }
+    }
+    if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
+      return 1;
+    }
+    const c = compare(e1._0, e2._0);
+    if (c !== 0) {
+      return c;
+    }
+    _e2 = cons_enum(e2._1, e2._2);
+    _e1 = cons_enum(e1._1, e1._2);
+    continue;
+  };
 }
 
 const AAA = {
@@ -190,7 +234,7 @@ function add(x, t) {
   const r = t.r;
   const v = t.v;
   const l = t.l;
-  const c = Curry._2(AAA.compare, x, v);
+  const c = compare(x, v);
   if (c === 0) {
     return t;
   }
@@ -354,7 +398,7 @@ function split(x, param) {
   const r = param.r;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(AAA.compare, x, v);
+  const c = compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -423,7 +467,7 @@ function mem(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(AAA.compare, x, param.v);
+    const c = compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -439,7 +483,7 @@ function remove(x, t) {
   const r = t.r;
   const v = t.v;
   const l = t.l;
-  const c = Curry._2(AAA.compare, x, v);
+  const c = compare(x, v);
   if (c === 0) {
     if (/* tag */ typeof l !== "object" && typeof l !== "function") {
       return r;
@@ -552,7 +596,7 @@ function split_bis(x, param) {
   const r = param.r;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(AAA.compare, x, v);
+  const c = compare(x, v);
   if (c === 0) {
     return /* Found */ 0;
   }
@@ -566,7 +610,7 @@ function split_bis(x, param) {
       TAG: /* NotFound */ 0,
       _0: match._0,
       _1: (function (param) {
-        return join(Curry._1(rl, undefined), v, r);
+        return join(rl(), v, r);
       })
     };
   }
@@ -602,7 +646,7 @@ function disjoint(_s1, _s2) {
     if (!disjoint(s1.l, match._0)) {
       return false;
     }
-    _s2 = Curry._1(match._1, undefined);
+    _s2 = match._1();
     _s1 = s1.r;
     continue;
   };
@@ -630,50 +674,6 @@ function diff(s1, s2) {
   }
 }
 
-function cons_enum(_s, _e) {
-  while (true) {
-    const e = _e;
-    const s = _s;
-    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-      return e;
-    }
-    _e = {
-      TAG: /* More */ 0,
-      _0: s.v,
-      _1: s.r,
-      _2: e
-    };
-    _s = s.l;
-    continue;
-  };
-}
-
-function compare$1(s1, s2) {
-  let _e1 = cons_enum(s1, /* End */ 0);
-  let _e2 = cons_enum(s2, /* End */ 0);
-  while (true) {
-    const e2 = _e2;
-    const e1 = _e1;
-    if (/* tag */ typeof e1 !== "object" && typeof e1 !== "function") {
-      if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
-        return 0;
-      } else {
-        return -1;
-      }
-    }
-    if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
-      return 1;
-    }
-    const c = Curry._2(AAA.compare, e1._0, e2._0);
-    if (c !== 0) {
-      return c;
-    }
-    _e2 = cons_enum(e2._1, e2._2);
-    _e1 = cons_enum(e1._1, e1._2);
-    continue;
-  };
-}
-
 function equal(s1, s2) {
   return compare$1(s1, s2) === 0;
 }
@@ -693,7 +693,7 @@ function subset(_s1, _s2) {
     }
     const r2 = s2.r;
     const l2 = s2.l;
-    const c = Curry._2(AAA.compare, v1, s2.v);
+    const c = compare(v1, s2.v);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -736,23 +736,27 @@ function iter(f, _param) {
       return;
     }
     iter(f, param.l);
-    Curry._1(f, param.v);
+    f(param.v);
     _param = param.r;
     continue;
   };
 }
 
-function fold(f, _s, _accu) {
-  while (true) {
-    const accu = _accu;
-    const s = _s;
-    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-      return accu;
-    }
-    _accu = Curry._2(f, s.v, fold(f, s.l, accu));
-    _s = s.r;
-    continue;
+function fold(f, s, accu) {
+  const f$1 = Curry.__2(f);
+  const fold$1 = function (_s, _accu) {
+    while (true) {
+      const accu = _accu;
+      const s = _s;
+      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+        return accu;
+      }
+      _accu = f$1(s.v, fold$1(s.l, accu));
+      _s = s.r;
+      continue;
+    };
   };
+  return fold$1(s, accu);
 }
 
 function for_all(p, _param) {
@@ -761,7 +765,7 @@ function for_all(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return true;
     }
-    if (!Curry._1(p, param.v)) {
+    if (!p(param.v)) {
       return false;
     }
     if (!for_all(p, param.l)) {
@@ -778,7 +782,7 @@ function exists(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    if (Curry._1(p, param.v)) {
+    if (p(param.v)) {
       return true;
     }
     if (exists(p, param.l)) {
@@ -797,7 +801,7 @@ function filter(p, t) {
   const v = t.v;
   const l = t.l;
   const l$p = filter(p, l);
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const r$p = filter(p, r);
   if (pv) {
     if (l === l$p && r === r$p) {
@@ -821,7 +825,7 @@ function partition(p, param) {
   const match = partition(p, param.l);
   const lf = match[1];
   const lt = match[0];
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const match$1 = partition(p, param.r);
   const rf = match$1[1];
   const rt = match$1[0];
@@ -875,7 +879,7 @@ function find(x, _param) {
         });
     }
     const v = param.v;
-    const c = Curry._2(AAA.compare, x, v);
+    const c = compare(x, v);
     if (c === 0) {
       return v;
     }
@@ -893,7 +897,7 @@ function find_first(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.l;
       while (true) {
@@ -903,7 +907,7 @@ function find_first(f, _param) {
           return v0;
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
           continue;
@@ -924,7 +928,7 @@ function find_first_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.l;
       while (true) {
@@ -934,7 +938,7 @@ function find_first_opt(f, _param) {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _v0 = v$1;
           continue;
@@ -957,7 +961,7 @@ function find_last(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.r;
       while (true) {
@@ -967,7 +971,7 @@ function find_last(f, _param) {
           return v0;
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
           continue;
@@ -988,7 +992,7 @@ function find_last_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _param$1 = param.r;
       while (true) {
@@ -998,7 +1002,7 @@ function find_last_opt(f, _param) {
           return Caml_option.some(v0);
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _v0 = v$1;
           continue;
@@ -1019,7 +1023,7 @@ function find_opt(x, _param) {
       return;
     }
     const v = param.v;
-    const c = Curry._2(AAA.compare, x, v);
+    const c = compare(x, v);
     if (c === 0) {
       return Caml_option.some(v);
     }
@@ -1029,7 +1033,7 @@ function find_opt(x, _param) {
 }
 
 function try_join(l, v, r) {
-  if ((Caml_obj.caml_equal(l, /* Empty */ 0) || Curry._2(AAA.compare, max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */ 0) || Curry._2(AAA.compare, v, min_elt(r)) < 0)) {
+  if ((Caml_obj.caml_equal(l, /* Empty */ 0) || compare(max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */ 0) || compare(v, min_elt(r)) < 0)) {
     return join(l, v, r);
   } else {
     return union(l, add(v, r));
@@ -1037,20 +1041,24 @@ function try_join(l, v, r) {
 }
 
 function map(f, t) {
-  if (/* tag */ typeof t !== "object" && typeof t !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = t.r;
-  const v = t.v;
-  const l = t.l;
-  const l$p = map(f, l);
-  const v$p = Curry._1(f, v);
-  const r$p = map(f, r);
-  if (l === l$p && v === v$p && r === r$p) {
-    return t;
-  } else {
-    return try_join(l$p, v$p, r$p);
-  }
+  const f$1 = Curry.__1(f);
+  const map$1 = function (t) {
+    if (/* tag */ typeof t !== "object" && typeof t !== "function") {
+      return /* Empty */ 0;
+    }
+    const r = t.r;
+    const v = t.v;
+    const l = t.l;
+    const l$p = map$1(l);
+    const v$p = f$1(v);
+    const r$p = map$1(r);
+    if (l === l$p && v === v$p && r === r$p) {
+      return t;
+    } else {
+      return try_join(l$p, v$p, r$p);
+    }
+  };
+  return map$1(t);
 }
 
 function filter_map(f, t) {
@@ -1061,7 +1069,7 @@ function filter_map(f, t) {
   const v = t.v;
   const l = t.l;
   const l$p = filter_map(f, l);
-  const v$p = Curry._1(f, v);
+  const v$p = f(v);
   const r$p = filter_map(f, r);
   if (v$p === undefined) {
     if (/* tag */ typeof l$p !== "object" && typeof l$p !== "function") {
@@ -1103,7 +1111,7 @@ function of_list(l) {
   const x3 = match$2.hd;
   if (match$3) {
     if (match$3.tl) {
-      let l$1 = Stdlib__List.sort_uniq(AAA.compare, l);
+      let l$1 = Stdlib__List.sort_uniq(compare, l);
       const sub = function (n, l) {
         switch (n) {
           case 0 :
@@ -1292,7 +1300,7 @@ function to_seq_from(low, s) {
       }
       const r = s.r;
       const v = s.v;
-      const n = Curry._2(AAA.compare, v, low);
+      const n = compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -1381,10 +1389,10 @@ const suites_0 = [
         false
       ],
       _1: [
-        Curry._1(A.even, 2),
-        Curry._1(even$1, 4),
-        Curry._1(B.odd, 2),
-        Curry._1(odd$1, 4)
+        even(2),
+        even$1(4),
+        odd(2),
+        odd$1(4)
       ]
     };
   })
@@ -1396,7 +1404,7 @@ const suites_1 = {
     (function (param) {
       return {
         TAG: /* Eq */ 0,
-        _0: Curry._1(y, undefined),
+        _0: 32,
         _1: 32
       };
     })
@@ -1407,7 +1415,7 @@ const suites_1 = {
       (function (param) {
         return {
           TAG: /* Eq */ 0,
-          _0: Curry._1(x, undefined),
+          _0: 35,
           _1: 35
         };
       })
@@ -1419,7 +1427,7 @@ const suites_1 = {
           return {
             TAG: /* Eq */ 0,
             _0: true,
-            _1: Curry._1(A.even, 2)
+            _1: even(2)
           };
         })
       ],
@@ -1430,7 +1438,7 @@ const suites_1 = {
             return {
               TAG: /* Eq */ 0,
               _0: true,
-              _1: Curry._1(even$1, 4)
+              _1: even$1(4)
             };
           })
         ],
@@ -1441,7 +1449,7 @@ const suites_1 = {
               return {
                 TAG: /* Eq */ 0,
                 _0: false,
-                _1: Curry._1(B.odd, 2)
+                _1: odd(2)
               };
             })
           ],
@@ -1452,7 +1460,7 @@ const suites_1 = {
                 return {
                   TAG: /* Eq */ 0,
                   _0: 2,
-                  _1: Curry._1(cardinal, Curry._1(of_list, {
+                  _1: cardinal(of_list({
                     hd: {
                       TAG: /* Leaf */ 0,
                       _0: "a"
@@ -1500,4 +1508,4 @@ module.exports = {
   ASet,
   suites,
 }
-/* ASet Not a pure module */
+/*  Not a pure module */

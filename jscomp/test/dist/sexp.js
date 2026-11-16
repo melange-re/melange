@@ -157,7 +157,7 @@ function $great$pipe$eq(e, f) {
 
 function $great$great$eq(e, f) {
   if (e !== undefined) {
-    return Curry._1(f, Caml_option.valFromOption(e));
+    return f(Caml_option.valFromOption(e));
   }
   
 }
@@ -171,7 +171,7 @@ function map_opt(f, l) {
     if (!l$1) {
       return Stdlib__List.rev(acc);
     }
-    const y = Curry._1(f, l$1.hd);
+    const y = f(l$1.hd);
     if (y === undefined) {
       return;
     }
@@ -192,7 +192,7 @@ function list_any(f, e) {
       if (!l) {
         return;
       }
-      const res = Curry._1(f, l.hd);
+      const res = f(l.hd);
       if (res !== undefined) {
         return res;
       }
@@ -214,7 +214,7 @@ function list_all(f, e) {
         return Stdlib__List.rev(acc);
       }
       const tl = l.tl;
-      const y = Curry._1(f, l.hd);
+      const y = f(l.hd);
       if (y !== undefined) {
         _l = tl;
         _acc = {
@@ -285,8 +285,8 @@ function to_pair(e) {
 function to_pair_with(f1, f2, e) {
   return $great$great$eq(to_pair(e), (function (param) {
     const y = param[1];
-    return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-      return $great$great$eq(Curry._1(f2, y), (function (y) {
+    return $great$great$eq(f1(param[0]), (function (x) {
+      return $great$great$eq(f2(y), (function (y) {
         return [
           x,
           y
@@ -326,9 +326,9 @@ function to_triple_with(f1, f2, f3, e) {
   return $great$great$eq(to_triple(e), (function (param) {
     const z = param[2];
     const y = param[1];
-    return $great$great$eq(Curry._1(f1, param[0]), (function (x) {
-      return $great$great$eq(Curry._1(f2, y), (function (y) {
-        return $great$great$eq(Curry._1(f3, z), (function (z) {
+    return $great$great$eq(f1(param[0]), (function (x) {
+      return $great$great$eq(f2(y), (function (y) {
+        return $great$great$eq(f3(z), (function (z) {
           return [
             x,
             y,
@@ -460,7 +460,7 @@ function _get_variant(s, args, _l) {
     }
     const match = l.hd;
     if (Caml_obj.caml_equal(s, match[0])) {
-      return Curry._1(match[1], args);
+      return match[1](args);
     }
     _l = l.tl;
     continue;

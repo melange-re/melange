@@ -200,7 +200,7 @@ function file_option(file_options, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return x;
 }
@@ -223,7 +223,7 @@ function rev_split_by_char(c, s) {
           tl: l
         };
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   return loop(0, /* [] */ 0);
@@ -252,7 +252,7 @@ function apply_until(f, _param) {
     if (!param) {
       return;
     }
-    const x = Curry._1(f, param.hd);
+    const x = f(param.hd);
     if (x !== undefined) {
       return x;
     }
@@ -282,6 +282,7 @@ function string_of_string_list(l) {
 }
 
 function string_fold_lefti(f, e0, s) {
+  const f$1 = Curry.__3(f);
   const len = s.length;
   let _acc = e0;
   let _i = 0;
@@ -292,7 +293,7 @@ function string_fold_lefti(f, e0, s) {
       return acc;
     }
     _i = i + 1 | 0;
-    _acc = Curry._3(f, acc, i, s.charCodeAt(i));
+    _acc = f$1(acc, i, s.charCodeAt(i));
     continue;
   };
 }
@@ -1588,68 +1589,6 @@ const __ocaml_lex_tables = {
   lex_code: ""
 };
 
-function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const l = _l;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        update_loc(lexbuf);
-        ___ocaml_lex_state = 47;
-        continue;
-      case 1 :
-        Stdlib__Lexing.lexeme(lexbuf);
-        return {
-          TAG: /* Comment_value */ 0,
-          _0: Stdlib__String.concat("", Stdlib__List.rev(l))
-        };
-      case 2 :
-        ___ocaml_lex_state = 47;
-        _l = {
-          hd: Stdlib__Lexing.lexeme(lexbuf),
-          tl: l
-        };
-        continue;
-      case 3 :
-        return /* Comment_eof */ 0;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const l = _l;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        update_loc(lexbuf);
-        return {
-          TAG: /* Comment_value */ 0,
-          _0: Stdlib__String.concat("", Stdlib__List.rev(l))
-        };
-      case 1 :
-        ___ocaml_lex_state = 41;
-        _l = {
-          hd: Stdlib__Lexing.lexeme(lexbuf),
-          tl: l
-        };
-        continue;
-      case 2 :
-        return /* Comment_eof */ 0;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
 function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
@@ -1679,7 +1618,69 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
       case 3 :
         return /* String_eof */ 0;
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        update_loc(lexbuf);
+        return {
+          TAG: /* Comment_value */ 0,
+          _0: Stdlib__String.concat("", Stdlib__List.rev(l))
+        };
+      case 1 :
+        ___ocaml_lex_state = 41;
+        _l = {
+          hd: Stdlib__Lexing.lexeme(lexbuf),
+          tl: l
+        };
+        continue;
+      case 2 :
+        return /* Comment_eof */ 0;
+      default:
+        lexbuf.refill_buff(lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const l = _l;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        update_loc(lexbuf);
+        ___ocaml_lex_state = 47;
+        continue;
+      case 1 :
+        Stdlib__Lexing.lexeme(lexbuf);
+        return {
+          TAG: /* Comment_value */ 0,
+          _0: Stdlib__String.concat("", Stdlib__List.rev(l))
+        };
+      case 2 :
+        ___ocaml_lex_state = 47;
+        _l = {
+          hd: Stdlib__Lexing.lexeme(lexbuf),
+          tl: l
+        };
+        continue;
+      case 3 :
+        return /* Comment_eof */ 0;
+      default:
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -1832,7 +1833,7 @@ function lexer(lexbuf) {
             _1: s$1
           });
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -2054,7 +2055,7 @@ function scope(scope$1, f) {
   const sub_scope = {
     items: /* [] */ 0
   };
-  Curry._1(f, sub_scope);
+  f(sub_scope);
   scope$1.items = {
     hd: {
       TAG: /* Scope */ 1,
@@ -2360,7 +2361,7 @@ function gen_decode_record(and_, param, sc) {
       _1: "| Some (%i, Pbrt.%s) -> ("
     }), encoding_number, pk_as_string));
     scope(sc, (function (sc) {
-      Curry._1(f, sc);
+      f(sc);
       line$1(sc, "loop ()");
     }));
     line$1(sc, ")");
@@ -3872,12 +3873,6 @@ const Codegen_pp = {
   ocamldoc_title: "Formatters"
 };
 
-const compare = Caml_obj.caml_compare;
-
-const funarg = {
-  compare
-};
-
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
@@ -3973,7 +3968,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml_obj.caml_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -4012,7 +4007,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml_obj.caml_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -4021,37 +4016,22 @@ function find(x, _param) {
   };
 }
 
-function map$1(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map$1(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map$1(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+function fold(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$1 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$1(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
+  return fold$1(m, accu);
 }
-
-function fold(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
-}
-
-const empty_graph = /* Empty */ 0;
 
 function min_value(param) {
   const x = param[0];
@@ -4107,21 +4087,39 @@ function string_of_option(f, x) {
         }
       },
       _1: "Some(%s)"
-    }), Curry._1(f, Caml_option.valFromOption(x)));
+    }), f(Caml_option.valFromOption(x)));
   } else {
     return "None";
   }
 }
 
 function reset(g) {
-  return Curry._2(map$1, (function (core) {
+  let f = function (core) {
     return {
       core,
       index: undefined,
       lowlink: undefined,
       on_stack: false
     };
-  }), g);
+  };
+  const f$1 = Curry.__1(f);
+  const map = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
+  };
+  return map(g);
 }
 
 function strong_connect(g, sccs, stack, index, v) {
@@ -4165,7 +4163,7 @@ function strong_connect(g, sccs, stack, index, v) {
     const index = param[2];
     const stack = param[1];
     const sccs = param[0];
-    const w = Curry._2(find, id, g);
+    const w = find(id, g);
     Curry._2(log({
       TAG: /* Format */ 0,
       _0: {
@@ -4347,7 +4345,7 @@ function strong_connect(g, sccs, stack, index, v) {
 
 function tarjan(g) {
   const g$1 = reset(g);
-  return Curry._3(fold, (function (param, n, param$1) {
+  return fold((function (param, n, param$1) {
     const index = param$1[2];
     const stack = param$1[1];
     const sccs = param$1[0];
@@ -4402,7 +4400,7 @@ function find_field_option(field_options, option_name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return Caml_option.some(x);
 }
@@ -4627,7 +4625,7 @@ function get_default(field_name, field_options, field_type) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return Caml_option.some(constant);
 }
@@ -4663,7 +4661,7 @@ function compile_oneof_p1(param) {
 
 function not_found(f) {
   try {
-    Curry._1(f, undefined);
+    f();
     return false;
   }
   catch (raw_exn){
@@ -4671,7 +4669,7 @@ function not_found(f) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -5061,7 +5059,7 @@ function compile_message_p2(types, param, message) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return;
         }
-        throw exn;
+        throw raw_exn;
       }
     }), search_scopes$1);
     if (id !== undefined) {
@@ -5226,8 +5224,8 @@ function node_of_proto_type(param) {
 function group(proto) {
   const g = Stdlib__List.map(node_of_proto_type, proto);
   const g$1 = Stdlib__List.fold_left((function (m, n) {
-    return Curry._3(add, n.id, n, m);
-  }), empty_graph, g);
+    return add(n.id, n, m);
+  }), /* Empty */ 0, g);
   const sccs = tarjan(g$1);
   return Stdlib__List.map((function (l) {
     return Stdlib__List.map((function (id) {
@@ -7153,7 +7151,7 @@ function label_name_of_field_name(s) {
 }
 
 function module_of_file_name(file_name) {
-  const file_name$1 = Curry._1(Stdlib__Filename.basename, file_name);
+  const file_name$1 = Stdlib__Filename.basename(file_name);
   let dot_index;
   try {
     dot_index = Stdlib__String.rindex(file_name$1, /* '.' */46);
@@ -7169,7 +7167,7 @@ function module_of_file_name(file_name) {
           }
         });
     }
-    throw exn;
+    throw raw_exn;
   }
   return constructor_name(Stdlib__String.sub(file_name$1, 0, dot_index) + "_pb");
 }
@@ -7300,7 +7298,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
             }
           });
       }
-      throw exn;
+      throw raw_exn;
     }
     if (is_empty_message(t)) {
       return /* Ft_unit */ 0;
@@ -7856,7 +7854,7 @@ function compile(proto_definition) {
       }
     },
     _1: "(** %s Generated Types and Encoding *)"
-  }), Curry._1(Stdlib__Filename.basename, proto_file_name)));
+  }), Stdlib__Filename.basename(proto_file_name)));
   gen(all_ocaml_types, sc$1, Stdlib__List.map((function (m) {
     return [
       m.gen_sig,

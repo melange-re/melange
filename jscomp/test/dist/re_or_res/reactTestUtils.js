@@ -9,7 +9,7 @@ const TestUtils = require("react-dom/test-utils");
 
 function act(func) {
   const reactFunc = function () {
-    Curry._1(func, undefined);
+    func();
   };
   TestUtils.act(reactFunc);
 }

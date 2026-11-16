@@ -13,16 +13,18 @@ const Stdlib__Printf = require("melange/printf.js");
 const Stdlib__Uchar = require("melange/uchar.js");
 
 function fold_uchars(f, acc) {
+  let u = Stdlib__Uchar.min;
+  const f$1 = Curry.__2(f);
   let _acc = acc;
-  let _u = Stdlib__Uchar.min;
+  let _u = u;
   while (true) {
-    const u = _u;
+    const u$1 = _u;
     const acc$1 = _acc;
-    const acc$2 = Curry._2(f, acc$1, u);
-    if (u === Stdlib__Uchar.max) {
+    const acc$2 = f$1(acc$1, u$1);
+    if (u$1 === Stdlib__Uchar.max) {
       return acc$2;
     }
-    _u = Stdlib__Uchar.succ(u);
+    _u = Stdlib__Uchar.succ(u$1);
     _acc = acc$2;
     continue;
   };
@@ -373,7 +375,7 @@ Stdlib__Array.iteri(swap, map);
 
 function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
   const f = function (param, u) {
-    const utf_len$1 = Curry._1(utf_len, u);
+    const utf_len$1 = utf_len(u);
     const buf = Caml_bytes.caml_create_bytes(utf_len$1);
     if (Curry._3(set_utf, buf, 0, u) !== utf_len$1) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
@@ -436,7 +438,7 @@ function test_utf(utf, utf_len, get_utf, set_utf, utf_is_valid) {
           ]
         });
     }
-    if (!Curry._1(utf_is_valid, buf)) {
+    if (!utf_is_valid(buf)) {
       throw new Caml_js_exceptions.MelangeError("Assert_failure", {
           MEL_EXN_ID: "Assert_failure",
           _1: [
@@ -460,7 +462,7 @@ test_utf(map, Stdlib__Uchar.utf_16_byte_length, Stdlib__Bytes.get_utf_16le_uchar
 function raises(f) {
   let tmp;
   try {
-    Curry._1(f, undefined);
+    f();
     tmp = false;
   }
   catch (raw_exn){

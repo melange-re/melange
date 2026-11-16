@@ -43,12 +43,6 @@ function public_method_label(s) {
   }
 }
 
-const compare = Caml.caml_string_compare;
-
-const funarg = {
-  compare
-};
-
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
@@ -197,7 +191,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -236,7 +230,7 @@ function find(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -254,7 +248,7 @@ function find_first(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -269,7 +263,7 @@ function find_first(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -291,7 +285,7 @@ function find_first_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -306,7 +300,7 @@ function find_first_opt(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -330,7 +324,7 @@ function find_last(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -345,7 +339,7 @@ function find_last(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -367,7 +361,7 @@ function find_last_opt(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -382,7 +376,7 @@ function find_last_opt(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -403,7 +397,7 @@ function find_opt(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -418,7 +412,7 @@ function mem(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -537,7 +531,7 @@ function remove(x, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -559,7 +553,7 @@ function remove(x, m) {
 
 function update(x, f, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    const data = Curry._1(f, undefined);
+    const data = f(undefined);
     if (data !== undefined) {
       return {
         TAG: /* Node */ 0,
@@ -577,9 +571,9 @@ function update(x, f, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
-    const data$1 = Curry._1(f, Caml_option.some(d));
+    const data$1 = f(Caml_option.some(d));
     if (data$1 === undefined) {
       return merge(l, r);
     }
@@ -630,99 +624,123 @@ function add_to_list(x, data, m) {
   return update(x, add, m);
 }
 
-function iter(f, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return;
-    }
-    iter(f, param.l);
-    Curry._2(f, param.v, param.d);
-    _param = param.r;
-    continue;
+function iter(f, param) {
+  const f$1 = Curry.__2(f);
+  const iter$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return;
+      }
+      iter$1(param.l);
+      f$1(param.v, param.d);
+      _param = param.r;
+      continue;
+    };
   };
+  iter$1(param);
 }
 
 function map(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+  const f$1 = Curry.__1(f);
+  const map$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map$1(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map$1(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return map$1(param);
 }
 
 function mapi(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = mapi(f, param.l);
-  const d$p = Curry._2(f, v, param.d);
-  const r$p = mapi(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v,
-    d: d$p,
-    r: r$p,
-    h: param.h
-  };
-}
-
-function fold(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
-}
-
-function for_all(p, _param) {
-  while (true) {
-    const param = _param;
+  const f$1 = Curry.__2(f);
+  const mapi$1 = function (param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return true;
+      return /* Empty */ 0;
     }
-    if (!Curry._2(p, param.v, param.d)) {
-      return false;
-    }
-    if (!for_all(p, param.l)) {
-      return false;
-    }
-    _param = param.r;
-    continue;
+    const v = param.v;
+    const l$p = mapi$1(param.l);
+    const d$p = f$1(v, param.d);
+    const r$p = mapi$1(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return mapi$1(param);
 }
 
-function exists(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return false;
-    }
-    if (Curry._2(p, param.v, param.d)) {
-      return true;
-    }
-    if (exists(p, param.l)) {
-      return true;
-    }
-    _param = param.r;
-    continue;
+function fold(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$1 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$1(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
+  return fold$1(m, accu);
+}
+
+function for_all(p, param) {
+  const p$1 = Curry.__2(p);
+  const for_all$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return true;
+      }
+      if (!p$1(param.v, param.d)) {
+        return false;
+      }
+      if (!for_all$1(param.l)) {
+        return false;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return for_all$1(param);
+}
+
+function exists(p, param) {
+  const p$1 = Curry.__2(p);
+  const exists$1 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return false;
+      }
+      if (p$1(param.v, param.d)) {
+        return true;
+      }
+      if (exists$1(param.l)) {
+        return true;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return exists$1(param);
 }
 
 function add_min_binding(k, x, param) {
@@ -790,7 +808,7 @@ function split(x, param) {
   const d = param.d;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -815,131 +833,151 @@ function split(x, param) {
 }
 
 function merge$1(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+  const f$1 = Curry.__3(f);
+  const merge$2 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+        return /* Empty */ 0;
+      }
+      
+    } else {
+      const v1 = s1.v;
+      if (s1.h >= height(s2)) {
+        const match = split(v1, s2);
+        return concat_or_join(merge$2(s1.l, match[0]), v1, f$1(v1, Caml_option.some(s1.d), match[1]), merge$2(s1.r, match[2]));
+      }
+      
+    }
     if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-      return /* Empty */ 0;
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/stdlib/map.ml",
+            418,
+            10
+          ]
+        });
     }
-    
-  } else {
-    const v1 = s1.v;
-    if (s1.h >= height(s2)) {
-      const match = split(v1, s2);
-      return concat_or_join(merge$1(f, s1.l, match[0]), v1, Curry._3(f, v1, Caml_option.some(s1.d), match[1]), merge$1(f, s1.r, match[2]));
-    }
-    
-  }
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/stdlib/map.ml",
-          418,
-          10
-        ]
-      });
-  }
-  const v2 = s2.v;
-  const match$1 = split(v2, s1);
-  return concat_or_join(merge$1(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$1(f, match$1[2], s2.r));
+    const v2 = s2.v;
+    const match$1 = split(v2, s1);
+    return concat_or_join(merge$2(match$1[0], s2.l), v2, f$1(v2, match$1[1], Caml_option.some(s2.d)), merge$2(match$1[2], s2.r));
+  };
+  return merge$2(s1, s2);
 }
 
 function union(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
-    return s2;
-  }
-  const d1 = s1.d;
-  const v1 = s1.v;
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    return s1;
-  }
-  const d2 = s2.d;
-  const v2 = s2.v;
-  if (s1.h >= s2.h) {
-    const match = split(v1, s2);
-    const d2$1 = match[1];
-    const l = union(f, s1.l, match[0]);
-    const r = union(f, s1.r, match[2]);
-    if (d2$1 !== undefined) {
-      return concat_or_join(l, v1, Curry._3(f, v1, d1, Caml_option.valFromOption(d2$1)), r);
-    } else {
-      return join(l, v1, d1, r);
+  const f$1 = Curry.__3(f);
+  const union$1 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      return s2;
     }
-  }
-  const match$1 = split(v2, s1);
-  const d1$1 = match$1[1];
-  const l$1 = union(f, match$1[0], s2.l);
-  const r$1 = union(f, match$1[2], s2.r);
-  if (d1$1 !== undefined) {
-    return concat_or_join(l$1, v2, Curry._3(f, v2, Caml_option.valFromOption(d1$1), d2), r$1);
-  } else {
-    return join(l$1, v2, d2, r$1);
-  }
+    const d1 = s1.d;
+    const v1 = s1.v;
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+      return s1;
+    }
+    const d2 = s2.d;
+    const v2 = s2.v;
+    if (s1.h >= s2.h) {
+      const match = split(v1, s2);
+      const d2$1 = match[1];
+      const l = union$1(s1.l, match[0]);
+      const r = union$1(s1.r, match[2]);
+      if (d2$1 !== undefined) {
+        return concat_or_join(l, v1, f$1(v1, d1, Caml_option.valFromOption(d2$1)), r);
+      } else {
+        return join(l, v1, d1, r);
+      }
+    }
+    const match$1 = split(v2, s1);
+    const d1$1 = match$1[1];
+    const l$1 = union$1(match$1[0], s2.l);
+    const r$1 = union$1(match$1[2], s2.r);
+    if (d1$1 !== undefined) {
+      return concat_or_join(l$1, v2, f$1(v2, Caml_option.valFromOption(d1$1), d2), r$1);
+    } else {
+      return join(l$1, v2, d2, r$1);
+    }
+  };
+  return union$1(s1, s2);
 }
 
 function filter(p, m) {
-  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = m.r;
-  const d = m.d;
-  const v = m.v;
-  const l = m.l;
-  const l$p = filter(p, l);
-  const pvd = Curry._2(p, v, d);
-  const r$p = filter(p, r);
-  if (pvd) {
-    if (l === l$p && r === r$p) {
-      return m;
-    } else {
-      return join(l$p, v, d, r$p);
+  const p$1 = Curry.__2(p);
+  const filter$1 = function (m) {
+    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+      return /* Empty */ 0;
     }
-  } else {
-    return concat(l$p, r$p);
-  }
+    const r = m.r;
+    const d = m.d;
+    const v = m.v;
+    const l = m.l;
+    const l$p = filter$1(l);
+    const pvd = p$1(v, d);
+    const r$p = filter$1(r);
+    if (pvd) {
+      if (l === l$p && r === r$p) {
+        return m;
+      } else {
+        return join(l$p, v, d, r$p);
+      }
+    } else {
+      return concat(l$p, r$p);
+    }
+  };
+  return filter$1(m);
 }
 
 function filter_map(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = filter_map(f, param.l);
-  const fvd = Curry._2(f, v, param.d);
-  const r$p = filter_map(f, param.r);
-  if (fvd !== undefined) {
-    return join(l$p, v, Caml_option.valFromOption(fvd), r$p);
-  } else {
-    return concat(l$p, r$p);
-  }
+  const f$1 = Curry.__2(f);
+  const filter_map$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const v = param.v;
+    const l$p = filter_map$1(param.l);
+    const fvd = f$1(v, param.d);
+    const r$p = filter_map$1(param.r);
+    if (fvd !== undefined) {
+      return join(l$p, v, Caml_option.valFromOption(fvd), r$p);
+    } else {
+      return concat(l$p, r$p);
+    }
+  };
+  return filter_map$1(param);
 }
 
 function partition(p, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return [
-      /* Empty */ 0,
-      /* Empty */ 0
-    ];
-  }
-  const d = param.d;
-  const v = param.v;
-  const match = partition(p, param.l);
-  const lf = match[1];
-  const lt = match[0];
-  const pvd = Curry._2(p, v, d);
-  const match$1 = partition(p, param.r);
-  const rf = match$1[1];
-  const rt = match$1[0];
-  if (pvd) {
-    return [
-      join(lt, v, d, rt),
-      concat(lf, rf)
-    ];
-  } else {
-    return [
-      concat(lt, rt),
-      join(lf, v, d, rf)
-    ];
-  }
+  const p$1 = Curry.__2(p);
+  const partition$1 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return [
+        /* Empty */ 0,
+        /* Empty */ 0
+      ];
+    }
+    const d = param.d;
+    const v = param.v;
+    const match = partition$1(param.l);
+    const lf = match[1];
+    const lt = match[0];
+    const pvd = p$1(v, d);
+    const match$1 = partition$1(param.r);
+    const rf = match$1[1];
+    const rt = match$1[0];
+    if (pvd) {
+      return [
+        join(lt, v, d, rt),
+        concat(lf, rf)
+      ];
+    } else {
+      return [
+        concat(lt, rt),
+        join(lf, v, d, rf)
+      ];
+    }
+  };
+  return partition$1(param);
 }
 
 function cons_enum(_m, _e) {
@@ -961,7 +999,8 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare$1(cmp, m1, m2) {
+function compare(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -977,11 +1016,11 @@ function compare$1(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg.compare, e1._0, e2._0);
+    const c = Caml.caml_string_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    const c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = cmp$1(e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -992,6 +1031,7 @@ function compare$1(cmp, m1, m2) {
 }
 
 function equal(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum(m1, /* End */ 0);
   let _e2 = cons_enum(m2, /* End */ 0);
   while (true) {
@@ -1007,10 +1047,10 @@ function equal(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
+    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
       return false;
     }
-    if (!Curry._2(cmp, e1._1, e2._1)) {
+    if (!cmp$1(e1._1, e2._1)) {
       return false;
     }
     _e2 = cons_enum(e2._2, e2._3);
@@ -1144,7 +1184,7 @@ function to_seq_from(low, m) {
       const r = m.r;
       const d = m.d;
       const v = m.v;
-      const n = Curry._2(funarg.compare, v, low);
+      const n = Caml.caml_string_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -1211,7 +1251,7 @@ const Vars = {
   singleton_to_binding,
   mem,
   equal,
-  compare: compare$1,
+  compare,
   for_all,
   exists,
   to_list: bindings,
@@ -1221,12 +1261,6 @@ const Vars = {
   to_seq_from,
   add_seq,
   of_seq
-};
-
-const compare$2 = Caml.caml_string_compare;
-
-const funarg$1 = {
-  compare: compare$2
 };
 
 function height$1(param) {
@@ -1377,7 +1411,7 @@ function add$1(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -1416,7 +1450,7 @@ function find$1(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -1434,7 +1468,7 @@ function find_first$1(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -1449,7 +1483,7 @@ function find_first$1(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -1471,7 +1505,7 @@ function find_first_opt$1(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -1486,7 +1520,7 @@ function find_first_opt$1(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -1510,7 +1544,7 @@ function find_last$1(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -1525,7 +1559,7 @@ function find_last$1(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -1547,7 +1581,7 @@ function find_last_opt$1(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -1562,7 +1596,7 @@ function find_last_opt$1(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -1583,7 +1617,7 @@ function find_opt$1(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
-    const c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -1598,7 +1632,7 @@ function mem$1(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg$1.compare, x, param.v);
+    const c = Caml.caml_string_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -1717,7 +1751,7 @@ function remove$1(x, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return merge$2(l, r);
   }
@@ -1739,7 +1773,7 @@ function remove$1(x, m) {
 
 function update$1(x, f, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    const data = Curry._1(f, undefined);
+    const data = f(undefined);
     if (data !== undefined) {
       return {
         TAG: /* Node */ 0,
@@ -1757,9 +1791,9 @@ function update$1(x, f, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
-    const data$1 = Curry._1(f, Caml_option.some(d));
+    const data$1 = f(Caml_option.some(d));
     if (data$1 === undefined) {
       return merge$2(l, r);
     }
@@ -1810,99 +1844,123 @@ function add_to_list$1(x, data, m) {
   return update$1(x, add, m);
 }
 
-function iter$1(f, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return;
-    }
-    iter$1(f, param.l);
-    Curry._2(f, param.v, param.d);
-    _param = param.r;
-    continue;
+function iter$1(f, param) {
+  const f$1 = Curry.__2(f);
+  const iter$2 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return;
+      }
+      iter$2(param.l);
+      f$1(param.v, param.d);
+      _param = param.r;
+      continue;
+    };
   };
+  iter$2(param);
 }
 
 function map$1(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map$1(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map$1(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+  const f$1 = Curry.__1(f);
+  const map$2 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map$2(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map$2(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return map$2(param);
 }
 
 function mapi$1(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = mapi$1(f, param.l);
-  const d$p = Curry._2(f, v, param.d);
-  const r$p = mapi$1(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v,
-    d: d$p,
-    r: r$p,
-    h: param.h
-  };
-}
-
-function fold$1(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold$1(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
-}
-
-function for_all$1(p, _param) {
-  while (true) {
-    const param = _param;
+  const f$1 = Curry.__2(f);
+  const mapi$2 = function (param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return true;
+      return /* Empty */ 0;
     }
-    if (!Curry._2(p, param.v, param.d)) {
-      return false;
-    }
-    if (!for_all$1(p, param.l)) {
-      return false;
-    }
-    _param = param.r;
-    continue;
+    const v = param.v;
+    const l$p = mapi$2(param.l);
+    const d$p = f$1(v, param.d);
+    const r$p = mapi$2(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return mapi$2(param);
 }
 
-function exists$1(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return false;
-    }
-    if (Curry._2(p, param.v, param.d)) {
-      return true;
-    }
-    if (exists$1(p, param.l)) {
-      return true;
-    }
-    _param = param.r;
-    continue;
+function fold$1(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$2 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$2(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
+  return fold$2(m, accu);
+}
+
+function for_all$1(p, param) {
+  const p$1 = Curry.__2(p);
+  const for_all$2 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return true;
+      }
+      if (!p$1(param.v, param.d)) {
+        return false;
+      }
+      if (!for_all$2(param.l)) {
+        return false;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return for_all$2(param);
+}
+
+function exists$1(p, param) {
+  const p$1 = Curry.__2(p);
+  const exists$2 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return false;
+      }
+      if (p$1(param.v, param.d)) {
+        return true;
+      }
+      if (exists$2(param.l)) {
+        return true;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return exists$2(param);
 }
 
 function add_min_binding$1(k, x, param) {
@@ -1970,7 +2028,7 @@ function split$1(x, param) {
   const d = param.d;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -1995,131 +2053,151 @@ function split$1(x, param) {
 }
 
 function merge$3(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+  const f$1 = Curry.__3(f);
+  const merge$4 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+        return /* Empty */ 0;
+      }
+      
+    } else {
+      const v1 = s1.v;
+      if (s1.h >= height$1(s2)) {
+        const match = split$1(v1, s2);
+        return concat_or_join$1(merge$4(s1.l, match[0]), v1, f$1(v1, Caml_option.some(s1.d), match[1]), merge$4(s1.r, match[2]));
+      }
+      
+    }
     if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-      return /* Empty */ 0;
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/stdlib/map.ml",
+            418,
+            10
+          ]
+        });
     }
-    
-  } else {
-    const v1 = s1.v;
-    if (s1.h >= height$1(s2)) {
-      const match = split$1(v1, s2);
-      return concat_or_join$1(merge$3(f, s1.l, match[0]), v1, Curry._3(f, v1, Caml_option.some(s1.d), match[1]), merge$3(f, s1.r, match[2]));
-    }
-    
-  }
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/stdlib/map.ml",
-          418,
-          10
-        ]
-      });
-  }
-  const v2 = s2.v;
-  const match$1 = split$1(v2, s1);
-  return concat_or_join$1(merge$3(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$3(f, match$1[2], s2.r));
+    const v2 = s2.v;
+    const match$1 = split$1(v2, s1);
+    return concat_or_join$1(merge$4(match$1[0], s2.l), v2, f$1(v2, match$1[1], Caml_option.some(s2.d)), merge$4(match$1[2], s2.r));
+  };
+  return merge$4(s1, s2);
 }
 
 function union$1(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
-    return s2;
-  }
-  const d1 = s1.d;
-  const v1 = s1.v;
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    return s1;
-  }
-  const d2 = s2.d;
-  const v2 = s2.v;
-  if (s1.h >= s2.h) {
-    const match = split$1(v1, s2);
-    const d2$1 = match[1];
-    const l = union$1(f, s1.l, match[0]);
-    const r = union$1(f, s1.r, match[2]);
-    if (d2$1 !== undefined) {
-      return concat_or_join$1(l, v1, Curry._3(f, v1, d1, Caml_option.valFromOption(d2$1)), r);
-    } else {
-      return join$1(l, v1, d1, r);
+  const f$1 = Curry.__3(f);
+  const union$2 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      return s2;
     }
-  }
-  const match$1 = split$1(v2, s1);
-  const d1$1 = match$1[1];
-  const l$1 = union$1(f, match$1[0], s2.l);
-  const r$1 = union$1(f, match$1[2], s2.r);
-  if (d1$1 !== undefined) {
-    return concat_or_join$1(l$1, v2, Curry._3(f, v2, Caml_option.valFromOption(d1$1), d2), r$1);
-  } else {
-    return join$1(l$1, v2, d2, r$1);
-  }
+    const d1 = s1.d;
+    const v1 = s1.v;
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+      return s1;
+    }
+    const d2 = s2.d;
+    const v2 = s2.v;
+    if (s1.h >= s2.h) {
+      const match = split$1(v1, s2);
+      const d2$1 = match[1];
+      const l = union$2(s1.l, match[0]);
+      const r = union$2(s1.r, match[2]);
+      if (d2$1 !== undefined) {
+        return concat_or_join$1(l, v1, f$1(v1, d1, Caml_option.valFromOption(d2$1)), r);
+      } else {
+        return join$1(l, v1, d1, r);
+      }
+    }
+    const match$1 = split$1(v2, s1);
+    const d1$1 = match$1[1];
+    const l$1 = union$2(match$1[0], s2.l);
+    const r$1 = union$2(match$1[2], s2.r);
+    if (d1$1 !== undefined) {
+      return concat_or_join$1(l$1, v2, f$1(v2, Caml_option.valFromOption(d1$1), d2), r$1);
+    } else {
+      return join$1(l$1, v2, d2, r$1);
+    }
+  };
+  return union$2(s1, s2);
 }
 
 function filter$1(p, m) {
-  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = m.r;
-  const d = m.d;
-  const v = m.v;
-  const l = m.l;
-  const l$p = filter$1(p, l);
-  const pvd = Curry._2(p, v, d);
-  const r$p = filter$1(p, r);
-  if (pvd) {
-    if (l === l$p && r === r$p) {
-      return m;
-    } else {
-      return join$1(l$p, v, d, r$p);
+  const p$1 = Curry.__2(p);
+  const filter$2 = function (m) {
+    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+      return /* Empty */ 0;
     }
-  } else {
-    return concat$1(l$p, r$p);
-  }
+    const r = m.r;
+    const d = m.d;
+    const v = m.v;
+    const l = m.l;
+    const l$p = filter$2(l);
+    const pvd = p$1(v, d);
+    const r$p = filter$2(r);
+    if (pvd) {
+      if (l === l$p && r === r$p) {
+        return m;
+      } else {
+        return join$1(l$p, v, d, r$p);
+      }
+    } else {
+      return concat$1(l$p, r$p);
+    }
+  };
+  return filter$2(m);
 }
 
 function filter_map$1(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = filter_map$1(f, param.l);
-  const fvd = Curry._2(f, v, param.d);
-  const r$p = filter_map$1(f, param.r);
-  if (fvd !== undefined) {
-    return join$1(l$p, v, Caml_option.valFromOption(fvd), r$p);
-  } else {
-    return concat$1(l$p, r$p);
-  }
+  const f$1 = Curry.__2(f);
+  const filter_map$2 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const v = param.v;
+    const l$p = filter_map$2(param.l);
+    const fvd = f$1(v, param.d);
+    const r$p = filter_map$2(param.r);
+    if (fvd !== undefined) {
+      return join$1(l$p, v, Caml_option.valFromOption(fvd), r$p);
+    } else {
+      return concat$1(l$p, r$p);
+    }
+  };
+  return filter_map$2(param);
 }
 
 function partition$1(p, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return [
-      /* Empty */ 0,
-      /* Empty */ 0
-    ];
-  }
-  const d = param.d;
-  const v = param.v;
-  const match = partition$1(p, param.l);
-  const lf = match[1];
-  const lt = match[0];
-  const pvd = Curry._2(p, v, d);
-  const match$1 = partition$1(p, param.r);
-  const rf = match$1[1];
-  const rt = match$1[0];
-  if (pvd) {
-    return [
-      join$1(lt, v, d, rt),
-      concat$1(lf, rf)
-    ];
-  } else {
-    return [
-      concat$1(lt, rt),
-      join$1(lf, v, d, rf)
-    ];
-  }
+  const p$1 = Curry.__2(p);
+  const partition$2 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return [
+        /* Empty */ 0,
+        /* Empty */ 0
+      ];
+    }
+    const d = param.d;
+    const v = param.v;
+    const match = partition$2(param.l);
+    const lf = match[1];
+    const lt = match[0];
+    const pvd = p$1(v, d);
+    const match$1 = partition$2(param.r);
+    const rf = match$1[1];
+    const rt = match$1[0];
+    if (pvd) {
+      return [
+        join$1(lt, v, d, rt),
+        concat$1(lf, rf)
+      ];
+    } else {
+      return [
+        concat$1(lt, rt),
+        join$1(lf, v, d, rf)
+      ];
+    }
+  };
+  return partition$2(param);
 }
 
 function cons_enum$1(_m, _e) {
@@ -2141,7 +2219,8 @@ function cons_enum$1(_m, _e) {
   };
 }
 
-function compare$3(cmp, m1, m2) {
+function compare$1(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum$1(m1, /* End */ 0);
   let _e2 = cons_enum$1(m2, /* End */ 0);
   while (true) {
@@ -2157,11 +2236,11 @@ function compare$3(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg$1.compare, e1._0, e2._0);
+    const c = Caml.caml_string_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    const c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = cmp$1(e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -2172,6 +2251,7 @@ function compare$3(cmp, m1, m2) {
 }
 
 function equal$1(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum$1(m1, /* End */ 0);
   let _e2 = cons_enum$1(m2, /* End */ 0);
   while (true) {
@@ -2187,10 +2267,10 @@ function equal$1(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(funarg$1.compare, e1._0, e2._0) !== 0) {
+    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
       return false;
     }
-    if (!Curry._2(cmp, e1._1, e2._1)) {
+    if (!cmp$1(e1._1, e2._1)) {
       return false;
     }
     _e2 = cons_enum$1(e2._2, e2._3);
@@ -2324,7 +2404,7 @@ function to_seq_from$1(low, m) {
       const r = m.r;
       const d = m.d;
       const v = m.v;
-      const n = Curry._2(funarg$1.compare, v, low);
+      const n = Caml.caml_string_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -2391,7 +2471,7 @@ const Meths = {
   singleton_to_binding: singleton_to_binding$1,
   mem: mem$1,
   equal: equal$1,
-  compare: compare$3,
+  compare: compare$1,
   for_all: for_all$1,
   exists: exists$1,
   to_list: bindings$1,
@@ -2401,12 +2481,6 @@ const Meths = {
   to_seq_from: to_seq_from$1,
   add_seq: add_seq$1,
   of_seq: of_seq$1
-};
-
-const compare$4 = Caml.caml_int_compare;
-
-const funarg$2 = {
-  compare: compare$4
 };
 
 function height$2(param) {
@@ -2557,7 +2631,7 @@ function add$2(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$2.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -2596,7 +2670,7 @@ function find$2(x, _param) {
           MEL_EXN_ID: Stdlib.Not_found
         });
     }
-    const c = Curry._2(funarg$2.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return param.d;
     }
@@ -2614,7 +2688,7 @@ function find_first$2(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -2629,7 +2703,7 @@ function find_first$2(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -2651,7 +2725,7 @@ function find_first_opt$2(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.l;
@@ -2666,7 +2740,7 @@ function find_first_opt$2(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.l;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -2690,7 +2764,7 @@ function find_last$2(f, _param) {
         });
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -2705,7 +2779,7 @@ function find_last$2(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -2727,7 +2801,7 @@ function find_last_opt$2(f, _param) {
       return;
     }
     const v = param.v;
-    if (Curry._1(f, v)) {
+    if (f(v)) {
       let _v0 = v;
       let _d0 = param.d;
       let _param$1 = param.r;
@@ -2742,7 +2816,7 @@ function find_last_opt$2(f, _param) {
           ];
         }
         const v$1 = param$1.v;
-        if (Curry._1(f, v$1)) {
+        if (f(v$1)) {
           _param$1 = param$1.r;
           _d0 = param$1.d;
           _v0 = v$1;
@@ -2763,7 +2837,7 @@ function find_opt$2(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return;
     }
-    const c = Curry._2(funarg$2.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -2778,7 +2852,7 @@ function mem$2(x, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    const c = Curry._2(funarg$2.compare, x, param.v);
+    const c = Caml.caml_int_compare(x, param.v);
     if (c === 0) {
       return true;
     }
@@ -2897,7 +2971,7 @@ function remove$2(x, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$2.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return merge$4(l, r);
   }
@@ -2919,7 +2993,7 @@ function remove$2(x, m) {
 
 function update$2(x, f, m) {
   if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    const data = Curry._1(f, undefined);
+    const data = f(undefined);
     if (data !== undefined) {
       return {
         TAG: /* Node */ 0,
@@ -2937,9 +3011,9 @@ function update$2(x, f, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg$2.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
-    const data$1 = Curry._1(f, Caml_option.some(d));
+    const data$1 = f(Caml_option.some(d));
     if (data$1 === undefined) {
       return merge$4(l, r);
     }
@@ -2990,99 +3064,123 @@ function add_to_list$2(x, data, m) {
   return update$2(x, add, m);
 }
 
-function iter$2(f, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return;
-    }
-    iter$2(f, param.l);
-    Curry._2(f, param.v, param.d);
-    _param = param.r;
-    continue;
+function iter$2(f, param) {
+  const f$1 = Curry.__2(f);
+  const iter$3 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return;
+      }
+      iter$3(param.l);
+      f$1(param.v, param.d);
+      _param = param.r;
+      continue;
+    };
   };
+  iter$3(param);
 }
 
 function map$2(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const l$p = map$2(f, param.l);
-  const d$p = Curry._1(f, param.d);
-  const r$p = map$2(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v: param.v,
-    d: d$p,
-    r: r$p,
-    h: param.h
+  const f$1 = Curry.__1(f);
+  const map$3 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const l$p = map$3(param.l);
+    const d$p = f$1(param.d);
+    const r$p = map$3(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v: param.v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return map$3(param);
 }
 
 function mapi$2(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = mapi$2(f, param.l);
-  const d$p = Curry._2(f, v, param.d);
-  const r$p = mapi$2(f, param.r);
-  return {
-    TAG: /* Node */ 0,
-    l: l$p,
-    v,
-    d: d$p,
-    r: r$p,
-    h: param.h
-  };
-}
-
-function fold$2(f, _m, _accu) {
-  while (true) {
-    const accu = _accu;
-    const m = _m;
-    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold$2(f, m.l, accu));
-    _m = m.r;
-    continue;
-  };
-}
-
-function for_all$2(p, _param) {
-  while (true) {
-    const param = _param;
+  const f$1 = Curry.__2(f);
+  const mapi$3 = function (param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return true;
+      return /* Empty */ 0;
     }
-    if (!Curry._2(p, param.v, param.d)) {
-      return false;
-    }
-    if (!for_all$2(p, param.l)) {
-      return false;
-    }
-    _param = param.r;
-    continue;
+    const v = param.v;
+    const l$p = mapi$3(param.l);
+    const d$p = f$1(v, param.d);
+    const r$p = mapi$3(param.r);
+    return {
+      TAG: /* Node */ 0,
+      l: l$p,
+      v,
+      d: d$p,
+      r: r$p,
+      h: param.h
+    };
   };
+  return mapi$3(param);
 }
 
-function exists$2(p, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      return false;
-    }
-    if (Curry._2(p, param.v, param.d)) {
-      return true;
-    }
-    if (exists$2(p, param.l)) {
-      return true;
-    }
-    _param = param.r;
-    continue;
+function fold$2(f, m, accu) {
+  const f$1 = Curry.__3(f);
+  const fold$3 = function (_m, _accu) {
+    while (true) {
+      const accu = _accu;
+      const m = _m;
+      if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+        return accu;
+      }
+      _accu = f$1(m.v, m.d, fold$3(m.l, accu));
+      _m = m.r;
+      continue;
+    };
   };
+  return fold$3(m, accu);
+}
+
+function for_all$2(p, param) {
+  const p$1 = Curry.__2(p);
+  const for_all$3 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return true;
+      }
+      if (!p$1(param.v, param.d)) {
+        return false;
+      }
+      if (!for_all$3(param.l)) {
+        return false;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return for_all$3(param);
+}
+
+function exists$2(p, param) {
+  const p$1 = Curry.__2(p);
+  const exists$3 = function (_param) {
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        return false;
+      }
+      if (p$1(param.v, param.d)) {
+        return true;
+      }
+      if (exists$3(param.l)) {
+        return true;
+      }
+      _param = param.r;
+      continue;
+    };
+  };
+  return exists$3(param);
 }
 
 function add_min_binding$2(k, x, param) {
@@ -3150,7 +3248,7 @@ function split$2(x, param) {
   const d = param.d;
   const v = param.v;
   const l = param.l;
-  const c = Curry._2(funarg$2.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return [
       l,
@@ -3175,131 +3273,151 @@ function split$2(x, param) {
 }
 
 function merge$5(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+  const f$1 = Curry.__3(f);
+  const merge$6 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+        return /* Empty */ 0;
+      }
+      
+    } else {
+      const v1 = s1.v;
+      if (s1.h >= height$2(s2)) {
+        const match = split$2(v1, s2);
+        return concat_or_join$2(merge$6(s1.l, match[0]), v1, f$1(v1, Caml_option.some(s1.d), match[1]), merge$6(s1.r, match[2]));
+      }
+      
+    }
     if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-      return /* Empty */ 0;
+      throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+          MEL_EXN_ID: "Assert_failure",
+          _1: [
+            "jscomp/stdlib/map.ml",
+            418,
+            10
+          ]
+        });
     }
-    
-  } else {
-    const v1 = s1.v;
-    if (s1.h >= height$2(s2)) {
-      const match = split$2(v1, s2);
-      return concat_or_join$2(merge$5(f, s1.l, match[0]), v1, Curry._3(f, v1, Caml_option.some(s1.d), match[1]), merge$5(f, s1.r, match[2]));
-    }
-    
-  }
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-        MEL_EXN_ID: "Assert_failure",
-        _1: [
-          "jscomp/stdlib/map.ml",
-          418,
-          10
-        ]
-      });
-  }
-  const v2 = s2.v;
-  const match$1 = split$2(v2, s1);
-  return concat_or_join$2(merge$5(f, match$1[0], s2.l), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2.d)), merge$5(f, match$1[2], s2.r));
+    const v2 = s2.v;
+    const match$1 = split$2(v2, s1);
+    return concat_or_join$2(merge$6(match$1[0], s2.l), v2, f$1(v2, match$1[1], Caml_option.some(s2.d)), merge$6(match$1[2], s2.r));
+  };
+  return merge$6(s1, s2);
 }
 
 function union$2(f, s1, s2) {
-  if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
-    return s2;
-  }
-  const d1 = s1.d;
-  const v1 = s1.v;
-  if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
-    return s1;
-  }
-  const d2 = s2.d;
-  const v2 = s2.v;
-  if (s1.h >= s2.h) {
-    const match = split$2(v1, s2);
-    const d2$1 = match[1];
-    const l = union$2(f, s1.l, match[0]);
-    const r = union$2(f, s1.r, match[2]);
-    if (d2$1 !== undefined) {
-      return concat_or_join$2(l, v1, Curry._3(f, v1, d1, Caml_option.valFromOption(d2$1)), r);
-    } else {
-      return join$2(l, v1, d1, r);
+  const f$1 = Curry.__3(f);
+  const union$3 = function (s1, s2) {
+    if (/* tag */ typeof s1 !== "object" && typeof s1 !== "function") {
+      return s2;
     }
-  }
-  const match$1 = split$2(v2, s1);
-  const d1$1 = match$1[1];
-  const l$1 = union$2(f, match$1[0], s2.l);
-  const r$1 = union$2(f, match$1[2], s2.r);
-  if (d1$1 !== undefined) {
-    return concat_or_join$2(l$1, v2, Curry._3(f, v2, Caml_option.valFromOption(d1$1), d2), r$1);
-  } else {
-    return join$2(l$1, v2, d2, r$1);
-  }
+    const d1 = s1.d;
+    const v1 = s1.v;
+    if (/* tag */ typeof s2 !== "object" && typeof s2 !== "function") {
+      return s1;
+    }
+    const d2 = s2.d;
+    const v2 = s2.v;
+    if (s1.h >= s2.h) {
+      const match = split$2(v1, s2);
+      const d2$1 = match[1];
+      const l = union$3(s1.l, match[0]);
+      const r = union$3(s1.r, match[2]);
+      if (d2$1 !== undefined) {
+        return concat_or_join$2(l, v1, f$1(v1, d1, Caml_option.valFromOption(d2$1)), r);
+      } else {
+        return join$2(l, v1, d1, r);
+      }
+    }
+    const match$1 = split$2(v2, s1);
+    const d1$1 = match$1[1];
+    const l$1 = union$3(match$1[0], s2.l);
+    const r$1 = union$3(match$1[2], s2.r);
+    if (d1$1 !== undefined) {
+      return concat_or_join$2(l$1, v2, f$1(v2, Caml_option.valFromOption(d1$1), d2), r$1);
+    } else {
+      return join$2(l$1, v2, d2, r$1);
+    }
+  };
+  return union$3(s1, s2);
 }
 
 function filter$2(p, m) {
-  if (/* tag */ typeof m !== "object" && typeof m !== "function") {
-    return /* Empty */ 0;
-  }
-  const r = m.r;
-  const d = m.d;
-  const v = m.v;
-  const l = m.l;
-  const l$p = filter$2(p, l);
-  const pvd = Curry._2(p, v, d);
-  const r$p = filter$2(p, r);
-  if (pvd) {
-    if (l === l$p && r === r$p) {
-      return m;
-    } else {
-      return join$2(l$p, v, d, r$p);
+  const p$1 = Curry.__2(p);
+  const filter$3 = function (m) {
+    if (/* tag */ typeof m !== "object" && typeof m !== "function") {
+      return /* Empty */ 0;
     }
-  } else {
-    return concat$2(l$p, r$p);
-  }
+    const r = m.r;
+    const d = m.d;
+    const v = m.v;
+    const l = m.l;
+    const l$p = filter$3(l);
+    const pvd = p$1(v, d);
+    const r$p = filter$3(r);
+    if (pvd) {
+      if (l === l$p && r === r$p) {
+        return m;
+      } else {
+        return join$2(l$p, v, d, r$p);
+      }
+    } else {
+      return concat$2(l$p, r$p);
+    }
+  };
+  return filter$3(m);
 }
 
 function filter_map$2(f, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return /* Empty */ 0;
-  }
-  const v = param.v;
-  const l$p = filter_map$2(f, param.l);
-  const fvd = Curry._2(f, v, param.d);
-  const r$p = filter_map$2(f, param.r);
-  if (fvd !== undefined) {
-    return join$2(l$p, v, Caml_option.valFromOption(fvd), r$p);
-  } else {
-    return concat$2(l$p, r$p);
-  }
+  const f$1 = Curry.__2(f);
+  const filter_map$3 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return /* Empty */ 0;
+    }
+    const v = param.v;
+    const l$p = filter_map$3(param.l);
+    const fvd = f$1(v, param.d);
+    const r$p = filter_map$3(param.r);
+    if (fvd !== undefined) {
+      return join$2(l$p, v, Caml_option.valFromOption(fvd), r$p);
+    } else {
+      return concat$2(l$p, r$p);
+    }
+  };
+  return filter_map$3(param);
 }
 
 function partition$2(p, param) {
-  if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-    return [
-      /* Empty */ 0,
-      /* Empty */ 0
-    ];
-  }
-  const d = param.d;
-  const v = param.v;
-  const match = partition$2(p, param.l);
-  const lf = match[1];
-  const lt = match[0];
-  const pvd = Curry._2(p, v, d);
-  const match$1 = partition$2(p, param.r);
-  const rf = match$1[1];
-  const rt = match$1[0];
-  if (pvd) {
-    return [
-      join$2(lt, v, d, rt),
-      concat$2(lf, rf)
-    ];
-  } else {
-    return [
-      concat$2(lt, rt),
-      join$2(lf, v, d, rf)
-    ];
-  }
+  const p$1 = Curry.__2(p);
+  const partition$3 = function (param) {
+    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+      return [
+        /* Empty */ 0,
+        /* Empty */ 0
+      ];
+    }
+    const d = param.d;
+    const v = param.v;
+    const match = partition$3(param.l);
+    const lf = match[1];
+    const lt = match[0];
+    const pvd = p$1(v, d);
+    const match$1 = partition$3(param.r);
+    const rf = match$1[1];
+    const rt = match$1[0];
+    if (pvd) {
+      return [
+        join$2(lt, v, d, rt),
+        concat$2(lf, rf)
+      ];
+    } else {
+      return [
+        concat$2(lt, rt),
+        join$2(lf, v, d, rf)
+      ];
+    }
+  };
+  return partition$3(param);
 }
 
 function cons_enum$2(_m, _e) {
@@ -3321,7 +3439,8 @@ function cons_enum$2(_m, _e) {
   };
 }
 
-function compare$5(cmp, m1, m2) {
+function compare$2(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum$2(m1, /* End */ 0);
   let _e2 = cons_enum$2(m2, /* End */ 0);
   while (true) {
@@ -3337,11 +3456,11 @@ function compare$5(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return 1;
     }
-    const c = Curry._2(funarg$2.compare, e1._0, e2._0);
+    const c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
-    const c$1 = Curry._2(cmp, e1._1, e2._1);
+    const c$1 = cmp$1(e1._1, e2._1);
     if (c$1 !== 0) {
       return c$1;
     }
@@ -3352,6 +3471,7 @@ function compare$5(cmp, m1, m2) {
 }
 
 function equal$2(cmp, m1, m2) {
+  const cmp$1 = Curry.__2(cmp);
   let _e1 = cons_enum$2(m1, /* End */ 0);
   let _e2 = cons_enum$2(m2, /* End */ 0);
   while (true) {
@@ -3367,10 +3487,10 @@ function equal$2(cmp, m1, m2) {
     if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
       return false;
     }
-    if (Curry._2(funarg$2.compare, e1._0, e2._0) !== 0) {
+    if (e1._0 !== e2._0) {
       return false;
     }
-    if (!Curry._2(cmp, e1._1, e2._1)) {
+    if (!cmp$1(e1._1, e2._1)) {
       return false;
     }
     _e2 = cons_enum$2(e2._2, e2._3);
@@ -3504,7 +3624,7 @@ function to_seq_from$2(low, m) {
       const r = m.r;
       const d = m.d;
       const v = m.v;
-      const n = Curry._2(funarg$2.compare, v, low);
+      const n = Caml.caml_int_compare(v, low);
       if (n === 0) {
         return {
           TAG: /* More */ 0,
@@ -3571,7 +3691,7 @@ const Labs = {
   singleton_to_binding: singleton_to_binding$2,
   mem: mem$2,
   equal: equal$2,
-  compare: compare$5,
+  compare: compare$2,
   for_all: for_all$2,
   exists: exists$2,
   to_list: bindings$2,
@@ -3658,14 +3778,14 @@ function new_method(table) {
 
 function get_method_label(table, name) {
   try {
-    return Curry._2(find$1, name, table.methods_by_name);
+    return find$1(name, table.methods_by_name);
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       const label = new_method(table);
-      table.methods_by_name = Curry._3(add$1, name, label, table.methods_by_name);
-      table.methods_by_label = Curry._3(add$2, label, true, table.methods_by_label);
+      table.methods_by_name = add$1(name, label, table.methods_by_name);
+      table.methods_by_label = add$2(label, true, table.methods_by_label);
       return label;
     }
     throw exn;
@@ -3680,7 +3800,7 @@ function get_method_labels(table, names) {
 
 function set_method(table, label, element) {
   method_count.contents = method_count.contents + 1 | 0;
-  if (Curry._2(find$2, label, table.methods_by_label)) {
+  if (find$2(label, table.methods_by_label)) {
     return put(table, label, element);
   } else {
     table.hidden_meths = {
@@ -3736,9 +3856,9 @@ function narrow(table, vars, virt_meths, concr_meths) {
     ],
     tl: table.previous_states
   };
-  table.vars = Curry._3(fold, (function (lab, info, tvars) {
+  table.vars = fold((function (lab, info, tvars) {
     if (Stdlib__List.mem(lab, vars$1)) {
-      return Curry._3(add, lab, info, tvars);
+      return add(lab, info, tvars);
     } else {
       return tvars;
     }
@@ -3750,10 +3870,10 @@ function narrow(table, vars, virt_meths, concr_meths) {
     contents: /* Empty */ 0
   };
   Stdlib__List.iter2((function (met, label) {
-    by_name.contents = Curry._3(add$1, met, label, by_name.contents);
+    by_name.contents = add$1(met, label, by_name.contents);
     let tmp;
     try {
-      tmp = Curry._2(find$2, label, table.methods_by_label);
+      tmp = find$2(label, table.methods_by_label);
     }
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -3763,11 +3883,11 @@ function narrow(table, vars, virt_meths, concr_meths) {
         throw exn;
       }
     }
-    by_label.contents = Curry._3(add$2, label, tmp, by_label.contents);
+    by_label.contents = add$2(label, tmp, by_label.contents);
   }), concr_meths$1, concr_meth_labs);
   Stdlib__List.iter2((function (met, label) {
-    by_name.contents = Curry._3(add$1, met, label, by_name.contents);
-    by_label.contents = Curry._3(add$2, label, false, by_label.contents);
+    by_name.contents = add$1(met, label, by_name.contents);
+    by_label.contents = add$2(label, false, by_label.contents);
   }), virt_meths$1, virt_meth_labs);
   table.methods_by_name = by_name.contents;
   table.methods_by_label = by_label.contents;
@@ -3788,7 +3908,7 @@ function widen(table) {
   const virt_meths = match[4];
   table.previous_states = Stdlib__List.tl(table.previous_states);
   table.vars = Stdlib__List.fold_left((function (s, v) {
-    return Curry._3(add, v, Curry._2(find, v, table.vars), s);
+    return add(v, find(v, table.vars), s);
   }), match[3], match[5]);
   table.methods_by_name = match[0];
   table.methods_by_label = match[1];
@@ -3812,14 +3932,14 @@ function new_slot(table) {
 
 function new_variable(table, name) {
   try {
-    return Curry._2(find, name, table.vars);
+    return find(name, table.vars);
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       const index = new_slot(table);
       if (name !== "") {
-        table.vars = Curry._3(add, name, index, table.vars);
+        table.vars = add(name, index, table.vars);
       }
       return index;
     }
@@ -3851,7 +3971,7 @@ function new_methods_variables(table, meths, vals) {
 
 function get_variable(table, name) {
   try {
-    return Curry._2(find, name, table.vars);
+    return find(name, table.vars);
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -3890,8 +4010,8 @@ function create_table(public_methods) {
   const table = new_table(tags);
   Stdlib__Array.iteri((function (i, met) {
     const lab = (i << 1) + 2 | 0;
-    table.methods_by_name = Curry._3(add$1, met, lab, table.methods_by_name);
-    table.methods_by_label = Curry._3(add$2, lab, true, table.methods_by_label);
+    table.methods_by_name = add$1(met, lab, table.methods_by_name);
+    table.methods_by_label = add$2(lab, true, table.methods_by_label);
   }), public_methods);
   return table;
 }
@@ -3937,7 +4057,7 @@ function make_class(pub_meths, class_init) {
 
 function make_class_store(pub_meths, class_init, init_table) {
   const table = create_table(pub_meths);
-  const env_init = Curry._1(class_init, table);
+  const env_init = class_init(table);
   init_class(table);
   init_table.class_init = class_init;
   init_table.env_init = env_init;
@@ -3964,7 +4084,7 @@ function iter_f(obj, _param) {
     if (!param) {
       return;
     }
-    Curry._1(param.hd, obj);
+    param.hd(obj);
     _param = param.tl;
     continue;
   };
@@ -4419,4 +4539,4 @@ module.exports = {
   set_methods,
   stats,
 }
-/* Vars Not a pure module */
+/* No side effect */

@@ -60,6 +60,12 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam.Constant.t =
       | Pt_shape_none -> Lam.Constant.lam_none
       | Pt_assertfalse ->
           Const_int { i = Int32.of_int i; comment = Pt_assertfalse }
+      | Pt_recursive_module_shape shape ->
+          Const_int
+            {
+              i = Int32.of_int i;
+              comment = Pt_recursive_module_shape shape;
+            }
       | Pt_constructor { name; const; non_const; attributes } ->
           Const_int
             {

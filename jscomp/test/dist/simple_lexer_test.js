@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_bytes = require("melange.js/caml_bytes.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib__Bytes = require("melange/bytes.js");
 const Stdlib__Lexing = require("melange/lexing.js");
@@ -34,7 +33,7 @@ function __ocaml_lex_translate_rec(lexbuf, ___ocaml_lex_state) {
       case 2 :
         return "";
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }

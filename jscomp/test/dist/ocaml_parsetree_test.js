@@ -41,7 +41,7 @@ try {
 catch (raw_exn){
   const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn.MEL_EXN_ID !== Stdlib.Not_found) {
-    throw exn;
+    throw raw_exn;
   }
   
 }
@@ -241,9 +241,9 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg, param);
+        return partial_arg(param);
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   const functions$p_mark_close_stag = function (param) {
@@ -261,9 +261,9 @@ function set_color_tag_handling(ppf) {
     catch (raw_exn){
       const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
-        return Curry._1(partial_arg$1, param);
+        return partial_arg$1(param);
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   const functions$p_print_open_stag = functions.print_open_stag;
@@ -787,7 +787,7 @@ function parse_opt(error, active, flags, s) {
     }
     const match$1 = get_range(i);
     for (let n = match$1[1], n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n) {
-      Curry._1(myset, n);
+      myset(n);
     }
     loop(match$1[0]);
   };
@@ -1509,7 +1509,7 @@ function highlight_locations(ppf, locs) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           norepeat = false;
         } else {
-          throw exn;
+          throw raw_exn;
         }
       }
       if (norepeat) {
@@ -1525,7 +1525,7 @@ function highlight_locations(ppf, locs) {
         if (exn$1.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
-        throw exn$1;
+        throw raw_exn$1;
       }
     } else {
       const lb$1 = input_lexbuf.contents;
@@ -1541,7 +1541,7 @@ function highlight_locations(ppf, locs) {
         if (exn$2.MEL_EXN_ID === Stdlib.Exit) {
           return false;
         }
-        throw exn$2;
+        throw raw_exn$2;
       }
     }
   };
@@ -1549,18 +1549,18 @@ function highlight_locations(ppf, locs) {
 
 function show_filename(file) {
   if (absname.contents) {
-    const s = Curry._1(Stdlib__Filename.is_relative, file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), file) : file;
+    const s = Stdlib__Filename.is_relative(file) ? Stdlib__Filename.concat(Caml_sys.caml_sys_getcwd(), file) : file;
     const aux = function (_s) {
       while (true) {
         const s = _s;
-        const base = Curry._1(Stdlib__Filename.basename, s);
-        const dir = Curry._1(Stdlib__Filename.dirname, s);
+        const base = Stdlib__Filename.basename(s);
+        const dir = Stdlib__Filename.dirname(s);
         if (dir === s) {
           return dir;
         }
         if (base !== Stdlib__Filename.current_dir_name) {
           if (base === Stdlib__Filename.parent_dir_name) {
-            return Curry._1(Stdlib__Filename.dirname, aux(dir));
+            return Stdlib__Filename.dirname(aux(dir));
           } else {
             return Stdlib__Filename.concat(aux(dir), base);
           }
@@ -1910,7 +1910,7 @@ function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
   const ppf = Stdlib__Format.formatter_of_buffer(buf);
   Misc_Color.set_color_tag_handling(ppf);
   if (before !== undefined) {
-    Curry._1(before, ppf);
+    before(ppf);
   }
   return Stdlib__Format.kfprintf((function (param) {
     Stdlib__Format.pp_print_flush(ppf, undefined);
@@ -2038,7 +2038,7 @@ function from_pair_suites(name, suites) {
         return Stdlib__List.iter((function (param) {
           const code = param[1];
           it(param[0], (function () {
-            let spec = Curry._1(code, undefined);
+            let spec = code();
             switch (spec.TAG) {
               case /* Eq */ 0 :
                 Assert.deepEqual(spec._0, spec._1);
@@ -2092,7 +2092,7 @@ function from_pair_suites(name, suites) {
       ]);
       return Stdlib__List.iter((function (param) {
         const name = param[0];
-        const fn = Curry._1(param[1], undefined);
+        const fn = param[1]();
         switch (fn.TAG) {
           case /* Eq */ 0 :
             console.log([
@@ -2427,7 +2427,7 @@ function get_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2440,7 +2440,7 @@ function mark_pre_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2464,7 +2464,7 @@ function get_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2477,7 +2477,7 @@ function mark_post_docs(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2491,7 +2491,7 @@ function get_info(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2513,7 +2513,7 @@ function get_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2535,7 +2535,7 @@ function get_pre_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2557,7 +2557,7 @@ function get_post_extra_text(pos) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return /* [] */ 0;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -4395,7 +4395,7 @@ function text_def(pos) {
 function extra_text(text, pos, items) {
   const pre_extras = get_pre_extra_text(Stdlib__Parsing.rhs_start_pos(pos));
   const post_extras = get_post_extra_text(Stdlib__Parsing.rhs_end_pos(pos));
-  return Stdlib.$at(Curry._1(text, pre_extras), Stdlib.$at(items, Curry._1(text, post_extras)));
+  return Stdlib.$at(text(pre_extras), Stdlib.$at(items, text(post_extras)));
 }
 
 function extra_cstr(pos, items) {
@@ -10729,7 +10729,7 @@ catch (raw_exn$1){
   if (exn$2.MEL_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
-    throw exn$2;
+    throw raw_exn$1;
   }
 }
 
@@ -10845,7 +10845,7 @@ function query(loc, str) {
             _0: false
           };
         }
-        throw exn$1;
+        throw raw_exn$1;
       }
       if (exit === 2) {
         try {
@@ -10879,7 +10879,7 @@ function query(loc, str) {
       }
       
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
   if (/* tag */ typeof v !== "object" && typeof v !== "function") {
@@ -10953,7 +10953,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     let _param;
     while (true) {
-      const t = Curry._1(token_with_comments, lexbuf);
+      const t = token_with_comments(lexbuf);
       if (/* tag */ typeof t !== "object" && typeof t !== "function") {
         switch (t) {
           case /* EOF */ 25 :
@@ -11004,11 +11004,11 @@ function directive_parse(token_with_comments, lexbuf) {
           exit = 1;
           break;
         default:
-          return Curry._1(no, op);
+          return no(op);
       }
     } else {
       if (op.TAG !== /* INFIXOP0 */ 2) {
-        return Curry._1(no, op);
+        return no(op);
       }
       switch (op._0) {
         case "=~" :
@@ -11173,7 +11173,7 @@ function directive_parse(token_with_comments, lexbuf) {
           exit = 1;
           break;
         default:
-          return Curry._1(no, op);
+          return no(op);
       }
     }
     if (exit === 1) {
@@ -11863,7 +11863,7 @@ function with_comment_buffer(comment, lexbuf) {
     tl: /* [] */ 0
   };
   reset_string_buffer();
-  const end_loc = Curry._1(comment, lexbuf);
+  const end_loc = comment(lexbuf);
   const s = get_stored_string();
   reset_string_buffer();
   const loc_loc_start = start_loc.loc_start;
@@ -12279,6 +12279,286 @@ const __ocaml_lex_tables = {
   lex_code: "\xff\x04\xff\xff\x05\xff\xff\x07\xff\x06\xff\xff\x03\xff\0\x04\x01\x05\xff\x07\xff\xff\x06\xff\x07\xff\xff\0\x04\x01\x05\x03\x06\x02\x07\xff\x01\xff\xff\0\x01\xff"
 };
 
+function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 183;
+        continue;
+      case 1 :
+        is_in_string.contents = false;
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+            MEL_EXN_ID: $$Error$2,
+            _1: /* Unterminated_string */ 0,
+            _2: string_start_loc.contents
+          });
+      case 2 :
+        const edelim = Stdlib__Lexing.lexeme(lexbuf);
+        const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
+        if (delim === edelim$1) {
+          return;
+        }
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 183;
+        continue;
+      case 3 :
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        ___ocaml_lex_state = 183;
+        continue;
+      default:
+        lexbuf.refill_buff(lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function string(lexbuf) {
+  lexbuf.lex_mem = Caml_array.make(2, -1);
+  let ___ocaml_lex_state = 164;
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        return;
+      case 1 :
+        const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+        update_loc(lexbuf, undefined, 1, false, space.length);
+        return string(lexbuf);
+      case 2 :
+        store_string_char(char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 1)));
+        return string(lexbuf);
+      case 3 :
+        store_string_char(char_for_decimal_code(lexbuf, 1));
+        return string(lexbuf);
+      case 4 :
+        store_string_char(char_for_hexadecimal_code(lexbuf, 2));
+        return string(lexbuf);
+      case 5 :
+        if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
+          return string(lexbuf);
+        }
+        const loc = curr(lexbuf);
+        prerr_warning(loc, /* Illegal_backslash */ 7);
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 1));
+        return string(lexbuf);
+      case 6 :
+        if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
+          prerr_warning(curr(lexbuf), /* Eol_in_string */ 14);
+        }
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        return string(lexbuf);
+      case 7 :
+        is_in_string.contents = false;
+        throw new Caml_js_exceptions.MelangeError($$Error$2, {
+            MEL_EXN_ID: $$Error$2,
+            _1: /* Unterminated_string */ 0,
+            _2: string_start_loc.contents
+          });
+      case 8 :
+        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
+        return string(lexbuf);
+      default:
+        lexbuf.refill_buff(lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
+  while (true) {
+    const __ocaml_lex_state = ___ocaml_lex_state;
+    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+        comment_start_loc.contents = {
+          hd: curr(lexbuf),
+          tl: comment_start_loc.contents
+        };
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
+      case 1 :
+        const match = comment_start_loc.contents;
+        if (match) {
+          if (match.tl) {
+            comment_start_loc.contents = match.tl;
+            store_string(Stdlib__Lexing.lexeme(lexbuf));
+            ___ocaml_lex_state = 132;
+            continue;
+          }
+          comment_start_loc.contents = /* [] */ 0;
+          return curr(lexbuf);
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parsing/lexer.mll",
+              992,
+              16
+            ]
+          });
+      case 2 :
+        string_start_loc.contents = curr(lexbuf);
+        store_string_char(/* '"' */34);
+        is_in_string.contents = true;
+        try {
+          string(lexbuf);
+        }
+        catch (raw_exn){
+          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+          if (exn.MEL_EXN_ID === $$Error$2) {
+            let tmp = exn._1;
+            if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
+              if (tmp === /* Unterminated_string */ 0) {
+                const match$1 = comment_start_loc.contents;
+                if (match$1) {
+                  const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  comment_start_loc.contents = /* [] */ 0;
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                      MEL_EXN_ID: $$Error$2,
+                      _1: {
+                        TAG: /* Unterminated_string_in_comment */ 3,
+                        _0: start,
+                        _1: exn._2
+                      },
+                      _2: match$1.hd
+                    });
+                }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "parsing/lexer.mll",
+                      1006,
+                      18
+                    ]
+                  });
+              }
+              throw raw_exn;
+            } else {
+              throw raw_exn;
+            }
+          } else {
+            throw raw_exn;
+          }
+        }
+        is_in_string.contents = false;
+        store_string_char(/* '"' */34);
+        ___ocaml_lex_state = 132;
+        continue;
+      case 3 :
+        const delim = Stdlib__Lexing.lexeme(lexbuf);
+        const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
+        string_start_loc.contents = curr(lexbuf);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        is_in_string.contents = true;
+        try {
+          __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
+        }
+        catch (raw_exn$1){
+          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+          if (exn$1.MEL_EXN_ID === $$Error$2) {
+            let tmp$1 = exn$1._1;
+            if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
+              if (tmp$1 === /* Unterminated_string */ 0) {
+                const match$2 = comment_start_loc.contents;
+                if (match$2) {
+                  const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+                  comment_start_loc.contents = /* [] */ 0;
+                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
+                      MEL_EXN_ID: $$Error$2,
+                      _1: {
+                        TAG: /* Unterminated_string_in_comment */ 3,
+                        _0: start$1,
+                        _1: exn$1._2
+                      },
+                      _2: match$2.hd
+                    });
+                }
+                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+                    MEL_EXN_ID: "Assert_failure",
+                    _1: [
+                      "parsing/lexer.mll",
+                      1026,
+                      18
+                    ]
+                  });
+              }
+              throw raw_exn$1;
+            } else {
+              throw raw_exn$1;
+            }
+          } else {
+            throw raw_exn$1;
+          }
+        }
+        is_in_string.contents = false;
+        store_string_char(/* '|' */124);
+        store_string(delim$1);
+        store_string_char(/* '}' */125);
+        ___ocaml_lex_state = 132;
+        continue;
+      case 5 :
+        update_loc(lexbuf, undefined, 1, false, 1);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
+      case 10 :
+        const match$3 = comment_start_loc.contents;
+        if (match$3) {
+          const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
+          comment_start_loc.contents = /* [] */ 0;
+          throw new Caml_js_exceptions.MelangeError($$Error$2, {
+              MEL_EXN_ID: $$Error$2,
+              _1: {
+                TAG: /* Unterminated_comment */ 2,
+                _0: start$2
+              },
+              _2: match$3.hd
+            });
+        }
+        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
+            MEL_EXN_ID: "Assert_failure",
+            _1: [
+              "parsing/lexer.mll",
+              1056,
+              16
+            ]
+          });
+      case 11 :
+        update_loc(lexbuf, undefined, 1, false, 0);
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
+      case 4 :
+      case 6 :
+      case 7 :
+      case 8 :
+      case 9 :
+      case 12 :
+        store_string(Stdlib__Lexing.lexeme(lexbuf));
+        ___ocaml_lex_state = 132;
+        continue;
+      default:
+        lexbuf.refill_buff(lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue;
+    }
+  };
+}
+
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function token(lexbuf) {
   lexbuf.lex_mem = Caml_array.make(8, -1);
   let ___ocaml_lex_state = 0;
@@ -12351,7 +12631,7 @@ function token(lexbuf) {
               _0: s
             };
           }
-          throw exn;
+          throw raw_exn;
         }
       case 11 :
         prerr_warning(curr(lexbuf), {
@@ -12395,7 +12675,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw exn$1;
+          throw raw_exn$1;
         }
       case 15 :
         return {
@@ -12421,7 +12701,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw exn$2;
+          throw raw_exn$2;
         }
       case 17 :
         try {
@@ -12442,7 +12722,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw exn$3;
+          throw raw_exn$3;
         }
       case 18 :
         try {
@@ -12463,7 +12743,7 @@ function token(lexbuf) {
                 _2: curr(lexbuf)
               });
           }
-          throw exn$4;
+          throw raw_exn$4;
         }
       case 19 :
         reset_string_buffer();
@@ -12761,287 +13041,7 @@ function token(lexbuf) {
             _2: curr(lexbuf)
           });
       default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function string(lexbuf) {
-  lexbuf.lex_mem = Caml_array.make(2, -1);
-  let ___ocaml_lex_state = 164;
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        return;
-      case 1 :
-        const space = Stdlib__Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-        update_loc(lexbuf, undefined, 1, false, space.length);
-        return string(lexbuf);
-      case 2 :
-        store_string_char(char_for_backslash(Stdlib__Lexing.lexeme_char(lexbuf, 1)));
-        return string(lexbuf);
-      case 3 :
-        store_string_char(char_for_decimal_code(lexbuf, 1));
-        return string(lexbuf);
-      case 4 :
-        store_string_char(char_for_hexadecimal_code(lexbuf, 2));
-        return string(lexbuf);
-      case 5 :
-        if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
-          return string(lexbuf);
-        }
-        const loc = curr(lexbuf);
-        prerr_warning(loc, /* Illegal_backslash */ 7);
-        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 1));
-        return string(lexbuf);
-      case 6 :
-        if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */ 0)) {
-          prerr_warning(curr(lexbuf), /* Eol_in_string */ 14);
-        }
-        update_loc(lexbuf, undefined, 1, false, 0);
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        return string(lexbuf);
-      case 7 :
-        is_in_string.contents = false;
-        throw new Caml_js_exceptions.MelangeError($$Error$2, {
-            MEL_EXN_ID: $$Error$2,
-            _1: /* Unterminated_string */ 0,
-            _2: string_start_loc.contents
-          });
-      case 8 :
-        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-        return string(lexbuf);
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        comment_start_loc.contents = {
-          hd: curr(lexbuf),
-          tl: comment_start_loc.contents
-        };
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 132;
-        continue;
-      case 1 :
-        const match = comment_start_loc.contents;
-        if (match) {
-          if (match.tl) {
-            comment_start_loc.contents = match.tl;
-            store_string(Stdlib__Lexing.lexeme(lexbuf));
-            ___ocaml_lex_state = 132;
-            continue;
-          }
-          comment_start_loc.contents = /* [] */ 0;
-          return curr(lexbuf);
-        }
-        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "parsing/lexer.mll",
-              992,
-              16
-            ]
-          });
-      case 2 :
-        string_start_loc.contents = curr(lexbuf);
-        store_string_char(/* '"' */34);
-        is_in_string.contents = true;
-        try {
-          string(lexbuf);
-        }
-        catch (raw_exn){
-          const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.MEL_EXN_ID === $$Error$2) {
-            let tmp = exn._1;
-            if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
-              if (tmp === /* Unterminated_string */ 0) {
-                const match$1 = comment_start_loc.contents;
-                if (match$1) {
-                  const start = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                  comment_start_loc.contents = /* [] */ 0;
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                      MEL_EXN_ID: $$Error$2,
-                      _1: {
-                        TAG: /* Unterminated_string_in_comment */ 3,
-                        _0: start,
-                        _1: exn._2
-                      },
-                      _2: match$1.hd
-                    });
-                }
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "parsing/lexer.mll",
-                      1006,
-                      18
-                    ]
-                  });
-              }
-              throw exn;
-            } else {
-              throw exn;
-            }
-          } else {
-            throw exn;
-          }
-        }
-        is_in_string.contents = false;
-        store_string_char(/* '"' */34);
-        ___ocaml_lex_state = 132;
-        continue;
-      case 3 :
-        const delim = Stdlib__Lexing.lexeme(lexbuf);
-        const delim$1 = Stdlib__String.sub(delim, 1, delim.length - 2 | 0);
-        string_start_loc.contents = curr(lexbuf);
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        is_in_string.contents = true;
-        try {
-          __ocaml_lex_quoted_string_rec(delim$1, lexbuf, 183);
-        }
-        catch (raw_exn$1){
-          const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.MEL_EXN_ID === $$Error$2) {
-            let tmp$1 = exn$1._1;
-            if (/* tag */ typeof tmp$1 !== "object" && typeof tmp$1 !== "function") {
-              if (tmp$1 === /* Unterminated_string */ 0) {
-                const match$2 = comment_start_loc.contents;
-                if (match$2) {
-                  const start$1 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-                  comment_start_loc.contents = /* [] */ 0;
-                  throw new Caml_js_exceptions.MelangeError($$Error$2, {
-                      MEL_EXN_ID: $$Error$2,
-                      _1: {
-                        TAG: /* Unterminated_string_in_comment */ 3,
-                        _0: start$1,
-                        _1: exn$1._2
-                      },
-                      _2: match$2.hd
-                    });
-                }
-                throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-                    MEL_EXN_ID: "Assert_failure",
-                    _1: [
-                      "parsing/lexer.mll",
-                      1026,
-                      18
-                    ]
-                  });
-              }
-              throw exn$1;
-            } else {
-              throw exn$1;
-            }
-          } else {
-            throw exn$1;
-          }
-        }
-        is_in_string.contents = false;
-        store_string_char(/* '|' */124);
-        store_string(delim$1);
-        store_string_char(/* '}' */125);
-        ___ocaml_lex_state = 132;
-        continue;
-      case 5 :
-        update_loc(lexbuf, undefined, 1, false, 1);
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 132;
-        continue;
-      case 10 :
-        const match$3 = comment_start_loc.contents;
-        if (match$3) {
-          const start$2 = Stdlib__List.hd(Stdlib__List.rev(comment_start_loc.contents));
-          comment_start_loc.contents = /* [] */ 0;
-          throw new Caml_js_exceptions.MelangeError($$Error$2, {
-              MEL_EXN_ID: $$Error$2,
-              _1: {
-                TAG: /* Unterminated_comment */ 2,
-                _0: start$2
-              },
-              _2: match$3.hd
-            });
-        }
-        throw new Caml_js_exceptions.MelangeError("Assert_failure", {
-            MEL_EXN_ID: "Assert_failure",
-            _1: [
-              "parsing/lexer.mll",
-              1056,
-              16
-            ]
-          });
-      case 11 :
-        update_loc(lexbuf, undefined, 1, false, 0);
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 132;
-        continue;
-      case 4 :
-      case 6 :
-      case 7 :
-      case 8 :
-      case 9 :
-      case 12 :
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 132;
-        continue;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue;
-    }
-  };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
-}
-
-function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while (true) {
-    const __ocaml_lex_state = ___ocaml_lex_state;
-    const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-        update_loc(lexbuf, undefined, 1, false, 0);
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 183;
-        continue;
-      case 1 :
-        is_in_string.contents = false;
-        throw new Caml_js_exceptions.MelangeError($$Error$2, {
-            MEL_EXN_ID: $$Error$2,
-            _1: /* Unterminated_string */ 0,
-            _2: string_start_loc.contents
-          });
-      case 2 :
-        const edelim = Stdlib__Lexing.lexeme(lexbuf);
-        const edelim$1 = Stdlib__String.sub(edelim, 1, edelim.length - 2 | 0);
-        if (delim === edelim$1) {
-          return;
-        }
-        store_string(Stdlib__Lexing.lexeme(lexbuf));
-        ___ocaml_lex_state = 183;
-        continue;
-      case 3 :
-        store_string_char(Stdlib__Lexing.lexeme_char(lexbuf, 0));
-        ___ocaml_lex_state = 183;
-        continue;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
+        lexbuf.refill_buff(lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
         continue;
     }
@@ -13138,7 +13138,7 @@ function token$1(lexbuf) {
                       case /* Dir_if_true */ 0 :
                       case /* Dir_if_false */ 1 :
                         if_then_else.contents = /* Dir_out */ 2;
-                        return Curry._1(cont, lexbuf);
+                        return cont(lexbuf);
                       case /* Dir_out */ 2 :
                         throw new Caml_js_exceptions.MelangeError($$Error$2, {
                             MEL_EXN_ID: $$Error$2,
@@ -13158,7 +13158,7 @@ function token$1(lexbuf) {
                       case /* Dir_out */ 2 :
                         if (directive_parse(token_with_comments, lexbuf)) {
                           if_then_else.contents = /* Dir_if_true */ 0;
-                          return Curry._1(cont, lexbuf);
+                          return cont(lexbuf);
                         } else {
                           let _param;
                           while (true) {
@@ -13176,10 +13176,10 @@ function token$1(lexbuf) {
                                 switch (token$1) {
                                   case /* ELSE */ 23 :
                                     if_then_else.contents = /* Dir_if_false */ 1;
-                                    return Curry._1(cont, lexbuf);
+                                    return cont(lexbuf);
                                   case /* END */ 24 :
                                     if_then_else.contents = /* Dir_out */ 2;
-                                    return Curry._1(cont, lexbuf);
+                                    return cont(lexbuf);
                                   case /* IF */ 37 :
                                     throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                         MEL_EXN_ID: $$Error$2,
@@ -13190,7 +13190,7 @@ function token$1(lexbuf) {
                               }
                               if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
                                 if_then_else.contents = /* Dir_if_true */ 0;
-                                return Curry._1(cont, lexbuf);
+                                return cont(lexbuf);
                               }
                               _param = undefined;
                               continue;
@@ -13201,14 +13201,14 @@ function token$1(lexbuf) {
                         }
                     }
                   default:
-                    return Curry._1(look_ahead, match);
+                    return look_ahead(match);
                 }
               } else {
                 if (match.TAG !== /* LIDENT */ 11) {
-                  return Curry._1(look_ahead, match);
+                  return look_ahead(match);
                 }
                 if (match._0 !== "elif") {
-                  return Curry._1(look_ahead, match);
+                  return look_ahead(match);
                 }
                 switch (if_then_else$1) {
                   case /* Dir_if_true */ 0 :
@@ -13251,7 +13251,7 @@ function token$1(lexbuf) {
                             continue;
                           case /* END */ 24 :
                             if_then_else.contents = /* Dir_out */ 2;
-                            return Curry._1(cont, lexbuf);
+                            return cont(lexbuf);
                           case /* IF */ 37 :
                             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                                 MEL_EXN_ID: $$Error$2,
@@ -13273,7 +13273,7 @@ function token$1(lexbuf) {
                   };
                 case /* Dir_if_false */ 1 :
                 case /* Dir_out */ 2 :
-                  return Curry._1(look_ahead, match);
+                  return look_ahead(match);
               }
             }
             break;
@@ -13420,7 +13420,7 @@ function init$1(param) {
   comment_list.contents = /* [] */ 0;
   const match = preprocessor.contents;
   if (match !== undefined) {
-    return Curry._1(match[0], undefined);
+    return match[0]();
   }
   
 }
@@ -13448,7 +13448,7 @@ function skip_phrase(lexbuf) {
           if (tmp === /* Unterminated_string */ 0) {
             continue;
           }
-          throw exn;
+          throw raw_exn;
         } else {
           switch (tmp.TAG) {
             case /* Illegal_character */ 0 :
@@ -13456,11 +13456,11 @@ function skip_phrase(lexbuf) {
             case /* Unterminated_string_in_comment */ 3 :
               continue;
             default:
-              throw exn;
+              throw raw_exn;
           }
         }
       } else {
-        throw exn;
+        throw raw_exn;
       }
     }
   };
@@ -13478,7 +13478,7 @@ function wrap(parsing_fun, lexbuf) {
   try {
     init();
     init$1();
-    const ast = Curry._2(parsing_fun, token$1, lexbuf);
+    const ast = parsing_fun(token$1, lexbuf);
     Stdlib__Parsing.clear_parser();
     warn_bad_docstrings();
     return ast;
@@ -13488,26 +13488,26 @@ function wrap(parsing_fun, lexbuf) {
     if (err.MEL_EXN_ID === $$Error$2) {
       let tmp = err._1;
       if (/* tag */ typeof tmp !== "object" && typeof tmp !== "function") {
-        throw err;
+        throw raw_err;
       }
       if (tmp.TAG === /* Illegal_character */ 0) {
         if (input_name.contents === "//toplevel//") {
           skip_phrase(lexbuf);
-          throw err;
+          throw raw_err;
         }
-        throw err;
+        throw raw_err;
       }
-      throw err;
+      throw raw_err;
     } else {
       if (err.MEL_EXN_ID === $$Error$1) {
         if (input_name.contents === "//toplevel//") {
           maybe_skip_phrase(lexbuf);
-          throw err;
+          throw raw_err;
         }
-        throw err;
+        throw raw_err;
       }
       if (err.MEL_EXN_ID !== Stdlib__Parsing.Parse_error && err.MEL_EXN_ID !== Escape_error) {
-        throw err;
+        throw raw_err;
       }
       
     }

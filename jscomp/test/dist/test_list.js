@@ -100,32 +100,38 @@ function flatten(param) {
 }
 
 function map(f, param) {
-  if (!param) {
-    return /* [] */ 0;
-  }
-  const r = Curry._1(f, param.hd);
-  return {
-    hd: r,
-    tl: map(f, param.tl)
+  const f$1 = Curry.__1(f);
+  const map$1 = function (param) {
+    if (!param) {
+      return /* [] */ 0;
+    }
+    const r = f$1(param.hd);
+    return {
+      hd: r,
+      tl: map$1(param.tl)
+    };
   };
+  return map$1(param);
 }
 
-function mapi(i, f, param) {
-  if (!param) {
-    return /* [] */ 0;
-  }
-  const r = Curry._2(f, i, param.hd);
-  return {
-    hd: r,
-    tl: mapi(i + 1 | 0, f, param.tl)
+function mapi(f, l) {
+  let i = 0;
+  const f$1 = Curry.__2(f);
+  const mapi$1 = function (i, param) {
+    if (!param) {
+      return /* [] */ 0;
+    }
+    const r = f$1(i, param.hd);
+    return {
+      hd: r,
+      tl: mapi$1(i + 1 | 0, param.tl)
+    };
   };
-}
-
-function mapi$1(f, l) {
-  return mapi(0, f, l);
+  return mapi$1(i, l);
 }
 
 function rev_map(f, l) {
+  const f$1 = Curry.__1(f);
   let _accu = /* [] */ 0;
   let _param = l;
   while (true) {
@@ -136,7 +142,7 @@ function rev_map(f, l) {
     }
     _param = param.tl;
     _accu = {
-      hd: Curry._1(f, param.hd),
+      hd: f$1(param.hd),
       tl: accu
     };
     continue;
@@ -149,73 +155,88 @@ function iter(f, _param) {
     if (!param) {
       return;
     }
-    Curry._1(f, param.hd);
+    f(param.hd);
     _param = param.tl;
     continue;
   };
 }
 
 function iteri(f, l) {
-  let _i = 0;
+  let i = 0;
+  const f$1 = Curry.__2(f);
+  let _i = i;
   let _param = l;
   while (true) {
     const param = _param;
-    const i = _i;
+    const i$1 = _i;
     if (!param) {
       return;
     }
-    Curry._2(f, i, param.hd);
+    f$1(i$1, param.hd);
     _param = param.tl;
-    _i = i + 1 | 0;
+    _i = i$1 + 1 | 0;
     continue;
   };
 }
 
-function fold_left(f, _accu, _l) {
+function fold_left(f, accu, l) {
+  const f$1 = Curry.__2(f);
+  let _accu = accu;
+  let _l = l;
   while (true) {
-    const l = _l;
-    const accu = _accu;
-    if (!l) {
-      return accu;
+    const l$1 = _l;
+    const accu$1 = _accu;
+    if (!l$1) {
+      return accu$1;
     }
-    _l = l.tl;
-    _accu = Curry._2(f, accu, l.hd);
+    _l = l$1.tl;
+    _accu = f$1(accu$1, l$1.hd);
     continue;
   };
 }
 
 function fold_right(f, l, accu) {
-  if (l) {
-    return Curry._2(f, l.hd, fold_right(f, l.tl, accu));
-  } else {
-    return accu;
-  }
+  const fold_right$1 = function (l, accu) {
+    if (l) {
+      let param = l.hd;
+      let param$1 = fold_right$1(l.tl, accu);
+      return Curry._2(f, param, param$1);
+    } else {
+      return accu;
+    }
+  };
+  return fold_right$1(l, accu);
 }
 
 function map2(f, l1, l2) {
-  if (l1) {
-    if (l2) {
-      const r = Curry._2(f, l1.hd, l2.hd);
-      return {
-        hd: r,
-        tl: map2(f, l1.tl, l2.tl)
-      };
+  const f$1 = Curry.__2(f);
+  const map2$1 = function (l1, l2) {
+    if (l1) {
+      if (l2) {
+        const r = f$1(l1.hd, l2.hd);
+        return {
+          hd: r,
+          tl: map2$1(l1.tl, l2.tl)
+        };
+      }
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.map2"
+        });
+    }
+    if (!l2) {
+      return /* [] */ 0;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
         MEL_EXN_ID: "Invalid_argument",
         _1: "List.map2"
       });
-  }
-  if (!l2) {
-    return /* [] */ 0;
-  }
-  throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-      MEL_EXN_ID: "Invalid_argument",
-      _1: "List.map2"
-    });
+  };
+  return map2$1(l1, l2);
 }
 
 function rev_map2(f, l1, l2) {
+  const f$1 = Curry.__2(f);
   let _accu = /* [] */ 0;
   let _l1 = l1;
   let _l2 = l2;
@@ -228,7 +249,7 @@ function rev_map2(f, l1, l2) {
         _l2 = l2$1.tl;
         _l1 = l1$1.tl;
         _accu = {
-          hd: Curry._2(f, l1$1.hd, l2$1.hd),
+          hd: f$1(l1$1.hd, l2$1.hd),
           tl: accu
         };
         continue;
@@ -248,15 +269,18 @@ function rev_map2(f, l1, l2) {
   };
 }
 
-function iter2(f, _l1, _l2) {
+function iter2(f, l1, l2) {
+  const f$1 = Curry.__2(f);
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    if (l1) {
-      if (l2) {
-        Curry._2(f, l1.hd, l2.hd);
-        _l2 = l2.tl;
-        _l1 = l1.tl;
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    if (l1$1) {
+      if (l2$1) {
+        f$1(l1$1.hd, l2$1.hd);
+        _l2 = l2$1.tl;
+        _l1 = l1$1.tl;
         continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -264,7 +288,7 @@ function iter2(f, _l1, _l2) {
           _1: "List.iter2"
         });
     }
-    if (!l2) {
+    if (!l2$1) {
       return;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -274,16 +298,20 @@ function iter2(f, _l1, _l2) {
   };
 }
 
-function fold_left2(f, _accu, _l1, _l2) {
+function fold_left2(f, accu, l1, l2) {
+  const f$1 = Curry.__3(f);
+  let _accu = accu;
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    const accu = _accu;
-    if (l1) {
-      if (l2) {
-        _l2 = l2.tl;
-        _l1 = l1.tl;
-        _accu = Curry._3(f, accu, l1.hd, l2.hd);
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    const accu$1 = _accu;
+    if (l1$1) {
+      if (l2$1) {
+        _l2 = l2$1.tl;
+        _l1 = l1$1.tl;
+        _accu = f$1(accu$1, l1$1.hd, l2$1.hd);
         continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -291,33 +319,39 @@ function fold_left2(f, _accu, _l1, _l2) {
           _1: "List.fold_left2"
         });
     }
-    if (l2) {
+    if (l2$1) {
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
           MEL_EXN_ID: "Invalid_argument",
           _1: "List.fold_left2"
         });
     }
-    return accu;
+    return accu$1;
   };
 }
 
 function fold_right2(f, l1, l2, accu) {
-  if (l1) {
-    if (l2) {
-      return Curry._3(f, l1.hd, l2.hd, fold_right2(f, l1.tl, l2.tl, accu));
+  const fold_right2$1 = function (l1, l2, accu) {
+    if (l1) {
+      if (l2) {
+        let param = l1.hd;
+        let param$1 = l2.hd;
+        let param$2 = fold_right2$1(l1.tl, l2.tl, accu);
+        return Curry._3(f, param, param$1, param$2);
+      }
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.fold_right2"
+        });
     }
-    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "List.fold_right2"
-      });
-  }
-  if (l2) {
-    throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
-        MEL_EXN_ID: "Invalid_argument",
-        _1: "List.fold_right2"
-      });
-  }
-  return accu;
+    if (l2) {
+      throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
+          MEL_EXN_ID: "Invalid_argument",
+          _1: "List.fold_right2"
+        });
+    }
+    return accu;
+  };
+  return fold_right2$1(l1, l2, accu);
 }
 
 function for_all(p, _param) {
@@ -326,7 +360,7 @@ function for_all(p, _param) {
     if (!param) {
       return true;
     }
-    if (!Curry._1(p, param.hd)) {
+    if (!p(param.hd)) {
       return false;
     }
     _param = param.tl;
@@ -340,7 +374,7 @@ function exists(p, _param) {
     if (!param) {
       return false;
     }
-    if (Curry._1(p, param.hd)) {
+    if (p(param.hd)) {
       return true;
     }
     _param = param.tl;
@@ -348,17 +382,20 @@ function exists(p, _param) {
   };
 }
 
-function for_all2(p, _l1, _l2) {
+function for_all2(p, l1, l2) {
+  const p$1 = Curry.__2(p);
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    if (l1) {
-      if (l2) {
-        if (!Curry._2(p, l1.hd, l2.hd)) {
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    if (l1$1) {
+      if (l2$1) {
+        if (!p$1(l1$1.hd, l2$1.hd)) {
           return false;
         }
-        _l2 = l2.tl;
-        _l1 = l1.tl;
+        _l2 = l2$1.tl;
+        _l1 = l1$1.tl;
         continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -366,7 +403,7 @@ function for_all2(p, _l1, _l2) {
           _1: "List.for_all2"
         });
     }
-    if (!l2) {
+    if (!l2$1) {
       return true;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -376,17 +413,20 @@ function for_all2(p, _l1, _l2) {
   };
 }
 
-function exists2(p, _l1, _l2) {
+function exists2(p, l1, l2) {
+  const p$1 = Curry.__2(p);
+  let _l1 = l1;
+  let _l2 = l2;
   while (true) {
-    const l2 = _l2;
-    const l1 = _l1;
-    if (l1) {
-      if (l2) {
-        if (Curry._2(p, l1.hd, l2.hd)) {
+    const l2$1 = _l2;
+    const l1$1 = _l1;
+    if (l1$1) {
+      if (l2$1) {
+        if (p$1(l1$1.hd, l2$1.hd)) {
           return true;
         }
-        _l2 = l2.tl;
-        _l1 = l1.tl;
+        _l2 = l2$1.tl;
+        _l1 = l1$1.tl;
         continue;
       }
       throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -394,7 +434,7 @@ function exists2(p, _l1, _l2) {
           _1: "List.exists2"
         });
     }
-    if (!l2) {
+    if (!l2$1) {
       return false;
     }
     throw new Caml_js_exceptions.MelangeError("Invalid_argument", {
@@ -531,7 +571,7 @@ function find(p, _param) {
     const param = _param;
     if (param) {
       const x = param.hd;
-      if (Curry._1(p, x)) {
+      if (p(x)) {
         return x;
       }
       _param = param.tl;
@@ -555,7 +595,7 @@ function find_all(p) {
       }
       const l = param$1.tl;
       const x = param$1.hd;
-      if (Curry._1(p, x)) {
+      if (p(x)) {
         _param = l;
         _accu = {
           hd: x,
@@ -585,7 +625,7 @@ function partition(p, l) {
     }
     const l$1 = param.tl;
     const x = param.hd;
-    if (Curry._1(p, x)) {
+    if (p(x)) {
       _param = l$1;
       _yes = {
         hd: x,
@@ -649,25 +689,29 @@ function combine(l1, l2) {
 }
 
 function merge(cmp, l1, l2) {
-  if (!l1) {
-    return l2;
-  }
-  if (!l2) {
-    return l1;
-  }
-  const h2 = l2.hd;
-  const h1 = l1.hd;
-  if (Curry._2(cmp, h1, h2) <= 0) {
-    return {
-      hd: h1,
-      tl: merge(cmp, l1.tl, l2)
-    };
-  } else {
-    return {
-      hd: h2,
-      tl: merge(cmp, l1, l2.tl)
-    };
-  }
+  const cmp$1 = Curry.__2(cmp);
+  const merge$1 = function (l1, l2) {
+    if (!l1) {
+      return l2;
+    }
+    if (!l2) {
+      return l1;
+    }
+    const h2 = l2.hd;
+    const h1 = l1.hd;
+    if (cmp$1(h1, h2) <= 0) {
+      return {
+        hd: h1,
+        tl: merge$1(l1.tl, l2)
+      };
+    } else {
+      return {
+        hd: h2,
+        tl: merge$1(l1, l2.tl)
+      };
+    }
+  };
+  return merge$1(l1, l2);
 }
 
 function chop(_k, _l) {
@@ -694,6 +738,7 @@ function chop(_k, _l) {
 }
 
 function stable_sort(cmp, l) {
+  const cmp$1 = Curry.__2(cmp);
   const sort = function (n, l) {
     if (n !== 2) {
       if (n === 3 && l) {
@@ -704,8 +749,8 @@ function stable_sort(cmp, l) {
             const x3 = match$1.hd;
             const x2 = match.hd;
             const x1 = l.hd;
-            if (Curry._2(cmp, x1, x2) <= 0) {
-              if (Curry._2(cmp, x2, x3) <= 0) {
+            if (cmp$1(x1, x2) <= 0) {
+              if (cmp$1(x2, x3) <= 0) {
                 return {
                   hd: x1,
                   tl: {
@@ -716,7 +761,7 @@ function stable_sort(cmp, l) {
                     }
                   }
                 };
-              } else if (Curry._2(cmp, x1, x3) <= 0) {
+              } else if (cmp$1(x1, x3) <= 0) {
                 return {
                   hd: x1,
                   tl: {
@@ -739,7 +784,7 @@ function stable_sort(cmp, l) {
                   }
                 };
               }
-            } else if (Curry._2(cmp, x1, x3) <= 0) {
+            } else if (cmp$1(x1, x3) <= 0) {
               return {
                 hd: x2,
                 tl: {
@@ -750,7 +795,7 @@ function stable_sort(cmp, l) {
                   }
                 }
               };
-            } else if (Curry._2(cmp, x2, x3) <= 0) {
+            } else if (cmp$1(x2, x3) <= 0) {
               return {
                 hd: x2,
                 tl: {
@@ -784,7 +829,7 @@ function stable_sort(cmp, l) {
       if (match$2) {
         const x2$1 = match$2.hd;
         const x1$1 = l.hd;
-        if (Curry._2(cmp, x1$1, x2$1) <= 0) {
+        if (cmp$1(x1$1, x2$1) <= 0) {
           return {
             hd: x1$1,
             tl: {
@@ -824,7 +869,7 @@ function stable_sort(cmp, l) {
       }
       const h2 = l2$1.hd;
       const h1 = l1.hd;
-      if (Curry._2(cmp, h1, h2) > 0) {
+      if (cmp$1(h1, h2) > 0) {
         _accu = {
           hd: h1,
           tl: accu
@@ -850,8 +895,8 @@ function stable_sort(cmp, l) {
             const x3 = match$1.hd;
             const x2 = match.hd;
             const x1 = l.hd;
-            if (Curry._2(cmp, x1, x2) > 0) {
-              if (Curry._2(cmp, x2, x3) > 0) {
+            if (cmp$1(x1, x2) > 0) {
+              if (cmp$1(x2, x3) > 0) {
                 return {
                   hd: x1,
                   tl: {
@@ -862,7 +907,7 @@ function stable_sort(cmp, l) {
                     }
                   }
                 };
-              } else if (Curry._2(cmp, x1, x3) > 0) {
+              } else if (cmp$1(x1, x3) > 0) {
                 return {
                   hd: x1,
                   tl: {
@@ -885,7 +930,7 @@ function stable_sort(cmp, l) {
                   }
                 };
               }
-            } else if (Curry._2(cmp, x1, x3) > 0) {
+            } else if (cmp$1(x1, x3) > 0) {
               return {
                 hd: x2,
                 tl: {
@@ -896,7 +941,7 @@ function stable_sort(cmp, l) {
                   }
                 }
               };
-            } else if (Curry._2(cmp, x2, x3) > 0) {
+            } else if (cmp$1(x2, x3) > 0) {
               return {
                 hd: x2,
                 tl: {
@@ -930,7 +975,7 @@ function stable_sort(cmp, l) {
       if (match$2) {
         const x2$1 = match$2.hd;
         const x1$1 = l.hd;
-        if (Curry._2(cmp, x1$1, x2$1) > 0) {
+        if (cmp$1(x1$1, x2$1) > 0) {
           return {
             hd: x1$1,
             tl: {
@@ -970,7 +1015,7 @@ function stable_sort(cmp, l) {
       }
       const h2 = l2$1.hd;
       const h1 = l1.hd;
-      if (Curry._2(cmp, h1, h2) <= 0) {
+      if (cmp$1(h1, h2) <= 0) {
         _accu = {
           hd: h1,
           tl: accu
@@ -995,6 +1040,7 @@ function stable_sort(cmp, l) {
 }
 
 function sort_uniq(cmp, l) {
+  const cmp$1 = Curry.__2(cmp);
   const sort = function (n, l) {
     if (n !== 2) {
       if (n === 3 && l) {
@@ -1005,9 +1051,9 @@ function sort_uniq(cmp, l) {
             const x3 = match$1.hd;
             const x2 = match.hd;
             const x1 = l.hd;
-            const c = Curry._2(cmp, x1, x2);
+            const c = cmp$1(x1, x2);
             if (c === 0) {
-              const c$1 = Curry._2(cmp, x2, x3);
+              const c$1 = cmp$1(x2, x3);
               if (c$1 === 0) {
                 return {
                   hd: x2,
@@ -1032,7 +1078,7 @@ function sort_uniq(cmp, l) {
               }
             }
             if (c < 0) {
-              const c$2 = Curry._2(cmp, x2, x3);
+              const c$2 = cmp$1(x2, x3);
               if (c$2 === 0) {
                 return {
                   hd: x1,
@@ -1054,7 +1100,7 @@ function sort_uniq(cmp, l) {
                   }
                 };
               }
-              const c$3 = Curry._2(cmp, x1, x3);
+              const c$3 = cmp$1(x1, x3);
               if (c$3 === 0) {
                 return {
                   hd: x1,
@@ -1087,7 +1133,7 @@ function sort_uniq(cmp, l) {
                 };
               }
             }
-            const c$4 = Curry._2(cmp, x1, x3);
+            const c$4 = cmp$1(x1, x3);
             if (c$4 === 0) {
               return {
                 hd: x2,
@@ -1109,7 +1155,7 @@ function sort_uniq(cmp, l) {
                 }
               };
             }
-            const c$5 = Curry._2(cmp, x2, x3);
+            const c$5 = cmp$1(x2, x3);
             if (c$5 === 0) {
               return {
                 hd: x2,
@@ -1152,7 +1198,7 @@ function sort_uniq(cmp, l) {
       if (match$2) {
         const x2$1 = match$2.hd;
         const x1$1 = l.hd;
-        const c$6 = Curry._2(cmp, x1$1, x2$1);
+        const c$6 = cmp$1(x1$1, x2$1);
         if (c$6 === 0) {
           return {
             hd: x1$1,
@@ -1200,7 +1246,7 @@ function sort_uniq(cmp, l) {
       const h2 = l2$1.hd;
       const t1 = l1.tl;
       const h1 = l1.hd;
-      const c$7 = Curry._2(cmp, h1, h2);
+      const c$7 = cmp$1(h1, h2);
       if (c$7 === 0) {
         _accu = {
           hd: h1,
@@ -1236,9 +1282,9 @@ function sort_uniq(cmp, l) {
             const x3 = match$1.hd;
             const x2 = match.hd;
             const x1 = l.hd;
-            const c = Curry._2(cmp, x1, x2);
+            const c = cmp$1(x1, x2);
             if (c === 0) {
-              const c$1 = Curry._2(cmp, x2, x3);
+              const c$1 = cmp$1(x2, x3);
               if (c$1 === 0) {
                 return {
                   hd: x2,
@@ -1263,7 +1309,7 @@ function sort_uniq(cmp, l) {
               }
             }
             if (c > 0) {
-              const c$2 = Curry._2(cmp, x2, x3);
+              const c$2 = cmp$1(x2, x3);
               if (c$2 === 0) {
                 return {
                   hd: x1,
@@ -1285,7 +1331,7 @@ function sort_uniq(cmp, l) {
                   }
                 };
               }
-              const c$3 = Curry._2(cmp, x1, x3);
+              const c$3 = cmp$1(x1, x3);
               if (c$3 === 0) {
                 return {
                   hd: x1,
@@ -1318,7 +1364,7 @@ function sort_uniq(cmp, l) {
                 };
               }
             }
-            const c$4 = Curry._2(cmp, x1, x3);
+            const c$4 = cmp$1(x1, x3);
             if (c$4 === 0) {
               return {
                 hd: x2,
@@ -1340,7 +1386,7 @@ function sort_uniq(cmp, l) {
                 }
               };
             }
-            const c$5 = Curry._2(cmp, x2, x3);
+            const c$5 = cmp$1(x2, x3);
             if (c$5 === 0) {
               return {
                 hd: x2,
@@ -1383,7 +1429,7 @@ function sort_uniq(cmp, l) {
       if (match$2) {
         const x2$1 = match$2.hd;
         const x1$1 = l.hd;
-        const c$6 = Curry._2(cmp, x1$1, x2$1);
+        const c$6 = cmp$1(x1$1, x2$1);
         if (c$6 === 0) {
           return {
             hd: x1$1,
@@ -1431,7 +1477,7 @@ function sort_uniq(cmp, l) {
       const h2 = l2$1.hd;
       const t1 = l1.tl;
       const h1 = l1.hd;
-      const c$7 = Curry._2(cmp, h1, h2);
+      const c$7 = cmp$1(h1, h2);
       if (c$7 === 0) {
         _accu = {
           hd: h1,
@@ -1490,7 +1536,7 @@ module.exports = {
   flatten,
   concat,
   map,
-  mapi: mapi$1,
+  mapi,
   rev_map,
   iter,
   iteri,

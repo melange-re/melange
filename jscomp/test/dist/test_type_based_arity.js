@@ -8,7 +8,7 @@ function f0(g, x) {
 }
 
 function f1(g, x) {
-  Curry._1(g, x);
+  g(x);
 }
 
 const X = {};
@@ -22,15 +22,15 @@ function f3(g, x) {
 }
 
 function f4(g, x) {
-  return Curry._1(g, x);
+  return g(x);
 }
 
 function f5(g, x) {
-  return Curry._1(g, x);
+  return g(x);
 }
 
 function f6(g, x) {
-  return Curry._1(g, x);
+  return g(x);
 }
 
 function f7(g, x) {

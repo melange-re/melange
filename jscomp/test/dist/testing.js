@@ -118,7 +118,7 @@ function test_raises_exc_p(pred, f, x) {
   }
   catch (raw_x){
     const x$1 = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (Curry._1(pred, x$1)) {
+    if (pred(x$1)) {
       return true;
     } else {
       print_failure_test_fail();

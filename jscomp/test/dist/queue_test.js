@@ -9,7 +9,7 @@ const Stdlib__Queue = require("melange/queue.js");
 
 function Test(Queue) {
   const to_array = function (q) {
-    const v = Caml_array.make(Curry._1(Queue.length, q), 0);
+    const v = Caml_array.make(Queue.length(q), 0);
     Curry._3(Queue.fold, (function (i, e) {
       Caml_array.set(v, i, e);
       return i + 1 | 0;

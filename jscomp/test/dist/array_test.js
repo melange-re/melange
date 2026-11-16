@@ -12,6 +12,7 @@ const Stdlib__Array = require("melange/array.js");
 const Stdlib__List = require("melange/list.js");
 
 function starts_with(xs, prefix, p) {
+  const p$1 = Curry.__2(p);
   const H = /* @__PURE__ */ Caml_exceptions.create("H");
   const len1 = xs.length;
   const len2 = prefix.length;
@@ -20,7 +21,7 @@ function starts_with(xs, prefix, p) {
   }
   try {
     for (let i = 0; i < len2; ++i) {
-      if (!Curry._2(p, Caml_array.get(xs, i), Caml_array.get(prefix, i))) {
+      if (!p$1(Caml_array.get(xs, i), Caml_array.get(prefix, i))) {
         throw new Caml_js_exceptions.MelangeError(H, {
             MEL_EXN_ID: H
           });

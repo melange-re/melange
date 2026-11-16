@@ -2414,7 +2414,7 @@ test("File \"jscomp/test/tscanf_test.ml\", line 506, characters 5-12", test22())
 
 function scan_elems$5(ib, scan_elem, accu) {
   try {
-    return Curry._2(scan_elem, ib, (function (i, s) {
+    return Curry._1(scan_elem(ib), (function (i, s) {
       const accu$1 = {
         hd: i,
         tl: accu
@@ -2670,7 +2670,7 @@ function test28(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 609, characters 5-12", test28());
 
 function scan_elems$6(ib, scan_elem, accu) {
-  return Curry._3(scan_elem, ib, (function (i, s) {
+  return scan_elem(ib, (function (i, s) {
     const accu$1 = {
       hd: i,
       tl: accu
@@ -2839,7 +2839,7 @@ function scan_elem(fmt, ib, f, ek) {
 }
 
 function scan_elems$7(ib, scan_elem, accu) {
-  return Curry._3(scan_elem, ib, (function (i) {
+  return scan_elem(ib, (function (i) {
     const accu$1 = {
       hd: i,
       tl: accu
@@ -2941,10 +2941,10 @@ function scan_string_list(param) {
 }
 
 function test31(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1]")), {
       hd: 1,
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
+    }) && Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1;2;3;4]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -2957,7 +2957,7 @@ function test31(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_int_list$6, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
+    return Caml_obj.caml_equal(scan_int_list$6(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -2978,10 +2978,10 @@ function test31(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 714, characters 5-12", test31());
 
 function test32(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
       hd: "1",
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+    }) && Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -2994,7 +2994,7 @@ function test32(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
+    return Caml_obj.caml_equal(scan_string_list(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -3103,10 +3103,10 @@ function scan_string_list$1(param) {
 }
 
 function test33(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1 ]")), {
+  if (Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ 1 ]")), {
       hd: 1,
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
+    }) && Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -3119,7 +3119,7 @@ function test33(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_int_list$7, Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
+    return Caml_obj.caml_equal(scan_int_list$7(Stdlib__Scanf.Scanning.from_string("[1;2;3;4;]")), {
       hd: 1,
       tl: {
         hd: 2,
@@ -3140,10 +3140,10 @@ function test33(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 773, characters 5-12", test33());
 
 function test34(param) {
-  if (Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */ 0) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
       hd: "1",
       tl: /* [] */ 0
-    }) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
+    }) && Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -3156,7 +3156,7 @@ function test34(param) {
         }
       }
     })) {
-    return Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
+    return Caml_obj.caml_equal(scan_string_list$1(Stdlib__Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\";]")), {
       hd: "1",
       tl: {
         hd: "2",
@@ -3177,49 +3177,53 @@ function test34(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 787, characters 5-12", test34());
 
 function scan_elems$9(scan_elem, accu, ib) {
-  return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-    return accu;
-  }), {
-    TAG: /* Format */ 0,
-    _0: {
-      TAG: /* Reader */ 19,
-      _0: /* End_of_format */ 0
-    },
-    _1: "%r"
-  }), (function (ib) {
-    return Curry._2(scan_elem, ib, (function (elem) {
-      const accu$1 = {
-        hd: elem,
-        tl: accu
-      };
-      return Curry._1(Stdlib__Scanf.bscanf(ib, {
-        TAG: /* Format */ 0,
-        _0: {
-          TAG: /* Char_literal */ 12,
-          _0: /* ' ' */32,
-          _1: {
-            TAG: /* Scan_char_set */ 20,
-            _0: 1,
-            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-            _2: {
-              TAG: /* Char_literal */ 12,
-              _0: /* ' ' */32,
-              _1: /* End_of_format */ 0
+  const scan_elems$10 = function (accu, ib) {
+    return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
+      return accu;
+    }), {
+      TAG: /* Format */ 0,
+      _0: {
+        TAG: /* Reader */ 19,
+        _0: /* End_of_format */ 0
+      },
+      _1: "%r"
+    }), (function (ib) {
+      let param = function (elem) {
+        const accu$1 = {
+          hd: elem,
+          tl: accu
+        };
+        return Curry._1(Stdlib__Scanf.bscanf(ib, {
+          TAG: /* Format */ 0,
+          _0: {
+            TAG: /* Char_literal */ 12,
+            _0: /* ' ' */32,
+            _1: {
+              TAG: /* Scan_char_set */ 20,
+              _0: 1,
+              _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+              _2: {
+                TAG: /* Char_literal */ 12,
+                _0: /* ' ' */32,
+                _1: /* End_of_format */ 0
+              }
             }
+          },
+          _1: " %1[;] "
+        }), (function (param) {
+          if (param === "") {
+            return accu$1;
+          } else {
+            return scan_elems$10(accu$1, ib);
           }
-        },
-        _1: " %1[;] "
-      }), (function (param) {
-        if (param === "") {
-          return accu$1;
-        } else {
-          return scan_elems$9(scan_elem, accu$1, ib);
-        }
-      }));
+        }));
+      };
+      return Curry._2(scan_elem, ib, param);
+    }), (function (l) {
+      return l;
     }));
-  }), (function (l) {
-    return l;
-  }));
+  };
+  return scan_elems$10(accu, ib);
 }
 
 function scan_list$4(scan_elem, ib) {
@@ -3321,7 +3325,7 @@ function scan_char_list(param) {
 
 function scan_float_list_list(param) {
   return scan_list$4((function (ib, k) {
-    return Curry._1(k, scan_list$4(scan_float, ib));
+    return k(scan_list$4(scan_float, ib));
   }), param);
 }
 
@@ -3355,7 +3359,7 @@ function test340(param) {
 
 function scan_list_list(scan_elems, ib) {
   return scan_list$4((function (ib, k) {
-    return Curry._1(k, Curry._1(scan_elems, ib));
+    return k(Curry._1(scan_elems, ib));
   }), ib);
 }
 
@@ -3452,40 +3456,44 @@ function test35(param) {
 test("File \"jscomp/test/tscanf_test.ml\", line 940, characters 5-12", test340() && test35());
 
 function read_elems(read_elem, accu, ib) {
-  return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
-    return accu;
-  }), {
-    TAG: /* Format */ 0,
-    _0: {
-      TAG: /* Reader */ 19,
+  const read_elem$1 = Curry.__1(read_elem);
+  const read_elems$1 = function (accu, ib) {
+    return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
+      return accu;
+    }), {
+      TAG: /* Format */ 0,
       _0: {
-        TAG: /* Char_literal */ 12,
-        _0: /* ' ' */32,
-        _1: {
-          TAG: /* Scan_char_set */ 20,
-          _0: 1,
-          _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-          _2: {
-            TAG: /* Char_literal */ 12,
-            _0: /* ' ' */32,
-            _1: /* End_of_format */ 0
+        TAG: /* Reader */ 19,
+        _0: {
+          TAG: /* Char_literal */ 12,
+          _0: /* ' ' */32,
+          _1: {
+            TAG: /* Scan_char_set */ 20,
+            _0: 1,
+            _1: "\0\0\0\0\0\0\0\b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+            _2: {
+              TAG: /* Char_literal */ 12,
+              _0: /* ' ' */32,
+              _1: /* End_of_format */ 0
+            }
           }
         }
+      },
+      _1: "%r %1[;] "
+    }), read_elem$1(function (elem) {
+      return {
+        hd: elem,
+        tl: accu
+      };
+    }), (function (accu, s) {
+      if (s === "") {
+        return accu;
+      } else {
+        return read_elems$1(accu, ib);
       }
-    },
-    _1: "%r %1[;] "
-  }), Curry._1(read_elem, (function (elem) {
-    return {
-      hd: elem,
-      tl: accu
-    };
-  })), (function (accu, s) {
-    if (s === "") {
-      return accu;
-    } else {
-      return read_elems(read_elem, accu, ib);
-    }
-  }));
+    }));
+  };
+  return read_elems$1(accu, ib);
 }
 
 function read_list(read_elem, ib) {

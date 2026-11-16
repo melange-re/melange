@@ -2027,7 +2027,7 @@ function from_lambda_pairs(p) {
       (function (param) {
         return {
           TAG: /* Eq */ 0,
-          _0: Curry._1(string_of_lambda, a),
+          _0: string_of_lambda(a),
           _1: b
         };
       })

@@ -25,9 +25,9 @@ function ui_layout(compile, lookup, appContext) {
   const init = Curry._1(compile, "bid  - ask");
   const computeFunction = {
     contents: (function (env) {
-      return Curry._1(init, (function (key) {
+      return init(function (key) {
         return Curry._2(lookup, env, key);
-      }));
+      });
     })
   };
   const hw1 = new BUI.HostedWindow();
@@ -94,9 +94,9 @@ function ui_layout(compile, lookup, appContext) {
     try {
       const hot_function = Curry._1(compile, inputCode.text);
       computeFunction.contents = (function (env) {
-        return Curry._1(hot_function, (function (key) {
+        return hot_function(function (key) {
           return Curry._2(lookup, env, key);
-        }));
+        });
       });
       return;
     }
@@ -109,7 +109,7 @@ function ui_layout(compile, lookup, appContext) {
       const price = param.price;
       const bid = price + 20 * Math.random();
       const ask = price + 20 * Math.random();
-      const result = Curry._1(computeFunction.contents, {
+      const result = computeFunction.contents({
         bid,
         ask
       });

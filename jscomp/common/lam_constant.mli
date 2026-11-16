@@ -28,6 +28,7 @@ type pointer_info =
   | None
   | Pt_constructor of { name : Lambda.cstr_name; const : int; non_const : int }
   | Pt_assertfalse
+  | Pt_recursive_module_shape of Lambda.recursive_module_shape
   | Some of string
 
 val comment_of_pointer_info : pointer_info -> string option

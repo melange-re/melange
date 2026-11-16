@@ -2,12 +2,11 @@
 'use strict';
 
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function ff(g, x) {
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -17,7 +16,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$1){
     const exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
@@ -27,7 +26,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$2){
     const exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
@@ -37,7 +36,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$3){
     const exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
@@ -47,7 +46,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$4){
     const exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
@@ -57,7 +56,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$5){
     const exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
@@ -67,7 +66,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$6){
     const exn$6 = Caml_js_exceptions.internalToOCamlException(raw_exn$6);
@@ -77,7 +76,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$7){
     const exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
@@ -87,7 +86,7 @@ function ff(g, x) {
     
   }
   try {
-    Curry._1(g, x);
+    g(x);
   }
   catch (raw_exn$8){
     const exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$8);
@@ -97,7 +96,7 @@ function ff(g, x) {
     
   }
   try {
-    return Curry._1(g, x);
+    return g(x);
   }
   catch (raw_exn$9){
     const exn$9 = Caml_js_exceptions.internalToOCamlException(raw_exn$9);

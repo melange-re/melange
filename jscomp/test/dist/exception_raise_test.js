@@ -20,7 +20,7 @@ const D = /* @__PURE__ */ Caml_exceptions.create("Exception_raise_test.D");
 function appf(g, x) {
   const A = /* @__PURE__ */ Caml_exceptions.create("A");
   try {
-    return Curry._1(g, x);
+    return g(x);
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -219,7 +219,7 @@ function fff0(x, g) {
   catch (exn){
     return 1;
   }
-  return Curry._1(g, undefined);
+  return g();
 }
 
 function input_lines(ic, _acc) {

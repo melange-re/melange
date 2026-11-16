@@ -294,10 +294,6 @@ function compare(param, param$1) {
   }
 }
 
-const funarg = {
-  compare
-};
-
 function height(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
     return 0;
@@ -393,7 +389,7 @@ function add(x, data, m) {
   const d = m.d;
   const v = m.v;
   const l = m.l;
-  const c = Curry._2(funarg.compare, x, v);
+  const c = compare(x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -422,23 +418,6 @@ function add(x, data, m) {
   } else {
     return bal(l, v, d, rr);
   }
-}
-
-function find(x, _param) {
-  while (true) {
-    const param = _param;
-    if (/* tag */ typeof param !== "object" && typeof param !== "function") {
-      throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
-          MEL_EXN_ID: Stdlib.Not_found
-        });
-    }
-    const c = Curry._2(funarg.compare, x, param.v);
-    if (c === 0) {
-      return param.d;
-    }
-    _param = c < 0 ? param.l : param.r;
-    continue;
-  };
 }
 
 const cany = {
@@ -500,12 +479,6 @@ function from_char(param) {
     return 12;
   }
 }
-
-const compare$1 = Caml.caml_int_compare;
-
-const funarg$1 = {
-  compare: compare$1
-};
 
 function height$1(param) {
   if (/* tag */ typeof param !== "object" && typeof param !== "function") {
@@ -598,7 +571,7 @@ function add$1(x, t) {
   const r = t.r;
   const v = t.v;
   const l = t.l;
-  const c = Curry._2(funarg$1.compare, x, v);
+  const c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return t;
   }
@@ -622,11 +595,9 @@ function hash_combine(h, accu) {
   return Math.imul(accu, 65599) + h | 0;
 }
 
-const empty_pmarks = /* Empty */ 0;
-
 const empty = {
   marks: /* [] */ 0,
-  pmarks: empty_pmarks
+  pmarks: /* Empty */ 0
 };
 
 function hash(m, accu) {
@@ -676,7 +647,7 @@ function first(f, _param) {
     if (!param) {
       return;
     }
-    const res = Curry._1(f, param.hd);
+    const res = f(param.hd);
     if (res !== undefined) {
       return res;
     }
@@ -1339,7 +1310,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
       }
     case /* Pmark */ 8 :
       const marks_marks$1 = marks.marks;
-      const marks_pmarks$1 = Curry._2(add$1, s._0, marks.pmarks);
+      const marks_pmarks$1 = add$1(s._0, marks.pmarks);
       const marks$2 = {
         marks: marks_marks$1,
         pmarks: marks_pmarks$1
@@ -1480,7 +1451,7 @@ function iter(_n, f, _v) {
     if (n === 0) {
       return v;
     }
-    _v = Curry._1(f, v);
+    _v = f(v);
     _n = n - 1 | 0;
     continue;
   };
@@ -1731,7 +1702,21 @@ function trans_set(cache, cm, s) {
     s
   ];
   try {
-    return Curry._2(find, v, cache.contents);
+    let _param = cache.contents;
+    while (true) {
+      const param = _param;
+      if (/* tag */ typeof param !== "object" && typeof param !== "function") {
+        throw new Caml_js_exceptions.MelangeError(Stdlib.Not_found, {
+            MEL_EXN_ID: Stdlib.Not_found
+          });
+      }
+      const c = compare(v, param.v);
+      if (c === 0) {
+        return param.d;
+      }
+      _param = c < 0 ? param.l : param.r;
+      continue;
+    };
   }
   catch (raw_exn){
     const exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -1739,7 +1724,7 @@ function trans_set(cache, cm, s) {
       const l = Stdlib__List.fold_right((function (param, l) {
         return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
       }), s, /* [] */ 0);
-      cache.contents = Curry._3(add, v, l, cache.contents);
+      cache.contents = add(v, l, cache.contents);
       return l;
     }
     throw exn;
@@ -1781,18 +1766,19 @@ function is_charset(_param) {
 }
 
 function split(s, cm) {
-  let _t = s;
   let f = function (i, j) {
     Caml_bytes.set(cm, i, /* '\001' */1);
     Caml_bytes.set(cm, j + 1 | 0, /* '\001' */1);
   };
+  const f$1 = Curry.__2(f);
+  let _t = s;
   while (true) {
     const t = _t;
     if (!t) {
       return;
     }
     const match = t.hd;
-    Curry._2(f, match[0], match[1]);
+    f$1(match[0], match[1]);
     _t = t.tl;
     continue;
   };
@@ -4129,4 +4115,4 @@ const s = Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1048575, /* 'a' */97)) +
 eq("File \"xx.ml\", line 7, characters 3-10", get(exec(compile(re(undefined, "aa?b")), undefined, s), 0), "aab");
 
 Mt.from_pair_suites("Ocaml_re_test", suites.contents);
-/* CSetMap Not a pure module */
+/* Table Not a pure module */

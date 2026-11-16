@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_option = require("melange.js/caml_option.js");
-const Curry = require("melange.js/curry.js");
 
 console.log([
   "hello world",
@@ -86,7 +85,7 @@ function ff0(x, p) {
 }
 
 function ff1(x, p) {
-  console.log(Caml_option.option_unwrap(Curry._1(x, undefined)), p);
+  console.log(Caml_option.option_unwrap(x()), p);
 }
 
 function test00(param) {

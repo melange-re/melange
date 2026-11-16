@@ -40,7 +40,7 @@ function uff2(f) {
 function uff3(f) {
   const x = f.yyyy2;
   if (x !== undefined) {
-    return Curry._1(x, 0);
+    return x(0);
   } else {
     return 0;
   }

@@ -885,10 +885,14 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     | Lvar x -> Lam.var (Ident.Hashtbl.find_default alias_tbl x ~default:x)
     | Lmutvar x -> Lam.mutvar (Ident.Hashtbl.find_default alias_tbl x ~default:x)
     | Lconst x -> Lam.const (Lam_constant_convert.convert_constant x)
-    | Lapply { ap_func = fn; ap_args = [ arg ]; ap_loc = loc; _ } ->
+    | Lapply { ap_func = fn; ap_args = [ arg ]; ap_loc = loc; ap_arity; _ } ->
         let arg = convert_aux arg in
         let fn = convert_aux fn in
         convert_possible_pipe_application fn arg loc
+          ~ap_status:
+            (match ap_arity with
+            | Arity_exact -> Lam.App_infer_full
+            | Arity_unknown -> Lam.App_na)
     | Lapply { ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined; _ } ->
         (* we need do this eargly in case [aux fn] add some wrapper *)
         Lam.apply (convert_aux fn)
@@ -1026,7 +1030,8 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
                     (* Since https://github.com/ocaml/ocaml/pull/10081, `b |> a` gets
                        turned into `a b` by the typechecker. So this actually means
                        `(x ## y) z` rather than `x#y z` *)
-                    convert_possible_pipe_application lam arg outer_loc
+                    convert_possible_pipe_application ~ap_status:App_na lam arg
+                      outer_loc
                 | _ -> assert false)
             | _ -> assert false)
         | b ->
@@ -1096,7 +1101,8 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
     let new_e = convert_aux e in
     let new_body = convert_aux body in
     Lam.mutlet id new_e new_body
-  and convert_possible_pipe_application (f : Lam.t) (x : Lam.t) outer_loc =
+  and convert_possible_pipe_application ~ap_status (f : Lam.t) (x : Lam.t)
+      outer_loc =
     match f with
     | Lfunction
         {
@@ -1131,7 +1137,7 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
           {
             ap_loc = Debuginfo.Scoped_location.to_location outer_loc;
             ap_inlined = Default_inline;
-            ap_status = App_na;
+            ap_status;
           }
   and convert_switch (e : Lambda.lambda) (s : Lambda.lambda_switch) =
     let e = convert_aux e in

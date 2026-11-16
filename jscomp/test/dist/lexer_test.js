@@ -6,7 +6,6 @@ const Arith_parser = require("./arith_parser.js");
 const Arith_syntax = require("./arith_syntax.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Number_lexer = require("./number_lexer.js");
 const Stdlib = require("melange/stdlib.js");
@@ -18,7 +17,7 @@ function get_tokens(lex, str) {
   let _acc = /* [] */ 0;
   while (true) {
     const acc = _acc;
-    const v = Curry._1(lex, buf);
+    const v = lex(buf);
     if (Caml_obj.caml_equal(v, /* EOF */ 7)) {
       return Stdlib__List.rev(acc);
     }

@@ -104,11 +104,11 @@ function test5(f, x) {
   let tmp = {
     hi: 2
   };
-  const tmp$1 = Curry._1(f, x);
+  const tmp$1 = f(x);
   if (tmp$1 !== undefined) {
     tmp.open = Caml_option.valFromOption(tmp$1);
   }
-  const tmp$2 = Curry._1(f, x);
+  const tmp$2 = f(x);
   if (tmp$2 !== undefined) {
     tmp.xx = Caml_option.valFromOption(tmp$2);
   }

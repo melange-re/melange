@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_array = require("melange.js/caml_array.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib__Array = require("melange/array.js");
 
@@ -15,11 +14,11 @@ function test(param) {
       const acc = _acc;
       const n = _n;
       if (n === 0) {
-        return Curry._1(acc, undefined);
+        return acc();
       }
       _acc = (function (param) {
         v.contents = v.contents + n | 0;
-        return Curry._1(acc, undefined);
+        return acc();
       });
       _n = n - 1 | 0;
       continue;
@@ -44,7 +43,7 @@ function test_closure(param) {
     }));
   }
   Stdlib__Array.iter((function (i) {
-    v.contents = v.contents + Curry._1(i, 0) | 0;
+    v.contents = v.contents + i(0) | 0;
   }), arr);
   return v.contents;
 }
@@ -63,7 +62,7 @@ function test_closure2(param) {
     }));
   }
   Stdlib__Array.iter((function (i) {
-    v.contents = v.contents + Curry._1(i, 0) | 0;
+    v.contents = v.contents + i(0) | 0;
   }), arr);
   return v.contents;
 }

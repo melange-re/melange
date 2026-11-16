@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml_module = require("melange.js/caml_module.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -61,7 +60,7 @@ function fact(n) {
   if (n <= 1) {
     return 1;
   } else {
-    return Math.imul(n, Curry._1(M.fact, n - 1 | 0));
+    return Math.imul(n, fact(n - 1 | 0));
   }
 }
 
@@ -69,14 +68,12 @@ const M = {
   fact
 };
 
-const fact$1 = M.fact;
-
 const Fact = {
   M,
-  fact: fact$1
+  fact
 };
 
-eq("File \"jscomp/test/recursive_module_test.ml\", line 30, characters 5-12", 120, Curry._1(fact$1, 5));
+eq("File \"jscomp/test/recursive_module_test.ml\", line 30, characters 5-12", 120, fact(5));
 
 add([
   "File \"jscomp/test/recursive_module_test.ml\", line 34, characters 7-14",
@@ -84,7 +81,7 @@ add([
     return {
       TAG: /* ThrowAny */ 7,
       _0: (function (param) {
-        Curry._1(Int3.u, 3);
+        Int3.u(3);
       })
     };
   })

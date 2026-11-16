@@ -4,7 +4,6 @@
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_format = require("melange.js/caml_format.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -64,7 +63,7 @@ const C = /* @__PURE__ */ Caml_exceptions.create("Record_extension_test.C");
 
 function u(f) {
   try {
-    return Curry._1(f, undefined);
+    return f();
   }
   catch (raw_x){
     const x = Caml_js_exceptions.internalToOCamlException(raw_x);

@@ -120,23 +120,27 @@ function iter(f, _param) {
       return;
     }
     iter(f, param._0);
-    Curry._1(f, param._1);
+    f(param._1);
     _param = param._2;
     continue;
   };
 }
 
-function fold(f, _s, _accu) {
-  while (true) {
-    const accu = _accu;
-    const s = _s;
-    if (/* tag */ typeof s !== "object" && typeof s !== "function") {
-      return accu;
-    }
-    _accu = Curry._2(f, s._1, fold(f, s._0, accu));
-    _s = s._2;
-    continue;
+function fold(f, s, accu) {
+  const f$1 = Curry.__2(f);
+  const fold$1 = function (_s, _accu) {
+    while (true) {
+      const accu = _accu;
+      const s = _s;
+      if (/* tag */ typeof s !== "object" && typeof s !== "function") {
+        return accu;
+      }
+      _accu = f$1(s._1, fold$1(s._0, accu));
+      _s = s._2;
+      continue;
+    };
   };
+  return fold$1(s, accu);
 }
 
 function for_all(p, _param) {
@@ -145,7 +149,7 @@ function for_all(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return true;
     }
-    if (!Curry._1(p, param._1)) {
+    if (!p(param._1)) {
       return false;
     }
     if (!for_all(p, param._0)) {
@@ -162,7 +166,7 @@ function exists(p, _param) {
     if (/* tag */ typeof param !== "object" && typeof param !== "function") {
       return false;
     }
-    if (Curry._1(p, param._1)) {
+    if (p(param._1)) {
       return true;
     }
     if (exists(p, param._0)) {
@@ -395,7 +399,7 @@ function filter(p, param) {
   }
   const v = param._1;
   const l$p = filter(p, param._0);
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const r$p = filter(p, param._2);
   if (pv) {
     return internal_join(l$p, v, r$p);
@@ -415,7 +419,7 @@ function partition(p, param) {
   const match = partition(p, param._0);
   const lf = match[1];
   const lt = match[0];
-  const pv = Curry._1(p, v);
+  const pv = p(v);
   const match$1 = partition(p, param._2);
   const rf = match$1[1];
   const rt = match$1[0];
@@ -602,6 +606,7 @@ function of_sorted_array(l) {
 }
 
 function is_ordered(cmp, tree) {
+  const cmp$1 = Curry.__2(cmp);
   const is_ordered_min_max = function (tree) {
     if (/* tag */ typeof tree !== "object" && typeof tree !== "function") {
       return "Empty";
@@ -628,7 +633,7 @@ function is_ordered(cmp, tree) {
         }
       }
       const match$2 = match$1.VAL;
-      if (Curry._2(cmp, v, match$2[0]) < 0) {
+      if (cmp$1(v, match$2[0]) < 0) {
         return {
           NAME: "V",
           VAL: [
@@ -645,7 +650,7 @@ function is_ordered(cmp, tree) {
     const min_v = match$3[0];
     const match$4 = is_ordered_min_max(r);
     if (typeof match$4 === "string") {
-      if (match$4 === "Empty" && Curry._2(cmp, max_v, v) < 0) {
+      if (match$4 === "Empty" && cmp$1(max_v, v) < 0) {
         return {
           NAME: "V",
           VAL: [
@@ -658,7 +663,7 @@ function is_ordered(cmp, tree) {
       }
     }
     const match$5 = match$4.VAL;
-    if (Curry._2(cmp, max_v, match$5[0]) < 0) {
+    if (cmp$1(max_v, match$5[0]) < 0) {
       return {
         NAME: "V",
         VAL: [
@@ -678,26 +683,29 @@ function invariant(cmp, t) {
   return is_ordered(cmp, t);
 }
 
-function compare_aux(cmp, _e1, _e2) {
+function compare_aux(cmp, e1, e2) {
+  const cmp$1 = Curry.__2(cmp);
+  let _e1 = e1;
+  let _e2 = e2;
   while (true) {
-    const e2 = _e2;
-    const e1 = _e1;
-    if (/* tag */ typeof e1 !== "object" && typeof e1 !== "function") {
-      if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
+    const e2$1 = _e2;
+    const e1$1 = _e1;
+    if (/* tag */ typeof e1$1 !== "object" && typeof e1$1 !== "function") {
+      if (/* tag */ typeof e2$1 !== "object" && typeof e2$1 !== "function") {
         return 0;
       } else {
         return -1;
       }
     }
-    if (/* tag */ typeof e2 !== "object" && typeof e2 !== "function") {
+    if (/* tag */ typeof e2$1 !== "object" && typeof e2$1 !== "function") {
       return 1;
     }
-    const c = Curry._2(cmp, e1._0, e2._0);
+    const c = cmp$1(e1$1._0, e2$1._0);
     if (c !== 0) {
       return c;
     }
-    _e2 = cons_enum(e2._1, e2._2);
-    _e1 = cons_enum(e1._1, e1._2);
+    _e2 = cons_enum(e2$1._1, e2$1._2);
+    _e1 = cons_enum(e1$1._1, e1$1._2);
     continue;
   };
 }

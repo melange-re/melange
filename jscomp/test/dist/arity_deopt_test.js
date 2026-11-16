@@ -2,7 +2,6 @@
 'use strict';
 
 const Arity_deopt_helper = require("./arity_deopt_helper.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib__Uchar = require("melange/uchar.js");
 
@@ -122,7 +121,7 @@ eq("File \"jscomp/test/arity_deopt_test.ml\", line 79, characters 7-14", 6, f0(1
 
 eq("File \"jscomp/test/arity_deopt_test.ml\", line 80, characters 11-18", 6, f1(1)(2, 3));
 
-eq("File \"jscomp/test/arity_deopt_test.ml\", line 81, characters 15-22", 6, Curry._1(f2(1, 2), 3));
+eq("File \"jscomp/test/arity_deopt_test.ml\", line 81, characters 15-22", 6, f2(1, 2)(3));
 
 eq("File \"jscomp/test/arity_deopt_test.ml\", line 82, characters 15-22", 6, f3(1)(2, 3));
 

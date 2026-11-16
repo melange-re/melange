@@ -4,7 +4,6 @@
 const Caml_exceptions = require("melange.js/caml_exceptions.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib = require("melange/stdlib.js");
 
 function foo(n) {
@@ -113,7 +112,7 @@ const ED = /* @__PURE__ */ Caml_exceptions.create("Variant.ED");
 
 function fooExn(f) {
   try {
-    return Curry._1(f, undefined);
+    return f();
   }
   catch (raw_n){
     const n = Caml_js_exceptions.internalToOCamlException(raw_n);
