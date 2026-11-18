@@ -153,7 +153,7 @@ end
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_in_path_exn file =
 #if OCAML_VERSION >= (5,2,0)
-  Misc.find_in_path_normalized (Load_path.get_path_list ())
+  Misc.find_in_path_normalized (Load_path.get_paths ()).visible
 #else
   Misc.find_in_path_uncap (Load_path.get_paths ())
 #endif

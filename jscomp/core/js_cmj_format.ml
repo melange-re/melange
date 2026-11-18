@@ -196,7 +196,7 @@ type load_error = Missing_cmj of string | Cannot_load_cmj of exn
 
 let find_unit_file_exn unit_name =
   let file = Artifact_extension.append_extension unit_name Cmj in
-  Initialization.find_in_path_exn file
+  Misc.find_in_path_normalized (Load_path.get_path_list ()) file
 
 let load_unit_exn unit_name =
   match find_unit_file_exn unit_name with
