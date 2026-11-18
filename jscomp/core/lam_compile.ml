@@ -199,10 +199,13 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
   | Some
       {
         persistent_closed_lambda =
-          Some ((Lfunction { params; body; _ } as lambda), param_map);
+          Some
+            ( (Lfunction { params; body; attr = { inline; _ }; _ } as lambda),
+              param_map );
         _;
       }
-    when List.same_length params ap_args
+    when inline <> Never_inline
+         && List.same_length params ap_args
          && Lam_compile_env.lambda_is_relocatable lambda ->
       compile_lambda lambda_cxt
         (Lam_beta_reduce.propagate_beta_reduce_with_map lambda_cxt.meta
@@ -334,7 +337,7 @@ and compile_recursive_let :
           && hit_variable_outside_functions id other_arg)
     in
     match arg with
-    | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
+    | Lfunction { params; body; attr = { return_unit; inline; _ }; _ } ->
         (* TODO: Think about recursive value
          {[
            let rec v = ref (fun _ ...
@@ -372,7 +375,8 @@ and compile_recursive_let :
              it will be renamed into [method]
              when it is detected by a primitive
           *)
-              ~return_unit ~immutable_mask:ret.immutable_mask
+              ~return_unit ~can_inline:(inline <> Never_inline)
+              ~immutable_mask:ret.immutable_mask
               (List.map
                  ~f:(fun x ->
                    Ident.Map.find_default x ret.new_params ~default:x)
@@ -386,7 +390,8 @@ and compile_recursive_let :
               ]
           else
             (* TODO:  save computation of length several times *)
-            E.ocaml_fun params ~return_unit (Js_output.output_as_block output)
+            E.ocaml_fun params ~return_unit ~can_inline:(inline <> Never_inline)
+              (Js_output.output_as_block output)
         in
         ( Js_output.output_of_expression
             (Declare (Alias, id))
@@ -1874,9 +1879,9 @@ and compile_prim (prim_info : Lam.prim_info)
       | [] -> assert false)
   | { primitive = Pjs_fn_method; args = args_lambda; _ } -> (
       match args_lambda with
-      | [ Lfunction { params; body; attr = { return_unit; _ }; _ } ] ->
+      | [ Lfunction { params; body; attr = { return_unit; inline; _ }; _ } ] ->
           Js_output.output_of_block_and_expression lambda_cxt.continuation []
-            (E.method_ params ~return_unit
+            (E.method_ params ~return_unit ~can_inline:(inline <> Never_inline)
                (* Invariant:  jmp_table can not across function boundary,
                   here we share env
                *)
@@ -2012,10 +2017,10 @@ and compile_prim (prim_info : Lam.prim_info)
 and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
     Js_output.t =
   match cur_lam with
-  | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
+  | Lfunction { params; body; attr = { return_unit; inline; _ }; _ } ->
       Js_output.output_of_expression lambda_cxt.continuation
         ~no_effects:no_effects_const
-        (E.ocaml_fun params ~return_unit
+        (E.ocaml_fun params ~return_unit ~can_inline:(inline <> Never_inline)
            (* Invariant:  jmp_table can not across function boundary,
               here we share env
            *)

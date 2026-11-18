@@ -142,12 +142,12 @@ module Count = struct
           (* count [l2] first,
              If v is unused, l1 will be removed, so don't count its variables *)
           if kind = Strict || used v then count bv l1
-      | Lmutlet (_, l1, l2) ->
-          count bv l1;
-          count bv l2
-      | Lassign (_, l) ->
-          (* Lalias-bound variables are never assigned, so don't increase
-             this ident's refcount *)
+      | Lmutlet (v, l1, l2) ->
+          count (bind_var bv v) l2;
+          count bv l1
+      | Lassign (v, l) ->
+          (* Keep the mutable binding even if its only uses are writes. *)
+          add_one_use bv v;
           count bv l
       | Lglobal_module _ -> ()
       | Lprim { args; _ } -> List.iter ~f:(count bv) args
@@ -155,8 +155,13 @@ module Count = struct
           List.iter ~f:(fun (_v, l) -> count bv l) bindings;
           count bv body
           (* Note there is a difference here when do beta reduction for *)
-      | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
-        when List.same_length params args ->
+      | Lapply
+          {
+            ap_func = Lfunction { params; body; attr = { inline; _ }; _ };
+            ap_args = args;
+            _;
+          }
+        when inline <> Never_inline && List.same_length params args ->
           count bv (Lam_beta_reduce.no_names_beta_reduce params body args)
       (* | Lapply{fn = Lfunction{function_kind = Tupled; params; body}; *)
       (*          args = [Lprim {primitive = Pmakeblock _;  args; _}]; _} *)
@@ -364,8 +369,13 @@ let lets_helper (count_var : Ident.t -> Count.used_info) lam : Lam.t =
     | Lsequence (Lifused (v, l1), l2) ->
         if used v then Lam.seq (simplif l1) (simplif l2) else simplif l2
     | Lsequence (l1, l2) -> Lam.seq (simplif l1) (simplif l2)
-    | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
-      when List.same_length params args ->
+    | Lapply
+        {
+          ap_func = Lfunction { params; body; attr = { inline; _ }; _ };
+          ap_args = args;
+          _;
+        }
+      when inline <> Never_inline && List.same_length params args ->
         simplif (Lam_beta_reduce.no_names_beta_reduce params body args)
         (* | Lapply{ fn = Lfunction{function_kind = Tupled; params; body}; *)
         (*           args = [Lprim {primitive = Pmakeblock _;  args; _}]; _} *)

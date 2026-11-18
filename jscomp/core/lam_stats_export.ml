@@ -192,6 +192,19 @@ let values_of_export =
                           Some (lambda, param_map lambda))
                         else None))
         in
+        let string_specializations =
+          if not !Js_config.cross_module_inline then []
+          else
+            match Ident.Map.find x export_map with
+            | lambda ->
+                let lambda = Lam_pass_remove_alias.simplify_alias meta lambda in
+                if
+                  Lam_closure.is_closed lambda
+                  && Lam_compile_env.lambda_is_relocatable lambda
+                then Lam_string_bytes_specialize.variants lambda
+                else []
+            | exception Not_found -> []
+        in
         let call_summary =
           match Ident.Map.find x export_map with
           | lambda -> summarize meta lambda
@@ -223,7 +236,8 @@ let values_of_export =
         match (arity, persistent_closed_lambda, call_summary) with
         | Single Arity_na, (None | Some (Lconst Const_module_alias, _)), summary
         | Submodule [||], None, summary
-          when Lam_call_summary.is_unknown summary ->
+          when Lam_call_summary.is_unknown summary
+               && string_specializations = [] ->
             acc
         | _, _, _ ->
             String.Map.add acc ~key:(Ident.name x)
@@ -233,6 +247,7 @@ let values_of_export =
                   persistent_closed_lambda;
                   call_summary;
                   nested_call_summary;
+                  string_specializations;
                 })
 
 (* ATTENTION: all runtime modules, if it is not hard required,

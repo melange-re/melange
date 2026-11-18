@@ -29,7 +29,8 @@ open Import
 
 type t
 
-val make : ?immutable_mask:bool array -> int -> t
+val make : ?immutable_mask:bool array -> ?can_inline:bool -> int -> t
+val can_inline : t -> bool
 val no_tailcall : t -> bool list
 val mark_unused : t -> int -> unit
 val get_unused : t -> int -> bool

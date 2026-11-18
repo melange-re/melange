@@ -210,7 +210,7 @@ let subst (export_set : Ident.Set.t)
                 ident_info = { used_stats = Once_pure };
                 ident = _;
               } as v
-              when List.same_length params args ->
+              when Js_fun_env.can_inline env && List.same_length params args ->
                 Js_op.update_used_stats v.ident_info Dead_pure;
                 let no_tailcall = Js_fun_env.no_tailcall env in
                 let processed_blocks =
@@ -249,7 +249,7 @@ let subst (export_set : Ident.Set.t)
            _;
          };
         ]
-          when List.same_length params args ->
+          when Js_fun_env.can_inline env && List.same_length params args ->
             let no_tailcall = Js_fun_env.no_tailcall env in
             let processed_blocks =
               self.block self block

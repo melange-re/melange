@@ -224,22 +224,27 @@ let unit : t = make_expression (Undefined { is_unit = true })
    TODO: optimize
 *)
 
-let fun_ ?loc ?comment ?immutable_mask ~method_ ~return_unit params block : t =
+let fun_ ?loc ?comment ?immutable_mask ?can_inline ~method_ ~return_unit params
+    block : t =
   make_expression ?loc ?comment
     (Fun
        {
          method_;
          params;
          body = block;
-         env = Js_fun_env.make ?immutable_mask (List.length params);
+         env = Js_fun_env.make ?immutable_mask ?can_inline (List.length params);
          return_unit;
        })
 
-let ocaml_fun ?loc ?comment ?immutable_mask ~return_unit params block : t =
-  fun_ ?loc ?comment ?immutable_mask ~return_unit params block ~method_:false
+let ocaml_fun ?loc ?comment ?immutable_mask ?can_inline ~return_unit params
+    block : t =
+  fun_ ?loc ?comment ?immutable_mask ?can_inline ~return_unit params block
+    ~method_:false
 
-let method_ ?loc ?comment ?immutable_mask ~return_unit params block : t =
-  fun_ ?loc ?comment ?immutable_mask ~return_unit params block ~method_:true
+let method_ ?loc ?comment ?immutable_mask ?can_inline ~return_unit params block
+    : t =
+  fun_ ?loc ?comment ?immutable_mask ?can_inline ~return_unit params block
+    ~method_:true
 
 (** ATTENTION: This is coupuled with {!Caml_obj.caml_update_dummy} *)
 let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =

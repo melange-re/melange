@@ -48,10 +48,13 @@ type t = {
   mutable unbounded : Ident.Set.t;
   used_mask : bool array;
   immutable_mask : immutable_mask;
+  (* Preserve Never_inline through JavaScript rewrites, including functions
+     whose activation keeps captured values separate from a caller's loop. *)
+  can_inline : bool;
 }
 (** Invariant: unused param has to be immutable *)
 
-let make ?immutable_mask n =
+let make ?immutable_mask ?(can_inline = true) n =
   {
     unbounded = Ident.Set.empty;
     used_mask = Array.make n false;
@@ -59,7 +62,10 @@ let make ?immutable_mask n =
       (match immutable_mask with
       | Some x -> Immutable_mask x
       | None -> All_immutable_and_no_tail_call);
+    can_inline;
   }
+
+let can_inline t = t.can_inline
 
 let no_tailcall x =
   match x.immutable_mask with
