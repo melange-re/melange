@@ -13,7 +13,11 @@ Constructors must have distinct representations within each tag namespace.
   > const m = require('./input.js');
   > console.log(m.folded, m.name(m.value), m.equal, m.runtime_equal(1, 1));
   > EOF
-  B A false true
+  File "input.ml", line 1, characters 25-26:
+  1 | type t = A [@mel.as 1] | B | C
+                               ^
+  Error: Constructors A and B have the same JavaScript representation
+  [2]
 
 Explicit aliases also collide, including payload and inline-record tags.
 Check both implementations and interfaces without requiring the PPX.
@@ -29,6 +33,47 @@ Check both implementations and interfaces without requiring the PPX.
   >     melc --mel-cmi-only invalid.$suffix
   >   done
   > done
+  File "invalid.ml", line 1, characters 27-28:
+  1 | type t = A [@mel.as "x"] | B [@mel.as "x"]
+                                 ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.ml", line 1, characters 29-30:
+  1 | type t = A [@mel.as false] | B [@mel.as false]
+                                   ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.ml", line 1, characters 28-29:
+  1 | type t = A [@mel.as null] | B [@mel.as null]
+                                  ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.ml", line 1, characters 33-34:
+  1 | type t = A [@mel.as undefined] | B [@mel.as undefined]
+                                       ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.ml", line 1, characters 32-33:
+  1 | type t = A of int [@mel.as 1] | B of {x : int}
+                                      ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.mli", line 1, characters 27-28:
+  1 | type t = A [@mel.as "x"] | B [@mel.as "x"]
+                                 ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.mli", line 1, characters 29-30:
+  1 | type t = A [@mel.as false] | B [@mel.as false]
+                                   ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.mli", line 1, characters 28-29:
+  1 | type t = A [@mel.as null] | B [@mel.as null]
+                                  ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.mli", line 1, characters 33-34:
+  1 | type t = A [@mel.as undefined] | B [@mel.as undefined]
+                                       ^
+  Error: Constructors A and B have the same JavaScript representation
+  File "invalid.mli", line 1, characters 32-33:
+  1 | type t = A of int [@mel.as 1] | B of {x : int}
+                                      ^
+  Error: Constructors A and B have the same JavaScript representation
+  [2]
 
 Nullary and payload constructors have separate tag namespaces. Integer and
 string tags also remain distinct, and swapped integers must still fold correctly.

@@ -60,6 +60,44 @@ let find_mel_as_name attributes =
   | name -> Some name
   | exception Not_found -> None
 
+let check_variant_tags constructors =
+  if
+    List.exists constructors ~f:(fun (c : Parsetree.constructor_declaration) ->
+        List.exists c.pcd_attributes ~f:(fun (attr : Parsetree.attribute) ->
+            attr.attr_name.txt = "mel.as"))
+  then
+    (* Constant constructors and payload blocks have independent ordinals and
+     tag namespaces. Only the emitted value within each namespace must differ. *)
+    let constants = Hashtbl.create 8 and blocks = Hashtbl.create 8 in
+    let constant_index = ref 0 and block_index = ref 0 in
+    List.iter constructors
+      ~f:(fun
+          ({ Parsetree.pcd_name; pcd_args; pcd_attributes; _ } :
+            Parsetree.constructor_declaration)
+        ->
+        let tags, index =
+          match pcd_args with
+          | Pcstr_tuple [] -> (constants, constant_index)
+          | Pcstr_tuple _ | Pcstr_record _ -> (blocks, block_index)
+        in
+        let tag =
+          match find_mel_as_name pcd_attributes with
+          | None -> Lambda.Int !index
+          | Some (Int i) -> Int (Int32.to_int (Int32.of_int i))
+          | Some tag -> tag
+          | exception Failure _ ->
+              Location.raise_errorf ~loc:pcd_name.loc
+                "Integer representation for constructor %s is out of range"
+                pcd_name.txt
+        in
+        incr index;
+        match Hashtbl.find_opt tags tag with
+        | Some previous ->
+            Location.raise_errorf ~loc:pcd_name.loc
+              "Constructors %s and %s have the same JavaScript representation"
+              previous pcd_name.txt
+        | None -> Hashtbl.add tags ~key:tag ~data:pcd_name.txt)
+
 let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
   match attr with
