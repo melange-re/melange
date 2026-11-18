@@ -3,7 +3,8 @@ Unreleased
 
 - compiler: specialize supported read-only byte operations for string inputs,
   avoiding full-string copies in predicates, lazy sequences, and UTF-8 decoding
-  while preserving JavaScript string and byte-array representations.
+  while preserving JavaScript string and byte-array representations
+  ([#2212](https://github.com/melange-re/melange/pull/2212)).
 
 - PPX: report located errors for out-of-range `[@@mel.inline]` integers in
   implementations and interfaces instead of crashing
