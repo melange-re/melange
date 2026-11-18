@@ -994,9 +994,67 @@ module From_attributes = struct
                 "%S isn't a valid JavaScript identifier" txt)
           v
     in
+    let check_global_scope ~loc scope next =
+      let scope =
+        if scope = "import" && next = "meta" then "import.meta" else scope
+      in
+      let open Js_parser in
+      let valid_identifier name =
+        (not (String.contains name '\\'))
+        && Parser_flow.string_is_valid_identifier_name name
+      in
+      let rec valid_root = function
+        | Flow_ast.Expression.Identifier (_, { name; _ }) ->
+            valid_identifier name
+            && not
+                 (Parser_env.is_reserved name
+                 || Parser_env.is_strict_reserved name
+                 || Parser_env.is_contextually_reserved name)
+        | This _ -> true
+        | MetaProperty
+            {
+              meta = _, { name = "import"; _ };
+              property = _, { name = "meta"; _ };
+              _;
+            } ->
+            true
+        | Member
+            {
+              _object = _, obj;
+              property = PropertyIdentifier (_, { name; _ });
+              _;
+            } ->
+            valid_identifier name && valid_root obj
+        | _ -> false
+      in
+      let valid =
+        try
+          (* Keep dotted paths and Unicode identifiers, but not arbitrary JS
+             expressions. Property names in later scopes are quoted by the
+             backend and do not need this check. *)
+          List.for_all
+            (String.split_on_char '.' scope)
+            ~f:Parser_flow.string_is_valid_identifier_name
+          &&
+          let (_, expr), _ = Parser_flow.jsx_pragma_expression scope None in
+          valid_root expr
+        with Parse_error.Error _ | Flow_sedlexing.MalFormed -> false
+      in
+      if not valid then
+        Location.raise_errorf ~loc "Invalid JavaScript global scope %S" scope
+    in
     fun ~loc ffi : bool ->
       let xrelative = ref false in
       let upgrade bool = if not !xrelative then xrelative := bool in
+      (match ffi with
+      | External_ffi_types.External_spec.Js_var
+          { external_module_name = None; scopes = scope :: rest; name }
+      | Js_call { external_module_name = None; scopes = scope :: rest; name; _ }
+      | Js_new { external_module_name = None; scopes = scope :: rest; name; _ }
+        ->
+          let next = match rest with [] -> name | property :: _ -> property in
+          check_global_scope ~loc scope next
+      | _ -> ());
       (match ffi with
       | External_ffi_types.External_spec.Js_var
           { name; external_module_name; _ } ->

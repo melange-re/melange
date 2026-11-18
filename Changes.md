@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- PPX: reject invalid global `[@@mel.scope]` paths with a located error instead
+  of emitting malformed JavaScript or unintended expressions. Module and
+  receiver scopes continue to accept arbitrary property names
+  ([#2208](https://github.com/melange-re/melange/pull/2208),
+  [#2210](https://github.com/melange-re/melange/pull/2210)).
+
 - PPX: report located errors for out-of-range `[@@mel.inline]` integers in
   implementations and interfaces instead of crashing
   ([#2204](https://github.com/melange-re/melange/pull/2204),
