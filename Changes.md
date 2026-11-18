@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: reject variant constructors with colliding JavaScript tags, which
+  made folded matches and comparisons disagree with runtime behavior
+  ([#2213](https://github.com/melange-re/melange/pull/2213)).
+
 - PPX: report located errors for out-of-range `[@@mel.inline]` integers in
   implementations and interfaces instead of crashing
   ([#2204](https://github.com/melange-re/melange/pull/2204),

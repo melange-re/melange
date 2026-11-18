@@ -97,6 +97,12 @@ let emit_external_warnings_on_structure, emit_external_warnings_on_signature =
     let super = Ast_iterator.default_iterator in
     {
       super with
+      type_declaration = (fun self declaration ->
+          (match declaration.ptype_kind with
+          | Ptype_variant constructors ->
+              Record_attributes_check.check_variant_tags constructors
+          | _ -> ());
+          super.type_declaration self declaration);
       signature_item = (fun self sigi ->
           match sigi.psig_desc with
           | Psig_value { pval_attributes; pval_loc; _ } ->
