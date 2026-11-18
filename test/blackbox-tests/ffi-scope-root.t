@@ -51,3 +51,18 @@ Keywords, punctuation and byte-string keys must keep working there.
   > EOF
   42,42,42,42,45,44,3 43
   42,42,42,42,45,44,3 43
+
+`import.meta` is an ES-module expression, not a global named `import`.
+
+  $ cat > meta.ml <<'EOF'
+  > external url : string = "url" [@@mel.scope "import", "meta"]
+  > external dotted : string = "url" [@@mel.scope "import.meta"]
+  > let url = url
+  > let dotted = dotted
+  > EOF
+  $ melc -ppx melppx -bs-module-type es6 meta.ml -o meta.mjs
+  $ node --input-type=module <<'EOF'
+  > import {url, dotted} from './meta.mjs';
+  > console.log(url === new URL('./meta.mjs', import.meta.url).href, url === dotted);
+  > EOF
+  true true
