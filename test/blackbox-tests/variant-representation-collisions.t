@@ -9,8 +9,7 @@ Constructors must have distinct representations within each tag namespace.
   > let equal = A = B
   > let runtime_equal (a : t) b = a = b
   > EOF
-  $ melc input.ml -o input.js
-  $ node <<'EOF'
+  $ melc input.ml -o input.js && node <<'EOF'
   > const m = require('./input.js');
   > console.log(m.folded, m.name(m.value), m.equal, m.runtime_equal(1, 1));
   > EOF
