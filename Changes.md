@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: load CMJ metadata from hidden include paths, preserving cross-module
+  arity information and optimization without exposing hidden modules
+  ([#2209](https://github.com/melange-re/melange/pull/2209)).
+
 - PPX: report located errors for out-of-range `[@@mel.inline]` integers in
   implementations and interfaces instead of crashing
   ([#2204](https://github.com/melange-re/melange/pull/2204),
