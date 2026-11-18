@@ -994,7 +994,10 @@ module From_attributes = struct
                 "%S isn't a valid JavaScript identifier" txt)
           v
     in
-    let check_global_scope ~loc scope =
+    let check_global_scope ~loc scope next =
+      let scope =
+        if scope = "import" && next = "meta" then "import.meta" else scope
+      in
       let open Js_parser in
       let valid_identifier name =
         (not (String.contains name '\\'))
@@ -1008,6 +1011,13 @@ module From_attributes = struct
                  || Parser_env.is_strict_reserved name
                  || Parser_env.is_contextually_reserved name)
         | This _ -> true
+        | MetaProperty
+            {
+              meta = _, { name = "import"; _ };
+              property = _, { name = "meta"; _ };
+              _;
+            } ->
+            true
         | Member
             {
               _object = _, obj;
@@ -1038,10 +1048,12 @@ module From_attributes = struct
       let upgrade bool = if not !xrelative then xrelative := bool in
       (match ffi with
       | External_ffi_types.External_spec.Js_var
-          { external_module_name = None; scopes = scope :: _; _ }
-      | Js_call { external_module_name = None; scopes = scope :: _; _ }
-      | Js_new { external_module_name = None; scopes = scope :: _; _ } ->
-          check_global_scope ~loc scope
+          { external_module_name = None; scopes = scope :: rest; name }
+      | Js_call { external_module_name = None; scopes = scope :: rest; name; _ }
+      | Js_new { external_module_name = None; scopes = scope :: rest; name; _ }
+        ->
+          let next = match rest with [] -> name | property :: _ -> property in
+          check_global_scope ~loc scope next
       | _ -> ());
       (match ffi with
       | External_ffi_types.External_spec.Js_var
