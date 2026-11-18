@@ -37,6 +37,7 @@ type cmj_value = {
       (** Either constant or closed functor *)
   call_summary : Lam_call_summary.t;
   nested_call_summary : nested_call_summary;
+  string_specializations : (int * Lam.t) list;
 }
 
 let single_na = Single Lam_arity.na
@@ -48,6 +49,7 @@ type keyed_cmj_value = {
   persistent_closed_lambda : (Lam.t * Lam_var_stats.t Ident.Map.t) option;
   call_summary : Lam_call_summary.t;
   nested_call_summary : nested_call_summary;
+  string_specializations : (int * Lam.t) list;
 }
 
 type t = {
@@ -81,6 +83,7 @@ let make ~(values : cmj_value String.Map.t) ~effect_ ~package_spec ~case
             persistent_closed_lambda = v.persistent_closed_lambda;
             call_summary = v.call_summary;
             nested_call_summary = v.nested_call_summary;
+            string_specializations = v.string_specializations;
           });
     pure = effect_ = None;
     package_spec;
@@ -130,6 +133,7 @@ let not_found key =
     persistent_closed_lambda = None;
     call_summary = Lam_call_summary.Unknown;
     nested_call_summary = call_summary_unknown;
+    string_specializations = [];
   }
 
 let get_result midVal =

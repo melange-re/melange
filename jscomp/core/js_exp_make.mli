@@ -99,6 +99,7 @@ val ocaml_fun :
   ?loc:Location.t ->
   ?comment:string ->
   ?immutable_mask:bool array ->
+  ?can_inline:bool ->
   return_unit:bool ->
   J.ident list ->
   J.block ->
@@ -108,6 +109,7 @@ val method_ :
   ?loc:Location.t ->
   ?comment:string ->
   ?immutable_mask:bool array ->
+  ?can_inline:bool ->
   return_unit:bool ->
   J.ident list ->
   J.block ->

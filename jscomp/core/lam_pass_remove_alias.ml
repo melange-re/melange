@@ -71,6 +71,41 @@ let field_flatten_get (tbl : Lam_id_kind.t Ident.Hashtbl.t) ~f v i
   | _ | (exception Not_found) -> f ()
 
 let simplify_alias =
+  let read_primitive ~primitive ~args ~loc =
+    match (Lam_string_bytes_specialize.string_primitive primitive, args) with
+    | ( Some primitive,
+        Lam.Lprim { primitive = Pbytes_of_string; args = [ source ]; _ } :: rest
+      ) ->
+        Lam.prim ~primitive ~args:(source :: rest) ~loc
+    | _ -> Lam.prim ~primitive ~args ~loc
+  in
+  let apply_string_reader lambda args ap_info =
+    (* Preserve a fresh activation for captured parameters, including readers
+       returned from a tail-recursive caller. Both Lambda and JS inlining must
+       respect this boundary. *)
+    let lambda = Lam_bounded_vars.rewrite (Ident.Hashtbl.create 8) lambda in
+    match lambda with
+    | Lam.Lfunction { params; body; attr; arity } ->
+        let id = Ident.create_local "string_reader" in
+        let lambda =
+          Lam.function_ ~params ~body ~arity
+            ~attr:{ attr with inline = Never_inline }
+        in
+        Lam.let_ Strict id lambda (Lam.apply (Lam.var id) args ap_info)
+    | _ -> assert false
+  in
+  let converted_argument index args =
+    let rec loop index = function
+      | [] -> None
+      | Lam.Lprim { primitive = Pbytes_of_string; args = [ source ]; _ } :: rest
+        when index = 0 ->
+          Some (source :: rest)
+      | arg :: rest when index > 0 ->
+          Option.map (loop (index - 1) rest) ~f:(fun rest -> arg :: rest)
+      | _ -> None
+    in
+    loop index args
+  in
   let fully_applied arity args =
     match Lam_arity.get_first_arity arity with
     | Some n -> n = List.length args
@@ -299,7 +334,7 @@ let simplify_alias =
             if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(List.map ~f:(simpl meta) args) ~loc
+        read_primitive ~primitive ~args:(List.map ~f:(simpl meta) args) ~loc
     | Lifthenelse
         ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
           l2,
@@ -367,69 +402,84 @@ let simplify_alias =
           ap_args = args;
           ap_info;
         } -> (
-        match
+        let args = List.map ~f:(simpl meta) args in
+        let info =
           Lam_compile_env.query_external_id_info ~dynamic_import ident fld_name
-        with
-        | Some
-            {
-              arity;
-              call_summary = Lam_call_summary.Direct_primitive primitive;
-              _;
-            }
-          when Lam_primitive.is_relocatable primitive
-               && fully_applied_external arity args ->
-            Lam.prim ~primitive
-              ~args:(List.map ~f:(simpl meta) args)
-              ~loc:ap_info.ap_loc
-        | Some
-            {
-              call_summary =
-                Lam_call_summary.Direct_external
-                  {
-                    dynamic_import = dynamic_import';
-                    id;
-                    name;
-                    arity = direct_arity;
-                    relocatable;
-                  };
-              _;
-            }
-          when relocatable
-               && fully_applied direct_arity args
-               && not
-                    (dynamic_import = dynamic_import'
-                    && Ident.same ident id && String.equal fld_name name) ->
-            simpl meta
-              (Lam.apply
-                 (direct_external_field ~dynamic_import:dynamic_import' id name
-                    ~loc:ap_info.ap_loc)
-                 args
-                 (direct_apply_info ap_info))
-        | Some
-            {
-              persistent_closed_lambda =
-                Some ((Lfunction { params; body; _ } as lambda), _);
-              _;
-            }
-          when List.same_length params args
-               && Lam_compile_env.lambda_is_relocatable lambda ->
-            let reduced =
-              Lam_beta_reduce.propagate_beta_reduce meta params body args
-            in
-            let parameter_args =
-              List.filter_map args ~f:(parameter_arg_id meta.ident_tbl)
-            in
-            if
-              parameter_args = []
-              || cross_module_parameter_result_is_safe reduced
-                 && not
-                      (List.exists parameter_args ~f:(fun param ->
-                           parameter_is_captured param reduced))
-            then simpl meta reduced
-            else
-              Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info
-        | Some _ | None ->
-            Lam.apply (simpl meta l1) (List.map ~f:(simpl meta) args) ap_info)
+        in
+        let specialized =
+          match info with
+          | Some { string_specializations; _ }
+            when !Js_config.cross_module_inline ->
+              List.find_map string_specializations ~f:(fun (index, lambda) ->
+                  match lambda with
+                  | Lam.Lfunction { params; _ }
+                    when List.same_length params args
+                         && Lam_compile_env.lambda_is_relocatable lambda ->
+                      Option.map (converted_argument index args) ~f:(fun args ->
+                          apply_string_reader lambda args ap_info)
+                  | _ -> None)
+          | _ -> None
+        in
+        match specialized with
+        | Some lambda -> lambda
+        | None -> (
+            match info with
+            | Some
+                {
+                  arity;
+                  call_summary = Lam_call_summary.Direct_primitive primitive;
+                  _;
+                }
+              when Lam_primitive.is_relocatable primitive
+                   && fully_applied_external arity args ->
+                read_primitive ~primitive ~args ~loc:ap_info.ap_loc
+            | Some
+                {
+                  call_summary =
+                    Lam_call_summary.Direct_external
+                      {
+                        dynamic_import = dynamic_import';
+                        id;
+                        name;
+                        arity = direct_arity;
+                        relocatable;
+                      };
+                  _;
+                }
+              when relocatable
+                   && fully_applied direct_arity args
+                   && not
+                        (dynamic_import = dynamic_import'
+                        && Ident.same ident id && String.equal fld_name name) ->
+                simpl meta
+                  (Lam.apply
+                     (direct_external_field ~dynamic_import:dynamic_import' id
+                        name ~loc:ap_info.ap_loc)
+                     args
+                     (direct_apply_info ap_info))
+            | Some
+                {
+                  persistent_closed_lambda =
+                    Some ((Lfunction { params; body; _ } as lambda), _);
+                  _;
+                }
+              when List.same_length params args
+                   && Lam_compile_env.lambda_is_relocatable lambda ->
+                let reduced =
+                  Lam_beta_reduce.propagate_beta_reduce meta params body args
+                in
+                let parameter_args =
+                  List.filter_map args ~f:(parameter_arg_id meta.ident_tbl)
+                in
+                if
+                  parameter_args = []
+                  || cross_module_parameter_result_is_safe reduced
+                     && not
+                          (List.exists parameter_args ~f:(fun param ->
+                               parameter_is_captured param reduced))
+                then simpl meta reduced
+                else Lam.apply (simpl meta l1) args ap_info
+            | Some _ | None -> Lam.apply (simpl meta l1) args ap_info))
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
@@ -473,7 +523,7 @@ let simplify_alias =
         | value -> (
             match direct_primitive_of_value value ap_args with
             | Some primitive ->
-                Lam.prim ~primitive ~args:ap_args ~loc:ap_info.ap_loc
+                read_primitive ~primitive ~args:ap_args ~loc:ap_info.ap_loc
             | None -> (
                 match direct_external_of_value value ap_args with
                 | Some (dynamic_import, id, name) ->
@@ -558,8 +608,9 @@ let simplify_alias =
                         else normal ()
                     | _ -> normal ())))
         | exception Not_found -> normal ())
-    | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
-      when List.same_length params args ->
+    | Lapply
+        { ap_func = Lfunction { params; body; attr; _ }; ap_args = args; _ }
+      when attr.inline <> Never_inline && List.same_length params args ->
         simpl meta (Lam_beta_reduce.propagate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)
         (*          args = [Lprim {primitive = Pmakeblock _; args; _}]; _} *)

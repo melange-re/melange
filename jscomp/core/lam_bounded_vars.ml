@@ -64,11 +64,19 @@ open Import
     3. arguments are const or not
 *)
 let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
-  let rebind i =
+  let rebind_as make_var i =
     let i' = Ident.rename i in
-    Ident.Hashtbl.add map ~key:i ~data:(Lam.var i');
+    Ident.Hashtbl.add map ~key:i ~data:(make_var i');
     i'
   in
+  let rebind = rebind_as Lam.var in
+  let rebind_mutable = rebind_as Lam.mutvar in
+  let renamed_identifier i =
+    match Ident.Hashtbl.find map i with
+    | Lam.Lvar i' | Lmutvar i' -> i'
+    | _ | (exception Not_found) -> i
+  in
+  let exits = ref Int.Map.empty in
   (* order matters, especially for let bindings *)
   let rec option_map op = match op with None -> None | Some x -> Some (aux x)
   and aux (lam : Lam.t) : Lam.t =
@@ -80,7 +88,7 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let l2 = aux l2 in
         Lam.let_ str v l1 l2
     | Lmutlet (v, l1, l2) ->
-        let v = rebind v in
+        let v = rebind_mutable v in
         let l1 = aux l1 in
         let l2 = aux l2 in
         Lam.mutlet v l1 l2
@@ -97,16 +105,23 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let body = aux body in
         Lam.function_ ~arity ~params ~body ~attr
     | Lstaticcatch (l1, (i, xs), l2) ->
+        (* Exit passes key their tables by label across the whole lambda, so
+           cloned catches need fresh labels even in separate functions. A
+           catch binds its label in the protected body, not its handler. *)
+        let i' = Lambda.next_raise_count () in
+        let outer_exits = !exits in
+        exits := Int.Map.add ~key:i ~data:i' outer_exits;
         let l1 = aux l1 in
+        exits := outer_exits;
         let xs = List.map ~f:rebind xs in
         let l2 = aux l2 in
-        Lam.staticcatch l1 (i, xs) l2
+        Lam.staticcatch l1 (i', xs) l2
     | Lfor (ident, l1, l2, dir, l3) ->
         let ident = rebind ident in
         let l1 = aux l1 in
         let l2 = aux l2 in
         let l3 = aux l3 in
-        Lam.for_ ident (aux l1) l2 dir l3
+        Lam.for_ ident l1 l2 dir l3
     | Lconst _ -> lam
     | Lprim { primitive; args; loc } ->
         (* here it makes sure that global vars are not rebound *)
@@ -139,7 +154,11 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
     | Lstringswitch (l, sw, d) ->
         let l = aux l in
         Lam.stringswitch l (List.map_snd sw ~f:aux) (option_map d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
+    | Lstaticraise (i, ls) ->
+        let i =
+          match Int.Map.find_opt i !exits with Some i' -> i' | None -> i
+        in
+        Lam.staticraise i (List.map ~f:aux ls)
     | Ltrywith (l1, v, l2) ->
         let l1 = aux l1 in
         let v = rebind v in
@@ -158,7 +177,7 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let l1 = aux l1 in
         let l2 = aux l2 in
         Lam.while_ l1 l2
-    | Lassign (v, l) -> Lam.assign v (aux l)
+    | Lassign (v, l) -> Lam.assign (renamed_identifier v) (aux l)
     | Lsend (u, m, o, ll, loc) ->
         let m = aux m in
         let o = aux o in
@@ -166,6 +185,6 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         Lam.send u m o ll ~loc
     | Lifused (v, l) ->
         let l = aux l in
-        Lam.ifused v l
+        Lam.ifused (renamed_identifier v) l
   in
   aux lam
