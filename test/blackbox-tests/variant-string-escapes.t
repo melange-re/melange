@@ -33,6 +33,6 @@ The identity external below maps tags shared by two nominal variant types.
   > console.log('matches', m.names.join(','), m.strings.map(m.name).join(','));
   > EOF
   bytes [[65],[92,117,48,48,52,49],[226,152,131],[10]]
-  folded true true false true true true false false false false
+  folded true true false true true true true true true false
   runtime true true false true true true true true true false
   matches A,slash,snow,newline A,slash,snow,newline
