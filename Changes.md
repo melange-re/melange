@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: evaluate polymorphic variant FFI arguments and optional getters
+  once when converting their values for JavaScript calls and object construction
+  ([#2170](https://github.com/melange-re/melange/pull/2170),
+   [#2176](https://github.com/melange-re/melange/pull/2176))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

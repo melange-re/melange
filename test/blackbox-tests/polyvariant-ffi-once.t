@@ -33,17 +33,17 @@ Polymorphic-variant payload expansion must evaluate the argument exactly once.
   $ echo '(melange.emit (target out) (libraries melange) (preprocess (pps melange.ppx)))' > dune
   $ dune build @melange
   $ node _build/default/out/input.js
+  click 1
+  calls: 1
   click 2
   calls: 2
-  click 4
+  click 1
+  getters: 1
+  value
+  optional getters: 2
+  empty
+  value
+  empty
+  value
   calls: 4
-  click 2
-  getters: 2
-  value
-  optional getters: 4
-  empty
-  value
-  empty
-  value
-  calls: 6
   caught
