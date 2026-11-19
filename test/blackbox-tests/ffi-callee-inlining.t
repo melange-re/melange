@@ -43,7 +43,7 @@ Compare inlined calls with the same exported wrappers called from JavaScript.
   > globalThis.replace = o => { events.push('arg'); o.fn = function(x) { return this.base + x + 100; }; return 1; };
   > console.log('getter', m.inlined_method(getter), events.join(','));
   > EOF
-  global 2 101
-  method 2 101
-  import 2 101
-  getter 2 get,arg
+  global 101 101
+  method 101 101
+  import 101 101
+  getter 101 arg,get
