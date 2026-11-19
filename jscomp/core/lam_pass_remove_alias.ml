@@ -155,6 +155,9 @@ let simplify_alias =
     | Normal_optional _ | ImmutableBlock _ | MutableBlock _
     | Constant (Const_block _ | Const_js_true) ->
         Eval_true
+    | Constant (Const_int { comment; _ })
+      when Option.is_some (Lam.Constant.modifier_of_pointer_info comment) ->
+        Eval_unknown
     | Constant (Const_int { i = 0l; _ }) -> Eval_false
     | Constant (Const_int { i = _; _ }) -> Eval_true
     | Constant (Const_js_false | Const_js_null | Const_js_undefined _) ->

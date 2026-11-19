@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: preserve `mel.as` runtime representations when folding variant
+  comparisons, arithmetic and matches
+  ([#2056](https://github.com/melange-re/melange/pull/2056),
+  [#2057](https://github.com/melange-re/melange/pull/2057))
+
 - compiler: load CMJ metadata from hidden include paths, preserving cross-module
   arity information and optimization without exposing hidden modules
   ([#2209](https://github.com/melange-re/melange/pull/2209)).
