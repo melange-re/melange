@@ -23,7 +23,7 @@ The identity external exposes the explicitly chosen integer representation.
   > type gate = Open [@mel.as true] | Closed [@mel.as false]
   > external to_bool : gate -> bool = "%identity"
   > let bools = [|if to_bool Open then 1 else 2; if to_bool Closed then 1 else 2|]
-  > let character () = let text = "abcd" in text.[to_int B]
+  > let character () = let text = "abcd" in String.unsafe_get text (to_int B)
   > external record : int -> unit = "recordIndex"
   > let loop limit = for i = 0 to limit - to_int B do record i done
   > EOF
