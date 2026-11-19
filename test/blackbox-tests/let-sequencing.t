@@ -36,12 +36,12 @@ Explicit lets evaluate their right-hand sides before effectful callees and FFI l
   argument
   callee
   $ node _build/default/out/input.js
-  1 1 1 0
+  0 0 11 0
   argument
   callee
   $ node _build/default/out/ffi.js
-  1
+  11
   $ node _build/default/out/wrapper.js
-  1
+  11
   $ node _build/default/out/view.js
-  1
+  11

@@ -47,28 +47,34 @@ Dynamic `import()` with module aliases
   
   
   function foo(param) {
-    return import("./with_alias.js").then(function (The_import) {
+    const prim1 = import("./with_alias.js");
+    const prim0 = function (The_import) {
       console.log("the alias", The_import.x);
       return Promise.resolve();
-    });
+    };
+    return prim1.then(prim0);
   }
   
   function bar(param) {
-    return import("./source.js").then(function (m) {
+    const prim1 = import("./source.js").then(function (m) {
       return m.x;
-    }).then(function (x) {
+    });
+    const prim0 = function (x) {
       console.log("the aliased x", x);
       return Promise.resolve();
-    });
+    };
+    return prim1.then(prim0);
   }
   
-  bar().then(foo);
+  const prim1 = bar();
+  
+  prim1.then(foo);
   
   module.exports = {
     foo,
     bar,
   }
-  /*  Not a pure module */
+  /* prim1 Not a pure module */
 
   $ node _build/default/out/x.js
   the aliased x 1
