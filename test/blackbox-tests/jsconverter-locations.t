@@ -25,7 +25,7 @@ Generated converters point back to the source type declaration
   $ melc -ppx 'melppx -locations-check' -mel-stop-after-cmj main.ml
   $ dune build
   $ ocamlmerlin single locate -position 6:18 -verbosity 0 \
-  > -filename main.ml < main.ml | jq '.value'
+  > -filename main.ml < main.ml | jq '.value' | normalize_paths
   {
     "file": "$TESTCASE_ROOT/main.ml",
     "pos": {

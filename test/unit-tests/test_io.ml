@@ -143,6 +143,15 @@ let test_cleanup_error_propagates () =
       | () -> Alcotest.fail "expected cleanup to fail")
 
 let suite =
+  let fifo_tests =
+    (* Native Windows has neither [Unix.mkfifo] nor [Unix.fork]. *)
+    if Sys.win32 then []
+    else
+      [
+        Alcotest.test_case "read zero-size streams" `Quick
+          test_read_file_with_zero_reported_size;
+      ]
+  in
   let procfs_tests =
     if Sys.file_exists "/proc/self" then
       [
@@ -155,11 +164,9 @@ let suite =
     Alcotest.test_case "read and write files" `Quick test_read_and_write_file;
     Alcotest.test_case "read and write filev" `Quick test_read_and_write_filev;
     Alcotest.test_case "file errors" `Quick test_file_errors;
-    Alcotest.test_case "read zero-size streams" `Quick
-      test_read_file_with_zero_reported_size;
     Alcotest.test_case "preserve errors during cleanup" `Quick
       test_cleanup_preserves_original_error;
     Alcotest.test_case "propagate cleanup errors" `Quick
       test_cleanup_error_propagates;
   ]
-  @ procfs_tests
+  @ fifo_tests @ procfs_tests

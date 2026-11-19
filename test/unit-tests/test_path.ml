@@ -2,9 +2,10 @@ let os_adapt s =
   let regexp = Str.regexp "\\(/\\)" in
   Str.global_replace regexp (String.escaped Filename.dir_sep) s
 
-let test_linux_path () =
+let test_normalize_absolute_path () =
+  let normalize path = Paths.normalize_absolute_path (os_adapt path) in
   let norm =
-    Array.map ~f:Paths.normalize_absolute_path
+    Array.map ~f:normalize
       [|
         "/gsho/./..";
         "/a/b/../c../d/e/f";
@@ -21,28 +22,27 @@ let test_linux_path () =
   in
   Alcotest.(check (array string))
     __LOC__ norm
-    [|
-      "/";
-      "/a/c../d/e/f";
-      "/a/d/e/f";
-      "/";
-      "/a/b/c/d";
-      "/a/b/c/d";
-      "/a";
-      "/a";
-      "/a.txt";
-      "/a.txt";
-      "/foo/bar/baz";
-    |];
+    (Array.map ~f:os_adapt
+       [|
+         "/";
+         "/a/c../d/e/f";
+         "/a/d/e/f";
+         "/";
+         "/a/b/c/d";
+         "/a/b/c/d";
+         "/a";
+         "/a";
+         "/a.txt";
+         "/a.txt";
+         "/foo/bar/baz";
+       |]);
   Alcotest.(check string)
     __LOC__
-    (Paths.normalize_absolute_path
-       "/./a/.////////j/k//../////..///././b/./c/d/./.")
+    (normalize "/./a/.////////j/k//../////..///././b/./c/d/./.")
     (os_adapt "/a/b/c/d");
   Alcotest.(check string)
     __LOC__
-    (Paths.normalize_absolute_path
-       "/./a/.////////j/k//../////..///././b/./c/d/././../")
+    (normalize "/./a/.////////j/k//../////..///././b/./c/d/././../")
     (os_adapt "/a/b/c")
 
 let test_normalized_absolute () =
@@ -154,7 +154,7 @@ let test_normalized_node_rebase () =
 
 let suite =
   [
-    ("linux path tests", `Quick, test_linux_path);
+    ("normalize absolute path", `Quick, test_normalize_absolute_path);
     ("normalized absolute", `Quick, test_normalized_absolute);
     ("normalized absolute uncommon", `Quick, test_normalized_absolute_uncommon);
     ("normalized module system", `Quick, test_normalized_module_system);

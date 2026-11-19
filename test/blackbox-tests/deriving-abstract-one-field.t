@@ -50,7 +50,7 @@ Generated constructors point back to the type name
   $ melc -ppx 'melppx -locations-check' -w -32 -c x.ml > /dev/null
   $ dune build ./.x.objs/melange/x.cmj
   $ ocamlmerlin single locate -position 2:15 -verbosity 0 \
-  > -filename x.ml < x.ml | jq '.value'
+  > -filename x.ml < x.ml | jq '.value' | normalize_paths
   {
     "file": "$TESTCASE_ROOT/x.ml",
     "pos": {
