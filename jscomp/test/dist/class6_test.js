@@ -172,7 +172,9 @@ const env_init = d_init(table);
 
 CamlinternalOO.init_class(table);
 
-const d_0 = Curry._1(env_init, undefined);
+function d_0(param) {
+  return env_init(undefined, param);
+}
 
 const d = [
   d_0,
@@ -261,7 +263,9 @@ const env_init$1 = bad_functional_point_init(table$1);
 
 CamlinternalOO.init_class(table$1);
 
-const bad_functional_point_0 = Curry._1(env_init$1, undefined);
+function bad_functional_point_0(param, param$1) {
+  return env_init$1(undefined, param, param$1);
+}
 
 const bad_functional_point = [
   bad_functional_point_0,

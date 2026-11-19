@@ -15,11 +15,11 @@ function test(param) {
       const acc = _acc;
       const n = _n;
       if (n === 0) {
-        return Curry._1(acc, undefined);
+        return acc();
       }
       _acc = (function (param) {
         v.contents = v.contents + n | 0;
-        return Curry._1(acc, undefined);
+        return acc();
       });
       _n = n - 1 | 0;
       continue;

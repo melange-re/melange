@@ -21,7 +21,7 @@ const Stdlib__Sys = require("melange/sys.js");
 function _with_in(filename, f) {
   const ic = Stdlib.open_in_bin(filename);
   try {
-    const x = Curry._1(f, ic);
+    const x = f(ic);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return x;
   }
@@ -367,7 +367,7 @@ function to_file_seq(filename, seq) {
   };
   const oc = Stdlib.open_out(filename);
   try {
-    const x = Curry._1(f, oc);
+    const x = f(oc);
     Caml_io.caml_ml_flush(oc);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     return x;
