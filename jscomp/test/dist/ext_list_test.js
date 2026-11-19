@@ -521,14 +521,6 @@ function exclude_tail(x) {
   };
 }
 
-function group(cmp, lst) {
-  if (lst) {
-    return aux(cmp, lst.hd, group(cmp, lst.tl));
-  } else {
-    return /* [] */ 0;
-  }
-}
-
 function aux(cmp, x, xss) {
   if (!xss) {
     return {
@@ -554,6 +546,14 @@ function aux(cmp, x, xss) {
       hd: y,
       tl: aux(cmp, x, ys)
     };
+  }
+}
+
+function group(cmp, lst) {
+  if (lst) {
+    return aux(cmp, lst.hd, group(cmp, lst.tl));
+  } else {
+    return /* [] */ 0;
   }
 }
 

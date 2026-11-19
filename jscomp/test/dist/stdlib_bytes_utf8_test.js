@@ -468,7 +468,7 @@ function raises(f) {
     if (exn.MEL_EXN_ID === Stdlib.Invalid_argument) {
       tmp = true;
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
   if (tmp) {

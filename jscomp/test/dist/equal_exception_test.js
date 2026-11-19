@@ -58,7 +58,7 @@ function is_exception(param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -77,9 +77,9 @@ function is_normal_exception(_x) {
       if (exn._1 === 3) {
         return;
       }
-      throw exn;
+      throw raw_exn;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

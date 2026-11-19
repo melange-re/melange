@@ -76,7 +76,7 @@ function f(g) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 1;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

@@ -44,7 +44,7 @@ Mt.from_suites("Stdlib_56_fun_test", {
         if (info$1.MEL_EXN_ID === Stdlib__Fun.Todo) {
           info = info$1._1;
         } else {
-          throw info$1;
+          throw raw_info;
         }
       }
       const $$location = Curry._2(Stdlib__Printf.sprintf({
@@ -99,7 +99,7 @@ Mt.from_suites("Stdlib_56_fun_test", {
           if (exn.MEL_EXN_ID === Stdlib__Fun.Todo) {
             return;
           }
-          throw exn;
+          throw raw_exn;
         }
         throw new Caml_js_exceptions.MelangeError("Assert_failure", {
             MEL_EXN_ID: "Assert_failure",

@@ -200,7 +200,7 @@ function file_option(file_options, name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return x;
 }
@@ -223,7 +223,7 @@ function rev_split_by_char(c, s) {
           tl: l
         };
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   return loop(0, /* [] */ 0);
@@ -1588,31 +1588,34 @@ const __ocaml_lex_tables = {
   lex_code: ""
 };
 
-function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const l = _l;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-        update_loc(lexbuf);
-        ___ocaml_lex_state = 47;
+        const c = Stdlib__Lexing.lexeme_char(lexbuf, 1);
+        ___ocaml_lex_state = 55;
+        _l = {
+          hd: Stdlib__Char.escaped(c),
+          tl: l
+        };
         continue;
       case 1 :
-        Stdlib__Lexing.lexeme(lexbuf);
         return {
-          TAG: /* Comment_value */ 0,
+          TAG: /* String_value */ 0,
           _0: Stdlib__String.concat("", Stdlib__List.rev(l))
         };
       case 2 :
-        ___ocaml_lex_state = 47;
+        ___ocaml_lex_state = 55;
         _l = {
           hd: Stdlib__Lexing.lexeme(lexbuf),
           tl: l
         };
         continue;
       case 3 :
-        return /* Comment_eof */ 0;
+        return /* String_eof */ 0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -1650,34 +1653,31 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   };
 }
 
-function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
+function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while (true) {
     const __ocaml_lex_state = ___ocaml_lex_state;
     const l = _l;
     const __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-        const c = Stdlib__Lexing.lexeme_char(lexbuf, 1);
-        ___ocaml_lex_state = 55;
-        _l = {
-          hd: Stdlib__Char.escaped(c),
-          tl: l
-        };
+        update_loc(lexbuf);
+        ___ocaml_lex_state = 47;
         continue;
       case 1 :
+        Stdlib__Lexing.lexeme(lexbuf);
         return {
-          TAG: /* String_value */ 0,
+          TAG: /* Comment_value */ 0,
           _0: Stdlib__String.concat("", Stdlib__List.rev(l))
         };
       case 2 :
-        ___ocaml_lex_state = 55;
+        ___ocaml_lex_state = 47;
         _l = {
           hd: Stdlib__Lexing.lexeme(lexbuf),
           tl: l
         };
         continue;
       case 3 :
-        return /* String_eof */ 0;
+        return /* Comment_eof */ 0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -4402,7 +4402,7 @@ function find_field_option(field_options, option_name) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return Caml_option.some(x);
 }
@@ -4627,7 +4627,7 @@ function get_default(field_name, field_options, field_type) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
   return Caml_option.some(constant);
 }
@@ -4671,7 +4671,7 @@ function not_found(f) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return true;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -5061,7 +5061,7 @@ function compile_message_p2(types, param, message) {
         if (exn.MEL_EXN_ID === Stdlib.Not_found) {
           return;
         }
-        throw exn;
+        throw raw_exn;
       }
     }), search_scopes$1);
     if (id !== undefined) {
@@ -7169,7 +7169,7 @@ function module_of_file_name(file_name) {
           }
         });
     }
-    throw exn;
+    throw raw_exn;
   }
   return constructor_name(Stdlib__String.sub(file_name$1, 0, dot_index) + "_pb");
 }
@@ -7300,7 +7300,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
             }
           });
       }
-      throw exn;
+      throw raw_exn;
     }
     if (is_empty_message(t)) {
       return /* Ft_unit */ 0;

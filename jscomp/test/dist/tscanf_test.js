@@ -1940,7 +1940,7 @@ function scan_elems$2(ib, accu) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -2431,7 +2431,7 @@ function scan_elems$5(ib, scan_elem, accu) {
     if (exn.MEL_EXN_ID === Stdlib__Scanf.Scan_failure) {
       return accu;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

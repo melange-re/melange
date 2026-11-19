@@ -53,7 +53,7 @@ function test_not_found(f, param) {
     if (exn.MEL_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 
@@ -65,9 +65,9 @@ function test_js_error2(param) {
     const e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.MEL_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
-      throw e;
+      throw raw_e;
     }
-    throw e;
+    throw raw_e;
   }
 }
 
