@@ -96,7 +96,7 @@ function rollback_path(subst, p) {
           return "Pident | Papply";
       }
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
 }
@@ -133,7 +133,7 @@ function fooExn(f) {
       const match = n._1;
       return match[0] + match[1] | 0;
     }
-    throw n;
+    throw raw_n;
   }
 }
 

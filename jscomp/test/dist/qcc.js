@@ -194,7 +194,7 @@ function next(param) {
     if (exn.MEL_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
-      throw exn;
+      throw raw_exn;
     }
   }
   if (c === undefined) {

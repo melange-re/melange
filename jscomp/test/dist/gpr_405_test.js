@@ -22,7 +22,7 @@ function Make(funarg) {
       if (exn.MEL_EXN_ID === Stdlib.Not_found) {
         return false;
       }
-      throw exn;
+      throw raw_exn;
     }
   };
   const min_cutset = function (gr, first_node) {

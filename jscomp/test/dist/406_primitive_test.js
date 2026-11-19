@@ -48,7 +48,7 @@ function f(param) {
     if (exn.MEL_EXN_ID === A) {
       return;
     }
-    throw exn;
+    throw raw_exn;
   }
 }
 

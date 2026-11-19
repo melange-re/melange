@@ -21,7 +21,7 @@ catch (raw_msg){
     console.log(msg._1);
     y = 0;
   } else {
-    throw msg;
+    throw raw_msg;
   }
 }
 

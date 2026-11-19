@@ -43,7 +43,7 @@ catch (raw_msg){
   if (msg.MEL_EXN_ID === Stdlib.Failure) {
     y = msg._1;
   } else {
-    throw msg;
+    throw raw_msg;
   }
 }
 
@@ -62,7 +62,7 @@ catch (raw_msg$1){
   if (msg$1.MEL_EXN_ID === Stdlib.Failure) {
     x = msg$1._1;
   } else {
-    throw msg$1;
+    throw raw_msg$1;
   }
 }
 

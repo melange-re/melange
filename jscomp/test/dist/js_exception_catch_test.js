@@ -74,7 +74,7 @@ catch (raw_x){
       };
     }));
   } else {
-    throw x;
+    throw raw_x;
   }
 }
 
