@@ -2,12 +2,6 @@ Remapped variant constants must agree with their emitted JavaScript values.
 The identity external exposes the explicitly chosen integer representation.
 
   $ . ./setup.sh
-  $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
-  $ cat > dune <<'EOF'
-  > (melange.emit
-  >  (target out)
-  >  (preprocess (pps melange.ppx)))
-  > EOF
   $ cat > input.ml <<'EOF'
   > type flag = A [@mel.as 0] | B [@mel.as 2] | C [@mel.as 7]
   > external to_int : flag -> int = "%identity"
@@ -33,22 +27,28 @@ The identity external exposes the explicitly chosen integer representation.
   > external record : int -> unit = "recordIndex"
   > let loop limit = for i = 0 to limit - to_int B do record i done
   > EOF
-  $ dune build @melange
+  $ melc -ppx melppx -o input.js input.ml
   $ node <<'EOF'
-  > const assert = require('node:assert/strict');
-  > const t = require('./_build/default/out/input.js');
-  > assert.equal(t.direct, 2);
-  > assert.equal(t.runtime(t.direct), 2);
-  > assert.deepEqual([0, 2, 7].map(t.variant_match), [10, 20, 70]);
-  > assert.equal(t.variant_constant(), 20);
-  > let reads = 0;
-  > global.readFlag = () => { reads++; return 7; };
-  > assert.equal(t.effectful(), 7);
-  > assert.equal(reads, 1);
-  > assert.equal(t.ordinary, 7);
+  > const t = require('./input.js');
+  > console.log('arithmetic:', ...t.constants);
+  > console.log('values:', t.direct, t.runtime(t.direct), t.zero, t.ordinary);
+  > console.log('matches:', t.cast_match(), t.variant_constant(), ...[0, 2, 7].map(t.variant_match));
+  > console.log('constructors:', ...[0, 1, 2].map(t.make));
+  > console.log('conditions:', ...t.bools);
+  > console.log('character:', t.character());
+  > global.readFlag = () => { console.log('read'); return 7; };
+  > console.log('effect:', t.effectful());
   > const indices = [];
   > global.recordIndex = i => indices.push(i);
   > t.loop(4);
-  > console.log('CommonJS: ' + JSON.stringify([t.constants, t.cast_match(), t.zero, [0,1,2].map(t.make), t.bools, t.character(), indices]));
+  > console.log('loop:', ...indices);
   > EOF
-  CommonJS: [[1,1,-1,1,2,2,0,0,1,0],-1,1,[0,1,2],[2,1],98,[0,1,2,3]]
+  arithmetic: 1 1 -1 1 2 2 0 0 1 0
+  values: 2 2 1 7
+  matches: -1 20 10 20 70
+  constructors: 0 1 2
+  conditions: 2 1
+  character: 98
+  read
+  effect: 7
+  loop: 0 1 2 3

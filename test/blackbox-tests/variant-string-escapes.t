@@ -15,7 +15,6 @@ The identity external below maps tags shared by two nominal variant types.
   >   cast Alias <> Slash; cast Literal = A |]
   > let name = function A -> "A" | Slash -> "slash" | Snow -> "snow" | Newline -> "newline"
   > let names = [| name A; name Slash; name Snow; name Newline |]
-  > let values = [| A; Slash; Snow; Newline |]
   > let same (a : t) b = a = b
   > let equal (a : string) b = a = b
   > let aliases = [| cast Alias; cast Literal |]
@@ -25,16 +24,15 @@ The identity external below maps tags shared by two nominal variant types.
   > const m = require('./input.js');
   > const [a, slash, snow, newline] = m.strings;
   > const [alias, literal] = m.aliases;
-  > const [va, vs] = m.values;
   > console.log('bytes', JSON.stringify(m.strings.map(s => [...s].map(c => c.charCodeAt(0)))));
-  > console.log('folded', JSON.stringify(m.folded));
-  > console.log('runtime', JSON.stringify([m.equal(a, 'A'), m.equal(a, '\u0041'),
+  > console.log('folded', ...m.folded);
+  > console.log('runtime', m.equal(a, 'A'), m.equal(a, '\u0041'),
   >   m.equal(a, '\\u0041'), m.equal(slash, '\\u0041'), m.equal(snow, '\xe2\x98\x83'),
-  >   m.equal(newline, '\n'), m.same(alias, va), m.same(literal, vs),
-  >   !m.same(alias, vs), m.same(literal, va)]));
-  > console.log('matches', m.names.join(','), m.values.map(m.name).join(','));
+  >   m.equal(newline, '\n'), m.same(alias, a), m.same(literal, slash),
+  >   !m.same(alias, slash), m.same(literal, a));
+  > console.log('matches', m.names.join(','), m.strings.map(m.name).join(','));
   > EOF
   bytes [[65],[92,117,48,48,52,49],[226,152,131],[10]]
-  folded [true,true,false,true,true,true,false,false,false,false]
-  runtime [true,true,false,true,true,true,true,true,true,false]
+  folded true true false true true true false false false false
+  runtime true true false true true true true true true false
   matches A,slash,snow,newline A,slash,snow,newline
