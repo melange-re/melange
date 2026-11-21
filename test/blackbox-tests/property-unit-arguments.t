@@ -7,72 +7,91 @@ Property and index operations require each object, key and value argument.
   > let run o = f o ()
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o set_value.js set_value.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "set_value.ml", line LINE, characters RANGE:
+  2 | external f : t -> unit -> unit = "x" [@@mel.set]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set]' does not support erased unit arguments
   $ cat > set_object.ml <<'EOF'
   > type t
   > external f : unit -> int -> unit = "x" [@@mel.set]
   > let run o = f () 1
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o set_object.js set_object.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "set_object.ml", line LINE, characters RANGE:
+  2 | external f : unit -> int -> unit = "x" [@@mel.set]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set]' does not support erased unit arguments
   $ cat > set_index_value.ml <<'EOF'
   > type t
   > external f : t -> string -> unit -> unit = "" [@@mel.set_index]
   > let run o = f o "x" ()
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o set_index_value.js set_index_value.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "set_index_value.ml", line LINE, characters RANGE:
+  2 | external f : t -> string -> unit -> unit = "" [@@mel.set_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set_index]' does not support erased unit arguments
   $ cat > set_index_object.ml <<'EOF'
   > type t
   > external f : unit -> string -> int -> unit = "" [@@mel.set_index]
   > let run o = f () "x" 1
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o set_index_object.js set_index_object.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "set_index_object.ml", line LINE, characters RANGE:
+  2 | external f : unit -> string -> int -> unit = "" [@@mel.set_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set_index]' does not support erased unit arguments
   $ cat > set_index_key.ml <<'EOF'
   > type t
   > external f : t -> unit -> int -> unit = "" [@@mel.set_index]
   > let run o = f o () 1
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o set_index_key.js set_index_key.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "set_index_key.ml", line LINE, characters RANGE:
+  2 | external f : t -> unit -> int -> unit = "" [@@mel.set_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set_index]' does not support erased unit arguments
   $ cat > get_index_key.ml <<'EOF'
   > type t
   > external f : t -> unit -> int = "" [@@mel.get_index]
   > let run o = f o ()
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o get_index_key.js get_index_key.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "get_index_key.ml", line LINE, characters RANGE:
+  2 | external f : t -> unit -> int = "" [@@mel.get_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.get_index]' does not support erased unit arguments
   $ cat > get_index_object.ml <<'EOF'
   > type t
   > external f : unit -> string -> int = "" [@@mel.get_index]
   > let run o = f () "x"
   > EOF
   $ melc --color=never -w -a -alert -unprocessed -ppx melppx -o get_index_object.js get_index_object.ml 2> error.log
-  [125]
+  [2]
   $ sed -E 's/line [0-9]+/line LINE/g; s/characters [0-9]+-[0-9]+/characters RANGE/g; /^[[:space:]]*$/d' error.log
-  melc: internal error, uncaught exception:
-        File "jscomp/core/lam_compile_external_call.ml", line LINE, characters RANGE: Assertion failed
+  File "get_index_object.ml", line LINE, characters RANGE:
+  2 | external f : unit -> string -> int = "" [@@mel.get_index]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.get_index]' does not support erased unit arguments
   $ head -n 2 set_value.ml > invalid.mli
   $ melc --color=never -alert -unprocessed -ppx melppx -c invalid.mli
+  File "invalid.mli", line 2, characters 0-48:
+  2 | external f : t -> unit -> unit = "x" [@@mel.set]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Error: `[@mel.set]' does not support erased unit arguments
+  [2]
   $ cat > valid.ml <<'EOF'
   > type obj
   > external set : obj -> 'a -> unit = "x" [@@mel.set]

@@ -870,17 +870,30 @@ let external_spec_of_desc ~loc (st : External_desc.t)
             new_;
           }
   in
+  let reject_erased_unit attr =
+    if
+      List.exists arg_type_specs
+        ~f:(fun { External_arg_spec.Param.arg_type; _ } ->
+          match arg_type with Extern_unit -> true | _ -> false)
+    then
+      Location.raise_errorf ~loc
+        "`[%@mel.%s]' does not support erased unit arguments" attr
+  in
   match st.operation with
   | Set_index scopes -> (
       match arg_type_specs_length with
-      | 3 -> Js_set_index { scopes }
+      | 3 ->
+          reject_erased_unit "set_index";
+          Js_set_index { scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set_index]' requires a function of 3 arguments: `'t -> \
              'key -> 'value -> unit'")
   | Get_index scopes -> (
       match arg_type_specs_length with
-      | 2 -> Js_get_index { scopes }
+      | 2 ->
+          reject_erased_unit "get_index";
+          Js_get_index { scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.get_index]' requires a function of 2 arguments: `'t -> \
@@ -910,7 +923,9 @@ let external_spec_of_desc ~loc (st : External_desc.t)
         }
   | Set scopes -> (
       match arg_type_specs_length with
-      | 2 -> Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
+      | 2 ->
+          reject_erased_unit "set";
+          Js_set { name = Lazy.force prim_name_or_pval_prim; scopes }
       | _ ->
           Location.raise_errorf ~loc
             "`[%@mel.set]' requires a function of two arguments")
