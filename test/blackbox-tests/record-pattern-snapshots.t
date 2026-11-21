@@ -25,10 +25,10 @@ Record pattern bindings capture their fields before an effectful callee runs.
   >   console.log(name, t[name]());
   > }
   > EOF
-  pattern 2
+  pattern 1
   explicit 1
   mutable_pattern 1
-  closure 2
-  tuple 2
-  matching 2
+  closure 1
+  tuple 1
+  matching 1
   unused 3
