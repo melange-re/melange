@@ -60,7 +60,7 @@ each of the two side-effectful bound expressions runs once.
   function local(param) {
     let n = 0;
     let r = 3;
-    for (let _i = 0; _i <= r; ++_i) {
+    for (let _i = 0, _i_finish = r; _i <= _i_finish; ++_i) {
       n = n + 1 | 0;
       r = r - 1 | 0;
     }
@@ -80,7 +80,7 @@ each of the two side-effectful bound expressions runs once.
   function down(param) {
     let n = 0;
     let r = 0;
-    for (let _i = 3; _i >= r; --_i) {
+    for (let _i = 3, _i_finish = r; _i >= _i_finish; --_i) {
       n = n + 1 | 0;
       r = r + 1 | 0;
     }
