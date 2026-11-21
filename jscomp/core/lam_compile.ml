@@ -67,9 +67,11 @@ let call_info_of_apply_status = function
   | App_uncurry -> { arity = Full; call_info = Call_na }
   | App_na -> { arity = NA; call_info = Call_ml }
 
-let compile_args ?(method_callee = false) compile args =
+let compile_args ?(method_callee = false) ?(prepare = Fun.id) compile args =
+  let outputs = prepare (List.map args ~f:compile) in
   let args =
-    List.mapi args ~f:(fun i arg -> (method_callee && i = 0, arg, compile arg))
+    List.mapi (List.combine args outputs) ~f:(fun i (arg, output) ->
+        (method_callee && i = 0, arg, output))
   in
   List.fold_right args ~init:([], [])
     ~f:(fun (method_callee, arg, (output : Js_output.t)) (blocks, values) ->
@@ -1987,7 +1989,13 @@ and compile_prim (prim_info : Lam.prim_info)
   | { primitive; args; loc } ->
       let args_block, args_expr =
         let new_cxt = { lambda_cxt with continuation = NeedValue Not_tail } in
-        compile_args (compile_lambda new_cxt) args
+        let prepare =
+          match primitive with
+          | Pjs_call { arg_types; dynamic_import = false; _ } when args <> [] ->
+              Lam_compile_external_call.hold_spread_args arg_types
+          | _ -> Fun.id
+        in
+        compile_args ~prepare (compile_lambda new_cxt) args
       in
       let exp =
         (* TODO: all can be done in [compile_primitive] *)
