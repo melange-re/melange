@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: evaluate nonconstant for-loop bounds once before iteration,
+  preserving snapshots of mutable references and foreign bindings
+  ([#2218](https://github.com/melange-re/melange/pull/2218),
+  [#2222](https://github.com/melange-re/melange/pull/2222))
+
 - compiler: preserve `mel.as` runtime representations when folding variant
   comparisons, arithmetic and matches
   ([#2056](https://github.com/melange-re/melange/pull/2056),
