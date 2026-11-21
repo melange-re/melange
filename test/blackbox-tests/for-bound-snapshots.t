@@ -1,5 +1,8 @@
 Loop bounds are evaluated once, including after local reference elimination.
 
+Every loop below should execute four iterations. The final controls value is 2:
+each of the two side-effectful bound expressions runs once.
+
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
   > let global = ref 3
@@ -33,6 +36,25 @@ Loop bounds are evaluated once, including after local reference elimination.
   >   for _i = !r downto 0 do incr n; decr r done; !n
   > EOF
   $ melc --color=never -o input.js input.ml
+  $ sed -n '/^function local(/,/^}/p; /^function down(/,/^}/p' input.js
+  function local(param) {
+    let n = 0;
+    let r = 3;
+    for (let _i = 0; _i <= r; ++_i) {
+      n = n + 1 | 0;
+      r = r - 1 | 0;
+    }
+    return n;
+  }
+  function down(param) {
+    let n = 0;
+    let r = 0;
+    for (let _i = 3; _i >= r; --_i) {
+      n = n + 1 | 0;
+      r = r + 1 | 0;
+    }
+    return n;
+  }
   $ node <<'EOF'
   > const t = require('./input.js');
   > console.log('finish:', t.local(), t.down(), t.ref_alias(), t.exclusive());
