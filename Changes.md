@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- PPX: report located errors for erased unit receivers, indices and values
+  in property and index externals instead of crashing
+  ([#2221](https://github.com/melange-re/melange/pull/2221),
+  [#2225](https://github.com/melange-re/melange/pull/2225))
+
 - compiler: preserve `mel.as` runtime representations when folding variant
   comparisons, arithmetic and matches
   ([#2056](https://github.com/melange-re/melange/pull/2056),
