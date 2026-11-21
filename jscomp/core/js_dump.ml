@@ -669,14 +669,18 @@ and expression_desc cxt ~(level : int) x : cxt =
       | Exp exp_info ->
           let raw_paren =
             match exp_info with
-            | Js_literal _ -> false
+            | Js_literal _ ->
+                (* Comments can consume the surrounding syntax, including a
+                   return or a closing parenthesis. Be conservative about '/'. *)
+                String.contains s '/'
             | Js_function _ | Js_exp_unknown ->
                 not (raw_snippet_exp_simple_enough s)
           in
           if raw_paren then string cxt L.lparen;
           string cxt s;
-          newline cxt;
-          if raw_paren then string cxt L.rparen;
+          if raw_paren then (
+            newline cxt;
+            string cxt L.rparen);
           cxt
       | Stmt Js_stmt_comment ->
           string cxt s;
