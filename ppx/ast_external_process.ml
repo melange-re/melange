@@ -871,12 +871,13 @@ let external_spec_of_desc ~loc (st : External_desc.t)
           }
   in
   let reject_erased_unit attr =
-    if List.exists arg_type_specs ~f:(fun { External_arg_spec.Param.arg_type; _ } ->
-           match arg_type with Extern_unit -> true | _ -> false)
+    if
+      List.exists arg_type_specs
+        ~f:(fun { External_arg_spec.Param.arg_type; _ } ->
+          match arg_type with Extern_unit -> true | _ -> false)
     then
       Location.raise_errorf ~loc
-        "`[%@mel.%s]' does not support erased unit arguments"
-        attr
+        "`[%@mel.%s]' does not support erased unit arguments" attr
   in
   match st.operation with
   | Set_index scopes -> (
