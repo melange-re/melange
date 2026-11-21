@@ -722,9 +722,10 @@ and expression_desc cxt ~(level : int) x : cxt =
           string cxt "!";
           expression ~level:13 cxt e)
   | Typeof e ->
-      string cxt "typeof";
-      space cxt;
-      expression ~level:13 cxt e
+      cond_paren_group cxt (level > 13) (fun () ->
+          string cxt "typeof";
+          space cxt;
+          expression ~level:13 cxt e)
   | Bin
       {
         op = Minus;

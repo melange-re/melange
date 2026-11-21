@@ -137,9 +137,9 @@ Member access must apply to the result of typeof. Function receivers are control
   > console.log('statement:', t.statement());
   > console.log('async:', t.async(), t.async_equal());
   > EOF
-  typeof: number string number string
+  typeof: 6 STRING 6 s
   functions: 1 5 1
-  effect: string 1
+  effect: STRING 1
   operands: false 2 3
   statement: 4
   async: 1 false
