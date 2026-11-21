@@ -1122,7 +1122,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                         match
                           (for_ident_expression, finish.expression_desc)
                         with
-                        | Some ident_expression, (Number _ | Var _) ->
+                        | Some ident_expression, Number _ ->
                             let cxt = pp_assign ~property:Variable cxt id in
                             (expression ~level:0 cxt ident_expression, None)
                         | Some ident_expression, _ ->
@@ -1138,7 +1138,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                             string cxt L.eq;
                             space cxt;
                             (expression ~level:1 cxt finish, Some id)
-                        | None, (Number _ | Var _) -> (cxt, None)
+                        | None, Number _ -> (cxt, None)
                         | None, _ ->
                             let id = Ident.create (Ident.name id ^ "_finish") in
                             let cxt = pp_assign ~property:Variable cxt id in

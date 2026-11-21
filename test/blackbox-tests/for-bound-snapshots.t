@@ -166,7 +166,7 @@ each of the two side-effectful bound expressions runs once.
   }
   /* No side effect */
   $ node _build/default/output/run.js
-  finish: 2 2 2 2
+  finish: 4 4 4 4
   controls: 4 4 4 4 4 2
   $ ocamlc -w -a -o native.exe input.ml run.ml
   $ ./native.exe
