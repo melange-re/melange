@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: retain source locations when reporting malformed string escapes
+  and other source parsing errors
+  ([#2226](https://github.com/melange-re/melange/pull/2226),
+  [#2227](https://github.com/melange-re/melange/pull/2227)).
+
 - compiler: preserve `mel.as` runtime representations when folding variant
   comparisons, arithmetic and matches
   ([#2056](https://github.com/melange-re/melange/pull/2056),

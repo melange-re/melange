@@ -5,30 +5,38 @@ Malformed attribute strings must retain their source locations in diagnostics.
   > type t = { x : int [@mel.as "\u{110000}"] }
   > EOF
   $ melc --color=never -ppx melppx -c field.ml
-  melc: System error: Illegal backslash escape in string or character
-        (\u{110000}): 110000 is not a Unicode scalar value
-  [124]
+  File "field.ml", line 1, characters 29-39:
+  1 | type t = { x : int [@mel.as "\u{110000}"] }
+                                   ^^^^^^^^^^
+  Error: Illegal backslash escape in string or character (\u{110000}): 110000 is not a Unicode scalar value
+  [2]
   $ cat > module.mli <<'EOF'
   > external value : int = "value" [@@mel.module "\u{110000}"]
   > EOF
   $ melc --color=never -ppx melppx -c module.mli
-  melc: System error: Illegal backslash escape in string or character
-        (\u{110000}): 110000 is not a Unicode scalar value
-  [124]
+  File "module.mli", line 1, characters 46-56:
+  1 | external value : int = "value" [@@mel.module "\u{110000}"]
+                                                    ^^^^^^^^^^
+  Error: Illegal backslash escape in string or character (\u{110000}): 110000 is not a Unicode scalar value
+  [2]
   $ cat > variant.ml <<'EOF'
   > type t = A [@mel.as "\999"]
   > EOF
   $ melc --color=never -ppx melppx -c variant.ml
-  melc: System error: Illegal backslash escape in string or character (\999):
-        999 is outside the range of legal characters (0-255).
-  [124]
+  File "variant.ml", line 1, characters 21-25:
+  1 | type t = A [@mel.as "\999"]
+                           ^^^^
+  Error: Illegal backslash escape in string or character (\999): 999 is outside the range of legal characters (0-255).
+  [2]
   $ cat > plain.ml <<'EOF'
   > let s = "\u{110000}"
   > EOF
   $ melc --color=never -ppx melppx -c plain.ml
-  melc: System error: Illegal backslash escape in string or character
-        (\u{110000}): 110000 is not a Unicode scalar value
-  [124]
+  File "plain.ml", line 1, characters 9-19:
+  1 | let s = "\u{110000}"
+               ^^^^^^^^^^
+  Error: Illegal backslash escape in string or character (\u{110000}): 110000 is not a Unicode scalar value
+  [2]
   $ cat > valid.ml <<'EOF'
   > type t = { x : int [@mel.as "\u{0041}"] }
   > type quoted = { x : int [@mel.as {|\xZZ|}] }

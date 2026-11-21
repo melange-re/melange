@@ -216,4 +216,14 @@ let read input_source ~input_kind =
 let read_exn input_source ~input_kind =
   match read input_source ~input_kind with
   | Ok ret -> ret
+  | Error (Source_parse_error (error, _) | System_error (error, _)) ->
+      let source_loc = Ppxlib_ast.Location_error.get_location error in
+      let loc =
+        {
+          Location.loc_start = source_loc.loc_start;
+          loc_end = source_loc.loc_end;
+          loc_ghost = source_loc.loc_ghost;
+        }
+      in
+      Location.raise_errorf ~loc "%s" (Ppxlib_ast.Location_error.message error)
   | Error e -> raise (Arg.Bad (read_error_to_string e))
