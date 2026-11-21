@@ -381,6 +381,11 @@ let () =
     (Js.string "ocaml")
     (Js.obj
        [|
+         ( "compileAST",
+           Js.wrap_meth_callback (fun _ code (ast, _) ->
+               compile
+                 ~impl:(fun _ -> From_ppxlib.copy_structure ast)
+                 (Js.to_string code)) );
          ( "compileML",
            Js.wrap_meth_callback (fun _ code ->
                compile
