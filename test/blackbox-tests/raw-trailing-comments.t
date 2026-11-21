@@ -126,4 +126,8 @@ The addition must return 2 even when the broken output still parses.
   > try { require('./input.js'); }
   > catch (error) { if (!(error instanceof SyntaxError)) throw error; console.log(error.name); }
   > EOF
-  SyntaxError
+  3
+  ok
+  undefined
+  { x: 1 }
+  [ 1, 2 ]
