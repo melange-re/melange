@@ -53,7 +53,8 @@ Unreleased
 - compiler: finish evaluating each operand before executing statements from
   later operands, preserving mutable reads in calls, collections and loop bounds
   while retaining JavaScript method receivers; preserve eager argument effects,
-  exceptions, mutable reads and explicit let sequencing when inlining
+  exceptions, mutable reads, record-pattern captures and explicit let sequencing
+  when inlining
   ([#2141](https://github.com/melange-re/melange/pull/2141),
   [#2142](https://github.com/melange-re/melange/pull/2142))
 - CLI: add `melobjinfo` to inspect implementation, runtime and JavaScript
