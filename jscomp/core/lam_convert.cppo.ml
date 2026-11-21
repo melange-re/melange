@@ -1094,6 +1094,10 @@ let convert (exports : Ident.Set.t) (lam : Lambda.lambda) :
                 sw_consts =
                   List.map ~f:(fun (i, act) -> (i - offset, act)) sw_consts;
               }
+        | Alias, Lprim { primitive = Pfield (_, Fld_record _); _ }, _ ->
+            (* A foreign object may mutate through another view even when this
+               record label is immutable. Capture pattern-bound fields now. *)
+            Lam.let_ StrictOpt id e new_body
         | _ -> Lam.let_ kind id e new_body)
   and convert_mutlet id (e : Lambda.lambda) body : Lam.t =
     let new_e = convert_aux e in

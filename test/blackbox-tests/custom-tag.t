@@ -24,9 +24,11 @@ Test `@@mel.tag` attribute for discriminated unions
       ];
     }
     const match = param._0;
+    const b = match.b;
+    const a = match.a;
     return [
-      match.a,
-      match.b
+      a,
+      b
     ];
   }
   
@@ -78,9 +80,11 @@ Test `@@mel.tag` attribute for discriminated unions
       ];
     }
     const match = param._0;
+    const b = match.b;
+    const a = match.a;
     return [
-      match.a,
-      match.b
+      a,
+      b
     ];
   }
   

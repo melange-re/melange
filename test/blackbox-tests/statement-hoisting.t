@@ -117,15 +117,15 @@ OCaml confirms. Hoisting the second operand's statements currently gives (2, 2).
   >   assert.equal(calls, 1);
   > }
   > EOF
-  tuple [2,2]
-  array [2,2]
-  record {"x":2,"y":2}
-  caught [2,2]
-  call [2,2]
-  callee -2 bare [2,2]
-  ffi {"x":2,"y":2}
-  switch [2,2]
-  switch [3,3]
-  switch [4,4]
-  bounds 2
+  tuple [1,2]
+  array [1,2]
+  record {"x":1,"y":2}
+  caught [1,2]
+  call [1,2]
+  callee 2 bare [1,2]
+  ffi {"x":1,"y":2}
+  switch [1,2]
+  switch [1,3]
+  switch [1,4]
+  bounds 3
   method 3 setter [2,0]
