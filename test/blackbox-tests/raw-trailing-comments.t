@@ -41,7 +41,8 @@ The addition must return 2 even when the broken output still parses.
   )
   );
   
-  const literal = 3 // literal;
+  const literal = (3 // literal
+  );
   
   const fn = (function(x) { return x + 1; } // function
   );
@@ -58,18 +59,22 @@ The addition must return 2 even when the broken output still parses.
   }
   
   function silent(param) {
-    return 1 // one + 1 | 0;
+    return (1 // one
+    ) + 1 | 0;
   }
   
-  const url = "http://example.com";
+  const url = ("http://example.com"
+  );
   
-  const slashes = /\/\//;
+  const slashes = (/\/\//
+  );
   
   const template = (`hello // world`
   );
   
-  const lines = [1, // one
-  2];
+  const lines = ([1, // one
+  2]
+  );
   
   module.exports = {
     f,
@@ -95,7 +100,7 @@ The addition must return 2 even when the broken output still parses.
   > console.log('slashes:', t.url, t.slashes.test('//'), t.template);
   > console.log('lines:', ...t.lines);
   > EOF
-  addition: 1
+  addition: 2
   slashes: http://example.com true hello // world
   lines: 1 2
   $ cat > input.ml <<'EOF'
@@ -112,18 +117,27 @@ The addition must return 2 even when the broken output still parses.
   'use strict';
   
   
-  console.log(3 // number);
+  console.log((3 // number
+  ));
   
-  console.log("ok" // string);
+  console.log(("ok" // string
+  ));
   
-  console.log(undefined // undefined);
+  console.log((undefined // undefined
+  ));
   
-  console.log({x: 1} // object);
+  console.log(({x: 1} // object
+  ));
   
-  console.log([1, 2] // array);
+  console.log(([1, 2] // array
+  ));
   /*  Not a pure module */
   $ node <<'EOF'
   > try { require('./input.js'); }
   > catch (error) { if (!(error instanceof SyntaxError)) throw error; console.log(error.name); }
   > EOF
-  SyntaxError
+  3
+  ok
+  undefined
+  { x: 1 }
+  [ 1, 2 ]

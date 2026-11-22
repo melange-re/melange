@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: protect raw JavaScript literals containing comments from
+  consuming surrounding generated syntax
+  ([#2220](https://github.com/melange-re/melange/pull/2220),
+  [#2224](https://github.com/melange-re/melange/pull/2224))
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
