@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: parenthesize `typeof` results used as JavaScript property or
+  method receivers
+  ([#2219](https://github.com/melange-re/melange/pull/2219),
+  [#2223](https://github.com/melange-re/melange/pull/2223))
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
