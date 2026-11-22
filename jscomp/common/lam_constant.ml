@@ -64,7 +64,11 @@ let rec eq_approx x y =
       Bool.equal u1 u2
   | Const_js_true, Const_js_true -> true
   | Const_js_false, Const_js_false -> true
-  | Const_int ix, Const_int iy -> Int32.equal ix.i iy.i
+  | Const_int ix, Const_int iy ->
+      Int32.equal ix.i iy.i
+      && Option.equal ~eq:( = )
+           (modifier_of_pointer_info ix.comment)
+           (modifier_of_pointer_info iy.comment)
   | Const_char ix, Const_char iy -> Char.equal ix iy
   | Const_string { s = sx; unicode = ux }, Const_string { s = sy; unicode = uy }
     ->
@@ -72,8 +76,10 @@ let rec eq_approx x y =
   | Const_float ix, Const_float iy -> String.equal ix iy
   | Const_int64 ix, Const_int64 iy -> Int64.equal ix iy
   | Const_pointer ix, Const_pointer iy -> String.equal ix iy
-  | Const_block (ix, _, ixs), Const_block (iy, _, iys) ->
-      Int.equal ix iy && List.for_all2_no_exn ixs iys ~f:eq_approx
+  | Const_block (ix, info_x, ixs), Const_block (iy, info_y, iys) ->
+      Int.equal ix iy
+      && Lam_tag_info.equal info_x info_y
+      && List.for_all2_no_exn ixs iys ~f:eq_approx
   | Const_float_array ixs, Const_float_array iys ->
       List.for_all2_no_exn ~f:String.equal ixs iys
   | Const_some ix, Const_some iy -> eq_approx ix iy

@@ -51,8 +51,13 @@ Its remapped payload must be 8, not 7.
   
   function records(param) {
     switch (param) {
-      case /* X */ 0 :
       case /* Y */ 1 :
+        emit({
+          y: 1,
+          x: 2
+        });
+        return;
+      case /* X */ 0 :
       case /* Z */ 2 :
         emit({
           x: 1,
@@ -64,8 +69,13 @@ Its remapped payload must be 8, not 7.
   
   function variants(param) {
     switch (param) {
-      case /* X */ 0 :
       case /* Y */ 1 :
+        emit({
+          TAG: /* Second */ "second",
+          _0: 1
+        });
+        return;
+      case /* X */ 0 :
       case /* Z */ 2 :
         emit({
           TAG: /* First */ "first",
@@ -76,31 +86,58 @@ Its remapped payload must be 8, not 7.
   }
   
   function record_if(b, n) {
-    emit({
-      x: n,
-      y: 2
-    });
+    if (b) {
+      emit({
+        x: n,
+        y: 2
+      });
+    } else {
+      emit({
+        y: n,
+        x: 2
+      });
+    }
   }
   
   function variant_if(b, n) {
-    emit({
-      TAG: /* First */ "first",
-      _0: n
-    });
+    if (b) {
+      emit({
+        TAG: /* First */ "first",
+        _0: n
+      });
+    } else {
+      emit({
+        TAG: /* Second */ "second",
+        _0: n
+      });
+    }
   }
   
   function inline_if(b, n) {
-    emit({
-      TAG: /* Left */ "left",
-      x: n,
-      y: 2
-    });
+    if (b) {
+      emit({
+        TAG: /* Left */ "left",
+        x: n,
+        y: 2
+      });
+    } else {
+      emit({
+        TAG: /* Right */ "right",
+        y: n,
+        x: 2
+      });
+    }
   }
   
   function nested(param) {
     switch (param) {
-      case /* X */ 0 :
       case /* Y */ 1 :
+        emit({
+          y: 1,
+          x: 2
+        });
+        return;
+      case /* X */ 0 :
       case /* Z */ 2 :
         emit({
           x: 1,
@@ -112,8 +149,12 @@ Its remapped payload must be 8, not 7.
   
   function payloads(param) {
     switch (param) {
-      case /* X */ 0 :
       case /* Y */ 1 :
+        emit({
+          value: /* B */ 8
+        });
+        return;
+      case /* X */ 0 :
       case /* Z */ 2 :
         emit({
           value: /* A */ 7
@@ -196,13 +237,13 @@ Its remapped payload must be 8, not 7.
   {"y":1,"x":2}
   {"value":8}
   runtime:
-  {"x":1,"y":2}
-  {"TAG":"first","_0":1}
-  {"x":1,"y":2}
-  {"TAG":"first","_0":1}
-  {"TAG":"left","x":1,"y":2}
-  {"x":1,"y":2}
-  {"value":7}
+  {"y":1,"x":2}
+  {"TAG":"second","_0":1}
+  {"y":1,"x":2}
+  {"TAG":"second","_0":1}
+  {"TAG":"right","y":1,"x":2}
+  {"y":1,"x":2}
+  {"value":8}
   other arms:
   {"x":1,"y":2}
   {"x":1,"y":2}

@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler: preserve record field layouts and constructor representations
+  when merging switch arms and conditional branches
+  ([#2237](https://github.com/melange-re/melange/pull/2237),
+  [#2238](https://github.com/melange-re/melange/pull/2238))
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
