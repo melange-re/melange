@@ -212,9 +212,12 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | Bool a0, Bool b0 -> Bool.equal a0 b0
   | Optional_block (a0, b0), Optional_block (a1, b1) ->
       Bool.equal b0 b1 && eq_expression a0 a1
-  | ( Caml_block { fields = ls0; mutable_flag = flag0; tag = tag0; _ },
-      Caml_block { fields = ls1; mutable_flag = flag1; tag = tag1; _ } ) ->
-      eq_expression_list ls0 ls1 && flag0 = flag1 && eq_expression tag0 tag1
+  | ( Caml_block
+        { fields = ls0; mutable_flag = flag0; tag = tag0; tag_info = info0 },
+      Caml_block
+        { fields = ls1; mutable_flag = flag1; tag = tag1; tag_info = info1 } ) ->
+      flag0 = flag1 && Melange_ffi.Lam_tag_info.equal info0 info1
+      && eq_expression tag0 tag1 && eq_expression_list ls0 ls1
   | Length _, _
   | Char_of_int _, _
   | Char_to_int _, _
