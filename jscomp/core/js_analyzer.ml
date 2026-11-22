@@ -215,8 +215,10 @@ let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
   | ( Caml_block
         { fields = ls0; mutable_flag = flag0; tag = tag0; tag_info = info0 },
       Caml_block
-        { fields = ls1; mutable_flag = flag1; tag = tag1; tag_info = info1 } ) ->
-      flag0 = flag1 && Melange_ffi.Lam_tag_info.equal info0 info1
+        { fields = ls1; mutable_flag = flag1; tag = tag1; tag_info = info1 } )
+    ->
+      flag0 = flag1
+      && Melange_ffi.Lam_tag_info.equal info0 info1
       && eq_expression tag0 tag1 && eq_expression_list ls0 ls1
   | Length _, _
   | Char_of_int _, _
