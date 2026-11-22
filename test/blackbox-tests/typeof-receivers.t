@@ -32,19 +32,19 @@ Member access must apply to the result of typeof. Function receivers are control
   
   
   function len(x) {
-    return typeof x.length;
+    return (typeof x).length;
   }
   
   function up(x) {
-    return typeof x.toUpperCase();
+    return (typeof x).toUpperCase();
   }
   
   function nested(x) {
-    return typeof x.toUpperCase().length;
+    return (typeof x).toUpperCase().length;
   }
   
   function index(x) {
-    return typeof x.charAt(0);
+    return (typeof x).charAt(0);
   }
   
   function arity(param) {
@@ -60,7 +60,7 @@ Member access must apply to the result of typeof. Function receivers are control
   }
   
   function effectful(param) {
-    return typeof next().toUpperCase();
+    return (typeof next()).toUpperCase();
   }
   
   function raw(param) {
