@@ -64,7 +64,11 @@ let rec eq_approx x y =
       Bool.equal u1 u2
   | Const_js_true, Const_js_true -> true
   | Const_js_false, Const_js_false -> true
-  | Const_int ix, Const_int iy -> Int32.equal ix.i iy.i
+  | Const_int ix, Const_int iy ->
+      Int32.equal ix.i iy.i
+      && Option.equal ~eq:( = )
+           (modifier_of_pointer_info ix.comment)
+           (modifier_of_pointer_info iy.comment)
   | Const_char ix, Const_char iy -> Char.equal ix iy
   | Const_string { s = sx; unicode = ux }, Const_string { s = sy; unicode = uy }
     ->
