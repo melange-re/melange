@@ -94,15 +94,25 @@ let collect_info =
         | Some (_, _, _, _ :: _) | None -> None)
     | _ -> None
   in
+  let recursive_module_arity = function
+    | Lam_arity.Arity_na -> Lam_arity.na
+    | Arity_info (arities, tail) ->
+        (* This metadata is also used before [Pupdate_mod], when the field
+           still contains the unary throwing placeholder from [Pinit_mod].
+           Only keep arities shared by both functions, so partial applications
+           cannot delay [Undefined_recursive_module]. *)
+        Lam_arity.merge_arities [ 1 ] arities true tail
+  in
   let rec field_of_shape (meta : Lam_stats.t) (shape : Lam.Constant.t)
       (element : Lam_id_kind.Element.t) : Lam_id_kind.Element.t =
     match (shape, element) with
     | ( Const_int { comment = Pt_recursive_module_shape Function; _ },
-        (Function _ as element) ) ->
-        element
+        Function arity ) ->
+        Function (recursive_module_arity arity)
     | ( Const_int { comment = Pt_recursive_module_shape Function; _ },
         SimpleForm lam ) ->
-        Function (Lam_arity_analysis.get_arity meta lam)
+        Function
+          (recursive_module_arity (Lam_arity_analysis.get_arity meta lam))
     | ( Const_block
           (_, Blk_constructor _, [ Const_block (_, Blk_array, components) ]),
         ImmutableBlock elements )

@@ -1,6 +1,6 @@
-Functions of recursive modules are called directly, both when the modules are
-compiled to a [let rec] of functions and when they go through
-[Caml_module.init_mod]
+Functions of recursive modules compiled to a [let rec] keep their known arity.
+For [Caml_module.init_mod], unary functions can still be called directly;
+functions of higher arity retain [Curry] to handle the initial placeholder.
 
   $ . ./setup.sh
   $ cat > dune-project <<EOF
@@ -110,6 +110,7 @@ compiled to a [let rec] of functions and when they go through
   'use strict';
   
   const Caml_module = require("melange.js/caml_module.js");
+  const Curry = require("melange.js/curry.js");
   
   const P = Caml_module.init_mod([
     "dynamic.ml",
@@ -139,7 +140,7 @@ compiled to a [let rec] of functions and when they go through
     if (x === 0) {
       return 0;
     } else {
-      return P.g(x - 1 | 0, 1);
+      return Curry._2(P.g, x - 1 | 0, 1);
     }
   }
   
@@ -175,7 +176,7 @@ compiled to a [let rec] of functions and when they go through
   });
   
   function use(n) {
-    return P.T.f(n) + P.g(n, 2) | 0;
+    return P.T.f(n) + Curry._2(P.g, n, 2) | 0;
   }
   
   module.exports = {
@@ -184,8 +185,7 @@ compiled to a [let rec] of functions and when they go through
   }
   /* P Not a pure module */
 
-Effects in the body of a recursive module do not hide the arities of its
-functions
+Effects in the body of a recursive module do not change this restriction.
 
   $ cat > effect.ml <<EOF
   > module rec M : sig
@@ -202,6 +202,7 @@ functions
   'use strict';
   
   const Caml_module = require("melange.js/caml_module.js");
+  const Curry = require("melange.js/curry.js");
   
   const M = Caml_module.init_mod([
     "effect.ml",
@@ -221,7 +222,7 @@ functions
     if (x === 0) {
       return y;
     } else {
-      return M.f(x - 1 | 0, y);
+      return Curry._2(M.f, x - 1 | 0, y);
     }
   }
   
@@ -236,7 +237,7 @@ functions
   });
   
   function g(a, b) {
-    return M.f(a, b);
+    return Curry._2(M.f, a, b);
   }
   
   module.exports = {

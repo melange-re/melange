@@ -7172,7 +7172,7 @@ function primary(env) {
 }
 
 function generic(env) {
-  return raw_generic_with_identifier(env, Parse.identifier(undefined, env));
+  return raw_generic_with_identifier(env, Curry._2(Parse.identifier, undefined, env));
 }
 
 function param_list_or_type(env) {
@@ -7290,7 +7290,7 @@ function function_param_with_id(env, name) {
 }
 
 function function_param_or_generic_type(env) {
-  const id = Parse.identifier(undefined, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
   const match = Parser_env_Peek.token(undefined, env);
   let exit = 0;
   if (/* tag */ typeof match !== "object" && typeof match !== "function") {
@@ -7385,7 +7385,7 @@ function identifier(env, _param) {
       ];
     }
     token$4(env, /* T_PERIOD */ 9);
-    const id = Parse.identifier(undefined, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
     const loc = btwn(q_loc, id[0]);
     const qualification$1 = {
       TAG: /* Qualified */ 1,
@@ -7823,7 +7823,7 @@ function params$1(env, allow_default, _require_default, _acc) {
     } else {
       variance = undefined;
     }
-    const match$1 = Parse.identifier_with_type(env, /* StrictParamName */ 28);
+    const match$1 = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28);
     const id = match$1[1];
     const loc = match$1[0];
     const match$2 = Parser_env_Peek.token(undefined, env);
@@ -8124,7 +8124,7 @@ function strict_post_check(env, strict, simple, id, params) {
 }
 
 function param$1(env) {
-  const id = Parse.pattern(env, /* StrictParamName */ 28);
+  const id = Curry._2(Parse.pattern, env, /* StrictParamName */ 28);
   if (!Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_ASSIGN */ 75)) {
     return [
       id,
@@ -8181,7 +8181,7 @@ function param_list(env, _param) {
         ];
         continue;
       case 2 :
-        const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), Parse.identifier_with_type(env, /* StrictParamName */ 28)) : undefined;
+        const rest = Caml_obj.caml_equal(t, /* T_ELLIPSIS */ 11) ? (token$4(env, /* T_ELLIPSIS */ 11), Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28)) : undefined;
         if (Caml_obj.caml_notequal(Parser_env_Peek.token(undefined, env), /* T_RPAREN */ 4)) {
           error$1(env, /* ParameterAfterRestParameter */ 47);
         }
@@ -8271,7 +8271,7 @@ function _function(env) {
         break;
       case /* T_LESS_THAN */ 89 :
         const typeParams = type_parameter_declaration$1(env);
-        const id = Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_LPAREN */ 3) ? undefined : Parse.identifier(/* StrictFunctionName */ 30, env);
+        const id = Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_LPAREN */ 3) ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
         match$2 = [
           typeParams,
           id
@@ -8284,7 +8284,7 @@ function _function(env) {
     exit = 1;
   }
   if (exit === 1) {
-    const id$1 = Parse.identifier(/* StrictFunctionName */ 30, env);
+    const id$1 = Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
     match$2 = [
       type_parameter_declaration$1(env),
       id$1
@@ -8331,7 +8331,7 @@ function _function(env) {
 }
 
 function variable_declaration(env) {
-  const id = Parse.pattern(env, /* StrictVarName */ 27);
+  const id = Curry._2(Parse.pattern, env, /* StrictVarName */ 27);
   let match;
   if (Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_ASSIGN */ 75)) {
     token$4(env, /* T_ASSIGN */ 75);
@@ -8568,7 +8568,7 @@ function try_arrow_function(env) {
   const typeParameters = type_parameter_declaration$1(env$1);
   let match;
   if (Parser_env_Peek.is_identifier(undefined, env$1) && typeParameters === undefined) {
-    const id = Parse.identifier(/* StrictParamName */ 28, env$1);
+    const id = Curry._2(Parse.identifier, /* StrictParamName */ 28, env$1);
     const param_0 = id[0];
     const param_1 = {
       TAG: /* Identifier */ 3,
@@ -8730,7 +8730,7 @@ function _function$1(env) {
   } else {
     const match$1 = Parser_env_Peek.token(undefined, env);
     let id;
-    id = /* tag */ typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_LESS_THAN */ 89 ? undefined : Parse.identifier(/* StrictFunctionName */ 30, env);
+    id = /* tag */ typeof match$1 !== "object" && typeof match$1 !== "function" && match$1 === /* T_LESS_THAN */ 89 ? undefined : Curry._2(Parse.identifier, /* StrictFunctionName */ 30, env);
     match = [
       id,
       type_parameter_declaration$1(env)
@@ -9029,7 +9029,7 @@ function identifier_or_reserved_keyword(env) {
       ];
     case 2 :
       return [
-        Parse.identifier(undefined, env),
+        Curry._2(Parse.identifier, undefined, env),
         undefined
       ];
   }
@@ -9678,7 +9678,7 @@ function primary$1(env) {
   switch (exit) {
     case 1 :
       if (Parser_env_Peek.is_identifier(undefined, env)) {
-        const id$1 = Parse.identifier(undefined, env);
+        const id$1 = Curry._2(Parse.identifier, undefined, env);
         return [
           id$1[0],
           {
@@ -9771,7 +9771,7 @@ function assignment_but_not_arrow_function(env) {
     }
     
   }
-  const left = Parse.pattern_from_expr(env, expr);
+  const left = Curry._2(Parse.pattern_from_expr, env, expr);
   const right = assignment(env);
   const loc = btwn(left[0], right[0]);
   return [
@@ -10563,7 +10563,7 @@ function _method(env, kind) {
       params = /* [] */ 0;
       break;
     case /* Set */ 2 :
-      const param = Parse.identifier_with_type(env, /* StrictParamName */ 28);
+      const param = Curry._2(Parse.identifier_with_type, env, /* StrictParamName */ 28);
       params = {
         hd: [
           param[0],
@@ -11040,7 +11040,7 @@ function _initializer(env) {
 function class_implements(env, _acc) {
   while (true) {
     const acc = _acc;
-    const id = Parse.identifier(undefined, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
     const typeParameters = wrap(type_parameter_instantiation, env);
     const loc = typeParameters !== undefined ? btwn(id[0], typeParameters[0]) : id[0];
     const implement_1 = {
@@ -11345,7 +11345,7 @@ function class_declaration(env, decorators) {
   const tmp_env = with_no_let(true, env$1);
   const match = env$1.in_export;
   const match$1 = Parser_env_Peek.is_identifier(undefined, tmp_env);
-  const id = match && !match$1 ? undefined : Parse.identifier(undefined, tmp_env);
+  const id = match && !match$1 ? undefined : Curry._2(Parse.identifier, undefined, tmp_env);
   const typeParameters = type_parameter_declaration_with_defaults(env$1);
   const match$2 = _class(env$1);
   const body = match$2[0];
@@ -11391,7 +11391,7 @@ function class_expression(env) {
     exit = 1;
   }
   if (exit === 1) {
-    const id = Parse.identifier(undefined, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
     const typeParameters = type_parameter_declaration_with_defaults(env);
     match$1 = [
       id,
@@ -11512,7 +11512,7 @@ function case_list(env, _param) {
           return false;
       }
     };
-    const consequent = Parse.statement_list(term_fn, with_in_switch(true, env));
+    const consequent = Curry._2(Parse.statement_list, term_fn, with_in_switch(true, env));
     const match$2 = Stdlib__List.rev(consequent);
     const end_loc$1 = match$2 ? match$2.hd[0] : end_loc;
     const acc_0 = [
@@ -11573,7 +11573,7 @@ function type_alias_helper(env) {
   }
   token$4(env, /* T_TYPE */ 59);
   push_lex_mode(env, /* TYPE */ 1);
-  const id = Parse.identifier(undefined, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
   const typeParameters = type_parameter_declaration_with_defaults(env);
   token$4(env, /* T_ASSIGN */ 75);
   const right = wrap(_type, env);
@@ -11632,7 +11632,7 @@ function interface_helper(env) {
     error$1(env, /* UnexpectedTypeInterface */ 10);
   }
   token$4(env, /* T_INTERFACE */ 51);
-  const id = Parse.identifier(undefined, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
   const typeParameters = type_parameter_declaration_with_defaults(env);
   const $$extends = Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_EXTENDS */ 39) ? (token$4(env, /* T_EXTENDS */ 39), supers(env, /* [] */ 0)) : /* [] */ 0;
   const body = _object$1(true, env);
@@ -11687,7 +11687,7 @@ function supers$1(env, _acc) {
 function declare_class(env, start_loc) {
   const env$1 = with_strict(true, env);
   token$4(env$1, /* T_CLASS */ 38);
-  const id = Parse.identifier(undefined, env$1);
+  const id = Curry._2(Parse.identifier, undefined, env$1);
   const typeParameters = type_parameter_declaration_with_defaults(env$1);
   const $$extends = Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env$1), /* T_EXTENDS */ 39) ? (token$4(env$1, /* T_EXTENDS */ 39), supers$1(env$1, /* [] */ 0)) : /* [] */ 0;
   const mixins = Parser_env_Peek.value(undefined, env$1) === "mixins" ? (contextual(env$1, "mixins"), supers$1(env$1, /* [] */ 0)) : /* [] */ 0;
@@ -11707,7 +11707,7 @@ function declare_class(env, start_loc) {
 
 function declare_function(env, start_loc) {
   token$4(env, /* T_FUNCTION */ 13);
-  const id = Parse.identifier(undefined, env);
+  const id = Curry._2(Parse.identifier, undefined, env);
   const start_sig_loc = Parser_env_Peek.loc(undefined, env);
   const typeParameters = type_parameter_declaration$1(env);
   const match = wrap(function_param_list, env);
@@ -11770,7 +11770,7 @@ function declare_function_statement(env, start_loc) {
 
 function declare_var(env, start_loc) {
   token$4(env, /* T_VAR */ 22);
-  const id = Parse.identifier_with_type(env, /* StrictVarName */ 27);
+  const id = Curry._2(Parse.identifier_with_type, env, /* StrictVarName */ 27);
   const loc = Parser_env_Peek.semicolon_loc(undefined, env);
   const end_loc = loc !== undefined ? loc : id[0];
   const loc$1 = btwn(start_loc, end_loc);
@@ -12052,7 +12052,7 @@ function declare_export_declaration(allow_export_typeOpt, env) {
         const loc$3 = Parser_env_Peek.loc(undefined, env$1);
         token$4(env$1, /* T_MULT */ 97);
         const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-        const local_name = Parser_env_Peek.value(undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Parse.identifier(undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
+        const local_name = Parser_env_Peek.value(undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
         const specifiers = {
           TAG: /* ExportBatchSpecifier */ 1,
           _0: loc$3,
@@ -12242,7 +12242,7 @@ function declare(in_moduleOpt, env) {
             if (/* tag */ typeof match$1 !== "object" && typeof match$1 !== "function" || match$1.TAG !== /* T_STRING */ 1) {
               id = {
                 TAG: /* Identifier */ 0,
-                _0: Parse.identifier(undefined, env)
+                _0: Curry._2(Parse.identifier, undefined, env)
               };
             } else {
               const match$2 = match$1._0;
@@ -12564,7 +12564,7 @@ function specifier_list(env, _acc) {
     let specifier;
     if (Parser_env_Peek.value(undefined, env) === "as") {
       contextual(env, "as");
-      const local = Parse.identifier(undefined, env);
+      const local = Curry._2(Parse.identifier, undefined, env);
       specifier = {
         TAG: /* ImportNamedSpecifier */ 0,
         _0: {
@@ -12601,7 +12601,7 @@ function named_or_namespace_specifier(env) {
   if (/* tag */ typeof match !== "object" && typeof match !== "function" && match === /* T_MULT */ 97) {
     token$4(env, /* T_MULT */ 97);
     contextual(env, "as");
-    const id = Parse.identifier(undefined, env);
+    const id = Curry._2(Parse.identifier, undefined, env);
     return {
       hd: {
         TAG: /* ImportNamespaceSpecifier */ 2,
@@ -12637,14 +12637,14 @@ function from_expr(env, param) {
             const match = param._0;
             return {
               TAG: /* Element */ 0,
-              _0: Parse.pattern_from_expr(env, [
+              _0: Curry._2(Parse.pattern_from_expr, env, [
                 match[0],
                 match[1]
               ])
             };
           }
           const match$1 = param._0;
-          const argument = Parse.pattern_from_expr(env, match$1[1].argument);
+          const argument = Curry._2(Parse.pattern_from_expr, env, match$1[1].argument);
           return {
             TAG: /* Spread */ 1,
             _0: [
@@ -12696,7 +12696,7 @@ function from_expr(env, param) {
                 };
                 break;
             }
-            const pattern = Parse.pattern_from_expr(env, match$1.value);
+            const pattern = Curry._2(Parse.pattern_from_expr, env, match$1.value);
             return {
               TAG: /* Property */ 0,
               _0: [
@@ -12710,7 +12710,7 @@ function from_expr(env, param) {
             };
           }
           const match$2 = param._0;
-          const argument = Parse.pattern_from_expr(env, match$2[1].argument);
+          const argument = Curry._2(Parse.pattern_from_expr, env, match$2[1].argument);
           return {
             TAG: /* SpreadProperty */ 1,
             _0: [
@@ -13051,7 +13051,7 @@ function pattern$1(env, restricted_error) {
         return _array(restricted_error)(env);
     }
   }
-  const id = Parse.identifier_with_type(env, restricted_error);
+  const id = Curry._2(Parse.identifier_with_type, env, restricted_error);
   return [
     id[0],
     {
@@ -13776,7 +13776,7 @@ function statement(env) {
             const start_loc$4 = Parser_env_Peek.loc(undefined, env);
             token$4(env, /* T_CATCH */ 32);
             token$4(env, /* T_LPAREN */ 3);
-            const id = Parse.identifier(/* StrictCatchVariable */ 26, env);
+            const id = Curry._2(Parse.identifier, /* StrictCatchVariable */ 26, env);
             const param_0 = id[0];
             const param_1 = {
               TAG: /* Identifier */ 3,
@@ -13874,7 +13874,7 @@ function statement(env) {
           if (Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_SEMICOLON */ 7) || Parser_env_Peek.is_implicit_semicolon(env)) {
             label = undefined;
           } else {
-            const label$1 = Parse.identifier(undefined, env);
+            const label$1 = Curry._2(Parse.identifier, undefined, env);
             const name = label$1[1].name;
             if (!mem$1(name, env.labels)) {
               error$1(env, {
@@ -13912,7 +13912,7 @@ function statement(env) {
           if (Caml_obj.caml_equal(Parser_env_Peek.token(undefined, env), /* T_SEMICOLON */ 7) || Parser_env_Peek.is_implicit_semicolon(env)) {
             label$2 = undefined;
           } else {
-            const label$3 = Parse.identifier(undefined, env);
+            const label$3 = Curry._2(Parse.identifier, undefined, env);
             const name$1 = label$3[1].name;
             if (!mem$1(name$1, env.labels)) {
               error$1(env, {
@@ -14489,7 +14489,7 @@ function module_item(env) {
             const loc$1 = Parser_env_Peek.loc(undefined, env$1);
             token$4(env$1, /* T_MULT */ 97);
             const parse_export_star_as = env$1.parse_options.esproposal_export_star_as;
-            const local_name = Parser_env_Peek.value(undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Parse.identifier(undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
+            const local_name = Parser_env_Peek.value(undefined, env$1) === "as" ? (contextual(env$1, "as"), parse_export_star_as ? Curry._2(Parse.identifier, undefined, env$1) : (error$1(env$1, /* UnexpectedTypeDeclaration */ 7), undefined)) : undefined;
             const specifiers = {
               TAG: /* ExportBatchSpecifier */ 1,
               _0: loc$1,
@@ -14559,7 +14559,7 @@ function module_item(env) {
             }
           ];
         case 2 :
-          const stmt = Parse.statement_list_item(decorators, env$1);
+          const stmt = Curry._2(Parse.statement_list_item, decorators, env$1);
           const match$8 = stmt[1];
           const loc$4 = stmt[0];
           let names;
@@ -14667,7 +14667,7 @@ function module_item(env) {
             }
             match$10 = [
               /* ImportType */ 0,
-              Parse.identifier(undefined, env$2)
+              Curry._2(Parse.identifier, undefined, env$2)
             ];
             break;
           default:
@@ -14806,7 +14806,7 @@ function module_item(env) {
             importKind,
             {
               TAG: /* ImportDefaultSpecifier */ 1,
-              _0: Parse.identifier(undefined, env$2)
+              _0: Curry._2(Parse.identifier, undefined, env$2)
             }
           ];
         }
