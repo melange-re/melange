@@ -1,8 +1,10 @@
 Block equality must preserve record fields and constructor representations.
-No casts are needed: each branch passes its value to a polymorphic JS binding.
+The record and constructor cases pass their values to a polymorphic JS binding.
+Identity externals in the payload case expose explicitly chosen integer values.
 Direct values, folded calls and runtime calls must agree.
 The X and Z arms may merge; Y must retain its different representation.
 Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
+Its remapped payload must be 8, not 7.
 
   $ . ./setup.sh
   $ cat > input.ml <<'EOF'
@@ -13,6 +15,11 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
   > type second = Second of int [@mel.as "second"] | Other_second of int
   > type left = Left of { x : int; y : int } [@mel.as "left"] | Other_left of int
   > type right = Right of { y : int; x : int } [@mel.as "right"] | Other_right of int
+  > type a = A [@mel.as 7]
+  > type b = B [@mel.as 8]
+  > type box = { value : int }
+  > external a_int : a -> int = "%identity"
+  > external b_int : b -> int = "%identity"
   > external emit : 'a -> unit = "emit"
   > let records = function
   >   | X | Z -> emit ({x = 1; y = 2} : xy)
@@ -28,9 +35,13 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
   > let nested = function
   >   | X | Z -> emit (Some (Some ({x = 1; y = 2} : xy)))
   >   | Y -> emit (Some (Some ({y = 1; x = 2} : yx)))
+  > let payloads = function
+  >   | X | Z -> emit {value = a_int A}
+  >   | Y -> emit {value = b_int B}
   > let direct () =
-  >   emit ({y = 1; x = 2} : yx); emit (Second 1); emit (Right {y = 1; x = 2})
-  > let folded () = records Y; variants Y; nested Y
+  >   emit ({y = 1; x = 2} : yx); emit (Second 1);
+  >   emit (Right {y = 1; x = 2}); emit {value = b_int B}
+  > let folded () = records Y; variants Y; nested Y; payloads Y
   > EOF
   $ melc -ppx melppx -o input.js input.ml
   $ cat input.js
@@ -99,6 +110,18 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
     }
   }
   
+  function payloads(param) {
+    switch (param) {
+      case /* X */ 0 :
+      case /* Y */ 1 :
+      case /* Z */ 2 :
+        emit({
+          value: /* A */ 7
+        });
+        return;
+    }
+  }
+  
   function direct(param) {
     emit({
       y: 1,
@@ -112,6 +135,9 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
       TAG: /* Right */ "right",
       y: 1,
       x: 2
+    });
+    emit({
+      value: /* B */ 8
     });
   }
   
@@ -128,6 +154,9 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
       y: 1,
       x: 2
     });
+    emit({
+      value: /* B */ 8
+    });
   }
   
   module.exports = {
@@ -137,6 +166,7 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
     variant_if,
     inline_if,
     nested,
+    payloads,
     direct,
     folded,
   }
@@ -149,19 +179,22 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
   > console.log('folded:'); t.folded();
   > console.log('runtime:');
   > t.records(1); t.variants(1); t.record_if(false, 1); t.variant_if(false, 1);
-  > t.inline_if(false, 1); t.nested(1);
+  > t.inline_if(false, 1); t.nested(1); t.payloads(1);
   > console.log('other arms:');
   > [0, 2].forEach(t.records); [0, 2].forEach(t.variants);
   > t.record_if(true, 1); t.variant_if(true, 1); t.inline_if(true, 1);
+  > [0, 2].forEach(t.payloads);
   > EOF
   direct:
   {"y":1,"x":2}
   {"TAG":"second","_0":1}
   {"TAG":"right","y":1,"x":2}
+  {"value":8}
   folded:
   {"y":1,"x":2}
   {"TAG":"second","_0":1}
   {"y":1,"x":2}
+  {"value":8}
   runtime:
   {"x":1,"y":2}
   {"TAG":"first","_0":1}
@@ -169,6 +202,7 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
   {"TAG":"first","_0":1}
   {"TAG":"left","x":1,"y":2}
   {"x":1,"y":2}
+  {"value":7}
   other arms:
   {"x":1,"y":2}
   {"x":1,"y":2}
@@ -177,3 +211,5 @@ Y must keep y = 1, x = 2, and the "second" or "right" constructor tags.
   {"x":1,"y":2}
   {"TAG":"first","_0":1}
   {"TAG":"left","x":1,"y":2}
+  {"value":7}
+  {"value":7}
