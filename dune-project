@@ -52,6 +52,7 @@
  (allow_empty)
  (depends
   ocaml
+  (ocamlfind :build)
   (js_of_ocaml :dev)
   (reason :dev)
   (melange (= :version))
