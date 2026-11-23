@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+- compiler: reuse unchanged JavaScript IR nodes during optimization to reduce
+  allocations.
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

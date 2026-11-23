@@ -15,4 +15,5 @@ let () =
       ("scc", Test_scc.suite);
       ("io", Test_io.suite);
       ("ppx locations", Test_ppx_locations.suite);
+      ("JavaScript mapper", Test_js_record_map.suite);
     ]
