@@ -39,7 +39,7 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
       | None -> skip_obj
       | Some code ->
           {
-            eta = [%expr fun _self arg -> [%e code] _self arg];
+            eta = [%expr fun _self st arg -> [%e code] _self st arg];
             beta =
               (fun x ->
                 let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
