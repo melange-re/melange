@@ -32,8 +32,11 @@ The original function and functor must still take their false branches.
   function pick(x, y, flag) {
     if (x !== 0 && y !== 0) {
       return "other";
-    } else {
+    }
+    if (flag) {
       return "t";
+    } else {
+      return big("a") + big("b");
     }
   }
   
@@ -51,8 +54,11 @@ The original function and functor must still take their false branches.
     const pick = function (x, y) {
       if (x !== 0 && y !== 0) {
         return "other";
-      } else {
+      }
+      if (X.flag) {
         return "t";
+      } else {
+        return big("a") + big("b");
       }
     };
     return {
@@ -73,10 +79,15 @@ The original function and functor must still take their false branches.
   };
   
   function pick$2(x, y) {
-    if (x !== 0 && y !== 0) {
-      return "other";
+    if (x !== 0) {
+      if (y !== 0) {
+        return "other";
+      } else {
+        return big("a") + big("b");
+      }
+    } else {
+      return big("a") + big("b");
     }
-    return big("a") + big("b");
   }
   
   const B = {
@@ -101,8 +112,8 @@ The original function and functor must still take their false branches.
   > }
   > JS
   t a!ab!b
-  t t t a!ab!b
-  t t t a!ab!b
+  a!ab!b a!ab!b t a!ab!b
+  a!ab!b a!ab!b t a!ab!b
   other other other other
 
 Nested handlers, guarded bindings, exception exits, and cross-module copies

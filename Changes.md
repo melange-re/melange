@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: freshen static-exit labels when inlining functions and functors,
+  keeping pattern-match handlers independent across copies
+  ([#2243](https://github.com/melange-re/melange/pull/2243)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

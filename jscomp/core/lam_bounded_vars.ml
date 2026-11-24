@@ -64,6 +64,7 @@ open Import
     3. arguments are const or not
 *)
 let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
+  let exits = Int.Hashtbl.create 8 in
   let rebind i =
     let i' = Ident.rename i in
     Ident.Hashtbl.add map ~key:i ~data:(Lam.var i');
@@ -97,10 +98,16 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let body = aux body in
         Lam.function_ ~arity ~params ~body ~attr
     | Lstaticcatch (l1, (i, xs), l2) ->
+        (* Each inlined copy needs its own static-exit identity, just as its
+           local variables do. Keep the sign used for exception handlers. *)
+        let fresh = Lambda.next_raise_count () in
+        let fresh = if i < 0 then -fresh else fresh in
+        Int.Hashtbl.add exits ~key:i ~data:fresh;
         let l1 = aux l1 in
+        Int.Hashtbl.remove exits i;
         let xs = List.map ~f:rebind xs in
         let l2 = aux l2 in
-        Lam.staticcatch l1 (i, xs) l2
+        Lam.staticcatch l1 (fresh, xs) l2
     | Lfor (ident, l1, l2, dir, l3) ->
         let ident = rebind ident in
         let l1 = aux l1 in
@@ -139,7 +146,11 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
     | Lstringswitch (l, sw, d) ->
         let l = aux l in
         Lam.stringswitch l (List.map_snd sw ~f:aux) (option_map d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map ~f:aux ls)
+    | Lstaticraise (i, ls) ->
+        let i =
+          match Int.Hashtbl.find_opt exits i with Some i -> i | None -> i
+        in
+        Lam.staticraise i (List.map ~f:aux ls)
     | Ltrywith (l1, v, l2) ->
         let l1 = aux l1 in
         let v = rebind v in
