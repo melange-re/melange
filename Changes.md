@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: preserve total comparison semantics when comparing with zero,
+  including NaN nested in structural values
+  ([#2241](https://github.com/melange-re/melange/pull/2241)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

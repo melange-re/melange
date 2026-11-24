@@ -18,7 +18,9 @@ Each pair below should agree; main incorrectly uses structural equality.
   
   const Caml_obj = require("melange.js/caml_obj.js");
   
-  const same = Caml_obj.caml_equal;
+  function same(a, b) {
+    return Caml_obj.caml_compare(a, b) === 0;
+  }
   
   function different(a, b) {
     return Caml_obj.caml_compare(a, b) !== 0;
@@ -41,10 +43,10 @@ Each pair below should agree; main incorrectly uses structural equality.
   >   ['negative', -1, -1], ['string', 'x', 'x'], ['bool', true, false]
   > ]) console.log(name, m.same(a,b), m.runtime(a,b) === 0, m.different(a,b), m.runtime(a,b) !== 0);
   > JS
-  NaN false true false false
-  record NaN false true false false
-  array NaN false true false false
-  nested NaN false true false false
+  NaN true true false false
+  record NaN true true false false
+  array NaN true true false false
+  nested NaN true true false false
   record true true false false
   array false false true true
   negative true true false false

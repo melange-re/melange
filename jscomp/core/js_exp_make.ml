@@ -1000,36 +1000,6 @@ let rec int_comp (cmp : Lam_compat.Integer_comparison.t) ?loc ?comment (e0 : t)
         },
       Number (Int { i = 0l; _ }) ) ->
       int_comp cmp l r (* = 0 > 0 < 0 *)
-  | ( Ceq,
-      Call
-        {
-          expr =
-            {
-              expression_desc =
-                Var
-                  (Qualified
-                     ( ({ id = _; kind = Runtime; _ } as iid),
-                       Some "caml_compare" ));
-              _;
-            } as fn;
-          args = [ _; _ ] as args;
-          info = call_info;
-        },
-      Number (Int { i = 0l; _ }) ) ->
-      {
-        e0 with
-        expression_desc =
-          Call
-            {
-              expr =
-                {
-                  fn with
-                  expression_desc = Var (Qualified (iid, Some "caml_equal"));
-                };
-              args;
-              info = call_info;
-            };
-      }
   | (Ceq, Optional_block _, Undefined _ | Ceq, Undefined _, Optional_block _)
     when no_side_effect e0 && no_side_effect e1 ->
       false_
