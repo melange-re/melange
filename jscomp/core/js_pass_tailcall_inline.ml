@@ -137,6 +137,12 @@ let super = Js_record_map.super
 
 let subst (export_set : Ident.Set.t)
     (stats : J.variable_declaration Ident.Hashtbl.t) =
+  let map_cons (self : Js_record_map.iter) original x xs =
+    (* Preserve the tail-first traversal: callbacks update usage information. *)
+    let xs' = self.block self xs in
+    let x' = self.statement self x in
+    if x == x' && xs == xs' then original else x' :: xs'
+  in
   {
     super with
     statement =
@@ -171,7 +177,7 @@ let subst (export_set : Ident.Set.t)
            } as st)
           :: rest -> (
             let is_export = Ident.Set.mem vd.ident export_set in
-            if is_export then self.statement self st :: self.block self rest
+            if is_export then map_cons self bs st rest
             else
               match Ident.Hashtbl.find stats vd.ident with
               (* TODO: could be improved as [mem] *)
@@ -179,7 +185,7 @@ let subst (export_set : Ident.Set.t)
                   if Js_analyzer.no_side_effect_expression v then
                     S.exp v :: self.block self rest
                   else self.block self rest
-              | _ -> self.statement self st :: self.block self rest)
+              | _ -> map_cons self bs st rest)
         | [
          ({
             statement_desc =
@@ -225,7 +231,9 @@ let subst (export_set : Ident.Set.t)
                 (* Mark a function as dead means it will never be scanned,
                    here we inline the function
                 *)
-            | _ | (exception Not_found) -> [ self.statement self st ])
+            | _ | (exception Not_found) ->
+                let st' = self.statement self st in
+                if st == st' then bs else [ st' ])
         | [
          {
            statement_desc =
@@ -256,7 +264,7 @@ let subst (export_set : Ident.Set.t)
               (* see #278 before changes*)
             in
             inline_call no_tailcall params args processed_blocks
-        | x :: xs -> self.statement self x :: self.block self xs
+        | x :: xs -> map_cons self bs x xs
         | [] -> []);
   }
 
