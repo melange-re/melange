@@ -128,7 +128,15 @@ let flatten_map =
               | Block bs -> loop rest pending (List.rev_append bs acc)
               | _ -> loop rest pending (st :: acc))
         in
-        loop b [] []);
+        match b with
+        | [] -> []
+        | [ { statement_desc = Block _; _ } ] -> loop b [] []
+        | [ st ] -> (
+            let st' = self.statement self st in
+            match st'.statement_desc with
+            | Block bs -> bs
+            | _ -> if st == st' then b else [ st' ])
+        | _ -> loop b [] []);
   }
 
 let program (x : J.program) = flatten_map.program flatten_map x
