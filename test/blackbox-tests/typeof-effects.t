@@ -16,11 +16,11 @@ The array element and length receiver should both run once.
   
   
   function element(param) {
-    return "object";
+    return typeof [tick()];
   }
   
   function length(param) {
-    return "number";
+    return typeof array().length;
   }
   
   function pure(param) {
@@ -47,8 +47,8 @@ The array element and length receiver should both run once.
   >   catch (e) { console.log(name, e.message); }
   > }
   > JS
-  object 0
-  number 0
-  object 0
-  element object
-  length number
+  object 1
+  number 2
+  object 2
+  element operand
+  length operand

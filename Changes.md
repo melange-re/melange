@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: retain operand effects and exceptions when simplifying `typeof`
+  of arrays and lengths
+  ([#2245](https://github.com/melange-re/melange/pull/2245)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
