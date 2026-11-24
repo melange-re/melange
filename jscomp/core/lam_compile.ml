@@ -1215,9 +1215,12 @@ and compile_for (id : J.for_ident) (start : Lam.t) (finish : Lam.t)
           ->
             List.append b1 (b2 @ [ S.for_ (Some e1) e2 id direction block_body ])
         | _, _ ->
+            let start_id = Ident.create_local (Ident.name id ^ "_start") in
             List.append b1
-              (S.define_variable ~kind:Variable id e1
-              :: (b2 @ [ S.for_ None e2 id direction block_body ])))
+              (S.define_variable ~kind:Strict start_id e1
+              :: (b2
+                 @ [ S.for_ (Some (E.var start_id)) e2 id direction block_body ]
+                 )))
   in
   Js_output.output_of_block_and_expression lambda_cxt.continuation block E.unit
 

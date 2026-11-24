@@ -38,7 +38,7 @@ Both loops should produce 0, 1, 2, and their bounds should run once each.
         return -1;
       })
     ];
-    let i = bound(0);
+    const i_start = bound(0);
     let tmp;
     try {
       tmp = bound(2);
@@ -46,7 +46,7 @@ Both loops should produce 0, 1, 2, and their bounds should run once each.
     catch (exn){
       tmp = 0;
     }
-    for (let i_finish = tmp; i <= i_finish; ++i) {
+    for (let i = i_start, i_finish = tmp; i <= i_finish; ++i) {
       Caml_array.set(fs, i, (function (param) {
         return i;
       }));
@@ -68,7 +68,7 @@ Both loops should produce 0, 1, 2, and their bounds should run once each.
         return -1;
       })
     ];
-    let i = bound(2);
+    const i_start = bound(2);
     let tmp;
     try {
       tmp = bound(0);
@@ -76,7 +76,7 @@ Both loops should produce 0, 1, 2, and their bounds should run once each.
     catch (exn){
       tmp = 2;
     }
-    for (let i_finish = tmp; i >= i_finish; --i) {
+    for (let i = i_start, i_finish = tmp; i >= i_finish; --i) {
       Caml_array.set(fs, i, (function (param) {
         return i;
       }));
@@ -99,5 +99,5 @@ Both loops should produce 0, 1, 2, and their bounds should run once each.
   > calls = [];
   > console.log(m.descending(), calls);
   > JS
-  [ 3, 3, 3 ] [ 0, 2 ]
-  [ -1, -1, -1 ] [ 2, 0 ]
+  [ 0, 1, 2 ] [ 0, 2 ]
+  [ 0, 1, 2 ] [ 2, 0 ]
