@@ -4,23 +4,16 @@ let rec mkBodyApply0 ty allNames arg =
   let fn = mkStructuralTy ty allNames in
   if fn == skip_obj then None else Some (fn.beta arg)
 
-and mkBodyApply =
-  let collapse_body body =
-    let rec collapse_body = function
-      | [] -> raise_notrace Not_found
-      | [ x ] -> x
-      | x :: xs -> Ast_helper.Exp.sequence x (collapse_body xs)
-    in
-    match collapse_body body with
-    | body -> Some body
-    | exception Not_found -> None
+and mkBodyApply tys allNames args =
+  let rec sequence expr = function
+    | [] -> expr
+    | next :: rest -> Ast_helper.Exp.sequence expr (sequence next rest)
   in
-  fun tys allNames args ->
-    let body =
-      List.mapi ~f:(fun i ty -> mkBodyApply0 ty allNames args.(i)) tys
-      |> List.filter_map ~f:Fun.id
-    in
-    collapse_body body
+  match
+    List.filter_mapi ~f:(fun i ty -> mkBodyApply0 ty allNames args.(i)) tys
+  with
+  | [] -> None
+  | expr :: rest -> Some (sequence expr rest)
 
 and mkStructuralTy (ty : Ast.core_type) allNames =
   match ty.ptyp_desc with
