@@ -102,12 +102,59 @@ let classify ?(check_errors = Flow_ast_utils.Dont_check) ~loc str =
   | Check _, None | Dont_check, None -> classify_exp prog
   | Dont_check, Some _ -> Js_exp_unknown
 
-let classify_stmt ~loc (prog : string) : Js_raw_info.stmt =
+let statement_bindings statements =
+  let collector =
+    object (self)
+      inherit [Js_parser.Loc.t] Js_parser.Flow_ast_mapper.mapper as super
+      val mutable bindings = String.Set.empty
+      val mutable block_depth = 0
+      method bindings = bindings
+
+      method private bind (_, { Flow_ast.Identifier.name; _ }) =
+        bindings <- String.Set.add name bindings
+
+      method! expression expression = expression
+
+      method! statement ((_, statement) as node) =
+        match statement with
+        | Flow_ast.Statement.Block _ | For _ | ForIn _ | ForOf _ | Switch _
+        | Try _ ->
+            block_depth <- block_depth + 1;
+            let node = super#statement node in
+            block_depth <- block_depth - 1;
+            node
+        | _ -> super#statement node
+
+      method! function_declaration _loc function_ =
+        let { Flow_ast.Function.id; _ } = function_ in
+        if block_depth = 0 then Option.iter ~f:self#bind id;
+        function_
+
+      method! class_declaration _loc class_ =
+        let { Flow_ast.Class.id; _ } = class_ in
+        if block_depth = 0 then Option.iter ~f:self#bind id;
+        class_
+
+      method! pattern_identifier ?kind identifier =
+        (match kind with
+        | Some Flow_ast.Variable.Var -> self#bind identifier
+        | Some (Let | Const) when block_depth = 0 -> self#bind identifier
+        | Some (Let | Const) | None -> ());
+        identifier
+
+      method! pattern_object_property_identifier_key ?kind:_ key = key
+    end
+  in
+  (* Only [var] escapes blocks; no declarations escape functions or classes. *)
+  ignore (collector#toplevel_statement_list statements);
+  collector#bindings
+
+let classify_stmt ~loc (prog : string) =
   let { Flow_ast_utils.prog; error = _ } =
     Flow_ast_utils.parse_program ~loc ~check_errors:Dont_check prog
   in
   match prog with
-  | { statements = []; _ } -> Js_stmt_comment
-  | _ -> Js_stmt_unknown
+  | { statements = []; _ } -> (Js_raw_info.Js_stmt_comment, String.Set.empty)
+  | { statements; _ } -> (Js_stmt_unknown, statement_bindings statements)
 (* we can also analyze throw
    x.x pure access *)

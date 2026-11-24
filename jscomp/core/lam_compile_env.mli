@@ -25,6 +25,11 @@
 (** Helper for global Ocaml module index into meaningful names  *)
 
 val reset : unit -> unit
+val register_local_js_bindings : Melstd.String.Set.t -> unit
+val register_local_js_binding : Ident.t -> unit
+
+val get_local_js_bindings : unit -> Melstd.String.Set.t
+(** Names collected during lambda conversion, cleared by [reset]. *)
 
 val add_js_module :
   Melange_ffi.External_ffi_types.Module_bind_name.t ->

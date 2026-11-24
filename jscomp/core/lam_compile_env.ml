@@ -42,6 +42,7 @@ let cached_tbl : env_value Lam_module_ident.Hashtbl.t =
 type external_id_info = { is_relative : bool }
 
 let external_id_tbl : external_id_info Ident.Hashtbl.t = Ident.Hashtbl.create 31
+let local_js_bindings = ref String.Set.empty
 
 (* Several optimization passes can query the same module. *)
 let missing_cmj_warnings : unit Lam_module_ident.Hashtbl.t =
@@ -50,12 +51,21 @@ let missing_cmj_warnings : unit Lam_module_ident.Hashtbl.t =
 (* For each compilation we need reset to make it re-entrant *)
 let reset () =
   Translmod.reset ();
+  local_js_bindings := String.Set.empty;
   Js_config.no_export := false;
   (* This is needed in the playground since one no_export can make it true
      In the payground, it seems we need reset more states *)
   Lam_module_ident.Hashtbl.clear cached_tbl;
   Lam_module_ident.Hashtbl.clear missing_cmj_warnings;
   Ident.Hashtbl.clear external_id_tbl
+
+let register_local_js_bindings bindings =
+  local_js_bindings := String.Set.union bindings !local_js_bindings
+
+let register_local_js_binding id =
+  local_js_bindings := String.Set.add (Ident.mangle id) !local_js_bindings
+
+let get_local_js_bindings () = !local_js_bindings
 
 let register_external_id id module_name =
   Ident.Hashtbl.replace external_id_tbl ~key:id
@@ -127,8 +137,8 @@ let external_id_is_relative id =
   | { is_relative } -> Some is_relative
   | exception Not_found -> None
 
-let resolve_external_call_summary ~dynamic_import ident name
-    ~arity:direct_arity =
+let resolve_external_call_summary ~dynamic_import ident name ~arity:direct_arity
+    =
   let direct_external arity ~relocatable =
     Lam_call_summary.Direct_external
       { dynamic_import; id = ident; name; arity; relocatable }
@@ -161,9 +171,7 @@ let rec lambda_is_relocatable (lam : Lam.t) =
   | Lprim { primitive; _ } when not (Lam_primitive.is_relocatable primitive) ->
       false
   | _ ->
-      not
-        (Lam_iter.exists lam ~f:(fun lam ->
-             not (lambda_is_relocatable lam)))
+      not (Lam_iter.exists lam ~f:(fun lam -> not (lambda_is_relocatable lam)))
 
 let get_dependency_info_from_cmj (module_id : Lam_module_ident.t) :
     Js_packages_info.t * Js_packages_info.file_case =
