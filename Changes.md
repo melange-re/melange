@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: keep for-loop variables scoped to each iteration when evaluating
+  bounds requires statements, preserving closure captures
+  ([#2244](https://github.com/melange-re/melange/pull/2244)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
