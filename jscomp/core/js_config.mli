@@ -33,6 +33,9 @@ val cross_module_inline : bool ref
 val diagnose : bool ref
 (** diagnose option *)
 
+val action_trace : bool ref
+(** Emit compiler phase spans into Dune's action trace. *)
+
 val check_div_by_zero : bool ref
 (** check-div-by-zero option *)
 

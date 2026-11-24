@@ -7,3 +7,7 @@
   %{bin:jq}
   %{bin:ocamlmerlin}
   %{lib:melange.belt:melange/belt.cmj}))
+
+(cram
+ (applies_to compiler-action-trace)
+ (enabled_if %{lib-available:dune-action-trace}))
