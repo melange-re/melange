@@ -1,0 +1,5 @@
+(test
+ (name collect_info)
+ (package melange)
+ (flags :standard -open Melstd -open Melange_compiler_libs -open Melangelib)
+ (libraries alcotest melangelib))
