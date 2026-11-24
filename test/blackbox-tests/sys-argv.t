@@ -2,7 +2,7 @@ Test case for Sys.argv
 
   $ . ./setup.sh
 
-  $ export BUILD_PATH_PREFIX_MAP="/NODE_BIN_PATH=$(realpath $(command -v node)):$BUILD_PATH_PREFIX_MAP"
+  $ add_build_path_prefix_map /NODE_BIN_PATH "$(node -p 'process.execPath' | normalize_paths)"
 
   $ cat > dune-project <<EOF
   > (lang dune 3.8)
@@ -21,7 +21,7 @@ Test case for Sys.argv
 
   $ dune build @melange
 
-  $ node _build/default/js-out/x.js a b c
+  $ node _build/default/js-out/x.js a b c | normalize_paths
   /NODE_BIN_PATH
   [
     '/NODE_BIN_PATH',
@@ -39,7 +39,7 @@ Compare with Node.Process.argv
 
   $ dune build @melange
 
-  $ node _build/default/js-out/x.js a b c
+  $ node _build/default/js-out/x.js a b c | normalize_paths
   [
     '/NODE_BIN_PATH',
     '$TESTCASE_ROOT/_build/default/js-out/x.js',

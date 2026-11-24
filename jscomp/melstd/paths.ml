@@ -141,7 +141,8 @@ let split_aux p =
     if String.equal dir p then (dir, acc)
     else
       let new_path = Filename.basename p in
-      if String.equal new_path Filename.dir_sep then go dir acc
+      if String.equal new_path "/" || String.equal new_path Filename.dir_sep
+      then go dir acc
         (* We could do more path simplification here
            leave to [rel_normalized_absolute_path]
         *)

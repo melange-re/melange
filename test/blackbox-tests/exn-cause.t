@@ -251,7 +251,7 @@ Re-throw
     A,
   }
   /* a0 Not a pure module */
-  $ node _build/default/js-out/x.js 2>&1 | grep -v Node | grep -vE '\s+at'
+  $ node _build/default/js-out/x.js 2>&1 | grep -v Node | grep -vE '\s+at' | normalize_paths
   $TESTCASE_ROOT/_build/default/js-out/x.js:20
       throw raw_e;
       ^
