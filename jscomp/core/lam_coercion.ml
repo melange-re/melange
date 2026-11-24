@@ -94,9 +94,10 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
     List.fold_right2
       ~f:(fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
+        let exported_name = Js_export_check.name ~top:true original_name in
         let already_present =
-          let already_present = String.Hashtbl.mem tbl original_name in
-          String.Hashtbl.replace tbl ~key:original_name ~data:();
+          let already_present = String.Hashtbl.mem tbl exported_name in
+          String.Hashtbl.replace tbl ~key:exported_name ~data:();
           already_present
         in
         if already_present then
