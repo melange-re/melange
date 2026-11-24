@@ -6,31 +6,19 @@ let rec mkBodyApply0 ty allNames arg =
   let fn = mkStructuralTy ty allNames in
   if fn == skip_obj then None else Some (fn.beta arg)
 
-and mkBodyApply =
-  let collapse_body body =
-    let rec collapse_body = function
-      | [] -> raise_notrace Not_found
-      | [ x ] ->
-          fun e ->
-            Ast_helper.(
-              Exp.let_ Nonrecursive [ Vb.mk (Pat.var { txt = "st"; loc }) x ] e)
-      | x :: xs ->
-          fun e ->
-            Ast_helper.(
-              Exp.let_ Nonrecursive
-                [ Vb.mk (Pat.var { txt = "st"; loc }) x ]
-                ((collapse_body xs) e))
-    in
-    match collapse_body body with
-    | body -> Some body
-    | exception Not_found -> None
-  in
-  fun tys allNames args ->
-    let body =
-      List.mapi ~f:(fun i ty -> mkBodyApply0 ty allNames args.(i)) tys
-      |> List.filter_map ~f:Fun.id
-    in
-    collapse_body body
+and mkBodyApply tys allNames args =
+  match
+    List.filter_mapi ~f:(fun i ty -> mkBodyApply0 ty allNames args.(i)) tys
+  with
+  | [] -> None
+  | body ->
+      Some
+        (fun tail ->
+          List.fold_right body ~init:tail ~f:(fun expr tail ->
+              Ast_helper.(
+                Exp.let_ Nonrecursive
+                  [ Vb.mk (Pat.var { txt = "st"; loc }) expr ]
+                  tail)))
 
 and mkStructuralTy (ty : Ast.core_type) allNames =
   match ty.ptyp_desc with
