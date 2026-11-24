@@ -198,9 +198,9 @@ let make_block ?loc ?comment (tag : t) (tag_info : J.tag_info) (fields : t list)
 (* ATTENTION: this is relevant to how we encode string, boolean *)
 let typeof ?loc ?comment (e : t) : t =
   match e.expression_desc with
-  | Number _ | Length _ -> str ?comment L.js_type_number
+  | (Number _ | Length _) when no_side_effect e -> str ?comment L.js_type_number
   | Str _ | Unicode _ -> str ?comment L.js_type_string
-  | Array _ -> str ?comment L.js_type_object
+  | Array _ when no_side_effect e -> str ?comment L.js_type_object
   | Bool _ -> str ?comment L.js_type_boolean
   | _ -> make_expression ?loc ?comment (Typeof e)
 
