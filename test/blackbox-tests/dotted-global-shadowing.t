@@ -18,16 +18,16 @@ Calls and reads should use the global value, including method receivers.
   'use strict';
   
   
-  function dotted(shadowTarget) {
+  function dotted(shadowTarget$1) {
     return [
-      shadowTarget,
+      shadowTarget$1,
       shadowTarget.value()
     ];
   }
   
-  function nested(shadowTarget) {
+  function nested(shadowTarget$1) {
     return [
-      shadowTarget,
+      shadowTarget$1,
       shadowTarget.nested.value()
     ];
   }
@@ -39,9 +39,9 @@ Calls and reads should use the global value, including method receivers.
     ];
   }
   
-  function field(shadowTarget) {
+  function field(shadowTarget$1) {
     return [
-      shadowTarget,
+      shadowTarget$1,
       shadowTarget.number
     ];
   }
@@ -61,7 +61,7 @@ Calls and reads should use the global value, including method receivers.
   >   catch (e) { console.log(name, e.name); }
   > }
   > JS
-  dotted TypeError
-  nested TypeError
+  dotted [ 1, 42 ]
+  nested [ 1, 43 ]
   control [ 1, 43 ]
-  field [ 1, undefined ]
+  field [ 1, 42 ]
