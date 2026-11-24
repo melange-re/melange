@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: normalize integer remainder to signed int32, avoiding negative
+  zero in `int` and `Int32` results while preserving float remainder
+  ([#2246](https://github.com/melange-re/melange/pull/2246)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

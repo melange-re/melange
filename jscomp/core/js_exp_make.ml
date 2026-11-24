@@ -1259,12 +1259,12 @@ let int32_div ~checked ?loc ?comment (e1 : t) (e2 : t) : t =
 
 let int32_mod ~checked ?loc ?comment e1 (e2 : t) : J.expression =
   match e2.expression_desc with
-  | Number (Int { i; _ }) when i <> 0l -> bin ?loc ?comment Mod e1 e2
+  | Number (Int { i; _ }) when i <> 0l -> to_int32 ?loc (bin ?comment Mod e1 e2)
   | _ ->
       if checked then
         runtime_call ~module_name:Js_runtime_modules.int32 ~fn_name:"mod_"
           [ e1; e2 ]
-      else bin ?loc ?comment Mod e1 e2
+      else to_int32 ?loc (bin ?comment Mod e1 e2)
 
 let float_mul ?loc ?comment e1 e2 = bin ?loc ?comment Mul e1 e2
 

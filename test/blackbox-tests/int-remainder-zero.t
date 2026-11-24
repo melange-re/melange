@@ -1,5 +1,5 @@
 Integer remainder zero must become positive zero, including through float_of_int.
-Constant and runtime paths should agree; float remainder must retain negative zero.
+Integer paths should all give positive infinity; float remainder retains negative zero.
 
   $ . ./setup.sh
   $ printf '%s\n' '(lang dune 3.9)' '(using melange 0.1)' > dune-project
@@ -24,11 +24,11 @@ Constant and runtime paths should agree; float remainder must retain negative ze
   const constant = 1 / 0;
   
   function by_two(x) {
-    return 1 / (x % 2);
+    return 1 / (x % 2 | 0);
   }
   
   function by_negative_one(x) {
-    return 1 / (x % -1);
+    return 1 / (x % -1 | 0);
   }
   
   function variable(x, y) {
@@ -57,8 +57,8 @@ Constant and runtime paths should agree; float remainder must retain negative ze
   > for (const [x,y] of [[-5,2], [5,-2], [-5,-2]]) console.log(x,y, m.variable(x,y));
   > try { m.variable(1,0); } catch (e) { console.log(e.MEL_EXN_ID); }
   > JS
-  Infinity -Infinity -Infinity -Infinity
-  -Infinity -Infinity
+  Infinity Infinity Infinity Infinity
+  Infinity -Infinity
   -5 2 -1
   5 -2 1
   -5 -2 -1
