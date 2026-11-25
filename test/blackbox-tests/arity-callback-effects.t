@@ -10,6 +10,7 @@ partially applied uses of the local helper.
   $ cat > dune <<'EOF'
   > (melange.emit
   >  (target out)
+  >  (emit_stdlib false)
   >  (compile_flags :standard --mel-no-cross-module-opt)
   >  (libraries melange.js)
   >  (module_systems (commonjs js) (esm mjs)))
