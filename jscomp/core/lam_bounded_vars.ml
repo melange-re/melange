@@ -64,9 +64,10 @@ open Import
     3. arguments are const or not
 *)
 let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
-  let rebind i =
+  let rebind ?(mutable_ = false) i =
     let i' = Ident.rename i in
-    Ident.Hashtbl.add map ~key:i ~data:(Lam.var i');
+    Ident.Hashtbl.add map ~key:i
+      ~data:(if mutable_ then Lam.mutvar i' else Lam.var i');
     i'
   in
   (* order matters, especially for let bindings *)
@@ -80,7 +81,7 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let l2 = aux l2 in
         Lam.let_ str v l1 l2
     | Lmutlet (v, l1, l2) ->
-        let v = rebind v in
+        let v = rebind ~mutable_:true v in
         let l1 = aux l1 in
         let l2 = aux l2 in
         Lam.mutlet v l1 l2
@@ -158,7 +159,14 @@ let rewrite (map : _ Ident.Hashtbl.t) (lam : Lam.t) : Lam.t =
         let l1 = aux l1 in
         let l2 = aux l2 in
         Lam.while_ l1 l2
-    | Lassign (v, l) -> Lam.assign v (aux l)
+    | Lassign (v, l) ->
+        let v =
+          match Ident.Hashtbl.find_opt map v with
+          | Some (Lvar v | Lmutvar v) -> v
+          | Some _ -> assert false
+          | None -> v
+        in
+        Lam.assign v (aux l)
     | Lsend (u, m, o, ll, loc) ->
         let m = aux m in
         let o = aux o in
