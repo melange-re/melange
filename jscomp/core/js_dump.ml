@@ -1124,7 +1124,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
                         with
                         | Some ident_expression, Number _ ->
                             let cxt = pp_assign ~property:Variable cxt id in
-                            (expression ~level:0 cxt ident_expression, None)
+                            (expression ~level:1 cxt ident_expression, None)
                         | Some ident_expression, _ ->
                             let cxt = pp_assign ~property:Variable cxt id in
                             let cxt =

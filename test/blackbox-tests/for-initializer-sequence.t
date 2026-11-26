@@ -21,7 +21,7 @@ Each loop should run three times and call tick once before iteration.
   
   function ascending(param) {
     let n = 0;
-    for (let _i = tick(), 0; _i <= 2; ++_i) {
+    for (let _i = (tick(), 0); _i <= 2; ++_i) {
       n = n + 1 | 0;
     }
     return n;
@@ -29,7 +29,7 @@ Each loop should run three times and call tick once before iteration.
   
   function descending(param) {
     let n = 0;
-    for (let _i = tick(), 2; _i >= 0; --_i) {
+    for (let _i = (tick(), 2); _i >= 0; --_i) {
       n = n + 1 | 0;
     }
     return n;
@@ -50,4 +50,5 @@ Each loop should run three times and call tick once before iteration.
   >   console.log(m.descending(), calls);
   > } catch (e) {console.log(e.name)}
   > JS
-  SyntaxError
+  3 1
+  3 1
