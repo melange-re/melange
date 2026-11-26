@@ -123,7 +123,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       (* #977 *)
       E.int32_minus E.zero_int_literal (List.hd args)
   | Pnegint64 -> Js_long.neg args
-  | Pnegfloat -> E.float_minus E.zero_float_lit (List.hd args)
+  | Pnegfloat -> E.float_neg (List.hd args)
   (* Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint -> (

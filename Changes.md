@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: distinguish floating-point subtraction from negation at zero and
+  keep adjacent minus signs from printing as a decrement
+  ([#2263](https://github.com/melange-re/melange/pull/2263))
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

@@ -604,7 +604,7 @@ let obj ?loc ?comment properties : t =
 let float ?loc ?comment f : t =
   make_expression ?loc ?comment (Number (Float { f }))
 
-let zero_float_lit : t = make_expression (Number (Float { f = "0." }))
+let negative_zero_float_lit : t = make_expression (Number (Float { f = "-0." }))
 let float_mod ?loc ?comment e1 e2 : J.expression = bin ?loc ?comment Mod e1 e2
 
 let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
@@ -1185,6 +1185,7 @@ let rec is_out ?comment (e : t) (range : t) : t =
    erased. Do not wrap these constants or reassociate IEEE arithmetic. *)
 let float_add ?loc ?comment e1 e2 = bin ?loc ?comment Plus e1 e2
 let float_minus ?loc ?comment e1 e2 = bin ?loc ?comment Minus e1 e2
+let float_neg e = float_minus negative_zero_float_lit e
 
 let rec unchecked_int32_add ?loc ?comment (e1 : t) (e2 : t) =
   match (e1.expression_desc, e2.expression_desc) with
