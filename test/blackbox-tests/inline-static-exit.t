@@ -32,8 +32,11 @@ The original function and functor must still take their false branches.
   function pick(x, y, flag) {
     if (x !== 0 && y !== 0) {
       return "other";
-    } else {
+    }
+    if (flag) {
       return "t";
+    } else {
+      return big("a") + big("b");
     }
   }
   
@@ -51,8 +54,11 @@ The original function and functor must still take their false branches.
     const pick = function (x, y) {
       if (x !== 0 && y !== 0) {
         return "other";
-      } else {
+      }
+      if (X.flag) {
         return "t";
+      } else {
+        return big("a") + big("b");
       }
     };
     return {
@@ -73,10 +79,15 @@ The original function and functor must still take their false branches.
   };
   
   function pick$2(x, y) {
-    if (x !== 0 && y !== 0) {
-      return "other";
+    if (x !== 0) {
+      if (y !== 0) {
+        return "other";
+      } else {
+        return big("a") + big("b");
+      }
+    } else {
+      return big("a") + big("b");
     }
-    return big("a") + big("b");
   }
   
   const B = {
@@ -101,8 +112,8 @@ The original function and functor must still take their false branches.
   > }
   > JS
   t a!ab!b
-  t t t a!ab!b
-  t t t a!ab!b
+  a!ab!b a!ab!b t a!ab!b
+  a!ab!b a!ab!b t a!ab!b
   other other other other
 
 Nested handlers, guarded bindings, exception exits, and cross-module copies
@@ -159,24 +170,50 @@ keep their own handlers (ReScript #9414).
   }
   
   function nested(x, y, z, w, flag) {
-    if (x !== 0 && y !== 0) {
-      return "outer";
+    let exit = 0;
+    if (x !== 0) {
+      if (y !== 0) {
+        return "outer";
+      }
+      exit = 1;
     } else {
-      return "t";
+      exit = 1;
     }
+    if (exit === 1) {
+      let exit$1 = 0;
+      if (z !== 0) {
+        if (w !== 0) {
+          return "inner";
+        }
+        exit$1 = 2;
+      } else {
+        exit$1 = 2;
+      }
+      if (exit$1 === 2) {
+        if (flag) {
+          return "t";
+        } else {
+          return big("a") + big("b");
+        }
+      }
+      
+    }
+    
   }
   
   const constant = "t";
   
   function guarded(x, y, flag) {
     if (x !== 0) {
-      if (y !== 5 || !flag) {
-        return "zero";
-      } else {
+      if (y === 5 && flag) {
         return big(String(x));
       }
+      
     } else if (flag) {
       return big(String(y));
+    }
+    if (x !== 0 && y !== 0) {
+      return "other";
     } else {
       return "zero";
     }
@@ -185,12 +222,17 @@ keep their own handlers (ReScript #9414).
   const bound_constant = big(String(5));
   
   function safe(x, flag) {
+    let val;
     try {
-      get(x);
-      return "t";
+      val = get(x);
     }
     catch (exn){
       return "raised";
+    }
+    if (flag) {
+      return "t";
+    } else {
+      return big("a") + big("b");
     }
   }
   
@@ -255,19 +297,7 @@ keep their own handlers (ReScript #9414).
   
   const x = 0;
   
-  let result$1;
-  
-  let exit = 0;
-  
-  if (x !== 0) {
-    result$1 = "other";
-  } else {
-    exit = 1;
-  }
-  
-  if (exit === 1) {
-    result$1 = "a" + (String(x) + String(x + 5 | 0));
-  }
+  const result$1 = x !== 0 ? "other" : "a" + (String(x) + String(x + 5 | 0));
   
   const B = {
     result: result$1
@@ -291,7 +321,7 @@ keep their own handlers (ReScript #9414).
   > const c = require('./cross_client.js');
   > console.log('cross', c.constant, c.both(0,5,false), c.both(1,5,false), c.A.result, c.B.result);
   > JS
-  nested t t t outer
-  guard 5!5 zero 3!3 zero
-  exception t t raised
+  nested t a!ab!b inner outer
+  guard 5!5 zero 3!3 other
+  exception t a!ab!b raised
   cross t t a05 other other t a05
