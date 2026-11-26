@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+- compiler: parenthesize sequence expressions in for-loop initializers
+  ([#2264](https://github.com/melange-re/melange/pull/2264))
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
