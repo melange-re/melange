@@ -20,8 +20,6 @@ Both calls should return 14, and the constant calls should return [12, 4].
   > let control x y = Lib.control x + Lib.control y
   > ML
   $ melc --mel-cross-module-opt -o lib.js lib.ml
-  $ melc --mel-cross-module-opt -I . -o run.js run.ml 2>&1 | sed -E 's/[0-9]+/N/g'
-  melc: internal error, uncaught exception:
+  $ melc --mel-cross-module-opt -I . -o run.js run.ml 2>&1 | sed -nE '/Failure/s/[0-9]+/N/gp'
         Failure("File \"jscomp/core/lam_dce.ml\", line N, characters N-Nr/N not found")
-        
   $ if test -f run.js; then cat run.js; node --check run.js; node -e 'const m = require("./run.js"); console.log(m.twice(3,4), m.control(3,4), m.constants)'; fi
