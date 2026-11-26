@@ -19,11 +19,11 @@ The generated functions must agree with JavaScript subtraction and negation.
   
   
   function subtract(x) {
-    return - x;
+    return 0 - x;
   }
   
   function subtract_int(x) {
-    return -x;
+    return 0 - x;
   }
   
   function negate(x) {
@@ -31,11 +31,11 @@ The generated functions must agree with JavaScript subtraction and negation.
   }
   
   function nested(x) {
-    return --x;
+    return 0 - (0 - x);
   }
   
   function negative_zero(x) {
-    return -0 - x;
+    return - x;
   }
   
   function integer(x) {
@@ -43,7 +43,7 @@ The generated functions must agree with JavaScript subtraction and negation.
   }
   
   function effects(param) {
-    return - next();
+    return 0 - next();
   }
   
   module.exports = {
@@ -69,13 +69,13 @@ The generated functions must agree with JavaScript subtraction and negation.
   > global.next = () => {throw new Error('operand')};
   > try {m.effects()} catch (e) {console.log(e.message)}
   > JS
-  0 false false true false true
-  -0 true true true false true
-  1 true true true false true
-  -1 true true true false true
+  0 true true true true true
+  -0 true true true true true
+  1 true true true true true
+  -1 true true true true true
   Infinity true true true true true
   -Infinity true true true true true
   NaN true true true true true
   integer 0 -2147483648
-  effects -Infinity 1
+  effects Infinity 1
   operand

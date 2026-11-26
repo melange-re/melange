@@ -548,6 +548,28 @@ and expression ~level cxt (exp : J.expression) : cxt =
   pp_comment_option cxt exp.comment;
   expression_desc cxt ~level exp.expression_desc
 
+and int32_operand ~level cxt (exp : J.expression) =
+  match exp.expression_desc with
+  | Bin
+      {
+        op = Minus;
+        expr1 = { expression_desc = Number (Int { i = 0l; _ }); _ };
+        expr2 = operand;
+      } ->
+      (* A bitwise operator discards the sign of zero. Keep integer negation
+         compact, separating minus signs so they cannot become a decrement. *)
+      pp_comment_option cxt exp.comment;
+      cond_paren_group cxt (level > 13) (fun () ->
+          string cxt
+            (match operand.expression_desc with
+            | Number _
+            | Bin { op = Minus; _ }
+            | Optional_block _ | Raw_js_code _ ->
+                "- "
+            | _ -> "-");
+          expression ~level:13 cxt operand)
+  | _ -> expression ~level cxt exp
+
 and expression_desc cxt ~(level : int) x : cxt =
   match x with
   | Null ->
@@ -728,23 +750,13 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Bin
       {
         op = Minus;
-        expr1 =
-          {
-            expression_desc =
-              Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
-            _;
-          };
+        expr1 = { expression_desc = Number (Float { f = "-0." }); _ };
         expr2 = e;
       }
-  (* TODO:
-     Handle multiple cases like
-     {[ 0. - x ]}
-     {[ 0.00 - x ]}
-     {[ 0.000 - x ]}
-  *)
+  (* [-0 - x] is negation; [0 - x] has a different result at positive zero. *)
     ->
       cond_paren_group cxt (level > 13) (fun () ->
-          string cxt (match desc with Float _ -> "- " | _ -> "-");
+          string cxt "- ";
           expression ~level:13 cxt e)
   | Bin { op; expr1 = e1; expr2 = e2 } ->
       let out, lft, rght = Js_op.Binop.prec op in
@@ -753,12 +765,17 @@ and expression_desc cxt ~(level : int) x : cxt =
       in
       (* We are more conservative here, to make the generated code more readable
             to the user *)
+      let operand =
+        match op with
+        | Bor | Bxor | Band | Lsl | Lsr | Asr -> int32_operand
+        | _ -> expression
+      in
       cond_paren_group cxt need_paren (fun () ->
-          let cxt = expression ~level:lft cxt e1 in
+          let cxt = operand ~level:lft cxt e1 in
           space cxt;
           string cxt (Js_op.Binop.to_string op);
           space cxt;
-          expression ~level:rght cxt e2)
+          operand ~level:rght cxt e2)
   | String_append { prefix = e1; suffix = e2 } ->
       let op = Js_op.Binop.Plus in
       let out, lft, rght = Js_op.Binop.prec op in

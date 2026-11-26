@@ -124,7 +124,6 @@ val float : ?loc:Location.t -> ?comment:string -> string -> t
 val zero_int_literal : t
 
 (* val one_int_literal : t *)
-val zero_float_lit : t
 (* val obj_int_tag_literal : t *)
 
 val is_out : ?comment:string -> t -> t -> t
@@ -208,6 +207,7 @@ val int32_band : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val int32_bor : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_add : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_minus : ?loc:Location.t -> ?comment:string -> t -> t -> t
+val float_neg : t -> t
 val float_mul : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_div : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val float_notequal : ?loc:Location.t -> ?comment:string -> t -> t -> t
