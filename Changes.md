@@ -50,8 +50,8 @@ Unreleased
   `String.split_on_char` performance on strings with many fields
   ([#2177](https://github.com/melange-re/melange/pull/2177))
 
-- compiler: initialize recursive records with consecutive numeric field names
-  as arrays, matching their nonrecursive representation
+- compiler: preserve recursive record layouts and backpatch cycles whose
+  initializers contain effects, local bindings or record updates
   ([#2171](https://github.com/melange-re/melange/pull/2171),
   [#2175](https://github.com/melange-re/melange/pull/2175))
 
