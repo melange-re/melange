@@ -409,18 +409,22 @@ and compile_recursive_let :
           args = ls;
           _;
         }
-      when List.for_all
-             ~f:(fun (x : Lam.t) ->
-               match x with
-               | Lvar pid ->
-                   Ident.same pid id
-                   || not
-                      @@ List.exists
-                           ~f:(fun (other, _) -> Ident.same other pid)
-                           all_bindings
-               | Lconst _ -> true
-               | _ -> false)
-             ls ->
+      when (match tag_info with
+             | Blk_record fields | Blk_record_inlined { fields; _ } ->
+                 not (Array.exists fields ~f:(String.equal "__proto__"))
+             | _ -> true)
+           && List.for_all
+                ~f:(fun (x : Lam.t) ->
+                  match x with
+                  | Lvar pid ->
+                      Ident.same pid id
+                      || not
+                         @@ List.exists
+                              ~f:(fun (other, _) -> Ident.same other pid)
+                              all_bindings
+                  | Lconst _ -> true
+                  | _ -> false)
+                ls ->
         (* capture cases like for {!Queue}
          {[let rec cell = { content = x; next = cell} ]}
          #1716: be careful not to optimize such cases:

@@ -112,7 +112,11 @@ let update_dummy : _ -> _ -> unit =
     }
   } else {
     for (var k in y){
-      x[k] = y[k]
+      if(k === "__proto__"){
+        Object.defineProperty(x,k,{value:y[k],writable:true,enumerable:true,configurable:true})
+      } else {
+        x[k] = y[k]
+      }
     }
   }
 }
