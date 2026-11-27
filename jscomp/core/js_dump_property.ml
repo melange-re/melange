@@ -74,8 +74,7 @@ let matches_js_int_literal_key s =
       | '0' .. '9' as c ->
           let digit = Char.code c - Char.code '0' in
           if acc > max_div_10 then false
-          else if acc = max_div_10 then
-            i + 1 = len && digit <= max_digit
+          else if acc = max_div_10 then i + 1 = len && digit <= max_digit
           else valid_digits_and_fits_int ~max_digit (i + 1) ((acc * 10) + digit)
       | _ -> false
   in
@@ -116,4 +115,6 @@ let property_access f s =
         else Js_dump_string.pp_string f s)
 
 let property_key (s : J.property_name) : string =
-  if obj_property_no_need_quot s then s else Js_dump_string.escape_to_string s
+  if String.equal s "__proto__" then "[\"__proto__\"]"
+  else if obj_property_no_need_quot s then s
+  else Js_dump_string.escape_to_string s

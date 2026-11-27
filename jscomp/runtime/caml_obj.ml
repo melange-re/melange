@@ -88,7 +88,7 @@ let caml_obj_dup : Obj.t -> Obj.t =
     }
     return v
   }
-  return Object.assign({},x)
+  return {...x}
 }|}]
 
 (**

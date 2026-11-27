@@ -248,6 +248,15 @@ let dummy_obj ?loc ?comment (info : Lam.Tag_info.t) : t =
      for other it is [[]]
   *)
   match info with
+  | Blk_record fields
+  | Blk_record_inlined { fields; _ }
+  | Blk_record_ext { fields; _ }
+    when Array.exists fields ~f:(String.equal "__proto__") ->
+      (* Backpatching assigns fields on this placeholder. An own data property
+         prevents the inherited prototype setter from intercepting this field. *)
+      make_expression ?loc ?comment
+        (Object
+           [ ("__proto__", make_expression (Undefined { is_unit = false })) ])
   | Blk_record _ | Blk_module _ | Blk_constructor _ | Blk_record_inlined _
   | Blk_poly_var | Blk_extension _ | Blk_record_ext _ ->
       make_expression ?loc ?comment (Object [])
