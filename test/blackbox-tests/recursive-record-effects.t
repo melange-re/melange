@@ -1,5 +1,6 @@
 Recursive blocks behind effects must keep their placeholder and backpatching.
 Each function must preserve its cycle and evaluate each initializer once.
+A recursive group read only by closures needs no placeholder for its record.
 
   $ . ./setup.sh
   $ printf '%s\n' '(lang dune 3.13)' '(using melange 0.1)' > dune-project
@@ -18,6 +19,9 @@ Each function must preserve its cycle and evaluate each initializer once.
   > let plain () = let rec n = {next=n;value=6} in n
   > type array_node = { next : array_node [@mel.as "0"]; value : int [@mel.as "1"] }
   > let array_cycle () = let rec n = let v = id 7 in {next=n;value=v} in n
+  > type counter = { start : int; step : unit -> int }
+  > let rec next_count () = counter.start + 1
+  > and counter = incr calls; { start = id 10; step = (fun () -> next_count ()) }
   > ML
   $ dune build @melange
   $ cat _build/default/out/run.js
@@ -99,6 +103,23 @@ Each function must preserve its cycle and evaluate each initializer once.
     return n;
   }
   
+  calls.contents = calls.contents + 1 | 0;
+  
+  const counter_start = id(10);
+  
+  function counter_step(param) {
+    return counter.start + 1 | 0;
+  }
+  
+  const counter = {
+    start: counter_start,
+    step: counter_step
+  };
+  
+  function next_count(param) {
+    return counter_start + 1 | 0;
+  }
+  
   module.exports = {
     calls,
     id,
@@ -109,11 +130,14 @@ Each function must preserve its cycle and evaluate each initializer once.
     mutual,
     plain,
     array_cycle,
+    next_count,
+    counter,
   }
-  /* No side effect */
+  /* counter Not a pure module */
   $ node --check _build/default/out/run.js
   $ node <<'JS'
   > const m = require('./_build/default/out/run.js');
+  > console.log('counter', m.counter.start, m.counter.step(), m.calls.contents);
   > for (const name of ['sequence', 'binding', 'spread', 'mutual', 'plain', 'array_cycle']) {
   >   m.calls.contents = 0;
   >   try {
@@ -124,6 +148,7 @@ Each function must preserve its cycle and evaluate each initializer once.
   >   } catch (e) { console.log(name, e.name, m.calls.contents); }
   > }
   > JS
+  counter 10 11 2
   sequence ReferenceError 1
   binding ReferenceError 1
   spread ReferenceError 1
