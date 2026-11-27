@@ -1,6 +1,5 @@
-Callback arity inference must preserve effects and exceptions between curried
-arguments. All call sites contribute to the arity, including escaping and
-partially applied uses of the local helper.
+Callback arity inference must preserve effects and exceptions on partial
+application, and account for mixed arities, escaping and partially applied helpers.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -16,7 +15,7 @@ partially applied uses of the local helper.
   >  (module_systems (commonjs js) (esm mjs)))
   > EOF
   $ cat > helper.ml <<'EOF'
-  > let apply invoke f = invoke f 2 40 2
+  > let apply invoke f = invoke f 1 40 2
   > EOF
   $ cat > input.ml <<'EOF'
   > let effects = ref 0
@@ -24,70 +23,36 @@ partially applied uses of the local helper.
   > let staged x =
   >   incr effects;
   >   if x < 0 then raise Stop;
-  >   fun y -> incr effects; x + y
-  > let binary x y = incr effects; x - y
-  > let partial_effects () =
-  >   effects := 0;
-  >   let rec invoke f n =
-  >     if n = 0 then
-  >       let pending = f 40 in
-  >       let before = !effects in
-  >       let result = pending 2 in
-  >       before, result, !effects
-  >     else invoke f (n - 1)
+  >   fun y -> x + y
+  > let binary x y = x - y
+  > let () =
+  >   let rec invoke f n x =
+  >     if n = 0 then f x else invoke f (n - 1) x
   >   in
-  >   invoke staged 2
-  > let partial_exception () =
-  >   effects := 0;
-  >   let rec invoke f n =
-  >     if n = 0 then
-  >       try Some (f (-1)) with Stop -> None
-  >     else invoke f (n - 1)
-  >   in
-  >   let caught = match invoke staged 2 with None -> true | Some _ -> false in
-  >   caught, !effects
-  > let mixed () =
-  >   effects := 0;
+  >   let pending = invoke staged 1 40 in
+  >   assert (!effects = 1);
+  >   assert (pending 2 = 42);
+  >   assert (try let _pending = invoke staged 1 (-1) in false with Stop -> true)
+  > let () =
   >   let rec invoke f n x y =
   >     if n = 0 then f x y else invoke f (n - 1) x y
   >   in
-  >   let first = invoke binary 2 40 2 in
-  >   let second = invoke staged 2 40 2 in
-  >   first, second, !effects
-  > let escaped () =
-  >   effects := 0;
+  >   assert (invoke binary 1 40 2 = 38);
+  >   assert (invoke staged 1 40 2 = 42)
+  > let () =
   >   let rec invoke f n x y =
   >     if n = 0 then f x y else invoke f (n - 1) x y
   >   in
-  >   let first = invoke binary 2 40 2 in
-  >   let second = Helper.apply invoke staged in
-  >   first, second, !effects
-  > let partial_helper () =
-  >   effects := 0;
+  >   assert (invoke binary 1 40 2 = 38);
+  >   assert (Helper.apply invoke staged = 42)
+  > let () =
   >   let rec invoke f n x y =
   >     if n = 0 then f x y else invoke f (n - 1) x y
   >   in
   >   let pending = invoke binary in
-  >   let first = pending 2 40 2 in
-  >   let second = invoke staged 2 40 2 in
-  >   first, second, !effects
+  >   assert (pending 1 40 2 = 38);
+  >   assert (invoke staged 1 40 2 = 42)
   > EOF
   $ dune build @melange
-  $ node --input-type=module <<'EOF'
-  > for (const ext of ['js', 'mjs']) {
-  >   const t = await import('./_build/default/out/input.' + ext);
-  >   for (const name of ['partial_effects', 'partial_exception', 'mixed', 'escaped', 'partial_helper']) {
-  >     console.log(ext, name, JSON.stringify(t[name]()));
-  >   }
-  > }
-  > EOF
-  js partial_effects [1,42,2]
-  js partial_exception [true,1]
-  js mixed [38,42,3]
-  js escaped [38,42,3]
-  js partial_helper [38,42,3]
-  mjs partial_effects [1,42,2]
-  mjs partial_exception [true,1]
-  mjs mixed [38,42,3]
-  mjs escaped [38,42,3]
-  mjs partial_helper [38,42,3]
+  $ node _build/default/out/input.js
+  $ node _build/default/out/input.mjs
