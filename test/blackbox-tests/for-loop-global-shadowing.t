@@ -33,7 +33,7 @@ All cases should return 3, except the nested loop, which should return 9.
   
   function simple(param) {
     let count = 0;
-    for (let i = 0, i_finish = i_finish(); i <= i_finish; ++i) {
+    for (let i = 0, i_finish$1 = i_finish(); i <= i_finish$1; ++i) {
       count = count + 1 | 0;
     }
     return count;
@@ -41,7 +41,7 @@ All cases should return 3, except the nested loop, which should return 9.
   
   function path(param) {
     let count = 0;
-    for (let i = 0, i_finish = i_finish.value(); i <= i_finish; ++i) {
+    for (let i = 0, i_finish$1 = i_finish.value(); i <= i_finish$1; ++i) {
       count = count + 1 | 0;
     }
     return count;
@@ -49,7 +49,7 @@ All cases should return 3, except the nested loop, which should return 9.
   
   function reserved(param) {
     let count = 0;
-    for (let $$switch = 0, switch_finish = switch_finish(); $$switch <= switch_finish; ++$$switch) {
+    for (let $$switch = 0, switch_finish$1 = switch_finish(); $$switch <= switch_finish$1; ++$$switch) {
       count = count + 1 | 0;
     }
     return count;
@@ -57,8 +57,8 @@ All cases should return 3, except the nested loop, which should return 9.
   
   function nested(param) {
     let count = 0;
-    for (let i = 0, i_finish = i_finish(); i <= i_finish; ++i) {
-      for (let i$1 = 0, i_finish$1 = i_finish(); i$1 <= i_finish$1; ++i$1) {
+    for (let i = 0, i_finish$1 = i_finish(); i <= i_finish$1; ++i) {
+      for (let i$1 = 0, i_finish$2 = i_finish(); i$1 <= i_finish$2; ++i$1) {
         count = count + 1 | 0;
       }
     }
@@ -83,7 +83,7 @@ All cases should return 3, except the nested loop, which should return 9.
   
   function suffixed(param) {
     let count = 0;
-    for (let i = i_finish(), i_finish = i_finish$1(); i <= i_finish; ++i) {
+    for (let i = i_finish(), i_finish$2 = i_finish$1(); i <= i_finish$2; ++i) {
       count = count + 1 | 0;
     }
     return count;
@@ -138,10 +138,10 @@ All cases should return 3, except the nested loop, which should return 9.
   > }
   > console.log('module local', !Object.hasOwn(globalThis, 'j_start'), !Object.hasOwn(globalThis, 'j_finish'));
   > JS
-  simple ReferenceError
-  path ReferenceError
-  reserved ReferenceError
-  nested ReferenceError
+  simple 3
+  path 3
+  reserved 3
+  nested 9
   parameter 3
   bounds 3
   suffixed ReferenceError

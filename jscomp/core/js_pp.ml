@@ -237,7 +237,14 @@ module Scope = struct
     | Some entry -> (
         match Int.Map.find_opt stamp entry.stamps with
         | None ->
-            let v = entry.next in
+            let rec available i =
+              (* A raw global can already have the spelling of a generated
+                 suffix, for example [i_finish$1]. *)
+              if String.Map.mem (name ^ "$" ^ string_of_int i) cxt then
+                available (i + 1)
+              else i
+            in
+            let v = available entry.next in
             ( v,
               String.Map.add ~key:name
                 ~data:
