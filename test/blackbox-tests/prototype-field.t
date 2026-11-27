@@ -9,7 +9,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   > let update r p = { r with p }
   > let preserve r = { r with other = 2 }
   > let duplicate r = Obj.dup r
-  > type 'a node = { p : 'a [@mel.as "__proto__"]; next : 'a node }
+  > type 'a node = { next : 'a node; p : 'a [@mel.as "__proto__"] }
   > let cycle p = let rec n = { p; next = n } in n
   > let[@inline never] id x = x
   > let backpatched p = let rec n = { p = id p; next = n } in n
@@ -46,8 +46,8 @@ Integer and object payloads must survive construction, updates, copies and cycle
   
   function cycle(p) {
     let n = {};
-    n.__proto__ = p;
     n.next = n;
+    n.__proto__ = p;
     return n;
   }
   
@@ -58,8 +58,8 @@ Integer and object payloads must survive construction, updates, copies and cycle
   function backpatched(p) {
     let n = {};
     Caml_obj.update_dummy(n, {
-      __proto__: id(p),
-      next: n
+      next: n,
+      __proto__: id(p)
     });
     return n;
   }
@@ -99,7 +99,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   >   for (const name of ['cycle', 'backpatched']) {
   >     const r = m[name](value);
   >     check(name, r, value);
-  >     console.log('cycle intact', r.next === r);
+  >     console.log('cycle intact', r.next === r, Object.keys(r).join(','));
   >   }
   > }
   > let reads = 0;
@@ -113,16 +113,16 @@ Integer and object payloads must survive construction, updates, copies and cycle
   preserve false false true false
   duplicate false false true false
   cycle false false true false
-  cycle intact true
+  cycle intact true next
   backpatched false false true false
-  cycle intact true
+  cycle intact true next
   make false true false false
   update false true false false
   preserve false true false false
   duplicate false true false false
   cycle false true false false
-  cycle intact true
+  cycle intact true next
   backpatched false false true false
-  cycle intact true
+  cycle intact true next,marker
   getter copy false false true false
   reads 1 array [1,2]
