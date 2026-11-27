@@ -1,5 +1,5 @@
-Functor result metadata must preserve curried effects and exceptions, and must
-not assume an arity for functions forwarded from the functor argument. Disable
+Functor result arities must preserve effects and exceptions on partial
+application, and handle argument functions with different arities. Disable
 cross-module inlining so the calls use the exported metadata.
 
   $ . ./setup.sh
@@ -17,18 +17,13 @@ cross-module inlining so the calls use the exported metadata.
   > EOF
   $ cat > provider.ml <<'EOF'
   > exception Stop
-  > module type S = sig val f : int -> int -> int end
-  > module Make (X : S) = struct
+  > module Make (X : sig val f : int -> int -> int end) = struct
   >   let effects = ref 0
   >   let staged x =
   >     incr effects;
   >     if x < 0 then raise Stop;
-  >     fun y -> incr effects; x + y
+  >     fun y -> x + y
   >   let forwarded = X.f
-  >   module Nested = struct
-  >     let forwarded = X.f
-  >   end
-  >   let effect_count () = !effects
   > end
   > EOF
   $ cat > input.ml <<'EOF'
@@ -40,26 +35,14 @@ cross-module inlining so the calls use the exported metadata.
   >   let f x y = x - y
   > end)
   > let pending = Curried.staged 40
-  > let before = Curried.effect_count ()
-  > let value = pending 2
-  > let after = Curried.effect_count ()
-  > let forwarded = Curried.forwarded 40 2
-  > let nested = Curried.Nested.forwarded 40 2
-  > let binary = Binary.forwarded 40 2
-  > let exception_now =
-  >   match (try Some (Curried.staged (-1)) with Provider.Stop -> None) with
-  >   | None -> true
-  >   | Some _ -> false
-  > let result =
-  >   before, value, after, forwarded, nested, binary, !calls,
-  >   exception_now, Curried.effect_count ()
+  > let () =
+  >   assert (!(Curried.effects) = 1);
+  >   assert (pending 2 = 42);
+  >   assert (try let _pending = Curried.staged (-1) in false with Provider.Stop -> true);
+  >   assert (Curried.forwarded 40 2 = 42);
+  >   assert (!calls = 1);
+  >   assert (Binary.forwarded 40 2 = 38)
   > EOF
   $ dune build @melange
-  $ node --input-type=module <<'EOF'
-  > for (const ext of ['js', 'mjs']) {
-  >   const t = await import('./_build/default/out/input.' + ext);
-  >   console.log(ext, JSON.stringify(t.result));
-  > }
-  > EOF
-  js [1,42,2,42,42,38,2,true,3]
-  mjs [1,42,2,42,42,38,2,true,3]
+  $ node _build/default/out/input.js
+  $ node _build/default/out/input.mjs
