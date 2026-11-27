@@ -1,6 +1,6 @@
-A functor can capture a recursive module's function during initialization.
-The module must have its fields before the functor reads them, even when
-the captured function refers back to the functor result.
+A functor must capture initialized fields from a recursive module, even when
+the captured function refers back to the functor result. The second function
+in A is needed to trigger lifting of the module's local bindings.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -17,47 +17,25 @@ the captured function refers back to the functor result.
   > EOF
   $ cat > capture.ml <<'EOF'
   > module type S = sig
-  >   type t
-  >   val compare : t -> t -> int
+  >   val f : int -> int
   >   val identity : int -> int
   > end
   > module Make (X : S) = struct
-  >   type t = X.t
   >   let empty = 0
-  >   let compare = X.compare
+  >   let f = X.f
   > end
   > EOF
   $ cat > input.ml <<'EOF'
-  > module rec A : sig
-  >   type t = Leaf of string | Node of ASet.t
-  >   val compare : t -> t -> int
-  >   val identity : int -> int
-  > end = struct
-  >   type t = Leaf of string | Node of ASet.t
-  >   let compare x y =
-  >     match x, y with
-  >     | Leaf _, Leaf _ -> 42
-  >     | Node a, Node b -> ASet.compare a b
-  >     | _ -> 0
+  > module rec A : Capture.S = struct
+  >   let f n = if n = 0 then 42 else B.f (n - 1)
   >   let identity x = x
   > end
-  > and ASet : sig
-  >   type t = A.t
+  > and B : sig
   >   val empty : int
-  >   val compare : t -> t -> int
+  >   val f : int -> int
   > end = Capture.Make(A)
-  > let result = ASet.compare (A.Leaf "a") (A.Leaf "b")
+  > let () = assert (B.f 1 = 42)
   > EOF
   $ dune build @melange
-  $ node --input-type=module <<'EOF'
-  > for (const ext of ['js', 'mjs']) {
-  >   try {
-  >     const t = await import('./_build/default/out/input.' + ext);
-  >     console.log(ext, t.result);
-  >   } catch (e) {
-  >     console.log(ext, e.name, e.message);
-  >   }
-  > }
-  > EOF
-  js 42
-  mjs 42
+  $ node _build/default/out/input.js
+  $ node _build/default/out/input.mjs
