@@ -14,6 +14,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   > type 'a node = { next : 'a node; p : 'a [@mel.as "__proto__"] }
   > let cycle p = let rec n = { p; next = n } in n
   > let[@inline never] id x = x
+  > let update_try (r : _ record) f = { r with p = (try f () with _ -> r.p) }
   > let backpatched p = let rec n = { p = id p; next = n } in n
   > ML
   $ dune build @melange
@@ -22,6 +23,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   'use strict';
   
   const Caml_obj = require("melange.js/caml_obj.js");
+  const Curry = require("melange.js/curry.js");
   
   function make(p) {
     return {
@@ -57,6 +59,20 @@ Integer and object payloads must survive construction, updates, copies and cycle
     return x;
   }
   
+  function update_try(r, f) {
+    let tmp;
+    try {
+      tmp = Curry._1(f, undefined);
+    }
+    catch (exn){
+      tmp = r.__proto__;
+    }
+    return {
+      __proto__: tmp,
+      other: r.other
+    };
+  }
+  
   function backpatched(p) {
     let n = {};
     Caml_obj.update_dummy(n, {
@@ -79,6 +95,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
     duplicate,
     cycle,
     id,
+    update_try,
     backpatched,
   }
   /* No side effect */
@@ -96,6 +113,10 @@ Integer and object payloads must survive construction, updates, copies and cycle
   >   const base = {['__proto__']:value, other:1};
   >   check('make', m.make(value), value);
   >   check('update', m.update(base, value), value);
+  >   let calls = 0;
+  >   check('try', m.update_try(base, () => {calls++; return value}), value);
+  >   check('catch', m.update_try(base, () => {calls++; throw new Error('test')}), value);
+  >   console.log('calls', calls);
   >   check('preserve', m.preserve(base), value);
   >   check('duplicate', m.duplicate(base), value);
   >   for (const name of ['cycle', 'backpatched']) {
@@ -112,6 +133,9 @@ Integer and object payloads must survive construction, updates, copies and cycle
   constant false false true false
   make false false true false
   update false false true false
+  try false false true false
+  catch false false true false
+  calls 2
   preserve false false true false
   duplicate false false true false
   cycle false false true false
@@ -120,6 +144,9 @@ Integer and object payloads must survive construction, updates, copies and cycle
   cycle intact true next
   make false true false false
   update false true false false
+  try false true false false
+  catch false true false false
+  calls 2
   preserve false true false false
   duplicate false true false false
   cycle false true false false
