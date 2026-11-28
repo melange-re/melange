@@ -53,15 +53,7 @@ consistently, whether or not the assignment's branch is taken.
   
   const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
   
-  const X = {
-    flag: false
-  };
-  
   let r = 0;
-  
-  if (X.flag) {
-    r = 42;
-  }
   
   const value = r;
   
@@ -69,7 +61,7 @@ consistently, whether or not the assignment's branch is taken.
     value
   };
   
-  if (M.value !== 0) {
+  if (value !== 0) {
     throw new Caml_js_exceptions.MelangeError("Assert_failure", {
         MEL_EXN_ID: "Assert_failure",
         _1: [
@@ -83,7 +75,7 @@ consistently, whether or not the assignment's branch is taken.
   module.exports = {
     M,
   }
-  /* M Not a pure module */
+  /*  Not a pure module */
   $ node _build/default/out/input.js
   $ node _build/default/out/input.mjs
 

@@ -108,10 +108,7 @@ function fib(n) {
 }
 
 function zs(param) {
-  return Stdlib__List.hd({
-    hd: 2,
-    tl: /* [] */ 0
-  });
+  return Stdlib__List.hd(xs[0]);
 }
 
 const xs_0 = {

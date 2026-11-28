@@ -2,10 +2,7 @@
 'use strict';
 
 const Caml = require("melange.js/caml.js");
-const Caml_obj = require("melange.js/caml_obj.js");
 const Stdlib__Set = require("melange/set.js");
-
-let A = {};
 
 function compare(t1, t2) {
   if (t1.TAG === /* Leaf */ 0) {
@@ -21,11 +18,11 @@ function compare(t1, t2) {
   }
 }
 
-const ASet = Stdlib__Set.Make(A);
-
-Caml_obj.update_dummy(A, {
+const A = {
   compare
-});
+};
+
+const ASet = Stdlib__Set.Make(A);
 
 const X0 = {};
 
