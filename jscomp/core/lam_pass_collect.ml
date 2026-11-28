@@ -172,8 +172,14 @@ let collect_info =
           ~f:(fun p -> Ident.Hashtbl.add meta.ident_tbl ~key:p ~data:Parameter)
           params;
         collect meta l
-    | Llet (_, ident, arg, body) | Lmutlet (ident, arg, body) ->
+    | Llet (_, ident, arg, body) ->
         collect_bind meta Lam_non_rec ident arg;
+        collect meta body
+    | Lmutlet (ident, arg, body) ->
+        collect meta arg;
+        (* Assignments can change the initializer's arity and call summary.
+           Keep the binding unknown across collection passes. *)
+        Ident.Hashtbl.replace meta.ident_tbl ~key:ident ~data:NA;
         collect meta body
     | Lletrec (bindings, body) ->
         (match bindings with
