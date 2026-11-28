@@ -1326,7 +1326,7 @@ function set(tbl, ind, c) {
 }
 
 function blit(src, srcoff, dst, dstoff, len) {
-  for (let i = 0; i < len; ++i) {
+  for (let i = 0, i_finish = len; i < i_finish; ++i) {
     set(dst, dstoff + i | 0, get(src, srcoff + i | 0));
   }
 }
@@ -1338,7 +1338,7 @@ function output(oc, tbl, pos, len) {
 }
 
 function unsafe_blit_to_bytes(src, srcoff, dst, dstoff, len) {
-  for (let i = 0; i < len; ++i) {
+  for (let i = 0, i_finish = len; i < i_finish; ++i) {
     dst[dstoff + i | 0] = get(src, srcoff + i | 0);
   }
 }
@@ -1371,14 +1371,14 @@ function edit_distance(a, b, cutoff) {
   }
   const m = Stdlib__Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
   Caml_array.set(Caml_array.get(m, 0), 0, 0);
-  for (let i = 1; i <= la; ++i) {
+  for (let i = 1, i_finish = la; i <= i_finish; ++i) {
     Caml_array.set(Caml_array.get(m, i), 0, i);
   }
-  for (let j = 1; j <= lb; ++j) {
+  for (let j = 1, j_finish = lb; j <= j_finish; ++j) {
     Caml_array.set(Caml_array.get(m, 0), j, j);
   }
-  for (let i$1 = 1; i$1 <= la; ++i$1) {
-    for (let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0), j_finish = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish; ++j$1) {
+  for (let i$1 = 1, i_finish$1 = la; i$1 <= i_finish$1; ++i$1) {
+    for (let j$1 = Caml.caml_int_max(1, (i$1 - cutoff$1 | 0) - 1 | 0), j_finish$1 = Caml.caml_int_min(lb, (i$1 + cutoff$1 | 0) + 1 | 0); j$1 <= j_finish$1; ++j$1) {
       const cost = Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? 0 : 1;
       const best = Caml.caml_int_min(1 + Caml.caml_int_min(Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1), Caml_array.get(Caml_array.get(m, i$1), j$1 - 1 | 0)) | 0, Caml_array.get(Caml_array.get(m, i$1 - 1 | 0), j$1 - 1 | 0) + cost | 0);
       const best$1 = i$1 > 1 && j$1 > 1 && Caml_string.get(a, i$1 - 1 | 0) === Caml_string.get(b, j$1 - 2 | 0) && Caml_string.get(a, i$1 - 2 | 0) === Caml_string.get(b, j$1 - 1 | 0) ? Caml.caml_int_min(best, Caml_array.get(Caml_array.get(m, i$1 - 2 | 0), j$1 - 2 | 0) + cost | 0) : best;
@@ -2211,7 +2211,7 @@ function parse_opt(error, active, flags, s) {
     }
     const match$1 = get_range(i);
     for (let n = match$1[1], n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n) {
-      Curry._1(myset, n);
+      myset(n);
     }
     loop(match$1[0]);
   };
@@ -3297,7 +3297,7 @@ function highlight_dumb(ppf, lb, loc) {
   const end_pos = (lb.lex_buffer_len - pos0 | 0) - 1 | 0;
   let line_start = 0;
   let line_end = 0;
-  for (let pos = 0; pos <= end_pos; ++pos) {
+  for (let pos = 0, pos_finish = end_pos; pos <= pos_finish; ++pos) {
     if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* '\n' */10) {
       if (loc.loc_start.pos_cnum > pos) {
         line_start = line_start + 1 | 0;
@@ -3345,7 +3345,7 @@ function highlight_dumb(ppf, lb, loc) {
   Stdlib__Format.pp_print_string(ppf, "  ");
   let line = 0;
   let pos_at_bol = 0;
-  for (let pos$1 = 0; pos$1 <= end_pos; ++pos$1) {
+  for (let pos$1 = 0, pos_finish$1 = end_pos; pos$1 <= pos_finish$1; ++pos$1) {
     const c = Caml_bytes.get(lb.lex_buffer, pos$1 + pos0 | 0);
     if (c !== 10) {
       if (c !== 13) {
@@ -7459,7 +7459,7 @@ function text_def(pos) {
 function extra_text(text, pos, items) {
   const pre_extras = get_pre_extra_text(Stdlib__Parsing.rhs_start_pos(pos));
   const post_extras = get_post_extra_text(Stdlib__Parsing.rhs_end_pos(pos));
-  return Stdlib.$at(Curry._1(text, pre_extras), Stdlib.$at(items, Curry._1(text, post_extras)));
+  return Stdlib.$at(text(pre_extras), Stdlib.$at(items, text(post_extras)));
 }
 
 function extra_cstr(pos, items) {
@@ -14296,7 +14296,7 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     let _param;
     while (true) {
-      const t = Curry._1(token_with_comments, lexbuf);
+      const t = token_with_comments(lexbuf);
       if (/* tag */ typeof t !== "object" && typeof t !== "function") {
         switch (t) {
           case /* EOF */ 25 :
@@ -14347,11 +14347,11 @@ function directive_parse(token_with_comments, lexbuf) {
           exit = 1;
           break;
         default:
-          return Curry._1(no, op);
+          return no(op);
       }
     } else {
       if (op.TAG !== /* INFIXOP0 */ 2) {
-        return Curry._1(no, op);
+        return no(op);
       }
       switch (op._0) {
         case "=~" :
@@ -14404,7 +14404,7 @@ function directive_parse(token_with_comments, lexbuf) {
           exit = 1;
           break;
         default:
-          return Curry._1(no, op);
+          return no(op);
       }
     }
     if (exit === 1) {
@@ -15102,7 +15102,7 @@ function with_comment_buffer(comment, lexbuf) {
     tl: /* [] */ 0
   };
   reset_string_buffer();
-  const end_loc = Curry._1(comment, lexbuf);
+  const end_loc = comment(lexbuf);
   const s = get_stored_string();
   reset_string_buffer();
   const loc_loc_start = start_loc.loc_start;
@@ -16348,7 +16348,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
           case /* Dir_if_true */ 0 :
           case /* Dir_if_false */ 1 :
             if_then_else.contents = /* Dir_out */ 2;
-            return Curry._1(cont, lexbuf);
+            return cont(lexbuf);
           case /* Dir_out */ 2 :
             throw new Caml_js_exceptions.MelangeError($$Error$2, {
                 MEL_EXN_ID: $$Error$2,
@@ -16368,7 +16368,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
           case /* Dir_out */ 2 :
             if (directive_parse(token_with_comments, lexbuf)) {
               if_then_else.contents = /* Dir_if_true */ 0;
-              return Curry._1(cont, lexbuf);
+              return cont(lexbuf);
             } else {
               let _param;
               while (true) {
@@ -16386,10 +16386,10 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                     switch (token$1) {
                       case /* ELSE */ 23 :
                         if_then_else.contents = /* Dir_if_false */ 1;
-                        return Curry._1(cont, lexbuf);
+                        return cont(lexbuf);
                       case /* END */ 24 :
                         if_then_else.contents = /* Dir_out */ 2;
-                        return Curry._1(cont, lexbuf);
+                        return cont(lexbuf);
                       case /* IF */ 37 :
                         throw new Caml_js_exceptions.MelangeError($$Error$2, {
                             MEL_EXN_ID: $$Error$2,
@@ -16400,7 +16400,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                   }
                   if (is_elif(token$1) && directive_parse(token_with_comments, lexbuf)) {
                     if_then_else.contents = /* Dir_if_true */ 0;
-                    return Curry._1(cont, lexbuf);
+                    return cont(lexbuf);
                   }
                   _param = undefined;
                   continue;
@@ -16411,14 +16411,14 @@ function interpret_directive(lexbuf, cont, look_ahead) {
             }
         }
       default:
-        return Curry._1(look_ahead, match);
+        return look_ahead(match);
     }
   } else {
     if (match.TAG !== /* LIDENT */ 11) {
-      return Curry._1(look_ahead, match);
+      return look_ahead(match);
     }
     if (match._0 !== "elif") {
-      return Curry._1(look_ahead, match);
+      return look_ahead(match);
     }
     switch (if_then_else$1) {
       case /* Dir_if_true */ 0 :
@@ -16461,7 +16461,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                 continue;
               case /* END */ 24 :
                 if_then_else.contents = /* Dir_out */ 2;
-                return Curry._1(cont, lexbuf);
+                return cont(lexbuf);
               case /* IF */ 37 :
                 throw new Caml_js_exceptions.MelangeError($$Error$2, {
                     MEL_EXN_ID: $$Error$2,
@@ -16483,7 +16483,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
       };
     case /* Dir_if_false */ 1 :
     case /* Dir_out */ 2 :
-      return Curry._1(look_ahead, match);
+      return look_ahead(match);
   }
 }
 
@@ -16815,7 +16815,7 @@ function wrap(parsing_fun, lexbuf) {
   try {
     init$1();
     init$2();
-    const ast = Curry._2(parsing_fun, token$1, lexbuf);
+    const ast = parsing_fun(token$1, lexbuf);
     Stdlib__Parsing.clear_parser();
     warn_bad_docstrings();
     return ast;

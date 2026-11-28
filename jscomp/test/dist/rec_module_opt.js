@@ -2,7 +2,6 @@
 'use strict';
 
 const Caml = require("melange.js/caml.js");
-const Curry = require("melange.js/curry.js");
 const Stdlib__Set = require("melange/set.js");
 
 function compare(t1, t2) {
@@ -15,7 +14,7 @@ function compare(t1, t2) {
   } else if (t2.TAG === /* Leaf */ 0) {
     return -1;
   } else {
-    return Curry._2(ASet.compare, t1._0, t2._0);
+    return ASet.compare(t1._0, t2._0);
   }
 }
 

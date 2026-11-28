@@ -29,7 +29,7 @@ function reverse(a) {
     return [];
   }
   const b = Stdlib__Array.copy(a);
-  for (let i = 0; i < b_len; ++i) {
+  for (let i = 0, i_finish = b_len; i < i_finish; ++i) {
     b[i] = a[(b_len - 1 | 0) - i | 0];
   }
   return b;

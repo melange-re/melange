@@ -53,7 +53,7 @@ function ierr(b, str, f) {
       _1: "%s "
     }, f)), str);
   } else {
-    return Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
+    return Curry._1(Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String */ 2,
@@ -65,7 +65,7 @@ function ierr(b, str, f) {
         }
       },
       _1: "%s "
-    }, f))(str);
+    }, f)), str);
   }
 }
 
@@ -117,7 +117,7 @@ function iwarn(b, str, f) {
       _1: "WARN: %s "
     }, f)), str);
   } else {
-    return Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
+    return Curry._1(Stdlib__Format.ifprintf(Stdlib__Format.err_formatter, $caret$caret({
       TAG: /* Format */ 0,
       _0: {
         TAG: /* String_literal */ 11,
@@ -133,7 +133,7 @@ function iwarn(b, str, f) {
         }
       },
       _1: "WARN: %s "
-    }, f))(str);
+    }, f)), str);
   }
 }
 

@@ -1500,4 +1500,4 @@ module.exports = {
   ASet,
   suites,
 }
-/* ASet Not a pure module */
+/*  Not a pure module */

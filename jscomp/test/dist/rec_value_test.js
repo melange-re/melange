@@ -4,7 +4,6 @@
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
 const CamlinternalLazy = require("melange/camlinternalLazy.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 const Stdlib__List = require("melange/list.js");
 
@@ -497,7 +496,7 @@ const suites_1 = {
                           if (rec_variant_b.TAG === /* B */ 0) {
                             return {
                               TAG: /* Eq */ 0,
-                              _0: Curry._1(rec_variant_b_1, undefined),
+                              _0: rec_variant_b_1(),
                               _1: rec_variant_a
                             };
                           }
@@ -518,7 +517,7 @@ const suites_1 = {
                             if (rec_variant_a.TAG !== /* B */ 0) {
                               return {
                                 TAG: /* Eq */ 0,
-                                _0: Curry._1(rec_variant_a_1, undefined),
+                                _0: rec_variant_a_1(),
                                 _1: rec_variant_b
                               };
                             }

@@ -70,3 +70,9 @@ let exists_ident (lam : Lam.t) ~(f : Ident.t -> bool) =
     | lam -> exists lam ~f:loop
   in
   loop lam
+
+let iter (l : Lam.t) ~(f : Lam.t -> unit) =
+  ignore
+    (exists l ~f:(fun child ->
+         f child;
+         false))

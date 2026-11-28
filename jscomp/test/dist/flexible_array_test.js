@@ -247,7 +247,7 @@ function filter_from(i, p, s) {
   let u = empty;
   for (let i$1 = i, i_finish = length(s); i$1 < i_finish; ++i$1) {
     const ele = get(s, i$1);
-    if (Curry._1(p, ele)) {
+    if (p(ele)) {
       u = push_back(u, ele);
     }
     

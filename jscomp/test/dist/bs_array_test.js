@@ -6,7 +6,6 @@ const Belt__Belt_List = require("melange.belt/belt_List.js");
 const Caml = require("melange.js/caml.js");
 const Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 const Caml_obj = require("melange.js/caml_obj.js");
-const Curry = require("melange.js/curry.js");
 const Mt = require("./mt.js");
 
 const suites = {
@@ -106,8 +105,8 @@ function f(param) {
 }
 
 b("File \"jscomp/test/bs_array_test.ml\", line 34, characters 4-11", Caml_obj.caml_equal([
-  Curry._1(f, 0),
-  Curry._1(f, 1)
+  f(0),
+  f(1)
 ], [
   0,
   1
@@ -288,9 +287,9 @@ function makeMatrixExn(sx, sy, init) {
       });
   }
   const res = new Array(sx);
-  for (let x = 0; x < sx; ++x) {
+  for (let x = 0, x_finish = sx; x < x_finish; ++x) {
     const initY = new Array(sy);
-    for (let y = 0; y < sy; ++y) {
+    for (let y = 0, y_finish = sy; y < y_finish; ++y) {
       initY[y] = init;
     }
     res[x] = initY;

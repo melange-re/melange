@@ -355,7 +355,7 @@ function random(param) {
 
 function random_vars(n) {
   const vars = Caml_array.make(n, false);
-  for (let i = 0; i < n; ++i) {
+  for (let i = 0, i_finish = n; i < i_finish; ++i) {
     Caml_array.set(vars, i, random());
   }
   return vars;

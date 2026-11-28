@@ -1712,7 +1712,7 @@ function elfgen(outf) {
     symitr(function (i, s) {
       const g = Caml_array.get(globs, i);
       if (g.va < 0 && g.loc !== 0) {
-        return Curry._3(f, s, s.length, g.loc);
+        return f(s, s.length, g.loc);
       }
       
     });
@@ -1778,7 +1778,7 @@ function elfgen(outf) {
   le(32, 1);
   le(32, n$2 + 1 | 0);
   le(32, n$2 > 0 ? 1 : 0);
-  for (let i = 1; i <= n$2; ++i) {
+  for (let i = 1, i_finish = n$2; i <= i_finish; ++i) {
     le(32, i);
   }
   le(32, 0);
@@ -1970,7 +1970,7 @@ function main(param) {
       };
       let stk = /* [] */ 0;
       opos.contents = 0;
-      Curry._1(c, stk);
+      c(stk);
       return Stdlib.print_bytes(Stdlib__Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
       let _param;

@@ -127,7 +127,7 @@ let () =
     (String.concat ~sep:"\n"
        (List.init ~len:number ~f:(fun i -> generate_apply (i + 1))))
     (String.concat ~sep:"\n"
-       (List.init ~len:8 ~f:(fun i -> generate_fun (i + 1))))
+       (List.init ~len:number ~f:(fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml curry_gen.ml > ../jscomp/runtime/curry.ml" *)
