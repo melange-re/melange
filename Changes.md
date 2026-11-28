@@ -50,6 +50,11 @@ Unreleased
   `String.split_on_char` performance on strings with many fields
   ([#2177](https://github.com/melange-re/melange/pull/2177))
 
+- compiler: preserve recursive record layouts and backpatch cycles whose
+  initializers contain effects, local bindings (including `let rec`) or record updates
+  ([#2171](https://github.com/melange-re/melange/pull/2171),
+  [#2175](https://github.com/melange-re/melange/pull/2175))
+
 - compiler: give each recursive binding its own dependency vector so independent
   recursive components remain separate
   ([#2150](https://github.com/melange-re/melange/pull/2150),

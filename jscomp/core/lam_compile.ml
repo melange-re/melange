@@ -252,6 +252,7 @@ and compile_external_field_apply ~dynamic_import (appinfo : Lam.apply)
 *)
 and compile_recursive_let :
     all_bindings:(Ident.t * Lam.t) list ->
+    recursive_ids:Ident.Set.t ->
     Lam_compile_context.t ->
     Ident.t ->
     Lam.t ->
@@ -324,6 +325,7 @@ and compile_recursive_let :
     | Lifused (_id, expr) -> hit_variable_outside_functions id expr
   in
   fun ~all_bindings
+    ~recursive_ids
     (cxt : Lam_compile_context.t)
     (id : Ident.t)
     (arg : Lam.t)
@@ -450,30 +452,13 @@ and compile_recursive_let :
                         | _ -> assert false)))
                  ls),
           [] )
-    | Lprim { primitive = Pmakeblock (_, tag_info, _); _ } -> (
+    | Lprim { primitive = Pmakeblock (_, tag_info, _); _ } ->
         (* Lconst should not appear here if we do [scc]
          optimization, since it's faked recursive value,
          however it would affect scope issues, we have to declare it first
       *)
-        match
-          compile_lambda { cxt with continuation = NeedValue Not_tail } arg
-        with
-        | { block = b; value = Some v; _ } ->
-            (* TODO: check recursive value ..
-              could be improved for simple cases
-          *)
-            ( Js_output.make
-                (List.append b
-                   [
-                     S.exp
-                       (E.runtime_call
-                          ~module_name:Js_runtime_modules.obj_runtime
-                          ~fn_name:"update_dummy"
-                          [ E.var id; v ]);
-                   ]),
-              [ S.define_variable ~kind:Variable id (E.dummy_obj tag_info) ] )
-        | _ -> assert false)
-    | _ ->
+        compile_into_dummy cxt id tag_info arg
+    | _ -> (
         (* pathological case:
           fail to capture taill call?
          {[ let rec a =
@@ -495,16 +480,57 @@ and compile_recursive_let :
                fun _-> print_endline "hey"; v ()
          ]}
       *)
-        (compile_lambda { cxt with continuation = Declare (Alias, id) } arg, [])
+        let rec block_tag : Lam.t -> Lam.Tag_info.t option = function
+          | Lsequence (_, body)
+          | Llet (_, _, _, body)
+          | Lmutlet (_, _, body)
+          | Lletrec (_, body) ->
+              block_tag body
+          | Lprim { primitive = Pmakeblock (_, tag_info, _); _ } ->
+              Some tag_info
+          | _ -> None
+        in
+        let rec reads_recursive_binding (arg : Lam.t) =
+          match arg with
+          | Lfunction _ -> false
+          | Lvar id | Lmutvar id -> Ident.Set.mem id recursive_ids
+          | Lassign (id, rhs) ->
+              Ident.Set.mem id recursive_ids || reads_recursive_binding rhs
+          | _ -> Lam_iter.exists arg ~f:reads_recursive_binding
+        in
+        match block_tag arg with
+        | Some tag_info when reads_recursive_binding arg ->
+            (* Effects and local bindings before a block do not remove its
+               need for a placeholder. Allocate before evaluating them. *)
+            compile_into_dummy cxt id tag_info arg
+        | _ ->
+            ( compile_lambda { cxt with continuation = Declare (Alias, id) } arg,
+              [] ))
+
+and compile_into_dummy cxt id tag_info arg =
+  match compile_lambda { cxt with continuation = NeedValue Not_tail } arg with
+  | { block; value = Some value; _ } ->
+      ( Js_output.make
+          (block
+          @ [
+              S.exp
+                (E.runtime_call ~module_name:Js_runtime_modules.obj_runtime
+                   ~fn_name:"update_dummy"
+                   [ E.var id; value ]);
+            ]),
+        [ S.define_variable ~kind:Variable id (E.dummy_obj tag_info) ] )
+  | _ -> assert false
 
 and compile_recursive_lets_aux cxt (id_args : Lam_scc.bindings) : Js_output.t =
   (* #1716 *)
   let output_code, ids =
     let id_args = Nonempty_list.to_list id_args in
+    let recursive_ids = Ident.Set.of_list (List.map id_args ~f:fst) in
     List.fold_right id_args ~init:(Js_output.dummy, [])
       ~f:(fun (ident, arg) (acc, ids) ->
         let code, declare_ids =
-          compile_recursive_let ~all_bindings:id_args cxt ident arg
+          compile_recursive_let ~all_bindings:id_args ~recursive_ids cxt ident
+            arg
         in
         (Js_output.append_output code acc, List.append declare_ids ids))
   in
