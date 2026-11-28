@@ -142,12 +142,11 @@ module Count = struct
           (* count [l2] first,
              If v is unused, l1 will be removed, so don't count its variables *)
           if kind = Strict || used v then count bv l1
-      | Lmutlet (_, l1, l2) ->
+      | Lmutlet (v, l1, l2) ->
           count bv l1;
-          count bv l2
-      | Lassign (_, l) ->
-          (* Lalias-bound variables are never assigned, so don't increase
-             this ident's refcount *)
+          count (bind_var bv v) l2
+      | Lassign (v, l) ->
+          add_one_use bv v;
           count bv l
       | Lglobal_module _ -> ()
       | Lprim { args; _ } -> List.iter ~f:(count bv) args
