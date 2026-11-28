@@ -1,6 +1,11 @@
 Unreleased
 ----------
 
+- compiler/runtime: preserve `__proto__` as an own data property in record
+  construction, recursive initialization and copies
+  ([#2080](https://github.com/melange-re/melange/pull/2080),
+   [#2270](https://github.com/melange-re/melange/pull/2270)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),

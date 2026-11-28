@@ -35,21 +35,21 @@ Integer and object payloads must survive construction, updates, copies and cycle
   
   function make(p) {
     return {
-      __proto__: p,
+      ["__proto__"]: p,
       other: 1
     };
   }
   
   function update(r, p) {
     return {
-      __proto__: p,
+      ["__proto__"]: p,
       other: r.other
     };
   }
   
   function preserve(r) {
     return {
-      __proto__: r.__proto__,
+      ["__proto__"]: r.__proto__,
       other: 2
     };
   }
@@ -58,8 +58,10 @@ Integer and object payloads must survive construction, updates, copies and cycle
   
   function cycle(p) {
     let n = {};
-    n.next = n;
-    n.__proto__ = p;
+    Caml_obj.update_dummy(n, {
+      next: n,
+      ["__proto__"]: p
+    });
     return n;
   }
   
@@ -76,7 +78,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
       tmp = r.__proto__;
     }
     return {
-      __proto__: tmp,
+      ["__proto__"]: tmp,
       other: r.other
     };
   }
@@ -85,7 +87,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
     let n = {};
     Caml_obj.update_dummy(n, {
       next: n,
-      __proto__: id(p)
+      ["__proto__"]: id(p)
     });
     return n;
   }
@@ -102,7 +104,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   
   function repeated(r, first, last) {
     return overwrite({
-      __proto__: r.__proto__,
+      ["__proto__"]: r.__proto__,
       other: 2
     }, first, last);
   }
@@ -112,7 +114,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   }
   
   const constant = {
-    __proto__: 5,
+    ["__proto__"]: 5,
     other: 1
   };
   
@@ -169,32 +171,32 @@ Integer and object payloads must survive construction, updates, copies and cycle
   > check('getter copy', m.duplicate(getter), 7);
   > console.log('reads', reads, 'array', JSON.stringify(m.duplicate([1,2])));
   > JS
-  constant false false true false
-  make false false true false
-  update false false true false
-  try false false true false
-  catch false false true false
+  constant true true true true
+  make true true true true
+  update true true true true
+  try true true true true
+  catch true true true true
   calls 2
-  preserve false false true false
-  duplicate false false true false
-  cycle false false true false
-  cycle intact true next
-  backpatched false false true false
-  cycle intact true next
-  make false true false false
-  update false true false false
-  try false true false false
-  catch false true false false
+  preserve true true true true
+  duplicate true true true true
+  cycle true true true true
+  cycle intact true next,__proto__
+  backpatched true true true true
+  cycle intact true next,__proto__
+  make true true true true
+  update true true true true
+  try true true true true
+  catch true true true true
   calls 2
-  preserve false true false false
-  duplicate false true false false
-  cycle false true false false
-  cycle intact true next
-  backpatched false false true false
-  cycle intact true next,marker
-  repeated false true false false
+  preserve true true true true
+  duplicate true true true true
+  cycle true true true true
+  cycle intact true next,__proto__
+  backpatched true true true true
+  cycle intact true next,__proto__
+  repeated true true true true
   snapshot true source intact true
-  repeated_copy false true false false
+  repeated_copy true true true true
   snapshot true source intact true
-  getter copy false false true false
+  getter copy true true true true
   reads 1 array [1,2]

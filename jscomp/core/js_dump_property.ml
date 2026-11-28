@@ -116,4 +116,6 @@ let property_access f s =
         else Js_dump_string.pp_string f s)
 
 let property_key (s : J.property_name) : string =
-  if obj_property_no_need_quot s then s else Js_dump_string.escape_to_string s
+  if String.equal s "__proto__" then "[\"__proto__\"]"
+  else if obj_property_no_need_quot s then s
+  else Js_dump_string.escape_to_string s
