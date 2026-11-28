@@ -51,7 +51,7 @@ Unreleased
   ([#2177](https://github.com/melange-re/melange/pull/2177))
 
 - compiler: preserve recursive record layouts and backpatch cycles whose
-  initializers contain effects, local bindings or record updates
+  initializers contain effects, local bindings (including `let rec`) or record updates
   ([#2171](https://github.com/melange-re/melange/pull/2171),
   [#2175](https://github.com/melange-re/melange/pull/2175))
 

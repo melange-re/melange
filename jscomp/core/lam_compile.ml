@@ -481,7 +481,10 @@ and compile_recursive_let :
          ]}
       *)
         let rec block_tag : Lam.t -> Lam.Tag_info.t option = function
-          | Lsequence (_, body) | Llet (_, _, _, body) | Lmutlet (_, _, body) ->
+          | Lsequence (_, body)
+          | Llet (_, _, _, body)
+          | Lmutlet (_, _, body)
+          | Lletrec (_, body) ->
               block_tag body
           | Lprim { primitive = Pmakeblock (_, tag_info, _); _ } ->
               Some tag_info
