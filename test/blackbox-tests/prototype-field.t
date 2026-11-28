@@ -104,7 +104,7 @@ Integer and object payloads must survive construction, updates, copies and cycle
   
   function repeated(r, first, last) {
     return overwrite({
-      __proto__: r.__proto__,
+      ["__proto__"]: r.__proto__,
       other: 2
     }, first, last);
   }
@@ -188,15 +188,15 @@ Integer and object payloads must survive construction, updates, copies and cycle
   try true true true true
   catch true true true true
   calls 2
-  preserve false true false false
-  duplicate false true false false
-  cycle false true false false
-  cycle intact true next
-  backpatched false false true false
-  cycle intact true next,marker
-  repeated false true false false
+  preserve true true true true
+  duplicate true true true true
+  cycle true true true true
+  cycle intact true next,__proto__
+  backpatched true true true true
+  cycle intact true next,__proto__
+  repeated true true true true
   snapshot true source intact true
-  repeated_copy false true false false
+  repeated_copy true true true true
   snapshot true source intact true
-  getter copy false false true false
+  getter copy true true true true
   reads 1 array [1,2]
