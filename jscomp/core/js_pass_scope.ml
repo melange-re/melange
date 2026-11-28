@@ -159,7 +159,21 @@ let record_scope_pass =
     statement =
       (fun self state x ->
         match x.statement_desc with
-        | ForRange { for_ident = loop_id; body = stmts; _ } ->
+        | ForRange
+            {
+              for_ident_expr;
+              finish_expr;
+              for_ident = loop_id;
+              body = stmts;
+              _;
+            } ->
+            (* Bounds are evaluated outside the counter's scope. Include their
+               free variables before the printer introduces its finish binding. *)
+            let state =
+              Option.fold for_ident_expr ~none:state
+                ~some:(self.expression self state)
+            in
+            let state = self.expression self state finish_expr in
             (* TODO: simplify definition of For *)
             let {
               defined_idents = defined_idents';

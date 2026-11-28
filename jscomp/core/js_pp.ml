@@ -237,7 +237,14 @@ module Scope = struct
     | Some entry -> (
         match Int.Map.find_opt stamp entry.stamps with
         | None ->
-            let v = entry.next in
+            let rec available i =
+              (* A raw global can already have the spelling of a generated
+                 suffix, for example [i_finish$1]. *)
+              if String.Map.mem (name ^ "$" ^ string_of_int i) cxt then
+                available (i + 1)
+              else i
+            in
+            let v = available entry.next in
             ( v,
               String.Map.add ~key:name
                 ~data:
@@ -291,19 +298,26 @@ module Scope = struct
     string f str;
     cxt
 
+  let scope_name id =
+    match Ident.Mangled.of_ident id with
+    | Mangled name -> name
+    | Reserved name -> (
+        (* Dotted globals are printed verbatim. Reserve their root, which is
+           the identifier a local binding could shadow. *)
+        match String.index_opt name '.' with
+        | None -> name
+        | Some len -> String.sub name ~pos:0 ~len)
+
   let merge (cxt : t) (set : Ident.Set.t) =
     Ident.Set.fold set ~init:cxt ~f:(fun ident acc ->
-        snd
-          (add_ident
-             ~mangled:(Ident.convert (Ident.name ident))
-             (Ident.stamp ident) acc))
+        snd (add_ident ~mangled:(scope_name ident) (Ident.stamp ident) acc))
 
   (* Assume that all idents are already in [scope]
      so both [param/0] and [param/1] are in idents, we don't need
      update twice,  once is enough *)
   let sub_scope (scope : t) (idents : Ident.Set.t) : t =
     Ident.Set.fold idents ~init:empty ~f:(fun id acc ->
-        let mangled = Ident.convert (Ident.name id) in
+        let mangled = scope_name id in
         match String.Map.find_opt mangled scope with
         | None -> assert false
         | Some entry ->

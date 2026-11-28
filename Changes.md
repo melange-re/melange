@@ -1,6 +1,10 @@
 Unreleased
 ----------
 
+- compiler: prevent local bindings and generated loop temporaries from
+  shadowing JavaScript globals, including dotted paths and suffixed names
+  ([#2242](https://github.com/melange-re/melange/pull/2242)).
+
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
   ([#2218](https://github.com/melange-re/melange/pull/2218),
