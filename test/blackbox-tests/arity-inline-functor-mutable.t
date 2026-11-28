@@ -1,10 +1,5 @@
-Inlining a functor must preserve the bindings of mutable locals, even when
-the branch that assigns to the reference is never taken.
-
-The generated input.js exposes an existing binding mismatch: it declares r
-but assigns r$1. The false flag keeps that assignment from executing. #2191
-inlines the functor earlier, in Lambda, where the unbound assignment causes
-a compiler error instead.
+Inlining a functor must rename mutable bindings, reads, and assignments
+consistently, whether or not the assignment's branch is taken.
 
   $ . ./setup.sh
   $ cat > dune-project <<'EOF'
@@ -65,7 +60,7 @@ a compiler error instead.
   let r = 0;
   
   if (X.flag) {
-    r$1 = 42;
+    r = 42;
   }
   
   const value = r;
@@ -89,5 +84,15 @@ a compiler error instead.
     M,
   }
   /* M Not a pure module */
+  $ node _build/default/out/input.js
+  $ node _build/default/out/input.mjs
+
+The assignment must also work when the branch is taken.
+
+  $ cat > input.ml <<'EOF'
+  > module M = Provider.Make (struct let flag = true end)
+  > let () = assert (M.value = 42)
+  > EOF
+  $ dune build @melange
   $ node _build/default/out/input.js
   $ node _build/default/out/input.mjs
