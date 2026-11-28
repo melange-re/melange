@@ -16,6 +16,14 @@ Integer and object payloads must survive construction, updates, copies and cycle
   > let[@inline never] id x = x
   > let update_try (r : _ record) f = { r with p = (try f () with _ -> r.p) }
   > let backpatched p = let rec n = { p = id p; next = n } in n
+  > type 'a writable = { mutable p : 'a [@mel.as "__proto__"]; other : int }
+  > let overwrite r first last =
+  >   r.p <- first;
+  >   let snapshot = r.p in
+  >   r.p <- last;
+  >   r, snapshot
+  > let repeated r first last = overwrite {r with other=2} first last
+  > let repeated_copy r first last = overwrite (Obj.obj (Obj.dup (Obj.repr r))) first last
   > ML
   $ dune build @melange
   $ cat _build/default/out/run.js
@@ -82,6 +90,27 @@ Integer and object payloads must survive construction, updates, copies and cycle
     return n;
   }
   
+  function overwrite(r, first, last) {
+    r.__proto__ = first;
+    const snapshot = r.__proto__;
+    r.__proto__ = last;
+    return [
+      r,
+      snapshot
+    ];
+  }
+  
+  function repeated(r, first, last) {
+    return overwrite({
+      __proto__: r.__proto__,
+      other: 2
+    }, first, last);
+  }
+  
+  function repeated_copy(r, first, last) {
+    return overwrite(Caml_obj.caml_obj_dup(r), first, last);
+  }
+  
   const constant = {
     __proto__: 5,
     other: 1
@@ -97,6 +126,9 @@ Integer and object payloads must survive construction, updates, copies and cycle
     id,
     update_try,
     backpatched,
+    overwrite,
+    repeated,
+    repeated_copy,
   }
   /* No side effect */
   $ node --check _build/default/out/run.js
@@ -124,6 +156,13 @@ Integer and object payloads must survive construction, updates, copies and cycle
   >     check(name, r, value);
   >     console.log('cycle intact', r.next === r, Object.keys(r).join(','));
   >   }
+  > }
+  > for (const name of ['repeated', 'repeated_copy']) {
+  >   const before = {}, first = {}, last = {};
+  >   const base = {['__proto__']:before, other:1};
+  >   const [copy, snapshot] = m[name](base, first, last);
+  >   check(name, copy, last);
+  >   console.log('snapshot', snapshot === first, 'source intact', base.__proto__ === before);
   > }
   > let reads = 0;
   > const getter = {get ['__proto__']() {reads++; return 7}, other:1};
@@ -153,5 +192,9 @@ Integer and object payloads must survive construction, updates, copies and cycle
   cycle intact true next
   backpatched false false true false
   cycle intact true next,marker
+  repeated false true false false
+  snapshot true source intact true
+  repeated_copy false true false false
+  snapshot true source intact true
   getter copy false false true false
   reads 1 array [1,2]
