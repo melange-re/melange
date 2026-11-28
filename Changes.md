@@ -3,7 +3,8 @@ Unreleased
 
 - compiler: rename local assignment targets during cross-module inlining and
   preserve copied mutable bindings and reads
-  ([#2261](https://github.com/melange-re/melange/pull/2261))
+  ([#2261](https://github.com/melange-re/melange/pull/2261),
+  [#2274](https://github.com/melange-re/melange/pull/2274))
 
 - compiler: evaluate nonconstant for-loop bounds once before iteration,
   preserving snapshots of mutable references and foreign bindings
